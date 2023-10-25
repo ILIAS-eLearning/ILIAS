@@ -24,11 +24,11 @@ namespace ILIAS\Container\Skills;
 class ContainerMemberSkillDBRepository
 {
     protected \ilDBInterface $db;
-    protected ContainerSkillInternalFactoryService $factory_service;
+    protected SkillInternalFactoryService $factory_service;
 
     public function __construct(
         \ilDBInterface $db = null,
-        ContainerSkillInternalFactoryService $factory_service = null,
+        SkillInternalFactoryService $factory_service = null,
     ) {
         global $DIC;
 
@@ -67,6 +67,17 @@ class ContainerMemberSkillDBRepository
         $this->db->manipulate("DELETE FROM cont_member_skills " .
             " WHERE obj_id = " . $this->db->quote($cont_obj_id, "integer") .
             " AND user_id = " . $this->db->quote($user_id, "integer"));
+    }
+
+    public function removeForSkill(int $skill_node_id, bool $is_reference): void
+    {
+        if (!$is_reference) {
+            $this->db->manipulate("DELETE FROM cont_member_skills " .
+                " WHERE skill_id = " . $this->db->quote($skill_node_id, "integer"));
+        } else {
+            $this->db->manipulate("DELETE FROM cont_member_skills " .
+                " WHERE tref_id = " . $this->db->quote($skill_node_id, "integer"));
+        }
     }
 
     public function publish(int $cont_obj_id, int $user_id): void

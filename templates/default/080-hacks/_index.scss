@@ -2,6 +2,8 @@
 @use "../030-tools/tool_multi-line-cap" as *;
 @use "../030-tools/tool_typography-mixins" as type-mix;
 @use "../030-tools/_tool_browser-prefixes" as *;
+@use "../030-tools/tool_clearfix" as t-cl;
+@use "../050-layout/layout_pull-float" as l-pull;
 @use "../050-layout/basics" as *;
 
 /*
@@ -37,15 +39,17 @@
 }
 
 .ilClearFloat {
-	clear: both;
+	@include t-cl.clearfix();
 }
 
+.pull-right,
 .ilFloatRight {
-  float: right;
+    @include l-pull.pull-right();
 }
 
+.pull-left,
 .ilFloatLeft {
-  float: left;
+    @include l-pull.pull-left();
 }
 
 .ilPositionRelative {
@@ -229,7 +233,7 @@ div.framed {
 	border: 1px solid #9eadba;
 	padding: 0 10px;
 	background-color: white;
-	background-image: url(images/FramedBack.png);
+	background-image: url(images/contentstyle/FramedBack.png);
 	background-repeat: repeat-x;
 }
 */

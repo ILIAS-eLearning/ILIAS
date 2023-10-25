@@ -54,6 +54,8 @@ class assClozeTestGUITest extends assBaseTestCase
 
         $this->setGlobalVariable('ilias', $ilias_mock);
         $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

@@ -37,8 +37,8 @@ class ilObjStyleSheet extends ilObject
 
     protected int $scope = 0;
 
-    public static array $num_unit = array("px", "em", "ex", "%", "pt", "pc", "in", "mm", "cm");
-    public static array $num_unit_no_perc = array("px", "em", "ex", "pt", "pc", "in", "mm", "cm");
+    public static array $num_unit = array("px", "em", "rem", "ex", "%", "pt", "pc", "in", "mm", "cm");
+    public static array $num_unit_no_perc = array("px", "em", "rem", "ex", "pt", "pc", "in", "mm", "cm");
 
     // css parameters and their attribute values, input type and group
     public static array $parameter = array(
@@ -262,7 +262,7 @@ class ilObjStyleSheet extends ilObject
     // displayed with matching tag (group -> tags)
     public static array $filtered_groups =
             array("ol" => array("ol"), "ul" => array("ul"),
-                "table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure"));
+                "table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure", "li"));
 
     // style types and their super type
     public static array $style_super_types = array(
@@ -287,7 +287,7 @@ class ilObjStyleSheet extends ilObject
     public static array $expandable_types = array(
             "text_block",
             "text_inline", "section", "media_cont", "media_caption", "table", "table_cell", "flist_li", "table_caption",
-                "list_o", "list_u",
+                "list_o", "list_u", "list_item",
                 "va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
                 "ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont",
                 "ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"
@@ -374,7 +374,12 @@ class ilObjStyleSheet extends ilObject
 
     // pseudo classes
     public static array $pseudo_classes =
-        array("a" => array("hover"), "div" => array("hover"), "img" => array("hover"));
+        [
+            "a" => ["hover"],
+            "div" => ["hover", "before"],
+            "img" => ["hover"],
+            "li" => ["before"]
+        ];
 
     // core styles these styles MUST exists -> see also basic_style/style.xml
     public static array $core_styles = array(
@@ -1385,6 +1390,9 @@ class ilObjStyleSheet extends ilObject
                 if ($tag[0]["mq_id"] != $mq["id"]) {
                     continue;
                 }
+                if (is_int(strpos($tag[0]["class"], "before")) && !is_int(strpos($tag[0]["class"], "::before"))) {
+                    $tag[0]["class"] = str_replace(":before", "::before", $tag[0]["class"]);
+                }
                 fwrite($css_file, $tag[0]["tag"] . ".ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
                 //				echo "<br>";
                 //				var_dump($tag[0]["type"]);
@@ -2130,7 +2138,6 @@ class ilObjStyleSheet extends ilObject
         if ($a_template_type == "") {
             return self::$templates;
         }
-
         return self::$templates[$a_template_type];
     }
 
@@ -3132,7 +3139,7 @@ class ilObjStyleSheet extends ilObject
         $set = $ilDB->query("SELECT preview FROM style_template " .
             " WHERE id = " . $ilDB->quote($a_t_id, "integer"));
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["preview"];
+            return $rec["preview"] ?? "";
         }
 
         return "";

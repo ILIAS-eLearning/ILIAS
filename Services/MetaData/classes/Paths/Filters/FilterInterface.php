@@ -22,9 +22,18 @@ namespace ILIAS\MetaData\Paths\Filters;
 
 interface FilterInterface
 {
+    /**
+     * The filter type specifies how elements are filtered:
+     *  * **mdid:** Filters elements by their ID from the database tables.
+     *  * **data:** Filters elements by the value of their data,
+     *  * **index:** Filters elements by their index, starting with 0. Non-numeric values are
+     *    interpreted as referring to the last index.
+     */
     public function type(): FilterType;
 
     /**
+     * When there are multiple values, an element passes the filter
+     * if it would pass it for one of the values.
      * @return string[]
      */
     public function values(): \Generator;

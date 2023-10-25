@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommandHandler;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
@@ -123,7 +123,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->loadActionBar();
         $this->loadTabs();
         $this->ui->mainTemplate()->setTitle($this->language->txt('mm_org_etal'));
-        $this->ui->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_etal.svg'));
+        $this->ui->mainTemplate()->setTitleIcon(ilUtil::getImagePath('standard/icon_etal.svg'));
         $this->ui->mainTemplate()->setContent($this->loadTable()->getHTML());
     }
 

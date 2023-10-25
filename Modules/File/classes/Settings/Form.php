@@ -18,11 +18,7 @@
 
 namespace ILIAS\Modules\File\Settings;
 
-use ILIAS\Administration\Setting;
-use ILIAS\ResourceStorage\Flavour\Engine\GDEngine;
-use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
 use ILIAS\UI\Component\Input\Field\Group;
-use ilSetting;
 use ILIAS\UI\Component\Input\Field\Section;
 
 /**
@@ -60,7 +56,7 @@ class Form
             )
             ->withValue($this->settings->isDownloadWithUploadedFileName())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value) {
+                $this->refinery->custom()->transformation(function ($value): void {
                     $this->settings->setDownloadWithUploadedFilename($value);
                 })
             );
@@ -72,7 +68,7 @@ class Form
             )
             ->withValue($this->settings->getDownloadLimitinMB())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value) {
+                $this->refinery->custom()->transformation(function ($value): void {
                     $this->settings->setDownloadLimitInMB($value);
                 })
             );
@@ -85,7 +81,7 @@ class Form
             )
             ->withValue($this->settings->getInlineFileExtensions())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value) {
+                $this->refinery->custom()->transformation(function ($value): void {
                     $this->settings->setInlineFileExtensions($value);
                 })
             );
@@ -98,7 +94,7 @@ class Form
             ->withValue($this->settings->isShowAmountOfDownloads())
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(
-                    function ($value) {
+                    function ($value): void {
                         $this->settings->setShowAmountOfDownloads($value);
                     }
                 )
@@ -111,7 +107,7 @@ class Form
             )
             ->withValue($this->settings->isDownloadWithAsciiFileName())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value) {
+                $this->refinery->custom()->transformation(function ($value): void {
                     $this->settings->setDownloadWithAsciiFileName($value);
                 })
             );

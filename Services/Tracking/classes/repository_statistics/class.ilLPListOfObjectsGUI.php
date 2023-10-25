@@ -43,7 +43,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     {
         if ($this->http->wrapper()->query()->has('userdetails_id')) {
             return $this->http->wrapper()->query()->retrieve(
-                'userdetrails_id',
+                'userdetails_id',
                 $this->refinery->kindlyTo()->int()
             );
         }

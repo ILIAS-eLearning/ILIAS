@@ -33,16 +33,16 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
 
     private ?\ilCertificateObjectHelper $objectHelper;
 
-//    private \ilCertificateUserObjectHelper $userObjectHelper;
+    //    private \ilCertificateUserObjectHelper $userObjectHelper;
 
     private ?\ilCertificateUtilHelper $utilHelper;
 
-//    private ?\ilCertificateLPStatusHelper $lpStatusHelper;
+    //    private ?\ilCertificateLPStatusHelper $lpStatusHelper;
 
     /**
      * @var ilCertificateDateHelper|ilDatePresentation|null
      */
-//    private $dateHelper;
+    //    private $dateHelper;
 
     private ?\ilLanguage $language;
 
@@ -84,12 +84,12 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $userObjectHelper) {
             $userObjectHelper = new ilCertificateUserObjectHelper();
         }
-//        $this->userObjectHelper = $userObjectHelper;
+        //        $this->userObjectHelper = $userObjectHelper;
 
         if (null === $lpStatusHelper) {
             $lpStatusHelper = new ilCertificateLPStatusHelper();
         }
-//        $this->lpStatusHelper = $lpStatusHelper;
+        //        $this->lpStatusHelper = $lpStatusHelper;
 
         if (null === $utilHelper) {
             $utilHelper = new ilCertificateUtilHelper();
@@ -99,7 +99,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $dateHelper) {
             $dateHelper = new ilCertificateDateHelper();
         }
-//        $this->dateHelper = $dateHelper;
+        //        $this->dateHelper = $dateHelper;
     }
 
     /**

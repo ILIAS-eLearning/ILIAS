@@ -113,7 +113,7 @@ class ResourceToComponent extends BaseToComponent implements ToComponent
     {
         return array_merge(
             [
-                $this->language->txt('revisions') => (string)count($this->resource->getAllRevisions()),
+                $this->language->txt('revisions') => (string)count($this->resource->getAllRevisionsIncludingDraft()),
             ],
             $this->revision_to_component->getImportantProperties()
         );

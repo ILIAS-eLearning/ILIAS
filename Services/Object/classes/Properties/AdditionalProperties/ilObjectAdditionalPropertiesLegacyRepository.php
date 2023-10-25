@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,8 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\FileUpload\FileUpload;
+use ILIAS\Object\Properties\ObjectTypeSpecificProperties\Factory as ObjectTypeSpecificPropertiesFactory;
 
 /**
  *
@@ -28,8 +28,7 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
 {
     public function __construct(
         private ilObjectCustomIconFactory $custom_icon_factory,
-        private Filesystem $filesystem,
-        private FileUpload $upload
+        private ObjectTypeSpecificPropertiesFactory $object_type_specific_properties_factory
     ) {
     }
 
@@ -39,21 +38,21 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
             return $this->getDefaultAdditionalProperties();
         }
 
+        $type = ilObject::_lookupType($object_id);
+        $object_type_specific_properties = $this->object_type_specific_properties_factory->getForObjectTypeString($type);
+        $providers = null;
+        if ($object_type_specific_properties !== null) {
+            $providers = $object_type_specific_properties->getProviders();
+        }
+
         return new ilObjectAdditionalProperties(
             new ilObjectPropertyTitleAndIconVisibility($this->getTitleAndIconVisibility($object_id)),
             new ilObjectPropertyHeaderActionVisibility($this->getHeaderActionVisibility($object_id)),
             new ilObjectPropertyInfoTabVisibility($this->getInfoTabVisibility($object_id)),
-            new ilObjectPropertyTileImage(
-                new ilObjectTileImage(
-                    $this->filesystem,
-                    $this->upload,
-                    $object_id
-                )
-            ),
             new ilObjectPropertyIcon(
                 $this->areCustomIconsEnabled(),
                 $this->custom_icon_factory->getByObjId($object_id),
-                $this->areCustomIconsEnabled()
+                $providers
             ),
             $object_id
         );
@@ -88,10 +87,6 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
             );
         }
 
-        if ($properties->wasPropertyTileImageUpdated()) {
-            $this->storeTileImage($properties->getPropertyTileImage());
-        }
-
         if ($properties->wasPropertyIconUpdated()) {
             $this->storeIcon($properties->getPropertyIcon());
         }
@@ -105,7 +100,6 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
             new ilObjectPropertyTitleAndIconVisibility(),
             new ilObjectPropertyHeaderActionVisibility(),
             new ilObjectPropertyInfoTabVisibility(),
-            new ilObjectPropertyTileImage(),
             new ilObjectPropertyIcon(
                 $this->areCustomIconsEnabled()
             )
@@ -155,18 +149,6 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
             'cont_show_info_tab',
             $show_info_tab
         );
-    }
-
-    private function storeTileImage(ilObjectPropertyTileImage $property_tile_image): void
-    {
-        if ($property_tile_image->getDeletedFlag() === true) {
-            $property_tile_image->getTileImage()->delete();
-        }
-        if ($property_tile_image->getTempFileName() !== null) {
-            $property_tile_image->getTileImage()->saveFromTempFileName(
-                $property_tile_image->getTempFileName()
-            );
-        }
     }
 
     private function areCustomIconsEnabled(): bool

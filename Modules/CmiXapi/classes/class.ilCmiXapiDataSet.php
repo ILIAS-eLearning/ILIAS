@@ -131,8 +131,8 @@ class ilCmiXapiDataSet extends ilDataSet
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
 
-//        $this->_main_object_id = $a_id;
-//        $this->_dataSetMapping = ilObjCmiXapi::getInstance($a_id, $a_reference)->getDataSetMapping();
+        //        $this->_main_object_id = $a_id;
+        //        $this->_dataSetMapping = ilObjCmiXapi::getInstance($a_id, $a_reference)->getDataSetMapping();
 
         //var_dump($this->_dataSetMapping); exit;
         parent::__construct();
@@ -376,10 +376,7 @@ class ilCmiXapiDataSet extends ilDataSet
         return $manWriter->xmlDumpMem(true);
     }
 
-    /**
-     * @param mixed $a_entity
-     */
-    private function buildProperties($a_entity, bool $a_omit_header = false): string
+    private function buildProperties(mixed $a_entity, bool $a_omit_header = false): string
     {
         $atts = array(
             "InstallationId" => IL_INST_ID,

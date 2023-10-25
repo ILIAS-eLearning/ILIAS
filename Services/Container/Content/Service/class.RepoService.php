@@ -23,7 +23,6 @@ namespace ILIAS\Container\Content;
 use ILIAS\Container\InternalDataService;
 
 /**
- * Repository internal repo service
  * @author Alexander Killing <killing@leifos.de>
  */
 class RepoService
@@ -42,13 +41,21 @@ class RepoService
         return new ItemSessionRepository();
     }
 
-    public function view(): ViewSessionRepository
+    public function mode(): ModeSessionRepository
     {
-        return new ViewSessionRepository();
+        return new ModeSessionRepository();
     }
 
     public function block(): BlockSessionRepository
     {
         return new BlockSessionRepository();
+    }
+
+    public function filter(): Filter\RepoService
+    {
+        return new Filter\RepoService(
+            $this->data,
+            $this->db
+        );
     }
 }

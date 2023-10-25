@@ -76,13 +76,10 @@ class ScoreSettingsTest extends ILIAS_UI_TestBase
     public function testScoreSettingsDetails(): void
     {
         $s = new ilObjTestSettingsResultDetails(-666);
-        $this->assertTrue($s->withPrintBestSolutionWithResult(true)->getPrintBestSolutionWithResult());
         $this->assertEquals(192, $s->withResultsPresentation(192)->getResultsPresentation(192));
         $this->assertTrue($s->withShowExamIdInTestResults(true)->getShowExamIdInTestResults());
         $this->assertTrue($s->withShowPassDetails(true)->getShowPassDetails());
         $this->assertFalse($s->withShowPassDetails(false)->getShowPassDetails());
-        $this->assertTrue($s->withShowSolutionDetails(true)->getShowSolutionDetails());
-        $this->assertFalse($s->withShowSolutionDetails(false)->getShowSolutionDetails());
         $this->assertTrue($s->withShowSolutionPrintview(true)->getShowSolutionPrintview());
         $this->assertFalse($s->withShowSolutionPrintview(false)->getShowSolutionPrintview());
         $this->assertTrue($s->withShowSolutionFeedback(true)->getShowSolutionFeedback());
@@ -299,8 +296,7 @@ EOT;
                                     <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_reporting_date<span class="asterisk">*</span></label>
                                     <div class="col-sm-8 col-md-9 col-lg-10">
                                         <div class="input-group date il-input-datetime" id="id_3">
-                                            <input type="text" name="" placeholder="YYYY-MM-DD H:mm" class="form-control form-control-sm" />
-                                            <span class="input-group-addon"><a tabindex="0" class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span>
+                                            <input type="date" name="" placeholder="YYYY-MM-DD H:mm" class="form-control form-control-sm" />
                                         </div>
                                     </div>
                                 </div>
@@ -368,77 +364,55 @@ EOT;
         $expected = <<<EOT
 <div class="il-section-input">
     <div class="il-section-input-header"><h2>tst_results_details_options</h2></div>
+
     <div class="form-group row">
-        <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_details</label>
+        <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_print_best_solution</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_3" value="checked" name="" class="form-control form-control-sm" />
-            <div class="help-block">tst_show_solution_details_desc</div>
-            <div class="form-group row">
-                <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_print_best_solution</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_2" value="checked" name="" class="form-control form-control-sm" />
-                    <div class="help-block">tst_results_print_best_solution_info</div>
-                </div>
-            </div>
+            <input type="checkbox" id="id_1" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_results_print_best_solution_info</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_details_singlepage</label>
+        <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_feedback</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_6" value="checked" name="" class="form-control form-control-sm" />
-            <div class="help-block">tst_show_solution_details_singlepage_desc</div>
-            <div class="form-group row">
-                <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_print_best_solution_singlepage</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_5" value="checked" checked="checked" name="" class="form-control form-control-sm" />
-                    <div class="help-block">tst_results_print_best_solution_singlepage_info</div>
-                </div>
-            </div>
+            <input type="checkbox" id="id_2" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_feedback_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_feedback</label>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_7" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_feedback_desc</div>
+        <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_suggested</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_3" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_suggested_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_suggested</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_8" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_suggested_desc</div>
+        <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_printview</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_4" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_printview_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_9" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_printview</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_9" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_printview_desc</div>
+        <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_hide_pagecontents</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_5" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_hide_pagecontents_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_10" class="control-label col-sm-4 col-md-3 col-lg-2">tst_hide_pagecontents</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_10" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_hide_pagecontents_desc</div>
+        <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_signature</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_6" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_signature_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_11" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_signature</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_11" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_signature_desc</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="id_12" class="control-label col-sm-4 col-md-3 col-lg-2">examid_in_test_res</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_12" value="checked" checked="checked" name="" class="form-control form-control-sm" /><div class="help-block">examid_in_test_res_desc</div>
+        <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">examid_in_test_res</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_7" value="checked" checked="checked" name="" class="form-control form-control-sm" /><div class="help-block">examid_in_test_res_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
         <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_tax_filters</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <ul class="il-input-multiselect" id="id_13">
+            <ul class="il-input-multiselect" id="id_8">
                 <li>
                     <input type="checkbox" name="[]" value="0" /><span>1</span>
                 </li>
@@ -588,12 +562,10 @@ EOT;
         $this->assertIsInt($t->getPassScoring());
         $this->assertNull($t->getReportingDate());
         $this->assertIsBool($t->getShowPassDetails());
-        $this->assertIsBool($t->getShowSolutionDetails());
         $this->assertIsBool($t->getShowSolutionAnswersOnly());
         $this->assertIsBool($t->getShowSolutionSignature());
         $this->assertIsBool($t->getShowSolutionSuggested());
         $this->assertIsBool($t->getShowSolutionListComparison());
-        $this->assertIsBool($t->getShowSolutionListOwnAnswers());
         $this->assertIsBool($t->isPassDeletionAllowed());
         $this->assertIsInt($t->getExportSettings());
         $this->assertIsBool($t->getHighscoreEnabled());

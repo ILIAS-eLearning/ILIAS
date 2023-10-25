@@ -27,20 +27,23 @@ use ILIAS\UI\Component\Input\Field\Factory as UIFactory;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Elements\Data\DataInterface;
-use ILIAS\MetaData\Repository\Validation\Data\DurationValidator;
+use ILIAS\MetaData\DataHelper\DataHelperInterface;
 
 class DurationFactory extends BaseFactory
 {
     protected Refinery $refinery;
+    protected DataHelperInterface $data_helper;
 
     public function __construct(
         UIFactory $ui_factory,
         PresenterInterface $presenter,
         ConstraintDictionary $constraint_dictionary,
-        Refinery $refinery
+        Refinery $refinery,
+        DataHelperInterface $data_helper
     ) {
         parent::__construct($ui_factory, $presenter, $constraint_dictionary);
         $this->refinery = $refinery;
+        $this->data_helper = $data_helper;
     }
 
     protected function rawInput(
@@ -57,48 +60,20 @@ class DurationFactory extends BaseFactory
         foreach ($this->presenter->data()->durationLabels() as $label) {
             $nums[] = (clone $num)->withLabel($label);
         }
+        $dh = $this->data_helper;
         return $this->ui_factory->group($nums)->withAdditionalTransformation(
-            $this->refinery->custom()->transformation(function ($vs) {
-                if (
-                    count(array_unique($vs)) === 1 &&
-                    array_unique($vs)[0] === null
-                ) {
-                    return '';
-                }
-                $r = 'P';
-                $signifiers = ['Y', 'M', 'D', 'H', 'M', 'S'];
-                foreach ($vs as $key => $int) {
-                    if (isset($int)) {
-                        $r .= $int . $signifiers[$key];
-                    }
-                    if (
-                        $key === 2 &&
-                        !isset($vs[3]) &&
-                        !isset($vs[4]) &&
-                        !isset($vs[5])
-                    ) {
-                        return $r;
-                    }
-                    if ($key === 2) {
-                        $r .= 'T';
-                    }
-                }
-                return $r;
+            $this->refinery->custom()->transformation(function ($vs) use ($dh) {
+                $vs = array_map(fn ($v) => is_null($v) ? $v : (int) $v, $vs);
+                return $dh->durationFromIntegers(...$vs);
             })
         );
     }
 
     /**
-     * @return string[]
+     * @return string[]|null[]
      */
     protected function dataValueForInput(DataInterface $data): array
     {
-        preg_match(
-            DurationValidator::DURATION_REGEX,
-            $data->value(),
-            $matches,
-            PREG_UNMATCHED_AS_NULL
-        );
-        return array_slice($matches, 1);
+        return iterator_to_array($this->data_helper->durationToIterator($data->value()));
     }
 }

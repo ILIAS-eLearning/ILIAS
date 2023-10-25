@@ -22,6 +22,7 @@
 class ilLMMailNotification extends ilMailNotification
 {
     public const TYPE_USER_BLOCKED = 10;
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected int $question_id = 0;
 
     protected ilObjUser $user;

@@ -6,7 +6,7 @@ div.ilc_QuestionPlaceHolder
 	font-size: 10px;
 	border-color: #D0D0FF;
 	border-style: solid;
-	background-image: url(../../../templates/default/images/question_placeholder.png);
+	background-image: url(../../../templates/default/images/placeholder/question_placeholder.png);
 	font-weight: bold;
 }
 
@@ -20,7 +20,7 @@ div.ilc_MediaPlaceHolder
 	border-style: solid;
 	min-height:100px;
 	font-weight: bold;
-	background-image: url(../../../templates/default/images/media_placeholder.png);	
+	background-image: url(../../../templates/default/images/placeholder/media_placeholder.png);
 }
 
 div.ilc_TextPlaceHolder,
@@ -33,5 +33,5 @@ div.ilc_VerificationPlaceHolder /* no custom image yet */
 	border-color: #D0D0FF;
 	border-style: solid;
 	font-weight: bold;
-	background-image: url(../../../templates/default/images/text_placeholder.png);
+	background-image: url(../../../templates/default/images/placeholder/text_placeholder.png);
 }

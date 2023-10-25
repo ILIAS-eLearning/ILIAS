@@ -2,8 +2,7 @@ il = il || {};
 il.VideoWidget = il.VideoWidget || {};
 (function ($, il) {
   il.VideoWidget = (function ($) {
-
-    let t = il.VideoWidget;
+    const t = il.VideoWidget;
 
     t.widget = [];
     t.progress_running = false;
@@ -11,7 +10,6 @@ il.VideoWidget = il.VideoWidget || {};
 
     const _boot = () => {
       $(() => {
-
         /* This fixes e.g. chrome on safari. The player
            reacts to resize events. If the orientation is changed on a
            tablet, the resize event is fired before rendering is updated - too early.
@@ -19,25 +17,24 @@ il.VideoWidget = il.VideoWidget || {};
            However chrome fires an "orientationchange" after the rendering has been updated.
            So we fire "resize" again, when the "orientationchange" event occurs.
          */
-        window.addEventListener("orientationchange", function() {
-          window.setTimeout(function(){
+        window.addEventListener('orientationchange', () => {
+          window.setTimeout(() => {
             window.dispatchEvent(new Event('resize'));
           }, 1);
         }, false);
-
       });
-    }
+    };
     _boot();
 
     const progress = () => {
-      //console.log("monitoring progress");
+      // console.log("monitoring progress");
       // for all wrappers
-      t.wrapper_ids.forEach(function(wrapper_id, i, a) {
+      t.wrapper_ids.forEach((wrapper_id, i, a) => {
         // get player
-        let p = t.widget[wrapper_id].player
+        const p = t.widget[wrapper_id].player;
         // if the wrapper defines a progress callback, call it
         if (t.widget[wrapper_id].progress_cb) {
-          //console.log(p);
+          // console.log(p);
           // get current time, duration and ended information to callback
           t.widget[wrapper_id].progress_cb(wrapper_id, p.getCurrentTime(), p.node.duration, p.node.ended);
         }
@@ -48,7 +45,7 @@ il.VideoWidget = il.VideoWidget || {};
     // init player
     const init = (wrapper_id, tpl) => {
       t.widget[wrapper_id] = {
-        tpl: tpl
+        tpl,
       };
       if (!t.progress_running) {
         progress();
@@ -58,35 +55,35 @@ il.VideoWidget = il.VideoWidget || {};
     };
 
     const setMeta = (wrapper_id, title, description) => {
-      let $wrap = $("#" + wrapper_id);
+      const $wrap = $(`#${wrapper_id}`);
       $wrap.parent().find("[data-elementtype='title']").html(title);
-      if (description !== "") {
+      if (description !== '') {
         $wrap.parent().find("[data-elementtype='description']").html(description);
-        $wrap.parent().find("[data-elementtype='description-wrapper']").removeClass("ilNoDisplay");
-        //$wrap.parent().find("[data-elementtype='description']").addClass("ilNoDisplay");
-        $wrap.parent().find("[data-elementtype='description-trigger']").removeClass("ilNoDisplay");
+        $wrap.parent().find("[data-elementtype='description-wrapper']").removeClass('ilNoDisplay');
+        // $wrap.parent().find("[data-elementtype='description']").addClass("ilNoDisplay");
+        $wrap.parent().find("[data-elementtype='description-trigger']").removeClass('ilNoDisplay');
       } else {
-        $wrap.parent().find("[data-elementtype='description']").html("");
-        //$wrap.parent().find("[data-elementtype='description-wrapper']").addClass("ilNoDisplay");
+        $wrap.parent().find("[data-elementtype='description']").html('');
+        // $wrap.parent().find("[data-elementtype='description-wrapper']").addClass("ilNoDisplay");
       }
     };
 
     // load file into player and show it
     const loadFile = (wrapper_id, video_data, play, progress_cb) => {
-      console.log("-----loadFile");
+      console.log('-----loadFile');
       console.log(wrapper_id);
-      let content = t.widget[wrapper_id].tpl,
-        $wrap = $("#" + wrapper_id);
+      const content = t.widget[wrapper_id].tpl;
+      const $wrap = $(`#${wrapper_id}`);
       $wrap.html(
-        content
+        content,
       );
-      const video_el = $("#" + wrapper_id + " video");
-console.log(video_el);
+      const video_el = $(`#${wrapper_id} video`);
+      console.log(video_el);
       // https://github.com/vimeo/player.js/issues/197
       // add ?controls=0 for vimeo
-      video_el.attr("src", video_data.resource);
-      video_el.attr("type", video_data.mime);
-      video_el.attr("poster", video_data.poster);
+      video_el.attr('src', video_data.resource);
+      video_el.attr('type', video_data.mime);
+      video_el.attr('poster', video_data.poster);
 
       setMeta(wrapper_id, video_data.title, video_data.description);
 
@@ -94,23 +91,23 @@ console.log(video_el);
         videoWidth: '100%',
         videoHeight: '100%',
         alwaysShowControls: true,
-        success: function (mediaElement, originalNode, player) {
+        success(mediaElement, originalNode, player) {
           if (play) {
             promise = player.play();
             if (promise !== undefined) {
-              promise.then(_ => {
+              promise.then((_) => {
                 // Autoplay started!
-              }).catch(error => {
-                console.log("Autostart was prevented by browser.");
+              }).catch((error) => {
+                console.log('Autostart was prevented by browser.');
               });
             }
           }
           t.widget[wrapper_id].player = player;
           t.widget[wrapper_id].progress_cb = progress_cb;
-          player.node.addEventListener('ended', function(){
+          player.node.addEventListener('ended', () => {
             progress_cb(wrapper_id, player.node.duration, player.node.duration, true);
           });
-        }
+        },
       });
     };
 
@@ -130,37 +127,33 @@ console.log(video_el);
 
     const next = (wrapper_id) => {
       if (t.widget[wrapper_id].next) {
-        console.log("calling next callback");
+        console.log('calling next callback');
         console.log(t.widget[wrapper_id].next);
         t.widget[wrapper_id].next();
       }
     };
 
-    const player = (wrapper_id) => {
-      return t.widget[wrapper_id].player;
-    };
+    const player = (wrapper_id) => t.widget[wrapper_id].player;
 
     return {
-      init: init,
-      loadFile: loadFile,
-      setMeta: setMeta,
-      setPreviousCallback: setPreviousCallback,
-      setNextCallback: setNextCallback,
-      previous: previous,
-      next: next,
-      player: player
+      init,
+      loadFile,
+      setMeta,
+      setPreviousCallback,
+      setNextCallback,
+      previous,
+      next,
+      player,
     };
-  })($);
-})($, il);
+  }($));
+}($, il));
 
 il.VideoPlaylist = il.VideoPlaylist || {};
 (function ($, il) {
   il.VideoPlaylist = (function ($) {
-
-    let t = il.VideoPlaylist;
+    const t = il.VideoPlaylist;
     t.playlist = [];
     t.current_item = [];
-
 
     /**
      * Render single item of preview list
@@ -169,10 +162,10 @@ il.VideoPlaylist = il.VideoPlaylist || {};
      * @param item
      */
     const renderItem = (list_wrapper, $wrap, list, item, i, front) => {
-      let tpl = list.tpl,
-        id = item.id;
+      let { tpl } = list;
+      const { id } = item;
 
-      /*if (item.mime === "video/vimeo") {
+      /* if (item.mime === "video/vimeo") {
         var video_id = "75754881";
         $.ajax({
           type:'GET',
@@ -195,25 +188,25 @@ il.VideoPlaylist = il.VideoPlaylist || {};
             }
           }
         });
-      }*/
-      console.log("---item---");
+      } */
+      console.log('---item---');
       console.log(item);
       // preview_pic
-      //$tpl.find("[data-elementtype='title']").html(item.linked_title);
-      //$tpl.find("[data-elementtype='description']").html(item.description);
-      //$tpl.find("[data-elementtype='preview']").html(item.preview);
+      // $tpl.find("[data-elementtype='title']").html(item.linked_title);
+      // $tpl.find("[data-elementtype='description']").html(item.description);
+      // $tpl.find("[data-elementtype='preview']").html(item.preview);
 
-      tpl = tpl.replace("#video-title#", item.linked_title);
-      tpl = tpl.replace("#description#", item.description);
-      tpl = tpl.replace("#img-src#", item.preview_pic);
-      tpl = tpl.replace("#img-alt#", item.title);
+      tpl = tpl.replace('#video-title#', item.linked_title);
+      tpl = tpl.replace('#description#', item.description);
+      tpl = tpl.replace('#img-src#', item.preview_pic);
+      tpl = tpl.replace('#img-alt#', item.title);
       $tpl = $(tpl);
-      $tpl.attr("id", "med_" + id);
-      $tpl.on("click", () => {
-          il.VideoPlaylist.loadItem(list_wrapper, id, true);
+      $tpl.attr('id', `med_${id}`);
+      $tpl.on('click', () => {
+        il.VideoPlaylist.loadItem(list_wrapper, id, true);
       });
       if (item.completed) {
-        $tpl.addClass("mcst-completed-preview");
+        $tpl.addClass('mcst-completed-preview');
       }
       if (front) {
         $wrap.prepend($tpl);
@@ -227,14 +220,14 @@ il.VideoPlaylist = il.VideoPlaylist || {};
      * @param list_wrapper
      */
     const render = (list_wrapper) => {
-      let $wrap = $("#" + list_wrapper),
-          list = t.playlist[list_wrapper];
-      $wrap.html(" ");
+      const $wrap = $(`#${list_wrapper}`);
+      const list = t.playlist[list_wrapper];
+      $wrap.html(' ');
 
       // render items
       cnt = 0;
       found = false;
-      list.items.forEach(function (item, i, a) {
+      list.items.forEach((item, i, a) => {
         if (item.completed === false) {
           found = true;
         }
@@ -254,7 +247,7 @@ il.VideoPlaylist = il.VideoPlaylist || {};
       if (!found) {
         cnt = 0;
         let first = 0;
-        list.items.forEach(function (item, i, a) {
+        list.items.forEach((item, i, a) => {
           if (cnt < list.limit) {
             if (first === 0) {
               first = item.id;
@@ -279,13 +272,13 @@ il.VideoPlaylist = il.VideoPlaylist || {};
      * @param list_wrapper
      */
     const nextItems = (list_wrapper) => {
-      let $wrap = $("#" + list_wrapper),
-        list = t.playlist[list_wrapper];
+      const $wrap = $(`#${list_wrapper}`);
+      const list = t.playlist[list_wrapper];
 
       // render items
       cnt = 5;
       found = 0;
-      list.items.forEach(function (item, i, a) {
+      list.items.forEach((item, i, a) => {
         if (item.hidden === false) {
           found = true;
         }
@@ -302,11 +295,11 @@ il.VideoPlaylist = il.VideoPlaylist || {};
      * @param list_wrapper
      */
     const previousItems = (list_wrapper) => {
-      let $wrap = $("#" + list_wrapper),
-        list = t.playlist[list_wrapper],
-        hiddenCompleted = [];
+      const $wrap = $(`#${list_wrapper}`);
+      const list = t.playlist[list_wrapper];
+      const hiddenCompleted = [];
       found = 0;
-      list.items.forEach(function (item, i, a) {
+      list.items.forEach((item, i, a) => {
         if (item.hidden === false) {
           found = true;
         }
@@ -315,7 +308,7 @@ il.VideoPlaylist = il.VideoPlaylist || {};
         }
       });
       let cnt = 0;
-      hiddenCompleted.reverse().forEach(function (item, i, a) {
+      hiddenCompleted.reverse().forEach((item, i, a) => {
         if (cnt++ < 5) {
           renderItem(list_wrapper, $wrap, list, item, i, true);
           t.playlist[list_wrapper].items[i].hidden = false;
@@ -329,15 +322,15 @@ il.VideoPlaylist = il.VideoPlaylist || {};
 
       if (current_time > 0 && duration && duration > 0) {
         perc = 100 / duration * current_time;
-        //console.log(perc);
+        // console.log(perc);
       }
 
-      for (let list_wrapper in t.playlist) {
+      for (const list_wrapper in t.playlist) {
         if (t.playlist.hasOwnProperty(list_wrapper) && t.playlist[list_wrapper].player_wrapper === player_wrapper) {
           const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
-          t.playlist[list_wrapper].items.forEach(function (v, i, a) {
+          t.playlist[list_wrapper].items.forEach((v, i, a) => {
             if (v.id === current) {
-              if (["video/vimeo", "video/youtube"].includes(v.mime)) {
+              if (['video/vimeo', 'video/youtube'].includes(v.mime)) {
                 duration = v.duration;
               }
 
@@ -347,8 +340,8 @@ il.VideoPlaylist = il.VideoPlaylist || {};
                   if (perc > t.playlist[list_wrapper].percentage) {
                     t.playlist[list_wrapper].items[i].completed = true;
                     $.ajax({
-                      type:'GET',
-                      url: t.playlist[list_wrapper].completed_cb + '&mob_id=' + v.id
+                      type: 'GET',
+                      url: `${t.playlist[list_wrapper].completed_cb}&mob_id=${v.id}`,
                     });
                   }
                 }
@@ -356,7 +349,7 @@ il.VideoPlaylist = il.VideoPlaylist || {};
 
               // check if we should play the next item
               if (t.playlist[list_wrapper].autoplay) {
-                if (ended || (v.mime === "video/vimeo" && v.duration <= Math.ceil(current_time))) {
+                if (ended || (v.mime === 'video/vimeo' && v.duration <= Math.ceil(current_time))) {
                   autoplayNext(list_wrapper);
                 }
               }
@@ -365,21 +358,21 @@ il.VideoPlaylist = il.VideoPlaylist || {};
         }
       }
 
-      //console.log("duration " + duration);
-      //console.log("current time " + current_time);
-      //console.log("ended " + ended);
+      // console.log("duration " + duration);
+      // console.log("current time " + current_time);
+      // console.log("ended " + ended);
     };
 
     const refreshNavigation = (list_wrapper) => {
       const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
 
-      let first = true,
-        has_previous_items = false,
-        has_next_items = false,
-        has_previous = false,
-        has_next = false;
+      let first = true;
+      let has_previous_items = false;
+      let has_next_items = false;
+      let has_previous = false;
+      let has_next = false;
 
-      t.playlist[list_wrapper].items.forEach(function (v, i, a) {
+      t.playlist[list_wrapper].items.forEach((v, i, a) => {
         if (first) {
           if (v.hidden === true) {
             has_previous_items = true;
@@ -391,36 +384,41 @@ il.VideoPlaylist = il.VideoPlaylist || {};
         has_next_items = v.hidden;
         has_next = (v.id !== current);
 
-        $(".il-mcst-videocast *[data-elementtype='nav'] button:first").attr("disabled", !has_previous);
-        $(".il-mcst-videocast *[data-elementtype='nav'] button:last").attr("disabled", !has_next);
-        $("#mcst-prev-items button").css("display", (has_previous_items ? "" : "none"));
-        $("#mcst-next-items button").css("display", (has_next_items ? "" : "none"));
+        $(".il-mcst-videocast *[data-elementtype='nav'] button:first").attr('disabled', !has_previous);
+        $(".il-mcst-videocast *[data-elementtype='nav'] button:last").attr('disabled', !has_next);
+        $('#mcst-prev-items button').css('display', (has_previous_items ? '' : 'none'));
+        $('#mcst-next-items button').css('display', (has_next_items ? '' : 'none'));
 
-        $("#mcst_playlist > div.mcst-current").removeClass("mcst-current");
-        $("#med_" + current).addClass("mcst-current");
+        $('#mcst_playlist > div.mcst-current').removeClass('mcst-current');
+        $(`#med_${current}`).addClass('mcst-current');
 
         first = false;
       });
 
-      t.playlist[list_wrapper].items.forEach(function (v, i, a) {
+      t.playlist[list_wrapper].items.forEach((v, i, a) => {
         if (v.completed && v.id !== current) {
-          $("#med_" + v.id).addClass("mcst-completed-preview");
+          $(`#med_${v.id}`).addClass('mcst-completed-preview');
         } else {
-          $("#med_" + v.id).removeClass("mcst-completed-preview");
+          $(`#med_${v.id}`).removeClass('mcst-completed-preview');
+        }
+        if (v.id === current) {
+          const dd = document.querySelector('.ilToolbarStickyItem .dropdown button');
+          if (dd) {
+            dd.innerHTML = `<span style='vertical-align: bottom; max-width:60px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;'>${v.title}</span> <span class='caret'></span>`;
+          }
         }
       });
-
-    }
+    };
 
     /**
      * @param list_wrapper
      */
     const autoplayNext = (list_wrapper) => {
       const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
-      let found = false,
-        nextItem = 0;
+      let found = false;
+      let nextItem = 0;
 
-      t.playlist[list_wrapper].items.forEach(function (v, i, a) {
+      t.playlist[list_wrapper].items.forEach((v, i, a) => {
         if (nextItem === 0 && found) {
           if (v.hidden === true) {
             nextItems(list_wrapper);
@@ -434,25 +432,23 @@ il.VideoPlaylist = il.VideoPlaylist || {};
       if (nextItem > 0) {
         loadItem(list_wrapper, nextItem, true);
       }
-      console.log("auto play next" + list_wrapper);
-    }
+      console.log(`auto play next${list_wrapper}`);
+    };
 
     const toggleItem = (list_wrapper, id) => {
       const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
 
       const player = il.VideoWidget.player(t.playlist[list_wrapper].player_wrapper);
 
-      //const isVideoPlaying = video => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
+      // const isVideoPlaying = video => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
       if (current !== id) {
         loadItem(list_wrapper, id, true);
+      } else if (player.domNode.paused) {
+        player.play();
       } else {
-        if (player.domNode.paused) {
-          player.play();
-        } else {
-          player.pause();
-        }
+        player.pause();
       }
-    }
+    };
 
     /**
      * Load item from playlist
@@ -462,15 +458,14 @@ il.VideoPlaylist = il.VideoPlaylist || {};
      */
     const loadItem = (list_wrapper, id, play) => {
       const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
-      t.playlist[list_wrapper].items.forEach(function (v, i, a) {
-
-
+      t.playlist[list_wrapper].items.forEach((v, i, a) => {
         if (v.id === id && id !== current) {
           if (v.hidden === true) {
             nextItems(list_wrapper);
           }
           il.VideoWidget.loadFile(t.playlist[list_wrapper].player_wrapper, v, play, progress_cb);
           t.current_item[t.playlist[list_wrapper].player_wrapper] = id;
+          loadComments(id);
         }
       });
       refreshNavigation(list_wrapper);
@@ -483,7 +478,7 @@ il.VideoPlaylist = il.VideoPlaylist || {};
      */
     const loadFirst = (list_wrapper, play) => {
       let first = 0;
-      t.playlist[list_wrapper].items.forEach(function (item, i, a) {
+      t.playlist[list_wrapper].items.forEach((item, i, a) => {
         if (first === 0 && item.completed === false) {
           first = item.id;
         }
@@ -495,10 +490,10 @@ il.VideoPlaylist = il.VideoPlaylist || {};
 
     const previous = (list_wrapper) => {
       const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
-      t.playlist[list_wrapper].items.forEach(function (v, i, a) {
+      t.playlist[list_wrapper].items.forEach((v, i, a) => {
         if (v.id === current) {
-          if (t.playlist[list_wrapper].items[i-1]) {
-            loadItem(list_wrapper, t.playlist[list_wrapper].items[i-1].id, true);
+          if (t.playlist[list_wrapper].items[i - 1]) {
+            loadItem(list_wrapper, t.playlist[list_wrapper].items[i - 1].id, true);
           }
         }
       });
@@ -506,10 +501,10 @@ il.VideoPlaylist = il.VideoPlaylist || {};
 
     const next = (list_wrapper) => {
       const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
-      t.playlist[list_wrapper].items.forEach(function (v, i, a) {
+      t.playlist[list_wrapper].items.forEach((v, i, a) => {
         if (v.id === current) {
-          if (t.playlist[list_wrapper].items[i+1]) {
-            loadItem(list_wrapper, t.playlist[list_wrapper].items[i+1].id, true);
+          if (t.playlist[list_wrapper].items[i + 1]) {
+            loadItem(list_wrapper, t.playlist[list_wrapper].items[i + 1].id, true);
           }
         }
       });
@@ -528,14 +523,14 @@ il.VideoPlaylist = il.VideoPlaylist || {};
      */
     const init = function (list_wrapper, player_wrapper, items, tpl, autoplay, limit, completed_cb, autoplay_cb, percentage) {
       t.playlist[list_wrapper] = {
-        player_wrapper: player_wrapper,
-        items: items,
-        limit: limit,
-        tpl: tpl,
-        autoplay: autoplay,
-        completed_cb: completed_cb,
-        autoplay_cb: autoplay_cb,
-        percentage: percentage
+        player_wrapper,
+        items,
+        limit,
+        tpl,
+        autoplay,
+        completed_cb,
+        autoplay_cb,
+        percentage,
       };
 
       il.VideoWidget.setPreviousCallback(player_wrapper, () => {
@@ -543,12 +538,12 @@ il.VideoPlaylist = il.VideoPlaylist || {};
       });
 
       il.VideoWidget.setNextCallback(player_wrapper, () => {
-        console.log("in next callback " + list_wrapper);
+        console.log(`in next callback ${list_wrapper}`);
         next(list_wrapper);
       });
 
-      //console.log(items);
-      //console.log(autoplay);
+      // console.log(items);
+      // console.log(autoplay);
       render(list_wrapper);
       loadFirst(list_wrapper, false);
     };
@@ -556,18 +551,30 @@ il.VideoPlaylist = il.VideoPlaylist || {};
     const autoplay = (list_wrapper, active) => {
       t.playlist[list_wrapper].autoplay = active;
       $.ajax({
-        type:'GET',
-        url: t.playlist[list_wrapper].autoplay_cb + '&autoplay=' + (active ? "1" : "0")
+        type: 'GET',
+        url: `${t.playlist[list_wrapper].autoplay_cb}&autoplay=${active ? '1' : '0'}`,
       });
     };
 
-    return {
-      init: init,
-      loadItem: loadItem,
-      toggleItem: toggleItem,
-      autoplay: autoplay,
-      nextItems: nextItems,
-      previousItems: previousItems
+    const loadComments = (id) => {
+      const el = document.querySelector('[data-mcst-comments]');
+      if (el) {
+        const url = `${el.dataset.mcstComments}&item_id=${id}`;
+        $.ajax({
+          url,
+        }).done((data) => {
+          $(el).html(data);
+        });
+      }
     };
-  })($);
-})($, il);
+
+    return {
+      init,
+      loadItem,
+      toggleItem,
+      autoplay,
+      nextItems,
+      previousItems,
+    };
+  }($));
+}($, il));

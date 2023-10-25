@@ -25,6 +25,8 @@ use ILIAS\MediaCast\StandardGUIRequest;
  */
 class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\MediaCast\InternalGUIService $gui;
+    protected \ILIAS\MediaCast\InternalDomainService $domain;
     protected StandardGUIRequest $request;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -36,18 +38,21 @@ class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        $this->access = $DIC->access();
-        $this->tpl = $DIC["tpl"];
-        $this->nav_history = $DIC["ilNavigationHistory"];
-        $ilCtrl = $DIC->ctrl();
+        $service = $DIC->mediaCast()->internal();
+
+        $this->domain = $domain = $service->domain();
+        $this->gui = $gui = $service->gui();
+
+        $this->lng = $domain->lng();
+        $this->access = $domain->access();
+        $this->tpl = $gui->ui()->mainTemplate();
+        $this->nav_history = $gui->navigationHistory();
+        $this->ctrl = $gui->ctrl();
+
         $this->request = $DIC->mediaCast()
             ->internal()
             ->gui()
             ->standardRequest();
-
-        // initialisation stuff
-        $this->ctrl = $ilCtrl;
     }
 
     public function executeCommand(): void
@@ -57,9 +62,9 @@ class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface
         $ilNavigationHistory = $this->nav_history;
 
         $next_class = $this->ctrl->getNextClass($this);
-        if ($next_class == "") {
-            $this->ctrl->setCmdClass("ilobjmediacastgui");
-            $next_class = $this->ctrl->getNextClass($this);
+        if ((string) $next_class === "") {
+            $this->ctrl->setParameterByClass(ilObjMediaCastGUI::class, "ref_id", $this->request->getRefId());
+            $this->ctrl->redirectByClass(ilObjMediaCastGUI::class, "showContent");
         }
 
         // add entry to navigation history
@@ -74,12 +79,7 @@ class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface
 
         switch ($next_class) {
             case 'ilobjmediacastgui':
-                $mc_gui = new ilObjMediaCastGUI(
-                    "",
-                    $this->request->getRefId(),
-                    true,
-                    false
-                );
+                $mc_gui = $this->gui->getObjMediaCastGUI();
                 $this->ctrl->forwardCommand($mc_gui);
                 break;
         }

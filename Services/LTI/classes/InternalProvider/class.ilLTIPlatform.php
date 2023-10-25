@@ -169,10 +169,10 @@ class ilLTIPlatform extends ToolProvider\Platform
         return $this->ref_id;
     }
 
-//    public function getId() : ?int
-//    {
-//        return $this->getRecordId();
-//    }
+    //    public function getId() : ?int
+    //    {
+    //        return $this->getRecordId();
+    //    }
 
     public function setTitle(string $title): void
     {
@@ -276,7 +276,7 @@ class ilLTIPlatform extends ToolProvider\Platform
      * @param string             $deploymentId  The deployment ID
      * @param ilLTIDataConnector $dataConnector A data connector object
      * @param bool               $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
-     * @return Platform                         The platform object
+     * @return ilLTIPlatform                         The platform object
      */
     public static function fromPlatformId(string $platformId, string $clientId, string $deploymentId, ilLTIDataConnector $dataConnector = null, bool $autoEnable = false): ilLTIPlatform
     {
@@ -316,7 +316,7 @@ class ilLTIPlatform extends ToolProvider\Platform
      */
     public static function fromRecordId(int $id, ilLTIDataConnector $dataConnector): \ilLTIPlatform
     {
-//        $platform = new static($dataConnector);
+        //        $platform = new static($dataConnector);
         $platform = new ilLTIPlatform($dataConnector);
         $platform->initialize();
         $platform->setRecordId((int) $id);

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Handles course mail placeholders
@@ -80,22 +81,22 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 
         $placeholders = array();
 
-        $placeholders['crs_title'] = array(
+        $placeholders['course_title'] = array(
             'placeholder' => 'COURSE_TITLE',
             'label' => $lng->txt('crs_title')
         );
 
-        $placeholders['crs_period_start'] = array(
+        $placeholders['course_period_start'] = array(
             'placeholder' => 'COURSE_PERIOD_START',
             'label' => $lng->txt('crs_period_start_mail_placeholder')
         );
 
-        $placeholders['crs_period_end'] = array(
+        $placeholders['course_period_end'] = array(
             'placeholder' => 'COURSE_PERIOD_END',
             'label' => $lng->txt('crs_period_end_mail_placeholder')
         );
 
-        $placeholders['crs_link'] = array(
+        $placeholders['course_link'] = array(
             'placeholder' => 'COURSE_LINK',
             'label' => $lng->txt('crs_mail_permanent_link')
         );
@@ -118,8 +119,7 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string {
         /**
          * @var $ilObjDataCache ilObjectDataCache
@@ -128,12 +128,12 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        if ('crs_title' == $placeholder_id) {
+        if ('course_title' == $placeholder_id) {
             return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
         } else {
-            if ('crs_link' == $placeholder_id) {
+            if ('course_link' == $placeholder_id) {
                 return ilLink::_getLink($context_parameters['ref_id'], 'crs');
-            } elseif ('crs_period_start' == $placeholder_id) {
+            } elseif ('course_period_start' == $placeholder_id) {
                 $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
                 if ($periodInfo) {
                     $useRelativeDates = ilDatePresentation::useRelativeDates();
@@ -145,7 +145,7 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
                 }
 
                 return '';
-            } elseif ('crs_period_end' == $placeholder_id) {
+            } elseif ('course_period_end' == $placeholder_id) {
                 $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
                 if ($periodInfo) {
                     $useRelativeDates = ilDatePresentation::useRelativeDates();

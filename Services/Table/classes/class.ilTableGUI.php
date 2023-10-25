@@ -518,7 +518,7 @@ class ilTableGUI
                 $this->tpl->parseCurrentBlock();
             }
             $this->tpl->setCurrentBlock("tbl_action_row");
-            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
             $this->tpl->setVariable("ALT_ARROW", $this->lng->txt("arrow_downright.svg"));
             $this->tpl->setVariable("COLUMN_COUNT", $this->getColumnCount());
             $this->tpl->parseCurrentBlock();

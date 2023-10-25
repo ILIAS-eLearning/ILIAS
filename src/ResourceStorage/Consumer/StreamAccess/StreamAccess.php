@@ -32,10 +32,6 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 class StreamAccess
 {
     public const PHP_MEMORY = 'php://memory';
-    /**
-     * @readonly
-     */
-    private TokenFactory $factory;
     private StorageHandlerFactory $storage_handler_factory;
 
     public function __construct(
@@ -43,20 +39,13 @@ class StreamAccess
         StorageHandlerFactory $storage_handler_factory
     ) {
         $this->storage_handler_factory = $storage_handler_factory;
-        $this->factory = new TokenFactory($storage_base_path);
-    }
-
-    public function getTokenFactory(): TokenFactory
-    {
-        return $this->factory;
     }
 
     public function populateRevision(Revision $revision): Revision
     {
         $stream = $this->storage_handler_factory->getHandlerForRevision($revision)->getStream($revision);
-        $token = $this->factory->lease($stream, $revision->getIdentification());
 
-        return $revision->withToken($token);
+        return $revision->withStreamResolver(new StreamResolver($stream));
     }
 
     public function populateFlavour(
@@ -64,9 +53,9 @@ class StreamAccess
         FileStream $file_stream,
         int $index
     ): Flavour {
-        return $flavour->addAccessToken(
+        return $flavour->withStreamResolver(
             $index,
-            $this->factory->lease($file_stream, $flavour->getResourceId(), true)
+            new StreamResolver($file_stream)
         );
     }
 }

@@ -37,7 +37,13 @@ class ilPCContentTemplate extends ilPageContent
 
     public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id, string $a_page_templ): void
     {
-        $source_page = $this->getTemplatePage($a_page_templ);
+        $source_id = explode(":", $a_page_templ);
+        $source_page = ilPageObjectFactory::getInstance(
+            $source_id[1],
+            (int) $source_id[0],
+            0,
+            $this->getPage()->getLanguage()
+        );
         $source_page->buildDom();
         $source_page->addHierIDs();
         $hier_ids = $source_page->getHierIds();

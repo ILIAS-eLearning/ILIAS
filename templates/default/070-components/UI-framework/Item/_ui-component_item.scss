@@ -257,10 +257,4 @@ $il-item-gap-xs: 1px;
 			min-width: calc($il-icon-size-small + 2 * $il-padding-xlarge-horizontal);
 		}
 	}
-
-	.panel-secondary .il-item  {
-		.media-body{
-			width: auto;
-		}
-	}
 }

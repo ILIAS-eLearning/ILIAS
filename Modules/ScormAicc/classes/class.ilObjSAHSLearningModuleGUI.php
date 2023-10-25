@@ -70,7 +70,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $this->getTemplate();
             $this->setLocator();
             $this->setTabs();
-            $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+            $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
             $this->tpl->setTitle($this->object->getTitle());
             $navigationHistory->addItem(
                 $this->object->getRefId(),
@@ -184,7 +184,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     protected function infoScreenForward(): void
     {
         if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool("read")) {
-            $this->error->raiseError($this->lng->txt("msg_no_perm_read"));
+            $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->MESSAGE);
         }
 
         $info = new ilInfoScreenGUI($this);
@@ -577,7 +577,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     {
         global $DIC;
         $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
         $this->tpl->setTitle($this->object->getTitle());
         $this->tpl->setDescription($this->object->getDescription());
         if ($this->object && $this->object->getOfflineStatus()) {
@@ -866,10 +866,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     }
 
     /**
-     * @return mixed
      * @throws ilCtrlException
      */
-    public function export()
+    public function export(): mixed
     {
         $GLOBALS['DIC']->tabs()->setTabActive('export');
         $exp_gui = new ilExportGUI($this);

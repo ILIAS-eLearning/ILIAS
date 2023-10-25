@@ -46,4 +46,12 @@ class GUIService
             $this->domain_service->refinery()
         );
     }
+
+    public function interactiveImage(): InteractiveImage\GUIService
+    {
+        return new InteractiveImage\GUIService(
+            $this->domain_service,
+            $this->gui_service
+        );
+    }
 }

@@ -119,7 +119,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     {
         // root?
         if ($a_node["type"] == "skrt") {
-            $icon = ilUtil::getImagePath("icon_sctp.svg");
+            $icon = ilUtil::getImagePath("standard/icon_sctp.svg");
         } elseif (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr"))) {
             $icon = ilSkillTreeNode::getIconPath(
                 $a_node["child"],
@@ -128,7 +128,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 (int) $this->draft[$a_node["child"]]
             );
         } else {
-            $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
+            $icon = ilUtil::getImagePath("standard/icon_" . $a_node["type"] . ".svg");
         }
 
         return $icon;

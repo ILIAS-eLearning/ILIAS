@@ -135,9 +135,9 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             */
 
             if ($accomplished === 'accomplished') {
-                $icon = ilUtil::getImagePath("icon_ok.svg");
+                $icon = ilUtil::getImagePath("standard/icon_ok.svg");
             } else {
-                $icon = ilUtil::getImagePath("icon_not_ok.svg");
+                $icon = ilUtil::getImagePath("standard/icon_not_ok.svg");
             }
 
             $items[] = [

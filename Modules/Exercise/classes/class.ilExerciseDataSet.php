@@ -607,7 +607,7 @@ class ilExerciseDataSet extends ilDataSet
                     $ass->setMaxFile((int) ($a_rec["MaxFile"] ?? 0));
                     $ass->setTeamTutor((bool) ($a_rec["TeamTutor"] ?? false));
                     $ass->setPeerReviewChars((int) ($a_rec["PeerChar"] ?? null));
-                    $ass->setPeerReviewSimpleUnlock((bool) ($a_rec["PeerUnlock"] ?? false));
+                    $ass->setPeerReviewSimpleUnlock((int) ($a_rec["PeerUnlock"] ?? 0));
                     $ass->setPeerReviewValid((int) ($a_rec["PeerValid"] ?? 0));
                     $ass->setPeerReviewText((bool) ($a_rec["PeerText"] ?? false));
                     $ass->setPeerReviewRating((bool) ($a_rec["PeerRating"] ?? false));

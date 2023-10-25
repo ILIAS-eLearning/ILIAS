@@ -92,7 +92,10 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
         $backClass = strtolower(ilObjEmployeeTalkGUI::class);
         $this->controlFlow->setParameterByClass($backClass, 'ref_id', $ref_id);
-        $this->tabs->setBackTarget($this->language->txt('back'), $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::DEFAULT));
+        $this->tabs->setBackTarget(
+            $this->language->txt('back'),
+            $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::UPDATE)
+        );
 
         switch ($this->editMode()) {
             case self::EDIT_MODE_SERIES:
@@ -102,7 +105,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
                 $this->executeAppointmentCommand($cmd);
                 break;
             default:
-                $this->controlFlow->redirectByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::DEFAULT);
+                $this->controlFlow->redirectByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::UPDATE);
                 break;
         }
     }

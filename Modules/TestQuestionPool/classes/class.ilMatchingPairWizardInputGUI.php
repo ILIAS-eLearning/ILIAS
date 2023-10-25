@@ -248,10 +248,10 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
                 $tpl->setCurrentBlock("move");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
                 $tpl->setVariable("UP_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->up()
+                    $this->glyph_factory->up()->withAction('#')
                 ));
                 $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->down()
+                    $this->glyph_factory->down()->withAction('#')
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -261,10 +261,10 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 
             $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
             $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                $this->glyph_factory->add()
+                $this->glyph_factory->add()->withAction('#')
             ));
             $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                $this->glyph_factory->remove()
+                $this->glyph_factory->remove()->withAction('#')
             ));
 
             $tpl->setVariable("POST_VAR", $this->getPostVar());

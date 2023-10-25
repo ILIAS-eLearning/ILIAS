@@ -1168,8 +1168,6 @@ assessment#:#show_examview_html#:#画面上に
 assessment#:#show_pass_overview#:#マークした試験状況を表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#shuffle_answers#:#解答をシャッフル
-assessment#:#sign_submission#:#デジタル署名テスト送信
-assessment#:#sign_submission_info#:#アクティブ化されてシグネチャプラグインがインストール済で有効の場合に受験者はデジタル署名の提出を要求されます。
 assessment#:#skip_question#:#回答しないで次へ
 assessment#:#solutionText#:#テキスト
 assessment#:#solution_contain_keywords#:#点数は次のキーワードの発生を基準に承諾されます:
@@ -1693,7 +1691,7 @@ assessment#:#tst_report_after_test#:#テスト終了時にテスト結果を表�
 assessment#:#tst_report_never#:#利用可能なテスト結果がありません
 assessment#:#tst_reporting_date#:#日付
 assessment#:#tst_res_jump_to_participant_btn#:#ジャンプ
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--受験者へジャンプ--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#受験者へジャンプ
 assessment#:#tst_res_lo_objectives_header#:#関連する学習目標
 assessment#:#tst_res_lo_try_header#:#試み
 assessment#:#tst_res_lo_try_n#:#試み%s
@@ -7681,8 +7679,6 @@ crs#:#crs_timings_suggested_info#:#推奨終了時間
 crs#:#crs_timings_time_frame#:#時間枠
 crs#:#crs_timings_time_frame_tt#:#時間枠日数
 crs#:#crs_timings_update_error#:#設定が有効ではありません。コース案内に従ってタイミングを確認してください。
-crs#:#crs_timings_visibility#:#選択すると、教材は利用期間外でも表示されます。
-crs#:#crs_timings_visibility_short#:#表示
 crs#:#crs_timings_warning_timing_exists#:#このオブジェクトの期間を構成します。アベイラビリティを有効にするとこれらの期間はリセットされます。
 crs#:#crs_to#:#期限
 crs#:#crs_tutor#:#指導教員
@@ -10768,10 +10764,10 @@ mail#:#mail_roles#:#to users with the following local roles###19 08 2022 new var
 mail#:#mail_s#:#メール
 mail#:#mail_salutation_anonymous#:#こんにちは
 mail#:#mail_salutation_f#:#Dear Mrs.
-mail#:#mail_salutation_female#:#女性向けのプレースフォルダ[MAIL_SALUTATION]用の出力
-mail#:#mail_salutation_general#:#一般向けのプレースフォルダ[MAIL_SALUTATION]用の出力
+mail#:#mail_salutation_female#:#女性向けのプレースフォルダ&lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;用の出力
+mail#:#mail_salutation_general#:#一般向けのプレースフォルダ&lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;用の出力
 mail#:#mail_salutation_m#:#Dear Mr.
-mail#:#mail_salutation_male#:#男性向けのプレースフォルダ[MAIL_SALUTATION]用の出力
+mail#:#mail_salutation_male#:#男性向けのプレースフォルダ&lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;用の出力
 mail#:#mail_salutation_n#:#こんにちは
 mail#:#mail_saved#:#メッセージは保存されました
 mail#:#mail_second_email#:#第2メールアドレス
@@ -12026,6 +12022,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###19 08 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###19 08 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###19 08 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###19 08 2022 new variable
+obj#:#activation_visible_when_disabled#:#表示
+obj#:#activation_visible_when_disabled_info#:#選択すると、教材は利用期間外でも表示されます。
 obj#:#cont_filter_empty#:#どのオブジェクトを見るにもフィルタを使用してください。
 obj#:#cont_skll_published#:#全ての割当ては発行されました。
 obj#:#cont_skll_published_some_not#:#全ての割当ては発行済です。能力割当ての不足しているユーザがいるので、それに発行可能な割当てはありません。

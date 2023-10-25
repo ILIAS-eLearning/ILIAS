@@ -148,6 +148,8 @@ class ilAssignmentsTableGUI extends ilTable2GUI
             } else {
                 $this->tpl->setVariable("TXT_DEADLINE", "-");
             }
+        } elseif ($ass->getDeadlineMode() === ilExAssignment::DEADLINE_ABSOLUTE_INDIVIDUAL) {
+            $this->tpl->setVariable("TXT_DEADLINE", $this->lng->txt("exc_fixed_date_individual"));
         } else {
             if ($ass->getRelativeDeadline() > 0) {
                 $dl = "" . $ass->getRelativeDeadline() . " " . $this->lng->txt("days");

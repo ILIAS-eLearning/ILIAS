@@ -108,7 +108,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 
         // root?
         if ($a_node["type"] == "skrt") {
-            $icon = ilUtil::getImagePath("icon_scat.svg");
+            $icon = ilUtil::getImagePath("standard/icon_scat.svg");
         } elseif (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr", "sctp", "sktp"))) {
             $icon = ilSkillTreeNode::getIconPath(
                 $a_parent_skl_tree_id,
@@ -117,7 +117,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
                 (int) ($this->vtree->isDraft($a_node["id"]) || $this->vtree->isOutdated($a_node["id"]))
             );
         } else {
-            $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
+            $icon = ilUtil::getImagePath("standard/icon_" . $a_node["type"] . ".svg");
         }
 
         return $icon;

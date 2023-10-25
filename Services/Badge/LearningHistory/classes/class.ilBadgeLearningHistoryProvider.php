@@ -76,7 +76,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
             $entries[] = $this->getFactory()->entry(
                 $text1,
                 $text2,
-                ilUtil::getImagePath("icon_bdga.svg"),
+                ilUtil::getImagePath("standard/icon_bdga.svg"),
                 $c["tstamp"],
                 $c["parent_id"]
             );

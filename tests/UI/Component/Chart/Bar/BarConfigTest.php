@@ -33,7 +33,7 @@ class BarConfigTest extends ILIAS_UI_TestBase
         return new ILIAS\Data\Factory();
     }
 
-    public function test_with_color(): void
+    public function testWithColor(): void
     {
         $df = $this->getDataFactory();
 
@@ -45,7 +45,7 @@ class BarConfigTest extends ILIAS_UI_TestBase
         $this->assertEquals($color, $bc1->getColor());
     }
 
-    public function test_with_width(): void
+    public function testWithWidth(): void
     {
         $df = $this->getDataFactory();
 

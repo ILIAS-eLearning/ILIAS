@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
@@ -87,12 +87,12 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 
         $placeholders = array();
 
-        $placeholders['svy_title'] = array(
+        $placeholders['survey_title'] = array(
             'placeholder' => 'SURVEY_TITLE',
             'label' => $lng->txt('svy_mail_context_reminder_survey_title')
         );
 
-        $placeholders['svy_link'] = array(
+        $placeholders['survey_link'] = array(
             'placeholder' => 'SURVEY_LINK',
             'label' => $lng->txt('perma_link')
         );
@@ -103,19 +103,18 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string {
         /**
          * @var $ilObjDataCache ilObjectDataCache
          */
         $ilObjDataCache = $this->obj_data_cache;
 
-        if ('svy_title' === $placeholder_id) {
+        if ('survey_title' === $placeholder_id) {
             return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
         }
 
-        if ('svy_link' === $placeholder_id) {
+        if ('survey_link' === $placeholder_id) {
             return ilLink::_getLink($context_parameters['ref_id'], 'svy');
         }
 

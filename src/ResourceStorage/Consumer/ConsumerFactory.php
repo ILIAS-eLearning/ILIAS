@@ -25,6 +25,7 @@ use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 
 /**
  * Class ConsumerFactory
@@ -119,6 +120,15 @@ class ConsumerFactory
             $this->stream_access,
             $this->file_name_policy,
             $zip_filename ?? 'Download.zip'
+        );
+    }
+
+    public function container(
+        StorableContainerResource $resource,
+    ): ContainerConsumer {
+        return new ContainerZIPAccessConsumer(
+            $resource,
+            $this->stream_access
         );
     }
 }

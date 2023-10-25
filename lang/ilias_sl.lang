@@ -1168,8 +1168,6 @@ assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
 assessment#:#shuffle_answers#:#Pomešaj odgovore
-assessment#:#sign_submission#:#Digitalni podpis
-assessment#:#sign_submission_info#:#Nameščen in aktiviran mora biti vtičnik za podpis, ki omogoča poziv udeležencev k podpisu ob oddaji testa.
 assessment#:#skip_question#:#Ne odgovarjaj in naprej
 assessment#:#solutionText#:#Besedilo
 assessment#:#solution_contain_keywords#:#Točke so podeljene na podlagi uporabe naslednjih pojmov:
@@ -1691,7 +1689,7 @@ assessment#:#tst_report_after_test#:#Rezultate testa ponudi šele po zaključku 
 assessment#:#tst_report_never#:#Rezultati testa niso na voljo
 assessment#:#tst_reporting_date#:#Date
 assessment#:#tst_res_jump_to_participant_btn#:#Skoči naprej
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Skoči na udeleženca--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Skoči na udeleženca
 assessment#:#tst_res_lo_objectives_header#:#Ustrezni učni cilji
 assessment#:#tst_res_lo_try_header#:#Poskus
 assessment#:#tst_res_lo_try_n#:#%s. poskus
@@ -7678,8 +7676,6 @@ crs#:#crs_timings_suggested_info#:#Priporočen čas urejanja
 crs#:#crs_timings_time_frame#:#Časovni okvir
 crs#:#crs_timings_time_frame_tt#:#Čas urejanja v dnevih
 crs#:#crs_timings_update_error#:#Priporočen čas učenja gradiva za naslednji tečaj ni v skladu z najpoznejšim možnim časom učenja.
-crs#:#crs_timings_visibility#:#Če je aktivirano, je učno gradivo vidno tudi zunaj predvidene razpoložljivosti.
-crs#:#crs_timings_visibility_short#:#Vidnost
 crs#:#crs_timings_warning_timing_exists#:#Pozor: za ta objekt obstaja aktiven učni načrt. če aktivirate časovno omejeno razpoložljivost, bodo časi načrtovanja učenja ponastavljeni.
 crs#:#crs_to#:#Do:
 crs#:#crs_tutor#:#Mentor
@@ -10765,10 +10761,10 @@ mail#:#mail_roles#:#to users with the following local roles###19 08 2022 new var
 mail#:#mail_s#:#E-pošta
 mail#:#mail_salutation_anonymous#:#Pozdravljeni
 mail#:#mail_salutation_f#:#Spoštovana gospa
-mail#:#mail_salutation_female#:#Izdaja za rezervirano mesto [MAIL_SALUTATION], če je prejemnik 'gospa'
-mail#:#mail_salutation_general#:#Izdaja za rezervirano mesto [MAIL_SALUTATION], če naslavljanje ni določeno ali zaželeno
+mail#:#mail_salutation_female#:#Izdaja za rezervirano mesto &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, če je prejemnik 'gospa'
+mail#:#mail_salutation_general#:#Izdaja za rezervirano mesto &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, če naslavljanje ni določeno ali zaželeno
 mail#:#mail_salutation_m#:#Spoštovani gospod
-mail#:#mail_salutation_male#:#Izdaja za rezervirano mesto [MAIL_SALUTATION], če je prejemnik 'gospod'
+mail#:#mail_salutation_male#:#Izdaja za rezervirano mesto &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, če je prejemnik 'gospod'
 mail#:#mail_salutation_n#:#Pozdravljeni
 mail#:#mail_saved#:#Vaša e-pošta je bila shranjena
 mail#:#mail_second_email#:#Drugi e-poštni naslov
@@ -12023,6 +12019,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###19 08 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###19 08 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###19 08 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###19 08 2022 new variable
+obj#:#activation_visible_when_disabled#:#Vidnost
+obj#:#activation_visible_when_disabled_info#:#Če je aktivirano, je učno gradivo vidno tudi zunaj predvidene razpoložljivosti.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#Vse dodelitve kompetenc so bile objavljene.
 obj#:#cont_skll_published_some_not#:#Vse obstoječe dodelitve kompetenc so bile objavljene. Pri nekaterih uporabnikih kompetence niso bile objavljene, ker ni bilo nobenih dodelitev.

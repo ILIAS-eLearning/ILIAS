@@ -86,7 +86,7 @@ class ilMStListCompetencesSkillsGUI
 
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_INDEX, $this->dic);
         $this->dic->ui()->mainTemplate()->setTitle($this->dic->language()->txt('mst_list_competences'));
-        $this->dic->ui()->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_skmg.svg'));
+        $this->dic->ui()->mainTemplate()->setTitleIcon(ilUtil::getImagePath('standard/icon_skmg.svg'));
         $this->dic->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 

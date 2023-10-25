@@ -130,7 +130,7 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
             $this->data->uri(
                 ILIAS_HTTP_PATH . ltrim(
                     $image_path_resolver->resolveImagePath(
-                        'Sharing.jpg'
+                        'logo/Sharing.jpg'
                     ),
                     '.'
                 )

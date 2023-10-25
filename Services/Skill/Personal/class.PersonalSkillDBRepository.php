@@ -104,13 +104,23 @@ class PersonalSkillDBRepository
         );
     }
 
-    public function removeAll(int $user_id): void
+    public function removeAllForUser(int $user_id): void
     {
         $ilDB = $this->db;
 
         $ilDB->manipulate(
             "DELETE FROM skl_personal_skill WHERE " .
             " user_id = " . $ilDB->quote($user_id, "integer")
+        );
+    }
+
+    public function removeAllForSkill(int $skill_node_id): void
+    {
+        $ilDB = $this->db;
+
+        $ilDB->manipulate(
+            "DELETE FROM skl_personal_skill WHERE " .
+            " skill_node_id = " . $ilDB->quote($skill_node_id, "integer")
         );
     }
 

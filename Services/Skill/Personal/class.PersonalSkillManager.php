@@ -54,8 +54,13 @@ class PersonalSkillManager
         $this->personal_repo->remove($user_id, $skill_node_id);
     }
 
-    public function removePersonalSkills(int $user_id): void
+    public function removePersonalSkillsForUser(int $user_id): void
     {
-        $this->personal_repo->removeAll($user_id);
+        $this->personal_repo->removeAllForUser($user_id);
+    }
+
+    public function removePersonalSkillsForSkill(int $skill_node_id): void
+    {
+        $this->personal_repo->removeAllForSkill($skill_node_id);
     }
 }

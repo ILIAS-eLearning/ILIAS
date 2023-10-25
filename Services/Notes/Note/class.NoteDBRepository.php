@@ -53,7 +53,8 @@ class NoteDBRepository
             "author" => array("integer", $note->getAuthor()),
             "note_text" => array("clob", $note->getText()),
             "creation_date" => array("timestamp", $note->getCreationDate()),
-            "no_repository" => array("integer", (int) !$context->getInRepository())
+            "no_repository" => array("integer", (int) !$context->getInRepository()),
+            "recipient" => array("integer", $note->getRecipient()),
         ));
         return $this->getById($id);
     }
@@ -117,7 +118,8 @@ class NoteDBRepository
             (int) $rec["author"],
             (int) $rec["type"],
             $rec["creation_date"],
-            $rec["update_date"]
+            $rec["update_date"],
+            (int) $rec["recipient"]
         );
     }
 

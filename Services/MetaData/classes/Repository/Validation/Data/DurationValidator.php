@@ -21,33 +21,29 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Repository\Validation\Data;
 
 use ILIAS\MetaData\Elements\ElementInterface;
+use ILIAS\MetaData\DataHelper\DataHelperInterface;
 
 class DurationValidator implements DataValidatorInterface
 {
     use DataFetcher;
 
-    /**
-     * This monstrosity makes sure durations conform to the format given by LOM,
-     * and picks out the relevant numbers.
-     * match 1: years, 2: months, 3: days, 4: hours, 5: minutes, 6: seconds
-     */
-    public const DURATION_REGEX = '/^P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)D)' .
-    '?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)(?:.\d+)?S)?)?$/';
+    protected DataHelperInterface $data_helper;
+
+    public function __construct(
+        DataHelperInterface $data_helper
+    ) {
+        $this->data_helper = $data_helper;
+    }
 
     public function isValid(
         ElementInterface $element,
         bool $ignore_marker
     ): bool {
-        if (!preg_match(
-            self::DURATION_REGEX,
-            $this->dataValue($element, $ignore_marker),
-            $matches,
-            PREG_UNMATCHED_AS_NULL
-        )) {
+        $value = $this->dataValue($element, $ignore_marker);
+        if (!$this->data_helper->matchesDurationPattern($value)) {
             return false;
         }
-        unset($matches[0]);
-        foreach ($matches as $match) {
+        foreach ($this->data_helper->durationToIterator($value) as $match) {
             if (isset($match) && (int) $match < 0) {
                 return false;
             }

@@ -55,6 +55,18 @@ class ilExPeerReview
         return (bool) $cnt["cnt"];
     }
 
+    public function getReviewId(int $giver_id, int $peer_id): int
+    {
+        $set = $this->db->queryF(
+            "SELECT id FROM exc_assignment_peer " .
+            " WHERE ass_id = %s AND giver_id = %s  AND peer_id = %s",
+            ["integer","integer","integer"],
+            [$this->assignment_id, $giver_id, $peer_id]
+        );
+        $rec = $this->db->fetchAssoc($set);
+        return $rec["id"] ?? 0;
+    }
+
     /**
      * @return int[]
      */
@@ -92,9 +104,11 @@ class ilExPeerReview
 
             foreach ($user_ids as $rater_id) {
                 foreach ($distribution->getPeersOfRater($rater_id) as $peer_id) {
+                    $next_id = $ilDB->nextId("exc_assignment_peer");
                     $ilDB->manipulate("INSERT INTO exc_assignment_peer" .
-                        " (ass_id, giver_id, peer_id)" .
-                        " VALUES (" . $ilDB->quote($this->assignment_id, "integer") .
+                        " (id, ass_id, giver_id, peer_id)" .
+                        " VALUES (" . $ilDB->quote($next_id, "integer") .
+                        ", " . $ilDB->quote($this->assignment_id, "integer") .
                         ", " . $ilDB->quote($rater_id, "integer") .
                         ", " . $ilDB->quote($peer_id, "integer") . ")");
                 }
@@ -315,6 +329,13 @@ class ilExPeerReview
         return $res;
     }
 
+    public function countReceivedFeedbacks(
+        int $user_id,
+        bool $only_valid = true
+    ): int {
+        return count($this->getPeerReviewsByPeerId($user_id, $only_valid));
+    }
+
     public function getAllPeerReviews(
         bool $a_only_valid = true
     ): array {
@@ -440,7 +461,9 @@ class ilExPeerReview
         }
 
         // are all required or just 1?
-        if (!$this->assignment->getPeerReviewSimpleUnlock()) {
+        if ($this->assignment->getPeerReviewSimpleUnlock() == 2) {
+            $needed = 0;
+        } elseif ($this->assignment->getPeerReviewSimpleUnlock() == 0) {
             $needed = $this->assignment->getPeerReviewMin();
         } else {
             $needed = 1;

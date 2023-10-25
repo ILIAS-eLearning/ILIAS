@@ -23,8 +23,15 @@
  */
 class ilQuestionPoolExportTableGUI extends ilExportTableGUI
 {
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
+
     public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
     {
+        global $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
 
         // NOT REQUIRED ANYMORE, PROBLEM NOW FIXED IN THE ROOT
@@ -44,12 +51,13 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setListTitle($this->lng->txt('actions'));
         $ilCtrl->setParameter($this->getParentObject(), 'file', $type . ':' . $filename);
-        $list->addItem($this->lng->txt('download'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'download'));
+        $actions = [];
+        $action = $this->ui_factory->link()->standard($this->lng->txt('download'), $ilCtrl->getLinkTarget($this->getParentObject(), 'download'));
         $ilCtrl->setParameter($this->getParentObject(), 'file', '');
-        return $list->getHTML();
+        $dropdown = $this->ui_factory->dropdown()->standard($action)->withLabel($this->lng->txt('actions'));
+        return $this->ui_renderer->render($dropdown);
+
     }
 
     /**

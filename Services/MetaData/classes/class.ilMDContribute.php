@@ -26,6 +26,28 @@ declare(strict_types=1);
  */
 class ilMDContribute extends ilMDBase
 {
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private const ROLE_TRANSLATION = [
+        'author' => 'Author',
+        'publisher' => 'Publisher',
+        'unknown' => 'Unknown',
+        'initiator' => 'Initiator',
+        'terminator' => 'Terminator',
+        'editor' => 'Editor',
+        'graphical designer' => 'GraphicalDesigner',
+        'technical implementer' => 'TechnicalImplementer',
+        'content provider' => 'ContentProvider',
+        'technical validator' => 'TechnicalValidator',
+        'educational validator' => 'EducationalValidator',
+        'script writer' => 'ScriptWriter',
+        'instructional designer' => 'InstructionalDesigner',
+        'subject matter expert' => 'SubjectMatterExpert',
+        'creator' => 'Creator',
+        'validator' => 'Validator'
+    ];
+
     // Subelements
     private string $date = '';
     private string $role = '';
@@ -144,13 +166,21 @@ class ilMDContribute extends ilMDBase
      */
     public function __getFields(): array
     {
+        /**
+         * Compatibility fix for legacy MD classes for new db tables
+         */
+        $role = (string) array_search(
+            $this->getRole(),
+            self::ROLE_TRANSLATION
+        );
+
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
             'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
             'parent_type' => array('text', $this->getParentType()),
             'parent_id' => array('integer', $this->getParentId()),
-            'role' => array('text', $this->getRole()),
+            'role' => array('text', $role),
             'c_date' => array('text', $this->getDate())
         );
     }
@@ -163,6 +193,13 @@ class ilMDContribute extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                /**
+                 * Compatibility fix for legacy MD classes for new db tables
+                 */
+                if (key_exists($row->role ?? '', self::ROLE_TRANSLATION)) {
+                    $row->role = self::ROLE_TRANSLATION[$row->role ?? ''];
+                }
+
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type ?? '');

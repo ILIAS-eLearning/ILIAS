@@ -87,18 +87,6 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     }
 
     /**
-     * Delete skill
-     */
-    public function delete(): void
-    {
-        $skill_id = $this->getId();
-        $this->bsc_skl_lvl_db_rep->deleteLevelsOfSkill($skill_id);
-        $this->bsc_skl_usr_lvl_db_rep->deleteUserLevelsOfSkill($skill_id);
-
-        parent::delete();
-    }
-
-    /**
      * Copy basic skill
      */
     public function copy(): ilBasicSkill

@@ -5,12 +5,21 @@
 Reused constants should be collected into bespoke classes as 
 appropriate, instead of being scattered across the component.
 
-### Metadata Schema
+### Clean up Remains of Migrations for Ilias 10
 
-Check whether renaming the currently incorrect preset schema
-'LOM v 1.0' can be replaced with the correct 'LOMv1.0'. From
-a quick search for the old value it seems to be in use in a few 
-places.
+With ILIAS 10, the migrations `ilMDLOMConformanceMigration` and
+`ilMDCopyrightMigration` can be deleted. To clean up the migrations, the
+following table columns should be dropped:
+
+* il_meta_general: coverage, coverage_language
+* il_meta_meta_data: meta_data_scheme
+* il_meta_requirement: operating_system_name, os_min_version,
+os_max_version, browser_name, browser_minimum_version,
+browser_maximum_version
+* il_meta_educational: learning_resource_type,
+intended_end_user_role, context
+* il_md_cpr_selections: copyright, language, costs, cpr_restrictions,
+migrated
 
 ### Location Type
 
@@ -28,6 +37,17 @@ to roll this into the custom vocabularies.
 
 This might also apply to related classes (e.g. 
 ilOerHarvesterSettings).
+
+### Replace Generic Generators With Custom Iterators
+
+A lot of generic generators are used throughout the component, along
+with quite a few usages of `iterator_to_array`. These should be gradually
+replaced by bespoke iterator classes.
+
+### Make Greater Use of Null Objects
+
+`null` as a return type should be replaced by proper null objects.
+A good starting point might be `Tags` from `Dictionaries`. 
 
 ### Query Smarter
 

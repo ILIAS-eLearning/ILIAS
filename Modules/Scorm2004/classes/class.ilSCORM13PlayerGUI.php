@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 /** @noinspection ForgottenDebugOutputInspection */
 
+use JetBrains\PhpStorm\NoReturn;
+
 /**
 * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 * @version $Id$
@@ -133,6 +135,7 @@ class ilSCORM13PlayerGUI
     );
 
     private int $userId;
+    private array $flat_structure;
     public int $packageId;
     public bool $jsMode;
 
@@ -239,7 +242,7 @@ class ilSCORM13PlayerGUI
                         null,
                         $this->userId
                     );
-                //error_log("Saved CMI Data");
+                    //error_log("Saved CMI Data");
                 } else {
                     $this->fetchCMIData();
                 }
@@ -286,10 +289,8 @@ class ilSCORM13PlayerGUI
         $js_data = file_get_contents("./Modules/Scorm2004/scripts/buildrte/rte.js");
         if (self::ENABLE_GZIP == 1) {
             ob_start("ob_gzhandler");
-            header('Content-Type: text/javascript; charset=UTF-8');
-        } else {
-            header('Content-Type: text/javascript; charset=UTF-8');
         }
+        header('Content-Type: text/javascript; charset=UTF-8');
         echo $js_data;
     }
 
@@ -413,7 +414,7 @@ class ilSCORM13PlayerGUI
         $config['package_url'] = $this->getDataDirectory() . "/";
 
         //editor
-        //        $config['envEditor'] = $this->envEditor;
+        $config['envEditor'] = 0;
 
         //debug
         $config['debug'] = $this->slm->getDebug();
@@ -848,8 +849,8 @@ class ilSCORM13PlayerGUI
             //See if readSharedData is set for each datamap.
             //If set to true, then add it to the search query
             foreach ($dataStores["data"] as $key => $val) {
-                if ($dataStores["readPermissions"][$key] == 1
-                    && $dataStores["data"][$key]["store"] !== 'notWritten') {
+                if ($dataStores["readPermissions"][(string) $key] == 1
+                    && $dataStores["data"][(string) $key]["store"] !== 'notWritten') {
                     $params["types"][] = "text";
                     $params["values"][] = $key;
                     $paramTemplate .= '%s, ';

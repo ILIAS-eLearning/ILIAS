@@ -88,7 +88,12 @@ class SkillProfileManager implements \ilSkillUsageInfo
 
     protected function deleteProfileLevels(int $profile_id): void
     {
-        $this->profile_levels_repo->deleteAll($profile_id);
+        $this->profile_levels_repo->deleteAllForProfile($profile_id);
+    }
+
+    public function deleteProfileLevelsForSkill(int $skill_node_id, bool $is_reference = false): void
+    {
+        $this->profile_levels_repo->deleteAllForSkill($skill_node_id, $is_reference);
     }
 
     protected function deleteProfileUsers(int $profile_id): void

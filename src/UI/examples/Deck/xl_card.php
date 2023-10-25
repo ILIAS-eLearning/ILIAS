@@ -23,7 +23,7 @@ function xl_card()
 
     //Define the some responsive image
     $image = $f->image()->responsive(
-        "./templates/default/images/HeaderIcon.svg",
+        "./templates/default/images/logo/HeaderIcon.svg",
         "Thumbnail Example"
     );
 

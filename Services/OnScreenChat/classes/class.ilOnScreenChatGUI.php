@@ -186,7 +186,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $chatWindowTemplate->setVariable('MINIMIZE_ACTION', $renderer->render(
                 $factory->button()->minimize()
             ));
-            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_pcht.svg')));
+            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('standard/icon_pcht.svg')));
 
             $subscriberRepo = new Subscriber($DIC->database(), $DIC->user());
 
@@ -234,7 +234,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     true,
                     false
                 ),
-                'loaderImg' => ilUtil::getImagePath('loader.svg'),
+                'loaderImg' => ilUtil::getImagePath('media/loader.svg'),
                 'locale' => $DIC->language()->getLangKey(),
                 'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
@@ -244,7 +244,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                 'broadcast_typing' => (
                     ilUtil::yn2tf((string) $DIC->user()->getPref('chat_broadcast_typing'))
                 ),
-                'notificationIconPath' => ilUtil::getImagePath('icon_chta.png'),
+                'notificationIconPath' => ilUtil::getImagePath('standard/icon_chta.png'),
             ];
 
             $chatConfig = [

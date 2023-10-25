@@ -26,6 +26,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     public static $block_type = "wikiside";
     public static $st_data;
     protected \ILIAS\Wiki\InternalGUIService $gui;
+    protected int $wpg_id;
     protected int $ref_id;
     protected ilWikiPage $pageob;
     protected ilObjWiki $wiki;
@@ -38,7 +39,6 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
             ->wiki()
             ->internal()
             ->gui()
-            ->editing()
             ->request();
 
         $this->gui = $DIC->wiki()
@@ -60,6 +60,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $this->allow_moving = false;
 
         $this->ref_id = $request->getRefId();
+        $this->wpg_id = $request->getWikiPageId();
 
         $this->wiki = new ilObjWiki($this->ref_id);
 
@@ -125,6 +126,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $tpl = new ilTemplate("tpl.wiki_side_block_content.html", true, true, "Modules/Wiki");
 
         $wp = $this->getPageObject();
+        $ilCtrl->setParameterByClass(ilWikiPageGUI::class, "wpg_id", $this->wpg_id);
 
         // info
         $actions[] = array(
@@ -259,6 +261,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 
         if ($ilAccess->checkAccess("write", "", $this->ref_id)) {
             $wpt = new ilWikiPageTemplate($this->getPageObject()->getParentId());
+            $ilCtrl->setParameterByClass(ilWikiPageTemplateGUI::class, "wpg_id", $this->getPageObject()->getId());
             if (!$wpt->isPageTemplate($this->getPageObject()->getId())) {
                 $dd_actions[] = $ui_factory->link()->standard(
                     $lng->txt("wiki_add_template"),

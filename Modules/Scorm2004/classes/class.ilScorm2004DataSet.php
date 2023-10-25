@@ -91,55 +91,55 @@ class ilScorm2004DataSet extends ilDataSet
     }
 
 
-//    /**
-//     * Determine the dependent sets of data
-//     * @return mixed[]
-//     */
-//    protected function getDependencies(
-//        string $a_entity,
-//        string $a_version,
-//        ?array $a_rec = null,
-//        ?array $a_ids = null
-//    ) : array {
-//        switch ($a_entity) {
-//            case "sahs":
-//                return array();
-//
-//        }
-//        return [];
-//    }
+    //    /**
+    //     * Determine the dependent sets of data
+    //     * @return mixed[]
+    //     */
+    //    protected function getDependencies(
+    //        string $a_entity,
+    //        string $a_version,
+    //        ?array $a_rec = null,
+    //        ?array $a_ids = null
+    //    ) : array {
+    //        switch ($a_entity) {
+    //            case "sahs":
+    //                return array();
+    //
+    //        }
+    //        return [];
+    //    }
 
-//    /**
-//     * Get xml record
-//     * @param string $a_entity
-//     * @param string $a_version
-//     * @param array  $a_set
-//     * @return array
-//     * @throws ilFileUtilsException
-//     */
-//    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
-//    {
-//        if ($a_entity == "sahs") {
-//            // build traditional author export file
-//            $lm = new ilObjSCORM2004LearningModule($a_set["Id"], false);
-//            $export = new ilScorm2004Export($lm, 'SCORM 2004 3rd');
-//            $zip = $export->buildExportFile();
-//
-//            // move it to temp dir
-//            $tmpdir = ilFileUtils::ilTempnam();
-//            ilFileUtils::makeDir($tmpdir);
-//            $exp_temp = $tmpdir . DIRECTORY_SEPARATOR . basename($zip);
-//            ilFileUtils::rename($zip, $exp_temp);
-//
-//            $this->temp_dir[$a_set["Id"]] = $tmpdir;
-//
-//            // include temp dir
-//            $a_set["Dir"] = $tmpdir;
-//            $a_set["File"] = basename($zip);
-//        }
-//
-//        return $a_set;
-//    }
+    //    /**
+    //     * Get xml record
+    //     * @param string $a_entity
+    //     * @param string $a_version
+    //     * @param array  $a_set
+    //     * @return array
+    //     * @throws ilFileUtilsException
+    //     */
+    //    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
+    //    {
+    //        if ($a_entity == "sahs") {
+    //            // build traditional author export file
+    //            $lm = new ilObjSCORM2004LearningModule($a_set["Id"], false);
+    //            $export = new ilScorm2004Export($lm, 'SCORM 2004 3rd');
+    //            $zip = $export->buildExportFile();
+    //
+    //            // move it to temp dir
+    //            $tmpdir = ilFileUtils::ilTempnam();
+    //            ilFileUtils::makeDir($tmpdir);
+    //            $exp_temp = $tmpdir . DIRECTORY_SEPARATOR . basename($zip);
+    //            ilFileUtils::rename($zip, $exp_temp);
+    //
+    //            $this->temp_dir[$a_set["Id"]] = $tmpdir;
+    //
+    //            // include temp dir
+    //            $a_set["Dir"] = $tmpdir;
+    //            $a_set["File"] = basename($zip);
+    //        }
+    //
+    //        return $a_set;
+    //    }
 
     public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set): void
     {
@@ -152,49 +152,49 @@ class ilScorm2004DataSet extends ilDataSet
     }
 
 
-//    /**
-//     * Import record
-//     * @param string $a_entity
-//     * @param array $a_types
-//     * @param array $a_rec
-//     * @param ilImportMapping $a_mapping
-//     * @param string $a_schema_version
-//     */
-//    public function importRecord(
-//        string $a_entity,
-//        array $a_types,
-//        array $a_rec,
-//        ilImportMapping $a_mapping,
-//        string $a_schema_version
-//    ) : void {
-//        switch ($a_entity) {
-//            case "sahs":
-//                $new_obj_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]);
-//                $lm = new ilObjSCORM2004LearningModule($new_obj_id, false);
-//
-////                $lm->setEditable($a_rec["Editable"]);
-//                $lm->setImportSequencing(false);
-//                $lm->setSequencingExpertMode(false);
-//                $lm->setSubType("scorm2004");
-//
-//                $dir = str_replace("..", "", $a_rec["Dir"]);
-//                if ($dir != "" && $this->getImportDirectory() != "") {
-//                    $source_dir = $this->getImportDirectory() . "/" . $dir;
-//                    $file_path = $lm->getDataDirectory() . "/" . $a_rec["File"];
-//                    ilFileUtils::rename($source_dir . "/" . $a_rec["File"], $file_path);
-//
-//                    ilFileUtils::unzip($file_path);
-//                    ilFileUtils::renameExecutables($lm->getDataDirectory());
-//                    $title = $lm->readObject();
-//                    if ($title != "") {
-//                        ilObject::_writeTitle($lm->getId(), $title);
-//                    }
-//
-//                    $lm->setLearningProgressSettingsAtUpload();
-//                    $lm->update();
-//                }
-//                break;
-//
-//        }
-//    }
+    //    /**
+    //     * Import record
+    //     * @param string $a_entity
+    //     * @param array $a_types
+    //     * @param array $a_rec
+    //     * @param ilImportMapping $a_mapping
+    //     * @param string $a_schema_version
+    //     */
+    //    public function importRecord(
+    //        string $a_entity,
+    //        array $a_types,
+    //        array $a_rec,
+    //        ilImportMapping $a_mapping,
+    //        string $a_schema_version
+    //    ) : void {
+    //        switch ($a_entity) {
+    //            case "sahs":
+    //                $new_obj_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]);
+    //                $lm = new ilObjSCORM2004LearningModule($new_obj_id, false);
+    //
+    ////                $lm->setEditable($a_rec["Editable"]);
+    //                $lm->setImportSequencing(false);
+    //                $lm->setSequencingExpertMode(false);
+    //                $lm->setSubType("scorm2004");
+    //
+    //                $dir = str_replace("..", "", $a_rec["Dir"]);
+    //                if ($dir != "" && $this->getImportDirectory() != "") {
+    //                    $source_dir = $this->getImportDirectory() . "/" . $dir;
+    //                    $file_path = $lm->getDataDirectory() . "/" . $a_rec["File"];
+    //                    ilFileUtils::rename($source_dir . "/" . $a_rec["File"], $file_path);
+    //
+    //                    ilFileUtils::unzip($file_path);
+    //                    ilFileUtils::renameExecutables($lm->getDataDirectory());
+    //                    $title = $lm->readObject();
+    //                    if ($title != "") {
+    //                        ilObject::_writeTitle($lm->getId(), $title);
+    //                    }
+    //
+    //                    $lm->setLearningProgressSettingsAtUpload();
+    //                    $lm->update();
+    //                }
+    //                break;
+    //
+    //        }
+    //    }
 }

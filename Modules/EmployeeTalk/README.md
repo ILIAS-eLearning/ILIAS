@@ -68,14 +68,16 @@ available. Then one can set **Title**, **Description** and **Location**
 for the _Talks_, their **Date** and/or **Time** as well as a **Recurrence**,
 should one want to create _Talks_ in a series, and an **Employee**. The
 field **Employee** autofills from all available users.<br>
-In the **Content** tab of the created _Talks_ one can find and edit the
+In the **Settings** tab of the created _Talks_ one can find and edit the
 aforementioned fields, as well as **Completed** and **Lock editing for 
-others** checkboxes, and sections for the assigned _Metadata_ sets. Further,
-two buttons are offered to change the date of the individual _Talk_, and
-to change the dates of all _Talks_ in the same series.<br>
-The users involved in the _Talk_ are shown in the **Content** tab - the 
+others** checkboxes. Further, two buttons are offered to change the date of
+the individual _Talk_, and to change the dates of all _Talks_ in the same 
+series.<br>
+The users involved in the _Talk_ are shown in the **Settings** tab - the 
 **Employee** set during creation, and as the **Superior** the user that
-created the _Talk_ - but can not be changed.
+created the _Talk_ - but can not be changed.<br>
+The fields of the assigned _Metadata_ sets can be edited in the
+**Content** tab.
 
 ### Editing Talks
 
@@ -90,8 +92,9 @@ according to the chosen **Recurrence**. This process explicitely excludes
 _Talks_ for which **Completed** is checked, and _Talks_ where the individual
 date was changed previously.
 * When a user is not allowed to edit a talk but can still access its **Content**
-tab, the buttons to edit dates disappear, and all fields in the form are
-disabled, though their values remain visible. This includes the _Metadata_.
+and **Settings** tabs, the buttons to edit dates disappear, and all fields in the forms
+of both tabs are disabled, though their values remain visible. This includes the
+_Metadata_.
 
 ### Talks in Staff
 
@@ -99,9 +102,9 @@ A list of all talks the user is allowed to see can be found in **Organisation** 
 **Talks**. This is primarily intended to be used by **Superiors** to manage,
 edit and create _Talks_: A **Add new Talk** button is offered, and by clicking
 on the titles of _Talks_ or via their **Action** dropdown one can access their
-**Content** tab. The latter option is either titled **Edit** or **View**, 
-depending on the permissions of the user. The **Action** dropdown also
-offers the option to **Delete** individual _Talks_.<br>
+**Content** and **Settings** tab, respectively. The latter option is either
+titled **Edit** or **View**, depending on the permissions of the user. The
+**Action** dropdown also offers the option to **Delete** individual _Talks_.<br>
 Further, a similar list of _Talks_ limited to individual **Employees**
 is available. It can be reached either by clicking on the user or on **Talks**
 in the user's **Actions** dropdown in **Organisation** > **Staff List**,

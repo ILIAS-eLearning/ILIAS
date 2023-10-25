@@ -22,6 +22,7 @@
  */
 class ilPCTabsGUI extends ilPageContentGUI
 {
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ilPropertyFormGUI $form;
     protected ilDBInterface $db;
     protected ilTabsGUI $tabs;
@@ -42,6 +43,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
     }
 
     public function executeCommand(): void
@@ -101,6 +103,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 
         // edit form
         $this->form = new ilPropertyFormGUI();
+        $this->form->setShowTopButtons(false);
         $this->form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_mode != "edit") {
             $this->form->setTitle($lng->txt("cont_ed_insert_tabs"));
@@ -140,6 +143,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 
 
         // type: horizontal accordion
+        /*
         $op2 = new ilRadioOption($lng->txt("cont_tabs_acc_hor"), ilPCTabs::ACCORDION_HOR);
 
         $templ = $this->getTemplateOptions("haccordion");
@@ -162,7 +166,7 @@ class ilPCTabsGUI extends ilPageContentGUI
             $this->form->addItem($hchar_prop);
         }
 
-        $radg->addOption($op2);
+        $radg->addOption($op2);*/
 
         // type: carousel
         $op3 = new ilRadioOption($lng->txt("cont_tabs_carousel"), ilPCTabs::CAROUSEL);
@@ -202,6 +206,7 @@ class ilPCTabsGUI extends ilPageContentGUI
             $this->form->addItem($nr_prop);
         }
 
+        /*
         $ni = new ilNumberInputGUI($this->lng->txt("cont_tab_cont_width"), "content_width");
         $ni->setMaxLength(4);
         $ni->setSize(4);
@@ -210,7 +215,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $ni = new ilNumberInputGUI($this->lng->txt("cont_tab_cont_height"), "content_height");
         $ni->setMaxLength(4);
         $ni->setSize(4);
-        $this->form->addItem($ni);
+        $this->form->addItem($ni);*/
 
         // behaviour
         $options = array(
@@ -221,12 +226,14 @@ class ilPCTabsGUI extends ilPageContentGUI
         $si = new ilSelectInputGUI($this->lng->txt("cont_behavior"), "vbehavior");
         $si->setOptions($options);
         $op1->addSubItem($si);
+        /*
         $si = new ilSelectInputGUI($this->lng->txt("cont_behavior"), "hbehavior");
         $si->setOptions($options);
-        $op2->addSubItem($si);
+        $op2->addSubItem($si);*/
 
 
         // alignment
+        /*
         $align_opts = array("Left" => $lng->txt("cont_left"),
             "Right" => $lng->txt("cont_right"), "Center" => $lng->txt("cont_center"),
             "LeftFloat" => $lng->txt("cont_left_float"),
@@ -239,7 +246,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $align = new ilSelectInputGUI($this->lng->txt("cont_align"), "calign");
         $align->setOptions($align_opts);
         $align->setValue("Center");
-        $op3->addSubItem($align);
+        $op3->addSubItem($align);*/
 
         // carousel: time
         $ti = new ilNumberInputGUI($this->lng->txt("cont_auto_time"), "auto_time");
@@ -264,6 +271,19 @@ class ilPCTabsGUI extends ilPageContentGUI
             $this->form->addCommandButton("update", $lng->txt("save"));
             $this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
         }
+    }
+
+    public function initCreationForm(): ilPropertyFormGUI
+    {
+        $this->initForm("create");
+        return $this->form;
+    }
+
+    public function initEditingForm(): ilPropertyFormGUI
+    {
+        $this->initForm("edit");
+        $this->getFormValues();
+        return $this->form;
     }
 
     public function getFormValues(): void
@@ -427,17 +447,10 @@ class ilPCTabsGUI extends ilPageContentGUI
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
 
-        $ilToolbar->addButton(
-            $lng->txt("cont_add_tab"),
-            $ilCtrl->getLinkTarget($this, "addTab")
-        );
+        $this->initEditor();
+        $this->tabs->setBackTarget("", "");
 
-        $this->setTabs();
-        $ilTabs->activateTab("cont_tabs");
-        /** @var ilPCTabs $tabs */
-        $tabs = $this->content_obj;
-        $table_gui = new ilPCTabsTableGUI($this, "edit", $tabs);
-        $tpl->setContent($table_gui->getHTML());
+        $tpl->setContent($this->getTabPanels() . $this->getEditorScriptTag($this->pc_id, "Tabs"));
     }
 
     /**
@@ -553,4 +566,165 @@ class ilPCTabsGUI extends ilPageContentGUI
             get_class($this)
         );
     }
+
+    protected function getCaptionForm(string $caption = ""): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        return $this->gui->form([self::class], "saveCaption")
+                          ->text("caption", $this->lng->txt("title"), "", $caption);
+    }
+
+    protected function getTabPanels(): string
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $items = [];
+        $ui = $this->gui->ui();
+
+        $actions = [
+            $this->lng->txt("cont_tab_add_above") => "addAbove",
+            $this->lng->txt("cont_tab_add_below") => "addBelow",
+            $this->lng->txt("cont_tab_move_up") => "moveUp",
+            $this->lng->txt("cont_tab_move_down") => "moveDown",
+            $this->lng->txt("cont_tab_move_top") => "moveTop",
+            $this->lng->txt("cont_tab_move_bottom") => "moveBottom",
+            $this->lng->txt("cont_tab_delete") => "deletePanel"
+        ];
+
+        $captions = $tabs->getCaptions();
+        $cnt = 1;
+        foreach ($captions as $cap) {
+            $this->ctrl->setParameter($this, "cap_pc_id", $cap["pc_id"]);
+            $form = $this->getCaptionForm($cap["caption"]);
+            $components = $this->gui->modal($this->lng->txt("cont_edit_title"))
+                ->form($form)->getTriggerButtonComponents(
+                    $this->lng->txt("cont_edit_title"),
+                    true
+                );
+            $items[] = $components["modal"];
+            $dd_items = [$components["button"]];
+            foreach ($actions as $lng => $act) {
+                if ($cnt === 1 && in_array($act, ["moveUp", "moveTop"])) {
+                    continue;
+                }
+                if ($cnt === count($captions) && in_array($act, ["moveDown", "moveBottom"])) {
+                    continue;
+                }
+                $dd_items[] = $ui->factory()->link()->standard(
+                    $lng,
+                    $this->ctrl->getLinkTarget($this, $act)
+                );
+            }
+            $dd = $ui->factory()->dropdown()->standard($dd_items);
+            $content = $this->getTabContent($cap["pc_id"]);
+            $items[] = $ui->factory()->panel()->standard(
+                $cap["caption"],
+                $ui->factory()->legacy($content)
+            )
+                ->withActions($dd);
+            $cnt++;
+        }
+
+        return $ui->renderer()->render($items);
+    }
+
+    protected function getTabContent(string $pc_id): string
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $xml = $tabs->getNodeXml($pc_id);
+
+        $xml = "<dummy>" . $xml . $this->getPage()->getMultimediaXML() . "</dummy>";
+
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
+        $params = array('mode' => "presentation", 'enlarge_path' => "#",
+                        'fullscreen_link' => "#",
+                        'pg_frame' => "", 'webspace_path' => $wb_path);
+        $output = $this->xsl->process($xml, $params);
+        return $output;
+    }
+
+    protected function saveCaption(): void
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+
+        $form = $this->getCaptionForm();
+        if ($form->isValid()) {
+            $pc_id = $this->request->getString("cap_pc_id");
+            $tabs->saveCaption($pc_id, $form->getData("caption"));
+            $this->updated = $this->pg_obj->update();
+        }
+        $this->ctrl->redirect($this, "edit");
+    }
+
+    protected function addAbove(): void
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $pc_id = $this->request->getString("cap_pc_id");
+        $tabs->addAbove($pc_id, $this->lng->txt("cont_new_tab"));
+        $this->updated = $this->pg_obj->update();
+        $this->ctrl->redirect($this, "edit");
+    }
+
+    protected function addBelow(): void
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $pc_id = $this->request->getString("cap_pc_id");
+        $tabs->addBelow($pc_id, $this->lng->txt("cont_new_tab"));
+        $this->updated = $this->pg_obj->update();
+        $this->ctrl->redirect($this, "edit");
+    }
+
+    protected function moveUp(): void
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $pc_id = $this->request->getString("cap_pc_id");
+        $tabs->moveUp($pc_id);
+        $this->updated = $this->pg_obj->update();
+        $this->ctrl->redirect($this, "edit");
+    }
+
+    protected function moveDown(): void
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $pc_id = $this->request->getString("cap_pc_id");
+        $tabs->moveDown($pc_id);
+        $this->updated = $this->pg_obj->update();
+        $this->ctrl->redirect($this, "edit");
+    }
+
+    protected function moveTop(): void
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $pc_id = $this->request->getString("cap_pc_id");
+        $tabs->moveTop($pc_id);
+        $this->updated = $this->pg_obj->update();
+        $this->ctrl->redirect($this, "edit");
+    }
+
+    protected function moveBottom(): void
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $pc_id = $this->request->getString("cap_pc_id");
+        $tabs->moveBottom($pc_id);
+        $this->updated = $this->pg_obj->update();
+        $this->ctrl->redirect($this, "edit");
+    }
+
+    protected function deletePanel(): void
+    {
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $pc_id = $this->request->getString("cap_pc_id");
+        $tabs->deletePanel($pc_id);
+        $this->updated = $this->pg_obj->update();
+        $this->ctrl->redirect($this, "edit");
+    }
+
 }

@@ -123,7 +123,7 @@ class SkillProfileLevelsDBRepository
         );
     }
 
-    public function deleteAll(int $profile_id): void
+    public function deleteAllForProfile(int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -131,6 +131,23 @@ class SkillProfileLevelsDBRepository
             "DELETE FROM skl_profile_level WHERE " .
             " profile_id = " . $ilDB->quote($profile_id, "integer")
         );
+    }
+
+    public function deleteAllForSkill(int $skill_node_id, bool $is_reference): void
+    {
+        $ilDB = $this->db;
+
+        if (!$is_reference) {
+            $ilDB->manipulate(
+                "DELETE FROM skl_profile_level WHERE " .
+                " base_skill_id = " . $ilDB->quote($skill_node_id, "integer")
+            );
+        } else {
+            $ilDB->manipulate(
+                "DELETE FROM skl_profile_level WHERE " .
+                " tref_id = " . $ilDB->quote($skill_node_id, "integer")
+            );
+        }
     }
 
     public function updateSkillOrder(int $profile_id, array $order): void

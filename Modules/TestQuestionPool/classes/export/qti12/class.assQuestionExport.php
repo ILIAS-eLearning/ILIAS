@@ -258,7 +258,7 @@ class assQuestionExport
         }
         $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
         if ($add_mobs) {
-            $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+            $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->object->getId());
             foreach ($mobs as $mob) {
                 $moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
                 if (str_contains($a_material, "mm_$mob")) {

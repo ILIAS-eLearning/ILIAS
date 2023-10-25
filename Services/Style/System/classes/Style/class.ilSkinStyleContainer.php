@@ -78,7 +78,7 @@ class ilSkinStyleContainer
             throw new ilSystemStyleException(ilSystemStyleException::SKIN_ALREADY_EXISTS, $this->getSkinDirectory());
         }
 
-        mkdir($this->getSkinDirectory(), 0777, true);
+        mkdir($this->getSkinDirectory(), 0775, true);
 
         foreach ($this->getSkin()->getStyles() as $style) {
             $this->file_system->createResourceDirectory(
@@ -132,6 +132,11 @@ class ilSkinStyleContainer
     public function updateStyle(string $style_id, ilSkinStyle $old_style): void
     {
         $style = $this->getSkin()->getStyle($style_id);
+
+        if(!is_dir($this->getSkinDirectory().$style->getId())) {
+            mkdir($this->getSkinDirectory().$style->getId(), 0775, true);
+        }
+
         if ($style->getImageDirectory() != $old_style->getImageDirectory()) {
             if (is_dir($this->getSkinDirectory() .$old_style->getId()."/". $old_style->getImageDirectory())) {
                 $this->file_system->changeResourceDirectory(
@@ -177,15 +182,6 @@ class ilSkinStyleContainer
             }
         }
 
-        if (file_exists($this->getSkinDirectory() .$old_style->getId().'/'.$old_style->getCssFile() . '.scss')) {
-            rename(
-                $this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.scss',
-                $this->getScssFilePath($style->getId())
-            );
-        } else {
-            $this->createMainScssFile($style);
-        }
-
         if (is_dir($this->getScssSettingsPath($old_style->getId()))) {
             $this->file_system->changeResourceDirectory(
                 $this->getSkinDirectory(),
@@ -196,10 +192,14 @@ class ilSkinStyleContainer
             $this->copySettingsFromDefault($style);
         }
 
-        $this->changeImportStatementsInSettings(
-            $this->getScssFilePath($style->getId()),
-            new ilSystemStyleScssSettings($this->getScssSettingsPath($style->getId()))
-        );
+        if (file_exists($this->getSkinDirectory() .$old_style->getId().'/'.$old_style->getCssFile() . '.scss')) {
+            rename(
+                $this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.scss',
+                $this->getScssFilePath($style->getId())
+            );
+        } else {
+            $this->createMainScssFile($style);
+        }
 
         if (file_exists($this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.css')) {
             rename(
@@ -229,8 +229,8 @@ class ilSkinStyleContainer
      */
     protected function createScssStructure(ilSkinStyle $style): void
     {
-        $this->createMainScssFile($style);
         $this->copySettingsFromDefault($style);
+        $this->createMainScssFile($style);
         $this->copyCSSFromDefault($style);
         $this->compileScss($style->getId());
     }
@@ -240,14 +240,51 @@ class ilSkinStyleContainer
      */
     public function createMainScssFile(ilSkinStyle $style): void
     {
+
+        $replacement_start = "// ## Begin Replacement Variables";
+        $replacement_end = "// ## End Replacement Variables";
+
         $path = $this->getScssFilePath($style->getId());
-        file_put_contents($path, $this->getScssMainFileDefautContent($style));
+
+        if(!is_file($path)) {
+            $main_scss_content = $this->getNewMainScssFileContent($replacement_start, $replacement_end);
+        } else {
+            $main_scss_content = file_get_contents($path);
+        }
+
+        $regex_part_to_replace_start = "%$replacement_start.*?$replacement_end%s";
+        $settings = new ilSystemStyleScssSettings($this->getScssSettingsPath($style->getId()));
+        $replacement = $settings->getVariablesForDelosOverride();
+        $new_variabales_content = "$replacement_start $replacement $replacement_end";
+
+        $main_scss_content = preg_replace(
+            $regex_part_to_replace_start,
+            $new_variabales_content,
+            $main_scss_content
+        );
+
+        file_put_contents($path, $main_scss_content);
+
         $this->getMessageStack()->addMessage(
             new ilSystemStyleMessage(
                 $this->lng->txt('main_scss_created') . ' ' . $path,
                 ilSystemStyleMessage::TYPE_SUCCESS
             )
         );
+    }
+
+    protected function getNewMainScssFileContent(string $replacement_start, string $replacement_end): string
+    {
+        return "// # ITCSS structure
+            // Try to apply changes by only changing the variables in the settings
+            @use \"./" . $this->getScssSettingsFolderName() . "\" as globals;
+            
+            // Default Skin is loaded with the custom setting being applied.
+            @use \"" . $this->getSystemStylesConf()->getRelDelosPath() . "\" with ( \n".
+            $replacement_start . "\n" .
+            $replacement_end . "\n" .
+            ");" . "\n" .
+            "// Apply/load other styling changes here.";
     }
 
     /**
@@ -264,7 +301,14 @@ class ilSkinStyleContainer
             $this->getScssSettingsPath($style->getId())
         );
 
-        return new ilSystemStyleScssSettings($this->getSystemStylesConf()->getDefaultSettingsPath());
+        $settings = new ilSystemStyleScssSettings($this->getScssSettingsPath($style->getId()));
+
+        $settings->readAndreplaceContentOfFolder([
+            "@use \"../030-tools/" => "@use \"../../../../../../templates/default/030-tools/",
+            "@use \"../050-layout/" => "@use \"../../../../../../templates/default/050-layout/"
+        ]);
+
+        return $settings;
     }
 
     /**
@@ -285,18 +329,6 @@ class ilSkinStyleContainer
     public function copyCSSFromDefault(ilSkinStyle $style): void
     {
         copy($this->getSystemStylesConf()->getDelosPath() . '.css', $this->getCSSFilePath($style->getId()));
-    }
-
-    /**
-     * Returns the main Scss default content if a new style is created
-     */
-    protected function getScssMainFileDefautContent(ilSkinStyle $style): string
-    {
-        $content = "@import \"" . $this->getSystemStylesConf()->getRelDelosPath() . "\";\n";
-        $content .= "// Import Custom scss Files here\n";
-
-        //$content .= "@import \"" . $this->getScssVariablesName($style->getId()) . "\";\n";
-        return $content;
     }
 
     /**
@@ -384,26 +416,6 @@ class ilSkinStyleContainer
         ilFileUtils::zip($skin_directory, $output_file, true);
 
         return $output_file;
-    }
-
-    protected function changeImportStatementsInSettings(
-        string $main_path,
-        ilSystemStyleScssSettings $settings
-    ): void {
-        $main_scss_content = file_get_contents($main_path);
-        $replacement_start = "// ## Begin Replacement Variables";
-        $replacement_end = "// ## End Replacement Variables";
-        $regex_part_to_replace_start = "%$replacement_start.*?$replacement_end%s";
-        $replacement = $settings->getVariablesForDelosOverride();
-        $new_variabales_content = "$replacement_start $replacement $replacement_end";
-
-        $main_scss_content = preg_replace(
-            $regex_part_to_replace_start,
-            $new_variabales_content,
-            $main_scss_content
-        );
-
-        file_put_contents($main_path, $main_scss_content);
     }
 
     /**

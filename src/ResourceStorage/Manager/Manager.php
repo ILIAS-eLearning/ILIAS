@@ -31,6 +31,8 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\ResourceStorage\Resource\ResourceType;
+use ILIAS\ResourceStorage\Revision\RevisionStatus;
 
 /**
  * Class StorageManager
@@ -55,6 +57,38 @@ class Manager
         $this->preloader = $preloader;
     }
 
+    /**
+     * @param bool|string $mimetype
+     * @return void
+     */
+    protected function checkZIP(bool|string $mimetype): void
+    {
+        if (!in_array($mimetype, ['application/zip', 'application/x-zip-compressed'])) {
+            throw new \LogicException("Cant create container resource since stream is not a ZIP");
+        }
+    }
+
+    /**
+     * @description Publish a resource. A resource can contain a maximum of one revision in DRAFT on top status.
+     * This method can be used to publish this revision. If the latest revision is already published, nothing changes.
+     */
+    public function publish(ResourceIdentification $rid): void
+    {
+        $this->resource_builder->publish($this->resource_builder->get($rid));
+    }
+
+    /**
+     * @description Unpublish a resource. The newest revision of a resource is set to the DRAFT status.
+     * If the latest revision is already in DRAFT, nothing changes.
+     */
+    public function unpublish(ResourceIdentification $rid): void
+    {
+        $this->resource_builder->unpublish($this->resource_builder->get($rid));
+    }
+
+    /**
+     * @description Creates a new resource from an upload, the status in this case is always PUBLISHED.
+     */
     public function upload(
         UploadResult $result,
         ResourceStakeholder $stakeholder,
@@ -80,6 +114,17 @@ class Manager
         throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
     }
 
+    public function containerFromUpload(
+        UploadResult $result,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ): ResourceIdentification {
+        // check if stream is a ZIP
+        $this->checkZIP(mime_content_type($result->getMimeType()));
+
+        return $this->upload($result, $stakeholder, $revision_title);
+    }
+
     public function stream(
         FileStream $stream,
         ResourceStakeholder $stakeholder,
@@ -101,6 +146,17 @@ class Manager
         $this->resource_builder->store($resource);
 
         return $resource->getIdentification();
+    }
+
+    public function containerFromStream(
+        FileStream $stream,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ): ResourceIdentification {
+        // check if stream is a ZIP
+        $this->checkZIP(mime_content_type($stream->getMetadata()['uri']));
+
+        return $this->stream($stream, $stakeholder, $revision_title);
     }
 
     public function find(string $identification): ?ResourceIdentification
@@ -140,11 +196,18 @@ class Manager
 
     // Revision
 
+    /**
+     * @description  Append a new revision from an UploadResult. By passing $draft = true, the revision will be created as a
+     *               DRAFT on top of the current revision. Consumers will always use the latest published revision.
+     *               Appending new Revisions is not possible if the latest revision is already a DRAFT. In this case,
+     *               the DRAFT will be updated.
+     */
     public function appendNewRevision(
         ResourceIdentification $identification,
         UploadResult $result,
         ResourceStakeholder $stakeholder,
-        string $revision_title = null
+        string $revision_title = null,
+        bool $draft = false
     ): Revision {
         if ($result->isOK()) {
             if (!$this->resource_builder->has($identification)) {
@@ -153,9 +216,13 @@ class Manager
                 );
             }
             $resource = $this->resource_builder->get($identification);
+            if ($resource->getType() === ResourceType::CONTAINER) {
+                $this->checkZIP($result->getMimeType());
+            }
+
             $info_resolver = new UploadInfoResolver(
                 $result,
-                $resource->getMaxRevision() + 1,
+                $resource->getMaxRevision(true) + 1,
                 $stakeholder->getOwnerOfNewResources(),
                 $revision_title ?? $result->getName()
             );
@@ -163,17 +230,24 @@ class Manager
             $this->resource_builder->append(
                 $resource,
                 $result,
-                $info_resolver
+                $info_resolver,
+                $draft ? RevisionStatus::DRAFT : RevisionStatus::PUBLISHED
             );
             $resource->addStakeholder($stakeholder);
 
             $this->resource_builder->store($resource);
 
-            return $resource->getCurrentRevision();
+            return $resource->getCurrentRevisionIncludingDraft();
         }
         throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
     }
 
+    /**
+     * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException if the filename is not allowed
+     * @throws \LogicException if the resource is not found
+     * @throws \LogicException if the resource is a container and the stream is not a ZIP
+     * @throws \LogicException if the latest revision is a DRAFT
+     */
     public function replaceWithUpload(
         ResourceIdentification $identification,
         UploadResult $result,
@@ -187,9 +261,15 @@ class Manager
                 );
             }
             $resource = $this->resource_builder->get($identification);
+            if ($resource->getType() === ResourceType::CONTAINER) {
+                $this->checkZIP($result->getMimeType());
+            }
+            if ($resource->getCurrentRevisionIncludingDraft()->getStatus() === RevisionStatus::DRAFT) {
+                throw new \LogicException("Can't replace DRAFT revision, use appendNewRevision instead to update the DRAFT");
+            }
             $info_resolver = new UploadInfoResolver(
                 $result,
-                $resource->getMaxRevision() + 1,
+                $resource->getMaxRevision(true) + 1,
                 $stakeholder->getOwnerOfNewResources(),
                 $revision_title ?? $result->getName()
             );
@@ -202,16 +282,23 @@ class Manager
 
             $this->resource_builder->store($resource);
 
-            return $resource->getCurrentRevision();
+            return $resource->getCurrentRevisionIncludingDraft();
         }
         throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
     }
 
+    /**
+     * @description Append a new revision from a stream. By passing $draft = true, the revision will be created as a
+     *              DRAFT on top of the current revision. Consumers will always use the latest published revision.
+     *              Appending new Revisions is not possible if the latest revision is already a DRAFT. In this case,
+     *              the DRAFT will be updated.
+     */
     public function appendNewRevisionFromStream(
         ResourceIdentification $identification,
         FileStream $stream,
         ResourceStakeholder $stakeholder,
-        string $revision_title = null
+        string $revision_title = null,
+        bool $draft = false
     ): Revision {
         if (!$this->resource_builder->has($identification)) {
             throw new \LogicException(
@@ -220,9 +307,12 @@ class Manager
         }
 
         $resource = $this->resource_builder->get($identification);
+        if ($resource->getType() === ResourceType::CONTAINER) {
+            $this->checkZIP(mime_content_type($stream->getMetadata()['uri']));
+        }
         $info_resolver = new StreamInfoResolver(
             $stream,
-            $resource->getMaxRevision() + 1,
+            $resource->getMaxRevision(true) + 1,
             $stakeholder->getOwnerOfNewResources(),
             $revision_title ?? $stream->getMetadata()['uri']
         );
@@ -231,15 +321,23 @@ class Manager
             $resource,
             $stream,
             $info_resolver,
+            $draft ? RevisionStatus::DRAFT : RevisionStatus::PUBLISHED,
             true
         );
+
         $resource->addStakeholder($stakeholder);
 
         $this->resource_builder->store($resource);
 
-        return $resource->getCurrentRevision();
+        return $resource->getCurrentRevisionIncludingDraft();
     }
 
+    /**
+     * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException if the filename is not allowed
+     * @throws \LogicException if the resource is not found
+     * @throws \LogicException if the resource is a container and the stream is not a ZIP
+     * @throws \LogicException if the latest revision is a DRAFT
+     */
     public function replaceWithStream(
         ResourceIdentification $identification,
         FileStream $stream,
@@ -253,9 +351,15 @@ class Manager
         }
 
         $resource = $this->resource_builder->get($identification);
+        if ($resource->getCurrentRevisionIncludingDraft()->getStatus() === RevisionStatus::DRAFT) {
+            throw new \LogicException("Can't replace DRAFT revision, use appendNewRevisionFromStream instead to update the DRAFT");
+        }
+        if ($resource->getType() === ResourceType::CONTAINER) {
+            $this->checkZIP(mime_content_type($stream->getMetadata()['uri']));
+        }
         $info_resolver = new StreamInfoResolver(
             $stream,
-            $resource->getMaxRevision() + 1,
+            $resource->getMaxRevision(true) + 1,
             $stakeholder->getOwnerOfNewResources(),
             $revision_title ?? $stream->getMetadata()['uri']
         );
@@ -270,12 +374,18 @@ class Manager
 
         $this->resource_builder->store($resource);
 
-        return $resource->getCurrentRevision();
+        return $resource->getCurrentRevisionIncludingDraft();
     }
 
-    public function getCurrentRevision(ResourceIdentification $identification): Revision
-    {
+    public function getCurrentRevision(
+        ResourceIdentification $identification
+    ): Revision {
         return $this->resource_builder->get($identification)->getCurrentRevision();
+    }
+    public function getCurrentRevisionIncludingDraft(
+        ResourceIdentification $identification
+    ): Revision {
+        return $this->resource_builder->get($identification)->getCurrentRevisionIncludingDraft();
     }
 
     public function updateRevision(Revision $revision): bool

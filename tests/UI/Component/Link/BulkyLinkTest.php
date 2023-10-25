@@ -142,7 +142,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<a class="il-link link-bulky" href="http://www.ilias.de">'
-            . '	<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
+            . '	<img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>'
             . '	<span class="bulky-label">label</span>'
             . '</a>';
 
@@ -161,7 +161,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<a class="il-link link-bulky" href="http://www.ilias.de" id="id_1">'
-            . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
+            . '<img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>'
             . ' <span class="bulky-label">label</span>'
             . '</a>';
 
@@ -179,7 +179,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
         $expected = ''
         . '<a class="il-link link-bulky" href="http://www.ilias.de" role="menuitem">'
-        . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
+        . '<img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>'
         . ' <span class="bulky-label">label</span>'
         . '</a>';
 
@@ -197,7 +197,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<a class="il-link link-bulky" href="http://www.ilias.de" role="menuitem">'
-            . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg"  alt=""/>'
+            . '<img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg"  alt=""/>'
             . ' <span class="bulky-label">Example</span>'
             . '</a>';
 
@@ -221,7 +221,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<a lang="en" hreflang="fr" class="il-link link-bulky" href="http://www.ilias.de">'
-            . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
+            . '<img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>'
             . ' <span class="bulky-label">label</span>'
             . '</a>';
 
@@ -241,7 +241,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         $expected_html = <<<EXP
             <div class="c-tooltip__container">
                 <a class="il-link link-bulky" aria-describedby="id_1" href="http://www.ilias.de" id="id_2">
-                    <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="" />
+                    <img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt="" />
                     <span class="bulky-label">label</span>
                 </a>
                 <div id="id_1" role="tooltip" class="c-tooltip c-tooltip--hidden"><p>tooltip: a</p></div>
@@ -260,7 +260,7 @@ EXP;
 
         $expected_html = <<<EXP
             <a class="il-link link-bulky" href="http://www.ilias.de" rel="license noopener">
-                <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>
+                <img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>
                 <span class="bulky-label">label</span>
             </a>
 EXP;
@@ -279,7 +279,7 @@ EXP;
 
         $expected_html = <<<EXP
             <a class="il-link link-bulky" href="http://www.ilias.de" rel="license noopener">
-                <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>
+                <img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>
                 <span class="bulky-label">label</span>
             </a>
 EXP;

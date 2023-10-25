@@ -26,6 +26,7 @@ use ILIAS\Wiki\Export\WikiHtmlExport;
 class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 {
     protected const STR_IDENTIFIER = "wiki";
+    protected \ILIAS\Exercise\InternalDomainService $domain;
 
     protected ilLanguage $lng;
 
@@ -40,6 +41,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 
         $this->lng = ($a_lng)
             ?: $DIC->language();
+        $this->domain = $DIC->exercise()->internal()->domain();
     }
 
     public function isActive(): bool
@@ -144,17 +146,8 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 
         if ($has_submitted &&
             !$a_no_notifications) {
-            $users = ilNotification::getNotificationsForObject(
-                ilNotification::TYPE_EXERCISE_SUBMISSION,
-                $exc->getId()
-            );
-
-            $not = new ilExerciseMailNotification();
-            $not->setType(ilExerciseMailNotification::TYPE_SUBMISSION_UPLOAD);
-            $not->setAssignmentId($ass->getId());
-            $not->setRefId($exc_ref_id);
-            $not->setRecipients($users);
-            $not->send();
+            $notification = $this->domain->notification($exc_ref_id);
+            $notification->sendUploadNotification($ass->getId());
         }
     }
 

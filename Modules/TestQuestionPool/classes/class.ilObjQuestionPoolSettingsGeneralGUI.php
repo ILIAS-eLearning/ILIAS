@@ -242,13 +242,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $online->setChecked($this->poolOBJ->getOnline());
         $form->addItem($online);
 
-        // show taxonomies
-
-        $showTax = new ilCheckboxInputGUI($this->lng->txt('qpl_settings_general_form_property_show_taxonomies'), 'show_taxonomies');
-        $showTax->setInfo($this->lng->txt('qpl_settings_general_form_prop_show_tax_desc'));
-        $showTax->setChecked($this->poolOBJ->getShowTaxonomies());
-        $form->addItem($showTax);
-
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('tst_presentation_settings_section'));
         $form->addItem($section);
@@ -266,6 +259,16 @@ class ilObjQuestionPoolSettingsGeneralGUI
             $skillService->setChecked($this->poolOBJ->isSkillServiceEnabled());
             $form->addItem($skillService);
         }
+
+        // additional features
+        $feat = new ilFormSectionHeaderGUI();
+        $feat->setTitle($this->lng->txt('obj_features'));
+        $form->addItem($feat);
+
+        $showTax = new ilCheckboxInputGUI($this->lng->txt('qpl_settings_general_form_property_show_taxonomies'), 'show_taxonomies');
+        $showTax->setInfo($this->lng->txt('qpl_settings_general_form_prop_show_tax_desc'));
+        $showTax->setChecked($this->poolOBJ->getShowTaxonomies());
+        $form->addItem($showTax);
 
         return $form;
     }

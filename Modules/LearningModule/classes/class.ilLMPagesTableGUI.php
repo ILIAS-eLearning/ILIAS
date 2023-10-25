@@ -100,17 +100,17 @@ class ilLMPagesTableGUI extends ilTable2GUI
             : "";
 
         if (!$active) {
-            $img = "icon_pg_d" . $img_sc . ".svg";
+            $img = "standard/icon_pg_d" . $img_sc . ".svg";
             $alt = $lng->txt("cont_page_deactivated");
         } else {
             if (ilLMPage::_lookupContainsDeactivatedElements(
                 $a_set["obj_id"],
                 $this->lm->getType()
             )) {
-                $img = "icon_pg_del" . $img_sc . ".svg";
+                $img = "standard/icon_pg_del" . $img_sc . ".svg";
                 $alt = $lng->txt("cont_page_deactivated_elements");
             } else {
-                $img = "icon_pg" . $img_sc . ".svg";
+                $img = "standard/icon_pg" . $img_sc . ".svg";
                 $alt = $this->lng->txt("pg");
             }
         }

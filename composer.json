@@ -51,13 +51,12 @@
 		"ezyang/htmlpurifier": "^4.16",
 		"phpmailer/phpmailer": "^6.8",
 		"geshi/geshi": "^1.0.9.1",
-		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^5.3",
-		"guzzlehttp/psr7": "1.9.1",
+		"guzzlehttp/psr7": "^2.5",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
-		"ralouphie/getallheaders": "^2.0",
+		"ralouphie/getallheaders": "^3.0",
 		"league/flysystem": "^3.0",
 		"james-heinrich/getid3": "^1.9",
 		"phpoffice/phpspreadsheet": "^1.18.0",
@@ -71,7 +70,9 @@
 		"simplesamlphp/simplesamlphp": "^1.19.8",
 		"seld/jsonlint": "^1.8",
 		"jasig/phpcas": "^1.4",
-		"league/commonmark": "^2.3"
+		"league/commonmark": "^2.3",
+		"ifsnop/mysqldump-php": "2.10",
+		"mustache/mustache": "^2.14"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -520,10 +521,17 @@
 			"approved-by": "JF",
 			"approved-date": "2023-03-20"
 		},
+		"ifsnop/mysqldump-php": {
+			"source": "https://github.com/ifsnop/mysqldump-php",
+			"used_version": "2.10",
+			"added_by": "Daniel Weise <dweise@conceptsandtraining.de>",
+			"wrapped_by": null,
+			"last_update": "2023-02-06",
+			"last_update_by": "",
+			"approved-by": "",
+			"approved-date": ""
+		},
 		"patches": {
-			"tecnickcom/tcpdf": {
-				"ILIAS TCPDF Patches": "./libs/composer/patches/tcpdf.patch"
-			},
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
 			},

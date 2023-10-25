@@ -46,14 +46,19 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
     public function getMainBarModification(
         CalledContexts $screen_context_stack
     ): ?MainBarModification {
+        global $DIC;
+
         if (!$this->showHelpTool()) {
             return null;
         }
+
+        $ttm = $DIC->help()->internal()->domain()->tooltips();
+
         $this->globalScreen()->collector()->mainmenu()->collectOnce();
         foreach ($this->globalScreen()->collector()->mainmenu()->getRawItems() as $item) {
             $p = $item->getProviderIdentification();
 
-            $tt_text = ilHelp::getMainMenuTooltip($p->getInternalIdentifier());
+            $tt_text = $ttm->getMainMenuTooltip($p->getInternalIdentifier());
             $tt_text = addslashes(str_replace(array("\n", "\r"), '', $tt_text));
 
             if ($tt_text !== "" && $item instanceof hasSymbol && $item->hasSymbol()) {

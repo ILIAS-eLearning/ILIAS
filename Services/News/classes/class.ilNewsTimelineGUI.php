@@ -24,7 +24,7 @@ use ILIAS\HTTP\Response\Sender\ResponseSendingException;
  * Timeline for news
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilNewsTimelineGUI: ilLikeGUI, ilNoteGUI
+ * @ilCtrl_Calls ilNewsTimelineGUI: ilLikeGUI, ilCommentGUI
  */
 class ilNewsTimelineGUI
 {
@@ -32,6 +32,7 @@ class ilNewsTimelineGUI
     protected int $period = 0;
     protected \ILIAS\News\Timeline\TimelineManager $manager;
     protected \ILIAS\DI\UIServices $ui;
+    protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\HTTP\Services $http;
     protected int $news_id;
     protected bool $include_auto_entries;
@@ -63,6 +64,7 @@ class ilNewsTimelineGUI
         $this->include_auto_entries = $a_include_auto_entries;
         $this->access = $DIC->access();
         $this->http = $DIC->http();
+        $this->notes = $DIC->notes();
 
         $this->std_request = $DIC->news()
             ->internal()
@@ -148,25 +150,24 @@ class ilNewsTimelineGUI
                 $ret = $ctrl->forwardCommand($like_gui);
                 break;
 
-            case "ilnotegui":
+            case strtolower(ilCommentGUI::class):
                 $i = new ilNewsItem($this->news_id);
                 $ctrl->saveParameter($this, "news_id");
                 $notes_obj_type = ($i->getContextSubObjType() == "")
                     ? $i->getContextObjType()
                     : $i->getContextSubObjType();
-                $note_gui = new ilNoteGUI(
+                $comment_gui = $this->notes->gui()->getCommentsGUI(
                     $i->getContextObjId(),
                     $i->getContextSubObjId(),
                     $notes_obj_type,
-                    false,
                     $i->getId()
                 );
-                $note_gui->setShowHeader(false);
-                $ret = $ctrl->forwardCommand($note_gui);
+                $comment_gui->setShowHeader(false);
+                $ret = $ctrl->forwardCommand($comment_gui);
                 break;
 
             default:
-                if (in_array($cmd, ["show", "save", "update", "loadMore", "remove", "updateNewsItem"])) {
+                if (in_array($cmd, ["show", "save", "update", "loadMore", "remove", "updateNewsItem", "downloadMob"])) {
                     $this->$cmd();
                 }
         }
@@ -240,7 +241,7 @@ class ilNewsTimelineGUI
             $ttpl->setVariable("EDIT_MODAL", $this->getEditModal($form));
             //$ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
             $this->renderDeleteModal($ttpl);
-            $ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
+            $ttpl->setVariable("LOADER", ilUtil::getImagePath("media/loader.svg"));
             $this->tpl->setContent($ttpl->get());
             $html = $ttpl->get();
         } else {
@@ -473,5 +474,12 @@ class ilNewsTimelineGUI
         $c = $modal->getTriggerButtonComponents("");
         $tpl->setVariable("DELETE_MODAL", $this->gui->ui()->renderer()->render($c["modal"]));
         $tpl->setVariable("SIGNAL_ID", $c["signal"]);
+    }
+
+    protected function downloadMob(): void
+    {
+        $news_id = $this->std_request->getNewsId();
+        $news = new ilNewsItem($news_id);
+        $news->deliverMobFile("Standard", true);
     }
 }

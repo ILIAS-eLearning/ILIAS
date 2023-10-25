@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\COPage;
 
@@ -36,6 +36,7 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
 
+    protected ?\ilLogger $copg_log = null;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
 
@@ -83,6 +84,11 @@ class InternalDomainService
         return new Page\PageManager();
     }
 
+    public function htmlTransformUtil(): Html\TransformUtil
+    {
+        return new Html\TransformUtil();
+    }
+
     public function contentIds(\ilPageObject $page): ID\ContentIdManager
     {
         return new ID\ContentIdManager($page);
@@ -106,5 +112,13 @@ class InternalDomainService
     public function style(): StyleManager
     {
         return new StyleManager();
+    }
+
+    public function log(): \ilLogger
+    {
+        if (is_null($this->copg_log)) {
+            $this->copg_log = $this->logger()->copg();
+        }
+        return $this->copg_log;
     }
 }

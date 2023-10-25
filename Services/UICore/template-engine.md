@@ -66,7 +66,7 @@ $main_tpl->setContent($tpl->get());
 $main_tpl->setTitle($title);
 
 // set title icon
-$main_tpl->setTitleIcon(ilUtil::getImagePath("icon_cat.gif"));
+$main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_cat.gif"));
 
 // set description section
 $main_tpl->setDescription($description);

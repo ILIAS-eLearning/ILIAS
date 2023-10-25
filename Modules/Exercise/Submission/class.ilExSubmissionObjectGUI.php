@@ -117,7 +117,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             if (!$valid_blog) {
                 $button = $gui->button(
                     $lng->txt("exc_create_blog"),
-                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createBlog")
+                    $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createBlog")
                 );
                 $buttons_str .= $button->render();
             }
@@ -127,7 +127,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 || ($valid_blog && $blogs > 1)) {
                 $link = $gui->link(
                     $lng->txt("exc_select_blog" . ($valid_blog ? "_change" : "")),
-                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectBlog")
+                    $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectBlog")
                 )->emphasised();
                 $buttons_str .= " " . $link->render();
             }
@@ -210,7 +210,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             if (!$valid_prtf) {
                 $button = $gui->button(
                     $lng->txt("exc_create_portfolio"),
-                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createPortfolioFromAssignment")
+                    $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createPortfolioFromAssignment")
                 );
 
                 $buttons_str .= $button->render();
@@ -222,7 +222,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 || ($valid_prtf && $prtfs > 1)) {
                 $link = $gui->link(
                     $lng->txt("exc_select_portfolio" . ($valid_prtf ? "_change" : "")),
-                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectPortfolio")
+                    $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectPortfolio")
                 )->emphasised();
 
                 $buttons_str .= " " . $link->render();
@@ -230,7 +230,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             if ($valid_prtf) {
                 $link = $gui->link(
                     $lng->txt("exc_select_portfolio_unlink"),
-                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkPortfolio")
+                    $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkPortfolio")
                 )->emphasised();
                 $buttons_str .= " " . $link->render();
             }
@@ -244,7 +244,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
         if ($a_submission->hasSubmitted()) {
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", $selected_prtf["returned_id"]);
-            $dl_link = $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
+            $dl_link = $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", "");
 
             $button = $gui->button(
@@ -622,7 +622,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $submission = $this->submission->getSelectedObject();
         $port = new ilObjPortfolio((int) $submission["filetitle"], false);
 
-        $conf->addItem("id[]", "", $port->getTitle(), ilUtil::getImagePath("icon_prtf.svg"));
+        $conf->addItem("id[]", "", $port->getTitle(), ilUtil::getImagePath("standard/icon_prtf.svg"));
 
         $tpl->setContent($conf->getHTML());
     }
@@ -704,7 +704,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         } else {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"), true);
         }
-        $this->ctrl->redirectByClass([ilExerciseHandlerGUI::class, ilObjExerciseGUI::class, ilExSubmissionGUI::class, ilExSubmissionObjectGUI::class], "returnToParent");
+        $this->ctrl->redirectByClass([ilExerciseHandlerGUI::class, ilObjExerciseGUI::class, ilAssignmentPresentationGUI::class, ilExSubmissionGUI::class, ilExSubmissionObjectGUI::class], "returnToParent");
     }
 
     /**

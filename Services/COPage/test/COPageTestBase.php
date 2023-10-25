@@ -231,7 +231,7 @@ class COPageTestBase extends TestCase
                              ->disableOriginalConstructor()
                              ->getMock();
         $media_object->method("getMediaItem")
-                     ->willReturnCallback(fn () => $media_item);
+                     ->willReturnCallback(fn() => $media_item);
         return $media_object;
     }
 }

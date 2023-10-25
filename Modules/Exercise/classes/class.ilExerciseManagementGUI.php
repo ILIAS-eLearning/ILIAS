@@ -32,6 +32,7 @@ use ILIAS\Exercise\GUIRequest;
  * @ilCtrl_Calls ilExerciseManagementGUI: ilFileSystemGUI, ilRepositorySearchGUI
  * @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI
  * @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTextGUI, ilExPeerReviewGUI
+ * @ilCtrl_Calls ilExerciseManagementGUI: ilParticipantsPerAssignmentTableGUI
  */
 class ilExerciseManagementGUI
 {
@@ -45,6 +46,8 @@ class ilExerciseManagementGUI
     public const GRADE_NOT_GRADED = "notgraded";
     public const GRADE_PASSED = "passed";
     public const GRADE_FAILED = "failed";
+    protected \ILIAS\Exercise\InternalDomainService $domain;
+    protected \ILIAS\Exercise\Notification\NotificationManager $notification;
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected \ILIAS\HTTP\Services $http;
 
@@ -95,27 +98,26 @@ class ilExerciseManagementGUI
      */
     public function __construct(InternalService $service, ilExAssignment $a_ass = null)
     {
-        /** @var \ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
-        $this->user = $DIC->user();
-        $this->toolbar = $DIC->toolbar();
-        $this->log = ilLoggerFactory::getLogger("exc");
-        $this->access = $DIC->access();
-
-        $this->ctrl = $DIC->ctrl();
-        $this->tabs_gui = $DIC->tabs();
-        $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
-
-        $this->task_factory = $DIC->backgroundTasks()->taskFactory();
-
-        $this->request = $DIC->exercise()->internal()->gui()->request();
-        $request = $this->request;
-
         $this->service = $service;
+        $this->gui = $gui = $service->gui();
+        $this->domain = $domain = $service->domain();
+
+        $this->user = $domain->user();
+        $this->log = $domain->logger()->exc();
+        $this->access = $domain->access();
+        $this->lng = $domain->lng();
+
+        $this->toolbar = $gui->toolbar();
+        $this->ui_factory = $gui->ui()->factory();
+        $this->ui_renderer = $gui->ui()->renderer();
+        $this->ctrl = $gui->ctrl();
+        $this->tabs_gui = $gui->tabs();
+        $this->tpl = $gui->ui()->mainTemplate();
+        $this->http = $gui->http();
+
+        $this->task_factory = $domain->backgroundTasks()->taskFactory();
+        $this->request = $gui->request();
+        $request = $this->request;
 
         $this->exercise = $request->getExercise();
         if ($a_ass !== null) {
@@ -142,11 +144,9 @@ class ilExerciseManagementGUI
         $this->requested_filter_status = $request->getFilterStatus();
         $this->requested_filter_feedback = $request->getFilterFeedback();
 
+        $this->notification = $domain->notification($request->getRefId());
+
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
-        $this->http = $DIC->http();
-        $this->gui = $DIC->exercise()
-            ->internal()
-            ->gui();
     }
 
     /**
@@ -199,10 +199,10 @@ class ilExerciseManagementGUI
                         $member_status->update();
                     }
 
-                    $this->exercise->sendFeedbackFileNotification(
-                        $pcommand["name"] ?? "",
+                    $this->notification->sendFeedbackNotification(
+                        $this->assignment->getId(),
                         $noti_rec_ids,
-                        $this->assignment->getId()
+                        $pcommand["name"] ?? ""
                     );
                 }
                 $this->ctrl->forwardCommand($fs_gui);
@@ -248,6 +248,16 @@ class ilExerciseManagementGUI
             case "ilexpeerreviewgui":
                 $gui = new ilExPeerReviewGUI($this->assignment, $this->initSubmission());
                 $ilCtrl->forwardCommand($gui);
+                break;
+
+            case "ilparticipantsperassignmenttablegui":
+                $table = new ilParticipantsPerAssignmentTableGUI(
+                    $this,
+                    "members",
+                    $this->exercise,
+                    $this->assignment->getId()
+                );
+                $this->ctrl->forwardCommand($table);
                 break;
 
             default:
@@ -342,8 +352,8 @@ class ilExerciseManagementGUI
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", $this->requested_member_id);
-        $url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned");
-        $js_url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned", "", "", false);
+        $url = $ilCtrl->getLinkTargetByClass(array("ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned");
+        $js_url = $ilCtrl->getLinkTargetByClass(array("ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned", "", "", false);
         $this->tpl->setOnScreenMessage('info', $lng->txt("exc_wait_for_files") . "<a href='$url'> " . $lng->txt('exc_download_files') . "</a><script>window.location.href ='" . $js_url . "';</script>");
         $this->membersObject();
     }
@@ -360,6 +370,7 @@ class ilExerciseManagementGUI
         $lng = $this->lng;
 
         $this->addSubTabs("assignment");
+        $this->gui->permanentLink()->setGradesPermanentLink();
 
         // assignment selection
         $ass = ilExAssignment::getInstancesByExercise($this->exercise->getId());
@@ -467,7 +478,15 @@ class ilExerciseManagementGUI
         $ilCtrl->setParameter($this, "ass_id", "");
     }
 
-    public function downloadSubmissionsObject(): void
+    public function downloadSelectedObject(): void
+    {
+        if (count($this->selected_participants) > 0) {
+            $this->downloadSubmissionsObject($this->selected_participants);
+        } else {
+            $this->backToCurrentOverview();
+        }
+    }
+    public function downloadSubmissionsObject(?array $selected_participants = null): void
     {
         $participant_id = $this->requested_part_id;
 
@@ -476,13 +495,19 @@ class ilExerciseManagementGUI
             $this->exercise->getRefId(),
             $this->exercise->getId(),
             $this->ass_id,
-            $participant_id
+            $participant_id,
+            $selected_participants
         );
 
         if ($download_task->run()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('exc_down_files_started_bg'), true);
         }
 
+        $this->backToCurrentOverview();
+    }
+
+    public function backToCurrentOverview(): void
+    {
         if ($this->assignment !== null) {
             $this->ctrl->redirect($this, "members");
         } else {
@@ -1468,10 +1493,10 @@ class ilExerciseManagementGUI
 
                 if ($reci_ids !== []) {
                     // send notification
-                    $this->exercise->sendFeedbackFileNotification(
-                        "",
-                        $reci_ids,
+                    $this->notification->sendFeedbackNotification(
                         $ass_id,
+                        $reci_ids,
+                        "",
                         true
                     );
                 }
@@ -1980,6 +2005,9 @@ class ilExerciseManagementGUI
 
                     foreach ($users as $id => $date) {
                         $ass->setIndividualDeadline($id, $date);
+                        if (is_numeric($id)) {
+                            $this->notification->sendDeadlineSetNotification($ass_id, $id);
+                        }
                     }
 
                     $ass->recalculateLateSubmissions();
@@ -2319,5 +2347,72 @@ class ilExerciseManagementGUI
         $data["fb_given"] = $peer_review->countGivenFeedback(true, $a_data["user_id"]);
 
         return $data;
+    }
+
+    public function sendGradingNotificationObject(): void
+    {
+
+        $ass_id = $this->request->getAssId();
+        $selected_users = $this->request->getSelectedParticipants();
+
+        $graded_users = array_filter($selected_users, function ($user_id) {
+            return $this->assignment->getMemberStatus($user_id)->getStatus() !== "notgraded";
+        });
+
+        if (count($graded_users) === 0) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("exc_no_graded_mem_selected"), true);
+            $this->ctrl->redirect($this, $this->getViewBack());
+        }
+
+        $not = new ilExerciseMailNotification();
+        $not->setType(ilExerciseMailNotification::TYPE_GRADING_DONE);
+        $not->setAssignmentId($ass_id);
+        $not->setObjId($this->exercise->getId());
+        $not->setRefId($this->exercise->getRefId());
+        $not->setRecipients($graded_users);
+        $not->send();
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("exc_graded_mem_notified"), true);
+        $this->ctrl->redirect($this, $this->getViewBack());
+    }
+
+    protected function setFailedObject(): void
+    {
+        $members = $this->getMultiActionUserIds();
+        $done = false;
+        if ($this->assignment !== null) {
+            foreach (array_keys($members) as $mem) {
+                $done = true;
+                $this->setSingleStatus($this->assignment->getId(), $mem, "failed");
+            }
+            if ($done) {
+                $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+            }
+        }
+        $this->ctrl->redirect($this, "members");
+    }
+
+    protected function setPassedObject(): void
+    {
+        $members = $this->getMultiActionUserIds();
+        $done = false;
+        if ($this->assignment !== null) {
+            foreach (array_keys($members) as $mem) {
+                $done = true;
+                $this->setSingleStatus($this->assignment->getId(), $mem, "passed");
+            }
+            if ($done) {
+                $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+            }
+        }
+        $this->ctrl->redirect($this, "members");
+    }
+
+    protected function setSingleStatus($ass_id, $part_id, $status): void
+    {
+        $ass = new ilExAssignment($ass_id);
+        $submission = new ilExSubmission($ass, $part_id);
+        $member_status = $ass->getMemberStatus($part_id);
+        $member_status->setStatus($status);
+        $member_status->update();
     }
 }

@@ -112,6 +112,18 @@ describe('URLBuilder Test', () => {
     url = url.writeParameter(token, 'bar');
     expect(url).to.be.instanceOf(URLBuilder);
     expect(url.getUrl().toString()).to.eql('https://www.ilias.de/ilias.php?a=1&testing_name=bar#123');
+
+    const u1 = new URLBuilder(new URL('https://www.ilias.de/ilias.php?a=1#123'));
+    const result1 = u1.acquireParameter(['testing'], 'arr');
+    url = result1.shift();
+    const token1 = result1.shift();
+    url = url.writeParameter(token1, ['foo', 'bar']);
+    expect(url.getUrl().toString()).to.eql(
+      'https://www.ilias.de/ilias.php?a=1'
+       + `&${encodeURIComponent('testing_arr')}%5B%5D=foo`
+       + `&${encodeURIComponent('testing_arr')}%5B%5D=bar`
+       + '#123',
+    );
   });
 
   it('deleteParameter()', () => {

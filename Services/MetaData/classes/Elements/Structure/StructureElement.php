@@ -76,7 +76,7 @@ class StructureElement extends BaseElement implements StructureElementInterface
     {
         foreach ($this->getSubElements() as $sub_element) {
             $sub_name = $sub_element->getDefinition()->name();
-            if ($sub_name === $name) {
+            if (strtolower($sub_name) === strtolower($name)) {
                 $this->checkSubElement($sub_element);
                 return $sub_element;
             }

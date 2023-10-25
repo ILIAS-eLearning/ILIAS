@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -61,7 +61,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
             ->withNameFrom($this->name_source);
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->buildFactory();
         $radio = $f->radio("label", "byline");
@@ -69,7 +69,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Radio::class, $radio);
     }
 
-    public function test_render(): void
+    public function testRender(): void
     {
         $r = $this->getDefaultRenderer();
         $radio = $this->buildRadio();
@@ -101,7 +101,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($radio));
     }
 
-    public function test_render_value(): void
+    public function testRenderValue(): void
     {
         $r = $this->getDefaultRenderer();
         $radio = $this->buildRadio();
@@ -139,7 +139,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($radio));
     }
 
-    public function test_render_disabled(): void
+    public function testRenderDisabled(): void
     {
         $r = $this->getDefaultRenderer();
         $radio = $this->buildRadio()->withDisabled(true);

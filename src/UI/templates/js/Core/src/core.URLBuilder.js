@@ -118,7 +118,15 @@ export default class URLBuilder {
       url += '?';
       parameters.forEach(
         (value, key) => {
-          url += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+          if (Array.isArray(value)) {
+            value.forEach(
+              (v) => {
+                url += `${encodeURIComponent(`${key}`)}%5B%5D=${encodeURIComponent(v)}&`;
+              },
+            );
+          } else {
+            url += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+          }
         },
       );
       url = url.slice(0, url.length - 1);

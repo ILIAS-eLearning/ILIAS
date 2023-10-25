@@ -29,6 +29,6 @@ class DataFactory implements DataFactoryInterface
 
     public function null(): DataInterface
     {
-        return new Data(Type::NULL, '');
+        return new NullData();
     }
 }

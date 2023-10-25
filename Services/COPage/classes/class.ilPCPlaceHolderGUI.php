@@ -187,12 +187,8 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
     /**
      * Property Form
      */
-    protected function propertyGUI(
-        string $a_action,
-        string $a_type,
-        string $a_height,
-        string $a_mode
-    ): void {
+    public function initCreationForm(): ilPropertyFormGUI
+    {
         $lng = $this->lng;
 
         $this->form_gui = new ilPropertyFormGUI();
@@ -201,12 +197,14 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 
         $ttype_input = new ilRadioGroupInputGUI($lng->txt("type"), "plach_type");
         $type_captions = $this->getTypeCaptions();
-        foreach ($this->getAvailableTypes($a_type) as $type) {
+        foreach ($this->getAvailableTypes("") as $type) {
             $ttype_input->addOption(new ilRadioOption($type_captions[$type], $type));
         }
+        $ttype_input->setValue("Text");
         $ttype_input->setRequired(true);
         $this->form_gui->addItem($ttype_input);
 
+        /*
         $theight_input = new ilTextInputGUI($lng->txt("height"), "plach_height");
         $theight_input->setSize(4);
         $theight_input->setMaxLength(3);
@@ -214,38 +212,14 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
         $theight_input->setRequired(true);
         $this->form_gui->addItem($theight_input);
 
-        $theight_input->setValue(preg_replace("/px/", "", $a_height));
-        $ttype_input->setValue($a_type);
+        $theight_input->setValue(preg_replace("/px/", "", $a_height));*/
+        if ($this->content_obj) {
+            $ttype_input->setValue($this->content_obj->getContentClass());
+        }
 
-        $this->form_gui->addCommandButton($a_action, $lng->txt($a_mode));
+        $this->form_gui->addCommandButton("insert", $lng->txt("insert"));
         $this->form_gui->addCommandButton("cancelCreate", $lng->txt("cancel"));
-        $this->tpl->setContent($this->form_gui->getHTML());
-    }
-
-    /**
-     * Text Item Selection
-     */
-    protected function textCOSelectionGUI(): void
-    {
-        $lng = $this->lng;
-
-        $this->form_gui = new ilPropertyFormGUI();
-        $this->form_gui->setFormAction($this->ctrl->getFormAction($this));
-        $this->form_gui->setTitle($lng->txt("cont_ed_select_pctext"));
-
-        // Select Question Type
-        $ttype_input = new ilRadioGroupInputGUI($lng->txt("cont_ed_textitem"), "pctext_type");
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_par"), 0));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_dtable"), 1));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_atable"), 2));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_list"), 3));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_flist"), 4));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_tabs"), 5));
-        $this->form_gui->addItem($ttype_input);
-
-        $this->form_gui->addCommandButton("insertPCText", $lng->txt("insert"));
-        $this->form_gui->addCommandButton("cancelCreate", $lng->txt("cancel"));
-        $this->tpl->setContent($this->form_gui->getHTML());
+        return $this->form_gui;
     }
 
     /**
@@ -323,20 +297,10 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
         string $a_selected_type = ""
     ): array {
         // custom config?
-        if (method_exists($this->getPageConfig(), "getAvailablePlaceholderTypes")) {
-            $types = $this->getPageConfig()->getAvailablePlaceholderTypes();
+        if (method_exists($this->getPage()->getPageConfig(), "getAvailablePlaceholderTypes")) {
+            $types = $this->getPage()->getPageConfig()->getAvailablePlaceholderTypes();
         } else {
             $types = array(self::TYPE_TEXT, self::TYPE_MEDIA, self::TYPE_QUESTION);
-        }
-
-        $validator = new ilCertificateActiveValidator();
-        if (true === $validator->validate()) {
-            // we remove type verification if certificates are deactivated and this
-            // is not the currently selected value
-            if (($key = array_search(self::TYPE_VERIFICATION, $types)) !== false &&
-                self::TYPE_VERIFICATION != $a_selected_type) {
-                unset($types[$key]);
-            }
         }
         return $types;
     }

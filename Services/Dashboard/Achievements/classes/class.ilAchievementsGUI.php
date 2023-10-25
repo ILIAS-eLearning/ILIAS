@@ -53,14 +53,14 @@ class ilAchievementsGUI
         switch ($next_class) {
             case "illearningprogressgui":
                 $main_tpl->setTitle($lng->txt("learning_progress"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_trac.svg"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_trac.svg"));
                 $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
                 $ctrl->forwardCommand($new_gui);
                 break;
 
             case 'illearninghistorygui':
                 $main_tpl->setTitle($lng->txt("lhist_learning_history"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_lhist.svg"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lhist.svg"));
                 $lhistgui = new ilLearningHistoryGUI();
                 $ctrl->forwardCommand($lhistgui);
                 $this->main_tpl->printToStdout();
@@ -68,7 +68,7 @@ class ilAchievementsGUI
 
             case 'ilpersonalskillsgui':
                 $main_tpl->setTitle($lng->txt("skills"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_skmg.svg"));
                 $skgui = new ilPersonalSkillsGUI();
                 $ctrl->forwardCommand($skgui);
                 $this->main_tpl->printToStdout();
@@ -76,7 +76,7 @@ class ilAchievementsGUI
 
             case 'ilbadgeprofilegui':
                 $main_tpl->setTitle($lng->txt("obj_bdga"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_bdga.svg"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_bdga.svg"));
                 $bgui = new ilBadgeProfileGUI();
                 $ctrl->forwardCommand($bgui);
                 $this->main_tpl->printToStdout();
@@ -84,7 +84,7 @@ class ilAchievementsGUI
 
             case 'ilusercertificategui':
                 $main_tpl->setTitle($lng->txt("obj_cert"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_cert.svg"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_cert.svg"));
                 $cgui = new ilUserCertificateGUI();
                 $ctrl->forwardCommand($cgui);
                 $this->main_tpl->printToStdout();

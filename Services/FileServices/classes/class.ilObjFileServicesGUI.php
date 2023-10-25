@@ -33,6 +33,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
     protected const TAB_PERMISSIONS = 'perm_settings';
     protected const TAB_SETTINGS = 'settings';
     protected const TAB_OVERVIEW = 'resource_overview';
+    protected const TAB_UPLOAD_LIMITS = 'upload_limits';
 
     protected ilTabsGUI $tabs;
     public ilLanguage $lng;
@@ -115,6 +116,11 @@ class ilObjFileServicesGUI extends ilObject2GUI
                 $overview = new ilResourceOverviewGUI();
                 $this->ctrl->forwardCommand($overview);
                 break;
+            case strtolower(ilUploadLimitsOverviewGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_UPLOAD_LIMITS);
+                $limits_gui = new ilUploadLimitsOverviewGUI();
+                $this->ctrl->forwardCommand($limits_gui);
+                break;
             default:
                 if (!$cmd || $cmd === 'view') {
                     $cmd = self::CMD_EDIT_SETTINGS;
@@ -151,6 +157,18 @@ class ilObjFileServicesGUI extends ilObject2GUI
                 self::TAB_OVERVIEW,
                 $this->lng->txt(self::TAB_OVERVIEW),
                 $this->ctrl->getLinkTargetByClass(ilResourceOverviewGUI::class),
+            );
+        }
+        // Upload-Limit
+        if ($this->rbac_system->checkAccess(
+            "visible,read",
+            $this->object->getRefId()
+        )
+        ) {
+            $this->tabs_gui->addTab(
+                self::TAB_UPLOAD_LIMITS,
+                $this->lng->txt(self::TAB_UPLOAD_LIMITS),
+                $this->ctrl->getLinkTargetByClass(ilUploadLimitsOverviewGUI::class),
             );
         }
         // Permissions-tab

@@ -22,17 +22,32 @@ namespace ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\MetaData\Elements\ElementInterface;
-use ILIAS\MetaData\Repository\Validation\Data\LangValidator;
+use ILIAS\MetaData\DataHelper\DataHelperInterface;
+use ILIAS\UI\Component\Input\Field\Factory as UIFactory;
+use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
+use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
 
 class LangFactory extends BaseFactory
 {
+    protected DataHelperInterface $data_helper;
+
+    public function __construct(
+        UIFactory $ui_factory,
+        PresenterInterface $presenter,
+        ConstraintDictionary $constraint_dictionary,
+        DataHelperInterface $data_helper
+    ) {
+        parent::__construct($ui_factory, $presenter, $constraint_dictionary);
+        $this->data_helper = $data_helper;
+    }
+
     protected function rawInput(
         ElementInterface $element,
         ElementInterface $context_element,
         string $condition_value = ''
     ): FormInput {
         $langs = [];
-        foreach (LangValidator::LANGUAGES as $key) {
+        foreach ($this->data_helper->getAllLanguages() as $key) {
             $langs[$key] = $this->presenter->data()->language($key);
         }
         return $this->ui_factory->select('placeholder', $langs);

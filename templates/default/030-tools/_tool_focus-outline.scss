@@ -6,45 +6,58 @@ $il-focus-outline-outer-width: 2px;
 $il-focus-outline-inner: $il-focus-outline-inner-width solid $il-focus-color;
 $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protection-color;
 
-// In order not to manually overwrite the focus in all places, the following bootstrap focus mixin is overwritten ilias/libs/bower/bower_components/bootstrap/scss/mixins/tab-focus.scss.
-
-@mixin tab-focus(){
-    // WebKit-specific. Other browsers will keep their default outline style.
-    // (Initially tried to also force default via `outline: initial`,
-    // but that seems to erroneously remove the outline in Firefox altogether.)
-    outline: none;
-    outline-offset: 0px;
-    &:focus-visible {
-        outline: $il-focus-outline-outer;
-        outline-offset: $il-focus-outline-inner-width + $il-focus-outline-outer-width;
-        
-        @include il-focus-after();
-    }
-  }
-
+// KEYBOARD FOCUS DEFAULT
+// This is the mixin you should be using if possible
 @mixin il-focus(){
+	&:focus {
+		outline: none;
+    	outline-offset: 0px;
+	}
 	&:focus-visible {
 		position: relative;
 		outline: $il-focus-outline-outer;
 		outline-offset: $il-focus-outline-inner-width + $il-focus-outline-outer-width - 1px;
 		
-		@include il-focus-after();
-	}
-
-	&:active,&.engaged{
-		outline: none;
+		&::after {
+			content: " ";
+			position: absolute;
+			top: -$il-focus-outline-outer-width;
+			left: -$il-focus-outline-outer-width;
+			right: -$il-focus-outline-outer-width;
+			bottom: -$il-focus-outline-outer-width;
+			border: $il-focus-outline-outer;
+			outline: $il-focus-outline-inner;
+		}
 	}
 }
 
-@mixin il-focus-after(){
-	&::after {
-		content: " ";
-		position: absolute;
-		top: -$il-focus-outline-outer-width;
-		left: -$il-focus-outline-outer-width;
-		right: -$il-focus-outline-outer-width;
-		bottom: -$il-focus-outline-outer-width;
-		border: $il-focus-outline-outer;
+// KEYBOARD FOCUS FOR BUTTONS, INPUTS AND ELEMENTS WITH :AFTER
+// some elements like buttons and input field cannot display the il-focus mixin because of the :after element
+// in this case use this mixin instead
+@mixin il-focus-outline-only($clearAfter: false) {
+	&:focus-visible {
 		outline: $il-focus-outline-inner;
+		box-shadow: inset 0px 0px 0px 2px $il-focus-protection-color, 0px 0px 0px 6px $il-focus-protection-color;
+		@if $clearAfter {
+			&::after {
+				content: none;
+			}
+		}
+	}
+}
+
+// KEYBOARD FOCUS FOR ELEMENTS AT THE EDGE
+// some elements at the edge do not show the focus outline because it's already offscreen
+// in this case use this mixin instead
+@mixin il-focus-border-only($clearAfter: false) {
+	&:focus-visible {
+		outline: none;
+		border: $il-focus-outline-inner;
+		box-shadow: inset 0px 0px 0px 2px $il-focus-protection-color, 0px 0px 0px 2px $il-focus-protection-color;
+		@if $clearAfter {
+			&::after {
+				content: none;
+			}
+		}
 	}
 }

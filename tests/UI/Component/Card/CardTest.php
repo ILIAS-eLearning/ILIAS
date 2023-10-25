@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -54,12 +54,12 @@ class CardTest extends ILIAS_UI_TestBase
         return $cf->standard("Card Title", $image);
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Card\\Standard", $this->getBaseCard());
     }
 
-    public function test_factory_with_shy_button(): void
+    public function testFactoryWithShyButton(): void
     {
         $button_factory = new I\Component\Button\Factory();
         $button = $button_factory->shy("Card Title New", "");
@@ -70,14 +70,14 @@ class CardTest extends ILIAS_UI_TestBase
         $this->assertEquals($button, $cf->standard($button, $image)->getTitle());
     }
 
-    public function test_get_title(): void
+    public function testGetTitle(): void
     {
         $c = $this->getBaseCard();
 
         $this->assertEquals("Card Title", $c->getTitle());
     }
 
-    public function test_with_title(): void
+    public function testWithTitle(): void
     {
         $c = $this->getBaseCard();
         $c = $c->withTitle("Card Title New");
@@ -85,7 +85,7 @@ class CardTest extends ILIAS_UI_TestBase
         $this->assertEquals("Card Title New", $c->getTitle());
     }
 
-    public function test_with_title_as_shy_button(): void
+    public function testWithTitleAsShyButton(): void
     {
         $c = $this->getBaseCard();
         $button_factory = new I\Component\Button\Factory();
@@ -95,14 +95,14 @@ class CardTest extends ILIAS_UI_TestBase
         $this->assertEquals($button, $c->getTitle());
     }
 
-    public function test_with_string_title_action(): void
+    public function testWithStringTitleAction(): void
     {
         $c = $this->getBaseCard();
         $c = $c->withTitleAction("newAction");
         $this->assertEquals("newAction", $c->getTitleAction());
     }
 
-    public function test_with_signal_title_action(): void
+    public function testWithSignalTitleAction(): void
     {
         $c = $this->getBaseCard();
         $signal = $this->createMock(C\Signal::class);
@@ -110,14 +110,14 @@ class CardTest extends ILIAS_UI_TestBase
         $this->assertEquals([$signal], $c->getTitleAction());
     }
 
-    public function test_with_highlight(): void
+    public function testWithHighlight(): void
     {
         $c = $this->getBaseCard();
         $c = $c->withHighlight(true);
         $this->assertTrue($c->isHighlighted());
     }
 
-    public function test_get_image(): void
+    public function testGetImage(): void
     {
         $card = $this->getBaseCard();
         $image = new I\Component\Image\Image("standard", "src", "alt");
@@ -125,7 +125,7 @@ class CardTest extends ILIAS_UI_TestBase
         $this->assertEquals($card->getImage(), $image);
     }
 
-    public function test_with_image(): void
+    public function testWithImage(): void
     {
         $card = $this->getBaseCard();
         $image_new = new I\Component\Image\Image("standard", "src/new", "alt");
@@ -134,7 +134,7 @@ class CardTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getImage(), $image_new);
     }
 
-    public function test_with_section(): void
+    public function testWithSection(): void
     {
         $f = $this->getFactory();
         $c = $this->getBaseCard();
@@ -144,7 +144,7 @@ class CardTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getSections(), array($content));
     }
 
-    public function test_render_content_full(): void
+    public function testRenderContentFull(): void
     {
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();
@@ -165,7 +165,7 @@ class CardTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 
-    public function test_render_content_with_highlight(): void
+    public function testRenderContentWithHighlight(): void
     {
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();

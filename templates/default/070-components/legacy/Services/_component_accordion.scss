@@ -11,7 +11,7 @@
 	cursor: pointer;
 	color: $il-link-color;
 	font-size: $il-font-size-large;
-	background-image: url("#{$il-background-images-path}tree_col.svg");
+	background-image: url("#{$il-background-images-path}nav/tree_col.svg");
 	background-repeat: no-repeat;
 	background-color: $il-main-dark-bg;
 	background-position: $il-padding-xlarge-horizontal $il-padding-xlarge-vertical;
@@ -37,7 +37,7 @@
 	padding-top: $il-padding-xlarge-vertical;
 }
 .il_HAccordionHeadActive, .il_VAccordionHeadActive {
-	background-image: url("#{$il-background-images-path}tree_exp.svg");
+	background-image: url("#{$il-background-images-path}nav/tree_exp.svg");
 	background-color: $il-highlight-bg;
 }
 

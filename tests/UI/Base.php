@@ -43,6 +43,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\HelpTextRetriever;
 use ILIAS\UI\Help;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -368,6 +369,11 @@ abstract class ILIAS_UI_TestBase extends TestCase
         return new Help\TextRetriever\Echoing();
     }
 
+    public function getUploadLimitResolver(): UploadLimitResolver
+    {
+        return $this->createMock(UploadLimitResolver::class);
+    }
+
     public function getDefaultRenderer(
         JavaScriptBinding $js_binding = null,
         array $with_stub_renderings = []
@@ -397,7 +403,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $refinery,
                         $image_path_resolver,
                         $data_factory,
-                        $help_text_retriever
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver()
                     ),
                     new GlyphRendererFactory(
                         $ui_factory,
@@ -407,7 +414,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $refinery,
                         $image_path_resolver,
                         $data_factory,
-                        $help_text_retriever
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver()
                     ),
                     new IconRendererFactory(
                         $ui_factory,
@@ -417,7 +425,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $refinery,
                         $image_path_resolver,
                         $data_factory,
-                        $help_text_retriever
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver()
                     ),
                     new FieldRendererFactory(
                         $ui_factory,
@@ -427,7 +436,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $refinery,
                         $image_path_resolver,
                         $data_factory,
-                        $help_text_retriever
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver()
                     )
                 )
             )

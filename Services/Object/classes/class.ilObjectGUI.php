@@ -22,8 +22,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Object\ImplementsCreationCallback;
 use ILIAS\Object\CreationCallbackTrait;
+use ILIAS\Object\ilObjectDIC;
+use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
 
 /**
  * Class ilObjectGUI
@@ -68,7 +72,10 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected Factory $refinery;
     protected ilFavouritesManager $favourites;
     protected ilObjectCustomIconFactory $custom_icon_factory;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
     private ilObjectRequestRetriever $retriever;
+    private MultiObjectPropertiesManipulator $multi_object_manipulator;
 
     protected ?ilObject $object = null;
     protected bool $creation_mode = false;
@@ -82,7 +89,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected array $form_action = [];		// special formation (array "cmd" => "formaction")
     protected array $return_location = [];	// special return location (array "cmd" => "location")
     protected array $target_frame = [];	// special target frame (array "cmd" => "location")
-    protected string $tmp_import_dir;	// directory used during import
+    protected string $tmp_import_dir;	// directory used during import$this->ui_factory = $DIC['ui.factory'];
     protected string $sub_objects = "";
     protected bool $omit_locator = false;
     protected string $type = "";
@@ -129,6 +136,8 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
         $this->favourites = new ilFavouritesManager();
         $this->custom_icon_factory = $DIC['object.customicons.factory'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
 
         $this->data = $data;
         $this->id = $id;
@@ -183,6 +192,14 @@ class ilObjectGUI implements ImplementsCreationCallback
         }
 
         $this->notes_service = $DIC->notes();
+    }
+
+    private function getMultiObjectPropertiesManipulator(): MultiObjectPropertiesManipulator
+    {
+        if (!isset($this->multi_object_manipulator)) {
+            $this->multi_object_manipulator = ilObjectDIC::dic()['multi_object_properties_manipulator'];
+        }
+        return $this->multi_object_manipulator;
     }
 
     public function getRefId(): int
@@ -790,7 +807,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected function addAdoptContentLinkToToolbar(): void
     {
         $this->toolbar->addComponent(
-            $this->ui->factory()->link()->standard(
+            $this->ui_factory->link()->standard(
                 $this->lng->txt('cntr_adopt_content'),
                 $this->ctrl->getLinkTargetByClass(
                     'ilObjectCopyGUI',
@@ -798,6 +815,62 @@ class ilObjectGUI implements ImplementsCreationCallback
                 )
             )
         );
+    }
+
+    protected function addAvailabilityPeriodButtonToToolbar(ilToolbarGUI $toolbar): ilToolbarGUI
+    {
+        $toolbar->addSeparator();
+
+        $toolbar->addComponent(
+            $this->getMultiObjectPropertiesManipulator()->getAvailabilityPeriodButton()
+        );
+        return $toolbar;
+    }
+
+    public function editAvailabilityPeriodObject(): void
+    {
+        if (!$this->checkPermissionBool('write')) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'));
+            return;
+        }
+        $item_ref_ids = $this->retriever->getSelectedIdsFromObjectList();
+        $availability_period_modal = $this->getMultiObjectPropertiesManipulator()->getEditAvailabilityPeriodPropertiesModal(
+            $item_ref_ids,
+            $this
+        );
+        if ($availability_period_modal !== null) {
+            $this->tpl->setVariable(
+                'AVAILABILITY_PERIOD_MODAL',
+                $this->ui_renderer->render(
+                    $availability_period_modal->withOnLoad(
+                        $availability_period_modal->getShowSignal()
+                    )
+                )
+            );
+        }
+        $this->renderObject();
+    }
+
+    public function saveAvailabilityPeriodObject(): void
+    {
+        if (!$this->checkPermissionBool('write')) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'));
+            return;
+        }
+        $availability_period_modal = $this->getMultiObjectPropertiesManipulator()->saveEditAvailabilityPeriodPropertiesModal($this, $this->request);
+        if ($availability_period_modal === null) {
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('availability_period_changed'));
+        } else {
+            $this->tpl->setVariable(
+                'AVAILABILITY_PERIOD_MODAL',
+                $this->ui_renderer->render(
+                    $availability_period_modal->withOnLoad(
+                        $availability_period_modal->getShowSignal()
+                    )
+                )
+            );
+        }
+        $this->renderObject();
     }
 
     /**

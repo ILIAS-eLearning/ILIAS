@@ -1,5 +1,6 @@
 @use "../../../010-settings/" as s;
 @use "../../../010-settings/legacy-settings/legacy-settings_form" as s-form;
+@use "../../../030-tools/tool_focus-outline" as f;
 @use "../../../050-layout/basics"as l;
 @use "../../../050-layout/standardpage" as l-spage;
 @use "../../../030-tools/_tool_buttons" as * with (
@@ -19,7 +20,8 @@
   // padding y is only a small buffer for when the button contains multiple lines
   $padding-small-y: l.$il-padding-small-vertical,
   $inner-spacing: l.$il-padding-small-horizontal,
-  $set-full-width: false
+  $set-full-width: false,
+  $button_active-transform: none
 );
 @use "../../../030-tools/_tool_browser-prefixes" as *;
 
@@ -94,7 +96,12 @@ input.btn {
 }
 
 .btn-ctrl {
-  @include make-button($input-field-height: s.$il-btn-ctrl-outer-height, $border-radius: s.$il-border-radius-secondary-large, $button-text-color: s.$il-btn-ctrl-color, $button-color: s.$il-btn-ctrl-bg, $border-color: s.$il-btn-ctrl-border);
+  @include make-button($input-field-height: s.$il-btn-ctrl-outer-height,
+                        $border-radius: s.$il-border-radius-secondary-large,
+                        $button-text-color: s.$il-btn-ctrl-color,
+                        $button-color: s.$il-btn-ctrl-bg,
+                        $border-color: s.$il-btn-ctrl-border,
+                        $hover_border-color: s.$il-btn-ctrl-engaged-border);
   &.engaged,
   .open & {
     border: 1px solid s.$il-btn-ctrl-engaged-border;
@@ -130,12 +137,10 @@ input.btn {
   }
   &,
   &:hover,
-  &:focus,
   &:active {
     border-color: transparent;
   }
-  &:hover,
-  &:focus {
+  &:hover {
     color: s.$il-link-hover-color;
     text-decoration: s.$il-link-hover-decoration;
     background-color: transparent;
@@ -145,8 +150,7 @@ input.btn {
     background-color: s.$il-disabled-btn-bg;
     color: s.$il-disabled-btn-color;
     border: 1px solid s.$il-disabled-btn-border;
-    &:hover,
-    &:focus {
+    &:hover {
       text-decoration: none;
     }
   }
@@ -192,6 +196,7 @@ input.btn {
     $engaged_text-color: inherit,
     $engaged_bg-color: s.$il-bulky-bg-color-engaged,
     $engaged_border-width: 1px);
+  @include f.il-focus-border-only();
 }
 
 // same visual design for bulky buttons and links in slate and drilldown
@@ -246,7 +251,7 @@ button > .glyphicon {
 // button with loading animation
 //
 .il-btn-with-loading-animation {
-	background-image: url("#{s.$il-background-images-path}loader.svg");
+	background-image: url("#{s.$il-background-images-path}media/loader.svg");
   background-color: s.$il-disabled-btn-bg;
   border-color: s.$il-disabled-btn-border;
   &:hover {

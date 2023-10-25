@@ -24,11 +24,11 @@ namespace ILIAS\Container\Skills;
 class ContainerSkillDBRepository
 {
     protected \ilDBInterface $db;
-    protected ContainerSkillInternalFactoryService $factory_service;
+    protected SkillInternalFactoryService $factory_service;
 
     public function __construct(
         \ilDBInterface $db = null,
-        ContainerSkillInternalFactoryService $factory_service = null,
+        SkillInternalFactoryService $factory_service = null,
     ) {
         global $DIC;
 
@@ -59,6 +59,17 @@ class ContainerSkillDBRepository
         );
     }
 
+    public function removeForSkill(int $skill_node_id, bool $is_reference): void
+    {
+        if (!$is_reference) {
+            $this->db->manipulate("DELETE FROM cont_skills " .
+                " WHERE skill_id = " . $this->db->quote($skill_node_id, "integer"));
+        } else {
+            $this->db->manipulate("DELETE FROM cont_skills " .
+                " WHERE tref_id = " . $this->db->quote($skill_node_id, "integer"));
+        }
+    }
+
     /**
      * @return ContainerSkill[]
      */
@@ -78,14 +89,14 @@ class ContainerSkillDBRepository
 
     protected function getContainerSkillFromRecord(array $rec): ContainerSkill
     {
-        $rec["id"] = (int) $rec["id"];
         $rec["skill_id"] = (int) $rec["skill_id"];
         $rec["tref_id"] = (int) $rec["tref_id"];
+        $rec["id"] = (int) $rec["id"];
 
         return $this->factory_service->containerSkill()->skill(
-            $rec["id"],
             $rec["skill_id"],
-            $rec["tref_id"]
+            $rec["tref_id"],
+            $rec["id"]
         );
     }
 }

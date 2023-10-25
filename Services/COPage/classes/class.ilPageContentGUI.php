@@ -28,6 +28,8 @@ use ILIAS\Style;
  */
 class ilPageContentGUI
 {
+    protected \ILIAS\COPage\Editor\GUIService $editor_gui;
+    protected \ILIAS\COPage\InternalGUIService $gui;
     protected EditSessionRepository $edit_repo;
     protected string $pc_id = "";
     protected array $chars;
@@ -51,6 +53,8 @@ class ilPageContentGUI
     protected int $requested_ref_id = 0;
 
     public static string $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
+
+    protected \ILIAS\GlobalScreen\ScreenContext\ContextServices $tool_context;
 
     // common bb buttons (special ones are iln and wln)
     protected static array $common_bb_buttons = array(
@@ -90,6 +94,7 @@ class ilPageContentGUI
             ->edit();
         $this->sub_command = $this->request->getSubCmd();
         $this->requested_ref_id = $this->request->getRefId();
+        $this->gui = $service->gui();
 
         if ($a_hier_id !== "0") {
             $this->hier_id = $a_hier_id;
@@ -97,6 +102,8 @@ class ilPageContentGUI
             //echo "-".$this->pc_id."-";
             $this->dom = $a_pg_obj->getDomDoc();
         }
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->editor_gui = $DIC->copage()->internal()->gui()->edit();
     }
 
     public function setContentObject(ilPageContent $a_val): void
@@ -376,4 +383,26 @@ class ilPageContentGUI
     {
         return $this->edit_repo->getTextLang($this->requested_ref_id);
     }
+
+    protected function setEditorToolContext(): void
+    {
+        $collection = $this->tool_context->current()->getAdditionalData();
+        if ($collection->exists(ilCOPageEditGSToolProvider::SHOW_EDITOR)) {
+            $collection->replace(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        } else {
+            $collection->add(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        }
+    }
+
+    protected function initEditor(): void
+    {
+        $this->setEditorToolContext();
+        $this->editor_gui->init()->initUI($this->tpl);
+    }
+
+    protected function getEditorScriptTag(string $form_pc_id = "", string $form_cname = ""): string
+    {
+        return $this->editor_gui->init()->getInitHtml("", $form_pc_id, $form_cname);
+    }
+
 }

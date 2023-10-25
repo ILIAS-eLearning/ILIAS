@@ -11,7 +11,7 @@ function base()
     $renderer = $DIC->ui()->renderer();
 
     $message = 'Here you see some standard interruptive items:';
-    $icon = $factory->image()->standard('./templates/default/images/icon_crs.svg', '');
+    $icon = $factory->image()->standard('./templates/default/images/standard/icon_crs.svg', '');
     $modal = $factory->modal()->interruptive('My Title', $message, "#")
                      ->withAffectedItems(array(
                          $factory->modal()->interruptiveItem()->standard(

@@ -21,6 +21,7 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilParticipantsPerAssignmentTableGUI: ilFormPropertyDispatchGUI
  */
 class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
 {
@@ -42,6 +43,15 @@ class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
         $this->ass_type = $this->ass_types->getById(ilExAssignment::lookupType($a_item_id));
 
         $this->setFormAction($ctrl->getFormAction($a_parent_obj, "saveStatusAll"));
+
+        $this->addMultiCommand("setPassed", $this->lng->txt("exc_set_passed"));
+        $this->addMultiCommand("setFailed", $this->lng->txt("exc_set_failed"));
+        $this->addMultiCommand("downloadSelected", $this->lng->txt("exc_download_selected"));
+    }
+
+    protected function isForwardingToFormDispatcher(): bool
+    {
+        return true;
     }
 
     /**
@@ -83,6 +93,7 @@ class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
 
 
         $idl = $this->ass->getIndividualDeadlines();
+        $rdl = $this->ass->getRequestedDeadlines();
         $calc_deadline = $this->ass->getCalculatedDeadlines();
 
         // team upload?  (1 row == 1 team)
@@ -153,10 +164,36 @@ class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
                     }
                 }
             }
+            if ($this->filter["subm_after"]) {
+                foreach ($tmp as $idx => $item) {
+                    $submission = $item["submission_obj"];
+                    if ($this->filter["subm_after"]) {
+                        if (is_null($submission->getLastSubmission())) {
+                            unset($tmp[$idx]);
+                        } else {
+                            if ($submission->getLastSubmission() <
+                                $this->filter["subm_after"]->get(IL_CAL_DATETIME)) {
+                                unset($tmp[$idx]);
+                            }
+                        }
+                    }
+                    if ($this->filter["subm_before"]) {
+                        if (is_null($submission->getLastSubmission())) {
+                            unset($tmp[$idx]);
+                        } else {
+                            if ($submission->getLastSubmission() >
+                                $this->filter["subm_before"]->get(IL_CAL_DATETIME)) {
+                                unset($tmp[$idx]);
+                            }
+                        }
+                    }
+                }
+            }
 
             $data = $tmp;
             unset($tmp);
         } else {
+            $member_of_members = null;
             foreach ($data as $idx => $item) {
                 // filter
                 if ($this->filter["status"] &&
@@ -186,10 +223,37 @@ class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
                         continue;
                     }
                 }
+                if ($this->filter["subm_after"]) {
+                    if (is_null($data[$idx]["submission_obj"]->getLastSubmission())) {
+                        unset($data[$idx]);
+                    } else {
+                        if ($data[$idx]["submission_obj"]->getLastSubmission() <
+                            $this->filter["subm_after"]->get(IL_CAL_DATETIME)) {
+                            unset($data[$idx]);
+                        }
+                    }
+                }
+                if ($this->filter["subm_before"]) {
+                    if (is_null($data[$idx]["submission_obj"]->getLastSubmission())) {
+                        unset($data[$idx]);
+                    } else {
+                        if ($data[$idx]["submission_obj"]->getLastSubmission() >
+                            $this->filter["subm_before"]->get(IL_CAL_DATETIME)) {
+                            unset($data[$idx]);
+                        }
+                    }
+                }
+                if ($this->filter['member_of']) {
+                    if (!ilParticipants::_isParticipant($this->filter['member_of'], $item["usr_id"])) {
+                        unset($data[$idx]);
+                    }
+                }
 
                 if (array_key_exists($item["usr_id"], $idl)) {
                     $data[$idx]["idl"] = $idl[$item["usr_id"]];
                 }
+
+                $data[$idx]["requested_idl"] = array_key_exists($item["usr_id"], $rdl);
 
                 if (isset($calc_deadline["user"][$item["usr_id"]])) {
                     $data[$idx]["calc_deadline"] = $calc_deadline["user"][$item["usr_id"]]["calculated_deadline"];

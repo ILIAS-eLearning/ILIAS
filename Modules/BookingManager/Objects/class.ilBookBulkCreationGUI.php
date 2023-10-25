@@ -74,7 +74,10 @@ class ilBookBulkCreationGUI
                 $ctrl->getLinkTarget($this, "showCreationForm", "", true),
                 false
             );
-        foreach ($components as $c) {
+        foreach ($components as $type => $c) {
+            if ($type === "signal") {
+                continue;
+            }
             $toolbar->addComponent($c);
         }
     }

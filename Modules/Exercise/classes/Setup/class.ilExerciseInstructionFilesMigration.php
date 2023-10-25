@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Exercise\Setup;
+//namespace ILIAS\Exercise\Setup;
 
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\Setup\Environment;
@@ -65,7 +65,6 @@ class ilExerciseInstructionFilesMigration implements Migration
         $exec_id = (int)$d->exc_id;
         $assignment_id = (int)$d->id;
         $resource_owner_id = (int)$d->owner;
-
         $base_path = $this->buildAbsolutPath($exec_id, $assignment_id);
         $collection_id = $this->helper->moveFilesOfPathToCollection(
             $base_path,

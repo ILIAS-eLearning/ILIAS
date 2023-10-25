@@ -25,18 +25,29 @@ use ILIAS\MetaData\Paths\Factory;
 use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Paths\Navigator\NavigatorFactory;
 use ILIAS\MetaData\Paths\Steps\NavigatorBridge;
+use ILIAS\MetaData\Structure\Services\Services as StructureServices;
 
 class Services
 {
     protected FactoryInterface $path_factory;
     protected NavigatorFactoryInterface $navigator_factory;
 
+    protected StructureServices $structure_services;
+
+    public function __construct(
+        StructureServices $structure_services
+    ) {
+        $this->structure_services = $structure_services;
+    }
+
     public function pathFactory(): FactoryInterface
     {
         if (isset($this->path_factory)) {
             return $this->path_factory;
         }
-        return $this->path_factory = new Factory();
+        return $this->path_factory = new Factory(
+            $this->structure_services->structure()
+        );
     }
 
     public function navigatorFactory(): NavigatorFactoryInterface

@@ -44,6 +44,17 @@ class DomainService
         $this->repo_service = $repo_service;
     }
 
+
+    public function assignments(int $ref_id, int $user_id): AssignmentManager
+    {
+        return new AssignmentManager(
+            $this->repo_service,
+            $this->domain_service,
+            $ref_id,
+            $user_id
+        );
+    }
+
     /**
      * Get random assignment manager.
      * The manager is used if the "Pass Mode" is set to "Random Selection" in the exercise settings.
@@ -73,5 +84,10 @@ class DomainService
                 new Mandatory\MandatoryAssignmentsManager($exercise, $this->randomAssignments($exercise));
         }
         return self::$managers[Mandatory\MandatoryAssignmentsManager::class][$exercise->getId()];
+    }
+
+    public function state(int $ass_id, int $user_id): \ilExcAssMemberState
+    {
+        return \ilExcAssMemberState::getInstanceByIds($ass_id, $user_id);
     }
 }

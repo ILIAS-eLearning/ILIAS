@@ -85,6 +85,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public const CMD_SHOW_TRASH = 'trash';
     public const CMD_UNDELETE = 'undelete';
     public const CMD_REDRAW_HEADER = 'redrawHeaderAction';
+    public const CMD_ENABLE_ADMINISTRATION_PANEL = "enableAdministrationPanel";
 
     public const TAB_VIEW_CONTENT = "view";
     public const TAB_MANAGE = "manage";
@@ -426,6 +427,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
                     case self::CMD_REDRAW_HEADER:
                         $this->redrawHeaderActionObject();
+                        break;
+                        
+                    // This is a temporary implementation (Mantis Ticket 36631)
+                    case self::CMD_ENABLE_ADMINISTRATION_PANEL:
+                        $tpl->setOnScreenMessage("failure", $this->lng->txt('lso_multidownload_not_available'), false);
+                        $this->manageContent();
                         break;
 
                     default:

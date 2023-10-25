@@ -19,10 +19,11 @@ function base()
     $ctrl = $DIC->ctrl();
 
     //Step 1: define the inputs
-    $date = $ui->input()->field()->dateTime("Pick a date/time", "Pick any date you want. It will be shown in format YYYY-MM-DD");
+    $date = $ui->input()->field()->dateTime("Pick a date", "Pick any date you want. It will be shown in format YYYY-MM-DD");
 
+    $date_now = new \DateTimeImmutable('now');
     $formatted = $date
-        ->withMinValue(new \DateTimeImmutable())
+        ->withMinValue($date_now)
         ->withFormat($data->dateFormat()->germanShort())
         ->withLabel('future only')
         ->withByline('Only allows to pick a date in the future. It will be shown in format DD.MM.YYYY');
@@ -58,7 +59,7 @@ function base()
         ->withByline('Tokyo time+date is preset. Output is also Tokyo time.');
 
     $disabled = $date
-        ->withValue($date_now->format($format))
+        ->withValue($date_now->format($timezoned->getFormat()->toString()))
         ->withDisabled(true)
         ->withLabel('disabled')
         ->withByline('You cannot pick anything, as the field is disabled');

@@ -315,7 +315,7 @@ class ilExAssignmentGUI
 
 
                     $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $output_filename));
-                    $image_lens = ilUtil::getImagePath("enlarge.svg");
+                    $image_lens = ilUtil::getImagePath("media/enlarge.svg");
 
                     $modal = ilModalGUI::getInstance();
                     $modal->setId($item_id);
@@ -511,7 +511,7 @@ class ilExAssignmentGUI
         }
 
         $ilCtrl->setParameterByClass("ilexsubmissiongui", "ass_id", $this->current_ass_id);
-        $url = $ilCtrl->getLinkTargetByClass("ilexsubmissiongui", $a_cmd);
+        $url = $ilCtrl->getLinkTargetByClass([ilAssignmentPresentationGUI::class, "ilexsubmissiongui"], $a_cmd);
         $ilCtrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
 
         if (is_array($a_params)) {
@@ -551,4 +551,8 @@ class ilExAssignmentGUI
                 );
         }
     }
+
+    ////
+    //// Listing panels
+    ////
 }

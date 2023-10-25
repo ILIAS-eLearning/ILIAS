@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -295,7 +295,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value->isOk());
     }
 
-    public function test_max_tags_not_ok(): void
+    public function testMaxTagsNotOk(): void
     {
         $f = $this->buildFactory();
 

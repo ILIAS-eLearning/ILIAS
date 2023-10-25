@@ -12,30 +12,29 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
-import EditorAction from "../../../actions/editor-action.js";
-import ACTIONS from "./paragraph-action-types.js";
+import EditorAction from '../../../actions/editor-action.js';
+import ACTIONS from './paragraph-action-types.js';
 
 /**
  * COPage action factory
  *
  */
 export default class ParagraphEditorActionFactory {
-
-  //COMPONENT = "Paragraph";
+  // COMPONENT = "Paragraph";
 
   /**
    * @type {EditorActionFactory}
    */
-  //editorActionFactory;
+  // editorActionFactory;
 
   /**
    *
    * @param {EditorActionFactory} editorActionFactory
    */
   constructor(editorActionFactory) {
-    this.COMPONENT = "Paragraph";
+    this.COMPONENT = 'Paragraph';
     this.editorActionFactory = editorActionFactory;
   }
 
@@ -44,7 +43,7 @@ export default class ParagraphEditorActionFactory {
    */
   selectionFormat(format) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SELECTION_FORMAT, {
-      format: format
+      format,
     });
   }
 
@@ -93,8 +92,35 @@ export default class ParagraphEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
+  listBulletStyle(format) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_BULLET_STYLE, {
+      format,
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
   listNumber() {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_NUMBER);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  listNumberStyle(format) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_NUMBER_STYLE, {
+      format,
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  listItemStyle(format) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_ITEM_STYLE, {
+      format,
+    });
   }
 
   /**
@@ -116,7 +142,7 @@ export default class ParagraphEditorActionFactory {
    */
   linkWikiSelection(url) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_WIKI_SELECTION, {
-      url: url
+      url,
     });
   }
 
@@ -153,9 +179,9 @@ export default class ParagraphEditorActionFactory {
    */
   saveReturn(text, characteristic) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SAVE_RETURN, {
-        text: text,
-        characteristic: characteristic
-      });
+      text,
+      characteristic,
+    });
   }
 
   /**
@@ -163,7 +189,7 @@ export default class ParagraphEditorActionFactory {
    */
   paragraphClass(characteristic) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.PARAGRAPH_CLASS, {
-      characteristic: characteristic
+      characteristic,
     });
   }
 
@@ -172,8 +198,8 @@ export default class ParagraphEditorActionFactory {
    */
   autoSave(text, characteristic) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.AUTO_SAVE, {
-      text: text,
-      characteristic: characteristic
+      text,
+      characteristic,
     });
   }
 
@@ -195,10 +221,10 @@ export default class ParagraphEditorActionFactory {
 
   splitParagraph(pcid, text, characteristic, contents) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SPLIT_PARAGRAPH, {
-      pcid: pcid,
-      text: text,
-      characteristic: characteristic,
-      contents: contents
+      pcid,
+      text,
+      characteristic,
+      contents,
     });
   }
 
@@ -207,20 +233,18 @@ export default class ParagraphEditorActionFactory {
    */
   sectionClass(parText, parCharacteristic, oldSectionCharacteristic, newSectionCharacteristic) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SECTION_CLASS, {
-      parText: parText,
-      parCharacteristic: parCharacteristic,
-      oldSectionCharacteristic: oldSectionCharacteristic,
-      newSectionCharacteristic: newSectionCharacteristic
+      parText,
+      parCharacteristic,
+      oldSectionCharacteristic,
+      newSectionCharacteristic,
     });
   }
 
   mergePrevious(pcid, newPreviousContent, previousPcid) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.MERGE_PREVIOUS, {
-      pcid: pcid,
-      previousPcid: previousPcid,
-      newPreviousContent: newPreviousContent
+      pcid,
+      previousPcid,
+      newPreviousContent,
     });
   }
-
-
 }

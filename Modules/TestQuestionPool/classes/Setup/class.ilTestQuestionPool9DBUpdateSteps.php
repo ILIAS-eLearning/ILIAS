@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 class ilTestQuestionPool9DBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
@@ -32,10 +33,18 @@ class ilTestQuestionPool9DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('qpl_questionpool', 'nav_taxonomy');
         }
     }
-     public function step_2(): void
-     {
-         if ($this->db->tableColumnExists('qpl_questions', 'working_time')) {
-             $this->db->dropTableColumn('qpl_questions', 'working_time');
-         }
-     }
+
+    public function step_2(): void
+    {
+        if ($this->db->tableColumnExists('qpl_questions', 'working_time')) {
+            $this->db->dropTableColumn('qpl_questions', 'working_time');
+        }
+    }
+
+    public function step_3(): void
+    {
+        if ($this->db->tableExists('qpl_sol_sug')) {
+            $this->db->manipulateF("DELETE FROM qpl_sol_sug WHERE type = %s", ['text'], ['text']);
+        }
+    }
 }

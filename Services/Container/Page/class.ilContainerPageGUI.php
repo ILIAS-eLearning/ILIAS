@@ -29,6 +29,7 @@ declare(strict_types=1);
  */
 class ilContainerPageGUI extends ilPageObjectGUI
 {
+    protected ?\ILIAS\Container\Content\ItemPresentationManager $item_presentation_mnager;
     protected ilObjectDefinition $obj_definition;
     protected int $requested_ref_id = 0;
 
@@ -86,5 +87,27 @@ class ilContainerPageGUI extends ilPageObjectGUI
             );
         }
         return $items;
+    }
+
+    public function setItemPresentationManager(
+        \ILIAS\Container\Content\ItemPresentationManager $manager
+    ): void {
+        $this->item_presentation_mnager = $manager;
+    }
+
+    public function getItemPresentationManager(): ?\ILIAS\Container\Content\ItemPresentationManager
+    {
+        return $this->item_presentation_mnager;
+    }
+
+    public function edit(): string
+    {
+        $this->getPageObject()->addMissingContainerBlocks($this->item_presentation_mnager);
+        return parent::edit();
+    }
+
+    public function afterDeleteContents(): void
+    {
+        $this->getPageObject()->addMissingContainerBlocks($this->item_presentation_mnager);
     }
 }

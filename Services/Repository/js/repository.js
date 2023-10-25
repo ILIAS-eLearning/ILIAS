@@ -50,12 +50,18 @@ il.repository.ui = (function(il, $) {
   };
 
   const initForms = function () {
-    document.querySelectorAll("form[data-rep-form-async='modal']:not([data-rep-form-initialised='1'])").forEach(f => {
+    document.querySelectorAll("form[data-rep-modal-form='async']:not([data-rep-form-initialised='1'])").forEach(f => {
       f.addEventListener("submit", (event) => {
         event.preventDefault();
         const modal = f.closest(".modal");
         sendAsync(f, modal);
       });
+      f.querySelectorAll(".il-standard-form-cmd").forEach(b => {
+        b.style.display='none';
+      });
+      f.dataset.repFormInitialised = '1';
+    });
+    document.querySelectorAll("form[data-rep-modal-form='sync']:not([data-rep-form-initialised='1'])").forEach(f => {
       f.querySelectorAll(".il-standard-form-cmd").forEach(b => {
         b.style.display='none';
       });
@@ -67,10 +73,16 @@ il.repository.ui = (function(il, $) {
     initForms();
   };
 
-  const submitModalForm = function(event) {
+  const submitModalForm = function(event, sentAsync) {
+    console.log("one");
     const f = event.target.closest(".modal").querySelector("form");
+    console.log(f);
     const modal = f.closest(".modal");
-    sendAsync(f, modal);
+    if (sentAsync) {
+      sendAsync(f, modal);
+    } else {
+      f.submit();
+    }
   };
 
   return {

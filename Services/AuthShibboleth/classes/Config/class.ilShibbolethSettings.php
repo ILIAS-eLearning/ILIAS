@@ -29,7 +29,7 @@ class ilShibbolethSettings
 {
     private const PREFIX = 'shib_';
     private const DEFAULT_IDP_LIST = "urn:mace:organization1:providerID, Example Organization 1\nurn:mace:organization2:providerID, Example Organization 2, /Shibboleth.sso/WAYF/SWITCHaai";
-    private const DEFAULT_LOGIN_BUTTON = "templates/default/images/shib_login_button.svg";
+    private const DEFAULT_LOGIN_BUTTON = "templates/default/images/auth/shib_login_button.svg";
     private const DEFAULT_ORGANISATION_SELECTION = "external_wayf";
 
     protected ilSetting $settings;

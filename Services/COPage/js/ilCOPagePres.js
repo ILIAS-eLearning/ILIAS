@@ -94,15 +94,16 @@ il.COPagePres =
 	 * Init interactive images
 	 */
 	initInteractiveImages: function () {
+
 		// preload overlay images (necessary?)
 		// add onmouseover event to all map areas
-		$("map.iim > area").mouseover(this.overBaseArea);
-		$("map.iim > area").mouseout(this.outBaseArea);
-		$("map.iim > area").click(this.clickBaseArea);
-		
-		$("a.ilc_marker_Marker").mouseover(this.overMarker);
-		$("a.ilc_marker_Marker").mouseout(this.outMarker);
-		$("a.ilc_marker_Marker").click(this.clickMarker);
+		//$("map.iim > area").mouseover(this.overBaseArea);
+		//$("map.iim > area").mouseout(this.outBaseArea);
+		//$("map.iim > area").click(this.clickBaseArea);
+
+		//$("a.ilc_marker_Marker").mouseover(this.overMarker);
+		//$("a.ilc_marker_Marker").mouseout(this.outMarker);
+		//$("a.ilc_marker_Marker").click(this.clickMarker);
 
 		// add areas
 		document.querySelectorAll("[data-copg-iim-data-type='area']").forEach(el => {
@@ -415,26 +416,81 @@ il.COPagePres =
 	 * Handle area click (triggered by base or overlay image map area)
 	 */
 	handleAreaClick: function (e, tr_id) {
-		var tr = il.COPagePres.iim_trigger[tr_id],
-			el = document.getElementById("iim_popup_" + tr.iim_id + "_" + tr.popup_nr),
+		const areaEl = e.target;
+		console.log(areaEl);
+		console.log(tr_id);
+		console.log(il.COPagePres.iim_trigger);
+
+		var tr = il.COPagePres.iim_trigger[tr_id];
+		var el = document.getElementById("iim_popup_" + tr.iim_id + "_" + tr.popup_nr),
 			base, pos, x, y;
 		
 		if (el == null || this.dragging) {
 			e.preventDefault();
 			return;
 		}
-		
-		// on first time we need to initialize content overlay
+
+		const nr = tr.popup_nr;
+		const popupEl = document.querySelector("[data-copg-cont-type='iim-popup'][data-copg-popup-nr='" + nr + "']");
+
+		const button = e.target;
+		const tooltip = popupEl;
+
+		if (popupEl) {
+			if (popupEl.style.display == "none") {
+				popupEl.style.display = '';
+			} else {
+				popupEl.style.display = 'none';
+			}
+			e.preventDefault();
+			return;
+
+
+			const signalId = popupEl.dataset.signalId;
+			console.log("TRIGGER");
+			$(document).trigger(signalId,
+				{
+					'id' : signalId, 'event' : 'click',
+					'triggerer' : $(areaEl),
+					'options' : JSON.parse('[]')
+				}
+			);
+			if (tr.popup_initialized == null) {
+				tr.popup_initialized = true;
+				/*
+				console.log("TRIGGER");
+				$(document).trigger(signalId,
+					{
+						'id' : signalId, 'event' : 'click',
+						'triggerer' : $(areaEl),
+						'options' : JSON.parse('[]')
+					}
+				);*/
+			}
+		}
+
+				// on first time we need to initialize content overlay
+
 		if (tr.popup_initialized == null) {
 			tr.popup_initialized = true;
-			
-			il.Overlay.add("iim_popup_" + tr.iim_id + "_" + tr.popup_nr,
+			/*
+			if (popupEl) {
+				$(document).trigger(signalId,
+					{
+						'id': signalId, 'event': 'click',
+						'triggerer': $(areaEl),
+						'options': JSON.parse('[]')
+					}
+				);
+			}*/
+			/*il.Overlay.add("iim_popup_" + tr.iim_id + "_" + tr.popup_nr,
 				{"yuicfg":{"visible":false,"fixedcenter":false},
-				"auto_hide":false});
+				"auto_hide":false});*/
 		}
 		
 
 		// show the overlay
+		/*
 		base = $("img#base_img_" + il.COPagePres.iim_trigger[tr_id].iim_id);
 		pos = base.offset();
 		x = pos.left + parseInt(il.COPagePres.iim_trigger[tr_id].popx, 10);
@@ -443,7 +499,7 @@ il.COPagePres =
 		il.Overlay.setHeight("iim_popup_" + tr.iim_id + "_" + tr.popup_nr, il.COPagePres.iim_trigger[tr_id].popheight);
 		il.Overlay.toggle(e, "iim_popup_" + tr.iim_id + "_" + tr.popup_nr, null, false, null, null, "click");
 		il.Overlay.setX("iim_popup_" + tr.iim_id + "_" + tr.popup_nr, x);
-		il.Overlay.setY("iim_popup_" + tr.iim_id + "_" + tr.popup_nr, y);
+		il.Overlay.setY("iim_popup_" + tr.iim_id + "_" + tr.popup_nr, y);*/
 
 		e.preventDefault();
 	},

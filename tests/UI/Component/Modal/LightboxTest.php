@@ -30,14 +30,14 @@ use ILIAS\UI\Implementation as I;
  */
 class LightboxTest extends ModalBase
 {
-    public function test_get_single_page(): void
+    public function testGetSinglePage(): void
     {
         $page = $this->getLightboxPage();
         $lightbox = $this->getModalFactory()->lightbox($page);
         $this->assertEquals([$page], $lightbox->getPages());
     }
 
-    public function test_get_multiple_page(): void
+    public function testGetMultiplePage(): void
     {
         $pages = [$this->getLightboxPage(), $this->getLightboxPage()];
         $lightbox = $this->getModalFactory()->lightbox($pages);
@@ -45,9 +45,9 @@ class LightboxTest extends ModalBase
     }
 
     /**
-     * @dataProvider pageProvider
+     * @dataProvider getPageProvider
      */
-    public function test_simple_page_rendering(string $method, array $args, string $expected_html): void
+    public function testSimplePageRendering(string $method, array $args, string $expected_html): void
     {
         $lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->$method(...$args));
         $expected = $this->normalizeHTML($expected_html);
@@ -55,7 +55,7 @@ class LightboxTest extends ModalBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function pageProvider(): array
+    public function getPageProvider(): array
     {
         $image = new I\Component\Image\Image("responsive", 'src/fake/image.jpg', 'description');
         $card = new I\Component\Card\Card('foo');
@@ -67,7 +67,7 @@ class LightboxTest extends ModalBase
         ];
     }
 
-    public function test_different_page_type_rendering(): void
+    public function testDifferentPageTypeRendering(): void
     {
         $image1 = new I\Component\Image\Image("responsive", 'src/fake/image.jpg', 'description');
 

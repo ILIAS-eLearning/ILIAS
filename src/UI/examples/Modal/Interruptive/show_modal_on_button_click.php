@@ -17,7 +17,7 @@ function show_modal_on_button_click()
     $message = 'Are you sure you want to delete the following items?';
     $ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'modal_nr', 1);
     $form_action = $ctrl->getFormActionByClass('ilsystemstyledocumentationgui');
-    $icon = $factory->image()->standard('./templates/default/images/icon_crs.svg', '');
+    $icon = $factory->image()->standard('./templates/default/images/standard/icon_crs.svg', '');
     $modal = $factory->modal()->interruptive('My Title', $message, $form_action)
         ->withAffectedItems(array(
             $factory->modal()->interruptiveItem()->standard('10', 'Course 1', $icon, 'Some description text'),

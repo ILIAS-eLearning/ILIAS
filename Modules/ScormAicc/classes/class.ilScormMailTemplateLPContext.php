@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Handles scorm mail placeholders
@@ -72,49 +72,49 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
         $placeholders = [];
 
 
-        $placeholders['sahs_title'] = [
+        $placeholders['scorm_title'] = [
             'placeholder' => 'SCORM_TITLE',
             'label' => $lng->txt('obj_sahs')
         ];
 
-        $placeholders['sahs_status'] = [
+        $placeholders['scorm_status'] = [
             'placeholder' => 'SCORM_STATUS',
             'label' => $lng->txt('trac_status')
         ];
 
-        $placeholders['sahs_mark'] = [
+        $placeholders['scorm_mark'] = [
             'placeholder' => 'SCORM_MARK',
             'label' => $lng->txt('trac_mark')
         ];
 
         // #17969
         $lng->loadLanguageModule('content');
-        $placeholders['sahs_score'] = [
+        $placeholders['scorm_score'] = [
             'placeholder' => 'SCORM_SCORE',
             'label' => $lng->txt('cont_score')
         ];
 
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS)) {
-            $placeholders['sahs_time_spent'] = [
+            $placeholders['scorm_time_spent'] = [
                 'placeholder' => 'SCORM_TIME_SPENT',
                 'label' => $lng->txt('trac_spent_seconds')
             ];
         }
 
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
-            $placeholders['sahs_first_access'] = [
+            $placeholders['scorm_first_access'] = [
                 'placeholder' => 'SCORM_FIRST_ACCESS',
                 'label' => $lng->txt('trac_first_access')
             ];
 
-            $placeholders['sahs_last_access'] = [
+            $placeholders['scorm_last_access'] = [
                 'placeholder' => 'SCORM_LAST_ACCESS',
                 'label' => $lng->txt('trac_last_access')
             ];
         }
 
 
-        $placeholders['sahs_link'] = [
+        $placeholders['scorm_link'] = [
             'placeholder' => 'SCORM_LINK',
             'label' => $lng->txt('perma_link')
         ];
@@ -128,8 +128,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ?ilObjUser $recipient = null,
-        bool $html_markup = false
+        ?ilObjUser $recipient = null
     ): string {
         /**
          * @var $ilObjDataCache ilObjectDataCache
@@ -145,13 +144,13 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
         $tracking = new ilObjUserTracking();
 
         switch ($placeholder_id) {
-            case 'sahs_title':
+            case 'scorm_title':
                 return $ilObjDataCache->lookupTitle($obj_id);
 
-            case 'sahs_link':
+            case 'scorm_link':
                 return ilLink::_getLink((int) $context_parameters['ref_id'], 'sahs');
 
-            case 'sahs_status':
+            case 'scorm_status':
                 if ($recipient === null) {
                     return '';
                 }
@@ -161,14 +160,14 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 }
                 return ilLearningProgressBaseGUI::_getStatusText($status, $this->getLanguage());
 
-            case 'sahs_mark':
+            case 'scorm_mark':
                 if ($recipient === null) {
                     return '';
                 }
                 $mark = ilLPMarks::_lookupMark($recipient->getId(), $obj_id);
                 return strlen(trim($mark)) ? $mark : '-';
 
-            case 'sahs_score':
+            case 'scorm_score':
                 if ($recipient === null) {
                     return '';
                 }
@@ -190,7 +189,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 }
                 return implode("\n", $scores);
 
-            case 'sahs_time_spent':
+            case 'scorm_time_spent':
                 if ($recipient === null) {
                     return '';
                 }
@@ -207,7 +206,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 }
                 break;
 
-            case 'sahs_first_access':
+            case 'scorm_first_access':
                 if ($recipient === null) {
                     return '';
                 }
@@ -223,7 +222,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 }
                 break;
 
-            case 'sahs_last_access':
+            case 'scorm_last_access':
                 if ($recipient === null) {
                     return '';
                 }

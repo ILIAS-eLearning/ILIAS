@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -37,14 +37,14 @@ class ChartScaleBarTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ScaleBar", $f->scaleBar(array("1" => false)));
     }
 
-    public function test_get_items(): void
+    public function testGetItems(): void
     {
         $f = $this->getFactory();
 
@@ -60,7 +60,7 @@ class ChartScaleBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getItems(), $items);
     }
 
-    public function test_render(): void
+    public function testRender(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

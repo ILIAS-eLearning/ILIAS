@@ -124,7 +124,7 @@ class ilMainMenuSearchGUI
         );
 
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
-            ilUtil::getImagePath("icon_seas.svg"),
+            ilUtil::getImagePath("standard/icon_seas.svg"),
             $this->lng->txt("search")
         ));
 

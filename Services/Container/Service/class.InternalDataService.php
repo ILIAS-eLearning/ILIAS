@@ -26,16 +26,15 @@ namespace ILIAS\Container;
  */
 class InternalDataService
 {
-    // protected ...\DataFactory ..._factory;
+    protected Content\DataService $content_service;
 
     public function __construct()
     {
-        //$this->..._factory = new ...\DataFactory();
+        $this->content_service = new Content\DataService();
     }
 
-    /*
-    public function ...() : ...\...
+    public function content(): Content\DataService
     {
-        return $this->..._factory->...();
-    }*/
+        return $this->content_service;
+    }
 }

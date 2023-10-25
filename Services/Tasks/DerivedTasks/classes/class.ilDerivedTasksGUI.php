@@ -87,7 +87,7 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
         $main_tpl = $this->main_tpl;
 
         $main_tpl->setTitle($lng->txt("task_derived_tasks"));
-        $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_task.svg"));
+        $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_task.svg"));
         $this->help->setScreenId('derived_tasks');
 
         $f = $ui->factory();

@@ -21,7 +21,7 @@ use ILIAS\ItemGroup\StandardGUIRequest;
 /**
  * User Interface class for item groups
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjItemGroupGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjItemGroupGUI: ilPermissionGUI, ilDidacticTemplateGUI
  * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI
  * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI, ilAdministrationGUI
  */
@@ -96,6 +96,12 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
+            case 'ildidactictemplategui':
+                $this->ctrl->setReturn($this, 'edit');
+                $did = new ilDidacticTemplateGUI($this);
+                $this->ctrl->forwardCommand($did);
+                break;
+
             default:
                 $cmd = $this->ctrl->getCmd("listMaterials");
                 $this->prepareOutput();
@@ -125,6 +131,9 @@ class ilObjItemGroupGUI extends ilObject2GUI
     protected function initEditCustomForm(ilPropertyFormGUI $form): void
     {
         $form->removeItemByPostVar("desc");
+
+        // Show didactic template type
+        $this->initDidacticTemplate($form);
 
         // presentation
         $pres = new ilFormSectionHeaderGUI();
@@ -181,8 +190,42 @@ class ilObjItemGroupGUI extends ilObject2GUI
 
     public function edit(): void
     {
-        parent::edit();
+        if (!$this->checkPermissionBool("write")) {
+            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
+        }
+
+        $this->tabs_gui->activateTab("settings");
+
+        $form = $this->initEditForm();
+        $values = $this->getEditFormValues();
+        if ($values) {
+            $form->setValuesByArray($values, true);
+        }
+
+        $this->addExternalEditFormCustom($form);
+
+        $this->tpl->setContent($form->getHTML());
         $this->setSettingsSubTabs("general");
+    }
+
+    protected function afterUpdate(): void
+    {
+        // check if template is changed
+        $current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
+            $this->object->getRefId()
+        );
+        $new_tpl_id = $this->getDidacticTemplateVar('dtpl');
+
+        if ($new_tpl_id !== $current_tpl_id) {
+            // redirect to didactic template confirmation
+            $this->ctrl->setReturn($this, 'edit');
+            $this->ctrl->setCmdClass('ildidactictemplategui');
+            $this->ctrl->setCmd('confirmTemplateSwitch');
+            $dtpl_gui = new ilDidacticTemplateGUI($this, $new_tpl_id);
+            $this->ctrl->forwardCommand($dtpl_gui);
+            return;
+        }
+        parent::afterUpdate();
     }
 
     public function listMaterials(): void

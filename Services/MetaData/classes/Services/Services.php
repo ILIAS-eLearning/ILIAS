@@ -20,72 +20,75 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Services;
 
+use ILIAS\MetaData\Services\Manipulator\ManipulatorInterface;
+use ILIAS\MetaData\Services\DataHelper\DataHelperInterface;
+use ILIAS\MetaData\Services\DataHelper\DataHelper;
+use ILIAS\MetaData\Paths\PathInterface;
+use ILIAS\MetaData\Services\Paths\PathsInterface;
+use ILIAS\MetaData\Services\Reader\ReaderInterface;
+use ILIAS\MetaData\Services\Reader\Reader;
+use ILIAS\MetaData\Services\Paths\Paths;
+use ILIAS\MetaData\Services\Manipulator\Manipulator;
 use ILIAS\DI\Container as GlobalContainer;
-use ILIAS\MetaData\Paths\Services\Services as PathServices;
-use ILIAS\MetaData\Structure\Services\Services as StructureServices;
-use ILIAS\MetaData\Vocabularies\Services\Services as VocabulariesServices;
-use ILIAS\MetaData\Repository\Services\Services as RepositoryServices;
-use ILIAS\MetaData\Editor\Services\Services as EditorServices;
 
-class Services
+class Services implements ServicesInterface
 {
-    protected GlobalContainer $dic;
-    protected PathServices $path_services;
-    protected StructureServices $structure_services;
-    protected RepositoryServices $repository_services;
-    protected VocabulariesServices $vocabularies_services;
-    protected EditorServices $editor_services;
+    protected InternalServices $internal_services;
+
+    protected PathsInterface $paths;
+    protected DataHelperInterface $data_helper;
 
     public function __construct(GlobalContainer $dic)
     {
-        $this->dic = $dic;
-        $this->path_services = new PathServices();
-        $this->structure_services = new StructureServices();
-        $this->vocabularies_services = new VocabulariesServices(
-            $this->path_services,
-            $this->structure_services
+        $this->internal_services = new InternalServices($dic);
+    }
+
+    public function read(
+        int $obj_id,
+        int $sub_id,
+        string $type,
+        PathInterface $limited_to = null
+    ): ReaderInterface {
+        $repo = $this->internal_services->repository()->repository();
+        if (isset($limited_to)) {
+            $set = $repo->getMDOnPath($limited_to, $obj_id, $sub_id, $type);
+        } else {
+            $set = $repo->getMD($obj_id, $sub_id, $type);
+        }
+        return new Reader(
+            $this->internal_services->paths()->navigatorFactory(),
+            $set
         );
-        $this->repository_services = new RepositoryServices(
-            $this->dic,
-            $this->path_services,
-            $this->structure_services,
-            $this->vocabularies_services
-        );
-        $this->editor_services = new EditorServices(
-            $this->dic,
-            $this->path_services,
-            $this->structure_services,
-            $this->repository_services
+    }
+
+    public function manipulate(int $obj_id, int $sub_id, string $type): ManipulatorInterface
+    {
+        $repo = $this->internal_services->repository()->repository();
+        $set = $repo->getMD($obj_id, $sub_id, $type);
+        return new Manipulator(
+            $this->internal_services->manipulator()->manipulator(),
+            $set
         );
     }
 
-    public function dic(): GlobalContainer
+    public function paths(): PathsInterface
     {
-        return $this->dic;
+        if (isset($this->paths)) {
+            return $this->paths;
+        }
+        return new Paths(
+            $this->internal_services->paths()->pathFactory()
+        );
     }
 
-    public function paths(): PathServices
+    public function dataHelper(): DataHelperInterface
     {
-        return $this->path_services;
-    }
-
-    public function structure(): StructureServices
-    {
-        return $this->structure_services;
-    }
-
-    public function repository(): RepositoryServices
-    {
-        return $this->repository_services;
-    }
-
-    public function vocabularies(): VocabulariesServices
-    {
-        return $this->vocabularies_services;
-    }
-
-    public function editor(): EditorServices
-    {
-        return $this->editor_services;
+        if (isset($this->data_helper)) {
+            return $this->data_helper;
+        }
+        return new DataHelper(
+            $this->internal_services->dataHelper()->dataHelper(),
+            $this->internal_services->presentation()->data()
+        );
     }
 }

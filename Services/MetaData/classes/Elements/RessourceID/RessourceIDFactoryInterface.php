@@ -26,5 +26,5 @@ interface RessourceIDFactoryInterface
         int $obj_id,
         int $sub_id,
         string $type
-    );
+    ): RessourceIDInterface;
 }

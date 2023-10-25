@@ -61,7 +61,7 @@ final class Streams
      *
      * @see fopen()
      */
-    public static function ofResource($resource): \ILIAS\Filesystem\Stream\Stream
+    public static function ofResource($resource, bool $inside_zip = false): \ILIAS\Filesystem\Stream\Stream
     {
         if (!is_resource($resource)) {
             throw new \InvalidArgumentException(
@@ -69,6 +69,9 @@ final class Streams
             );
         }
 
+        if ($inside_zip) {
+            return new ZIPStream($resource);
+        }
         return new Stream($resource);
     }
 

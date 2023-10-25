@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../Base.php");
 
@@ -174,7 +174,7 @@ class FilterTest extends ILIAS_UI_TestBase
         return new Data\Factory();
     }
 
-    public function test_getInputs(): void
+    public function testGetInputs(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -215,7 +215,7 @@ class FilterTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_extractParamData(): void
+    public function testExtractParamData(): void
     {
         $filter = new ConcreteFilter(
             new SignalGenerator(),
@@ -240,7 +240,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(InputData::class, $input_data);
     }
 
-    public function test_withRequest(): void
+    public function testWithRequest(): void
     {
         $request = $this->createMock(ServerRequestInterface::class);
         $input_data = $this->createMock(InputData::class);
@@ -293,7 +293,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertEquals([$input_1, $input_2], $filter2->getInputs());
     }
 
-    public function test_getData(): void
+    public function testGetData(): void
     {
         $df = $this->buildDataFactory();
         $request = $this->createMock(ServerRequestInterface::class);
@@ -341,7 +341,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertEquals([1, 2], $filter->getData());
     }
 
-    public function test_with_activated(): void
+    public function testWithActivated(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -366,7 +366,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertTrue($filter1->isActivated());
     }
 
-    public function test_with_deactivated(): void
+    public function testWithDeactivated(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -391,7 +391,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertFalse($filter1->isActivated());
     }
 
-    public function test_with_expanded(): void
+    public function testWithExpanded(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -416,7 +416,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertTrue($filter1->isExpanded());
     }
 
-    public function test_with_collapsed(): void
+    public function testWithCollapsed(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();

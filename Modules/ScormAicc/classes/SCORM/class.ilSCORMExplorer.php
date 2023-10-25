@@ -92,9 +92,8 @@ class ilSCORMExplorer extends ilExplorer
     }
 
     /**
-                 * recursive creating of outputs
-                 * @return mixed[]
-                 */
+     * recursive creating of outputs
+    */
     protected function createOutputArray(int $a_parent_id, array $options = array()): array
     {
         global $ilErr;

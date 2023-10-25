@@ -710,7 +710,7 @@ abstract class assQuestionGUI
                 $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
                     $this->tree,
                     $this->db,
-                    $this->component_repository,
+                    $this->lng,
                     $this->logger,
                     $this->component_repository,
                     $test,
@@ -745,7 +745,7 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
             $originalexists = !is_null($this->object->getOriginalId()) &&
-                $$this->questioninfo->questionExistsInPool($this->object->getOriginalId());
+                $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
 
             if (($this->request->raw("calling_test") ||
                     ($this->request->isset('calling_consumer')
@@ -1199,7 +1199,7 @@ abstract class assQuestionGUI
             }
         }
 
-        return $this->questioninfo->getQuestionType($this->object->getId());
+        return $this->questioninfo->getQuestionTypeName($this->object->getId());
     }
 
     protected function getTypeOptions(): array
@@ -1236,19 +1236,6 @@ abstract class assQuestionGUI
                 $this->object->getId(),
                 assQuestionSuggestedSolution::TYPE_FILE
             );
-        } elseif (is_string($solution_type) && strcmp($solution_type, "text") == 0
-            && (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_TEXT)
-        ) {
-            $oldsaveSuggestedSolutionOutputMode = $this->getRenderPurpose();
-            $this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
-            $solution = $this->getSuggestedSolutionsRepo()->create(
-                $this->object->getId(),
-                assQuestionSuggestedSolution::TYPE_TEXT
-            )->withValue(
-                $this->getSolutionOutput(0, null, false, false, true, false, true)
-            );
-
-            $this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
         }
 
         $solution_filename = $this->request->raw('filename');
@@ -1256,13 +1243,6 @@ abstract class assQuestionGUI
             is_string($solution_filename) &&
             strlen($solution_filename)) {
             $solution = $solution->withTitle($solution_filename);
-        }
-
-        $solution_text = $this->request->raw('solutiontext');
-        if ($save &&
-            is_string($solution_text) &&
-            strlen($solution_text)) {
-            $solution->withValue($solution_text);
         }
 
         if ($solution) {
@@ -1363,23 +1343,6 @@ abstract class assQuestionGUI
                 $hidden = new ilHiddenInputGUI("solutiontype");
                 $hidden->setValue("file");
                 $form->addItem($hidden);
-            } elseif ($solution->isOfTypeText()) {
-                $solutionContent = $solution->getValue();
-                $solutionContent = $this->object->fixSvgToPng($solutionContent);
-                $solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
-                $question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
-                $question->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($solutionContent));
-                $question->setRequired(true);
-                $question->setRows(10);
-                $question->setCols(80);
-                $question->setUseRte(true);
-                $question->addPlugin("latex");
-                $question->addButton("latex");
-                $question->setRTESupport($this->object->getId(), "qpl", "assessment");
-                $hidden = new ilHiddenInputGUI("solutiontype");
-                $hidden->setValue("text");
-                $form->addItem($hidden);
-                $form->addItem($question);
             }
             if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
                 $form->addCommandButton('cancelSuggestedSolution', $this->lng->txt('cancel'));
@@ -1397,7 +1360,7 @@ abstract class assQuestionGUI
                     }
 
                     $originalexists = !is_null($this->object->getOriginalId()) &&
-                        $this->object->_questionExistsInPool($this->object->getOriginalId());
+                        $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
                     if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                 && (int) $this->request->raw('calling_consumer'))) && $originalexists
                         && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1928,9 +1891,10 @@ abstract class assQuestionGUI
 
     protected function addBackTab(ilTabsGUI $ilTabs): void
     {
+        $this->ctrl->saveParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
         $ilTabs->setBackTarget(
             $this->lng->txt('backtocallingpage'),
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
         );
     }
 
@@ -2020,15 +1984,15 @@ abstract class assQuestionGUI
     {
         switch ($correctness) {
             case self::CORRECTNESS_NOT_OK:
-                $icon_name = 'icon_not_ok.svg';
+                $icon_name = 'standard/icon_not_ok.svg';
                 $label = $this->lng->txt("answer_is_wrong");
                 break;
             case self::CORRECTNESS_MOSTLY_OK:
-                $icon_name = 'icon_ok.svg';
+                $icon_name = 'standard/icon_ok.svg';
                 $label = $this->lng->txt("answer_is_not_correct_but_positive");
                 break;
             case self::CORRECTNESS_OK:
-                $icon_name = 'icon_ok.svg';
+                $icon_name = 'standard/icon_ok.svg';
                 $label = $this->lng->txt("answer_is_right");
                 break;
             default:

@@ -16,7 +16,7 @@ function with_object_icon()
     $icon = $f->symbol()->icon()->standard("crs", 'Course');
 
     $image = $f->image()->responsive(
-        "./templates/default/images/HeaderIcon.svg",
+        "./templates/default/images/logo/HeaderIcon.svg",
         "Thumbnail Example"
     );
 

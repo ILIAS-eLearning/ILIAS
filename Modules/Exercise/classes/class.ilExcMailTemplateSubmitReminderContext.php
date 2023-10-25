@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
@@ -84,16 +84,16 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
 
         $placeholders = array();
 
-        $placeholders['ass_title'] = array(
+        $placeholders['assignment_title'] = array(
             'placeholder' => 'ASSIGNMENT_TITLE',
             'label' => $lng->txt('exc_mail_context_reminder_assignment_title')
         );
-        $placeholders['exc_title'] = array(
+        $placeholders['exercise_title'] = array(
             'placeholder' => 'EXERCISE_TITLE',
             'label' => $lng->txt('exc_mail_context_reminder_exercise_title')
         );
 
-        $placeholders['ass_link'] = array(
+        $placeholders['assignment_link'] = array(
             'placeholder' => 'ASSIGNMENT_LINK',
             'label' => $lng->txt('perma_link')
         );
@@ -104,18 +104,17 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string {
         $ilObjDataCache = $this->obj_data_cache;
 
-        if ($placeholder_id == 'ass_title') {
+        if ($placeholder_id == 'assignment_title') {
             return ilExAssignment::lookupTitle((int) $context_parameters["ass_id"]);
         } else {
-            if ($placeholder_id == 'exc_title') {
+            if ($placeholder_id == 'exercise_title') {
                 return $ilObjDataCache->lookupTitle((int) $context_parameters["exc_id"]);
             } else {
-                if ($placeholder_id == 'ass_link') {
+                if ($placeholder_id == 'assignment_link') {
                     return ilLink::_getLink(
                         $context_parameters["exc_ref"],
                         "exc",

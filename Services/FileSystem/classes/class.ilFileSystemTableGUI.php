@@ -251,7 +251,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
             $this->tpl->setVariable(
                 "ICON",
                 "<img src=\"" .
-                ilUtil::getImagePath("icon_cat.svg") . "\">"
+                ilUtil::getImagePath("standard/icon_cat.svg") . "\">"
             );
             $this->ctrl->setParameter($this->parent_obj, "resetoffset", "");
         } else {

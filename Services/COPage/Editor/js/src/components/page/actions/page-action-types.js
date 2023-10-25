@@ -41,11 +41,15 @@ const ACTIONS = {
   DND_DROP: "dnd.drop",           // dropping
   COMPONENT_INSERT: "component.insert",       // hit add link in add dropdown
   COMPONENT_EDIT: "component.edit",         // hit component for editing, opens form in slate or legacy view
+  COMPONENT_FORM: "component.form",         // open generic form in slate
+  COMPONENT_FORM_LOADED: "component.form.loaded",   // after component form has been loaded
   COMPONENT_SWITCH: "component.switch",         // hit other component of same type while editing
   COMPONENT_CANCEL: "component.cancel",         // components cancel button is pressed
+  COMPONENT_BACK: "component.back",         // component sends back (to main page) request
   COMPONENT_SAVE: "component.save",         // components save button is pressed (standard creation form)
   COMPONENT_AFTER_SAVE: "component.saved",         // after componente has been saved
   COMPONENT_UPDATE: "component.update",         // components save button is pressed (editing form)
+  COMPONENT_UPDATE_BACK: "component.update.back",         // components save button is pressed (editing form in component -> back to page)
   COMPONENT_SETTINGS: "component.settings",         // routes to legacy settings -> edit.legacy
   MULTI_TOGGLE: "multi.toggle",   // toggle an element for multi selection
   MULTI_ACTION: "multi.action",   // perform multi action

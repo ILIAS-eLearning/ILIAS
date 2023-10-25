@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Structure\Definitions;
 
-use ILIAS\MetaData\Elements\Data\Type;
-
 class LOMReaderFactory implements ReaderFactoryInterface
 {
     public function reader(): ReaderInterface

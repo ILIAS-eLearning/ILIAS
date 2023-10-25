@@ -36,6 +36,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 class Collections
 {
     private array $cache = [];
+    private array $rid_cache = [];
     private ResourceBuilder $resource_builder;
     private CollectionBuilder $collection_builder;
     private RepositoryPreloader $preloader;
@@ -94,18 +95,23 @@ class Collections
         ResourceCollectionIdentification $identification,
         ?int $owner = null
     ): ResourceCollection {
-        $collection = $this->cache[$identification->serialize()]
-            ?? $this->collection_builder->get(
-                $identification,
-                $owner
-            );
+        $collection = $this->cache[$identification->serialize()] ?? $this->collection_builder->get(
+            $identification,
+            $owner
+        );
 
+        $collection->clear();
         $preload = [];
-        foreach ($this->collection_builder->getResourceIds($identification) as $resource_identification) {
+
+        $rids = $this->rid_cache[$identification->serialize()]
+            ?? $this->collection_builder->getResourceIds($identification);
+        $this->rid_cache[$identification->serialize()] = [];
+        foreach ($rids as $resource_identification) {
             if ($this->resource_builder->has($resource_identification)) {
                 $collection->add($resource_identification);
                 $preload[] = $resource_identification;
             }
+            $this->rid_cache[$identification->serialize()][] = $resource_identification;
         }
         $this->preloader->preload($preload);
 

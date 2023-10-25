@@ -132,6 +132,22 @@ class ilPCTable extends ilPageContent
     }
 
     /**
+     * Get cell paragraph node of row $i and cell $j
+     */
+    public function getTableDataNode(int $i, int $j): ?php4DOMElement
+    {
+        $xpc = xpath_new_context($this->dom);
+        $path = "//PageContent[@HierId='" . $this->getHierId() . "']" .
+            "/Table/TableRow[$i+1]/TableData[$j+1]";
+        $res = xpath_eval($xpc, $path);
+
+        if (isset($res->nodeset[0])) {
+            return $res->nodeset[0];
+        }
+        return null;
+    }
+
+    /**
      * add rows to table
      */
     public function addRows(int $a_nr_rows, int $a_nr_cols): void
@@ -162,6 +178,9 @@ class ilPCTable extends ilPageContent
         // put data in target_row arrays
         foreach ($rows as $row) {
             $cells = explode("\t", $row);
+            if (count($cells) === 1) {
+                $cells = explode(";", $row);
+            }
             $max_cols = ($max_cols > count($cells))
                 ? $max_cols
                 : count($cells);
@@ -758,6 +777,16 @@ class ilPCTable extends ilPageContent
                 $y++;
             }
         }
+
+        if ($this->getTemplate() != "") {
+            $model->template = $this->getTemplate();
+            $model->characteristic = "";
+        } else {
+            $model->characteristic = $this->getClass();
+            $model->template = "";
+        }
+
+        $model->hasHeaderRows = ($this->getHeaderRows() > 0);
 
         return $model;
     }

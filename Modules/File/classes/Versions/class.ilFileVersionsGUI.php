@@ -22,10 +22,16 @@ use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\Modal\Interruptive;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\ResourceStorage\Revision\RevisionStatus;
+use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
+use ILIAS\Services\WOPI\Discovery\ActionRepository;
+use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
+use ILIAS\Data\URI;
+use ILIAS\UI\Component\Modal\Modal;
 
 /**
- * Class ilFileVersionsGUI
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
+ * @ilCtrl_Calls ilFileVersionsGUI: ilWOPIEmbeddedApplicationGUI
  */
 class ilFileVersionsGUI
 {
@@ -54,9 +60,13 @@ class ilFileVersionsGUI
     public const CMD_UNZIP_CURRENT_REVISION = 'unzipCurrentRevision';
     public const CMD_PROCESS_UNZIP = 'processUnzip';
     public const CMD_RENDER_DELETE_SELECTED_VERSIONS_MODAL = 'renderDeleteSelectedVersionsModal';
+    public const CMD_PUBLISH = 'publish';
+    public const CMD_UNPUBLISH = 'unpublish';
 
     private ilToolbarGUI $toolbar;
     private \ILIAS\ResourceStorage\Services $storage;
+    private ActionRepository $action_repo;
+    private ?Revision $current_revision;
     protected \ILIAS\DI\UIServices $ui;
     private ilAccessHandler $access;
     private \ilWorkspaceAccessHandler $wsp_access;
@@ -66,7 +76,6 @@ class ilFileVersionsGUI
     private ilTabsGUI $tabs;
     protected ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;
-    private \ilObjFile $file;
     private ilFileServicesSettings $file_service_settings;
     private ilObjFileComponentBuilder $file_component_builder;
     protected ?int $version_id = null;
@@ -77,10 +86,9 @@ class ilFileVersionsGUI
     /**
      * ilFileVersionsGUI constructor.
      */
-    public function __construct(ilObjFile $file)
+    public function __construct(private ilObjFile $file)
     {
         global $DIC;
-        $this->file = $file;
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
@@ -92,11 +100,7 @@ class ilFileVersionsGUI
         $this->storage = $DIC->resourceStorage();
         $this->file_service_settings = $DIC->fileServiceSettings();
         $this->ui = $DIC->ui();
-        if ($this->isWorkspaceContext()) {
-            $this->tree = new ilWorkspaceTree($DIC->user()->getId());
-        } else {
-            $this->tree = $DIC->repositoryTree();
-        }
+        $this->tree = $this->isWorkspaceContext() ? new ilWorkspaceTree($DIC->user()->getId()) : $DIC->repositoryTree();
         $this->file_component_builder = new ilObjFileComponentBuilder($this->lng, $this->ui);
         $this->refinery = $DIC->refinery();
 
@@ -105,10 +109,13 @@ class ilFileVersionsGUI
         $this->version_id = $this->http->wrapper()->query()->has(self::HIST_ID)
             ? $this->http->wrapper()->query()->retrieve(self::HIST_ID, $DIC->refinery()->kindlyTo()->int())
             : null;
+        $this->action_repo = new ActionDBRepository($DIC->database());
+        $this->current_revision = $this->getCurrentFileRevision();
     }
 
+
+
     /**
-     * @return void
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
@@ -136,7 +143,7 @@ class ilFileVersionsGUI
                 break;
             case self::CMD_CREATE_NEW_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_ADD);
-            // no break
+                // no break
             case self::CMD_CREATE_REPLACING_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_REPLACE);
                 break;
@@ -155,11 +162,16 @@ class ilFileVersionsGUI
             case self::CMD_RENDER_DELETE_SELECTED_VERSIONS_MODAL:
                 $this->renderDeleteSelectedVersionsModal();
                 break;
+            case self::CMD_PUBLISH:
+                $this->publish();
+                break;
+            case self::CMD_UNPUBLISH:
+                $this->unpublish();
+                break;
         }
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function setBackTab(): void
@@ -186,6 +198,24 @@ class ilFileVersionsGUI
                     )
                 );
                 return;
+            case strtolower(ilWOPIEmbeddedApplicationGUI::class):
+                $action = $this->action_repo->getActionForSuffix(
+                    $this->current_revision->getInformation()->getSuffix()
+                );
+
+                $embeded_application = new EmbeddedApplication(
+                    $this->current_revision->getIdentification(),
+                    $action,
+                    new ilObjFileStakeholder(),
+                    new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT))
+                );
+
+                $this->ctrl->forwardCommand(
+                    new ilWOPIEmbeddedApplicationGUI(
+                        $embeded_application
+                    )
+                );
+                break;
             default:
                 $this->performCommand();
                 break;
@@ -200,6 +230,27 @@ class ilFileVersionsGUI
                 $this->getFileZipOptionsForm()
             )
         );
+    }
+
+    private function publish(): void
+    {
+        $this->storage->manage()->publish($this->getIdentification());
+        $this->file->updateObjectFromCurrentRevision();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->redirect($this, self::CMD_DEFAULT);
+    }
+
+    private function unpublish(): void
+    {
+        if ($this->current_revision->getVersionNumber() === 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_cant_unpublish'), true);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        }
+
+        $this->storage->manage()->unpublish($this->getIdentification());
+        $this->file->updateObjectFromCurrentRevision();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
     private function processUnzip(): void
@@ -243,29 +294,65 @@ class ilFileVersionsGUI
     private function index(): void
     {
         // Buttons
+        $status = $this->current_revision?->getStatus();
+
         $btn_add_version = $this->ui->factory()->button()->standard(
             $this->lng->txt('file_new_version'),
             $this->ctrl->getLinkTarget($this, self::CMD_ADD_NEW_VERSION)
         );
+        if ($status === RevisionStatus::DRAFT) {
+            $btn_add_version = $btn_add_version->withUnavailableAction();
+        }
         $this->toolbar->addComponent($btn_add_version);
 
         $btn_replace_version = $this->ui->factory()->button()->standard(
             $this->lng->txt('replace_file'),
             $this->ctrl->getLinkTarget($this, self::CMD_ADD_REPLACING_VERSION)
         );
+        if ($status === RevisionStatus::DRAFT) {
+            $btn_replace_version = $btn_replace_version->withUnavailableAction();
+        }
         $this->toolbar->addComponent($btn_replace_version);
 
-        $current_file_revision = $this->getCurrentFileRevision();
-
         // only add unzip button if the current revision is a zip.
-        if (null !== $current_file_revision &&
-            ilObjFileAccess::isZIP($current_file_revision->getInformation()->getMimeType())
+        if (null !== $this->current_revision &&
+            ilObjFileAccess::isZIP($this->current_revision->getInformation()->getMimeType())
         ) {
             $btn_unzip = $this->ui->factory()->button()->standard(
                 $this->lng->txt('unzip'),
                 $this->ctrl->getLinkTarget($this, self::CMD_UNZIP_CURRENT_REVISION)
             );
             $this->toolbar->addComponent($btn_unzip);
+        }
+
+        // Editor
+        $suffix = $this->current_revision?->getInformation()?->getSuffix();
+
+        if ($this->action_repo->hasActionForSuffix(
+            $this->current_revision->getInformation()->getSuffix()
+        )) {
+            $external_editor = $this->ui->factory()
+                                        ->button()
+                                        ->standard(
+                                            $this->lng->txt('open_external_editor'),
+                                            $this->ctrl->getLinkTargetByClass(
+                                                [self::class, ilWOPIEmbeddedApplicationGUI::class],
+                                                \ilWOPIEmbeddedApplicationGUI::CMD_INDEX
+                                            )
+                                        );
+            $this->toolbar->addComponent($external_editor);
+        }
+
+
+        // Publish
+        if ($status === RevisionStatus::DRAFT) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('file_version_draft_info'));
+
+            $btn_publish = $this->ui->factory()->button()->standard(
+                $this->lng->txt('file_publish'),
+                $this->ctrl->getLinkTarget($this, self::CMD_PUBLISH)
+            );
+            $this->toolbar->addComponent($btn_publish);
         }
 
         $table = new ilFileVersionsTableGUI($this, self::CMD_DEFAULT);
@@ -298,7 +385,7 @@ class ilFileVersionsGUI
     {
         try {
             $this->file->sendFile($this->version_id);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
         }
     }
 
@@ -307,13 +394,24 @@ class ilFileVersionsGUI
         $version_ids = $this->getVersionIdsFromRequest();
 
         // more than one entry selected?
-        if (count($version_ids) != 1) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("file_rollback_select_exact_one"), true);
+        if (count($version_ids) !== 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_rollback_select_exact_one"), true);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        }
+
+        if($this->current_revision->getStatus() === RevisionStatus::DRAFT) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_rollback_rollback_first"), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
         // rollback the version
-        $this->file->rollback($version_ids[0]);
+        $version_id = $version_ids[0];
+        if($version_id === $this->current_revision->getVersionNumber()) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("file_rollback_same_version"), true);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        }
+
+        $this->file->rollback($version_id);
 
         $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt("file_rollback_done"), ''), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
@@ -376,28 +474,20 @@ class ilFileVersionsGUI
         return [];
     }
 
-    /**
-     * @param array $version_ids
-     * @return array
-     */
     private function getVersionsToKeep(array $version_ids): array
     {
         $versions_to_keep = $this->file->getVersions();
         array_udiff($versions_to_keep, $version_ids, static function ($v1, $v2): bool {
             if (is_array($v1) || $v1 instanceof ilObjFileVersion) {
                 $v1 = (int) $v1["hist_entry_id"];
-            } else {
-                if (!is_numeric($v1)) {
-                    $v1 = (int) $v1;
-                }
+            } elseif (!is_numeric($v1)) {
+                $v1 = (int) $v1;
             }
 
             if (is_array($v2) || $v2 instanceof ilObjFileVersion) {
                 $v2 = (int) $v2["hist_entry_id"];
-            } else {
-                if (!is_numeric($v2)) {
-                    $v2 = (int) $v2;
-                }
+            } elseif (!is_numeric($v2)) {
+                $v2 = (int) $v2;
             }
 
             return $v1 === $v2;
@@ -419,11 +509,9 @@ class ilFileVersionsGUI
             if ($this->wsp_access->checkAccess($a_permission, "", $this->ref_id)) {
                 return true;
             }
-        } else {
+        } elseif ($this->access->checkAccess($a_permission, '', $this->ref_id)) {
             // permission-check concerning a repository object
-            if ($this->access->checkAccess($a_permission, '', $this->ref_id)) {
-                return true;
-            }
+            return true;
         }
 
         return false;
@@ -451,6 +539,7 @@ class ilFileVersionsGUI
     {
         $deletion_version_ids = $this->getVersionIdsFromRequest();
         $existing_versions = $this->file->getVersions();
+
         $non_deletion_versions = array_udiff(
             $existing_versions,
             $deletion_version_ids,
@@ -464,16 +553,18 @@ class ilFileVersionsGUI
                 return $a - $b;
             }
         );
+        $this->checkSanityOfDeletionRequest($deletion_version_ids, false);
 
-        if (count($deletion_version_ids) < 1) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, self::CMD_DEFAULT);
-        } elseif (count($non_deletion_versions) < 1) {
+        // no version will remain after deletion, so we can delete the whole file
+        if (count($non_deletion_versions) < 1) {
             return $this->file_component_builder->buildConfirmDeleteAllVersionsModal(
                 $this->ctrl->getFormActionByClass(self::class, self::CMD_CONFIRMED_DELETE_FILE),
                 $this->file
             );
-        } elseif (count($non_deletion_versions) >= 1) {
+        }
+
+        // confirm the deletion of the selected versions
+        if (count($non_deletion_versions) >= 1) {
             return $this->file_component_builder->buildConfirmDeleteSpecificVersionsModal(
                 $this->ctrl->getFormActionByClass(self::class, self::CMD_CONFIRMED_DELETE_VERSIONS),
                 $this->file,
@@ -481,6 +572,28 @@ class ilFileVersionsGUI
             );
         }
         return null;
+    }
+
+    protected function checkSanityOfDeletionRequest(array $requested_deletion_version, bool $redirect): void
+    {
+        // Check Sanity of request
+        // Cant delete version if current is a DRAFT
+        if (
+            $this->current_revision->getStatus() === RevisionStatus::DRAFT
+        ) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('publish_before_delete'), $redirect);
+            if($redirect) {
+                $this->ctrl->redirect($this, self::CMD_DEFAULT);
+            }
+        }
+
+        // no checkbox has been selected
+        if (count($requested_deletion_version) < 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), $redirect);
+            if($redirect) {
+                $this->ctrl->redirect($this, self::CMD_DEFAULT);
+            }
+        }
     }
 
     //TODO: Remove this function and replace its calls with calls to "getDeleteSelectedVersionsModal" as soon as the new table gui is introduced.
@@ -503,56 +616,58 @@ class ilFileVersionsGUI
             }
         );
 
-        if (count($version_ids) < 1) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        $this->checkSanityOfDeletionRequest($version_ids, true);
+
+        $conf_gui = new ilConfirmationGUI();
+        $conf_gui->setFormAction($this->ctrl->getFormAction($this, self::CMD_DEFAULT));
+        $conf_gui->setCancel($this->lng->txt("cancel"), self::CMD_DEFAULT);
+
+        $icon = ilObject::_getIcon($this->file->getId(), "small", $this->file->getType());
+        $alt = $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->file->getType());
+
+        // only one version left, delete the whole file
+        if (count($remaining_versions) < 1) {
+            // Ask
+            $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_all_versions'));
+            $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_FILE);
+            $conf_gui->addItem(
+                "id[]",
+                $this->ref_id,
+                $this->file->getTitle(),
+                $icon,
+                $alt
+            );
         } else {
-            $conf_gui = new ilConfirmationGUI();
-            $conf_gui->setFormAction($this->ctrl->getFormAction($this, self::CMD_DEFAULT));
-            $conf_gui->setCancel($this->lng->txt("cancel"), self::CMD_DEFAULT);
+            // Ask to delete version
+            $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_versions'));
+            $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_VERSIONS);
 
-            $icon = ilObject::_getIcon($this->file->getId(), "small", $this->file->getType());
-            $alt = $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->file->getType());
-
-            if (count($remaining_versions) < 1) {
-                // Ask
-                $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_all_versions'));
-                $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_FILE);
+            foreach ($this->file->getVersions($version_ids) as $version) {
+                $a_text = $version['filename'] ?? $version->getFilename() ?? $this->file->getTitle();
+                $version_string = $version['hist_id'] ?? $version->getVersion();
+                $a_text .= " (v" . $version_string . ")";
                 $conf_gui->addItem(
-                    "id[]",
-                    $this->ref_id,
-                    $this->file->getTitle(),
+                    "hist_id[]",
+                    $version['hist_entry_id'],
+                    $a_text,
                     $icon,
                     $alt
                 );
-            } else {
-                // Ask
-                $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_versions'));
-                $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_VERSIONS);
-
-                foreach ($this->file->getVersions($version_ids) as $version) {
-                    $a_text = $version['filename'] ?? $version->getFilename() ?? $this->file->getTitle();
-                    $version_string = $version['hist_id'] ?? $version->getVersion();
-                    $a_text .= " (v" . $version_string . ")";
-                    $conf_gui->addItem(
-                        "hist_id[]",
-                        $version['hist_entry_id'],
-                        $a_text,
-                        $icon,
-                        $alt
-                    );
-                }
             }
-
-            $this->tpl->setContent($conf_gui->getHTML());
         }
+
+        $this->tpl->setContent($conf_gui->getHTML());
     }
 
     private function getFileZipOptionsForm(): Form
     {
+        $inputs = [];
+        $copyright_options = [];
         $form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_PROCESS_UNZIP);
 
-        $inputs[self::KEY_FILE_RID] = $this->ui->factory()->input()->field()->hidden()->withValue($this->file->getResourceId());
+        $inputs[self::KEY_FILE_RID] = $this->ui->factory()->input()->field()->hidden()->withValue(
+            $this->file->getResourceId()
+        );
         $inputs[self::KEY_FILE_STRUCTURE] = $this->ui->factory()->input()->field()->checkbox(
             $this->lng->txt('take_over_structure'),
             $this->lng->txt('take_over_structure_info'),
@@ -569,9 +684,11 @@ class ilFileVersionsGUI
         if ($rights !== null) {
             $zip_copyright_description = $zip_md->getRights()->getDescription();
             $zip_copyright_id = ilMDCopyrightSelectionEntry::_extractEntryId($zip_copyright_description);
-            $copyright_inheritance_input = $this->ui->factory()->input()->field()->hidden()->withValue((string) $zip_copyright_id);
+            $copyright_inheritance_input = $this->ui->factory()->input()->field()->hidden()->withValue(
+                (string) $zip_copyright_id
+            );
             $copyright_options[self::KEY_INHERIT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
-                [self::KEY_COPYRIGHT_ID =>  $copyright_inheritance_input],
+                [self::KEY_COPYRIGHT_ID => $copyright_inheritance_input],
                 $this->lng->txt("copyright_inherited"),
                 sprintf(
                     $this->lng->txt("copyright_inherited_info"),
@@ -583,7 +700,7 @@ class ilFileVersionsGUI
         // add the option to collectively select the copyright for all unzipped files independent of the original copyright of the zip
         $copyright_selection_input = $this->getCopyrightSelectionInput('set_license_for_all_files');
         $copyright_options[self::KEY_SELECT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
-            [self::KEY_COPYRIGHT_ID =>  $copyright_selection_input],
+            [self::KEY_COPYRIGHT_ID => $copyright_selection_input],
             $this->lng->txt("copyright_custom"),
             $this->lng->txt("copyright_custom_info")
         );
@@ -627,11 +744,16 @@ class ilFileVersionsGUI
         );
     }
 
+    private function getIdentification(): ?\ILIAS\ResourceStorage\Identification\ResourceIdentification
+    {
+        return $this->storage->manage()->find($this->file->getResourceId());
+    }
+
     private function getCurrentFileRevision(): ?Revision
     {
-        $file_rid = $this->storage->manage()->find($this->file->getResourceId());
+        $file_rid = $this->getIdentification();
         if (null !== $file_rid) {
-            return $this->storage->manage()->getCurrentRevision($file_rid);
+            return $this->storage->manage()->getCurrentRevisionIncludingDraft($file_rid);
         }
 
         return null;

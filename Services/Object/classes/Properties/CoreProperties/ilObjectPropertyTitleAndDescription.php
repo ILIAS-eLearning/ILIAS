@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPropertyModifications;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -33,22 +34,30 @@ class ilObjectPropertyTitleAndDescription implements ilObjectProperty
 
     public function __construct(
         private string $title = '',
-        private string $long_description = ''
+        private string $long_description = '',
+        private ?ilObjectTypeSpecificPropertyModifications $object_type_specific_property_modifications = null
     ) {
     }
 
     public function getTitle(): string
     {
+        if ($this->object_type_specific_property_modifications !== null) {
+            return $this->object_type_specific_property_modifications->modifyTitle($this->title);
+        }
+
         return $this->title;
     }
 
     public function getDescription(): string
     {
-        return substr($this->long_description, 0, ilObject::DESC_LENGTH);
+        return substr($this->getLongDescription(), 0, ilObject::DESC_LENGTH);
     }
 
-    public function getLongDescription(): string
+    public function getLongDescription(): ?string
     {
+        if ($this->object_type_specific_property_modifications !== null) {
+            return $this->object_type_specific_property_modifications->modifyDescription($this->long_description);
+        }
         return $this->long_description;
     }
 

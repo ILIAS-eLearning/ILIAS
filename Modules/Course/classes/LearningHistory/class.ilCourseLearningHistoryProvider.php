@@ -50,7 +50,7 @@ class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider 
             $entries[] = $this->getFactory()->entry(
                 $text,
                 $text,
-                ilUtil::getImagePath("icon_obj.svg"),
+                ilUtil::getImagePath("standard/icon_obj.svg"),
                 $c["tstamp"],
                 $c["course_id"]
             );

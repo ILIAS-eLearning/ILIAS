@@ -25,6 +25,8 @@ class ilUnitTableGUI extends ilTable2GUI
      * @var int
      */
     private $position = 1;
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
 
     /**
      * @param ilUnitConfigurationGUI         $controller
@@ -40,6 +42,8 @@ class ilUnitTableGUI extends ilTable2GUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->setId('units_' . $controller->getUniqueId());
 
@@ -93,15 +97,13 @@ class ilUnitTableGUI extends ilTable2GUI
             $sequence->setSize(3);
             $a_set['sequence'] = $sequence->render();
 
-            $action = new ilAdvancedSelectionListGUI();
-            $action->setId('asl_content_' . $a_set['unit_id']);
-            $action->setAsynch(false);
-            $action->setListTitle($this->lng->txt('actions'));
+            $actions = [];
             $ilCtrl->setParameter($this->getParentObject(), 'unit_id', $a_set['unit_id']);
-            $action->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitModificationForm'));
-            $action->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteUnit'));
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit'), $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitModificationForm'));
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteUnit'));
             $ilCtrl->setParameter($this->getParentObject(), 'unit_id', '');
-            $a_set['actions'] = $action->getHtml();
+            $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+            $a_set['actions'] = $this->ui_renderer->render($dropdown);
         }
         if ($a_set['unit_id'] == $a_set['baseunit_id']) {
             $a_set['baseunit'] = '';

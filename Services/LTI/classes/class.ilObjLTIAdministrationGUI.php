@@ -247,9 +247,13 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $ti_title = new ilTextInputGUI($this->lng->txt("title"), 'title');
         $ti_title->setRequired(true);
+        $form->addItem($ti_title);
         $ti_description = new ilTextInputGUI($this->lng->txt("description"), 'description');
+        $form->addItem($ti_description);
         $ti_prefix = new ilTextInputGUI($this->lng->txt("prefix"), 'prefix');
+        $ti_prefix->setInfo($this->lng->txt("prefix_info"));
         $ti_prefix->setRequired(true);
+        $form->addItem($ti_prefix);
         #$ti_key = new ilTextInputGUI($this->lng->txt("lti_consumer_key"), 'key');
         #$ti_key->setRequired(true);
         #$ti_secret = new ilTextInputGUI($this->lng->txt("lti_consumer_secret"), 'secret');
@@ -264,15 +268,6 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $si_language = new ilSelectInputGUI($this->lng->txt("language"), "language");
         $si_language->setOptions($array_lang);
-
-        $cb_active = new ilCheckboxInputGUI($this->lng->txt('active'), 'active');
-
-        $form->addItem($cb_active);
-        $form->addItem($ti_title);
-        $form->addItem($ti_description);
-        $form->addItem($ti_prefix);
-        #$form->addItem($ti_key);
-        #$form->addItem($ti_secret);
         $form->addItem($si_language);
 
         // object types
@@ -293,6 +288,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $si_roles = new ilSelectInputGUI($this->lng->txt("gbl_roles_to_users"), 'role');
         $si_roles->setOptions($options);
         $form->addItem($si_roles);
+
+        $cb_active = new ilCheckboxInputGUI($this->lng->txt('active'), 'active');
+        $form->addItem($cb_active);
 
         if ($a_mode == 'edit') {
             $form->setFormAction($this->ctrl->getFormAction($this, 'editLTIConsumer'));

@@ -143,7 +143,7 @@ named like the `image_directory` attribute of the style tag in the
 `template.xml` file.
 
 E.g. if you want to replace the default icon for categories
-`templates/default/images/icon_cat.sfg`, and your template file defines
+`templates/default/images/standard/icon_cat.sfg`, and your template file defines
 `image_directory = "images"` as in the example above, the new version must be
 stored as `Customizing/global/skin/myskin/images/icon_cat.svg`.
 
@@ -197,7 +197,7 @@ Also checkout the breadcrumb scss variables.
 
 #### Step 6: Change the ILIAS Icon
 
-The main ILIAS icon is stored in the images Directory as `HeaderIcon.svg`. You
+The main ILIAS icon is stored in the images Directory as `logo/HeaderIcon.svg`. You
 can replace this easyly by your own Icon in svg format. As long as your Icon is
 close to a square, this may be all that is needed. Probably you want to change
 the file favicon `.ico` in ILIAS' root directory too. For non-square Icons you

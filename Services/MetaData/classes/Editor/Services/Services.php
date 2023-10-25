@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Services;
 
+use ILIAS\MetaData\Editor\Manipulator\Manipulator;
 use ILIAS\MetaData\Editor\Presenter\Presenter;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Editor\Presenter\Utilities;
@@ -37,11 +38,10 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\MetaData\Editor\Http\RequestParser;
 use ILIAS\MetaData\Editor\Dictionary\DictionaryInterface;
 use ILIAS\MetaData\Repository\Services\Services as RepositoryServices;
-use ILIAS\MetaData\Elements\Markers\MarkerFactory;
-use ILIAS\MetaData\Editor\Manipulator\ManipulatorInterface;
-use ILIAS\MetaData\Editor\Manipulator\Manipulator;
 use ILIAS\MetaData\Editor\Observers\ObserverHandler;
 use ILIAS\MetaData\Editor\Observers\ObserverHandlerInterface;
+use ILIAS\MetaData\Manipulator\Services\Services as ManipulatorServices;
+use ILIAS\MetaData\Presentation\Services\Services as PresentationServices;
 
 class Services
 {
@@ -49,24 +49,30 @@ class Services
     protected DictionaryInterface $dictionary;
     protected LinkFactoryInterface $link_factory;
     protected RequestParserInterface $request_parser;
-    protected ManipulatorInterface $manipulator;
     protected ObserverHandlerInterface $observer_handler;
+    protected Manipulator $manipulator;
 
     protected GlobalContainer $dic;
     protected PathServices $path_services;
     protected StructureServices $structure_services;
     protected RepositoryServices $repository_services;
+    protected ManipulatorServices $manipulator_services;
+    protected PresentationServices $presentation_services;
 
     public function __construct(
         GlobalContainer $dic,
         PathServices $path_services,
         StructureServices $structure_services,
-        RepositoryServices $repository_services
+        RepositoryServices $repository_services,
+        ManipulatorServices $manipulator_services,
+        PresentationServices $presentation_services
     ) {
         $this->dic = $dic;
         $this->path_services = $path_services;
         $this->structure_services = $structure_services;
         $this->repository_services = $repository_services;
+        $this->manipulator_services = $manipulator_services;
+        $this->presentation_services = $presentation_services;
     }
 
     public function presenter(): PresenterInterface
@@ -74,19 +80,19 @@ class Services
         if (isset($this->presenter)) {
             return $this->presenter;
         }
-        $lng = $this->dic->language();
-        $lng->loadLanguageModule('meta');
         return $this->presenter = new Presenter(
             $utilities = new Utilities(
-                $lng,
-                $this->dic->user()
+                $this->presentation_services->utilities()
             ),
-            $data = new Data($utilities),
-            new Elements(
+            $data = new Data(
                 $utilities,
+                $this->presentation_services->data()
+            ),
+            new Elements(
                 $data,
                 $this->dictionary(),
-                $this->path_services->navigatorFactory()
+                $this->path_services->navigatorFactory(),
+                $this->presentation_services->elements()
             ),
         );
     }
@@ -126,15 +132,15 @@ class Services
         );
     }
 
-    public function manipulator(): ManipulatorInterface
+    public function manipulator(): Manipulator
     {
         if (isset($this->manipulator)) {
             return $this->manipulator;
         }
         return $this->manipulator = new Manipulator(
-            $this->repository_services->repository(),
-            new MarkerFactory(),
-            $this->path_services->navigatorFactory()
+            $this->manipulator_services->manipulator(),
+            $this->path_services->navigatorFactory(),
+            $this->repository_services->repository()
         );
     }
 

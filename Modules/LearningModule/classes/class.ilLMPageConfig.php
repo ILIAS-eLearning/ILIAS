@@ -57,6 +57,7 @@ class ilLMPageConfig extends ilPageConfig
         if ($mset->get("mep_activate_pages")) {
             $this->setEnablePCType("ContentInclude", true);
         }
+        $this->setLayoutTemplateType(ilPageLayout::MODULE_LM);
     }
 
     /**

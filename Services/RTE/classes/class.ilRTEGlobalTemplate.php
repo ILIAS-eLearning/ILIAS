@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Special template class to simplify handling of ITX/PEAR
  * @author Stefan Kesseler <skesseler@databay.de>
@@ -28,7 +28,6 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
     protected string $tree_flat_link = '';
     protected string $page_form_action = '';
     protected bool $permanent_link = false;
-    protected array $lightbox = [];
     protected bool $standard_template_loaded = false;
     protected ilTemplate $template;
     protected string $body_class = '';
@@ -311,10 +310,6 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
     }
 
     public function setTreeFlatIcon(string $a_link, string $a_mode): void
-    {
-    }
-
-    public function addLightbox(string $a_html, string $a_id): void
     {
     }
 

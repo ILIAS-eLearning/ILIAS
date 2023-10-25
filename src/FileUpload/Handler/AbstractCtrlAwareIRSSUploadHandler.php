@@ -34,10 +34,10 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploadHandler
 {
-    abstract protected function getStakeholder(): ResourceStakeholder;
-
     protected \ILIAS\ResourceStorage\Services $irss;
     protected ResourceStakeholder $stakeholder;
+    protected \ILIAS\Filesystem\Filesystem $temp_filesystem;
+    protected array $class_path;
 
     public function __construct()
     {
@@ -45,9 +45,15 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
 
         $this->irss = $DIC->resourceStorage();
         $this->stakeholder = $this->getStakeholder();
+        $this->temp_filesystem = $DIC->filesystem()->temp();
+        $this->class_path = $this->getClassPath();
 
         parent::__construct();
     }
+
+    abstract protected function getStakeholder(): ResourceStakeholder;
+
+    abstract protected function getClassPath(): array;
 
     protected function getUploadResult(): HandlerResult
     {
@@ -57,16 +63,75 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
         $result = end($result_array); // get the last result aka the Upload of the user
 
         if ($result instanceof UploadResult && $result->isOK()) {
+            if ($this->is_chunked) {
+                return $this->processChunckedUpload($result);
+            }
+
             $identifier = $this->irss->manage()->upload($result, $this->stakeholder)->serialize();
             $status = HandlerResult::STATUS_OK;
             $message = "file upload OK";
         } else {
             $identifier = '';
             $status = HandlerResult::STATUS_FAILED;
-            $message = $result->getStatus()->getMessage();
+            $message = 'No upload found';
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
+    }
+
+    protected function processChunckedUpload(UploadResult $result): HandlerResult
+    {
+        $temp_path = "$this->chunk_id/{$result->getName()}";
+
+        try {
+            if ($this->temp_filesystem->has($temp_path)) {
+                $stream = fopen($this->temp_filesystem->readStream($temp_path)->getMetadata()['uri'], 'ab');
+                fwrite($stream, file_get_contents($result->getPath()));
+            } else {
+                $this->temp_filesystem->write($temp_path, file_get_contents($result->getPath()));
+            }
+        } catch (Throwable $t) {
+            return new BasicHandlerResult(
+                $this->getFileIdentifierParameterName(),
+                HandlerResult::STATUS_FAILED,
+                '',
+                $t->getMessage()
+            );
+        }
+
+        if (($this->chunk_index + 1) === $this->amount_of_chunks) {
+            $whole_file = $this->temp_filesystem->readStream($temp_path);
+            $id = $this->irss->manage()->stream($whole_file, $this->stakeholder, $result->getName());
+
+            return new BasicHandlerResult(
+                $this->getFileIdentifierParameterName(),
+                HandlerResult::STATUS_OK,
+                $id->serialize(),
+                "file upload OK"
+            );
+        }
+
+        return new BasicHandlerResult(
+            $this->getFileIdentifierParameterName(),
+            HandlerResult::STATUS_PARTIAL,
+            '',
+            "chunk upload OK"
+        );
+    }
+
+    public function getUploadURL(): string
+    {
+        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_UPLOAD, null, true);
+    }
+
+    public function getExistingFileInfoURL(): string
+    {
+        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_INFO, null, true);
+    }
+
+    public function getFileRemovalURL(): string
+    {
+        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_REMOVE, null, true);
     }
 
     protected function getRemoveResult(string $identifier): HandlerResult
@@ -85,8 +150,8 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
 
     public function getInfoResult(string $identifier): ?FileInfoResult
     {
-        if (null !== ($id = $this->storage->manage()->find($identifier))) {
-            $revision = $this->storage->manage()->getCurrentRevision($id)->getInformation();
+        if (null !== ($id = $this->irss->manage()->find($identifier))) {
+            $revision = $this->irss->manage()->getCurrentRevision($id)->getInformation();
             $title = $revision->getTitle();
             $size = $revision->getSize();
             $mime = $revision->getMimeType();

@@ -920,7 +920,7 @@ class ilNestedSetTree implements ilTreeImplementation
      */
     public function getSubtreeInfo(int $a_endnode_id): array
     {
-        $query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, type " .
+        $query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, t2.parent parent, type " .
             "FROM " . $this->getTree()->getTreeTable() . " t1 " .
             "JOIN " . $this->getTree()->getTreeTable() . " t2 ON (t2.lft BETWEEN t1.lft AND t1.rgt) " .
             "JOIN " . $this->getTree()->getTableReference() . " obr ON t2.child = obr.ref_id " .
@@ -942,6 +942,7 @@ class ilNestedSetTree implements ilTreeImplementation
             $nodes[(int) $row->child]['lft'] = (int) $row->lft;
             $nodes[(int) $row->child]['rgt'] = (int) $row->rgt;
             $nodes[(int) $row->child]['child'] = (int) $row->child;
+            $nodes[(int) $row->child]['parent'] = (int) $row->parent;
             $nodes[(int) $row->child]['type'] = (string) $row->type;
         }
         return $nodes;

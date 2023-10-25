@@ -53,6 +53,44 @@ export default class TableModelActionHandler {
           this.pageModel.setCurrentPageComponent("Table", params.tablePcid, params.tableHierid);
           this.pageModel.setState(this.pageModel.STATE_COMPONENT);
           this.tableModel.setCurrentCell(parseInt(params.row), parseInt(params.column));
+          this.tableModel.setState(this.tableModel.STATE_DATA);
+          break;
+
+        case ACTIONS.SWITCH_EDIT_TABLE:
+          this.tableModel.setState(this.tableModel.STATE_TABLE);
+          this.tableModel.selectNone();
+          break;
+
+        case ACTIONS.SWITCH_FORMAT_CELLS:
+          this.tableModel.setState(this.tableModel.STATE_CELLS);
+          break;
+
+        case ACTIONS.SWITCH_MERGE_CELLS:
+          this.tableModel.setState(this.tableModel.STATE_MERGE);
+          break;
+
+        case ACTIONS.SAVE_RETURN:
+          this.tableModel.setState(this.tableModel.STATE_TABLE);
+          break;
+
+        case ACTIONS.CANCEL_CELL_EDIT:
+          this.tableModel.setState(this.tableModel.STATE_TABLE);
+          break;
+
+        case ACTIONS.TOGGLE_CELL:
+          this.tableModel.toggleCell(parseInt(params.row), parseInt(params.col), params.expand);
+          break
+
+        case ACTIONS.TOGGLE_ROW:
+          this.tableModel.toggleRow(parseInt(params.nr), params.expand);
+          break;
+
+        case ACTIONS.TOGGLE_TABLE:
+          this.tableModel.toggleTable(params.expand);
+          break;
+
+        case ACTIONS.TOGGLE_COL:
+          this.tableModel.toggleCol(parseInt(params.nr), params.expand);
           break;
       }
     }

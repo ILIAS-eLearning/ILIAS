@@ -139,6 +139,7 @@ class ilObjSurvey extends ilObject
     protected \ILIAS\Survey\InternalDataService $data_manager;
     protected ?Mode\FeatureConfig $feature_config;
     protected \ILIAS\SurveyQuestionPool\Export\ImportManager $import_manager;
+    protected ilMailTemplatePlaceholderResolver $placeholder_resolver;
 
     public function __construct(
         int $a_id = 0,
@@ -181,6 +182,7 @@ class ilObjSurvey extends ilObject
             ->internal()
             ->domain()
             ->import();
+        $this->placeholder_resolver = $DIC->mail()->placeholderResolver();
 
         parent::__construct($a_id, $a_call_by_reference);
         $this->svy_log = ilLoggerFactory::getLogger("svy");
@@ -5590,8 +5592,7 @@ class ilObjSurvey extends ilObject
 
             $user = new \ilObjUser($a_user_id);
 
-            $processor = new \ilMailTemplatePlaceholderResolver($context, $a_message);
-            $a_message = $processor->resolve($user, $a_context_params);
+            $a_message = $this->placeholder_resolver->resolve($context, $a_message, $user, $a_context_params);
         } catch (\Exception $e) {
             ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
         }

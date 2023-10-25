@@ -56,4 +56,7 @@ interface ilExAssignmentTypeGUIInterface
      * Set exercise
      */
     public function setExercise(ilObjExercise $a_exercise);
+
+    public function buildSubmissionPropertiesAndActions(\ILIAS\Exercise\Assignment\PropertyAndActionBuilderUI $builder): void;
+
 }

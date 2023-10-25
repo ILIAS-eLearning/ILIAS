@@ -44,34 +44,4 @@ class ilSkillCategory extends ilSkillTreeNode
 
         return $scat;
     }
-
-    public function delete(): void
-    {
-        $scat_id = $this->getId();
-        $skill_tree = $this->skill_service->internal()->repo()->getTreeRepo()->getTreeForNodeId($scat_id);
-        $childs = $skill_tree->getChildsByTypeFilter(
-            $scat_id,
-            ["skll", "scat", "sktr"]
-        );
-        foreach ($childs as $node) {
-            switch ($node["type"]) {
-                case "skll":
-                    $obj = new ilBasicSkill((int) $node["obj_id"]);
-                    $obj->delete();
-                    break;
-
-                case "scat":
-                    $obj = new ilSkillCategory((int) $node["obj_id"]);
-                    $obj->delete();
-                    break;
-
-                case "sktr":
-                    $obj = new ilSkillTemplateReference((int) $node["obj_id"]);
-                    $obj->delete();
-                    break;
-            }
-        }
-
-        parent::delete();
-    }
 }

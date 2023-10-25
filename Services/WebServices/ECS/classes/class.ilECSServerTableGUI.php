@@ -65,10 +65,10 @@ class ilECSServerTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass('ilecsmappingsettingsgui', 'server_id', $a_set['server_id']);
 
         if ($a_set['active']) {
-            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));
+            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('standard/icon_ok.svg'));
             $this->tpl->setVariable('TXT_OK', $this->lng->txt('ecs_activated'));
         } else {
-            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_not_ok.svg'));
+            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('standard/icon_not_ok.svg'));
             $this->tpl->setVariable('TXT_OK', $this->lng->txt('ecs_inactivated'));
         }
 

@@ -917,7 +917,8 @@ file containes the following fields:
 	* Maintenance Model: Classic
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: N.A.
-	* Testcases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+	* Testcases Portfolio: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+ 	* Testcases Portfolio Template: N.A. 
 	* Tester Portfolio: [KlausVorkauf](https://docu.ilias.de/goto_docu_usr_5890.html)
 	* Tester Portfolio Template: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 

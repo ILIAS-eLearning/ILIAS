@@ -99,7 +99,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         return new WithButtonNoUIFactory($this->buildButtonFactory());
     }
 
-    public function test_getPostURL(): void
+    public function testGetPostURL(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -108,7 +108,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertEquals($url, $form->getPostURL());
     }
 
-    public function test_render(): void
+    public function testRender(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -141,7 +141,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_submit_caption(): void
+    public function testSubmitCaption(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -159,7 +159,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertEquals($caption, $form->getSubmitLabel());
     }
 
-    public function test_submit_caption_render(): void
+    public function testSubmitCaptionRender(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -192,7 +192,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_no_url(): void
+    public function testRenderNoUrl(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Implementation\Component\Modal\Modal;
 
 require_once(__DIR__ . '/ModalBase.php');
@@ -29,7 +29,7 @@ require_once(__DIR__ . '/ModalBase.php');
  */
 class ModalTest extends ModalBase
 {
-    public function test_with_close_with_keyboard(): void
+    public function testWithCloseWithKeyboard(): void
     {
         $modal = $this->getModal();
         $this->assertEquals(true, $modal->getCloseWithKeyboard());
@@ -37,13 +37,13 @@ class ModalTest extends ModalBase
         $this->assertEquals(false, $modal->getCloseWithKeyboard());
     }
 
-    public function test_with_async_rendered_url(): void
+    public function testWithAsyncRenderedUrl(): void
     {
         $modal = $this->getModal()->withAsyncRenderUrl('/fake/async/url');
         $this->assertEquals('/fake/async/url', $modal->getAsyncRenderUrl());
     }
 
-    public function test_get_signals(): void
+    public function testGetSignals(): void
     {
         $modal = $this->getModal();
         $show = $modal->getShowSignal();
@@ -57,7 +57,7 @@ class ModalTest extends ModalBase
         $this->assertEquals('signal_2', "$close");
     }
 
-    public function test_with_reset_signals(): void
+    public function testWithResetSignals(): void
     {
         $modal = $this->getModal();
         $modal2 = $modal->withResetSignals();

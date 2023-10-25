@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class for matching question exports
@@ -171,7 +174,7 @@ class assMatchingQuestionExport extends assQuestionExport
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
-                if (ilUtil::isHTML($definition->text)) {
+                if (ilUtil::isHTML($definition->getText())) {
                     $attrs["texttype"] = "text/xhtml";
                 }
                 $a_xml_writer->xmlElement("mattext", $attrs, $definition->getText());
@@ -214,7 +217,7 @@ class assMatchingQuestionExport extends assQuestionExport
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
-                if ($this->object->isHTML($term->text)) {
+                if (method_exists($this->object, 'isHTML') && $this->object->isHTML($term->text)) {
                     $attrs["texttype"] = "text/xhtml";
                 }
                 $a_xml_writer->xmlElement("mattext", $attrs, $term->getText());

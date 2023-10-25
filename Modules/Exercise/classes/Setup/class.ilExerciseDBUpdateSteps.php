@@ -82,4 +82,69 @@ class ilExerciseDBUpdateSteps implements \ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_7(): void
+    {
+        if (!$this->db->tableColumnExists('exc_assignment_peer', 'id')) {
+            $this->db->addTableColumn('exc_assignment_peer', 'id', array(
+                'type' => 'integer',
+                'notnull' => true,
+                'length' => 4,
+                'default' => 0
+            ));
+            $this->db->createSequence('exc_assignment_peer');
+        }
+    }
+
+    public function step_8(): void
+    {
+        $set = $this->db->queryF(
+            "SELECT * FROM exc_assignment_peer ",
+            [],
+            []
+        );
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $next_id = $this->db->nextId("exc_assignment_peer");
+            $this->db->update(
+                "exc_assignment_peer",
+                [
+                "id" => ["integer", $next_id]
+            ],
+                [    // where
+                    "ass_id" => ["integer", $rec["ass_id"]],
+                    "giver_id" => ["integer", $rec["giver_id"]],
+                    "peer_id" => ["integer", $rec["peer_id"]]
+                ]
+            );
+        }
+    }
+
+    public function step_9(): void
+    {
+        $this->db->dropPrimaryKey("exc_assignment_peer");
+        $this->db->addPrimaryKey("exc_assignment_peer", ["id"]);
+    }
+
+    public function step_10(): void
+    {
+        $this->db->addUniqueConstraint("exc_assignment_peer", array('ass_id', 'giver_id', 'peer_id'), 'c1');
+    }
+
+    public function step_11(): void
+    {
+        $this->db->addIndex("exc_assignment_peer", ["ass_id"], "i1");
+    }
+
+    public function step_12(): void
+    {
+        if (!$this->db->tableColumnExists('exc_idl', 'requested')) {
+            $this->db->addTableColumn('exc_idl', 'requested', array(
+                'type' => 'integer',
+                'notnull' => true,
+                'length' => 1,
+                'default' => 0
+            ));
+        }
+    }
+
 }

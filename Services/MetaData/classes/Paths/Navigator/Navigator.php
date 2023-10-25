@@ -43,6 +43,15 @@ class Navigator extends BaseNavigator implements NavigatorInterface
         throw new \ilMDPathException('Invalid Navigator');
     }
 
+    public function previousStep(): ?NavigatorInterface
+    {
+        $return = parent::previousStep();
+        if (($return instanceof NavigatorInterface) || is_null($return)) {
+            return $return;
+        }
+        throw new \ilMDPathException('Invalid Navigator');
+    }
+
     /**
      * @return ElementInterface[]
      * @throws \ilMDPathException

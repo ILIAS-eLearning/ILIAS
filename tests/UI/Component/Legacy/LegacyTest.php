@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -39,7 +39,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getUIFactory();
 
@@ -50,7 +50,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_get_content(): void
+    public function testGetContent(): void
     {
         $f = $this->getUIFactory();
         $g = $f->legacy("Legacy Content");
@@ -59,7 +59,7 @@ class LegacyTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_content(): void
+    public function testRenderContent(): void
     {
         $f = $this->getUIFactory();
         $r = $this->getDefaultRenderer();
@@ -72,7 +72,7 @@ class LegacyTest extends ILIAS_UI_TestBase
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_with_custom_signal(): void
+    public function testCreateWithCustomSignal(): void
     {
         $f = $this->getUIFactory();
         $signal_name = 'Custom Signal';
@@ -80,7 +80,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         $f->legacy('')->withCustomSignal($signal_name, '');
     }
 
-    public function test_get_existing_custom_signal(): void
+    public function testGetExistingCustomSignal(): void
     {
         $f = $this->getUIFactory();
         $signal_name = 'Custom Signal';
@@ -89,7 +89,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         $this->assertNotNull($g->getCustomSignal($signal_name));
     }
 
-    public function test_get_non_existing_custom_signal(): void
+    public function testGetNonExistingCustomSignal(): void
     {
         $f = $this->getUIFactory();
         $signal_name = 'Custom Signal';
@@ -100,7 +100,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         $g->getCustomSignal($signal_name);
     }
 
-    public function test_get_list_of_signals(): void
+    public function testGetListOfSignals(): void
     {
         $f = $this->getUIFactory();
         $signal_name_1 = 'Custom Signal 1';
@@ -112,7 +112,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         $this->assertIsArray($l);
     }
 
-    public function test_get_list_with_custom_signals_and_code(): void
+    public function testGetListWithCustomSignalsAndCode(): void
     {
         $f = $this->getUIFactory();
         $signal_name_1 = 'Custom Signal 1';

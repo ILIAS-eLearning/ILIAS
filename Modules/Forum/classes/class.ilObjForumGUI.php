@@ -249,7 +249,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
 
             $this->tpl->addOnLoadCode('il.ForumDraftsAutosave.init(' . json_encode([
-                'loading_img_src' => ilUtil::getImagePath('loader.svg'),
+                'loading_img_src' => ilUtil::getImagePath('media/loader.svg'),
                 'draft_id' => $draft_id,
                 'interval' => $interval * 1000,
                 'url' => $this->ctrl->getFormAction($this, $autosave_cmd, '', true),
@@ -1207,7 +1207,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if ($this->selectedSorting === ilForumProperties::VIEW_TREE
             && $node->getId() !== $this->selected_post_storage->get($node->getThreadId())) {
             $target = $this->uiFactory->symbol()->icon()->custom(
-                ilUtil::getImagePath('target.svg'),
+                ilUtil::getImagePath('object/target.svg'),
                 $this->lng->txt('target_select')
             );
 
@@ -1476,7 +1476,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $tbl->setId('il_frm_statistic_table_' . $this->object->getRefId());
         $tbl->setTitle(
             $this->lng->txt('statistic'),
-            'icon_usr.svg',
+            'standard/icon_usr.svg',
             $this->lng->txt('obj_' . $this->object->getType())
         );
 
@@ -4353,13 +4353,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if ($isForumNotificationEnabled || $isThreadNotificationEnabled) {
             $lg->addHeaderIcon(
                 'not_icon',
-                ilUtil::getImagePath('notification_on.svg'),
+                ilUtil::getImagePath('object/notification_on.svg'),
                 $this->lng->txt('frm_notification_activated')
             );
         } else {
             $lg->addHeaderIcon(
                 'not_icon',
-                ilUtil::getImagePath('notification_off.svg'),
+                ilUtil::getImagePath('object/notification_off.svg'),
                 $this->lng->txt('frm_notification_deactivated')
             );
         }

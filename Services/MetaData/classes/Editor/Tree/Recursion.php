@@ -209,14 +209,11 @@ class Recursion implements TreeRecursion
     ): URI {
         $builder = $this->path_factory->custom();
         $el = $elements[0];
-        /**
-         * Due to how orComposites are currently persisted, their id might change and so
-         * needs to be excluded here.
-         */
-        $skip_last_id = $record_is_array || $el->getDefinition()->name() === 'orComposite';
+        $skip_last_id = $record_is_array;
+
         while (!$el->isRoot()) {
             $builder = $builder->withNextStep(
-                $el->getDefinition(),
+                $el->getDefinition()->name(),
                 true
             );
             if (!$skip_last_id) {

@@ -14,6 +14,8 @@
  *
  *********************************************************************/
 
+import Util from './util.js';
+
 /**
  * Editor tool slate
  */
@@ -29,6 +31,7 @@ export default class ToolSlate {
   constructor() {
     this.content_id = "copg-editor-slate-content";
     this.error_id = "copg-editor-slate-error";
+    this.util = new Util();
   }
 
   /**
@@ -42,11 +45,9 @@ export default class ToolSlate {
    * @param {string} html
    */
   setContent(html) {
-    // @todo hate to use jquery here, but only jquery evals the included script tags
-    //document.querySelector("#copg-editor-slate-content").innerHTML = html;
-    $("#copg-editor-slate-content").html(html);
+    const slateEl = document.getElementById('copg-editor-slate-content');
+    this.util.setInnerHTML(slateEl, html);
     $('body').trigger('il-copg-editor-slate');
-
     // this fixes #30378
     il.Form.registerFileUploadInputEventTrigger('#copg-editor-slate-content ');
   }

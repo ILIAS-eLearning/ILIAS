@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestSuite;
 
 require_once 'libs/composer/vendor/autoload.php';
@@ -33,6 +33,9 @@ class ilServicesMediaObjectsSuite extends TestSuite
 
         require_once("./Services/MediaObjects/test/ImageMapEditSessionRepositoryTest.php");
         $suite->addTestSuite("ImageMapEditSessionRepositoryTest");
+
+        require_once("./Services/MediaObjects/test/MediaTypeManagerTest.php");
+        $suite->addTestSuite("MediaTypeManagerTest");
 
         return $suite;
     }

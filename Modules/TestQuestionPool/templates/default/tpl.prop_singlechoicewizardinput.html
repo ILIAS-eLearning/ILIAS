@@ -3,7 +3,11 @@
 		<thead>
 			<tr>
 				<th>{ANSWER_TEXT}</th>
-				<th class="imagecolumn"><!-- BEGIN image_heading -->{ANSWER_IMAGE}<!-- END image_heading --></th>
+				<th class="imagecolumn">
+<!-- BEGIN image_heading -->
+                    {ANSWER_IMAGE}
+<!-- END image_heading -->
+                </th>
 <!-- BEGIN points_heading -->
 				<th>{POINTS_TEXT}</th>
 <!-- END points_heading -->
@@ -57,7 +61,7 @@
 <!-- BEGIN answer id field -->
 				<input class="form-control" type="hidden" name="{POST_VAR}[answer_id][{ROW_NUMBER}]" <!-- BEGIN prop_answer_id_propval -->value="{PROPERTY_VALUE}" <!-- END prop_answer_id_propval -->/>
 <!-- END answer id field -->
-				<td class="ilValignTop">
+				<td class="ilValignTop ilWhiteSpaceNowrap">
 					<div class="singlechoice_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</div>
 					<div class="singlechoice_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</div>
 <!-- BEGIN move -->

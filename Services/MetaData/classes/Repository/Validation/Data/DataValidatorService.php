@@ -22,7 +22,7 @@ namespace ILIAS\MetaData\Repository\Validation\Data;
 
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Vocabularies\VocabulariesInterface;
-use ILIAS\MetaData\Editor\Full\Services\Inputs\DatetimeFactory;
+use ILIAS\MetaData\DataHelper\DataHelperInterface;
 
 class DataValidatorService
 {
@@ -35,11 +35,13 @@ class DataValidatorService
     protected VocabSourceValidator $vocab_source;
     protected VocabValueValidator $vocab_value;
 
-    public function __construct(VocabulariesInterface $vocabularies)
-    {
-        $this->datetime = new DatetimeValidator();
-        $this->duration = new DurationValidator();
-        $this->lang = new LangValidator();
+    public function __construct(
+        VocabulariesInterface $vocabularies,
+        DataHelperInterface $data_helper
+    ) {
+        $this->datetime = new DatetimeValidator($data_helper);
+        $this->duration = new DurationValidator($data_helper);
+        $this->lang = new LangValidator($data_helper);
         $this->non_neg_int = new NonNegIntValidator();
         $this->null = new NullValidator();
         $this->string = new StringValidator();

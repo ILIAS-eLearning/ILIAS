@@ -20,7 +20,7 @@
  * Class ilLMPresentationGUI
  * GUI class for learning module presentation
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
+ * @ilCtrl_Calls ilLMPresentationGUI: ilCommentGUI, ilInfoScreenGUI
  * @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilLMPresentationGUI: ilRatingGUI
@@ -29,6 +29,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 {
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
+    protected \ILIAS\Notes\GUIService $notes_gui;
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Notes\DomainService $notes;
     protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
@@ -179,6 +180,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->notes = $DIC->notes()->domain();
         $this->xsl = $DIC->copage()->internal()->domain()->xsl();
         $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
+        $this->notes_gui = $DIC->notes()->gui();
     }
 
     public function getUnsafeGetCommands(): array
@@ -309,7 +311,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->ctrl->setParameter($this, "obj_id", $obj_id);
 
         switch ($next_class) {
-            case "ilnotegui":
+            case "ilcommentgui":
                 $ret = $this->layout();
                 break;
 
@@ -549,9 +551,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 case "ilPage":
                     $this->renderPageTitle();
                     $this->setHeader();
-                    $this->ilLMMenu();
                     $this->addHeaderAction();
                     $content = $this->getContent();
+                    $this->ilLMMenu();
                     $content .= $this->ilLMNotes();
                     $additional = $this->ui->renderer()->render($this->additional_content);
                     $this->tpl->setContent($content . $additional);
@@ -758,7 +760,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function setHeader(): void
     {
         $this->tpl->setTitle($this->getLMPresentationTitle());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
     }
 
     /**
@@ -841,7 +843,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $dispatcher->setSubObject("pg", $this->getCurrentPageId());
 
         $this->ctrl->setParameter($this, "embed_mode", (int) $this->embed_mode);
-        $this->ctrl->setParameterByClass("ilnotegui", "embed_mode", (int) $this->embed_mode);
+        $this->ctrl->setParameterByClass("ilcommentgui", "embed_mode", (int) $this->embed_mode);
         $this->ctrl->setParameterByClass("iltagginggui", "embed_mode", (int) $this->embed_mode);
         ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
@@ -884,7 +886,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 $lg->addHeaderIcon(
                     "not_icon",
-                    ilUtil::getImagePath("notification_on.svg"),
+                    ilUtil::getImagePath("object/notification_on.svg"),
                     $this->lng->txt("cont_notification_activated")
                 );
             } else {
@@ -897,7 +899,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_on.svg"),
+                        ilUtil::getImagePath("object/notification_on.svg"),
                         $this->lng->txt("cont_page_notification_activated")
                     );
                 } else {
@@ -906,7 +908,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_off.svg"),
+                        ilUtil::getImagePath("object/notification_off.svg"),
                         $this->lng->txt("cont_notification_deactivated")
                     );
                 }
@@ -964,7 +966,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         if ($pg_id == 0) {
             return "";
         }
-        $notes_gui = new ilNoteGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
+        $notes_gui = $this->notes_gui->getCommentsGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
         $notes_gui->setUseObjectTitleHeader(false);
 
         if ($ilAccess->checkAccess("write", "", $this->requested_ref_id) &&
@@ -983,10 +985,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $callback = array($this, "observeNoteAction");
         $notes_gui->addObserver($callback);
 
-        if ($next_class == "ilnotegui") {
+        if ($next_class == "ilcommentgui") {
             $html = $this->ctrl->forwardCommand($notes_gui);
         } else {
-            $html = $notes_gui->getCommentsHTML();
+            $html = $notes_gui->getListHTML();
         }
         return $html;
     }
@@ -1113,20 +1115,23 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $tpl = new ilTemplate("tpl.lm_content.html", true, true, "Modules/LearningModule/Presentation");
 
-        $navigation_renderer = new ilLMNavigationRendererGUI(
-            $this->service,
-            $this,
-            $this->lng,
-            $this->user,
-            $this->tpl,
-            $this->requested_obj_id,
-            $this->requested_back_pg,
-            $this->requested_frame
-        );
-
         if (!$skip_nav) {
-            $tpl->setVariable("TOP_NAVIGATION", $navigation_renderer->renderTop());
-            $tpl->setVariable("BOTTOM_NAVIGATION", $navigation_renderer->renderBottom());
+            $navigation_renderer = new ilLMNavigationRendererGUI(
+                $this->service,
+                $this,
+                $this->lng,
+                $this->user,
+                $this->tpl,
+                $this->requested_obj_id,
+                $this->requested_back_pg,
+                $this->requested_frame,
+                $this->toolbar,
+                $this->ui
+            );
+
+            $navigation_renderer->renderTop();
+            //$tpl->setVariable("TOP_NAVIGATION", $navigation_renderer->renderTop());
+            //$tpl->setVariable("BOTTOM_NAVIGATION", $navigation_renderer->renderBottom());
         }
         $tpl->setVariable("PAGE_CONTENT", $this->getPageContent());
         $tpl->setVariable("RATING", $this->renderRating());
@@ -1299,7 +1304,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $mode = ($this->requested_cmd == "fullscreen")
             ? "fullscreen"
             : "media";
-        $enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output", $this->offlineMode());
+        $enlarge_path = ilUtil::getImagePath("media/enlarge.svg", false, "output", $this->offlineMode());
         $fullscreen_link =
             $this->linker->getLink("fullscreen");
         $params = array('mode' => $mode,
@@ -1362,7 +1367,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitle($this->getLMPresentationTitle());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
 
         $this->renderTabs($a_active_tab, 0);
 
@@ -1492,14 +1497,14 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                         }
                     }
-                    $img_src = ilUtil::getImagePath("icon_pg.svg");
+                    $img_src = ilUtil::getImagePath("standard/icon_pg.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("pg");
                     break;
 
                     // learning module
                 case "du":
                     $text = $this->getLMPresentationTitle();
-                    $img_src = ilUtil::getImagePath("icon_lm.svg");
+                    $img_src = ilUtil::getImagePath("standard/icon_lm.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("obj_lm");
                     break;
 
@@ -1522,7 +1527,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                         }
                     }
-                    $img_src = ilUtil::getImagePath("icon_st.svg");
+                    $img_src = ilUtil::getImagePath("standard/icon_st.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("st");
                     break;
             }
@@ -1566,7 +1571,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                 }
             }
-            $img_src = ilUtil::getImagePath("icon_pg.svg");
+            $img_src = ilUtil::getImagePath("standard/icon_pg.svg");
             $id = $this->requested_obj_id;
 
             $checked = true;

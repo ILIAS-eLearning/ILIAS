@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Setup;
 use ILIAS\Data\Password;
 
@@ -26,15 +26,18 @@ class ilSetupConfig implements Setup\Config
     protected \ILIAS\Data\ClientId $client_id;
     protected \DateTimeZone $server_timezone;
     protected bool $register_nic;
+    protected ?string $export_hooks_path;
 
     public function __construct(
         \ILIAS\Data\ClientId $client_id,
         \DateTimeZone $server_timezone,
-        bool $register_nic
+        bool $register_nic,
+        ?string $export_hooks_path
     ) {
         $this->client_id = $client_id;
         $this->server_timezone = $server_timezone;
         $this->register_nic = $register_nic;
+        $this->export_hooks_path = $export_hooks_path;
     }
 
     public function getClientId(): \ILIAS\Data\ClientId
@@ -50,5 +53,10 @@ class ilSetupConfig implements Setup\Config
     public function getRegisterNIC(): bool
     {
         return $this->register_nic;
+    }
+
+    public function getExportHooksPath(): ?string
+    {
+        return $this->export_hooks_path;
     }
 }

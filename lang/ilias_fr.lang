@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Utiliser la vue examen sur la page de soumissi
 assessment#:#show_pass_overview#:#Afficher les Résultats
 assessment#:#show_user_answers#:#Afficher les Réponses de l'Utilisateur
 assessment#:#shuffle_answers#:#Mélanger les Réponses
-assessment#:#sign_submission#:#Signer électroniquement la soumission du test
-assessment#:#sign_submission_info#:#Lorsque activé, si un plugin de signature est installé et activé, les participants peuvent signer électroniquement la soumission de leur test.
 assessment#:#skip_question#:#Ne pas répondre et passer
 assessment#:#solutionText#:#Texte
 assessment#:#solution_contain_keywords#:#L'obtention des points est assujettie à la présence des mots clé suivants
@@ -1687,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Donner le score après la fin du test.
 assessment#:#tst_report_never#:#Pas de résultats de test disponible
 assessment#:#tst_reporting_date#:#Date
 assessment#:#tst_res_jump_to_participant_btn#:#Aller
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Aller au participant--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Aller au participant
 assessment#:#tst_res_lo_objectives_header#:#Objectifs d'apprentissage pertinents
 assessment#:#tst_res_lo_try_header#:#Tentative
 assessment#:#tst_res_lo_try_n#:#Tentative %s
@@ -7643,8 +7641,6 @@ crs#:#crs_timings_suggested_info#:#Temps de modification proposé
 crs#:#crs_timings_time_frame#:#Période
 crs#:#crs_timings_time_frame_tt#:#Time frame in days
 crs#:#crs_timings_update_error#:#Vos paramètres ne sont pas valides. Veuillez vérifier la chronologie des ressources suivantes :
-crs#:#crs_timings_visibility#:#Lorsque activé, la ressource reste visible en dehors de la période de disponibilité.
-crs#:#crs_timings_visibility_short#:#Visibilité
 crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.
 crs#:#crs_to#:#Jusqu'à :
 crs#:#crs_tutor#:#Tuteur
@@ -11932,6 +11928,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Visibilité
+obj#:#activation_visible_when_disabled_info#:#Lorsque activé, la ressource reste visible en dehors de la période de disponibilité.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Toutes les affectations ont été publiées.
 obj#:#cont_skll_published_some_not#:#Toutes les affectations données ont été publiées. Certains utilisateurs n'ont pas les affectations de compétences. Par conséquent, aucune affectation n’a pu être publiée pour eux.

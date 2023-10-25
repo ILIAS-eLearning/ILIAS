@@ -140,7 +140,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->buildFactory();
 
@@ -151,7 +151,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render(): void
+    public function testRender(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -180,7 +180,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_error(): void
+    public function testRenderError(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -209,7 +209,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_no_byline(): void
+    public function testRenderNoByline(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -234,7 +234,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_value(): void
+    public function testRenderValue(): void
     {
         $test_file_id = "test_file_id_1";
         $test_file_name = "test file name 1";
@@ -292,7 +292,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_with_metadata(): void
+    public function testRenderWithMetadata(): void
     {
         $factory = $this->buildFactory();
 
@@ -366,7 +366,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_with_metadata_value(): void
+    public function testRenderWithMetadataValue(): void
     {
         $test_file_id = "test_file_id_1";
         $test_file_name = "test file name 1";
@@ -448,7 +448,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_required(): void
+    public function testRenderRequired(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -473,7 +473,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_disabled(): void
+    public function testRenderDisabled(): void
     {
         $f = $this->buildFactory();
         $label = "label";

@@ -240,8 +240,7 @@ class ilUserPrivacySettingsGUI
             ->withValue($val)
             ->withRequired(true)
             ->withDisabled(
-                (bool)
-                $this->settings->get("usr_settings_disable_hide_own_online_status")
+                $this->settings->get('usr_settings_disable_hide_own_online_status', '0') === '1' ? true : false
             );
 
         $formSections['awrn_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('obj_awra'));
@@ -265,8 +264,7 @@ class ilUserPrivacySettingsGUI
             )
             ->withValue($bs_allow_contact_me)
             ->withDisabled(
-                (bool)
-                $this->settings->get('usr_settings_disable_bs_allow_to_contact_me')
+                $this->settings->get('usr_settings_disable_bs_allow_to_contact_me', '0') === '1' ? true : false
             );
 
         $formSections['contacts_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('mm_contacts'));
@@ -322,7 +320,7 @@ class ilUserPrivacySettingsGUI
         });
 
         if ($this->shouldShowOnScreenChatOptions()) {
-            $oscAvailable = (bool) $this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0');
+            $oscAvailable = $this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0') === '1' ? true : false;
             $oscSubFormGroup = [];
 
             if ($this->chatSettings->get('enable_browser_notifications', '0')) {
@@ -436,7 +434,7 @@ class ilUserPrivacySettingsGUI
                         $enableOsc = is_array($enableOsc);
                     }
 
-                    if (!$this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0')) {
+                    if ($this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0') !== '1') {
                         $preferencesUpdated = true;
                         if ($oldEnableOscValue !== $enableOsc) {
                             $this->user->setPref('chat_osc_accept_msg', ilUtil::tf2yn($enableOsc));
@@ -501,7 +499,7 @@ class ilUserPrivacySettingsGUI
         if ($this->shouldShowOnScreenChatOptions() && $this->chatSettings->get('enable_browser_notifications', '0')) {
             $pageTemplate->addJavaScript('./Services/Notifications/js/browser_notifications.js');
 
-            $tpl->setVariable('ALERT_IMAGE_SRC', ilUtil::getImagePath('icon_alert.svg'));
+            $tpl->setVariable('ALERT_IMAGE_SRC', ilUtil::getImagePath('standard/icon_alert.svg'));
             $tpl->setVariable('BROWSER_NOTIFICATION_TOGGLE_LABEL', $this->lng->txt('osc_enable_browser_notifications_label'));
 
             $this->lng->toJSMap([

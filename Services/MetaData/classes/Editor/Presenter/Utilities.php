@@ -21,19 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Editor\Presenter;
 
 use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\MetaData\Presentation\UtilitiesInterface as PresentationUtilities;
 
 class Utilities implements UtilitiesInterface
 {
-    protected \ilLanguage $lng;
-    protected \ilObjUser $user;
+    protected PresentationUtilities $utilities;
 
     public function __construct(
-        \ilLanguage $lng,
-        \ilObjUser $user,
+        PresentationUtilities $utilities,
     ) {
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('meta');
-        $this->user = $user;
+        $this->utilities = $utilities;
     }
 
     public function shortenString(
@@ -49,19 +46,16 @@ class Utilities implements UtilitiesInterface
 
     public function getUserDateFormat(): DateFormat
     {
-        return $this->user->getDateFormat();
+        return $this->utilities->getUserDateFormat();
     }
 
     public function txt(string $key): string
     {
-        return $this->lng->txt($key);
+        return $this->utilities->txt($key);
     }
 
     public function txtFill(string $key, string ...$values): string
     {
-        if ($this->lng->exists($key)) {
-            return sprintf($this->lng->txt($key), ...$values);
-        }
-        return $key . ' ' . implode(',', $values);
+        return $this->utilities->txtFill($key, ...$values);
     }
 }

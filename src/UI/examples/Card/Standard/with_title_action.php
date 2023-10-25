@@ -14,7 +14,7 @@ function with_title_action()
     $renderer = $DIC->ui()->renderer();
 
     $image = $f->image()->responsive(
-        "./templates/default/images/HeaderIcon.svg",
+        "./templates/default/images/logo/HeaderIcon.svg",
         "Thumbnail Example"
     );
 

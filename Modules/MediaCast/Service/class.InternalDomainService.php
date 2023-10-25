@@ -43,19 +43,8 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function mediaCast(\ilObjMediaCast $media_cast): MediaCastManager
     {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
-        );
-    }*/
-
-    public function mediaCast(): MediaCastManager
-    {
-        return new MediaCastManager();
+        return new MediaCastManager($media_cast);
     }
 }

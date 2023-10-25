@@ -59,7 +59,10 @@ class InitUIFramework
         };
         $c["ui.upload_limit_resolver"] = function ($c) {
             return new \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver(
-                (int) \ilFileUtils::getUploadSizeLimitBytes()
+                (int) \ilFileUtils::getPhpUploadSizeLimitInBytes(),
+                ($c->offsetExists('upload_policy_resolver')) ?
+                    $c['upload_policy_resolver']->getUserUploadSizeLimitInBytes() :
+                    null
             );
         };
         $c["ui.data_factory"] = function ($c) {
@@ -267,7 +270,8 @@ class InitUIFramework
                             $c["refinery"],
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
-                            $c["help.text_retriever"]
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
@@ -277,7 +281,8 @@ class InitUIFramework
                             $c["refinery"],
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
-                            $c["help.text_retriever"]
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory(
                             $c["ui.factory"],
@@ -287,7 +292,8 @@ class InitUIFramework
                             $c["refinery"],
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
-                            $c["help.text_retriever"]
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -297,7 +303,8 @@ class InitUIFramework
                             $c["refinery"],
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
-                            $c["help.text_retriever"]
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
                         )
                     )
                 )

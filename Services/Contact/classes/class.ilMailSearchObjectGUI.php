@@ -126,13 +126,7 @@ abstract class ilMailSearchObjectGUI
      */
     protected function addPermission(array $a_obj_ids): void
     {
-        $existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
-        $added = false;
-        foreach ($a_obj_ids as $object_id) {
-            if (!in_array($object_id, $existing, true)) {
-                $added = $this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
-            }
-        }
+        $added = $this->wsp_access_handler->addMissingPermissionForObjects($this->wsp_node_id, $a_obj_ids);
 
         if ($added) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('wsp_share_success'), true);

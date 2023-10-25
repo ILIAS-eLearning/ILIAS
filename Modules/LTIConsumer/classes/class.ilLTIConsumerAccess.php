@@ -92,7 +92,7 @@ class ilLTIConsumerAccess
 
     public function hasHighscoreAccess(): bool
     {
-//        Todo -check
+        //        Todo -check
         if (!$this->object->getUseXapi()) {
             return false;
         }

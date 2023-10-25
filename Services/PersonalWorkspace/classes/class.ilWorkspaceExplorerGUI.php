@@ -208,9 +208,9 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     {
         $t = $a_node["type"];
         if (in_array($t, array("sktr"))) {
-            return ilUtil::getImagePath("icon_skll.svg");
+            return ilUtil::getImagePath("standard/icon_skll.svg");
         }
-        return ilUtil::getImagePath("icon_" . $t . ".svg");
+        return ilUtil::getImagePath("standard/icon_" . $t . ".svg");
     }
 
     /**

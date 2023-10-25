@@ -47,6 +47,8 @@ class Inline implements C\Launcher\Inline
     protected ?MessageBox\MessageBox $instruction = null;
     protected ?MessageBox\MessageBox $status_message = null;
     protected ?ServerRequestInterface $request = null;
+    protected ?string $modal_submit_label = null;
+    protected ?string $modal_cancel_label = null;
 
     public function __construct(
         Modal\Factory $modal_factory,
@@ -154,5 +156,29 @@ class Inline implements C\Launcher\Inline
     public function getEvaluation(): \Closure
     {
         return $this->evaluation;
+    }
+
+    public function withModalSubmitLabel(?string $label): self
+    {
+        $clone = clone $this;
+        $clone->modal_submit_label = $label;
+        return $clone;
+    }
+
+    public function getModalSubmitLabel(): ?string
+    {
+        return $this->modal_submit_label;
+    }
+
+    public function withModalCancelLabel(?string $label): self
+    {
+        $clone = clone $this;
+        $clone->modal_cancel_label = $label;
+        return $clone;
+    }
+
+    public function getModalCancelLabel(): ?string
+    {
+        return $this->modal_cancel_label;
     }
 }

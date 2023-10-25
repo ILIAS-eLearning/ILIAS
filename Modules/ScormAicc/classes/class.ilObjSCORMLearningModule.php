@@ -30,8 +30,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 {
     /**
     * Constructor
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
+    * @param	integer $a_id                reference_id or object_id
+    * @param	boolean $a_call_by_reference treat the id as reference_id (true) or object_id (false)
     */
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {

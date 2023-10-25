@@ -21,18 +21,25 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\Setup\Config;
 
-/**
- * @author  Tim Schmitz <schmitz@leifos.de>
- */
 class ilMDSetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilMDLOMUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'MetaData',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilMDLOMUpdateSteps()),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilMDCopyrightUpdateSteps())
+        );
     }
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilMDLOMUpdateSteps());
+        return new Setup\Objective\NullObjective();
+    }
+
+    public function getMigrations(): array
+    {
+        return [new ilMDCopyrightMigration(), new ilMDLOMConformanceMigration()];
     }
 }

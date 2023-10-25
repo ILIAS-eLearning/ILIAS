@@ -134,7 +134,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $initial->users = $room->getConnectedUsers();
         $initial->redirect_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false);
         $initial->profile_image_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true);
-        $initial->no_profile_image_url = ilUtil::getImagePath('no_photo_xxsmall.jpg');
+        $initial->no_profile_image_url = ilUtil::getImagePath('placeholder/no_photo_xxsmall.jpg');
         $initial->subdirectory = $settings->getSubDirectory();
 
         $initial->userinfo = [
@@ -359,7 +359,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $roomTpl->setVariable('LBL_USER_IN_ROOM', $this->ilLng->txt('user_in_room'));
         $roomTpl->setVariable('LBL_USER_IN_ILIAS', $this->ilLng->txt('user_in_ilias'));
         $roomTpl->setVariable('LBL_NO_USER', $this->ilLng->txt('msg_no_search_result'));
-        $roomTpl->setVariable('LOADING_IMAGE', ilUtil::getImagePath('loader.svg'));
+        $roomTpl->setVariable('LOADING_IMAGE', ilUtil::getImagePath('media/loader.svg'));
     }
 
     protected function renderRightUsersBlock(ilTemplate $roomTpl): void

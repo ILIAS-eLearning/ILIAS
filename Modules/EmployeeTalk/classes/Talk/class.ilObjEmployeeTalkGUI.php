@@ -27,6 +27,9 @@ use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRe
 use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\EmployeeTalk\Metadata\MetadataHandlerInterface;
+use ILIAS\EmployeeTalk\Metadata\EditFormInterface;
+use ILIAS\EmployeeTalk\Metadata\MetadataHandler;
 
 /**
  * Class ilObjEmployeeTalkGUI
@@ -48,6 +51,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     protected bool $isReadonly;
     protected ilObjEmployeeTalkAccess $talkAccess;
     protected IliasDBEmployeeTalkSeriesRepository $repository;
+    protected MetadataHandlerInterface $md_handler;
 
     public function __construct()
     {
@@ -76,6 +80,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $DIC->ui()->mainTemplate()->setTitle($this->lng->txt('mst_my_staff'));
         $this->talkAccess = ilObjEmployeeTalkAccess::getInstance();
         $this->repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $DIC->database());
+        $this->md_handler = new MetadataHandler();
     }
 
     private function checkAccessOrFail(): void
@@ -136,7 +141,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
     public function editObject(): void
     {
-        $this->tabs_gui->activateTab('view_content');
+        $this->tabs_gui->activateTab('settings');
 
         $form = $this->initEditForm();
         $values = $this->getEditFormValues();
@@ -144,8 +149,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
             $form->setValuesByArray($values);
         }
 
-        $this->addExternalEditFormCustom($form);
-
+        $this->addChangeDateButtonsToToolbar();
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -181,7 +185,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         // display form again to correct errors
-        $this->tabs_gui->activateTab("view_content");
+        $this->tabs_gui->activateTab("settings");
+        $this->addChangeDateButtonsToToolbar();
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHtml());
     }
@@ -413,90 +418,64 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $ta->setDisabled($this->isReadonly);
         $form->addItem($ta);
 
+        $location = new ilTextInputGUI($this->lng->txt('location'), 'etal_location');
+        $location->setMaxLength(200);
+        $location->setDisabled($this->isReadonly);
+        $form->addItem($location);
+
+        $completed = new ilCheckboxInputGUI($this->lng->txt('etal_status_completed'), 'etal_completed');
+        $completed->setDisabled($this->isReadonly);
+        $form->addItem($completed);
+
         $this->initEditCustomForm($form);
 
         if (!$this->isReadonly) {
             $form->addCommandButton("update", $this->lng->txt("save"));
         }
-        //$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 
         return $form;
     }
 
-    public function addExternalEditFormCustom(ilPropertyFormGUI $form): void
+    public function addChangeDateButtonsToToolbar(): void
     {
-        /**
-         * @var EmployeeTalk $data
-         */
-        $data = $this->object->getData();
-
-        $location = new ilTextInputGUI($this->lng->txt('location'), 'etal_location');
-        $location->setMaxLength(200);
-        $location->setValue($data->getLocation());
-        $location->setDisabled($this->isReadonly);
-        $form->addItem($location);
-
-        $completed = new ilCheckboxInputGUI($this->lng->txt('etal_status_completed'), 'etal_completed');
-        $completed->setChecked($data->isCompleted());
-        $completed->setDisabled($this->isReadonly);
-        $form->addItem($completed);
-
-        if (!$this->isReadonly) {
-            $appointment_class = strtolower(ilEmployeeTalkAppointmentGUI::class);
-            $this->ctrl->setParameterByClass($appointment_class, 'ref_id', $this->ref_id);
-
-            $this->ctrl->setParameterByClass(
-                $appointment_class,
-                ilEmployeeTalkAppointmentGUI::EDIT_MODE,
-                ilEmployeeTalkAppointmentGUI::EDIT_MODE_APPOINTMENT
-            );
-            $link_single = $this->ctrl->getLinkTargetByClass(
-                $appointment_class,
-                ControlFlowCommand::UPDATE_INDEX
-            );
-            $button_single = $this->ui_factory->button()->standard(
-                $this->lng->txt('change_date_of_talk'),
-                $link_single
-            );
-
-            $this->ctrl->setParameterByClass(
-                $appointment_class,
-                ilEmployeeTalkAppointmentGUI::EDIT_MODE,
-                ilEmployeeTalkAppointmentGUI::EDIT_MODE_SERIES
-            );
-            $link_all = $this->ctrl->getLinkTargetByClass(
-                $appointment_class,
-                ControlFlowCommand::UPDATE_INDEX
-            );
-            $button_all = $this->ui_factory->button()->standard(
-                $this->lng->txt('change_date_of_series'),
-                $link_all
-            );
-
-            $this->ctrl->clearParametersByClass($appointment_class);
-
-            $this->toolbar->addComponent($button_single);
-            $this->toolbar->addComponent($button_all);
-        }
-
-        $md = $this->initMetaDataForm($form);
-        $md->parse();
-
-        // this is necessary to disable the md fields
         if ($this->isReadonly) {
-            foreach ($form->getInputItemsRecursive() as $item) {
-                if ($item instanceof ilCombinationInputGUI) {
-                    $item->__call('setValue', ['']);
-                    $item->__call('setDisabled', [true]);
-                }
-                if (method_exists($item, 'setDisabled')) {
-                    /** @var $item ilFormPropertyGUI */
-                    $item->setDisabled(true);
-                }
-            }
+            return;
         }
+        $appointment_class = strtolower(ilEmployeeTalkAppointmentGUI::class);
+        $this->ctrl->setParameterByClass($appointment_class, 'ref_id', $this->ref_id);
 
-        parent::addExternalEditFormCustom($form);
+        $this->ctrl->setParameterByClass(
+            $appointment_class,
+            ilEmployeeTalkAppointmentGUI::EDIT_MODE,
+            ilEmployeeTalkAppointmentGUI::EDIT_MODE_APPOINTMENT
+        );
+        $link_single = $this->ctrl->getLinkTargetByClass(
+            $appointment_class,
+            ControlFlowCommand::UPDATE_INDEX
+        );
+        $button_single = $this->ui_factory->button()->standard(
+            $this->lng->txt('change_date_of_talk'),
+            $link_single
+        );
+
+        $this->ctrl->setParameterByClass(
+            $appointment_class,
+            ilEmployeeTalkAppointmentGUI::EDIT_MODE,
+            ilEmployeeTalkAppointmentGUI::EDIT_MODE_SERIES
+        );
+        $link_all = $this->ctrl->getLinkTargetByClass(
+            $appointment_class,
+            ControlFlowCommand::UPDATE_INDEX
+        );
+        $button_all = $this->ui_factory->button()->standard(
+            $this->lng->txt('change_date_of_series'),
+            $link_all
+        );
+
+        $this->ctrl->clearParametersByClass($appointment_class);
+
+        $this->toolbar->addComponent($button_single);
+        $this->toolbar->addComponent($button_all);
     }
 
     protected function getEditFormCustomValues(array &$a_values): void
@@ -511,6 +490,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $a_values['etal_superior'] = ilObjUser::_lookupLogin($this->object->getOwner());
         $a_values['etal_employee'] = ilObjUser::_lookupLogin($data->getEmployee());
         $a_values['etal_settings_locked_for_others'] = $settings->isLockedEditing();
+        $a_values['etal_location'] = $data->getLocation();
+        $a_values['etal_completed'] = $data->isCompleted();
     }
 
     protected function updateCustom(ilPropertyFormGUI $form): void
@@ -520,11 +501,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
          */
         $series = $this->object->getParent();
         $updated_series = false;
-
-        $md = $this->initMetaDataForm($form);
-        $md->parse();
-        $md->importEditFormPostValues();
-        $md->writeEditForm($series->getId(), $this->object->getId());
 
         $location = $form->getInput('etal_location');
         $completed = boolval(
@@ -593,14 +569,45 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     public function viewObject(): void
     {
         $this->tabs_gui->activateTab('view_content');
-        $this->editObject();
+        $form = $this->getMetadataForm();
+        $this->tpl->setContent($form->render());
+    }
+
+    public function updateMetadataObject(): void
+    {
+        /**
+         * @var ilObjEmployeeTalkSeries $series
+         */
+        $series = $this->object->getParent();
+
+        $form = $this->getMetadataForm();
+
+        if ($form->importFromPostAndValidate()) {
+            $form->updateMetadata();
+            $this->ctrl->redirect($this, ControlFlowCommand::INDEX);
+        }
+
+        $this->tabs_gui->activateTab('view_content');
+        $this->tpl->setContent($form->render());
     }
 
     protected function getTabs(): void
     {
-        $this->tabs_gui->addTab('view_content', $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ControlFlowCommand::UPDATE));
-        $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass(strtolower(ilInfoScreenGUI::class), "showSummary"));
-        //$this->tabs_gui->addTab('settings', $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "edit"));
+        $this->tabs_gui->addTab(
+            'view_content',
+            $this->lng->txt("content"),
+            $this->ctrl->getLinkTarget($this, ControlFlowCommand::INDEX)
+        );
+        $this->tabs_gui->addTab(
+            "info_short",
+            "Info",
+            $this->ctrl->getLinkTargetByClass(strtolower(ilInfoScreenGUI::class), "showSummary")
+        );
+        $this->tabs_gui->addTab(
+            'settings',
+            $this->lng->txt("settings"),
+            $this->ctrl->getLinkTarget($this, ControlFlowCommand::UPDATE)
+        );
     }
 
     /**
@@ -625,22 +632,31 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
     }
 
-    private function initMetaDataForm(ilPropertyFormGUI $form): ilAdvancedMDRecordGUI
+    protected function getMetadataForm(): EditFormInterface
     {
         /**
          * @var ilObjEmployeeTalkSeries $series
          */
         $series = $this->object->getParent();
-        $md = new ilAdvancedMDRecordGUI(
-            ilAdvancedMDRecordGUI::MODE_EDITOR,
+
+        if ($this->isReadonly) {
+            return $this->md_handler->getDisabledEditForm(
+                $series->getType(),
+                $series->getId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        }
+
+        return $this->md_handler->getEditForm(
             $series->getType(),
             $series->getId(),
             $this->object->getType(),
             $this->object->getId(),
-            false
+            $this->ctrl->getFormAction($this, 'updateMetadata'),
+            'updateMetadata',
+            $this->lng->txt('save')
         );
-        $md->setPropertyForm($form);
-        return $md;
     }
 
     public static function _goto(string $refId): void

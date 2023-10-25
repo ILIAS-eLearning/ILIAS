@@ -254,24 +254,36 @@ class ilPCParagraphGUI extends ilPageContentGUI
         // lists
         $s_text = str_replace(
             array("<SimpleBulletList>", "</SimpleBulletList>"),
-            array("<ul class='ilc_list_u_BulletedList'>", "</ul>"),
+            array('<ul class="ilc_list_u_BulletedList">', "</ul>"),
             $s_text
         );
+        while (preg_match('~<SimpleBulletList Class=\"([^\"]*)\">~i', $s_text, $found)) {
+            $class = $found[1];
+            $s_text = str_replace('<SimpleBulletList Class="' . $class . '">', '<ul class="ilc_list_u_' . $class . '">', $s_text);
+        }
         $s_text = str_replace(
             array("<SimpleNumberedList>", "</SimpleNumberedList>"),
-            array("<ol class='ilc_list_o_NumberedList'>", "</ol>"),
+            array('<ol class="ilc_list_o_NumberedList">', "</ol>"),
             $s_text
         );
+        while (preg_match('~<SimpleNumberedList Class=\"([^\"]*)\">~i', $s_text, $found)) {
+            $class = $found[1];
+            $s_text = str_replace('<SimpleNumberedList Class="' . $class . '">', '<ol class="ilc_list_o_' . $class . '">', $s_text);
+        }
         $s_text = str_replace(
             array("<SimpleListItem>", "</SimpleListItem>"),
-            array("<li class='ilc_list_item_StandardListItem'>", "</li>"),
+            array('<li class="ilc_list_item_StandardListItem">', "</li>"),
             $s_text
         );
         $s_text = str_replace(
             array("<SimpleListItem/>"),
-            array("<li class='ilc_list_item_StandardListItem'></li>"),
+            array('<li class="ilc_list_item_StandardListItem"></li>'),
             $s_text
         );
+        while (preg_match('~<SimpleListItem Class=\"([^\"]*)\">~i', $s_text, $found)) {
+            $class = $found[1];
+            $s_text = str_replace('<SimpleListItem Class="' . $class . '">', '<li class="ilc_list_item_' . $class . '">', $s_text);
+        }
 
         // spans
         foreach (ilPageContentGUI::_getCommonBBButtons() as $bb => $cl) {

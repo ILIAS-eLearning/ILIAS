@@ -688,7 +688,7 @@ class ilChatroom
             $notification->setShortDescriptionVar('chat_invitation_short', $bodyParams, 'chatroom');
             $notification->setLongDescriptionVar('chat_invitation_long', $bodyParams, 'chatroom');
             $notification->setLinks($links);
-            $notification->setIconPath('templates/default/images/icon_chtr.svg');
+            $notification->setIconPath('templates/default/images/standard/icon_chtr.svg');
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
             $notification->setIdentification(new NotificationIdentification(

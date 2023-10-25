@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Glossary;
 
 use ILIAS\DI\Container;
@@ -26,6 +26,7 @@ use ILIAS\Glossary\Flashcard\FlashcardManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Glossary\Flashcard\FlashcardShuffleManager;
 use ILIAS\Glossary\Presentation\PresentationManager;
+use ILIAS\Glossary\Taxonomy\TaxonomyManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -47,16 +48,10 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function log(): \ilLogger
     {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
-        );
-    }*/
+        return $this->logger()->glo();
+    }
 
     public function term(\ilObjGlossary $glossary, int $user_id = 0): TermManager
     {
@@ -99,6 +94,14 @@ class InternalDomainService
             $this->repo_service->presentationSession(),
             $glossary,
             $user_id
+        );
+    }
+
+    public function taxonomy(\ilObjGlossary $glossary): TaxonomyManager
+    {
+        return new TaxonomyManager(
+            $this->DIC->taxonomy()->domain(),
+            $glossary
         );
     }
 }

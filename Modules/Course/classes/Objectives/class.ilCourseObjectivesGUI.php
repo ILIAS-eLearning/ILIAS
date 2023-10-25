@@ -1013,7 +1013,7 @@ class ilCourseObjectivesGUI
         }
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTableWidth('100%');
-        //$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.svg'),$this->lng->txt('crs_objective'));
+        //$this->form->setTitleIcon(ilUtil::getImagePath('standard/icon_lobj.svg'),$this->lng->txt('crs_objective'));
 
         $tests = [];
         $max_points = 0;
@@ -1099,7 +1099,7 @@ class ilCourseObjectivesGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
-        //$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.svg'),$this->lng->txt('crs_objective'));
+        //$this->form->setTitleIcon(ilUtil::getImagePath('standard/icon_lobj.svg'),$this->lng->txt('crs_objective'));
 
         switch ($a_mode) {
             case 'create':

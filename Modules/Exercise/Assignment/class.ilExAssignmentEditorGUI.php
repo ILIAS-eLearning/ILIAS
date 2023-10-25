@@ -439,14 +439,21 @@ class ilExAssignmentEditorGUI
         // Deadline Mode
         $radg = new ilRadioGroupInputGUI($lng->txt("exc_deadline"), "deadline_mode");
         $radg->setValue(0);
+        $op0 = new ilRadioOption($lng->txt("exc_no_deadline"), -1, $lng->txt("exc_no_deadline_info"));
+        $radg->addOption($op0);
         $op1 = new ilRadioOption($lng->txt("exc_fixed_date"), 0, $lng->txt("exc_fixed_date_info"));
         $radg->addOption($op1);
+        if (!$ass_type->usesTeams()) {
+            $op3 = new ilRadioOption($lng->txt("exc_fixed_date_individual"), 2, $lng->txt("exc_fixed_date_individual_info"));
+            $radg->addOption($op3);
+        }
         $op2 = new ilRadioOption($lng->txt("exc_relative_date"), 1, $lng->txt("exc_relative_date_info"));
         $radg->addOption($op2);
         $form->addItem($radg);
 
         // Deadline fixed date
         $deadline = new ilDateTimeInputGUI($lng->txt("date"), "deadline");
+        $deadline->setRequired(true);
         $deadline->setShowTime(true);
         $op1->addSubItem($deadline);
 
@@ -684,7 +691,12 @@ class ilExAssignmentEditorGUI
             $time_deadline = null;
             $time_deadline_ext = null;
 
-            if ((int) $a_form->getInput("deadline_mode") == ilExAssignment::DEADLINE_ABSOLUTE) {
+            $deadline_mode = (int) $a_form->getInput("deadline_mode");
+            if ($deadline_mode === -1) {
+                $deadline_mode = 0;
+            }
+
+            if ($deadline_mode === ilExAssignment::DEADLINE_ABSOLUTE) {
                 $time_deadline = $a_form->getItemByPostVar("deadline")->getDate();
                 $time_deadline = $time_deadline
                     ? $time_deadline->get(IL_CAL_UNIX)
@@ -799,7 +811,7 @@ class ilExAssignmentEditorGUI
                     }
                 }
 
-                $res["deadline_mode"] = $a_form->getInput("deadline_mode");
+                $res["deadline_mode"] = $deadline_mode;
 
                 if ($res["deadline_mode"] == ilExAssignment::DEADLINE_RELATIVE) {
                     $res["relative_deadline"] = $a_form->getInput("relative_deadline");
@@ -896,7 +908,7 @@ class ilExAssignmentEditorGUI
         // peer review default values (on separate form)
         if ($is_create) {
             $a_ass->setPeerReviewMin(2);
-            $a_ass->setPeerReviewSimpleUnlock(false);
+            $a_ass->setPeerReviewSimpleUnlock(0);
             $a_ass->setPeerReviewValid(ilExAssignment::PEER_REVIEW_VALID_NONE);
             $a_ass->setPeerReviewPersonalized(false);
             $a_ass->setPeerReviewFileUpload(false);
@@ -1120,6 +1132,9 @@ class ilExAssignmentEditorGUI
 
 
         $values["deadline_mode"] = $this->assignment->getDeadlineMode();
+        if ($values["deadline_mode"] === 0 && !$this->assignment->getDeadline()) {
+            $values["deadline_mode"] = -1;
+        }
         $values["relative_deadline"] = $this->assignment->getRelativeDeadline();
         $dt = new ilDateTime($this->assignment->getRelDeadlineLastSubmission(), IL_CAL_UNIX);
         $values["rel_deadline_last_subm"] = $dt->get(IL_CAL_DATETIME);
@@ -1397,6 +1412,7 @@ class ilExAssignmentEditorGUI
         $form->addItem($peer_min);
 
         $peer_unlock = new ilRadioGroupInputGUI($lng->txt("exc_peer_review_simple_unlock"), "peer_unlock");
+        $peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_immed"), 2));
         $peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_active"), 1));
         $peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_inactive"), 0));
         $peer_unlock->setRequired(true);
@@ -1560,7 +1576,7 @@ class ilExAssignmentEditorGUI
     {
         $a_form->getItemByPostVar("peer_min")->setValue($this->assignment->getPeerReviewMin());
         $a_form->getItemByPostVar("peer_prsl")->setChecked($this->assignment->hasPeerReviewPersonalized());
-        $a_form->getItemByPostVar("peer_unlock")->setValue((int) $this->assignment->getPeerReviewSimpleUnlock());
+        $a_form->getItemByPostVar("peer_unlock")->setValue($this->assignment->getPeerReviewSimpleUnlock());
 
         if ($this->enable_peer_review_completion) {
             $a_form->getItemByPostVar("peer_valid")->setValue($this->assignment->getPeerReviewValid());
@@ -1723,7 +1739,7 @@ class ilExAssignmentEditorGUI
     ): void {
         $a_ass->setPeerReviewMin((int) $a_input["peer_min"]);
         $a_ass->setPeerReviewDeadline((int) $a_input["peer_dl"]);
-        $a_ass->setPeerReviewSimpleUnlock((bool) $a_input["peer_unlock"]);
+        $a_ass->setPeerReviewSimpleUnlock((int) $a_input["peer_unlock"]);
         $a_ass->setPeerReviewPersonalized((bool) $a_input["peer_prsl"]);
 
         // #18964

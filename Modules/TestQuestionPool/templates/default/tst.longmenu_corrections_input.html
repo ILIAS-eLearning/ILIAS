@@ -1,23 +1,6 @@
 <div class="form-inline">
-    <p>{TXT_ANSWERS}: {NUM_ANSWERS} <a id="link_{POSTVAR}">[{TXT_SHOW}]</a></p>
+    <p>{TXT_ANSWERS} {NUM_ANSWERS} {BTN_SHOW}</p>
     <p>{TXT_CORRECT_ANSWERS}</p>
     {TAG_INPUT}
     {ANSWERS_MODAL}
 </div>
-<script type="text/javascript">
-(function(){
-    document.addEventListener("DOMContentLoaded", () => {
-        let option = document.getElementById('link_{POSTVAR}');
-        let modal = document.getElementById('modal_{POSTVAR}');
-        option.addEventListener('click',
-            (e) => {
-                $(modal).modal('toggle');
-                e.stopPropagation();
-                e.preventDefault();
-                return false;
-            }
-        );
-
-    });
-})();
-</script>-

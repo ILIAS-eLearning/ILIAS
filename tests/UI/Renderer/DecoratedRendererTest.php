@@ -24,7 +24,7 @@ use ILIAS\UI\Implementation\Render\DecoratedRenderer;
 
 class DecoratedRendererTest extends ILIAS_UI_TestBase
 {
-    public function test_render()
+    public function testRender()
     {
         $c1 = new TestComponent("foo");
         $renderer = $this->getDecoratedRenderer($this->getDefaultRenderer());
@@ -32,7 +32,7 @@ class DecoratedRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals("foo", $html);
     }
 
-    public function test_render_async()
+    public function testRenderAsync()
     {
         $c1 = new TestComponent("foo");
         $renderer = $this->getDecoratedRenderer($this->getDefaultRenderer());
@@ -40,7 +40,7 @@ class DecoratedRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals("foo", $html);
     }
 
-    public function test_render_with_manipulation()
+    public function testRenderWithManipulation()
     {
         $c1 = new TestComponent("foo");
         $renderer = $this->getDecoratedRenderer($this->getDefaultRenderer());

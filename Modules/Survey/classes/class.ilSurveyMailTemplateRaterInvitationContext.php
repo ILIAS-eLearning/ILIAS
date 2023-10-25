@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
@@ -84,22 +84,22 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
 
         $placeholders = array();
 
-        $placeholders['svy_title'] = array(
+        $placeholders['survey_title'] = array(
             'placeholder' => 'SURVEY_TITLE',
             'label' => $lng->txt('svy_mail_context_rater_invitation_survey_title')
         );
 
-        $placeholders['svy_link'] = array(
+        $placeholders['survey_link'] = array(
             'placeholder' => 'SURVEY_LINK',
             'label' => $lng->txt('perma_link')
         );
 
-        $placeholders['svy_ext_rater_firstname'] = array(
+        $placeholders['external_rater_firstname'] = array(
             'placeholder' => 'EXTERNAL_RATER_FIRSTNAME',
             'label' => $lng->txt('svy_ext_rater_firstname')
         );
 
-        $placeholders['svy_ext_rater_lastname'] = array(
+        $placeholders['external_rater_lastname'] = array(
             'placeholder' => 'EXTERNAL_RATER_LASTNAME',
             'label' => $lng->txt('svy_ext_rater_lastname')
         );
@@ -110,8 +110,7 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string {
         /**
          * @var $ilObjDataCache ilObjectDataCache
@@ -128,10 +127,10 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
         }
 
         switch ($placeholder_id) {
-            case 'svy_title':
+            case 'survey_title':
                 return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
 
-            case 'svy_link':
+            case 'survey_link':
                 $svy = new ilObjSurvey((int) $context_parameters['ref_id']);
                 $raters = $svy->getRatersData((int) $context_parameters['appr_id']);
                 $href = ilLink::_getLink((int) $context_parameters['ref_id'], 'svy');
@@ -140,10 +139,10 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
                 }
                 return $href;
 
-            case 'svy_ext_rater_firstname':
+            case 'external_rater_firstname':
                 return $current_rater["firstname"] ?? "";
 
-            case 'svy_ext_rater_lastname':
+            case 'external_rater_lastname':
                 return $current_rater["lastname"] ?? "";
         }
 

@@ -24,6 +24,7 @@
 class ilWikiExporter extends ilXmlExporter
 {
     private ilWikiDataSet $ds;
+    protected \ILIAS\Wiki\InternalRepoService $page_repo;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
     protected ilLogger $wiki_log;
 
@@ -31,12 +32,14 @@ class ilWikiExporter extends ilXmlExporter
     {
         global $DIC;
 
+        $repo = $DIC->wiki()->internal()->repo();
         $this->ds = new ilWikiDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
         $this->wiki_log = ilLoggerFactory::getLogger('wiki');
         $this->content_style_domain = $DIC->contentStyle()
                                           ->domain();
+        $this->page_repo = $repo;
     }
 
     public function getXmlExportTailDependencies(
@@ -46,10 +49,9 @@ class ilWikiExporter extends ilXmlExporter
     ): array {
         $pg_ids = array();
         foreach ($a_ids as $id) {
-            $pages = ilWikiPage::getAllWikiPages($id);
-            foreach ($pages as $p) {
-                if (ilWikiPage::_exists("wpg", $p["id"])) {
-                    $pg_ids[] = "wpg:" . $p["id"];
+            foreach ($this->page_repo->page()->getWikiPages($id) as $page) {
+                if ($this->page_repo->page()->exists($page->getId())) {
+                    $pg_ids[] = "wpg:" . $page->getId();
                 }
             }
         }

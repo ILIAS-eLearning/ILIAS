@@ -43,7 +43,7 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_EDITOR, true)) {
             $title = $this->dic->language()->txt('editor');
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_edtr.svg"), $title);
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("standard/icon_edtr.svg"), $title);
 
             $iff = function ($id) {
                 return $this->identification_provider->contextAwareIdentifier($id);

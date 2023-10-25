@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -54,7 +54,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $factory = $this->buildFactory();
         $url = $factory->link("Test Label", "Test Byline");
@@ -62,7 +62,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Link::class, $url);
     }
 
-    public function test_rendering(): void
+    public function testRendering(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -91,7 +91,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_produces_null_when_no_data_exists(): void
+    public function testProducesNullWhenNoDataExists(): void
     {
         $f = $this->buildFactory();
         $input = $f->link("", "")

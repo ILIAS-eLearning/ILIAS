@@ -98,7 +98,7 @@ class ilTermDefinitionEditorGUI
         $this->tpl->setTitle($this->term->getTerm() . " - " .
             $this->lng->txt("cont_definition"));
         if ($this->ctrl->getNextClass() == "ilglossarydefpagegui") {
-            $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
+            $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
         }
 
         switch ($next_class) {

@@ -240,9 +240,6 @@ class ilSCORMTrackingItems
         return $scoTitles;
     }
 
-    /**
-     * @return mixed[]
-     */
     public function markedLearningStatusForExportSelected(array $a_scos, int $obj_id): array
     {
         global $DIC;
@@ -378,9 +375,6 @@ class ilSCORMTrackingItems
         return $returnData;
     }
 
-    /**
-     * @return mixed[]
-     */
     public function getScormTrackingValue(int $obj_id, array $a_user, array $a_sco, array $a_empty, string $lvalue): array
     {
         global $DIC;
@@ -926,10 +920,7 @@ class ilSCORMTrackingItems
         return $returnData;
     }
 
-    /**
-     * @return float|string
-     */
-    public function SCORMTimeToSeconds(string $a_time)
+    public function SCORMTimeToSeconds(string $a_time): float|string
     {
         if ($a_time == "") {
             return "";

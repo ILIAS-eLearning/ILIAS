@@ -54,7 +54,17 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
                     $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
                     break;
 
-                default:
+                case 'pg':
+                    $pool = new ilObjMediaPool($this->getRefId());
+                    $parent_id = $pool->getParentId($sub_item);
+                    if ($parent_id !== null) {
+                        $this->tpl->setVariable('LINK', ilLink::_getLink($this->getRefId(), 'mep', [], '_' . $parent_id));
+                        $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
+                    } else {
+                        $this->tpl->setVariable('LINK', ilLink::_getLink($this->getRefId(), 'mep', []));
+                        $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
+                    }
+                    break;
             }
 
 
@@ -105,7 +115,7 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
                 $this->tpl->setVariable("LINKED_IMAGE", ilUtil::img($target));
             // end-patch mime_filter
             } else {
-                $this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img(ilUtil::getImagePath("icon_" . "mob" . ".gif")));
+                $this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img(ilUtil::getImagePath("standard/icon_" . "mob" . ".gif")));
             }
             if (ilUtil::deducibleSize($med->getFormat()) && $med->getLocationType() === "Reference") {
                 $size = getimagesize($med->getLocation());

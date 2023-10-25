@@ -35,6 +35,8 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamResolver;
 
 /**
  * Class FlavorTest
@@ -204,13 +206,11 @@ class FlavourTest extends AbstractBaseTest
             $flavour_definition
         );
         $this->assertInstanceOf(Flavour::class, $flavour);
-        $tokens = $flavour->getAccessTokens();
-        $this->assertCount(1, $tokens);
-        $first_token = $tokens[0];
-        $this->assertInstanceOf(Token::class, $first_token);
-        $this->assertFalse($first_token->hasStreamableStream());
-        $resolved_stream = $first_token->resolveStream();
-        $this->assertInstanceOf(TokenStream::class, $resolved_stream);
+        $stream_resolvers = $flavour->getStreamResolvers();
+        $this->assertCount(1, $stream_resolvers);
+        $first_stream_access = $stream_resolvers[0];
+        $this->assertInstanceOf(StreamResolver::class, $first_stream_access);
+        $resolved_stream = $first_stream_access->getStream();
         $this->assertEquals('empty', (string)$resolved_stream);
     }
 }

@@ -22,6 +22,8 @@ namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamResolver;
 
 /**
  * Class NullRevision
@@ -30,8 +32,10 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 abstract class BaseRevision implements Revision
 {
     private ?string $storage_id = null;
-    private ?Token $token = null;
+    private ?StreamResolver $stream_resolver = null;
     private ResourceIdentification $identification;
+
+    protected RevisionStatus $status = RevisionStatus::PUBLISHED;
 
     /**
      * NullRevision constructor.
@@ -60,15 +64,25 @@ abstract class BaseRevision implements Revision
     }
 
 
-    public function withToken(Token $token): Revision
+    public function withStreamResolver(?StreamResolver $stream_resolver = null): Revision
     {
         $clone = clone $this;
-        $clone->token = $token;
+        $clone->stream_resolver = $stream_resolver;
         return $clone;
     }
 
-    public function maybeGetToken(): ?Token
+    public function maybeStreamResolver(): ?StreamResolver
     {
-        return $this->token;
+        return $this->stream_resolver;
+    }
+
+    public function getStatus(): RevisionStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(RevisionStatus $status): void
+    {
+        $this->status = $status;
     }
 }

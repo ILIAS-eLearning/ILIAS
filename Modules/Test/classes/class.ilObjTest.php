@@ -134,8 +134,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
         $this->filesystem_web = $DIC->filesystem()->web();
-        $this->testManScoringDoneHelper = new TestManScoringDoneHelper();
-        $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
+
+        $local_dic = $this->getLocalDIC();
+        $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
+        $this->testManScoringDoneHelper = $local_dic['manScoringDoneHelper'];
 
         $this->mark_schema = new ASS_MarkSchema($DIC['ilDB'], $DIC['lng'], $DIC['ilUser']->getId());
         $this->mark_schema->createSimpleSchema(
@@ -164,6 +166,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $this,
             $this->questioninfo
         );
+    }
+
+    public function getLocalDIC(): ILIAS\DI\Container
+    {
+        return ilTestDIC::dic();
     }
 
     /**
@@ -1010,7 +1017,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime();
         if ($processing_time && $processing_time !== '') {
-            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $processing_time, $matches)) {
+            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string) $processing_time, $matches)) {
                 return array(
                     'hh' => $matches[1],
                     'mm' => $matches[2],
@@ -1018,6 +1025,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 );
             }
         }
+    }
+
+    public function getProcessingTimeAsMinutes()
+    {
+        if ($this->processing_time !== null) {
+            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string)$this->processing_time, $matches)) {
+                return ($matches[1] * 60) + $matches[2];
+            }
+        }
+
+        return self::DEFAULT_PROCESSING_TIME_MINUTES;
     }
 
     /**
@@ -1030,7 +1048,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function getProcessingTimeInSeconds($active_id = ""): int
     {
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime() ?? '';
-        if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", $processing_time, $matches)) {
+        if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", (string)$processing_time, $matches)) {
             $extratime = $this->getExtraTime($active_id) * 60;
             return ($matches[1] * 3600) + ($matches[2] * 60) + $matches[3] + $extratime;
         } else {
@@ -1453,16 +1471,37 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      * @return string The title for the question title output
      * @access public
      */
-    public function getQuestionTitle($title, $nr = null): string
+    public function getQuestionTitle($title, $nr = null, $points = null): string
     {
-        if ($this->getTitleOutput() !== 2) {
-            return $title;
-        }
+        switch($this->getTitleOutput())
+        {
+            case '0':
+            case '1':
+                return $title;
+                break;
+            case '2':
+                if (isset($nr)) {
+                    return $this->lng->txt("ass_question") . ' ' . $nr;
+                }
+                return $this->lng->txt("ass_question");
+                break;
+            case 3:
+                if (isset($nr)) {
+                    $txt = $this->lng->txt("ass_question") . ' ' . $nr;
+                } else {
+                    $txt = $this->lng->txt("ass_question");
+                }
+                if($points != '') {
+                    $lngv = $this->lng->txt('points');
+                    if ($points == 1) {
+                        $lngv = $this->lng->txt('point');
+                    }
+                    $txt .= ' - ' . $points . ' ' . $lngv;
+                }
+                return $txt;
+                break;
 
-        if ($this->getTitleOutput() === 2 && isset($nr)) {
-            return $this->lng->txt("ass_question") . ' ' . $nr;
         }
-
         return $this->lng->txt("ass_question");
     }
     // fau.
@@ -3424,9 +3463,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 case 'pass_deletion_allowed':
                     $result_summary_settings = $result_summary_settings->withPassDeletionAllowed((bool) $metadata["entry"]);
                     break;
-                case "show_summary":
-                    $participant_functionality_settings = $participant_functionality_settings->withQuestionListMode((int) $metadata["entry"]);
+                case "usr_pass_overview_mode":
+                    $participant_functionality_settings = $participant_functionality_settings->withUsrPassOverviewMode((int) $metadata["entry"]);
                     break;
+                case "question_list":
+                    $participant_functionality_settings = $participant_functionality_settings->withQuestionListEnabled((bool) $metadata["entry"]);
+                    break;
+
                 case "reporting_date":
                     $result_summary_settings = $result_summary_settings->withReportingDate(
                         $metadata['ReportingDate'] !== null ?
@@ -3490,9 +3533,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     break;
                 case 'examid_in_test_res':
                     $result_details_settings = $result_details_settings->withShowExamIdInTestResults((bool) $metadata["entry"]);
-                    break;
-                case 'sign_submission':
-                    $finishing_settings = $finishing_settings->withSignSubmission((bool) $metadata['entry']);
                     break;
                 case 'skill_service':
                     $additional_settings = $additional_settings->withSkillsServiceEnabled((bool) $metadata['entry']);
@@ -3615,7 +3655,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             null,
             $settings->getRedirectionMode(),
             $settings->getRedirectionUrl(),
-            $settings->getSignSubmission(),
             $settings->getMailNotificationContentType(),
             $settings->getAlwaysSendMailNotification()
         );
@@ -3854,8 +3893,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         // solution details
         $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "show_summary");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getQuestionListMode()));
+        $a_xml_writer->xmlElement("fieldlabel", null, "usr_pass_overview_mode");
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // solution details
@@ -3864,10 +3903,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreReporting()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "solution_details");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getShowSolutionDetails());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "print_bs_with_res");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getShowSolutionDetails() ? (int) $this->isBestSolutionPrintedWithResult() : 0);
@@ -3996,11 +4031,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getFinishingSettings()->getShowAnswerOverview());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // sign_submission
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "sign_submission");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getFinishingSettings()->getSignSubmission()));
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // skill_service
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -5647,7 +5677,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             && ($last_finished_pass_timestamp !== null)
         ) {
             $time_values = explode(':', $waiting_between_passes);
-            $next_pass_allowed_timestamp = strtotime('+ ' . $time_values[0] . ' Months + ' . $time_values[1] . ' Days + ' . $time_values[2] . ' Hours' . $time_values[3] . ' Minutes', $last_finished_pass_timestamp);
+            $next_pass_allowed_timestamp = strtotime('+ ' . $time_values[0] . ' Days + ' . $time_values[1] . ' Hours' . $time_values[2] . ' Minutes', $last_finished_pass_timestamp);
             return (time() > $next_pass_allowed_timestamp);
         }
 
@@ -5878,12 +5908,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function getListOfQuestionsSettings()
     {
-        return $this->getMainSettings()->getParticipantFunctionalitySettings()->getQuestionListMode();
+        return $this->getMainSettings()->getParticipantFunctionalitySettings()->getUsrPassOverviewMode();
     }
 
     public function getListOfQuestions(): bool
     {
         return $this->getMainSettings()->getParticipantFunctionalitySettings()->getQuestionListEnabled();
+    }
+
+    public function getUsrPassOverviewEnabled(): bool
+    {
+        return $this->getMainSettings()->getParticipantFunctionalitySettings()->getUsrPassOverviewEnabled();
     }
 
     public function getListOfQuestionsStart(): bool
@@ -5907,14 +5942,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function getShowPassDetails(): bool
     {
         return $this->getScoreSettings()->getResultDetailsSettings()->getShowPassDetails();
-    }
-
-    /**
-    * Returns if the solution details should be presented to the user or not
-    */
-    public function getShowSolutionDetails(): bool
-    {
-        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionDetails();
     }
 
     /**
@@ -6345,14 +6372,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'use_previous_answers' => (int) $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed(),
             'ShowCancel' => (int) $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed(),
             'SequenceSettings' => (int) $main_settings->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd(),
-            'ListOfQuestionsSettings' => $main_settings->getParticipantFunctionalitySettings()->getQuestionListMode(),
+            'ListOfQuestionsSettings' => $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode(),
             'ShowMarker' => (int) $main_settings->getParticipantFunctionalitySettings()->getQuestionMarkingEnabled(),
 
             'enable_examview' => $main_settings->getFinishingSettings()->getShowAnswerOverview(),
             'ShowFinalStatement' => (int) $main_settings->getFinishingSettings()->getConcludingRemarksEnabled(),
             'redirection_mode' => $main_settings->getFinishingSettings()->getRedirectionMode(),
             'redirection_url' => $main_settings->getFinishingSettings()->getRedirectionUrl(),
-            'sign_submission' => (int) $main_settings->getFinishingSettings()->getSignSubmission(),
             'mailnotification' => $main_settings->getFinishingSettings()->getMailNotificationContentType(),
             'mailnottype' => (int) $main_settings->getFinishingSettings()->getAlwaysSendMailNotification(),
 
@@ -6473,7 +6499,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withUsePreviousAnswerAllowed((bool) $testsettings['use_previous_answers'])
                 ->withSuspendTestAllowed((bool) $testsettings['ShowCancel'])
                 ->withPostponedQuestionsMoveToEnd((bool) $testsettings['SequenceSettings'])
-                ->withQuestionListMode($testsettings['ListOfQuestionsSettings'])
+                ->withUsrPassOverviewMode($testsettings['ListOfQuestionsSettings'])
                 ->withQuestionMarkingEnabled((bool) $testsettings['ShowMarker'])
             )
             ->withFinishingSettings(
@@ -6482,7 +6508,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withConcludingRemarksEnabled((bool) $testsettings['ShowFinalStatement'])
                 ->withRedirectionMode($testsettings['redirection_mode'])
                 ->withRedirectionUrl($testsettings['redirection_url'])
-                ->withSignSubmission((bool) $testsettings['sign_submission'])
                 ->withMailNotificationContentType($testsettings['mailnotification'])
                 ->withAlwaysSendMailNotification((bool) $testsettings['mailnottype'])
             )
@@ -7076,7 +7101,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function getXMLZip(): string
     {
-        $expFactory = new ilTestExportFactory($this, $this->lng, $this->log, $this->tree, $this->component_repository);
+        $expFactory = new ilTestExportFactory($this, $this->lng, $this->log, $this->tree, $this->component_repository, $this->questioninfo);
         $test_exp = $expFactory->getExporter('xml');
         return $test_exp->buildExportFile();
     }
@@ -7843,10 +7868,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $this->getScoreSettings()->getResultDetailsSettings()->getShowExamIdInTestResults();
     }
 
-    public function getSignSubmission(): bool
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getSignSubmission();
-    }
 
     public function setQuestionSetType(string $question_set_type)
     {

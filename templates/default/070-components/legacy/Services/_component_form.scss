@@ -87,10 +87,10 @@ select[size] {
 }
 
 // Focus for file, radio, and checkbox
-input[type="file"]:focus,
-input[type="radio"]:focus,
-input[type="checkbox"]:focus {
-	@include tab-focus();
+input[type="file"],
+input[type="radio"],
+input[type="checkbox"] {
+	@include il-focus();
 }
 
 
@@ -132,17 +132,7 @@ input[type="checkbox"]:focus {
 	@include transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);
 
 	// Customize the `:focus` state to imitate native WebKit styles.
-	@mixin form-control-focus($color: $il-input-border-focus) {
-		$color-rgba: rgba(red($color), green($color), blue($color), .6);
-
-		&:focus {
-			border-color: $color;
-			outline: 0;
-			@include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px $color-rgba);
-		}
-	}
-
-	@include form-control-focus;
+	@include il-focus-outline-only();
 
 	// Placeholder
 	@include placeholder;
@@ -257,7 +247,6 @@ input[type="search"] {
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
-  position: static;
   display: inline-block;
   margin-left: -20px;
   margin-top: 7px;

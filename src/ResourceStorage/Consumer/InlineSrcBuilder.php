@@ -22,6 +22,9 @@ namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\FileDelivery\Services;
+use ILIAS\FileDelivery\Delivery\Disposition;
+use ILIAS\Filesystem\Stream\FileStream;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -29,6 +32,12 @@ use ILIAS\ResourceStorage\Revision\Revision;
  */
 class InlineSrcBuilder implements SrcBuilder
 {
+    public function __construct(
+        private Services $file_delivery
+    ) {
+
+    }
+
     public function getRevisionURL(
         Revision $revision,
         bool $signed = true
@@ -36,13 +45,20 @@ class InlineSrcBuilder implements SrcBuilder
         if ($signed) {
             throw new \RuntimeException('InlineSrcBuilder does not support signed URLs');
         }
-        $token = $revision->maybeGetToken();
-        if ($token !== null) {
-            $stream = $token->resolveStream();
-            $base64 = base64_encode((string)$stream);
-            $mime = $stream->getMimeType();
+        $sream_resolver = $revision->maybeStreamResolver();
+        if ($sream_resolver !== null) {
+            $stream = $sream_resolver->getStream();
+            if($sream_resolver->isInMemory()) {
+                return $this->buildDataURLFromStream($stream);
+            }
 
-            return "data:$mime;base64,$base64";
+            $this->file_delivery->buildTokenURL(
+                $stream,
+                $revision->getTitle(),
+                Disposition::INLINE,
+                6, // FSX TODO
+                1
+            );
         }
         return '';
     }
@@ -54,11 +70,16 @@ class InlineSrcBuilder implements SrcBuilder
         if ($signed) {
             throw new \RuntimeException('InlineSrcBuilder does not support signed URLs');
         }
-        foreach ($flavour->getAccessTokens() as $token) {
-            $stream = $token->resolveStream();
-            $mime = $stream->getMimeType();
-            $base64 = base64_encode((string)$stream);
-            yield "data:$mime;base64,$base64";
+        foreach ($flavour->getStreamResolvers() as $stream_resolver) {
+            $stream = $stream_resolver->getStream();
+            yield $this->buildDataURLFromStream($stream);
         }
+    }
+
+    public function buildDataURLFromStream(FileStream $stream): string
+    {
+        $mime_type = mime_content_type($stream->getMetadata()['uri']) ?: 'application/octet-stream';
+        $base64 = base64_encode((string) $stream);
+        return "data:$mime_type;base64,$base64";
     }
 }

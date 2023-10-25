@@ -1306,23 +1306,23 @@ class ilObjCmiXapi extends ilObject2
         // TODO check xapidel
     }
 
-//    /**
-//     * @return string[]
-//     */
-//    public function getRegistrations() : array
-//    {
-//        global $DIC;
-//        $res = $DIC->database()->queryF(
-//            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
-//            array('text'),
-//            array($this->getId())
-//        );
-//        $ret = [];
-//        while ($row = $DIC->database()->fetchAssoc($res)) {
-//            $ret[] = (string) $row['registration'];
-//        }
-//        return $ret;
-//    }
+    //    /**
+    //     * @return string[]
+    //     */
+    //    public function getRegistrations() : array
+    //    {
+    //        global $DIC;
+    //        $res = $DIC->database()->queryF(
+    //            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
+    //            array('text'),
+    //            array($this->getId())
+    //        );
+    //        $ret = [];
+    //        while ($row = $DIC->database()->fetchAssoc($res)) {
+    //            $ret[] = (string) $row['registration'];
+    //        }
+    //        return $ret;
+    //    }
 
     /**
      * @throws Exception
@@ -1666,7 +1666,7 @@ class ilObjCmiXapi extends ilObject2
      * get latest statement from session
      * @return mixed|null
      */
-    public function getLastStatement(string $sess)
+    public function getLastStatement(string $sess): mixed
     {
         global $DIC;
         $lrsType = $this->getLrsType();

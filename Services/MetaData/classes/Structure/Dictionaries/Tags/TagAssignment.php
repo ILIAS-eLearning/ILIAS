@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Structure\Dictionaries\Tags;
 
 use ILIAS\MetaData\Paths\PathInterface;
-use ILIAS\MetaData\Structure\Dictionaries\Tags\TagInterface;
 
 class TagAssignment implements TagAssignmentInterface
 {

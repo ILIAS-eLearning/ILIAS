@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Paths\Navigator;
 
-use ILIAS\MetaData\Elements\Base\BaseElementInterface;
 use ILIAS\MetaData\Paths\Steps\StepInterface;
 
 interface BaseNavigatorInterface
@@ -31,4 +30,15 @@ interface BaseNavigatorInterface
     public function nextStep(): ?BaseNavigatorInterface;
 
     public function currentStep(): ?StepInterface;
+
+    public function previousStep(): ?BaseNavigatorInterface;
+
+    public function hasNextStep(): bool;
+
+    public function hasPreviousStep(): bool;
+
+    /**
+     * Should return true if the navigator contains at least one element at the current step.
+     */
+    public function hasElements(): bool;
 }

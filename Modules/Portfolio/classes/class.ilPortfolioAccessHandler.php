@@ -421,7 +421,6 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         $ilDB = $this->db;
         $ilUser = $this->user;
         $obj_ids = [];
-
         if (!$a_filter["acl_type"]) {
             $obj_ids = self::getPossibleSharedTargets();
         } else {
@@ -489,7 +488,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             $sql .= " AND acl.tstamp > " . $ilDB->quote($dt->get(IL_CAL_UNIX), "integer");
         }
 
-        if ($a_filter["crsgrp"]) {
+        if ($a_filter["crsgrp"] ?? false) {
             $part = ilParticipants::getInstanceByObjId($a_filter['crsgrp']);
             $part = $part->getParticipants();
             if (!count($part)) {
@@ -621,5 +620,32 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     public function editPortfolios(): bool
     {
         return (bool) $this->settings->get('user_portfolios');
+    }
+
+    public function addMissingPermissionForObjects(int $node_id, array $objects): bool
+    {
+        $existing = $this->getPermissions($node_id);
+        $added_obj_ids = [];
+        foreach ($objects as $object_id) {
+            if (!in_array($object_id, $existing)) {
+                $added_obj_ids[] = $object_id;
+                $this->addPermission($node_id, $object_id);
+                $added = true;
+            }
+        }
+        $this->sendSharedNotification($node_id, $added_obj_ids);
+        return (count($added_obj_ids) > 0);
+    }
+
+    protected function sendSharedNotification(int $node_id, array $object_ids): void
+    {
+        if (count($object_ids) === 0) {
+            return;
+        }
+        $not = new \ILIAS\Portfolio\Notification\SharedNotification();
+        $not->setObjId($node_id);
+        $not->setSharedToObjectIds($object_ids);
+        //$not->setRecipients($user_ids);
+        $not->send();
     }
 }

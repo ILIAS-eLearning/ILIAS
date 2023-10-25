@@ -401,16 +401,16 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $result_type = new ilRadioGroupInputGUI($this->lng->txt('result_type_selection'), 'result_type_' . $result->getResult());
                 $result_type->setRequired(true);
 
-                $no_type = new ilRadioOption($this->lng->txt('no_result_type'), 0);
+                $no_type = new ilRadioOption($this->lng->txt('no_result_type'), '0');
                 $no_type->setInfo($this->lng->txt('fq_no_restriction_info'));
 
-                $result_dec = new ilRadioOption($this->lng->txt('result_dec'), 1);
+                $result_dec = new ilRadioOption($this->lng->txt('result_dec'), '1');
                 $result_dec->setInfo($this->lng->txt('result_dec_info'));
 
-                $result_frac = new ilRadioOption($this->lng->txt('result_frac'), 2);
+                $result_frac = new ilRadioOption($this->lng->txt('result_frac'), '2');
                 $result_frac->setInfo($this->lng->txt('result_frac_info'));
 
-                $result_co_frac = new ilRadioOption($this->lng->txt('result_co_frac'), 3);
+                $result_co_frac = new ilRadioOption($this->lng->txt('result_co_frac'), '3');
                 $result_co_frac->setInfo($this->lng->txt('result_co_frac_info'));
 
                 $result_type->addOption($no_type);

@@ -35,6 +35,10 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
             $title
         );
         $ctrl = $DIC->ctrl();
+
+        $target_class = ilObjUserTracking::_hasLearningProgressLearner() ?
+            'ilLPListOfProgressGUI' : 'ilLPListOfObjectsGUI';
+
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_lp'))
                            ->withTitle($title)
@@ -43,7 +47,7 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
                                    ["ilDashboardGUI",
                                     "ilAchievementsGUI",
                                     "ilLearningProgressGUI",
-                                    "ilLPListOfProgressGUI"
+                                    $target_class
                                    ]
                                )
                            )
@@ -60,12 +64,11 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
                            )
                            ->withAvailableCallable(
                                function () {
-                                   return ilObjUserTracking::_enabledLearningProgress(
-                                   )
-                                       && (ilObjUserTracking::_hasLearningProgressOtherUsers(
-                                       )
-                                       || ilObjUserTracking::_hasLearningProgressLearner(
-                                       ));
+                                   return ilObjUserTracking::_enabledLearningProgress() &&
+                                       (
+                                           ilObjUserTracking::_hasLearningProgressOtherUsers() ||
+                                           ilObjUserTracking::_hasLearningProgressLearner()
+                                       );
                                }
                            ),
         ];

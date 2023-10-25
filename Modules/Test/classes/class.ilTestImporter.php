@@ -173,7 +173,7 @@ class ilTestImporter extends ilXmlImporter
             /* @var ilObjTest $testOBJ */
             $testOBJ = ilObjectFactory::getInstanceByObjId((int) $new, false);
             if ($testOBJ->isRandomTest()) {
-                $this->finalRandomTestTaxonomyProcessing($a_mapping, $old, $new, $testOBJ);
+                $this->finalRandomTestTaxonomyProcessing($a_mapping, (string) $old, $new, $testOBJ);
             }
 
             self::$finallyProcessedTestsRegistry[$new] = true;

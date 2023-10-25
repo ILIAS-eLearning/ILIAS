@@ -39,6 +39,7 @@
 /Services/UICore/artifacts/ctrl_security.php
 /Services/Component/artifacts/*
 /Services/EventHandling/artifacts/*
+/Services/Object/artifacts/*
 
 # Directories
 /data
@@ -67,3 +68,5 @@ phpstan-baseline.neon
 override.php
 Services/ResourceStorage/artifacts/flavour_data.php
 Services/FileHandlingDemo
+src/FileDelivery/artifacts
+src/StaticURL/artifacts

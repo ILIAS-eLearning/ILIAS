@@ -89,6 +89,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     private ?ilCourseParticipant $member_obj = null;
     private ?ilCourseParticipants $members_obj = null;
 
+    private array $local_roles = [];
+
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
@@ -397,28 +399,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             "AND sub_notify = 1";
         $res = $ilDB->query($query);
         return (bool) $res->numRows();
-    }
-
-    public function getSubItems(
-        bool $a_admin_panel_enabled = false,
-        bool $a_include_side_block = false,
-        int $a_get_single = 0,
-        \ilContainerUserFilter $container_user_filter = null
-    ): array {
-        // Caching
-        if (isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
-            return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
-        }
-
-        // Results are stored in $this->items
-        parent::getSubItems($a_admin_panel_enabled, $a_include_side_block, $a_get_single);
-        $this->items = ilContainerSessionsContentGUI::prepareSessionPresentationLimitation(
-            $this->items,
-            $this,
-            $a_admin_panel_enabled,
-            $a_include_side_block
-        );
-        return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
     }
 
     public function getSubscriptionNotify(): bool

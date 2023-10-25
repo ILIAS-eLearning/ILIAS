@@ -1,5 +1,7 @@
 # COPage (ILIAS Page Editor) - Technical Documentation
 
+Note: Since ILIAS 7 the page editor undergoes a major revision. The old way to integrate will still work, however the interface to use slates or other new concepts is still not in a final state. If you use any of these parts breaking changes will most propable come with future versions.
+
 ### Using the page editor in another components
 
 In order to use the page component in your component you first need to extend your `modules.xml` or `service.xml`.

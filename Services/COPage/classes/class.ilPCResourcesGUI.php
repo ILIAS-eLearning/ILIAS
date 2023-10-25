@@ -22,6 +22,7 @@
  */
 class ilPCResourcesGUI extends ilPageContentGUI
 {
+    protected \ILIAS\Container\InternalDomainService $container_domain;
     protected ilTree $rep_tree;
     protected ilObjectDefinition $obj_definition;
 
@@ -41,6 +42,9 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $tree = $DIC->repositoryTree();
 
         $this->rep_tree = $tree;
+
+        $this->container_domain = $DIC->container()->internal()->domain();
+
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
@@ -66,6 +70,15 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
     public function edit(bool $a_insert = false): void
     {
+        $tpl = $this->tpl;
+        $this->displayValidationError();
+        $form = $this->initForm($a_insert);
+        $html = $form->getHTML();
+        $tpl->setContent($html);
+    }
+
+    public function initForm(bool $a_insert = false): ilPropertyFormGUI
+    {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -73,8 +86,6 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
         $op_type = null;
         $op_itemgroup = null;
-
-        $this->displayValidationError();
 
         // edit form
         $form = new ilPropertyFormGUI();
@@ -88,6 +99,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         // count number of existing objects per type and collect item groups
         $ref_id = $this->requested_ref_id;
         $childs = $this->rep_tree->getChilds($ref_id);
+
         $type_counts = array();
         $item_groups = array();
         foreach ($childs as $c) {
@@ -102,21 +114,27 @@ class ilPCResourcesGUI extends ilPageContentGUI
             }
         }
 
-        if (count($item_groups) > 0) {
-            // radio group for type selection
-            $radg = new ilRadioGroupInputGUI($lng->txt("cont_resources"), "res_type");
-            if (!$a_insert && $this->content_obj->getMainType() == "ItemGroup") {
-                $radg->setValue("itgr");
-            } else {
-                $radg->setValue("by_type");
-            }
-
-            $op_type = new ilRadioOption($lng->txt("cont_resources_of_type"), "by_type", "");
-            $radg->addOption($op_type);
-            $op_itemgroup = new ilRadioOption($lng->txt("obj_itgr"), "itgr", "");
-            $radg->addOption($op_itemgroup);
-            $form->addItem($radg);
+        // radio group for type selection
+        $radg = new ilRadioGroupInputGUI($lng->txt("cont_resources"), "res_type");
+        $form->addItem($radg);
+        if (!$a_insert && $this->content_obj->getMainType() == "ItemGroup") {
+            $radg->setValue("itgr");
+        } else {
+            $radg->setValue("by_type");
         }
+
+
+        $op_type = new ilRadioOption($lng->txt("cont_resources_of_type"), "by_type", "");
+        // all views support typed blocks
+        //if ($this->supportsTypeBlocks()) {
+        //}
+
+        if ($this->supportsItemGroups() && count($item_groups) > 0) {
+            $op_itemgroup = new ilRadioOption($lng->txt("cont_manual_item_group"), "itgr", "");
+            $radg->addOption($op_itemgroup);
+        }
+
+        $radg->addOption($op_type);
 
         // type selection
         $type_prop = new ilSelectInputGUI(
@@ -128,13 +146,17 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $sub_objs = $objDefinition->getGroupedRepositoryObjectTypes($obj_type);
         $types = array();
         foreach ($sub_objs as $k => $so) {
+            $cnt = (int) ($type_counts[$k] ?? 0);
+            if ($cnt === 0) {
+                continue;
+            }
             if (!$objDefinition->isPlugin($k)) {
                 if ($k != "itgr") {
-                    $types[$k] = $this->lng->txt("objs_" . $k) . " (" . (int) ($type_counts[$k] ?? 0) . ")";
+                    $types[$k] = $this->lng->txt("objs_" . $k) . " (" . $cnt . ")";
                 }
             } else {
                 $pl = ilObjectPlugin::getPluginObjectByType($k);
-                $types[$k] = $pl->txt("objs_" . $k) . " (" . (int) ($type_counts[$k] ?? 0) . ")";
+                $types[$k] = $pl->txt("objs_" . $k) . " (" . $cnt . ")";
             }
         }
         $type_prop->setOptions($types);
@@ -142,13 +164,9 @@ class ilPCResourcesGUI extends ilPageContentGUI
             ? ""
             : $this->content_obj->getResourceListType();
         $type_prop->setValue($selected);
-        if (count($item_groups) > 0) {
-            $op_type->addSubItem($type_prop);
-        } else {
-            $form->addItem($type_prop);
-        }
+        $op_type->addSubItem($type_prop);
 
-        if (count($item_groups) > 0) {
+        if ($this->supportsItemGroups() && count($item_groups) > 0) {
             // item groups
             $options = $item_groups;
             $si = new ilSelectInputGUI($this->lng->txt("obj_itgr"), "itgr");
@@ -157,8 +175,29 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 ? ""
                 : $this->content_obj->getItemGroupRefId();
             $op_itemgroup->addSubItem($si);
+            if ($a_insert) {
+                $radg->setValue("itgr");
+            }
         }
 
+        // learning objectives
+        if ($this->supportsObjectives()) {
+            $lng->loadLanguageModule("crs");
+            $op_lobj = new ilRadioOption($lng->txt("crs_objectives"), "_lobj", "");
+            $radg->addOption($op_lobj);
+            if (!$a_insert && $this->content_obj->getResourceListType() === "_lobj") {
+                $radg->setValue("_lobj");
+            }
+        }
+
+        // other
+        if ($this->supportsOther() && $this->hasOtherBlock()) {
+            $op_other = new ilRadioOption($lng->txt("cont_other_resources"), "_other", "");
+            $radg->addOption($op_other);
+            if (!$a_insert && $this->content_obj->getResourceListType() === "_other") {
+                $radg->setValue("_other");
+            }
+        }
 
         // save/cancel buttons
         if ($a_insert) {
@@ -168,8 +207,71 @@ class ilPCResourcesGUI extends ilPageContentGUI
             $form->addCommandButton("update_resources", $lng->txt("save"));
             $form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
         }
-        $html = $form->getHTML();
-        $tpl->setContent($html);
+        return $form;
+    }
+
+    public function initCreationForm(): ilPropertyFormGUI
+    {
+        $form = $this->initForm(true);
+        return $form;
+    }
+
+    public function initEditingForm(): ilPropertyFormGUI
+    {
+        $form = $this->initForm(false);
+        return $form;
+    }
+
+    /**
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     */
+    protected function getContainerViewManager(): \ILIAS\Container\Content\ViewManager
+    {
+        $ref_id = $this->requested_ref_id;
+        $container = ilObjectFactory::getInstanceByRefId($ref_id);
+        $view_manager = $this->container_domain->content()->view($container);
+        return $view_manager;
+    }
+
+    protected function supportsItemGroups(): bool
+    {
+        foreach ($this->getContainerViewManager()->getBlockSequence()->getParts() as $part) {
+            if ($part instanceof \ILIAS\Container\Content\ItemGroupBlocks) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function supportsOther(): bool
+    {
+        foreach ($this->getContainerViewManager()->getBlockSequence()->getParts() as $part) {
+            if ($part instanceof \ILIAS\Container\Content\OtherBlock) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function supportsObjectives(): bool
+    {
+        foreach ($this->getContainerViewManager()->getBlockSequence()->getParts() as $part) {
+            if ($part instanceof \ILIAS\Container\Content\ObjectivesBlock) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function supportsTypeBlocks(): bool
+    {
+        foreach ($this->getContainerViewManager()->getBlockSequence()->getParts() as $part) {
+            if ($part instanceof \ILIAS\Container\Content\TypeBlocks) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function create(): void
@@ -177,7 +279,11 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $this->content_obj = new ilPCResources($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 
-        if ($this->request->getString("res_type") != "itgr") {
+        if ($this->request->getString("res_type") === "_other") {
+            $this->content_obj->setResourceListType("_other");
+        } elseif ($this->request->getString("res_type") === "_lobj") {
+            $this->content_obj->setResourceListType("_lobj");
+        } elseif ($this->request->getString("res_type") !== "itgr") {
             $this->content_obj->setResourceListType(
                 $this->request->getString("type")
             );
@@ -196,7 +302,11 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
     public function update(): void
     {
-        if ($this->request->getString("res_type") != "itgr") {
+        if ($this->request->getString("res_type") === "_other") {
+            $this->content_obj->setResourceListType("_other");
+        } elseif ($this->request->getString("res_type") === "_lobj") {
+            $this->content_obj->setResourceListType("_lobj");
+        } elseif ($this->request->getString("res_type") !== "itgr") {
             $this->content_obj->setResourceListType(
                 $this->request->getString("type")
             );
@@ -214,17 +324,9 @@ class ilPCResourcesGUI extends ilPageContentGUI
         }
     }
 
-    /**
-     * Insert resources (see also ilContainerContentGUI::determinePageEmbeddedBlocks for presentation)
-     */
-    public static function insertResourcesIntoPageContent(
-        string $a_content
-    ): string {
+    protected function hasOtherBlock(): bool
+    {
         global $DIC;
-
-        $objDefinition = $DIC["objDefinition"];
-        $tree = $DIC->repositoryTree();
-        $lng = $DIC->language();
 
         $ref_id = $DIC
             ->copage()
@@ -233,92 +335,126 @@ class ilPCResourcesGUI extends ilPageContentGUI
             ->pc()
             ->editRequest()
             ->getRefId();
-        $obj_id = ilObject::_lookupObjId($ref_id);
-        $obj_type = ilObject::_lookupType($obj_id);
-
-        // determine type -> group
-        $type_to_grp = array();
-        $type_grps =
-            $objDefinition->getGroupedRepositoryObjectTypes($obj_type);
-        foreach ($type_grps as $grp => $def) {
-            foreach ($def["objs"] as $t) {
-                $type_to_grp[$t] = $grp;
+        $item_presentation_manager = $DIC->container()->internal()
+                                         ->domain()
+                                         ->content()
+                                         ->itemPresentation(
+                                             \ilObjectFactory::getInstanceByRefId($ref_id),
+                                             null,
+                                             false
+                                         );
+        $block_sequence = $item_presentation_manager->getItemBlockSequence();
+        foreach ($block_sequence->getBlocks() as $block) {
+            if (($block->getBlock() instanceof \ILIAS\Container\Content\OtherBlock)) {
+                return true;
             }
         }
+        return false;
+    }
 
-        $childs = $tree->getChilds($ref_id);
-        $childs_by_type = array();
-        $item_groups = array();
-        foreach ($childs as $child) {
-            if (isset($type_to_grp[$child["type"]])) {
-                $childs_by_type[$type_to_grp[$child["type"]]][] = $child;
-                if ($child["type"] == "itgr") {
-                    $item_groups[(int) $child["ref_id"]] = $child["title"];
-                }
-            }
-        }
+    /**
+     * Insert resources (see also ilContainerContentGUI::determinePageEmbeddedBlocks for presentation)
+     */
+    public static function insertResourcesIntoPageContent(
+        string $a_content
+    ): string {
+        global $DIC;
 
-        // handle "by type" lists
-        foreach ($type_grps as $type => $v) {
-            if (is_int(strpos($a_content, "[list-" . $type . "]"))) {
-                // render block
-                $tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
-                $cnt = 0;
+        $item_ref_ids = [];
 
-                if (isset($childs_by_type[$type]) && count($childs_by_type[$type]) > 0) {
-                    foreach ($childs_by_type[$type] as $child) {
-                        $tpl->setCurrentBlock("row");
-                        $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon((int) $child["obj_id"], "small")));
-                        $tpl->setVariable("TITLE", $child["title"]);
-                        $tpl->parseCurrentBlock();
-                        $cnt++;
+        $lng = $DIC->language();
+        $ref_id = $DIC
+            ->copage()
+            ->internal()
+            ->gui()
+            ->pc()
+            ->editRequest()
+            ->getRefId();
+        $item_presentation_manager = $DIC->container()->internal()
+            ->domain()
+            ->content()
+            ->itemPresentation(
+                \ilObjectFactory::getInstanceByRefId($ref_id),
+                null
+            );
+        $block_sequence = $item_presentation_manager->getItemBlockSequence();
+
+        foreach ($block_sequence->getBlocks() as $block) {
+            // render block
+            $tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
+            $cnt = 0;
+            $max = 5;
+            if (!($block->getBlock() instanceof \ILIAS\Container\Content\ObjectivesBlock) &&
+                count($block->getItemRefIds()) > 0) {
+                foreach ($block->getItemRefIds() as $ref_id) {
+                    $data = $item_presentation_manager->getRawDataByRefId($ref_id);
+                    if ($block->getBlock() instanceof \ILIAS\Container\Content\OtherBlock) {
+                        if ($data["type"] === "itgr" || in_array($ref_id, $item_ref_ids)) {
+                            continue;
+                        }
                     }
-                } else {
-                    $tpl->setCurrentBlock("row");
-                    $tpl->setVariable("TITLE", $lng->txt("no_items"));
-                    $tpl->parseCurrentBlock();
+
+                    if ($cnt < $max) {
+                        $tpl->setCurrentBlock("row");
+                        $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon((int) $data["obj_id"], "small")));
+                        $tpl->setVariable("TITLE", $data["title"]);
+                        $tpl->parseCurrentBlock();
+                    }
+                    if ($cnt == $max) {
+                        $tpl->setCurrentBlock("row");
+                        $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon((int) $data["obj_id"], "small")));
+                        $tpl->setVariable("TITLE", "...");
+                        $tpl->parseCurrentBlock();
+                    }
+                    $cnt++;
+                    $item_ref_ids[$ref_id] = $ref_id;
                 }
+            } elseif (count($block->getObjectiveIds()) > 0) {
+                foreach ($block->getObjectiveIds() as $objective_id) {
+                    $title = \ilCourseObjective::lookupObjectiveTitle($objective_id);
+                    if ($cnt < $max) {
+                        $tpl->setCurrentBlock("row");
+                        $tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_lobj.svg")));
+                        $tpl->setVariable("TITLE", $title);
+                        $tpl->parseCurrentBlock();
+                    }
+                    if ($cnt == $max) {
+                        $tpl->setCurrentBlock("row");
+                        $tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_lobj.svg")));
+                        $tpl->setVariable("TITLE", "...");
+                        $tpl->parseCurrentBlock();
+                    }
+                    $cnt++;
+                }
+            } else {
+                $tpl->setCurrentBlock("row");
+                $tpl->setVariable("TITLE", $lng->txt("no_items"));
+                $tpl->parseCurrentBlock();
+            }
+            if ($block->getBlock() instanceof \ILIAS\Container\Content\TypeBlock) {
+                $type = $block->getId();
                 $tpl->setVariable("HEADER", $lng->txt("objs_" . $type));
                 $a_content = str_replace("[list-" . $type . "]", $tpl->get(), $a_content);
+            } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\SessionBlock) {
+                $type = $block->getId();
+                $tpl->setVariable("HEADER", $lng->txt("objs_sess"));
+                $a_content = str_replace("[list-" . $type . "]", $tpl->get(), $a_content);
+            } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
+                $id = $block->getId();
+                $tpl->setVariable("HEADER", \ilObject::_lookupTitle(
+                    \ilObject::_lookupObjId((int) $id)
+                ));
+                $a_content = str_replace("[item-group-" . $id . "]", $tpl->get(), $a_content);
+            } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\ObjectivesBlock) {
+                $id = $block->getId();
+                $tpl->setVariable("HEADER", $lng->txt("crs_objectives"));
+                $a_content = str_replace("[list-_lobj]", $tpl->get(), $a_content);
+            } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\OtherBlock) {
+                $id = $block->getId();
+                $tpl->setVariable("HEADER", $lng->txt("cont_content"));
+                $a_content = str_replace("[list-_other]", $tpl->get(), $a_content);
             }
         }
-
-        // handle item groups
-        while (preg_match('/\[(item-group-([0-9]*))\]/i', $a_content, $found)) {
-            $itgr_ref_id = (int) $found[2];
-
-            // check whether this item group is child -> insert editing html
-            if (isset($item_groups[$itgr_ref_id])) {
-                $itgr_items = new ilItemGroupItems($itgr_ref_id);
-                $items = $itgr_items->getValidItems();
-
-                // render block
-                $tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
-                foreach ($items as $it_ref_id) {
-                    $it_obj_id = ilObject::_lookupObjId($it_ref_id);
-                    $it_title = ilObject::_lookupTitle($it_obj_id);
-                    $it_type = ilObject::_lookupType($it_obj_id);
-
-                    // TODO: Handle this switch by module.xml definitions
-                    if (in_array($it_type, array("catr", "crsr", "grpr"))) {
-                        $it_title = ilContainerReference::_lookupTitle($it_obj_id);
-                    }
-
-
-                    $tpl->setCurrentBlock("row");
-                    $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($it_obj_id, "small")));
-                    $tpl->setVariable("TITLE", $it_title);
-                    $tpl->parseCurrentBlock();
-                }
-                $tpl->setVariable("HEADER", $item_groups[$itgr_ref_id]);
-                $html = $tpl->get();
-            } else {
-                $html = "<i>" . $lng->txt("cont_element_refers_removed_itgr") . "</i>";
-            }
-            $a_content = preg_replace('/\[' . $found[1] . '\]/i', $html, $a_content);
-        }
-
-
         return $a_content;
     }
 }

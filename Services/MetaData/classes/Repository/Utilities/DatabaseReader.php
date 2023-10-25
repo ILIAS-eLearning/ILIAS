@@ -33,6 +33,9 @@ use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Paths\Navigator\StructureNavigatorInterface;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Elements\Data\Type;
+use ILIAS\MetaData\Vocabularies\Dictionary\LOMDictionaryInitiator as LOMVocabInitiator;
+use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseQuerierInterface;
+use ILIAS\MetaData\Repository\Utilities\Queries\Results\RowInterface;
 
 class DatabaseReader implements DatabaseReaderInterface
 {
@@ -40,7 +43,7 @@ class DatabaseReader implements DatabaseReaderInterface
     protected StructureSetInterface $structure;
     protected DictionaryInterface $dictionary;
     protected NavigatorFactoryInterface $navigator_factory;
-    protected QueryExecutorInterface $executor;
+    protected DatabaseQuerierInterface $querier;
     protected \ilLogger $logger;
 
     public function __construct(
@@ -48,14 +51,14 @@ class DatabaseReader implements DatabaseReaderInterface
         StructureSetInterface $structure,
         DictionaryInterface $dictionary,
         NavigatorFactoryInterface $navigator_factory,
-        QueryExecutorInterface $executor,
+        DatabaseQuerierInterface $querier,
         \ilLogger $logger
     ) {
         $this->element_factory = $element_factory;
         $this->structure = $structure;
         $this->dictionary = $dictionary;
         $this->navigator_factory = $navigator_factory;
-        $this->executor = $executor;
+        $this->querier = $querier;
         $this->logger = $logger;
     }
 
@@ -98,40 +101,104 @@ class DatabaseReader implements DatabaseReaderInterface
         int $depth,
         StructureElementInterface|StructureNavigatorInterface $struct,
         RessourceIDInterface $ressource_id,
-        int $super_id,
-        int ...$parent_ids
+        int $id_from_parent_table,
+        RowInterface $result_row = null
     ): \Generator {
         if ($depth > 20) {
             throw new \ilMDStructureException('LOM Structure is nested to deep.');
         }
+
         foreach ($this->subElements($struct) as $sub) {
             $tag = $this->tag($sub);
-            $result = $this->executor->read($tag, $ressource_id, $super_id, ...$parent_ids);
-            foreach ($result as $id => $data) {
+            $table = $tag?->table() ?? '';
+            $definition = $this->definition($sub);
+
+            // Read out the next table, if required.
+            $parent_id = $id_from_parent_table;
+            $result_rows = [];
+            if (!is_null($result_row)) {
+                $result_rows = [$result_row];
+            }
+            if ($table && $result_row?->table() !== $table) {
+                $parent_id = $result_row?->id() ?? 0;
+                $result_rows = $this->querier->read(
+                    $ressource_id,
+                    $parent_id,
+                    ...$this->collectTagsFromSameTable($depth, $table, $sub)
+                );
+            }
+
+            foreach ($result_rows as $row) {
+                $value = $row->value($tag?->dataField() ?? '');
+                if ($definition->dataType() === Type::VOCAB_SOURCE) {
+                    $value = LOMVocabInitiator::SOURCE;
+                }
+
                 if (
-                    $sub->getDefinition()->dataType() !== Type::NULL &&
-                    ($data === null || $data === '')
+                    $definition->dataType() !== Type::NULL &&
+                    $value === ''
                 ) {
                     continue;
                 }
-                $definition = $this->definition($sub);
-                $appended_parents = $parent_ids;
-                if ($tag->isParent()) {
-                    $appended_parents[] = $id;
+
+                /**
+                 * Container elements without their own tables are only created
+                 * of they have sub-elements, and if they have more than just a
+                 * single vocab source as sub-elements. The latter is necessary
+                 * because vocab sources are not (yet) persisted in the database.
+                 */
+                $sub_elements = iterator_to_array($this->readSubElements(
+                    $depth + 1,
+                    $sub,
+                    $ressource_id,
+                    $parent_id,
+                    $row
+                ));
+                if (
+                    !isset($tag) &&
+                    $definition->dataType() !== Type::VOCAB_SOURCE &&
+                    count($sub_elements) <= 1 &&
+                    (($sub_elements[0] ?? null)?->getData()?->type() ?? Type::VOCAB_SOURCE) === Type::VOCAB_SOURCE
+                ) {
+                    continue;
                 }
+
                 yield $this->element_factory->element(
-                    $id,
+                    $row->id(),
                     $definition,
-                    $data,
-                    ...$this->readSubElements(
-                        $depth + 1,
-                        $sub,
-                        $ressource_id,
-                        $id,
-                        ...$appended_parents
-                    )
+                    $value,
+                    ...$sub_elements
                 );
             }
+        }
+    }
+
+    /**
+     * @return RowInterface[]
+     */
+    protected function collectTagsFromSameTable(
+        int $depth,
+        string $table,
+        StructureElementInterface|StructureNavigatorInterface $struct
+    ): \Generator {
+        if ($depth > 20) {
+            throw new \ilMDStructureException('LOM Structure is nested to deep.');
+        }
+
+        $tag = $this->tag($struct);
+        if (!is_null($tag) && $table !== $tag?->table()) {
+            return;
+        }
+        if (!is_null($tag)) {
+            yield $tag;
+        }
+
+        foreach ($this->subElements($struct) as $sub) {
+            yield from $this->collectTagsFromSameTable(
+                $depth + 1,
+                $table,
+                $sub
+            );
         }
     }
 
@@ -154,8 +221,8 @@ class DatabaseReader implements DatabaseReaderInterface
             yield from $struct->getSubElements();
             return;
         }
-        if ($struct = $struct->nextStep()) {
-            yield $struct;
+        if ($next_struct = $struct->nextStep()) {
+            yield $next_struct;
         } else {
             yield from $struct->element()->getSubElements();
         }
@@ -163,7 +230,7 @@ class DatabaseReader implements DatabaseReaderInterface
 
     protected function tag(
         StructureElementInterface|StructureNavigatorInterface $struct,
-    ): TagInterface {
+    ): ?TagInterface {
         if ($struct instanceof StructureNavigatorInterface) {
             $struct = $struct->element();
         }

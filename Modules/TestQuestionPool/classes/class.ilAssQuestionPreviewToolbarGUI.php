@@ -27,10 +27,13 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
     private $resetPreviewCmd;
     private $editQuestionCmd;
     private $editPageCmd;
+    private ilCtrlInterface $ilCtrl;
 
     public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
+        global $DIC;
+        $this->ilCtrl = $DIC->ctrl();
 
         parent::__construct();
     }
@@ -39,28 +42,22 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
     {
         // Edit Question
         if ($this->getEditQuestionCmd() !== null) {
-            $button_edit_question = ilLinkButton::getInstance();
-            $button_edit_question->setUrl($this->getEditQuestionCmd());
-            $button_edit_question->setPrimary(true);
-            $button_edit_question->setCaption('edit_question');
-            $this->addButtonInstance($button_edit_question);
+            $action = $this->ilCtrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, $this->getEditQuestionCmd());
+            $button_edit_question = $this->ui->factory()->button()->standard($this->lng->txt('edit_question'), $action);
+            $this->addComponent($button_edit_question);
         }
 
         // Edit Page
         if ($this->getEditPageCmd() !== null) {
-            $button_edit_page = ilLinkButton::getInstance();
-            $button_edit_page->setUrl($this->getEditPageCmd());
-            $button_edit_page->setCaption('edit_page');
-            $this->addButtonInstance($button_edit_page);
+            $action = $this->ilCtrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, $this->getEditPageCmd());
+            $button_edit_page = $this->ui->factory()->button()->standard($this->lng->txt('edit_page'), $this->getEditPageCmd());
+            $this->addComponent($button_edit_page);
         }
 
         //Reset Preview
-        $button = \ilSubmitButton::getInstance();
-        $button->setCaption("qpl_reset_preview");
-        $button->setCommand($this->getResetPreviewCmd());
-        $button->setOmitPreventDoubleSubmission(true);
-        $this->addButtonInstance($button);
-        //$this->addFormButton($this->lng->txt('qpl_reset_preview'), $this->getResetPreviewCmd(), '', false);
+        $action = $this->ilCtrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, $this->getResetPreviewCmd());
+        $button = $this->ui->factory()->button()->standard($this->lng->txt('qpl_reset_preview'), $action);
+        $this->addComponent($button);
     }
 
     public function setResetPreviewCmd($resetPreviewCmd): void

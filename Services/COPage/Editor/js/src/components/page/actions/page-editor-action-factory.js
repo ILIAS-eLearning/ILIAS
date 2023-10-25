@@ -90,6 +90,17 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
+  componentForm(cname, pcid, hierid) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_FORM, {
+      cname: cname,
+      pcid: pcid,
+      hierid: hierid
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
   componentSwitch(cname, state, oldPcid, oldPara, newPcid, newHierid, switchToEnd = false) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_SWITCH, {
       cname: cname,
@@ -107,6 +118,13 @@ export default class PageEditorActionFactory {
    */
   componentCancel() {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_CANCEL, {});
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  componentBack() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_BACK, {});
   }
 
   /**
@@ -136,8 +154,28 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
+  componentFormLoaded(component) {
+    return this.editorActionFactory.action(component, ACTIONS.COMPONENT_FORM_LOADED, {
+      component: component
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
   componentUpdate(pcid, component, data) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_UPDATE, {
+      pcid: pcid,
+      component: component,
+      data: data
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  componentUpdateBack(pcid, component, data) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_UPDATE_BACK, {
       pcid: pcid,
       component: component,
       data: data

@@ -228,7 +228,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         $DIC->tabs()->activateTab($a_active);
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitle($this->slm_gui->getObject()->getTitle());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
         $DIC['ilLocator']->addRepositoryItems();
         $DIC['ilLocator']->addItem(
             $this->slm_gui->getObject()->getTitle(),

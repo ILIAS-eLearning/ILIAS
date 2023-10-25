@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -34,7 +34,7 @@ class ItemGroupTest extends ILIAS_UI_TestBase
         return new I\Component\Item\Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFactory();
 
@@ -46,7 +46,7 @@ class ItemGroupTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Item\\Group", $group);
     }
 
-    public function test_get_title(): void
+    public function testGetTitle(): void
     {
         $f = $this->getFactory();
         $c = $f->group("group", array(
@@ -57,7 +57,7 @@ class ItemGroupTest extends ILIAS_UI_TestBase
         $this->assertEquals("group", $c->getTitle());
     }
 
-    public function test_get_items(): void
+    public function testGetItems(): void
     {
         $f = $this->getFactory();
 
@@ -71,7 +71,7 @@ class ItemGroupTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getItems(), $items);
     }
 
-    public function test_with_actions(): void
+    public function testWithActions(): void
     {
         $f = $this->getFactory();
 
@@ -89,7 +89,7 @@ class ItemGroupTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getActions(), $actions);
     }
 
-    public function test_render_base(): void
+    public function testRenderBase(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -129,7 +129,7 @@ EOT;
         );
     }
 
-    public function test_render_with_actions(): void
+    public function testRenderWithActions(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

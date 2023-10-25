@@ -29,6 +29,11 @@ class ilMDMetaMetadata extends ilMDBase
     private ?ilMDLanguageItem $language = null;
 
     /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private int $schema_id = 0;
+
+    /**
      * @return array<string, string>
      */
     public function getPossibleSubelements(): array
@@ -132,6 +137,7 @@ class ilMDMetaMetadata extends ilMDBase
 
         if ($this->db->insert('il_meta_meta_data', $fields)) {
             $this->setMetaId($next_id);
+            $this->createOrUpdateFirstSchema();
             return $this->getMetaId();
         }
         return 0;
@@ -139,7 +145,13 @@ class ilMDMetaMetadata extends ilMDBase
 
     public function update(): bool
     {
-        return $this->getMetaId() && $this->db->update(
+        if (!$this->getMetaId()) {
+            return false;
+        }
+
+        $this->createOrUpdateFirstSchema();
+
+        return (bool) $this->db->update(
             'il_meta_meta_data',
             $this->__getFields(),
             array("meta_meta_data_id" => array('integer', $this->getMetaId()))
@@ -152,6 +164,8 @@ class ilMDMetaMetadata extends ilMDBase
             $query = "DELETE FROM il_meta_meta_data " .
                 "WHERE meta_meta_data_id = " . $this->db->quote($this->getMetaId(), 'integer');
             $res = $this->db->manipulate($query);
+
+            $this->deleteAllSchemas();
 
             foreach ($this->getIdentifierIds() as $id) {
                 $ide = $this->getIdentifier($id);
@@ -177,7 +191,7 @@ class ilMDMetaMetadata extends ilMDBase
             'rbac_id' => array('integer', $this->getRBACId()),
             'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
-            'meta_data_scheme' => array('text', $this->getMetaDataScheme()),
+            //'meta_data_scheme' => array('text', $this->getMetaDataScheme()),
             'language' => array('text', $this->getLanguageCode())
         );
     }
@@ -193,9 +207,12 @@ class ilMDMetaMetadata extends ilMDBase
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setMetaDataScheme($row->meta_data_scheme ?? '');
+                //$this->setMetaDataScheme($row->meta_data_scheme ?? '');
                 $this->setLanguage(new ilMDLanguageItem($row->language ?? ''));
             }
+
+            $this->readFirstSchema();
+
             return true;
         }
         return false;
@@ -253,5 +270,88 @@ class ilMDMetaMetadata extends ilMDBase
             return (int) $row->meta_meta_data_id;
         }
         return 0;
+    }
+
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function createOrUpdateFirstSchema(): void
+    {
+        if ($this->getMetaDataScheme() === '') {
+            return;
+        }
+
+        if (!$this->getSchemaId()) {
+            $this->db->insert(
+                'il_meta_meta_schema',
+                [
+                    'meta_meta_schema_id' => ['integer', $next_id = $this->db->nextId('il_meta_meta_schema')],
+                    'rbac_id' => ['integer', $this->getRBACId()],
+                    'obj_id' => ['integer', $this->getObjId()],
+                    'obj_type' => ['text', $this->getObjType()],
+                    'parent_type' => ['text', 'meta_general'],
+                    'parent_id' => ['integer', $this->getMetaId()],
+                    'meta_data_schema' => ['text', 'LOMv1.0'],
+                ]
+            );
+            $this->schema_id = $next_id;
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function deleteAllSchemas(): void
+    {
+        $query = "DELETE FROM il_meta_meta_schema WHERE parent_type = 'meta_meta_data'
+                AND parent_id = " . $this->db->quote($this->getMetaId(), 'integer');
+        $res = $this->db->manipulate($query);
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readFirstSchema(): void
+    {
+        $query = "SELECT * FROM il_meta_meta_schema WHERE meta_meta_schema_id = " .
+                $this->db->quote($this->getMetaId(), 'integer');
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            $this->setMetaDataScheme((string) $row['meta_data_schema']);
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function getSchemaId(): int
+    {
+        return $this->schema_id;
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readSchemaId(int $parent_id): void
+    {
+        $query = "SELECT meta_meta_schema_id FROM il_meta_meta_schema WHERE parent_type = 'meta_meta_data'
+                AND parent_id = " . $this->db->quote($parent_id, 'integer') .
+            " ORDER BY meta_meta_schema_id";
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            $this->schema_id = (int) $row['meta_meta_schema_id'];
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    public function setMetaId(int $a_meta_id, bool $a_read_data = true): void
+    {
+        $this->readSchemaId($a_meta_id);
+        parent::setMetaId($a_meta_id, $a_read_data);
     }
 }

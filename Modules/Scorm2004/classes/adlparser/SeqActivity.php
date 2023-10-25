@@ -324,9 +324,9 @@ class SeqActivity
     {
         if ($iDur != null) {
             $this->mActivityAbDurControl = true;
-        //to be implemented
-        //convert duration
-        //$this->mActivityAbDur = new ADLDuration(ADLDuration.FORMAT_SCHEMA, iDur);
+            //to be implemented
+            //convert duration
+            //$this->mActivityAbDur = new ADLDuration(ADLDuration.FORMAT_SCHEMA, iDur);
         } else {
             $this->mActivityAbDurControl = false;
         }
@@ -336,8 +336,8 @@ class SeqActivity
     {
         if ($iDur != null) {
             $this->mAttemptExDurControl = true;
-        //to be implemented
-        // $this->mAttemptExDur = new ADLDuration(ADLDuration.FORMAT_SCHEMA, iDur);
+            //to be implemented
+            // $this->mAttemptExDur = new ADLDuration(ADLDuration.FORMAT_SCHEMA, iDur);
         } else {
             $this->mAttemptExDurControl = false;
         }
@@ -347,7 +347,7 @@ class SeqActivity
     {
         if ($iDur != null) {
             $this->mActivityAbDurControl = true;
-        //$this->mActivityAbDur = new ADLDuration(ADLDuration.FORMAT_SCHEMA, iDur);
+            //$this->mActivityAbDur = new ADLDuration(ADLDuration.FORMAT_SCHEMA, iDur);
         } else {
             $this->mActivityAbDurControl = false;
         }
@@ -357,7 +357,7 @@ class SeqActivity
     {
         if ($iDur != null) {
             $this->mmActivityExDurControl = true;
-        // $this->mmActivityExDur = new ADLDuration(ADLDuration.FORMAT_SCHEMA, iDur);
+            // $this->mmActivityExDur = new ADLDuration(ADLDuration.FORMAT_SCHEMA, iDur);
         } else {
             $this->mmActivityExDurControl = false;
         }

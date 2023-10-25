@@ -23,7 +23,6 @@ namespace ILIAS\MetaData\Paths\Steps;
 /**
  * The string representation of these tokens must not occur as
  * names of metadata elements.
- * @author Tim Schmitz <schmitz@leifos.de>
  */
 enum StepToken: string
 {

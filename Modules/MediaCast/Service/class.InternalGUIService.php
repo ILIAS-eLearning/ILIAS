@@ -22,6 +22,7 @@ namespace ILIAS\MediaCast;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\MediaCast\Comments;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -30,6 +31,7 @@ class InternalGUIService
 {
     use GlobalDICGUIServices;
 
+    protected \ILIAS\Notes\GUIService $notes_gui;
     protected InternalDataService $data_service;
     protected InternalDomainService $domain_service;
 
@@ -41,6 +43,7 @@ class InternalGUIService
         $this->data_service = $data_service;
         $this->domain_service = $domain_service;
         $this->initGUIServices($DIC);
+        $this->notes_gui = $DIC->notes()->gui();
     }
 
     /*public function administration() : Administration\GUIService
@@ -56,6 +59,30 @@ class InternalGUIService
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery()
+        );
+    }
+
+    public function getObjMediaCastGUI(): \ilObjMediaCastGUI
+    {
+        return new \ilObjMediaCastGUI(
+            "",
+            $this->standardRequest()->getRefId(),
+            true,
+            false
+        );
+    }
+
+    public function getMediaCastManageTableGUI(\ilObjMediaCastGUI $gui, string $table_cmd): \ilMediaCastManageTableGUI
+    {
+        return new \ilMediaCastManageTableGUI($gui, $table_cmd);
+    }
+
+    public function comments(): Comments\GUIService
+    {
+        return new Comments\GUIService(
+            $this->domain_service,
+            $this,
+            $this->notes_gui
         );
     }
 }

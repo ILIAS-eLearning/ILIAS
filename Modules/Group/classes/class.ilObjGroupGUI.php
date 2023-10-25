@@ -437,7 +437,7 @@ class ilObjGroupGUI extends ilContainerGUI
             'grp'
         );
 
-        if ($this->view_manager->isAdminView()) {
+        if ($this->isActiveAdministrationPanel()) {
             parent::renderObject();
             $this->addAdoptContentLinkToToolbar();
             return;
@@ -1758,7 +1758,7 @@ class ilObjGroupGUI extends ilContainerGUI
         switch ($a_mode) {
             case 'create':
                 $form->setTitle($this->lng->txt('grp_new'));
-                $form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
+                $form->setTitleIcon(ilUtil::getImagePath('standard/icon_grp.svg'));
 
                 $form->addCommandButton('save', $this->lng->txt('grp_new'));
                 $form->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -1766,7 +1766,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
             case 'edit':
                 $form->setTitle($this->lng->txt('grp_edit'));
-                $form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
+                $form->setTitleIcon(ilUtil::getImagePath('standard/icon_grp.svg'));
 
                 // Edit ecs export settings
                 $ecs = new ilECSGroupSettings($this->object);
@@ -1916,7 +1916,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 if (!$noti->isCurrentUserActive()) {
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_off.svg"),
+                        ilUtil::getImagePath("object/notification_off.svg"),
                         $this->lng->txt("grp_notification_deactivated")
                     );
 
@@ -1925,7 +1925,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 } else {
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_on.svg"),
+                        ilUtil::getImagePath("object/notification_on.svg"),
                         $this->lng->txt("grp_notification_activated")
                     );
 

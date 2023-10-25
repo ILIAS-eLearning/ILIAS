@@ -417,9 +417,13 @@ class ilObjLanguageExt extends ilObjLanguage
         // read and get the global values
         require_once "./Services/Language/classes/class.ilLanguageFile.php";
         $global_file_obj = ilLanguageFile::_getGlobalLanguageFile($a_lang_key);
-        $global_values = $global_file_obj->getAllValues();
-        $global_comments = $global_file_obj->getAllComments();
-
+        $file_values = $global_file_obj->getAllValues();
+        $file_comments = $global_file_obj->getAllComments();
+        $db_values = self::_getValues($a_lang_key);
+        $db_comments = self::_getRemarks($a_lang_key);
+        $global_values = array_merge($db_values, $file_values);
+        $global_comments = array_merge($db_comments, $file_comments);
+        
         // save the single translations in lng_data
         foreach ($a_values as $key => $value) {
             $keys = explode($lng->separator, $key);
@@ -430,20 +434,18 @@ class ilObjLanguageExt extends ilObjLanguage
 
                 if (!isset($global_values[$key])) continue;
                 $are_comments_set = isset($global_comments[$key]) && isset($a_remarks[$key]);
-                if ($global_values[$key] != $value || ($are_comments_set ? $global_comments[$key] != $a_remarks[$key] : $are_comments_set)) {
-                    $local_change = $save_date;
-                } else {
-                    $local_change = null;
+                $are_changes_made = $global_values[$key] != $value || $db_values[$key] != $value;
+                if ($are_changes_made || ($are_comments_set ? $global_comments[$key] != $a_remarks[$key] : $are_comments_set)) {
+                    $local_change = $db_values[$key] == $value || $global_values[$key] != $value ? $save_date : null;
+                    ilObjLanguage::replaceLangEntry(
+                        $module,
+                        $topic,
+                        $a_lang_key,
+                        $value,
+                        $local_change,
+                        $a_remarks[$key] ?? null
+                    );
                 }
-
-                ilObjLanguage::replaceLangEntry(
-                    $module,
-                    $topic,
-                    $a_lang_key,
-                    $value,
-                    $local_change,
-                    $a_remarks[$key] ?? null
-                );
             }
         }
 

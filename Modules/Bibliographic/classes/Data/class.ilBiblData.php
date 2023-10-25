@@ -64,13 +64,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      * @con_length     1
      * @con_is_notnull true
      */
-    protected ?int $is_online = null;
-    /**
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     1
-     * @con_is_notnull true
-     */
     protected ?int $file_type = null;
 
     /**
@@ -103,17 +96,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     public function setFilename(string $filename): void
     {
         $this->filename = $filename;
-    }
-
-    public function isOnline(): bool
-    {
-        return (bool) $this->is_online;
-    }
-
-
-    public function setIsOnline(int $is_online): void
-    {
-        $this->is_online = $is_online;
     }
 
 

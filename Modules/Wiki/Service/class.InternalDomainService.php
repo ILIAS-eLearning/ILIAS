@@ -22,6 +22,10 @@ namespace ILIAS\Wiki;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\Wiki\Content;
+use ILIAS\Wiki\Page;
+use ILIAS\Wiki\Wiki;
+use ILIAS\Wiki\Links\LinkManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -43,14 +47,56 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function log(): \ilLogger
     {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
+        return $this->logger()->wiki();
+    }
+
+    public function content(): Content\DomainService
+    {
+        return new Content\DomainService(
+            $this->data_service,
+            $this->repo_service,
+            $this
         );
-    }*/
+    }
+
+    public function wiki(): Wiki\DomainService
+    {
+        return new Wiki\DomainService(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
+    }
+
+    public function page(): Page\DomainService
+    {
+        return new Page\DomainService(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
+    }
+
+    public function importantPage(int $ref_id): Navigation\ImportantPageManager
+    {
+        return new Navigation\ImportantPageManager(
+            $this->data_service,
+            $this->repo_service->importantPage(),
+            $this->wiki(),
+            $ref_id
+        );
+    }
+
+    public function links(int $ref_id): LinkManager
+    {
+        return new LinkManager(
+            $this->data_service,
+            $this->repo_service->missingPage(),
+            $this,
+            $ref_id
+        );
+    }
+
 }

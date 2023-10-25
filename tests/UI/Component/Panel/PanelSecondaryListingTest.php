@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -71,7 +71,7 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
         return trim($html);
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $secondary_panel = $this->getUIFactory()->panelSecondary()->listing("List Title", array(
 
@@ -87,7 +87,7 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Panel\\Secondary\\Listing", $secondary_panel);
     }
 
-    public function test_get_title(): void
+    public function testGetTitle(): void
     {
         $groups = array(
             new I\Component\Item\Group("Subtitle 1", array(
@@ -104,7 +104,7 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
         $this->assertEquals("title", $c->getTitle());
     }
 
-    public function test_get_item_groups(): void
+    public function testGetItemGroups(): void
     {
         $groups = array(
             new I\Component\Item\Group("Subtitle 1", array(
@@ -121,7 +121,7 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getItemGroups(), $groups);
     }
 
-    public function test_with_actions(): void
+    public function testWithActions(): void
     {
         $actions = new I\Component\Dropdown\Standard(array(
             new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
@@ -138,7 +138,7 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
 
     //RENDER
 
-    public function test_render_with_actions(): void
+    public function testRenderWithActions(): void
     {
         $actions = $this->getUIFactory()->dropdown()->standard(array(
             $this->getUIFactory()->button()->shy("ILIAS", "https://www.ilias.de"),
@@ -172,7 +172,7 @@ EOT;
         );
     }
 
-    public function test_render_with_sortation(): void
+    public function testRenderWithSortation(): void
     {
         $sort_options = array(
             'a' => 'A',
@@ -214,7 +214,7 @@ EOT;
         );
     }
 
-    public function test_render_with_pagination(): void
+    public function testRenderWithPagination(): void
     {
         $pagination = $this->getUIFactory()->viewControl()->pagination()
             ->withTargetURL('http://ilias.de', 'page')
@@ -262,7 +262,7 @@ EOT;
         );
     }
 
-    public function test_render_with_section(): void
+    public function testRenderWithSection(): void
     {
         $back = $this->getUIFactory()->button()->standard("previous", "http://www.ilias.de");
         $next = $this->getUIFactory()->button()->standard("next", "http://www.github.com");
@@ -300,7 +300,7 @@ EOT;
             $this->brutallyTrimHTML($html)
         );
     }
-    public function test_render_with_footer(): void
+    public function testRenderWithFooter(): void
     {
         $footer_shy_button = $this->getUIFactory()->button()->shy("Action", "");
         $secondary_panel = $this->getUIFactory()->panelSecondary()->listing("", array())->withFooter($footer_shy_button);
@@ -320,7 +320,7 @@ EOT;
         );
     }
 
-    public function test_render_with_no_header_but_content(): void
+    public function testRenderWithNoHeaderButContent(): void
     {
         $group = new I\Component\Item\Group(
             "Subtitle 1",
@@ -362,7 +362,7 @@ EOT;
         );
     }
 
-    public function test_render_with_no_header_no_content_no_footer(): void
+    public function testRenderWithNoHeaderNoContentNoFooter(): void
     {
         $secondary_panel = $this->getUIFactory()->panelSecondary()->listing("", array());
 

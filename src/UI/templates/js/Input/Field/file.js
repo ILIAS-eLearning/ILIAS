@@ -1,4 +1,17 @@
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
  * this script wraps dropzone.js library for inputs of
  * ILIAS\UI\Component\Input\Field\File.
  *
@@ -96,7 +109,7 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {string} file_identifier
 		 * @param {int} current_file_count
 		 * @param {int} max_file_amount
-		 * @param {int} max_file_size
+		 * @param {int} max_file_size_in_bytes
 		 * @param {string} mime_types
 		 * @param {boolean} is_disabled
 		 * @param {string[]} translations
@@ -108,12 +121,12 @@ il.UI.Input = il.UI.Input || {};
 			file_identifier,
 			current_file_count,
 			max_file_amount,
-			max_file_size,
+			max_file_size_in_bytes,
 			mime_types,
 			is_disabled,
 			translations,
-			chunked_upload,
-			chunk_size
+			should_upload_be_chunked,
+			chunk_size_in_bytes
 		) {
 			if (typeof dropzones[input_id] !== 'undefined') {
 				console.error(`Error: tried to register input '${input_id}' as file input twice.`);
@@ -138,10 +151,10 @@ il.UI.Input = il.UI.Input || {};
 				`#${input_id} ${SELECTOR.dropzone}`,
 				{
 					url: encodeURI(upload_url),
-					uploadMultiple: (1 < max_file_amount),
+					uploadMultiple: (!should_upload_be_chunked && 1 < max_file_amount),
 					acceptedFiles: (0 < mime_types.length) ? mime_types : null,
 					maxFiles: max_file_amount,
-					maxFilesize: max_file_size,
+					maxFilesize: bytesToMiB(max_file_size_in_bytes), // official dropzone.js docu is wrong, MiB is expected.
 					previewsContainer: file_list,
 					clickable: action_button,
 					autoProcessQueue: false,
@@ -150,9 +163,9 @@ il.UI.Input = il.UI.Input || {};
 					file_identifier: file_identifier,
 					removal_url: removal_url,
 					input_id: input_id,
-					chunking: chunked_upload,
-					chunkSize: chunk_size,
-					forceChunking: chunked_upload,
+					chunking: should_upload_be_chunked,
+					forceChunking: should_upload_be_chunked,
+					chunkSize: chunk_size_in_bytes,
 
 					// override default rendering function.
 					addedfile: file => {
@@ -355,8 +368,8 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			// abort if the given file size exceeds the max limit.
-			if (dropzones[input_id].options.maxFilesize < file.size) {
-				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFilesize);
+			if ((dropzones[input_id].options.maxFilesize * 1024 * 1024) < file.size) {
+				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFilesize * 1024 * 1024);
 				displayErrorMessage(
 					I18N.invalid_size.replace('%s', allowed_file_size),
 					$(`#${input_id} ${SELECTOR.dropzone}`)
@@ -699,6 +712,14 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let removeErrorMessage = function (container) {
 			container.find(SELECTOR.error_message).text('');
+		}
+
+		/**
+		 * @param {number} bytes
+		 * @returns {number}
+		 */
+		let bytesToMiB = function (bytes) {
+			return bytes / 1024 / 1024;
 		}
 
 		// ==========================================

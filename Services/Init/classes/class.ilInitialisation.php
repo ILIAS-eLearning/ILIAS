@@ -32,6 +32,7 @@ use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\Filesystem\Definitions\SuffixDefinitions;
 use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
+use ILIAS\FileDelivery\Init;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -355,6 +356,21 @@ class ilInitialisation
         };
     }
 
+    protected static function initUploadPolicies(\ILIAS\DI\Container $dic): void
+    {
+        $dic['upload_policy_repository'] = static function ($dic) {
+            return new UploadPolicyDBRepository($dic->database());
+        };
+
+        $dic['upload_policy_resolver'] = static function ($dic): UploadPolicyResolver {
+            return new UploadPolicyResolver(
+                $dic->rbac()->review(),
+                $dic->user(),
+                $dic['upload_policy_repository']->getAll(),
+            );
+        };
+    }
+
     /**
      * builds http path
      */
@@ -402,6 +418,9 @@ class ilInitialisation
 
         // remove everything after the first .php in the path
         $ilias_http_path = preg_replace('/(http|https)(:\/\/)(.*?\/.*?\.php).*/', '$1$2$3', $ilias_http_path);
+        $ilias_http_path = preg_replace('/goto.php\/$/', '', $ilias_http_path);
+        $ilias_http_path = preg_replace('/goto.php$/', '', $ilias_http_path);
+        $ilias_http_path = preg_replace('/go\/.*$/', '', $ilias_http_path);
 
         $f = new \ILIAS\Data\Factory();
         $uri = $f->uri(ilFileUtils::removeTrailingPathSeparators($ilias_http_path));
@@ -1124,8 +1143,9 @@ class ilInitialisation
         self::initCore();
         self::initHTTPServices($GLOBALS["DIC"]);
         if (ilContext::initClient()) {
-            self::initClient();
             self::initFileUploadService($GLOBALS["DIC"]);
+            Init::init($GLOBALS["DIC"]);
+            self::initClient();
             self::initSession();
 
             if (ilContext::hasUser()) {
@@ -1432,6 +1452,8 @@ class ilInitialisation
     {
         $init_http = new InitHttpServices();
         $init_http->init($container);
+
+        \ILIAS\StaticURL\Init::init($container);
     }
 
     /**
@@ -1448,7 +1470,6 @@ class ilInitialisation
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
-//        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
     }
 
     /**
@@ -1529,6 +1550,8 @@ class ilInitialisation
             // load style definitions
             // use the init function with plugin hook here, too
             self::initStyle();
+
+            self::initUploadPolicies($DIC);
         }
 
         self::initUIFramework($GLOBALS["DIC"]);

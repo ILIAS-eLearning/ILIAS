@@ -1298,7 +1298,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tbl = new ilTableGUI();
         $tbl->setTitle(
             $this->lng->txt("event_overview"),
-            'icon_usr.svg',
+            'standard/icon_usr.svg',
             $this->lng->txt('obj_usr')
         );
         $this->ctrl->setParameter($this, 'offset', $this->requested_offset);
@@ -1352,8 +1352,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
                 {
                     $this->tpl->setVariable("IMAGE_PARTICIPATED", $event_part->hasParticipated($user_id) ?
-                                            ilUtil::getImagePath('icon_ok.svg') :
-                                            ilUtil::getImagePath('icon_not_ok.svg'));
+                                            ilUtil::getImagePath('standard/icon_ok.svg') :
+                                            ilUtil::getImagePath('standard/icon_not_ok.svg'));
 
                     $this->tpl->setVariable("PARTICIPATED", $event_part->hasParticipated($user_id) ?
                                         $this->lng->txt('event_participated') :

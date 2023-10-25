@@ -156,7 +156,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 
         if ($this->isActionsColumnRequired()) {
             $this->tpl->setCurrentBlock('actions_column');
-            $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($a_set)->getHTML());
+            $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($a_set));
             $this->tpl->parseCurrentBlock();
         }
 
@@ -175,18 +175,17 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("FINAL_MARK", $a_set['final_mark']);
     }
 
-    protected function buildActionsMenu(array $data): ilAdvancedSelectionListGUI
+    protected function buildActionsMenu(array $data): string
     {
-        $asl = new ilAdvancedSelectionListGUI();
-
         $this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
 
+        $actions = [];
         if ($this->isAccessResultsCommandsEnabled()) {
             $resultsHref = $this->ctrl->getLinkTargetByClass([ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class, ilTestEvaluationGUI::class], 'outParticipantsResultsOverview');
-            $asl->addItem($this->lng->txt('tst_show_results'), $resultsHref, $resultsHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_show_results'), $resultsHref);
         }
-
-        return $asl;
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        return $this->ui_renderer->render($dropdown);
     }
 
     protected function isActionsColumnRequired(): bool
@@ -222,12 +221,12 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 
     protected function buildPassedIcon(): string
     {
-        return $this->buildImageIcon(ilUtil::getImagePath("icon_ok.svg"), $this->lng->txt("passed"));
+        return $this->buildImageIcon(ilUtil::getImagePath("standard/icon_ok.svg"), $this->lng->txt("passed"));
     }
 
     protected function buildFailedIcon(): string
     {
-        return $this->buildImageIcon(ilUtil::getImagePath("icon_not_ok.svg"), $this->lng->txt("failed"));
+        return $this->buildImageIcon(ilUtil::getImagePath("standard/icon_not_ok.svg"), $this->lng->txt("failed"));
     }
 
     protected function buildImageIcon(string $icon_name, string $label): string

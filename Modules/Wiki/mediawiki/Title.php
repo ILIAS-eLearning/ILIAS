@@ -60,7 +60,7 @@ class Title
     public $mRestrictionsLoaded; 	# Boolean for initialisation on demand
     public $mPrefixedText;       	# Text form including namespace/interwiki, initialised on demand
     public $mDefaultNamespace;   	# Namespace index when there is no namespace
-                                # Zero except in {{transclusion}} tags
+    # Zero except in {{transclusion}} tags
     public $mWatched;      		# Is $wgUser watching this page? NULL if unfilled, accessed through userIsWatching()
     /**#@-*/
 

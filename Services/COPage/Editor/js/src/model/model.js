@@ -29,7 +29,7 @@ export default class Model {
   constructor() {
     this.models = new Map();
     this.models.set("page", new PageModel());
-    this.models.set("table", new TableModel());
+    this.models.set("table", new TableModel(this.models.get("page")));
   }
 
   model(key) {

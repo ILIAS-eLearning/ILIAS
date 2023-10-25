@@ -24,8 +24,10 @@ use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
+use ILIAS\UI\Component\Image\Image;
 use ILIAS\Notes\Note;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Object\ilObjectDIC;
 
 /**
  * Important note:
@@ -71,6 +73,8 @@ class ilObjectListGUI
     protected array $access_cache;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
+    protected ilObjectDIC $object_dic;
+    protected ilObjectProperties $object_properties;
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
     protected ilSetting $settings;
@@ -83,7 +87,6 @@ class ilObjectListGUI
     protected string $mode;
     protected bool $path_enabled;
     protected int $context;
-    protected ilObjectService $object_service;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
 
@@ -193,6 +196,7 @@ class ilObjectListGUI
 
         $this->access = $DIC['ilAccess'];
         $this->user = $DIC['ilUser'];
+        $this->object_dic = ilObjectDIC::dic();
         $this->obj_definition = $DIC['objDefinition'];
         $this->tree = $DIC['tree'];
         $this->settings = $DIC['ilSetting'];
@@ -205,7 +209,6 @@ class ilObjectListGUI
         $this->mode = self::IL_LIST_FULL;
         $this->path_enabled = false;
         $this->context = $context;
-        $this->object_service = $DIC->object();
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC['refinery'];
 
@@ -718,6 +721,7 @@ class ilObjectListGUI
         $this->access_cache = [];
         $this->ref_id = $ref_id;
         $this->obj_id = $obj_id;
+        $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($obj_id);
         $this->setTitle($title);
         $this->setDescription($description);
 
@@ -1845,7 +1849,7 @@ class ilObjectListGUI
             $this->getCommandLink('infoScreen'),
             $this->lng->txt('info_short'),
             $this->getCommandFrame('infoScreen'),
-            ilUtil::getImagePath('icon_info.svg')
+            ilUtil::getImagePath('standard/icon_info.svg')
         );
     }
 
@@ -1920,6 +1924,12 @@ class ilObjectListGUI
         }
     }
 
+    /**
+     * ks, 23 OCT 2023: This function is badly named and it already was before
+     * the changes made today. I decided to keept this so, for the time being
+     * as changes would be needed in multiple child classes and as this should
+     * change anyway.
+     */
     public function insertTimingsCommand(): void
     {
         if (
@@ -1935,7 +1945,7 @@ class ilObjectListGUI
 
         // #18737
         if ($this->reference_ref_id) {
-            $this->ctrl->setParameterByClass('ilobjectactivationgui', 'ref_id', $this->reference_ref_id);
+            $this->ctrl->setParameterByClass('ilconditionhandlergui', 'ref_id', $this->reference_ref_id);
         }
 
         if (
@@ -1943,25 +1953,41 @@ class ilObjectListGUI
             $this->checkCommandAccess('write', '', $this->ref_id, $this->type)
         ) {
             $this->ctrl->setParameterByClass(
-                'ilobjectactivationgui',
+                get_class($this->container_obj),
+                'tl_id',
+                $this->ref_id
+            );
+            $time_limit_link = $this->ctrl->getLinkTargetByClass(
+                get_class($this->container_obj),
+                'editAvailabilityPeriod'
+            );
+            $this->insertCommand($time_limit_link, $this->lng->txt('edit_availability_period'));
+            $this->ctrl->clearParameterByClass(
+                get_class($this->container_obj),
+                'tl_id',
+            );
+
+            $this->ctrl->setParameterByClass(
+                'ilconditionhandlergui',
                 'cadh',
                 $this->ajax_hash
             );
             $this->ctrl->setParameterByClass(
-                'ilobjectactivationgui',
+                'ilconditionhandlergui',
                 'parent_id',
                 $parent_ref_id
             );
-            $cmd_lnk = $this->ctrl->getLinkTargetByClass(
-                [$this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui'],
-                'edit'
+
+            $availbility_link = $this->ctrl->getLinkTargetByClass(
+                [$this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui', 'ilconditionhandlergui'],
+                'listConditions'
             );
 
-            $this->insertCommand($cmd_lnk, $this->lng->txt('obj_activation_list_gui'));
+            $this->insertCommand($availbility_link, $this->lng->txt('preconditions'));
         }
 
         if ($this->reference_ref_id) {
-            $this->ctrl->setParameterByClass('ilobjectactivationgui', 'ref_id', $this->ref_id);
+            $this->ctrl->setParameterByClass('ilconditionhandlergui', 'ref_id', $this->ref_id);
         }
     }
 
@@ -1974,7 +2000,11 @@ class ilObjectListGUI
         string $async_url = '',
         bool $header_actions = false
     ): string {
-        if (!$this->getCommandsStatus()) {
+        if (!$this->getCommandsStatus() || $this->commandsNeedToBeHidden(
+            $use_async,
+            $get_async_commands,
+            $header_actions
+        )) {
             return '';
         }
 
@@ -2085,11 +2115,6 @@ class ilObjectListGUI
             $this->insertLPCommand();
 
             if (!$this->isMode(self::IL_LIST_AS_TRIGGER)) {
-                // edit timings
-                if ($this->timings_enabled) {
-                    $this->insertTimingsCommand();
-                }
-
                 // delete
                 if ($this->delete_enabled) {
                     $this->insertDeleteCommand();
@@ -2114,6 +2139,10 @@ class ilObjectListGUI
                 if ($this->repository_transfer_enabled) {
                     $this->insertCutCommand(true);
                     $this->insertCopyCommand(true);
+                }
+
+                if ($this->timings_enabled) {
+                    $this->insertTimingsCommand();
                 }
 
                 // subscribe
@@ -2143,25 +2172,30 @@ class ilObjectListGUI
             $this->ctrl->clearParametersByClass($this->gui_class_name);
         }
 
-        // fix bug #12417
-        // there is one case, where no action menu should be displayed:
-        // public area, category, no info tab
-        // todo: make this faster and remove type specific implementation if possible
-        if ($use_async && !$get_async_commands && !$header_actions) {
-            if ($this->user->getId() === ANONYMOUS_USER_ID && $this->checkInfoPageOnAsynchronousRendering()) {
-                if (
-                    !ilContainer::_lookupContainerSetting($this->obj_id, ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY)
-                ) {
-                    return '';
-                }
-            }
-        }
-
         if ($use_async && $get_async_commands) {
             return $this->current_selection_list->getHTML(true);
         }
 
         return $this->current_selection_list->getHTML();
+    }
+
+    /**
+     *  Fix bug #12417: We hide the action menu when we are in the public area
+     */
+    // there is one case, where no action menu should be displayed:
+    // public area, category, no info tab
+    // todo: make this faster and remove type specific implementation if possible
+    private function commandsNeedToBeHidden(
+        bool $use_async,
+        bool $get_async_commands,
+        bool $header_actions
+    ): bool {
+        if ($use_async && !$get_async_commands && !$header_actions
+            && $this->user->getId() === ANONYMOUS_USER_ID && $this->checkInfoPageOnAsynchronousRendering()
+            && $this->object_properties->getPropertyInfoTabVisibility()) {
+            return true;
+        }
+        return false;
     }
 
     public function enableComments(bool $value, bool $enable_comments_settings = true): void
@@ -2655,14 +2689,14 @@ class ilObjectListGUI
                 // 'view' added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
-                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('tree_exp.svg'));
+                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_exp.svg'));
                 $this->tpl->setVariable('EXP_ALT', $this->lng->txt('collapse'));
             } else {
                 $this->ctrl->setParameter($this->container_obj, 'expand', $this->obj_id);
                 // 'view' added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
-                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('tree_col.svg'));
+                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_col.svg'));
                 $this->tpl->setVariable('EXP_ALT', $this->lng->txt('expand'));
             }
 
@@ -3232,8 +3266,6 @@ class ilObjectListGUI
                            htmlspecialchars(addslashes($title))
                        ));
 
-        $path = $this->getTileImagePath();
-
         // workaround for #26205
         // we should get rid of _top links completely and gifure our how
         // to manage scorm links better
@@ -3247,9 +3279,7 @@ class ilObjectListGUI
         $modified_link =
             $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame);
 
-        $image = $this->ui->factory()
-                          ->image()
-                          ->responsive($path, '');
+        $image = $this->getTileImage();
         if ($def_cmd_link != '') {    // #24256
             if ($def_cmd_frame != '' && ($modified_link == $def_cmd_link)) {
                 $image = $image->withAdditionalOnLoadCode(function ($id) use (
@@ -3371,24 +3401,10 @@ class ilObjectListGUI
         return false;
     }
 
-    protected function getTileImagePath(): string
+    private function getTileImage(): Image
     {
-        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
-        if ($object === null) {
-            return '';
-        }
-
-        $img = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
-        if ($img->exists()) {
-            return $img->getFullPath();
-        }
-
-        $path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
-        if (is_file($path)) {
-            return $path;
-        }
-
-        return ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
+        return $this->object_properties->getPropertyTileImage()
+            ->getTileImage()->getImage();
     }
 
     /**

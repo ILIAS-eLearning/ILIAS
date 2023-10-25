@@ -18,11 +18,7 @@
 
 namespace ILIAS\Modules\File\Preview;
 
-use ILIAS\Administration\Setting;
-use ILIAS\ResourceStorage\Flavour\Engine\GDEngine;
-use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
 use ILIAS\UI\Component\Input\Field\Group;
-use ilSetting;
 use ILIAS\UI\Component\Input\Field\Section;
 
 /**
@@ -62,7 +58,7 @@ class Form
             ->withDisabled(!$possible)
             ->withValue($this->settings->isPreviewEnabled())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($v) {
+                $this->refinery->custom()->transformation(function ($v): void {
                     $this->settings->setPreviewEnabled($v);
                 })
             );
@@ -76,7 +72,7 @@ class Form
             ->withRequired(true)
             ->withValue($this->settings->getImageSize())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($v) {
+                $this->refinery->custom()->transformation(function ($v): void {
                     $this->settings->setImageSize($v);
                 })
             );
@@ -89,7 +85,7 @@ class Form
             ->withDisabled(!$possible)
             ->withValue($this->settings->isPersisting())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($v) {
+                $this->refinery->custom()->transformation(function ($v): void {
                     $this->settings->setPersisting($v);
                 })
             );
@@ -102,7 +98,7 @@ class Form
             ->withDisabled(!$possible)
             ->withValue($this->settings->getMaximumPreviews())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($v) {
+                $this->refinery->custom()->transformation(function ($v): void {
                     $this->settings->setMaximumPreviews($v);
                 })
             );

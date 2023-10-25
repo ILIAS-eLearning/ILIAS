@@ -78,7 +78,10 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             $general->getSubElement('keyword'),
             true
         );
-        $this->setLastTagForLangString($general->getSubElement('coverage'));
+        $this->setLastTagForLangString(
+            $general->getSubElement('coverage'),
+            true
+        );
         $this->setLastTagForVocab($general->getSubElement('structure'));
         $this->setLastTagForVocab($general->getSubElement('aggregationLevel'));
     }
@@ -100,7 +103,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->setTagsForSubContribute($meta);
         $this->setLastTagForNonContainer(
             $meta->getSubElement('metadataSchema'),
-            false,
+            true,
             true
         );
         $this->setLastTagForNonContainer(
@@ -168,11 +171,20 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             $educational
         );
         $this->setLastTagForVocab($educational->getSubElement('interactivityType'));
-        $this->setLastTagForVocab($educational->getSubElement('learningResourceType'));
+        $this->setLastTagForVocab(
+            $educational->getSubElement('learningResourceType'),
+            true
+        );
         $this->setLastTagForVocab($educational->getSubElement('interactivityLevel'));
         $this->setLastTagForVocab($educational->getSubElement('semanticDensity'));
-        $this->setLastTagForVocab($educational->getSubElement('intendedEndUserRole'));
-        $this->setLastTagForVocab($educational->getSubElement('context'));
+        $this->setLastTagForVocab(
+            $educational->getSubElement('intendedEndUserRole'),
+            true
+        );
+        $this->setLastTagForVocab(
+            $educational->getSubElement('context'),
+            true
+        );
         $this->setLastTagForLangString(
             $educational->getSubElement('typicalAgeRange'),
             true

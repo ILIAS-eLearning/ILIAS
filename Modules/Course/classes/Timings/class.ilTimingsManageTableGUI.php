@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
@@ -133,7 +134,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 
         if ($a_set['failure'] ?? false) {
             $icon = $this->ui_factory->symbol()->icon()->custom(
-                ilUtil::getImagePath("icon_alert.svg"),
+                ilUtil::getImagePath("standard/icon_alert.svg"),
                 $this->lng->txt("alert"),
                 'medium'
             );

@@ -29,6 +29,7 @@ use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions\FactoryWithoutConditionTypesService;
 use ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions\BaseFactory;
+use ILIAS\MetaData\DataHelper\DataHelperInterface;
 
 class FactoryWithConditionTypesService
 {
@@ -41,14 +42,16 @@ class FactoryWithConditionTypesService
         ConstraintDictionary $constraint_dictionary,
         VocabulariesInterface $vocabularies,
         Refinery $refinery,
-        PathFactory $path_factory
+        PathFactory $path_factory,
+        DataHelperInterface $data_helper
     ) {
         $this->types_without_conditions = new FactoryWithoutConditionTypesService(
             $ui_factory,
             $presenter,
             $constraint_dictionary,
             $vocabularies,
-            $refinery
+            $refinery,
+            $data_helper
         );
         $this->vocab_value = new VocabValueConditionFactory(
             $ui_factory,

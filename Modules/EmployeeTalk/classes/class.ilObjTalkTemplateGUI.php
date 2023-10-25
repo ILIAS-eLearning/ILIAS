@@ -19,6 +19,8 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
+use ILIAS\EmployeeTalk\Metadata\MetadataHandlerInterface;
+use ILIAS\EmployeeTalk\Metadata\MetadataHandler;
 
 /**
  * Class ilObjTalkTemplateGUI
@@ -33,6 +35,8 @@ use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
  */
 final class ilObjTalkTemplateGUI extends ilContainerGUI
 {
+    protected MetadataHandlerInterface $md_handler;
+
     public function __construct()
     {
         /**
@@ -52,6 +56,8 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
 
         $lng->loadLanguageModule("etal");
         $lng->loadLanguageModule("meta");
+
+        $this->md_handler = new MetadataHandler();
     }
 
     public function executeCommand(): void
@@ -79,31 +85,14 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
     {
         $this->tabs_gui->activateTab('view_content');
 
-        $form = new ilPropertyFormGUI();
-        $md = new ilAdvancedMDRecordGUI(
-            ilAdvancedMDRecordGUI::MODE_EDITOR,
+        $form = $this->md_handler->getDisabledEditForm(
             $this->object->getType(),
             $this->object->getId(),
-            'etal',
-            0,
-            false
+            ilObjEmployeeTalk::TYPE,
+            0
         );
-        $md->setPropertyForm($form);
-        $md->parse();
 
-        // this is necessary to disable the md fields
-        foreach ($form->getInputItemsRecursive() as $item) {
-            if ($item instanceof ilCombinationInputGUI) {
-                $item->__call('setValue', ['']);
-                $item->__call('setDisabled', [true]);
-            }
-            if (method_exists($item, 'setDisabled')) {
-                /** @var $item ilFormPropertyGUI */
-                $item->setDisabled(true);
-            }
-        }
-
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->render());
     }
 
     protected function initEditForm(): ilPropertyFormGUI
@@ -135,20 +124,30 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $header->setParentForm($form);
         $header->setTitle("Metadata");
 
-        $md = $this->initMetaDataForm($form);
-        $md->parse();
+        $this->md_handler->attachSelectionToForm(
+            $this->object->getType(),
+            $this->object->getId(),
+            ilObjEmployeeTalk::TYPE,
+            0,
+            $form
+        );
 
         parent::addExternalEditFormCustom($form);
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form): void
+    protected function updateCustom(ilPropertyFormGUI $form): void
     {
-        $this->object->setOfflineStatus(!boolval($a_form->getInput('activation_online')));
+        $this->object->setOfflineStatus(!boolval($form->getInput('activation_online')));
 
-        $md = $this->initMetaDataForm($a_form);
-        $md->saveSelection();
+        $this->md_handler->saveSelectionFromForm(
+            $this->object->getType(),
+            $this->object->getId(),
+            ilObjEmployeeTalk::TYPE,
+            0,
+            $form
+        );
 
-        parent::updateCustom($a_form);
+        parent::updateCustom($form);
     }
 
     /**
@@ -215,21 +214,6 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
                 strtolower(self::class),
             ], ControlFlowCommand::INDEX)
         );
-    }
-
-    private function initMetaDataForm(ilPropertyFormGUI $form): ilAdvancedMDRecordGUI
-    {
-        $md = new ilAdvancedMDRecordGUI(
-            ilAdvancedMDRecordGUI::MODE_REC_SELECTION,
-            $this->object->getType(),
-            $this->object->getId(),
-            "etal",
-            0,
-            false
-        );
-        $md->setRefId($this->object->getRefId());
-        $md->setPropertyForm($form);
-        return $md;
     }
 
     public static function _goto(string $refId): void

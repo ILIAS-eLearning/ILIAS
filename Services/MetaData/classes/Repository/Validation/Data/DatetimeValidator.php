@@ -21,52 +21,49 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Repository\Validation\Data;
 
 use ILIAS\MetaData\Elements\ElementInterface;
+use ILIAS\MetaData\DataHelper\DataHelperInterface;
 
 class DatetimeValidator implements DataValidatorInterface
 {
     use DataFetcher;
 
-    /**
-     * This monstrosity makes sure datetimes conform to the format given by LOM,
-     * and picks out the relevant numbers.
-     * match 1: YYYY, 2: MM, 3: DD, 4: hh, 5: mm, 6: ss, 7: s (arbitrary many
-     * digits for decimal fractions of seconds), 8: timezone, either Z for
-     * UTC or +- hh:mm (mm is optional)
-     */
-    public const DATETIME_REGEX = '/^(\d{4})(?:-(\d{2})(?:-(\d{2})' .
-    '(?:T(\d{2})(?::(\d{2})(?::(\d{2})(?:\.(\d+)(Z|[+\-]' .
-    '\d{2}(?::\d{2})?)?)?)?)?)?)?)?$/';
+    protected DataHelperInterface $data_helper;
+
+    public function __construct(
+        DataHelperInterface $data_helper
+    ) {
+        $this->data_helper = $data_helper;
+    }
 
     public function isValid(
         ElementInterface $element,
         bool $ignore_marker
     ): bool {
-        if (!preg_match(
-            self::DATETIME_REGEX,
-            $this->dataValue($element, $ignore_marker),
-            $matches,
-            PREG_UNMATCHED_AS_NULL
-        )) {
+        $value = $this->dataValue($element, $ignore_marker);
+        if (!$this->data_helper->matchesDatetimePattern($value)) {
             return false;
         }
-        if (isset($matches[1]) && ((int) $matches[1]) < 1) {
+
+        $matches = iterator_to_array($this->data_helper->datetimeToIterator($value));
+
+        if (isset($matches[0]) && ((int) $matches[0]) < 1) {
+            return false;
+        }
+        if (isset($matches[1]) &&
+            (((int) $matches[1]) < 1 || ((int) $matches[1]) > 12)) {
             return false;
         }
         if (isset($matches[2]) &&
-            (((int) $matches[2]) < 1 || ((int) $matches[2]) > 12)) {
+            (((int) $matches[2]) < 1 || ((int) $matches[2]) > 31)) {
             return false;
         }
-        if (isset($matches[3]) &&
-            (((int) $matches[3]) < 1 || ((int) $matches[3]) > 31)) {
+        if (isset($matches[3]) && ((int) $matches[3]) > 23) {
             return false;
         }
-        if (isset($matches[4]) && ((int) $matches[4]) > 23) {
+        if (isset($matches[4]) && ((int) $matches[4]) > 59) {
             return false;
         }
         if (isset($matches[5]) && ((int) $matches[5]) > 59) {
-            return false;
-        }
-        if (isset($matches[6]) && ((int) $matches[6]) > 59) {
             return false;
         }
         return true;

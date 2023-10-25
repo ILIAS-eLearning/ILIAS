@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 						type: 'GET'
 					}).done(function (placeholders) {
 						$('#placeholders_box').html(placeholders);
+						il.Mail.initMailPlaceholderSelection(document.querySelectorAll('#placeholders_box a'), '{RERENDER_DEPENDENCY_ELM_ID_OUTER}');
 					});
 				}
 			};

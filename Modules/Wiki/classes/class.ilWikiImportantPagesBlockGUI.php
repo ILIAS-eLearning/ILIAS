@@ -24,24 +24,42 @@
 class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "wikiimppages";
+    protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_pages;
+    protected \ILIAS\Wiki\WikiGUIRequest $wiki_request;
     protected \ILIAS\Wiki\InternalGUIService $gui;
+    protected \ILIAS\Wiki\Wiki\DomainService $wiki_manager;
+    protected string $lang;
+    protected \ILIAS\Wiki\Page\PageManager $pm;
+    protected \ILIAS\Wiki\InternalDomainService $domain;
+    protected \ILIAS\Wiki\InternalService $service;
     protected bool $export = false;
 
     public function __construct()
     {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->access = $DIC->access();
-        $lng = $DIC->language();
+        $this->service = $DIC->wiki()->internal();
+
+        $this->domain = $this->service->domain();
+        $this->gui = $this->service->gui();
+        $this->wiki_request = $this->gui->request();
+
+        $ref_id = $this->wiki_request->getRefId();
+        $this->pm = $this->domain->page()->page($ref_id);
+        $this->wiki_manager = $this->domain->wiki();
+        $this->imp_pages = $this->domain->importantPage($ref_id);
+        $this->lang = $this->wiki_request->getTranslation();
+
+        $this->ctrl = $this->gui->ctrl();
+        $this->lng = $this->domain->lng();
+        $this->access = $this->domain->access();
 
         parent::__construct();
 
-        $lng->loadLanguageModule("wiki");
+        $this->lng->loadLanguageModule("wiki");
         $this->setEnableNumInfo(false);
 
-        $this->setTitle($lng->txt("wiki_navigation"));
+        $this->setTitle($this->lng->txt("wiki_navigation"));
         $this->allow_moving = false;
         $this->gui = $DIC->wiki()->internal()->gui();
     }
@@ -109,36 +127,42 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         $listing = $this->gui->listing();
 
         $cnt = 1;
-        $title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($this->requested_ref_id));
-        if (!$this->export) {
-            $listing->node($this->ui->factory()->link()->standard(
-                $title,
-                $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage")
-            ), "1", "0");
-        } else {
-            $listing->node($this->ui->factory()->link()->standard(
-                $title,
-                "index.html"
-            ), "1", "0");
-        }
-        $cpar[0] = 1;
+        $start_page_id = $this->wiki_manager->getStartingPageId($this->requested_ref_id);
 
-        $ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($this->requested_ref_id));
-        foreach ($ipages as $p) {
-            $cnt++;
-            $title = ilWikiPage::lookupTitle($p["page_id"]);
+        if ($this->pm->exists($start_page_id, $this->lang)) {
+            $title = $this->pm->getTitle($start_page_id, $this->lang);
             if (!$this->export) {
                 $listing->node($this->ui->factory()->link()->standard(
                     $title,
-                    ilObjWikiGUI::getGotoLink($this->requested_ref_id, (string) $title)
-                ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
+                    $this->pm->getPermaLink($start_page_id, $this->lang)
+                ), "1", "0");
             } else {
                 $listing->node($this->ui->factory()->link()->standard(
                     $title,
-                    "wpg_" . $p["page_id"] . ".html"
-                ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
+                    "index.html"
+                ), "1", "0");
             }
-            $cpar[$p["indent"]] = $cnt;
+        }
+
+        $cpar[0] = 1;
+
+        foreach ($this->imp_pages->getList() as $p) {
+            if ($this->pm->exists($p->getId(), $this->lang)) {
+                $cnt++;
+                $title = $this->pm->getTitle($p->getId(), $this->lang);
+                if (!$this->export) {
+                    $listing->node($this->ui->factory()->link()->standard(
+                        $title,
+                        $this->pm->getPermaLink($p->getId(), $this->lang)
+                    ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
+                } else {
+                    $listing->node($this->ui->factory()->link()->standard(
+                        $title,
+                        "wpg_" . $p->getId() . ".html"
+                    ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
+                }
+                $cpar[$p->getIndent()] = $cnt;
+            }
         }
 
         return $listing->render();

@@ -24,4 +24,7 @@
 		<pageobject parent_type="qfbg" class_name="ilAssGenFeedbackPage" directory="classes/feedback"/>
 		<pageobject parent_type="qfbs" class_name="ilAssSpecFeedbackPage" directory="classes/feedback"/>
 	</copage>
+	<events>
+		<event type="listen" id="Services/Skill" />
+	</events>
 </module>

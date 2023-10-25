@@ -85,7 +85,6 @@ class ilCalendarSettings
     private int $webcal_sync_hours = 2;
     private bool $show_weeks = false;
     private bool $batch_file_downloads = false;
-    private bool $enablegroupmilestones = false;
 
     private function __construct()
     {
@@ -273,16 +272,6 @@ class ilCalendarSettings
         return $this->cal_settings_id;
     }
 
-    public function setEnableGroupMilestones(bool $a_enablegroupmilestones): void
-    {
-        $this->enablegroupmilestones = $a_enablegroupmilestones;
-    }
-
-    public function getEnableGroupMilestones(): bool
-    {
-        return $this->enablegroupmilestones;
-    }
-
     public function isSynchronisationCacheEnabled(): bool
     {
         return $this->sync_cache_enabled;
@@ -431,7 +420,6 @@ class ilCalendarSettings
         $this->storage->set('default_week_start', (string) $this->getDefaultWeekStart());
         $this->storage->set('default_date_format', (string) $this->getDefaultDateFormat());
         $this->storage->set('default_time_format', (string) $this->getDefaultTimeFormat());
-        $this->storage->set('enable_grp_milestones', (string) (int) $this->getEnableGroupMilestones());
         $this->storage->set('default_day_start', (string) $this->getDefaultDayStart());
         $this->storage->set('default_day_end', (string) $this->getDefaultDayEnd());
         $this->storage->set('cache_minutes', (string) $this->getCacheMinutes());
@@ -461,7 +449,6 @@ class ilCalendarSettings
         $this->setDefaultWeekStart((int) $this->storage->get('default_week_start', (string) self::WEEK_START_MONDAY));
         $this->setDefaultDateFormat((int) $this->storage->get('default_date_format', (string) self::DATE_FORMAT_DMY));
         $this->setDefaultTimeFormat((int) $this->storage->get('default_time_format', (string) self::TIME_FORMAT_24));
-        $this->setEnableGroupMilestones((bool) $this->storage->get('enable_grp_milestones'));
         $this->setDefaultDayStart((int) $this->storage->get('default_day_start', (string) self::DEFAULT_DAY_START));
         $this->setDefaultDayEnd((int) $this->storage->get('default_day_end', (string) self::DEFAULT_DAY_END));
         $this->useCache((bool) $this->storage->get('cache_enabled', (string) $this->cache_enabled));

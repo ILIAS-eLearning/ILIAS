@@ -44,6 +44,15 @@ class StructureNavigator extends BaseNavigator implements StructureNavigatorInte
         throw new \ilMDPathException('Invalid Navigator');
     }
 
+    public function previousStep(): ?StructureNavigatorInterface
+    {
+        $return = parent::previousStep();
+        if (($return instanceof StructureNavigatorInterface) || is_null($return)) {
+            return $return;
+        }
+        throw new \ilMDPathException('Invalid Navigator');
+    }
+
     public function elementAtFinalStep(): StructureElementInterface
     {
         $element = parent::elementsAtFinalStep()->current();

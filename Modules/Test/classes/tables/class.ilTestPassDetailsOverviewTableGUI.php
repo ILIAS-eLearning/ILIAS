@@ -44,6 +44,8 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
     );
 
     private ?ilTestQuestionRelatedObjectivesList $questionRelatedObjectivesList = null;
+    private \ILIAS\UI\Renderer $ui_renderer;
+    private \ILIAS\UI\Factory $ui_factory;
 
     public function __construct(ilCtrl $ctrl, $parent, $cmd)
     {
@@ -72,6 +74,10 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         $this->disable('linkbar');
         $this->disable('hits');
         $this->disable('sort');
+
+        global $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         //$this->disable('numinfo');
         //$this->disable('numinfo_header');
@@ -246,27 +252,17 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 
     private function getActionList($questionId): string
     {
-        $aslGUI = new ilAdvancedSelectionListGUI();
-        $aslGUI->setListTitle($this->lng->txt('tst_answer_details'));
-        $aslGUI->setId("act{$this->getActiveId()}_qst{$questionId}");
-
+        $actions = [];
         if ($this->getAnswerListAnchorEnabled()) {
-            $aslGUI->addItem(
-                $this->lng->txt('tst_list_answer_details'),
-                'tst_pass_details',
-                $this->getAnswerListAnchor($questionId)
-            );
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_list_answer_details'), $this->getAnswerListAnchor($questionId));
         }
 
         if (strlen($this->getSingleAnswerScreenCmd())) {
-            $aslGUI->addItem(
-                $this->lng->txt('tst_single_answer_details'),
-                'tst_pass_details',
-                $this->ctrl->getLinkTarget($this->parent_obj, $this->getSingleAnswerScreenCmd())
-            );
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_single_answer_details'), $this->ctrl->getLinkTarget($this->parent_obj, $this->getSingleAnswerScreenCmd()));
         }
 
-        return $aslGUI->getHTML();
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('tst_answer_details'));
+        return $this->ui_renderer->render($dropdown);
     }
 
     public function setSingleAnswerScreenCmd($singleAnswerScreenCmd): void

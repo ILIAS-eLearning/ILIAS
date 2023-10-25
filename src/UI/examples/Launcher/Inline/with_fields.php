@@ -89,7 +89,10 @@ function with_fields()
         ->withDescription('')
         ->withInputs($group, $evaluation, $instruction)
         ->withStatusIcon($icon)
-        ->withStatusMessageBox($status_message);
+        ->withStatusMessageBox($status_message)
+        ->withModalSubmitLabel('Begin Exam')
+        ->withModalCancelLabel('Cancel')
+    ;
 
     if (array_key_exists('launcher_id', $request->getQueryParams()) && $request->getQueryParams()['launcher_id'] === 'l3') {
         $launcher3 = $launcher3->withRequest($request);

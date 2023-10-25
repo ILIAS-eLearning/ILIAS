@@ -47,7 +47,7 @@ class ilUserProfileDefaultFields
         ],
         'firstname' => [
             'input' => 'text',
-            'maxlength' => 32,
+            'maxlength' => 128,
             'size' => 40,
             'method' => 'getFirstname',
             'required_fix_value' => 1,
@@ -59,7 +59,7 @@ class ilUserProfileDefaultFields
         ],
         'lastname' => [
             'input' => 'text',
-            'maxlength' => 32,
+            'maxlength' => 128,
             'size' => 40,
             'method' => 'getLastname',
             'required_fix_value' => 1,
@@ -234,7 +234,7 @@ class ilUserProfileDefaultFields
         ],
         'email' => [
             'input' => 'email',
-            'maxlength' => 40,
+            'maxlength' => 128,
             'size' => 40,
             'method' => 'getEmail',
             'group' => 'contact_data'

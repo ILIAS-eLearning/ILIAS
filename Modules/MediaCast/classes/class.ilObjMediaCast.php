@@ -34,6 +34,8 @@ class ilObjMediaCast extends ilObject
     public const AUTOPLAY_NO = 0;
     public const AUTOPLAY_ACT = 1;
     public const AUTOPLAY_INACT = 2;
+    protected bool $comments = false;
+    protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\MediaObjects\Tracking\TrackingManager $mob_tracking;
 
     protected array $itemsarray;
@@ -65,6 +67,7 @@ class ilObjMediaCast extends ilObject
         $this->mob_tracking = $DIC->mediaObjects()->internal()
             ->domain()
             ->tracking();
+        $this->notes = $DIC->notes();
         parent::__construct($a_id, $a_call_by_reference);
     }
 
@@ -76,6 +79,16 @@ class ilObjMediaCast extends ilObject
     public function getOnline(): bool
     {
         return $this->online;
+    }
+
+    public function setComments(bool $comments): void
+    {
+        $this->comments = $comments;
+    }
+
+    public function getComments(): bool
+    {
+        return $this->comments;
     }
 
     public function setPublicFiles(bool $a_publicfiles): void
@@ -144,7 +157,6 @@ class ilObjMediaCast extends ilObject
     public function getSortedItemsArray(): array
     {
         $med_items = $this->getItemsArray();
-
         // sort by order setting
         switch ($this->getOrder()) {
             case ilObjMediaCast::ORDER_TITLE:
@@ -265,6 +277,8 @@ class ilObjMediaCast extends ilObject
 
         $ilDB->manipulate($query);
 
+        $this->notes->domain()->activateComments($this->getId(), $this->getComments());
+
         return true;
     }
 
@@ -289,6 +303,8 @@ class ilObjMediaCast extends ilObject
         $this->setAutoplayMode((int) $rec["autoplaymode"]);
         $this->setNumberInitialVideos((int) $rec["nr_initial_videos"]);
         $this->setNewItemsInLearningProgress((bool) $rec["new_items_in_lp"]);
+
+        $this->setComments($this->notes->domain()->commentsActive($this->getId()));
     }
 
 

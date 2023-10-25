@@ -89,7 +89,8 @@ class ilUserSetupAgent implements Setup\Agent
     public function getMigrations(): array
     {
         return [
-            new ilUserProfilePictureMigration()
+            new ilUserProfilePictureMigration(),
+            new ilUpdateNewAccountMailTemplatesForMustache()
         ];
     }
 }

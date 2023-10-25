@@ -46,7 +46,7 @@ class PageCompareTest extends \COPageTestBase
         $this->insertParagraphAt($r_page, "pg");
         $r_page->insertPCIds();
 
-        $res = $compare->compare($l_page, $r_page);
+        $res = $compare->compare($l_page, $l_page, $r_page);
 
         $this->assertEquals(
             "",
@@ -74,7 +74,7 @@ class PageCompareTest extends \COPageTestBase
         $this->insertParagraphAt($r_page, "pg");
         $r_page->insertPCIds();
 
-        $res = $compare->compare($l_page, $r_page);
+        $res = $compare->compare($l_page, $l_page, $r_page);
 
         $this->assertEquals(
             "Deleted",
@@ -101,7 +101,7 @@ class PageCompareTest extends \COPageTestBase
         $this->insertParagraphAt($r_page, "pg", "Hello little World!");
         $r_page->insertPCIds();
 
-        $res = $compare->compare($l_page, $r_page);
+        $res = $compare->compare($l_page, $l_page, $r_page);
 
         $this->assertEquals(
             "Modified",
@@ -128,7 +128,7 @@ class PageCompareTest extends \COPageTestBase
         $this->insertParagraphAt($r_page, "pg", "Hello little World!");
         $r_page->insertPCIds();
 
-        $res = $compare->compare($l_page, $r_page);
+        $res = $compare->compare($l_page, $l_page, $r_page);
 
         $expected = <<<EOT
 <PageObject HierId="pg"><PageContent HierId="1" PCID="00000000000000000000000000000001">Hello [ilDiffInsStart]little [ilDiffInsEnd]World!</PageContent><DivClass HierId="1" Class="ilEditModified"/></PageObject>

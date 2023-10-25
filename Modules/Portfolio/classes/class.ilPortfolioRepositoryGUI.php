@@ -88,7 +88,7 @@ class ilPortfolioRepositoryGUI
 
         $tpl->setTitle($lng->txt("portfolio"));
         $tpl->setTitleIcon(
-            ilUtil::getImagePath("icon_prtf.svg"),
+            ilUtil::getImagePath("standard/icon_prtf.svg"),
             $lng->txt("portfolio")
         );
 
@@ -180,10 +180,18 @@ class ilPortfolioRepositoryGUI
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
 
-        $this->gui->link(
+        $this->gui->button(
             $this->lng->txt("prtf_add_portfolio"),
             $ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create")
-        )->emphasised()->toToolbar(true);
+        )->toToolbar(true);
+
+        $templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
+        if (count($templates) > 0) {
+            $this->gui->button(
+                $this->lng->txt("prtf_add_portfolio_from_template"),
+                $ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "createFromTemplate")
+            )->toToolbar(true);
+        }
 
         $portfolio_list = $this->getPortfolioList();
 
@@ -207,7 +215,7 @@ class ilPortfolioRepositoryGUI
         foreach (ilObjPortfolio::getPortfoliosOfUser($this->user_id) as $port) {
             // icon
             $icon = $f->symbol()->icon()->custom(
-                ilUtil::getImagePath("icon_prtf.svg"),
+                ilUtil::getImagePath("standard/icon_prtf.svg"),
                 $lng->txt("obj_portfolio"),
                 "medium"
             );
@@ -302,14 +310,19 @@ class ilPortfolioRepositoryGUI
             // ... handed in
             // exercise portfolio?
             $exercises = ilPortfolioExerciseGUI::checkExercise($this->user_id, $port["id"], false, true);
+            $visible_to_tutor = false;
             foreach ($exercises as $exinfo) {
                 if ($exinfo["submitted"]) {
+                    $visible_to_tutor = true;
                     $props[$exinfo["ass_title"]] =
                         str_replace("$1", $exinfo["submitted_date"], $lng->txt("prtf_submission_on"));
                 } else {
                     $props[$exinfo["ass_title"]] = $lng->txt("prtf_no_submission");
                     //$props[$exinfo["ass_title"]] = "<span class='il_ItemAlertProperty'>" . $lng->txt("prtf_no_submission") . "</span>";
                 }
+            }
+            if ($visible_to_tutor) {
+                $props[$lng->txt("prtf_visible_for_tutor")] = $lng->txt("yes");
             }
 
 
@@ -507,7 +520,7 @@ class ilPortfolioRepositoryGUI
 
         $prtf_id = $this->port_request->getPortfolioId();
         if ($prtf_id && $this->checkAccess("write")) {
-            $this->access_handler->addPermission($prtf_id, ilWorkspaceAccessGUI::PERMISSION_ALL);
+            $this->access_handler->addMissingPermissionForObjects($prtf_id, ilWorkspaceAccessGUI::PERMISSION_ALL);
             $this->setDefault($prtf_id);
         }
         $ilCtrl->redirect($this, "show");
@@ -519,7 +532,7 @@ class ilPortfolioRepositoryGUI
 
         $prtf_id = $this->port_request->getPortfolioId();
         if ($prtf_id && $this->checkAccess("write")) {
-            $this->access_handler->addPermission($prtf_id, ilWorkspaceAccessGUI::PERMISSION_REGISTERED);
+            $this->access_handler->addMissingPermissionForObjects($prtf_id, ilWorkspaceAccessGUI::PERMISSION_REGISTERED);
             $this->setDefault($prtf_id);
         }
         $ilCtrl->redirect($this, "show");
@@ -571,9 +584,7 @@ class ilPortfolioRepositoryGUI
     ): void {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-
         $ilTabs->activateTab("otpf");
-
         $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess(), null, $a_load_data);
         $tpl->setContent($tbl->getHTML());
     }
@@ -593,6 +604,35 @@ class ilPortfolioRepositoryGUI
         $tbl->resetOffset();
         $tbl->resetFilter();
 
-        $this->showOther();
+        $this->showOther(false);
     }
+
+    public function redirectSendMailToSharer(): void
+    {
+        $owner_id = $this->port_request->getOwnerId();
+        $prt_id = $this->port_request->getPortfolioId();
+
+        if ($owner_id > 0) {
+            $login = ilObjUser::_lookupLogin($owner_id);
+
+            // #16530 - see ilObjCourseGUI::createMailSignature
+            $sig = chr(13) . chr(10) . chr(13) . chr(10);
+            $sig .= $this->lng->txt('prtf_permanent_link');
+            $sig .= chr(13) . chr(10) . chr(13) . chr(10);
+            $sig .= ilLink::_getStaticLink($prt_id, "prtf", true);
+            $sig = rawurlencode(base64_encode($sig));
+
+            ilUtil::redirect(ilMailFormCall::getRedirectTarget(
+                $this,
+                "showotherFilter",
+                array(),
+                array(
+                    'type' => 'new',
+                    'rcp_to' => $login,
+                    ilMailFormCall::SIGNATURE_KEY => $sig
+                )
+            ));
+        }
+    }
+
 }

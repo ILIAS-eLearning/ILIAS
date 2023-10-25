@@ -95,7 +95,8 @@ class ilPermissionGUI extends ilPermission2GUI
     {
         // access to all functions in this class are only allowed if edit_permission is granted
         if (!$this->rbacsystem->checkAccess("edit_permission", $this->gui_obj->getObject()->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirect($this->gui_obj);
         }
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {

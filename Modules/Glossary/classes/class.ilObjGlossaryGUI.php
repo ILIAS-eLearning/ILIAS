@@ -21,12 +21,18 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjGlossaryGUI: ilTaxonomySettingsGUI, ilExportGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI, ilGlossaryForeignTermCollectorGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilTermDefinitionBulkCreationGUI
  */
-class ilObjGlossaryGUI extends ilObjectGUI
+class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface
 {
+    protected \ILIAS\GlobalScreen\Services $global_screen;
+    protected ?\ILIAS\Glossary\Taxonomy\TaxonomyManager $tax_manager = null;
+    protected \ILIAS\Glossary\InternalDomainService $domain;
+    protected \ILIAS\Glossary\InternalGUIService $gui;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ILIAS\Taxonomy\Service $taxonomy;
     protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;
     protected int $tax_node = 0;
@@ -58,30 +64,28 @@ class ilObjGlossaryGUI extends ilObjectGUI
     ) {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->user = $DIC->user();
-        $this->toolbar = $DIC->toolbar();
-        $this->tabs = $DIC->tabs();
-        $this->setting = $DIC["ilSetting"];
-        $this->access = $DIC->access();
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->help = $DIC["ilHelp"];
-        $this->ui_fac = $DIC->ui()->factory();
-        $this->ui_ren = $DIC->ui()->renderer();
+        $service = $DIC->glossary()->internal();
+        $this->gui = $gui = $service->gui();
+        $this->domain = $domain = $service->domain();
 
-        $this->gui_presentation_service = $DIC->glossary()
-            ->internal()
-            ->gui()
-            ->presentation();
-        $this->edit_request = $DIC->glossary()
-            ->internal()
-            ->gui()
-            ->editing()
-            ->request();
+        $this->lng = $domain->lng();
+        $this->user = $domain->user();
+        $this->setting = $domain->settings();
+        $this->access = $domain->access();
+        $this->rbacsystem = $domain->rbac()->system();
+        $this->log = $domain->log();
 
-        $this->log = ilLoggerFactory::getLogger('glo');
+        $this->ctrl = $gui->ctrl();
+        $this->toolbar = $gui->toolbar();
+        $this->tabs = $gui->tabs();
+        $this->help = $gui->help();
+        $this->ui = $gui->ui();
+        $this->ui_fac = $gui->ui()->factory();
+        $this->ui_ren = $gui->ui()->renderer();
+        $this->global_screen = $gui->globalScreen();
+        $this->gui_presentation_service = $gui->presentation();
 
+        $this->edit_request = $gui->editing()->request();
         $this->term_perm = ilGlossaryTermPermission::getInstance();
 
         $this->ctrl->saveParameter($this, array("ref_id"));
@@ -112,13 +116,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
         }
 
         if ($this->getGlossary()) {
-            $this->term_manager = $DIC->glossary()
-                  ->internal()
-                  ->domain()
-                  ->term(
-                      $this->getGlossary(),
-                      $this->user->getId()
-                  );
+            $this->term_manager = $domain->term(
+                $this->getGlossary(),
+                $this->user->getId()
+            );
+            $this->tax_manager = $domain->taxonomy(
+                $this->getGlossary()
+            );
         }
 
         $this->term_def_bulk_gui = $this->gui_presentation_service
@@ -130,6 +134,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->content_style_gui = $cs->gui();
         if (is_object($this->object)) {
             $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
+            $this->taxonomy = $DIC->taxonomy();
         }
     }
 
@@ -206,7 +211,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case "ilobjtaxonomygui":
+            case strtolower(ilTaxonomySettingsGUI::class):
                 $this->getTemplate();
                 $this->setTabs();
                 $this->setLocator();
@@ -215,10 +220,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->setSettingsSubTabs("taxonomy");
 
                 $this->ctrl->setReturn($this, "properties");
-                $tax_gui = new ilObjTaxonomyGUI();
-                $tax_gui->setMultiple(false);
-
-                $tax_gui->setAssignedObject($this->object->getId());
+                $tax_gui = $this->taxonomy->gui()->getSettingsGUI(
+                    $this->object->getId(),
+                    $this->lng->txt("glo_tax_info"),
+                    false,
+                    $this
+                );
                 $ret = $this->ctrl->forwardCommand($tax_gui);
                 break;
 
@@ -606,9 +613,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $glo_mode->setValue($mode1);
             $pres_mode->setValue($this->object->getPresentationMode());
             $snl->setValue($this->object->getSnippetLength());
-            if (count($tax_ids) > 0) {
-                $show_tax->setChecked($this->object->getShowTaxonomy());
-            }
 
             $down->setChecked($this->object->isActiveDownloads());
             $flash_active->setChecked($this->object->isActiveFlashcards());
@@ -623,7 +627,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->object->getId(),
                 $this->form,
                 array(
-                        ilObjectServiceSettingsGUI::CUSTOM_METADATA
+                        ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                        ilObjectServiceSettingsGUI::TAXONOMIES
                     )
             );
         }
@@ -660,7 +665,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $this->object->setActiveDownloads(ilUtil::yn2tf($this->form->getInput("glo_act_downloads")));
             $this->object->setPresentationMode($this->form->getInput("pres_mode"));
             $this->object->setSnippetLength($this->form->getInput("snippet_length"));
-            $this->object->setShowTaxonomy($this->form->getInput("show_tax"));
             $this->object->setActiveFlashcards(ilUtil::yn2tf($this->form->getInput("flash_active")));
             $this->object->setFlashcardsMode($this->form->getInput("flash_mode"));
             $this->object->update();
@@ -682,7 +686,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->object->getId(),
                 $this->form,
                 array(
-                    ilObjectServiceSettingsGUI::CUSTOM_METADATA
+                    ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                    ilObjectServiceSettingsGUI::TAXONOMIES
                 )
             );
 
@@ -695,6 +700,61 @@ class ilObjGlossaryGUI extends ilObjectGUI
         }
         $this->form->setValuesByPost();
         $this->tpl->setContent($this->form->getHTML());
+    }
+
+    public function getProperties(
+        int $tax_id
+    ): array {
+        $active = $this->object->getShowTaxonomy();
+        $value = $active
+            ? $this->lng->txt("yes")
+            : $this->lng->txt("no");
+
+        return [
+            $this->lng->txt("glo_show_in_presentation") => $value
+        ];
+    }
+
+    public function getActions(
+        int $tax_id
+    ): array {
+        $actions = [];
+        $this->ctrl->setParameterByClass(self::class, "glo_tax_id", $tax_id);
+        $active = $this->object->getShowTaxonomy();
+        if (!$active) {
+            $actions[] = $this->ui->factory()->button()->shy(
+                $this->lng->txt("glo_show_in_presentation_on"),
+                $this->ctrl->getLinkTargetByClass(
+                    self::class,
+                    "showTaxInPresentation"
+                )
+            );
+        } else {
+            $actions[] = $this->ui->factory()->button()->shy(
+                $this->lng->txt("glo_show_in_presentation_off"),
+                $this->ctrl->getLinkTargetByClass(
+                    self::class,
+                    "hideTaxInPresentation"
+                )
+            );
+        }
+        $this->ctrl->setParameterByClass(self::class, "glo_tax_id", null);
+
+        return $actions;
+    }
+
+    protected function showTaxInPresentation(): void
+    {
+        $this->object->setShowTaxonomy(true);
+        $this->object->update();
+        $this->ctrl->redirectByClass(ilTaxonomySettingsGUI::class);
+    }
+
+    protected function hideTaxInPresentation(): void
+    {
+        $this->object->setShowTaxonomy(false);
+        $this->object->update();
+        $this->ctrl->redirectByClass(ilTaxonomySettingsGUI::class);
     }
 
     public function listTerms(): void
@@ -1070,7 +1130,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 ilGlossaryTerm::_lookGlossaryTerm($this->term_id));
         } else {
             parent::setTitleAndDescription();
-            $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
+            $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
             $this->tpl->setTitle($this->lng->txt("glo") . ": " . $title);
         }
     }
@@ -1183,13 +1243,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass("ilobjectcontentstylesettingsgui", '')
             );
 
-            // taxonomy
-            ilObjTaxonomy::loadLanguageModule();
-            $this->tabs->addSubTab(
-                "taxonomy",
-                $this->lng->txt("tax_taxonomy"),
-                $this->ctrl->getLinkTargetByClass("ilobjtaxonomygui", '')
-            );
+            $this->taxonomy->gui()->addSettingsSubTab($this->getObject()->getId());
 
             // style properties
             $this->tabs->addSubTab(
@@ -1281,52 +1335,36 @@ class ilObjGlossaryGUI extends ilObjectGUI
      */
     public function showTaxonomy(): void
     {
-        global $DIC;
+        $ctrl = $this->ctrl;
 
-        $ctrl = $DIC->ctrl();
-
-        $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
-        if (count($tax_ids) > 0) {
-            $tax_id = $tax_ids[0];
-            $DIC->globalScreen()->tool()->context()->current()
-                ->addAdditionalData(
-                    ilTaxonomyGSToolProvider::SHOW_TAX_TREE,
-                    true
-                );
-            $DIC->globalScreen()->tool()->context()->current()
-                ->addAdditionalData(
-                    ilTaxonomyGSToolProvider::TAX_TREE_GUI_PATH,
-                    $ctrl->getCurrentClassPath()
-                );
-            $DIC->globalScreen()->tool()->context()->current()
-                ->addAdditionalData(
-                    ilTaxonomyGSToolProvider::TAX_ID,
-                    $tax_id
-                );
-            $DIC->globalScreen()->tool()->context()->current()
-                ->addAdditionalData(
-                    ilTaxonomyGSToolProvider::TAX_TREE_CMD,
-                    "listTerms"
-                );
-            $DIC->globalScreen()->tool()->context()->current()
-                ->addAdditionalData(
-                    ilTaxonomyGSToolProvider::TAX_TREE_PARENT_CMD,
-                    "showTaxonomy"
-                );
-
-
-            $tax_exp = new ilTaxonomyExplorerGUI(
-                get_class($this),
-                "showTaxonomy",
-                $tax_ids[0],
-                "ilobjglossarygui",
-                "listTerms"
-            );
-            if (!$tax_exp->handleCommand()) {
-                //$this->tpl->setLeftNavContent($tax_exp->getHTML());
-                //$this->tpl->setLeftNavContent($tax_exp->getHTML() . "&nbsp;");
-            }
+        if (is_null($this->tax_manager) || !$this->tax_manager->showInEditing()) {
+            return;
         }
+
+        $tool_context = $this->global_screen->tool()->context()->current();
+
+        $tax_id = $this->tax_manager->getTaxonomyId();
+
+        $tool_context->addAdditionalData(
+            ilTaxonomyGSToolProvider::SHOW_TAX_TREE,
+            true
+        );
+        $tool_context->addAdditionalData(
+            ilTaxonomyGSToolProvider::TAX_TREE_GUI_PATH,
+            $ctrl->getCurrentClassPath()
+        );
+        $tool_context->addAdditionalData(
+            ilTaxonomyGSToolProvider::TAX_ID,
+            $tax_id
+        );
+        $tool_context->addAdditionalData(
+            ilTaxonomyGSToolProvider::TAX_TREE_CMD,
+            "listTerms"
+        );
+        $tool_context->addAdditionalData(
+            ilTaxonomyGSToolProvider::TAX_TREE_PARENT_CMD,
+            "showTaxonomy"
+        );
     }
 
     //

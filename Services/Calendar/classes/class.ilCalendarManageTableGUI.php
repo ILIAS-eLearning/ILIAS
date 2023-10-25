@@ -146,29 +146,29 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 
         switch ($a_set['type']) {
             case ilCalendarCategory::TYPE_GLOBAL:
-                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_calg.svg'));
+                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('standard/icon_calg.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_system'));
                 break;
 
             case ilCalendarCategory::TYPE_USR:
-                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_usr.svg'));
+                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('standard/icon_usr.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_personal'));
                 break;
 
             case ilCalendarCategory::TYPE_OBJ:
                 $type = ilObject::_lookupType($a_set['obj_id']);
-                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_' . $type . '.svg'));
+                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('standard/icon_' . $type . '.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $type));
                 break;
 
             case ilCalendarCategory::TYPE_BOOK:
                 $type = ilObject::_lookupType($a_set['obj_id']);
-                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_book.svg'));
+                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('standard/icon_book.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $type));
                 break;
 
             case ilCalendarCategory::TYPE_CH:
-                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_calch.svg'));
+                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('standard/icon_calch.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_ch_ch'));
                 break;
         }

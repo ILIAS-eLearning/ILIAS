@@ -68,24 +68,6 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
         $this->assertEquals("testString", $this->testObj->getConfirmationCheckboxLabel());
     }
 
-    public function testAddButton(): void
-    {
-        $this->addGlobal_lng();
-        $expected = [];
-
-        foreach ([51, 291, 15, 681] as $id) {
-            $button = ilLinkButton::getInstance();
-            $button->setId((string) $id);
-            $expected[] = $button;
-        }
-
-        foreach ($expected as $button) {
-            $this->testObj->addButton($button);
-        }
-
-        $this->assertEquals($expected, $this->testObj->getButtons());
-    }
-
     public function testAddParameter(): void
     {
         $this->addGlobal_ilCtrl();
@@ -112,14 +94,5 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
         $this->testObj->setConfirmationCheckboxName("testName");
         $this->testObj->setConfirmationCheckboxLabel("testLabel");
         $this->assertTrue($this->testObj->isConfirmationCheckboxRequired());
-    }
-
-    public function testBuildModalButtonInstance(): void
-    {
-        $this->addGlobal_lng();
-
-        $result = $this->testObj->buildModalButtonInstance("201");
-        $this->assertInstanceOf(ilLinkButton::class, $result);
-        $this->assertEquals("201", $result->getId());
     }
 }

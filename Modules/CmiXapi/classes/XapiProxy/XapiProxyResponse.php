@@ -26,13 +26,13 @@ use GuzzleHttp\Psr7\Request;
 
 class XapiProxyResponse
 {
-//        private $dic;
+    //        private $dic;
     private XapiProxy $xapiproxy;
     //private $xapiProxyRequest;
 
     public function __construct(XapiProxy $xapiproxy)
     {
-//            $this->dic = $GLOBALS['DIC'];
+        //            $this->dic = $GLOBALS['DIC'];
         $this->xapiproxy = $xapiproxy;
     }
 
@@ -57,12 +57,12 @@ class XapiProxyResponse
     }
 
     /**
-     * @param Request     $request
-     * @param Response    $response
-     * @param string|array|null $fakePostBody
+     * @param Request           $request
+     * @param Response          $response
+     * @param array|string|null $fakePostBody
      * @return void
      */
-    public function handleResponse(Request $request, Response $response, $fakePostBody = null): void
+    public function handleResponse(Request $request, Response $response, array|string $fakePostBody = null): void
     {
         // check transfer encoding bug
         if ($fakePostBody !== null) {
@@ -88,10 +88,10 @@ class XapiProxyResponse
     }
 
     /**
-     * @param string|array|null $post
+     * @param array|string|null $post
      * @return void
      */
-    public function fakeResponseBlocked($post = null): void
+    public function fakeResponseBlocked(array|string $post = null): void
     {
         $this->xapiproxy->log()->debug($this->msg("fakeResponseFromBlockedRequest"));
         if ($post === null) {

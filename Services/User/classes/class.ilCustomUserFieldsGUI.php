@@ -333,7 +333,7 @@ class ilCustomUserFieldsGUI
             $form->addCommandButton('create', $this->lng->txt('save'));
         } else {
             $name->setValue($this->field_definition['field_name']);
-            $radg->setValue($this->field_definition['field_type']);
+            $radg->setValue((string) $this->field_definition['field_type']);
             $radg->setDisabled(true);
             $acc->setValue($acc_values);
 

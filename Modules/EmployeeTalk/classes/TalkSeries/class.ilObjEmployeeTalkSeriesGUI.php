@@ -24,6 +24,8 @@ use ILIAS\Modules\EmployeeTalk\Talk\EmployeeTalkPeriod;
 use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotificationService;
 use ILIAS\EmployeeTalk\Service\VCalendarFactory;
 use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
+use ILIAS\EmployeeTalk\Metadata\MetadataHandlerInterface;
+use ILIAS\EmployeeTalk\Metadata\MetadataHandler;
 
 /**
  * Class ilObjEmployeeTalkGUI
@@ -44,12 +46,14 @@ use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
 final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 {
     private \ILIAS\DI\Container $container;
+    protected MetadataHandlerInterface $md_handler;
     protected ilPropertyFormGUI $form;
     private int $userId = -1;
 
     public function __construct()
     {
         $this->container = $GLOBALS["DIC"];
+        $this->md_handler = new MetadataHandler();
 
         $refId = $this->container
             ->http()
@@ -136,16 +140,10 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     /**
      * Talk Series does not use RBAC and therefore does not require the usual permission checks.
      * Talk series it self can no longer be edited after creation.
-     *
-     * @param string $a_perm
-     * @param string $a_cmd
-     * @param string $a_type
-     * @param null   $a_ref_id
-     * @return bool
      */
-    protected function checkPermissionBool(string $a_perm, string $a_cmd = "", string $a_type = "", ?int $a_ref_id = null): bool
+    protected function checkPermissionBool(string $perm, string $cmd = "", string $type = "", ?int $ref_id = null): bool
     {
-        if ($a_perm === 'create') {
+        if ($perm === 'create') {
             return true;
         }
         return false;
@@ -535,35 +533,12 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     {
         $template = new ilObjTalkTemplate($this->getTemplateRefId(), true);
         $talk->setDescription($template->getTitle());
-        $template->cloneMetaData($talk);
         $talk->update();
 
-        // assign talk series type to adv md records of the template
-        foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject(
+        $this->md_handler->copyValues(
             $template->getType(),
             $template->getId(),
-            'etal',
-            false
-        ) as $rec) {
-            if (!$rec->isAssignedObjectType($talk->getType(), 'etal')) {
-                $rec->appendAssignedObjectType(
-                    $talk->getType(),
-                    'etal',
-                    true
-                );
-                $rec->update();
-            }
-        }
-
-        ilAdvancedMDRecord::saveObjRecSelection(
-            $talk->getId(),
-            'etal',
-            ilAdvancedMDRecord::getObjRecSelection($template->getId(), 'etal')
-        );
-
-        ilAdvancedMDValues::_cloneValues(
-            0,
-            $template->getId(),
+            $talk->getType(),
             $talk->getId(),
             ilObjEmployeeTalk::TYPE
         );

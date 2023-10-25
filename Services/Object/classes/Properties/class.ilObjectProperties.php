@@ -18,13 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
+
 class ilObjectProperties
 {
     public function __construct(
         private ilObjectCoreProperties $core_properties,
         private ilObjectCorePropertiesRepository $core_properties_repository,
         private ilObjectAdditionalProperties $additional_properties,
-        private ilObjectAdditionalPropertiesRepository $additional_properties_repository
+        private ilObjectAdditionalPropertiesRepository $additional_properties_repository,
     ) {
     }
 
@@ -105,16 +107,16 @@ class ilObjectProperties
         );
     }
 
-    public function getPropertyTileImage(): ilObjectProperty
+    public function getPropertyTileImage(): ilObjectPropertyTileImage
     {
-        return $this->additional_properties->getPropertyTileImage();
+        return $this->core_properties->getPropertyTileImage();
     }
 
     public function storePropertyTileImage(
         ilObjectPropertyTileImage $property_tile_image
     ): void {
-        $this->additional_properties = $this->additional_properties_repository->store(
-            $this->additional_properties
+        $this->core_properties = $this->core_properties_repository->store(
+            $this->core_properties
             ->withPropertyTileImage($property_tile_image)
         );
     }

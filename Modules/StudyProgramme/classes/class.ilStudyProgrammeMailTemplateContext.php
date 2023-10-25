@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,25 +16,27 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use OrgUnit\PublicApi\OrgUnitUserService;
 
 class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 {
     public const ID = 'prg_context_manual';
 
-    private const TITLE = "prg_title";
-    private const DESCRIPTION = "prg_description";
-    private const TYPE = "prg_type";
-    private const LINK = "prg_link";
-    private const ORG_UNIT = "prg_orgus";
-    private const STATUS = "prg_status";
-    private const COMPLETION_DATE = "prg_completion_date";
-    private const COMPLETED_BY = "prg_completion_by";
-    private const POINTS_REQUIRED = "prg_points_required";
-    private const POINTS_CURRENT = "prg_points_current";
-    private const DEADLINE = "prg_deadline";
-    private const EXPIRE_DATE = "prg_expiry_date";
-    private const VALIDITY = "prg_validity";
+    private const TITLE = "study_programme_title";
+    private const DESCRIPTION = "study_programme_description";
+    private const TYPE = "study_programme_type";
+    private const LINK = "study_programme_link";
+    private const ORG_UNIT = "study_programme_org_units";
+    private const STATUS = "study_programme_status";
+    private const COMPLETION_DATE = "study_programme_completion_date";
+    private const COMPLETED_BY = "study_programme_completion_by";
+    private const POINTS_REQUIRED = "study_programme_points_required";
+    private const POINTS_CURRENT = "study_programme_points_current";
+    private const DEADLINE = "study_programme_deadline";
+    private const EXPIRE_DATE = "study_programme_expire_date";
+    private const VALIDITY = "study_programme_validity";
 
     private const DATE_FORMAT = 'd-m-Y H:i:s';
 
@@ -157,8 +157,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string {
         if (is_null($recipient)) {
             return '';
@@ -264,8 +263,8 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     protected function getLatestAssignment(array $assignments): ilPRGAssignment
     {
         usort($assignments, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-            $a_dat =$a->getProgressTree()->getAssignmentDate();
-            $b_dat =$b->getProgressTree()->getAssignmentDate();
+            $a_dat = $a->getProgressTree()->getAssignmentDate();
+            $b_dat = $b->getProgressTree()->getAssignmentDate();
             if ($a_dat > $b_dat) {
                 return -1;
             } elseif ($a_dat < $b_dat) {
@@ -281,15 +280,15 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     {
         $successful = array_filter(
             $assignments,
-            fn ($ass) => $ass->getProgressTree()->isSuccessful()
+            fn($ass) => $ass->getProgressTree()->isSuccessful()
         );
         if (count($successful) === 0) {
             return null;
         }
 
         usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-            $a_dat =$a->getProgressTree()->getCompletionDate();
-            $b_dat =$b->getProgressTree()->getCompletionDate();
+            $a_dat = $a->getProgressTree()->getCompletionDate();
+            $b_dat = $b->getProgressTree()->getCompletionDate();
             if ($a_dat > $b_dat) {
                 return -1;
             } elseif ($a_dat < $b_dat) {

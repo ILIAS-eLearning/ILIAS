@@ -43,7 +43,6 @@ class ilObjBibliographic extends ilObject2
     protected \ilObjBibliographicStakeholder $stakeholder;
     protected ?string $filename = null;
     protected array $entries = [];
-    protected bool $is_online = false;
     protected int $file_type = 0;
     protected ?\ILIAS\ResourceStorage\Identification\ResourceIdentification $resource_id = null;
     protected bool $is_migrated = false;
@@ -124,7 +123,6 @@ class ilObjBibliographic extends ilObject2
             [
                 "id" => ["integer", $this->getId()],
                 "filename" => ["text", $this->getFilename()],
-                "is_online" => ["integer", $this->getOnline()],
                 "file_type" => ["integer",
                                 $this->getFilename() ? $this->determineFileTypeByFileName($this->getFilename()) : ""
                 ],
@@ -132,6 +130,7 @@ class ilObjBibliographic extends ilObject2
             ]
         );
         $this->parseFileToDatabase();
+        $this->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(false));
     }
 
     protected function doRead(): void
@@ -142,7 +141,6 @@ class ilObjBibliographic extends ilObject2
             $this->setFilename($bibl_data->getFilename());
         }
         $this->setFileType($bibl_data->getFileType());
-        $this->setOnline($bibl_data->isOnline());
         if (!empty($rid = $bibl_data->getResourceId()) && $id = $this->storage->manage()->find($rid)) {
             $this->setResourceId($id);
             $this->setMigrated(true);
@@ -173,7 +171,6 @@ class ilObjBibliographic extends ilObject2
             "il_bibl_data",
             [
                 "filename" => ["text", $this->getFilename()],
-                "is_online" => ["integer", $this->getOnline()],
                 "file_type" => ["integer", $this->getFileType()],
                 "rid" => ["string", ($rid = $this->getResourceId()) ? $rid->serialize() : ''],
             ],
@@ -312,7 +309,7 @@ class ilObjBibliographic extends ilObject2
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOnline($this->getOnline());
+            $new_obj->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(false));
         }
 
         $new_obj->cloneStructure($this->getId());
@@ -367,16 +364,6 @@ class ilObjBibliographic extends ilObject2
     public function setFileType(int $file_type): void
     {
         $this->file_type = $file_type;
-    }
-
-    public function setOnline(bool $a_online): void
-    {
-        $this->is_online = $a_online;
-    }
-
-    public function getOnline(): bool
-    {
-        return $this->is_online;
     }
 
     public function setResourceId(ResourceIdentification $identification): void

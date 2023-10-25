@@ -1164,8 +1164,6 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.###
 assessment#:#show_pass_overview#:#Εμφάνιση γενικής εικόνας αποτελεσμάτων του Χρήστη
 assessment#:#show_user_answers#:#Εμφάνιση απαντήσεων του Χρήστη
 assessment#:#shuffle_answers#:#Ανακάτεμα απαντήσεων
-assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Text###30 04 2009 new variable
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:###28 08 2012 new variable
@@ -1690,7 +1688,7 @@ assessment#:#tst_report_after_test#:#Αναφορά βαθμολογίας με�
 assessment#:#tst_report_never#:#No test results available###07 09 2009 new variable
 assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
 assessment#:#tst_res_jump_to_participant_btn#:#Jump###26 09 2014 new variable
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--###26 09 2014 new variable
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives###30 08 2015 new variable
 assessment#:#tst_res_lo_try_header#:#Attempt###30 08 2015 new variable
 assessment#:#tst_res_lo_try_n#:#Attempt %s###30 08 2015 new variable
@@ -7646,8 +7644,6 @@ crs#:#crs_timings_suggested_info#:#Προτεινόμενος χρόνος επ�
 crs#:#crs_timings_time_frame#:#Πλαίσιο χρόνου
 crs#:#crs_timings_time_frame_tt#:#Time frame in days###10 11 2018 new variable
 crs#:#crs_timings_update_error#:#Οι ρυθμίσεις σας δεν είναι έγκυρες, παρακαλώ επιβεβαιώστε τους χρονισμούς για το ακόλουθο υλικό μαθήματος:
-crs#:#crs_timings_visibility#:#Ορατότητα
-crs#:#crs_timings_visibility_short#:#Visibility###02 03 2009 new variable
 crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.###10 11 2018 new variable
 crs#:#crs_to#:#μέχρι:
 crs#:#crs_tutor#:#Επιμελητής
@@ -11935,6 +11931,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Visibility###02 03 2009 new variable
+obj#:#activation_visible_when_disabled_info#:#Ορατότητα
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#All assignments have been published.###31 08 2017 new variable
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.###31 08 2017 new variable

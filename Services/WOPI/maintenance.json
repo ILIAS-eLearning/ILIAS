@@ -1,0 +1,16 @@
+{
+  "maintenance_model": "Classic",
+  "first_maintainer": "fschmid",
+  "second_maintainer": "",
+  "implicit_maintainers": [],
+  "coordinator": [
+    ""
+  ],
+  "tester": "",
+  "testcase_writer": "",
+  "path": "Services/WOPI",
+  "belong_to_component": "WOPI",
+  "used_in_components": [
+    "File"
+  ]
+}

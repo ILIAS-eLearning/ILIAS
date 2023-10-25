@@ -25,6 +25,7 @@ use ILIAS\MetaData\Paths\Steps\StepInterface;
 interface PathInterface
 {
     /**
+     * Get all steps in the path.
      * @return StepInterface[]
      */
     public function steps(): \Generator;
@@ -35,6 +36,10 @@ interface PathInterface
      */
     public function isRelative(): bool;
 
+    /**
+     * Specifies whether the path should point to exactly one
+     * element, or whether it can also lead to no or many elements.
+     */
     public function leadsToExactlyOneElement(): bool;
 
     public function toString(): string;

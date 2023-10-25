@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -34,14 +34,14 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         return new I\Component\Chart\ProgressMeter\Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $progressmeter = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Factory", $progressmeter);
     }
 
-    public function test_get_instances(): void
+    public function testGetInstances(): void
     {
         $progressmeter = $this->getFactory();
 
@@ -55,7 +55,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Mini", $mini);
     }
 
-    public function test_get_values_of_standard(): void
+    public function testGetValuesOfStandard(): void
     {
         $f = $this->getFactory();
         $standard = $f->standard(400, 250, 300, 200);
@@ -69,7 +69,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertEquals(50, $standard->getComparisonAsPercent());
     }
 
-    public function test_get_values_of_fixedSize(): void
+    public function testGetValuesOfFixedSize(): void
     {
         $f = $this->getFactory();
         $fixedSize = $f->fixedSize(400, 250, 300, 200);
@@ -83,7 +83,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertEquals(50, $fixedSize->getComparisonAsPercent());
     }
 
-    public function test_get_values_of_mini(): void
+    public function testGetValuesOfMini(): void
     {
         $f = $this->getFactory();
         $mini = $f->mini(400, 250, 300);
@@ -95,7 +95,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertEquals(75, $mini->getRequiredAsPercent());
     }
 
-    public function test_render_standard_two_bar(): void
+    public function testRenderStandardTwoBar(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -136,7 +136,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_fixedSize_one_bar(): void
+    public function testRenderFixedSizeOneBar(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -173,7 +173,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_mini(): void
+    public function testRenderMini(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();

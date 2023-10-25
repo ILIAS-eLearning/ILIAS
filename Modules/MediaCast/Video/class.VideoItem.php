@@ -51,7 +51,7 @@ class VideoItem
         $this->resource = $resource;
         $this->preview_pic = $preview_pic;
         if ($this->preview_pic == "") {
-            $this->preview_pic = \ilUtil::getImagePath("mcst_preview.svg");
+            $this->preview_pic = \ilUtil::getImagePath("media/mcst_preview.svg");
         }
         $this->description = $description;
         $this->playing_time = $playing_time;

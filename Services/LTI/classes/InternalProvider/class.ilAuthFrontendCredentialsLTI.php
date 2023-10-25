@@ -30,7 +30,7 @@ class ilAuthFrontendCredentialsLTI extends ilAuthFrontendCredentials implements 
     {
         parent::__construct();
         // overwrite default lti logger
-//        $this->setLogger($GLOBALS['DIC']->logger()->lti());
+        //        $this->setLogger($GLOBALS['DIC']->logger()->lti());
     }
 
 

@@ -87,4 +87,10 @@ class StandardGUIRequest
     {
         return $this->str("term");
     }
+
+    public function getTaxId(): int
+    {
+        return $this->int("cat_tax_id");
+    }
+
 }

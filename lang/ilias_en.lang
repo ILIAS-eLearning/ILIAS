@@ -349,6 +349,7 @@ adn#:#administrative_notification_description#:#Provide system-wide notification
 adn#:#btn_cancel#:#Cancel
 adn#:#btn_delete#:#Delete
 adn#:#btn_delete_confirm#:#Would you like to delete this Notification?
+adn#:#btn_duplicate#:#Duplicate
 adn#:#btn_edit#:#Edit
 adn#:#btn_reset#:#Reset
 adn#:#btn_reset_confirm#:#Would you like to reset this Notification for all Users?
@@ -365,6 +366,9 @@ adn#:#msg_error_false_date_configuration#:#Can't create a notification with this
 adn#:#msg_event_date_end#:#Event Ends
 adn#:#msg_event_date_start#:#Event Starts
 adn#:#msg_form_title#:#Notification
+adn#:#msg_has_language_limitation#:#Limited to selected languages
+adn#:#msg_has_language_limitation_info#:#Only selected languages will see the notification.
+adn#:#msg_languages#:#Languages
 adn#:#msg_limit_to_roles#:#Limited to Selected Roles
 adn#:#msg_limit_to_roles_info#:#Only selected roles will see the notification.
 adn#:#msg_limited_to_role_ids#:#Presentation
@@ -373,10 +377,12 @@ adn#:#msg_permanent_info#:#Display Notifications permanently or temporarily
 adn#:#msg_permanent_no#:#Show Temporarily
 adn#:#msg_permanent_yes#:#Show Permanently
 adn#:#msg_presentation#:#Presentation
+adn#:#msg_show_to_all_languages#:#Show to all languages
 adn#:#msg_show_to_all_roles#:#Show to all roles
 adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.
 adn#:#msg_success_created#:#Notification created
 adn#:#msg_success_deleted#:#Notification sucessfully deleted
+adn#:#msg_success_duplicated#:#Notification sucessfully duplicated
 adn#:#msg_success_reset#:#Notification reset
 adn#:#msg_success_updated#:#Notification updated
 adn#:#msg_table_title#:#Notifications
@@ -511,9 +517,9 @@ assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s o
 assessment#:#ass_mc_sel_lim_hint#:#Please select at most %s of the %s answers!
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
-assessment#:#ass_process_lock#:#Use Locking During Test Passes
+assessment#:#ass_process_lock#:#Use Locking During Test Attempts
 assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.
-assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass
+assessment#:#ass_process_lock_mode#:#Lock Mode during Test Attempt
 assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks
 assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.
 assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks
@@ -730,10 +736,10 @@ assessment#:#final_statement_show_desc#:#Show concluding remarks after the test 
 assessment#:#finalized_by#:#Completed by
 assessment#:#finalized_evaluation#:#Scoring completed
 assessment#:#finalized_on#:#Completed at
-assessment#:#finish_all_user_passes#:#Finish all Test Passes
-assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all users?
+assessment#:#finish_all_user_passes#:#Finish all Test Attempts
+assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test attempts for all users?
 assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
-assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass for the participant "%s"?
+assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test attempt for the participant "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
 assessment#:#finish_test#:#Finish Test
 assessment#:#finish_unfinished_passes#:#Finish Uncompleted Attempts
@@ -848,13 +854,14 @@ assessment#:#longmenu_answeroptions_differ#:#This question does not work correct
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send a notification every time a test attempt is completed.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
+assessment#:#mainbar_button_label_questionlist#:#Questionlist
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Manual Scoring
 assessment#:#manscoring_done#:#Scored Participants
 assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid participants getting access to the test results before you have finished manual scoring, please set a suitable date before which the results cannot be accessed.
 assessment#:#manscoring_none#:#Unscored Participants
 assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
-assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.
+assessment#:#manscoring_questions_not_found#:#This test attempt does not contain question types which can be scored manually.
 assessment#:#manscoring_results_pass#:#Manual Scored Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#mark_schema#:#Grading System
@@ -1074,7 +1081,7 @@ assessment#:#question_id_short#:#ID
 assessment#:#question_instances_title#:#This question is used in the following tests
 assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.
 assessment#:#question_marking#:#Flagging Questions
-assessment#:#question_marking_description#:#Participants are given the option to flag test questions for themselves. The flags are shown in the ‘List of Questions’, if that feature it has been activated.
+assessment#:#question_marking_description#:#Participants are given the option to flag test questions for themselves. The flags are shown in the ‘Test Attempt Overview’, if that feature it has been activated.
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_summary#:#Test Attempt Overview
@@ -1136,6 +1143,11 @@ assessment#:#result_units_info#:#The selected units are offered to the learner a
 assessment#:#result_x#:#Result %s
 assessment#:#results#:#Results
 assessment#:#results_tab#:#Results
+assessment#:#resulttable_all#:#All
+assessment#:#resulttable_correct#:#Correct
+assessment#:#resulttable_incorrect#:#Incorrect/Incomplete
+assessment#:#resulttable_vc_sort_iooa#:#in order of appearance
+assessment#:#resulttable_vc_sort_posscore#:#highest possible score first
 assessment#:#review_view#:#Review
 assessment#:#saveOrder#:#Save Order
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations
@@ -1178,8 +1190,6 @@ assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
-assessment#:#sign_submission#:#Digitally Sign Test Submissions
-assessment#:#sign_submission_info#:#Enable the use of external signature plugins that can be used to require participants to digitally sign their submissions.
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
@@ -1193,6 +1203,7 @@ assessment#:#suggest_range#:#Suggest Range
 assessment#:#suggestedSolutionType#:#Refer to
 assessment#:#suggested_solution#:#Content for Recapitulation
 assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
+assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode
 assessment#:#tab_nest_answers#:#Nesting
 assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
@@ -1290,7 +1301,7 @@ assessment#:#tst_back_to_top#:#Back to Top
 assessment#:#tst_back_to_virtual_pass#:#Back to Question Overview
 assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed
-assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.
+assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test attempts are allowed to the participant with this option.
 assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
@@ -1340,9 +1351,11 @@ assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to r
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
+assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test attempts
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
+assessment#:#tst_enable_questionlist#:#Show 'List of Questions’
+assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.
 assessment#:#tst_ending_time#:#Finishing Time
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.
 assessment#:#tst_ending_time_desc#:#Time from which participants can no longer submit answers. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function "Limit processing time", see below. Only then will the test be ended on the server side and each participant's last entry automatically saved as an authorised answer.
@@ -1393,7 +1406,7 @@ assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_advanced#:#Send complete test result
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail
@@ -1472,7 +1485,7 @@ assessment#:#tst_instant_feedback_answer_generic_desc#:#If the answer provided i
 assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each Answer provided
 assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the ‘Check’-button, ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
-assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
+assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test attempt.
 assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
 assessment#:#tst_instant_feedback_results#:#Points Attained
 assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’ button ILIAS will display how many points were attained by answering this question.
@@ -1493,7 +1506,7 @@ assessment#:#tst_launcher_status_message_conditions#:#You will be asked for your
 assessment#:#tst_launcher_status_message_conditions_and_password#:#You will be asked for the password and your approval of the exam conditions when you start the test.
 assessment#:#tst_launcher_status_message_password#:#You will be asked for the password when you start the test.
 assessment#:#tst_level#:#Competence Level
-assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Passes
+assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Attempts
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
 assessment#:#tst_list_answer_details#:#Show in List Below
 assessment#:#tst_list_of_answers#:#List of Answers
@@ -1570,8 +1583,8 @@ assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILI
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You have received this notification, because you participated in this test.
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" committed
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Your test has been graded manually:
-assessment#:#tst_nr_of_passes#:#Number of Test Passes
-assessment#:#tst_nr_of_tries#:#Max. Number of Passes
+assessment#:#tst_nr_of_passes#:#Number of Test Attempts
+assessment#:#tst_nr_of_tries#:#Max. Number of Attempts
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
 assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_num_all_questions#:#Number of All Questions
@@ -1593,30 +1606,30 @@ assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Participant Status
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
-assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
+assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test attempt is possible.
 assessment#:#tst_pass_deletion#:#Previous Passes
 assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
 assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s
-assessment#:#tst_pass_finished#:#Test pass finished
-assessment#:#tst_pass_finished_on#:#Test pass finished on
-assessment#:#tst_pass_last_pass#:#Score the Last Pass
-assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.
-assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s
+assessment#:#tst_pass_finished#:#Test attempt finished
+assessment#:#tst_pass_finished_on#:#Test attempt finished on
+assessment#:#tst_pass_last_pass#:#Score the Last Attempt
+assessment#:#tst_pass_last_pass_desc#:#The last attempt of a participant will be scored.
+assessment#:#tst_pass_overview_for_participant#:#Test Attempts for Participant: %s
 assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Initial Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_scoring#:#Scoring Multiple Passes
-assessment#:#tst_pass_scoring_best#:#Best Test Pass
-assessment#:#tst_pass_scoring_last#:#Last Test Pass
-assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Passes
+assessment#:#tst_pass_scoring_best#:#Best Test Attempt
+assessment#:#tst_pass_scoring_last#:#Last Test Attempt
+assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Attempts
 assessment#:#tst_pass_waiting_info#:#With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass.
 assessment#:#tst_pass_waiting_time#:#Waiting Time
 assessment#:#tst_passed#:#Passed
-assessment#:#tst_passes#:#Test Passes
+assessment#:#tst_passes#:#Test Attempts
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test.
 assessment#:#tst_password_enter#:#Enter Password
@@ -1640,7 +1653,7 @@ assessment#:#tst_previous_access_code_not_available#:#No previous code available
 assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Limit Duration of Test
-assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test passes is limited an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
+assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test attempts is limited an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
 assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test im Minutes
 assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.
 assessment#:#tst_qbt_filter_question_title#:#Title of Question
@@ -1697,8 +1710,8 @@ assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
 assessment#:#tst_question_hints_table_no_items#:#No Existing Hints
-assessment#:#tst_question_mark#:#Mark this question
-assessment#:#tst_question_marked#:#You marked the question
+assessment#:#tst_question_mark#:#Flag this question
+assessment#:#tst_question_marked#:#You flagged the question
 assessment#:#tst_question_marker#:#Flagged
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_not_from_pool_info#:#No Pool
@@ -1727,7 +1740,7 @@ assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Pa
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_reached_points_of_max#:#%s of %s
-assessment#:#tst_remove_mark#:#Remove this mark
+assessment#:#tst_remove_mark#:#Remove this flag
 assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
@@ -1738,7 +1751,7 @@ assessment#:#tst_report_after_test#:#Offer test results when the test is finishe
 assessment#:#tst_report_never#:#No test results available
 assessment#:#tst_reporting_date#:#Date
 assessment#:#tst_res_jump_to_participant_btn#:#Jump
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
 assessment#:#tst_res_lo_try_header#:#Attempt
 assessment#:#tst_res_lo_try_n#:#Attempt %s
@@ -1747,21 +1760,21 @@ assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.
 assessment#:#tst_res_tab_msg_res_after_taking_test#:#After taking the test your results will be offered here.
 assessment#:#tst_res_tab_msg_res_after_test_passed#:#After passing the test your results will be offered here.
-assessment#:#tst_reset_processing_time#:#Reset duration for every test pass
-assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test pass. This setting requires multiple test passes to become effective.
+assessment#:#tst_reset_processing_time#:#Reset duration for every test attempt
+assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test attempt. This setting requires multiple test attempts to become effective.
 assessment#:#tst_result#:#Test Result
-assessment#:#tst_result_pass#:#Results of Test Pass
+assessment#:#tst_result_pass#:#Results of Test Attempt
 assessment#:#tst_result_user_name#:#Test Results for %s
-assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
+assessment#:#tst_result_user_name_pass#:#Results of Test Attempt %s for %s
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_results_access_always#:#Immediately
-assessment#:#tst_results_access_always_desc#:#Participants can access their results within the ‘Results’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will redirect to the 'Results'-tab after the test has been finished.
+assessment#:#tst_results_access_always_desc#:#Participants can access their results within the ‘Results’-tab immediately after starting the test attempt and while still taking the test. Additionally ILIAS will redirect to the 'Results'-tab after the test has been finished.
 assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_date_desc#:#Participants get access to their test results within a 'Results'-tab after the defined date.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
 assessment#:#tst_results_access_enabled_desc#:#A tab 'Results' will be offered to participants. Options in this section and the following ones below configure what information is to be included into the report and when it will be accessible.
-assessment#:#tst_results_access_finished#:#After Test Pass is Finished
-assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results within the ‘Results’-tab at any time.
+assessment#:#tst_results_access_finished#:#After Test Attempt is Finished
+assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test attempt is finished. After finishing the test attempt participants can access their test results within the ‘Results’-tab at any time.
 assessment#:#tst_results_access_passed#:#After Test has been Passed
 assessment#:#tst_results_access_passed_desc#:#ILIAS displays the test results after the participant has passed the test. After passing the test participants can access their test results within the 'Results'-tab at any time.
 assessment#:#tst_results_access_setting#:#Point in Time
@@ -1791,10 +1804,10 @@ assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#New Rule for Selection of Quest
 assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
 assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
 assessment#:#tst_save_comp_points#:#Save Competence Points
-assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test attempt %s has failed.
 assessment#:#tst_save_thresholds#:#Save Thresholds
-assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test pass %s has been saved successfully.
-assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s has been saved successfully.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test attempt %s has been saved successfully.
+assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test attempt %s for %s has been saved successfully.
 assessment#:#tst_score_cut_question#:#For Each Questions Negative Points are set to ‘0 Points’
 assessment#:#tst_score_cut_question_desc#:#Participants may score negative results for a question that had negative points for assigned to individual answer options. This setting ensures that per question any negativ result is set to 0 points.
 assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to ‘0 Points’
@@ -1807,7 +1820,7 @@ assessment#:#tst_select_questionpool#:#Please select a question pool to store th
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was removed successfully
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
-assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass
+assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test attempt
 assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
@@ -1826,8 +1839,8 @@ assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_cancel_description#:#Participants are presented with a button to stop the test run and to continue it later. Caution: Suspending the test does not stop the countdown of the maximum duration of the test.
 assessment#:#tst_show_comp_results#:#Competence Results
-assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Pass upon Selected Point in Time
-assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
+assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Attempt upon Selected Point in Time
+assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test attempt. <br> Other than that the table will be displayed after the last test attempt possible (setting in link ‘General’, option ‘Limit Number of Test Attempts) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
 assessment#:#tst_show_results#:#Test Results
 assessment#:#tst_show_side_list#:#Show List of Questions
 assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
@@ -1846,11 +1859,11 @@ assessment#:#tst_show_solution_signature#:#Signature Placeholder
 assessment#:#tst_show_solution_signature_desc#:#The prepared printout version will contain a signature placeholder for the participant. Please mind to activate ‘Table of Detailed Test Results’ to use this functionality.
 assessment#:#tst_show_solution_suggested#:#Content for Recapitulation
 assessment#:#tst_show_solution_suggested_desc#:#If content for recapitulation was assigned to the test questions in the first place, this content will be shown in the ‘Table of Detailed Test Results’-table. Participants get an opportunity for remedial learning. For this option to become effective you have to activate ‘Table of Detailed Test Results’ under ‘Access to Test Results’.
-assessment#:#tst_show_summary#:#Show ‘List of Questions’
-assessment#:#tst_show_summary_description#:#Participants can switch on a list of test questions on the left of the actual question. Additionally, they are presented with a button ‘List of Questions’. On that screen the overall status of all questions will be displayed.
+assessment#:#tst_show_summary#:#Show ‘Test Attempt Overview’
+assessment#:#tst_show_summary_description#:#Participants are presented with a button ‘Test Attempt Overview’. On that screen the overall status of all questions will be displayed..
 assessment#:#tst_show_toplist#:#Ranking
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
-assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test pass.
+assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test attempt.
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_single_answer_details#:#Show Single Answer
 assessment#:#tst_single_results#:#Results by Question
@@ -1866,7 +1879,7 @@ assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
 assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Questions
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Question Selection
-assessment#:#tst_start_new_test_pass#:#Start New Test Pass
+assessment#:#tst_start_new_test_pass#:#Start New Attempt on Test
 assessment#:#tst_start_test#:#Start the Test
 assessment#:#tst_started#:#Test Started
 assessment#:#tst_starting_time#:#Starting Time
@@ -1914,13 +1927,14 @@ assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
+assessment#:#tst_title_output_only_points#:#Only Available Points
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
-assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test attempts. This option has to be activated by individual participants on the Info-tab before starting a test attempt.
+assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test attempts
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_view_competence_assign#:#View Assignment Properties
 assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objective<br />%s
@@ -2286,6 +2300,8 @@ bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact t
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
 bibl#:#order#:#Order
 bibl#:#override_entries#:#Override Entries
+bibl#:#replace_bibliography_file#:#Replace Bibliography File
+bibl#:#replace_bibliography_file_info#:#The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted.
 bibl#:#ris#:#Ris
 bibl#:#ris_default_a2#:#Location in Archives
 bibl#:#ris_default_au#:#Author
@@ -2525,7 +2541,7 @@ book#:#book_period#:#Period
 book#:#book_pool_added#:#A booking pool has been added.
 book#:#book_pool_selection#:#Booking Pool Selection
 book#:#book_post_booking_file#:#File
-book#:#book_post_booking_information#:#Post Booking Information
+book#:#book_post_booking_information#:#Reservation Information
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_text_info#:#Use placeholders to communicate specifics on reservations. <br />[OBJECT] will be replaced by the respective Booking Object. <br />[PERIOD] will be replaced by the respective schedule.
 book#:#book_pref_book_cron#:#Booking with Preferences
@@ -2650,8 +2666,10 @@ buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to a
 buddysystem#:#buddy_view_gallery#:#Gallery
 buddysystem#:#buddy_view_table#:#List
 cat#:#cat_copy#:#Copy Category
+cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel
 cat#:#cat_import#:#Import Category
 cat#:#cat_more_translations#:#More Translations
+cat#:#cat_show_tax_in_side_block#:#Present in Side Panel
 cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
 cert#:#cert_description_label#:#Description
 cert#:#cert_download_label#:#Download
@@ -3334,8 +3352,9 @@ cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor
 cntr#:#cntr_switched_editor#:#Switched to new content.
 cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
+cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
-cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block
+cntr#:#cntr_taxonomy_show_sideblock#:#Present in Side Panel
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
 cntr#:#cntr_text_media_editor#:#Customize Page
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
@@ -3975,6 +3994,7 @@ common#:#exc_files#:#Files
 common#:#exc_files_returned#:#Submitted Files
 common#:#exc_instruction#:#Work Instructions
 common#:#exc_last_submission#:#Last Submission
+common#:#exc_member_of_crs_grp#:#Member in Course/Group
 common#:#exc_members_already_assigned#:#These users are already assigned to the assignment.
 common#:#exc_members_assigned#:#Members assigned
 common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved
@@ -4300,7 +4320,7 @@ common#:#info_available_roles#:#Available Roles
 common#:#info_change_user_view#:#Change User
 common#:#info_deactivate_sure#:#Are you sure that you want to deactivate the following user(s)?
 common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
-common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)
+common#:#info_delete_warning_no_trash#:#(WARNING: The selected object(s) will be irretrievably deleted from the system. The recovery of any such deleted objects will not be possible).
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists
 common#:#info_from_role#:#Granted by Role / Ownership
@@ -4366,7 +4386,7 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uninstall_changes#:#Uninstall Local Changes
 common#:#lang_uninstall_changes_confirm#:#Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?
-common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages?
+common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages? This also means that all local changes to the respective languages are irretrievably lost if they have not been saved or exported beforehand.
 common#:#langfile_found#:#Language file found
 common#:#language#:#Language
 common#:#language_not_installed#:#is not installed. Please install that language first
@@ -4580,7 +4600,6 @@ common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
 common#:#mm_personal_workspace#:#Personal Workspace
 common#:#mm_portfolio#:#Portfolio
 common#:#mm_private_chats#:#Private Chats
-common#:#mm_rep_tree_view#:#Tree View
 common#:#mm_repo_tree_view#:#Tree View
 common#:#mm_repo_tree_view_act#:#Activate Tree
 common#:#mm_repo_tree_view_deact#:#Deactivate Tree
@@ -4904,8 +4923,6 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#obj_page#:#Page
-common#:#obj_pdfg#:#PDF Generation
-common#:#obj_pdfg_desc#:#Options for generation PDF documents
 common#:#obj_peac#:#Accordion
 common#:#obj_peadl#:#Advanced List
 common#:#obj_peadt#:#Advanced Table
@@ -5176,10 +5193,6 @@ common#:#path_to_zip#:#Path to Zip
 common#:#pathes#:#Paths
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#pdf_export#:#PDF Export
-common#:#pdfg_edit_permission#:#User can change permission settings
-common#:#pdfg_read#:#User has read access to PDF Generation
-common#:#pdfg_visible#:#PDF Generation is visible
-common#:#pdfg_write#:#User can edit settings of PDF Generation
 common#:#perm_settings#:#Permissions
 common#:#perma_link#:#Permanent Link
 common#:#permission#:#Permission
@@ -5738,8 +5751,6 @@ common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#upload#:#Upload
 common#:#upload_error_file_not_found#:#Upload error: File not found.
-common#:#upload_files#:#Upload files
-common#:#upload_files_title#:#Upload files
 common#:#upload_pending#:#Pending
 common#:#upload_settings#:#Upload Settings
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
@@ -6147,11 +6158,15 @@ content#:#cont_cc_imp#:#Important
 content#:#cont_cc_str#:#Strong
 content#:#cont_cc_sub#:#Subscript
 content#:#cont_cc_sup#:#Superscript
+content#:#cont_cell_properties#:#Table Cell Properties
 content#:#cont_center#:#Center
+content#:#cont_change_alignment#:#Change Alignment
 content#:#cont_change_notification_salutation#:#Hello %s,
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
 content#:#cont_change_object_reference#:#Change Object Reference
+content#:#cont_change_style#:#Change Style
 content#:#cont_change_type#:#Change Type
+content#:#cont_change_width#:#Change Width
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
 content#:#cont_chapters#:#Chapters
@@ -6190,6 +6205,8 @@ content#:#cont_click_next_or_save#:#Please click on the next point of the polygo
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
+content#:#cont_code_import_file#:#Import
+content#:#cont_code_manual_editing#:#Manuelle Eingabe
 content#:#cont_col_ordering#:#Column Ordering
 content#:#cont_colspan#:#Col. Span
 content#:#cont_commented_by#:#Commented by
@@ -6313,6 +6330,7 @@ content#:#cont_ed_insert_grid#:#Insert Column Layout
 content#:#cont_ed_insert_grid_info#:#Adds a responsive column layout based on a grid with 12 units per row.
 content#:#cont_ed_insert_iim#:#Insert Interactive Image
 content#:#cont_ed_insert_incl#:#Insert Content Snippet
+content#:#cont_ed_insert_lay#:#Insert Layout Template
 content#:#cont_ed_insert_lhist#:#Insert Learning History
 content#:#cont_ed_insert_list#:#Insert Advanced List
 content#:#cont_ed_insert_lpe#:#Insert Login Page Element
@@ -6324,12 +6342,12 @@ content#:#cont_ed_insert_pcqst#:#Insert Question
 content#:#cont_ed_insert_plach#:#Insert Placeholder
 content#:#cont_ed_insert_prof#:#Insert Personal Data
 content#:#cont_ed_insert_qover#:#Insert Question Overview
-content#:#cont_ed_insert_repobj#:#Insert Resource List
+content#:#cont_ed_insert_repobj#:#Insert Item Group
 content#:#cont_ed_insert_sec#:#Insert Section
 content#:#cont_ed_insert_skills#:#Insert Competences
 content#:#cont_ed_insert_src#:#Insert Code
 content#:#cont_ed_insert_tab#:#Insert Advanced Table
-content#:#cont_ed_insert_tabs#:#Insert Accordion
+content#:#cont_ed_insert_tabs#:#Insert Accordion/Carousel
 content#:#cont_ed_insert_templ#:#Insert Content Template
 content#:#cont_ed_insert_vrfc#:#Insert Certificate
 content#:#cont_ed_item_down#:#Move Item Down
@@ -6337,12 +6355,14 @@ content#:#cont_ed_item_up#:#Move Item Up
 content#:#cont_ed_list#:# Advanced List
 content#:#cont_ed_moveafter#:#Move After
 content#:#cont_ed_movebefore#:#Move Before
-content#:#cont_ed_new_col_after#:#New Column After
-content#:#cont_ed_new_col_before#:#New Column Before
+content#:#cont_ed_new_col_after#:#New Columns After
+content#:#cont_ed_new_col_before#:#New Columns Before
 content#:#cont_ed_new_item_after#:#New Item After
 content#:#cont_ed_new_item_before#:#New Item Before
-content#:#cont_ed_new_row_after#:#New Row After
-content#:#cont_ed_new_row_before#:#New Row Before
+content#:#cont_ed_new_row_after#:#New Rows After
+content#:#cont_ed_new_row_before#:#New Rows Before
+content#:#cont_ed_nr_cols#:#Number of Columns
+content#:#cont_ed_nr_rows#:#Number of Rows
 content#:#cont_ed_par#:#Text
 content#:#cont_ed_paste#:#Paste
 content#:#cont_ed_paste_clip#:#Paste From Clipboard
@@ -6381,8 +6401,10 @@ content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
 content#:#cont_edit_src#:#Edit Source Code
 content#:#cont_edit_style#:#Edit Style
+content#:#cont_edit_table#:#Edit Table
 content#:#cont_edit_tabs#:#Properties
 content#:#cont_edit_term#:#Edit Term
+content#:#cont_edit_title#:#Change Title
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
 content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.
 content#:#cont_enable_page_history#:#Page History
@@ -6409,6 +6431,7 @@ content#:#cont_file_renamed#:#File has been renamed.
 content#:#cont_file_unzipped#:#File has been unzipped.
 content#:#cont_files#:#Files
 content#:#cont_finish_editing#:#Finish Editing
+content#:#cont_finish_table_editing#:#Finish Data Table Editing
 content#:#cont_first_open#:#First Panel Opened
 content#:#cont_first_page#:#First Page
 content#:#cont_first_row_style#:#First Row Style Class
@@ -6419,6 +6442,7 @@ content#:#cont_footer#:#Footer
 content#:#cont_footnote#:#Footnote
 content#:#cont_force_all_open#:#Force All Opened
 content#:#cont_format#:#Format
+content#:#cont_format_cells#:#Format Cells
 content#:#cont_fourth_edition#:#SCORM 2004 4th edition
 content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd Edition: Data can be carried over between SCOs. Few learning modules actually use this feature and it has a negative Impact on performance.
 content#:#cont_free_pages#:#Free Pages
@@ -6455,6 +6479,7 @@ content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop
 content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.
 content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.
+content#:#cont_has_row_header#:#Has a Header Row
 content#:#cont_header#:#Header
 content#:#cont_height#:#Height in pixels
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.
@@ -6474,6 +6499,27 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
 content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective.
 content#:#cont_ie_force_render#:#Force Internet Explorer to re-render
 content#:#cont_ie_force_render_info#:#Learning modules with many frames or iFrames will be displayed correctly after rendering the content once more.
+content#:#cont_iim_add_overlay#:#Add Overlay
+content#:#cont_iim_add_trigger#:#Add Trigger
+content#:#cont_iim_add_trigger_text#:#Please add a trigger. Afterwards edit size and position on the right screen.
+content#:#cont_iim_background_image#:#Background Image
+content#:#cont_iim_background_image_and_caption#:#Background Image and Caption
+content#:#cont_iim_edit#:#Edit Interactive Image
+content#:#cont_iim_edit_trigger#:#Edit Trigger
+content#:#cont_iim_finish_editing#:#Finish Editing Interactive Image
+content#:#cont_iim_horizontal#:#Horizontal
+content#:#cont_iim_lg#:#Large
+content#:#cont_iim_md#:#Medium
+content#:#cont_iim_no_overlay#:#No Overlay
+content#:#cont_iim_overview#:#Overview
+content#:#cont_iim_select_overlay#:#Select Overlay
+content#:#cont_iim_select_trigger#:#To edit an existing trigger, click it on the right screen.
+content#:#cont_iim_size#:#Size
+content#:#cont_iim_sm#:#Small
+content#:#cont_iim_tr_add_popup#:#Add Content-Popup
+content#:#cont_iim_tr_properties_info#:#The trigger will be presented on the right side. You may alter position and size using the mouse.
+content#:#cont_iim_trigger#:#Trigger
+content#:#cont_iim_vertical#:#Vertical
 content#:#cont_imagemap#:#Image Map
 content#:#cont_import#:#Import
 content#:#cont_import_id#:#identifier
@@ -6501,7 +6547,7 @@ content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard
 content#:#cont_insert_pagelayout#:#Insert Page from Template
 content#:#cont_insert_par#:#Insert Text
 content#:#cont_insert_profile#:#Publish Personal Data
-content#:#cont_insert_resources#:#Insert Resource List
+content#:#cont_insert_resources#:#Insert Item Group
 content#:#cont_insert_section#:#Insert Section
 content#:#cont_insert_skills#:#Insert Competence
 content#:#cont_insert_src#:#Insert source code
@@ -6564,6 +6610,7 @@ content#:#cont_linked_mobs#:#Linked media objects
 content#:#cont_links#:#Links
 content#:#cont_list_files#:#List Files
 content#:#cont_list_indent#:#Indent List
+content#:#cont_list_item_style#:#List Item Style
 content#:#cont_list_outdent#:#Outdent List
 content#:#cont_list_properties#:#List Properties
 content#:#cont_lists#:#Lists
@@ -6603,6 +6650,7 @@ content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Data element
 content#:#cont_maintenance#:#Maintenance
 content#:#cont_manifest#:#Manifest
+content#:#cont_manual_item_group#:#Manually Create Item Group
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#cont_marker#:#Marker
 content#:#cont_master_language_only#:#Master Language for Translation
@@ -6617,6 +6665,7 @@ content#:#cont_media#:#Images/Media
 content#:#cont_media_placeh#:#Click and edit to insert media
 content#:#cont_media_placehl#:#Media Placeholder
 content#:#cont_media_source#:#Media Source
+content#:#cont_merge_cells#:#Merge Cells
 content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
 content#:#cont_missing_snippet#:#Missing Content Snippet. The snippet has been deleted.
 content#:#cont_mob_def_prop#:#Default Properties
@@ -6706,6 +6755,7 @@ content#:#cont_operation_not_allowed#:#This operation is not allowed.
 content#:#cont_organization#:#Organization
 content#:#cont_organizations#:#Organizations
 content#:#cont_orig_size#:#Original Size
+content#:#cont_other_resources#:#Content (Other Remaining Resources)
 content#:#cont_out_of_focus_message#:#This page is not related to your current learning objective anymore.
 content#:#cont_out_of_focus_message_last_page#:#This is the last page of the content related to your current learning objective.
 content#:#cont_ov_all_correct#:#You have correctly answered all questions.
@@ -6736,6 +6786,7 @@ content#:#cont_paragraph_styles#:#Paragraph Styles
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#parameters
 content#:#cont_paste_from_clipboard#:#Paste from clipboard
+content#:#cont_paste_from_spreadsheet#:#Paste From Spreadsheet
 content#:#cont_paste_table#:#Paste Table
 content#:#cont_pc_amdpl#:#Page List
 content#:#cont_pc_blog#:#Blog
@@ -6748,6 +6799,7 @@ content#:#cont_pc_grid#:#Column Layout
 content#:#cont_pc_hacc#:#Accordion (Horizontal)
 content#:#cont_pc_iim#:#Interactive Image
 content#:#cont_pc_incl#:#Content Snippet
+content#:#cont_pc_lay#:#Layout Template
 content#:#cont_pc_list#:#Advanced List
 content#:#cont_pc_map#:#Map
 content#:#cont_pc_media#:#Image/Media
@@ -6755,15 +6807,20 @@ content#:#cont_pc_mob#:#Media
 content#:#cont_pc_modified#:#Modified Content
 content#:#cont_pc_new#:#New Content
 content#:#cont_pc_par#:#Text
+content#:#cont_pc_plach#:#Placeholder
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_pc_qover#:#Question Overview
 content#:#cont_pc_qst#:#Question
+content#:#cont_pc_repobj#:#Item Group
 content#:#cont_pc_res#:#Resource
 content#:#cont_pc_sec#:#Section
 content#:#cont_pc_skills#:#Competence
+content#:#cont_pc_src#:#Source Code
 content#:#cont_pc_tab#:#Advanced Table
+content#:#cont_pc_tabs#:#Accordion/Carousel
 content#:#cont_pc_vacc#:#Accordion (Vertical)
 content#:#cont_pc_vrfc#:#Certificate
+content#:#cont_permission_handling#:#Permission Handling
 content#:#cont_permission_object#:#Permission Object
 content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.
 content#:#cont_personal_clipboard#:#Personal Clipboard
@@ -6824,8 +6881,8 @@ content#:#cont_resource#:#Resource
 content#:#cont_resource_size#:#Original Resource Size / No Size Declaration
 content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.
 content#:#cont_resource_type#:#type
-content#:#cont_resources#:#Resources
-content#:#cont_resources_of_type#:#Resources of Type
+content#:#cont_resources#:#Item Group
+content#:#cont_resources_of_type#:#Item Group by Type
 content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
 content#:#cont_restrict_forw_nav_info#:#A subsequent page can only be accessed when all test questions have been answered correctly on the current learning module page.
 content#:#cont_revision#:#Revision
@@ -6928,6 +6985,8 @@ content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour 
 content#:#cont_set_alignment#:#Set Alignment
 content#:#cont_set_layout#:#Set Layout
 content#:#cont_set_link#:#Edit Link
+content#:#cont_set_manuall#:#Set Manually
+content#:#cont_set_properties#:#Set Properties
 content#:#cont_set_start_file#:#Set Start File
 content#:#cont_set_styles#:#Set Styles
 content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
@@ -6951,6 +7010,7 @@ content#:#cont_snippet_from_another_installation#:#Snippet comes from another in
 content#:#cont_snippets_used#:#Used Content Snippets
 content#:#cont_span#:#Span
 content#:#cont_special_page#:#Special Content Page
+content#:#cont_split_cell#:#Split Cell
 content#:#cont_spreadsheet_table#:#Spreadsheet Table
 content#:#cont_sqst#:#Survey Question (Assigned Material)
 content#:#cont_src#:#Source code
@@ -6974,22 +7034,36 @@ content#:#cont_subtitle_files#:#Media Subtitles
 content#:#cont_sur_block_format#:#Surrounding Section
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool
 content#:#cont_syntax_help#:#Syntax Help
+content#:#cont_tab_add_above#:#Add Panel Above
+content#:#cont_tab_add_below#:#Add Panel Below
 content#:#cont_tab_cont_height#:#Content Height
 content#:#cont_tab_cont_width#:#Content Width
+content#:#cont_tab_delete#:#Delete Panel
+content#:#cont_tab_move_bottom#:#Move To Bottom
+content#:#cont_tab_move_down#:#Move Downwards
+content#:#cont_tab_move_top#:#Move To Top
+content#:#cont_tab_move_up#:#Move Upwards
 content#:#cont_table#:#Table
+content#:#cont_table_adv_settings#:#Erweiterte Einstellungen
 content#:#cont_table_border#:#Table Border
 content#:#cont_table_border_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
+content#:#cont_table_cell_edit_info_1#:#Click on a table cell to select or deselect it.
+content#:#cont_table_cell_edit_info_2#:#Click on a row or column header to select or deselect the corresponding row or column.
+content#:#cont_table_cell_edit_info_3#:#Click on a second cell while holding shift to select all the cells in between.
 content#:#cont_table_cell_properties#:#Table Cell Properties
 content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellpadding_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
 content#:#cont_table_edit_cells#:#Edit Cells
+content#:#cont_table_import_info#:#Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported.
 content#:#cont_table_properties#:#Table Properties
+content#:#cont_table_style#:#Style
 content#:#cont_table_width#:#Table Width
 content#:#cont_tabs#:#Panels
 content#:#cont_tabs_acc_hor#:#Horizontal Accordion
 content#:#cont_tabs_acc_ver#:#Vertical Accordion
 content#:#cont_tabs_carousel#:#Carousel
 content#:#cont_tabs_confirm_deletion#:#Are you sure that all panels and their content should be deleted?
+content#:#cont_target#:#Target
 content#:#cont_target_missing#:#Target Missing
 content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_template#:#Template
@@ -7053,7 +7127,7 @@ content#:#cont_update_login_page#:#Edit Login Page Element
 content#:#cont_update_map#:#Edit Map
 content#:#cont_update_my_courses#:#Edit My Courses
 content#:#cont_update_profile#:#Edit Published Data
-content#:#cont_update_resources#:#Update Resource List
+content#:#cont_update_resources#:#Update Item Group
 content#:#cont_update_section#:#Update Section
 content#:#cont_update_skills#:#Edit Competence
 content#:#cont_update_verification#:#Edit Certificate
@@ -7216,6 +7290,9 @@ copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hi
 copg#:#copg_est_reading_time#:#Estimated Reading Time
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.
+copg#:#copg_list_item_style#:#List Item
+copg#:#copg_list_style#:#List
+copg#:#copg_list_styles#:#List Formats
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
@@ -7443,9 +7520,9 @@ crs#:#crs_loc_mem_show_res#:#Show Test Results
 crs#:#crs_loc_num_qst#:#Number of Questions
 crs#:#crs_loc_objective_passed_confirmation#:#You have already passed this learning objective. Starting a new test run will reset the result. Do you really want to start a new test run?
 crs#:#crs_loc_objectives_passed_confirmation#:#You have already passed all learning objectives. Starting a new test run will reset all results. Do you really want to start a new test run?
-crs#:#crs_loc_passes_info#:#Maximum Number of test passes
-crs#:#crs_loc_passes_left#:#Remaining number of test passes
-crs#:#crs_loc_passes_reached#:#No further test passes possible
+crs#:#crs_loc_passes_info#:#Maximum Number of test attempts
+crs#:#crs_loc_passes_left#:#Remaining number of test attempts
+crs#:#crs_loc_passes_reached#:#No further test attempts possible
 crs#:#crs_loc_perc#:#Required Percentage of Points
 crs#:#crs_loc_progress_do_qualifying#:#Please take the final test.
 crs#:#crs_loc_progress_do_qualifying_again#:#Please work through the learning objective materials again.
@@ -7507,10 +7584,10 @@ crs#:#crs_loc_tbl_tst_qst_qpl#:#Questions / Question Pools
 crs#:#crs_loc_tbl_tst_type#:#Selection of Test Questions
 crs#:#crs_loc_test_results_of#:#Test results of:
 crs#:#crs_loc_tst_assignment#:#Test Assignment
-crs#:#crs_loc_tst_new_run#:#Start New Test Pass
+crs#:#crs_loc_tst_new_run#:#Start New Attempt on Test
 crs#:#crs_loc_tst_num_qst#:#Number of Questions:
 crs#:#crs_loc_tst_qpls#:#Available Question Pools:
-crs#:#crs_loc_tst_resume#:#Continue Test Pass
+crs#:#crs_loc_tst_resume#:#Continue Test Attempt
 crs#:#crs_loc_tst_start#:#Start Test
 crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.
 crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the initial test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
@@ -7773,8 +7850,6 @@ crs#:#crs_timings_suggested_info#:#Suggested Editing Time
 crs#:#crs_timings_time_frame#:#Time Frame
 crs#:#crs_timings_time_frame_tt#:#Time frame in days
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:
-crs#:#crs_timings_visibility#:#If chosen, the material is visible even outside of the given availability.
-crs#:#crs_timings_visibility_short#:#Visibility
 crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.
 crs#:#crs_to#:#Until
 crs#:#crs_tutor#:#Tutor
@@ -8554,7 +8629,7 @@ dcl#:#dcl_plugin_hooks#:#Available Plugins
 dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
 dcl#:#dcl_prev_record#:#Previous Entry
 dcl#:#dcl_prop_expression#:#Expression
-dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
+dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br>When using date fields and number fields in a formula, the number fields are considered seconds and must be multiplied by 86400, for example.<br><br>Available fields (click on title to copy field inside expression):<br>%s
 dcl#:#dcl_public_comments#:#Activate Public Comments
 dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating
@@ -8994,6 +9069,7 @@ exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
 exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group "%2$s".
 exc#:#exc_adopt_group_teams_no_members#:#No members
 exc#:#exc_after_submission#:#After submission
+exc#:#exc_all#:#All
 exc#:#exc_all_new_files_offered_already#:#All new files have already been offered for download. For another download, please click on the action links below.
 exc#:#exc_ass_submission_zip#:#Submissions
 exc#:#exc_ass_team_wiki#:#Assignment Team Wiki
@@ -9042,6 +9118,8 @@ exc#:#exc_deadline#:#Deadline
 exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
 exc#:#exc_deadline_extended#:#Grace Period
 exc#:#exc_deadline_extended_info#:#Late submission are possible between the deadline and the end of the grace period.
+exc#:#exc_deadline_not_set_yet#:#Not Set Yet
+exc#:#exc_deadline_requested#:#Requested
 exc#:#exc_delete_team#:#Delete Team
 exc#:#exc_deleted_user#:#Deleted User
 exc#:#exc_denied_has_peer_reviews#:#Reason: Some assignments have peer reviewing activated.
@@ -9052,12 +9130,17 @@ exc#:#exc_direct_submit#:#Submit
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.
 exc#:#exc_down_files_started_bg#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
+exc#:#exc_download_selected#:#Download Selected Submission
 exc#:#exc_download_zip_structure#:#Download ZIP Structure
 exc#:#exc_earliest_start_time#:#Earliest Start Time
 exc#:#exc_edit_assignment#:#Edit Assignment
 exc#:#exc_edit_assignments#:#Edit Assignments
+exc#:#exc_edit_blog#:#Edit Blog
 exc#:#exc_edit_criterias#:#Edit Criteria
+exc#:#exc_edit_portfolio#:#Edit Portfolio
 exc#:#exc_edit_submission#:#Edit Submission
+exc#:#exc_edit_wiki#:#Edit Wiki
+exc#:#exc_ended#:#Ended
 exc#:#exc_ended_on#:#Ended On
 exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Evaluation Files
@@ -9070,8 +9153,12 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_files_returned_text#:#Assignment Text
 exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
 exc#:#exc_fixed_date#:#Fixed Date
+exc#:#exc_fixed_date_individual#:#Individual Deadlines Only
+exc#:#exc_fixed_date_individual_info#:#There is no common deadline. Tutors must set individual deadlines for each participant individually.
 exc#:#exc_fixed_date_info#:#Initially all users get the same fixed deadline.
 exc#:#exc_fullscreen#:#Fullscreen
+exc#:#exc_future#:#Upcoming
+exc#:#exc_given_feedback#:#Given Feedback
 exc#:#exc_global_feedback_file#:#Sample Solution
 exc#:#exc_global_feedback_file_after_date#:#After set Date
 exc#:#exc_global_feedback_file_cron#:#Notification
@@ -9080,9 +9167,13 @@ exc#:#exc_global_feedback_file_date#:#Availability
 exc#:#exc_global_feedback_file_date_deadline#:#After deadline
 exc#:#exc_global_feedback_file_date_upload#:#After submission
 exc#:#exc_go_to_exercise#:#Go to Exercise
+exc#:#exc_graded_mem_notified#:#All graded participants have been notified.
 exc#:#exc_grades#:#Grades Overview
 exc#:#exc_grades_overview#:#Grades View
 exc#:#exc_hand_in#:#Hand In
+exc#:#exc_hand_in_lead_text#:#%s to Submit
+exc#:#exc_idl_request_and_tutor_needed#:#Please send a request to your tutor for setting an individual deadline for you.
+exc#:#exc_idl_tutor_needed#:#You already requested a deadline. The request is still pending. You will be notified once the individual deadline is set.
 exc#:#exc_import#:#Import Exercise
 exc#:#exc_individual_deadline#:#Individual Deadline
 exc#:#exc_individual_deadline_action#:#Set Individual Deadline
@@ -9090,6 +9181,8 @@ exc#:#exc_individual_deadline_before_global#:#The date has to be after the (last
 exc#:#exc_instruction_files#:#Instruction Files
 exc#:#exc_late_submission#:#Late Submission
 exc#:#exc_late_submission_warning#:#Submissions after %s are marked as late.
+exc#:#exc_lead_request_idl#:#Request Deadline
+exc#:#exc_lead_wait_for_idl#:#Waiting For Individual Deadline
 exc#:#exc_limit_characters#:#Limit of characters
 exc#:#exc_list_submission#:#List All Submissions
 exc#:#exc_list_text_assignment#:#List All Submissions
@@ -9118,13 +9211,23 @@ exc#:#exc_min_nr#:#Number of Assignments
 exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of compulsory assignments.
 exc#:#exc_min_team_participants#:#Minimal Number
 exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.
+exc#:#exc_msg_deadline_request_body#:#the following user requested an individual deadline.
+exc#:#exc_msg_deadline_request_subject#:#A deadline has been requested in exercise "%s".
 exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.
+exc#:#exc_msg_grading_done#:#An assignment has been graded in exercise "%s".
+exc#:#exc_msg_grading_done_body#:#a tutor has graded your submission in exercise "%s".
+exc#:#exc_msg_idl_set_body#:#a new individual deadline has been set.
+exc#:#exc_msg_idl_set_subject#:#A new deadline has been set in exercise "%s".
 exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.
 exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.
 exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to exercise "%s".
 exc#:#exc_msg_new_feedback_file_uploaded2#:#a tutor has uploaded a new feedback file for you.
 exc#:#exc_msg_new_feedback_text_uploaded#:#A new comment has been added to exercise "%s".
 exc#:#exc_msg_new_feedback_text_uploaded2#:#a tutor has added a new comment for you.
+exc#:#exc_msg_new_message_from_pf_giver#:#A new message from a peer feedback giver has been added to exercise "%s".
+exc#:#exc_msg_new_message_from_pf_giver2#:#a peer feedback giver has added a new message for you:
+exc#:#exc_msg_new_message_from_pf_recipient#:#A new message from a peer feedback recipient has been added to exercise "%s".
+exc#:#exc_msg_new_message_from_pf_recipient2#:#a peer feedback recipient has added a new message for you:
 exc#:#exc_msg_participants_removed#:#The participants have been removed from the exercise.
 exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.
 exc#:#exc_msg_saved_grades#:#Grades and comments have been saved.
@@ -9136,12 +9239,18 @@ exc#:#exc_multi_feedback_files#:#Multi-Feedback Files
 exc#:#exc_needs_deadline#:#This feature does only work with an assignment deadline.
 exc#:#exc_needs_fixed_deadline#:#This feature only works with a fixed deadline.
 exc#:#exc_new_assignment#:#New Assignment
+exc#:#exc_no_assignments#:#No assignments available.
 exc#:#exc_no_assignments_available#:#No assignments created yet. Please open ‘Assignments’ and ‘Edit’ to create a first assignment.
+exc#:#exc_no_deadline#:#No Deadline
+exc#:#exc_no_deadline_info#:#There is no submission deadline for participants.
 exc#:#exc_no_deadline_specified#:#No deadline specified.
 exc#:#exc_no_feedback_dir_found_in_zip#:#The directory structure of the uploaded zip-archive could not be processed.
 exc#:#exc_no_get_target#:#A valid target has not been sent.
+exc#:#exc_no_graded_mem_selected#:#Please select at least one graded participant.
 exc#:#exc_no_participants#:#There are currently no participants.
+exc#:#exc_no_peer_feedback_deadline#:#No Deadline for Giving Feedback
 exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
+exc#:#exc_no_submission_yet#:#No submission yet.
 exc#:#exc_no_team_yet#:#Not assigned to a team
 exc#:#exc_no_team_yet_info#:#You can create a team yourself or be added to an existing team by its team members.
 exc#:#exc_no_team_yet_info_tutor#:#Teams are managed by the exercise tutors.
@@ -9150,6 +9259,7 @@ exc#:#exc_note_for_tutor#:#Note for Tutors
 exc#:#exc_notification#:#Personal Notification
 exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments
 exc#:#exc_num_teams#:#Number
+exc#:#exc_ongoing#:#Ongoing
 exc#:#exc_order_by_deadline#:#Order by Deadline
 exc#:#exc_overview#:#Overview
 exc#:#exc_participant#:#Participant
@@ -9163,6 +9273,7 @@ exc#:#exc_pass_mode#:#Pass Mode
 exc#:#exc_pass_mode_not_changeable_info#:#The pass mode cannot be changed anymore.
 exc#:#exc_passed_status_determination#:#Determination of Status ‘Passed’
 exc#:#exc_passing_exc#:#Passing the Exercise
+exc#:#exc_past#:#Past
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#Users can rate the solutions of their peers after the deadline and if granted the grace period lapsed. Specific settings on peer-feedback are made in the respective tab. After activation this option and saving it, the tab 'Peer-Feedback' will be displayed.
@@ -9210,9 +9321,11 @@ exc#:#exc_peer_review_show_missing#:#You cannot view your received feedback as y
 exc#:#exc_peer_review_show_received_none#:#You received no feedback.
 exc#:#exc_peer_review_simple_unlock#:#Access to received feedback
 exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedback
+exc#:#exc_peer_review_simple_unlock_immed#:#Always show received peer feedback
 exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks
 exc#:#exc_peer_review_text#:#Text Input
 exc#:#exc_peer_review_updated#:#Your feedback has been saved.
+exc#:#exc_peer_reviews_in_lead_text#:#%s to Give Feedback
 exc#:#exc_peer_reviews_invalid_warning#:#Invalid Peer Groups
 exc#:#exc_portfolio_created#:#Portfolio was created.
 exc#:#exc_portfolio_returned#:#Assignment Portfolio
@@ -9231,8 +9344,11 @@ exc#:#exc_random_assignment_info#:#When starting the exercise some assignments w
 exc#:#exc_random_selection#:#Random Selection
 exc#:#exc_random_selection_info#:#Each user gets assigned a random selection of mandatory assignments.
 exc#:#exc_random_selection_not_changeable_info#:#This mode cannot be activated.
+exc#:#exc_received_feedback#:#Received Feedbacks
 exc#:#exc_rel_last_submission#:#Last Possible Submission
 exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.
+exc#:#exc_rel_start_latest_lead_text#:#%s the Latest
+exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start
 exc#:#exc_relative_date#:#Relative Date
 exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.
 exc#:#exc_rem_time_after_start#:#Remaining Time after Start
@@ -9257,6 +9373,9 @@ exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
 exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
 exc#:#exc_reminders_cron#:#Reminders for Assignments
 exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
+exc#:#exc_request_deadline#:#Request Deadline
+exc#:#exc_requirement#:#Requirement
+exc#:#exc_review_anytime#:#Give Feedback Anytime
 exc#:#exc_save_all#:#Save All
 exc#:#exc_save_order#:#Save Order
 exc#:#exc_save_selected#:#Save Selected
@@ -9272,6 +9391,9 @@ exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it with this assignment.
 exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
 exc#:#exc_send_assignment#:#Send Assignment by Mail
+exc#:#exc_send_grading_notification#:#Send Grading Notification
+exc#:#exc_set_failed#:#Set as Failed
+exc#:#exc_set_passed#:#Set as Passed
 exc#:#exc_settings_feedback#:#Evaluation
 exc#:#exc_settings_feedback_file#:#By File
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
@@ -9292,11 +9414,13 @@ exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_no_new_files#:#No new submissions available.
 exc#:#exc_submission_notification#:#E-Mail Notification on Submissions
 exc#:#exc_submission_notification_body#:#A new submission for exercise "%s" has been uploaded.
-exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded. This is a personal setting which does not affect other administrators of the exercise.
+exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded or individual deadlines are requested. This is a personal setting which does not affect other administrators of the exercise.
 exc#:#exc_submission_notification_link#:#Link to exercise: %s
 exc#:#exc_submission_notification_subject#:#Exercise "%s" - New submission uploaded
+exc#:#exc_submission_open_notification_link#:#Open submission: %s
 exc#:#exc_submission_text#:#Submission Text
 exc#:#exc_submissions_and_grades#:#Submissions and Grades
+exc#:#exc_submit_anytime#:#Submit Anytime
 exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
 exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.
 exc#:#exc_sure_unlink_portfolio#:#Are you sure to remove this portfolio form this assignment?
@@ -9321,6 +9445,8 @@ exc#:#exc_tbl_feedback_time#:#Evaluation on
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_submission#:#Submission
+exc#:#exc_tbl_filter_submission_after#:#Submission After
+exc#:#exc_tbl_filter_submission_before#:#Submission Before
 exc#:#exc_tbl_individual_deadline#:#Individual Deadline
 exc#:#exc_tbl_mark#:#Mark
 exc#:#exc_tbl_notice#:#Note for Tutors
@@ -9380,12 +9506,14 @@ exc#:#exc_text_assignment_show#:#Show Text
 exc#:#exc_text_saved#:#Text has been saved.
 exc#:#exc_total_exc#:#Total Exercise
 exc#:#exc_total_members#:#Total Exercise Participants
+exc#:#exc_type#:#Type
 exc#:#exc_type_blog#:#Blog
 exc#:#exc_type_portfolio#:#Portfolio
 exc#:#exc_type_text#:#Text
 exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_value_can_not_set#:#This value can not be set.
+exc#:#exc_view_portfolio#:#View Portfolio
 exc#:#exc_wait_for_files#:#Your download should start automatically. If the download doesn't start in 5 secs, please click here
 exc#:#exc_wiki_container#:#Wiki Container
 exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.
@@ -9398,6 +9526,7 @@ exc#:#exc_without_template_info#:#Participants will create their Portfolio from 
 exc#:#exc_without_wiki_template#:#Without Wiki Template
 exc#:#exc_without_wiki_template_info#:#Participants will create their wiki from scratch.
 exc#:#exc_work_instructions#:#Work instructions
+exc#:#exc_x_of_y#:#of
 exc#:#exc_your_text#:#Your Text
 exc#:#feedback#:#Feedback
 exc#:#feedback_from#:#Feedback from
@@ -9459,30 +9588,29 @@ file#:#copyright_custom#:#Custom
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
+file#:#could_not_create_file_objs#:#An error occurred while creating the file objects, contact the administrators of the platform.
 file#:#de_activate_icon#:#(De-)Activate
 file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
+file#:#file_btn_lp_toggle_state_completed#:#Set Not Completed
+file#:#file_btn_lp_toggle_state_not_completed#:#Set Completed
 file#:#file_copy#:#Copy File
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File
 file#:#file_new_version#:#Create New Version
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
-file#:#file_suffix_default_white#:#Default Suffix Whitelist
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
+file#:#file_publish#:#Publish Draft
+file#:#file_rollback_rollback_first#:#The version could not be reset because an unpublished draft exists.
+file#:#file_rollback_same_version#:#This is already the current version
+file#:#file_unpublish#:#Mark as Draft
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version uploaded by
+file#:#file_version_draft#:#Draft Version
+file#:#file_version_draft_info#:#The latest version is in "Draft" status. As long as the version has not been published, no new versions can be created. People with read permission on the file get the latest published version.
 file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
-file#:#generate_sanitize_report#:#Report about inaccessible files
+file#:#important_info#:#Important Information
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
 file#:#input_desc_icon#:#Image which shall be shown as an icon for files with the specified suffixes.
@@ -9490,6 +9618,8 @@ file#:#input_desc_suffixes#:#List of comma-separated suffixes (characters and nu
 file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
+file#:#mime_type#:#MIME Type
+file#:#msg_cant_unpublish#:#Action could not be executed
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
 file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot be used at the moment.
 file#:#msg_error_active_suffixes_conflict#:#Error: there must not be multiple activated icons for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with the suffixes of this icon.
@@ -9510,6 +9640,7 @@ file#:#preview_caption#:#Preview %sof %s
 file#:#preview_image_size_info#:#Maximum length of the preview images in px.
 file#:#preview_persisting#:#Persist Preview Images
 file#:#preview_persisting_info#:#Generated previews will be stored, otherwise the previews will be generated on the fly
+file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
 file#:#set_license_for_all_files#:#Set License for all Files
@@ -9518,10 +9649,15 @@ file#:#show_amount_of_downloads_info#:#When active, the number of downloads will
 file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-specific Icons
 file#:#suffixes#:#Suffixes
+file#:#upload_files#:#Upload files
+file#:#upload_files_limit#:#The maximum size of a file is %s.
+file#:#upload_files_title#:#Upload files
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#version_uploaded#:#Version uploaded
 file#:#versionname#:#Title
+fils#:#add_upload_policy#:#Add Policy
+fils#:#edit_upload_policy#:#Edit Policy
 fils#:#file_services#:#File Services
 fils#:#file_services_description#:#Configuration of File Service Settings.
 fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes
@@ -9534,6 +9670,24 @@ fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List
 fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
 fils#:#file_suffix_overall_positive#:#Overall Positive List
 fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
+fils#:#policy_audience#:#Audience
+fils#:#policy_audience_all_users_option_desc#:#Apply policy for all users.
+fils#:#policy_audience_global_roles_option_desc#:#Apply policy for users with specific global roles.
+fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:
+fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed due to policy not being found.
+fils#:#policy_deletion_successful#:#Deletion of policy was successful.
+fils#:#policy_filter#:#Policy Filter
+fils#:#policy_no_validity_limitation_set#:#Valid indefinitely
+fils#:#policy_scope#:#Scope
+fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.
+fils#:#policy_title_desc#:#Descriptive title for the policy.
+fils#:#policy_upload_limit#:#Upload Limit
+fils#:#policy_upload_limit_desc#:#Upload limit which is set by this policy in MB.
+fils#:#policy_valid_until#:#Valid Until
+fils#:#policy_valid_until_desc#:#Set an optional 'valid until' date after which the policy expires.
+fils#:#policy_validity#:#Validity
+fils#:#upload_limits#:#Upload Limits
+fils#:#upload_policies#:#Upload Policies
 fold#:#fold_copy#:#Copy Folder
 fold#:#fold_import#:#Import Folder
 fold#:#fold_presentation#:#Folder Presentation
@@ -9862,7 +10016,11 @@ glo#:#glo_selected_glossaries_info#:#Terms are collected from the following glos
 glo#:#glo_selected_glossary_is_current_info#:#The selected glossary corresponds to the current glossary. Please select another glossary.
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
 glo#:#glo_show_definition#:#Show Definition
+glo#:#glo_show_in_presentation#:#Shown in Presentation View
+glo#:#glo_show_in_presentation_off#:#Hide in Presentation View
+glo#:#glo_show_in_presentation_on#:#Show in Presentation View
 glo#:#glo_show_term#:#Show Term
+glo#:#glo_tax_info#:#A taxonomy in a Glossary classifies and filters the terms. It always is available in the editing view. For the presentation view, the taxonomy must first be activated. In glossaries, only one taxonomy can be used.
 glo#:#glo_term#:#Glossary Term
 glo#:#glo_term_definition_pairs#:#Term/Definition Pairs
 glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).
@@ -9974,6 +10132,7 @@ grp#:#grp_members#:#Members
 grp#:#grp_members_deleted#:#Selected members were successfully removed from group.
 grp#:#grp_members_map#:#Group Members Map
 grp#:#grp_members_print_title#:#Group Members
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
 grp#:#grp_new_status#:#Your new status is:
@@ -10061,6 +10220,7 @@ help#:#help_module_uploaded#:#Help package uploaded.
 help#:#help_modules#:#Help Packages
 help#:#help_no_content#:#There is no help content available for the current screen. You may use the search tool.
 help#:#help_open_online_help#:#Open Online Help
+help#:#help_order#:#Order
 help#:#help_search_label#:#Search Help
 help#:#help_select_a_file#:#Please select a file.
 help#:#help_set_mode#:#Set Mode
@@ -10187,6 +10347,9 @@ irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#No Stakeholder provides a valid Link to the usage of this Resource.
 irss#:#resource_overview#:#Resource Overview
 irss#:#revision#:#Revision
+irss#:#revision_status#:#Status
+irss#:#revision_status_10#:#Published
+irss#:#revision_status_20#:#Draft
 irss#:#revisions#:#Available Revisions
 irss#:#rid_deleted#:#File removed
 irss#:#rids_appended#:#Resource(s) added
@@ -10534,6 +10697,7 @@ lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.
 lso#:#lso_new_status#:#Your new status is:
 lso#:#lso_notification#:#Notification
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.
@@ -11025,10 +11189,10 @@ mail#:#mail_roles#:#Users with the following local roles
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Dear Mrs.
-mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Ms.'
-mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], if no salutation is desired or specified
+mail#:#mail_salutation_female#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Ms.'
+mail#:#mail_salutation_general#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if no salutation is desired or specified
 mail#:#mail_salutation_m#:#Dear Mr.
-mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Mr.'
+mail#:#mail_salutation_male#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Mr.'
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved
 mail#:#mail_second_email#:#Second E-Mail Address
@@ -11079,7 +11243,7 @@ mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the s
 mail#:#mail_system_usr_from_addr#:#Sender E-Mail (From)
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
-mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective data of the e-mail initiator.
+mail#:#mail_system_usr_from_name_info#:#You can use the placeholders &lbrace;&lbrace;FULLNAME&rbrace;&rbrace;, &lbrace;&lbrace;FIRSTNAME&rbrace;&rbrace; and &lbrace;&lbrace;LASTNAME&rbrace;&rbrace;. These will then be replaced by the respective data of the e-mail initiator.
 mail#:#mail_tbl_head_attachments#:#Attachment
 mail#:#mail_template_client#:#Text Template
 mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
@@ -11187,6 +11351,7 @@ mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
 mcst#:#mcst_clear_purpose_title#:#Delete
+mcst#:#mcst_confirm_deletion#:#Confirm Deletion
 mcst#:#mcst_converted_file#:#File has been converted.
 mcst#:#mcst_copy#:#Copy Mediacast
 mcst#:#mcst_current_value_info#:#Shows the current value of this format.
@@ -11205,14 +11370,13 @@ mcst#:#mcst_duration#:#Play Time
 mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
 mcst#:#mcst_edit_item#:#Edit Mediacast Item
 mcst#:#mcst_edit_settings#:#MediaCast Settings
-mcst#:#mcst_extract_preview_image#:#Extract Preview Image
 mcst#:#mcst_gallery#:#Tiles
-mcst#:#mcst_image_extracted#:#Image has been extracted.
 mcst#:#mcst_img_gallery#:#Image Gallery
 mcst#:#mcst_import#:#Import Mediacast
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files as Attachment
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachments in the RSS feed. Otherwise the feed just notifies subscribers about new items.
 mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.
+mcst#:#mcst_items#:#Items
 mcst#:#mcst_last_submission#:#Last Submission
 mcst#:#mcst_list#:#List
 mcst#:#mcst_manage#:#Manage
@@ -11228,7 +11392,6 @@ mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determi
 mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 mcst#:#mcst_next_items#:#Next Items
 mcst#:#mcst_no_autoplay#:#No Autoplay
-mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mcst#:#mcst_nr_items#:#Number of Items
 mcst#:#mcst_nr_videos#:#Number of Initial Videos
 mcst#:#mcst_ordering#:#Sorting
@@ -11241,11 +11404,11 @@ mcst#:#mcst_play_cnt#:#Played
 mcst#:#mcst_play_time#:#Play Time
 mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_prev_items#:#Previous Items
+mcst#:#mcst_preview#:#Preview
 mcst#:#mcst_preview_picture#:#Preview Picture
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource
 mcst#:#mcst_save_order#:#Save Order
-mcst#:#mcst_second#:#Second
 mcst#:#mcst_set_playtime#:#Playtime has been set.
 mcst#:#mcst_settings#:#Mediacast Settings
 mcst#:#mcst_show_description#:#Show Description
@@ -11328,7 +11491,7 @@ mep#:#mobs_activate_pages_info#:#Allows to create content snippets in media pool
 mep#:#mobs_always_show_file_manager#:#Always Show File Manager
 mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).
 mep#:#mobs_black_list_file_types#:#Forbidden File Types
-mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suffixes. This list will restrict the set of allowed file types. Usually you need this if the former list is empty (all file types are allowed).
+mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:
 mep#:#mobs_restrict_file_types#:#Allowed File Types
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.
 meta#:#adt_error_max_length#:#The text you have entered is too long. Please enter a shorter text.
@@ -11396,9 +11559,19 @@ meta#:#md_advanced#:#Custom Metadata
 meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add New Copyright
+meta#:#md_copyright_alt_text#:#Text Representation
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute
 meta#:#md_copyright_edit#:#Edit Copyright
 meta#:#md_copyright_enable_info#:#Add a copyright section to the LOM Metadata of Objects, including a selection of selectable predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
+meta#:#md_copyright_full_name#:#Full Name
+meta#:#md_copyright_image#:#Image
+meta#:#md_copyright_image_file#:#File
+meta#:#md_copyright_image_is_file#:#Upload File
+meta#:#md_copyright_image_is_link#:#Enter URL
+meta#:#md_copyright_image_link#:#URL
+meta#:#md_copyright_link#:#URL
+meta#:#md_copyright_link_info#:#Link to the licence
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Available Copyrights
 meta#:#md_copyright_settings#:#Copyright Settings
@@ -12144,16 +12317,21 @@ mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mob#:#mob_choose_from_pool#:#Choose from Media Pool
 mob#:#mob_external_url#:#External URL
+mob#:#mob_extract_preview_image#:#Extract Preview Image
 mob#:#mob_file#:#File
 mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
 mob#:#mob_general#:#General
+mob#:#mob_image_extracted#:#Image has been extracted.
 mob#:#mob_language#:#Language
 mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
 mob#:#mob_multi_srt_files#:#SRT Files
+mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 mob#:#mob_object#:#Object
 mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
+mob#:#mob_preview_picture#:#Preview Picture
 mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?
+mob#:#mob_second#:#Second
 mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.
 mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.
 mob#:#mob_subtitle_file#:#Subtitle File
@@ -12289,20 +12467,25 @@ note#:#note_enable_comments#:#Enable Comments
 note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
 note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
 note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
+note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.
 note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
 note#:#note_enable_notes#:#Enable Notes
 note#:#note_html_export_include_comments#:#Should comments be included in the export?
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
 notes#:#note_add_comment#:#Add Comment
+notes#:#note_add_message#:#Add Message
 notes#:#note_add_note#:#Add Note
 notes#:#note_content_removed#:#The content has been removed.
 notes#:#note_text#:#Text
 notes#:#note_update_comment#:#Update Comment
+notes#:#note_update_message#:#Update Message
 notes#:#note_update_note#:#Update Note
 notes#:#note_without_object#:#Without reference
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_add_edit_comment#:#Add/Edit Comment
+notes#:#notes_add_edit_message#:#Add/Edit Message
+notes#:#notes_add_edit_note#:#Add/Edit Note
 notes#:#notes_all_comments#:#All Comments
 notes#:#notes_comment#:#Comment
 notes#:#notes_comment_deleted#:#The comment has been deleted.
@@ -12310,13 +12493,20 @@ notes#:#notes_comments#:#Comments
 notes#:#notes_comments_deleted#:#The comments have been deleted.
 notes#:#notes_deactivate_comments#:#Deactivate Public Comments
 notes#:#notes_delete_comment#:#Do you really want to delete this comment?
+notes#:#notes_delete_message#:#Do you really want to delete this message?
 notes#:#notes_delete_note#:#Do you really want to delete this note?
 notes#:#notes_hide_comments#:#Hide Comments
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_latest_comment#:#Latest Comment
+notes#:#notes_latest_message#:#Latest Message
+notes#:#notes_message_author_counterpart#:#Respondent
+notes#:#notes_message_author_you#:#You
+notes#:#notes_messages#:#Messages
 notes#:#notes_my_comments#:#My Comments
 notes#:#notes_no_comments#:#No comment has been posted yet.
 notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.
+notes#:#notes_no_messages#:#No messages have been attached yet.
+notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.
 notes#:#notes_no_notes#:#No notes have been attached yet.
 notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.
 notes#:#notes_note_deleted#:#The note has been deleted.
@@ -12346,6 +12536,9 @@ notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notf
 notifications_adm#:#osd_settings#:#On-Screen Notifications
 notifications_adm#:#osd_vanish#:#Presentation Time
 notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
+obj#:#activation_visible_when_disabled#:#Visibility
+obj#:#activation_visible_when_disabled_info#:#If chosen, the material is visible even outside of the given availability.
+obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
@@ -12353,7 +12546,9 @@ obj#:#copy_container_page_no_label#:#Don't Copy Content Page
 obj#:#copy_container_page_yes_byline#:#The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten.
 obj#:#copy_container_page_yes_label#:#Copy Content Page
 obj#:#custom_icon#:#Custom Icon
+obj#:#edit_availability_period#:#Edit Availability Period
 obj#:#edit_questions#:#Edit Questions
+obj#:#no_objects_selected#:#At least one object needs to be selected.
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
 obj#:#obj_activate_multilang#:#Activate Multilingualism
 obj#:#obj_activation#:#Activation
@@ -12415,6 +12610,7 @@ obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notificati
 obj#:#online_input_byline#:#The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository.
 obj#:#select_object_type#:#Select Object Type
 obj#:#svy_results#:#Results
+obj#:#unequal_items_for_availability_period_message#:#You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods.
 obj#:#user_owns_no_objects#:#No Repository Objects Available
 objref#:#objref_custom_title#:#Use Own Title
 objref#:#objref_edit_ref#:#Link Target
@@ -12583,72 +12779,6 @@ pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
-pdfgen#:#checkbox_checked_svg#:#Path to checked checkbox svg
-pdfgen#:#checkbox_svg#:#Path to checkbox svg
-pdfgen#:#cleanup#:#Cleanup
-pdfgen#:#config#:#Config
-pdfgen#:#config_not_saved#:#Saving failed
-pdfgen#:#config_saved#:#Saved successfully
-pdfgen#:#configure#:#Configure Renderer
-pdfgen#:#enable_forms#:#Enable Forms
-pdfgen#:#enable_forms_info#:#Turn HTML form fields into pdf form fields
-pdfgen#:#external_links#:#Externel links
-pdfgen#:#external_links_info#:#Make links to remote web pages
-pdfgen#:#footer_height#:#Height Footer
-pdfgen#:#footer_html#:#Html
-pdfgen#:#footer_line#:#Footer line
-pdfgen#:#footer_show_pages#:#Show Pagenumbers
-pdfgen#:#footer_text#:#Text
-pdfgen#:#footer_text_center#:#Text center
-pdfgen#:#footer_text_left#:#Text left
-pdfgen#:#footer_text_right#:#Text right
-pdfgen#:#footer_type#:#Footer
-pdfgen#:#greyscale#:#Greyscale
-pdfgen#:#greyscale_info#:#PDF will be generated in grayscale
-pdfgen#:#head_text#:#Text
-pdfgen#:#header_height#:#Header Height
-pdfgen#:#header_line#:#Header line
-pdfgen#:#header_show_pages#:#Show Pagenumbers
-pdfgen#:#header_text_center#:#Text center
-pdfgen#:#header_text_left#:#Text left
-pdfgen#:#header_text_right#:#Text right
-pdfgen#:#header_type#:#Header
-pdfgen#:#html#:#Html
-pdfgen#:#image_scale#:#Image scale
-pdfgen#:#javascript_delay#:#Javascript delay
-pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 200ms should suffice in most cases.
-pdfgen#:#low_quality#:#Low quality
-pdfgen#:#low_quality_info#:#Generates lower quality pdf/ps. Useful to shrink the result document space
-pdfgen#:#margin#:#Margin 345
-pdfgen#:#margin_bottom#:#Margin bottom
-pdfgen#:#margin_info#:#Margin in mm e.g. 10mm
-pdfgen#:#margin_left#:#Margin left
-pdfgen#:#margin_right#:#Margin right
-pdfgen#:#margin_top#:#Margin top
-pdfgen#:#none#:#Keine
-pdfgen#:#orientation#:#Orientation
-pdfgen#:#output_options#:#Output options
-pdfgen#:#overwrite_font#:#Overwrite default font
-pdfgen#:#overwrite_font_info#:#Enter somthing similar to: 'serif', 'sans-serif', 'monospace' usw.
-pdfgen#:#page_settings#:#Page Settings
-pdfgen#:#page_size#:#Pagesize
-pdfgen#:#path#:#Path to wkhtmltopdf
-pdfgen#:#preferred_renderer#:#Preferred Renderer
-pdfgen#:#print_media_info#:#Use print media-type instead of screen
-pdfgen#:#print_media_type#:#Use print media type instead of screen
-pdfgen#:#problem_with_purposes#:#A problem in the configuration was detected, please use the button "Cleanup" to resolve this issue.
-pdfgen#:#radio_button_checked_svg#:#Path to checked radiobutton svg
-pdfgen#:#radio_button_svg#:#Path to radiobutton svg
-pdfgen#:#reset_to_default#:#Reset settings to default
-pdfgen#:#selected_renderer#:#Selected Renderer
-pdfgen#:#spacing#:#Spacing
-pdfgen#:#text#:#Text
-pdfgen#:#user_stylesheet#:#User stylesheet
-pdfgen#:#viewport#:#Viewport
-pdfgen#:#viewport_info#:#Viewport in pixels e.g. "1920*1080"
-pdfgen#:#webkit#:#wkhtmltopdf
-pdfgen#:#wkhtml_config#:#Configuration for WKHTML
-pdfgen#:#zoom#:#Zoom
 poll#:#poll_absolute#:#Current Votes
 poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
 poll#:#poll_add#:#Add Poll
@@ -13038,6 +13168,7 @@ prtf#:#prtf_add_new_blog#:#Add New Blog
 prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal resources.
 prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_add_portfolio#:#Add Portfolio
+prtf#:#prtf_add_portfolio_from_template#:#Add Portfolio From Template
 prtf#:#prtf_all_pages#:#All Pages
 prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
@@ -13092,8 +13223,9 @@ prtf#:#prtf_page_type_prtf#:#Portfolio Page
 prtf#:#prtf_page_type_prtt#:#Portfolio Template Page
 prtf#:#prtf_pages_copied#:#The pages have been copied.
 prtf#:#prtf_pdf#:#Export as PDF
+prtf#:#prtf_permanent_link#:#Link to Portfolio:
 prtf#:#prtf_portfolio_created#:#Portfolio added
-prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new portfolio. To add pages and manage the content of the portfolio click on "Edit Portfolio" on top of this page.
+prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new portfolio. To add new pages, please click "Edit Portfolio". To edit this page, please click "Edit Page".
 prtf#:#prtf_portfolio_deleted#:#Portfolio deleted
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
 prtf#:#prtf_portfolios#:#Portfolios
@@ -13124,6 +13256,8 @@ prtf#:#prtf_signature_date#:#Date, Signature
 prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign the portfolio.
 prtf#:#prtf_style#:#Portfolio Style
 prtf#:#prtf_submission_on#:#Submitted on $1
+prtf#:#prtf_successfully_shared_prtf#:#Confirmation Shared Portfolio '%s'
+prtf#:#prtf_successfully_shared_prtf_body#:#You have shared your portfolio '%s' with:
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio page / blog page?
 prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolio?
 prtf#:#prtf_tab_other_users#:#Portfolios of Other Users
@@ -13137,6 +13271,7 @@ prtf#:#prtf_template_title#:#Portfolio Template
 prtf#:#prtf_unset_as_default#:#Unset As My Profile
 prtf#:#prtf_unset_default_share_info#:#Your changes have been saved. Please check the current ‘share’ settings for your portfolio.
 prtf#:#prtf_use_page_layout#:#Use Page Layout
+prtf#:#prtf_visible_for_tutor#:#Visible For Tutor
 prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.
 prtt#:#prtt_activation_limited_visibility_info#:#If chosen, the portfolio template is visible even outside of the given availability.
 prtt#:#prtt_activation_online_info#:#Activate this setting to make the portfolio template accessible to users.
@@ -13304,6 +13439,7 @@ rbac#:#activate_wiki_protection#:#Set Read-Only
 rbac#:#active_preconditions#:#Preconditions
 rbac#:#add_consultation_hours#:#Add Consultation Hours
 rbac#:#add_consume_provider#:#Add Own LTI Provider Settings
+rbac#:#add_pages#:#Add Pages
 rbac#:#add_reply#:#Add Reply
 rbac#:#add_thread#:#Add Thread
 rbac#:#adm_edit_permission#:#User can change permissions of General Settings in Administration.
@@ -13490,6 +13626,7 @@ rbac#:#ecss_read#:#User can read general ECS settings
 rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
 rbac#:#edit_event#:#Edit Calendar
+rbac#:#edit_file#:#Edit File
 rbac#:#edit_in_online_editor#:#Open in online editor
 rbac#:#edit_learning_progress#:#Edit Learning Progress Settings
 rbac#:#edit_members#:#Manage members
@@ -13528,6 +13665,7 @@ rbac#:#feed_read#:#User can read content of web feed
 rbac#:#feed_write#:#User can edit web feed settings
 rbac#:#file_copy#:#User can copy file
 rbac#:#file_delete#:#User can move or delete file
+rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#file_edit_permission#:#User can change permission settings
 rbac#:#file_read#:#User can download file
@@ -14164,10 +14302,11 @@ rbac#:#webr_read#:#User can read and use weblinks
 rbac#:#webr_visible#:#Weblink is visible
 rbac#:#webr_write#:#User can edit settings of weblinks
 rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
+rbac#:#wiki_add_pages#:#User can create wiki pages
 rbac#:#wiki_copy#:#User can copy wiki
 rbac#:#wiki_delete#:#User can move or delete wiki
 rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
-rbac#:#wiki_edit_content#:#User can create and edit wiki pages
+rbac#:#wiki_edit_content#:#User can edit wiki pages
 rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
 rbac#:#wiki_edit_permission#:#User can change permission settings
 rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
@@ -14985,6 +15124,7 @@ skmg#:#skmg_cont_profiles_info_empty#:#There are no competence profiles related 
 skmg#:#skmg_cont_records_info_empty#:#There are no competences related to the currently opened object.
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Local
+skmg#:#skmg_count_references#:#Number of referenced competences:
 skmg#:#skmg_create_sctp#:#Create Template Category
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_create_skill_template#:#Create Competence Template
@@ -14993,6 +15133,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skll#:#Create Competence
 skmg#:#skmg_custom_image_alt#:#Custom image for competence profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
+skmg#:#skmg_delete_warning#:#Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item.
 skmg#:#skmg_description_info#:#The description comes from the template.
 skmg#:#skmg_edit_level#:#Edit Level
 skmg#:#skmg_edit_profile#:#Edit Profile
@@ -15024,7 +15165,7 @@ skmg#:#skmg_items#:#Items
 skmg#:#skmg_level#:#Level
 skmg#:#skmg_list_skills#:#List Competences
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
-skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
+skmg#:#skmg_lp_triggers_level#:#Completion Triggers Competence Record
 skmg#:#skmg_materials#:#Personal Resources
 skmg#:#skmg_materials_resources#:#Learning Materials
 skmg#:#skmg_new_level#:#New Level
@@ -15037,6 +15178,7 @@ skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any com
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Number
+skmg#:#skmg_open#:#Open
 skmg#:#skmg_open_all_assigned_profiles#:#Open All Assigned Competence Profiles
 skmg#:#skmg_order#:#Order
 skmg#:#skmg_order_nr#:#Order Number
@@ -15052,6 +15194,7 @@ skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets
 skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group
 skmg#:#skmg_recommended_learning_material_info#:#Please work through the following learning materials to achieve the competence target. Select exactly one learning material per competence level.
 skmg#:#skmg_refresh_view#:#Refresh
+skmg#:#skmg_remove#:#Remove
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_remove_skill#:#Remove Competence
 skmg#:#skmg_remove_trigger#:#Remove Trigger
@@ -15060,6 +15203,7 @@ skmg#:#skmg_save_order#:#Save Order
 skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation
 skmg#:#skmg_save_settings#:#Save Settings
 skmg#:#skmg_sctp#:#Competence Template Category
+skmg#:#skmg_select_level#:#Select Competence Level
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 skmg#:#skmg_select_skill_level_assign#:#Please select a competence.
 skmg#:#skmg_select_trigger#:#Select Trigger
@@ -15071,6 +15215,10 @@ skmg#:#skmg_selected_skills#:#Selected Competences
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
+skmg#:#skmg_set_as_lp_trigger#:#Completion Should Trigger Competence Record
+skmg#:#skmg_set_as_no_lp_trigger#:#Completion Should Not Trigger Competence Record
+skmg#:#skmg_set_as_no_suggested#:#Do not Show as Learning Material
+skmg#:#skmg_set_as_suggested#:#Show as Learning Material
 skmg#:#skmg_settings#:#Competence Management Settings
 skmg#:#skmg_show_all#:#Show All
 skmg#:#skmg_show_latest_entries#:#Show Latest Entries
@@ -15339,6 +15487,8 @@ style#:#sty_lightness_header_text#:#Lightness Header Text
 style#:#sty_line_height#:#Line Height
 style#:#sty_link_char#:#Link
 style#:#sty_list_char#:#List
+style#:#sty_list_style_position#:#List Style Position
+style#:#sty_list_style_type#:#List Style Type
 style#:#sty_make_global_default#:#Set as default style
 style#:#sty_make_global_fixed#:#Force this style on all objects
 style#:#sty_margin#:#Margin
@@ -15357,6 +15507,7 @@ style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Number of Learning Modules
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
+style#:#sty_ol#:#Ordered List
 style#:#sty_opacity#:#Opacity
 style#:#sty_opt_saved#:#Options saved
 style#:#sty_order#:#Order
@@ -15520,6 +15671,7 @@ style#:#sty_type_va_icont#:#Vert. Accordion Item Content
 style#:#sty_type_va_ihcap#:#Vert. Accordion Caption
 style#:#sty_type_va_ihead#:#Vert. Accordion Item Header
 style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)
+style#:#sty_ul#:#Unordered List
 style#:#sty_va_cntr_class#:#Vert. Accordion Container
 style#:#sty_va_icntr_class#:#Vert. Accordion Item Container
 style#:#sty_va_icont_class#:#Vert. Accordion Item Content
@@ -16274,7 +16426,7 @@ svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
 svy#:#svy_print_selection#:#Print View Selection
-svy#:#svy_remove_all_participants#:#Remove all Participants
+svy#:#svy_remove_all_participants#:#Delete all Participant Data
 svy#:#svy_remove_participants#:#Remove Participants
 svy#:#svy_selected_participants#:#Selected Participants
 svy#:#svy_selected_questions#:#Selected Questions
@@ -16753,8 +16905,8 @@ ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_pagination_limit#:#Pagination Number of Rows
 ui#:#label_pagination_offset#:#Pagination Offset
 ui#:#label_sortation#:#Sortation
-ui#:#presentaion_table_collapse#:#collapse all
-ui#:#presentaion_table_expand#:#expand all
+ui#:#presentation_table_collapse#:#collapse all
+ui#:#presentation_table_expand#:#expand all
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:
@@ -17019,6 +17171,8 @@ wiki#:#wiki_link_md_values#:#Automatic Linking
 wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
 wiki#:#wiki_link_text#:#Link Text
 wiki#:#wiki_mark#:#Mark
+wiki#:#wiki_master_existing#:#Page Exists in Master Language
+wiki#:#wiki_master_title#:#Title of Page in Master Language
 wiki#:#wiki_navigation#:#Wiki Navigation
 wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.
 wiki#:#wiki_new_page#:#New Page
@@ -17026,9 +17180,11 @@ wiki#:#wiki_new_page_name#:#New Title
 wiki#:#wiki_new_pages#:#New Pages
 wiki#:#wiki_news_page_changed#:#Wiki page has been updated.
 wiki#:#wiki_news_page_created#:#New wiki page has been created.
+wiki#:#wiki_no_master#:#Page Does Not Exist in Master Language
 wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
 wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the wiki are listed below.
 wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.
+wiki#:#wiki_not_existing#:#not existing yet
 wiki#:#wiki_notgraded#:#Not Graded
 wiki#:#wiki_notification_activate_page#:#Activate Notification for Page
 wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki
@@ -17052,6 +17208,7 @@ wiki#:#wiki_page_deleted#:#Wiki page deleted.
 wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?
 wiki#:#wiki_page_exists#:#Existing Page
 wiki#:#wiki_page_hits#:#Page Hits
+wiki#:#wiki_page_in_master_language#:#Page in Master Language
 wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below. Only searchable metadata fields are listed.
 wiki#:#wiki_page_list_mode#:#Type of List
 wiki#:#wiki_page_list_mode_ordered#:#Numbered
@@ -17139,6 +17296,9 @@ wiki#:#wiki_templ_add_to_page#:#Available for Being Added to Existing Pages
 wiki#:#wiki_templ_new_pages#:#Available on Page Creation
 wiki#:#wiki_template_added#:#Template page added.
 wiki#:#wiki_template_status_removed#:#Template status removed.
+wiki#:#wiki_translate_page_master_info#:#You are creating a new wiki page translation. Please specify, if this translation belongs to an existing master version of the page, or if a completely new page is being created. In the second case you need to specify a page title for the master version.
+wiki#:#wiki_translation_page#:#Translation Page
+wiki#:#wiki_translations#:#Translations
 wiki#:#wiki_type_wiki_team#:#Team Wiki
 wiki#:#wiki_unblock_page#:#Grant Write Access
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
@@ -17148,6 +17308,18 @@ wiki#:#wiki_whole_wiki#:#Whole Wiki
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
+wopi#:#activate_wopi#:#Activate WOPI
+wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.
+wopi#:#msg_wopi_settings_modified#:#Settings stored
+wopi#:#open_external_editor#:#Open in external Editor
+wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.
+wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.
+wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.
+wopi#:#wopi_crawler_cronjob_success#:#WOPI information updated successfully.
+wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery
+wopi#:#wopi_settings#:#WOPI
+wopi#:#wopi_url#:#WOPI Discovery URL
+wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be accessible through the ILIAS server. The XML data of the Discover is read in and stored by ILIAS, the information is regularly updated by the cronjob "Update WOPI Discovery".
 wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#element_shared#:#Object shared.
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
@@ -17173,6 +17345,7 @@ wsp#:#wsp_permission_registered_info#:#This object is shared with all registered
 wsp#:#wsp_permission_removed#:#Entry has been removed.
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+wsp#:#wsp_send_mail#:#Send Mail
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password
 wsp#:#wsp_set_permission_course#:#Members of Course
@@ -17211,3 +17384,4 @@ wsp#:#wsp_type_ltiv#:#Certificate: LTI Consumer
 wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
+wsp#:#wsp_type_wfld#:#Folder

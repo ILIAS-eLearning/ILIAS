@@ -26,7 +26,7 @@ class ilStudyProgrammeUserTableRow
     protected PRGProgressId $id;
     protected int $ass_id;
     protected int $usr_id;
-    protected int $pgs_id;
+    protected int $node_id;
     protected bool $is_root_progress;
     protected int $status_raw;
     protected bool $active_raw;

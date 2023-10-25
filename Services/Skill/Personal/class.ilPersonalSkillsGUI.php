@@ -30,6 +30,7 @@ use ILIAS\UI\Component\Chart\Bar\XAxis;
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Personal;
 use ILIAS\Skill\Resource;
+use ILIAS\Skill\Table;
 use ILIAS\Container\Skills as ContainerSkills;
 
 /**
@@ -129,7 +130,8 @@ class ilPersonalSkillsGUI
     protected Personal\AssignedMaterialManager $assigned_material_manager;
     protected Personal\SelfEvaluationManager $self_evaluation_manager;
     protected Resource\SkillResourcesManager $resource_manager;
-    protected ContainerSkills\ContainerSkillInternalFactoryService $cont_factory_service;
+    protected Table\SkillTableManager $table_manager;
+    protected ContainerSkills\SkillInternalFactoryService $cont_factory_service;
     protected string $requested_list_mode = self::LIST_PROFILES;
     protected int $requested_node_id = 0;
     protected int $requested_profile_id = 0;
@@ -142,8 +144,20 @@ class ilPersonalSkillsGUI
     protected int $requested_basic_skill_id = 0;
     protected int $requested_tref_id = 0;
     protected int $requested_level_id = 0;
-    protected int $requested_self_eval_level_id = 0;
-    protected int $requested_wsp_id = 0;
+    protected string $requested_table_self_eval_action = "";
+
+    /**
+     * @var string[]
+     */
+    protected array $requested_table_self_eval_level_ids = [];
+
+    protected string $requested_table_assign_materials_action = "";
+
+    /**
+     * @var string[]
+     */
+    protected array $requested_table_assign_materials_level_ids = [];
+    protected int $requested_table_assign_materials_wsp_id = 0;
 
     /**
      * @var int[]
@@ -185,6 +199,7 @@ class ilPersonalSkillsGUI
         $this->assigned_material_manager = $DIC->skills()->internal()->manager()->getAssignedMaterialManager();
         $this->self_evaluation_manager = $DIC->skills()->internal()->manager()->getSelfEvaluationManager();
         $this->resource_manager = $DIC->skills()->internal()->manager()->getResourceManager();
+        $this->table_manager = $DIC->skills()->internal()->manager()->getTableManager();
         $this->cont_factory_service = $DIC->skills()->internalContainer()->factory();
 
         $ilCtrl = $this->ctrl;
@@ -209,9 +224,12 @@ class ilPersonalSkillsGUI
         $this->requested_basic_skill_id = $this->personal_gui_request->getBasicSkillId();
         $this->requested_tref_id = $this->personal_gui_request->getTrefId();
         $this->requested_level_id = $this->personal_gui_request->getLevelId();
-        $this->requested_self_eval_level_id = $this->personal_gui_request->getSelfEvaluationLevelId();
-        $this->requested_wsp_id = $this->personal_gui_request->getWorkspaceId();
         $this->requested_wsp_ids = $this->personal_gui_request->getWorkspaceIds();
+        $this->requested_table_self_eval_action = $this->personal_gui_request->getTableSelfEvaluationAction();
+        $this->requested_table_self_eval_level_ids = $this->personal_gui_request->getTableSelfEvaluationLevelIds();
+        $this->requested_table_assign_materials_action = $this->personal_gui_request->getTableAssignMaterialsAction();
+        $this->requested_table_assign_materials_level_ids = $this->personal_gui_request->getTableAssignMaterialsLevelIds();
+        $this->requested_table_assign_materials_wsp_id = $this->personal_gui_request->getTableAssignMaterialsWorkspaceId();
 
         $this->user_profiles = $this->profile_manager->getProfilesOfUser($this->user->getId());
         $this->cont_profiles = [];
@@ -351,7 +369,7 @@ class ilPersonalSkillsGUI
         $cmd = $ilCtrl->getCmd("render");
 
         //$tpl->setTitle($lng->txt("skills"));
-        //$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
+        //$tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_skmg.svg"));
 
         switch ($next_class) {
             default:
@@ -925,7 +943,7 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "tref_id");
 
         $tpl->setTitle(ilSkillTreeNode::_lookupTitle($this->requested_skill_id));
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_" .
             ilSkillTreeNode::_lookupType($this->requested_skill_id) .
             ".svg"));
 
@@ -963,16 +981,13 @@ class ilPersonalSkillsGUI
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         }
 
-        // table
-        $tab = new ilSkillAssignMaterialsTableGUI(
-            $this,
-            "assignMaterials",
+        $table = $this->table_manager->getAssignMaterialsTable(
             $this->requested_skill_id,
             $this->requested_tref_id,
             $cur_basic_skill_id
-        );
+        )->getComponent();
 
-        $tpl->setContent($tab->getHTML());
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
 
@@ -1000,6 +1015,10 @@ class ilPersonalSkillsGUI
             $message = $ui->renderer()->render($mbox);
         }
 
+        if ($this->requested_table_assign_materials_action === "assignMaterials"
+            && !empty($this->requested_table_assign_materials_level_ids)) {
+            $ilCtrl->setParameter($this, "level_id", $this->requested_table_assign_materials_level_ids[0]);
+        }
         $ilCtrl->saveParameter($this, "skill_id");
         $ilCtrl->saveParameter($this, "level_id");
         $ilCtrl->saveParameter($this, "tref_id");
@@ -1075,14 +1094,17 @@ class ilPersonalSkillsGUI
         $ilUser = $this->user;
         $lng = $this->lng;
 
-
-        $this->assigned_material_manager->removeAssignedMaterial(
-            $ilUser->getId(),
-            $this->requested_tref_id,
-            $this->requested_level_id,
-            $this->requested_wsp_id
-        );
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        if ($this->requested_table_assign_materials_action === "removeMaterial"
+            && !empty($this->requested_table_assign_materials_level_ids)
+            && $this->requested_table_assign_materials_wsp_id !== 0) {
+            $this->assigned_material_manager->removeAssignedMaterial(
+                $ilUser->getId(),
+                $this->requested_tref_id,
+                (int) $this->requested_table_assign_materials_level_ids[0],
+                $this->requested_table_assign_materials_wsp_id
+            );
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        }
         $ilCtrl->redirect($this, "assignMaterials");
     }
 
@@ -1112,7 +1134,7 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "tref_id");
 
         $tpl->setTitle(ilSkillTreeNode::_lookupTitle($this->requested_skill_id));
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_" .
             ilSkillTreeNode::_lookupType($this->requested_skill_id) .
             ".svg"));
 
@@ -1151,16 +1173,13 @@ class ilPersonalSkillsGUI
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         }
 
-        // table
-        $tab = new ilSelfEvaluationSimpleTableGUI(
-            $this,
-            "selfEvaluation",
+        $table = $this->table_manager->getSelfEvaluationTable(
             $this->requested_skill_id,
             $this->requested_tref_id,
             $cur_basic_skill_id
-        );
+        )->getComponent();
 
-        $tpl->setContent($tab->getHTML());
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
     public function saveSelfEvaluation(): void
@@ -1169,19 +1188,18 @@ class ilPersonalSkillsGUI
         $ilUser = $this->user;
         $lng = $this->lng;
 
-        $this->self_evaluation_manager->saveSelfEvaluation(
-            $ilUser->getId(),
-            $this->requested_skill_id,
-            $this->requested_tref_id,
-            $this->requested_basic_skill_id,
-            $this->requested_self_eval_level_id
-        );
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-
-        /*		$ilCtrl->saveParameter($this, "skill_id");
-                $ilCtrl->saveParameter($this, "level_id");
-                $ilCtrl->saveParameter($this, "tref_id");
-                $ilCtrl->saveParameter($this, "basic_skill_id");*/
+        if ($this->requested_table_self_eval_action === "selectLevel"
+            && !empty($this->requested_table_self_eval_level_ids)
+        ) {
+            $this->self_evaluation_manager->saveSelfEvaluation(
+                $ilUser->getId(),
+                $this->requested_skill_id,
+                $this->requested_tref_id,
+                $this->requested_basic_skill_id,
+                (int) $this->requested_table_self_eval_level_ids[0]
+            );
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        }
 
         $cmd = ($this->requested_list_mode == self::LIST_SELECTED || empty($this->user_profiles))
             ? "render" : "listAssignedProfile";
@@ -1242,7 +1260,7 @@ class ilPersonalSkillsGUI
             $this->ctrl->getLinkTarget($this, "showProfiles")
         );
         $this->setProfileId($this->requested_profile_id);
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_skmg.svg"));
         $this->tpl->setTitle($this->profile_manager->lookupTitle($this->getProfileId()));
 
         $this->tpl->setContent($this->getGapAnalysisHTML());
@@ -1350,10 +1368,8 @@ class ilPersonalSkillsGUI
         if ($a_skills == null) {
             foreach ($this->getObjectSkills() as $s) {
                 $a_skills[] = array(
-                    "cont_obj_id" => $s->getContainerObjectId(),
                     "base_skill_id" => $s->getBaseSkillId(),
-                    "tref_id" => $s->getTrefId(),
-                    "title" => $s->getTitle()
+                    "tref_id" => $s->getTrefId()
                 );
             }
         }
@@ -1386,10 +1402,8 @@ class ilPersonalSkillsGUI
             foreach ($a_skills as $s) {
                 /** @var XAxis $x_axis */
                 $skills[] = $this->cont_factory_service->containerSkill()->skill(
-                    (int) $s["cont_obj_id"],
                     (int) $s["base_skill_id"],
-                    (int) $s["tref_id"],
-                    $s["title"]
+                    (int) $s["tref_id"]
                 );
             }
         }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once('tests/UI/Base.php');
 
 use ILIAS\UI\Implementation\Component\Listing\CharacteristicValue\Factory as CharacteristicValueFactory;
 
 class CharacteristicValueTest extends ILIAS_UI_TestBase
 {
-    public function test_interfaces(): void
+    public function testInterfaces(): void
     {
         $f = $this->getCharacteristicValueFactory();
 

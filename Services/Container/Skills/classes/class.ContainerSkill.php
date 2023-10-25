@@ -29,29 +29,24 @@ use ILIAS\Skill\GapAnalysisSkill;
  */
 class ContainerSkill implements GapAnalysisSkill
 {
-    protected int $cont_obj_id = 0;
     protected int $skill_id = 0;
     protected int $tref_id = 0;
+    protected int $cont_obj_id = 0;
     protected string $title = "";
     protected ?SkillProfile $profile = null;
 
     public function __construct(
-        int $cont_obj_id,
         int $skill_id,
         int $tref_id,
+        int $cont_obj_id,
         string $title = "",
         SkillProfile $profile = null
     ) {
-        $this->cont_obj_id = $cont_obj_id;
         $this->skill_id = $skill_id;
         $this->tref_id = $tref_id;
+        $this->cont_obj_id = $cont_obj_id;
         $this->title = $title;
         $this->profile = $profile;
-    }
-
-    public function getContainerObjectId(): int
-    {
-        return $this->cont_obj_id;
     }
 
     public function getBaseSkillId(): int
@@ -62,6 +57,11 @@ class ContainerSkill implements GapAnalysisSkill
     public function getTrefId(): int
     {
         return $this->tref_id;
+    }
+
+    public function getContainerObjectId(): int
+    {
+        return $this->cont_obj_id;
     }
 
     public function getTitle(): string

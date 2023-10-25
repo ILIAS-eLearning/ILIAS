@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Stream\Streams;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -26,16 +28,10 @@ class ilAssFileUploadUploadsExporter
 {
     public const ZIP_FILE_MIME_TYPE = 'application/zip';
     public const ZIP_FILE_EXTENSION = '.zip';
-
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    private Closure $acces_filter;
+    private \ILIAS\ResourceStorage\Services $irss;
+    private \ILIAS\Filesystem\Util\Archive\Archives $archive;
+    private \ILIAS\FileDelivery\Services $file_delivery;
 
     /**
      * @var integer
@@ -50,7 +46,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @var string
      */
-    private $testTitle;
+    private $test_title;
 
     /**
      * @var ilObjFileHandlingQuestionType
@@ -80,58 +76,45 @@ class ilAssFileUploadUploadsExporter
     /**
      * @param ilDBInterface $db
      */
-    public function __construct(ilDBInterface $db, ilLanguage $lng)
-    {
-        $this->db = $db;
-        $this->lng = $lng;
+    public function __construct(
+        private ilDBInterface $db,
+        private ilLanguage $lng,
+        private int $ref_id,
+        private int $test_id,
+    ) {
+        global $DIC;
+        $f = new ilTestParticipantAccessFilterFactory($DIC->access());
+        $this->acces_filter = $f->getAccessStatisticsUserFilter($this->ref_id);
+
+        $this->irss = $DIC->resourceStorage();
+        $this->archive = $DIC->archives();
+        $this->file_delivery = $DIC->fileDelivery();
     }
 
-    /**
-     * @return int
-     */
     public function getRefId(): int
     {
-        return $this->refId;
+        return $this->ref_id;
     }
 
-    /**
-     * @param int $refId
-     */
-    public function setRefId($refId): void
-    {
-        $this->refId = $refId;
-    }
 
-    /**
-     * @return int
-     */
     public function getTestId(): int
     {
-        return $this->testId;
+        return $this->test_id;
     }
 
-    /**
-     * @param int $testId
-     */
-    public function setTestId($testId): void
-    {
-        $this->testId = $testId;
-    }
 
     /**
      * @return string
      */
     public function getTestTitle(): string
     {
-        return $this->testTitle;
+        return $this->test_title;
     }
 
-    /**
-     * @param string $testTitle
-     */
-    public function setTestTitle($testTitle): void
+
+    public function setTestTitle(string $test_title): void
     {
-        $this->testTitle = $testTitle;
+        $this->test_title = $test_title;
     }
 
     /**
@@ -150,19 +133,13 @@ class ilAssFileUploadUploadsExporter
         $this->question = $question;
     }
 
-    public function build(): void
+    public function buildAndDownload(): void
     {
-        $this->initFilenames();
-
         $solutionData = $this->getFileUploadSolutionData();
 
         $participantData = $this->getParticipantData($solutionData);
 
         $this->collectUploadedFiles($solutionData, $participantData);
-
-        $this->createFileUploadCollectionZipFile();
-
-        $this->removeFileUploadCollection();
     }
 
     private function initFilenames(): void
@@ -222,44 +199,66 @@ class ilAssFileUploadUploadsExporter
 
         $participantData = new ilTestParticipantData($this->db, $this->lng);
         $participantData->setActiveIdsFilter($activeIds);
-        $participantData->setParticipantAccessFilter(
-            ilTestParticipantAccessFilter::getAccessStatisticsUserFilter($this->getRefId())
-        );
+        $participantData->setParticipantAccessFilter($this->acces_filter);
         $participantData->load($this->getTestId());
 
         return $participantData;
     }
 
-    private function collectUploadedFiles($solutionData, ilTestParticipantData $participantData): void
+    private function collectUploadedFiles(array $solution_data, ilTestParticipantData $participant_data): void
     {
-        foreach ($solutionData as $activeId => $passes) {
-            if (!in_array($activeId, $participantData->getActiveIds())) {
+        $streams = [];
+        $zip = $this->archive->zip([]);
+
+        foreach ($solution_data as $activeId => $passes) {
+            if (!in_array($activeId, $participant_data->getActiveIds(), true)) {
                 continue;
             }
 
             foreach ($passes as $pass => $files) {
                 foreach ($files as $file) {
-                    $uploadedFileDir = $this->question->getFileUploadPath(
+                    // path inside zip
+                    $dir = $this->mainFolderName . '/';
+                    $dir .= $participant_data->getFileSystemCompliantFullnameByActiveId($activeId) . '/';
+                    $dir .= $this->getPassSubDirName($file['pass']) . '/';
+
+                    // IRSS Version
+                    if ($file['value2'] === 'rid') {
+                        $revision = $this->irss->manage()->getCurrentRevision(
+                            $rid = $this->irss->manage()->find($file['value1'])
+                        );
+                        $zip->addStream(
+                            $this->irss->consume()->stream($rid)->getStream(),
+                            $dir . '/' . $revision->getTitle()
+                        );
+                        continue;
+                    }
+
+                    // Legacy Version
+                    $file_dir = $this->question->getFileUploadPath(
                         $this->getTestId(),
                         $activeId,
                         $this->question->getId()
                     );
 
-                    // #20317
-                    if (!is_file($uploadedFileDir . $file['value1'])) {
+                    $legacy_file_path = $file_dir . $file['value1'];
+                    if (!is_file($legacy_file_path)) {
                         continue;
                     }
 
-                    $destinationDir = $this->tempDirPath . '/' . $this->mainFolderName . '/';
-                    $destinationDir .= $participantData->getFileSystemCompliantFullnameByActiveId($activeId) . '/';
-                    $destinationDir .= $this->getPassSubDirName($file['pass']) . '/';
-
-                    ilFileUtils::makeDirParents($destinationDir);
-
-                    copy($uploadedFileDir . $file['value1'], $destinationDir . $file['value2']);
+                    $zip->addStream(
+                        Streams::ofResource(fopen($legacy_file_path, 'rb')),
+                        $dir . $file['value2']
+                    );
                 }
             }
         }
+
+        $this->file_delivery->delivery()->attached(
+            $zip->get(),
+            $this->getDispoZipFileName(),
+            'application/zip'
+        );
     }
 
     private function getPassSubDirName($pass): string

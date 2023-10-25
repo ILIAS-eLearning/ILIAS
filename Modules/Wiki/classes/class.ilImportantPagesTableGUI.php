@@ -23,6 +23,9 @@
  */
 class ilImportantPagesTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_page_manager;
+    protected \ILIAS\Wiki\InternalGUIService $gui;
+    protected \ILIAS\Wiki\InternalDomainService $domain;
     protected ilAccessHandler $access;
     protected ilWikiPageTemplate $templates;
 
@@ -32,19 +35,23 @@ class ilImportantPagesTableGUI extends ilTable2GUI
     ) {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
+        $service = $DIC->wiki()->internal();
+        $this->domain = $service->domain();
+        $this->gui = $service->gui();
+
+        $this->ctrl = $this->gui->ctrl();
+        $this->lng = $this->domain->lng();
+        $this->access = $this->domain->access();
+        $this->imp_page_manager = $this->domain->importantPage($a_parent_obj->getRefId());
+
         $this->templates = new ilWikiPageTemplate($a_parent_obj->getObject()->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $data = array_merge(
             [array("page_id" => 0)],
-            ilObjWiki::_lookupImportantPagesList($a_parent_obj->getObject()->getId())
+            $this->imp_page_manager->getListAsArray()
         );
         $this->setData($data);
-        $this->setTitle($lng->txt(""));
+        $this->setTitle($this->lng->txt(""));
         $this->setLimit(9999);
 
         $this->addColumn("", "", "1", true);
@@ -54,14 +61,14 @@ class ilImportantPagesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("wiki_purpose"));
 
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.imp_pages_row.html", "Modules/Wiki");
         //$this->disable("footer");
         $this->setEnableTitle(true);
 
-        $this->addMultiCommand("confirmRemoveImportantPages", $lng->txt("remove"));
-        $this->addMultiCommand("setAsStartPage", $lng->txt("wiki_set_as_start_page"));
-        $this->addCommandButton("saveOrderingAndIndent", $lng->txt("wiki_save_ordering_and_indent"));
+        $this->addMultiCommand("confirmRemoveImportantPages", $this->lng->txt("remove"));
+        $this->addMultiCommand("setAsStartPage", $this->lng->txt("wiki_set_as_start_page"));
+        $this->addCommandButton("saveOrderingAndIndent", $this->lng->txt("wiki_save_ordering_and_indent"));
     }
 
     protected function fillRow(array $a_set): void

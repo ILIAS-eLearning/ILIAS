@@ -42,7 +42,7 @@ class ilFirstLoginLearningHistoryProvider extends ilAbstractLearningHistoryProvi
             $entries[] = $this->getFactory()->entry(
                 $text1,
                 $text1,
-                ilUtil::getImagePath("icon_rate_on_user.svg"),
+                ilUtil::getImagePath("standard/icon_rate_on_user.svg"),
                 $ts,
                 0
             );

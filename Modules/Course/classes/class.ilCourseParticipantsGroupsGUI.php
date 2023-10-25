@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -116,7 +116,7 @@ class ilCourseParticipantsGroupsGUI
             'usr_id',
             $usr_id,
             ilUserUtil::getNamePresentation($usr_id, false, false, "", true),
-            ilUtil::getImagePath('icon_usr.svg')
+            ilUtil::getImagePath('standard/icon_usr.svg')
         );
 
         $this->tpl->setContent($confirm->getHTML());

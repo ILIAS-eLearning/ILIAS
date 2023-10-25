@@ -1585,14 +1585,22 @@
 		<!-- odd col -->
 		<xsl:when test="../../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='odd_col']/@Value and position() mod 2 = 1">
 			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='odd_col']/@Value"/></xsl:attribute>
-		</xsl:when>						
+		</xsl:when>
+		<xsl:when test="number($headerrows) >= number($rowpos)">
+			<xsl:attribute name = "class">ilc_table_cell_StandardHeader</xsl:attribute>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:attribute name = "class">ilc_table_cell_StandardCell1</xsl:attribute>
+		</xsl:otherwise>
 	</xsl:choose>
 	<xsl:attribute name = "width"><xsl:value-of select = "@Width"/></xsl:attribute>
-	
+
+	<!--
 	<xsl:attribute name = "style">
 		<xsl:if test="../../@CellPadding">padding: <xsl:value-of select="../../@CellPadding"/>;</xsl:if>
 		<xsl:if test="../../@Border">border: solid <xsl:value-of select="../../@Border"/>;</xsl:if>
 	</xsl:attribute>
+	-->
 	
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -1698,6 +1706,9 @@
 <!-- List Item -->
 <xsl:template match="ListItem">
 	<li class="ilc_list_item_StandardListItem">
+	<xsl:if test="../@ItemClass">
+		<xsl:attribute name="class">ilc_list_item_<xsl:value-of select="../@ItemClass"/></xsl:attribute>
+	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -1767,13 +1778,28 @@
 
 <!-- SimpleBulletList -->
 <xsl:template match="SimpleBulletList">
-	<ul class="ilc_list_u_BulletedList"><xsl:apply-templates/></ul>
+	<ul class="ilc_list_u_BulletedList">
+		<xsl:if test="@Class">
+			<xsl:attribute name="class">ilc_list_u_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:if>
+		<xsl:apply-templates/>
+	</ul>
 </xsl:template>
 <xsl:template match="SimpleNumberedList">
-	<ol class="ilc_list_o_NumberedList"><xsl:apply-templates/></ol>
+	<ol class="ilc_list_o_NumberedList">
+		<xsl:if test="@Class">
+			<xsl:attribute name="class">ilc_list_o_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:if>
+		<xsl:apply-templates/>
+	</ol>
 </xsl:template>
 <xsl:template match="SimpleListItem">
-	<li class="ilc_list_item_StandardListItem"><xsl:apply-templates/></li>
+	<li class="ilc_list_item_StandardListItem">
+		<xsl:if test="@Class">
+			<xsl:attribute name="class">ilc_list_item_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:if>
+		<xsl:apply-templates/>
+	</li>
 </xsl:template>
 
 <!-- FileList -->
@@ -2367,7 +2393,6 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</img>
-
 </xsl:template>
 
 <!-- MOBTag: display media object tag -->
@@ -2843,6 +2868,9 @@
 				<xsl:if test="$width = '' and $height = ''">
 					<xsl:attribute name="style">max-width: 100%; width: 100%; max-height: 100%;</xsl:attribute>
 				</xsl:if>
+				<xsl:if test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File != ''">
+					<xsl:attribute name="poster"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File"/></xsl:attribute>
+				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
@@ -3099,10 +3127,10 @@
 <!-- ContentPopup -->
 <xsl:template match="ContentPopup">
 	<!-- TabContainer -->
+	{{{{{InteractiveImage;PopupStart;<xsl:value-of select = "$pg_id"/>;<xsl:number count="InteractiveImage" level="any" />;<xsl:value-of select = "@Nr"/>}}}}}
 	<div class="ilc_iim_ContentPopup">
 	<xsl:attribute name="id">iim_popup_<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />_<xsl:value-of select = "@Nr"/></xsl:attribute>
 	<xsl:if test="$mode != 'edit'">
-		<xsl:attribute name="style">display: none;</xsl:attribute>
 		<xsl:attribute name="data-copg-iim-data-type">popup</xsl:attribute>
 		<xsl:attribute name="data-copg-iim-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" /></xsl:attribute>
 		<xsl:attribute name="data-copg-iim-pop-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" /></xsl:attribute>
@@ -3138,6 +3166,7 @@
 	</div>
 	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
 	</div>
+	{{{{{InteractiveImage;PopupEnd;<xsl:value-of select = "$pg_id"/>;<xsl:number count="InteractiveImage" level="any" />;<xsl:value-of select = "@Nr"/>}}}}}
 </xsl:template>
 
 <!-- Trigger -->
@@ -3173,6 +3202,7 @@
 			<xsl:attribute name="data-copg-iim-markx"><xsl:value-of select="@MarkerX"/></xsl:attribute>
 			<xsl:attribute name="data-copg-iim-marky"><xsl:value-of select="@MarkerY"/></xsl:attribute>
 			<xsl:attribute name="data-copg-iim-popup-nr"><xsl:value-of select="@PopupNr"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-popup-size"><xsl:value-of select="@PopupSize"/></xsl:attribute>
 			<xsl:attribute name="data-copg-iim-nr"><xsl:value-of select="@Nr"/></xsl:attribute>
 			<xsl:attribute name="data-copg-iim-popx"><xsl:value-of select="@PopupX"/></xsl:attribute>
 			<xsl:attribute name="data-copg-iim-popy"><xsl:value-of select="@PopupY"/></xsl:attribute>
@@ -3536,7 +3566,7 @@
 		<div>
 		<xsl:choose>
 		<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
-			<xsl:attribute name="class">ilEditVAccordCntr</xsl:attribute>
+			<xsl:attribute name="class">ilc_va_cntr_VAccordCntr</xsl:attribute>
 		</xsl:when>
 		<xsl:when test="@Type = 'VerticalAccordion'">
 			<xsl:attribute name="class">ilc_va_cntr_VAccordCntr</xsl:attribute>
@@ -3689,7 +3719,7 @@
 	<div>
 	<xsl:choose>
 	<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
-		<xsl:attribute name="class">ilEditVAccordICntr</xsl:attribute>
+		<xsl:attribute name="class">ilc_va_icntr_VAccordICntr</xsl:attribute>
 	</xsl:when>
 	<xsl:when test="../@Type = 'VerticalAccordion'">
 		<xsl:attribute name="class">ilc_va_icntr_VAccordICntr</xsl:attribute>
@@ -3726,7 +3756,7 @@
 		<div tabindex="0" role="button" aria-expanded="false">
 		<xsl:choose>
 		<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
-			<xsl:attribute name="class">ilEditVAccordIHead</xsl:attribute>
+			<xsl:attribute name="class">ilc_va_ihead_VAccordIHead ilc_va_iheada_VAccordIHeadActive</xsl:attribute>
 		</xsl:when>
 		<xsl:when test="../@Type = 'VerticalAccordion'">
 			<xsl:attribute name="class">ilc_va_ihead_VAccordIHead</xsl:attribute>
@@ -3751,7 +3781,7 @@
 		<div>
 			<xsl:choose>
 			<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
-				<xsl:attribute name="class">ilEditVAccordIHeadCap</xsl:attribute>
+				<xsl:attribute name="class">ilc_va_ihcap_VAccordIHeadCap</xsl:attribute>
 			</xsl:when>
 			<xsl:when test="../@Type = 'VerticalAccordion'">
 				<xsl:attribute name="class">ilc_va_ihcap_VAccordIHeadCap</xsl:attribute>
@@ -4318,7 +4348,7 @@
 <xsl:template match="Curriculum">
 	<xsl:if test="$mode = 'edit'">
 		<div class="copg-content-placeholder-lso-curriculum">
-			<img class="icon pewl medium" src="./templates/default/images/icon_pewl.svg" alt="curriculum" />
+			<img class="icon pewl medium" src="./templates/default/images/page_editor/icon_pewl.svg" alt="curriculum" />
 			<div>Curriculum</div>
 		</div>
 	</xsl:if>
@@ -4350,7 +4380,7 @@
 	<xsl:if test="$mode = 'edit'">
 		<div class="copg-content-placeholder-prg-statusinfo il-prg-statusinfo-container">
 			<div>
-				<img class="icon prg large" src="./templates/default/images/icon_prg.svg" alt="StatusInfo StudyProgramme" />
+				<img class="icon prg large" src="./templates/default/images/standard/icon_prg.svg" alt="StatusInfo StudyProgramme" />
 				StatusInfo StudyProgramme
 			</div>
 		</div>

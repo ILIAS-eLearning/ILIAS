@@ -44,7 +44,14 @@ class Renderer extends AbstractComponentRenderer
 {
     public const DYNAMIC_INPUT_ID_PLACEHOLDER = 'DYNAMIC_INPUT_ID';
 
-    public const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
+    public const DATETIME_DATEPICKER_MINMAX_FORMAT = 'Y-m-d\Th:m';
+    public const DATE_DATEPICKER_MINMAX_FORMAT = 'Y-m-d';
+    public const TYPE_DATE = 'date';
+    public const TYPE_DATETIME = 'datetime-local';
+    public const TYPE_TIME = 'time';
+    public const HTML5_NATIVE_DATETIME_FORMAT = 'Y-m-d H:i';
+    public const HTML5_NATIVE_DATE_FORMAT = 'Y-m-d';
+    public const HTML5_NATIVE_TIME_FORMAT = 'H:i';
 
     public const DATEPICKER_FORMAT_MAPPING = [
         'd' => 'DD',
@@ -60,6 +67,14 @@ class Renderer extends AbstractComponentRenderer
         'Y' => 'YYYY',
         'y' => 'YY'
     ];
+
+    /**
+     * @var float This factor will be used to calculate a percentage of the PHP upload-size limit which
+     *            will be used as chunk-size for chunked uploads. This needs to be done because file uploads
+     *            fail if the file is exactly as big as this limit or slightly less. 90% turned out to be a
+     *            functional fraction for now.
+     */
+    protected const FILE_UPLOAD_CHUNK_SIZE_FACTOR = 0.9;
 
     /**
      * @inheritdoc
@@ -428,13 +443,16 @@ class Renderer extends AbstractComponentRenderer
         if (!$value) {
             $tpl->setVariable("SELECTED", 'selected="selected"');
         }
-        if ($component->isRequired()) {
+        if ($component->isRequired() && !$value) {
             $tpl->setVariable("DISABLED_OPTION", "disabled");
             $tpl->setVariable("HIDDEN", "hidden");
         }
-        $tpl->setVariable("VALUE", null);
-        $tpl->setVariable("VALUE_STR", "-");
-        $tpl->parseCurrentBlock();
+
+        if(!($value && $component->isRequired())) {
+            $tpl->setVariable("VALUE", null);
+            $tpl->setVariable("VALUE_STR", "-");
+            $tpl->parseCurrentBlock();
+        }
 
         foreach ($component->getOptions() as $option_key => $option_value) {
             $tpl->setCurrentBlock("options");
@@ -625,14 +643,11 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.datetime.html", true, true);
         $this->applyName($component, $tpl);
 
-        $f = $this->getUIFactory();
-
         if ($component->getTimeOnly() === true) {
-            $cal_glyph = $f->symbol()->glyph()->time("#");
             $format = $component::TIME_FORMAT;
+            $dt_type = self::TYPE_TIME;
         } else {
-            $cal_glyph = $f->symbol()->glyph()->calendar("#");
-
+            $dt_type = self::TYPE_DATE;
             $format = $this->getTransformedDateFormat(
                 $component->getFormat(),
                 self::DATEPICKER_FORMAT_MAPPING
@@ -640,46 +655,40 @@ class Renderer extends AbstractComponentRenderer
 
             if ($component->getUseTime() === true) {
                 $format .= ' ' . $component::TIME_FORMAT;
+                $dt_type = self::TYPE_DATETIME;
             }
         }
-        $tpl->setVariable("CALENDAR_GLYPH", $default_renderer->render($cal_glyph));
 
-        $config = [
-            'showClear' => true,
-            'sideBySide' => true,
-            'format' => $format,
-            'locale' => $this->getLangKey()
-        ];
-        $config = array_merge($config, $component->getAdditionalPickerconfig());
+        $tpl->setVariable("DTTYPE", $dt_type);
+
+        $min_max_format = self::DATE_DATEPICKER_MINMAX_FORMAT;
+        if ($dt_type === self::TYPE_DATETIME) {
+            $min_max_format = self::DATETIME_DATEPICKER_MINMAX_FORMAT;
+        }
 
         $min_date = $component->getMinValue();
         if (!is_null($min_date)) {
-            $config['minDate'] = date_format($min_date, self::DATEPICKER_MINMAX_FORMAT);
+            $tpl->setVariable("MIN_DATE", date_format($min_date, $min_max_format));
         }
         $max_date = $component->getMaxValue();
         if (!is_null($max_date)) {
-            $config['maxDate'] = date_format($max_date, self::DATEPICKER_MINMAX_FORMAT);
+            $tpl->setVariable("MAX_DATE", date_format($max_date, $min_max_format));
         }
 
         $tpl->setVariable("PLACEHOLDER", $format);
 
-        if ($component->getValue() !== null) {
-            $tpl->setVariable("VALUE", $component->getValue());
-        }
-
-        $disabled = $component->isDisabled();
-
-        /**
-         * @var $component F\DateTime
-         */
-        $component = $component->withAdditionalOnLoadCode(function ($id) use ($config, $disabled) {
-            $js = '$("#' . $id . '").datetimepicker(' . json_encode($config) . ');';
-            if ($disabled) {
-                $js .= '$("#' . $id . ' input").prop(\'disabled\', true);';
+        $this->applyValue($component, $tpl, function (?string $value) use ($dt_type) {
+            if ($value !== null) {
+                $value = new \DateTimeImmutable($value);
+                return $value->format(match ($dt_type) {
+                    self::TYPE_DATETIME => self::HTML5_NATIVE_DATETIME_FORMAT,
+                    self::TYPE_DATE => self::HTML5_NATIVE_DATE_FORMAT,
+                    self::TYPE_TIME => self::HTML5_NATIVE_TIME_FORMAT,
+                });
             }
-            return $js;
+            return null;
         });
-
+        $this->maybeDisable($component, $tpl);
         $id = $this->bindJSandApplyId($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
@@ -687,18 +696,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
-        $this->applyName($component, $tpl);
 
-        /**
-         * @var $component F\Duration
-         */
-        $component = $component->withAdditionalOnLoadCode(
-            function ($id) {
-                return "$(document).ready(function() {
-                    il.UI.Input.duration.init('$id');
-                });";
-            }
-        );
         $id = $this->bindJSandApplyId($component, $tpl);
 
         $input_html = '';
@@ -711,7 +709,6 @@ class Renderer extends AbstractComponentRenderer
         $input_html .= $default_renderer->render($input);
         $tpl->setVariable('DURATION', $input_html);
 
-        $this->maybeDisable($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
@@ -820,15 +817,11 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./node_modules/moment/min/moment-with-locales.min.js');
-        $registry->register('./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
-
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
         $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
-        $registry->register('./src/UI/templates/js/Input/Field/duration.js');
         $registry->register('./node_modules/dropzone/dist/dropzone.js');
         $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
@@ -958,6 +951,9 @@ class Renderer extends AbstractComponentRenderer
                 $current_file_count = count($input->getDynamicInputs());
                 $translations = json_encode($input->getTranslations());
                 $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
+                $php_upload_limit = $this->getUploadLimitResolver()->getPhpUploadLimitInBytes();
+                $should_upload_be_chunked = ($input->getMaxFileSize() > $php_upload_limit) ? 'true' : 'false';
+                $chunk_size = (int) floor($php_upload_limit * self::FILE_UPLOAD_CHUNK_SIZE_FACTOR);
                 return "
                     $(document).ready(function () {
                         il.UI.Input.File.init(
@@ -971,8 +967,8 @@ class Renderer extends AbstractComponentRenderer
                             '{$this->prepareDropzoneJsMimeTypes($input->getAcceptedMimeTypes())}',
                             $is_disabled,
                             $translations,
-                            '{$input->getUploadHandler()->supportsChunkedUploads()}',
-                            {$input->getMaxFileSize()}
+                            $should_upload_be_chunked,
+                            $chunk_size
                         );
                     });
                 ";

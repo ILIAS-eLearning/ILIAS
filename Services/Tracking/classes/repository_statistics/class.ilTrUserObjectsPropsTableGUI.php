@@ -338,7 +338,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                                     $this->tpl->setVariable(
                                         'WARNING_IMG',
                                         ilUtil::getImagePath(
-                                            'time_warn.svg'
+                                            'media/time_warn.svg'
                                         )
                                     );
                                     $this->tpl->setVariable(

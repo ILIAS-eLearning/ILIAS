@@ -44,13 +44,13 @@ $il-btn-tag-bg: #75deea !default;
 $il-btn-tag-bg-highlighted: s-color.$il-warning-color !default;
 
 //** Bulky Buttons
-$il-bulky-text-color: s-color.$il-text-color;
-$il-bulky-bg-color: s-color.$il-main-darker-bg;
-$il-bulky-label-size: s-typo.$il-font-size-base;
+$il-bulky-text-color: s-color.$il-text-color !default;
+$il-bulky-bg-color: s-color.$il-main-darker-bg !default;
+$il-bulky-label-size: s-typo.$il-font-size-base !default;
 
-$il-bulky-border-color: s-color.$il-main-darker-bg;
+$il-bulky-border-color: s-color.$il-main-darker-bg !default;
 
-$il-bulky-bg-color-engaged: s-color.$il-highlight-bg;
+$il-bulky-bg-color-engaged: s-color.$il-highlight-bg !default;
 
 //** Width of the `border` for generating carets that indicate dropdowns.
 $il-caret-width-base:          4px !default;

@@ -26,53 +26,16 @@ use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Elements\Data\DataInterface;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
+use ILIAS\MetaData\Structure\Definitions\NullDefinition;
+use ILIAS\MetaData\Elements\Data\NullDataFactory;
+use ILIAS\MetaData\Elements\RessourceID\NullRessourceID;
 
 class FactoryTest extends TestCase
 {
-    protected function getMockDefition(): DefinitionInterface
-    {
-        return new class () implements DefinitionInterface {
-            public function name(): string
-            {
-                return 'name';
-            }
-
-            public function unique(): bool
-            {
-                return false;
-            }
-
-            public function dataType(): Type
-            {
-                return Type::NULL;
-            }
-        };
-    }
-
-    protected function getMockRessourceID(): RessourceIDInterface
-    {
-        return new class () implements RessourceIDInterface {
-            public function type(): string
-            {
-                return 'type';
-            }
-
-            public function objID(): int
-            {
-                return 0;
-            }
-
-            public function subID(): int
-            {
-                return 0;
-            }
-        };
-    }
-
     public function testCreateElement(): void
     {
-        $factory = new Factory(new MockDataFactory());
-        $el = $factory->element(13, $this->getMockDefition(), 'value');
+        $factory = new Factory(new NullDataFactory());
+        $el = $factory->element(13, new NullDefinition(), 'value');
 
         $this->assertInstanceOf(Element::class, $el);
         $this->assertFalse($el->isRoot());
@@ -81,8 +44,8 @@ class FactoryTest extends TestCase
 
     public function testCreateRoot(): void
     {
-        $factory = new Factory(new MockDataFactory());
-        $root = $factory->root($this->getMockDefition());
+        $factory = new Factory(new NullDataFactory());
+        $root = $factory->root(new NullDefinition());
 
         $this->assertInstanceOf(ElementInterface::class, $root);
         $this->assertTrue($root->isRoot());
@@ -91,49 +54,10 @@ class FactoryTest extends TestCase
 
     public function testCreateSet(): void
     {
-        $factory = new Factory(new MockDataFactory());
-        $root = $factory->root($this->getMockDefition());
-        $set = $factory->set($this->getMockRessourceID(), $root);
+        $factory = new Factory(new NullDataFactory());
+        $root = $factory->root(new NullDefinition());
+        $set = $factory->set(new NullRessourceID(), $root);
 
         $this->assertInstanceOf(SetInterface::class, $set);
-    }
-}
-
-class MockDataFactory implements DataFactoryInterface
-{
-    public function data(Type $type, string $value): DataInterface
-    {
-        return new MockData();
-    }
-
-    public function null(): DataInterface
-    {
-        return new MockNullData();
-    }
-}
-
-class MockData implements DataInterface
-{
-    public function type(): Type
-    {
-        return Type::STRING;
-    }
-
-    public function value(): string
-    {
-        return 'value';
-    }
-}
-
-class MockNullData implements DataInterface
-{
-    public function type(): Type
-    {
-        return Type::NULL;
-    }
-
-    public function value(): string
-    {
-        return '';
     }
 }

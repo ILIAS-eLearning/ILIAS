@@ -25,6 +25,71 @@ declare(strict_types=1);
  */
 class ilMDEducational extends ilMDBase
 {
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private const INTERACTIVITY_TYPE_TRANSLATION = [
+        'active' => 'Active',
+        'expositive' => 'Expositive',
+        'mixed' => 'Mixed'
+    ];
+
+    private const LEARNING_RESOURCE_TYPE_TRANSLATION = [
+        'exercise' => 'Exercise',
+        'simulation' => 'Simulation',
+        'questionnaire' => 'Questionnaire',
+        'diagram' => 'Diagram',
+        'figure' => 'Figure',
+        'graph' => 'Graph',
+        'index' => 'Index',
+        'slide' => 'Slide',
+        'table' => 'Table',
+        'narrative text' => 'NarrativeText',
+        'exam' => 'Exam',
+        'experiment' => 'Experiment',
+        'problem statement' => 'ProblemStatement',
+        'self assessment' => 'SelfAssessment',
+        'lecture' => 'Lecture'
+    ];
+
+    private const INTERACTIVITY_LEVEL_TRANSLATION = [
+        'very low' => 'VeryLow',
+        'low' => 'Low',
+        'medium' => 'Medium',
+        'high' => 'High',
+        'very high' => 'VeryHigh'
+    ];
+
+    private const SEMANTIC_DENSITY_TRANSLATION = [
+        'very low' => 'VeryLow',
+        'low' => 'Low',
+        'medium' => 'Medium',
+        'high' => 'High',
+        'very high' => 'VeryHigh'
+    ];
+
+    private const INTENDED_END_USER_ROLE_TRANSLATION = [
+        'teacher' => 'Teacher',
+        'author' => 'Author',
+        'learner' => 'Learner',
+        'manager' => 'Manager'
+    ];
+
+    private const CONTEXT_TRANSLATION = [
+        'school' => 'School',
+        'higher education' => 'HigherEducation',
+        'training' => 'Training',
+        'other' => 'Other'
+    ];
+
+    private const DIFFICULTY_TRANSLATION = [
+        'very easy' => 'VeryEasy',
+        'easy' => 'Easy',
+        'medium' => 'Medium',
+        'difficult' => 'Difficult',
+        'very difficult' => 'VeryDifficult'
+    ];
+
     private string $interactivity_type = '';
     private string $learning_resource_type = '';
     private string $interactivity_level = '';
@@ -33,6 +98,14 @@ class ilMDEducational extends ilMDBase
     private string $context = '';
     private string $difficulty = '';
     private string $typical_learning_time = '';
+
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private int $learning_resource_type_id = 0;
+    private int $intended_end_user_role_id = 0;
+    private int $context_id = 0;
 
     /**
      * @return int[]
@@ -337,6 +410,9 @@ class ilMDEducational extends ilMDBase
 
         if ($this->db->insert('il_meta_educational', $fields)) {
             $this->setMetaId($next_id);
+            $this->createOrUpdateLearningResourceType();
+            $this->createOrUpdateIntendedEndUserRole();
+            $this->createOrUpdateContext();
             return $this->getMetaId();
         }
         return 0;
@@ -344,7 +420,15 @@ class ilMDEducational extends ilMDBase
 
     public function update(): bool
     {
-        return $this->getMetaId() && $this->db->update(
+        if (!$this->getMetaId()) {
+            return false;
+        }
+
+        $this->createOrUpdateLearningResourceType();
+        $this->createOrUpdateIntendedEndUserRole();
+        $this->createOrUpdateContext();
+
+        return (bool) $this->db->update(
             'il_meta_educational',
             $this->__getFields(),
             array("meta_educational_id" => array('integer', $this->getMetaId()))
@@ -357,6 +441,10 @@ class ilMDEducational extends ilMDBase
             $query = "DELETE FROM il_meta_educational " .
                 "WHERE meta_educational_id = " . $this->db->quote($this->getMetaId(), ilDBConstants::T_INTEGER);
             $res = $this->db->manipulate($query);
+
+            $this->deleteAllLearningResourceTypes();
+            $this->deleteAllIntendedEndUserRoles();
+            $this->deleteAllContexts();
 
             foreach ($this->getTypicalAgeRangeIds() as $id) {
                 $typ = $this->getTypicalAgeRange($id);
@@ -381,17 +469,37 @@ class ilMDEducational extends ilMDBase
      */
     public function __getFields(): array
     {
+        /**
+         * Compatibility fix for legacy MD classes for new db tables
+         */
+        $interactivity_type = (string) array_search(
+            $this->getInteractivityType(),
+            self::INTERACTIVITY_TYPE_TRANSLATION
+        );
+        $interactivity_level = (string) array_search(
+            $this->getInteractivityLevel(),
+            self::INTERACTIVITY_LEVEL_TRANSLATION
+        );
+        $semantic_density = (string) array_search(
+            $this->getSemanticDensity(),
+            self::SEMANTIC_DENSITY_TRANSLATION
+        );
+        $difficulty = (string) array_search(
+            $this->getDifficulty(),
+            self::DIFFICULTY_TRANSLATION
+        );
+
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
             'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
-            'interactivity_type' => array('text', $this->getInteractivityType()),
-            'learning_resource_type' => array('text', $this->getLearningResourceType()),
-            'interactivity_level' => array('text', $this->getInteractivityLevel()),
-            'semantic_density' => array('text', $this->getSemanticDensity()),
-            'intended_end_user_role' => array('text', $this->getIntendedEndUserRole()),
-            'context' => array('text', $this->getContext()),
-            'difficulty' => array('text', $this->getDifficulty()),
+            'interactivity_type' => array('text', $interactivity_type),
+            //'learning_resource_type' => array('text', $this->getLearningResourceType()),
+            'interactivity_level' => array('text', $interactivity_level),
+            'semantic_density' => array('text', $semantic_density),
+            //'intended_end_user_role' => array('text', $this->getIntendedEndUserRole()),
+            //'context' => array('text', $this->getContext()),
+            'difficulty' => array('text', $difficulty),
             'typical_learning_time' => array('text', $this->getTypicalLearningTime())
         );
     }
@@ -404,18 +512,38 @@ class ilMDEducational extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                /**
+                 * Compatibility fix for legacy MD classes for new db tables
+                 */
+                if (key_exists($row->interactivity_type ?? '', self::INTERACTIVITY_TYPE_TRANSLATION)) {
+                    $row->interactivity_type = self::INTERACTIVITY_TYPE_TRANSLATION[$row->interactivity_type ?? ''];
+                }
+                if (key_exists($row->interactivity_level ?? '', self::INTERACTIVITY_LEVEL_TRANSLATION)) {
+                    $row->interactivity_level = self::INTERACTIVITY_LEVEL_TRANSLATION[$row->interactivity_level ?? ''];
+                }
+                if (key_exists($row->semantic_density ?? '', self::SEMANTIC_DENSITY_TRANSLATION)) {
+                    $row->semantic_density = self::SEMANTIC_DENSITY_TRANSLATION[$row->semantic_density ?? ''];
+                }
+                if (key_exists($row->difficulty ?? '', self::DIFFICULTY_TRANSLATION)) {
+                    $row->difficulty = self::DIFFICULTY_TRANSLATION[$row->difficulty ?? ''];
+                }
+
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type ?? '');
                 $this->setInteractivityType($row->interactivity_type ?? '');
-                $this->setLearningResourceType($row->learning_resource_type ?? '');
+                //$this->setLearningResourceType($row->learning_resource_type ?? '');
                 $this->setInteractivityLevel($row->interactivity_level ?? '');
                 $this->setSemanticDensity($row->semantic_density ?? '');
-                $this->setIntendedEndUserRole($row->intended_end_user_role ?? '');
-                $this->setContext($row->context ?? '');
+                //$this->setIntendedEndUserRole($row->intended_end_user_role ?? '');
+                //$this->setContext($row->context ?? '');
                 $this->setDifficulty($row->difficulty ?? '');
                 $this->setTypicalLearningTime($row->typical_learning_time ?? '');
             }
+
+            $this->readFirstLearningResourceType();
+            $this->readFirstIntendedEndUserRole();
+            $this->readFirstContext();
             return true;
         }
         return false;
@@ -509,5 +637,261 @@ class ilMDEducational extends ilMDBase
                 $time_arr[4];
         }
         return 0;
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function createOrUpdateLearningResourceType(): void
+    {
+        $learning_resource_type = (string) array_search(
+            $this->getLearningResourceType(),
+            self::LEARNING_RESOURCE_TYPE_TRANSLATION
+        );
+
+        $this->learning_resource_type_id = $this->createOrUpdateInNewTable(
+            'il_meta_lr_type',
+            'meta_lr_type_id',
+            $this->getLearningResourceTypeId(),
+            'learning_resource_type',
+            $learning_resource_type
+        );
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function createOrUpdateIntendedEndUserRole(): void
+    {
+        $intended_end_user_role = (string) array_search(
+            $this->getIntendedEndUserRole(),
+            self::INTENDED_END_USER_ROLE_TRANSLATION
+        );
+
+        $this->intended_end_user_role_id = $this->createOrUpdateInNewTable(
+            'il_meta_end_usr_role',
+            'meta_end_usr_role_id',
+            $this->getIntendedEndUserRoleId(),
+            'intended_end_user_role',
+            $intended_end_user_role
+        );
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function createOrUpdateContext(): void
+    {
+        $context = (string) array_search(
+            $this->getContext(),
+            self::CONTEXT_TRANSLATION
+        );
+
+        $this->context_id = $this->createOrUpdateInNewTable(
+            'il_meta_context',
+            'meta_context_id',
+            $this->getContextId(),
+            'context',
+            $context
+        );
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function createOrUpdateInNewTable(
+        string $table,
+        string $id_field,
+        int $id,
+        string $data_field,
+        string $data_value
+    ): int {
+        if ($data_value === '') {
+            return 0;
+        }
+
+        if (!$id) {
+            $this->db->insert(
+                $table,
+                [
+                    $id_field => ['integer', $next_id = $this->db->nextId($table)],
+                    'rbac_id' => ['integer', $this->getRBACId()],
+                    'obj_id' => ['integer', $this->getObjId()],
+                    'obj_type' => ['text', $this->getObjType()],
+                    'parent_type' => ['text', 'meta_educational'],
+                    'parent_id' => ['integer', $this->getMetaId()],
+                    $data_field => ['text', $data_value]
+                ]
+            );
+            return $next_id;
+        }
+
+        $this->db->update(
+            $table,
+            [$data_field => ['text', $data_value]],
+            [$id_field => ['integer', $id]]
+        );
+        return $id;
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readFirstLearningResourceType(): void
+    {
+        $query = "SELECT * FROM il_meta_lr_type WHERE meta_lr_type_id = " .
+            $this->db->quote($this->getLearningResourceTypeId(), 'integer');
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            if (key_exists($row['learning_resource_type'], self::LEARNING_RESOURCE_TYPE_TRANSLATION)) {
+                $row['learning_resource_type'] = self::LEARNING_RESOURCE_TYPE_TRANSLATION[$row['learning_resource_type']];
+            }
+            $this->setLearningResourceType((string) $row['learning_resource_type']);
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readFirstIntendedEndUserRole(): void
+    {
+        $query = "SELECT * FROM il_meta_end_usr_role WHERE meta_end_usr_role_id = " .
+            $this->db->quote($this->getIntendedEndUserRoleId(), 'integer');
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            if (key_exists($row['intended_end_user_role'], self::INTENDED_END_USER_ROLE_TRANSLATION)) {
+                $row['intended_end_user_role'] = self::INTENDED_END_USER_ROLE_TRANSLATION[$row['intended_end_user_role']];
+            }
+            $this->setIntendedEndUserRole((string) $row['intended_end_user_role']);
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readFirstContext(): void
+    {
+        $query = "SELECT * FROM il_meta_context WHERE meta_context_id = " .
+            $this->db->quote($this->getContextId(), 'integer');
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            if (key_exists($row['context'], self::CONTEXT_TRANSLATION)) {
+                $row['context'] = self::CONTEXT_TRANSLATION[$row['context']];
+            }
+            $this->setContext((string) $row['context']);
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function deleteAllLearningResourceTypes(): void
+    {
+        $query = "DELETE FROM il_meta_lr_type WHERE parent_type = 'meta_educational'
+                AND parent_id = " . $this->db->quote($this->getMetaId(), 'integer');
+        $res = $this->db->manipulate($query);
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function deleteAllIntendedEndUserRoles(): void
+    {
+        $query = "DELETE FROM il_meta_end_usr_role WHERE parent_type = 'meta_educational'
+                AND parent_id = " . $this->db->quote($this->getMetaId(), 'integer');
+        $res = $this->db->manipulate($query);
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function deleteAllContexts(): void
+    {
+        $query = "DELETE FROM il_meta_context WHERE parent_type = 'meta_educational'
+                AND parent_id = " . $this->db->quote($this->getMetaId(), 'integer');
+        $res = $this->db->manipulate($query);
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function getLearningResourceTypeId(): int
+    {
+        return $this->learning_resource_type_id;
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function getIntendedEndUserRoleId(): int
+    {
+        return $this->intended_end_user_role_id;
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function getContextId(): int
+    {
+        return $this->context_id;
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readLearningResourceTypeId(int $parent_id): void
+    {
+        $query = "SELECT meta_lr_type_id FROM il_meta_lr_type WHERE parent_type = 'meta_educational'
+                AND parent_id = " . $this->db->quote($parent_id, 'integer') .
+            " ORDER BY meta_lr_type_id";
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            $this->learning_resource_type_id = (int) $row['meta_lr_type_id'];
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readIntendedEndUserRoleId(int $parent_id): void
+    {
+        $query = "SELECT meta_end_usr_role_id FROM il_meta_end_usr_role WHERE parent_type = 'meta_educational'
+                AND parent_id = " . $this->db->quote($parent_id, 'integer') .
+            " ORDER BY meta_end_usr_role_id";
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            $this->intended_end_user_role_id = (int) $row['meta_end_usr_role_id'];
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readContextId(int $parent_id): void
+    {
+        $query = "SELECT meta_context_id FROM il_meta_context WHERE parent_type = 'meta_educational'
+                AND parent_id = " . $this->db->quote($parent_id, 'integer') .
+            " ORDER BY meta_context_id";
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            $this->context_id = (int) $row['meta_context_id'];
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    public function setMetaId(int $a_meta_id, bool $a_read_data = true): void
+    {
+        $this->readLearningResourceTypeId($a_meta_id);
+        $this->readIntendedEndUserRoleId($a_meta_id);
+        $this->readContextId($a_meta_id);
+        parent::setMetaId($a_meta_id, $a_read_data);
     }
 }

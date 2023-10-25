@@ -25,6 +25,7 @@ use ILIAS\News\StandardGUIRequest;
 class ilNewsTimelineItemGUI implements ilTimelineItemInt
 {
     protected \ILIAS\News\InternalGUIService $gui;
+    protected \ILIAS\Notes\Service $notes;
     protected ilLanguage $lng;
     protected ilNewsItem $news_item;
     protected ilObjectDefinition $obj_def;
@@ -59,6 +60,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $this->gui = $DIC->news()
             ->internal()
             ->gui();
+        $this->notes = $DIC->notes();
     }
 
     public static function getInstance(
@@ -222,8 +224,15 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         } elseif (in_array($mime, ["audio/mpeg"])) {
             $audio = $ui_factory->player()->audio($media_path);
             $html = $ui_renderer->render($audio);
+        } elseif (in_array($mime, ["application/pdf"])) {
+            $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $i->getId());
+            $link = $ui_factory->link()->standard(
+                basename($media_path),
+                $this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "downloadMob")
+            );
+            $html = $ui_renderer->render($link);
+            $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", null);
         } else {
-            // download?
             $html = "";
         }
         return $html;
@@ -274,17 +283,17 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $notes_obj_type = ($i->getContextSubObjType() == "")
             ? $i->getContextObjType()
             : $i->getContextSubObjType();
-        $note_gui = new ilNoteGUI(
+        $comments_gui = $this->notes->gui()->getCommentsGUI(
             $i->getContextObjId(),
             $i->getContextSubObjId(),
             $notes_obj_type,
-            false,
             $i->getId()
         );
-        $note_gui->setDefaultCommand("getWidget");
-        $note_gui->setShowEmptyListMessage(false);
-        $note_gui->setShowHeader(false);
-        $html .= $this->ctrl->getHTML($note_gui);
+        $comments_gui->setDefaultCommand("getWidget");
+        $comments_gui->setShowEmptyListMessage(false);
+        $comments_gui->setShowHeader(false);
+        $html .= $comments_gui->getWidget();
+        //$html .= $this->ctrl->getHTML($comments_gui);
 
         $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $this->std_request->getNewsId());
 

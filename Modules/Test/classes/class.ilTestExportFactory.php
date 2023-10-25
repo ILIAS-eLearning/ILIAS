@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -31,7 +33,8 @@ class ilTestExportFactory
         private ilLanguage $lng,
         private ilLogger $logger,
         private ilTree $tree,
-        private ilComponentRepository $component_repository
+        private ilComponentRepository $component_repository,
+        private QuestionInfoService $questioninfo
     ) {
     }
 
@@ -50,6 +53,7 @@ class ilTestExportFactory
             $this->logger,
             $this->tree,
             $this->component_repository,
+            $this->questioninfo,
             $mode
         );
     }

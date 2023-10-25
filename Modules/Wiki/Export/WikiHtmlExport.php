@@ -282,7 +282,11 @@ class WikiHtmlExport
 
         // page
         $this->log->debug("init page gui");
-        $wpg_gui = new \ilWikiPageGUI($a_page_id);
+        $wpg_gui = new \ilWikiPageGUI(
+            $a_page_id,
+            0,
+            $this->wiki->getRefId()
+        );
         $wpg_gui->setOutputMode("offline");
         $page_content = $wpg_gui->showPage();
 
@@ -309,7 +313,7 @@ class WikiHtmlExport
         $this->log->debug("set title");
         $tpl->setTitle($this->wiki->getTitle());
         $tpl->setTitleIcon(
-            \ilUtil::getImagePath("icon_wiki.svg"),
+            \ilUtil::getImagePath("standard/icon_wiki.svg"),
             $lng->txt("obj_wiki")
         );
 

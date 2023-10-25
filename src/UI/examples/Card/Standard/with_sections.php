@@ -21,7 +21,7 @@ function with_sections()
     );
 
     $image = $f->image()->responsive(
-        "./templates/default/images/HeaderIcon.svg",
+        "./templates/default/images/logo/HeaderIcon.svg",
         "Thumbnail Example"
     );
 

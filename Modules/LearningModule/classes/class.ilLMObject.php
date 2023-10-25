@@ -557,6 +557,7 @@ class ilLMObject
         global $DIC;
 
         $ilDB = $DIC->database();
+        $help_module = $DIC->help()->internal()->domain()->module();
 
         $q = "SELECT obj_id FROM lm_data WHERE import_id = " .
             $ilDB->quote($a_import_id, "text") . " " .
@@ -568,7 +569,7 @@ class ilLMObject
             // link only in learning module, that is not trashed
             $ref_ids = ilObject::_getAllReferences($lm_id);	// will be 0 if import of lm is in progress (new import)
             if (count($ref_ids) == 0 || ilObject::_hasUntrashedReference($lm_id) ||
-                ilObjHelpSettings::isHelpLM($lm_id)) {
+                $help_module->isHelpLM($lm_id)) {
                 return $obj_rec["obj_id"];
             }
         }

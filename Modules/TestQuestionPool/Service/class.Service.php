@@ -41,7 +41,7 @@ class Service
 
     public function questionInfo(): QuestionInfoService
     {
-        return new QuestionInfoService($this->DIC->database());
+        return new QuestionInfoService($this->DIC->database(), $this->DIC['component.factory'], $this->DIC->language());
     }
 
     public function questionFiles(): QuestionFilesService

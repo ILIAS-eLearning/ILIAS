@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="file" indexType="incremental">
-	<Document type="default">
-		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
-		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
-		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
-		<DataSource type="JDBC" action="append">
-			<Query>
-				SELECT MAX(version) version, file_name
-				FROM file_data
-				WHERE file_id IN (?)
-				AND rid IS NULL
-				GROUP BY file_id,file_name
-			</Query>
-			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="file_name" type="text" name="propertyHigh">
-				<Transformer name="FilenameExtractor" />
-			</Field>
-			<Field store="YES" index="ANALYZED" column="file_name" type="text" name="mimeType">
-				<Transformer name="MimeTypeExtractor" />
-			</Field>
-			<DataSource type="File" action="append">
-				<PathCreator name="FileObjectPathCreator41" />
-				<Field store="YES" index="ANALYZED" name="content">
-					<Transformer name="LinefeedSanitizer" />
-				</Field>
-			</DataSource>
-		</DataSource>
-		<DataSource type="JDBC" action="append">
-			<Query>
-				SELECT
-				MAX(version) AS version
-				, file_name
-				, file_data.rid
-				, il_resource.storage_id
-				, IF(
-				STRCMP(il_resource.storage_id, 'fsv2') = 0,
-				CONCAT(
-				'fsv2/'
-				, SUBSTRING(REPLACE(file_data.rid, '-', ''), 1, 3)
-				, '/'
-				, SUBSTRING(REPLACE(file_data.rid, '-', ''), 4, 3)
-				, '/'
-				, SUBSTRING(REPLACE(file_data.rid, '-', ''), 7, 3)
-				, '/'
-				, SUBSTRING(REPLACE(file_data.rid, '-', ''), 10)
-				),
-				REPLACE(file_data.rid, '-', '/')
-				) AS resource_path
+    <Document type="default">
+        <xi:include href="../../Services/Object/LuceneDataSource.xml"/>
+        <xi:include href="../../Services/Tagging/LuceneDataSource.xml"/>
+        <xi:include href="../../Services/MetaData/LuceneDataSource.xml"/>
+        <DataSource type="JDBC" action="append">
+            <Query>
+                SELECT MAX(version) version, file_name
+                FROM file_data
+                WHERE file_id IN (?)
+                AND rid IS NULL
+                GROUP BY file_id,file_name
+            </Query>
+            <Param format="list" type="int" value="objId"/>
+            <Field store="YES" index="ANALYZED" column="file_name" type="text" name="propertyHigh">
+                <Transformer name="FilenameExtractor"/>
+            </Field>
+            <Field store="YES" index="ANALYZED" column="file_name" type="text" name="mimeType">
+                <Transformer name="MimeTypeExtractor"/>
+            </Field>
+            <DataSource type="File" action="append">
+                <PathCreator name="FileObjectPathCreator41"/>
+                <Field store="YES" index="ANALYZED" name="content">
+                    <Transformer name="LinefeedSanitizer"/>
+                </Field>
+            </DataSource>
+        </DataSource>
+        <DataSource type="JDBC" action="append">
+            <Query>
+                SELECT
+                MAX(version) AS version
+                , file_name
+                , file_data.rid
+                , il_resource.storage_id
+                , IF(
+                STRCMP(il_resource.storage_id, 'fsv2') = 0,
+                CONCAT(
+                'fsv2/'
+                , SUBSTRING(REPLACE(file_data.rid, '-', ''), 1, 3)
+                , '/'
+                , SUBSTRING(REPLACE(file_data.rid, '-', ''), 4, 3)
+                , '/'
+                , SUBSTRING(REPLACE(file_data.rid, '-', ''), 7, 3)
+                , '/'
+                , SUBSTRING(REPLACE(file_data.rid, '-', ''), 10)
+                ),
+                REPLACE(file_data.rid, '-', '/')
+                ) AS resource_path
 
-				FROM file_data
-				JOIN il_resource ON il_resource.rid = file_data.rid
-				WHERE
-				file_id IN (?) AND
-				file_data.rid IS NOT NULL
-				GROUP BY file_id,file_name
-			</Query>
-			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="file_name" type="text" name="propertyHigh">
-				<Transformer name="FilenameExtractor" />
-			</Field>
-			<Field store="YES" index="ANALYZED" column="file_name" type="text" name="mimeType">
-				<Transformer name="MimeTypeExtractor" />
-			</Field>
-			<DataSource type="File" action="append">
-				<PathCreator name="FileObjectPathCreator7" />
-				<Field store="YES" index="ANALYZED" name="content">
-					<Transformer name="LinefeedSanitizer" />
-				</Field>
-			</DataSource>
-		</DataSource>
-	</Document>
+                FROM file_data
+                JOIN il_resource ON il_resource.rid = file_data.rid
+                WHERE
+                file_id IN (?) AND
+                file_data.rid IS NOT NULL
+                GROUP BY file_id,file_name
+            </Query>
+            <Param format="list" type="int" value="objId"/>
+            <Field store="YES" index="ANALYZED" column="file_name" type="text" name="propertyHigh">
+                <Transformer name="FilenameExtractor"/>
+            </Field>
+            <Field store="YES" index="ANALYZED" column="file_name" type="text" name="mimeType">
+                <Transformer name="MimeTypeExtractor"/>
+            </Field>
+            <DataSource type="File" action="append">
+                <PathCreator name="FileObjectPathCreator7"/>
+                <Field store="YES" index="ANALYZED" name="content">
+                    <Transformer name="LinefeedSanitizer"/>
+                </Field>
+            </DataSource>
+        </DataSource>
+    </Document>
 </ObjectDefinition>

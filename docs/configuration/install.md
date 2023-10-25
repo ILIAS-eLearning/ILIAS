@@ -389,7 +389,7 @@ This requires that the php dependency manager [composer](https://getcomposer.org
 is available in your $PATH.
 
 ```
-npm install --omit=dev --ignore-scripts
+npm clean-install --omit=dev --ignore-scripts
 ```
 
 This requires that the javascript dependency manager [npm](https://https://www.npmjs.com/)
@@ -624,7 +624,7 @@ your ILIAS basepath (e.g. `/var/www/html/`):
 ```
 git pull
 composer install --no-dev
-npm install --omit-dev --ignore-scripts
+npm clean-install --omit-dev --ignore-scripts
 ```
 
 if you follow a branch or
@@ -633,7 +633,7 @@ if you follow a branch or
 git fetch
 git checkout v7.1
 composer install --no-dev
-npm install --omit-dev --ignore-scripts
+npm clean-install --omit-dev --ignore-scripts
 ```
 
 if you use tags to pin a specific ILIAS version.
@@ -658,7 +658,7 @@ layout templates. Then execute the following commands in your ILIAS basepath
 git fetch
 git checkout release_X
 composer install --no-dev
-npm install --omit-dev --ignore-scripts
+npm clean-install --omit-dev --ignore-scripts
 ```
 
 Replace `release_X` with the branch or tag you actually want to upgrade to. You can

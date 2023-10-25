@@ -27,6 +27,7 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilBlogExerciseGUI
 {
+    protected \ILIAS\Blog\Exercise\BlogExercise $blog_exercise;
     protected StandardGUIRequest $blog_request;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;

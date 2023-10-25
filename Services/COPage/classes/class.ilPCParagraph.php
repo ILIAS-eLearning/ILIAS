@@ -1238,7 +1238,7 @@ class ilPCParagraph extends ilPageContent
                         }
                         $chunks[] = array("level" => 1, "text" => trim(substr($c_text, $s1 + 7, $n - $s1 - 8)));
                         $c_text = $this->handleNextBr(substr($c_text, $n + 6));
-                    //echo "<br>ctext:".htmlentities($c_text)."<br>";
+                        //echo "<br>ctext:".htmlentities($c_text)."<br>";
                     } else {
                         $head .= substr($c_text, 0, $n);
                         $c_text = substr($c_text, $n);
@@ -1571,27 +1571,7 @@ class ilPCParagraph extends ilPageContent
             $text
         );
         $text = str_replace(
-            array("&lt;ul class='ilc_list_u_BulletedList'&gt;", "&lt;/ul&gt;"),
-            array("<SimpleBulletList>", "</SimpleBulletList>"),
-            $text
-        );
-        $text = str_replace(
-            array("&lt;ul class=\"ilc_list_u_BulletedList\"&gt;", "&lt;/ul&gt;"),
-            array("<SimpleBulletList>", "</SimpleBulletList>"),
-            $text
-        );
-        $text = str_replace(
             array("&lt;ol&gt;", "&lt;/ol&gt;"),
-            array("<SimpleNumberedList>", "</SimpleNumberedList>"),
-            $text
-        );
-        $text = str_replace(
-            array("&lt;ol class='ilc_list_o_NumberedList'&gt;", "&lt;/ol&gt;"),
-            array("<SimpleNumberedList>", "</SimpleNumberedList>"),
-            $text
-        );
-        $text = str_replace(
-            array("&lt;ol class=\"ilc_list_o_NumberedList\"&gt;", "&lt;/ol&gt;"),
             array("<SimpleNumberedList>", "</SimpleNumberedList>"),
             $text
         );
@@ -1600,22 +1580,18 @@ class ilPCParagraph extends ilPageContent
             array("<SimpleListItem>", "</SimpleListItem>"),
             $text
         );
-        $text = str_replace(
-            array("&lt;li class='ilc_list_item_StandardListItem'&gt;", "&lt;/li&gt;"),
-            array("<SimpleListItem>", "</SimpleListItem>"),
-            $text
-        );
-        $text = str_replace(
-            array("&lt;li class=\"ilc_list_item_StandardListItem\"&gt;", "&lt;/li&gt;"),
-            array("<SimpleListItem>", "</SimpleListItem>"),
-            $text
-        );
-
-        $text = str_replace(
-            array("&lt;li class=\"ilc_list_item_StandardListItem\"/&gt;"),
-            array("<SimpleListItem></SimpleListItem>"),
-            $text
-        );
+        while (preg_match('~&lt;ul class=\"ilc_list_u_([^\"]*)\"&gt;~i', $text, $found)) {
+            $class = $found[1];
+            $text = str_replace('&lt;ul class="ilc_list_u_' . $class . '"&gt;', '<SimpleBulletList Class="' . $class . '">', $text);
+        }
+        while (preg_match('~&lt;ol class=\"ilc_list_o_([^\"]*)\"&gt;~i', $text, $found)) {
+            $class = $found[1];
+            $text = str_replace('&lt;ol class="ilc_list_o_' . $class . '"&gt;', '<SimpleNumberedList Class="' . $class . '">', $text);
+        }
+        while (preg_match('~&lt;li class=\"ilc_list_item_([^\"]*)\"&gt;~i', $text, $found)) {
+            $class = $found[1];
+            $text = str_replace('&lt;li class="ilc_list_item_' . $class . '"&gt;', '<SimpleListItem Class="' . $class . '">', $text);
+        }
 
         $text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $text);
         $text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $text);

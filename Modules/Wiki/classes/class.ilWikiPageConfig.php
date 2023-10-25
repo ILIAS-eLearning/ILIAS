@@ -32,6 +32,7 @@ class ilWikiPageConfig extends ilPageConfig
         $this->setEnableAnchors(true);
         $this->setEnableWikiLinks(true);
         $this->setIntLinkFilterWhiteList(true);
+        $this->setMultiLangSupport(true);
         $this->addIntLinkFilter("RepositoryItem");
         $this->addIntLinkFilter("WikiPage");
         $this->addIntLinkFilter("User");
@@ -49,7 +50,7 @@ class ilWikiPageConfig extends ilPageConfig
         if ($a_obj_id > 0) {
             $access = $DIC->access();
             $lng = $DIC->language();
-            $request = $DIC->wiki()->internal()->gui()->editing()->request();
+            $request = $DIC->wiki()->internal()->gui()->request();
 
             $this->setEnablePageToc(ilObjWiki::_lookupPageToc($a_obj_id));
             if ($access->checkAccess("write", "", $request->getRefId())) {

@@ -31,8 +31,8 @@ class Range
 
     protected function checkLength(int $length): void
     {
-        if ($length < 1) {
-            throw new \InvalidArgumentException("Length must be larger than 0", 1);
+        if ($length < 0) {
+            throw new \InvalidArgumentException("Length must be larger or equal then 0", 1);
         }
     }
 
@@ -70,5 +70,21 @@ class Range
         $clone = clone $this;
         $clone->length = $length;
         return $clone;
+    }
+
+    /**
+     * This will create a range that is guaranteed to not exceed $max.
+     */
+    public function croppedTo(int $max): Range
+    {
+        if ($max > $this->getEnd()) {
+            return $this;
+        }
+
+        if ($this->getStart() > $max) {
+            return new self($max, 0);
+        }
+
+        return $this->withLength($max - $this->getStart());
     }
 }

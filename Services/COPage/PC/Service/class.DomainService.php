@@ -28,7 +28,6 @@ use ILIAS\COPage\PC\Paragraph\ParagraphManager;
 use ILIAS\COPage\Link\LinkManager;
 use ILIAS\COPage\PC\FileList\FileListManager;
 use ILIAS\COPage\PC\MediaObject\MediaObjectManager;
-use ILIAS\COPage\PC\MediaObject\InteractiveImageManager;
 use ILIAS\COPage\PC\Question\QuestionManager;
 
 /**
@@ -84,13 +83,15 @@ class DomainService
         return new MediaObjectManager();
     }
 
-    public function interactiveImage(): InteractiveImageManager
-    {
-        return new InteractiveImageManager();
-    }
-
     public function question(): QuestionManager
     {
         return new QuestionManager();
+    }
+
+    public function interactiveImage(): InteractiveImage\IIMManager
+    {
+        return new InteractiveImage\IIMManager(
+            $this->domain_service
+        );
     }
 }

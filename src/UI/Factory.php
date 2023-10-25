@@ -68,7 +68,11 @@ interface Factory
      * ---
      * description:
      *   purpose: The Image component is used to display images of various sources.
-     *   composition: An Image is composed of the image and an alternative text for screen readers.
+     *   composition: >
+     *          An Image is composed of the image and an alternative text for screen readers.
+     *          An Image MAY contain an initial source of reduced size and additional
+     *          higher resolution sources optimized for different display sizes to be
+     *          loaded asynchronously once the actual size on the screen is known.
      *
      * rules:
      *   interaction:
@@ -83,6 +87,11 @@ interface Factory
      *        decorative nature. According to the WAI, decorative images don’t add information to the content of a page. For example, the information provided by the image
      *        might already be given using adjacent text, or the image might be included to make the website more visually attractive
      *        (see <a href="https://www.w3.org/WAI/tutorials/images/decorative/">https://www.w3.org/WAI/tutorials/images/decorative/</a>).
+     *   composition:
+     *     1: >
+     *        If an Image may be displayed in widely differing sizes differently sized
+     *        sources SHOULD be added as additional high resolution resource sources to
+     *        reduce loading times without diminishing the user experience.
      * ---
      * @return \ILIAS\UI\Component\Image\Factory
      */

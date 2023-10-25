@@ -18,23 +18,9 @@ $il-table-presentation-details-viewcontrols-btn-color: $il-main-color;
 $il-table-presentation-details-viewcontrols-btn-bg: white;
 
 .il-table-presentation-viewcontrols {
-    background-color: $il-table-presentation-details-viewcontrols-bg-color;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-    > div {
-        padding: $il-padding-large-vertical;
-    }
-
-    .il-viewcontrol-pagination {
-        order: 1;
-    }
-    .il-viewcontrol-mode {
-        order: 2;
-    }
-    .il-viewcontrol-sortatio {
-        order: 3;
+    margin-bottom: $il-margin-large-vertical;
+    @media print {
+        display: none !important;
     }
 }
 
@@ -98,6 +84,12 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
         .il-table-presentation-row-header-fields {
             display: block; /*initially visible*/
         }
+    }
+
+    // add : to both importantfields and desclist keys
+    .il-table-presentation-row-header-fields-label::after,
+    .il-table-presentation-desclist .il-listing-characteristic-value-label::after {
+        content: ":";
     }
 
     .il-table-presentation-row-expanded {

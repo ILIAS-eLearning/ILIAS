@@ -24,56 +24,26 @@ use ILIAS\MetaData\Structure\Dictionaries\Tags\Tag as BaseTag;
 
 class Tag extends BaseTag implements TagInterface
 {
-    protected string $create;
-    protected string $read;
-    protected string $update;
-    protected string $delete;
-
+    protected bool $has_row;
     protected string $table;
-
-    protected bool $is_parent;
-
-    /**
-     * @var ExpectedParameter[]
-     */
-    protected array $expected_parameters;
+    protected string $data_field;
+    protected string $parent;
 
     public function __construct(
-        string $create,
-        string $read,
-        string $update,
-        string $delete,
-        bool $is_parent,
         string $table,
-        ExpectedParameter ...$expected_parameters
+        bool $has_row,
+        string $data_field = '',
+        string $parent = ''
     ) {
-        $this->create = $create;
-        $this->read = $read;
-        $this->update = $update;
-        $this->delete = $delete;
-        $this->is_parent = $is_parent;
         $this->table = $table;
-        $this->expected_parameters = $expected_parameters;
+        $this->has_row = $has_row;
+        $this->data_field = $data_field;
+        $this->parent = $parent;
     }
 
-    public function create(): string
+    public function hasRowInTable(): bool
     {
-        return $this->create;
-    }
-
-    public function read(): string
-    {
-        return $this->read;
-    }
-
-    public function update(): string
-    {
-        return $this->update;
-    }
-
-    public function delete(): string
-    {
-        return $this->delete;
+        return $this->has_row;
     }
 
     public function table(): string
@@ -81,16 +51,23 @@ class Tag extends BaseTag implements TagInterface
         return $this->table;
     }
 
-    public function isParent(): bool
+    public function hasData(): bool
     {
-        return $this->is_parent;
+        return $this->data_field !== '';
     }
 
-    /**
-     * @return ExpectedParameter[]
-     */
-    public function expectedParameters(): \Generator
+    public function dataField(): string
     {
-        yield from $this->expected_parameters;
+        return $this->data_field;
+    }
+
+    public function hasParent(): bool
+    {
+        return $this->parent !== '';
+    }
+
+    public function parent(): string
+    {
+        return $this->parent;
     }
 }

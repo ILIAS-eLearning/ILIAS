@@ -113,6 +113,7 @@ class ilResourceStorageMigrationHelper
             new ilIniFilesLoadedObjective(),
             new ilDatabaseInitializedObjective(),
             new ilDatabaseUpdatedObjective(),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB90())
         ];
     }
 
@@ -163,7 +164,7 @@ class ilResourceStorageMigrationHelper
         $this->repositories->getStakeholderRepository()->register($resource_identification, $new_stakeholder);
 
         if ($new_owner_id !== null) {
-            foreach ($resource->getAllRevisions() as $revision) {
+            foreach ($resource->getAllRevisionsIncludingDraft() as $revision) {
                 $revision->setOwnerId($new_owner_id);
             }
         }
@@ -194,9 +195,6 @@ class ilResourceStorageMigrationHelper
             if ($resource_id !== null) {
                 $collection->add($resource_id);
             }
-        }
-        if ($collection->count() === 0) {
-            return null;
         }
 
         if ($this->getCollectionBuilder()->store($collection)) {

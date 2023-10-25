@@ -23,6 +23,9 @@
  */
 class ilWikiPage extends ilPageObject
 {
+    protected \ILIAS\Wiki\Page\PageDBRepository $repo;
+    protected ilLogger $wiki_log;
+    protected \ILIAS\Wiki\InternalService $service;
     protected int $parent_ref_id = 0;
     protected string $title = "";
     protected bool $blocked = false;
@@ -36,7 +39,20 @@ class ilWikiPage extends ilPageObject
 
     public function afterConstructor(): void
     {
+        global $DIC;
+        $this->service = $DIC->wiki()->internal();
         $this->getPageConfig()->configureByObjectId($this->getParentId());
+        $this->wiki_log = $this->service->domain()->log();
+        $this->repo = $this->service->repo()->page();
+    }
+
+    /**
+     * This currently violates the layer model, since
+     * notifications render the abstracts with a GUI class
+     */
+    protected function getNotificationGUI(): \ILIAS\Wiki\Notification\NotificationGUI
+    {
+        return $this->service->gui()->notification();
     }
 
     public function setTitle(string $a_title): void
@@ -110,7 +126,8 @@ class ilWikiPage extends ilPageObject
         // see also bug #12224
         $set = $ilDB->query(
             "SELECT id FROM il_wiki_page " .
-            " WHERE id = " . $ilDB->quote($this->getId(), "integer")
+            " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
+            " AND lang = " . $ilDB->quote($this->getLanguage(), "integer")
         );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $this->read(true);
@@ -124,8 +141,12 @@ class ilWikiPage extends ilPageObject
     ): void {
         $ilDB = $this->db;
 
-        $id = $ilDB->nextId("il_wiki_page");
-        $this->setId($id);
+        // get new id, if not a translation page
+        if (in_array($this->getLanguage(), ["-", ""]) && $this->getId() == 0) {
+            $id = $ilDB->nextId("il_wiki_page");
+            $this->setId($id);
+        }
+
         $query = "INSERT INTO il_wiki_page (" .
             "id" .
             ", title" .
@@ -133,6 +154,7 @@ class ilWikiPage extends ilPageObject
             ", blocked" .
             ", rating" .
             ", hide_adv_md" .
+            ", lang" .
             " ) VALUES (" .
             $ilDB->quote($this->getId(), "integer")
             . "," . $ilDB->quote($this->getTitle(), "text")
@@ -140,7 +162,9 @@ class ilWikiPage extends ilPageObject
             . "," . $ilDB->quote((int) $this->getBlocked(), "integer")
             . "," . $ilDB->quote((int) $this->getRating(), "integer")
             . "," . $ilDB->quote((int) $this->isAdvancedMetadataHidden(), "integer")
+            . "," . $ilDB->quote($this->getLanguage(), "text")
             . ")";
+        $this->wiki_log->debug($query);
         $ilDB->manipulate($query);
 
         // create page object
@@ -149,7 +173,14 @@ class ilWikiPage extends ilPageObject
             $this->saveInternalLinks($this->getDomDoc());
 
             ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_CREATED, $this);
-            ilWikiUtil::sendNotification("new", ilNotification::TYPE_WIKI, $this->getWikiRefId(), $this->getId());
+            $this->getNotificationGUI()->send(
+                "new",
+                ilNotification::TYPE_WIKI,
+                $this->getWikiRefId(),
+                $this->getId(),
+                null,
+                $this->getLanguage()
+            );
         }
 
         $this->updateNews();
@@ -161,7 +192,7 @@ class ilWikiPage extends ilPageObject
     ): void {
         // internal == wiki links
 
-        $this->log->debug("collect internal links");
+        $this->wiki_log->debug("collect internal links");
         $int_links = count(ilWikiUtil::collectInternalLinks($xml, $this->getWikiId(), true));
 
         $xpath = new DOMXPath($domdoc);
@@ -187,7 +218,7 @@ class ilWikiPage extends ilPageObject
             "num_words" => $num_words,
             "num_chars" => $num_chars
         );
-        $this->log->debug("handle stats");
+        $this->wiki_log->debug("handle stats");
         ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_UPDATED, $this, null, $page_data);
     }
 
@@ -200,7 +231,7 @@ class ilWikiPage extends ilPageObject
         bool $a_no_history = false
     ) {
         $ilDB = $this->db;
-        $this->log->debug("start...");
+        $this->wiki_log->debug("start...");
         // update wiki page data
         $query = "UPDATE il_wiki_page SET " .
             " title = " . $ilDB->quote($this->getTitle(), "text") .
@@ -208,15 +239,23 @@ class ilWikiPage extends ilPageObject
             ",blocked = " . $ilDB->quote((int) $this->getBlocked(), "integer") .
             ",rating = " . $ilDB->quote((int) $this->getRating(), "integer") .
             ",hide_adv_md = " . $ilDB->quote((int) $this->isAdvancedMetadataHidden(), "integer") .
-            " WHERE id = " . $ilDB->quote($this->getId(), "integer");
+            " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
+            " AND lang = " . $ilDB->quote($this->getLanguage(), "text");
         $ilDB->manipulate($query);
         $updated = parent::update($a_validate, $a_no_history);
 
         if ($updated === true) {
-            $this->log->debug("send notification");
-            ilWikiUtil::sendNotification("update", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
+            $this->wiki_log->debug("send notification");
+            $this->getNotificationGUI()->send(
+                "update",
+                ilNotification::TYPE_WIKI_PAGE,
+                $this->getWikiRefId(),
+                $this->getId(),
+                null,
+                $this->getLanguage()
+            );
 
-            $this->log->debug("update news");
+            $this->wiki_log->debug("update news");
             $this->updateNews(true);
         } else {
             return $updated;
@@ -231,7 +270,9 @@ class ilWikiPage extends ilPageObject
         $ilDB = $this->db;
 
         $query = "SELECT * FROM il_wiki_page WHERE id = " .
-            $ilDB->quote($this->getId(), "integer");
+            $ilDB->quote($this->getId(), "integer") .
+            " AND lang = " . $ilDB->quote($this->getLanguage(), "text");
+
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
@@ -250,6 +291,8 @@ class ilWikiPage extends ilPageObject
 
     public function delete(): void
     {
+        $imp_pages = $this->service->domain()->importantPage($this->getWikiRefId());
+
         $ilDB = $this->db;
 
         // get other pages that link to this page
@@ -260,10 +303,9 @@ class ilWikiPage extends ilPageObject
 
         // delete important page
         // note: the wiki might be already deleted here
-        if (ilObject::_exists($this->getWikiId())) {
-            $wiki = new ilObjWiki($this->getWikiId(), false);
-            if ($wiki->isImportantPage($this->getId())) {
-                $wiki->removeImportantPage($this->getId());
+        if (!$this->isTranslationPage()) {
+            if ($imp_pages->isImportantPage($this->getId())) {
+                $imp_pages->removeImportantPage($this->getId());
             }
         }
 
@@ -272,33 +314,32 @@ class ilWikiPage extends ilPageObject
 
         ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_DELETED, $this);
 
-        ilWikiUtil::sendNotification("delete", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
+        $this->getNotificationGUI()->send(
+            "delete",
+            ilNotification::TYPE_WIKI_PAGE,
+            $this->getWikiRefId(),
+            $this->getId(),
+            null,
+            $this->getLanguage()
+        );
 
         // remove all notifications
         ilNotification::removeForObject(ilNotification::TYPE_WIKI_PAGE, $this->getId());
 
         // delete record of table il_wiki_data
-        $query = "DELETE FROM il_wiki_page" .
-            " WHERE id = " . $ilDB->quote($this->getId(), "integer");
-        $ilDB->manipulate($query);
+        $this->repo->delete($this->getId(), $this->getLanguage());
 
         // delete co page
         parent::delete();
 
         // make links of other pages to this page a missing link
+        $missing_page_repo = $this->service->repo()->missingPage();
         foreach ($linking_pages as $lp) {
-            $ilDB->manipulateF(
-                "DELETE FROM il_wiki_missing_page " .
-                " WHERE wiki_id = %s AND source_id = %s AND target_name = %s ",
-                array("integer", "integer", "text"),
-                array($this->getWikiId(), $lp["id"], $this->getTitle())
-            );
-            $ilDB->manipulateF(
-                "INSERT INTO il_wiki_missing_page " .
-                "(wiki_id, source_id, target_name) VALUES " .
-                "(%s,%s,%s)",
-                array("integer", "integer", "text"),
-                array($this->getWikiId(), $lp["id"], $this->getTitle())
+            $missing_page_repo->save(
+                $this->getWikiId(),
+                $lp["id"],
+                $this->getTitle(),
+                $this->getLanguage()
             );
         }
     }
@@ -315,7 +356,7 @@ class ilWikiPage extends ilPageObject
         $set = $ilDB->query($query);
 
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $wiki_page = new ilWikiPage($rec["id"]);
+            $wiki_page = new ilWikiPage($rec["id"], 0, $rec["lang"]);
             $wiki_page->delete();
         }
     }
@@ -325,7 +366,8 @@ class ilWikiPage extends ilPageObject
      */
     public static function exists(
         int $a_wiki_id,
-        string $a_title
+        string $a_title,
+        string $lang = "-"
     ): bool {
         global $DIC;
 
@@ -335,7 +377,8 @@ class ilWikiPage extends ilPageObject
 
         $query = "SELECT id FROM il_wiki_page" .
             " WHERE wiki_id = " . $ilDB->quote($a_wiki_id, "integer") .
-            " AND title = " . $ilDB->quote($a_title, "text");
+            " AND title = " . $ilDB->quote($a_title, "text") .
+            " AND lang = " . $ilDB->quote($lang, "text");
         $set = $ilDB->query($query);
         if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
@@ -350,9 +393,14 @@ class ilWikiPage extends ilPageObject
      */
     public static function getPageIdForTitle(
         int $a_wiki_id,
-        string $a_title
+        string $a_title,
+        string $lang = "-"
     ): ?int {
         global $DIC;
+
+        if ($lang === "") {
+            $lang = "-";
+        }
 
         $ilDB = $DIC->database();
 
@@ -360,7 +408,8 @@ class ilWikiPage extends ilPageObject
 
         $query = "SELECT * FROM il_wiki_page" .
             " WHERE wiki_id = " . $ilDB->quote($a_wiki_id, "integer") .
-            " AND title = " . $ilDB->quote($a_title, "text");
+            " AND title = " . $ilDB->quote($a_title, "text") .
+            " AND lang = " . $ilDB->quote($lang, "text");
         $set = $ilDB->query($query);
         if ($rec = $ilDB->fetchAssoc($set)) {
             return (int) $rec["id"];
@@ -369,14 +418,15 @@ class ilWikiPage extends ilPageObject
         return null;
     }
 
-    public static function lookupTitle(int $a_page_id): ?string
+    public static function lookupTitle(int $a_page_id, string $lang = "-"): ?string
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $query = "SELECT * FROM il_wiki_page" .
-            " WHERE id = " . $ilDB->quote($a_page_id, "integer");
+            " WHERE id = " . $ilDB->quote($a_page_id, "integer") .
+            " AND lang = " . $ilDB->quote($lang, "text");
         $set = $ilDB->query($query);
         if ($rec = $ilDB->fetchAssoc($set)) {
             return (string) $rec["title"];
@@ -402,7 +452,8 @@ class ilWikiPage extends ilPageObject
     }
 
     public static function getAllWikiPages(
-        int $a_wiki_id
+        int $a_wiki_id,
+        string $lang = "-"
     ): array {
         global $DIC;
 
@@ -412,6 +463,7 @@ class ilWikiPage extends ilPageObject
 
         $query = "SELECT * FROM il_wiki_page" .
             " WHERE wiki_id = " . $ilDB->quote($a_wiki_id, "integer") .
+            " AND lang = " . $ilDB->quote($lang, "text") .
             " ORDER BY title";
         $set = $ilDB->query($query);
 
@@ -428,25 +480,30 @@ class ilWikiPage extends ilPageObject
 
     public static function getLinksToPage(
         int $a_wiki_id,
-        int $a_page_id
+        int $a_page_id,
+        string $lang = "-"
     ): array {
         global $DIC;
 
+        if ($lang === "") {
+            $lang = "-";
+        }
         $ilDB = $DIC->database();
 
         $sources = ilInternalLink::_getSourcesOfTarget("wpg", $a_page_id, 0);
-
         $ids = array();
         foreach ($sources as $source) {
-            if ($source["type"] === "wpg:pg") {
+            if ($source["type"] === "wpg:pg" && $source["lang"] === $lang) {
                 $ids[] = $source["id"];
             }
         }
+
         // get wiki page record
         $query = "SELECT * FROM il_wiki_page wp, page_object p" .
             " WHERE " . $ilDB->in("wp.id", $ids, false, "integer") .
-            " AND wp.id = p.page_id AND p.parent_type = " . $ilDB->quote("wpg", "text") .
+            " AND wp.id = p.page_id AND wp.lang = p.lang AND p.parent_type = " . $ilDB->quote("wpg", "text") .
             " AND wp.wiki_id = " . $ilDB->quote($a_wiki_id, "integer") .
+            " AND wp.lang = " . $ilDB->quote($lang, "text") .
             " ORDER BY title";
         $set = $ilDB->query($query);
 
@@ -455,49 +512,19 @@ class ilWikiPage extends ilPageObject
             $pages[] = array_merge($rec, array("user" => $rec["last_change_user"],
                 "date" => $rec["last_change"]));
         }
-
         return $pages;
-    }
-
-    public static function getOrphanedPages(
-        int $a_wiki_id
-    ): array {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $pages = self::getAllWikiPages($a_wiki_id);
-
-        $orphaned = array();
-        foreach ($pages as $k => $page) {
-            $sources = ilInternalLink::_getSourcesOfTarget("wpg", $page["id"], 0);
-            $ids = array();
-            foreach ($sources as $source) {
-                if ($source["type"] === "wpg:pg") {
-                    $ids[] = $source["id"];
-                }
-            }
-            $query = "SELECT count(*) cnt FROM il_wiki_page" .
-                " WHERE " . $ilDB->in("id", $ids, false, "integer") .
-                " AND wiki_id = " . $ilDB->quote($a_wiki_id, "integer") .
-                " GROUP BY wiki_id";
-            $set = $ilDB->query($query);
-            $rec = $ilDB->fetchAssoc($set);
-            if (count($ids) === 0 || ($rec && (int) $rec["cnt"] === 0)) {
-                if (ilObjWiki::_lookupStartPage($a_wiki_id) !== $page["title"]) {
-                    $orphaned[] = $page;
-                }
-            }
-        }
-
-        return $orphaned;
     }
 
     public static function _wikiPageExists(
         int $a_wiki_id,
-        string $a_title
+        string $a_title,
+        string $lang = "-"
     ): bool {
         global $DIC;
+
+        if ($lang === "") {
+            $lang = "-";
+        }
 
         $ilDB = $DIC->database();
 
@@ -505,7 +532,8 @@ class ilWikiPage extends ilPageObject
 
         $query = "SELECT id FROM il_wiki_page" .
             " WHERE wiki_id = " . $ilDB->quote($a_wiki_id, "integer") .
-            " AND title = " . $ilDB->quote($a_title, "text");
+            " AND title = " . $ilDB->quote($a_title, "text") .
+            " AND lang = " . $ilDB->quote($lang, "text");
         $set = $ilDB->query($query);
 
         if ($ilDB->fetchAssoc($set)) {
@@ -530,84 +558,15 @@ class ilWikiPage extends ilPageObject
     public function saveInternalLinks(
         DOMDocument $a_domdoc
     ): void {
-        $ilDB = $this->db;
-
-        $this->log->debug("start...");
-        // *** STEP 1: Standard Processing ***
-
         parent::saveInternalLinks($a_domdoc);
 
-
-        // *** STEP 2: Other Pages -> This Page ***
-
-        // Check, whether ANOTHER page links to this page as a "missing" page
-        // (this is the case, when this page is created newly)
-        $set = $ilDB->queryF(
-            "SELECT * FROM il_wiki_missing_page WHERE " .
-            " wiki_id = %s AND target_name = %s",
-            array("integer", "text"),
-            array($this->getWikiId(), ilWikiUtil::makeDbTitle($this->getTitle()))
+        $link_manager = $this->service->domain()->links($this->getWikiRefId());
+        $link_manager->saveInternalLinksForPage(
+            $a_domdoc,
+            $this->getId(),
+            $this->getTitle(),
+            $this->getLanguage()
         );
-        while ($anmiss = $ilDB->fetchAssoc($set)) {	// insert internal links instead
-            //echo "adding link";
-            ilInternalLink::_saveLink(
-                "wpg:pg",
-                $anmiss["source_id"],
-                "wpg",
-                $this->getId(),
-                0
-            );
-        }
-        //exit;
-        // now remove the missing page entries
-        $ilDB->manipulateF(
-            "DELETE FROM il_wiki_missing_page WHERE " .
-            " wiki_id = %s AND target_name = %s",
-            array("integer", "text"),
-            array($this->getWikiId(), $this->getTitle())
-        );
-
-
-        // *** STEP 3: This Page -> Other Pages ***
-
-        // remove the exising "missing page" links for THIS page (they will be re-inserted below)
-        $ilDB->manipulateF(
-            "DELETE FROM il_wiki_missing_page WHERE " .
-            " wiki_id = %s AND source_id = %s",
-            array("integer", "integer"),
-            array($this->getWikiId(), $this->getId())
-        );
-
-        // collect the wiki links of the page
-        $xml = $a_domdoc->saveXML();
-        $int_wiki_links = ilWikiUtil::collectInternalLinks($xml, $this->getWikiId(), true);
-        foreach ($int_wiki_links as $wlink) {
-            $page_id = self::_getPageIdForWikiTitle($this->getWikiId(), $wlink);
-
-            if ($page_id > 0) {		// save internal link for existing page
-                ilInternalLink::_saveLink(
-                    "wpg:pg",
-                    $this->getId(),
-                    "wpg",
-                    $page_id,
-                    0
-                );
-            } else {		// save missing link for non-existing page
-                $ilDB->manipulateF(
-                    "DELETE FROM il_wiki_missing_page WHERE" .
-                    " wiki_id = %s AND source_id = %s AND target_name = %s",
-                    array("integer", "integer", "text"),
-                    array($this->getWikiId(), $this->getId(), $wlink)
-                );
-                $ilDB->manipulateF(
-                    "INSERT INTO il_wiki_missing_page (wiki_id, source_id, target_name)" .
-                    " VALUES (%s,%s,%s)",
-                    array("integer", "integer", "text"),
-                    array($this->getWikiId(), $this->getId(), $wlink)
-                );
-            }
-        }
-        $this->log->debug("...end");
     }
 
     /**
@@ -651,7 +610,8 @@ class ilWikiPage extends ilPageObject
 
         // delete record of table il_wiki_data
         $query = "SELECT count(*) as cnt FROM il_wiki_page" .
-            " WHERE wiki_id = " . $ilDB->quote($a_wiki_id, "integer");
+            " WHERE wiki_id = " . $ilDB->quote($a_wiki_id, "integer") .
+            " WHERE lang = " . $ilDB->quote("-", "text");
         $s = $ilDB->query($query);
         $r = $ilDB->fetchAssoc($s);
 
@@ -674,7 +634,6 @@ class ilWikiPage extends ilPageObject
         $random = new \ilRandom();
         $rand = $random->int(1, $cnt);
 
-        // delete record of table il_wiki_data
         $ilDB->setLimit(1, $rand);
         $query = "SELECT title FROM il_wiki_page" .
             " WHERE wiki_id = " . $ilDB->quote($a_wiki_id, "integer");
@@ -740,7 +699,7 @@ class ilWikiPage extends ilPageObject
 
             foreach ($sources as $s) {
                 if ($s["type"] === "wpg:pg" && ilPageObject::_exists("wpg", $s["id"])) {
-                    $wpage = new ilWikiPage($s["id"]);
+                    $wpage = new ilWikiPage($s["id"], 0, $s["lang"]);
 
                     $col = ilWikiUtil::collectInternalLinks(
                         $wpage->getXMLContent(),
@@ -894,7 +853,7 @@ class ilWikiPage extends ilPageObject
     {
         $wt = new ilWikiPageTemplate($this->getWikiId());
         $templates = array();
-        foreach ($wt->getAllInfo(ilWikiPageTemplate::TYPE_ADD_TO_PAGE) as $t) {
+        foreach ($wt->getAllInfo(ilWikiPageTemplate::TYPE_ADD_TO_PAGE, $this->getLanguage()) as $t) {
             $templates[] = array("id" => $t["wpage_id"], "parent_type" => "wpg", "title" => $t["title"]);
         }
         return $templates;
@@ -936,4 +895,21 @@ class ilWikiPage extends ilPageObject
 
         return false;
     }
+
+    public function preparePageForCompare(ilPageObject $page): void
+    {
+        $page->setWikiRefId($this->getWikiRefId());
+    }
+
+    protected function setTranslationProperties(ilPageObject $transl_page): void
+    {
+        parent::setTranslationProperties($transl_page);
+        $transl_page->setWikiRefId($this->getWikiRefId());
+    }
+
+    protected function setCopyProperties(ilPageObject $new_page): void
+    {
+        $new_page->setWikiRefId($this->getWikiRefId());
+    }
+
 }

@@ -35,7 +35,7 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
         $lng->loadLanguageModule("tax");
 
         $title = $lng->txt("tax_taxonomy");
-        $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_tax.svg"), $title);
+        $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("standard/icon_tax.svg"), $title);
 
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();

@@ -73,12 +73,12 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         if ($a_submission->canSubmit()) {
             $link = $gui->link(
                 $lng->txt("exc_text_assignment_edit"),
-                $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "editAssignmentText")
+                $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionTextGUI"), "editAssignmentText")
             )->primary();
         } else {
             $link = $gui->link(
                 $lng->txt("exc_text_assignment_show"),
-                $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "showAssignmentText")
+                $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionTextGUI"), "showAssignmentText")
             )->emphasised();
         }
         $files_str = $link->render();
@@ -280,7 +280,6 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
                 $text->setValue(nl2br(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1)));
             }
         }
-
         $this->tpl->setContent($a_form->getHTML());
     }
 }

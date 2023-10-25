@@ -77,7 +77,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         return trim($html);
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $secondary_panel = $this->getUIFactory()->legacyPanel("List Title", $legacy);
@@ -85,7 +85,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Panel\\Secondary\\Legacy", $secondary_panel);
     }
 
-    public function test_get_title(): void
+    public function testGetTitle(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $secondary_panel = $this->getUIFactory()->legacyPanel("Title", $legacy);
@@ -93,7 +93,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals("Title", $secondary_panel->getTitle());
     }
 
-    public function test_get_legacy_component(): void
+    public function testGetLegacyComponent(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $secondary_panel = $this->getUIFactory()->legacyPanel("title", $legacy);
@@ -101,7 +101,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals($secondary_panel->getLegacyComponent(), $legacy);
     }
 
-    public function test_with_actions(): void
+    public function testWithActions(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $actions = $this->getUIFactory()->dropdown()->standard(array(
@@ -115,7 +115,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals($secondary_panel->getActions(), $actions);
     }
 
-    public function test_without_viewcontrols(): void
+    public function testWithoutViewControls(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $secondary_panel = $this->getUIFactory()->legacyPanel("title", $legacy);
@@ -124,7 +124,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $array_vc);
     }
 
-    public function test_with_sortation_viewcontrol(): void
+    public function testWithSortationViewControl(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $sort_options = array(
@@ -142,7 +142,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals($array_vc[0], $sortation);
     }
 
-    public function test_with_pagination_viewcontrol(): void
+    public function testWithPaginationViewControl(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $pagination = $this->getUIFactory()->viewControl()->pagination()
@@ -159,7 +159,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals($array_vc[0], $pagination);
     }
 
-    public function test_with_section_viewcontrol(): void
+    public function testWithSectionViewControl(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $back = $this->getUIFactory()->button()->standard("previous", "http://www.ilias.de");

@@ -70,7 +70,7 @@ class ilLMTree extends ilTree
             " ORDER BY lm_tree.rgt DESC";
         $set = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($set);
-        return (int) $row["obj_id"];
+        return (int) ($row["obj_id"] ?? 0);
     }
 
     /**

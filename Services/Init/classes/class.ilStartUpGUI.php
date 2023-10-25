@@ -853,7 +853,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if ($this->setting->get("cas_active")) {
             $tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'Services/Init');
             $tpl->setVariable("TXT_CAS_LOGIN", $this->lng->txt("login_to_ilias_via_cas"));
-            $tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.png"));
+            $tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("auth/cas_login_button.png"));
             $tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $this->setting->get("cas_login_instructions"));
             $this->ctrl->setParameter($this, "forceCASLogin", "1");
             $tpl->setVariable("TARGET_CAS_LOGIN", $this->ctrl->getLinkTarget($this, "doCasAuthentication"));

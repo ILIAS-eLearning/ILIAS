@@ -89,12 +89,9 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
         // TODO: It would be a lot nicer if the value would be held as DateTimeImmutable
         // internally, but currently this is just to much. Added to the roadmap.
         if ($value instanceof \DateTimeImmutable) {
-            $value = $this->format->applyTo($value);
+            $value = $value->format(Renderer::HTML5_NATIVE_DATETIME_FORMAT);
         }
-
-        $clone = clone $this;
-        $clone->value = $value;
-        return $clone;
+        return parent::withValue($value);
     }
 
     public function withFormat(DateFormat $format): self
@@ -176,7 +173,25 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
 
     public function isClientSideValueOk($value): bool
     {
-        return is_string($value);
+        if ($value instanceof \DateTimeImmutable || is_null($value)) {
+            return true;
+        }
+
+        if (!is_string($value)) {
+            return false;
+        }
+
+        try {
+            new \DateTimeImmutable($value);
+            return true;
+        }
+        // We should mostly not catch generic Throwables because we will be masking
+        // a lot of error conditions in this way... But, unfortunately, I cannot
+        // currently see a better way to check if \DateTimeImmutable would accept
+        // the supplied $value, so here we go...
+        catch (\Throwable $e) {
+            return false;
+        }
     }
 
     protected function getConstraintForRequirement(): ?Constraint

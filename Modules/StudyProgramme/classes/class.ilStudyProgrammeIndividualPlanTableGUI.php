@@ -86,10 +86,10 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $ui_factory = $DIC['ui.factory'];
         $ui_renderer = $DIC['ui.renderer'];
         $this->possible_image = $ui_renderer->render(
-            $ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_ok.svg"), 'ok')->withSize('small')
+            $ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_ok.svg"), 'ok')->withSize('small')
         );
         $this->not_possible_image = $ui_renderer->render(
-            $ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_not_ok.svg"), 'not ok')->withSize('small')
+            $ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_not_ok.svg"), 'not ok')->withSize('small')
         );
     }
 

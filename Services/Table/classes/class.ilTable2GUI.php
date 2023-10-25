@@ -1111,7 +1111,7 @@ class ilTable2GUI extends ilTableGUI
                 } else {
                     $this->tpl->setVariable(
                         "TBL_HEADER_CELL_NO_LINK",
-                        ilUtil::img(ilUtil::getImagePath("spacer.png"), $lng->txt("action"))
+                        ilUtil::img(ilUtil::getImagePath("media/spacer.png"), $lng->txt("action"))
                     );
                 }
                 $this->tpl->setVariable("HEAD_CELL_NL_ID", "thc_" . $this->getId() . "_" . $ccnt);
@@ -2361,13 +2361,13 @@ class ilTable2GUI extends ilTableGUI
 
         if ($arrow) {
             $this->tpl->setCurrentBlock("tbl_action_img_arrow");
-            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
             $this->tpl->setVariable("ALT_ARROW", $lng->txt("action"));
             $this->tpl->parseCurrentBlock();
 
             if ($this->getTopCommands()) {
                 $this->tpl->setCurrentBlock("tbl_top_action_img_arrow");
-                $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_upright.svg"));
+                $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_upright.svg"));
                 $this->tpl->setVariable("ALT_ARROW", $lng->txt("action"));
                 $this->tpl->parseCurrentBlock();
             }

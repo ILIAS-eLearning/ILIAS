@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -45,37 +45,37 @@ class LinearWorkflowTest extends ILIAS_UI_TestBase
         $this->wf = $f->linear($this->title, $this->steps);
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $this->assertInstanceOf(Workflow\Workflow::class, $this->wf);
     }
 
-    public function test_constructor_params(): void
+    public function testConstructorParams(): void
     {
         $this->assertEquals($this->title, $this->wf->getTitle());
         $this->assertEquals($this->steps, $this->wf->getSteps());
         $this->assertEquals(0, $this->wf->getActive());
     }
 
-    public function test_constructor(): void
+    public function testConstructor(): void
     {
         $this->assertEquals($this->title, $this->wf->getTitle());
         $this->assertEquals($this->steps, $this->wf->getSteps());
         $this->assertEquals(0, $this->wf->getActive());
     }
 
-    public function test_amount_of_steps(): void
+    public function testAmountOfSteps(): void
     {
         $this->assertEquals(count($this->steps), $this->wf->getAmountOfSteps());
     }
 
-    public function test_active(): void
+    public function testActive(): void
     {
         $wf = $this->wf->withActive(1);
         $this->assertEquals(1, $wf->getActive());
     }
 
-    public function test_withActive_throws(): void
+    public function testWithActiveThrows(): void
     {
         $raised = false;
         try {

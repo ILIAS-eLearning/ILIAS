@@ -37,7 +37,7 @@ class PCInteractiveImageTest extends COPageTestBase
                              ->disableOriginalConstructor()
                              ->getMock();
         $media_object->method("getMediaItem")
-                  ->willReturnCallback(fn () => $media_item);
+                  ->willReturnCallback(fn() => $media_item);
         return $media_object;
     }
 
@@ -50,7 +50,7 @@ class PCInteractiveImageTest extends COPageTestBase
                              ->disableOriginalConstructor()
                              ->getMock();
         $object_adapter->method("getTypeForObjId")
-                     ->willReturnCallback(fn () => "dummy");
+                     ->willReturnCallback(fn() => "dummy");
         return $object_adapter;
     }
 

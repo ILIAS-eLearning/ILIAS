@@ -50,6 +50,14 @@ class StandardGUIRequest
 
     public function getItemId(): int
     {
+        $item_ids = $this->intArray("mcst_ids");
+        if (count($item_ids) === 1) {
+            return (int) current($item_ids);
+        }
+        $item_id = $this->int("mcst_ids");
+        if ($item_id > 0) {
+            return $item_id;
+        }
         return $this->int("item_id");
     }
 
@@ -86,6 +94,14 @@ class StandardGUIRequest
     /** @return int[] */
     public function getItemIds(): array
     {
+        $id_str = $this->str("mcst_ids");
+        if ($id_str !== "") {
+            return explode(",", $id_str);           // from table multi action
+        }
+        $ids = $this->intArray("interruptive_items");   // from confirmation
+        if (count($ids) > 0) {
+            return $ids;
+        }
         return $this->intArray("item_id");
     }
 
@@ -117,5 +133,10 @@ class StandardGUIRequest
     public function getMimeTypes(): string
     {
         return $this->str("mimetypes");
+    }
+
+    public function getTableAction(string $action_parameter): string
+    {
+        return $this->str($action_parameter);
     }
 }

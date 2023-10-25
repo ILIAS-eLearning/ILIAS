@@ -76,9 +76,11 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
     public function getTemplateInjectors(): array
     {
+        $page = new \ilWikiPage();
+        $page->setEmptyPageXml();
         $resource_collector = new COPage\ResourcesCollector(
             \ilPageObjectGUI::OFFLINE,
-            new \ilWikiPage()
+            $page
         );
         $resource_injector = new COPage\ResourcesInjector($resource_collector);
 
@@ -93,7 +95,11 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     {
         $print_pages = [];
         foreach ($this->selected_pages as $p_id) {
-            $page_gui = new \ilWikiPageGUI($p_id);
+            $page_gui = new \ilWikiPageGUI(
+                $p_id,
+                0,
+                $this->wiki->getRefId()
+            );
             $page_gui->setWiki($this->wiki);
             $page_gui->setOutputMode($this->getOutputMode());
             $print_pages[] = $page_gui->showPage();
@@ -135,7 +141,7 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
                 0,
                 false,
                 false,
-                \ilUtil::getImagePath("icon_pg.svg"),
+                \ilUtil::getImagePath("standard/icon_pg.svg"),
                 $lng->txt("wiki_page")
             );
         }

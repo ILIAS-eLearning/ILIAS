@@ -32,6 +32,7 @@ export default class Controller {
    * Init editor
    */
   init(after_init) {
+    console.log(this.ui);
     this.ui.init(after_init);
   }
 

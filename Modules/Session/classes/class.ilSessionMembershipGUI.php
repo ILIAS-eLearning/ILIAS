@@ -256,7 +256,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
                 'participants[]',
                 $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
-                ilUtil::getImagePath('icon_usr.svg')
+                ilUtil::getImagePath('standard/icon_usr.svg')
             );
         }
 

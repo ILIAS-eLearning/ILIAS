@@ -23,7 +23,10 @@
  */
 class ilWikiRecentChangesTableGUI extends ilTable2GUI
 {
+    protected int $requested_ref_id;
     protected int $wiki_id = 0;
+    protected ilObjectTranslation $ot;
+    protected \ILIAS\Wiki\Page\PageManager $pm;
 
     public function __construct(
         object $a_parent_obj,
@@ -32,19 +35,28 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
     ) {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
+        $service = $DIC->wiki()->internal();
+        $gui = $service->gui();
+        $domain = $service->domain();
+        $this->ctrl = $gui->ctrl();
+        $this->lng = $domain->lng();
+        $this->requested_ref_id = $gui
+            ->request()
+            ->getRefId();
+        $this->pm = $domain->page()->page($this->requested_ref_id);
+        $this->ot = $domain->wiki()->translation($a_wiki_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->wiki_id = $a_wiki_id;
 
-        $this->addColumn($lng->txt("wiki_last_changed"), "", "33%");
-        $this->addColumn($lng->txt("wiki_page"), "", "33%");
-        $this->addColumn($lng->txt("wiki_last_changed_by"), "", "67%");
+        $this->addColumn($this->lng->txt("wiki_last_changed"));
+        $this->addColumn($this->lng->txt("wiki_page"));
+        if ($this->ot->getContentActivated()) {
+            $this->addColumn($this->lng->txt("language"));
+        }
+        $this->addColumn($this->lng->txt("wiki_last_changed_by"));
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.table_row_recent_changes.html",
             "Modules/Wiki"
@@ -53,12 +65,22 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 
         $this->setShowRowsSelector(true);
 
-        $this->setTitle($lng->txt("wiki_recent_changes"));
+        $this->setTitle($this->lng->txt("wiki_recent_changes"));
     }
 
     public function getRecentChanges(): void
     {
-        $changes = ilWikiPage::getRecentChanges("wpg", $this->wiki_id);
+        $changes = [];
+        foreach ($this->pm->getRecentChanges() as $pi) {
+            $changes[] = [
+                "date" => $pi->getLastChange(),
+                "user" => $pi->getLastChangedUser(),
+                "id" => $pi->getId(),
+                "title" => $pi->getTitle(),
+                "lang" => $pi->getLanguage(),
+                "nr" => $pi->getOldNr()
+            ];
+        }
         $this->setDefaultOrderField("date");
         $this->setDefaultOrderDirection("desc");
         $this->setData($changes);
@@ -68,13 +90,24 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
 
-        $title = ilWikiPage::lookupTitle($a_set["id"]);
+        if ($this->ot->getContentActivated()) {
+            $l = $a_set["lang"];
+            if ($l === "-") {
+                $l = $this->ot->getMasterLanguage();
+            }
+            $this->tpl->setCurrentBlock("lang");
+            $this->tpl->setVariable("LANG", $this->lng->txt("meta_l_" . $l));
+            $this->tpl->parseCurrentBlock();
+        }
+
+        $title = $a_set["title"];
         $this->tpl->setVariable("TXT_PAGE_TITLE", $title);
         $this->tpl->setVariable(
             "DATE",
             ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME))
         );
-        $ilCtrl->setParameterByClass("ilwikipagegui", "page", rawurlencode($title));
+        $ilCtrl->setParameterByClass("ilwikipagegui", "wpg_id", $a_set["id"]);
+        $ilCtrl->setParameterByClass("ilwikipagegui", "transl", $a_set["lang"]);
         $ilCtrl->setParameterByClass("ilwikipagegui", "old_nr", $a_set["nr"] ?? "");
         $this->tpl->setVariable(
             "HREF_PAGE",

@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Prikaži pregled rezultata ocijenjenog prolaza testa
 assessment#:#show_user_answers#:#Pokaži ocijenjene odgovore korisnika
 assessment#:#shuffle_answers#:#Pomiješaj odgovore
-assessment#:#sign_submission#:#Digitalni potpis za predaju testa
-assessment#:#sign_submission_info#:#Ako je ova opcija aktivirana te ako je instaliran i aktivan plugin za potpis, od sudionika će biti zatraženo da prilikom predaje digitalno potpišu test.
 assessment#:#skip_question#:#Nemoj odgovoriti i dalje
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Bodovi će se dati na temelju korištenja sljedećih ključnih riječi:
@@ -1687,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Nudi rezultate testa kada je test završen
 assessment#:#tst_report_never#:#Nema dostupnih rezultata testa
 assessment#:#tst_reporting_date#:#Datum
 assessment#:#tst_res_jump_to_participant_btn#:#Skoči na
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Skoči na sudionika--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Skoči na sudionika
 assessment#:#tst_res_lo_objectives_header#:#Relevantni ciljevi učenja
 assessment#:#tst_res_lo_try_header#:#Pokušaj
 assessment#:#tst_res_lo_try_n#:#Pokušaj %s
@@ -7643,8 +7641,6 @@ crs#:#crs_timings_suggested_info#:#Predloženo vrijeme obrade
 crs#:#crs_timings_time_frame#:#Vremenski okvir
 crs#:#crs_timings_time_frame_tt#:#Vremenski okvir u danima
 crs#:#crs_timings_update_error#:#Vaše postavke nisu valjane, provjerite raspored za sljedeće materijale za tečaj:
-crs#:#crs_timings_visibility#:#Ako je odabran, materijal je vidljiv i izvan zadane dostupnosti.
-crs#:#crs_timings_visibility_short#:#Vidljivost
 crs#:#crs_timings_warning_timing_exists#:#Vremena su konfigurirana za ovaj objekt. Ako aktivirate postavke dostupnosti, ove će se postavke vremena resetirati.
 crs#:#crs_to#:#Do
 crs#:#crs_tutor#:#Mentor
@@ -10674,10 +10670,10 @@ mail#:#mail_roles#:#to users with the following local roles###29 07 2022 new var
 mail#:#mail_s#:#E-pošta(e)
 mail#:#mail_salutation_anonymous#:#Pozdrav
 mail#:#mail_salutation_f#:#Poštovana gospođo.
-mail#:#mail_salutation_female#:#Izlaz za rezervirano mjesto [MAIL_SALUTATION], ako je oslovaljavanje "Gospođa"
-mail#:#mail_salutation_general#:#Izlaz za rezervirano mjesto [MAIL_SALUTATION], ako oslovljavanje nije poželjno ili navedeno
+mail#:#mail_salutation_female#:#Izlaz za rezervirano mjesto &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, ako je oslovaljavanje "Gospođa"
+mail#:#mail_salutation_general#:#Izlaz za rezervirano mjesto &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, ako oslovljavanje nije poželjno ili navedeno
 mail#:#mail_salutation_m#:#Poštovani gospodine.
-mail#:#mail_salutation_male#:#Izlaz za rezervirano mjesto [MAIL_SALUTATION], ako je oslovljavanje "Gospodin"
+mail#:#mail_salutation_male#:#Izlaz za rezervirano mjesto &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, ako je oslovljavanje "Gospodin"
 mail#:#mail_salutation_n#:#Pozdrav
 mail#:#mail_saved#:#Poruka je spremljena
 mail#:#mail_second_email#:#Druga adresa e-pošte
@@ -11932,6 +11928,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Vidljivost
+obj#:#activation_visible_when_disabled_info#:#Ako je odabran, materijal je vidljiv i izvan zadane dostupnosti.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###04 06 2021 new variable
 obj#:#cont_skll_published#:#Svi su zadaci objavljeni.
 obj#:#cont_skll_published_some_not#:#Svi zadani zadaci su objavljeni. Neki korisnici nisu imali zadatke kompetencija, pase nije mogao objaviti nijedan zadatak.

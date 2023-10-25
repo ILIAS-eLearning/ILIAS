@@ -183,7 +183,7 @@ class ilMailFolderGUI
             $this->lng->txt('profile_of'),
             ilObjUser::_lookupLogin($userId),
         ]));
-        $this->tpl->setVariable('TBL_TITLE_IMG', ilUtil::getImagePath('icon_usr.svg'));
+        $this->tpl->setVariable('TBL_TITLE_IMG', ilUtil::getImagePath('standard/icon_usr.svg'));
         $this->tpl->setVariable('TBL_TITLE_IMG_ALT', $this->lng->txt('public_profile'));
 
         $profile_gui = new ilPublicUserProfileGUI($userId);
@@ -691,7 +691,7 @@ class ilMailFolderGUI
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
             $from->setHtml(
                 ilUtil::img(
-                    ilUtil::getImagePath('HeaderIconAvatar.svg'),
+                    ilUtil::getImagePath('logo/HeaderIconAvatar.svg'),
                     ilMail::_getIliasMailerName(),
                     '',
                     '',

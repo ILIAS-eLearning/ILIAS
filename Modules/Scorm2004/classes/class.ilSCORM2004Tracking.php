@@ -285,6 +285,7 @@ class ilSCORM2004Tracking
         global $DIC;
 
         $ilDB = $DIC->database();
+        $cnt = 0;
 
         if (is_array($a_scos)) {
             $in = $ilDB->in('cp_node.cp_node_id', $a_scos, false, 'integer');
@@ -303,7 +304,6 @@ class ilSCORM2004Tracking
             );
 
 
-            $cnt = 0;
             while ($rec = $ilDB->fetchAssoc($res)) {
                 // #8171: alex, added (!$a_omit_failed || $rec["success"] != "failed")
                 // since completed/failed combination should not be included in

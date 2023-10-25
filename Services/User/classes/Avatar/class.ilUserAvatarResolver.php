@@ -34,9 +34,7 @@ class ilUserAvatarResolver
     private bool $letter_avatars_activated;
     private ilUserProfilePictureDefinition $flavour_definition;
     private string $size;
-    private array $available_sizes = [];
     private bool $is_current_user;
-    private string $login_name;
     private ilObjUser $for_user;
     private bool $has_public_upload = false;
     private bool $has_public_profile = false;
@@ -162,7 +160,7 @@ class ilUserAvatarResolver
         // Fallback Image
         if ($this->letter_avatars_activated === false) {
             return $this->ui->symbol()->avatar()->picture(
-                \ilUtil::getImagePath('no_photo_xsmall.jpg'),
+                \ilUtil::getImagePath('placeholder/no_photo_xsmall.jpg'),
                 $this->for_user->getLogin()
             );
         }

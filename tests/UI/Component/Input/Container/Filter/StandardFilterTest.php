@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
@@ -139,7 +140,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_activated_collapsed(): void
+    public function testRenderActivatedCollapsed(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -273,7 +274,7 @@ EOT;
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
 
-    public function test_render_deactivated_collapsed(): void
+    public function testRenderDeactivatedCollapsed(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -407,7 +408,7 @@ EOT;
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
 
-    public function test_render_activated_expanded(): void
+    public function testRenderActivatedExpanded(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -541,7 +542,7 @@ EOT;
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
 
-    public function test_render_deactivated_expanded(): void
+    public function testRenderDeactivatedExpanded(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -675,7 +676,7 @@ EOT;
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
 
-    public function test_dedicated_names(): void
+    public function testDedicatedNames(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();

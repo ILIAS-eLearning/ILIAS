@@ -48,10 +48,7 @@ class ilScorm2004BaseTestCase extends TestCase
         parent::setUp();
     }
 
-    /**
-     * @param mixed  $value
-     */
-    protected function setGlobalVariable(string $name, $value): void
+    protected function setGlobalVariable(string $name, mixed $value): void
     {
         global $DIC;
 

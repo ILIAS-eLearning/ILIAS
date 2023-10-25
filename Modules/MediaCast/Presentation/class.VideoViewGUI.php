@@ -28,6 +28,8 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
  */
 class VideoViewGUI
 {
+    protected \ilCtrlInterface $ctrl;
+    protected \ILIAS\MediaCast\MediaCastManager $mc_manager;
     protected \ilToolbarGUI $toolbar;
     protected \ilGlobalTemplateInterface $main_tpl;
     protected \ilObjMediaCast $media_cast;
@@ -52,6 +54,10 @@ class VideoViewGUI
         $this->user = $DIC->user();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->toolbar = $DIC->toolbar();
+        $this->ctrl = $DIC->ctrl();
+        $this->mc_manager = $DIC->mediaCast()->internal()->domain()->mediaCast(
+            $this->media_cast
+        );
     }
 
     public function setCompletedCallback(string $completed_callback): void
@@ -101,17 +107,23 @@ class VideoViewGUI
                           "$(\"#$id\").click(function() { il.VideoWidget.next(\"" . $this->video_wrapper_id . "\"); return false;});";
                   });
 
-        $toolbar->addComponent($back);
-        $toolbar->addComponent($next);
+        $toolbar->addStickyItem($back);
+
+        $dd = $this->getDropdown();
+        if (!is_null($dd)) {
+            $toolbar->addStickyItem($dd);
+        }
+
+        $toolbar->addStickyItem($next);
 
         // autoplay
         if ($this->media_cast->getAutoplayMode() != \ilObjMediaCast::AUTOPLAY_NO) {
-            $toolbar->addSeparator();
+            //$toolbar->addSeparator();
             $s = new SignalGenerator();
             $autoplay_on = $s->create();
             $autoplay_off = $s->create();
             $button = $factory->button()->toggle($lng->txt("mcst_autoplay"), $autoplay_on, $autoplay_off, $autoplay);
-            $toolbar->addComponent($button);
+            $toolbar->addStickyItem($button);
             $this->main_tpl->addOnLoadCode("
                 $(document).on('" . $autoplay_on . "', function (event, signalData) {
                     il.VideoPlaylist.autoplay('mcst_playlist', true);
@@ -131,6 +143,24 @@ class VideoViewGUI
             $autoplay = false;
         }
         return $autoplay;
+    }
+
+    protected function getDropdown(): ?\ILIAS\UI\Component\Dropdown\Standard
+    {
+
+        $actions = [];
+        foreach ($this->video_sequence->getVideos() as $video) {
+            $actions[] = $this->ui->factory()->button()->shy(
+                $video->getTitle(),
+                "#"
+            )->withOnLoadCode(function (string $id) use ($video) {
+                return "document.getElementById('$id').addEventListener('click', () => {il.VideoPlaylist.toggleItem('mcst_playlist', '" . $video->getId() . "'); $('.ilToolbarStickyItem .dropdown.open').removeClass('open');});";
+            });
+        }
+        if (count($actions) > 0) {
+            return $this->ui->factory()->dropdown()->standard($actions);
+        }
+        return null;
     }
 
     public function renderSideColumn(): string
@@ -282,8 +312,22 @@ class VideoViewGUI
     {
         if (is_object($this->tpl)) {
             $this->renderToolbar();
-            $this->tpl->setContent($this->renderMainColumn());
+            $this->tpl->setContent(
+                $this->renderMainColumn() .
+                $this->renderCommentsContainer()
+            );
             $this->tpl->setRightContent($this->renderSideColumn());
+        }
+    }
+
+    public function renderCommentsContainer()
+    {
+        if ($this->mc_manager->commentsActive()) {
+            $target = $this->ctrl->getLinkTargetByClass(
+                \ilObjMediaCastGUI::class,
+                "showComments"
+            );
+            return "<div data-mcst-comments='$target'></div>";
         }
     }
 }

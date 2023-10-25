@@ -561,7 +561,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $top_tb->setFormAction($this->ctrl->getFormAction($this, 'confirmRemove'));
         $top_tb->setFormName('pd_remove_multiple_view_' . $this->viewSettings->getCurrentView());
         $top_tb->setId('pd_remove_multiple_view_' . $this->viewSettings->getCurrentView());
-        $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
+        $top_tb->setLeadingImage(ilUtil::getImagePath('nav/arrow_upright.svg'), $this->lng->txt('actions'));
         $this->ctrl->setParameter($this, 'page', 'confirm');
         $url = $this->ctrl->getLinkTarget(
             $this,
@@ -602,7 +602,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $top_tb->setCloseFormTag(false);
 
         $bot_tb = new ilToolbarGUI();
-        $bot_tb->setLeadingImage(ilUtil::getImagePath('arrow_downright.svg'), $this->lng->txt('actions'));
+        $bot_tb->setLeadingImage(ilUtil::getImagePath('nav/arrow_downright.svg'), $this->lng->txt('actions'));
         $bot_tb->addStickyItem($button);
         $bot_tb->setOpenFormTag(false);
 

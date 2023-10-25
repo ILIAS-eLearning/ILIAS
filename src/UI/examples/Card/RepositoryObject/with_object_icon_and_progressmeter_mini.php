@@ -24,7 +24,7 @@ function with_object_icon_and_progressmeter_mini()
     );
 
     $image = $f->image()->responsive(
-        "./templates/default/images/HeaderIcon.svg",
+        "./templates/default/images/logo/HeaderIcon.svg",
         "Thumbnail Example"
     );
 

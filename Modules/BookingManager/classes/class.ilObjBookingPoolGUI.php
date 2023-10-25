@@ -692,7 +692,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                 )) {
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_off.svg"),
+                        ilUtil::getImagePath("object/notification_off.svg"),
                         $lng->txt("noti_notification_deactivated")
                     );
 
@@ -701,7 +701,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                 } else {
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_on.svg"),
+                        ilUtil::getImagePath("object/notification_on.svg"),
                         $lng->txt("noti_notification_activated")
                     );
 

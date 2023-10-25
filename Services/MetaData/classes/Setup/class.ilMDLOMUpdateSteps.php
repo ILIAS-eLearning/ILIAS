@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Tim Schmitz <schmitz@leifos.de>
- */
 class ilMDLOMUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
@@ -153,6 +150,281 @@ class ilMDLOMUpdateSteps implements ilDatabaseUpdateSteps
                     'length' => 2
                 ]
             );
+        }
+    }
+
+    /**
+     * Add a new table for the non-unique coverage.
+     */
+    public function step_6(): void
+    {
+        if (!$this->db->tableExists('il_meta_coverage')) {
+            $this->db->createTable(
+                'il_meta_coverage',
+                [
+                    'meta_coverage_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                        'notnull' => true,
+                        'default' => 0
+                    ],
+                    'rbac_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 6
+                    ],
+                    'parent_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ],
+                    'parent_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'coverage' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 4000
+                    ],
+                    'coverage_language' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 2,
+                        'fixed' => true
+                    ]
+                ]
+            );
+
+            $this->db->createSequence('il_meta_coverage');
+            $this->db->addPrimaryKey('il_meta_coverage', ['meta_coverage_id']);
+        }
+    }
+
+    /**
+     * Add a new table for the non-unique metadata schema.
+     */
+    public function step_7(): void
+    {
+        if (!$this->db->tableExists('il_meta_meta_schema')) {
+            $this->db->createTable(
+                'il_meta_meta_schema',
+                [
+                    'meta_meta_schema_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                        'notnull' => true,
+                        'default' => 0
+                    ],
+                    'rbac_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 6
+                    ],
+                    'parent_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ],
+                    'parent_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'meta_data_schema' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ]
+                ]
+            );
+
+            $this->db->createSequence('il_meta_meta_schema');
+            $this->db->addPrimaryKey('il_meta_meta_schema', ['meta_meta_schema_id']);
+        }
+    }
+
+    /**
+     * Add a new table for the non-unique or-composite in requirements.
+     */
+    public function step_8(): void
+    {
+        if (!$this->db->tableExists('il_meta_or_composite')) {
+            $this->db->createTable(
+                'il_meta_or_composite',
+                [
+                    'meta_or_composite_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                        'notnull' => true,
+                        'default' => 0
+                    ],
+                    'rbac_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 6
+                    ],
+                    'parent_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ],
+                    'parent_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ],
+                    'name' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 32
+                    ],
+                    'min_version' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 255
+                    ],
+                    'max_version' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 255
+                    ]
+                ]
+            );
+
+            $this->db->createSequence('il_meta_or_composite');
+            $this->db->addPrimaryKey('il_meta_or_composite', ['meta_or_composite_id']);
+        }
+    }
+
+    /**
+     * Add a new table for the non-unique learning resource type.
+     */
+    public function step_9(): void
+    {
+        if (!$this->db->tableExists('il_meta_lr_type')) {
+            $this->db->createTable(
+                'il_meta_lr_type',
+                [
+                    'meta_lr_type_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                        'notnull' => true,
+                        'default' => 0
+                    ],
+                    'rbac_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 6
+                    ],
+                    'parent_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ],
+                    'parent_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'learning_resource_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 32
+                    ]
+                ]
+            );
+
+            $this->db->createSequence('il_meta_lr_type');
+            $this->db->addPrimaryKey('il_meta_lr_type', ['meta_lr_type_id']);
+        }
+    }
+
+    /**
+     * Add a new table for the non-unique intented end user role.
+     */
+    public function step_10(): void
+    {
+        if (!$this->db->tableExists('il_meta_end_usr_role')) {
+            $this->db->createTable(
+                'il_meta_end_usr_role',
+                [
+                    'meta_end_usr_role_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                        'notnull' => true,
+                        'default' => 0
+                    ],
+                    'rbac_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 6
+                    ],
+                    'parent_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ],
+                    'parent_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'intended_end_user_role' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ]
+                ]
+            );
+
+            $this->db->createSequence('il_meta_end_usr_role');
+            $this->db->addPrimaryKey('il_meta_end_usr_role', ['meta_end_usr_role_id']);
+        }
+    }
+
+    /**
+     * Add a new table for the non-unique context.
+     */
+    public function step_11(): void
+    {
+        if (!$this->db->tableExists('il_meta_context')) {
+            $this->db->createTable(
+                'il_meta_context',
+                [
+                    'meta_context_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                        'notnull' => true,
+                        'default' => 0
+                    ],
+                    'rbac_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'obj_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 6
+                    ],
+                    'parent_type' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ],
+                    'parent_id' => [
+                        'type' => ilDBConstants::T_INTEGER,
+                    ],
+                    'context' => [
+                        'type' => ilDBConstants::T_TEXT,
+                        'length' => 16
+                    ]
+                ]
+            );
+
+            $this->db->createSequence('il_meta_context');
+            $this->db->addPrimaryKey('il_meta_context', ['meta_context_id']);
         }
     }
 }

@@ -29,6 +29,7 @@ $padding-small-x: 10px !default;
 $padding-small-y: 5px !default;
 $inner-spacing: math.div($padding-small-x, 2) !default;
 $set-full-width: false !default;
+$button_active-transform: scale(.95) !default;
 
 //
 // BUTTON CREATION
@@ -55,6 +56,7 @@ $set-full-width: false !default;
     $padding-small-y: $padding-small-y,
     $inner-spacing: $inner-spacing,
     $set-full-width: $set-full-width,
+    $active_transform: $button_active-transform,
 
     // SIZE
     $set-size: true,
@@ -99,7 +101,6 @@ $set-full-width: false !default;
     $hover_border-width: $border-width,
 
     $active_border-width: $border-width,
-    $active_transform: scale(.95),
 
     $hover_cursor: pointer,
 
@@ -177,7 +178,7 @@ $set-full-width: false !default;
         }
 
         // KEYBOARD FOCUS
-        @include focus.il-focus();
+        @include focus.il-focus-outline-only();
 
         // ACTIVE (BEING PRESSED)
         &:active {

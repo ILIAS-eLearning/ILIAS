@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\InternalRequestService;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
  * Export User Interface Class
@@ -41,7 +42,8 @@ class ilTestExportGUI extends ilExportGUI
         private ilObjectDataCache $obj_cache,
         private ilComponentRepository $component_repository,
         Generator $active_export_plugins,
-        private array $selected_files
+        private array $selected_files,
+        private QuestionInfoService $questioninfo,
     ) {
         parent::__construct($parent_gui, null);
 
@@ -79,7 +81,8 @@ class ilTestExportGUI extends ilExportGUI
             $this->lng,
             $this->logger,
             $this->tree,
-            $this->component_repository
+            $this->component_repository,
+            $this->questioninfo
         );
         $test_exp = $export_factory->getExporter('xml');
         $test_exp->setResultExportingEnabledForTestExport(true);
@@ -95,7 +98,8 @@ class ilTestExportGUI extends ilExportGUI
             $this->lng,
             $this->logger,
             $this->tree,
-            $this->component_repository
+            $this->component_repository,
+            $this->questioninfo
         );
         $test_exp = $export_factory->getExporter('results');
         $test_exp->buildExportFile();

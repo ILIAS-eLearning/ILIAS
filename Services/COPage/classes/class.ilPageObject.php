@@ -71,7 +71,7 @@ abstract class ilPageObject
     public string $xml = "";
     public string $encoding = "";
     public DomNode $node;
-    public string $cur_dtd = "ilias_pg_8.dtd";
+    public string $cur_dtd = "ilias_pg_9.dtd";
     public bool $contains_int_link = false;
     public bool $needs_parsing = false;
     public string $parent_type = "";
@@ -384,6 +384,9 @@ abstract class ilPageObject
         $nodes = $this->dom_util->path($this->dom, $path);
         if (count($nodes) == 1) {
             $this->node = $nodes->item(0);
+        } else {
+            throw new ilCOPageException("Invalid page xml (" .
+                $this->getId() . "," . $this->getLanguage() . "): " . $this->getXMLContent(true));
         }
 
         if (empty($error)) {
@@ -1236,24 +1239,27 @@ s     */
         $this->link->handleRepositoryLinksOnCopy($this->getDomDoc(), $a_mapping, $a_source_ref_id, $tree);
     }
 
+    public function setEmptyPageXml(): void
+    {
+        $this->setXMLContent("<PageObject></PageObject>");
+    }
+
     /**
      * Create new page object with current xml content
      */
     public function createFromXML(): void
     {
         $empty = false;
-        if ($this->getXMLContent() == "") {
-            $this->setXMLContent("<PageObject></PageObject>");
+        if ($this->getXMLContent() === "") {
+            $this->setEmptyPageXml();
             $empty = true;
         }
-
         $content = $this->getXMLContent();
         $this->buildDom(true);
         $dom_doc = $this->getDomDoc();
 
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
-
         // create object
         $this->db->insert("page_object", array(
             "page_id" => array("integer", $this->getId()),
@@ -1273,7 +1279,6 @@ s     */
             "last_change" => array("timestamp", ilUtil::now()),
             "is_empty" => array("integer", $empty)
         ));
-
         // after update event
         $this->__afterUpdate($dom_doc, $content, true, $empty);
     }
@@ -1548,7 +1553,13 @@ s     */
             $this->buildDom();
             $mobs = $this->collectMediaObjects(false);
         }
-        $mobs2 = ilObjMediaObject::_getMobsOfObject($this->getParentType() . ":pg", $this->getId(), false);
+        $mobs2 = ilObjMediaObject::_getMobsOfObject(
+            $this->getParentType() . ":pg",
+            $this->getId(),
+            false,
+            $this->getLanguage()
+        );
+
         foreach ($mobs2 as $m) {
             if (!in_array($m, $mobs)) {
                 $mobs[] = $m;
@@ -1572,17 +1583,22 @@ s     */
         ilObjMediaObject::_deleteAllUsages($this->getParentType() . ":pg", $this->getId());
 
         // delete news
-        ilNewsItem::deleteNewsOfContext(
-            $this->getParentId(),
-            $this->getParentType(),
-            $this->getId(),
-            "pg"
-        );
+        if (!$this->isTranslationPage()) {
+            ilNewsItem::deleteNewsOfContext(
+                $this->getParentId(),
+                $this->getParentType(),
+                $this->getId(),
+                "pg"
+            );
+        }
 
         // delete page_object entry
+        $and = $this->isTranslationPage()
+            ? " AND lang = " . $this->db->quote($this->getLanguage(), "text")
+            : "";
         $this->db->manipulate("DELETE FROM page_object " .
             "WHERE page_id = " . $this->db->quote($this->getId(), "integer") .
-            " AND parent_type= " . $this->db->quote($this->getParentType(), "text"));
+            " AND parent_type= " . $this->db->quote($this->getParentType(), "text") . $and);
 
         // delete media objects
         foreach ($mobs as $mob_id) {
@@ -1604,6 +1620,11 @@ s     */
         }
 
         $this->__afterDelete();
+    }
+
+    protected function isTranslationPage(): bool
+    {
+        return !in_array($this->getLanguage(), ["", "-"]);
     }
 
     /**
@@ -2126,6 +2147,10 @@ s     */
         return $ret;
     }
 
+    public function preparePageForCompare(ilPageObject $page): void
+    {
+    }
+
     /**
      * Increase view cnt
      */
@@ -2542,7 +2567,8 @@ s     */
         string $a_parent_type = "",
         int $a_new_parent_id = 0,
         bool $a_clone_mobs = false,
-        int $obj_copy_id = 0
+        int $obj_copy_id = 0,
+        bool $overwrite_existing = true
     ): void {
         if ($a_parent_type == "") {
             $a_parent_type = $this->getParentType();
@@ -2555,6 +2581,9 @@ s     */
             $existed = false;
             $orig_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), 0, $l);
             if (ilPageObject::_exists($a_parent_type, $a_id, $l)) {
+                if (!$overwrite_existing) {
+                    continue;
+                }
                 $new_page_object = ilPageObjectFactory::getInstance($a_parent_type, $a_id, 0, $l);
                 $existed = true;
             } else {
@@ -2566,6 +2595,7 @@ s     */
             $new_page_object->setActive($orig_page->getActive());
             $new_page_object->setActivationStart($orig_page->getActivationStart());
             $new_page_object->setActivationEnd($orig_page->getActivationEnd());
+            $this->setCopyProperties($new_page_object);
             if ($existed) {
                 $new_page_object->buildDom();
                 $new_page_object->update();
@@ -2574,6 +2604,11 @@ s     */
             }
         }
     }
+
+    protected function setCopyProperties(ilPageObject $new_page): void
+    {
+    }
+
 
     /**
      * Lookup translations
@@ -2610,14 +2645,20 @@ s     */
             0,
             $a_target_lang
         );
+        $this->setTranslationProperties($transl_page);
+        $transl_page->create(false);
+    }
+
+    protected function setTranslationProperties(self $transl_page): void
+    {
         $transl_page->setId($this->getId());
         $transl_page->setParentId($this->getParentId());
         $transl_page->setXMLContent($this->copyXmlContent());
         $transl_page->setActive($this->getActive());
         $transl_page->setActivationStart($this->getActivationStart());
         $transl_page->setActivationEnd($this->getActivationEnd());
-        $transl_page->create(false);
     }
+
 
     ////
     //// Page locking

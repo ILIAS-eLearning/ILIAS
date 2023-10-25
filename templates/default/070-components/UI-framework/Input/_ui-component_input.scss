@@ -113,32 +113,6 @@
 	border-radius: 0;
 }
 
-.form-control, .form-control:focus {
-  @include box-shadow(none);
-}
-
-.form-control:focus-visible {
-  @include box-shadow(none);
-  outline: $il-focus-outline-inner;
-}
-
-input[type="file"]:focus:focus-visible::after,
-input[type="radio"]:focus:focus-visible::after,
-input[type="checkbox"]:focus:focus-visible::after {
-  content: none;
-}
-
-input.btn.btn-default:focus-visible {
-  outline: $il-focus-outline-inner;
-  outline-offset: $il-focus-outline-inner-width;
-}
-
-.btn-file:focus-within, .btn-file:hover:focus-within {
-  z-index: 3;
-  outline: $il-focus-outline-inner;
-  outline-offset: $il-focus-outline-inner-width;
-}
-
 textarea.form-control {
   max-width: 100%;
 }
@@ -157,12 +131,6 @@ select.form-control {
 td.form-inline > div.form-group {
   display: block;
   padding: 4px 0;
-}
-
-input[type="radio"]:focus:focus-visible,
-input[type="checkbox"]:focus:focus-visible {
-  outline: $il-focus-outline-inner;
-  outline-offset: $il-focus-outline-outer-width;
 }
 
 

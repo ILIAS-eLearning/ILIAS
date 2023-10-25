@@ -26,6 +26,7 @@ use ILIAS\Glossary\Presentation;
  */
 class ilPresentationFullGUI
 {
+    protected ilObjUser $user;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;

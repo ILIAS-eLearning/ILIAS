@@ -45,8 +45,6 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCSectionTest.php");
         $suite->addTestSuite("PCSectionTest");
 
-        require_once("./include/inc.xml5compliance.php");
-        require_once("./include/inc.xsl5compliance.php");
         require_once("./Services/COPage/test/class.ilUnitTestPageConfig.php");
         require_once("./Services/COPage/test/PageObjectTest.php");
         require_once("./Services/COPage/test/class.ilUnitTestPageObject.php");
@@ -143,6 +141,9 @@ class ilServicesCOPageSuite extends TestSuite
 
         require_once("./Services/COPage/test/Layout/PageLayoutTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Layout\PageLayoutTest::class);
+
+        require_once("./Services/COPage/test/Html/TransformUtilTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\Html\TransformUtilTest::class);
 
         return $suite;
     }

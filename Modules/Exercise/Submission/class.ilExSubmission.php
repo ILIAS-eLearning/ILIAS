@@ -398,7 +398,7 @@ class ilExSubmission
             if ($this->team) {
                 $this->team->writeLog(
                     ilExAssignmentTeam::TEAM_LOG_ADD_FILE,
-                    $a_http_post_files["name"]
+                    $result->getName()
                 );
             }
 
@@ -813,7 +813,7 @@ class ilExSubmission
             " ORDER BY download_time DESC";
         $lu_set = $ilDB->query($q);
         $lu_rec = $ilDB->fetchAssoc($lu_set);
-        return $lu_rec["download_time"];
+        return $lu_rec["download_time"] ?? "";
     }
 
     public function downloadFiles(

@@ -114,7 +114,6 @@ class ilDidacticTemplateSettings
         if ($this->getObjectType()) {
             $query .= 'AND obj_type = ' . $this->db->quote($this->getObjectType(), 'text');
         }
-
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->templates[$row->id] = new ilDidacticTemplateSetting((int) $row->id);

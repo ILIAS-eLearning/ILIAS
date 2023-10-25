@@ -26,12 +26,17 @@ namespace ILIAS\MediaCast;
  */
 class MediaCastManager
 {
+    protected \ilSetting $settings;
+    protected \ilObjMediaCast $media_cast;
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_types;
 
-    public function __construct()
-    {
+    public function __construct(
+        \ilObjMediaCast $media_cast
+    ) {
         global $DIC;
 
+        $this->media_cast = $media_cast;
+        $this->settings = $DIC->settings();
         $this->media_types = $DIC->mediaObjects()
             ->internal()
             ->domain()
@@ -42,15 +47,26 @@ class MediaCastManager
     {
         switch ($view_mode) {
             case \ilObjMediaCast::VIEW_VCAST:
-                return $this->media_types->getVideoSuffixes();
+                return iterator_to_array($this->media_types->getAllowedVideoSuffixes());
                 break;
             case \ilObjMediaCast::VIEW_IMG_GALLERY:
-                return $this->media_types->getImageSuffixes();
+                return iterator_to_array($this->media_types->getAllowedImageSuffixes());
                 break;
             case \ilObjMediaCast::VIEW_PODCAST:
-                return $this->media_types->getAudioSuffixes();
+                return iterator_to_array($this->media_types->getAllowedAudioSuffixes());
                 break;
         }
         return [];
+    }
+
+    public function commentsActive(): bool
+    {
+        if ($this->settings->get("disable_comments")) {
+            return false;
+        }
+        if (!$this->media_cast->getComments()) {
+            return false;
+        }
+        return true;
     }
 }

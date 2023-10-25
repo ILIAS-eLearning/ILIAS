@@ -490,6 +490,9 @@ EOT;
                 1 => "four"
             ]
         ];
+        $expected->characteristic = '';
+        $expected->template = '';
+        $expected->hasHeaderRows = false;
 
         $this->assertEquals(
             $expected,

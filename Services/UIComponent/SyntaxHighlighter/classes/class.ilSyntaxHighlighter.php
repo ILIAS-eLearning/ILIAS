@@ -34,19 +34,32 @@ class ilSyntaxHighlighter
     public const VISUAL_BASIC = "vb";
     public const LATEX = "latex";
     public const DELPHI = "delphi";
+    public const PYTHON = "python";
+    public const CSS = "css";
+    public const JAVASCRIPT = "javascript";
+    public const SQL = "sql";
+    public const BASH = "bash";
+    public const POWERSHELL = "powershell";
 
     /**
      * @var string[]
      */
     protected static array $langs = array(
-        self::JAVA => "Java",
-        self::PHP => "PHP",
+        self::BASH => "Bash",
         self::C => "C",
         self::CPP => "C++",
+        self::CSS => "CSS",
+        self::DELPHI => "Delphi",
         self::HTML => "HTML",
-        self::XML => "XML",
+        self::JAVA => "Java",
+        self::JAVASCRIPT => "Javascript",
+        self::LATEX => "LaTeX",
+        self::PHP => "PHP",
+        self::POWERSHELL => "Powershell",
+        self::PYTHON => "Python",
+        self::SQL => "SQL",
         self::VISUAL_BASIC => "Visual Basic",
-        self::DELPHI => "Delphi"
+        self::XML => "XML"
     );
 
     /**

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -34,14 +34,14 @@ class DividerTest extends ILIAS_UI_TestBase
         return new I\Component\Divider\Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Divider\\Horizontal", $f->horizontal());
     }
 
-    public function test_with_label(): void
+    public function testWithLabel(): void
     {
         $f = $this->getFactory();
         $c = $f->horizontal()->withLabel("label");
@@ -49,7 +49,7 @@ class DividerTest extends ILIAS_UI_TestBase
         $this->assertEquals("label", $c->getLabel());
     }
 
-    public function test_render_horizontal_empty(): void
+    public function testRenderHorizontalEmpty(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -63,7 +63,7 @@ class DividerTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_horizontal_with_label(): void
+    public function testRenderHorizontalWithLabel(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -76,7 +76,7 @@ class DividerTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals("<div>" . $expected_html . "</div>", "<div>" . $html . "</div>");
     }
 
-    public function test_render_vertical(): void
+    public function testRenderVertical(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

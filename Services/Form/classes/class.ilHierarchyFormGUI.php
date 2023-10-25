@@ -449,9 +449,9 @@ class ilHierarchyFormGUI extends ilFormGUI
                         $ttpl->setCurrentBlock("multi_cmds" . $sec);
                         $ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
                         if ($sec == "1") {
-                            $ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.svg"));
+                            $ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("nav/arrow_downright.svg"));
                         } else {
-                            $ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_upright.svg"));
+                            $ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("nav/arrow_upright.svg"));
                         }
                         $ttpl->parseCurrentBlock();
                     }
@@ -613,7 +613,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         if ($this->nodeAllowsChilds($a_par_node) && (count($childs) > 0 || $a_depth == 0)) {
             $ttpl->setCurrentBlock("drop_area");
             $ttpl->setVariable("DNODE_ID", $a_par_node["node_id"] . "fc");		// fc means "first child"
-            $ttpl->setVariable("IMG_BLANK", ilUtil::getImagePath("spacer.png"));
+            $ttpl->setVariable("IMG_BLANK", ilUtil::getImagePath("media/spacer.png"));
             if (count($childs) == 0) {
                 $ttpl->setVariable("NO_CONTENT_CLASS", "ilCOPGNoPageContent");
                 $ttpl->setVariable("NO_CONTENT_TXT", " &nbsp;" . $lng->txt("form_hier_click_to_add"));
@@ -773,7 +773,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                 }
                 $ilCtrl->setParameter($this->getParentObject(), $this->getExpandVariable(), "");
             } else {
-                $a_tpl->setVariable("IMG_EXPAND", ilUtil::getImagePath("spacer.png"));
+                $a_tpl->setVariable("IMG_EXPAND", ilUtil::getImagePath("media/spacer.png"));
             }
             $a_tpl->parseCurrentBlock();
         }
@@ -789,7 +789,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         // drop area after child
         $a_tpl->setCurrentBlock("drop_area");
         $a_tpl->setVariable("DNODE_ID", $a_child["node_id"]);
-        $a_tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("spacer.png"));
+        $a_tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("media/spacer.png"));
         $a_tpl->parseCurrentBlock();
 
         // manage drag and drop areas
@@ -858,7 +858,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 
     public function getChildIcon(array $a_item): string
     {
-        return ilUtil::getImagePath("icon_" . $a_item["type"] . ".svg");
+        return ilUtil::getImagePath("standard/icon_" . $a_item["type"] . ".svg");
     }
 
     public function getChildIconAlt(array $a_item): string

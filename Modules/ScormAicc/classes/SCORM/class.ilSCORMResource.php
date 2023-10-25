@@ -102,9 +102,6 @@ class ilSCORMResource extends ilSCORMObject
         $this->files[] = &$a_file_obj;
     }
 
-    /**
-                 * @return mixed[]
-                 */
     public function &getFiles(): array
     {
         return $this->files;
@@ -115,9 +112,6 @@ class ilSCORMResource extends ilSCORMObject
         $this->dependencies[] = &$a_dependency;
     }
 
-    /**
-                 * @return mixed[]
-                 */
     public function &getDependencies(): array
     {
         return $this->dependencies;

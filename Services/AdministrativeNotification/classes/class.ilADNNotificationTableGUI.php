@@ -61,6 +61,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         // Columns
         $this->addColumn($this->lng->txt('msg_title'));
         $this->addColumn($this->lng->txt('msg_type'));
+        $this->addColumn($this->lng->txt('msg_languages'));
         $this->addColumn($this->lng->txt('msg_type_during_event'));
         $this->addColumn($this->lng->txt('msg_event_date_start'));
         $this->addColumn($this->lng->txt('msg_event_date_end'));
@@ -89,6 +90,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         $notification = ilADNNotification::find($a_set['id']);
         $this->tpl->setVariable('TITLE', $notification->getTitle());
         $this->tpl->setVariable('TYPE', $this->lng->txt('msg_type_' . $notification->getType()));
+        $this->tpl->setVariable('LANGUAGES', $this->getLanguagesTextForNotification($notification));
 
         if (!$notification->isPermanent()) {
             $this->tpl->setVariable(
@@ -122,6 +124,11 @@ class ilADNNotificationTableGUI extends ilTable2GUI
                                        ->withOnClick($reset_modal->getShowSignal());
             $this->modals[] = $reset_modal;
 
+            $items[] = $this->ui->factory()->button()->shy(
+                $this->lng->txt('btn_' . ilADNNotificationGUI::CMD_DUPLICATE),
+                $this->ctrl->getLinkTargetByClass(ilADNNotificationGUI::class, ilADNNotificationGUI::CMD_DUPLICATE)
+            );
+
             $actions = $this->ui->renderer()->render([$this->ui->factory()->dropdown()->standard($items)->withLabel($this->lng->txt('actions'))]);
 
             $this->tpl->setVariable('ACTIONS', $actions);
@@ -147,5 +154,33 @@ class ilADNNotificationTableGUI extends ilTable2GUI
     public function getHTML(): string
     {
         return parent::getHTML() . $this->ui->renderer()->render($this->modals);
+    }
+
+    protected function getLanguagesTextForNotification(ilADNNotification $notification): string
+    {
+        $has_language_limitation = $notification->hasLanguageLimitation();
+        $limited_to_languages = $notification->getLimitedToLanguages();
+        // text is all by default
+        $languages_text = $this->lng->txt("all");
+        if ($has_language_limitation) {
+            // text is none in case the notification has a language limitation but no languages are specified
+            $languages_text = $this->lng->txt("none");
+            if (!empty($limited_to_languages)) {
+                $this->lng->loadLanguageModule("meta");
+                // text is comma separated list of languages if the notification has a language limitation
+                // and the languages have been specified
+                $languages_text = implode(
+                    ', ',
+                    array_map(
+                        function (string $lng_code): string {
+                            return $this->lng->txt("meta_l_" . $lng_code);
+                        },
+                        $limited_to_languages
+                    )
+                );
+            }
+        }
+
+        return $languages_text;
     }
 }

@@ -60,22 +60,24 @@ export default class TableEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
-  colBefore(nr, cellPcid, tablePcid) {
+  colBefore(nr, cellPcid, tablePcid, cnt) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COL_BEFORE, {
       nr: nr,
       cellPcid: cellPcid,
-      tablePcid: tablePcid
+      tablePcid: tablePcid,
+      cnt: cnt
     });
   }
 
   /**
    * @returns {EditorAction}
    */
-  colAfter(nr, cellPcid, tablePcid) {
+  colAfter(nr, cellPcid, tablePcid, cnt) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COL_AFTER, {
       nr: nr,
       cellPcid: cellPcid,
-      tablePcid: tablePcid
+      tablePcid: tablePcid,
+      cnt: cnt
     });
   }
 
@@ -115,22 +117,24 @@ export default class TableEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
-  rowBefore(nr, cellPcid, tablePcid) {
+  rowBefore(nr, cellPcid, tablePcid, cnt) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.ROW_BEFORE, {
       nr: nr,
       cellPcid: cellPcid,
-      tablePcid: tablePcid
+      tablePcid: tablePcid,
+      cnt: cnt
     });
   }
 
   /**
    * @returns {EditorAction}
    */
-  rowAfter(nr, cellPcid, tablePcid) {
+  rowAfter(nr, cellPcid, tablePcid, cnt) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.ROW_AFTER, {
       nr: nr,
       cellPcid: cellPcid,
-      tablePcid: tablePcid
+      tablePcid: tablePcid,
+      cnt: cnt
     });
   }
 
@@ -172,6 +176,95 @@ export default class TableEditorActionFactory {
    */
   autoSave() {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.AUTO_SAVE);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  switchEditTable() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SWITCH_EDIT_TABLE);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  switchFormatCells() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SWITCH_FORMAT_CELLS);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  switchMergeCells() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SWITCH_MERGE_CELLS);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  toggleRow(nr,expand) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.TOGGLE_ROW,{
+      nr: nr,
+      expand: expand
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  toggleCol(nr,expand) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.TOGGLE_COL,{
+      nr: nr,
+      expand: expand
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  toggleTable(expand) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.TOGGLE_TABLE, {
+        expand: expand
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  toggleCell(col,row,expand) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.TOGGLE_CELL,{
+      col: col,
+      row: row,
+      expand: expand
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  propertiesSet(pcid, selected, data) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.PROPERTIES_SET,{
+      pcid:pcid,
+      selected: selected,
+      data:data
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  toggleMerge(pcid, selected) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.TOGGLE_MERGE,{
+      pcid:pcid,
+      selected: selected
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  cancelCellEdit() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.CANCEL_CELL_EDIT);
   }
 
 }

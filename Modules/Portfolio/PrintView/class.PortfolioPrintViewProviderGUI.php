@@ -109,7 +109,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
                     0,
                     false,
                     false,
-                    \ilUtil::getImagePath("icon_pg.svg"),
+                    \ilUtil::getImagePath("standard/icon_pg.svg"),
                     $lng->txt("page")
                 );
             } else {
@@ -119,7 +119,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
                     0,
                     false,
                     false,
-                    \ilUtil::getImagePath("icon_blog.svg"),
+                    \ilUtil::getImagePath("standard/icon_blog.svg"),
                     $lng->txt("obj_blog")
                 );
                 $pages2 = \ilBlogPosting::getAllPostings($p["title"]);
@@ -130,7 +130,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
                         $p["id"],
                         false,
                         false,
-                        \ilUtil::getImagePath("icon_pg.svg"),
+                        \ilUtil::getImagePath("standard/icon_pg.svg"),
                         $lng->txt("page")
                     );
                 }
@@ -154,9 +154,11 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
     public function getTemplateInjectors(): array
     {
+        $page = new \ilPortfolioPage();
+        $page->setEmptyPageXml();
         $resource_collector = new COPage\ResourcesCollector(
             \ilPageObjectGUI::OFFLINE,
-            new \ilPortfolioPage()
+            $page
         );
         $resource_injector = new COPage\ResourcesInjector($resource_collector);
 
@@ -216,7 +218,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         }
 
         $cover_tpl->setVariable("PORTFOLIO_TITLE", $this->portfolio->getTitle());
-        $cover_tpl->setVariable("PORTFOLIO_ICON", \ilUtil::getImagePath("icon_prtf.svg"));
+        $cover_tpl->setVariable("PORTFOLIO_ICON", \ilUtil::getImagePath("standard/icon_prtf.svg"));
 
         $cover_tpl->setVariable("TXT_AUTHOR", $lng->txt("prtf_author"));
         $cover_tpl->setVariable("TXT_LINK", $lng->txt("prtf_link"));

@@ -300,7 +300,7 @@ class ilExAssignmentReminder
                     $parent_ref_id = $course_ref_id;
                     $parent_obj_type = 'crs';
 
-                // check if we have an upper group
+                    // check if we have an upper group
                 } elseif ($group_ref_id = $this->tree->checkForParentType($exc_ref, 'grp')) {
                     $obj = new ilObjGroup($group_ref_id);
                     $participants_class = ilGroupParticipants::class;

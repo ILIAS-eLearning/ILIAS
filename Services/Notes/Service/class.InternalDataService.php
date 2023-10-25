@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Notes;
 
@@ -61,7 +61,8 @@ class InternalDataService
         int $author,
         int $type = Note::PRIVATE,
         ?string $creation_date = null,
-        ?string $update_date = null
+        ?string $update_date = null,
+        int $recipient = 0
     ): Note {
         return new Note(
             $id,
@@ -70,7 +71,8 @@ class InternalDataService
             $author,
             $type,
             $creation_date,
-            $update_date
+            $update_date,
+            $recipient
         );
     }
 }

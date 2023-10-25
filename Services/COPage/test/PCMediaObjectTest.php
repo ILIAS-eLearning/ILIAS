@@ -34,7 +34,7 @@ class PCMediaObjectTest extends COPageTestBase
                              ->disableOriginalConstructor()
                              ->getMock();
         $object_adapter->method("getTypeForObjId")
-                     ->willReturnCallback(fn () => "dummy");
+                     ->willReturnCallback(fn() => "dummy");
         return $object_adapter;
     }
 

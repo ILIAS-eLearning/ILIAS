@@ -696,7 +696,7 @@ class ilCalendarPresentationGUI
                     $header = $category->getTitle();
                     break;
             }
-            $tpl->setTitleIcon(ilUtil::getImagePath("icon_cal.svg"));
+            $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_cal.svg"));
             $tpl->setTitle($header);
 
             $dropDownItems = array();

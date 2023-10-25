@@ -27,10 +27,7 @@ declare(strict_types=1);
 */
 class ilSCORMObjectGUI
 {
-    /**
-     * @var ilSCORMManifest|ilSCORMItem|ilSCORMOrganization|ilSCORMOrganizations
-     */
-    public $sc_object;
+    public ilSCORMManifest|ilSCORMItem|ilSCORMOrganization|ilSCORMOrganizations|ilSCORMResource|ilSCORMResources $sc_object;
     public ilGlobalTemplate $tpl;
     public ilLanguage $lng;
 
@@ -47,10 +44,7 @@ class ilSCORMObjectGUI
         $this->lng = $lng;
     }
 
-    /**
-     * @return ilSCORMItemGUI|ilSCORMManifestGUI|ilSCORMOrganizationGUI|ilSCORMOrganizationsGUI|ilSCORMResourceGUI|ilSCORMResourcesGUI
-     */
-    public function &getInstance(int $a_id)
+    public function &getInstance(int $a_id): ilSCORMItemGUI|ilSCORMManifestGUI|ilSCORMOrganizationGUI|ilSCORMOrganizationsGUI|ilSCORMResourceGUI|ilSCORMResourcesGUI
     {
         $object = new ilSCORMObject($a_id);
         switch ($object->getType()) {

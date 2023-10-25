@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Mail context template for mails send via session participants tab
@@ -97,8 +96,7 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ?ilObjUser $recipient = null,
-        bool $html_markup = false
+        ?ilObjUser $recipient = null
     ): string {
         $ilObjDataCache = $this->obj_data_cache;
         $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);

@@ -27,6 +27,7 @@ use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as Const
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
+use ILIAS\MetaData\DataHelper\DataHelperInterface;
 
 class FactoryWithoutConditionTypesService
 {
@@ -43,24 +44,28 @@ class FactoryWithoutConditionTypesService
         PresenterInterface $presenter,
         ConstraintDictionary $constraint_dictionary,
         VocabulariesInterface $vocabularies,
-        Refinery $refinery
+        Refinery $refinery,
+        DataHelperInterface $data_helper
     ) {
         $this->datetime = new DatetimeFactory(
             $ui_factory,
             $presenter,
             $constraint_dictionary,
-            $refinery
+            $refinery,
+            $data_helper
         );
         $this->duration = new DurationFactory(
             $ui_factory,
             $presenter,
             $constraint_dictionary,
-            $refinery
+            $refinery,
+            $data_helper
         );
         $this->lang = new LangFactory(
             $ui_factory,
             $presenter,
-            $constraint_dictionary
+            $constraint_dictionary,
+            $data_helper
         );
         $this->non_neg_int = new NonNegIntFactory(
             $ui_factory,

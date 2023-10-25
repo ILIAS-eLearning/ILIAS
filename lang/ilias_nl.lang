@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Toon examenbeeld op de pagina waar toets wordt
 assessment#:#show_pass_overview#:#Toon gemarkeerde afgelopen toetsen
 assessment#:#show_user_answers#:#Toon gebruikers gemarkeerde antwoorden.
 assessment#:#shuffle_answers#:#Antwoorden mixen
-assessment#:#sign_submission#:#Digitaal handtekening voor voltooien toets
-assessment#:#sign_submission_info#:#Als dit is ingeschakeld, èn een handtekening plugin is geinstalleeerd and geactiveerd, moeten deelnemers de toets digitaal ondertekenen.
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Score is gebaseerd op het voorkomen van het volgende sleutelwoord:
@@ -1687,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Rapporteer de score nadat de hele toets com
 assessment#:#tst_report_never#:#Geen toets resultaten beschikbaar
 assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
 assessment#:#tst_res_jump_to_participant_btn#:#Spring
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Spring naar deelnemer--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Spring naar deelnemer
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives###30 08 2015 new variable
 assessment#:#tst_res_lo_try_header#:#Attempt###30 08 2015 new variable
 assessment#:#tst_res_lo_try_n#:#Attempt %s###30 08 2015 new variable
@@ -7643,8 +7641,6 @@ crs#:#crs_timings_suggested_info#:#Voorgestelde wijzigeningstijd
 crs#:#crs_timings_time_frame#:#Tijdsframe
 crs#:#crs_timings_time_frame_tt#:#Time frame in days###10 11 2018 new variable
 crs#:#crs_timings_update_error#:#Je instellingen zijn ongeldig, gelieve de timing voor de volgende cursusonderdelen te verifiëren:
-crs#:#crs_timings_visibility#:#Zichtbaarheid
-crs#:#crs_timings_visibility_short#:#Zichtbaarheid
 crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.###10 11 2018 new variable
 crs#:#crs_to#:#Tot:
 crs#:#crs_tutor#:#Leerkracht
@@ -11932,6 +11928,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Zichtbaarheid
+obj#:#activation_visible_when_disabled_info#:#Zichtbaarheid
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#All assignments have been published.###31 08 2017 new variable
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.###31 08 2017 new variable

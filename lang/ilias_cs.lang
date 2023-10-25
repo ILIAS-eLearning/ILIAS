@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Zobrazit přehled zkoušky ve stránce odevzd�
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
 assessment#:#show_user_answers#:#Zobrazit označené odpovědi uživatelů
 assessment#:#shuffle_answers#:#Zamíchat odpovědi
-assessment#:#sign_submission#:#Digitální podpis odevzdaného testu.
-assessment#:#sign_submission_info#:#Pokud je toto aktivováno, je nainstalován plugin podpisu a je aktivní, účastníci budou svá řešení testů zasílat digitálně podepsaná
 assessment#:#skip_question#:#Neodpovídat a Další
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Body jsou přiděleny na základě výskytu následujících klíčových slov:
@@ -1687,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Nabídnout výsledky až po ukončení cel�
 assessment#:#tst_report_never#:#Žádné dostupné výsledky testu
 assessment#:#tst_reporting_date#:#Datum
 assessment#:#tst_res_jump_to_participant_btn#:#Skok
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Skok na účastníka--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Skok na účastníka
 assessment#:#tst_res_lo_objectives_header#:#Důležité cíle učení
 assessment#:#tst_res_lo_try_header#:#Pokus
 assessment#:#tst_res_lo_try_n#:#Pokus %s
@@ -7643,8 +7641,6 @@ crs#:#crs_timings_suggested_info#:#Doporučený čas editace
 crs#:#crs_timings_time_frame#:#Časový rámec
 crs#:#crs_timings_time_frame_tt#:#Časový rámec ve dnech
 crs#:#crs_timings_update_error#:#Vaše nastavení není platné, ověřte prosím časování po následující materiály kurzu:
-crs#:#crs_timings_visibility#:#Je-li vybráno, materiál je viditelný i mimo danou dostupnost.
-crs#:#crs_timings_visibility_short#:#Viditelnost
 crs#:#crs_timings_warning_timing_exists#:#Pro tento objekt jsou konfigurována časování. Pokud aktivujete nastavení dostupnosti, budou znovu obnovena tato nastavení časování.
 crs#:#crs_to#:#Do:
 crs#:#crs_tutor#:#Lektor
@@ -11932,6 +11928,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Viditelnost
+obj#:#activation_visible_when_disabled_info#:#Je-li vybráno, materiál je viditelný i mimo danou dostupnost.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Všechna přiřazení byla publikována.
 obj#:#cont_skll_published_some_not#:#Všechna daná přiřazení byla publikována. Někteří uživatelé nemají přiřazenou způsobilost, takže pro ně nemohla být publikována žádná přiřazení.

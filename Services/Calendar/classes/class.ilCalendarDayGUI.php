@@ -132,38 +132,17 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         $navigation = new ilCalendarHeaderNavigationGUI($this, $this->seed, ilDateTime::DAY);
         $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'seed', $this->seed->get(IL_CAL_DATE));
 
-        // add milestone link
-        $settings = ilCalendarSettings::_getInstance();
-
         if (!$no_add) {
             $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'seed', $this->seed->get(IL_CAL_DATE));
             $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'idate', $this->seed->get(IL_CAL_DATE));
             $new_app_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'add');
 
-            if ($settings->getEnableGroupMilestones()) {
-                $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'seed', $this->seed->get(IL_CAL_DATE));
-                $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'idate', $this->seed->get(IL_CAL_DATE));
-                $new_ms_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'addMilestone');
-
-                $this->tpl->setCurrentBlock("new_ms");
-                $this->tpl->setVariable('DD_ID', $this->seed->get(IL_CAL_UNIX));
-                $this->tpl->setVariable(
-                    'DD_TRIGGER',
-                    $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add())
-                );
-                $this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);
-                $this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));
-                $this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);
-                $this->tpl->setVariable('TXT_DD_NEW_MS', $this->lng->txt('cal_new_ms'));
-                $this->tpl->parseCurrentBlock();
-            } else {
-                $this->tpl->setCurrentBlock("new_app1");
-                $this->tpl->setVariable(
-                    'H_NEW_APP_GLYPH',
-                    $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url))
-                );
-                $this->tpl->parseCurrentBlock();
-            }
+            $this->tpl->setCurrentBlock("new_app1");
+            $this->tpl->setVariable(
+                'H_NEW_APP_GLYPH',
+                $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url))
+            );
+            $this->tpl->parseCurrentBlock();
 
             $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
         }
@@ -257,25 +236,9 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
     {
         $event_tpl = new ilTemplate('tpl.day_event_view.html', true, true, 'Services/Calendar');
 
-        // milestone icon
-        if ($a_app['event']->isMilestone()) {
-            $event_tpl->setCurrentBlock('fullday_ms_icon');
-            $event_tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
-            $event_tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms.svg"));
-            $event_tpl->parseCurrentBlock();
-        }
-
         $event_tpl->setCurrentBlock('fullday_app');
 
-        $compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
-            ? " (" . $a_app['event']->getCompletion() . "%)"
-            : "";
-
-        $shy = $this->getAppointmentShyButton($a_app['event'], (string) $a_app['dstart'], "");
-
-        //$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
-
-        $content = $shy . $compl;
+        $content = $this->getAppointmentShyButton($a_app['event'], (string) $a_app['dstart'], "");
 
         $event_tpl->setVariable('EVENT_CONTENT', $content);
 

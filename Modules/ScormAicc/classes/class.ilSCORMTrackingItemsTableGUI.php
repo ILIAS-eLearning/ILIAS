@@ -36,8 +36,6 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
     /**
      * @throws ilCtrlException
-     * @param mixed[] $a_userSelected
-     * @param mixed[] $a_scosSelected
      */
     public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, string $a_report)
     {
@@ -199,11 +197,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $this->setData($tr_data);
     }
 
-    /**
-     * @param string|float|int|null $value
-     * @return string|float|int|null
-     */
-    protected function parseValue(string $id, $value, string $type)
+    protected function parseValue(string $id, string|float|int|null $value, string $type): string|float|int|null
     {
         global $DIC;
         $lng = $DIC->language();

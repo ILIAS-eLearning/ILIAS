@@ -179,7 +179,7 @@ class ReservationDBRepository
 
         $res = array();
 
-        $sql = 'SELECT r.*, o.title, o.pool_id' .
+        $sql = 'SELECT r.*, o.title, o.pool_id, o.post_text, o.post_file' .
             ' FROM booking_reservation r' .
             ' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
 
@@ -259,6 +259,8 @@ class ReservationDBRepository
                 $res[$idx] = array(
                     "object_id" => $obj_id
                 ,"title" => $row["title"]
+                ,"post_text" => $row["post_text"]
+                ,"post_file" => $row["post_file"]
                 ,"pool_id" => $row["pool_id"]
                 ,"context_obj_id" => (int) $row["context_obj_id"]
                 ,"user_id" => $user_id

@@ -31,6 +31,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 {
     protected \ILIAS\COPage\InternalGUIService $gui;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
+    protected string $pc_id = "";
     protected \ILIAS\DI\UIServices $ui;
     protected \ilLanguage $lng;
     protected \ilPageObjectGUI $page_gui;
@@ -39,7 +40,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected \ilCtrl $ctrl;
     protected \ilComponentFactory $component_factory;
 
-    public function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui, string $pc_id = "")
     {
         global $DIC;
 
@@ -50,6 +51,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->ctrl = $DIC->ctrl();
         $this->component_factory = $DIC["component.factory"];
         $this->gui = $DIC->copage()->internal()->gui();
+        $this->pc_id = $pc_id;
 
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
         $this->pc_definition = $DIC
@@ -104,7 +106,18 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->backUrl = $ctrl->getLinkTarget($this->page_gui, "edit");
         $o->pasting = in_array(\ilEditClipboard::getAction(), ["copy", "cut"]) &&
             count($this->user->getPCClipboardContent()) > 0;
-        $o->loaderUrl = \ilUtil::getImagePath("loader.svg");
+        $o->loaderUrl = \ilUtil::getImagePath("media/loader.svg");
+
+        if ($this->pc_id !== "") {
+            $type = $this->page_gui->getPageObject()->getContentObjectForPcId($this->pc_id)->getType();
+            $def = $this->pc_definition->getPCDefinitionByType($type);
+            $o->initialComponent = $def["name"];
+            $o->initialPCId = $this->pc_id;
+        } else {
+            $o->initialComponent = "";
+            $o->initialPCId = "";
+        }
+
         return new Server\Response($o);
     }
 
@@ -227,7 +240,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             ]
         );
         $tpl->setVariable("SWITCH", $html);
-        $tpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
+        $tpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("media/loader.svg"));
 
         return $tpl->get();
     }
@@ -541,15 +554,18 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected function getComponentsEditorUI(): array
     {
         $ui = [];
+        $config = $this->page_gui->getPageConfig();
         foreach ($this->pc_definition->getPCDefinitions() as $def) {
             $pc_edit = $this->pc_definition->getPCEditorInstanceByName($def["name"]);
-            if (!is_null($pc_edit)) {
-                $ui[$def["name"]] = $pc_edit->getEditorElements(
-                    $this->ui_wrapper,
-                    $this->page_gui->getPageObject()->getParentType(),
-                    $this->page_gui,
-                    $this->page_gui->getStyleId()
-                );
+            if ($config->getEnablePCType($def["name"])) {
+                if (!is_null($pc_edit)) {
+                    $ui[$def["name"]] = $pc_edit->getEditorElements(
+                        $this->ui_wrapper,
+                        $this->page_gui->getPageObject()->getParentType(),
+                        $this->page_gui,
+                        $this->page_gui->getStyleId()
+                    );
+                }
             }
         }
         return $ui;

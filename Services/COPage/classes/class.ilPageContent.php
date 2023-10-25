@@ -28,6 +28,7 @@ use ILIAS\Repository\Object\ObjectAdapterInterface;
 abstract class ilPageContent
 {
     protected DOMDocument $dom_doc;
+    protected \ILIAS\COPage\InternalDomainService $domain;
     protected string $pcid;
     protected string $type = "";
     protected ilPageObject $pg_obj;
@@ -44,7 +45,6 @@ abstract class ilPageContent
     protected string $profile_back_url = "";
 
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
-
     protected ?PageManagerInterface $page_manager = null;
     protected ?ObjectAdapterInterface $object = null;
 
@@ -58,6 +58,8 @@ abstract class ilPageContent
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->setPage($a_pg_obj);
         $this->dom_doc = $a_pg_obj->getDomDoc();
+        //$this->dom = $a_pg_obj->getDom();
+        $this->domain = $DIC->copage()->internal()->domain();
         $this->init();
         if ($this->getType() == "") {
             die("Error: ilPageContent::init() did not set type");

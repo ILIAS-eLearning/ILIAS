@@ -1,8 +1,8 @@
-import ACTIONS from "../actions/paragraph-action-types.js";
-import PAGE_ACTIONS from "../../page/actions/page-action-types.js";
-import TinyWrapper from "./tiny-wrapper.js";
-import TINY_CB from "./tiny-wrapper-cb-types.js";
-import AutoSave from "./auto-save.js";
+import ACTIONS from '../actions/paragraph-action-types.js';
+import PAGE_ACTIONS from '../../page/actions/page-action-types.js';
+import TinyWrapper from './tiny-wrapper.js';
+import TINY_CB from './tiny-wrapper-cb-types.js';
+import AutoSave from './auto-save.js';
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,72 +18,69 @@ import AutoSave from "./auto-save.js";
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
-
+ ******************************************************************** */
 
 /**
  * paragraph ui
  */
 export default class ParagraphUI {
-
-
   /**
    * @type {boolean}
    */
-  //debug = true;
+  // debug = true;
 
   /**
    * Model
    * @type {Model}
    */
-  //page_model = {};
+  // page_model = {};
 
   /**
    * UI model
    * @type {Object}
    */
-  //uiModel = {};
+  // uiModel = {};
 
   /**
    * @type {Client}
    */
-  //client;
+  // client;
 
   /**
    * @type {Dispatcher}
    */
-  //dispatcher;
+  // dispatcher;
 
   /**
    * @type {ActionFactory}
    */
-  //actionFactory;
+  // actionFactory;
 
   /**
    * @type {ToolSlate}
    */
-  //toolSlate;
+  // toolSlate;
 
   /**
    * @type {TinyWrapper}
    */
-  //tinyWrapper;
+  // tinyWrapper;
 
   /**
    * @type {pageModifier}
    */
-  //pageModifier;
+  // pageModifier;
 
   /**
    *
    * @type {AutoSave}
    */
-  //autoSave;
+  // autoSave;
 
   /**
    * @type {boolean}
    */
-  //dataTableMode = false;
+  // dataTableMode = false;
 
   /**
    * @type {Object}
@@ -112,14 +109,14 @@ export default class ParagraphUI {
     this.debug = false;
 
     this.text_formats = {
-      Strong: {inline : 'span', classes : 'ilc_text_inline_Strong'},
-      Emph: {inline : 'span', classes : 'ilc_text_inline_Emph'},
-      Important: {inline : 'span', classes : 'ilc_text_inline_Important'},
-      Comment: {inline : 'span', classes : 'ilc_text_inline_Comment'},
-      Quotation: {inline : 'span', classes : 'ilc_text_inline_Quotation'},
-      Accent: {inline : 'span', classes : 'ilc_text_inline_Accent'},
-      Sup: {inline : 'sup', classes : 'ilc_sup_Sup'},
-      Sub: {inline : 'sub', classes : 'ilc_sub_Sub'}
+      Strong: { inline: 'span', classes: 'ilc_text_inline_Strong' },
+      Emph: { inline: 'span', classes: 'ilc_text_inline_Emph' },
+      Important: { inline: 'span', classes: 'ilc_text_inline_Important' },
+      Comment: { inline: 'span', classes: 'ilc_text_inline_Comment' },
+      Quotation: { inline: 'span', classes: 'ilc_text_inline_Quotation' },
+      Accent: { inline: 'span', classes: 'ilc_text_inline_Accent' },
+      Sup: { inline: 'sup', classes: 'ilc_sup_Sup' },
+      Sub: { inline: 'sub', classes: 'ilc_sub_Sub' },
     };
 
     this.dataTableMode = false;
@@ -134,8 +131,8 @@ export default class ParagraphUI {
     this.switchToEnd = false;
 
     this.tinyWrapper.addCallback(TINY_CB.SPLIT_ON_RETURN, (tiny, contents) => {
-      dispatcher.dispatch(actionFactory.paragraph().editor().
-      splitParagraph(this.page_model.getCurrentPCId(), tiny.getText(), tiny.getCharacteristic(), contents));
+      dispatcher.dispatch(actionFactory.paragraph().editor()
+        .splitParagraph(this.page_model.getCurrentPCId(), tiny.getText(), tiny.getCharacteristic(), contents));
     });
     this.tinyWrapper.addCallback(TINY_CB.MERGE, (tiny, previous) => {
       this.checkMerge(tiny, previous);
@@ -177,30 +174,29 @@ export default class ParagraphUI {
     return this.dataTableMode;
   }
 
-
   /**
    */
   init(uiModel) {
-    this.log("paragraph-ui.init");
+    this.log('paragraph-ui.init');
 
     const action = this.actionFactory;
     const dispatch = this.dispatcher;
     const pageModel = this.page_model;
 
     this.uiModel = uiModel;
-    let t = this;
+    const t = this;
     this.initTinyWrapper();
     const wrapper = this.tinyWrapper;
 
-    this.log("css: " + this.uiModel.config.content_css);
+    this.log(`css: ${this.uiModel.config.content_css}`);
 
     this.initMenu();
 
-    this.log("set interval: " + this.uiModel.autoSaveInterval);
+    this.log(`set interval: ${this.uiModel.autoSaveInterval}`);
     this.autoSave.setInterval(this.uiModel.autoSaveInterval);
     this.autoSave.addOnAutoSave(() => {
-      if (pageModel.getCurrentPCName() === "Paragraph") {
-        let act = action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic());
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
+        const act = action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic());
         dispatch.dispatch(act);
       }
     });
@@ -211,12 +207,10 @@ export default class ParagraphUI {
   initTinyWrapper() {
     const wrapper = this.tinyWrapper;
 
-    this.uiModel.config.text_formats.forEach(f =>
-      wrapper.addTextFormat(f)
-    );
+    this.uiModel.config.text_formats.forEach((f) => wrapper.addTextFormat(f));
     wrapper.setTextBlockFormats(this.uiModel.config.text_block_formats);
 
-    il.Util.addOnLoad(function () {
+    il.Util.addOnLoad(() => {
       $(window).resize(() => {
         wrapper.autoResize();
       });
@@ -234,10 +228,10 @@ export default class ParagraphUI {
     const action = this.actionFactory;
     const dispatch = this.dispatcher;
 
-    document.querySelectorAll("[data-copg-ed-type='par-button']").forEach(parButton => {
+    document.querySelectorAll("[data-copg-ed-type='par-button']").forEach((parButton) => {
       switch (parButton.dataset.paction) {
-        case "cancel":
-          parButton.addEventListener("click", (event) => {
+        case 'cancel':
+          parButton.addEventListener('click', (event) => {
             dispatch.dispatch(action.page().editor().componentCancel());
           });
           break;
@@ -245,13 +239,13 @@ export default class ParagraphUI {
     });
 
     // characteristic selection
-    document.querySelectorAll("#ilAdvSelListTable_style_selection li").forEach(li => {
+    document.querySelectorAll('#ilAdvSelListTable_style_selection li').forEach((li) => {
       let cl;
-      li.removeAttribute("onclick");
-      li.addEventListener("click", (event) => {
-        cl = li.querySelector(".ilCOPgEditStyleSelectionItem").querySelector("h1,h2,h3,div").classList[0];
+      li.removeAttribute('onclick');
+      li.addEventListener('click', (event) => {
+        cl = li.querySelector('.ilCOPgEditStyleSelectionItem').querySelector('h1,h2,h3,div').classList[0];
         this.log(cl);
-        cl = cl.split("_");
+        cl = cl.split('_');
         cl = cl[cl.length - 1];
         this.setParagraphClass(cl);
       });
@@ -262,15 +256,11 @@ export default class ParagraphUI {
   // PORTED STUFF
   //
 
+  /// /
+  /// / Text editor commands
+  /// /
 
-
-
-  ////
-  //// Text editor commands
-  ////
-
-  cmdCancel()
-  {
+  cmdCancel() {
     const pcId = this.page_model.getCurrentPCId();
     const undo_pc_model = this.page_model.getUndoPCModel(pcId);
 
@@ -278,7 +268,7 @@ export default class ParagraphUI {
       this.setParagraphClass(undo_pc_model.characteristic);
       this.tinyWrapper.setContent(
         undo_pc_model.text,
-        undo_pc_model.characteristic
+        undo_pc_model.characteristic,
       );
     }
 
@@ -287,7 +277,7 @@ export default class ParagraphUI {
   }
 
   cmdSpan(t) {
-    this.log("paragraph-ui.cmdSpan " + t);
+    this.log(`paragraph-ui.cmdSpan ${t}`);
     this.tinyWrapper.toggleFormat(t);
   }
 
@@ -309,65 +299,119 @@ export default class ParagraphUI {
 
   cmdIntLink() {
     const t = this;
-    il.IntLink.openIntLink(null,function(b, e, content) {
+    il.IntLink.openIntLink(null, (b, e, content) => {
       t.addIntLink(b, e, content);
     });
   }
 
-
-  getSelection(){
-    let ed = tinyMCE.get('tinytarget');
+  getSelection() {
+    const ed = tinyMCE.get('tinytarget');
     ed.focus();
     return ed.selection.getContent();
   }
 
-  addBBCode(stag, etag, clearselection, content)
-  {
-    let ed = tinyMCE.get('tinytarget'), r, rcopy;
+  getListStyleDropdown(action) {
+    let dd = document.querySelector(`[data-copg-ed-action='${action}']`);
+    if (dd) {
+      dd = dd.closest('div.dropdown');
+    }
+    return dd;
+  }
+
+  enableListStyleDropdown(dd, enable) {
+    if (dd) {
+      dd.querySelector('button').disabled = !enable;
+      dd.style.display = '';
+    }
+  }
+
+  hideListStyleDropdown(dd) {
+    if (dd) {
+      dd.style.display = 'none';
+    }
+  }
+
+  updateListStyleDropdowns() {
+    const ed = tinyMCE.get('tinytarget');
+    const currentRng = ed.selection.getRng();
+    const bulletDD = this.getListStyleDropdown('list.bulletStyle');
+    const numberDD = this.getListStyleDropdown('list.numberStyle');
+    const itemDD = this.getListStyleDropdown('list.itemStyle');
+
+    let currentParent = '';
+    if (currentRng.startContainer === currentRng.endContainer) {
+      const cont = currentRng.startContainer.parentNode;
+      const list = cont.closest('ol,ul');
+      if (list) {
+        currentParent = list.nodeName.toLowerCase();
+      }
+    }
+
+    if (currentParent === 'ul') {
+      this.enableListStyleDropdown(bulletDD, true);
+      this.enableListStyleDropdown(itemDD, true);
+      this.enableListStyleDropdown(numberDD, false);
+      if (bulletDD && numberDD) {
+        this.hideListStyleDropdown(numberDD);
+      }
+    } else if (currentParent === 'ol') {
+      this.enableListStyleDropdown(numberDD, true);
+      this.enableListStyleDropdown(itemDD, true);
+      this.enableListStyleDropdown(bulletDD, false);
+      if (bulletDD && numberDD) {
+        this.hideListStyleDropdown(bulletDD);
+      }
+    } else {
+      this.enableListStyleDropdown(bulletDD, false);
+      this.enableListStyleDropdown(numberDD, false);
+      this.enableListStyleDropdown(itemDD, false);
+      if (bulletDD && numberDD) {
+        this.hideListStyleDropdown(numberDD);
+      }
+    }
+  }
+
+  addBBCode(stag, etag, clearselection, content) {
+    const ed = tinyMCE.get('tinytarget'); let r; let
+      rcopy;
     ed.focus();
     if (!content) {
-      content = "";
+      content = '';
     }
-    let rng = ed.selection.getRng();
-    const startContainer = rng.startContainer;
-    const endContainer = rng.endContainer;
-    const startOffset = rng.startOffset;
-    const endOffset = rng.endOffset;
+    const rng = ed.selection.getRng();
+    const { startContainer } = rng;
+    const { endContainer } = rng;
+    const { startOffset } = rng;
+    const { endOffset } = rng;
 
-    let mode = "";
-    if (startContainer.nodeName === "#text"
-      && startContainer.parentNode.nodeName === "P") {
-      mode = "text";
+    let mode = '';
+    if (startContainer.nodeName === '#text'
+      && startContainer.parentNode.nodeName === 'P') {
+      mode = 'text';
     }
 
-    if (ed.selection.getContent() === "")
-    {
-      stag = stag + content;
+    if (ed.selection.getContent() === '') {
+      stag += content;
       const nc = stag + ed.selection.getContent() + etag;
 
-      ed.selection.setContent(nc);    // note: this changes the start/end container
+      ed.selection.setContent(nc); // note: this changes the start/end container
 
-      let rcopy = ed.selection.getRng().cloneRange();
-      let r =  ed.dom.createRng();
+      const rcopy = ed.selection.getRng().cloneRange();
+      const r = ed.dom.createRng();
       ed.focus();
-      if (mode === "text") { // usual text node
+      if (mode === 'text') { // usual text node
         let targetElement = rcopy.startContainer;
-        if (targetElement.nodeName === "P") {
+        if (targetElement.nodeName === 'P') {
           targetElement = targetElement.firstChild;
         }
         r.setEnd(targetElement, stag.length + startOffset);
         r.setStart(targetElement, stag.length + startOffset);
         ed.selection.setRng(r);
       }
-    }
-    else
-    {
-      if (clearselection) {
-        ed.selection.setContent(stag + etag);
-      }
-      else {
-        ed.selection.setContent(stag + ed.selection.getContent() + etag);
-      }
+    } else if (clearselection) {
+      ed.selection.setContent(stag + etag);
+    } else {
+      ed.selection.setContent(stag + ed.selection.getContent() + etag);
     }
     this.tinyWrapper.autoResize(ed);
   }
@@ -378,43 +422,49 @@ export default class ParagraphUI {
 
   cmdWikiLinkSelection(url) {
     const t = this;
-    il.Wiki.Edit.openLinkDialog(url, this.getSelection(), function(stag) {
-      t.addBBCode(stag, "", true);
+    il.Wiki.Edit.openLinkDialog(url, this.getSelection(), (stag) => {
+      t.addBBCode(stag, '', true);
     });
   }
 
-  cmdTex()
-  {
+  cmdTex() {
     this.addBBCode('[tex]', '[/tex]');
   }
 
-  cmdFn()
-  {
+  cmdFn() {
     this.addBBCode('[fn]', '[/fn]');
   }
 
-  cmdKeyword()
-  {
+  cmdKeyword() {
     this.addBBCode('[kw]', '[/kw]');
   }
 
-  cmdExtLink()
-  {
+  cmdExtLink() {
     this.addBBCode('[xln url="https://"]', '[/xln]');
   }
 
-  cmdUserLink()
-  {
-    this.addBBCode('[iln user="' + this.uiModel.config.user + '"/]', '');
+  cmdUserLink() {
+    this.addBBCode(`[iln user="${this.uiModel.config.user}"/]`, '');
   }
 
-  cmdAnc()
-  {
+  cmdAnc() {
     this.addBBCode('[anc name=""]', '[/anc]');
   }
 
   cmdBList() {
     this.tinyWrapper.bulletList();
+  }
+
+  listBulletStyle(format) {
+    this.tinyWrapper.bulletListStyle(format);
+  }
+
+  listNumberStyle(format) {
+    this.tinyWrapper.numberListStyle(format);
+  }
+
+  listItemStyle(format) {
+    this.tinyWrapper.itemListStyle(format);
   }
 
   cmdNList() {
@@ -430,116 +480,104 @@ export default class ParagraphUI {
   }
 
   setParagraphClass(i) {
-    this.log("setParagraphClass");
+    this.log('setParagraphClass');
     this.log(i);
-    const fc = document.querySelector(".ilTinyParagraphClassSelector .dropdown button");
+    const fc = document.querySelector('.ilTinyParagraphClassSelector .dropdown button');
     const ddbtn = document.querySelector(
-      ".ilTinyParagraphClassSelector button[data-copg-ed-par-class='" + i + "']");
+      `.ilTinyParagraphClassSelector button[data-copg-ed-par-class='${i}']`,
+    );
     this.log(fc);
     if (fc) {
-      this.log("SETTin DROP DOWN BUTTON: " + i)
-      fc.firstChild.textContent = ddbtn.textContent + " ";
+      this.log(`SETTin DROP DOWN BUTTON: ${i}`);
+      fc.firstChild.textContent = `${ddbtn.textContent} `;
     }
     this.tinyWrapper.setParagraphClass(i);
   }
 
-  ////
-  //// Content modifier
-  ////
+  /// /
+  /// / Content modifier
+  /// /
 
   /**
    * Get content to be sent per ajax to server.
    */
-  getContentForSaving()
-  {
-    let ed = tinyMCE.get('tinytarget');
-    let cl = ed.dom.getRoot().className;
+  getContentForSaving() {
+    const ed = tinyMCE.get('tinytarget');
+    const cl = ed.dom.getRoot().className;
     let c = ed.getContent();
 
     c = this.p2br(c);
 
     // add wrapping div with style class
-    c = "<div id='" + this.pc_id_str + "' class='" + cl + "'>" + c + "</div>";
+    c = `<div id='${this.pc_id_str}' class='${cl}'>${c}</div>`;
 
     return c;
   }
 
+  /// /
+  /// / Table editing
+  /// /
 
-
-
-
-  ////
-  //// Table editing
-  ////
-
-  editTD(id)
-  {
+  editTD(id) {
     this.editParagraph(id, 'td', false);
   }
 
-  editNextCell()
-  {
+  editNextCell() {
     // check whether next cell exists
-    let cdiv = this.current_td.split("_");
-    let next = "cell_" + cdiv[1] + "_" + (parseInt(cdiv[2]) + 1);
-    let nobj = document.getElementById("div_" + next);
-    if (nobj == null)
-    {
-      next = "cell_" + (parseInt(cdiv[1]) + 1) + "_0";
-      nobj = document.getElementById("div_" + next);
+    const cdiv = this.current_td.split('_');
+    let next = `cell_${cdiv[1]}_${parseInt(cdiv[2]) + 1}`;
+    let nobj = document.getElementById(`div_${next}`);
+    if (nobj == null) {
+      next = `cell_${parseInt(cdiv[1]) + 1}_0`;
+      nobj = document.getElementById(`div_${next}`);
     }
-    if (nobj != null)
-    {
-      this.editParagraph(next, "td", false);
+    if (nobj != null) {
+      this.editParagraph(next, 'td', false);
     }
   }
 
-  editPreviousCell()
-  {
+  editPreviousCell() {
     // check whether next cell exists
-    let prev = "";
-    let cdiv = this.current_td.split("_");
-    if (parseInt(cdiv[2]) > 0)
-    {
-      prev = "cell_" + cdiv[1] + "_" + (parseInt(cdiv[2]) - 1);
-      let pobj = document.getElementById("div_" + prev);
-    }
-    else if (parseInt(cdiv[1]) > 0)
-    {
-      let p = "cell_" + (parseInt(cdiv[1]) - 1) + "_0";
-      let o = document.getElementById("div_" + p);
+    let prev = '';
+    const cdiv = this.current_td.split('_');
+    if (parseInt(cdiv[2]) > 0) {
+      prev = `cell_${cdiv[1]}_${parseInt(cdiv[2]) - 1}`;
+      const pobj = document.getElementById(`div_${prev}`);
+    } else if (parseInt(cdiv[1]) > 0) {
+      let p = `cell_${parseInt(cdiv[1]) - 1}_0`;
+      let o = document.getElementById(`div_${p}`);
       let i = 0;
-      while (o != null)
-      {
+      while (o != null) {
         pobj = o;
         prev = p;
-        p = "cell_" + (parseInt(cdiv[1]) - 1) + "_" + i;
-        o = document.getElementById("div_" + p);
+        p = `cell_${parseInt(cdiv[1]) - 1}_${i}`;
+        o = document.getElementById(`div_${p}`);
         i++;
       }
     }
-    if (prev !== "")
-    {
-      var pobj = document.getElementById("div_" + prev);
-      if (pobj != null)
-      {
-        this.editParagraph(prev, "td", false);
+    if (prev !== '') {
+      var pobj = document.getElementById(`div_${prev}`);
+      if (pobj != null) {
+        this.editParagraph(prev, 'td', false);
       }
     }
   }
 
-  handleDataTableCommand(type, command)
-  {
-    //let pars = this.tds;
-    pars["tab_cmd_type"] = type;
-    pars["tab_cmd"] = command;
-    pars["tab_cmd_id"] = current_row_col;
-    this.sendCmdRequest("saveDataTable", this.ed_para, null,
+  handleDataTableCommand(type, command) {
+    // let pars = this.tds;
+    pars.tab_cmd_type = type;
+    pars.tab_cmd = command;
+    pars.tab_cmd_id = current_row_col;
+    this.sendCmdRequest(
+      'saveDataTable',
+      this.ed_para,
+      null,
       pars,
-      false, null, null);
+      false,
+      null,
+      null,
+    );
   }
-
-
 
   // we got the content for editing per ajax
   loadCurrentParagraphIntoTiny(switched) {
@@ -550,56 +588,41 @@ export default class ParagraphUI {
     this.setParagraphClass(pc_model.characteristic);
   }
 
-
-  reInitUI() {
-    il.Tooltip.init();
-    il.COPagePres.updateQuestionOverviews();
-    if (il.AdvancedSelectionList != null)
-    {
-      il.AdvancedSelectionList.init['style_selection']();
-      il.AdvancedSelectionList.init['char_style_selection']();
-    }
-    il.copg.editor.reInitUI();
-  }
-
-  ////
-  //// Various stuff, needs to be reorganised
-  ////
+  /// /
+  /// / Various stuff, needs to be reorganised
+  /// /
 
   renderQuestions() {
     // get all spans
-    obj = document.getElementsByTagName('div')
+    obj = document.getElementsByTagName('div');
 
     // run through them
-    for (var i = 0; i < obj.length; i++) {
+    for (let i = 0; i < obj.length; i++) {
       // find all questions
       if (/ilc_question_/.test(obj[i].className)) {
-        var id = obj[i].id;
-        if (id.substr(0, 9) == "container") {
+        let { id } = obj[i];
+        if (id.substr(0, 9) == 'container') {
           // re-draw
           id = id.substr(9);
-          eval("renderILQuestion" + id + "()");
+          eval(`renderILQuestion${id}()`);
         }
       }
     }
   }
 
-  extractHierId(id)
-  {
-    var i = id.indexOf(":");
-    if (i > 0)
-    {
+  extractHierId(id) {
+    const i = id.indexOf(':');
+    if (i > 0) {
       id = id.substr(0, i);
     }
 
     return id;
   }
 
-
-  insertParagraph(pcid, after_pcid, content = "", characteristic = "Standard") {
-    this.log("paragraph-ui.insertParagraph");
-    this.pageModifier.insertComponentAfter(after_pcid, pcid, "Paragraph", content, "Paragraph");
-    let content_el = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
+  insertParagraph(pcid, after_pcid, content = '', characteristic = 'Standard') {
+    this.log('paragraph-ui.insertParagraph');
+    this.pageModifier.insertComponentAfter(after_pcid, pcid, 'Paragraph', content, 'Paragraph');
+    const content_el = document.querySelector(`[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`);
     this.showToolbar(true, true);
     this.tinyWrapper.initInsert(content_el, () => {
       this.tinyWrapper.setContent(content, characteristic);
@@ -619,7 +642,7 @@ export default class ParagraphUI {
     this.tinyWrapper.setContent(text, characteristic);
     for (let k = 0; k < newParagraphs.length; k++) {
       this.tinyWrapper.stopEditing();
-      this.insertParagraph(newParagraphs[k].pcid, afterPcid, newParagraphs[k].model.text, "Standard");
+      this.insertParagraph(newParagraphs[k].pcid, afterPcid, newParagraphs[k].model.text, 'Standard');
       afterPcid = newParagraphs[k].pcid;
     }
   }
@@ -635,26 +658,26 @@ export default class ParagraphUI {
   getSwitchParameters() {
     return {
       text: this.tinyWrapper.getText(),
-      characteristic: this.tinyWrapper.getCharacteristic()
-    }
+      characteristic: this.tinyWrapper.getCharacteristic(),
+    };
   }
 
   switchToPrevious() {
-    console.log("paragraph-ui switchToPrevious");
+    console.log('paragraph-ui switchToPrevious');
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-    const page_model = this.page_model;
+    const { page_model } = this;
     const cpcid = page_model.getCurrentPCId();
     let found = false;
     let previousPcid = null;
     let previousHierId = null;
     document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach((el) => {
-      const pcid = el.dataset.pcid;
-      const hierid = el.dataset.hierid;
-      const cname = el.dataset.cname;
-      if (cname === "Paragraph") {
+      const { pcid } = el.dataset;
+      const { hierid } = el.dataset;
+      const { cname } = el.dataset;
+      if (cname === 'Paragraph') {
         const pcModel = page_model.getPCModel(pcid);
-        if (pcModel.characteristic !== "Code") {
+        if (pcModel.characteristic !== 'Code') {
           if (!found && cpcid === pcid) {
             found = true;
           }
@@ -667,32 +690,33 @@ export default class ParagraphUI {
     });
     if (previousPcid) {
       dispatch.dispatch(action.page().editor().componentSwitch(
-        "Paragraph",
+        'Paragraph',
         this.page_model.getComponentState(),
         this.page_model.getCurrentPCId(),
         this.getSwitchParameters(),
         previousPcid,
         previousHierId,
-        true));
+        true,
+      ));
     }
   }
 
   switchToNext() {
-    this.log("paragraph-ui switchToNext");
+    this.log('paragraph-ui switchToNext');
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-    const page_model = this.page_model;
+    const { page_model } = this;
     const cpcid = page_model.getCurrentPCId();
     let found = false;
     let nextPcid = null;
     let nextHierId = null;
     document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach((el) => {
-      const pcid = el.dataset.pcid;
-      const hierid = el.dataset.hierid;
-      const cname = el.dataset.cname;
-      if (cname === "Paragraph") {
+      const { pcid } = el.dataset;
+      const { hierid } = el.dataset;
+      const { cname } = el.dataset;
+      if (cname === 'Paragraph') {
         const pcModel = page_model.getPCModel(pcid);
-        if (pcModel.characteristic !== "Code") {
+        if (pcModel.characteristic !== 'Code') {
           if (found && !nextPcid) {
             nextPcid = pcid;
             nextHierId = hierid;
@@ -705,12 +729,13 @@ export default class ParagraphUI {
     });
     if (nextPcid) {
       dispatch.dispatch(action.page().editor().componentSwitch(
-        "Paragraph",
+        'Paragraph',
         this.page_model.getComponentState(),
         this.page_model.getCurrentPCId(),
         this.getSwitchParameters(),
         nextPcid,
-        nextHierId));
+        nextHierId,
+      ));
     }
   }
 
@@ -720,35 +745,40 @@ export default class ParagraphUI {
     const pageModel = parUI.page_model;
 
     wrapper.addCallback(TINY_CB.SWITCH_LEFT, () => {
-      if (pageModel.getCurrentPCName() === "Paragraph") {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
         parUI.switchToPrevious();
       }
     });
     wrapper.addCallback(TINY_CB.SWITCH_UP, () => {
-      if (pageModel.getCurrentPCName() === "Paragraph") {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
         parUI.switchToPrevious();
       }
     });
     wrapper.addCallback(TINY_CB.SWITCH_RIGHT, () => {
-      if (pageModel.getCurrentPCName() === "Paragraph") {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
         parUI.switchToNext();
       }
     });
     wrapper.addCallback(TINY_CB.SWITCH_DOWN, () => {
-      if (pageModel.getCurrentPCName() === "Paragraph") {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
         parUI.switchToNext();
       }
     });
     wrapper.addCallback(TINY_CB.KEY_UP, () => {
-      if (pageModel.getCurrentPCName() === "Paragraph") {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
         parUI.autoSave.handleAutoSaveKeyPressed();
       }
     });
+    wrapper.addCallback(TINY_CB.NODE_CHANGE, () => {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
+        parUI.updateListStyleDropdowns();
+      }
+    });
     wrapper.addCallback(TINY_CB.AFTER_INIT, () => {
-      if (pageModel.getCurrentPCName() === "Paragraph") {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
         let pcId;
         pcId = pageModel.getCurrentPCId();
-        let pcModel = pageModel.getPCModel(pcId);
+        const pcModel = pageModel.getPCModel(pcId);
         if (pcModel) {
           wrapper.initContent(pcModel.text, pcModel.characteristic);
         }
@@ -761,82 +791,72 @@ export default class ParagraphUI {
           wrapper.switchToEnd();
         }
       }
-      
+
       const ed = wrapper.tiny;
-      ed.shortcuts.add('meta+b', '', function() {parUI.cmdSpan('Strong');});
-      ed.shortcuts.add('meta+u', '', function() {parUI.cmdSpan('Important');});
-      ed.shortcuts.add('meta+i', '', function() {parUI.cmdSpan('Emph');});
+      ed.shortcuts.add('meta+b', '', () => { parUI.cmdSpan('Strong'); });
+      ed.shortcuts.add('meta+u', '', () => { parUI.cmdSpan('Important'); });
+      ed.shortcuts.add('meta+i', '', () => { parUI.cmdSpan('Emph'); });
       wrapper.checkSplitOnReturn();
     });
   }
 
-  editParagraph(pcId, switchToEnd)
-  {
+  editParagraph(pcId, switchToEnd) {
     this.autoSave.resetAutoSave();
-    this.log("paragraph-ui.editParagraph");
-    let content_el = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcId + "']");
-    let pc_model = this.page_model.getPCModel(pcId);
+    this.log('paragraph-ui.editParagraph');
+    const content_el = document.querySelector(`[data-copg-ed-type='pc-area'][data-pcid='${pcId}']`);
+    const pc_model = this.page_model.getPCModel(pcId);
     const wrapper = this.tinyWrapper;
     this.switchToEnd = switchToEnd;
     wrapper.initEdit(content_el, pc_model.text, pc_model.characteristic);
   }
 
-  eventT(ed)
-  {
+  eventT(ed) {
     // window vs document
     //	console.log(window);
     //	console.log(tinymce.dom.Event);
-    tinymce.dom.Event.add(tinymce.dom.doc, 'mousedown',
-      function() {console.log("mouse down");}
-      , false);
+    tinymce.dom.Event.add(
+      tinymce.dom.doc,
+      'mousedown',
+      () => { console.log('mouse down'); },
+      false,
+    );
   }
 
-
-  ilEditMultiAction(cmd)
-  {
-    if (cmd === "selectAll")
-    {
-      let divs = $("div.il_editarea");
-      if (divs.length > 0)
-      {
-        for (var i = 0; i < divs.length; i++)
-        {
+  ilEditMultiAction(cmd) {
+    if (cmd === 'selectAll') {
+      let divs = $('div.il_editarea');
+      if (divs.length > 0) {
+        for (var i = 0; i < divs.length; i++) {
           sel_edit_areas[divs[i].id] = true;
-          divs[i].className = "il_editarea_selected";
+          divs[i].className = 'il_editarea_selected';
         }
-      }
-      else
-      {
-        divs = $("div.il_editarea_selected");
-        for (var i = 0; i < divs.length; i++)
-        {
+      } else {
+        divs = $('div.il_editarea_selected');
+        for (var i = 0; i < divs.length; i++) {
           sel_edit_areas[divs[i].id] = false;
-          divs[i].className = "il_editarea";
+          divs[i].className = 'il_editarea';
         }
       }
 
       return false;
     }
 
-
-    let hid_exec = document.getElementById("cmform_exec");
-    hid_exec.name = "cmd[" + cmd + "]";
-    let hid_cmd = document.getElementById("cmform_cmd");
+    const hid_exec = document.getElementById('cmform_exec');
+    hid_exec.name = `cmd[${cmd}]`;
+    const hid_cmd = document.getElementById('cmform_cmd');
     hid_cmd.name = cmd;
-    form = document.getElementById("cmform");
+    form = document.getElementById('cmform');
 
-    var sel_ids = "";
-    var delim = "";
-    for (var key in sel_edit_areas)
-    {
-      if (sel_edit_areas[key])
-      {
+    let sel_ids = '';
+    let delim = '';
+    for (const key in sel_edit_areas) {
+      if (sel_edit_areas[key]) {
         sel_ids = sel_ids + delim + key.substr(7);
-        delim = ";";
+        delim = ';';
       }
     }
 
-    let hid_target = document.getElementById("cmform_target");
+    const hid_target = document.getElementById('cmform_target');
     hid_target.value = sel_ids;
 
     form.submit();
@@ -856,67 +876,86 @@ export default class ParagraphUI {
     const action = this.actionFactory;
     const ef = action.paragraph().editor();
     const tblact = action.table().editor();
+    const paragraphUI = this;
 
-    //#0017152
-    $('#tinytarget_ifr').contents().find("html").attr('lang', $('html').attr('lang'));
-    $('#tinytarget_ifr').contents().find("html").attr('dir', $('html').attr('dir'));
+    // #0017152
+    $('#tinytarget_ifr').contents().find('html').attr('lang', $('html').attr('lang'));
+    $('#tinytarget_ifr').contents().find('html').attr('dir', $('html').attr('dir'));
 
-//    $("#tinytarget_ifr").parent().css("border-width", "0px");
-//    $("#tinytarget_ifr").parent().parent().parent().css("border-width", "0px");
+    //    $("#tinytarget_ifr").parent().css("border-width", "0px");
+    //    $("#tinytarget_ifr").parent().parent().parent().css("border-width", "0px");
 
+    this.toolSlate.setContentFromComponent('Paragraph', 'menu');
+    console.log('*** SHOW TOOLBAR');
 
-    this.toolSlate.setContentFromComponent("Paragraph", "menu");
-    console.log("*** SHOW TOOLBAR");
-
-    let map = {};
+    const map = {};
     map[ACTIONS.SELECTION_REMOVE_FORMAT] = () => ef.selectionRemoveFormat();
     map[ACTIONS.SELECTION_KEYWORD] = () => ef.selectionKeyword();
     map[ACTIONS.SELECTION_TEX] = () => ef.selectionTex();
     map[ACTIONS.SELECTION_FN] = () => ef.selectionFn();
     map[ACTIONS.SELECTION_ANCHOR] = () => ef.selectionAnchor();
-    map[ACTIONS.LIST_BULLET] = () => ef.listBullet();
     map[ACTIONS.LIST_NUMBER] = () => ef.listNumber();
+    map[ACTIONS.LIST_BULLET] = () => ef.listBullet();
     map[ACTIONS.LIST_OUTDENT] = () => ef.listOutdent();
     map[ACTIONS.LIST_INDENT] = () => ef.listIndent();
     map[ACTIONS.LINK_WIKI] = () => ef.linkWiki();
     map[ACTIONS.LINK_INTERNAL] = () => ef.linkInternal();
     map[ACTIONS.LINK_EXTERNAL] = () => ef.linkExternal();
     map[ACTIONS.LINK_USER] = () => ef.linkUser();
-    map[PAGE_ACTIONS.COMPONENT_CANCEL] = () => action.page().editor().componentCancel();
 
-    document.querySelectorAll("[data-copg-ed-type='par-action']").forEach(char_button => {
+    document.querySelectorAll("[data-copg-ed-type='par-action']").forEach((char_button) => {
       const actionType = char_button.dataset.copgEdAction;
+      let format;
       switch (actionType) {
-
         case ACTIONS.SELECTION_FORMAT:
-          const format = char_button.dataset.copgEdParFormat;
-          char_button.addEventListener("click", (event) => {
+          format = char_button.dataset.copgEdParFormat;
+          char_button.addEventListener('click', (event) => {
             dispatch.dispatch(action.paragraph().editor().selectionFormat(format));
+          });
+          break;
+
+        case ACTIONS.LIST_BULLET_STYLE:
+          format = char_button.dataset.copgEdParFormat;
+          char_button.addEventListener('click', (event) => {
+            dispatch.dispatch(action.paragraph().editor().listBulletStyle(format));
+          });
+          break;
+
+        case ACTIONS.LIST_NUMBER_STYLE:
+          format = char_button.dataset.copgEdParFormat;
+          char_button.addEventListener('click', (event) => {
+            dispatch.dispatch(action.paragraph().editor().listNumberStyle(format));
+          });
+          break;
+
+        case ACTIONS.LIST_ITEM_STYLE:
+          format = char_button.dataset.copgEdParFormat;
+          char_button.addEventListener('click', (event) => {
+            dispatch.dispatch(action.paragraph().editor().listItemStyle(format));
           });
           break;
 
         case ACTIONS.PARAGRAPH_CLASS:
           const par_class = char_button.dataset.copgEdParClass;
-          char_button.addEventListener("click", (event) => {
+          char_button.addEventListener('click', (event) => {
             dispatch.dispatch(action.paragraph().editor().paragraphClass(par_class));
           });
           break;
 
         case ACTIONS.SECTION_CLASS:
           const sec_class = char_button.dataset.copgEdParClass;
-          char_button.addEventListener("click", (event) => {
+          char_button.addEventListener('click', (event) => {
             dispatch.dispatch(action.paragraph().editor().sectionClass(
               this.tinyWrapper.getText(),
               this.tinyWrapper.getCharacteristic(),
               this.getSectionClass(this.page_model.getCurrentPCId()),
-              sec_class
+              sec_class,
             ));
           });
           break;
 
         case ACTIONS.SAVE_RETURN:
-          const paragraphUI = this;
-          char_button.addEventListener("click", (event) => {
+          char_button.addEventListener('click', (event) => {
             if (!paragraphUI.getDataTableMode()) {
               dispatch.dispatch(ef.saveReturn(tiny.getText(), tiny.getCharacteristic()));
             } else {
@@ -925,15 +964,25 @@ export default class ParagraphUI {
           });
           break;
 
+        case PAGE_ACTIONS.COMPONENT_CANCEL:
+          char_button.addEventListener('click', (event) => {
+            if (!paragraphUI.getDataTableMode()) {
+              dispatch.dispatch(action.page().editor().componentCancel());
+            } else {
+              dispatch.dispatch(tblact.cancelCellEdit());
+            }
+          });
+          break;
+
         case ACTIONS.LINK_WIKI_SELECTION:
           const url = char_button.dataset.copgEdParUrl;
-          char_button.addEventListener("click", (event) => {
+          char_button.addEventListener('click', (event) => {
             dispatch.dispatch(ef.linkWikiSelection(url));
           });
           break;
 
         default:
-          char_button.addEventListener("click", (event) => {
+          char_button.addEventListener('click', (event) => {
             dispatch.dispatch(map[actionType]());
           });
           break;
@@ -941,21 +990,20 @@ export default class ParagraphUI {
     });
 
     if (!showParagraphClass) {
-      document.querySelector(".ilTinyParagraphClassSelector").remove();
+      document.querySelector('.ilTinyParagraphClassSelector').remove();
     }
     if (!showSectionFormat) {
-      document.querySelector(".ilSectionClassSelector").remove();
+      document.querySelector('.ilSectionClassSelector').remove();
     }
   }
 
-
-  removeToolbar () {
-    //console.log("removing toolbar");
+  removeToolbar() {
+    // console.log("removing toolbar");
     if (this.menu_panel) {
       let obj = document.getElementById('iltinymenu');
       $(obj).remove();
-      $("#copg-editor-help").css("display", "");
-      $(".il_droparea").css('visibility', '');
+      $('#copg-editor-help').css('display', '');
+      $('.il_droparea').css('visibility', '');
 
       this.menu_panel = null;
 
@@ -975,30 +1023,30 @@ export default class ParagraphUI {
 
   autoSaveStarted() {
     document.querySelector("[data-copg-ed-action='save.return']").disabled = true;
-    //document.querySelector("[data-copg-ed-action='component.cancel']").disabled = true;
-    this.autoSave.displayAutoSave(il.Language.txt("cont_saving"));
+    // document.querySelector("[data-copg-ed-action='component.cancel']").disabled = true;
+    this.autoSave.displayAutoSave(il.Language.txt('cont_saving'));
   }
 
   autoSaveEnded() {
     document.querySelector("[data-copg-ed-action='save.return']").disabled = false;
-    //document.querySelector("[data-copg-ed-action='component.cancel']").disabled = false;
-    this.autoSave.displayAutoSave("&nbsp;");
+    // document.querySelector("[data-copg-ed-action='component.cancel']").disabled = false;
+    this.autoSave.displayAutoSave('&nbsp;');
   }
 
   replaceRenderedParagraph(pcid, content) {
-    const pcarea = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
+    const pcarea = document.querySelector(`[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`);
     const children = Array.from(pcarea.childNodes);
     let cnt = 0;
 
     // we remove all children except the first one which is the EditLabel div
-    children.forEach(function(item){
+    children.forEach((item) => {
       if (cnt > 0) {
         item.remove();
       }
       cnt++;
     });
 
-    pcarea.innerHTML = pcarea.innerHTML + content;
+    pcarea.innerHTML += content;
 
     // replacing the content may move the editing area, so
     // we need to synch the tiny position
@@ -1009,24 +1057,24 @@ export default class ParagraphUI {
   // e.g. in replaceRenderedParagraph, direct after inserting the new content
   syncTiny() {
     const w = this.tinyWrapper;
-    window.setTimeout(function() {
+    window.setTimeout(() => {
       w.synchInputRegion();
     }, 100);
-    window.setTimeout(function() {
+    window.setTimeout(() => {
       w.synchInputRegion();
     }, 300);
   }
 
   showLastUpdate(last_update) {
-    this.autoSave.displayAutoSave(il.Language.txt("cont_last_update") + ": " + last_update);
+    this.autoSave.displayAutoSave(`${il.Language.txt('cont_last_update')}: ${last_update}`);
   }
 
   setSectionClass(pcid, characteristic) {
-    const currentPar = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
+    const currentPar = document.querySelector(`[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`);
     const parentComp = currentPar.parentNode.closest("[data-copg-ed-type='pc-area']");
-    if (parentComp && parentComp.dataset.cname === "Section" && characteristic !== "") {
-      const contentDiv = parentComp.querySelector("div.ilCOPageSection,a.ilCOPageSection");
-      contentDiv.className = "ilc_section_" + characteristic + " ilCOPageSection";
+    if (parentComp && parentComp.dataset.cname === 'Section' && characteristic !== '') {
+      const contentDiv = parentComp.querySelector('div.ilCOPageSection,a.ilCOPageSection');
+      contentDiv.className = `ilc_section_${characteristic} ilCOPageSection`;
     }
     this.setSectionClassSelector(characteristic);
     this.tinyWrapper.synchInputRegion();
@@ -1037,13 +1085,13 @@ export default class ParagraphUI {
    * @param {string} pcid paragraph pcid
    */
   getSectionClass(pcid) {
-    let secClass = "";
-    const currentPar = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
+    let secClass = '';
+    const currentPar = document.querySelector(`[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`);
     const parentComp = currentPar.parentNode.closest("[data-copg-ed-type='pc-area']");
-    if (parentComp && parentComp.dataset.cname === "Section") {
-      const contentDiv = parentComp.querySelector("div.ilCOPageSection,a.ilCOPageSection");
+    if (parentComp && parentComp.dataset.cname === 'Section') {
+      const contentDiv = parentComp.querySelector('div.ilCOPageSection,a.ilCOPageSection');
       contentDiv.classList.forEach((c) => {
-        if (c.substr(0, 12) === "ilc_section_") {
+        if (c.substr(0, 12) === 'ilc_section_') {
           secClass = c.substr(12);
         }
       });
@@ -1052,43 +1100,45 @@ export default class ParagraphUI {
   }
 
   setSectionClassSelector(i) {
-    if (i === "") {
-      i = il.Language.txt("cont_no_block");
+    if (i === '') {
+      i = il.Language.txt('cont_no_block');
     } else {
-      const dropdownEl = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i);
+      const dropdownEl = document.querySelector(`[data-copg-ed-par-class='${i}'] div.ilc_section_${i}`);
       if (dropdownEl) {
-        i = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i).innerHTML;
+        i = document.querySelector(`[data-copg-ed-par-class='${i}'] div.ilc_section_${i}`).innerHTML;
       } else {
-        i = "";
+        i = '';
       }
     }
-    const fc = document.querySelector(".ilSectionClassSelector .dropdown button");
+    const fc = document.querySelector('.ilSectionClassSelector .dropdown button');
     if (fc) {
-      fc.firstChild.textContent = i + " ";
+      fc.firstChild.textContent = `${i} `;
     }
   }
 
   checkMerge(tiny, previous) {
     // check if previous page content element is a paragraph
-    const dispatcher = this.dispatcher;
-    const actionFactory = this.actionFactory;
+    const { dispatcher } = this;
+    const { actionFactory } = this;
     const pcid = this.page_model.getCurrentPCId();
-    let firstParagraph, firstParagraphPcid, firstParent, firstAddArea;
-    let secondParagraph, secondParagraphPcid, secondParent;
+    let firstParagraph; let firstParagraphPcid; let firstParent; let
+      firstAddArea;
+    let secondParagraph; let secondParagraphPcid; let
+      secondParent;
 
-    let el1 = document.createElement("div");
-    let el2 = document.createElement("div");
+    let el1 = document.createElement('div');
+    let el2 = document.createElement('div');
 
     if (previous) { // merge current tiny with previous paragraph (backspace)
-      secondParagraph = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
+      secondParagraph = document.querySelector(`[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`);
       secondParagraphPcid = pcid;
       firstAddArea = secondParagraph.parentNode.previousSibling;
 
       // we have an add-area in between...
-      if (firstAddArea && firstAddArea.dataset.copgEdType === "add-area") {
+      if (firstAddArea && firstAddArea.dataset.copgEdType === 'add-area') {
         firstParent = firstAddArea.previousSibling;
-        if (firstParent && firstParent.firstChild && firstParent.firstChild.dataset.copgEdType === "pc-area" &&
-          firstParent.firstChild.dataset.cname === "Paragraph") {
+        if (firstParent && firstParent.firstChild && firstParent.firstChild.dataset.copgEdType === 'pc-area'
+          && firstParent.firstChild.dataset.cname === 'Paragraph') {
           firstParagraph = firstParent.firstChild;
           firstParagraphPcid = firstParagraph.dataset.pcid;
           const firstModel = this.page_model.getPCModel(firstParagraphPcid);
@@ -1097,13 +1147,13 @@ export default class ParagraphUI {
         }
       }
     } else { // merge current tiny with next paragraph (delete)
-      firstParagraph = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
+      firstParagraph = document.querySelector(`[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`);
       firstParagraphPcid = pcid;
       firstAddArea = firstParagraph.parentNode.nextSibling;
-      if (firstAddArea && firstAddArea.dataset.copgEdType === "add-area") {
+      if (firstAddArea && firstAddArea.dataset.copgEdType === 'add-area') {
         secondParent = firstAddArea.nextSibling;
-        if (secondParent && secondParent.firstChild && secondParent.firstChild.dataset.copgEdType === "pc-area" &&
-          secondParent.firstChild.dataset.cname === "Paragraph") {
+        if (secondParent && secondParent.firstChild && secondParent.firstChild.dataset.copgEdType === 'pc-area'
+          && secondParent.firstChild.dataset.cname === 'Paragraph') {
           secondParagraph = secondParent.firstChild;
           secondParagraphPcid = secondParagraph.dataset.pcid;
           const secondModel = this.page_model.getPCModel(secondParagraphPcid);
@@ -1113,54 +1163,50 @@ export default class ParagraphUI {
       }
     }
 
-
     let newContent;
     if (firstParagraph && secondParagraph) {
-
       // first element is a list
-      while (el1.querySelector("ul") && el1.querySelector("ul").lastChild.nodeName === "UL") {
-        el1 = el1.querySelector("ul").lastChild;
+      while (el1.querySelector('ul') && el1.querySelector('ul').lastChild.nodeName === 'UL') {
+        el1 = el1.querySelector('ul').lastChild;
       }
-      if (el1.querySelector("ul")) {
-
+      if (el1.querySelector('ul')) {
         // both are lists
-        if (el2.querySelector("ul")) {
-          const childs = Array.from(el2.querySelector("ul").children);
-          const el1Ul = el1.querySelector("ul");
+        if (el2.querySelector('ul')) {
+          const childs = Array.from(el2.querySelector('ul').children);
+          const el1Ul = el1.querySelector('ul');
           childs.forEach((c) => {
             el1Ul.append(c);
           });
           newContent = el1.innerHTML;
-
-        } else {    // first is list, second is no list
-          const lastChild = el1.querySelector("ul").lastChild;
-          if (lastChild.nodeName === "LI") {
-            lastChild.innerHTML = lastChild.innerHTML + el2.innerHTML;
+        } else { // first is list, second is no list
+          const { lastChild } = el1.querySelector('ul');
+          if (lastChild.nodeName === 'LI') {
+            lastChild.innerHTML += el2.innerHTML;
           }
           newContent = el1.innerHTML;
         }
-
-      } else {    // first element is not a list
-
+      } else { // first element is not a list
         // second element is a list
-        while (el2.querySelector("ul") && el2.querySelector("ul").firstChild.nodeName === "UL") {
-          el2 = el2.querySelector("ul").firstChild;
+        while (el2.querySelector('ul') && el2.querySelector('ul').firstChild.nodeName === 'UL') {
+          el2 = el2.querySelector('ul').firstChild;
         }
-        if (el2.querySelector("ul")) {
-          const firstChild = el2.querySelector("ul").firstChild;
-          if (firstChild.nodeName === "LI") {
+        if (el2.querySelector('ul')) {
+          const { firstChild } = el2.querySelector('ul');
+          if (firstChild.nodeName === 'LI') {
             firstChild.innerHTML = el1.innerHTML + firstChild.innerHTML;
           }
           newContent = el2.innerHTML;
-        } else {    // first and second element are no lists
+        } else { // first and second element are no lists
           newContent = el1.innerHTML + el2.innerHTML;
         }
       }
 
       this.pageModifier.removeInsertedComponent(secondParagraphPcid);
-      dispatcher.dispatch(actionFactory.paragraph().editor().mergePrevious(secondParagraphPcid,
+      dispatcher.dispatch(actionFactory.paragraph().editor().mergePrevious(
+        secondParagraphPcid,
         newContent,
-        firstParagraphPcid));
+        firstParagraphPcid,
+      ));
     }
   }
 
@@ -1178,13 +1224,13 @@ export default class ParagraphUI {
   }
 
   disableButtons() {
-    document.querySelectorAll("#iltinymenu button").forEach(el => {
+    document.querySelectorAll('#iltinymenu button').forEach((el) => {
       el.disabled = true;
     });
   }
 
   enableButtons() {
-    document.querySelectorAll("#iltinymenu button").forEach(el => {
+    document.querySelectorAll('#iltinymenu button').forEach((el) => {
       el.disabled = false;
     });
   }
@@ -1214,5 +1260,4 @@ export default class ParagraphUI {
     this.tinyWrapper.enable();
     this.hideLoader();
   }
-
 }

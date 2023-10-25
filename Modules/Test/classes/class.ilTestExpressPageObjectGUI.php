@@ -409,11 +409,11 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         // use pool
         $usage = new ilRadioGroupInputGUI($this->lng->txt('assessment_pool_selection'), 'usage');
         $usage->setRequired(true);
-        $no_pool = new ilRadioOption($this->lng->txt('assessment_no_pool'), 1);
+        $no_pool = new ilRadioOption($this->lng->txt('assessment_no_pool'), '1');
         $usage->addOption($no_pool);
-        $existing_pool = new ilRadioOption($this->lng->txt('assessment_existing_pool'), 3);
+        $existing_pool = new ilRadioOption($this->lng->txt('assessment_existing_pool'), '3');
         $usage->addOption($existing_pool);
-        $new_pool = new ilRadioOption($this->lng->txt('assessment_new_pool'), 2);
+        $new_pool = new ilRadioOption($this->lng->txt('assessment_new_pool'), '2');
         $usage->addOption($new_pool);
         $form->addItem($usage);
 

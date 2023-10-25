@@ -47,20 +47,12 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator implements Dictiona
 
     public function pathFromValueToSource(): PathInterface
     {
-        $source_definition = $this
-            ->getStructure()
-            ->getRoot()
-            ->getSubElement('general')
-            ->getSubElement('structure')
-            ->getSubElement('source')
-            ->getDefinition();
-
         return $this->path_factory
             ->custom()
             ->withRelative(true)
             ->withLeadsToExactlyOneElement(true)
             ->withNextStepToSuperElement()
-            ->withNextStep($source_definition)
+            ->withNextStep('source')
             ->get();
     }
 

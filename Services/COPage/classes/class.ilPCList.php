@@ -145,8 +145,24 @@ class ilPCList extends ilPageContent
         }
     }
 
+    public function setItemStyleClass(string $a_val): void
+    {
+        if (!in_array($a_val, array("", "StandardListItem"))) {
+            $this->list_node->set_attribute("ItemClass", $a_val);
+        } else {
+            if ($this->list_node->has_attribute("ItemClass")) {
+                $this->list_node->remove_attribute("ItemClass");
+            }
+        }
+    }
+
     public function getStyleClass(): string
     {
         return $this->getChildNode()->getAttribute("Class");
+    }
+
+    public function getItemStyleClass(): string
+    {
+        return $this->list_node->get_attribute("ItemClass");
     }
 }

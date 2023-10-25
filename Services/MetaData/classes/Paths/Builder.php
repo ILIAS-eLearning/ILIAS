@@ -21,13 +21,22 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Paths;
 
 use ILIAS\MetaData\Paths\Filters\FilterType;
+use ILIAS\MetaData\Paths\Steps\StepInterface;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Paths\Steps\Step;
 use ILIAS\MetaData\Paths\Filters\Filter;
 use ILIAS\MetaData\Paths\Steps\StepToken;
+use ILIAS\MetaData\Elements\Structure\StructureSetInterface;
 
 class Builder implements BuilderInterface
 {
+    protected StructureSetInterface $structure;
+
+    public function __construct(StructureSetInterface $structure)
+    {
+        $this->structure = $structure;
+    }
+
     /**
      * @var Step[]
      */
@@ -60,11 +69,11 @@ class Builder implements BuilderInterface
     }
 
     public function withNextStep(
-        DefinitionInterface $definition,
+        string $name,
         bool $add_as_first = false
     ): BuilderInterface {
         return $this->withNextStepFromName(
-            $definition->name(),
+            $name,
             $add_as_first
         );
     }
@@ -77,14 +86,18 @@ class Builder implements BuilderInterface
         );
     }
 
-    public function withNextStepFromName(
-        string|StepToken $name,
-        bool $add_as_first
+    public function withNextStepFromStep(
+        StepInterface $next_step,
+        bool $add_as_first = false
     ): BuilderInterface {
-        $clone = $this->withCurrentStepSaved();
-        $clone->current_step_name = $name;
-        $clone->current_add_as_first = $add_as_first;
-        return $clone;
+        $builder = $this->withNextStepFromName($next_step->name(), $add_as_first);
+        foreach ($next_step->filters() as $filter) {
+            $builder = $builder->withAdditionalFilterAtCurrentStep(
+                $filter->type(),
+                ...$filter->values()
+            );
+        }
+        return $builder;
     }
 
     public function withAdditionalFilterAtCurrentStep(
@@ -104,14 +117,54 @@ class Builder implements BuilderInterface
         return $clone;
     }
 
+    /**
+     * @throws \ilMDPathException
+     */
     public function get(): PathInterface
     {
         $clone = $this->withCurrentStepSaved();
-        return new Path(
+        $path =  new Path(
             $clone->is_relative,
             $clone->leads_to_one,
             ...$clone->steps
         );
+
+        if (!$path->isRelative()) {
+            $this->validatePathFromRoot($path);
+        }
+        return $path;
+    }
+
+    /**
+     * @throws \ilMDPathException
+     */
+    protected function validatePathFromRoot(PathInterface $path): void
+    {
+        $element = $this->structure->getRoot();
+        foreach ($path->steps() as $step) {
+            $name = $step->name();
+            if ($name === StepToken::SUPER) {
+                $element = $element->getSuperElement();
+            } else {
+                $element = $element->getSubElement($name);
+            }
+            if (is_null($element)) {
+                $name = is_string($name) ? $name : $name->value;
+                throw new \ilMDPathException(
+                    "In the path '" . $path->toString() . "', the step '" . $name . "' is invalid."
+                );
+            }
+        }
+    }
+
+    protected function withNextStepFromName(
+        string|StepToken $name,
+        bool $add_as_first = false
+    ): BuilderInterface {
+        $clone = $this->withCurrentStepSaved();
+        $clone->current_step_name = $name;
+        $clone->current_add_as_first = $add_as_first;
+        return $clone;
     }
 
     protected function withCurrentStepSaved(): Builder

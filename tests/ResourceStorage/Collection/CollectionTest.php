@@ -18,6 +18,8 @@
 
 namespace ILIAS\ResourceStorage\Resource;
 
+require_once(__DIR__ . '/../AbstractBaseResourceBuilderTest.php');
+
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\Collections;
@@ -78,7 +80,6 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
             $this->preloader
         );
     }
-
 
     public function testCreateCollection(): void
     {
@@ -213,6 +214,22 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
         $this->assertFalse($collection->isIn($rid_one));
         $this->assertFalse($collection->isIn($rid_two));
         $this->assertEquals(0, $collection->count());
+    }
+
+    public function testDuplicates(): void
+    {
+        $rid = new ResourceIdentification('rid');
+        $same_rid = new ResourceIdentification('rid');
+
+        $collection = new ResourceCollection(
+            new ResourceCollectionIdentification(self::DUMMY_RCID),
+            ResourceCollection::NO_SPECIFIC_OWNER,
+            ''
+        );
+        $collection->add($rid);
+        $collection->add($same_rid);
+
+        $this->assertEquals(1, count($collection->getResourceIdentifications()));
     }
 
 

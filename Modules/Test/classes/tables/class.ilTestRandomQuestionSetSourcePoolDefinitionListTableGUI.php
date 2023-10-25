@@ -32,6 +32,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
     private bool $questionAmountColumnEnabled = false;
     private bool $showMappedTaxonomyFilter = false;
     private ?ilTestQuestionFilterLabelTranslater $taxonomyLabelTranslater = null;
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(
         ilTestRandomQuestionSetConfigGUI $parent_obj,
@@ -39,6 +41,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         private array $defined_order,
         private array $question_amount
     ) {
+        global $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+
         parent::__construct($parent_obj, $parent_cmd);
     }
 
@@ -140,15 +146,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
     private function getActionsHTML($sourcePoolDefinitionId): string
     {
-        $selectionList = new ilAdvancedSelectionListGUI();
-
-        $selectionList->setId('sourcePoolDefinitionActions_' . $sourcePoolDefinitionId);
-        $selectionList->setListTitle($this->lng->txt("actions"));
-
-        $selectionList->addItem($this->lng->txt('edit'), '', $this->getEditHref($sourcePoolDefinitionId));
-        $selectionList->addItem($this->lng->txt('delete'), '', $this->getDeleteHref($sourcePoolDefinitionId));
-
-        return $selectionList->getHTML();
+        $actions = [];
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit'), $this->getEditHref($sourcePoolDefinitionId));
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $this->getDeleteHref($sourcePoolDefinitionId));
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        return $this->ui_renderer->render($dropdown);
     }
 
     private function getEditHref($sourcePoolDefinitionId): string

@@ -73,7 +73,10 @@ class ilFileObjectAgent implements Setup\Agent
                 new ilFileObjectDatabaseObjective()
             ),
             new \ILIAS\File\Icon\ilObjFileDefaultIconsObjective(),
-            new ilFileObjectSettingsUpdatedObjective()
+            new ilFileObjectSettingsUpdatedObjective(),
+            new ilFileObjectRBACDatabase(
+                new ilFileObjectRBACDatabaseSteps()
+            )
         );
     }
 

@@ -28,10 +28,9 @@ trait ilObjFileTransformation
     public function getEmptyStringToNullTransformation(): Transformation
     {
         return $this->getRefinery()->custom()->transformation(static function ($text) {
-            return (!empty($text)) ? $text : null;
+            return (empty($text)) ? null : $text;
         });
     }
-
 
     abstract protected function getRefinery(): Factory;
 }

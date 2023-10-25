@@ -66,7 +66,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("obligatory_static");
             $this->tpl->setVariable(
                 'OBL_SRC',
-                ilUtil::getImagePath($a_set['obligatory'] ? 'icon_ok.svg' : 'icon_not_ok.svg')
+                ilUtil::getImagePath($a_set['obligatory'] ? 'icon_ok.svg' : 'standard/icon_not_ok.svg')
             );
             $this->tpl->setVariable(
                 'OBL_ALT',

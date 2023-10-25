@@ -137,6 +137,7 @@ export default class Client {
       return this.queue.push(() => {return t._sendCommand(command_action);});
     } else {
       console.log("### Sending command directly:");
+      console.trace();
       console.log(command_action);
       return this._sendCommand(command_action);
     }

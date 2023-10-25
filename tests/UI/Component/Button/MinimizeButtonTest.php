@@ -33,7 +33,7 @@ class MinimizeButtonTest extends ILIAS_UI_TestBase
         $this->button_factory = new I\Component\Button\Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Button\\Minimize",

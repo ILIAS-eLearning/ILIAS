@@ -605,7 +605,7 @@ class ilExplorer
             if ($this->getId() !== "") {
                 $mtpl->setVariable("ID", 'id="' . $this->getId() . '"');
             }
-            $mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
+            $mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("media/spacer.png", false));
             $mtpl->setCurrentBlock("content");
             $mtpl->setVariable("EXPLORER", $html);
             $mtpl->setVariable("EXP_REFRESH", $lng->txt("refresh"));
@@ -741,7 +741,7 @@ class ilExplorer
 
         if ($this->output_icons) {
             $tpl->setCurrentBlock("icon");
-            $tpl->setVariable("ICON_IMAGE", $this->getImage("icon_" . $a_option["type"] . ".svg", $a_option["type"], $a_obj_id));
+            $tpl->setVariable("ICON_IMAGE", $this->getImage("standard/icon_" . $a_option["type"] . ".svg", $a_option["type"], $a_obj_id));
 
             $tpl->setVariable("TARGET_ID", "iconid_" . $a_node_id);
             $this->iconList[] = "iconid_" . $a_node_id;

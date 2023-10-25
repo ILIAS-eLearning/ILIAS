@@ -22,14 +22,12 @@ namespace ILIAS\MetaData\Editor\Digest;
 
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\Paths\PathInterface;
-use ILIAS\MetaData\Elements\Structure\StructureSetInterface;
 use ILIAS\MetaData\Paths\Filters\FilterType;
 use ILIAS\MetaData\Paths\Path;
 
 class PathCollection
 {
     protected PathFactory $path_factory;
-    protected StructureSetInterface $structure;
 
     protected PathInterface $title;
     protected PathInterface $descriptions;
@@ -44,56 +42,68 @@ class PathCollection
     protected PathInterface $has_copyright_source;
 
     public function __construct(
-        PathFactory $path_factory,
-        StructureSetInterface $structure
+        PathFactory $path_factory
     ) {
         $this->path_factory = $path_factory;
-        $this->structure = $structure;
         $this->init();
     }
 
     protected function init(): void
     {
-        $general = $this->structure->getRoot()->getSubElement('general');
-        $this->title = $this->path_factory->toElement(
-            $general->getSubElement('title')->getSubElement('string')
-        );
-        $this->descriptions = $this->path_factory->toElement(
-            $general->getSubElement('description')->getSubElement('string')
-        );
-        $this->languages = $this->path_factory->toElement(
-            $general->getSubElement('language')
-        );
-        $this->keywords = $this->path_factory->toElement(
-            $general->getSubElement('keyword')->getSubElement('string')
-        );
+        $this->title = $this->path_factory
+            ->custom()
+            ->withNextStep('general')
+            ->withNextStep('title')
+            ->withNextStep('string')
+            ->get();
+        $this->descriptions = $this->path_factory
+            ->custom()
+            ->withNextStep('general')
+            ->withNextStep('description')
+            ->withNextStep('string')
+            ->get();
+        $this->languages = $this->path_factory
+            ->custom()
+            ->withNextStep('general')
+            ->withNextStep('language')
+            ->get();
+        $this->keywords = $this->path_factory
+            ->custom()
+            ->withNextStep('general')
+            ->withNextStep('keyword')
+            ->withNextStep('string')
+            ->get();
 
         $this->first_author = $this->authorWithIndex(0);
         $this->second_author = $this->authorWithIndex(1);
         $this->third_author = $this->authorWithIndex(2);
 
-        $educational = $this->structure->getRoot()->getSubElement('educational');
-        $tlt = $educational->getSubElement('typicalLearningTime');
-        $duration = $tlt->getSubElement('duration');
         $this->first_typical_learning_time = $this->path_factory
             ->custom()
-            ->withNextStep($educational->getDefinition())
+            ->withNextStep('educational')
             ->withAdditionalFilterAtCurrentStep(FilterType::INDEX, '0')
-            ->withNextStep($tlt->getDefinition())
-            ->withNextStep($duration->getDefinition())
+            ->withNextStep('typicalLearningTime')
+            ->withNextStep('duration')
             ->get();
 
-        $rights = $this->structure->getRoot()->getSubElement('rights');
-        $this->copyright = $this->path_factory->toElement(
-            $rights->getSubElement('description')->getSubElement('string')
-        );
-        $cor = $rights->getSubElement('copyrightAndOtherRestrictions');
-        $this->has_copyright = $this->path_factory->toElement(
-            $cor->getSubElement('value')
-        );
-        $this->has_copyright_source = $this->path_factory->toElement(
-            $cor->getSubElement('source')
-        );
+        $this->copyright = $this->path_factory
+            ->custom()
+            ->withNextStep('rights')
+            ->withNextStep('description')
+            ->withNextStep('string')
+            ->get();
+        $this->has_copyright = $this->path_factory
+            ->custom()
+            ->withNextStep('rights')
+            ->withNextStep('copyrightAndOtherRestrictions')
+            ->withNextStep('value')
+            ->get();
+        $this->has_copyright_source = $this->path_factory
+            ->custom()
+            ->withNextStep('rights')
+            ->withNextStep('copyrightAndOtherRestrictions')
+            ->withNextStep('source')
+            ->get();
     }
 
     public function title(): PathInterface
@@ -125,14 +135,11 @@ class PathCollection
             $indices[] = (string) $i;
         }
 
-        $general = $this->structure->getRoot()->getSubElement('general');
-        $keyword = $general->getSubElement('keyword');
-        $string = $keyword->getSubElement('string');
         return $this->path_factory
             ->custom()
-            ->withNextStep($general->getDefinition())
-            ->withNextStep($keyword->getDefinition())
-            ->withNextStep($string->getDefinition())
+            ->withNextStep('general')
+            ->withNextStep('keyword')
+            ->withNextStep('string')
             ->withNextStepToSuperElement()
             ->withAdditionalFilterAtCurrentStep(FilterType::INDEX, ...$indices)
             ->get();
@@ -155,25 +162,19 @@ class PathCollection
 
     protected function authorWithIndex(int $index): PathInterface
     {
-        $lifecycle = $this->structure->getRoot()->getSubElement('lifeCycle');
-        $contribute = $lifecycle->getSubElement('contribute');
-        $role = $contribute->getSubElement('role');
-        $value = $role->getSubElement('value');
-        $source = $role->getSubElement('source');
-        $entity = $contribute->getSubElement('entity');
         return $this->path_factory
             ->custom()
-            ->withNextStep($lifecycle->getDefinition())
-            ->withNextStep($contribute->getDefinition())
-            ->withNextStep($role->getDefinition())
-            ->withNextStep($value->getDefinition())
+            ->withNextStep('lifeCycle')
+            ->withNextStep('contribute')
+            ->withNextStep('role')
+            ->withNextStep('value')
             ->withAdditionalFilterAtCurrentStep(FilterType::DATA, 'author')
             ->withNextStepToSuperElement()
-            ->withNextStep($source->getDefinition())
+            ->withNextStep('source')
             ->withAdditionalFilterAtCurrentStep(FilterType::DATA, 'LOMv1.0')
             ->withNextStepToSuperElement()
             ->withNextStepToSuperElement()
-            ->withNextStep($entity->getDefinition())
+            ->withNextStep('entity')
             ->withAdditionalFilterAtCurrentStep(FilterType::INDEX, (string) $index)
             ->get();
     }

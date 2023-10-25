@@ -202,7 +202,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('actions_column');
 
             if ($a_set['active_id'] > 0) {
-                $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($a_set)->getHTML());
+                $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($a_set));
             } else {
                 $this->tpl->touchBlock('actions_column');
             }
@@ -222,18 +222,16 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($a_set));
     }
 
-    protected function buildActionsMenu(array $data): ilAdvancedSelectionListGUI
+    protected function buildActionsMenu(array $data): string
     {
-        $asl = new ilAdvancedSelectionListGUI();
-
         $this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
-
+        $actions = [];
         if ($this->isManageResultsCommandsEnabled() && $data['unfinished']) {
             $finishHref = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'finishTestPassForSingleUser');
-            $asl->addItem($this->lng->txt('finish_test'), $finishHref, $finishHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('finish_test'), $finishHref);
         }
-
-        return $asl;
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        return $this->ui_renderer->render($dropdown);
     }
 
     protected function isActionsColumnRequired(): bool
@@ -275,7 +273,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     protected function buildOkIcon(): string
     {
         return $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(
-            ilUtil::getImagePath("icon_ok.svg"),
+            ilUtil::getImagePath("standard/icon_ok.svg"),
             $this->lng->txt("ok")
         ));
     }

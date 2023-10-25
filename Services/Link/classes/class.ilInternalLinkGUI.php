@@ -517,7 +517,7 @@ class ilInternalLinkGUI
                     $tpl->parseCurrentBlock();
                     if ($parent_id = $med_pool->getParentId($this->parent_fold_id)) {
                         $tpl->setCurrentBlock("icon");
-                        $tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_fold.svg"));
+                        $tpl->setVariable("ICON_SRC", ilUtil::getImagePath("standard/icon_fold.svg"));
                         $tpl->parseCurrentBlock();
                         $tpl->setCurrentBlock("link_row");
                         $tpl->setVariable("TXT_CHAPTER", "..");
@@ -541,7 +541,7 @@ class ilInternalLinkGUI
                     foreach ($objs as $obj) {
                         if ($obj["type"] === "fold") {
                             $tpl->setCurrentBlock("icon");
-                            $tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_fold.svg"));
+                            $tpl->setVariable("ICON_SRC", ilUtil::getImagePath("standard/icon_fold.svg"));
                             $tpl->parseCurrentBlock();
                             $tpl->setCurrentBlock("link_row");
                             $tpl->setVariable("TXT_CHAPTER", $obj["title"]);

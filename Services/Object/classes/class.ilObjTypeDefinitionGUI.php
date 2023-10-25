@@ -289,7 +289,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         $tbl->setOffset(0);
         $tbl->setMaxCount($this->maxcount);
 
-        $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+        $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
         $this->tpl->setVariable("COLUMN_COUNTS", count($this->data["cols"]));
 
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));

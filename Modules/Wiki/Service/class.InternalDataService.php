@@ -20,22 +20,72 @@ declare(strict_types=1);
 
 namespace ILIAS\Wiki;
 
+use ILIAS\Wiki\Page\Page;
+use ILIAS\Wiki\Page\PageInfo;
+use ILIAS\Wiki\Navigation\ImportantPage;
+
 /**
  * Wiki internal data service
- * @author Alexander Killing <killing@leifos.de>
  */
 class InternalDataService
 {
-    // protected ...\DataFactory ..._factory;
-
     public function __construct()
     {
-        //$this->..._factory = new ...\DataFactory();
     }
 
-    /*
-    public function ...() : ...\...
-    {
-        return $this->..._factory->...();
-    }*/
+    public function page(
+        int $id,
+        int $wiki_id,
+        string $title,
+        string $lang = "-",
+        bool $blocked = false,
+        bool $rating = false,
+        bool $hide_adv_md = false
+    ): Page {
+        return new Page(
+            $id,
+            $wiki_id,
+            $title,
+            $lang,
+            $blocked,
+            $rating,
+            $hide_adv_md
+        );
+    }
+
+    public function pageInfo(
+        int $id,
+        string $lang,
+        string $title,
+        int $last_change_user,
+        string $last_change,
+        int $create_user = 0,
+        string $created = "",
+        int $view_cnt = 0,
+        int $old_nr = 0
+    ): PageInfo {
+        return new PageInfo(
+            $id,
+            $lang,
+            $title,
+            $last_change_user,
+            $last_change,
+            $create_user,
+            $created,
+            $view_cnt,
+            $old_nr
+        );
+    }
+
+    public function importantPage(
+        int $id,
+        int $order,
+        int $indent
+    ): ImportantPage {
+        return new ImportantPage(
+            $id,
+            $order,
+            $indent
+        );
+    }
 }

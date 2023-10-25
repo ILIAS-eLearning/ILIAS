@@ -19,11 +19,8 @@
 namespace ILIAS\Modules\File\Preview;
 
 use ILIAS\Administration\Setting;
-use ILIAS\ResourceStorage\Flavour\Engine\GDEngine;
 use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
-use ILIAS\UI\Component\Input\Field\Group;
 use ilSetting;
-use ILIAS\UI\Component\Input\Field\Section;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -77,7 +74,10 @@ class Settings extends ilSetting implements Setting
 
     public function isPreviewEnabled(): bool
     {
-        return $this->isPreviewPossible() && $this->strToBool($this->get(self::F_PREVIEW_ENABLED, '1'));
+        if (!$this->isPreviewPossible()) {
+            return false;
+        }
+        return $this->strToBool($this->get(self::F_PREVIEW_ENABLED, '1'));
     }
 
     public function setMaximumPreviews(int $max_previews): void

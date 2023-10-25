@@ -57,7 +57,7 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 
         $title = $lng->txt("mm_personal_and_shared_r");
         $tpl->setTitle($title);
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_wsrt.svg"), $title);
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_wsrt.svg"), $title);
         $tpl->setDescription($lng->txt("wsp_personal_resources_description"));
     }
 }

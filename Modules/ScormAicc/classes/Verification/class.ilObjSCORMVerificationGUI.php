@@ -172,11 +172,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $DIC->ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
-    /**
-     * @param mixed $default
-     * @return mixed
-     */
-    protected function getRequestValue(string $key, $default = null)
+    protected function getRequestValue(string $key, mixed $default = null): mixed
     {
         if (isset($this->request->getQueryParams()[$key])) {
             return $this->request->getQueryParams()[$key];

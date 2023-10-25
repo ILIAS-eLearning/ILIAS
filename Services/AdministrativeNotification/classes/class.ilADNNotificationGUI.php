@@ -30,6 +30,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
     public const CMD_CREATE = 'save';
     public const CMD_UPDATE = 'update';
     public const CMD_EDIT = 'edit';
+    public const CMD_DUPLICATE = 'duplicate';
     public const CMD_CANCEL = 'cancel';
     public const CMD_DELETE = 'delete';
     public const CMD_RESET = 'reset';
@@ -48,6 +49,9 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
                 return $this->create();
             case self::CMD_EDIT:
                 return $this->edit();
+            case self::CMD_DUPLICATE:
+                $this->duplicate();
+                break;
             case self::CMD_UPDATE:
                 return $this->update();
             case self::CMD_DELETE:
@@ -72,7 +76,6 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
                 $this->ctrl->getLinkTarget($this, self::CMD_ADD)
             );
             $this->toolbar->addComponent($btn_add_msg);
-
         }
 
         return (new ilADNNotificationTableGUI($this, self::CMD_DEFAULT))->getHTML();
@@ -114,6 +117,15 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
 
         $form = new ilADNNotificationUIFormGUI($notification, $this->ctrl->getLinkTarget($this, self::CMD_UPDATE));
         return $form->getHTML();
+    }
+
+    protected function duplicate(): void
+    {
+        $notification = $this->getNotificationFromRequest();
+        $notification->setId(0);
+        $notification->create();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_duplicated'), true);
+        $this->cancel();
     }
 
     protected function update(): string

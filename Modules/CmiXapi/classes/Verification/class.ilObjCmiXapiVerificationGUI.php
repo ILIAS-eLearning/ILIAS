@@ -79,7 +79,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
-//                $this->create();
+                //                $this->create();
             }
 
             if ($newObj !== null) {
@@ -172,11 +172,11 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
-     * @param mixed  $default
+     * @param string     $key
+     * @param mixed|null $default
      * @return mixed|null
      */
-    protected function getRequestValue(string $key, $default = null)
+    protected function getRequestValue(string $key, mixed $default = null): mixed
     {
         if (isset($this->request->getQueryParams()[$key])) {
             return $this->request->getQueryParams()[$key];

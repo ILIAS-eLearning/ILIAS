@@ -1165,8 +1165,6 @@ assessment#:#show_examview_html#:#Mostrar vista del examen del test en la págin
 assessment#:#show_pass_overview#:#Mostrar resumen de la ejecución seleccionada
 assessment#:#show_user_answers#:#Mostrar las respuestas marcadas del usuario
 assessment#:#shuffle_answers#:#Barajar respuestas
-assessment#:#sign_submission#:#Firmar digitalmente el test entregado
-assessment#:#sign_submission_info#:#Si está activado y el plugin de firma está disponible, los participantes deben utilizar su firma digital en las entregas.
 assessment#:#skip_question#:#No responder y Siguiente
 assessment#:#solutionText#:#Texto
 assessment#:#solution_contain_keywords#:#La puntuación se asignará por la aparición de las siguientes palabras clave:
@@ -1689,7 +1687,7 @@ assessment#:#tst_report_after_test#:#Informar de la puntuación después de real
 assessment#:#tst_report_never#:#No hay resultados del test disponibles
 assessment#:#tst_reporting_date#:#Fecha
 assessment#:#tst_res_jump_to_participant_btn#:#Saltar
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Saltar a participante--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Saltar a participante
 assessment#:#tst_res_lo_objectives_header#:#Objetivos de aprendizaje relevantes
 assessment#:#tst_res_lo_try_header#:#Intento
 assessment#:#tst_res_lo_try_n#:#Intento %s
@@ -7645,8 +7643,6 @@ crs#:#crs_timings_suggested_info#:#Período de trabajo sugerido
 crs#:#crs_timings_time_frame#:#Período
 crs#:#crs_timings_time_frame_tt#:#Time frame in days
 crs#:#crs_timings_update_error#:#Su configuración no es válida, por favor verifique la planificación para los siguientes materiales del curso.
-crs#:#crs_timings_visibility#:#Visibilidad
-crs#:#crs_timings_visibility_short#:#Visibilidad
 crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.
 crs#:#crs_to#:#Hasta:
 crs#:#crs_tutor#:#Tutor
@@ -11934,6 +11930,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Visibilidad
+obj#:#activation_visible_when_disabled_info#:#Visibilidad
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Se han publicado todas las tareas.
 obj#:#cont_skll_published_some_not#:#Se han publicado todas las tareas dadas. Algunos usuarios carecen de asignaciones de competencias, por lo que no se han podido publicar tareas para ellos.

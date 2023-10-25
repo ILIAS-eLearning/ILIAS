@@ -130,11 +130,13 @@ class ilMMSubitemFormGUI
         // PARENT
         $parent = $f()->field()->select($txt('sub_parent'), $this->repository->getPossibleParentsForFormAndTable())
                       ->withRequired(true);
-        if (!$this->item_facade->isEmpty() && !$this->item_facade->isInLostItem()) {
+
+        $possible_parents = array_keys($this->repository->getPossibleParentsForFormAndTable());
+
+        if (!$this->item_facade->isEmpty() && !$this->item_facade->isInLostItem() && in_array($this->item_facade->getParentIdentificationString(), $possible_parents)) {
             $parent = $parent->withValue($this->item_facade->getParentIdentificationString());
         } else {
-            $array = array_keys($this->repository->getPossibleParentsForFormAndTable());
-            $parent = $parent->withValue(reset($array));
+            $parent = $parent->withValue(reset($possible_parents));
         }
         $items[self::F_PARENT] = $parent;
 

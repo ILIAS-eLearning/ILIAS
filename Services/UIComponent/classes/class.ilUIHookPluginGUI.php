@@ -118,6 +118,7 @@ class ilUIHookPluginGUI
      * Goto script hook
      *
      * Can be used to interfere with the goto script behaviour
+     * @deprecated Implement a \ILIAS\StaticURL\Handler\Handler instead. Will be removed with ILIAS 11.
      */
     public function gotoHook(): void
     {
@@ -126,7 +127,7 @@ class ilUIHookPluginGUI
 
     /**
      * Goto script hook
-     *
+     * @deprecated Implement a \ILIAS\StaticURL\Handler\Handler instead. Will be removed with ILIAS 11.
      * Can be used to interfere with the goto script behaviour
      */
     public function checkGotoHook(string $a_target): array

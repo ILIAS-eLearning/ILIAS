@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Object\Properties\ObjectTypeSpecificProperties\Factory as ObjectTypeSpecificPropertiesFactory;
+
 /**
  * Description of class
  *
@@ -26,7 +29,8 @@ class ilObjectPropertiesAgregator
 {
     public function __construct(
         private ilObjectCorePropertiesRepository $core_properties_repository,
-        private ilObjectAdditionalPropertiesRepository $additional_properties_repository
+        private ilObjectAdditionalPropertiesRepository $additional_properties_repository,
+        private ObjectTypeSpecificPropertiesFactory $object_type_specific_properties_factory
     ) {
     }
 
@@ -38,5 +42,23 @@ class ilObjectPropertiesAgregator
             $this->additional_properties_repository->getFor($object_id),
             $this->additional_properties_repository
         );
+    }
+
+    public function preload(array $object_ids): void
+    {
+        $this->core_properties_repository->preload($object_ids);
+        $objects_by_type = [];
+        foreach ($object_ids as $obj_id) {
+            $type = ilObject::_lookupType($obj_id);
+
+            if (!array_key_exists($type, $objects_by_type)) {
+                $objects_by_type[$type] = [];
+            }
+            $objects_by_type[$type][] = $obj_id;
+        }
+
+        foreach ($objects_by_type as $type => $obj_ids) {
+            $this->object_type_specific_properties_factory->getForObjectTypeString($type)?->preload($obj_ids);
+        }
     }
 }

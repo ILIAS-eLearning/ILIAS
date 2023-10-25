@@ -47,7 +47,7 @@ class StandardTest extends FileTestBase
 				<div class="modal-body">
 					<form id="id_2" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
 				</div>
-				<div class="modal-footer"><button class="btn btn-default" data-dismiss="modal">cancel</button><button class="btn btn-default" id="id_3">save</button></div>
+				<div class="modal-footer"><button class="btn btn-default" id="id_3">save</button><button class="btn btn-default" data-dismiss="modal">cancel</button></div>
 			</div>
 		</div>
 	</div>
@@ -116,7 +116,7 @@ class StandardTest extends FileTestBase
 				<div class="modal-body">
 					<form id="id_2" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
 				</div>
-				<div class="modal-footer"><button class="btn btn-default" data-dismiss="modal">cancel</button><button class="btn btn-default" id="id_3">save</button></div>
+				<div class="modal-footer"><button class="btn btn-default" id="id_3">save</button><button class="btn btn-default" data-dismiss="modal">cancel</button></div>
 			</div>
 		</div>
 	</div>

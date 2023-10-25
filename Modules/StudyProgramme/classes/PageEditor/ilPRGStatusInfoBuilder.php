@@ -65,7 +65,7 @@ class ilPRGStatusInfoBuilder
         $status = 'pc_prgstatus_status_no_qualification';
         $status_txt = 'pc_prgstatus_text_no_qualification';
         $validity_txt = '';
-        $icon = 'icon_not_ok.svg';
+        $icon = 'standard/icon_not_ok.svg';
         $restart_date = null;
 
         if ($ass) {

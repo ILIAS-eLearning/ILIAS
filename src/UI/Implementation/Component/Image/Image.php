@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Image;
 
@@ -43,6 +43,7 @@ class Image implements C\Image\Image
 
     private string $type;
     private string $src;
+    private array $additional_high_res_sources = [];
     private string $alt;
     protected ?string $action = '';
 
@@ -80,6 +81,25 @@ class Image implements C\Image\Image
     {
         return $this->src;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function withAdditionalHighResSource(string $source, int $min_width_in_pixels): C\Image\Image
+    {
+        $clone = clone $this;
+        $clone->additional_high_res_sources[$min_width_in_pixels] = $source;
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAdditionalHighResSources(): array
+    {
+        return $this->additional_high_res_sources;
+    }
+
 
     /**
      * @inheritdoc

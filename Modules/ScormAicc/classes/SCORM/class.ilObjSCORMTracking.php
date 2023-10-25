@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjSCORMTracking
@@ -251,7 +251,6 @@ class ilObjSCORMTracking
     //erase later see ilSCORM2004StoreData
     /**
      * like necessary because of Oracle
-     * @return mixed[]
      */
     public static function _getCompleted(object $scorm_item_id, int $a_obj_id): array
     {
@@ -395,7 +394,6 @@ class ilObjSCORMTracking
 
     /**
      * Get all tracked users
-     * @return mixed[]
      */
     public static function _getTrackedUsers(int $a_obj_id): array
     {
@@ -420,7 +418,6 @@ class ilObjSCORMTracking
 
     /**
      * like necessary because of Oracle
-     * @return mixed[]
      */
     public static function _getFailed(object $scorm_item_id, int $a_obj_id): array
     {
@@ -493,7 +490,7 @@ class ilObjSCORMTracking
     //not correct because of assets!
     /**
      * Get info about
-     * @return array<string, mixed[]>
+     * @return array<string, array>
      */
     public static function _getProgressInfo(array $sco_item_ids, int $a_obj_id): array
     {
@@ -536,10 +533,9 @@ class ilObjSCORMTracking
     }
 
     /**
-     * @param array|int  $scorm_item_id
      * @return array<int|string, mixed[]>
      */
-    public static function _getInProgress($scorm_item_id, int $a_obj_id, ?array $a_blocked_user_ids = null): array
+    public static function _getInProgress(array|int $scorm_item_id, int $a_obj_id, ?array $a_blocked_user_ids = null): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -622,10 +618,7 @@ class ilObjSCORMTracking
             array($packageId, $userId, date('Y-m-d H:i:s'))
         );
         $rowtmp = $ilDB->fetchAssoc($res);
-        if ($rowtmp['hash'] == $hash) {
-            //ok - do nothing
-            //            die("allowed");
-        } else {
+        if (! ($rowtmp && $rowtmp['hash'] == $hash)) {
             //output used by api
             die("not allowed");
         }

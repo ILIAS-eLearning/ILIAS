@@ -43,7 +43,7 @@ class ilHelpUITextRetriever implements ILIAS\UI\HelpTextRetriever
         if ($purpose->isTooltip()) {
             return array_filter(
                 array_map(
-                    fn ($topic) => ilHelp::getTooltipPresentationText($topic->get()),
+                    fn($topic) => ilHelp::getTooltipPresentationText($topic->get()),
                     $topics
                 )
             );

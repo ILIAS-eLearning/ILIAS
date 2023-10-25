@@ -151,7 +151,6 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             ),
             new \ilMailTemplateContextDefinitionProcessor($db),
             new \ilObjectDefinitionProcessor($db),
-            new \ilPDFGenerationDefinitionProcessor($db),
             new \ilSystemCheckDefinitionProcessor($db),
             new \ilSecurePathDefinitionProcessor($db),
         );

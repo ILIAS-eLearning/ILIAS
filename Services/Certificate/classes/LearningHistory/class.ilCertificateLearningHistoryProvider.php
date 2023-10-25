@@ -142,7 +142,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
             $entries[] = new ilLearningHistoryEntry(
                 $text,
                 $text,
-                $this->utilHelper->getImagePath("icon_cert.svg"),
+                $this->utilHelper->getImagePath("standard/icon_cert.svg"),
                 $certificate->getUserCertificate()->getAcquiredTimestamp(),
                 $objectId
             );

@@ -24,12 +24,12 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
 use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\Skill\Service\SkillInternalManagerService;
 use ILIAS\Skill\Service\SkillInternalFactoryService;
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
+use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Skill\Profile;
+use ILIAS\Skill\Table;
 
 /**
  * Skill profile GUI class
@@ -45,10 +45,9 @@ class ilSkillProfileGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilHelpGUI $help;
     protected ilToolbarGUI $toolbar;
-    protected Factory $ui_fac;
-    protected Renderer $ui_ren;
+    protected UI\Factory $ui_fac;
+    protected UI\Renderer $ui_ren;
     protected \ILIAS\Data\Factory $df;
-    protected \ILIAS\Refinery\Factory $refinery;
     protected ServerRequestInterface $request;
     protected ArrayBasedRequestWrapper $query;
     protected int $id = 0;
@@ -62,6 +61,7 @@ class ilSkillProfileGUI
     protected SkillInternalFactoryService $skill_factory;
     protected Profile\SkillProfileManager $profile_manager;
     protected Profile\SkillProfileCompletionManager $profile_completion_manager;
+    protected Table\SkillTableManager $table_manager;
 
     /**
      * @var int[]
@@ -69,7 +69,6 @@ class ilSkillProfileGUI
     protected array $requested_profile_ids = [];
     protected bool $requested_local_context = false;
     protected string $requested_cskill_id = "";
-    protected int $requested_level_id = 0;
 
     /**
      * @var string[]
@@ -91,12 +90,18 @@ class ilSkillProfileGUI
      * @var int[]
      */
     protected array $requested_user_ids = [];
-    protected string $requested_table_action = "";
+    protected string $requested_table_profile_action = "";
 
     /**
-     * @var int[]|string
+     * @var string[]
      */
-    protected array|string $requested_table_profile_ids = [];
+    protected array $requested_table_profile_ids = [];
+    protected string $requested_table_profile_level_assignment_action = "";
+
+    /**
+     * @var string[]
+     */
+    protected array $requested_table_profile_level_assignment_ids = [];
     protected bool $local_context = false;
 
     public function __construct(SkillTreeAccess $skill_tree_access_manager, int $skill_tree_id = 0)
@@ -112,7 +117,6 @@ class ilSkillProfileGUI
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
         $this->df = new \ILIAS\Data\Factory();
-        $this->refinery = $DIC->refinery();
         $this->request = $DIC->http()->request();
         $this->query = $DIC->http()->wrapper()->query();
         $this->tree_service = $DIC->skills()->tree();
@@ -122,6 +126,7 @@ class ilSkillProfileGUI
         $this->skill_factory = $DIC->skills()->internal()->factory();
         $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
         $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
+        $this->table_manager = $DIC->skills()->internal()->manager()->getTableManager();
 
         $this->ctrl->saveParameter($this, ["sprof_id", "local_context"]);
 
@@ -130,14 +135,15 @@ class ilSkillProfileGUI
         $this->requested_profile_ids = $this->admin_gui_request->getProfileIds();
         $this->requested_local_context = $this->admin_gui_request->getLocalContext();
         $this->requested_cskill_id = $this->admin_gui_request->getCombinedSkillId();
-        $this->requested_level_id = $this->admin_gui_request->getLevelId();
         $this->requested_level_ass_ids = $this->admin_gui_request->getAssignedLevelIds();
         $this->requested_level_order = $this->admin_gui_request->getOrder();
         $this->requested_user_login = $this->admin_gui_request->getUserLogin();
         $this->requested_users = $this->admin_gui_request->getUsers();
         $this->requested_user_ids = $this->admin_gui_request->getUserIds();
-        $this->requested_table_action = $this->admin_gui_request->getTableProfileAction();
+        $this->requested_table_profile_action = $this->admin_gui_request->getTableProfileAction();
         $this->requested_table_profile_ids = $this->admin_gui_request->getTableProfileIds();
+        $this->requested_table_profile_level_assignment_action = $this->admin_gui_request->getTableProfileLevelAssignmentAction();
+        $this->requested_table_profile_level_assignment_ids = $this->admin_gui_request->getTableProfileLevelAssignmentIds();
 
         if ($this->requested_sprof_id > 0) {
             $this->id = $this->requested_sprof_id;
@@ -296,9 +302,6 @@ class ilSkillProfileGUI
                 "profile_ids"
             );
 
-        $uri_delete = $this->df->uri(
-            ILIAS_HTTP_PATH . "/" . $ilCtrl->getLinkTarget($this, "deleteProfiles")
-        );
         $url_builder_delete = new \ILIAS\UI\URLBuilder($this->df->uri($this->request->getUri()->__toString()));
         list($url_builder_delete, $action_parameter_token_delete, $row_id_token_delete) =
             $url_builder_delete->acquireParameters(
@@ -323,19 +326,21 @@ class ilSkillProfileGUI
                 $this->skill_tree_access_manager->hasManageProfilesPermission() ? $lng->txt("edit") : $lng->txt("show"),
                 $url_builder_edit->withParameter($action_parameter_token_edit, "editProfile"),
                 $row_id_token_edit
-            ),
-            "delete" => $this->ui_fac->table()->action()->multi(
+            )
+        ];
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission()) {
+            $actions["delete"] = $this->ui_fac->table()->action()->multi(
                 $lng->txt("delete"),
                 $url_builder_delete->withParameter($action_parameter_token_delete, "deleteProfiles"),
                 $row_id_token_delete
             )
-                ->withAsync(),
-            "export" => $this->ui_fac->table()->action()->multi(
+                ->withAsync();
+            $actions["export"] = $this->ui_fac->table()->action()->multi(
                 $lng->txt("export"),
                 $url_builder_export->withParameter($action_parameter_token_export, "exportProfiles"),
                 $row_id_token_export
-            )
-        ];
+            );
+        }
 
         $data_retrieval = new class (
             $this->lng,
@@ -363,15 +368,7 @@ class ilSkillProfileGUI
                 foreach ($records as $idx => $record) {
                     $row_id = (string) $record["profile_id"];
 
-                    yield $row_builder->buildDataRow($row_id, $record)
-                                      ->withDisabledAction(  // does not work for multi action yet, only for single action
-                                          "delete",
-                                          (!$this->skill_tree_access_manager->hasManageProfilesPermission())
-                                      )
-                                      ->withDisabledAction(
-                                          "export",  // does not work for multi action yet, only for single action
-                                          (!$this->skill_tree_access_manager->hasManageProfilesPermission())
-                                      );
+                    yield $row_builder->buildDataRow($row_id, $record);
                 }
             }
 
@@ -419,26 +416,23 @@ class ilSkillProfileGUI
         };
 
         if ($this->query->has($action_parameter_token_delete->getName())) {
-            $action = $this->admin_gui_request->getTableProfileAction();
-            $ids = $this->admin_gui_request->getTableProfileIds();
-
-            if ($action === "deleteProfiles") {
+            if ($this->requested_table_profile_action === "deleteProfiles") {
                 $items = [];
-                if ($ids === "ALL_OBJECTS") {
-                    $profiles = $this->skill_tree_id
-                        ? $this->profile_manager->getProfilesForSkillTree($this->skill_tree_id)
-                        : $this->profile_manager->getProfilesForAllSkillTrees();
-                    foreach ($profiles as $profile) {
+                foreach ($this->requested_table_profile_ids as $id) {
+                    if ($id === "ALL_OBJECTS") {
+                        $profiles = $this->skill_tree_id
+                            ? $this->profile_manager->getProfilesForSkillTree($this->skill_tree_id)
+                            : $this->profile_manager->getProfilesForAllSkillTrees();
+                        foreach ($profiles as $profile) {
+                            $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
+                                (string) $profile->getId(),
+                                $profile->getTitle()
+                            );
+                        }
+                    } else {
                         $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
-                            (string) $profile->getId(),
-                            $profile->getTitle()
-                        );
-                    }
-                } elseif (is_array($ids)) {
-                    foreach ($ids as $id) {
-                        $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
-                            (string) $id,
-                            $this->profile_manager->lookupTitle($id)
+                            $id,
+                            $this->profile_manager->lookupTitle((int) $id)
                         );
                     }
                 }
@@ -447,7 +441,9 @@ class ilSkillProfileGUI
                         "",
                         empty($items) ? $lng->txt("no_checkbox") : $lng->txt("skmg_delete_profiles"),
                         $ilCtrl->getFormAction($this, "deleteProfiles")
-                    )->withAffectedItems($items)
+                    )
+                        ->withAffectedItems($items)
+                        ->withActionButtonLabel(empty($items) ? $lng->txt("ok") : $lng->txt("delete"))
                 ]));
                 exit();
             }
@@ -713,7 +709,7 @@ class ilSkillProfileGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->requested_table_action == "editProfile" && !empty($this->requested_table_profile_ids)) {
+        if ($this->requested_table_profile_action === "editProfile" && !empty($this->requested_table_profile_ids)) {
             $ilCtrl->setParameter($this, "sprof_id", $this->requested_table_profile_ids[0]);
             $ilCtrl->redirect($this, "showLevels");
         }
@@ -845,13 +841,9 @@ class ilSkillProfileGUI
             );
         }
 
-        $tab = new ilSkillLevelProfileAssignmentTableGUI(
-            $this,
-            "assignLevelSelectSkill",
-            $this->requested_cskill_id,
-            $update
-        );
-        $tpl->setContent($tab->getHTML());
+        $table = $this->table_manager->getSkillProfileLevelAssignmentTable($this->requested_cskill_id, $update)
+                                     ->getComponent();
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
     public function updateLevelOfSelectedSkill(): void
@@ -871,13 +863,15 @@ class ilSkillProfileGUI
 
         if ($level) {
             $this->profile_manager->updateSkillLevel($level);
-        } else {
+        } elseif ($this->requested_table_profile_level_assignment_action === "assignLevel"
+            && !empty($this->requested_table_profile_level_assignment_ids)
+        ) {
             $parts = explode(":", $this->requested_cskill_id);
             $level = $this->skill_factory->profile()->profileLevel(
                 $this->profile->getId(),
                 (int) $parts[0],
                 (int) $parts[1],
-                $this->requested_level_id,
+                (int) $this->requested_table_profile_level_assignment_ids[0],
                 $this->profile_manager->getMaxLevelOrderNr($this->profile->getId()) + 10
             );
             $this->profile_manager->addSkillLevel($level);
@@ -895,16 +889,20 @@ class ilSkillProfileGUI
 
     public function updateLevelOfProfile(): void
     {
-        $parts = explode(":", $this->requested_cskill_id);
-        $level = $this->profile_manager->getSkillLevel($this->profile->getId(), (int) $parts[0], (int) $parts[1]);
-        $level_updated = $this->skill_factory->profile()->profileLevel(
-            $level->getProfileId(),
-            $level->getBaseSkillId(),
-            $level->getTrefId(),
-            $this->requested_level_id,
-            $level->getOrderNr()
-        );
-        $this->assignLevelToProfile($level_updated);
+        if ($this->requested_table_profile_level_assignment_action === "assignLevel"
+            && !empty($this->requested_table_profile_level_assignment_ids)
+        ) {
+            $parts = explode(":", $this->requested_cskill_id);
+            $level = $this->profile_manager->getSkillLevel($this->profile->getId(), (int) $parts[0], (int) $parts[1]);
+            $level_updated = $this->skill_factory->profile()->profileLevel(
+                $level->getProfileId(),
+                $level->getBaseSkillId(),
+                $level->getTrefId(),
+                (int) $this->requested_table_profile_level_assignment_ids[0],
+                $level->getOrderNr()
+            );
+            $this->assignLevelToProfile($level_updated);
+        }
     }
 
     public function confirmLevelAssignmentRemoval(): void
@@ -1033,12 +1031,11 @@ class ilSkillProfileGUI
 
         $this->setTabs("users");
 
-        $tab = new ilSkillProfileUserTableGUI(
-            $this,
-            "showUsers",
-            $this->profile
-        );
-        $tpl->setContent($tab->getHTML());
+        $table = $this->table_manager->getSkillProfileUserAssignmentTable(
+            $this->profile,
+            $this->skill_tree_access_manager
+        )->getComponent();
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
     public function assignUser(): void
@@ -1099,59 +1096,6 @@ class ilSkillProfileGUI
         $ilCtrl->redirect($this, "showUsers");
     }
 
-    public function confirmUserRemoval(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-
-        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
-            return;
-        }
-
-        $this->setTabs("users");
-
-        if (empty($this->requested_user_ids)) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
-            $ilCtrl->redirect($this, "showUsers");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("skmg_confirm_user_removal"));
-            $cgui->setCancel($lng->txt("cancel"), "showUsers");
-            $cgui->setConfirm($lng->txt("remove"), "removeUsers");
-
-            foreach ($this->requested_user_ids as $i) {
-                $type = ilObject::_lookupType($i);
-
-                switch ($type) {
-                    case 'usr':
-                        $usr_name = ilUserUtil::getNamePresentation($i);
-                        $cgui->addItem(
-                            "id[]",
-                            (string) $i,
-                            $usr_name
-                        );
-                        break;
-
-                    case 'role':
-                        $role_name = ilObjRole::_lookupTitle($i);
-                        $cgui->addItem(
-                            "id[]",
-                            (string) $i,
-                            $role_name
-                        );
-                        break;
-
-                    default:
-                        echo 'not defined';
-                }
-            }
-
-            $tpl->setContent($cgui->getHTML());
-        }
-    }
-
     public function removeUsers(): void
     {
         $ilCtrl = $this->ctrl;
@@ -1165,19 +1109,19 @@ class ilSkillProfileGUI
             foreach ($this->requested_user_ids as $i) {
                 $type = ilObject::_lookupType($i);
                 switch ($type) {
-                    case 'usr':
+                    case "usr":
                         $this->profile_manager->removeUserFromProfile($this->profile->getId(), $i);
                         break;
 
-                    case 'role':
+                    case "role":
                         $this->profile_manager->removeRoleFromProfile($this->profile->getId(), $i);
                         break;
 
                     default:
-                        echo 'not deleted';
+                        echo "not deleted";
                 }
             }
-            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage("success", $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "showUsers");
     }
@@ -1191,12 +1135,9 @@ class ilSkillProfileGUI
         $usage_info = new ilSkillUsage();
         $objects = $usage_info->getAssignedObjectsForSkillProfile($this->profile->getId());
 
-        $tab = new ilSkillAssignedObjectsTableGUI(
-            $this,
-            "showObjects",
-            $objects
-        );
-        $tpl->setContent($tab->getHTML());
+        $table = $this->table_manager->getAssignedObjectsTable($objects)
+                                     ->getComponent();
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
     public function exportProfiles(): void
@@ -1209,15 +1150,18 @@ class ilSkillProfileGUI
         }
 
         $profiles_to_export = [];
-        if ($this->requested_table_action === "exportProfiles" && $this->requested_table_profile_ids === "ALL_OBJECTS") {
+        if ($this->requested_table_profile_action === "exportProfiles"
+            && !empty($this->requested_table_profile_ids)
+            && $this->requested_table_profile_ids[0] === "ALL_OBJECTS"
+        ) {
             $profiles = $this->skill_tree_id
                 ? $this->profile_manager->getProfilesForSkillTree($this->skill_tree_id)
                 : $this->profile_manager->getProfilesForAllSkillTrees();
             foreach ($profiles as $profile) {
                 $profiles_to_export[] = $profile->getId();
             }
-        } elseif ($this->requested_table_action == "exportProfiles") {
-            $profiles_to_export = $this->requested_table_profile_ids;
+        } elseif ($this->requested_table_profile_action === "exportProfiles") {
+            $profiles_to_export = array_map("intval", $this->requested_table_profile_ids);
         }
 
         if (empty($profiles_to_export)) {

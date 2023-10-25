@@ -61,7 +61,7 @@ class AssessmentControl extends Service
      * @param int                         $attemptNumber           Attempt number
      * @return string|bool  Value of the status response, or false if not successful
      */
-//    public function submitAction($assessmentControlAction, $user, $attemptNumber)
+    //    public function submitAction($assessmentControlAction, $user, $attemptNumber)
     public function submitAction(\ILIAS\LTI\ToolProvider\AssessmentControlAction $assessmentControlAction, \ILIAS\LTI\ToolProvider\User $user, int $attemptNumber)
     {
         $status = false;
@@ -84,7 +84,8 @@ class AssessmentControl extends Service
             $json['reason_msg'] = $assessmentControlAction->message;
         }
         $data = json_encode($json);
-        $http = $this->send('POST', null, $data);
+        //UK changed from $http = $this->send('POST', null, $data);
+        $http = $this->send('POST', [], $data);
         if ($http->ok) {
             $http->ok = !empty($http->responseJson->status);
             if ($http->ok) {

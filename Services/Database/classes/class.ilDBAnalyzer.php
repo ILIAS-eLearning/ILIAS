@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class gives all kind of DB information using the database manager
@@ -175,7 +175,7 @@ class ilDBAnalyzer
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
-        $pk = false;
+        $pk = [];
         foreach ($constraints as $c) {
             $info = $this->reverse->getTableConstraintDefinition($a_table, $c);
 
@@ -295,7 +295,7 @@ class ilDBAnalyzer
         if (is_array($seq) && in_array($a_table, $seq)) {
             // sequence field is (only) primary key field of table
             $pk = $this->getPrimaryKeyInformation($a_table);
-            if (is_array($pk["fields"]) && count($pk["fields"]) === 1) {
+            if (isset($pk['fields']) && is_array($pk["fields"]) && count($pk["fields"]) === 1) {
                 $seq_field = key($pk["fields"]);
             } else {
                 throw new ilDatabaseException("ilDBAnalyzer::hasSequence: Error, sequence defined, but no one-field primary key given. Table: "

@@ -95,6 +95,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
     private string $message = '';
 
+    private array $local_roles = [];
+
 
     /**
      * @inheritDoc

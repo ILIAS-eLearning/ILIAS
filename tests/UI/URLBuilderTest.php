@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI;
@@ -30,14 +31,14 @@ class URLBuilderTest extends TestCase
         $this->URI_COMPLETE = new \ILIAS\Data\URI('https://www.ilias.de/foo/bar?var1=42&var2=foo#12345');
     }
 
-    public function test_get_url(): void
+    public function testGetUrl(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $this->assertInstanceOf(\ILIAS\Data\URI::class, $url->buildURI());
         $this->assertEquals('https://www.ilias.de/foo/bar?var1=42&var2=foo#12345', (string) $url->buildURI());
     }
 
-    public function test_acquire_param(): void
+    public function testAcquireParam(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $result = $url->acquireParameter(['test'], 'title');
@@ -51,7 +52,7 @@ class URLBuilderTest extends TestCase
         $this->assertNotEmpty($result[1]->getToken());
     }
 
-    public function test_acquire_param_with_long_namespace(): void
+    public function testAcquireParamWithLongNamespace(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $result = $url->acquireParameter(['test', 'object', 'metadata'], 'title');
@@ -74,7 +75,7 @@ class URLBuilderTest extends TestCase
         $this->assertNotEmpty($result[1]->getToken());
     }
 
-    public function test_acquire_param_with_value(): void
+    public function testAcquireParamWithValue(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $sep = URLBuilder::SEPARATOR;
@@ -89,7 +90,7 @@ class URLBuilderTest extends TestCase
         $this->assertNotEmpty($result[1]->getToken());
     }
 
-    public function test_acquire_param_with_same_name(): void
+    public function testAcquireParamWithSameName(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $sep = URLBuilder::SEPARATOR;
@@ -109,7 +110,7 @@ class URLBuilderTest extends TestCase
         $this->assertNotEquals($result[1]->getToken(), $result2[1]->getToken());
     }
 
-    public function test_write_param(): void
+    public function testWriteParam(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $sep = URLBuilder::SEPARATOR;
@@ -125,9 +126,19 @@ class URLBuilderTest extends TestCase
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . $sep . 'title=foobar#12345',
             (string) $url->buildURI()
         );
+
+        $url = $result[0]->withParameter($result[1], ['foo', 'bar']);
+        $this->assertInstanceOf(URLBuilder::class, $url);
+        $this->assertEquals(
+            'https://www.ilias.de/foo/bar?var1=42&var2=foo'
+                . '&test' . $sep . urlencode('title[]') . '=foo'
+                . '&test' . $sep . urlencode('title[]') . '=bar'
+                . '#12345',
+            (string) $url->buildURI()
+        );
     }
 
-    public function test_delete_param(): void
+    public function testDeleteParam(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $sep = URLBuilder::SEPARATOR;
@@ -141,7 +152,7 @@ class URLBuilderTest extends TestCase
         $this->assertEquals('https://www.ilias.de/foo/bar?var1=42&var2=foo#12345', (string) $url->buildURI());
     }
 
-    public function test_url_too_long(): void
+    public function testUrlTooLong(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $result = $url->acquireParameter(['test'], 'title', random_bytes(URLBuilder::URL_MAX_LENGTH));
@@ -149,7 +160,7 @@ class URLBuilderTest extends TestCase
         $output = $result[0]->buildURI();
     }
 
-    public function test_remove_and_add_fragment(): void
+    public function testRemoveAndAddFragment(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $url = $url->withFragment(''); // set fragment to empty
@@ -163,7 +174,7 @@ class URLBuilderTest extends TestCase
         $this->assertEquals('https://www.ilias.de/foo/bar?var1=42&var2=foo#54321', (string) $url->buildURI());
     }
 
-    public function test_with_uri(): void
+    public function testWithUri(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $result = $url->acquireParameter(['test'], 'title', 'bar');
@@ -176,7 +187,7 @@ class URLBuilderTest extends TestCase
         );
     }
 
-    public function test_render_tokens(): void
+    public function testRenderTokens(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
 
@@ -200,7 +211,7 @@ class URLBuilderTest extends TestCase
         $this->assertEquals($expected_token, $url->renderTokens([$result1[1], $result2[1]]));
     }
 
-    public function test_render_object(): void
+    public function testRenderObject(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
 

@@ -24,9 +24,6 @@ use ILIAS\UI\Component\Modal;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Repository\HTTP\HTTPUtil;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class ModalAdapterGUI
 {
     protected HTTPUtil $http_util;
@@ -110,21 +107,30 @@ class ModalAdapterGUI
         return $this;
     }
 
-    public function form(\ILIAS\Repository\Form\FormAdapterGUI $form): self
-    {
+    public function form(
+        \ILIAS\Repository\Form\FormAdapterGUI $form,
+        string $on_form_submit_click = ""
+    ): self {
         if ($this->ctrl->isAsynch()) {
             $this->form = $form->asyncModal();
-            $button = $this->ui->factory()->button()->standard(
-                $this->form->getSubmitLabel(),
-                "#"
-            )->withOnLoadCode(function ($id) {
-                return
-                    "$('#$id').click(function(event) { il.repository.ui.submitModalForm(event); return false;});";
-            });
-            $this->action_buttons[] = $button;
         } else {
-            $this->form = $form;
+            $this->form = $form->syncModal();
         }
+
+        $async = $this->form->isSentAsync()
+            ? "true"
+            : "false";
+        if ($on_form_submit_click === "") {
+            $on_form_submit_click = "il.repository.ui.submitModalForm(event,$async); return false;";
+        }
+        $button = $this->ui->factory()->button()->standard(
+            $this->form->getSubmitLabel(),
+            "#"
+        )->withOnLoadCode(function ($id) use ($on_form_submit_click) {
+            return
+                "$('#$id').click(function(event) {" . $on_form_submit_click . "});";
+        });
+        $this->action_buttons[] = $button;
         $this->ui_content = null;
         return $this;
     }

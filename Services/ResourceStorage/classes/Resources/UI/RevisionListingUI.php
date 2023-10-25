@@ -70,7 +70,7 @@ class RevisionListingUI
             );
             $item = $revision_to_component->getAsItem(false);
             return $item->withLeadText($this->language->txt('revision') . ' ' . $revision->getVersionNumber());
-        }, array_reverse($this->resource->getAllRevisions()));
+        }, array_reverse($this->resource->getAllRevisionsIncludingDraft()));
     }
 
     private function initDeck(): void
@@ -84,7 +84,7 @@ class RevisionListingUI
                     $card = $revision_to_component->getAsCard();
                     return $card->withTitle($this->prependRevisionNumberToTitle($revision, $card->getTitle()));
                 },
-                array_reverse($this->resource->getAllRevisions())
+                array_reverse($this->resource->getAllRevisionsIncludingDraft())
             )
         )->withSmallCardsSize();
     }
@@ -97,7 +97,7 @@ class RevisionListingUI
             [],
             $this->getRowMapping()
         )->withData(
-            array_reverse($this->resource->getAllRevisions())
+            array_reverse($this->resource->getAllRevisionsIncludingDraft())
         );
     }
 

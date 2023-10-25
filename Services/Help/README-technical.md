@@ -2,7 +2,7 @@
 
 The online help is currently supported for the German language only.
  
-Within the online help learning modules, help texts are assigned to screens of the ILIAS application. Screens are identified by screen IDs consisting of three parts **Component/Screen/SubScreen**. To set the screen ID for your component, use the global `$ilHelp` object. It provides the following methods:
+Within the online help learning modules, help texts are assigned to screens of the ILIAS application. Screens are identified by screen IDs consisting of three parts **Component/Screen/SubScreen**. To set the screen ID for your component, use the global `$DIC->['ilHelp']` object. It provides the following methods:
 
 - `setScreenIdComponent($a_comp);`
 - `setScreenId($a_screen);`

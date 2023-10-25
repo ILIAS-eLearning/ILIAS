@@ -68,8 +68,25 @@ class ilSystemStyleScssSettings
         }
     }
 
+    public function readAndreplaceContentOfFolder(array $replacements): void
+    {
+        if (is_dir($this->scss_variables_settings_path)) {
+            $files = scandir($this->scss_variables_settings_path, SCANDIR_SORT_ASCENDING);
+            foreach ($files as $file) {
+                $file_path = $this->scss_variables_settings_path . '/' . $file;
+                if ($file != "." && $file != ".." && !is_dir($file_path)) {
+                    $content = file_get_contents($file_path);
+                    foreach ($replacements as $search => $replace) {
+                        $content = str_replace($search, $replace, $content);
+                    }
+                    file_put_contents($file_path, $content);
+                }
+            }
+        }
+    }
+
     /**
-     * Write the complete file back to the file system (including comments and random content)
+     * Write the complete files back to the file system (including comments and random content)
      */
     public function write(string $new_path = ""): void
     {

@@ -31,6 +31,7 @@ use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator;
+use ILIAS\ResourceStorage\Revision\StreamReplacementRevision;
 
 /**
  * Class FileResourceHandler
@@ -75,6 +76,8 @@ interface StorageHandler
     // REVISIONS
 
     public function cloneRevision(CloneRevision $revision): bool;
+
+    public function streamReplacement(StreamReplacementRevision $revision): bool;
 
     /**
      * This only delets a revision of a Resource

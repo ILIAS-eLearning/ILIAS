@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
 assessment#:#shuffle_answers#:#Mescola le risposte
-assessment#:#sign_submission#:#Firma digitale dei test inviati
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
 assessment#:#skip_question#:#Non rispondere e Avanti
 assessment#:#solutionText#:#testo
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:
@@ -1687,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Esegui un rapporto con il punteggio al term
 assessment#:#tst_report_never#:#Nessun risultato del test disponibile
 assessment#:#tst_reporting_date#:#Data
 assessment#:#tst_res_jump_to_participant_btn#:#Passa
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Passa al partecipante--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Passa al partecipante
 assessment#:#tst_res_lo_objectives_header#:#Obiettivi di apprendimento pertinenti
 assessment#:#tst_res_lo_try_header#:#Tentativo
 assessment#:#tst_res_lo_try_n#:#Tentativo %s
@@ -7643,8 +7641,6 @@ crs#:#crs_timings_suggested_info#:#Tempo di editing suggerito
 crs#:#crs_timings_time_frame#:#Lasso di tempo
 crs#:#crs_timings_time_frame_tt#:#Time frame in days
 crs#:#crs_timings_update_error#:#Le tue impostazioni non sono valide, verifica i tempi per i seguenti materiali
-crs#:#crs_timings_visibility#:#Se selezionato il materiale è visibile anche all'esterno delle disponibilità attivate
-crs#:#crs_timings_visibility_short#:#Visibilità
 crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.
 crs#:#crs_to#:#A:
 crs#:#crs_tutor#:#Tutor
@@ -11932,6 +11928,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Visibilità
+obj#:#activation_visible_when_disabled_info#:#Se selezionato il materiale è visibile anche all'esterno delle disponibilità attivate
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Sono state pubblicate tutte le assegnazioni.
 obj#:#cont_skll_published_some_not#:#Sono state pubblicate tutte le assegnazioni fornite. Alcuni utenti non disponevano di incarichi di competenza, quindi non potevano essere pubblicate per loro.

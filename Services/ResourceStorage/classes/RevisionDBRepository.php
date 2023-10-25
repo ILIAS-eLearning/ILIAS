@@ -31,6 +31,7 @@ use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
+use ILIAS\ResourceStorage\Revision\RevisionStatus;
 
 /**
  * Class RevisionDBRepository
@@ -63,12 +64,14 @@ class RevisionDBRepository implements RevisionRepository
     public function blankFromUpload(
         InfoResolver $info_resolver,
         StorableResource $resource,
-        UploadResult $result
+        UploadResult $result,
+        RevisionStatus $status
     ): UploadedFileRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new UploadedFileRevision($resource->getIdentification(), $result);
         $revision->setStorageID($resource->getStorageID());
         $revision->setVersionNumber($new_version_number);
+        $revision->setStatus($status);
 
         return $revision;
     }
@@ -77,12 +80,14 @@ class RevisionDBRepository implements RevisionRepository
         InfoResolver $info_resolver,
         StorableResource $resource,
         FileStream $stream,
+        RevisionStatus $status,
         bool $keep_original = false
     ): FileStreamRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new FileStreamRevision($resource->getIdentification(), $stream, $keep_original);
         $revision->setStorageID($resource->getStorageID());
         $revision->setVersionNumber($new_version_number);
+        $revision->setStatus($status);
 
         return $revision;
     }
@@ -96,6 +101,7 @@ class RevisionDBRepository implements RevisionRepository
         $revision = new CloneRevision($resource->getIdentification(), $revision_to_clone);
         $revision->setStorageID($revision_to_clone->getStorageID());
         $revision->setVersionNumber($new_version_number);
+        $revision->setStatus(RevisionStatus::PUBLISHED);
 
         return $revision;
     }
@@ -116,7 +122,8 @@ class RevisionDBRepository implements RevisionRepository
                 [
                     'available' => ['integer', true],
                     'owner_id' => ['integer', $revision->getOwnerId()],
-                    'title' => ['text', $revision->getTitle()]
+                    'title' => ['text', $revision->getTitle()],
+                    'status' => ['text', $revision->getStatus()->value],
                 ],
                 [
                     self::IDENTIFICATION => ['text', $rid],
@@ -132,7 +139,8 @@ class RevisionDBRepository implements RevisionRepository
                     'version_number' => ['integer', $revision->getVersionNumber()],
                     'available' => ['integer', true],
                     'owner_id' => ['integer', $revision->getOwnerId()],
-                    'title' => ['text', $revision->getTitle()]
+                    'title' => ['text', $revision->getTitle()],
+                    'status' => ['text', $revision->getStatus()->value],
                 ]
             );
         }
@@ -163,6 +171,7 @@ class RevisionDBRepository implements RevisionRepository
             $revision->setVersionNumber((int)$d->version_number);
             $revision->setOwnerId((int)$d->owner_id);
             $revision->setTitle((string)$d->title);
+            $revision->setStatus(RevisionStatus::from((int)$d->status));
             $collection->add($revision);
             $this->cache[$d->rid][(int)$d->version_number] = $revision;
         }
@@ -205,6 +214,7 @@ class RevisionDBRepository implements RevisionRepository
         $revision->setVersionNumber((int)$data['version_number']);
         $revision->setOwnerId((int)$data['owner_id']);
         $revision->setTitle((string)$data['revision_title']);
+        $revision->setStatus(RevisionStatus::from((int)$data['status']));
         $this->cache[$data['rid']][(int)$data['version_number']] = $revision;
     }
 }

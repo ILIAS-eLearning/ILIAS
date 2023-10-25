@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Data;
-use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Config;
 
 /**
@@ -58,11 +57,16 @@ class ilSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
+            $export_hooks_path = null;
+            if (key_exists("export_hooks_path", $data)) {
+                $export_hooks_path = $data["export_hooks_path"];
+            }
             $datetimezone = $this->refinery->to()->toNew(\DateTimeZone::class);
             return new \ilSetupConfig(
                 $this->data->clientId($data["client_id"] ?? ''),
                 $datetimezone->transform([$data["server_timezone"] ?? "UTC"]),
-                $data["register_nic"] ?? false
+                $data["register_nic"] ?? false,
+                $export_hooks_path
             );
         });
     }
@@ -173,6 +177,17 @@ class ilSetupAgent implements Setup\Agent
                     }
 
                     return new ilNICKeyRegisteredObjective($config);
+                }
+            ),
+            "buildExportZip" => new Setup\ObjectiveConstructor(
+                "Build ILIAS export zip",
+                static function () use ($config): Setup\Objective {
+                    if (is_null($config)) {
+                        throw new \RuntimeException(
+                            "Missing Config for objective 'buildExportZip'."
+                        );
+                    }
+                    return new ilExportZipBuiltObjective($config);
                 }
             )
         ];

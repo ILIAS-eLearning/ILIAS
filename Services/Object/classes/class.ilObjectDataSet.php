@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Object\ilObjectDIC;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
+
 /**
  * Object data set class
  *
@@ -29,6 +32,21 @@ declare(strict_types=1);
  */
 class ilObjectDataSet extends ilDataSet
 {
+    protected ilObjectDIC $obj_dic;
+    protected ResourceStorage $storage;
+    protected ilObjectPropertiesAgregator $object_properties_agregator;
+
+    public function __construct()
+    {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->storage = $DIC->resourceStorage();
+
+        $obj_dic = ilObjectDIC::dic();
+        $this->object_properties_agregator = $obj_dic['object_properties_agregator'];
+
+        parent::__construct();
+    }
     public function getSupportedVersions(): array
     {
         return array("4.4.0", "5.1.0", "5.2.0", "5.4.0");
@@ -103,7 +121,6 @@ class ilObjectDataSet extends ilDataSet
             if ($version == "5.4.0") {
                 return [
                     "ObjId" => "integer",
-                    "Extension" => "text",
                     "Dir" => "directory"
                 ];
             }
@@ -193,19 +210,17 @@ class ilObjectDataSet extends ilDataSet
         if ($entity == "tile") {
             $this->data = [];
             foreach ($ids as $id) {
-                $ti = new ilObjectTileImage(
-                    $DIC->filesystem()->web(),
-                    $DIC->upload(),
-                    (int) $id
-                );
-
-                if ($ti->exists()) {
-                    $this->data[] = [
-                        "ObjId" => $id,
-                        "Extension" => $ti->getExtension(),
-                        "Dir" => dirname($ti->getFullPath())
-                    ];
+                $rid = $this->object_properties_agregator->getFor((int) $id)->getPropertyTileImage()->getTileImage()->getRid();
+                if ($rid === null) {
+                    continue;
                 }
+
+                $temp_dir = $this->copyTileToTempFolderForExport($rid);
+
+                $this->data[] = [
+                    "ObjId" => $id,
+                    "Dir" => $temp_dir
+                ];
             }
         }
 
@@ -227,6 +242,22 @@ class ilObjectDataSet extends ilDataSet
         }
     }
 
+    private function copyTileToTempFolderForExport(string $rid): string
+    {
+        $i = $this->storage->manage()->find($rid);
+        $stream = $this->storage->consume()->stream(
+            $i
+        );
+        $title = $this->storage->manage()->getCurrentRevision($i)->getTitle();
+
+        $temp_dir = implode(
+            DIRECTORY_SEPARATOR,
+            [ILIAS_DATA_DIR, CLIENT_ID, 'temp', uniqid('tmp')]
+        );
+        mkdir($temp_dir);
+        file_put_contents($temp_dir . DIRECTORY_SEPARATOR . $title, $stream->getStream()->getContents());
+        return $temp_dir;
+    }
     /**
      * Determine the dependent sets of data
      */
@@ -323,12 +354,12 @@ class ilObjectDataSet extends ilDataSet
                 $dir = str_replace("..", "", $rec["Dir"]);
                 if ($new_id > 0 && $dir != "" && $this->getImportDirectory() != "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
-                    $ti = new ilObjectTileImage(
-                        $DIC->filesystem()->web(),
-                        $DIC->upload(),
-                        $new_id
+                    $object_properties = $this->object_properties_agregator->getFor($new_id);
+                    $ti = $object_properties->getPropertyTileImage()->getTileImage();
+                    $ti->createFromImportDir($source_dir);
+                    $object_properties->storePropertyTileImage(
+                        $object_properties->getPropertyTileImage()->withTileImage($ti)
                     );
-                    $ti->createFromImportDir($source_dir, $rec["Extension"]);
                 }
                 break;
         }

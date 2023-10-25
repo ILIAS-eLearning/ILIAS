@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -50,7 +50,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $factory = $this->buildFactory();
         $url = $factory->url("Test Label", "Test Byline");
@@ -59,7 +59,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Url::class, $url);
     }
 
-    public function test_rendering(): void
+    public function testRendering(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -83,7 +83,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_error(): void
+    public function testRenderError(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -111,7 +111,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_no_byline(): void
+    public function testRenderNoByline(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -133,7 +133,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_value(): void
+    public function testRenderValue(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -157,7 +157,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_required(): void
+    public function testRenderRequired(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -180,7 +180,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_disabled(): void
+    public function testRenderDisabled(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();

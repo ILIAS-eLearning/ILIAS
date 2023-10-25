@@ -33,7 +33,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected string $tree_flat_link = "";
     protected string $page_form_action = "";
     protected array $permanent_link = [];
-    protected array $lightbox = [];
     protected bool $standard_template_loaded = false;
     protected ilTemplate $template;
     protected array $on_load_code;
@@ -982,7 +981,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 if ($a_main_menu) {
                     $this->fillMainMenu();
                 }
-                $this->fillLightbox();
                 $this->parseCurrentBlock();
             }
         }
@@ -1069,7 +1067,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                         $this->fillTabs();
                         $this->fillMainContent();
                         $this->fillMainMenu();
-                        $this->fillLightbox();
                         $this->parseCurrentBlock();
                     }
                 }
@@ -1120,10 +1117,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->setCurrentBlock("tree_mode");
             $this->setVariable("LINK_MODE", $this->tree_flat_link);
             if ($this->settings->get("tree_frame") == "right") {
-                $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
+                $this->setVariable("IMG_TREE", ilUtil::getImagePath("standard/icon_sidebar_on.svg"));
                 $this->setVariable("RIGHT", "Right");
             } else {
-                $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
+                $this->setVariable("IMG_TREE", ilUtil::getImagePath("standard/icon_sidebar_on.svg"));
             }
             $this->setVariable("ALT_TREE", $this->lng->txt($this->tree_flat_mode . "view"));
             $this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
@@ -1138,22 +1135,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     {
         $this->tree_flat_link = $a_link;
         $this->tree_flat_mode = $a_mode;
-    }
-
-    public function addLightbox(string $a_html, string $a_id): void
-    {
-        $this->lightbox[$a_id] = $a_html;
-    }
-
-    /**
-     * Fill lightbox content
-     * @param
-     * @return
-     */
-    private function fillLightbox(): void
-    {
-        $html = implode('', $this->lightbox);
-        $this->setVariable("LIGHTBOX", $html);
     }
 
     // ADMIN PANEL
@@ -1192,7 +1173,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         // Add arrow if desired.
         if ($this->admin_panel_arrow) {
-            $toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $this->lng->txt("actions"));
+            $toolb->setLeadingImage(ilUtil::getImagePath("nav/arrow_upright.svg"), $this->lng->txt("actions"));
         }
 
         $this->fillPageFormAction();
@@ -1208,7 +1189,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
             // Replace previously set arrow image.
             if ($this->admin_panel_arrow) {
-                $toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $this->lng->txt("actions"));
+                $toolb->setLeadingImage(ilUtil::getImagePath("nav/arrow_downright.svg"), $this->lng->txt("actions"));
             }
 
             $this->setVariable("ADM_PANEL2", $toolb->getHTML());

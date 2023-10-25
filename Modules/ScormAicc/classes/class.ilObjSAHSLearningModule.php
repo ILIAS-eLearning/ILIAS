@@ -70,13 +70,17 @@ class ilObjSAHSLearningModule extends ilObject
 
     protected string $api_adapter = 'API';
 
+    protected \ILIAS\DI\UIServices $ui;
+
     /**
     * Constructor
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
+    * @param	integer $a_id                reference_id or object_id
+    * @param	boolean $a_call_by_reference treat the id as reference_id (true) or object_id (false)
     */
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
+        global $DIC;
+        $this->ui = $DIC->ui();
         $this->type = "sahs";
         parent::__construct($a_id, $a_call_by_reference);
     }
@@ -1350,7 +1354,7 @@ class ilObjSAHSLearningModule extends ilObject
     /**
      * get button for view
      */
-    public function getViewButton(): ilLinkButton
+    public function getViewButton(): \ILIAS\UI\Component\Button\Primary
     {
         $setUrl = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->getRefID();
         // $setUrl = $this->getLinkTargetByClass("ilsahspresentationgui", "")."&amp;ref_id=".$this->getRefID();
@@ -1365,11 +1369,17 @@ class ilObjSAHSLearningModule extends ilObject
             $setUrl = "javascript:void(0); onclick=startSAHS('" . $setUrl . "','ilContObj" . $this->getId() . "'," . $om . "," . $width . "," . $height . ");";
             $setTarget = "";
         }
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("view");
-        $button->setPrimary(true);
-        $button->setUrl($setUrl);
-        $button->setTarget($setTarget);
+        //todo $setTarget ?
+        $button = $this->ui->factory()->button()->primary(
+            $this->lng->txt("view"),
+            $setUrl
+        );
+
+        //        $button = ilLinkButton::getInstance();
+        //        $button->setCaption("view");
+        //        $button->setPrimary(true);
+        //        $button->setUrl($setUrl);
+        //        $button->setTarget($setTarget);
         return $button;
     }
 }

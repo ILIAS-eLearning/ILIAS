@@ -45,12 +45,12 @@ class ilFileDataMail extends ilFileData
         }
         parent::__construct();
         $this->mail_path = $this->getPath() . "/" . MAILPATH;
+        $this->ilias = $DIC['ilias'];
         $this->checkReadWrite();
 
         $this->db = $DIC->database();
         $this->tmpDirectory = $DIC->filesystem()->temp();
         $this->storageDirectory = $DIC->filesystem()->storage();
-        $this->ilias = $DIC['ilias'];
 
         $this->initAttachmentMaxUploadSize();
     }

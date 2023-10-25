@@ -276,7 +276,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                         $a_set["id"] . "]\" value=\"1\"" . $checked . " />";
                 } elseif ($a_set["obligatory"]) {
                     $obligatory = $this->ui->renderer()->render(
-                        $this->ui->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_checked.svg"), $lng->txt("question_obligatory"))
+                        $this->ui->factory()->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_checked.svg"), $lng->txt("question_obligatory"))
                     );
                 }
                 $this->tpl->setVariable("OBLIGATORY", $obligatory);

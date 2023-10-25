@@ -24,9 +24,17 @@ use ILIAS\MetaData\Elements\Base\BaseElementInterface;
 use ILIAS\MetaData\Paths\Filters\FilterType;
 use ILIAS\MetaData\Paths\Steps\StepToken;
 use ILIAS\MetaData\Elements\Structure\StructureElement;
+use ILIAS\MetaData\Elements\Structure\StructureSetInterface;
 
 class Factory implements FactoryInterface
 {
+    protected StructureSetInterface $structure;
+
+    public function __construct(StructureSetInterface $structure)
+    {
+        $this->structure = $structure;
+    }
+
     public function fromString(string $string): PathInterface
     {
         $exploded = explode(Token::SEPARATOR->value, strtolower($string));
@@ -67,7 +75,11 @@ class Factory implements FactoryInterface
     ): BuilderInterface {
         $exploded = explode(Token::FILTER_SEPARATOR->value, strtolower($string));
         $name = StepToken::tryFrom($exploded[0]) ?? $exploded[0];
-        $builder = $builder->withNextStepFromName($name, false);
+        if ($name === StepToken::SUPER) {
+            $builder = $builder->withNextStepToSuperElement(false);
+        } else {
+            $builder = $builder->withNextStep($name, false);
+        }
         $exploded = array_slice($exploded, 1);
         foreach ($exploded as $filter_string) {
             $exploded_filter = explode(
@@ -166,7 +178,7 @@ class Factory implements FactoryInterface
         bool $add_as_first
     ): BuilderInterface {
         $builder = $builder->withNextStep(
-            $element->getDefinition(),
+            $element->getDefinition()->name(),
             $add_as_first
         );
 
@@ -187,6 +199,6 @@ class Factory implements FactoryInterface
 
     public function custom(): BuilderInterface
     {
-        return new Builder();
+        return new Builder($this->structure);
     }
 }

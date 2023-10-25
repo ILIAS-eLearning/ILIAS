@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -43,7 +43,7 @@ class HiddenInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render(): void
+    public function testRender(): void
     {
         $input = $this->input->withNameFrom($this->name_source);
 
@@ -56,7 +56,7 @@ class HiddenInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_disabled(): void
+    public function testRenderDisabled(): void
     {
         $input = $this->input->withNameFrom($this->name_source);
         $input = $input->withDisabled(true);
@@ -70,7 +70,7 @@ class HiddenInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_value(): void
+    public function testRenderValue(): void
     {
         $input = $this->input->withNameFrom($this->name_source);
         $input = $input->withValue('some_value');

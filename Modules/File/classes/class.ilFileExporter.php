@@ -31,7 +31,6 @@ class ilFileExporter extends ilXmlExporter
     {
     }
 
-
     /**
      * Get tail dependencies
      * @param string        entity
@@ -59,7 +58,6 @@ class ilFileExporter extends ilXmlExporter
             ]
         ];
     }
-
 
     /**
      * Get xml representation
@@ -89,7 +87,6 @@ class ilFileExporter extends ilXmlExporter
         return $xml;
     }
 
-
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
@@ -97,13 +94,13 @@ class ilFileExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            "4.1.0" => array(
+        return [
+            "4.1.0" => [
                 "namespace" => "http://www.ilias.de/Modules/File/file/4_1",
                 "xsd_file" => "ilias_file_4_1.xsd",
                 "min" => "4.1.0",
-                "max" => "",
-            ),
-        );
+                "max" => ""
+            ]
+        ];
     }
 }

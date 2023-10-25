@@ -24,24 +24,15 @@ use ILIAS\MetaData\Structure\Dictionaries\Tags\TagInterface as BaseTagInterface;
 
 interface TagInterface extends BaseTagInterface
 {
-    public function create(): string;
-
-    public function read(): string;
-
-    public function update(): string;
-
-    public function delete(): string;
+    public function hasRowInTable(): bool;
 
     public function table(): string;
 
-    /**
-     * The id of 'parent' elements is needed to access their sub-elements
-     * in the database (until the next parent in the hierarchy comes up).
-     */
-    public function isParent(): bool;
+    public function hasData(): bool;
 
-    /**
-     * @return string[]
-     */
-    public function expectedParameters(): \Generator;
+    public function dataField(): string;
+
+    public function hasParent(): bool;
+
+    public function parent(): string;
 }

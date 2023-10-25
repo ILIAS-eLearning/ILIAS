@@ -155,11 +155,6 @@ $card-head-icon-filter: invert(50%);
 						margin-left: auto;
 						margin-right: auto;
 					}
-					
-					&:focus-visible {
-						overflow: visible;
-						outline-offset: $il-focus-outline-inner-width + $il-focus-outline-outer-width - 1;
-					}
 				}
 			}
 		}

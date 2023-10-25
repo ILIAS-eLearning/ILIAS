@@ -22,23 +22,18 @@ namespace ILIAS\MetaData\Repository\Dictionary;
 
 class TagFactory
 {
-    public function tag(
-        string $create,
-        string $read,
-        string $update,
-        string $delete,
-        bool $is_parent,
-        string $table,
-        ExpectedParameter ...$expected_parameters
-    ): TagInterface {
-        return new Tag(
-            $create,
-            $read,
-            $update,
-            $delete,
-            $is_parent,
-            $table,
-            ...$expected_parameters
-        );
+    public function containerWithRowInTable(string $table, string $parent = '')
+    {
+        return new Tag($table, true, '', $parent);
+    }
+
+    public function data(string $table, string $data_field, string $parent = '')
+    {
+        return new Tag($table, false, $data_field, $parent);
+    }
+
+    public function dataWithRowInTable(string $table, string $data_field, string $parent = '')
+    {
+        return new Tag($table, true, $data_field, $parent);
     }
 }

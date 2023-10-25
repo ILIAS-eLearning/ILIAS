@@ -58,7 +58,7 @@ abstract class ilMailTemplateContext
     abstract public function getDescription(): string;
 
     /**
-     * @return array{mail_salutation: array{placeholder: string, label: string}, first_name: array{placeholder: string, label: string}, last_name: array{placeholder: string, label: string}, login: array{placeholder: string, label: string}, title: array{placeholder: string, label: string, supportsCondition: true}, firstname_last_name_superior: array{placeholder: string, label: string}, ilias_url: array{placeholder: string, label: string}, installation_name: array{placeholder: string, label: string}}
+     * @return array{mail_salutation: array{placeholder: string, label: string}, first_name: array{placeholder: string, label: string}, last_name: array{placeholder: string, label: string}, login: array{placeholder: string, label: string}, title: array{placeholder: string, label: string, supportsCondition: true}, firstname_lastname_superior: array{placeholder: string, label: string}, ilias_url: array{placeholder: string, label: string}, installation_name: array{placeholder: string, label: string}}
      */
     private function getGenericPlaceholders(): array
     {
@@ -84,7 +84,7 @@ abstract class ilMailTemplateContext
                 'label' => $this->getLanguage()->txt('mail_nacc_title'),
                 'supportsCondition' => true,
             ],
-            'firstname_last_name_superior' => [
+            'firstname_lastname_superior' => [
                 'placeholder' => 'FIRSTNAME_LASTNAME_SUPERIOR',
                 'label' => $this->getLanguage()->txt('mail_firstname_last_name_superior'),
             ],
@@ -112,22 +112,20 @@ abstract class ilMailTemplateContext
     abstract public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string;
 
     public function resolvePlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
-        bool $html_markup = false
+        ilObjUser $recipient = null
     ): string {
         if ($recipient !== null) {
             $this->initLanguage($recipient);
         }
 
+        $placeholder_id = strtolower($placeholder_id);
         $resolved = '';
-
         switch (true) {
             case ('mail_salutation' === $placeholder_id && $recipient !== null):
                 $resolved = $this->getLanguage()->txt('mail_salutation_n');
@@ -170,7 +168,7 @@ abstract class ilMailTemplateContext
                 $resolved = $this->envHelper->getClientId();
                 break;
 
-            case 'firstname_last_name_superior' === $placeholder_id && $recipient !== null:
+            case 'firstname_lastname_superior' === $placeholder_id && $recipient !== null:
                 $ouUsers = $this->orgUnitUserService->getUsers([$recipient->getId()], true);
                 foreach ($ouUsers as $ouUser) {
                     $superiors = $ouUser->getSuperiors();
@@ -193,8 +191,7 @@ abstract class ilMailTemplateContext
                 $resolved = $this->resolveSpecificPlaceholder(
                     $placeholder_id,
                     $context_parameters,
-                    $recipient,
-                    $html_markup
+                    $recipient
                 );
 
                 ilDatePresentation::setLanguage($datePresentationLanguage);

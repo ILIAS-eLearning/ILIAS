@@ -255,7 +255,7 @@ class ilADTActiveRecordByType
                 $id = $row[$this->getElementIdColumn()];
 
                 // leave other records alone
-                if ($this->properties->getADT()->hasElement($id)) {
+                if ($this->properties->getADT()->hasElement((string) $id)) {
                     $existing[$table][$id] = $id;
                 }
             }

@@ -37,6 +37,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         protected int $kiosk_mode = 0,
         protected bool $examid_in_test_pass_enabled = false
     ) {
+        $this->pass_waiting = $this->cleanupPassWaiting($this->pass_waiting);
         parent::__construct($test_id);
     }
 
@@ -136,7 +137,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     ): FormInput {
         $constraint = $refinery->custom()->constraint(
             static function (?string $vs): bool {
-                if ($vs !== null && $vs === '0:0:0:0') {
+                if ($vs !== null && $vs === '0:0:0') {
                     return false;
                 }
 
@@ -163,10 +164,9 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
             ->withAdditionalTransformation($trafo);
 
         if ($this->getPassWaitingEnabled()) {
-            list($months, $days, $hours, $minutes) = explode(':', $this->getPassWaiting());
+            list($days, $hours, $minutes) = explode(':', $this->getPassWaiting());
             $force_waiting_between_attempts = $force_waiting_between_attempts->withValue(
                 [
-                    'month' => $months,
                     'days' => $days,
                     'hours' => $hours,
                     'minutes' => $minutes
@@ -186,11 +186,6 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery
     ): array {
-        $sub_inputs_force_waiting_between_attempts['month'] = $f->numeric($lng->txt('months'))
-            ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
-            ->withAdditionalTransformation($refinery->int()->isLessThanOrEqual(12))
-            ->withRequired(true)
-            ->withValue(0);
         $sub_inputs_force_waiting_between_attempts['days'] = $f->numeric($lng->txt('days'))
             ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
             ->withAdditionalTransformation($refinery->int()->isLessThanOrEqual(31))
@@ -208,6 +203,22 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
             ->withValue(0);
 
         return $sub_inputs_force_waiting_between_attempts;
+    }
+
+    private function cleanupPassWaiting(?string $pass_waiting): ?string
+    {
+        if ($pass_waiting === null) {
+            return null;
+        }
+
+        $pass_waiting_array = explode(':', $pass_waiting);
+        if (count($pass_waiting_array) !== 4) {
+            return $pass_waiting;
+        }
+
+        $month = array_shift($pass_waiting_array);
+        $pass_waiting_array[0] += $month * 31;
+        return implode(':', $pass_waiting_array);
     }
 
     private function getInputTimeLimitForCompletion(
@@ -379,7 +390,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     public function withPassWaiting(?string $pass_waiting): self
     {
         $clone = clone $this;
-        $clone->pass_waiting = $pass_waiting;
+        $clone->pass_waiting = $this->cleanupPassWaiting($pass_waiting);
         return $clone;
     }
 

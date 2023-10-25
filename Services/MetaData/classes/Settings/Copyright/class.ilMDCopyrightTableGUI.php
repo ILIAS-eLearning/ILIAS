@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\UI\Component\Signal;
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -36,9 +36,9 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
     /**
      * Rendering the modals into the table leads to a mess
      * in the css, since the table is also a form.
-     * @var string[]
+     * @var Signal[]
      */
-    protected array $rendered_modals = [];
+    protected array $edit_modal_signals = [];
 
     public function __construct(
         ilMDCopyrightSelectionGUI $parent_obj,
@@ -114,6 +114,11 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         }
     }
 
+    public function setEditModalSignal(int $entry_id, Signal $signal): void
+    {
+        $this->edit_modal_signals[$entry_id] = $signal;
+    }
+
     public function parseSelections(): void
     {
         // These entries are ordered by 1. is_default, 2. position
@@ -137,23 +142,13 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         $this->setData($entry_arr);
     }
 
-    public function getRenderedModals(): string
-    {
-        return implode('', $this->rendered_modals);
-    }
-
     protected function getActionsForEntry(int $id, bool $with_usages): string
     {
         $buttons = [];
 
-        $this->ctrl->setParameter($this->getParentObject(), 'entry_id', $id);
-        $edit_link = $this->ctrl->getLinkTarget($this->getParentObject(), 'editEntry', '', true);
-        $this->ctrl->clearParameters($this->getParentObject());
-        $edit_modal = $this->modal_service->placeholderModal($edit_link);
-
         $buttons[] = $this->ui_factory->button()->shy(
             $this->lng->txt('edit'),
-            $edit_modal->getShowSignal()
+            $this->edit_modal_signals[$id]
         );
 
         if ($with_usages) {
@@ -177,7 +172,6 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
             ->dropdown()
             ->standard($buttons)
             ->withLabel($this->lng->txt('actions'));
-        $this->rendered_modals[] = $this->ui_renderer->render($edit_modal);
         return $this->ui_renderer->render($actions);
     }
 }

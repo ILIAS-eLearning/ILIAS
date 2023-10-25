@@ -51,6 +51,28 @@ interface Image extends Component, JavaScriptBindable, Clickable, Block
     public function getSource(): string;
 
     /**
+     * Add an additional source (path) pointing to an image of higher resolution
+     * than the one set through `withSource()`.
+     * The corresponding image will be asynchronously loaded once the size of the
+     * final image on the screen is defined. The high res source will be used,
+     * if the size of the image shown on the screen is bigger than
+     * `$min_width_in_pixels`. If multiple additional high res sources are defined,
+     * the one with the biggest `$min_width_in_pixels` that is still
+     * smaller than the actual size of the image on the screen will be chosen.
+     * To take advantage of this functionality the source set through `withSource()`
+     * must be small as it will always be loaded first.
+     */
+    public function withAdditionalHighResSource(string $source, int $min_width_in_pixels): Image;
+
+    /**
+     * Returns an associative array containing all additional resources as
+     * `$min_width_in_pixels => $source` entries.
+     *
+     * @return array<integer, string>
+     */
+    public function getAdditionalHighResSources(): array;
+
+    /**
      * Get the type of the image
      */
     public function getType(): string;

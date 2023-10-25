@@ -64,7 +64,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
         $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
-//        $this->setStyleId($this->layout_object->getStyleId());
+        //        $this->setStyleId($this->layout_object->getStyleId());
     }
 
     public function executeCommand(): string
@@ -182,7 +182,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
             $this->lng->txt("settings"),
             $ilCtrl->getLinkTarget($this, "properties")
         );
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.svg"));
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_pg.svg"));
         $tpl->setTitle($this->layout_object->getTitle());
         $tpl->setDescription("");
     }

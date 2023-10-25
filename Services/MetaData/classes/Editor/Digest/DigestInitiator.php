@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Digest;
 
-use ILIAS\MetaData\Services\Services;
+use ILIAS\MetaData\Services\InternalServices;
 
 class DigestInitiator
 {
-    protected Services $services;
+    protected InternalServices $services;
 
-    public function __construct(Services $services)
+    public function __construct(InternalServices $services)
     {
         $this->services = $services;
     }
@@ -41,11 +41,11 @@ class DigestInitiator
                 $this->services->dic()->refinery(),
                 $this->services->editor()->presenter(),
                 $path_collection = new PathCollection(
-                    $path_factory,
-                    $this->services->structure()->structure()
+                    $path_factory
                 ),
                 $this->services->editor()->linkFactory(),
-                $copyright_handler = new CopyrightHandler()
+                $copyright_handler = new CopyrightHandler($this->services->copyright()->repository()),
+                $this->services->dataHelper()->dataHelper()
             ),
             new ManipulatorAdapter(
                 $content_assembler,

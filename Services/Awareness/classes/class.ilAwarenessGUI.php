@@ -102,7 +102,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
             true,
             false
         ) . "');");
-        $this->main_tpl->addOnLoadCode("il.Awareness.setLoaderSrc('" . ilUtil::getImagePath("loader.svg") . "');");
+        $this->main_tpl->addOnLoadCode("il.Awareness.setLoaderSrc('" . ilUtil::getImagePath("media/loader.svg") . "');");
         $this->main_tpl->addOnLoadCode("il.Awareness.init();");
 
         $this->user_action_gui->init();

@@ -58,6 +58,8 @@ class ilExAssignment
 
     public const DEADLINE_ABSOLUTE = 0;
     public const DEADLINE_RELATIVE = 1;
+    public const DEADLINE_ABSOLUTE_INDIVIDUAL = 2;
+    protected \ILIAS\Exercise\InternalDomainService $domain;
     protected \ILIAS\Refinery\String\Group $string_transform;
 
     protected ilDBInterface $db;
@@ -78,7 +80,7 @@ class ilExAssignment
     protected int $order_nr = 0;
     protected bool $peer = false;       // peer review activated
     protected int $peer_min = 0;
-    protected bool $peer_unlock = false;
+    protected int $peer_unlock = 0;
     protected int $peer_dl = 0;
     protected int $peer_valid;  // passed after submission, one or all peer feedbacks
     protected bool $peer_file = false;
@@ -115,6 +117,7 @@ class ilExAssignment
     {
         global $DIC;
 
+        $this->domain = $DIC->exercise()->internal()->domain();
         $this->db = $DIC->database();
         $this->irss = $DIC->resourceStorage();
         $this->lng = $DIC->language();
@@ -259,7 +262,7 @@ class ilExAssignment
 
     /**
      * Set deadline mode
-     * @param int $a_val deadline mode (self::DEADLINE_ABSOLUTE | self::DEADLINE_ABSOLUTE)
+     * @param int $a_val deadline mode (self::DEADLINE_ABSOLUTE | self::DEADLINE_ABSOLUTE_INDIVIDUAL | self::DEADLINE_RELATIVE)
      */
     public function setDeadlineMode(int $a_val): void
     {
@@ -452,12 +455,12 @@ class ilExAssignment
         return $this->peer_min;
     }
 
-    public function setPeerReviewSimpleUnlock(bool $a_value)
+    public function setPeerReviewSimpleUnlock(int $a_value)
     {
         $this->peer_unlock = $a_value;
     }
 
-    public function getPeerReviewSimpleUnlock(): bool
+    public function getPeerReviewSimpleUnlock(): int
     {
         return $this->peer_unlock;
     }
@@ -700,7 +703,7 @@ class ilExAssignment
         $this->setType((int) $a_set["type"]);
         $this->setPeerReview((bool) $a_set["peer"]);
         $this->setPeerReviewMin((int) $a_set["peer_min"]);
-        $this->setPeerReviewSimpleUnlock((bool) $a_set["peer_unlock"]);
+        $this->setPeerReviewSimpleUnlock((int) $a_set["peer_unlock"]);
         $this->setPeerReviewDeadline((int) $a_set["peer_dl"]);
         $this->setPeerReviewValid((int) $a_set["peer_valid"]);
         $this->setPeerReviewFileUpload((bool) $a_set["peer_file"]);
@@ -1265,15 +1268,17 @@ class ilExAssignment
         $idl = $this->getIndividualDeadlines();
         foreach ($idl as $user_id => $v) {
             if (!isset($mem[$user_id])) {
-                $name = ilObjUser::_lookupName($user_id);
-                $mem[$user_id] =
-                    array(
-                        "name" => $name["lastname"] . ", " . $name["firstname"],
-                        "login" => $name["login"],
-                        "usr_id" => $user_id,
-                        "lastname" => $name["lastname"],
-                        "firstname" => $name["firstname"]
-                    );
+                if (ilObjUser::_exists($user_id)) {
+                    $name = ilObjUser::_lookupName($user_id);
+                    $mem[$user_id] =
+                        array(
+                            "name" => $name["lastname"] . ", " . $name["firstname"],
+                            "login" => $name["login"],
+                            "usr_id" => $user_id,
+                            "lastname" => $name["lastname"],
+                            "firstname" => $name["firstname"]
+                        );
+                }
             }
         }
 
@@ -1550,6 +1555,8 @@ class ilExAssignment
             return;
         }
 
+        $notification = $this->domain->notification($a_exc->getRefId());
+
         $fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
         $fstorage->create();
 
@@ -1581,10 +1588,10 @@ class ilExAssignment
                             $member_status->update();
                         }
 
-                        $a_exc->sendFeedbackFileNotification(
-                            $file_name,
+                        $notification->sendFeedbackNotification(
+                            $this->getId(),
                             $noti_rec_ids,
-                            $this->getId()
+                            $file_name
                         );
                     }
                 }
@@ -1939,9 +1946,29 @@ class ilExAssignment
         return $res;
     }
 
+    public function getRequestedDeadlines(): array
+    {
+        $ilDB = $this->db;
+
+        $res = array();
+
+        $set = $ilDB->query("SELECT * FROM exc_idl" .
+            " WHERE ass_id = " . $ilDB->quote($this->getId(), "integer") .
+            " AND requested = " . $ilDB->quote(1, "integer"));
+        while ($row = $ilDB->fetchAssoc($set)) {
+            if ($row["is_team"]) {
+                $row["member_id"] = "t" . $row["member_id"];
+            }
+
+            $res[$row["member_id"]] = $row["requested"];
+        }
+
+        return $res;
+    }
+
     public function hasActiveIDl(): bool
     {
-        return (bool) $this->getDeadline() || (bool) $this->getRelativeDeadline();
+        return (bool) ($this->getDeadline() || $this->getDeadlineMode() === self::DEADLINE_ABSOLUTE_INDIVIDUAL);
     }
 
     public function hasReadOnlyIDl(): bool

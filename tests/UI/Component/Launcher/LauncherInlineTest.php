@@ -124,17 +124,23 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $this->assertNull($l->getStatusIcon());
         $this->assertNull($l->getStatusMessageBox());
         $this->assertNull($l->getModal());
+        $this->assertNull($l->getModalSubmitLabel());
+        $this->assertNull($l->getModalCancelLabel());
     }
 
     public function testLauncherInlineBasicModifier(): void
     {
         $msg = $this->getMessageBox();
         $icon = $this->getIconFactory()->standard('course', 'some icon');
+        $some_submit_label = 'some submit label';
+        $some_cancel_label = 'some cancel label';
         $l = $this->getLauncher()
             ->withDescription('some description')
             ->withButtonLabel('different label', false)
             ->withStatusMessageBox($msg)
             ->withStatusIcon($icon)
+            ->withModalSubmitLabel($some_submit_label)
+            ->withModalCancelLabel($some_cancel_label)
         ;
 
         $this->assertEquals($this->df->link('LaunchSomething', $this->getURI()), $l->getTarget());
@@ -143,6 +149,8 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $this->assertEquals($msg, $l->getStatusMessageBox());
         $this->assertEquals($icon, $l->getStatusIcon());
         $this->assertNull($l->getModal());
+        $this->assertEquals($l->getModalSubmitLabel(), $some_submit_label);
+        $this->assertEquals($l->getModalCancelLabel(), $some_cancel_label);
     }
 
     public function testLauncherInlineWithFields(): void
@@ -188,7 +196,10 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
             ->withButtonLabel('different label', false)
             ->withStatusMessageBox($msg)
             ->withStatusIcon($icon)
-            ->withInputs($group, $evaluation, $msg);
+            ->withInputs($group, $evaluation, $msg)
+            ->withModalSubmitLabel('some submit label')
+            ->withModalCancelLabel('some cancel label')
+        ;
 
         $expected = <<<EXP
 <div class="c-launcher c-launcher--inline" id="">
@@ -197,7 +208,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
             <div class="alert alert-info" role="status">
                 <div class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">info_message</a></div>message</div>
         </div>
-        <div class="c-launcher__status__icon"><img class="icon course small" src="./templates/default/images/icon_default.svg" alt="some icon"/></div>
+        <div class="c-launcher__status__icon"><img class="icon course small" src="./templates/default/images/standard/icon_default.svg" alt="some icon"/></div>
     </div>
     <div class="c-launcher__description">
         some description
@@ -225,8 +236,8 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-default" data-dismiss="modal">cancel</button>
-                        <button class="btn btn-default" id="id_4">save</button>
+                        <button class="btn btn-default" id="id_4">some submit label</button>
+                        <button class="btn btn-default" data-dismiss="modal">some cancel label</button>
                     </div>
                 </div>
             </div>

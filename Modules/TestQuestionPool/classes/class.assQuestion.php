@@ -494,12 +494,11 @@ abstract class assQuestion
                     break;
 
                 case assQuestionSuggestedSolution::TYPE_FILE:
-                    $file_value = $solution->getValue();
                     $possible_texts = array_values(
                         array_filter(
                             [
-                                ilLegacyFormElementsUtil::prepareFormOutput($file_value->getTitle()),
-                                ilLegacyFormElementsUtil::prepareFormOutput($file_value->getFilename()),
+                                ilLegacyFormElementsUtil::prepareFormOutput($solution->getTitle()),
+                                ilLegacyFormElementsUtil::prepareFormOutput($solution->getFilename()),
                                 $this->lng->txt('tst_show_solution_suggested')
                             ]
                         )
@@ -508,18 +507,11 @@ abstract class assQuestion
                     ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
                     $output[] = '<a href="'
                         . ilWACSignedPath::signFile(
-                            $this->getSuggestedSolutionPathWeb() . $file_value->getFilename()
+                            $this->getSuggestedSolutionPathWeb() . $solution->getFilename()
                         )
                         . '">'
                         . $possible_texts[0]
                         . '</a>';
-                    break;
-
-                case assQuestionSuggestedSolution::TYPE_TEXT:
-                    $solutionValue = $solution->getValue();
-                    $solutionValue = $this->fixSvgToPng($solutionValue);
-                    $solutionValue = $this->fixUnavailableSkinImageSources($solutionValue);
-                    $output[] = ilLegacyFormElementsUtil::prepareTextareaOutput($solutionValue, true);
                     break;
             }
         }
@@ -1159,10 +1151,10 @@ abstract class assQuestion
     protected static $imageSourceFixReplaceMap = array(
         'ok.svg' => 'ok.png',
         'not_ok.svg' => 'not_ok.png',
-        'checkbox_checked.svg' => 'checkbox_checked.png',
-        'checkbox_unchecked.svg' => 'checkbox_unchecked.png',
-        'radiobutton_checked.svg' => 'radiobutton_checked.png',
-        'radiobutton_unchecked.svg' => 'radiobutton_unchecked.png'
+        'object/checkbox_checked.svg' => 'checkbox_checked.png',
+        'object/checkbox_unchecked.svg' => 'checkbox_unchecked.png',
+        'object/radiobutton_checked.svg' => 'radiobutton_checked.png',
+        'object/radiobutton_unchecked.svg' => 'radiobutton_unchecked.png'
     );
 
     public function fixSvgToPng(string $imageFilenameContainingString): string
@@ -1909,12 +1901,23 @@ abstract class assQuestion
         return $this->question;
     }
 
+    public function getQuestionForHTMLOutput(): string
+    {
+        $question_text = $this->getHtmlQuestionContentPurifier()->purify($this->question);
+        if ($this->isAdditionalContentEditingModePageObject()
+            || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
+            $question_text = nl2br($question_text);
+        }
+        return ilLegacyFormElementsUtil::prepareTextareaOutput(
+            $question_text,
+            true,
+            true
+        );
+    }
+
     public function setQuestion(string $question = ""): void
     {
         $this->question = $question;
-        if ($question !== '') {
-            $this->question = $this->getHtmlQuestionContentPurifier()->purify($question);
-        }
     }
 
     /**

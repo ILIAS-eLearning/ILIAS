@@ -20,10 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Digest;
 
+use ILIAS\MetaData\Copyright\RepositoryInterface;
+use ILIAS\MetaData\Copyright\EntryInterface;
+
 class CopyrightHandler
 {
+    protected RepositoryInterface $repository;
+
     /**
-     * @var \ilMDCopyrightSelectionEntry[]
+     * @var EntryInterface[]
      */
     protected array $entries;
 
@@ -31,6 +36,11 @@ class CopyrightHandler
      * @var \ilOerHarvesterObjectStatus[]
      */
     protected array $statuses = [];
+
+    public function __construct(RepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
 
     public function isCPSelectionActive(): bool
     {
@@ -48,9 +58,9 @@ class CopyrightHandler
         return $this->getOerHarvesterSettings()->supportsHarvesting($type);
     }
 
-    public function isCopyrightTemplateActive(\ilMDCopyrightSelectionEntry $entry): bool
+    public function isCopyrightTemplateActive(EntryInterface $entry): bool
     {
-        return $this->getOerHarvesterSettings()->isActiveCopyrightTemplate($entry->getEntryId());
+        return $this->getOerHarvesterSettings()->isActiveCopyrightTemplate($entry->id());
     }
 
     protected function hasCPEntries(): bool
@@ -60,7 +70,7 @@ class CopyrightHandler
     }
 
     /**
-     * @return \ilMDCopyrightSelectionEntry[]
+     * @return EntryInterface[]
      */
     public function getCPEntries(): \Generator
     {
@@ -71,18 +81,13 @@ class CopyrightHandler
     protected function initCPEntries(): void
     {
         if (!isset($this->entries)) {
-            $this->entries = \ilMDCopyrightSelectionEntry::_getEntries();
+            $this->entries = iterator_to_array($this->repository->getAllEntries());
         }
     }
 
     public function extractCPEntryID(string $description): int
     {
         return \ilMDCopyrightSelectionEntry::_extractEntryId($description);
-    }
-
-    public function getDefaultCPEntryID(): int
-    {
-        return \ilMDCopyrightSelectionEntry::getDefault();
     }
 
     public function createIdentifierForID(int $entry_id): string

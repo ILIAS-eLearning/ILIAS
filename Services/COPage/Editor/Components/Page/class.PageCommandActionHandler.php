@@ -167,6 +167,9 @@ class PageCommandActionHandler implements Server\CommandActionHandler
             true,
             $this->page_gui->getPageConfig()->getEnableSelfAssessment()
         );
+        if ($updated === true) {
+            $this->page_gui->afterDeleteContents();
+        }
 
         return $this->sendPage($updated);
     }

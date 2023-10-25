@@ -29,11 +29,40 @@ class Agent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilWikiDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            "Updates of Services/Skill",
+            false,
+            ...$this->getObjectives()
+        );
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilWikiDBUpdateSteps());
+    }
+
+    protected function getObjectives(): array
+    {
+        $objectives = [];
+
+        $objectives[] = new \ilAccessCustomRBACOperationAddedObjective(
+            "add_pages",
+            "Create Pages",
+            "object",
+            3070,
+            ["wiki"]
+        );
+
+        $objectives[] = new AccessRBACOperationClonedObjective(
+            "wiki",
+            "edit_content",
+            "add_pages"
+        );
+
+
+        // db update steps
+        $objectives[] = new \ilDatabaseUpdateStepsExecutedObjective(new ilWikiDBUpdateSteps());
+
+        return $objectives;
     }
 }

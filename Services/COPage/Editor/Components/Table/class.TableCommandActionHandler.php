@@ -20,6 +20,7 @@ namespace ILIAS\COPage\Editor\Components\Table;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
+use ILIAS\COPage\Editor\Server\Response;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -47,15 +48,110 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
+            case "insert":
+                return $this->insertCommand($body);
+
             case "update.data":
                 return $this->updateDataCommand($body);
 
             case "modify.table":
                 return $this->modifyTableCommand($body);
 
+            case "update":
+                return $this->updateCommand($body);
+
+            case "set.properties":
+                return $this->setCellProperties($body);
+
+            case "toggle.merge":
+                return $this->toggleMerge($body);
+
             default:
                 throw new Exception("Unknown action " . $body["action"]);
         }
+    }
+
+    protected function insertCommand(array $body): Server\Response
+    {
+        if (($body["import"] ?? "") === "1") {
+            return $this->importSpreadsheet($body);
+        }
+
+        $page = $this->page_gui->getPageObject();
+
+        $hier_id = "pg";
+        $pc_id = "";
+        if (!in_array($body["after_pcid"], ["", "pg"])) {
+            $hier_ids = $page->getHierIdsForPCIds([$body["after_pcid"]]);
+            $hier_id = $hier_ids[$body["after_pcid"]];
+            $pc_id = $body["after_pcid"];
+        }
+
+        $tab = new \ilPCDataTable($page);
+        $tab->create($page, $hier_id, $pc_id);
+        $tab->setLanguage($this->user->getLanguage());
+
+
+        $tab->addRows(
+            (int) ($body["nr_rows"] ?? 1),
+            (int) ($body["nr_cols"] ?? 1)
+        );
+
+
+        $this->setRowHeaderAndCharacteristic($tab, $body);
+
+        $updated = $page->update();
+
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
+    }
+
+    protected function setRowHeaderAndCharacteristic(\ilPCDataTable $tab, array $body): void
+    {
+        if ($body["has_row_header"] ?? false) {
+            $tab->setHeaderRows(1);
+        }
+        $characteristic = ($body["characteristic"] ?? "");
+        if ($characteristic === "" && isset($body["import_characteristic"])) {
+            $characteristic = $body["import_characteristic"];
+        }
+        if ($characteristic === "") {
+            $characteristic = "StandardTable";
+        }
+        if (strpos($characteristic, ":") > 0) {
+            $t = explode(":", $characteristic);
+            $tab->setTemplate($t[2]);
+            $tab->setClass("");
+        } else {
+            $tab->setClass($characteristic);
+            $tab->setTemplate("");
+        }
+    }
+
+    protected function importSpreadsheet(array $body): Server\Response
+    {
+        $page = $this->page_gui->getPageObject();
+
+        $hier_id = "pg";
+        $pc_id = "";
+        if (!in_array($body["after_pcid"], ["", "pg"])) {
+            $hier_ids = $page->getHierIdsForPCIds([$body["after_pcid"]]);
+            $hier_id = $hier_ids[$body["after_pcid"]];
+            $pc_id = $body["after_pcid"];
+        }
+
+        $tab = new \ilPCDataTable($page);
+        $tab->create($page, $hier_id, $pc_id);
+        $tab->setLanguage($this->user->getLanguage());
+
+        $this->setRowHeaderAndCharacteristic($tab, $body);
+
+        $table_data = $body["import_table"] ?? "";
+
+        $tab->importSpreadsheet($this->user->getLanguage(), trim($table_data));
+
+        $updated = $page->update();
+
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
     protected function updateDataCommand(array $body): Server\Response
@@ -162,7 +258,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $table = $page->getContentObjectForPcId($body["data"]["tablePcid"]);
 
 
-        if ($table->getType() == "dtab") {
+        if ($table->getType() == "dtab" && $body["data"]["modification"] !== "none") {
             $this->updateData($body["data"]["tablePcid"], $body["data"]["content"]);
         }
 
@@ -170,14 +266,17 @@ class TableCommandActionHandler implements Server\CommandActionHandler
 
 
         /** @var $td \ilPCTableData */
-        $td = $page->getContentObjectForPcId($body["data"]["cellPcid"]);
+        if ($body["data"]["modification"] !== "none") {
+            $td = $page->getContentObjectForPcId($body["data"]["cellPcid"]);
+        }
 
+        $cnt = $body["data"]["cnt"] ?? 1;
         switch ($body["data"]["modification"]) {
             case "col.before":
-                $td->newColBefore();
+                $td->newColBefore($cnt);
                 break;
             case "col.after":
-                $td->newColAfter();
+                $td->newColAfter($cnt);
                 break;
             case "col.left":
                 $td->moveColLeft();
@@ -189,10 +288,10 @@ class TableCommandActionHandler implements Server\CommandActionHandler
                 $td->deleteCol();
                 break;
             case "row.before":
-                $td->newRowBefore();
+                $td->newRowBefore($cnt);
                 break;
             case "row.after":
-                $td->newRowAfter();
+                $td->newRowAfter($cnt);
                 break;
             case "row.up":
                 $td->moveRowUp();
@@ -202,6 +301,8 @@ class TableCommandActionHandler implements Server\CommandActionHandler
                 break;
             case "row.delete":
                 $td->deleteRow();
+                break;
+            case "none":
                 break;
         }
 
@@ -235,10 +336,105 @@ class TableCommandActionHandler implements Server\CommandActionHandler
                 $pcid
             );
         }
-
+        $table_gui->setStyleId($page_gui->getStyleId());
         $data = new \stdClass();
         $data->renderedContent = $table_gui->getEditDataTable();
         $data->pcModel = $page_gui->getPageObject()->getPCModel();
         return new Server\Response($data);
+    }
+
+    protected function updateCommand(array $body): Server\Response
+    {
+        $page = $this->page_gui->getPageObject();
+
+        /** @var \ilPCDataTable $tab */
+        $tab = $page->getContentObjectForPcId($body["pcid"]);
+
+        $this->setRowHeaderAndCharacteristic($tab, $body);
+
+        $header_row = (bool) ($body["has_row_header"] ?? false);
+        if ($tab->getHeaderRows() === 0 && $header_row) {
+            $tab->setHeaderRows(1);
+        }
+        if ($tab->getHeaderRows() > 0 && !$header_row) {
+            $tab->setHeaderRows(0);
+        }
+
+        $updated = $page->update();
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
+    }
+
+    protected function setCellProperties(array $body): Server\Response
+    {
+        $page = $this->page_gui->getPageObject();
+
+        /** @var \ilPCDataTable $tab */
+        $tab = $page->getContentObjectForPcId($body["pcid"]);
+        $top = (int) ($body["top"] ?? -1);
+        $bottom = (int) ($body["bottom"] ?? -1);
+        $left = (int) ($body["left"] ?? -1);
+        $right = (int) ($body["right"] ?? -1);
+        if ($top !== -1 && $bottom !== -1 && $left !== -1 && $right !== -1) {
+            for ($i = $top; $i <= $bottom; $i++) {
+                for ($j = $left; $j <= $right; $j++) {
+                    $td_node = $tab->getTableDataNode($i, $j);
+                    if ($td_node) {
+                        // set class
+                        if (isset($body["style_cb"])) {
+                            $class = $body["style"] ?? "";
+                            if ($class === "") {
+                                $td_node->remove_attribute("Class");
+                            } else {
+                                $td_node->set_attribute("Class", $class);
+                            }
+                        }
+                        // set width
+                        if (isset($body["width_cb"])) {
+                            $width = $body["width"] ?? "";
+                            if ($width === "") {
+                                $td_node->remove_attribute("Width");
+                            } else {
+                                $td_node->set_attribute("Width", $width);
+                            }
+                        }
+                        // set alignment
+                        if (isset($body["al_cb"])) {
+                            $alignment = $body["alignment"] ?? "";
+                            if ($alignment === "") {
+                                $td_node->remove_attribute("HorizontalAlign");
+                            } else {
+                                $td_node->set_attribute("HorizontalAlign", $alignment);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        $updated = $page->update();
+        return $this->sendTable($this->page_gui, $body["pcid"]);
+    }
+
+    protected function toggleMerge(array $body): Server\Response
+    {
+        $page = $this->page_gui->getPageObject();
+
+        $data = $body["data"];
+
+        /** @var \ilPCDataTable $tab */
+        $tab = $page->getContentObjectForPcId($data["pcid"]);
+        $top = (int) ($data["top"] ?? -1);
+        $bottom = (int) ($data["bottom"] ?? -1);
+        $left = (int) ($data["left"] ?? -1);
+        $right = (int) ($data["right"] ?? -1);
+
+        $td_node = $tab->getTableDataNode($top, $left);
+        $td_node->set_attribute("ColSpan", $right - $left + 1);
+        $td_node->set_attribute("RowSpan", $bottom - $top + 1);
+
+        $tab->fixHideAndSpans();
+
+        $updated = $page->update();
+        return $this->sendTable($this->page_gui, $data["pcid"]);
     }
 }

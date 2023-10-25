@@ -24,7 +24,7 @@ function base1()
         return $row
         ->withHeadline($record['question_title'])
         ->withLeadingSymbol(
-            $ui_factory->symbol()->icon()->custom('templates/default/images/icon_ques.svg', '')
+            $ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_ques.svg', '')
         )
         ->withSubheadline($record['question_txt'])
         ->withImportantFields(

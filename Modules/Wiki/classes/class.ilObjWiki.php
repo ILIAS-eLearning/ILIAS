@@ -23,6 +23,7 @@
  */
 class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 {
+    protected \ILIAS\Wiki\InternalDomainService $domain;
     protected bool $page_toc = false;
     protected int $style_id = 0;
     protected string $introduction = "";
@@ -46,6 +47,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         bool $a_call_by_reference = true
     ) {
         global $DIC;
+
+        $this->domain = $DIC->wiki()->internal()->domain();
 
         $this->db = $DIC->database();
         $this->user = $DIC->user();
@@ -252,6 +255,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page = new ilWikiPage();
             $start_page->setWikiId($this->getId());
             $start_page->setTitle($this->getStartPage());
+            $start_page->setWikiRefId($this->getRefId());
             $start_page->create();
         }
 
@@ -447,68 +451,6 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         return $found_pages;
     }
 
-    //
-    // Important pages
-    //
-
-    public static function _lookupImportantPagesList(int $a_wiki_id): array
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query(
-            "SELECT * FROM il_wiki_imp_pages WHERE " .
-            " wiki_id = " . $ilDB->quote($a_wiki_id, "integer") . " ORDER BY ord ASC "
-        );
-
-        $imp_pages = array();
-
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $imp_pages[] = $rec;
-        }
-        return $imp_pages;
-    }
-
-    public static function _lookupMaxOrdNrImportantPages(
-        int $a_wiki_id
-    ): int {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query(
-            "SELECT MAX(ord) as m FROM il_wiki_imp_pages WHERE " .
-            " wiki_id = " . $ilDB->quote($a_wiki_id, "integer")
-        );
-
-        $rec = $ilDB->fetchAssoc($set);
-        return (int) $rec["m"];
-    }
-
-
-    public function addImportantPage(
-        int $a_page_id,
-        int $a_nr = 0,
-        int $a_indent = 0
-    ): void {
-        $ilDB = $this->db;
-
-        if (!$this->isImportantPage($a_page_id)) {
-            if ($a_nr === 0) {
-                $a_nr = self::_lookupMaxOrdNrImportantPages($this->getId()) + 10;
-            }
-
-            $ilDB->manipulate("INSERT INTO il_wiki_imp_pages " .
-                "(wiki_id, ord, indent, page_id) VALUES (" .
-                $ilDB->quote($this->getId(), "integer") . "," .
-                $ilDB->quote($a_nr, "integer") . "," .
-                $ilDB->quote($a_indent, "integer") . "," .
-                $ilDB->quote($a_page_id, "integer") .
-                ")");
-        }
-    }
-
     public function isImportantPage(
         int $a_page_id
     ): bool {
@@ -525,92 +467,6 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         return false;
     }
 
-    public function removeImportantPage(
-        int $a_id
-    ): void {
-        $ilDB = $this->db;
-
-        $ilDB->manipulate(
-            "DELETE FROM il_wiki_imp_pages WHERE "
-            . " wiki_id = " . $ilDB->quote($this->getId(), "integer")
-            . " AND page_id = " . $ilDB->quote($a_id, "integer")
-        );
-
-        $this->fixImportantPagesNumbering();
-    }
-
-    public function saveOrderingAndIndentation(
-        array $a_ord,
-        array $a_indent
-    ): bool {
-        $ilDB = $this->db;
-
-        $ipages = self::_lookupImportantPagesList($this->getId());
-
-        foreach ($ipages as $k => $v) {
-            if (isset($a_ord[$v["page_id"]])) {
-                $ipages[$k]["ord"] = (int) $a_ord[$v["page_id"]];
-            }
-            if (isset($a_indent[$v["page_id"]])) {
-                $ipages[$k]["indent"] = (int) $a_indent[$v["page_id"]];
-            }
-        }
-        $ipages = ilArrayUtil::sortArray($ipages, "ord", "asc", true);
-
-        // fix indentation: no 2 is allowed after a 0
-        $c_indent = 0;
-        $fixed = false;
-        foreach ($ipages as $k => $v) {
-            if ($v["indent"] == 2 && $c_indent == 0) {
-                $ipages[$k]["indent"] = 1;
-                $fixed = true;
-            }
-            $c_indent = $ipages[$k]["indent"];
-        }
-
-        $ord = 10;
-        reset($ipages);
-        foreach ($ipages as $k => $v) {
-            $ilDB->manipulate(
-                $q = "UPDATE il_wiki_imp_pages SET " .
-                " ord = " . $ilDB->quote($ord, "integer") . "," .
-                " indent = " . $ilDB->quote($v["indent"], "integer") .
-                " WHERE wiki_id = " . $ilDB->quote($v["wiki_id"], "integer") .
-                " AND page_id = " . $ilDB->quote($v["page_id"], "integer")
-            );
-            $ord += 10;
-        }
-
-        return $fixed;
-    }
-
-    public function fixImportantPagesNumbering(): void
-    {
-        $ilDB = $this->db;
-
-        $ipages = self::_lookupImportantPagesList($this->getId());
-
-        // fix indentation: no 2 is allowed after a 0
-        $c_indent = 0;
-        foreach ($ipages as $k => $v) {
-            if ($v["indent"] == 2 && $c_indent == 0) {
-                $ipages[$k]["indent"] = 1;
-            }
-            $c_indent = $ipages[$k]["indent"];
-        }
-
-        $ord = 10;
-        foreach ($ipages as $k => $v) {
-            $ilDB->manipulate(
-                $q = "UPDATE il_wiki_imp_pages SET " .
-                " ord = " . $ilDB->quote($ord, "integer") .
-                ", indent = " . $ilDB->quote($v["indent"], "integer") .
-                " WHERE wiki_id = " . $ilDB->quote($v["wiki_id"], "integer") .
-                " AND page_id = " . $ilDB->quote($v["page_id"], "integer")
-            );
-            $ord += 10;
-        }
-    }
 
     //
     // Page TOC
@@ -698,9 +554,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         }
 
         // copy important pages
-        foreach (self::_lookupImportantPagesList($this->getId()) as $ip) {
-            $new_obj->addImportantPage($map[$ip["page_id"]], $ip["ord"], $ip["indent"]);
-        }
+        $imp_pages_manager = $this->domain->importantPage($this->getRefId());
+        $imp_pages_manager->cloneTo($new_obj->getId(), $map);
 
         // copy rating categories
         foreach (ilRatingCategory::getAllForObject($this->getId()) as $rc) {
@@ -719,11 +574,11 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      * is activated -> return true
      * @return bool true, if manual template selection needed
      */
-    public function getTemplateSelectionOnCreation(): bool
+    public function getTemplateSelectionOnCreation(string $lang = "-"): bool
     {
         $num = (int) $this->getEmptyPageTemplate();
         $wt = new ilWikiPageTemplate($this->getId());
-        $ts = $wt->getAllInfo(ilWikiPageTemplate::TYPE_NEW_PAGES);
+        $ts = $wt->getAllInfo(ilWikiPageTemplate::TYPE_NEW_PAGES, $lang);
         $num += count($ts);
         if ($num > 1) {
             return true;

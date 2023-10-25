@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Blog\StandardGUIRequest;
 
@@ -137,7 +137,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()) . ": " . // #15017
                     $posting->getTitle());
                 $tpl->setTitleIcon(
-                    ilUtil::getImagePath("icon_blog.svg"),
+                    ilUtil::getImagePath("standard/icon_blog.svg"),
                     $this->lng->txt("obj_blog")
                 ); // #12879
 
@@ -202,7 +202,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $may_delete_comments = ($this->checkAccess("contribute") &&
                 $ilSetting->get("comments_del_tutor", '1'));
 
-            $wtpl->setVariable("TOOLBAR", $toolbar->getHTML());
+            //$wtpl->setVariable("TOOLBAR", $toolbar->getHTML());
 
             $wtpl->setVariable("NOTES", $this->getNotesHTML(
                 $this->getBlogPosting(),

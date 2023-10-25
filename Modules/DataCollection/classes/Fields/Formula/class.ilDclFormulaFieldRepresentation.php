@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Math\Operators;
+use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Math\Functions;
+use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Token\Tokenizer;
+
 class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilTextInputGUI
@@ -45,8 +49,14 @@ class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
             $this->lng->txt('dcl_prop_expression'),
             'prop_' . ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION
         );
-        $operators = implode(', ', array_keys(ilDclExpressionParser::getOperators()));
-        $functions = implode(', ', ilDclExpressionParser::getFunctions());
+        $operators = implode(', ', array_map(
+            static fn(Operators $operator): string => $operator->value,
+            Tokenizer::$operators
+        ));
+        $functions = implode(', ', array_map(
+            static fn(Functions $function): string => $function->value,
+            Tokenizer::$functions
+        ));
         $subitem->setInfo(sprintf(
             $this->lng->txt('dcl_prop_expression_info'),
             $operators,

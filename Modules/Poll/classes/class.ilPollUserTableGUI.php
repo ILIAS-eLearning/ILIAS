@@ -94,7 +94,7 @@ class ilPollUserTableGUI extends ilTable2GUI
     {
         $rendered_ok = $this->renderer->render(
             $this->factory->symbol()->icon()->custom(
-                ilUtil::getImagePath('icon_ok.svg'),
+                ilUtil::getImagePath('standard/icon_ok.svg'),
                 $this->lng->txt('poll_answer')
             )
         );

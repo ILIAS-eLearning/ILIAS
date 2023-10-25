@@ -117,7 +117,7 @@ class ilBuddySystemNotification
             $notification->setLinks($links);
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
-            $notification->setIconPath('templates/default/images/icon_usr.svg');
+            $notification->setIconPath('templates/default/images/standard/icon_usr.svg');
             $notification->setHandlerParam('mail.sender', (string) ANONYMOUS_USER_ID);
             $notification->setIdentification(new NotificationIdentification(
                 ContactNotificationProvider::NOTIFICATION_TYPE,

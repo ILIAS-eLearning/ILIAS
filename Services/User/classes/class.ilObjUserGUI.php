@@ -38,8 +38,6 @@ class ilObjUserGUI extends ilObjectGUI
     private ilHelpGUI $help;
     private ilTabsGUI $tabs;
     private ilMailMimeSenderFactory $mail_sender_factory;
-    private UIFactory $ui_factory;
-    private Renderer $ui_renderer;
 
     private FileUpload $uploads;
     private ResourceStorageServices $irss;
@@ -66,9 +64,7 @@ class ilObjUserGUI extends ilObjectGUI
         $a_data,
         int $a_id,
         bool $a_call_by_reference = false,
-        bool $a_prepare_output = true,
-        UIFactory $ui_factory = null,
-        Renderer $ui_renderer = null
+        bool $a_prepare_output = true
     ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -78,16 +74,6 @@ class ilObjUserGUI extends ilObjectGUI
         $this->mail_sender_factory = $DIC->mail()->mime()->senderFactory();
 
         $this->user_profile = new ilUserProfile();
-
-        if ($ui_factory === null) {
-            $ui_factory = $DIC['ui.factory'];
-        }
-        $this->ui_factory = $ui_factory;
-
-        if ($ui_renderer === null) {
-            $ui_renderer = $DIC['ui.renderer'];
-        }
-        $this->ui_renderer = $ui_renderer;
 
         $this->default_layout_and_style = $DIC['ilClientIniFile']->readVariable('layout', 'skin') .
                 ':' . $DIC['ilClientIniFile']->readVariable('layout', 'style');
@@ -152,7 +138,7 @@ class ilObjUserGUI extends ilObjectGUI
             $this->tpl->setTitle('[' . $this->object->getLogin() . '] ' . $this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
             $this->tpl->setTitleIcon(
-                ilUtil::getImagePath('icon_' . $this->object->getType() . '.svg'),
+                ilUtil::getImagePath('standard/icon_' . $this->object->getType() . '.svg'),
                 $this->lng->txt('obj_' . $this->object->getType())
             );
         } else {
@@ -1095,11 +1081,13 @@ class ilObjUserGUI extends ilObjectGUI
         $acfrom = new ilDateTimeInputGUI($this->lng->txt('crs_from'), 'time_limit_from');
         $acfrom->setRequired(true);
         $acfrom->setShowTime(true);
+        $acfrom->setMinuteStepSize(1);
         $op2->addSubItem($acfrom);
 
         $acto = new ilDateTimeInputGUI($this->lng->txt('crs_to'), 'time_limit_until');
         $acto->setRequired(true);
         $acto->setShowTime(true);
+        $acto->setMinuteStepSize(1);
         $op2->addSubItem($acto);
 
         $this->form_gui->addItem($radg);
@@ -1134,6 +1122,7 @@ class ilObjUserGUI extends ilObjectGUI
             'title' => isset($settings['require_title']) && $settings['require_title']
         ];
         foreach ($fields as $field => $req) {
+            $max_len = $field === 'title' ? 32 : 128;
             if ($this->isSettingChangeable($field)) {
                 // #18795
                 $caption = ($field == 'title')
@@ -1141,7 +1130,7 @@ class ilObjUserGUI extends ilObjectGUI
                     : $field;
                 $inp = new ilTextInputGUI($this->lng->txt($caption), $field);
                 $inp->setSize(32);
-                $inp->setMaxLength(32);
+                $inp->setMaxLength($max_len);
                 $inp->setRequired($req);
                 $this->form_gui->addItem($inp);
             }
@@ -1218,8 +1207,8 @@ class ilObjUserGUI extends ilObjectGUI
 
         if ($this->isSettingChangeable('email')) {
             $em = new ilEMailInputGUI($this->lng->txt('email'), 'email');
-            $em->setRequired(isset($settings['require_email']) &&
-                $settings['require_email']);
+            $em->setRequired(isset($settings['require_email']) && $settings['require_email']);
+            $em->setMaxLength(128);
             $this->form_gui->addItem($em);
         }
 

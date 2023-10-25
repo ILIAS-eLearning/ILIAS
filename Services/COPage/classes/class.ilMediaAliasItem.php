@@ -945,4 +945,12 @@ class ilMediaAliasItem
             $this->definesTextRepresentation() ||
             $this->definesParameters());
     }
+
+    public function getModel(): ?stdClass
+    {
+        $model = new \stdClass();
+        $model->areas = $this->getMapAreas();
+        $model->caption = $this->getCaption();
+        return $model;
+    }
 }

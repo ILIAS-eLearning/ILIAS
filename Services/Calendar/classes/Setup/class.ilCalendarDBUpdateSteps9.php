@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +14,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Tim Schmitz <schmitz@leifos.de>
@@ -39,5 +38,28 @@ class ilCalendarDBUpdateSteps9 implements ilDatabaseUpdateSteps
         if (!$this->db->indexExistsByFields('cal_entries', ['enda'])) {
             $this->db->addIndex('cal_entries', ['enda'], 'i4');
         }
+    }
+
+    public function step_2(): void
+    {
+        // Removes is_milestones column from cal_entries
+        if($this->db->tableExists('cal_entries')
+            && $this->db->tableColumnExists('cal_entries', 'is_milestone')) {
+            $this->db->dropTableColumn('cal_entries', 'is_milestone');
+        }
+        // Removes completion column from cal_entries
+        if($this->db->tableExists('cal_entries')
+            && $this->db->tableColumnExists('cal_entries', 'completion')) {
+            $this->db->dropTableColumn('cal_entries', 'completion');
+        }
+        // Deletes table cal_entry_responsible
+        if($this->db->tableExists('cal_entry_responsible')) {
+            $this->db->dropTable('cal_entry_responsible');
+        }
+
+        $query = 'delete from settings where ' .
+            'keyword = ' . $this->db->quote('enable_grp_milestones', ilDBConstants::T_TEXT) . ' ' .
+            'and module = ' . $this->db->quote('calendar', ilDBConstants::T_TEXT);
+        $this->db->manipulate($query);
     }
 }

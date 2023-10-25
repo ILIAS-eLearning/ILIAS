@@ -1,205 +1,190 @@
 <?php
 
-declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+declare(strict_types=1);
+
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\Data\URI;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Implementation\Component\Table\Data;
+use ILIAS\UI\Implementation\Component\ViewControl\Pagination;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\DATA\Factory as DataFactory;
+use ILIAS\UI\URLBuilder;
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  * Description of ilDidacticTemplateSettingsTableGUI
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplates
  */
-class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
+class ilDidacticTemplateSettingsTableGUI
 {
-    private $ref_id;
+    protected ilAccessHandler $access;
+    protected UIRenderer $renderer;
+    protected UIFactory $ui_factory;
+    protected DataFactory $data_factory;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected HTTPServices $http;
+    protected ilDidacticTemplateSettingsGUI $didactic_template_settings_gui;
+    protected RefineryFactory $refinery;
+    protected int $ref_id;
+    protected int $page_size;
 
-    private ilAccessHandler $access;
-    private UIRenderer $renderer;
-    private UIImplementationFactory $uiFactory;
-
-    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $ref_id)
-    {
+    public function __construct(
+        ilDidacticTemplateSettingsGUI $didactic_template_settings_gui,
+        int $ref_id
+    ) {
         global $DIC;
         $this->ref_id = $ref_id;
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
         $this->renderer = $DIC->ui()->renderer();
-        $this->uiFactory = $DIC->ui()->factory();
-
-        $this->setId('tbl_didactic_tpl_settings');
-
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->didactic_template_settings_gui = $didactic_template_settings_gui;
+        $this->lng = $DIC->language();
         $this->access = $DIC->access();
+        $this->ctrl = $DIC->ctrl();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->data_factory = new DataFactory();
+        $this->page_size = 20;
     }
 
-    /**
-     * Init table
-     */
-    public function init(): void
-    {
-        $this->addColumn('', 'f', '1px');
+    protected function createTable(
+        ilDidacticTemplateSettingsTableDataRetrieval $data_retrieval
+    ): Data {
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule('meta');
-        $this->addColumn($this->lng->txt('icon'), '', '5%');
-        $this->addColumn($this->lng->txt('search_title_description'), 'title', '30%');
-        $this->addColumn($this->lng->txt('didactic_applicable_for'), 'applicable', '20%');
-        $this->addColumn($this->lng->txt('didactic_scope'), 'scope', '20%');
-        $this->addColumn($this->lng->txt('active'), 'active', '10%');
-        $this->addColumn($this->lng->txt('actions'), '', '15%');
 
-        $this->setTitle($this->lng->txt('didactic_available_templates'));
+        $columns = [
+            'icon' => $this->ui_factory->table()->column()->statusIcon(($this->lng->txt('icon')))
+                ->withIsSortable(false)
+                ->withIsOptional(true),
+            'title' => $this->ui_factory->table()->column()->text($this->lng->txt('search_title_description')),
+            'applicable' => $this->ui_factory->table()->column()->text($this->lng->txt('didactic_applicable_for')),
+            'scope' => $this->ui_factory->table()->column()->text($this->lng->txt('didactic_scope')),
+            'enabled' => $this->ui_factory->table()->column()->statusIcon($this->lng->txt('active'))
+        ];
 
-        if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            $this->addMultiCommand('activateTemplates', $this->lng->txt('activate'));
-            $this->addMultiCommand('deactivateTemplates', $this->lng->txt('deactivate'));
-            $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
-
-            $this->setSelectAllCheckbox('tpls');
-        }
-        $this->setRowTemplate('tpl.didactic_template_overview_row.html', 'Services/DidacticTemplate');
-        $this->setDefaultOrderField('title');
-        $this->setDefaultOrderDirection('asc');
-        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
-    }
-
-    /**
-     * Parse didactic templates
-     */
-    public function parse(ilDidacticTemplateSettingsTableFilter $filter): void
-    {
-        $tpls = ilDidacticTemplateSettings::getInstance();
-        $tpls->readInactive();
-        $templates = $filter->filter($tpls->getTemplates());
-
-        $counter = 0;
-        $data = [];
-        foreach ($templates as $tpl) {
-            /* @var $tpl ilDidacticTemplateSetting */
-            $data[$counter]['id'] = $tpl->getId();
-            $data[$counter]['icon'] = $tpl->getIconHandler()->getAbsolutePath();
-            $data[$counter]['title'] = $tpl->getPresentationTitle();
-            $data[$counter]['description'] = $tpl->getPresentationDescription();
-            $data[$counter]['info'] = $tpl->getInfo();
-            $data[$counter]['enabled'] = (int) $tpl->isEnabled();
-            $data[$counter]['assignments'] = $tpl->getAssignments();
-
-            $atxt = '';
-            foreach ($tpl->getAssignments() as $obj_type) {
-                $atxt .= ($this->lng->txt('objs_' . $obj_type) . '<br/>');
-            }
-            $data[$counter]['applicable'] = $atxt;
-            $data[$counter]['automatic_generated'] = $tpl->isAutoGenerated();
-            $data[$counter]['scope'] = (array) $tpl->getEffectiveFrom();
-
-            ++$counter;
-        }
-
-        $this->setData($data);
-    }
-
-    protected function fillRow(array $a_set): void
-    {
-        if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            $this->tpl->setVariable('VAL_ID', $a_set['id']);
-        }
-
-        $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
-        $this->tpl->setVariable('VAL_DESC', $a_set['description']);
-
-        if (($a_set['icon'] ?? '') !== '') {
-            $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
-            foreach ((array) $a_set['assignments'] as $obj_type) {
-                $this->tpl->setVariable('ICON_ALT', $this->lng->txt('objs_' . $obj_type));
-            }
-        }
-
-        foreach ((array) explode("\n", $a_set['info']) as $info) {
-            $trimmed_info = trim($info);
-            if ($trimmed_info) {
-                $this->tpl->setCurrentBlock('info');
-                $this->tpl->setVariable('VAL_INFO', $trimmed_info);
-                $this->tpl->parseCurrentBlock();
-            }
-        }
-
-        if ($a_set['automatic_generated']) {
-            $this->tpl->setVariable("VAL_AUTOMATIC_GENERATED", $this->lng->txt("didactic_auto_generated"));
-        }
-
-        $this->tpl->setVariable(
-            'VAL_IMAGE',
-            $a_set['enabled'] ?
-                ilUtil::getImagePath('icon_ok.svg') :
-                ilUtil::getImagePath('icon_not_ok.svg')
-        );
-        $this->tpl->setVariable(
-            'VAL_ENABLED_TXT',
-            $a_set['enabled'] ?
-                $this->lng->txt('active') :
-                $this->lng->txt('inactive')
-        );
-
-        $atxt = '';
-        foreach ((array) $a_set['assignments'] as $obj_type) {
-            $atxt .= ($this->lng->txt('objs_' . $obj_type) . '<br/>');
-        }
-        $this->tpl->setVariable('VAL_APPLICABLE', $atxt);
-
-        $this->ctrl->setParameterByClass(
-            get_class($this->getParentObject()),
-            'tplid',
-            $a_set['id']
-        );
-
-        if (count($a_set['scope'])) {
-            $this->tpl->setCurrentBlock('scope_txt');
-            $this->tpl->setVariable('LOCAL_OR_GLOBAL', $this->lng->txt('didactic_scope_list_header'));
-            $this->tpl->parseCurrentBlock();
-
-            foreach ($a_set['scope'] as $ref_id) {
-                $this->tpl->setCurrentBlock('scope_entry');
-                $this->tpl->setVariable('LINK_HREF', ilLink::_getLink($ref_id));
-                $this->tpl->setVariable('LINK_NAME', ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)));
-                $this->tpl->parseCurrentBlock();
-            }
-        } else {
-            $this->tpl->setCurrentBlock('scope_txt');
-            $this->tpl->setVariable(
-                'LOCAL_OR_GLOBAL',
-                isset($a_set['local']) ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global')
-            );
-            $this->tpl->parseCurrentBlock();
-        }
-
-        if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            $dropDownItems = array(
-                $this->uiFactory->button()->shy(
-                    $this->lng->txt('settings'),
-                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editTemplate')
-                ),
-                $this->uiFactory->button()->shy(
-                    $this->lng->txt('copy'),
-                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'copyTemplate')
-                ),
-                $this->uiFactory->button()->shy(
-                    $this->lng->txt('didactic_do_export'),
-                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
+        /**
+         * @var URLBuilder $url_builder
+         * @var URLBuilderToken $action_parameter_token
+         * @var URLBuilderToken $row_id_token
+         */
+        $query_params_namespace = ['didactic_template'];
+        $url_builder = new URLBuilder(
+            new URI(
+                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                    ilDidacticTemplateSettingsGUI::class,
+                    'handleTableActions'
                 )
-            );
-            $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
-                    ->withLabel($this->lng->txt("actions"));
-            $this->tpl->setVariable('ACTION_DROPDOWN', $this->renderer->render($dropDown));
-        } else {
-            //don't use dropdown if just one item is given ...
-            // Export
-            $this->tpl->setCurrentBlock('action_link');
-            $this->tpl->setVariable(
-                'A_LINK',
-                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
-            );
-            $this->tpl->setVariable('A_TEXT', $this->lng->txt('didactic_do_export'));
-            $this->tpl->parseCurrentBlock();
+            )
+        );
+        list($url_builder, $action_parameter_token, $row_id_token) = $url_builder->acquireParameters(
+            $query_params_namespace,
+            'table_action',
+            'template_ids'
+        );
+
+        $actions = [];
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
+            $actions = [
+                'settings' => $this->ui_factory->table()->action()->single(
+                    $this->lng->txt('settings'),
+                    $url_builder->withParameter($action_parameter_token, 'editTemplate'),
+                    $row_id_token
+                ),
+                'copy' => $this->ui_factory->table()->action()->single(
+                    $this->lng->txt('copy'),
+                    $url_builder->withParameter($action_parameter_token, 'copyTemplate'),
+                    $row_id_token
+                ),
+                'didactic_do_export' => $this->ui_factory->table()->action()->single(
+                    $this->lng->txt('didactic_do_export'),
+                    $url_builder->withParameter($action_parameter_token, 'exportTemplate'),
+                    $row_id_token
+                ),
+                'confirmDelete' => $this->ui_factory->table()->action()->multi(
+                    $this->lng->txt('delete'),
+                    $url_builder->withParameter($action_parameter_token, 'confirmDelete'),
+                    $row_id_token
+                )
+                    ->withAsync(),
+                'activateTemplates' => $this->ui_factory->table()->action()->multi(
+                    $this->lng->txt('activate'),
+                    $url_builder->withParameter($action_parameter_token, 'activateTemplates'),
+                    $row_id_token
+                ),
+                'deactivateTemplates' => $this->ui_factory->table()->action()->multi(
+                    $this->lng->txt('deactivate'),
+                    $url_builder->withParameter($action_parameter_token, 'deactivateTemplates'),
+                    $row_id_token
+                )
+            ];
         }
+
+        return $this->ui_factory->table()->data(
+            $this->lng->txt('didactic_available_templates'),
+            $columns,
+            $data_retrieval
+        )
+            ->withActions($actions)
+            ->withRequest($this->http->request())
+            ->withRange($this->createRange());
+    }
+
+    protected function createRange(): Range
+    {
+        $parameter_name = 'page';
+        $current_page = 0;
+        if ($this->http->wrapper()->query()->has($parameter_name)) {
+            $current_page = $this->http->wrapper()->query()->retrieve(
+                $parameter_name,
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return new Range($current_page, $this->page_size);
+    }
+
+    protected function createPagination(
+        ilDidacticTemplateSettingsTableDataRetrieval $data_retrieval
+    ): Pagination {
+        $range = $this->createRange();
+        $parameter_name = 'page';
+        return $this->ui_factory->viewControl()->pagination()
+            ->withTargetURL($this->http->request()->getRequestTarget(), $parameter_name)
+            ->withTotalEntries($data_retrieval->getTotalRowCount(null, null))
+            ->withPageSize($range->getLength())
+            ->withMaxPaginationButtons(10)
+            ->withCurrentPage($range->getStart());
+    }
+
+    public function getHTML(
+        ilDidacticTemplateSettingsTableDataRetrieval $data_retrieval
+    ): string {
+        return $this->renderer->render(
+            [
+                $this->createPagination($data_retrieval),
+                $this->createTable($data_retrieval)
+            ]
+        );
     }
 }

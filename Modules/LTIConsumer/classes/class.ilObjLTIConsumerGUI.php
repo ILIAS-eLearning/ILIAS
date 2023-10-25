@@ -412,7 +412,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $ltiMessageHint = (string) $ref_id . ":" . CLIENT_ID . ":" . base64_encode($redirectUrl);
             $tplLogin = new ilTemplate("tpl.lti_initial_login.html", true, true, "Modules/LTIConsumer");
             $tplLogin->setVariable("LTI_INITIAL_LOGIN_ACTION", $provider->getInitiateLogin());
-            $tplLogin->setVariable("ISS", ILIAS_HTTP_PATH);
+            $tplLogin->setVariable("ISS", ilObjLTIConsumer::getIliasHttpPath());
             $tplLogin->setVariable("TARGET_LINK_URL", $provider->getProviderUrl());
             $tplLogin->setVariable("LOGIN_HINT", $userIdLTI);
             $tplLogin->setVariable("LTI_MESSAGE_HINT", $ltiMessageHint);
@@ -624,7 +624,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
             $return->addHeaderIcon(
                 'cert_icon',
-                ilUtil::getImagePath('icon_cert.svg'),
+                ilUtil::getImagePath('standard/icon_cert.svg'),
                 $DIC->language()->txt('download_certificate'),
                 null,
                 null,
@@ -922,61 +922,61 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             );
         }
 
-//        if (defined('DEVMODE') && DEVMODE) {
-//            $DIC->tabs()->addTab(
-//                'debug',
-//                'DEBUG',
-//                $DIC->ctrl()->getLinkTarget($this, 'debug')
-//            );
-//        }
+        //        if (defined('DEVMODE') && DEVMODE) {
+        //            $DIC->tabs()->addTab(
+        //                'debug',
+        //                'DEBUG',
+        //                $DIC->ctrl()->getLinkTarget($this, 'debug')
+        //            );
+        //        }
     }
 
-//    protected function debug(): void
-//    {
-//        global $DIC;
-//        /* @var \ILIAS\DI\Container $DIC */
-//
-//        $DIC->tabs()->activateTab('debug');
-//
-//        $filter = new ilCmiXapiStatementsReportFilter();
-//        $filter->setActivityId($this->object->getActivityId());
-//
-//        $aggregateEndPointUrl = str_replace(
-//            'data/xAPI',
-//            'api/statements/aggregate',
-//            $this->object->getProvider()->getXapiLaunchUrl() // should be named endpoint not launch url
-//        );
-//
-//        $linkBuilder = new ilCmiXapiHighscoreReportLinkBuilder(
-//            $this->object->getId(),
-//            $aggregateEndPointUrl,
-//            $filter
-//        );
-//
-//        $basicAuth = ilCmiXapiLrsType::buildBasicAuth(
-//            $this->object->getProvider()->getXapiLaunchKey(),
-//            $this->object->getProvider()->getXapiLaunchSecret()
-//        );
-//
-//        $request = new ilCmiXapiHighscoreReportRequest(
-//            $basicAuth,
-//            $linkBuilder
-//        );
-//
-//        try {
-//            $report = $request->queryReport($this->object->getId());
-//
-//            $DIC->ui()->mainTemplate()->setContent(
-//                $report->getResponseDebug()
-//            );
-//
-//            //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
-//            $DIC->ui()->mainTemplate()->setOnScreenMessage('info', $linkBuilder->getPipelineDebug());
-//            $DIC->ui()->mainTemplate()->setOnScreenMessage('question', '<pre>' . print_r($report->getTableData(), true) . '</pre>');
-//        } catch (Exception $e) {
-//            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
-//        }
-//    }
+    //    protected function debug(): void
+    //    {
+    //        global $DIC;
+    //        /* @var \ILIAS\DI\Container $DIC */
+    //
+    //        $DIC->tabs()->activateTab('debug');
+    //
+    //        $filter = new ilCmiXapiStatementsReportFilter();
+    //        $filter->setActivityId($this->object->getActivityId());
+    //
+    //        $aggregateEndPointUrl = str_replace(
+    //            'data/xAPI',
+    //            'api/statements/aggregate',
+    //            $this->object->getProvider()->getXapiLaunchUrl() // should be named endpoint not launch url
+    //        );
+    //
+    //        $linkBuilder = new ilCmiXapiHighscoreReportLinkBuilder(
+    //            $this->object->getId(),
+    //            $aggregateEndPointUrl,
+    //            $filter
+    //        );
+    //
+    //        $basicAuth = ilCmiXapiLrsType::buildBasicAuth(
+    //            $this->object->getProvider()->getXapiLaunchKey(),
+    //            $this->object->getProvider()->getXapiLaunchSecret()
+    //        );
+    //
+    //        $request = new ilCmiXapiHighscoreReportRequest(
+    //            $basicAuth,
+    //            $linkBuilder
+    //        );
+    //
+    //        try {
+    //            $report = $request->queryReport($this->object->getId());
+    //
+    //            $DIC->ui()->mainTemplate()->setContent(
+    //                $report->getResponseDebug()
+    //            );
+    //
+    //            //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
+    //            $DIC->ui()->mainTemplate()->setOnScreenMessage('info', $linkBuilder->getPipelineDebug());
+    //            $DIC->ui()->mainTemplate()->setOnScreenMessage('question', '<pre>' . print_r($report->getTableData(), true) . '</pre>');
+    //        } catch (Exception $e) {
+    //            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
+    //        }
+    //    }
 
     protected function addLocatorItems(): void
     {
@@ -1037,7 +1037,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         /* @var ilErrorHandling $ilErr */
 
         if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool("read")) {
-            $ilErr->raiseError($DIC->language()->txt("msg_no_perm_read"));
+            $ilErr->raiseError($DIC->language()->txt("msg_no_perm_read"), $ilErr->MESSAGE);
         }
 
         $this->handleAvailablityMessage();

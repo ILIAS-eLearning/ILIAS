@@ -28,6 +28,8 @@ declare(strict_types=1);
  */
 class ilTestPlayerConfirmationModal
 {
+    private \ILIAS\DI\UIServices $ui;
+
     /**
      * @var string
      */
@@ -54,7 +56,7 @@ class ilTestPlayerConfirmationModal
     protected $confirmationCheckboxLabel = '';
 
     /**
-     * @var ilLinkButton[]
+     * @var \ILIAS\UI\Component\Button\Standard[]
      */
     protected $buttons = array();
 
@@ -62,6 +64,12 @@ class ilTestPlayerConfirmationModal
      * @var ilHiddenInputGUI[]
      */
     protected $parameters = array();
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->ui = $DIC->ui();
+    }
 
     /**
      * @return string
@@ -144,7 +152,7 @@ class ilTestPlayerConfirmationModal
     }
 
     /**
-     * @return ilLinkButton[]
+     * @return \ILIAS\UI\Component\Button\Standard[]
      */
     public function getButtons(): array
     {
@@ -152,9 +160,9 @@ class ilTestPlayerConfirmationModal
     }
 
     /**
-     * @param ilLinkButton $button
+     * @param \ILIAS\UI\Component\Button\Standard|ilLinkButton $button
      */
-    public function addButton(ilLinkButton $button)
+    public function addButton(\ILIAS\UI\Component\Button\Standard|\ILIAS\UI\Implementation\Component\Button\Primary|ilLinkButton $button)
     {
         $this->buttons[] = $button;
     }
@@ -205,7 +213,13 @@ class ilTestPlayerConfirmationModal
 
         foreach ($this->getButtons() as $button) {
             $tpl->setCurrentBlock('buttons');
-            $tpl->setVariable('BUTTON', $button->render());
+            if ($button instanceof \ILIAS\UI\Component\Button\Standard || $button instanceof \ILIAS\UI\Implementation\Component\Button\Primary) {
+                $button_str = $this->ui->renderer()->render($button);
+            } elseif ($button instanceof ilLinkButton) {
+                $button_str = $button->render();
+            }
+
+            $tpl->setVariable('BUTTON', $button_str);
             $tpl->parseCurrentBlock();
         }
 
@@ -224,19 +238,5 @@ class ilTestPlayerConfirmationModal
         $modal->setHeading($this->getHeaderText());
         $modal->setBody($this->buildBody());
         return $modal->getHTML();
-    }
-
-    /**
-     * @param string $buttonId
-     * @return ilLinkButton
-     */
-    public function buildModalButtonInstance($buttonId): ilLinkButton
-    {
-        $button = ilLinkButton::getInstance();
-
-        $button->setUrl('#');
-        $button->setId($buttonId);
-
-        return $button;
     }
 }

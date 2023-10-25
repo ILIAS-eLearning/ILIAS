@@ -25,6 +25,21 @@ declare(strict_types=1);
  */
 class ilMDClassification extends ilMDBase
 {
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private const PURPOSE_TRANSLATION = [
+        'discipline' => 'Discipline',
+        'idea' => 'Idea',
+        'prerequisite' => 'Prerequisite',
+        'educational objective' => 'EducationalObjective',
+        'accessibility restrictions' => 'AccessibilityRestrictions',
+        'educational level' => 'EducationalLevel',
+        'skill level' => 'SkillLevel',
+        'security level' => 'SecurityLevel',
+        'competency' => 'Competency'
+    ];
+
     private string $purpose = '';
     private string $description = '';
     private ?ilMDLanguageItem $description_language = null;
@@ -182,11 +197,19 @@ class ilMDClassification extends ilMDBase
      */
     public function __getFields(): array
     {
+        /**
+         * Compatibility fix for legacy MD classes for new db tables
+         */
+        $purpose = (string) array_search(
+            $this->getPurpose(),
+            self::PURPOSE_TRANSLATION
+        );
+
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
             'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
-            'purpose' => array('text', $this->getPurpose()),
+            'purpose' => array('text', $purpose),
             'description' => array('text', $this->getDescription()),
             'description_language' => array('text', $this->getDescriptionLanguageCode())
         );
@@ -200,6 +223,13 @@ class ilMDClassification extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                /**
+                 * Compatibility fix for legacy MD classes for new db tables
+                 */
+                if (key_exists($row->purpose ?? '', self::PURPOSE_TRANSLATION)) {
+                    $row->purpose = self::PURPOSE_TRANSLATION[$row->purpose ?? ''];
+                }
+
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);

@@ -37,7 +37,7 @@ class ilWACException extends ilException
     /**
      * @var array
      */
-    protected static $messages = array(
+    protected static array $messages = [
         self::CODE_NO_TYPE => 'No type for Path-Signing selected',
         self::WRONG_PATH_TYPE => 'This path-type cannot be signed',
         self::CODE_NO_PATH => 'No path for checking available',
@@ -48,7 +48,8 @@ class ilWACException extends ilException
         self::INITIALISATION_FAILED => 'An error occured during your request. Please reload the page.',
         self::DATA_DIR_NON_WRITEABLE => 'The SALT cannot be written to your /data directory. Please check the write permissions on the webserver.',
         self::MAX_LIFETIME => 'You can only only use lifetimes shorter than ilWACSignedPath::MAX_LIFETIME',
-    );
+        self::ACCESS_DENIED_NO_LOGIN => 'No Login found',
+    ];
 
 
     /**
@@ -57,28 +58,10 @@ class ilWACException extends ilException
      */
     public function __construct($code, $additional_message = '')
     {
-        $message = self::$messages[$code];
-
-        if ($this->isNonEmptyString($additional_message)) {
-            $message = "\"$this->message\" with additional message: \"$additional_message\"";
+        $message = self::$messages[$code] ?? 'Unknown error';
+        if (!empty($additional_message)) {
+            $message .= ': ' . $additional_message;
         }
-
-        //ilWACLog::getInstance()->write('Exception in ' . $this->getFile() . ':' . $this->getLine() . ': ' . $message);
         parent::__construct($message, $code);
-    }
-
-
-    /**
-     * Checks if the given text is empty or not.
-     *
-     * @param string $text The text which should be checked.
-     *
-     * @return bool true if the string is not empty, otherwise false.
-     */
-    private function isNonEmptyString(string $text): bool
-    {
-        assert(is_string($text));
-
-        return strcmp($text, '') !== 0;
     }
 }

@@ -698,27 +698,6 @@ class ilObjExercise extends ilObject
         $excel->sendToClient($exc_name);
     }
 
-    // Send feedback file notification to user
-    public function sendFeedbackFileNotification(
-        string $a_feedback_file,
-        array $user_ids,
-        int $a_ass_id,
-        bool $a_is_text_feedback = false
-    ): void {
-        $type = $a_is_text_feedback
-            ? ilExerciseMailNotification::TYPE_FEEDBACK_TEXT_ADDED
-            : ilExerciseMailNotification::TYPE_FEEDBACK_FILE_ADDED;
-
-        $not = new ilExerciseMailNotification();
-        $not->setType($type);
-        $not->setAssignmentId($a_ass_id);
-        $not->setObjId($this->getId());
-        if ($this->getRefId() > 0) {
-            $not->setRefId($this->getRefId());
-        }
-        $not->setRecipients($user_ids);
-        $not->send();
-    }
 
     // Checks whether completion by submission is enabled or not
     public function isCompletionBySubmissionEnabled(): bool

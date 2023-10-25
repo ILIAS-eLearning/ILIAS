@@ -810,12 +810,14 @@ class ilTestTabsManager
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_EDIT_INTRODUCTION_PAGE,
             $this->ctrl->getLinkTargetByClass(ilTestPageGUI::class, 'preview'),
+            ['iltestpagegui']
         );
 
         $this->ctrl->setParameterByClass(ilTestPageGUI::class, 'page_type', 'concludingremarkspage');
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE,
             $this->ctrl->getLinkTargetByClass(ilTestPageGUI::class, 'preview'),
+            ['iltestpagegui']
         );
         $this->ctrl->clearParameterByClass(ilTestPageGUI::class, 'page_type');
 

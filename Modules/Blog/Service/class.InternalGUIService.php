@@ -45,13 +45,21 @@ class InternalGUIService
         $this->initGUIServices($DIC);
     }
 
-    /*public function administration() : Administration\GUIService
+    public function navigation(): Navigation\GUIService
     {
-        return new Administration\GUIService(
+        return new Navigation\GUIService(
             $this->domain_service,
             $this
         );
-    }*/
+    }
+
+    public function presentation(): Presentation\GUIService
+    {
+        return new Presentation\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
 
     public function standardRequest(): StandardGUIRequest
     {

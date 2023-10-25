@@ -47,7 +47,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $ui_renderer = $DIC['ui.renderer'];
         $this->alert_icon = $ui_renderer->render(
             $ui_factory->symbol()->icon()
-                ->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning"))
+                ->custom(ilUtil::getImagePath("standard/icon_alert.svg"), $this->lng->txt("warning"))
                 ->withSize('medium')
         );
     }
@@ -239,12 +239,12 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 
     protected function getExpandedImageURL(): string
     {
-        return ilUtil::getImagePath("tree_exp.svg");
+        return ilUtil::getImagePath("nav/tree_exp.svg");
     }
 
     protected function getNotExpandedImageURL(): string
     {
-        return ilUtil::getImagePath("tree_col.svg");
+        return ilUtil::getImagePath("nav/tree_col.svg");
     }
 
     protected function getTitleAndIconTarget(ilPRGProgress $progress): ?string

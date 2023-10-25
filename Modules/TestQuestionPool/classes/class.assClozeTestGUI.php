@@ -42,7 +42,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 {
     public const OLD_CLOZE_TEST_UI = false;
 
-    public const JS_INSERT_GAP_CODE_AT_CARET = <<<JS
+  public const JS_INSERT_GAP_CODE_AT_CARET = <<<JS
     jQuery.fn.extend({
         insertGapCodeAtCaret: function() {
             return this.each(function(i) {
@@ -91,6 +91,8 @@ JS;
     private Container $dic;
     private Factory $refinery;
     private ArrayBasedRequestWrapper $post;
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
 
     /**
     * assClozeTestGUI constructor
@@ -102,6 +104,8 @@ JS;
         parent::__construct();
         global $DIC;
         $this->dic = $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
         $this->refinery = $this->dic->refinery();
         $this->post = $this->dic->http()->wrapper()->post();
 
@@ -129,10 +133,9 @@ JS;
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            $cloze_text = $this->object->getHtmlQuestionContentPurifier()->purify(
+            $cloze_text = $this->removeIndizesFromGapText(
                 $this->request->raw('cloze_text')
             );
-            $cloze_text = $this->removeIndizesFromGapText($cloze_text);
 
             $this->object->setQuestion(
                 $this->request->raw('question')
@@ -148,9 +151,6 @@ JS;
             return 0;
         }
 
-        $cloze_text = $this->applyIndizesToGapText(
-            $this->request->raw('cloze_text')
-        );
         return 1;
     }
 
@@ -282,8 +282,8 @@ JS;
             ) {
                 $assClozeGapCombinationObject->saveGapCombinationToDb(
                     $this->object->getId(),
-                    ilArrayUtil::stripSlashesRecursive($_POST['gap_combination']),
-                    ilArrayUtil::stripSlashesRecursive($_POST['gap_combination_values'])
+                    $_POST['gap_combination'],
+                    $_POST['gap_combination_values']
                 );
             }
         }
@@ -384,7 +384,7 @@ JS;
 
         // questiontext
         $question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-        $question->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion()));
+        $question->setValue($this->object->getQuestion());
         $question->setRequired(true);
         $question->setRows(10);
         $question->setCols(80);
@@ -432,30 +432,38 @@ JS;
         $tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", true, true, "Modules/TestQuestionPool");
 
         $button = new ilCustomInputGUI('&nbsp;', '');
-        $action_button = ilSplitButtonGUI::getInstance();
 
-        $sb_text_gap = ilJsLinkButton::getInstance();
-        $sb_text_gap->setCaption('text_gap');
-        $sb_text_gap->setName('gapbutton');
-        $sb_text_gap->setId('gaptrigger_text');
-        $sb_text_gap->setTarget('');
-        $action_button->setDefaultButton($sb_text_gap);
+        $button_text_gap = $this->ui_factory->button()->standard($this->lng->txt('text_gap'), '#')
+                                            ->withOnLoadCode(
+                                                function ($id) {
+                                                    return '
+                                                    var el = document.getElementById("' . $id . '");
+                                                    el.setAttribute("data-id", "gaptrigger_text");
+                                                    ';
+                                                });
 
-        $sb_sel_gap = ilJsLinkButton::getInstance();
-        $sb_sel_gap->setCaption('select_gap');
-        $sb_sel_gap->setName('gapbutton_select');
-        $sb_sel_gap->setId('gaptrigger_select');
-        $sb_sel_gap->setTarget('');
-        $action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($sb_sel_gap));
+        $button_select_gap = $this->ui_factory->button()->standard($this->lng->txt('select_gap'), '#')
+                                            ->withOnLoadCode(
+                                                function ($id) {
+                                                    return '
+                                                    var el = document.getElementById("' . $id . '");
+                                                    el.setAttribute("data-id", "gaptrigger_select");
+                                                    ';
+                                                });
+        $button_numeric_gap = $this->ui_factory->button()->standard($this->lng->txt('numeric_gap'), '#')
+                                            ->withOnLoadCode(
+                                                function ($id) {
+                                                    return '
+                                                    var el = document.getElementById("' . $id . '");
+                                                    el.setAttribute("data-id", "gaptrigger_numeric");
+                                                    ';
+                                                });
 
-        $sb_num_gap = ilJsLinkButton::getInstance();
-        $sb_num_gap->setCaption('numeric_gap');
-        $sb_num_gap->setName('gapbutton_numeric');
-        $sb_num_gap->setId('gaptrigger_numeric');
-        $sb_num_gap->setTarget('');
-        $action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($sb_num_gap));
-
-        $tpl->setVariable('BUTTON', $action_button->render());
+        $tpl->setVariable('BUTTON', $this->ui_renderer->render([
+            $button_text_gap,
+            $button_select_gap,
+            $button_numeric_gap
+        ]));
         $tpl->parseCurrentBlock();
 
         $button->setHtml($tpl->get());
@@ -823,7 +831,7 @@ JS;
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
 
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", true, true, "Modules/TestQuestionPool");
-        $output = $this->object->getClozeTextHTML();
+        $output = $this->object->getClozeTextForHTMLOutput();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
             switch ($gap->getType()) {
                 case CLOZE_TEXT:
@@ -892,7 +900,7 @@ JS;
                     break;
             }
         }
-        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
@@ -937,7 +945,7 @@ JS;
         }
 
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", true, true, "Modules/TestQuestionPool");
-        $output = $this->object->getClozeTextHTML();
+        $output = $this->object->getClozeTextForHTMLOutput();
         $assClozeGapCombinationObject = new assClozeGapCombination();
         $check_for_gap_combinations = $assClozeGapCombinationObject->loadFromDb($this->object->getId());
 
@@ -1067,7 +1075,7 @@ JS;
         if ($show_question_text) {
             $template->setVariable(
                 "QUESTIONTEXT",
-                ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true)
+                $this->object->getQuestionForHTMLOutput()
             );
         }
 
@@ -1180,7 +1188,7 @@ JS;
         }
 
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", true, true, "Modules/TestQuestionPool");
-        $output = $this->object->getClozeTextHTML();
+        $output = $this->object->getClozeTextForHTMLOutput();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
             switch ($gap->getType()) {
                 case CLOZE_TEXT:
@@ -1252,7 +1260,7 @@ JS;
             }
         }
 
-        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
@@ -1755,8 +1763,8 @@ JS;
             }
         }
 
-        $combinationPoints = ilArrayUtil::stripSlashesRecursive($combinationPoints);
-        $combinationValues = ilArrayUtil::stripSlashesRecursive($combinationValues);
+        $combinationPoints = $combinationPoints;
+        $combinationValues = $combinationValues;
 
         $assClozeGapCombinationObject = new assClozeGapCombination();
         $assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());
