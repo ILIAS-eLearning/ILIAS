@@ -16256,7 +16256,6 @@ trac#:#user_total#:#Felhasználók összesen
 trac#:#view_mode#:#Nézet
 tstv#:#tstv_create#:#Tesztigazolás létrehozása
 tstv#:#tstv_create_info#:#Válasszon ki egy befejezett tesztet, hogy igazolást generáljon hozzá.
-ui#:#datetime_required#:#Time/Date required###29 07 2022 new variable
 ui#:#duration_default_label_end#:#end###29 07 2022 new variable
 ui#:#duration_default_label_start#:#start###29 07 2022 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###29 07 2022 new variable
@@ -16413,6 +16412,7 @@ user#:#usr_public_profile_logged_in#:#Bejelentkezett felhasználók számára l�
 usr#:#user_action#:#Felhasználói művelet
 usr#:#user_actions#:#Felhasználói műveletek
 usr#:#user_actions_activation_info#:#A műveleteket csak akkor soroljuk fel a felhasználóknak, ha a kapcsolódó szolgáltatásokat bekapcsolták és az összes előfeltétel adott (például szükséges jogosultságok).
+validation#:#datetime_required#:#Time/Date required###29 07 2022 new variable
 validation#:#no_array#:#Given value is not an array###29 07 2022 new variable
 validation#:#not_a_null#:#'%s' típus értéke nem üres.
 validation#:#not_a_string#:#'%s' típus értéke nem sztring.
