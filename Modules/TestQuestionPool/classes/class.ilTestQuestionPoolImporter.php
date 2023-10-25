@@ -43,7 +43,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         // Container import => pool object already created
         if (($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) !== null) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            $newObj->setOnline(true); // sets Question pools to always online
+            $newObj->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true)); // sets Question pools to always online
 
             ilSession::set('qpl_import_subdir', $this->getImportPackageName());
         } elseif (($new_id = $a_mapping->getMapping('Modules/TestQuestionPool', 'qpl', "new_id")) !== null) {
@@ -208,7 +208,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($targetParentObjId);
             $qsaImportFails->registerFailedImports($importer->getFailedImportAssignmentList());
 
-            $this->poolOBJ->setOnline(false);
+            $this->poolOBJ->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(false));
         }
     }
 }

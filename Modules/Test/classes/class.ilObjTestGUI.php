@@ -1582,7 +1582,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $qpl->createReference();
         $qpl->putInTree($parent_ref);
         $qpl->setPermissions($parent_ref);
-        $qpl->setOnline(1); // must be online to be available
+        $qpl->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true)); // must be online to be available
         $qpl->saveToDb();
         return $qpl->getRefId();
     }
