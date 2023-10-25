@@ -75,6 +75,7 @@ class LegacyGotoHandlerTest extends Base
         return [
             ['https://ilias.domain/goto.php?client_id=unittest&target=impr', 'impr'],
             ['https://ilias.domain/goto.php?target=root_1&client_id=unittest', 'root_1'],
+            ['https://ilias.domain/go/root/1', 'root_1'],
             ['https://ilias.domain/goto.php?target=root_1&client_id=unittest&lang=de', 'root_1'],
             ['https://ilias.domain/sub/goto.php?target=root_1&client_id=unittest&lang=de', 'root_1'],
             ['https://ilias.domain/goto.php?target=crs_256&client_id=unittest&lang=de', 'crs_256'],
@@ -82,7 +83,9 @@ class LegacyGotoHandlerTest extends Base
             ['https://ilias.domain/goto.php?target=wiki_wpage_4826_86154&client_id=unittest&lang=de', 'wiki_wpage_4826_86154'],
             ['https://ilias.domain/sub/goto.php?target=wiki_wpage_4826_86154&client_id=unittest&lang=de', 'wiki_wpage_4826_86154'],
             ['https://ilias.domain/goto.php/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
+            ['https://ilias.domain/go/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
             ['https://ilias.domain/sub/goto.php/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
+            ['https://ilias.domain/sub/go/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
         ];
     }
 
