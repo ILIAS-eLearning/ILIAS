@@ -382,9 +382,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 
-    public static function _goto(int $a_target, string $a_add = ''): void
+    public static function _goto(string $a_target, string $a_add = ''): void
     {
         global $DIC;
+        $a_target = (int) $a_target;
         if ($DIC['ilAccess']->checkAccess('write', '', $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, 'edit');
         }

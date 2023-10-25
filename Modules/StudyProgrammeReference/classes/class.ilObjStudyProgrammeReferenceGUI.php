@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * @ilCtrl_Calls ilObjStudyProgrammeReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
@@ -34,8 +34,9 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
-    public static function _goto(int $target): void
+    public static function _goto(string $target): void
     {
+        $target = (int) $target;
         $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($target));
         ilObjStudyProgrammeGUI::_goto($target_ref_id . "_");
     }

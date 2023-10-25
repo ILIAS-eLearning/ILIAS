@@ -713,7 +713,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
     }
 
-    public static function _goto(int $ref_id): void
+    public static function _goto(string $ref_id): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

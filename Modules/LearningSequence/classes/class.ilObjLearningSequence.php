@@ -429,7 +429,7 @@ class ilObjLearningSequence extends ilContainer
     /**
      * Goto target learning sequence.
      */
-    public static function _goto(int $target, string $add = ""): void
+    public static function _goto(string $target, string $add = ""): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();

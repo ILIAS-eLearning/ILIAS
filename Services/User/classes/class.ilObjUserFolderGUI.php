@@ -3484,9 +3484,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public static function _goto(int $a_user): void
+    public static function _goto(string $a_user): void
     {
         global $DIC;
+
+        $a_user = (int) $a_user;
         $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC['ilAccess'];
