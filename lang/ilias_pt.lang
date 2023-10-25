@@ -16254,7 +16254,6 @@ trac#:#user_total#:#Total de utilizadores
 trac#:#view_mode#:#Vista modo
 tstv#:#tstv_create#:#Create Test Verification
 tstv#:#tstv_create_info#:#Select a completed test to generate a verification for it
-ui#:#datetime_required#:#Time/Date required###29 07 2022 new variable
 ui#:#duration_default_label_end#:#end###29 07 2022 new variable
 ui#:#duration_default_label_start#:#start###29 07 2022 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###29 07 2022 new variable
@@ -16411,6 +16410,7 @@ user#:#usr_public_profile_logged_in#:#Visível para usuários conectados.
 usr#:#user_action#:#Ação do utilizador
 usr#:#user_actions#:#Ações do utilizador
 usr#:#user_actions_activation_info#:#As ações serão listadas apenas para utilizadores, se os serviços correspondentes estiverem ativados e todas as pré-condições fornecidas (p. e. requisitos de permissões).
+validation#:#datetime_required#:#Time/Date required###29 07 2022 new variable
 validation#:#no_array#:#Given value is not an array###29 07 2022 new variable
 validation#:#not_a_null#:#O valor do tipo '%s' não é zero.
 validation#:#not_a_string#:#O valor do tipo '%s' não é um string.

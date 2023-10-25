@@ -16975,7 +16975,6 @@ ui#:#datatable_multiactionmodal_buttonlabel#:#Execute###31 10 2023 new variable
 ui#:#datatable_multiactionmodal_listentry#:#apply to all objects###31 10 2023 new variable
 ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.###31 10 2023 new variable
 ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects###31 10 2023 new variable
-ui#:#datetime_required#:#Time/Date required
 ui#:#duration_default_label_end#:#end###31 10 2023 new variable
 ui#:#duration_default_label_start#:#start###31 10 2023 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
@@ -17145,6 +17144,7 @@ user#:#usr_public_profile_logged_in#:#Visible pour les utilisateurs connectés
 usr#:#user_action#:#Action de l’utilisateur
 usr#:#user_actions#:#Actions des utilisateurs
 usr#:#user_actions_activation_info#:#Les actions seront listées uniquement pour les utilisateurs si les services correspondants sont activés et que toutes les conditions préalables sont données (par ex. exigences des permissions).
+validation#:#datetime_required#:#Time/Date required
 validation#:#no_array#:#Given value is not an array###31 10 2023 new variable
 validation#:#not_a_null#:#Value of type '%s' is not a null.
 validation#:#not_a_string#:#Value of type '%s' is not a string.

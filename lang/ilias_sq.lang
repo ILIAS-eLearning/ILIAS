@@ -16256,7 +16256,6 @@ trac#:#user_total#:#User Total###06 08 2010 new variable
 trac#:#view_mode#:#View mode###10 Jul 2006 new variable
 tstv#:#tstv_create#:#Create Test Verification###12 06 2011 new variable
 tstv#:#tstv_create_info#:#Select a completed test to generate a verification for it###12 06 2011 new variable
-ui#:#datetime_required#:#Time/Date required###29 07 2022 new variable
 ui#:#duration_default_label_end#:#end###29 07 2022 new variable
 ui#:#duration_default_label_start#:#start###29 07 2022 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###29 07 2022 new variable
@@ -16413,6 +16412,7 @@ user#:#usr_public_profile_logged_in#:#Logged in Users###24 07 2009 new variable
 usr#:#user_action#:#User Action###25 10 2016 new variable
 usr#:#user_actions#:#User Actions###25 10 2016 new variable
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).###25 10 2016 new variable
+validation#:#datetime_required#:#Time/Date required###29 07 2022 new variable
 validation#:#no_array#:#Given value is not an array###29 07 2022 new variable
 validation#:#not_a_null#:#Value of type '%s' is not a null.###10 11 2018 new variable
 validation#:#not_a_string#:#Value of type '%s' is not a string.###10 11 2018 new variable
