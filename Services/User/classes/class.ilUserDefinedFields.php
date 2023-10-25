@@ -219,13 +219,13 @@ class ilUserDefinedFields
      */
     public function getExportableFields(int $a_obj_id): array // Missing array type.
     {
-        if (ilObject::_lookupType($a_obj_id) == 'crs') {
+        if (ilObject::_lookupType($a_obj_id) === 'crs') {
             return $this->getCourseExportableFields();
         }
-        if (ilObject::_lookupType($a_obj_id) == 'grp') {
+        if (ilObject::_lookupType($a_obj_id) === 'grp') {
             return $this->getGroupExportableFields();
         }
-        if (ilObject::_lookupType($a_obj_id) == 'prg') {
+        if (ilObject::_lookupType($a_obj_id) === 'prg') {
             return $this->getPRGExportableFields();
         }
         return [];
@@ -535,7 +535,6 @@ class ilUserDefinedFields
             'group_export' => ['integer', (int) $this->enabledGroupExport()],
             'certificate' => ['integer', (int) $this->enabledCertificate()],
             'prg_export' => ['integer', (int) $this->enabledPrgExport()],
-
         ];
         $this->db->update('udf_definition', $values, ['field_id' => ['integer',$a_id]]);
         $this->__read();

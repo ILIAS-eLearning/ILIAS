@@ -643,7 +643,7 @@ class ilCustomUserFieldsGUI
         $user_field_definitions = ilUserDefinedFields::_getInstance();
         foreach ($fields as $id) {
             $definition = $user_field_definitions->getDefinition($id);
-            $confirmation_gui->addItem('fields[]', (string)$id, $definition['field_name']);
+            $confirmation_gui->addItem('fields[]', (string) $id, $definition['field_name']);
         }
 
         $this->main_tpl->setContent($confirmation_gui->getHTML());
@@ -717,7 +717,8 @@ class ilCustomUserFieldsGUI
                     [
                         ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
                         ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS
-                    ],                    [
+                    ],
+                    [
                         ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
                         ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PRG
                     ],
