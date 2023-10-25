@@ -1849,6 +1849,19 @@ class ilObjectListGUI
         );
     }
 
+    public function handleDisableInfoScreenCommand(): void
+    {
+        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
+
+        if (
+            $this->type === 'tst'
+            && $object !== null
+            && $object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()
+        ) {
+            $this->enableInfoScreen(false);
+        }
+    }
+
     /**
      * Insert common social commands (comments, notes, tagging)
      */
@@ -2061,6 +2074,8 @@ class ilObjectListGUI
             $this->insertLPSettingsCommand();
 
             $this->insertTestScreenCommand();
+
+            $this->handleDisableInfoScreenCommand();
 
             // info screen command
             if ($this->getInfoScreenStatus()) {
