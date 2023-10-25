@@ -5624,26 +5624,35 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             }
         }
 
-        if ($this->getMainSettings()->getTestBehaviourSettings()->getPassWaitingEnabled()
-            && $testPassesSelector->getLastFinishedPass() !== null) {
-            $last_pass = $testPassesSelector->getLastFinishedPassTimestamp();
-            $waiting_between_passes = $this->getMainSettings()->getTestBehaviourSettings()->getPassWaiting();
-            if ($last_pass && $waiting_between_passes !== '') {
-                $time_values = explode(":", $waiting_between_passes);
-                $next_pass_allowed = strtotime('+ ' . $time_values[0] . ' Months + ' . $time_values[1] . ' Days + ' . $time_values[2] . ' Hours' . $time_values[3] . ' Minutes', $last_pass);
+        $next_pass_allowed_timestamp = 0;
+        if (!$this->isNextPassAllowed($testPassesSelector, $next_pass_allowed_timestamp)) {
+            $date = ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed_timestamp, IL_CAL_UNIX));
 
-                if (time() < $next_pass_allowed) {
-                    $date = ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed, IL_CAL_UNIX));
-
-                    $result["executable"] = false;
-                    $result["errormessage"] = sprintf($this->lng->txt('wait_for_next_pass_hint_msg'), $date);
-                    return $result;
-                }
-            }
+            $result['executable'] = false;
+            $result['errormessage'] = sprintf($this->lng->txt('wait_for_next_pass_hint_msg'), $date);
+            return $result;
         }
         return $result;
     }
 
+    public function isNextPassAllowed(ilTestPassesSelector $testPassesSelector, int &$next_pass_allowed_timestamp): bool
+    {
+        $waiting_between_passes = $this->getMainSettings()->getTestBehaviourSettings()->getPassWaiting();
+        $last_finished_pass_timestamp = $testPassesSelector->getLastFinishedPassTimestamp();
+
+        if (
+            $this->getMainSettings()->getTestBehaviourSettings()->getPassWaitingEnabled()
+            && ($waiting_between_passes !== '')
+            && ($testPassesSelector->getLastFinishedPass() !== null)
+            && ($last_finished_pass_timestamp !== null)
+        ) {
+            $time_values = explode(':', $waiting_between_passes);
+            $next_pass_allowed_timestamp = strtotime('+ ' . $time_values[0] . ' Months + ' . $time_values[1] . ' Days + ' . $time_values[2] . ' Hours' . $time_values[3] . ' Minutes', $last_finished_pass_timestamp);
+            return (time() > $next_pass_allowed_timestamp);
+        }
+
+        return true;
+    }
 
     public function canShowTestResults(ilTestSession $testSession): bool
     {

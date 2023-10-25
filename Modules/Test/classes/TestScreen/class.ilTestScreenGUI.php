@@ -226,6 +226,20 @@ class ilTestScreenGUI
             ;
         }
 
+        $next_pass_allowed_timestamp = 0;
+        if (!$this->object->isNextPassAllowed($this->test_passes_selector, $next_pass_allowed_timestamp)) {
+            return $launcher
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel(
+                    sprintf(
+                        $this->lng->txt('wait_for_next_pass_hint_msg'),
+                        ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed_timestamp, IL_CAL_UNIX)),
+                    ),
+                    false
+                )
+            ;
+        }
+
         if ($this->hasAvailablePasses()) {
             if ($this->lastPassSuspended()) {
                 ilSession::set('tst_password_' . $this->object->getTestId(), $this->object->getPassword());
