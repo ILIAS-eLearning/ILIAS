@@ -52,8 +52,10 @@ class LegacyRequestBuilder implements RequestBuilder
             );
         }
 
-        // try build target from path (since URL has been rewritten to goto/...)r
+        // try build target from path (since URL has been rewritten to goto/...)
         $path = $http->request()->getUri()->getPath();
+        // get everything after /goto.php/
+        $path = substr($path, strpos($path, StandardURIBuilder::LONG) + strlen(StandardURIBuilder::LONG));
         $path = str_replace([StandardURIBuilder::LONG, StandardURIBuilder::SHORT], '', $path);
         $target_parts = explode('/', $path);
         if (isset($target_parts[0]) && array_key_exists($target_parts[0], $handlers)) {

@@ -73,24 +73,29 @@ class LegacyGotoHandlerTest extends Base
     public function urlProvider(): array
     {
         return [
-            ['https://ilias.domain/goto.php?client_id=unittest&target=impr'],
-            ['https://ilias.domain/goto.php?target=root_1&client_id=unittest'],
-            ['https://ilias.domain/goto.php?target=root_1&client_id=unittest&lang=de'],
-            ['https://ilias.domain/goto.php?target=crs_256&client_id=unittest&lang=de'],
-            ['https://ilias.domain/goto.php?target=lorem_256&client_id=unittest&lang=de'],
+            ['https://ilias.domain/goto.php?client_id=unittest&target=impr', 'impr'],
+            ['https://ilias.domain/goto.php?target=root_1&client_id=unittest', 'root_1'],
+            ['https://ilias.domain/goto.php?target=root_1&client_id=unittest&lang=de', 'root_1'],
+            ['https://ilias.domain/sub/goto.php?target=root_1&client_id=unittest&lang=de', 'root_1'],
+            ['https://ilias.domain/goto.php?target=crs_256&client_id=unittest&lang=de', 'crs_256'],
+            ['https://ilias.domain/goto.php?target=lorem_256&client_id=unittest&lang=de', 'lorem_256'],
+            ['https://ilias.domain/goto.php?target=wiki_wpage_4826_86154&client_id=unittest&lang=de', 'wiki_wpage_4826_86154'],
+            ['https://ilias.domain/sub/goto.php?target=wiki_wpage_4826_86154&client_id=unittest&lang=de', 'wiki_wpage_4826_86154'],
+            ['https://ilias.domain/goto.php/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
+            ['https://ilias.domain/sub/goto.php/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
         ];
     }
 
     /**
      * @dataProvider urlProvider
      */
-    public function testBase(string $called_url): void
+    public function testBase(string $called_url, string $target): void
     {
-        $this->http_mock->request()->method('getUri')->willReturn($called_url);
+        $this->http_mock->request()->method('getUri')->willReturn(new \GuzzleHttp\Psr7\Uri($called_url));
         $this->assertEquals($called_url, $this->http_mock->request()->getUri());
 
         $uri = new URI($called_url);
-        $this->assertGreaterThanOrEqual(2, count($uri->getParameters()));
+        //$this->assertGreaterThanOrEqual(2, count($uri->getParameters()));
 
         $this->updateRequestAndWrapperMockWithParams($uri->getParameters());
 
@@ -102,6 +107,8 @@ class LegacyGotoHandlerTest extends Base
 
         $this->assertInstanceOf(Request::class, $request);
         $this->assertTrue($this->subject->canHandle($request));
+        $this->assertEquals($target, $request->getAdditionalParameters()[LegacyGotoHandler::TARGET]);
+
     }
 
     private function insertDIC(string $key, $value): void
