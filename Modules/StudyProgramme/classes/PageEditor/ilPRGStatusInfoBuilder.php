@@ -47,9 +47,10 @@ class ilPRGStatusInfoBuilder
         ilCertificateDownloadValidator $cert_validator,
         int $usr_id
     ) {
+        global $DIC;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
-        $this->lng = $lng;
+        $this->lng = $DIC->language();
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
         $this->repo_assignment = $repo_assignment;
@@ -113,7 +114,7 @@ class ilPRGStatusInfoBuilder
         $assignments = $this->repo_assignment->getForUserOnNode($this->usr_id, $prg_obj_id);
         usort(
             $assignments,
-            fn (ilPRGAssignment $a, ilPRGAssignment $b)
+            fn(ilPRGAssignment $a, ilPRGAssignment $b)
             => $a->getProgressTree()->getAssignmentDate() <=> $b->getProgressTree()->getAssignmentDate()
         );
         $assignments = array_reverse($assignments);

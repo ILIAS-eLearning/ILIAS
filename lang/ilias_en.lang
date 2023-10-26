@@ -12994,7 +12994,7 @@ prg#:#category#:#Category
 prg#:#completion_date#:#Completion Date
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note
-prg#:#cont_ed_insert_prgstatusinfo#:#Insert Study Progamme Statusinformation
+prg#:#cont_ed_insert_prgstatusinfo#:#Insert Study Programme Status Information
 prg#:#content_automation#:#Content Automation
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
