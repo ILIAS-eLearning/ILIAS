@@ -21,6 +21,9 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;
+use Psr\Http\Message\ServerRequestInterface as HttpRequest;
+use ILIAS\DI\UIServices as UIServices;
+use ILIAS\TestQuestionPool\QuestionInfoService as QuestionInfoService;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -48,9 +51,9 @@ use ILIAS\Taxonomy\Service;
 class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
     private ilObjectCommonSettings $common_settings;
-    private \Psr\Http\Message\ServerRequestInterface|\Psr\Http\Message\RequestInterface $http_request;
-    protected \ILIAS\DI\UIServices $ui;
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    private HttpRequest $http_request;
+    protected UIServices $ui;
+    private QuestionInfoService $questioninfo;
     protected Service $taxonomy;
     public ?ilObject $object;
     protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
@@ -1719,19 +1722,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     private function addSettingsSubTabs(ilTabsGUI $tabs): void
     {
-        $tabs->addSubTabTarget(
-            'qpl_settings_subtab_general',
+        $tabs->addSubTab(
+            ilObjQuestionPoolSettingsGeneralGUI::TAB_COMMON_SETTINGS,
+            $this->lng->txt('qpl_settings_subtab_general'),
             $this->ctrl->getLinkTargetByClass('ilObjQuestionPoolSettingsGeneralGUI'),
-            '',
-            'ilObjQuestionPoolSettingsGeneralGUI'
         );
-
         if ($this->object->getShowTaxonomies()) {
-            $tabs->addSubTabTarget(
-                'qpl_settings_subtab_taxonomies',
+            $tabs->addSubTab(
+                'tax_settings',
+                $this->lng->txt('qpl_settings_subtab_taxonomies'),
                 $this->ctrl->getLinkTargetByClass('ilTaxonomySettingsGUI', ''),
-                '',
-                'ilTaxonomySettingsGUI'
             );
         }
     }

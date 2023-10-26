@@ -96,7 +96,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 
         $props = array();
 
-        if (!ilObjQuestionPool::_lookupOnline($this->obj_id)) {
+        if (!$this->object_properties->getPropertyIsOnline()->getIsOnline()) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),
                 "value" => $lng->txt("offline"));
         }
