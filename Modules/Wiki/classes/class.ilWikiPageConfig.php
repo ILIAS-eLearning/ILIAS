@@ -38,6 +38,10 @@ class ilWikiPageConfig extends ilPageConfig
         $this->addIntLinkFilter("User");
         $this->setIntLinkHelpDefaultType("RepositoryItem");
         $this->setEnablePCType("AMDPageList", true);
+        $mset = new ilSetting("mobs");
+        if ($mset->get("mep_activate_pages")) {
+            $this->setEnablePCType("ContentInclude", true);
+        }
     }
 
     /**
