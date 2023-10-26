@@ -44,8 +44,7 @@ function base()
             ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE),
         'failure_txt' => $f->table()->column()->status("failure")
             ->withIsSortable(false)
-            ->withIsOptional(true)
-            ->withIsInitiallyVisible(false),
+            ->withIsOptional(true, false),
     ];
 
     /**

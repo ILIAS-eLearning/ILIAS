@@ -61,23 +61,17 @@ abstract class Column implements C\Column
         return $this->sortable;
     }
 
-    public function withIsOptional(bool $flag): self
+    public function withIsOptional(bool $is_optional, bool $is_initially_visible = true): self
     {
         $clone = clone $this;
-        $clone->optional = $flag;
+        $clone->optional = $is_optional;
+        $clone->initially_visible = $is_initially_visible;
         return $clone;
     }
 
     public function isOptional(): bool
     {
         return $this->optional;
-    }
-
-    public function withIsInitiallyVisible(bool $flag): self
-    {
-        $clone = clone $this;
-        $clone->initially_visible = $flag;
-        return $clone;
     }
 
     public function isInitiallyVisible(): bool

@@ -47,12 +47,12 @@ class DataTest extends TableTestBase
             ): \Generator {
                 yield $row_builder->buildStandardRow('', []);
             }
-             public function getTotalRowCount(
-                 ?array $filter_data,
-                 ?array $additional_parameters
-             ): ?int {
-                 return null;
-             }
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return null;
+            }
         };
     }
 
@@ -187,8 +187,7 @@ class DataTest extends TableTestBase
         $cols = [
             'f0' => $this->getTableFactory()->column()->text(''),
             'f1' => $this->getTableFactory()->column()->text('')
-                ->withIsOptional(true)
-                ->withIsInitiallyVisible(false),
+                ->withIsOptional(true, false),
             'f2' => $this->getTableFactory()->column()->text('')
         ];
         $table = $this->getTableFactory()->data('title', $cols, $data);

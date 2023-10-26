@@ -44,8 +44,8 @@ class ColumnTest extends ILIAS_UI_TestBase
         $this->assertFalse($col->withIsOptional(false)->isOptional());
 
         $this->assertTrue($col->isInitiallyVisible());
-        $this->assertFalse($col->withIsInitiallyVisible(false)->isInitiallyVisible());
-        $this->assertTrue($col->withIsInitiallyVisible(true)->isInitiallyVisible());
+        $this->assertFalse($col->withIsOptional(true, false)->isInitiallyVisible());
+        $this->assertTrue($col->withIsOptional(true, true)->isInitiallyVisible());
 
         $this->assertFalse($col->isHighlighted());
         $this->assertTrue($col->withHighlight(true)->isHighlighted());
