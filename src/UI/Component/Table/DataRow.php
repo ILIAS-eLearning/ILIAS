@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-use  ILIAS\UI\Component\Table\Column\Column;
-use  ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\UI\Component\Table\Action\Action;
 
-interface DataRow extends \ILIAS\UI\Component\Component
+interface DataRow extends Component
 {
     public function getId(): string;
 
@@ -42,5 +43,5 @@ interface DataRow extends \ILIAS\UI\Component\Component
      */
     public function getActions(): array;
 
-    public function getCellContent(string $col_id): string;
+    public function getCellContent(string $col_id): string|Component;
 }

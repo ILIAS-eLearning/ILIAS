@@ -42,6 +42,7 @@ class ilTestExportGUI extends ilExportGUI
         private ilObjectDataCache $obj_cache,
         private ilComponentRepository $component_repository,
         Generator $active_export_plugins,
+        private ilTestHTMLGenerator $html_generator,
         private array $selected_files,
         private QuestionInfoService $questioninfo,
     ) {
@@ -111,7 +112,6 @@ class ilTestExportGUI extends ilExportGUI
     {
         if ($this->access->checkAccess('write', '', $this->obj->getRefId())) {
             // prepare generation before contents are processed (for mathjax)
-            ilPDFGeneratorUtils::prepareGenerationRequest('Test', PDF_USER_RESULT);
 
             $evaluation = new ilTestEvaluation($this->db, $this->obj->getTestId());
             $allActivesPasses = $evaluation->getAllActivesPasses();
@@ -119,7 +119,12 @@ class ilTestExportGUI extends ilExportGUI
             $participantData->setActiveIdsFilter(array_keys($allActivesPasses));
             $participantData->load($this->obj->getTestId());
 
-            $archiveService = new ilTestArchiveService($this->obj, $this->lng, $this->obj_cache);
+            $archiveService = new ilTestArchiveService(
+                $this->obj,
+                $this->lng,
+                $this->obj_cache,
+                $this->html_generator
+            );
             $archiveService->setParticipantData($participantData);
             $archiveService->archivePassesByActives($allActivesPasses);
 
@@ -135,13 +140,7 @@ class ilTestExportGUI extends ilExportGUI
                 ilFileUtils::makeDirParents($tmpFileName);
             }
 
-            $directory_name = realpath($tmpFileName);
-            $file_name = $directory_name . DIRECTORY_SEPARATOR . 'Best_Solution.pdf';
-
-            $generator = new ilTestPDFGenerator();
-            $generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name, PDF_USER_RESULT);
-            $archive_exp->handInTestBestSolution($best_solution, $file_name);
-            ilFileUtils::delDir($directory_name);
+            $archive_exp->handInTestBestSolution($best_solution);
 
             $archive_exp->updateTestArchive();
             $archive_exp->compressTestArchive();

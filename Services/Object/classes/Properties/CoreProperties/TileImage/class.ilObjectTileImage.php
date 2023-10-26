@@ -92,12 +92,12 @@ class ilObjectTileImage
         $flavour = $this->storage_services->flavours()->get($resource, $this->flavour_definition);
         $urls = $this->storage_services->consume()->flavourUrls($flavour)->getURLsAsArray();
 
-        $available_sizes = $this->flavour_definition->getSizes();
-        array_pop($available_sizes);
+        $available_widths = $this->flavour_definition->getWidths();
+        array_pop($available_widths);
 
-        $image = $this->image_factory->responsive($urls[count($available_sizes)], '');
+        $image = $this->image_factory->responsive($urls[count($available_widths)], '');
         return array_reduce(
-            $available_sizes,
+            $available_widths,
             function ($carry, $size) use ($urls) {
                 $image = $carry['image']->withAdditionalHighResSource($urls[$carry['counter']], $size / 2);
                 $counter = ++$carry['counter'];

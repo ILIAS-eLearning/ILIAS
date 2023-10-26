@@ -31,7 +31,8 @@ class ilTestArchiveService
     public function __construct(
         protected ilObjTest $test_obj,
         protected ilLanguage $lng,
-        protected ilObjectDataCache $obj_cache
+        protected ilObjectDataCache $obj_cache,
+        protected ilTestHTMLGenerator $html_generator
     ) {
         $this->participantData = null;
     }
@@ -59,7 +60,7 @@ class ilTestArchiveService
     {
         $content = $this->renderOverviewContent($active_id, $pass);
         $filename = $this->buildOverviewFilename($active_id, $pass);
-        ilTestPDFGenerator::generatePDF($content, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
+        $this->html_generator->generateHTML($content, $filename);
         $archiver = new ilTestArchiver($this->test_obj->getId());
         $archiver->setParticipantData($this->getParticipantData());
         $archiver->handInTestResult($active_id, $pass, $filename);
@@ -104,6 +105,6 @@ class ilTestArchiveService
     private function buildOverviewFilename($activeId, $pass): string
     {
         $tmpFileName = ilFileUtils::ilTempnam();
-        return dirname($tmpFileName) . '/scores-' . $this->test_obj->getId() . '-' . $activeId . '-' . $pass . '.pdf';
+        return dirname($tmpFileName) . '/scores-' . $this->test_obj->getId() . '-' . $activeId . '-' . $pass . '.html';
     }
 }

@@ -108,8 +108,8 @@ class ilObjectPropertyTileImage implements \ilObjectProperty
         $timg->setInfo($language->txt(self::INPUT_BYLINE));
         $timg->setSuffixes(self::SUPPORTED_FILE_EXTENSIONS);
         $timg->setUseCache(false);
-        $timg->setImage($this->tile_image->getSrcUrlForLegacyForm());
-        $timg->setValue($this->tile_image->getRid() ?? '');
+        $timg->setImage($this->tile_image?->getSrcUrlForLegacyForm() ?? '');
+        $timg->setValue($this->tile_image?->getRid() ?? '');
         return $timg;
     }
 }

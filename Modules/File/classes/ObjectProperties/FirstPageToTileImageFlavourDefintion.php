@@ -18,23 +18,24 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilTestPDFGeneratorTest
- * @author Marvin Beym <mbeym@databay.de>
- */
-class ilTestPDFGeneratorTest extends ilTestBaseTestCase
+use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
+
+class FirstPageToTileImageFlavourDefinition extends ilObjectTileImageFlavourDefinition
 {
-    private ilTestPDFGenerator $testObj;
+    private const ID = 'b9b2f16325492412304989a9b3e32479e612957582f60ed667af31e7b36e50ed';
 
-    protected function setUp(): void
+    public function getId(): string
     {
-        parent::setUp();
-
-        $this->testObj = new ilTestPDFGenerator();
+        return self::ID;
     }
 
-    public function test_instantiateObject_shouldReturnInstance(): void
+    public function getFlavourMachineId(): string
     {
-        $this->assertInstanceOf(ilTestPDFGenerator::class, $this->testObj);
+        return FirstPageToTileImageMachine::ID;
+    }
+
+    public function getInternalName(): string
+    {
+        return 'first_page_tile_image';
     }
 }

@@ -42,12 +42,6 @@ class ilParticipantsTestResultsGUI
     public const CMD_PERFORM_DELETE_ALL_USER_RESULTS = 'confirmDeleteAllUserResults';
     public const CMD_CONFIRM_DELETE_SELECTED_USER_RESULTS = 'deleteSingleUserResults';
     public const CMD_PERFORM_DELETE_SELECTED_USER_RESULTS = 'confirmDeleteSelectedUserData';
-    private \ILIAS\DI\UIServices $ui;
-
-    /**
-     * @var ilObjTest
-     */
-    protected $testObj;
 
     protected ?ilObjTest $test_obj = null;
     protected ?ilTestQuestionSetConfig $question_set_config = null;
@@ -67,6 +61,11 @@ class ilParticipantsTestResultsGUI
         private ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
         private InternalRequestService $testrequest
     ) {
+    }
+
+    public function getObject(): ?ilObjTest
+    {
+        return $this->test_obj;
     }
 
     public function getTestObj(): ?ilObjTest

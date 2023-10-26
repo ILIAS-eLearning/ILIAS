@@ -49,7 +49,7 @@ class ilSkillTreeNodeGUI
     public ilAccessHandler $access;
     protected Node\SkillTreeNodeManager $skill_tree_node_manager;
     protected SkillTreeAccess $tree_access_manager;
-    protected Table\SkillTableManager $table_manager;
+    protected Table\TableManager $table_manager;
     protected ilSkillTreeRepository $tree_repo;
     protected int $skill_tree_id = 0;
     protected ilTabsGUI $tabs;
@@ -570,7 +570,7 @@ class ilSkillTreeNodeGUI
 
         $html = "";
         foreach ($usages as $k => $usage) {
-            $table = $this->table_manager->getSkillUsageTable($k, $usage)->getComponent();
+            $table = $this->table_manager->getUsageTable($k, $usage)->getComponent();
             $html .= $this->ui_ren->render($table) . "<br/><br/>";
         }
 

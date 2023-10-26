@@ -74,7 +74,6 @@ abstract class ilTestQuestionSetConfig
     abstract public function isQuestionSetConfigured(): bool;
     abstract public function doesQuestionSetRelatedDataExist(): bool;
     abstract public function removeQuestionSetRelatedData(): void;
-    abstract public function resetQuestionSetRelatedTestSettings(): void;
     abstract public function cloneQuestionSetRelatedData(ilObjTest $clone_test_obj): void;
 
     public function getQuestionPoolPathString(int $pool_id): string

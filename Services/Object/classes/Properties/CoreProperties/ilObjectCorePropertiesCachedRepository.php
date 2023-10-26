@@ -169,7 +169,8 @@ class ilObjectCorePropertiesCachedRepository implements ilObjectCorePropertiesRe
     {
         return new ilObjectCoreProperties(
             new ilObjectPropertyTitleAndDescription(),
-            new ilObjectPropertyIsOnline()
+            new ilObjectPropertyIsOnline(),
+            new ilObjectPropertyTileImage()
         );
     }
 

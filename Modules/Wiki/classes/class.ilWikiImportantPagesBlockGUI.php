@@ -154,12 +154,12 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
                     $listing->node($this->ui->factory()->link()->standard(
                         $title,
                         $this->pm->getPermaLink($p->getId(), $this->lang)
-                    ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
+                    ), (string) $cnt, (string) ($cpar[$p->getIndent() - 1] ?? 0));
                 } else {
                     $listing->node($this->ui->factory()->link()->standard(
                         $title,
                         "wpg_" . $p->getId() . ".html"
-                    ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
+                    ), (string) $cnt, (string) ($cpar[$p->getIndent() - 1] ?? 0));
                 }
                 $cpar[$p->getIndent()] = $cnt;
             }

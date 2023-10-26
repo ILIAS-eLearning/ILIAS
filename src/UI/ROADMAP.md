@@ -226,6 +226,12 @@ renderer and untested. The code should be moved out of the renderer and be locat
 in properly structured JS-modules. And of course it should be tested by automated
 tests as well.
 
+### Add Information of anticipated datatypes to Table/Column
+When applying records to a row, the cells (Columns) expect an input of a certain type;
+however, this cannot be (or currently is not) PHP-typehinted.
+The Column Factory should give information as to which types are to be used with
+the respective Column.
+
 
 ## Long Term
 

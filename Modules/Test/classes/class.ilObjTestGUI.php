@@ -270,6 +270,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->obj_data_cache,
                     $this->component_repository,
                     $this->component_factory->getActivePluginsInSlot('texp'),
+                    new ilTestHTMLGenerator(),
                     $selected_files,
                     $this->questioninfo
                 );
@@ -2794,7 +2795,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             case "postpone":
             case "outUserPassDetails":
             case "checkPassword":
-            $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, 'testScreen'), '', $this->testrequest->getRefId());
+                $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, 'testScreen'), '', $this->testrequest->getRefId());
                 break;
             case "eval_stat":
             case "evalAllUsers":

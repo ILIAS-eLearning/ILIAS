@@ -178,6 +178,26 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAudioPlayer(), $audio);
     }
 
+    public function testWithMainActionButton(): void
+    {
+        $f = $this->getFactory();
+
+        $main_action = $this->createMock(I\Component\Button\Standard::class);
+        $c = $f->standard("Title")->withMainAction($main_action);
+
+        $this->assertEquals($c->getMainAction(), $main_action);
+    }
+
+    public function testWithMainActionLink(): void
+    {
+        $f = $this->getFactory();
+
+        $main_action = $this->createMock(I\Component\Link\Standard::class);
+        $c = $f->standard("Title")->withMainAction($main_action);
+
+        $this->assertEquals($c->getMainAction(), $main_action);
+    }
+
     public function testRenderBase(): void
     {
         $f = $this->getFactory();
@@ -200,14 +220,14 @@ class ItemTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <div class="il-item-title">Item Title</div>
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+			<div class="il-item-actions l-bar__container"><div class="l-bar__element"><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
 	                <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
                     </li>
                         <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2"  >GitHub</button>
                     </li>
                 </ul>
-            </div>
+            </div></div></div>
 			<div class="il-item-description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
 			<hr class="il-item-divider" />
 			<div class="row">
@@ -631,4 +651,63 @@ EOT;
             $this->brutallyTrimHTML($html)
         );
     }
+
+    public function testMainActionButton(): void
+    {
+        $f = $this->getFactory();
+
+        $expected_button_html = md5(I\Component\Button\Standard::class);
+        $main_action = $this->createMock(I\Component\Button\Standard::class);
+        $main_action->method('getCanonicalName')->willReturn($expected_button_html);
+
+        $c = $f->standard("Title")->withMainAction($main_action);
+
+        $html = $this->getDefaultRenderer(null, [
+            $main_action
+        ])->render($c);
+
+        $expected = <<<EOT
+        <div class="il-item il-std-item ">
+            <div class="il-item-title">Title</div>
+            <div class="il-item-actions l-bar__container">
+                <div class="l-bar__element">$expected_button_html
+            </div>
+            </div>
+        </div>
+EOT;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testMainActionLink(): void
+    {
+        $f = $this->getFactory();
+        $expected_link_html = md5(I\Component\Link\Standard::class);
+        $main_action = $this->createMock(I\Component\Link\Standard::class);
+        $main_action->method('getCanonicalName')->willReturn($expected_link_html);
+
+        $c = $f->standard("Title")->withMainAction($main_action);
+
+        $html = $this->getDefaultRenderer(null, [
+            $main_action
+        ])->render($c);
+
+        $expected = <<<EOT
+        <div class="il-item il-std-item ">
+            <div class="il-item-title">Title</div>
+            <div class="il-item-actions l-bar__container">
+                <div class="l-bar__element">$expected_link_html</div>
+            </div>
+        </div>
+EOT;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
 }

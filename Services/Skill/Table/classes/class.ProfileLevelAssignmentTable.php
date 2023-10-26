@@ -28,14 +28,13 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillProfileLevelAssignmentTable
+class ProfileLevelAssignmentTable
 {
     protected \ilCtrl $ctrl;
     protected \ilLanguage $lng;
     protected UI\Factory $ui_fac;
-    protected UI\Renderer $ui_ren;
     protected ServerRequestInterface $request;
-    protected \ILIAS\Data\Factory $df;
+    protected Data\Factory $df;
     protected int $skill_id = 0;
     protected bool $update = false;
     protected \ilBasicSkill $skill;
@@ -47,9 +46,8 @@ class SkillProfileLevelAssignmentTable
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->ui_fac = $DIC->ui()->factory();
-        $this->ui_ren = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
-        $this->df = new \ILIAS\Data\Factory();
+        $this->df = new Data\Factory();
 
         $id_parts = explode(":", $cskill_id);
         $this->skill_id = (int) $id_parts[0];
@@ -59,11 +57,31 @@ class SkillProfileLevelAssignmentTable
 
     public function getComponent(): UI\Component\Table\Data
     {
+        $columns = $this->getColumns();
+        $actions = $this->getActions();
+        $data_retrieval = $this->getDataRetrieval();
+
+        $title = $this->skill->getTitle() . ", " . $this->lng->txt("skmg_skill_levels");
+        $table = $this->ui_fac->table()
+                              ->data($title, $columns, $data_retrieval)
+                              ->withActions($actions)
+                              ->withRequest($this->request);
+
+        return $table;
+    }
+
+    protected function getColumns(): array
+    {
         $columns = [
             "title" => $this->ui_fac->table()->column()->text($this->lng->txt("title"))
-                                        ->withIsSortable(false)
+                                    ->withIsSortable(false)
         ];
 
+        return $columns;
+    }
+
+    protected function getActions(): array
+    {
         $query_params_namespace = ["skl_profile_level_assignment_table"];
 
         $uri_assign = $this->df->uri(
@@ -72,7 +90,7 @@ class SkillProfileLevelAssignmentTable
                 $this->update ? "updateLevelOfProfile" : "assignLevelToProfile"
             )
         );
-        $url_builder_assign = new \ILIAS\UI\URLBuilder($uri_assign);
+        $url_builder_assign = new UI\URLBuilder($uri_assign);
         list($url_builder_assign, $action_parameter_token_assign, $row_id_token_assign) =
             $url_builder_assign->acquireParameters(
                 $query_params_namespace,
@@ -88,19 +106,24 @@ class SkillProfileLevelAssignmentTable
             )
         ];
 
+        return $actions;
+    }
+
+    protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
+    {
         $data_retrieval = new class (
             $this->skill
-        ) implements \ILIAS\UI\Component\Table\DataRetrieval {
+        ) implements UI\Component\Table\DataRetrieval {
             public function __construct(
                 protected \ilBasicSkill $skill
             ) {
             }
 
             public function getRows(
-                \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+                UI\Component\Table\DataRowBuilder $row_builder,
                 array $visible_column_ids,
-                \ILIAS\Data\Range $range,
-                \ILIAS\Data\Order $order,
+                Data\Range $range,
+                Data\Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
@@ -119,7 +142,7 @@ class SkillProfileLevelAssignmentTable
                 return null;
             }
 
-            protected function getRecords(\ILIAS\Data\Order $order): array
+            protected function getRecords(Data\Order $order): array
             {
                 $level_data = $this->skill->getLevelData();
 
@@ -136,12 +159,6 @@ class SkillProfileLevelAssignmentTable
             }
         };
 
-        $title = $this->skill->getTitle() . ", " . $this->lng->txt("skmg_skill_levels");
-        $table = $this->ui_fac->table()
-                              ->data($title, $columns, $data_retrieval)
-                              ->withActions($actions)
-                              ->withRequest($this->request);
-
-        return $table;
+        return $data_retrieval;
     }
 }

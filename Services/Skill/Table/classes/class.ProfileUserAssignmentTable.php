@@ -32,7 +32,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillProfileUserAssignmentTable
+class ProfileUserAssignmentTable
 {
     protected \ilCtrl $ctrl;
     protected \ilLanguage $lng;
@@ -40,7 +40,7 @@ class SkillProfileUserAssignmentTable
     protected UI\Renderer $ui_ren;
     protected ServerRequestInterface $request;
     protected ArrayBasedRequestWrapper $query;
-    protected \ILIAS\Data\Factory $df;
+    protected Data\Factory $df;
     protected Service\SkillAdminGUIRequest $admin_gui_request;
     protected Profile\SkillProfile $profile;
     protected Access\SkillTreeAccess $tree_access_manager;
@@ -61,7 +61,7 @@ class SkillProfileUserAssignmentTable
         $this->ui_ren = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->query = $DIC->http()->wrapper()->query();
-        $this->df = new \ILIAS\Data\Factory();
+        $this->df = new Data\Factory();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
 
         $this->profile = $profile;
@@ -73,16 +73,65 @@ class SkillProfileUserAssignmentTable
 
     public function getComponent(): UI\Component\Table\Data
     {
+        $columns = $this->getColumns();
+        $actions = $this->getActions();
+        $data_retrieval = $this->getDataRetrieval();
+
+        if ($this->requested_table_profile_user_ass_action === "removeUsers") {
+            $items = [];
+            foreach ($this->requested_table_profile_user_ass_ids as $id) {
+                if ($id === "ALL_OBJECTS") {
+                    $all_assignments = $this->profile_manager->getAssignments($this->profile->getId());
+                    foreach ($all_assignments as $assignment) {
+                        $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
+                            (string) $assignment->getId(),
+                            $this->getAssignmentTitle($assignment->getId())
+                        );
+                    }
+                } else {
+                    $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
+                        $id,
+                        $this->getAssignmentTitle((int) $id)
+                    );
+                }
+            }
+            echo($this->ui_ren->renderAsync([
+                $this->ui_fac->modal()->interruptive(
+                    "",
+                    empty($items) ? $this->lng->txt("no_checkbox") : $this->lng->txt("skmg_confirm_user_removal"),
+                    $this->ctrl->getFormActionByClass("ilskillprofilegui", "removeUsers")
+                )
+                             ->withAffectedItems($items)
+                             ->withActionButtonLabel(empty($items) ? $this->lng->txt("ok") : $this->lng->txt("delete"))
+            ]));
+            exit();
+        }
+
+        $table = $this->ui_fac->table()
+                              ->data($this->lng->txt("skmg_assigned_users"), $columns, $data_retrieval)
+                              ->withActions($actions)
+                              ->withRequest($this->request);
+
+        return $table;
+    }
+
+    protected function getColumns(): array
+    {
         $columns = [
             "type" => $this->ui_fac->table()->column()->text($this->lng->txt("type"))
-                                                      ->withIsSortable(false),
+                                   ->withIsSortable(false),
             "name" => $this->ui_fac->table()->column()->text($this->lng->txt("name")),
             "object" => $this->ui_fac->table()->column()->text($this->lng->txt("object"))
         ];
 
+        return $columns;
+    }
+
+    protected function getActions(): array
+    {
         $query_params_namespace = ["skl_profile_user_assignment_table"];
 
-        $url_builder_delete = new \ILIAS\UI\URLBuilder($this->df->uri($this->request->getUri()->__toString()));
+        $url_builder_delete = new UI\URLBuilder($this->df->uri($this->request->getUri()->__toString()));
         list($url_builder_delete, $action_parameter_token_delete, $row_id_token_delete) =
             $url_builder_delete->acquireParameters(
                 $query_params_namespace,
@@ -97,13 +146,18 @@ class SkillProfileUserAssignmentTable
                 $url_builder_delete->withParameter($action_parameter_token_delete, "removeUsers"),
                 $row_id_token_delete
             )
-                ->withAsync();
+                                              ->withAsync();
         }
 
+        return $actions;
+    }
+
+    protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
+    {
         $data_retrieval = new class (
             $this->profile,
             $this->profile_manager
-        ) implements \ILIAS\UI\Component\Table\DataRetrieval {
+        ) implements UI\Component\Table\DataRetrieval {
             public function __construct(
                 protected Profile\SkillProfile $profile,
                 protected Profile\SkillProfileManager $profile_manager
@@ -111,10 +165,10 @@ class SkillProfileUserAssignmentTable
             }
 
             public function getRows(
-                \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+                UI\Component\Table\DataRowBuilder $row_builder,
                 array $visible_column_ids,
-                \ILIAS\Data\Range $range,
-                \ILIAS\Data\Order $order,
+                Data\Range $range,
+                Data\Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
@@ -133,7 +187,7 @@ class SkillProfileUserAssignmentTable
                 return null;
             }
 
-            protected function getRecords(\ILIAS\Data\Order $order): array
+            protected function getRecords(Data\Order $order): array
             {
                 $assignments = $this->profile_manager->getAssignments($this->profile->getId());
 
@@ -160,44 +214,7 @@ class SkillProfileUserAssignmentTable
             }
         };
 
-        if ($this->query->has($action_parameter_token_delete->getName())) {
-            if ($this->requested_table_profile_user_ass_action === "removeUsers") {
-                $items = [];
-                foreach ($this->requested_table_profile_user_ass_ids as $id) {
-                    if ($id === "ALL_OBJECTS") {
-                        $all_assignments = $this->profile_manager->getAssignments($this->profile->getId());
-                        foreach ($all_assignments as $assignment) {
-                            $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
-                                (string) $assignment->getId(),
-                                $this->getAssignmentTitle($assignment->getId())
-                            );
-                        }
-                    } else {
-                        $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
-                            $id,
-                            $this->getAssignmentTitle((int) $id)
-                        );
-                    }
-                }
-                echo($this->ui_ren->renderAsync([
-                    $this->ui_fac->modal()->interruptive(
-                        "",
-                        empty($items) ? $this->lng->txt("no_checkbox") : $this->lng->txt("skmg_confirm_user_removal"),
-                        $this->ctrl->getFormActionByClass("ilskillprofilegui", "removeUsers")
-                    )
-                                 ->withAffectedItems($items)
-                                 ->withActionButtonLabel(empty($items) ? $this->lng->txt("ok") : $this->lng->txt("delete"))
-                ]));
-                exit();
-            }
-        }
-
-        $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("skmg_assigned_users"), $columns, $data_retrieval)
-                              ->withActions($actions)
-                              ->withRequest($this->request);
-
-        return $table;
+        return $data_retrieval;
     }
 
     protected function getAssignmentTitle(int $obj_id): string

@@ -1725,7 +1725,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Al resumen del resultado
 assessment#:#tst_results_overview#:#Pass Resumen de resultados del test
 assessment#:#tst_results_print_best_solution#:#Mejor solución en los resultados del test
 assessment#:#tst_results_print_best_solution_info#:#Si está activado y el participante tiene acceso, la mejor solución aparece en el resumen de los resultados del test.
-assessment#:#tst_results_tax_filters#:#Filtro de resultados
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Continuar test con la selección actual de preguntas
 assessment#:#tst_resume_test#:#Retomar el test
 assessment#:#tst_revert_changes#:#Deshacer edición

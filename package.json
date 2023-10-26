@@ -21,7 +21,7 @@
     "jquery-mousewheel": "^3.1.13",
     "jquery-outside-events": "^1.0.0",
     "jquery-ui-dist": "^1.13.1",
-    "jstree": "^3.3.9",
+    "jstree": "^3.3.16",
     "linkifyjs": "^2.1.9",
     "maphilight": "^1.4.2",
     "mediaelement": "4.2.16",
@@ -127,7 +127,7 @@
       "approved-by": "Jour Fixe",
       "developer": "akill",
       "purpose": "",
-      "last-update-for-ilias": "5.4.0",
+      "last-update-for-ilias": "9.0",
       "note": "The former patch (ILIAS < 5.4.0) is not needed anymore. Use of size() has been removed from the lib."
     },
     "moment": {

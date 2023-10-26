@@ -117,7 +117,7 @@ class ilBookingReservationsGUI
         switch ($next_class) {
             default:
                 if (in_array($cmd, array("log", "logDetails", "changeStatusObject", "rsvConfirmCancelUser", "rsvCancelUser",
-                    "applyLogFilter", "resetLogFilter", "rsvConfirmCancel", "rsvCancel", "back", "rsvConfirmDelete", "rsvDelete", "confirmResetRun", "resetRun", "displayPostInfo", "deliverPostFile"))) {
+                    "applyLogFilter", "resetLogFilter", "rsvConfirmCancel", "rsvCancel", "back", "rsvConfirmDelete", "rsvDelete", "confirmResetRun", "resetRun", "displayPostInfo", "deliverPostFile", "redirectMailToBooker"))) {
                     $this->$cmd();
                 }
         }
@@ -709,4 +709,53 @@ class ilBookingReservationsGUI
             $this->user->getId()
         );
     }
+
+    public function redirectMailToBooker(): void
+    {
+        if (!$this->checkPermissionBool("write")) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirect($this, 'log');
+        }
+
+        $ids = $this->getLogReservationIds();
+        if (count($ids) === 0) {
+            $this->back();
+        }
+
+        $users = [];
+        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+            foreach ($ids as $idx => $id) {
+                [$obj_id, $user_id, $from, $to] = explode("_", $id);
+                $rsv_ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
+                $rsv_id = $rsv_ids[0];
+                $rsv = new ilBookingReservation($rsv_id);
+                $users[$rsv->getUserId()] = ilObjUser::_lookupLogin($rsv->getUserId());
+            }
+        } else {
+            foreach ($ids as $idx => $rsv_id) {
+                $rsv = new ilBookingReservation($rsv_id);
+                $users[$rsv->getUserId()] = ilObjUser::_lookupLogin($rsv->getUserId());
+            }
+        }
+        $logins = implode(",", $users);
+        // #16530 - see ilObjCourseGUI::createMailSignature
+        $sig = chr(13) . chr(10) . chr(13) . chr(10) . chr(13) . chr(10);
+        $sig .= $this->lng->txt('book_mail_permanent_link') . ": ";
+        $sig .= chr(13) . chr(10);
+        $sig .= ilLink::_getLink($this->book_request->getRefId());
+        $sig = rawurlencode(base64_encode($sig));
+
+        ilMailFormCall::setRecipients($users);
+        \ilUtil::redirect(ilMailFormCall::getRedirectTarget(
+            $this,
+            "log",
+            array(),
+            array(
+                'type' => 'new',
+                'rcp_to' => $logins,
+                ilMailFormCall::SIGNATURE_KEY => $sig
+            )
+        ));
+    }
+
 }

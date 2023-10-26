@@ -14,7 +14,6 @@ $il-card-background: $il-main-bg;
 $il-card-highlight-bg: $il-warning-color;
 $il-card-highlight-height: $il-padding-large-vertical;
 $il-card-list-key-color: $il-text-light-color;
-$il-card-repository-head-color: rgba(0, 0, 0, 0.5);
 $il-card-repository-dropdown-border: $il-main-border-color 1px solid;
 $il-card-repository-outlined-icon-filter: brightness(3);
 $il-card-repository-outlined-disabled-icon-filter: $il-card-repository-outlined-icon-filter;
@@ -23,7 +22,6 @@ $il-card-max-width-xs: 350px;
 $il-card-box-shadow: $il-panel-shadow;
 $il-card-border: $il-panel-border;
 $il-card-border-radius: 0;
-$card-head-icon-filter: invert(50%);
 
 .il-card {
 	padding: 0 0 $il-padding-large-vertical 0;
@@ -36,7 +34,6 @@ $card-head-icon-filter: invert(50%);
 
 	.il-card-image-container {
 		width: 100%;
-		padding-top: 100%;
 		position: relative;
 
 		a:focus-visible {
@@ -45,15 +42,9 @@ $card-head-icon-filter: invert(50%);
 	}
 
 	img.img-responsive, img.img-standard {
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
 		width: 100%;
 		max-height: 100%;
 		margin: auto;
-		z-index: 100;
 	}
 
 	/* see bug #24947 */
@@ -68,11 +59,11 @@ $card-head-icon-filter: invert(50%);
 	&.thumbnail{
 		margin-bottom: 0px;
 		font-size: $il-font-size-small;
-		
+
 		&:focus-within .il-card-repository-head {
 			z-index: 400;
 		}
-		
+
 		a:focus-visible {
 			overflow: visible;
 		}
@@ -110,23 +101,17 @@ $card-head-icon-filter: invert(50%);
 	}
 
 	.il-card-repository-head{
-		background-color:$il-card-repository-head-color;
-		position:absolute;
-		top:0;
-		left:0;
-		right:0;
 		height: calc($il-icon-size-medium + $il-padding-large-horizontal);
 		padding: 0 $il-padding-small-horizontal;
-		z-index: 300;
-
-		.icon {
-			filter: $card-head-icon-filter;
-		}
 
 		> div {
 			padding: $il-padding-large-vertical $il-padding-small-horizontal;
 			float: left;
 		}
+
+        .caret {
+            color: $il-main-color;
+        }
 
 		.il-chart-progressmeter-box {
 			width: calc($il-icon-size-medium + $il-padding-small-horizontal);
@@ -134,7 +119,6 @@ $card-head-icon-filter: invert(50%);
 
 			> .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
 				max-width: 100%;
-				filter: brightness(1.2);
 			}
 		}
 
