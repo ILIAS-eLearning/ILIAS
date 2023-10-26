@@ -28,6 +28,7 @@ use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Taxonomy\DomainService as TaxonomyService;
 
 class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
 {
@@ -42,11 +43,12 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         protected ilLanguage $lng,
         protected ilComponentRepository $component_repository,
         protected ilRbacSystem $rbac,
+        protected TaxonomyService $taxonomy,
         protected int $parent_obj_id,
         protected int $request_ref_id
     ) {
         parent::__construct($db, $lng, $component_repository);
-        $this->setAvailableTaxonomyIds(ilObjTaxonomy::getUsageOfObject($parent_obj_id));
+        $this->setAvailableTaxonomyIds($taxonomy->getUsageOfObject($parent_obj_id));
     }
 
     public function getTable(): Table\Data
@@ -77,6 +79,24 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             $question_type_options[$row['type_tag']] = $translation;
         }
 
+        $taxs = $this->taxonomy->getUsageOfObject($this->parent_obj_id, true);
+        $tax_filter_options = [];
+        foreach($taxs as $tax_entry) {
+            $tax = new ilObjTaxonomy($tax_entry['tax_id']);
+            $children = $tax->getTree()->getChilds($tax->getTree()->readRootId());
+            $nodes = implode('-', array_map(fn($node) => $node['obj_id'], $children));
+
+            $tax_id = $tax_entry['tax_id'] . '-0-' . $nodes;
+            $tax_title = $tax_entry['title'];
+            $tax_filter_options[$tax_id] = $tax_title;
+
+            foreach($children as $subtax) {
+                $stax_id = $subtax['tax_id'] . '-' . $subtax['obj_id'];
+                $stax_title = '---' . $subtax['title'];
+                $tax_filter_options[$stax_id] = $stax_title;
+            }
+        }
+
         $field_factory = $this->ui_factory->input()->field();
         $filter_inputs = [
             'title' => $field_factory->text($this->lng->txt("title")),
@@ -85,6 +105,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             'lifecycle' => $field_factory->select($this->lng->txt("qst_lifecycle"), $lifecycle_options),
             'type' => $field_factory->select($this->lng->txt("type"), $question_type_options),
             'commented' => $field_factory->select($this->lng->txt("ass_commented_questions_only"), ['1' => $this->lng->txt('yes'), '0' => $this->lng->txt('no')]),
+            'taxonomies' => $field_factory->select($this->lng->txt("taxonomies"), $tax_filter_options),
         ];
 
         $active = array_fill(0, count($filter_inputs), true);
@@ -106,6 +127,8 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         $f = $this->ui_factory->table()->column();
         $df = $this->data_factory->dateFormat();
         $date_format = $df->withTime24($this->data_factory->dateFormat()->germanShort());
+        $icon_yes = $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('object/checkbox_checked.png'), 'yes'));
+        $icon_no = $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('object/checkbox_unchecked.png'), 'no'));
 
         return  [
             'title' => $f->text($this->lng->txt('title')),
@@ -117,10 +140,9 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             'lifecycle' => $f->text($this->lng->txt('qst_lifecycle')),
             'created' => $f->date($this->lng->txt('create_date'), $date_format),
             'tstamp' => $f->date($this->lng->txt('last_update'), $date_format),
-            'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies'))
-                ->withIsSortable(false),
-            'feedback' => $f->boolean($this->lng->txt('feedback'), $this->lng->txt('yes'), $this->lng->txt('no')),
-            'hints' => $f->boolean($this->lng->txt('hints'), $this->lng->txt('yes'), $this->lng->txt('no')),
+            'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies')),
+            'feedback' => $f->boolean($this->lng->txt('feedback'), $icon_yes, $icon_no),
+            'hints' => $f->boolean($this->lng->txt('hints'), $icon_yes, $icon_no),
         ];
     }
 
@@ -224,6 +246,10 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             if (is_numeric($a[$aspect]) || is_bool($a[$aspect])) {
                 return $a[$aspect] <=> $b[$aspect];
             }
+            if (is_array($a[$aspect])) {
+                return $a[$aspect] <=> $b[$aspect];
+            }
+
             return strcmp($a[$aspect], $b[$aspect]);
         });
 
