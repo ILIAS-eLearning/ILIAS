@@ -30,8 +30,7 @@ interface Column extends \ILIAS\UI\Component\Component
     public function getType(): string;
     public function withIsSortable(bool $flag): self;
     public function isSortable(): bool;
-    public function withIsOptional(bool $flag): self;
+    public function withIsOptional(bool $is_optional, bool $is_initially_visible = true): self;
     public function isOptional(): bool;
-    public function withIsInitiallyVisible(bool $flag): self;
     public function isInitiallyVisible(): bool;
 }
