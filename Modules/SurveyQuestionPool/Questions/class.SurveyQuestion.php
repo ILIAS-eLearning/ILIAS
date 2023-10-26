@@ -351,8 +351,6 @@ class SurveyQuestion
         } else {
             $clone->saveToDb();
         }
-        // duplicate the materials
-        $clone->duplicateMaterials($original_id);
         // copy XHTML media objects
         $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
         return $clone->getId();
@@ -377,8 +375,6 @@ class SurveyQuestion
 
         $clone->saveToDb();
 
-        // duplicate the materials
-        $clone->duplicateMaterials($original_id);
         // copy XHTML media objects
         $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
         return $clone->getId();
