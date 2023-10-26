@@ -376,7 +376,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                                         ),
                                     ]
                                 )
-                                ->withSubmitCaption($this->lng->txt('send'))
+                                ->withSubmitLabel($this->lng->txt('send'))
                                 ->withAdditionalTransformation($this->mergeValuesTrafo())
                                 ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
@@ -513,7 +513,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                                 ->form()
                                 ->standard($this->ctrl->getFormAction($this, 'doStandardAuthentication'), $sections)
                                 ->withDedicatedName('login_form')
-                                ->withSubmitCaption($this->lng->txt('log_in'))
+                                ->withSubmitLabel($this->lng->txt('log_in'))
                                 ->withAdditionalTransformation($this->mergeValuesTrafo())
                                 ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
@@ -1108,7 +1108,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                                 ->form()
                                 ->standard($this->ctrl->getFormAction($this, 'migrateAccount'), $sections)
                                 ->withDedicatedName('login_form')
-                                ->withSubmitCaption($this->lng->txt('save'))
+                                ->withSubmitLabel($this->lng->txt('save'))
                                 ->withAdditionalTransformation($this->mergeValuesTrafo())
                                 ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
