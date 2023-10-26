@@ -51,10 +51,11 @@ function base(): string
             ?array $filter_data,
             ?array $additional_parameters
         ): ?int {
-            return null;
+            return count($this->records);
         }
     };
 
-    $table = $f->table()->data('Link Columns', $columns, $data_retrieval);
+    $table = $f->table()->data('Link Columns', $columns, $data_retrieval)
+        ->withRequest($DIC->http()->request());
     return $r->render($table);
 }
