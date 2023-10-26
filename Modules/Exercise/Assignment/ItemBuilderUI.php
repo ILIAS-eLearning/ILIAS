@@ -63,9 +63,10 @@ class ItemBuilderUI
 
         // actions
         $actions = [];
+        $main_action = null;
         foreach ($pb->getSections() as $sec => $txt) {
             if ($act = $pb->getMainAction($sec)) {
-                $actions[] = $this->ui_factory->button()->shy(
+                $main_action = $this->ui_factory->button()->standard(
                     $act->getLabel(),
                     $act->getAction()
                 );
@@ -89,6 +90,9 @@ class ItemBuilderUI
         )->withProperties($props)->withLeadText($pb->getLeadText() . " ");
         if (count($actions) > 0) {
             $item = $item->withActions($this->ui_factory->dropdown()->standard($actions));
+        }
+        if ($main_action) {
+            $item = $item->withMainAction($main_action);
         }
         $this->ctrl->setParameterByClass(\ilAssignmentPresentationGUI::class, "ass_id", null);
         return $item;
