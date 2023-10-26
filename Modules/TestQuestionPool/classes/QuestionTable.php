@@ -195,14 +195,20 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): ?int {
-        return count($this->load());
+        $this->setParentObjId($this->parent_obj_id);
+        $this->load();
+        return count($this->getQuestionDataArray());
     }
 
     protected function getData(Order $order, Range $range): array
     {
         $this->setParentObjId($this->parent_obj_id);
         $this->load();
-        return $this->postOrder($this->getQuestionDataArray(), $order);
+        $data = $this->postOrder($this->getQuestionDataArray(), $order);
+        [$offset, $length] = $range->unpack();
+        $length = $length > 0 ? $length : null;
+        $offset = max($offset - 1, 0);
+        return array_slice($data, $offset, $length);
     }
 
     protected function getActions(): array
