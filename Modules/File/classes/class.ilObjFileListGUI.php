@@ -17,7 +17,7 @@
  *********************************************************************/
 
 use ILIAS\File\Icon\IconDatabaseRepository;
-use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
+use ILIAS\ResourceStorage\Flavour\Definition\CropToRectangle;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Services;
@@ -45,10 +45,8 @@ class ilObjFileListGUI extends ilObjectListGUI
     {
         parent::__construct($context);
 
+        global $DIC;
         $DIC->language()->loadLanguageModule('wopi');
-        $this->irss = $DIC->resourceStorage();
-        $this->crop_definition = new CropToSquare($this->persist, $this->max_size);
-        $this->extract_definition = new PagesToExtract($this->persist, $this->max_size, 1, true);
         $this->action_repo = new ActionDBRepository($DIC->database());
     }
 
