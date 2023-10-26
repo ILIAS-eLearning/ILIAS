@@ -11,7 +11,7 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
-#### Outer Content (advanced, variable)
+### Outer Content (advanced, variable)
 This Component is basically what could be hooked into the [Standard Layout](Component/Layout/Page/Factory.php) as
 content (currently provided as array of Legacy Components). Most Probably it should be able to hold the title section 
 (not yet part of the UI Components, see below), the Tabs (not yet Part of the UI Components, see below) and the
@@ -19,7 +19,7 @@ Inner Content holding the workspace for the current context (not yet Part of the
 
 Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
 
-#### Title Section (advanced, variable)
+### Title Section (advanced, variable)
 This Component will probably hold the Icon, title, description and the actions (maybe along with the used glyphs) of the 
 current context. Note that a major part of the work for this components will be to setup a comprehensive set of rules on 
 when to provide an Icon, restrictions of the Title (lengths, nouns vs verbs etc.), restrictions of the description 
@@ -29,7 +29,7 @@ However, this has not been decided yet and is thus most certainly up for discuss
 
 Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
 
-#### Tabs and Sub Tabs (advanced, variable)
+### Tabs and Sub Tabs (advanced, variable)
 Note that a major part of the work for this Components will be to setup a comprehensive set of rules on the naming of 
 Tabs and Sub Tabs (noun vs verbs, length, amount of words etc.) and rules for the usage of Tabs vs Sub Tabs vs Sections
 in Forms shown in Tabs. Also, one would have to look into the issue that currently "<-- Back" actions are mixed into 
@@ -37,13 +37,13 @@ the Tabs. We will need to decide, whether we will still use this concept in the 
 
 Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
 
-#### Inner Content
+### Inner Content
 This will most probably mainly contain an array of Components used in the Content Section. An interesting 
 point here will be the question, whether this Component should also offer something like withToolbar, to make sure 
 only one or no Toolbar can be provided and whether there would be different types of Inner Content Components (such as 
 one with a Sidebar).
 
-#### Toolbar
+### Toolbar
 The Toolbar is currently in discussion (link to paper) and it is very plausibel that we find altnerntive places for all elements currently in it.
 Therefore we are not sure, if there will ever be something like the toolbar in the UI Components.
 
