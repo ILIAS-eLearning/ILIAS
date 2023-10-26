@@ -7133,7 +7133,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $owner_id = $this->getOwner();
         $usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
 
-        $worksheet = (new ilExcelTestExport($this, ilTestEvaluationData::FILTER_BY_ACTIVE_ID, $active_id, false, true))
+        $worksheet = (new ilExcelTestExport($this, ilTestEvaluationData::FILTER_BY_ACTIVE_ID, (string) $active_id, false, true))
             ->withResultsPage()
             ->withUserPages()
             ->getContent();
