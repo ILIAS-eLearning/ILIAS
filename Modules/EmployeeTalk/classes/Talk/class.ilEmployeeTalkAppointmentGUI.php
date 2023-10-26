@@ -171,7 +171,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
         $dates = '';
         $rel = ilDatePresentation::useRelativeDates();
-        ilDatePresentation::setUseRelativeDates(true);
+        ilDatePresentation::setUseRelativeDates(false);
         foreach ($talks as $talk) {
             $dates .= "</br>" . ilDatePresentation::formatDate($talk->getData()->getStartDate());
         }
