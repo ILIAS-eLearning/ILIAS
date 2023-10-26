@@ -38,7 +38,6 @@ class ilObjTestSettingsResultDetails extends TestSettings
     protected bool $examid_in_test_res = true;
     protected int $exportsettings = 0;
     protected int $results_presentation = 0;
-    protected array $taxonomy_filter_ids = [];
 
 
     public function __construct(int $test_id)
@@ -52,13 +51,6 @@ class ilObjTestSettingsResultDetails extends TestSettings
         Refinery $refinery,
         array $environment = null
     ): FormInput {
-        $taxonomy_options = $environment['taxonomy_options'];
-        $taxonomy_ids = $f->multiselect(
-            $lng->txt('tst_results_tax_filters'),
-            $taxonomy_options,
-            ''
-        );
-
         $fields = [
             'solution_best_solution' =>
                 $f->checkbox(
@@ -92,9 +84,7 @@ class ilObjTestSettingsResultDetails extends TestSettings
             'examid_in_test_res' => $f->checkbox(
                 $lng->txt('examid_in_test_res'),
                 $lng->txt('examid_in_test_res_desc')
-            )->withValue($this->getShowExamIdInTestResults()),
-            'result_tax_filters' => $taxonomy_ids
-                ->withValue($this->getTaxonomyFilterIds())
+            )->withValue($this->getShowExamIdInTestResults())
         ];
 
         return $f->section($fields, $lng->txt('tst_results_details_options'))
@@ -108,8 +98,7 @@ class ilObjTestSettingsResultDetails extends TestSettings
                             ->withShowSolutionPrintview($v['solution_printview'])
                             ->withShowSolutionAnswersOnly($v['solution_hide_page'])
                             ->withShowSolutionSignature($v['solution_signature'])
-                            ->withShowExamIdInTestResults($v["examid_in_test_res"])
-                            ->withTaxonomyFilterIds($v["result_tax_filters"] ?? []);
+                            ->withShowExamIdInTestResults($v["examid_in_test_res"]);
                     }
                 )
             );
@@ -121,8 +110,7 @@ class ilObjTestSettingsResultDetails extends TestSettings
             'results_presentation' => ['integer', $this->getResultsPresentation()],
             'examid_in_test_res' => ['integer', (int) $this->getShowExamIdInTestResults()],
             'exportsettings' => ['integer', (int) $this->getExportSettings()],
-            'results_presentation' => ['integer', (int) $this->getResultsPresentation()],
-            'result_tax_filters' => ['string', serialize($this->getTaxonomyFilterIds())]
+            'results_presentation' => ['integer', (int) $this->getResultsPresentation()]
         ];
     }
 
@@ -258,17 +246,6 @@ class ilObjTestSettingsResultDetails extends TestSettings
             }
         }
         $clone->exportsettings = $v;
-        return $clone;
-    }
-
-    public function getTaxonomyFilterIds(): array
-    {
-        return $this->taxonomy_filter_ids;
-    }
-    public function withTaxonomyFilterIds(array $taxonomy_filter_ids): self
-    {
-        $clone = clone $this;
-        $clone->taxonomy_filter_ids = $taxonomy_filter_ids;
         return $clone;
     }
 }

@@ -1729,7 +1729,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#合格/"不合格"ステ
 assessment#:#tst_results_overview#:#テスト結果全般
 assessment#:#tst_results_print_best_solution#:#模範解答
 assessment#:#tst_results_print_best_solution_info#:#各問題用に加えて考えられるベスト解答が表示されます。
-assessment#:#tst_results_tax_filters#:#結果フィルター
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#現在の問題選択でテストを再開
 assessment#:#tst_resume_test#:#テストを再開
 assessment#:#tst_revert_changes#:#編集をUndo

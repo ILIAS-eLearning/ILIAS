@@ -93,8 +93,6 @@ class ScoreSettingsTest extends ILIAS_UI_TestBase
         $this->assertTrue($s->withShowSolutionListComparison(true)->getShowSolutionListComparison());
         $this->assertFalse($s->withShowSolutionListComparison(false)->getShowSolutionListComparison());
         $this->assertTrue($s->withShowPassDetails(true)->getShowPassDetails());
-        $tax_ids = [1,3,5,17];
-        $this->assertEquals($tax_ids, $s->withTaxonomyFilterIds($tax_ids)->getTaxonomyFilterIds());
     }
 
     public function testScoreSettingsGamification(): void
@@ -406,20 +404,6 @@ EOT;
     <div class="form-group row">
         <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">examid_in_test_res</label><div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_7" value="checked" checked="checked" name="" class="form-control form-control-sm" /><div class="help-block">examid_in_test_res_desc</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_tax_filters</label>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <ul class="il-input-multiselect" id="id_8">
-                <li>
-                    <input type="checkbox" name="[]" value="0" /><span>1</span>
-                </li>
-                <li>
-                    <input type="checkbox" name="[]" value="1" /><span>2</span>
-                </li>
-            </ul>
         </div>
     </div>
 

@@ -287,16 +287,6 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         $this->deleteFromDb();
     }
 
-    public function resetQuestionSetRelatedTestSettings(): void
-    {
-        $this->test_obj->getScoreSettingsRepository()->store(
-            $this->test_obj->getScoreSettings()->withResultDetailsSettings(
-                $this->test_obj->getScoreSettings()->getResultDetailsSettings()->withTaxonomyFilterIds([])
-            )
-        );
-        $this->test_obj->saveToDb(true);
-    }
-
     public function cloneQuestionSetRelatedData(ilObjTest $clone_test_obj): void
     {
         $this->loadFromDb();

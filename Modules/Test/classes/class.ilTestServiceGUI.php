@@ -579,7 +579,6 @@ class ilTestServiceGUI
         }
 
         $tableGUI->initColumns();
-        $tableGUI->initFilter();
 
         $tableGUI->setFilterCommand($targetCMD . 'SetTableFilter');
         $tableGUI->setResetCommand($targetCMD . 'ResetTableFilter');
@@ -1017,7 +1016,6 @@ class ilTestServiceGUI
         $component_repository = $this->component_repository;
 
         $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
-        $table_gui->initFilter();
 
         $questionList = new ilAssQuestionList($ilDB, $this->lng, $component_repository);
 
