@@ -66,7 +66,7 @@ class DeliveryMethodObjective extends BuildArtifactObjective
 
             $loaded_modules = array_map(static function ($module) {
                 return explode(" ", trim($module))[0] ?? "";
-            }, explode("\n", shell_exec("apache2ctl -M")));
+            }, explode("\n", shell_exec("apache2ctl -M 2>/dev/null") ?? ''));
         } catch (\Throwable $e) {
             $loaded_modules = [];
         }
