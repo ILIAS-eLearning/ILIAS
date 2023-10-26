@@ -172,11 +172,6 @@ class EditingGUIRequest
         return $this->strArray("file");
     }
 
-    public function getMaterialIndexes(): array
-    {
-        return $this->intArray("idx");
-    }
-
     public function getPercentRow(): int
     {
         return $this->int("percent_row");

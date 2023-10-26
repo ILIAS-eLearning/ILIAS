@@ -146,9 +146,6 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         bool $compress_view = false
     ): string {
         $template = new ilTemplate("tpl.il_svy_out_text.html", true, true, "Modules/SurveyQuestionPool");
-        $template->setCurrentBlock("material_text");
-        $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
-        $template->parseCurrentBlock();
 
         if ($this->object->getTextHeight() === 1) {
             $template->setCurrentBlock("textinput");

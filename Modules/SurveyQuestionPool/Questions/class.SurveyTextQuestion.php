@@ -131,8 +131,6 @@ class SurveyTextQuestion extends SurveyQuestion
                 array('integer', 'integer', 'integer', 'integer'),
                 array($this->getId(), $this->getMaxChars(), $this->getTextWidth(), $this->getTextHeight())
             );
-
-            $this->saveMaterial();
         }
         return $affectedRows;
     }

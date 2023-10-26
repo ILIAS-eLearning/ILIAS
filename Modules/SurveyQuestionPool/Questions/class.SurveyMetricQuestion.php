@@ -169,9 +169,6 @@ class SurveyMetricQuestion extends SurveyQuestion
                 array($this->getId(), $this->getSubtype())
             );
 
-            // saving material uris in the database
-            $this->saveMaterial();
-
             // save categories
             $ilDB->manipulateF(
                 "DELETE FROM svy_variable WHERE question_fi = %s",

@@ -564,9 +564,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $neutralstyle = "3px solid #808080";
         $bordercolor = "#808080";
         $template = new ilTemplate("tpl.il_svy_out_matrix.html", true, true, "Modules/SurveyQuestionPool");
-        $template->setCurrentBlock("material_matrix");
-        $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
-        $template->parseCurrentBlock();
 
         if ($this->show_layout_row) {
             $layout_row = $this->getLayoutRow();

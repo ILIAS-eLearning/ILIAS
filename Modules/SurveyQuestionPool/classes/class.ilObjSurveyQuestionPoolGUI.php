@@ -805,7 +805,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                  "importQuestions", "deleteQuestions", "copy", "paste",
                  "exportQuestions", "confirmDeleteQuestions", "cancelDeleteQuestions",
                  "confirmPasteQuestions", "cancelPasteQuestions", "uploadQuestions",
-                 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel",
+                 "editQuestion", "save", "cancel",
                  "cancelExplorer", "linkChilds", "addGIT", "addST", "addPG", "preview",
                  "moveCategory", "deleteCategory", "addPhrase", "addCategory", "savePhrase",
                  "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase", "cancelSavePhrase",

@@ -301,9 +301,6 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
         bool $compress_view = false
     ): string {
         $template = new ilTemplate("tpl.il_svy_out_mc.html", true, true, "Modules/SurveyQuestionPool");
-        $template->setCurrentBlock("material");
-        $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
-        $template->parseCurrentBlock();
         switch ($this->object->getOrientation()) {
             case 0:
                 // vertical orientation

@@ -182,7 +182,6 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
                 )
             );
 
-            $this->saveMaterial();
             $this->saveCategoriesToDb();
         }
         return $affectedRows;

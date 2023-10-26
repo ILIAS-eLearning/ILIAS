@@ -200,9 +200,6 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         bool $compress_view = false
     ): string {
         $template = new ilTemplate("tpl.il_svy_out_metric.html", true, true, "Modules/SurveyQuestionPool");
-        $template->setCurrentBlock("material_metric");
-        $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
-        $template->parseCurrentBlock();
         $template->setVariable("MIN_MAX", $this->object->getMinMaxText());
 
         if ($show_questiontext) {
