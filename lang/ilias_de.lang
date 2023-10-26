@@ -9071,6 +9071,7 @@ etal#:#notification_talks_removed#:#Folgende Termine wurden abgesagt.
 etal#:#notification_talks_subject#:#Termineinladung: %s
 etal#:#notification_talks_subject_update#:#Terminaktualisierung: %s
 etal#:#notification_talks_updated#:#Folgende Gesprächstermine wurden angepasst.
+etal#:#pending_talks_warning#:#Die folgenden ausstehenden Gesprächstermine werden ersetzt:
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Gespräche hinzufügen
 etal#:#tals_new#:#Neue Gesprächsserie
