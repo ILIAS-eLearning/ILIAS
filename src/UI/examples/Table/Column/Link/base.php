@@ -9,11 +9,11 @@ use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 
-function base()
+function base(): string
 {
     global $DIC;
-    $f = $DIC['ui.factory'];
-    $r = $DIC['ui.renderer'];
+    $f = $DIC->ui()->factory();
+    $r = $DIC->ui()->renderer();
 
     $columns = [
         'l1' => $f->table()->column()->link("a link column")
