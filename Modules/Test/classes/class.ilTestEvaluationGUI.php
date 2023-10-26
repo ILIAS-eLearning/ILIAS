@@ -91,7 +91,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 break;
 
             default:
-                $ret = $this->$cmd();
+                if (in_array($cmd, ['excel_scored_test_run', 'excel_all_test_runs', 'csv'])) {
+                    $ret = $this->exportEvaluation($cmd);
+                } else if (in_array($cmd, ['excel_all_test_runs_a', 'csv_a'])) {
+                    $ret = $this->exportAggregatedResults($cmd);
+                } else if ($cmd === 'certificate') {
+                    $ret = $this->exportCertificate();
+                } else {
+                    $ret = $this->$cmd();
+                }
                 break;
         }
         return $ret;
@@ -296,14 +304,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
             if ($this->getObject() && $this->getObject()->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_RANDOM) {
                 $options = array(
-                    'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
-                    'excel_all_test_runs' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')',
-                    'csv' => $this->lng->txt('exp_type_spss')
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this,'excel_scored_test_run')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
                 );
             } else {
                 $options = array(
-                    'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
-                    'csv' => $this->lng->txt('exp_type_spss')
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
                 );
             }
 
@@ -311,19 +319,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 try {
                     $globalCertificatePrerequisites = new ilCertificateActiveValidator();
                     if ($globalCertificatePrerequisites->validate()) {
-                        $options['certificate'] = $this->lng->txt('exp_type_certificate');
+                        $options[] = $this->ui_factory->button()->shy($this->lng->txt('exp_type_certificate'), 'certificate');
                     }
                 } catch (ilException $e) {
                 }
             }
 
-            $export_type->setOptions($options);
-
-            $ilToolbar->addInputItem($export_type, true);
-            $button = ilSubmitButton::getInstance();
-            $button->setCommand('exportEvaluation');
-            $button->setCaption('export');
-            $ilToolbar->addButtonInstance($button);
+            $select = $this->ui_factory->dropdown()->standard($options)->withLabel($this->lng->txt('exp_eval_data'));
+            $ilToolbar->addComponent($select);
         }
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
@@ -561,29 +564,23 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $data = [];
         $foundParticipants = $eval->getParticipants();
         if (count($foundParticipants)) {
-            $this->toolbar->setFormName('form_output_eval');
-            $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'exportAggregatedResults'));
-            $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
-            $export_type->setOptions(array(
-                'excel' => $this->lng->txt('exp_type_excel'),
-                'csv' => $this->lng->txt('exp_type_spss')
-            ));
-            $this->toolbar->addInputItem($export_type, true);
+            $options = [
+                $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel'), $this->ctrl->getLinkTarget($this, 'excel_all_test_runs_a')),
+                $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv_a'))
+            ];
 
-            $button = ilSubmitButton::getInstance();
-            $button->setCommand('exportAggregatedResults');
-            $button->setCaption('export');
-            $this->toolbar->addButtonInstance($button);
+            $select = $this->ui_factory->dropdown()->standard($options)->withLabel($this->lng->txt('exp_eval_data'));
+            $this->toolbar->addComponent($select);
 
-            array_push($data, array(
+            $data[] = array(
                 'result' => $this->lng->txt("tst_eval_total_persons"),
                 'value' => count($foundParticipants)
-            ));
+            );
             $total_finished = $eval->getTotalFinishedParticipants();
-            array_push($data, array(
+            $data[] = array(
                 'result' => $this->lng->txt("tst_eval_total_finished"),
                 'value' => $total_finished
-            ));
+            );
             $average_time = $this->object->evalTotalStartedAverageTime(
                 $eval->getParticipantIds()
             );
@@ -677,7 +674,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->tpl->setVariable('TBL_AVG_REACHED', $table_gui->getHTML());
     }
 
-    public function exportEvaluation()
+    public function exportEvaluation($cmd = "")
     {
         $filterby = ilTestEvaluationData::FILTER_BY_NONE;
         if ($this->testrequest->isset("g_filterby")) {
@@ -696,7 +693,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             }
         }
 
-        switch ($this->testrequest->raw("export_type")) {
+        if($cmd == '') {
+            $cmd = $this->testrequest->raw("export_type");
+        }
+        switch ($cmd) {
             case "excel_scored_test_run":
                 (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, true))
                     ->withResultsPage()
@@ -728,15 +728,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
     }
 
-    public function exportAggregatedResults()
+    public function exportAggregatedResults($cmd = '')
     {
-        switch ($_POST["export_type"]) {
-            case "excel":
+        switch ($cmd) {
+            case "excel_all_test_runs_a":
                 (new ilExcelTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
                     ->withAggregatedResultsPage()
                     ->deliver($this->object->getTitle() . '_aggregated');
                 break;
-            case "csv":
+            case "csv_a":
                 (new ilCSVTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false))
                     ->withAggregatedResults()
                     ->deliver($this->object->getTitle() . '_aggregated');
