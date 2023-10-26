@@ -24,6 +24,7 @@ declare(strict_types=1);
 #[AllowDynamicProperties]
 class ilPCPRGStatusInfo extends ilPageContent
 {
+    protected ilLanguage $lng;
     public const PCTYPE = 'prgstatusinfo';
     public const PCELEMENT = 'PRGStatusInfo';
     public const PLACEHOLDER = '[[[PRG_STATUS_INFO]]]';
@@ -31,6 +32,8 @@ class ilPCPRGStatusInfo extends ilPageContent
 
     public function init(): void
     {
+        global $DIC;
+        $this->lng = $DIC->language();
         $this->setType(self::PCTYPE);
     }
 
@@ -53,7 +56,30 @@ class ilPCPRGStatusInfo extends ilPageContent
         string $a_mode,
         bool $a_abstract_only = false
     ): string {
-        if ($a_mode == 'edit') {
+        $parent_obj_id = $this->getPage()->getParentId();
+        $end = 0;
+        $start = strpos($a_output, "[[[PRG_STATUS_INFO");
+
+        if (is_int($start)) {
+            $end = strpos($a_output, "]]]", $start);
+        }
+
+        if ($a_mode === 'edit') {
+            while ($end > 0) {
+                if ($this->supportsType($parent_obj_id)) {
+                    $html = $this->getTemplate();
+
+                    $a_output = substr($a_output, 0, $start) .
+                        $html .
+                        substr($a_output, $end + 3);
+
+                    $start = strpos($a_output, "[[[PRG_STATUS_INFO", $start + 3);
+                    $end = 0;
+                    if (is_int($start)) {
+                        $end = strpos($a_output, "]]]", $start);
+                    }
+                }
+            }
             return $a_output;
         }
 
@@ -61,7 +87,6 @@ class ilPCPRGStatusInfo extends ilPageContent
         if ($this->supportsType($parent_obj_id)) {
             $a_output = $this->replaceWithRendered($parent_obj_id, $a_output);
         }
-
         return $a_output;
     }
 
@@ -77,5 +102,17 @@ class ilPCPRGStatusInfo extends ilPageContent
         $builder = $dic['pc.statusinfo'];
         $rendered = $builder->getStatusInfoFor($obj_id);
         return str_replace(self::PLACEHOLDER, $rendered, $html);
+    }
+
+    protected function getTemplate(): string
+    {
+        $template = new ilTemplate("tpl.statusinfo_poeditor_element.html", true, true, 'Modules/StudyProgramme');
+        $icon = "./templates/default/images/standard/icon_prg.svg";
+
+        $template->setVariable("ICON", $icon);
+        $template->setVariable("ICON_TEXT", $this->lng->txt("study_programme_icon"));
+        $template->setVariable("LABEL", $this->lng->txt("pc_prg_statusinfo_label"));
+
+        return $template->get();
     }
 }
