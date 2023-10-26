@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\CI\Rector\ReplaceWithDIC;
+namespace ILIAS\CI\Rector\ilUtils;
 
 class Example
 {
