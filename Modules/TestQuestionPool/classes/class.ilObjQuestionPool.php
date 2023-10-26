@@ -708,31 +708,6 @@ class ilObjQuestionPool extends ilObject
         return $this->show_taxonomies;
     }
 
-    public static function _lookupOnline(int $a_obj_id, $is_reference = false): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        if ($is_reference) {
-            $result = $ilDB->queryF(
-                'SELECT object_data.offline FROM object_reference,object_data WHERE object_reference.ref_id = %s AND object_reference.obj_id = object_data.obj_id',
-                ['integer'],
-                [$a_obj_id]
-            );
-        } else {
-            $result = $ilDB->queryF(
-                'SELECT offline FROM object_data WHERE obj_id = %s',
-                ['integer'],
-                [$a_obj_id]
-            );
-        }
-        if ($result->numRows() === 1) {
-            $row = $ilDB->fetchAssoc($result);
-            return !($row['offline'] ?? true);
-        }
-        return false;
-    }
-
     /**
      * Checks a question pool for questions with the same maximum points
      *

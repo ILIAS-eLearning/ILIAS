@@ -1037,6 +1037,7 @@ assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möcht
 assessment#:#qpl_questions_deleted#:#Fragen gelöscht
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
 assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
+assessment#:#qpl_settings_availability#:#Verfügbarkeit
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Vorhandene Taxonomien können zum Filtern der Fragen genutzt werden.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Navigationsbaum
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Ist eine Taxonomie ausgewählt, wird diese nicht als Filter sondern als Navigationsbaum angezeigt.

@@ -23,6 +23,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Renderer as UIRenderer;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;
+use ILIAS\UI\Component\MessageBox\MessageBox;
 
 /**
  * GUI class that manages the editing of general test question pool settings/properties
@@ -39,10 +40,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 {
     public const CMD_SHOW_GENERAL_FORM = 'showForm';
     public const CMD_SAVE_GENERAL_FORM = 'saveForm';
-    public const CMD_SHOW_ADDITIONAL_FORM = 'showAdditionalForm';
-    public const CMD_SAVE_ADDITIONAL_FORM = 'saveAdditionalForm';
     public const TAB_COMMON_SETTINGS = 'settings';
-    public const TAB_ADDITIONAL_SETTINGS = 'additional_settings';
     protected ilObjQuestionPool|ilObject $poolOBJ;
 
     public function __construct(
@@ -73,6 +71,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         }
 
         $this->tabs->activateTab('settings');
+        $this->tabs->activateSubTab('qpl_settings_subtab_general');
 
         // process command
 
@@ -104,17 +103,12 @@ class ilObjQuestionPoolSettingsGeneralGUI
         if ($result->isOK()) {
             $values = $result->value();
             $this->performSaveForm($values);
+            $this->tpl->setOnScreenMessage(MessageBox::SUCCESS, $this->lng->txt("msg_obj_modified"), true);
+            $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_FORM);
+        } else {
+            $this->tpl->setOnScreenMessage(MessageBox::FAILURE, $this->lng->txt('form_input_not_valid'));
+            $this->showFormCmd($form);
         }
-
-        //if ($errors) {
-        //    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-        //    $this->showFormCmd($form);
-        //}
-
-        //$this->performSaveForm($form);
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_FORM);
     }
 
     private function performSaveForm($data): void
@@ -123,33 +117,34 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $md_section = $md_obj->getGeneral();
 
         $general_settings = $data['general_settings'] ?? [];
+        $title_and_description = current($general_settings);
+        if ($title_and_description instanceof ilObjectPropertyTitleAndDescription) {
+            $this->poolOBJ->getObjectProperties()->storePropertyTitleAndDescription(
+                $title_and_description
+            );
 
-        if ($md_section) {
-            $md_section->setTitle($general_settings['title'] ?? '');
-            $md_section->update();
-        }
+            if ($md_section) {
+                $md_section->setTitle($title_and_description->getTitle());
+                $md_section->update();
+            }
 
-        // Description
-        $md_desc_ids = $md_section->getDescriptionIds();
-        if ($md_desc_ids) {
-            $md_desc = $md_section->getDescription(array_pop($md_desc_ids));
+            $md_desc_ids = $md_section->getDescriptionIds();
+            if ($md_desc_ids) {
+                $md_desc = $md_section->getDescription(array_pop($md_desc_ids));
+            }
+            if (isset($md_desc)) {
+                $md_desc->setDescription($title_and_description->getDescription());
+                $md_desc->update();
+            } else {
+                $md_desc = $md_section->addDescription();
+                $md_desc->setDescription($title_and_description->getDescription());
+                $md_desc->save();
+            }
         }
-        if (isset($md_desc)) {
-            $md_desc->setDescription($general_settings['description'] ?? '');
-            $md_desc->update();
-        } else {
-            $md_desc = $md_section->addDescription();
-            $md_desc->setDescription($general_settings['description'] ?? '');
-            $md_desc->save();
-        }
-
-        $this->poolOBJ->setTitle($general_settings['title'] ?? '');
-        $this->poolOBJ->setDescription($general_settings['description'] ?? '');
-        $this->poolOBJ->update();
 
         $availability = $data['availability'] ?? [];
         $this->poolOBJ->getObjectProperties()->storePropertyIsOnline(
-            current($availability) ?: new ilObjectPropertyIsOnline(false)
+            current($availability) ?: $this->poolOBJ->getObjectProperties()->getPropertyIsOnline()->withOffline()
         );
 
         $display_settings = $data['display_settings'] ?? [];
@@ -173,29 +168,18 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
         $md_section = $md_obj->getGeneral();
 
-        if ($md_section) {
-            $title = $this->ui_factory->input()->field()->text($this->lng->txt("title"))
-                                      ->withRequired(true)
-                                      ->withValue($md_section->getTitle());
+        $title_and_description = $this->poolOBJ->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
+            $this->lng,
+            $this->ui_factory->input()->field(),
+            $this->refinery
+        );
 
-            $ids = $md_section->getDescriptionIds();
-            if ($ids) {
-                $desc_obj = $md_section->getDescription(array_pop($ids));
-                if ($desc_obj) {
-                    $description = $this->ui_factory->input()->field()->textarea(
-                        $this->lng->txt("description")
-                    )->withValue($desc_obj->getDescription());
-                }
-            }
-
-            $items['general_settings'] = $this->ui_factory->input()->field()->section(
-                [
-                    'title' => $title,
-                    'description' => $description ?? null,
-                ],
-                $this->lng->txt('qpl_form_general_settings')
-            );
-        }
+        $items['general_settings'] = $this->ui_factory->input()->field()->section(
+            [
+                $title_and_description
+            ],
+            $this->lng->txt('qpl_form_general_settings')
+        );
 
         $online = $this->poolOBJ->getObjectProperties()->getPropertyIsOnline()->toForm(
             $this->lng,
