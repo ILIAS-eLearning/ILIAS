@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +19,6 @@
 declare(strict_types=1);
 
 /**
- * Class ilTestPDFGenerator
  *
  * Class that handles PDF generation for test and assessment.
  *
@@ -26,46 +26,40 @@ declare(strict_types=1);
  * @version $Id$
  *
  */
-class ilTestPDFGenerator
+class ilTestHTMLGenerator
 {
-    public const PDF_OUTPUT_DOWNLOAD = 'D';
-    public const PDF_OUTPUT_INLINE = 'I';
-    public const PDF_OUTPUT_FILE = 'F';
-
-    public const service = "Test";
-
-    private static function buildHtmlDocument($contentHtml, $styleHtml): string
+    private function buildHtmlDocument($content_html, $style_html): string
     {
         return "
 			<html>
 				<head>
 					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
- 					$styleHtml
+ 					$style_html
  				</head>
-				<body>$contentHtml</body>
+				<body>$content_html</body>
 			</html>
 		";
     }
 
     /**
-     * @param $contentHtml
-     * @param $styleHtml
+     * @param $content_html
+     * @param $style_html
      * @return string
      */
-    private static function makeHtmlDocument($contentHtml, $styleHtml): string
+    private function makeHtmlDocument($content_html, $style_html): string
     {
-        if (!is_string($contentHtml) || !strlen(trim($contentHtml))) {
-            return $contentHtml;
+        if (!is_string($content_html) || !strlen(trim($content_html))) {
+            return $content_html;
         }
 
-        $html = self::buildHtmlDocument($contentHtml, $styleHtml);
+        $html = $this->buildHtmlDocument($content_html, $style_html);
 
         $dom = new DOMDocument("1.0", "utf-8");
         if (!@$dom->loadHTML($html)) {
             return $html;
         }
 
-        $invalid_elements = array();
+        $invalid_elements = [];
 
         $script_elements = $dom->getElementsByTagName('script');
         foreach ($script_elements as $elm) {
@@ -84,59 +78,53 @@ class ilTestPDFGenerator
 
         $dom->encoding = 'UTF-8';
 
-        $img_src_map = array();
+        $content_to_replace = null;
         foreach ($dom->getElementsByTagName('img') as $elm) {
             /** @var $elm DOMElement $uid */
-            $uid = 'img_src_' . uniqid();
             $src = $elm->getAttribute('src');
 
-            $elm->setAttribute('src', $uid);
+            $src_uri = new ILIAS\Data\URI($src);
+            $path_to_file = $_SERVER['DOCUMENT_ROOT'] . $src_uri->getPath();
 
-            $img_src_map[$uid] = $src;
+            try {
+                $image_content = base64_encode(file_get_contents($path_to_file));
+                $file_info = finfo_open(FILEINFO_MIME_TYPE);
+                $mime_type = finfo_file($file_info, $path_to_file);
+                $image_data = "data:{$mime_type};base64,{$image_content}";
+
+                $original_content = $dom->saveHTML($elm);
+                $replacement_content = preg_replace('/src=[^\s]*/', "src='{$image_data}'", $original_content);
+                $content_to_replace[$original_content] = $replacement_content;
+            } catch (Exception $e) {
+
+            }
         }
 
         $cleaned_html = $dom->saveHTML();
-
-        foreach ($img_src_map as $uid => $src) {
-            $cleaned_html = str_replace($uid, $src, $cleaned_html);
-        }
 
         if (!$cleaned_html) {
             return $html;
         }
 
-        return $cleaned_html;
+        if ($content_to_replace === null) {
+            return $cleaned_html;
+        }
+
+        return str_replace(array_keys($content_to_replace), array_values($content_to_replace), $cleaned_html);
     }
 
-    public static function generatePDF($pdf_output, $output_mode, $filename = null, $purpose = null)
+    public function generateHTML(string $content, string $filename)
     {
-        $pdf_output = self::preprocessHTML($pdf_output);
-
-        if (substr($filename, strlen($filename) - 4, 4) != '.pdf') {
-            $filename .= '.pdf';
-        }
-        $pdf_factory = new ilHtmlToPdfTransformerFactory();
-
-        if (!$pdf_factory->deliverPDFFromHTMLString(
-            $pdf_output,
-            $filename,
-            $output_mode,
-            self::service,
-            $purpose
-        )) {
-            throw new \Exception('could not write PDF');
-        }
+        file_put_contents($filename, $this->preprocessHTML($content));
         return true;
     }
 
-    public static function preprocessHTML($html): string
+    private function preprocessHTML(string $html): string
     {
-        $html = self::makeHtmlDocument($html, '<style>' . self::getCssContent() . '</style>');
-
-        return $html;
+        return $this->makeHtmlDocument($html, '<style>' . $this->getCssContent() . '</style>');
     }
 
-    protected static function getTemplatePath($a_filename, $module_path = 'Modules/Test/'): string
+    private function getTemplatePath($a_filename, $module_path = 'Modules/Test/'): string
     {
         $fname = '';
         if (ilStyleDefinition::getCurrentSkin() != "default") {
@@ -150,11 +138,11 @@ class ilTestPDFGenerator
         return $fname;
     }
 
-    protected static function getCssContent(): string
+    private function getCssContent(): string
     {
-        $cssContent = file_get_contents(self::getTemplatePath('delos.css', ''));
-        $cssContent .= file_get_contents(self::getTemplatePath('test_pdf.css'));
+        $css_content = file_get_contents($this->getTemplatePath('delos.css', ''));
+        $css_content .= ' html, body { overflow: auto; } body { padding: 1rem; }';
 
-        return $cssContent;
+        return $css_content;
     }
 }

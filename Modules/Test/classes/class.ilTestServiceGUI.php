@@ -969,14 +969,11 @@ class ilTestServiceGUI
     /**
      * @return ilTestPassDetailsOverviewTableGUI
      */
-    protected function buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD): ilTestPassDetailsOverviewTableGUI
-    {
-        if (!isset($targetGUI->object) && method_exists($targetGUI, 'getTestObj')) {
-            $targetGUI->object = $targetGUI->getTestObj();
-        }
-
-        $tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
-        return $tableGUI;
+    protected function buildPassDetailsOverviewTableGUI(
+        ilParticipantsTestResultsGUI $target_gui,
+        string $target_cmd
+    ): ilTestPassDetailsOverviewTableGUI {
+        return new ilTestPassDetailsOverviewTableGUI($this->ctrl, $target_gui, $target_cmd);
     }
 
     protected function isGradingMessageRequired(): bool

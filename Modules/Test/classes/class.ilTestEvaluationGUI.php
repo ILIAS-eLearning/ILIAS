@@ -1016,13 +1016,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
         }
 
-        if ($this->testrequest->isset("pdf") && ($this->testrequest->raw("pdf") == 1)) {
-            $name = ilObjUser::_lookupName($user_id);
-            $filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__' . $this->object->getTitleFilenameCompliant();
-            ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename, PDF_USER_RESULT);
-        } else {
-            $this->tpl->setVariable("ADM_CONTENT", $template->get());
-        }
+        $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
 
     public function outUserPassDetailsSetTableFilter()

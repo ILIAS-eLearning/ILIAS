@@ -22,19 +22,19 @@ declare(strict_types=1);
  * Class ilTestPDFGeneratorTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestPDFGeneratorTest extends ilTestBaseTestCase
+class ilTestHTMLGeneratorTest extends ilTestBaseTestCase
 {
-    private ilTestPDFGenerator $testObj;
+    private ilTestHTMLGenerator $testObj;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilTestPDFGenerator();
+        $this->testObj = new ilTestHTMLGenerator();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestPDFGenerator::class, $this->testObj);
+        $this->assertInstanceOf(ilTestHTMLGenerator::class, $this->testObj);
     }
 }
