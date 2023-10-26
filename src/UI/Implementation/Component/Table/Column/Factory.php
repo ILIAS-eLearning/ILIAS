@@ -63,4 +63,9 @@ class Factory implements I\Factory
     {
         return new TimeSpan($title, $format);
     }
+
+    public function link(string $title): I\Link
+    {
+        return new Link($title);
+    }
 }
