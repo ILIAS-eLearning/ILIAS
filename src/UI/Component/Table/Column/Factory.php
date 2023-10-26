@@ -109,4 +109,15 @@ interface Factory
      * @return \ILIAS\UI\Component\Table\Column\TimeSpan
      */
     public function timeSpan(string $title, \ILIAS\Data\DateFormat\DateFormat $format): TimeSpan;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Link Column features a Link.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\Link
+     */
+    public function link(string $title): Link;
 }

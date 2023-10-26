@@ -219,6 +219,13 @@ In addition, the `UploadHandler` interface contains methods which are not requir
 and can be safely removed (along with their implementations): `getExistingFileInfoURL()`,
 `getInfoForExistingFiles()`, and `getInfoResult()`.
 
+### Add Information of anticipated datatypes to Table/Column
+When applying records to a row, the cells (Columns) expect an input of a certain type;
+however, this cannot be (or currently is not) PHP-typehinted.
+The Column Factory should give information as to which types are to be used with
+the respective Column.
+
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again

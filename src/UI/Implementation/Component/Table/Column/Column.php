@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Table\Column as C;
+use ILIAS\UI\Component\Component;
 
 abstract class Column implements C\Column
 {
@@ -108,7 +109,7 @@ abstract class Column implements C\Column
         return $this->highlighted;
     }
 
-    public function format($value): string
+    public function format($value): string|Component
     {
         return (string) $value;
     }
