@@ -49,7 +49,6 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
     public function showVirtualPassSetTableFilterCmd()
     {
         $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'showVirtualPass');
-        $tableGUI->initFilter();
         $tableGUI->resetOffset();
         $tableGUI->writeFilterToSession();
         $this->showVirtualPassCmd();
@@ -58,7 +57,6 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
     public function showVirtualPassResetTableFilterCmd()
     {
         $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'showVirtualPass');
-        $tableGUI->initFilter();
         $tableGUI->resetOffset();
         $tableGUI->resetFilter();
         $this->showVirtualPassCmd();

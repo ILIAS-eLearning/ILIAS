@@ -444,7 +444,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     'created' => ['integer', time()],
                     'tstamp' => ['integer', time()],
                     'template_id' => ['integer', $this->getTemplate()],
-                    'result_tax_filters' => ['text', serialize($this->getResultFilterTaxIds())],
                     'broken' => ['integer', (int) $this->isTestFinalBroken()]
                 ]
             );
@@ -472,7 +471,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 'tst_tests',
                 [
                     'author' => ['text', $this->getAuthor()],
-                    'result_tax_filters' => ['text', serialize($this->getResultFilterTaxIds())],
                     'broken' => ['integer', (int) $this->isTestFinalBroken()]
                 ],
                 [
@@ -3539,10 +3537,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 case 'skill_service':
                     $additional_settings = $additional_settings->withSkillsServiceEnabled((bool) $metadata['entry']);
                     break;
-                case 'result_tax_filters':
-                    $tax_ids = strlen($metadata['entry']) ? unserialize($metadata['entry']) : [];
-                    $result_details_settings = $result_details_settings->withTaxonomyFilterIds($tax_ids);
-                    break;
                 case 'show_grading_status':
                     $result_summary_settings = $result_summary_settings->withShowGradingStatusEnabled((bool) $metadata["entry"]);
                     break;
@@ -4038,12 +4032,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "skill_service");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getAdditionalSettings()->getSkillsServiceEnabled());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        // result_tax_filters
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "result_tax_filters");
-        $a_xml_writer->xmlElement("fieldentry", null, serialize($this->getResultFilterTaxIds()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // add qti assessmentcontrol
@@ -6546,7 +6534,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withResultsPresentation($testsettings['ResultsPresentation'])
                 ->withPrintBestSolutionWithResult((bool) $testsettings['PrintBsWithRes'])
                 ->withShowExamIdInTestResults((bool) $testsettings['examid_in_test_res'])
-                ->withTaxonomyFilterIds((array) $testsettings['result_tax_filters'])
                 ->withExportSettings($testsettings['exportsettings'])
             )
             ->withGamificationSettings(
@@ -7995,14 +7982,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function isSkillServiceEnabled(): bool
     {
         return $this->getMainSettings()->getAdditionalSettings()->getSkillsServiceEnabled();
-    }
-
-    public function getResultFilterTaxIds(): array
-    {
-        if ($this->getTestId() != -1) {
-            return $this->getScoreSettings()->getResultDetailsSettings()->getTaxonomyFilterIds();
-        }
-        return [];
     }
 
     /**

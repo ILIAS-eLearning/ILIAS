@@ -86,7 +86,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         switch ($next_class) {
             case 'iltestpassdetailsoverviewtablegui':
                 $tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $this, 'outUserPassDetails');
-                $tableGUI->initFilter();
                 $this->ctrl->forwardCommand($tableGUI);
                 break;
 
@@ -1019,42 +1018,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
 
-    public function outUserPassDetailsSetTableFilter()
-    {
-        $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
-        $tableGUI->initFilter();
-        $tableGUI->resetOffset();
-        $tableGUI->writeFilterToSession();
-        $this->outUserPassDetails();
-    }
-
-    public function outUserPassDetailsResetTableFilter()
-    {
-        $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
-        $tableGUI->initFilter();
-        $tableGUI->resetOffset();
-        $tableGUI->resetFilter();
-        $this->outUserPassDetails();
-    }
-
-    public function outParticipantsPassDetailsSetTableFilter()
-    {
-        $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'outParticipantsPassDetails');
-        $tableGUI->initFilter();
-        $tableGUI->resetOffset();
-        $tableGUI->writeFilterToSession();
-        $this->outParticipantsPassDetails();
-    }
-
-    public function outParticipantsPassDetailsResetTableFilter()
-    {
-        $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'outParticipantsPassDetails');
-        $tableGUI->initFilter();
-        $tableGUI->resetOffset();
-        $tableGUI->resetFilter();
-        $this->outParticipantsPassDetails();
-    }
-
     public function outUserPassDetails(): void
     {
         $this->tabs->clearSubTabs();
@@ -1755,7 +1718,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
-        $table_gui->initFilter();
 
         $questionList = new ilAssQuestionList($ilDB, $this->lng, $component_repository);
         $questionList->setParentObjId($this->object->getId());

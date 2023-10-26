@@ -43,6 +43,10 @@ $il-item-gap-xs: 1px;
 		}
 	}
 
+	.il-item-actions {
+		float: right;
+	}
+
 	.il-item-divider {
 		clear: both;
 		padding: $il-item-divider-padding;

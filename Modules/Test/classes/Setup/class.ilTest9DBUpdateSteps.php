@@ -269,4 +269,11 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_15(): void
+    {
+        if ($this->db->tableColumnExists('tst_tests', 'result_tax_filters')) {
+            $this->db->dropTableColumn('tst_tests', 'result_tax_filters');
+        }
+    }
 }

@@ -64,11 +64,6 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         $this->test_obj->saveCompleteStatus($this);
     }
 
-    public function resetQuestionSetRelatedTestSettings(): void
-    {
-        // nothing to do
-    }
-
     public function cloneQuestionSetRelatedData(ilObjTest $clone_test_obj): void
     {
         $cwo = ilCopyWizardOptions::_getInstance($clone_test_obj->getTmpCopyWizardCopyId());

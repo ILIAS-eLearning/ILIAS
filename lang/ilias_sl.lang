@@ -1727,7 +1727,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Status "opravljeno" / "n
 assessment#:#tst_results_overview#:#Pregled opravljanj testa
 assessment#:#tst_results_print_best_solution#:#Najboljša možna rešitev
 assessment#:#tst_results_print_best_solution_info#:#Poleg tega bo za vsako vprašanje prikazana najboljša možna rešitev.
-assessment#:#tst_results_tax_filters#:#Filter rezultatov
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test nadaljuj z aktualno izbiro vprašanj
 assessment#:#tst_resume_test#:#Nadaljuj s testom
 assessment#:#tst_revert_changes#:#Razveljavi obdelavo

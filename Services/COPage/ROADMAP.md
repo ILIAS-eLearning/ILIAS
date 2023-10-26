@@ -9,9 +9,10 @@ The following issues are mostly usability issues, that could be tackled as part 
 
 ## Short Term
 
-### Remove jQuery dependencies
+### Remove jQuery / unmaintained lib dependencies
 
 - Migrate from jQueryUI draggable to a non jQuery lib, e.g. https://shopify.github.io/draggable/ 
+- Migrate from Owl.Carousel to a better maintained lib. Suggested is https://github.com/ganlanyuan/tiny-slider, but there might be a better alternative.
 
 ### Continue Page Editor Refactoring (started with ILIAS 7)
 
