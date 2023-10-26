@@ -446,7 +446,10 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         $ilDB = $this->db;
 
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
-        if (!ilConditionHandler::_checkAllConditionsOfTarget($a_node["child"], $obj_id)) {
+        if (
+            !ilConditionHandler::_checkAllConditionsOfTarget($a_node["child"], $obj_id)
+            && !$rbacsystem->checkAccess('write', $a_node["child"])
+        ) {
             return false;
         }
 
