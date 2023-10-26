@@ -25,6 +25,8 @@ use Psr\Http\Message\ServerRequestInterface as HttpRequest;
 use ILIAS\DI\UIServices as UIServices;
 use ILIAS\TestQuestionPool\QuestionInfoService as QuestionInfoService;
 use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -65,8 +67,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected ilComponentFactory $component_factory;
     protected ilComponentRepository $component_repository;
     protected ilNavigationHistory $navigation_history;
-
     protected ilUIService $ui_service;
+    protected URLBuilder $url_builder;
+    protected URLBuilderToken $action_parameter_token;
+    protected URLBuilderToken $row_id_token;
 
     public function __construct()
     {
@@ -106,10 +110,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $this->lng->loadLanguageModule('assessment');
 
-
-        $this->df = new \ILIAS\Data\Factory();
-        $this->request = $DIC->http()->request();
-        $here_uri = $this->df->uri($this->request->getUri()->__toString());
+        $this->data_factory = new DataFactory();
+        $here_uri = $this->data_factory->uri($this->request->getUri()->__toString());
         $url_builder = new URLBuilder($here_uri);
         $query_params_namespace = ['qpool', 'table'];
         list($url_builder, $action_parameter_token, $row_id_token) = $url_builder->acquireParameters(
@@ -1874,7 +1876,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table = new QuestionTable(
             $f,
             $r,
-            $this->df,
+            $this->data_factory,
             $this->url_builder,
             $this->action_parameter_token,
             $this->row_id_token,
