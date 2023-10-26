@@ -12901,6 +12901,7 @@ prg#:#edit_participants#:#Edit Members
 prg#:#error_updating_deadline#:#Error during updating deadline.
 prg#:#error_updating_expire_date#:#Error during updating expire date.
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
+prg#:#header_update_certificate#:#Do you really want to update the certificate?
 prg#:#header_update_current_plan#:#Do you really want to reset all individual settings for the selected assignments?
 prg#:#inactive_only#:#inactive users only
 prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%' will soon expire. Please sign in again.
@@ -12935,10 +12936,12 @@ prg#:#msg_mark_relevant_failed#:#Not marked marked relevant:
 prg#:#msg_points_must_be_positive#:#Only positive numbers are allowed.
 prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.
 prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:
+prg#:#msg_update_certificate#:#%s Certificate updated.
 prg#:#msg_update_from_settings#:#Updated %s users from settings:
 prg#:#msg_update_from_settings_failed#:#Updated from settings failed:
 prg#:#msg_update_individual_plan#:#Individual plan: %s successfully updated.
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
+prg#:#no_permission_to_update_certificate#:#You have no permission to update certificates.
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
 prg#:#obj_prg_select#:#-- Please select a study programme --
@@ -13037,6 +13040,7 @@ prg#:#prg_multi_mark_relevant#:#Mark Relevant
 prg#:#prg_multi_remove_user#:#Remove User
 prg#:#prg_multi_unmark_accredited#:#Unmark Accredited
 prg#:#prg_multi_unmark_relevant#:#Unmark Relevant
+prg#:#prg_multi_update_certificate#:#Update Certificate
 prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_no_deadline#:#No fixed processing time
@@ -13171,6 +13175,7 @@ prg#:#status_changed#:#Updated status
 prg#:#status_changed_due_to_deadline#:#Status changed according to deadline.
 prg#:#status_transition_not_allowed#:#Status change not allowed
 prg#:#status_unchanged#:#Status unchanged
+prg#:#successfully_updated_certificate#:#Successfully updated certificate of selected Users
 prg#:#update_deadline#:#Successfully update deadline.
 prg#:#update_expire_date#:#Successfully update expire date.
 prg#:#updated_from_settings#:#Updated from settings
