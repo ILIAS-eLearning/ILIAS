@@ -72,6 +72,7 @@ class ilExAssignmentInfo
                     $dl_link = $ctrl->getLinkTargetByClass([
                         "ilExerciseHandlerGUI",
                         "ilObjExerciseGUI",
+                        \ilAssignmentPresentationGUI::class,
                         "ilExSubmissionGUI"
                     ], "downloadFile");
                     $ctrl->clearParametersByClass("ilExSubmissionGUI");
