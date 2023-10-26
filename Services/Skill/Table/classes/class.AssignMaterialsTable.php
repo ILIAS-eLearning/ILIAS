@@ -38,9 +38,8 @@ class AssignMaterialsTable
     protected \ilWorkspaceTree $ws_tree;
     protected \ilWorkspaceAccessHandler $ws_access;
     protected UI\Factory $ui_fac;
-    protected UI\Renderer $ui_ren;
     protected ServerRequestInterface $request;
-    protected \ILIAS\Data\Factory $df;
+    protected Data\Factory $df;
     protected \ilSkillTreeRepository $tree_repo;
     protected Node\SkillTreeNodeManager $node_manager;
     protected Personal\AssignedMaterialManager $assigned_material_manager;
@@ -56,9 +55,8 @@ class AssignMaterialsTable
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->ui_fac = $DIC->ui()->factory();
-        $this->ui_ren = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
-        $this->df = new \ILIAS\Data\Factory();
+        $this->df = new Data\Factory();
         $this->ws_tree = new \ilWorkspaceTree($this->user->getId());
         if (!$this->ws_tree->readRootId()) {
             $this->ws_tree->createTreeForUser($this->user->getId());
@@ -77,15 +75,35 @@ class AssignMaterialsTable
 
     public function getComponent(): UI\Component\Table\Data
     {
+        $columns = $this->getColumns();
+        $actions = $this->getActions();
+        $data_retrieval = $this->getDataRetrieval();
+
+        $title = $this->node_manager->getWrittenPath($this->basic_skill_id);
+        $table = $this->ui_fac->table()
+                              ->data($title, $columns, $data_retrieval)
+                              ->withActions($actions)
+                              ->withRequest($this->request);
+
+        return $table;
+    }
+
+    protected function getColumns(): array
+    {
         $columns = [
             "title" => $this->ui_fac->table()->column()->text($this->lng->txt("skmg_skill_level"))
                                     ->withIsSortable(false),
             "description" => $this->ui_fac->table()->column()->text($this->lng->txt("description"))
                                           ->withIsSortable(false),
             "resources" => $this->ui_fac->table()->column()->text($this->lng->txt("skmg_materials"))
-                                     ->withIsSortable(false)
+                                        ->withIsSortable(false)
         ];
 
+        return $columns;
+    }
+
+    protected function getActions(): array
+    {
         $query_params_namespace = ["skl_assign_materials_table"];
 
         $uri_assign = $this->df->uri(
@@ -94,7 +112,7 @@ class AssignMaterialsTable
                 "assignMaterial"
             )
         );
-        $url_builder_assign = new \ILIAS\UI\URLBuilder($uri_assign);
+        $url_builder_assign = new UI\URLBuilder($uri_assign);
         list($url_builder_assign, $action_parameter_token_assign, $row_id_token_assign) =
             $url_builder_assign->acquireParameters(
                 $query_params_namespace,
@@ -118,7 +136,7 @@ class AssignMaterialsTable
             $obj_id = $this->ws_tree->lookupObjectId($material->getWorkspaceId());
 
             $uri_open = $this->df->uri($this->ws_access->getGotoLink($material->getWorkspaceId(), $obj_id));
-            $url_builder_open = new \ILIAS\UI\URLBuilder($uri_open);
+            $url_builder_open = new UI\URLBuilder($uri_open);
             list($url_builder_open, $action_parameter_token_open, $row_id_token_open) =
                 $url_builder_open->acquireParameters(
                     $query_params_namespace,
@@ -132,7 +150,7 @@ class AssignMaterialsTable
                     "removeMaterial"
                 )
             );
-            $url_builder_remove = new \ILIAS\UI\URLBuilder($uri_remove);
+            $url_builder_remove = new UI\URLBuilder($uri_remove);
             list($url_builder_remove, $action_parameter_token_remove, $row_id_token_remove, $wsp_token_remove) =
                 $url_builder_remove->acquireParameters(
                     $query_params_namespace,
@@ -156,13 +174,18 @@ class AssignMaterialsTable
                 );
         }
 
+        return $actions;
+    }
+
+    protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
+    {
         $data_retrieval = new class (
             $this->basic_skill_id,
             $this->tref_id,
             $this->user,
             $this->ws_tree,
             $this->assigned_material_manager
-        ) implements \ILIAS\UI\Component\Table\DataRetrieval {
+        ) implements UI\Component\Table\DataRetrieval {
             public function __construct(
                 protected int $basic_skill_id,
                 protected int $tref_id,
@@ -173,10 +196,10 @@ class AssignMaterialsTable
             }
 
             public function getRows(
-                \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+                UI\Component\Table\DataRowBuilder $row_builder,
                 array $visible_column_ids,
-                \ILIAS\Data\Range $range,
-                \ILIAS\Data\Order $order,
+                Data\Range $range,
+                Data\Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
@@ -212,7 +235,7 @@ class AssignMaterialsTable
                 return null;
             }
 
-            protected function getRecords(\ILIAS\Data\Order $order): array
+            protected function getRecords(Data\Order $order): array
             {
                 $skill = \ilSkillTreeNodeFactory::getInstance($this->basic_skill_id);
                 $records = [];
@@ -244,12 +267,6 @@ class AssignMaterialsTable
             }
         };
 
-        $title = $this->node_manager->getWrittenPath($this->basic_skill_id);
-        $table = $this->ui_fac->table()
-                              ->data($title, $columns, $data_retrieval)
-                              ->withActions($actions)
-                              ->withRequest($this->request);
-
-        return $table;
+        return $data_retrieval;
     }
 }

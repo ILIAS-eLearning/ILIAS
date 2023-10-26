@@ -129,9 +129,9 @@ class SkillInternalManagerService
         return new Resource\SkillResourcesManager();
     }
 
-    public function getTableManager(): Table\SkillTableManager
+    public function getTableManager(): Table\TableManager
     {
-        return new Table\SkillTableManager();
+        return new Table\TableManager();
     }
 
     public function getDeletionManager(): Node\SkillDeletionManager

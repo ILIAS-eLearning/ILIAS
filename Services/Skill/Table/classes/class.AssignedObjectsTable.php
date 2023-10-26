@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Table;
 
+use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -51,6 +52,18 @@ class AssignedObjectsTable
 
     public function getComponent(): UI\Component\Table\Data
     {
+        $columns = $this->getColumns();
+        $data_retrieval = $this->getDataRetrieval();
+
+        $table = $this->ui_fac->table()
+                              ->data($this->lng->txt("skmg_assigned_objects"), $columns, $data_retrieval)
+                              ->withRequest($this->request);
+
+        return $table;
+    }
+
+    protected function getColumns(): array
+    {
         $columns = [
             "type" => $this->ui_fac->table()->column()->statusIcon($this->lng->txt("type"))
                                    ->withIsSortable(false),
@@ -59,13 +72,18 @@ class AssignedObjectsTable
                                    ->withIsSortable(false)
         ];
 
+        return $columns;
+    }
+
+    protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
+    {
         $data_retrieval = new class (
             $this->lng,
             $this->ui_fac,
             $this->ui_ren,
             $this->tree,
             $this->objects
-        ) implements \ILIAS\UI\Component\Table\DataRetrieval {
+        ) implements UI\Component\Table\DataRetrieval {
             public function __construct(
                 protected \ilLanguage $lng,
                 protected UI\Factory $ui_fac,
@@ -76,10 +94,10 @@ class AssignedObjectsTable
             }
 
             public function getRows(
-                \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+                UI\Component\Table\DataRowBuilder $row_builder,
                 array $visible_column_ids,
-                \ILIAS\Data\Range $range,
-                \ILIAS\Data\Order $order,
+                Data\Range $range,
+                Data\Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
@@ -98,7 +116,7 @@ class AssignedObjectsTable
                 return null;
             }
 
-            protected function getRecords(\ILIAS\Data\Order $order): array
+            protected function getRecords(Data\Order $order): array
             {
                 $records = [];
                 $i = 0;
@@ -135,10 +153,6 @@ class AssignedObjectsTable
             }
         };
 
-        $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("skmg_assigned_objects"), $columns, $data_retrieval)
-                              ->withRequest($this->request);
-
-        return $table;
+        return $data_retrieval;
     }
 }

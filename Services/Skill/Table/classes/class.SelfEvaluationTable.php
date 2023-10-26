@@ -36,9 +36,8 @@ class SelfEvaluationTable
     protected \ilLanguage $lng;
     protected \ilObjUser $user;
     protected UI\Factory $ui_fac;
-    protected UI\Renderer $ui_ren;
     protected ServerRequestInterface $request;
-    protected \ILIAS\Data\Factory $df;
+    protected Data\Factory $df;
     protected \ilSkillTreeRepository $tree_repo;
     protected Node\SkillTreeNodeManager $node_manager;
     protected Personal\SelfEvaluationManager $self_evaluation_manager;
@@ -54,9 +53,8 @@ class SelfEvaluationTable
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->ui_fac = $DIC->ui()->factory();
-        $this->ui_ren = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
-        $this->df = new \ILIAS\Data\Factory();
+        $this->df = new Data\Factory();
 
         $this->top_skill_id = $top_skill_id;
         $this->tref_id = $tref_id;
@@ -70,15 +68,35 @@ class SelfEvaluationTable
 
     public function getComponent(): UI\Component\Table\Data
     {
+        $columns = $this->getColumns();
+        $actions = $this->getActions();
+        $data_retrieval = $this->getDataRetrieval();
+
+        $title = $this->node_manager->getWrittenPath($this->basic_skill_id);
+        $table = $this->ui_fac->table()
+                              ->data($title, $columns, $data_retrieval)
+                              ->withActions($actions)
+                              ->withRequest($this->request);
+
+        return $table;
+    }
+
+    protected function getColumns(): array
+    {
         $columns = [
             "title" => $this->ui_fac->table()->column()->text($this->lng->txt("skmg_skill_level"))
-                                     ->withIsSortable(false),
+                                    ->withIsSortable(false),
             "description" => $this->ui_fac->table()->column()->text($this->lng->txt("description"))
-                                     ->withIsSortable(false),
+                                          ->withIsSortable(false),
             "status" => $this->ui_fac->table()->column()->status($this->lng->txt("status"))
                                      ->withIsSortable(false)
         ];
 
+        return $columns;
+    }
+
+    protected function getActions(): array
+    {
         $query_params_namespace = ["skl_self_evaluation_table"];
 
         $uri_select = $this->df->uri(
@@ -87,7 +105,7 @@ class SelfEvaluationTable
                 "saveSelfEvaluation"
             )
         );
-        $url_builder_select = new \ILIAS\UI\URLBuilder($uri_select);
+        $url_builder_select = new UI\URLBuilder($uri_select);
         list($url_builder_select, $action_parameter_token_select, $row_id_token_select) =
             $url_builder_select->acquireParameters(
                 $query_params_namespace,
@@ -103,6 +121,11 @@ class SelfEvaluationTable
             )
         ];
 
+        return $actions;
+    }
+
+    protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
+    {
         $data_retrieval = new class (
             $this->top_skill_id,
             $this->tref_id,
@@ -110,7 +133,7 @@ class SelfEvaluationTable
             $this->lng,
             $this->user,
             $this->self_evaluation_manager
-        ) implements \ILIAS\UI\Component\Table\DataRetrieval {
+        ) implements UI\Component\Table\DataRetrieval {
             public function __construct(
                 protected int $top_skill_id,
                 protected int $tref_id,
@@ -122,10 +145,10 @@ class SelfEvaluationTable
             }
 
             public function getRows(
-                \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+                UI\Component\Table\DataRowBuilder $row_builder,
                 array $visible_column_ids,
-                \ILIAS\Data\Range $range,
-                \ILIAS\Data\Order $order,
+                Data\Range $range,
+                Data\Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
@@ -144,7 +167,7 @@ class SelfEvaluationTable
                 return null;
             }
 
-            protected function getRecords(\ILIAS\Data\Order $order): array
+            protected function getRecords(Data\Order $order): array
             {
                 $current_level_id = $this->self_evaluation_manager->getSelfEvaluation(
                     $this->user->getId(),
@@ -171,12 +194,6 @@ class SelfEvaluationTable
             }
         };
 
-        $title = $this->node_manager->getWrittenPath($this->basic_skill_id);
-        $table = $this->ui_fac->table()
-                              ->data($title, $columns, $data_retrieval)
-                              ->withActions($actions)
-                              ->withRequest($this->request);
-
-        return $table;
+        return $data_retrieval;
     }
 }

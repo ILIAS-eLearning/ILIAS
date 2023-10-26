@@ -21,17 +21,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Table;
 
+use ILIAS\Data;
 use ILIAS\Skill\Tree;
 use ILIAS\UI;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillUsageTable
+class UsageTable
 {
     protected \ilLanguage $lng;
     protected UI\Factory $ui_fac;
-    protected UI\Renderer $ui_ren;
     protected Tree\SkillTreeManager $tree_manager;
     protected \ilSkillTreeRepository $tree_repo;
     protected int $skill_id = 0;
@@ -45,7 +45,6 @@ class SkillUsageTable
 
         $this->lng = $DIC->language();
         $this->ui_fac = $DIC->ui()->factory();
-        $this->ui_ren = $DIC->ui()->renderer();
         $this->tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
 
@@ -58,6 +57,27 @@ class SkillUsageTable
 
     public function getComponent(): UI\Component\Table\Data
     {
+        $columns = $this->getColumns();
+        $data_retrieval = $this->getDataRetrieval();
+
+        $tree = $this->tree_repo->getTreeForNodeId($this->skill_id);
+        if ($this->mode === "tree") {
+            $tree_obj = $this->tree_manager->getTree($tree->getTreeId());
+            $title = $tree_obj->getTitle() . " > " . \ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id);
+        } else {
+            $title = \ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id);
+        }
+
+        //$description = $tree->getSkillTreePathAsString($skill_id, $tref_id);
+
+        $table = $this->ui_fac->table()
+                              ->data($title, $columns, $data_retrieval);
+
+        return $table;
+    }
+
+    protected function getColumns(): array
+    {
         $columns = [
             "type_info" => $this->ui_fac->table()->column()->statusIcon($this->lng->txt("skmg_type"))
                                         ->withIsSortable(false),
@@ -65,19 +85,24 @@ class SkillUsageTable
                                     ->withIsSortable(false)
         ];
 
+        return $columns;
+    }
+
+    protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
+    {
         $data_retrieval = new class (
             $this->usage
-        ) implements \ILIAS\UI\Component\Table\DataRetrieval {
+        ) implements UI\Component\Table\DataRetrieval {
             public function __construct(
                 protected array $usage
             ) {
             }
 
             public function getRows(
-                \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+                UI\Component\Table\DataRowBuilder $row_builder,
                 array $visible_column_ids,
-                \ILIAS\Data\Range $range,
-                \ILIAS\Data\Order $order,
+                Data\Range $range,
+                Data\Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
@@ -96,7 +121,7 @@ class SkillUsageTable
                 return null;
             }
 
-            protected function getRecords(\ILIAS\Data\Order $order): array
+            protected function getRecords(Data\Order $order): array
             {
                 $records = [];
                 $i = 0;
@@ -112,19 +137,6 @@ class SkillUsageTable
             }
         };
 
-        $tree = $this->tree_repo->getTreeForNodeId($this->skill_id);
-        if ($this->mode === "tree") {
-            $tree_obj = $this->tree_manager->getTree($tree->getTreeId());
-            $title = $tree_obj->getTitle() . " > " . \ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id);
-        } else {
-            $title = \ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id);
-        }
-
-        //$description = $tree->getSkillTreePathAsString($skill_id, $tref_id);
-
-        $table = $this->ui_fac->table()
-                              ->data($title, $columns, $data_retrieval);
-
-        return $table;
+        return $data_retrieval;
     }
 }

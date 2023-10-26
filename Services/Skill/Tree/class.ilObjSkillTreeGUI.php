@@ -46,7 +46,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected Node\SkillTreeNodeManager $skill_tree_node_manager;
     protected Access\SkillTreeAccess $skill_tree_access_manager;
     protected Access\SkillManagementAccess $skill_management_access_manager;
-    protected Table\SkillTableManager $skill_table_manager;
+    protected Table\TableManager $skill_table_manager;
     protected Node\SkillDeletionManager $skill_deletion_manager;
     protected ilSkillTreeRepository $skill_tree_repo;
     protected Tree\SkillTreeFactory $skill_tree_factory;
@@ -696,7 +696,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $usage_html = "";
         if (count($usages) > 0) {
             foreach ($usages as $k => $usage) {
-                $table = $this->skill_table_manager->getSkillUsageTable($k, $usage, $mode)->getComponent();
+                $table = $this->skill_table_manager->getUsageTable($k, $usage, $mode)->getComponent();
                 $usage_html .= $this->ui->renderer()->render($table) . "<br/><br/>";
             }
             $ilCtrl->saveParameter($a_gui, "tmpmode");

@@ -27,18 +27,33 @@ use ILIAS\Skill\Profile;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillTableManager
+class TableManager
 {
     public function __construct(
     ) {
     }
 
-    public function getSkillUsageTable(
+    public function getTreeTable(
+        int $ref_id
+    ): TreeTable {
+        return new TreeTable($ref_id);
+    }
+
+    public function getLevelResourcesTable(
+        int $ref_id,
+        int $base_skill_id,
+        int $tref_id,
+        int $requested_level_id
+    ): LevelResourcesTable {
+        return new LevelResourcesTable($ref_id, $base_skill_id, $tref_id, $requested_level_id);
+    }
+
+    public function getUsageTable(
         string $cskill_id,
         array $usage,
         string $mode = ""
-    ): SkillUsageTable {
-        return new SkillUsageTable($cskill_id, $usage, $mode);
+    ): UsageTable {
+        return new UsageTable($cskill_id, $usage, $mode);
     }
 
     public function getAssignedObjectsTable(
@@ -47,18 +62,25 @@ class SkillTableManager
         return new AssignedObjectsTable($objects);
     }
 
-    public function getSkillProfileLevelAssignmentTable(
-        string $cskill_id,
-        bool $update = false
-    ): SkillProfileLevelAssignmentTable {
-        return new SkillProfileLevelAssignmentTable($cskill_id, $update);
+    public function getProfileTable(
+        int $ref_id,
+        int $skill_tree_id
+    ): ProfileTable {
+        return new ProfileTable($ref_id, $skill_tree_id);
     }
 
-    public function getSkillProfileUserAssignmentTable(
+    public function getProfileLevelAssignmentTable(
+        string $cskill_id,
+        bool $update = false
+    ): ProfileLevelAssignmentTable {
+        return new ProfileLevelAssignmentTable($cskill_id, $update);
+    }
+
+    public function getProfileUserAssignmentTable(
         Profile\SkillProfile $profile,
         Access\SkillTreeAccess $tree_access_manager
-    ): SkillProfileUserAssignmentTable {
-        return new SkillProfileUserAssignmentTable($profile, $tree_access_manager);
+    ): ProfileUserAssignmentTable {
+        return new ProfileUserAssignmentTable($profile, $tree_access_manager);
     }
 
     public function getSelfEvaluationTable(

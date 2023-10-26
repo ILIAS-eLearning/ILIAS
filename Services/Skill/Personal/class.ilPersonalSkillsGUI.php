@@ -130,7 +130,7 @@ class ilPersonalSkillsGUI
     protected Personal\AssignedMaterialManager $assigned_material_manager;
     protected Personal\SelfEvaluationManager $self_evaluation_manager;
     protected Resource\SkillResourcesManager $resource_manager;
-    protected Table\SkillTableManager $table_manager;
+    protected Table\TableManager $table_manager;
     protected ContainerSkills\SkillInternalFactoryService $cont_factory_service;
     protected string $requested_list_mode = self::LIST_PROFILES;
     protected int $requested_node_id = 0;
