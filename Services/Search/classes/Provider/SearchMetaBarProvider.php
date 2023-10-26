@@ -55,7 +55,9 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
                 $html = $main_search->getHTML();
             }
 
-            return $this->dic->ui()->factory()->legacy($uip->getHTML($html));
+            return $this->dic->ui()->factory()->legacy($uip->getHTML($html))->withAdditionalOnLoadCode(
+                fn($id) => 'il.SearchMainMenu.init()'
+            );
         };
 
         $mb = $this->globalScreen()->metaBar();

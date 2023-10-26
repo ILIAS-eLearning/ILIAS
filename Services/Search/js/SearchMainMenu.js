@@ -1,17 +1,26 @@
-il.Util.addOnLoad(
-  () => {
-    const AC_DATASOURCE = 'ilias.php?baseClass=ilSearchControllerGUI&cmd=autoComplete';
+/* eslint-env jquery */
+il.SearchMainMenu = {
+  acDatasource: 'ilias.php?baseClass=ilSearchControllerGUI&cmd=autoComplete',
 
+  init() {
     // we must bind the blur event before the autocomplete item is added
+    this.suppressBlur();
+    this.initAutocomplete();
+    this.initChange();
+  },
+
+  suppressBlur() {
     document.getElementById('main_menu_search').addEventListener(
       'blur',
       (e) => { e.stopImmediatePropagation(); },
     );
+  },
 
+  initAutocomplete() {
     $('#main_menu_search').autocomplete({
-      source: `${AC_DATASOURCE}&search_type=4`,
+      source: `${this.acDatasource}&search_type=4`,
       appendTo: '#mm_search_menu_ac',
-      open(event, ui) {
+      open() {
         $('.ui-autocomplete').position({
           my: 'left top',
           at: 'left top',
@@ -20,20 +29,20 @@ il.Util.addOnLoad(
       },
       minLength: 3,
     });
+  },
 
+  initChange() {
     $("#ilMMSearchMenu input[type='radio']").change(() => {
       /* close current search */
       $('#main_menu_search').autocomplete('close');
       $('#main_menu_search').autocomplete('enable');
 
       /* append search type */
-
-      const orig_datasource = AC_DATASOURCE;
-      const checked_input = $('input[name=root_id]:checked', '#mm_search_form');
-      const type_val = checked_input.val();
+      const checkedInput = $('input[name=root_id]:checked', '#mm_search_form');
+      const typeVal = checkedInput.val();
 
       /* disable autocomplete for search at current position */
-      if (checked_input[0].id === 'ilmmsc') {
+      if (checkedInput[0].id === 'ilmmsc') {
         $('#main_menu_search').autocomplete('disable');
         return;
       }
@@ -41,7 +50,7 @@ il.Util.addOnLoad(
       $('#main_menu_search').autocomplete(
         'option',
         {
-          source: `${orig_datasource}&search_type=${type_val}`,
+          source: `${this.acDatasource}&search_type=${typeVal}`,
         },
       );
 
@@ -49,4 +58,4 @@ il.Util.addOnLoad(
       $('#main_menu_search').autocomplete('search');
     });
   },
-);
+};
