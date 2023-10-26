@@ -53,8 +53,7 @@ class ilObjTestScoreSettingsDatabaseRepository implements ScoreSettingsRepositor
             . 'examid_in_test_res,' . PHP_EOL
             . 'results_presentation,' . PHP_EOL
             . 'exportsettings,' . PHP_EOL
-            . 'highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, highscore_hints, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num,' . PHP_EOL
-            . 'result_tax_filters' . PHP_EOL
+            . 'highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, highscore_hints, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num' . PHP_EOL
             . 'FROM ' . self::TABLE_NAME . PHP_EOL
             . $where_part;
 
@@ -78,10 +77,6 @@ class ilObjTestScoreSettingsDatabaseRepository implements ScoreSettingsRepositor
         }
 
         $test_id = (int) $row['test_id'];
-        $tax_filter_ids = unserialize((string) ($row['result_tax_filters']));
-        if ($tax_filter_ids === false) {
-            $tax_filter_ids = [];
-        }
 
         $settings = new ilObjTestScoreSettings(
             $test_id,
@@ -99,8 +94,7 @@ class ilObjTestScoreSettingsDatabaseRepository implements ScoreSettingsRepositor
             (new ilObjTestSettingsResultDetails($test_id))
                 ->withResultsPresentation((int)$row['results_presentation'])
                 ->withShowExamIdInTestResults((bool) $row['examid_in_test_res'])
-                ->withExportSettings((int) $row['exportsettings'])
-                ->withTaxonomyFilterIds($tax_filter_ids),
+                ->withExportSettings((int) $row['exportsettings']),
             (new ilObjTestSettingsGamification($test_id))
                 ->withHighscoreEnabled((bool) $row['highscore_enabled'])
                 ->withHighscoreAnon((bool) $row['highscore_anon'])

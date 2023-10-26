@@ -125,20 +125,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         }
     }
 
-    public function initFilter(): void
-    {
-        if (count($this->parent_obj->getObject()->getResultFilterTaxIds())) {
-            foreach ($this->parent_obj->getObject()->getResultFilterTaxIds() as $taxId) {
-                $postvar = "tax_$taxId";
-
-                $inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
-                $this->addFilterItem($inp);
-                $inp->readFromSession();
-                $this->filter[$postvar] = $inp->getValue();
-            }
-        }
-    }
-
     public function isPdfGenerationRequest(): bool
     {
         return $this->is_pdf_generation_request;
