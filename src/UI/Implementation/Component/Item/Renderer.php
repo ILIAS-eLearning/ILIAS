@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
@@ -153,10 +153,20 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
+        // main action
+        $main_action = $component->getMainAction();
+        if ($main_action !== null) {
+            $tpl->setCurrentBlock("main_action");
+            $tpl->setVariable("MAIN_ACTION", $default_renderer->render($main_action));
+            $tpl->parseCurrentBlock();
+        }
+
         // actions
         $actions = $component->getActions();
         if ($actions !== null) {
+            $tpl->setCurrentBlock("actions");
             $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();
@@ -248,7 +258,7 @@ class Renderer extends AbstractComponentRenderer
          * @var $component Notification
          */
         $component = $component->withAdditionalOnLoadCode(
-            fn ($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);"
+            fn($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);"
         );
 
         //Bind id
@@ -266,7 +276,7 @@ class Renderer extends AbstractComponentRenderer
              * @var $close_action Close
              */
             $close_action = $this->getUIFactory()->button()->close()->withAdditionalOnLoadCode(
-                fn ($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);"
+                fn($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);"
             );
             $tpl->setVariable("CLOSE_ACTION", $default_renderer->render($close_action));
         }
