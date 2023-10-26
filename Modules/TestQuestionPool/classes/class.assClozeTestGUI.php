@@ -42,7 +42,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 {
     public const OLD_CLOZE_TEST_UI = false;
 
-  public const JS_INSERT_GAP_CODE_AT_CARET = <<<JS
+    public const JS_INSERT_GAP_CODE_AT_CARET = <<<JS
     jQuery.fn.extend({
         insertGapCodeAtCaret: function() {
             return this.each(function(i) {
@@ -433,31 +433,18 @@ JS;
 
         $button = new ilCustomInputGUI('&nbsp;', '');
 
-        $button_text_gap = $this->ui_factory->button()->standard($this->lng->txt('text_gap'), '#')
-                                            ->withOnLoadCode(
-                                                function ($id) {
-                                                    return '
-                                                    var el = document.getElementById("' . $id . '");
-                                                    el.setAttribute("data-id", "gaptrigger_text");
-                                                    ';
-                                                });
-
-        $button_select_gap = $this->ui_factory->button()->standard($this->lng->txt('select_gap'), '#')
-                                            ->withOnLoadCode(
-                                                function ($id) {
-                                                    return '
-                                                    var el = document.getElementById("' . $id . '");
-                                                    el.setAttribute("data-id", "gaptrigger_select");
-                                                    ';
-                                                });
-        $button_numeric_gap = $this->ui_factory->button()->standard($this->lng->txt('numeric_gap'), '#')
-                                            ->withOnLoadCode(
-                                                function ($id) {
-                                                    return '
-                                                    var el = document.getElementById("' . $id . '");
-                                                    el.setAttribute("data-id", "gaptrigger_numeric");
-                                                    ';
-                                                });
+        $button_text_gap = $this->ui_factory->button()->standard($this->lng->txt('text_gap'), '')
+            ->withAdditionalOnLoadCode(
+                $this->getAddGapButtonClickClosure('text')
+            );
+        $button_select_gap = $this->ui_factory->button()->standard($this->lng->txt('select_gap'), '')
+            ->withAdditionalOnLoadCode(
+                $this->getAddGapButtonClickClosure('select')
+            );
+        $button_numeric_gap = $this->ui_factory->button()->standard($this->lng->txt('numeric_gap'), '')
+            ->withAdditionalOnLoadCode(
+                $this->getAddGapButtonClickClosure('numeric')
+            );
 
         $tpl->setVariable('BUTTON', $this->ui_renderer->render([
             $button_text_gap,
@@ -507,6 +494,15 @@ JS;
             $form->addItem($identical_scoring);
         }
         return $form;
+    }
+
+    private function getAddGapButtonClickClosure(string $gap_type): Closure
+    {
+        return fn($id) => "var el = document.getElementById('{$id}').addEventListener('click', "
+            . '(e) => {'
+            . ' e.preventDefault();'
+            . " ClozeQuestionGapBuilder.addGapClickFunction('{$gap_type}');"
+            . '});';
     }
 
     public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI

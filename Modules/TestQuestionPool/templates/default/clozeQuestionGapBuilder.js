@@ -26,7 +26,7 @@ const ClozeGlobals = {
   gap_restore: true,
 };
 
-const ClozeSettings = {};
+let ClozeSettings = {};
 
 const ClozeQuestionGapBuilder = (function () {
   const pub = {}; const
@@ -1239,30 +1239,12 @@ const ClozeQuestionGapBuilder = (function () {
     pub.paintGaps();
     pro.createGapListener();
     pro.appendEventListenerToBeRefactored();
-    const selector_text = $('[data-id="gaptrigger_text"]');
-    selector_text.off('click');
-    selector_text.on('click', (evt) => {
-      // evt.preventDefault();
-      $('#cloze_text').insertGapCodeAtCaret();
-      pro.createNewGapCode('text');
-      return false;
-    });
-    const selector_sel = $('[data-id="gaptrigger_select"]');
-    selector_sel.off('click');
-    selector_sel.on('click', (evt) => {
-      // evt.preventDefault();
-      $('#cloze_text').insertGapCodeAtCaret();
-      pro.createNewGapCode('select');
-      return false;
-    });
-    const selector_num = $('[data-id="gaptrigger_numeric"]');
-    selector_num.off('click');
-    selector_num.on('click', (evt) => {
-      // evt.preventDefault();
-      $('#cloze_text').insertGapCodeAtCaret();
-      pro.createNewGapCode('numeric');
-      return false;
-    });
+  };
+
+  pub.addGapClickFunction = (gaptype) => {
+    $('#cloze_text').insertGapCodeAtCaret();
+    pro.createNewGapCode(gaptype);
+    return false;
   };
 
   pub.appendFormHeaderClasses = function (selector) {
