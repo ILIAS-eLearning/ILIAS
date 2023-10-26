@@ -340,7 +340,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             'changeDeadlineMulti' => $this->lng->txt('prg_multi_change_deadline'),
             'changeExpireDateMulti' => $this->lng->txt('prg_multi_change_expire_date'),
             'markAccreditedMulti' => $this->lng->txt('prg_multi_mark_accredited'),
-            'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited')
+            'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited'),
+            'updateCertificateMulti' => $this->lng->txt('prg_multi_update_certificate')
         ];
 
         $permissions_for_manage = [

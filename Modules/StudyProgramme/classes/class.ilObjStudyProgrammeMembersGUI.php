@@ -32,6 +32,7 @@ use ILIAS\Data\Factory;
 class ilObjStudyProgrammeMembersGUI
 {
     use ilTableCommandHelper;
+    use ilPRGUpdateCertificateHelper;
 
     private const DEFAULT_CMD = "view";
 
@@ -44,6 +45,7 @@ class ilObjStudyProgrammeMembersGUI
     public const ACTION_UNMARK_RELEVANT = "unmark_relevant";
     public const ACTION_UPDATE_FROM_CURRENT_PLAN = "update_from_current_plan";
     public const ACTION_CHANGE_EXPIRE_DATE = "change_expire_date";
+    public const ACTION_UPDATE_CERTIFICATE = "update_certificate";
 
     public const F_COMMAND_OPTION_ALL = 'select_cmd_all';
     public const F_ALL_PROGRESS_IDS = 'all_progress_ids';
@@ -171,6 +173,8 @@ class ilObjStudyProgrammeMembersGUI
                     case "changeDeadlineMulti":
                     case "changeExpireDate":
                     case "changeExpireDateMulti":
+                    case "updateCertificate":
+                    case "updateCertificateMulti":
                         $cont = $this->$cmd();
                         $this->tpl->setContent($cont);
                         break;
@@ -185,6 +189,9 @@ class ilObjStudyProgrammeMembersGUI
                         break;
                     case "markNotRelevant":
                         $this->markRelevant();
+                        break;
+                    case "confirmedUpdateCertificate":
+                        $this->confirmedUpdateCertificate();
                         break;
 
                     default:
@@ -238,13 +245,13 @@ class ilObjStudyProgrammeMembersGUI
             $pgs_ids = $this->http_wrapper->post()->retrieve(
                 self::F_ALL_PROGRESS_IDS,
                 $this->refinery->custom()->transformation(
-                    fn ($ids) => explode(',', $ids)
+                    fn($ids) => explode(',', $ids)
                 )
             );
         } else {
             $pgs_ids = $this->http_wrapper->post()->retrieve(
                 self::F_SELECTED_PROGRESS_IDS,
-                $this->refinery->custom()->transformation(fn ($ids) => $ids)
+                $this->refinery->custom()->transformation(fn($ids) => $ids)
             );
         }
         if ($pgs_ids === null) {
@@ -880,6 +887,9 @@ class ilObjStudyProgrammeMembersGUI
             case self::ACTION_CHANGE_EXPIRE_DATE:
                 $target_name = "changeExpireDate";
                 break;
+            case self::ACTION_UPDATE_CERTIFICATE:
+                $target_name = "updateCertificate";
+                break;
             default:
                 throw new ilException("Unknown action: $action");
         }
@@ -915,13 +925,13 @@ class ilObjStudyProgrammeMembersGUI
 
         $selected = $this->getPostPrgsIds();
         $selected_ids = array_map(
-            fn ($id) => $id->getAssignmentId(),
+            fn($id) => $id->getAssignmentId(),
             $selected
         );
 
         $assignments = array_filter(
             $this->getAssignmentsById(),
-            fn ($ass) => in_array($ass->getId(), $selected_ids)
+            fn($ass) => in_array($ass->getId(), $selected_ids)
         );
         $gui->setAssignments($assignments);
         $this->tabs->clearTargets();
@@ -930,5 +940,57 @@ class ilObjStudyProgrammeMembersGUI
             $this->ctrl->getLinkTarget($this, $this->getDefaultCommand())
         );
         $this->ctrl->forwardCommand($gui);
+    }
+
+    public function updateCertificate(): string
+    {
+        $this->confirmation_gui->setFormAction($this->ctrl->getFormAction($this, 'confirmUpdateCertificate'));
+        $this->confirmation_gui->setHeaderText($this->lng->txt('header_update_certificate'));
+        $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedUpdateCertificate');
+        $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
+
+        $prg_id = $this->getPrgrsId();
+        $user_name = ilObjUser::_lookupFullname($prg_id->getUsrId());
+        $this->confirmation_gui->addItem(
+            self::F_SELECTED_PROGRESS_ID,
+            (string) $prg_id,
+            $user_name
+        );
+        return $this->confirmation_gui->getHTML();
+    }
+
+    public function updateCertificateMulti(): string
+    {
+        $this->confirmation_gui->setFormAction($this->ctrl->getFormAction($this, 'confirmUpdateCertificate'));
+        $this->confirmation_gui->setHeaderText($this->lng->txt('header_update_certificate'));
+        $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedUpdateCertificate');
+        $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
+
+        foreach ($this->getGetPrgsIds() as $progress_id) {
+            $user_name = ilObjUser::_lookupFullname($progress_id->getUsrId());
+            $this->confirmation_gui->addItem(
+                self::F_SELECTED_PROGRESS_IDS . '[]',
+                (string) $progress_id,
+                $user_name
+            );
+        }
+        return $this->confirmation_gui->getHTML();
+    }
+
+    public function confirmedUpdateCertificate(): void
+    {
+        $msgs = $this->getMessageCollection('msg_update_certificate');
+        foreach ($this->getGetPrgsIds() as $idx => $prgs_id) {
+            if (!$this->mayCurrentUserEditProgressForUser($prgs_id->getUsrId())) {
+                $this->showInfoMessage("no_permission_to_update_certificate");
+            } else {
+                $this->updateCertificateForPrg(
+                    $prgs_id->getAssignmentId(),
+                    $this->user->getId()
+                );
+            }
+        }
+        $this->showSuccessMessage("successfully_updated_certificate");
+        $this->ctrl->redirect($this, "view");
     }
 }
