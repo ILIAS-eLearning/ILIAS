@@ -1,8 +1,3 @@
-> This documentation does not warrant completeness or correctness, and is probably outdated. Reports of
-missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contributions via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories)
-are greatly appreciated.
-
 # How to handle dates in different time zones
 
 With release 3.10.0 ILIAS introduces support for individual user time zones. On the presentation, side dates should always be displayed in the time zone of the currently logged in user. With the revision of the calendar in 3.10.0, new classes for the manipulation and presentation of dates have been introduced.
@@ -12,7 +7,7 @@ With release 3.10.0 ILIAS introduces support for individual user time zones. On 
 There are three interesting levels of time:
 
 1. The Server Time Zone
-2. The "Coordinated Universal Time" / UTC (which is more or less GMT)
+2. The 'Coordinated Universal Time' / UTC (which is more or less GMT)
 3. The User Time Zone
 
 Working with PHP usually brings you in contact with times in the server time zone and, if you work with unix timestamps, implicitely with UTC.
@@ -27,7 +22,7 @@ echo time();
 **Example 2**: Getting the current server time zone (you will rarely need this).
 
 ```php
-// show current timezone, e.g. "Europe/Berlin"
+// show current timezone, e.g. 'Europe/Berlin'
 echo date_default_timezone_get();
 ```
 
@@ -58,33 +53,29 @@ With version 3.10.0 ILIAS displays dates in a user defined time zone. Every user
 1. **Creating date objects**:
 
 ```php
-include_once('./Services/Calendar/classes/class.ilDate.php');
-     
 // Creating a DateTime object (from unix timestamp)
-$now = new ilDateTime(time(),IL_CAL_UNIX);
+$now = new ilDateTime(time(), IL_CAL_UNIX);
      
 // Creating a DateTime object (from string in server time zone)
-$date = new ilDateTime('2008-07-17 10:00:00',IL_CAL_DATETIME);
+$date = new ilDateTime('2008-07-17 10:00:00', IL_CAL_DATETIME);
      
 // Creating a Date object (no time, no time zone conversion)
-$birthday = new ilDate('1972-04-04',IL_CAL_DATE);
+$birthday = new ilDate('1972-04-04', IL_CAL_DATE);
 ```
 
 2. **Manipulating dates**:
 
 ```php
-include_once('./Services/Calendar/classes/class.ilDate.php');
-     
-$days = new ilDateTime(time(),IL_CAL_UNIX);
+$days = new ilDateTime(time(), IL_CAL_UNIX);
      
 // plus one hour
-    $days->increment(IL_CAL_HOUR,1);
+    $days->increment(IL_CAL_HOUR, 1);
      
 // minus two days
-$days->increment(IL_CAL_DAY,-2);
+$days->increment(IL_CAL_DAY, -2);
      
 // plus three months
-$days->increment(IL_CAL_MONTH,3);
+$days->increment(IL_CAL_MONTH, 3);
      
 ...
 ```
@@ -92,22 +83,20 @@ $days->increment(IL_CAL_MONTH,3);
 3. **Comparing dates**:
 
 ```php
-include_once('./Services/Calendar/classes/class.ilDate.php');
-     
-$early = new ilDateTime('2008-07-17 06:00:00',IL_CAL_DATETIME);
-$late = new ilDateTime('2008-07-17 23:00:00',IL_CAL_DATETIME);
+$early = new ilDateTime('2008-07-17 06:00:00', IL_CAL_DATETIME);
+$late = new ilDateTime('2008-07-17 23:00:00', IL_CAL_DATETIME);
      
 // Check equality => returns false
 ilDateTime::_equals($early,$late);
      
 // Check same day => returns true
-ilDateTime::_equals($early,$late,IL_CAL_DAY);
+ilDateTime::_equals($early, $late, IL_CAL_DAY);
      
 // Check $early < $late
-ilDateTime::_before($early,$late);
+ilDateTime::_before($early, $late);
      
 // Check $early > $late
-ilDateTime::_after($early,$late);
+ilDateTime::_after($early, $late);
 
 ...
 ```
@@ -115,61 +104,62 @@ ilDateTime::_after($early,$late);
 4. **Converting date formats**:
 
 ```php
-include_once('./Services/Calendar/classes/class.ilDate.php');
-     
 // Creating object from date/time string representation in server time zone
-$today = new ilDateTime('2008-07-17 12:00:00',IL_CAL_DATETIME);
+$today = new ilDateTime('2008-07-17 12:00:00', IL_CAL_DATETIME);
      
 // Convert to unix timestamp
 $unix = $today->get(IL_CAL_UNIX);
      
 // Convert to custom format in server time zone (PHP date syntax)
-$date_str = $today->get(IL_CAL_FKT_DATE,'YmdHis');
+$date_str = $today->get(IL_CAL_FKT_DATE, 'YmdHis');
      
 // Convert to datetime in UTC time zone (usually you will not need this)
-$utc = $today->get(IL_CAL_DATETIME,'','UTC');
+$utc = $today->get(IL_CAL_DATETIME, '', 'UTC');
 ```
 
 ## Storing dates in the database
 
-MySQL offers mainly three possibilities for storing dates in the database. Timestamp, DateTime or Integer Fields. Timestamp and DateTime are very similar to use, even if Timestamp internally converts to UTC and DateTime does not. With ILIAS 3.10.0 ILIAS uses the PEAR::MDB2 database abstraction layer. PEAR::MDB2 can handle the types date, time and timestamp. The MDB2 timestamp type is mapped to the MySQL datetime type, if the MDB2 `createTable()` statement is used.
+MySQL offers mainly three possibilities for storing dates in the database: Timestamp, DateTime or Integer Fields. Timestamp and DateTime are used similarly, but Timestamp internally converts to UTC and DateTime does not.
 
-1. **Using MDB2 field type "timestamp"**:
+It is recommended to not rely on the database for timezone conversions, and instead convert all datetimes to UTC manually before persisting them. That leaves two options for storing datetimes: as a fromatted string in UTC
+in a datetime field, or as a unix timestamp in an integer field.  
 
-You provide a normal string representation in server time zone (YYYY-MM-DD HH:MM:SS). When reading you will also get a string representation in server time zone.
+1. **Using field type 'datetime'**:
+
+You provide a normal string representation in UTC (YYYY-MM-DD HH:MM:SS). When reading you will also get a string representation in UTC.
 
 ```php
 // Update/Insert
-$registration_start = new ilDateTime(time(),IL_CAL_UNIX);
-$db->manipulate("UPDATE grp_settings SET ".
-		"  registration_start = ".$db->quote($start->get(IL_CAL_DATETIME), "timestamp").
-		" WHERE obj_id = ".$db->quote(123, "integer")
-	);
+$registration_start = new ilDateTime(time(), IL_CAL_UNIX);
+$db->manipulate(
+    "UPDATE grp_settings SET" .
+    " registration_start = " . $db->quote($start->get(IL_CAL_DATETIME), ilDBConstants::T_DATETIME) .
+    " WHERE obj_id = " . $db->quote(123, ilDBConstants::T_INTEGER)
+);
      
 // Select
 $set = $db->query("SELECT * FROM grp_settings ");
-while ($record = $db->fetchAssoc($set))
-{
-	$registration_start = new ilDateTime($record['registration_start'],IL_CAL_DATETIME);
+while ($record = $db->fetchAssoc($set)) {
+	$registration_start = new ilDateTime($record['registration_start'], IL_CAL_DATETIME);
 }
 ```
 
-2. **Using MDB2 field type "integer" (for unix timestamps)**:
+2. **Using field type 'integer' (for unix timestamps)**:
 
 The (UTC) unix timestamps are just put into an integer field.
 
 ```php
 // Update/Insert
-$registration_start = new ilDateTime('2008-11-11 11:11:11' ,IL_CAL_DATETIME);
-$db->manipulate("UPDATE grp_settings SET ".
-		"  registration_start = ".$db->quote($start->get(IL_CAL_UNIX), "integer").
-		" WHERE obj_id = ".$db->quote(123, "integer")
-	);
+$registration_start = new ilDateTime('2008-11-11 11:11:11', IL_CAL_DATETIME);
+$db->manipulate(
+    "UPDATE grp_settings SET" .
+    " registration_start = " . $db->quote($start->get(IL_CAL_UNIX), ilDBConstants::T_INTEGER) .
+    " WHERE obj_id = " . $db->quote(123, ilDBConstants::T_INTEGER)
+);
      
 // Select
 $set = $db->query("SELECT * FROM grp_settings");
-while ($record = $db->fetchAssoc($set))
-{
+while ($record = $db->fetchAssoc($set)) {
     $registration_start = new ilDateTime($record['registration_start'], IL_CAL_UNIX);
 }
 ```
@@ -181,7 +171,8 @@ For the presentation of dates in the user interface, the individually selected u
 
 ```php
 ilDatePresentation::formatDate(
-   new ilDate(time(),IL_CAL_UNIX));
+   new ilDate(time(), IL_CAL_UNIX)
+);
      
 // Returns: 
 // 12. Jul 2008
@@ -191,7 +182,8 @@ ilDatePresentation::formatDate(
 
 ```php
 ilDatePresentation::formatDate(
-    new ilDateTime(time(),IL_CAL_UNIX));
+    new ilDateTime(time(), IL_CAL_UNIX)
+);
      
 // Returns:
 // 12. Jul 2008 1:01pm or
@@ -203,8 +195,9 @@ ilDatePresentation::formatDate(
 
 ```php
 ilDatePresentation::formatPeriod(
-    new ilDateTime(time(),IL_CAL_UNIX),
-    new ilDateTime(time()+7200,IL_CAL_UNIX));
+    new ilDateTime(time(), IL_CAL_UNIX),
+    new ilDateTime(time() + 7200, IL_CAL_UNIX)
+);
      
 // Returns:
 // 17. Jul 2008 1:00 pm - 3:00 pm or
@@ -212,27 +205,8 @@ ilDatePresentation::formatPeriod(
 // Depending on the user time zone and hour format settings.
 ```
 
-## Editing dates using Property Forms
+## Date-Inputs in Forms
 
-For date/time form fields, please use the `ilDateTimeInputGUI` property form class. The easiest way to get the entered values from the form is to use a combination of `getItemByPostVar()` and `getDate()` (alternative 1). If you use `getInput()` (alternative 2) the values will be in the user time zone and must be converted by providing the user time zone to the `ilDateTime` constructor.
-
-```php
-// Show date input
-$dt_prop = new ilDateTimeInputGUI("Anmeldungsbeginn", "registration_start");
-$dt_prop->setDate(new ilDateTime("2006-12-24 15:44:00",IL_CAL_DATETIME);
-$dt_prop->setShowTime(true);
-$dt_prop->setInfo("Info text for the start date.");
-$form_gui->addItem($dt_prop);
- 
-...
-// Save date
-if ($form_gui->checkInput())
-{
-    // alternative one: using getItemByPostVar() and getDate()
-    $date = $form_gui->getItemByPostVar("registration_start")->getDate();   // returns an ilDateTime object
- 
-    // alternative two: using getInput. IMPORTANT: this returns the values in user time zone
-    $b = $form_gui->getInput("registration_start");
-    $date = new ilDateTime($b['date']." ".$b['time'], IL_CAL_DATETIME, $ilUser->getTimeZone()));
-}
-```
+For date/time form fields, use the Kitchen Sink `Date Time` input. Make sure
+to manually configure the component such that it respects the user settings
+concerning time zone and date-time format.
