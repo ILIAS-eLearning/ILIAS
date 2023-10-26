@@ -42,7 +42,7 @@ function base()
         'fee' => $f->table()->column()->number("Fee")
             ->withDecimals(2)
             ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE),
-        'hidden' => $f->table()->column()->status("success")
+        'failure_txt' => $f->table()->column()->status("failure")
             ->withIsSortable(false)
             ->withIsOptional(true)
             ->withIsInitiallyVisible(false),
@@ -144,10 +144,11 @@ function base()
             ?array $filter_data,
             ?array $additional_parameters
         ): \Generator {
-            $records = $this->getRecords($order);
+            $records = $this->getRecords($range, $order);
             foreach ($records as $idx => $record) {
                 $row_id = (string)$record['usr_id'];
                 $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
+                $record['failure_txt'] = "not " . $record["achieve_txt"];
                 $record['repeat'] = $record['achieve'] < 80;
                 $record['achieve'] = $this->ui_renderer->render(
                     $this->ui_factory->chart()->progressMeter()->mini(80, $record['achieve'])
@@ -163,10 +164,10 @@ function base()
             ?array $filter_data,
             ?array $additional_parameters
         ): ?int {
-            return null;
+            return count($this->getRecords());
         }
 
-        protected function getRecords(Order $order): array
+        protected function getRecords(Range $range = null, Order $order = null): array
         {
             $records = [
                 ['usr_id' => 123,'login' => 'superuser','email' => 'user@example.com',
@@ -179,14 +180,27 @@ function base()
                  'last' => new \DateTimeImmutable(),'achieve' => 66,'fee' => 36.789
                 ],
                 ['usr_id' => 8748,'login' => 'student3_longname','email' => 'student3_long_email@example.com',
-                 'last' => new \DateTimeImmutable(),'achieve' => 66,'fee' => 36.789
+                 'last' => new \DateTimeImmutable(),'achieve' => 8,'fee' => 36.789
+                ],
+                ['usr_id' => 8749,'login' => 'studentAB','email' => 'studentAB@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 100,'fee' => 114
+                ],
+                ['usr_id' => 8750,'login' => 'student5','email' => 'student5@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 76,'fee' => 3.789
+                ],
+                ['usr_id' => 8751,'login' => 'student6','email' => 'student6@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 66,'fee' => 67
                 ]
             ];
-
-            list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-            usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
-            if ($order_direction === 'DESC') {
-                $records = array_reverse($records);
+            if ($order) {
+                list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+                usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
+                if ($order_direction === 'DESC') {
+                    $records = array_reverse($records);
+                }
+            }
+            if ($range) {
+                $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
             }
 
             return $records;

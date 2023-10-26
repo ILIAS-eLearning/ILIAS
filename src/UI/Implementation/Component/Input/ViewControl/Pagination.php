@@ -36,7 +36,7 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
     use ComponentHelper;
     use GroupDecorator;
 
-    protected const DEFAULT_LIMITS = [5, 10, 25, 50, 100, 250, 500, \PHP_INT_MAX];
+    public const DEFAULT_LIMITS = [5, 10, 25, 50, 100, 250, 500, \PHP_INT_MAX];
     protected const NUMBER_OF_VISIBLE_SECTIONS = 7;
 
     protected Signal $internal_selection_signal;

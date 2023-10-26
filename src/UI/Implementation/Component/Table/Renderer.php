@@ -28,17 +28,10 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\Data\Order;
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
 class Renderer extends AbstractComponentRenderer
 {
-    /**
-     * The parameters for ordering will be removed as soon as ViewControls
-     * are available for the Table. DO NOT USE THEM.
-     * This is purely to demonstrate column-ordering already.
-     */
-    private const TABLE_DEMO_ORDER_FIELD = 'tsort_f';
-    private const TABLE_DEMO_ORDER_DIRECTION = 'tsort_d';
-
     /**
      * @inheritdoc
      */
@@ -201,8 +194,6 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.datatable.html", true, true);
 
-        $component = $this->applyViewControls($component);
-
         $opt_action_id = Action::OPT_ACTIONID;
         $opt_row_id = Action::OPT_ROWID;
         $component = $component
@@ -232,6 +223,16 @@ class Renderer extends AbstractComponentRenderer
             );
         }
 
+        //TODO: Filter
+        $filter_data = [];
+        $additional_parameters = [];
+        [$component, $view_controls] = $component->applyViewControls(
+            $filter_data = [],
+            $additional_parameters = []
+        );
+
+        $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
+
         $rows = $component->getDataRetrieval()->getRows(
             $component->getRowBuilder(),
             array_keys($component->getVisibleColumns()),
@@ -241,79 +242,54 @@ class Renderer extends AbstractComponentRenderer
             $component->getAdditionalParameters()
         );
 
-
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
-        $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($component->getViewControls()));
 
-        $this->renderTableHeader($default_renderer, $component, $tpl);
-
+        $sortation_signal = null;
         // if the generator is empty, and thus invalid, we render an empty row.
-        if ($rows->valid()) {
-            $this->appendTableRows($tpl, $rows, $default_renderer);
-        } else {
+        if (!$rows->valid()) {
             $this->renderFullWidthDataCell($component, $tpl, $this->txt('ui_table_no_records'));
-        }
+        } else {
+            $this->appendTableRows($tpl, $rows, $default_renderer);
 
-        if ($component->hasMultiActions()) {
-            $multi_actions = $component->getMultiActions();
-            $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $id);
-            $multi_actions_dropdown = $this->buildMultiActionsDropdown(
-                $multi_actions,
-                $component->getMultiActionSignal(),
-                $modal->getShowSignal()
-            );
-            $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
-            $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
-        }
-
-        return $tpl->get();
-    }
-
-
-    protected function applyViewControls(Component\Table\Data $component): Component\Table\Data
-    {
-        //TODO: Viewcontrols, Filter
-        $df = $this->getDataFactory();
-        $range = $component->getRange();
-        $order = $component->getOrder();
-        $selected_optional = $component->getSelectedOptionalColumns();
-        $filter_data = null;
-        $additional_parameters = null;
-
-        if ($request = $component->getRequest()) {
-            $params = [];
-            parse_str($request->getUri()->getQuery(), $params);
-            if (array_key_exists(self::TABLE_DEMO_ORDER_FIELD, $params) && array_key_exists(self::TABLE_DEMO_ORDER_DIRECTION, $params)
-                && array_key_exists($params[self::TABLE_DEMO_ORDER_FIELD], $component->getVisibleColumns())
-            ) {
-                $order = $df->order($params[self::TABLE_DEMO_ORDER_FIELD], $params[self::TABLE_DEMO_ORDER_DIRECTION]);
+            if ($component->hasMultiActions()) {
+                $multi_actions = $component->getMultiActions();
+                $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $id);
+                $multi_actions_dropdown = $this->buildMultiActionsDropdown(
+                    $multi_actions,
+                    $component->getMultiActionSignal(),
+                    $modal->getShowSignal()
+                );
+                $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
+                $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
             }
-        }
-        //END TODO: Viewcontrols, Filter
 
-        return $component
-            ->withSelectedOptionalColumns($selected_optional)
-            ->withRange($range)
-            ->withOrder($order)
-            ->withFilter($filter_data)
-            ->withAdditionalParameters($additional_parameters);
+            //TODO: move this?
+            $sortation_view_control = array_filter(
+                $view_controls->getInputs(),
+                static fn($i): bool => $i instanceof Component\Input\ViewControl\Sortation
+            );
+            $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
+            $sortation_signal->addOption('parent_container', $id);
+        }
+
+        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
+        return $tpl->get();
     }
 
     protected function renderTableHeader(
         RendererInterface $default_renderer,
         Component\Table\Data $component,
-        Template $tpl
+        Template $tpl,
+        ?Component\Signal $sortation_signal
     ): void {
         $order = $component->getOrder();
         $glyph_factory = $this->getUIFactory()->symbol()->glyph();
         $sort_col = key($order->get());
         $sort_direction = current($order->get());
         $columns = $component->getVisibleColumns();
-
-        $request = $component->getRequest();
 
         foreach ($columns as $col_id => $col) {
             $param_sort_direction = Order::ASC;
@@ -333,17 +309,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock('header_cell');
             $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
 
-            if ($col->isSortable() && ! is_null($request)) {
-                $uri = (string)$this->getDataFactory()->uri($request->getUri()->__toString())
-                    ->withParameter(self::TABLE_DEMO_ORDER_FIELD, $col_id)
-                    ->withParameter(self::TABLE_DEMO_ORDER_DIRECTION, $param_sort_direction);
-
+            if ($col->isSortable() && ! is_null($sortation_signal)) {
+                $sort_signal = clone $sortation_signal;
+                $sort_signal->addOption('value', "$col_id:$param_sort_direction");
                 $col_title = $default_renderer->render(
-                    $this->getUIFactory()->button()->shy($col_title, $uri)
+                    $this->getUIFactory()->button()->shy($col_title, $sort_signal)
                 );
 
                 if ($col_id === $sort_col) {
-                    $sortation_glyph = $default_renderer->render($sortation_glyph->withAction($uri));
+                    $sortation_glyph = $default_renderer->render($sortation_glyph->withOnClick($sort_signal));
                     $tpl->setVariable('COL_SORTATION', $sortation);
                     $tpl->setVariable('COL_SORTATION_GLYPH', $sortation_glyph);
                 }

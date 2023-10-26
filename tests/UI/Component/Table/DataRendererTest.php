@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__ . "/../../Base.php");
+require_once(__DIR__ . "/TableTestBase.php");
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component as I;
@@ -60,9 +60,9 @@ class DTRenderer extends I\Table\Renderer
         TestDefaultRenderer $default_renderer,
         I\Table\Data $component,
         $tpl,
-        \ILIAS\Data\Order $order
+        I\Signal $sortation_signal
     ) {
-        return $this->renderTableHeader($default_renderer, $component, $tpl, $order);
+        return $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
     }
 }
 
@@ -70,7 +70,7 @@ class DTRenderer extends I\Table\Renderer
 /**
  * Tests for the Renderer of DataTables.
  */
-class DataRendererTest extends ILIAS_UI_TestBase
+class DataRendererTest extends TableTestBase
 {
     private function getRenderer()
     {
@@ -97,6 +97,24 @@ class DataRendererTest extends ILIAS_UI_TestBase
         return new I\Table\Column\Factory();
     }
 
+    private function getDummyRequest()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method("getUri")
+            ->willReturn(new class () {
+                public function __toString()
+                {
+                    return 'http://localhost:80';
+                }
+            });
+
+        $request
+            ->method("getQueryParams")
+            ->willReturn([]);
+        return $request;
+    }
+
     public function getDataFactory(): Data\Factory
     {
         return new Data\Factory();
@@ -104,16 +122,20 @@ class DataRendererTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
-            public function button(): \ILIAS\UI\Component\Button\Factory
+        $factory = new class ($this->getTableFactory()) extends NoUIFactory {
+            public function __construct(
+                protected Component\Table\Factory $table_factory
+            ) {
+            }
+            public function button(): Component\Button\Factory
             {
                 return new I\Button\Factory();
             }
-            public function dropdown(): ILIAS\UI\Component\Dropdown\Factory
+            public function dropdown(): Component\Dropdown\Factory
             {
                 return new I\Dropdown\Factory();
             }
-            public function symbol(): ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): Component\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -121,17 +143,11 @@ class DataRendererTest extends ILIAS_UI_TestBase
                     new I\Symbol\Avatar\Factory()
                 );
             }
-            public function table(): ILIAS\UI\Component\Table\Factory
+            public function table(): Component\Table\Factory
             {
-                return new I\Table\Factory(
-                    new I\SignalGenerator(),
-                    new \ILIAS\Data\Factory(),
-                    new I\Table\Column\Factory(),
-                    new I\Table\Action\Factory(),
-                    new I\Table\DataRowBuilder()
-                );
+                return $this->table_factory;
             }
-            public function divider(): ILIAS\UI\Component\Divider\Factory
+            public function divider(): Component\Divider\Factory
             {
                 return new I\Divider\Factory();
             }
@@ -240,19 +256,11 @@ class DataRendererTest extends ILIAS_UI_TestBase
             'f2' => $f->text("Field 2")->withIndex(2),
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request->method("getUri")
-            ->willReturn(new class () {
-                public function __toString()
-                {
-                    return 'http://localhost:80';
-                }
-            });
-
-        $order = $data_factory->order('f1', \ILIAS\Data\Order::ASC);
+        $sortation_signal = new I\Signal('sort_header_signal_id');
+        $sortation_signal->addOption('value', 'f1:ASC');
         $table = $this->getUIFactory()->table()->data('', $columns, $data)
-            ->withRequest($request);
-        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $order);
+            ->withRequest($this->getDummyRequest());
+        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
 
         $actual = $this->brutallyTrimHTML($tpl->get());
         $expected = <<<EOT
@@ -263,18 +271,18 @@ class DataRendererTest extends ILIAS_UI_TestBase
             <tr class="c-table-data__header c-table-data__row" role="rowgroup">
                 <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="ascending">
                     <div class="c-table-data__header__resize-wrapper">
-                        <a tabindex="0" class="glyph" href="http://localhost:80?tsort_f=f1&tsort_d=DESC" aria-label="sort_ascending"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
-                        <button class="btn btn-link" data-action="http://localhost:80?tsort_f=f1&tsort_d=DESC" id="id_1">Field 1</button>
+                        <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
+                        <button class="btn btn-link" id="id_1">Field 1</button>
                     </div>
                 </th>
                 <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
                     <div class="c-table-data__header__resize-wrapper">
-                        <button class="btn btn-link" data-action="http://localhost:80?tsort_f=f2&tsort_d=ASC" id="id_2">Field 2</button>
+                        <button class="btn btn-link" id="id_3">Field 2</button>
                     </div>
                 </th>
                 <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" tabindex="-1" aria-colindex="2">
                     <div class="c-table-data__header__resize-wrapper">
-                        <button class="btn btn-link" data-action="http://localhost:80?tsort_f=f3&tsort_d=ASC" id="id_3">Field 3</button>
+                        <button class="btn btn-link" id="id_4">Field 3</button>
                     </div>
                 </th>
             </tr>
@@ -407,7 +415,7 @@ EOT;
 
             public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
             {
-                return null;
+                return 0;
             }
         };
 
@@ -419,7 +427,8 @@ EOT;
             'f5' => $this->getUIFactory()->table()->column()->text('f5'),
         ];
 
-        $table = $this->getUIFactory()->table()->data('', $columns, $data);
+        $table = $this->getTableFactory()->data('', $columns, $data)
+            ->withRequest($this->getDummyRequest());
 
         $html = $this->getDefaultRenderer()->render($table);
 

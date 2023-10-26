@@ -153,9 +153,16 @@ class Renderer extends AbstractComponentRenderer
             $component = $component->withAdditionalOnLoadCode(
                 fn($id) => "$(document).on('{$internal_signal}', 
                     function(event, signal_data) { 
-                        let inputs = event.target
-                            .closest('.il-viewcontrol-sortation')
-                            .querySelectorAll('.il-viewcontrol-value > input');
+                        let container;
+                        if(signal_data.options.parent_container) {
+                            container =  document.querySelector(
+                                '#' + signal_data.options.parent_container 
+                                + ' .il-viewcontrol-sortation'
+                            );
+                        } else {
+                             container = event.target.closest('.il-viewcontrol-sortation');
+                        }
+                        let inputs = container.querySelectorAll('.il-viewcontrol-value > input');
                         let val = signal_data.options.value.split(':');
                         inputs[0].value = val[0];
                         inputs[1].value = val[1];

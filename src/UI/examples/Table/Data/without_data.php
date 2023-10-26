@@ -20,6 +20,7 @@ function without_data(): string
 
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $request = $DIC->http()->request();
 
     $empty_retrieval = new class () implements DataRetrieval {
         public function getRows(
@@ -35,18 +36,20 @@ function without_data(): string
 
         public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
         {
-            return null;
+            return 0;
         }
     };
 
     $table = $factory->table()->data(
         'Empty Data Table',
         [
-            'col1' => $factory->table()->column()->text('Column 1'),
-            'col2' => $factory->table()->column()->number('Column 2'),
+            'col1' => $factory->table()->column()->text('Column 1')
+                ->withIsSortable(false),
+            'col2' => $factory->table()->column()->number('Column 2')
+                ->withIsSortable(false),
         ],
         $empty_retrieval
     );
 
-    return $renderer->render($table);
+    return $renderer->render($table->withRequest($request));
 }

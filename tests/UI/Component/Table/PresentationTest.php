@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__ . "/../../Base.php");
+require_once(__DIR__ . "/TableTestBase.php");
 
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Component as C;
@@ -28,22 +28,11 @@ use ILIAS\UI\Implementation\Component\Table\PresentationRow;
 /**
  * Tests for Presentation Table.
  */
-class PresentationTest extends ILIAS_UI_TestBase
+class PresentationTest extends TableTestBase
 {
-    private function getFactory(): I\Component\Table\Factory
-    {
-        return new I\Component\Table\Factory(
-            new I\Component\SignalGenerator(),
-            new \ILIAS\Data\Factory(),
-            new I\Component\Table\Column\Factory(),
-            new I\Component\Table\Action\Factory(),
-            new I\Component\Table\DataRowBuilder()
-        );
-    }
-
     public function testTableConstruction(): void
     {
-        $f = $this->getFactory();
+        $f = $this->getTableFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Factory", $f);
 
         $pt = $f->presentation('title', [], function (): void {
@@ -63,7 +52,7 @@ class PresentationTest extends ILIAS_UI_TestBase
 
     public function testRowConstruction(): void
     {
-        $f = $this->getFactory();
+        $f = $this->getTableFactory();
         $pt = $f->presentation('title', [], function (): void {
         });
         $row = new PresentationRow($pt->getSignalGenerator(), 'table_id');
@@ -223,7 +212,7 @@ class PresentationTest extends ILIAS_UI_TestBase
 EXP;
 
         $r = $this->getDefaultRenderer();
-        $f = $this->getFactory();
+        $f = $this->getTableFactory();
         $pt = $f->presentation('title', [], $mapping);
         $actual = $r->render($pt->withData($this->getDummyData()));
         $this->assertEquals(
@@ -299,7 +288,7 @@ EXP;
 </div>
 EXP;
         $r = $this->getDefaultRenderer();
-        $f = $this->getFactory();
+        $f = $this->getTableFactory();
         $pt = $f->presentation('title', [], $mapping);
         $actual = $r->render($pt->withData($this->getDummyData()));
         $this->assertEquals(
@@ -312,7 +301,7 @@ EXP;
     {
         $mapping = fn(PresentationRow $row, mixed $record, \ILIAS\UI\Factory $ui_factory, mixed $environment) => $row;
 
-        $table = $this->getFactory()->presentation('', [], $mapping);
+        $table = $this->getTableFactory()->presentation('', [], $mapping);
 
         $html = $this->getDefaultRenderer()->render($table);
 

@@ -140,6 +140,8 @@ class InitUIFramework
             $row_builder = new ILIAS\UI\Implementation\Component\Table\DataRowBuilder();
             return new ILIAS\UI\Implementation\Component\Table\Factory(
                 $c["ui.signal_generator"],
+                $c['ui.factory.input.viewcontrol'],
+                $c['ui.factory.input.container.viewcontrol'],
                 $c["ui.data_factory"],
                 $c["ui.factory.table.column"],
                 $c["ui.factory.table.action"],

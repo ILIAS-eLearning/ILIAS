@@ -46,7 +46,8 @@ function base()
     ];
 
     $table = getExampleTable($f)
-        ->withActions($actions);
+        ->withActions($actions)
+        ->withRequest($DIC->http()->request());
 
 
     //render table and results

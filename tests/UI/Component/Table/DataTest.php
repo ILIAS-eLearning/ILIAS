@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__ . "/../../Base.php");
+require_once(__DIR__ . "/TableTestBase.php");
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component as C;
@@ -32,19 +32,8 @@ use ILIAS\UI\URLBuilder;
 /**
  * Tests for the Data Table.
  */
-class DataTest extends ILIAS_UI_TestBase
+class DataTest extends TableTestBase
 {
-    protected function getFactory()
-    {
-        return new C\Table\Factory(
-            new C\SignalGenerator(),
-            new \ILIAS\Data\Factory(),
-            new C\Table\Column\Factory(),
-            new C\Table\Action\Factory(),
-            new C\Table\DataRowBuilder()
-        );
-    }
-
     protected function getDataRetrieval(): I\Table\DataRetrieval
     {
         return new class () implements I\Table\DataRetrieval {
@@ -70,8 +59,8 @@ class DataTest extends ILIAS_UI_TestBase
     public function testDataTableBasicConstruction(): void
     {
         $data = $this->getDataRetrieval();
-        $cols = ['f0' => $this->getFactory()->column()->text("col1")];
-        $table = $this->getFactory()->data('title', $cols, $data);
+        $cols = ['f0' => $this->getTableFactory()->column()->text("col1")];
+        $table = $this->getTableFactory()->data('title', $cols, $data);
         $this->assertEquals(800, $table->getNumberOfRows());
         $this->assertInstanceOf(Order::class, $table->getOrder());
         $this->assertInstanceOf(Range::class, $table->getRange());
@@ -88,7 +77,7 @@ class DataTest extends ILIAS_UI_TestBase
         $this->expectException(\InvalidArgumentException::class);
         $data = $this->getDataRetrieval();
         $cols = ['f0' => "col1"];
-        $table = $this->getFactory()->data('title', $cols, $data);
+        $table = $this->getTableFactory()->data('title', $cols, $data);
     }
 
     public function testDataTableConstructionWithoutColumns(): void
@@ -96,17 +85,17 @@ class DataTest extends ILIAS_UI_TestBase
         $this->expectException(\InvalidArgumentException::class);
         $data = $this->getDataRetrieval();
         $cols = [];
-        $table = $this->getFactory()->data('title', $cols, $data);
+        $table = $this->getTableFactory()->data('title', $cols, $data);
     }
 
     public function testDataTableColumns(): void
     {
-        $f = $this->getFactory()->column();
+        $f = $this->getTableFactory()->column();
         $cols = [
             'f0' => $f->text("col1"),
             'f1' => $f->text("col2")
         ];
-        $table = $this->getFactory()->data('title', $cols, $this->getDataRetrieval());
+        $table = $this->getTableFactory()->data('title', $cols, $this->getDataRetrieval());
 
         $this->assertEquals(2, $table->getColumnCount());
         $check = [
@@ -119,7 +108,7 @@ class DataTest extends ILIAS_UI_TestBase
 
     public function testDataTableActions(): void
     {
-        $f = $this->getFactory()->action();
+        $f = $this->getTableFactory()->action();
         $df = new \ILIAS\Data\Factory();
         $target = $df->uri('http://wwww.ilias.de?ref_id=1');
         $url_builder = new URLBuilder($target);
@@ -129,8 +118,8 @@ class DataTest extends ILIAS_UI_TestBase
             $f->multi('act2', $builder, $token),
             $f->standard('act0', $builder, $token)
         ];
-        $cols = ['f0' => $this->getFactory()->column()->text("col1")];
-        $table = $this->getFactory()->data('title', $cols, $this->getDataRetrieval())
+        $cols = ['f0' => $this->getTableFactory()->column()->text("col1")];
+        $table = $this->getTableFactory()->data('title', $cols, $this->getDataRetrieval())
             ->withActions($actions);
 
         $this->assertEquals($actions, $table->getAllActions());
@@ -141,8 +130,8 @@ class DataTest extends ILIAS_UI_TestBase
     protected function getTable(): I\Table\Data
     {
         $data = $this->getDataRetrieval();
-        $cols = ['f0' => $this->getFactory()->column()->text("col1")];
-        $table = $this->getFactory()->data('title', $cols, $data);
+        $cols = ['f0' => $this->getTableFactory()->column()->text("col1")];
+        $table = $this->getTableFactory()->data('title', $cols, $data);
         return $table;
     }
 
@@ -196,13 +185,13 @@ class DataTest extends ILIAS_UI_TestBase
     {
         $data = $this->getDataRetrieval();
         $cols = [
-            'f0' => $this->getFactory()->column()->text(''),
-            'f1' => $this->getFactory()->column()->text('')
+            'f0' => $this->getTableFactory()->column()->text(''),
+            'f1' => $this->getTableFactory()->column()->text('')
                 ->withIsOptional(true)
                 ->withIsInitiallyVisible(false),
-            'f2' => $this->getFactory()->column()->text('')
+            'f2' => $this->getTableFactory()->column()->text('')
         ];
-        $table = $this->getFactory()->data('title', $cols, $data);
+        $table = $this->getTableFactory()->data('title', $cols, $data);
         $this->assertEquals(3, $table->getColumnCount());
         $this->assertEquals(['f0', 'f2'], array_keys($table->getVisibleColumns()));
         $this->assertEquals(0, $table->getVisibleColumns()['f0']->getIndex());

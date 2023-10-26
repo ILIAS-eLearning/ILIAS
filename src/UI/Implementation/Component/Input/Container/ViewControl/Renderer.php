@@ -84,11 +84,23 @@ class Renderer extends AbstractComponentRenderer
             fn($k) => ! in_array($k, $input_names),
             ARRAY_FILTER_USE_KEY
         );
+        // The remaining parameters for the view controls need to be stuffed into
+        // hidden fields, so the browser passes them as query parameters once the
+        // form is submitted.
         foreach ($query_params as $k => $v) {
-            $tpl->setCurrentBlock('param');
-            $tpl->setVariable("PARAM_NAME", $k);
-            $tpl->setVariable("VALUE", $v);
-            $tpl->parseCurrentBlock();
+            if (is_array($v)) {
+                foreach (array_values($v) as $arrv) {
+                    $tpl->setCurrentBlock('param');
+                    $tpl->setVariable("PARAM_NAME", $k . '[]');
+                    $tpl->setVariable("VALUE", $arrv);
+                    $tpl->parseCurrentBlock();
+                }
+            } else {
+                $tpl->setCurrentBlock('param');
+                $tpl->setVariable("PARAM_NAME", $k);
+                $tpl->setVariable("VALUE", $v);
+                $tpl->parseCurrentBlock();
+            }
         }
 
         $inputs = array_map(

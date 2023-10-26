@@ -58,6 +58,7 @@ function base()
         }
     };
 
-    $table = $f->table()->data('StatusIcons Columns', $columns, $data_retrieval);
+    $table = $f->table()->data('StatusIcons Columns', $columns, $data_retrieval)
+        ->withRequest($DIC->http()->request());
     return $r->render($table);
 }
