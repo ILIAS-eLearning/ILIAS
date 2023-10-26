@@ -35,11 +35,11 @@ class assLongMenuExport extends assQuestionExport
         $xml->xmlHeader();
         $xml->xmlStartTag("questestinterop");
         // add question description
-        $attrs = array(
+        $attrs = [
             "ident" => "il_" . IL_INST_ID . "_qst_" . $this->object->getId(),
             "title" => $this->object->getTitle(),
             "maxattempts" => $this->object->getNrOfTries()
-        );
+        ];
         $xml->xmlStartTag("item", $attrs);
         // add question description
         $xml->xmlElement("qticomment", null, $this->object->getComment());
@@ -69,7 +69,7 @@ class assLongMenuExport extends assQuestionExport
 
         $xml->xmlStartTag("qtimetadatafield");
         $xml->xmlElement("fieldlabel", null, "gapTypes");
-        $gap_types = array();
+        $gap_types = [];
         if (is_array($correct_answers)) {
             foreach ($correct_answers as $key => $value) {
                 $gap_types[] = $value[2];
@@ -99,13 +99,13 @@ class assLongMenuExport extends assQuestionExport
 
         foreach ($answers as $key => $values) {
             $real_id = $key + 1;
-            $attrs = array(
+            $attrs = [
                     "ident" => "LongMenu_" . $real_id,
                     "rcardinality" => "Single"
-                );
+                ];
             $xml->xmlStartTag("response_str", $attrs);
             foreach ($values as $index => $value) {
-                $xml->xmlStartTag("response_label", array('ident' => $index));
+                $xml->xmlStartTag("response_label", ['ident' => $index]);
                 $xml->xmlStartTag("material");
                 $xml->xmlElement("fieldentry", null, $value);
                 $xml->xmlEndTag("material");
@@ -123,17 +123,17 @@ class assLongMenuExport extends assQuestionExport
         foreach ($answers as $key => $values) {
             $real_id = $key + 1;
             foreach ($values as $index => $value) {
-                $xml->xmlStartTag("respcondition", array('continue' => 'Yes'));
+                $xml->xmlStartTag("respcondition", ['continue' => 'Yes']);
                 $xml->xmlStartTag("conditionvar");
-                $xml->xmlElement("varequal", array('respident' => "LongMenu_" . $real_id), $value);
+                $xml->xmlElement("varequal", ['respident' => "LongMenu_" . $real_id], $value);
                 $xml->xmlEndTag("conditionvar");
 
                 if (in_array($value, $correct_answers[$key][0])) {
-                    $xml->xmlElement("setvar", array('action' => "Add"), $correct_answers[$key][1]);
+                    $xml->xmlElement("setvar", ['action' => "Add"], $correct_answers[$key][1]);
                 } else {
-                    $xml->xmlElement("setvar", array('action' => "Add"), 0);
+                    $xml->xmlElement("setvar", ['action' => "Add"], 0);
                 }
-                $xml->xmlElement("displayfeedback", array('feedbacktype' => "Response", 'linkrefid' => $key . '_Response_' . $index));
+                $xml->xmlElement("displayfeedback", ['feedbacktype' => "Response", 'linkrefid' => $key . '_Response_' . $index]);
                 $xml->xmlEndTag("respcondition");
             }
         }
@@ -142,7 +142,7 @@ class assLongMenuExport extends assQuestionExport
             true
         );
         if (strlen($feedback_allcorrect) > 0) {
-            $xml->xmlStartTag("respcondition", array('continue' => 'Yes'));
+            $xml->xmlStartTag("respcondition", ['continue' => 'Yes']);
             $xml->xmlStartTag("conditionvar");
             foreach ($correct_answers as $key => $values) {
                 $real_id = $key + 1;
@@ -154,7 +154,7 @@ class assLongMenuExport extends assQuestionExport
                     if ($index > 0) {
                         $xml->xmlStartTag("or");
                     }
-                    $xml->xmlElement("varequal", array('respident' => "LongMenu_" . $real_id), $value);
+                    $xml->xmlElement("varequal", ['respident' => "LongMenu_" . $real_id], $value);
                     if ($index > 0) {
                         $xml->xmlEndTag("or");
                     }
@@ -164,7 +164,7 @@ class assLongMenuExport extends assQuestionExport
                 }
             }
             $xml->xmlEndTag("conditionvar");
-            $xml->xmlElement("displayfeedback", array('feedbacktype' => "Response", 'linkrefid' => 'response_allcorrect'));
+            $xml->xmlElement("displayfeedback", ['feedbacktype' => "Response", 'linkrefid' => 'response_allcorrect']);
             $xml->xmlEndTag("respcondition");
         }
 
@@ -173,7 +173,7 @@ class assLongMenuExport extends assQuestionExport
             false
         );
         if (strlen($feedback_onenotcorrect)) {
-            $xml->xmlStartTag("respcondition", array('continue' => 'Yes'));
+            $xml->xmlStartTag("respcondition", ['continue' => 'Yes']);
             $xml->xmlStartTag("conditionvar");
             $xml->xmlStartTag("not");
             foreach ($correct_answers as $key => $values) {
@@ -186,7 +186,7 @@ class assLongMenuExport extends assQuestionExport
                     if ($index > 0) {
                         $xml->xmlStartTag("or");
                     }
-                    $xml->xmlElement("varequal", array('respident' => "LongMenu_" . $real_id), $value);
+                    $xml->xmlElement("varequal", ['respident' => "LongMenu_" . $real_id], $value);
                     if ($index > 0) {
                         $xml->xmlEndTag("or");
                     }
@@ -197,7 +197,7 @@ class assLongMenuExport extends assQuestionExport
             }
             $xml->xmlEndTag("not");
             $xml->xmlEndTag("conditionvar");
-            $xml->xmlElement("displayfeedback", array('feedbacktype' => "Response", 'linkrefid' => 'response_onenotcorrect'));
+            $xml->xmlElement("displayfeedback", ['feedbacktype' => "Response", 'linkrefid' => 'response_onenotcorrect']);
             $xml->xmlEndTag("respcondition");
         }
 
@@ -207,10 +207,10 @@ class assLongMenuExport extends assQuestionExport
 
 
         for ($i = 0; $i < sizeof($correct_answers); $i++) {
-            $attrs = array(
+            $attrs = [
                 "ident" => $i,
                 "view" => "All"
-            );
+            ];
             $xml->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $xml->xmlStartTag("flow_mat");
@@ -225,19 +225,19 @@ class assLongMenuExport extends assQuestionExport
         }
 
         if (strlen($feedback_allcorrect) > 0) {
-            $xml->xmlStartTag("itemfeedback", array('ident' => 'response_allcorrect','view' => 'All'));
+            $xml->xmlStartTag("itemfeedback", ['ident' => 'response_allcorrect','view' => 'All']);
             $xml->xmlStartTag("flow_mat");
             $xml->xmlStartTag("material");
-            $xml->xmlElement("mattext", array('texttype' => 'text/xhtml'), $feedback_allcorrect);
+            $xml->xmlElement("mattext", ['texttype' => 'text/xhtml'], $feedback_allcorrect);
             $xml->xmlEndTag("material");
             $xml->xmlEndTag("flow_mat");
             $xml->xmlEndTag("itemfeedback");
         }
         if (strlen($feedback_onenotcorrect) > 0) {
-            $xml->xmlStartTag("itemfeedback", array('ident' => 'response_onenotcorrect', 'view' => 'All'));
+            $xml->xmlStartTag("itemfeedback", ['ident' => 'response_onenotcorrect', 'view' => 'All']);
             $xml->xmlStartTag("flow_mat");
             $xml->xmlStartTag("material");
-            $xml->xmlElement("mattext", array('texttype' => 'text/xhtml'), $feedback_onenotcorrect);
+            $xml->xmlElement("mattext", ['texttype' => 'text/xhtml'], $feedback_onenotcorrect);
             $xml->xmlEndTag("material");
             $xml->xmlEndTag("flow_mat");
             $xml->xmlEndTag("itemfeedback");

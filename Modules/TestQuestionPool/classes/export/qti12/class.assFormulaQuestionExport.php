@@ -40,10 +40,10 @@ class assFormulaQuestionExport extends assQuestionExport
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
-        $attrs = array(
+        $attrs = [
             "ident" => "il_" . IL_INST_ID . "_qst_" . $this->object->getId(),
             "title" => $this->object->getTitle()
-        );
+        ];
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
@@ -66,14 +66,14 @@ class assFormulaQuestionExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getPoints());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         foreach ($this->object->getVariables() as $variable) {
-            $var = array(
+            $var = [
                 "precision" => $variable->getPrecision(),
                 "intprecision" => $variable->getIntprecision(),
                 "rangemin" => $variable->getRangeMin(),
                 "rangemax" => $variable->getRangeMax(),
                 "unit" => (is_object($variable->getUnit())) ? $variable->getUnit()->getUnit() : "",
                 "unitvalue" => (is_object($variable->getUnit())) ? $variable->getUnit()->getId() : ""
-            );
+            ];
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, $variable->getVariable());
             $a_xml_writer->xmlElement("fieldentry", null, serialize($var));
@@ -81,23 +81,23 @@ class assFormulaQuestionExport extends assQuestionExport
         }
         foreach ($this->object->getResults() as $result) {
             $resultunits = $this->object->getResultUnits($result);
-            $ru = array();
+            $ru = [];
             foreach ($resultunits as $unit) {
-                array_push($ru, array("unit" => $unit->getUnit(), "unitvalue" => $unit->getId()));
+                array_push($ru, ["unit" => $unit->getUnit(), "unitvalue" => $unit->getId()]);
             }
-            $res = array(
+            $res = [
                 "precision" => $result->getPrecision(),
                 "tolerance" => $result->getTolerance(),
                 "rangemin" => $result->getRangeMin(),
                 "rangemax" => $result->getRangeMax(),
                 "points" => $result->getPoints(),
                 "formula" => $result->getFormula(),
-                "rating" => ($result->getRatingSimple()) ? "" : array("sign" => $result->getRatingSign(), "value" => $result->getRatingValue(), "unit" => $result->getRatingUnit()),
+                "rating" => ($result->getRatingSimple()) ? "" : ["sign" => $result->getRatingSign(), "value" => $result->getRatingValue(), "unit" => $result->getRatingUnit()],
                 "unit" => (is_object($result->getUnit())) ? $result->getUnit()->getUnit() : "",
                 "unitvalue" => (is_object($result->getUnit())) ? $result->getUnit()->getId() : "",
                 "resultunits" => $ru,
                 "resulttype" => $result->getResultType()
-            );
+            ];
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, $result->getResult());
             $a_xml_writer->xmlElement("fieldentry", null, serialize($res));
@@ -112,9 +112,9 @@ class assFormulaQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("itemmetadata");
 
         // PART I: qti presentation
-        $attrs = array(
+        $attrs = [
             "label" => $this->object->getTitle()
-        );
+        ];
         $a_xml_writer->xmlStartTag("presentation", $attrs);
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");

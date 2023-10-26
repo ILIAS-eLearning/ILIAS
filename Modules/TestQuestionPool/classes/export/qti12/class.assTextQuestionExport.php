@@ -45,11 +45,11 @@ class assTextQuestionExport extends assQuestionExport
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
-        $attrs = array(
+        $attrs = [
             "ident" => "il_" . IL_INST_ID . "_qst_" . $this->object->getId(),
             "title" => $this->object->getTitle(),
             "maxattempts" => $this->object->getNrOfTries()
-        );
+        ];
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
@@ -111,66 +111,55 @@ class assTextQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("itemmetadata");
 
         // PART I: qti presentation
-        $attrs = array(
+        $attrs = [
             "label" => $this->object->getTitle()
-        );
+        ];
         $a_xml_writer->xmlStartTag("presentation", $attrs);
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");
         // add material with question text to presentation
         $this->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add information on response rendering
-        $attrs = array(
+        $attrs = [
             "ident" => "TEXT",
             "rcardinality" => "Ordered"
-        );
+        ];
         $a_xml_writer->xmlStartTag("response_str", $attrs);
-        $attrs = array(
+        $attrs = [
             "fibtype" => "String",
             "prompt" => "Box"
-        );
+        ];
         if ($this->object->getMaxNumOfChars() > 0) {
             $attrs["maxchars"] = $this->object->getMaxNumOfChars();
         }
         $a_xml_writer->xmlStartTag("render_fib", $attrs);
-        $attrs = array(
+        $attrs = [
             "ident" => "A"
-        );
+        ];
         $a_xml_writer->xmlStartTag("response_label", $attrs);
         $a_xml_writer->xmlEndTag("response_label");
         $a_xml_writer->xmlEndTag("render_fib");
 
         $solution = $this->object->getSuggestedSolution(0);
-        if ($solution !== null && count($solution)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
-                $a_xml_writer->xmlStartTag("material");
-                $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-                if (strcmp($matches[1], "") != 0) {
-                    $intlink = $solution["internal_link"];
-                }
-                $attrs = array(
-                    "label" => "suggested_solution"
-                );
-                $a_xml_writer->xmlElement("mattext", $attrs, $intlink);
-                $a_xml_writer->xmlEndTag("material");
-            }
+        if ($solution !== null) {
+            $a_xml_writer = $this->addSuggestedSolutionLink($a_xml_writer, $solution);
         }
         $a_xml_writer->xmlEndTag("response_str");
         $a_xml_writer->xmlEndTag("flow");
         $a_xml_writer->xmlEndTag("presentation");
 
         // PART II: qti resprocessing
-        $attrs = array(
+        $attrs = [
             "scoremodel" => "HumanRater"
-        );
+        ];
         $a_xml_writer->xmlStartTag("resprocessing", $attrs);
         $a_xml_writer->xmlStartTag("outcomes");
-        $attrs = array(
+        $attrs = [
             "varname" => "WritingScore",
             "vartype" => "Integer",
             "minvalue" => "0",
             "maxvalue" => $this->object->getPoints()
-        );
+        ];
         $a_xml_writer->xmlStartTag("decvar", $attrs);
         $a_xml_writer->xmlEndTag("decvar");
         $a_xml_writer->xmlEndTag("outcomes");
@@ -185,45 +174,45 @@ class assTextQuestionExport extends assQuestionExport
         );
         if (strlen($feedback_allcorrect . $feedback_onenotcorrect)) {
             if (strlen($feedback_allcorrect)) {
-                $attrs = array(
+                $attrs = [
                     "continue" => "Yes"
-                );
+                ];
                 $a_xml_writer->xmlStartTag("respcondition", $attrs);
                 // qti conditionvar
                 $a_xml_writer->xmlStartTag("conditionvar");
-                $attrs = array(
+                $attrs = [
                     "respident" => "points"
-                );
+                ];
                 $a_xml_writer->xmlElement("varequal", $attrs, $this->object->getPoints());
                 $a_xml_writer->xmlEndTag("conditionvar");
                 // qti displayfeedback
-                $attrs = array(
+                $attrs = [
                     "feedbacktype" => "Response",
                     "linkrefid" => "response_allcorrect"
-                );
+                ];
                 $a_xml_writer->xmlElement("displayfeedback", $attrs);
                 $a_xml_writer->xmlEndTag("respcondition");
             }
 
             if (strlen($feedback_onenotcorrect)) {
-                $attrs = array(
+                $attrs = [
                     "continue" => "Yes"
-                );
+                ];
                 $a_xml_writer->xmlStartTag("respcondition", $attrs);
                 // qti conditionvar
                 $a_xml_writer->xmlStartTag("conditionvar");
                 $a_xml_writer->xmlStartTag("not");
-                $attrs = array(
+                $attrs = [
                     "respident" => "points"
-                );
+                ];
                 $a_xml_writer->xmlElement("varequal", $attrs, $this->object->getPoints());
                 $a_xml_writer->xmlEndTag("not");
                 $a_xml_writer->xmlEndTag("conditionvar");
                 // qti displayfeedback
-                $attrs = array(
+                $attrs = [
                     "feedbacktype" => "Response",
                     "linkrefid" => "response_onenotcorrect"
-                );
+                ];
                 $a_xml_writer->xmlElement("displayfeedback", $attrs);
                 $a_xml_writer->xmlEndTag("respcondition");
             }
@@ -239,10 +228,10 @@ class assTextQuestionExport extends assQuestionExport
         $this->addAnswerSpecificFeedback($a_xml_writer, $this->object->feedbackOBJ->getAnswerOptionsByAnswerIndex());
 
         if (strlen($feedback_allcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "ident" => "response_allcorrect",
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
@@ -251,10 +240,10 @@ class assTextQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
         if (strlen($feedback_onenotcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "ident" => "response_onenotcorrect",
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");

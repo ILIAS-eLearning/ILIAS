@@ -40,11 +40,11 @@ class assOrderingHorizontalExport extends assQuestionExport
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
-        $attrs = array(
+        $attrs = [
             "ident" => "il_" . IL_INST_ID . "_qst_" . $this->object->getId(),
             "title" => $this->object->getTitle(),
             "maxattempts" => $this->object->getNrOfTries()
-        );
+        ];
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
@@ -87,9 +87,9 @@ class assOrderingHorizontalExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("itemmetadata");
 
         // PART I: qti presentation
-        $attrs = array(
+        $attrs = [
             "label" => $this->object->getTitle()
-        );
+        ];
         $a_xml_writer->xmlStartTag("presentation", $attrs);
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");

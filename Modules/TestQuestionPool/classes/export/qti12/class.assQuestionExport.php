@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TA\Questions\assQuestionSuggestedSolution;
+
 /**
 * Class for question exports
 *
@@ -244,6 +246,30 @@ class assQuestionExport
             $data = $hint->getText();
             $writer->xmlElement(self::ITEM_SOLUTIONHINT, $attrs, $data);
         }
+        return $writer;
+    }
+
+    protected function addSuggestedSolutionLink(ilXmlWriter $writer, assQuestionSuggestedSolution $suggested_solution): ilXmlWriter
+    {
+        if (!$suggested_solution->isOfTypeLink()) {
+            return $writer;
+        }
+
+        if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $suggested_solution->getInternalLink(), $matches) !== 1) {
+            return $writer;
+        }
+
+        $writer->xmlStartTag("material");
+        $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+        if (strcmp($matches[1], "") != 0) {
+            $intlink = $suggested_solution->getInternalLink();
+        }
+        $attrs = array(
+            "label" => "suggested_solution"
+        );
+        $writer->xmlElement("mattext", $attrs, $intlink);
+        $writer->xmlEndTag("material");
+
         return $writer;
     }
 

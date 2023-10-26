@@ -119,19 +119,8 @@ class assOrderingQuestionExport extends assQuestionExport
         $attrs["output"] = "javascript";
         $a_xml_writer->xmlStartTag("response_lid", $attrs);
         $solution = $this->object->getSuggestedSolution(0) ?? [];
-        if (count($solution)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
-                $a_xml_writer->xmlStartTag("material");
-                $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-                if (strcmp($matches[1], "") != 0) {
-                    $intlink = $solution["internal_link"];
-                }
-                $attrs = array(
-                    "label" => "suggested_solution"
-                );
-                $a_xml_writer->xmlElement("mattext", $attrs, $intlink);
-                $a_xml_writer->xmlEndTag("material");
-            }
+        if ($solution !== null) {
+            $a_xml_writer = $this->addSuggestedSolutionLink($a_xml_writer, $solution);
         }
         // shuffle output
         $attrs = array();

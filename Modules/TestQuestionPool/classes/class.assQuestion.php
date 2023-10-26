@@ -20,7 +20,6 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\TA\Questions\assQuestionSuggestedSolution;
 use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 use ILIAS\DI\Container;
-use Psr\Http\Message\ServerRequestInterface;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 

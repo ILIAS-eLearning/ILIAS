@@ -41,11 +41,11 @@ class assNumericExport extends assQuestionExport
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
-        $attrs = array(
+        $attrs = [
             "ident" => "il_" . IL_INST_ID . "_qst_" . $this->object->getId(),
             "title" => $this->object->getTitle(),
             "maxattempts" => $this->object->getNrOfTries()
-        );
+        ];
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
@@ -72,41 +72,30 @@ class assNumericExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("itemmetadata");
 
         // PART I: qti presentation
-        $attrs = array(
+        $attrs = [
             "label" => $this->object->getTitle()
-        );
+        ];
         $a_xml_writer->xmlStartTag("presentation", $attrs);
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");
         // add material with question text to presentation
         $this->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add answers to presentation
-        $attrs = array(
+        $attrs = [
             "ident" => "NUM",
             "rcardinality" => "Single",
             "numtype" => "Decimal"
-        );
+        ];
         $a_xml_writer->xmlStartTag("response_num", $attrs);
         $solution = $this->object->getSuggestedSolution(0);
-        if ($solution !== null && count($solution)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
-                $a_xml_writer->xmlStartTag("material");
-                $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-                if (strcmp($matches[1], "") != 0) {
-                    $intlink = $solution["internal_link"];
-                }
-                $attrs = array(
-                    "label" => "suggested_solution"
-                );
-                $a_xml_writer->xmlElement("mattext", $attrs, $intlink);
-                $a_xml_writer->xmlEndTag("material");
-            }
+        if ($solution !== null) {
+            $a_xml_writer = $this->addSuggestedSolutionLink($a_xml_writer, $solution);
         }
         // shuffle output
-        $attrs = array(
+        $attrs = [
             "fibtype" => "Decimal",
             "maxchars" => $this->object->getMaxChars()
-        );
+        ];
         $a_xml_writer->xmlStartTag("render_fib", $attrs);
         $a_xml_writer->xmlEndTag("render_fib");
         $a_xml_writer->xmlEndTag("response_num");
@@ -123,22 +112,22 @@ class assNumericExport extends assQuestionExport
         $a_xml_writer->xmlStartTag("respcondition");
         // qti conditionvar
         $a_xml_writer->xmlStartTag("conditionvar");
-        $attrs = array(
+        $attrs = [
             "respident" => "NUM"
-        );
+        ];
         $a_xml_writer->xmlElement("vargte", $attrs, $this->object->getLowerLimit());
         $a_xml_writer->xmlElement("varlte", $attrs, $this->object->getUpperLimit());
         $a_xml_writer->xmlEndTag("conditionvar");
         // qti setvar
-        $attrs = array(
+        $attrs = [
             "action" => "Add"
-        );
+        ];
         $a_xml_writer->xmlElement("setvar", $attrs, $this->object->getPoints());
         // qti displayfeedback
-        $attrs = array(
+        $attrs = [
             "feedbacktype" => "Response",
             "linkrefid" => "Correct"
-        );
+        ];
         $a_xml_writer->xmlElement("displayfeedback", $attrs);
         $a_xml_writer->xmlEndTag("respcondition");
 
@@ -147,23 +136,23 @@ class assNumericExport extends assQuestionExport
             true
         );
         if (strlen($feedback_allcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "continue" => "Yes"
-            );
+            ];
             $a_xml_writer->xmlStartTag("respcondition", $attrs);
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
-            $attrs = array(
+            $attrs = [
                 "respident" => "NUM"
-            );
+            ];
             $a_xml_writer->xmlElement("vargte", $attrs, $this->object->getLowerLimit());
             $a_xml_writer->xmlElement("varlte", $attrs, $this->object->getUpperLimit());
             $a_xml_writer->xmlEndTag("conditionvar");
             // qti displayfeedback
-            $attrs = array(
+            $attrs = [
                 "feedbacktype" => "Response",
                 "linkrefid" => "response_allcorrect"
-            );
+            ];
             $a_xml_writer->xmlElement("displayfeedback", $attrs);
             $a_xml_writer->xmlEndTag("respcondition");
         }
@@ -173,25 +162,25 @@ class assNumericExport extends assQuestionExport
             false
         );
         if (strlen($feedback_onenotcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "continue" => "Yes"
-            );
+            ];
             $a_xml_writer->xmlStartTag("respcondition", $attrs);
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
             $a_xml_writer->xmlStartTag("not");
-            $attrs = array(
+            $attrs = [
                 "respident" => "NUM"
-            );
+            ];
             $a_xml_writer->xmlElement("vargte", $attrs, $this->object->getLowerLimit());
             $a_xml_writer->xmlElement("varlte", $attrs, $this->object->getUpperLimit());
             $a_xml_writer->xmlEndTag("not");
             $a_xml_writer->xmlEndTag("conditionvar");
             // qti displayfeedback
-            $attrs = array(
+            $attrs = [
                 "feedbacktype" => "Response",
                 "linkrefid" => "response_onenotcorrect"
-            );
+            ];
             $a_xml_writer->xmlElement("displayfeedback", $attrs);
             $a_xml_writer->xmlEndTag("respcondition");
         }
@@ -199,10 +188,10 @@ class assNumericExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("resprocessing");
 
         // PART III: qti itemfeedback
-        $attrs = array(
+        $attrs = [
             "ident" => "Correct",
             "view" => "All"
-        );
+        ];
         $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
         // qti flow_mat
         $a_xml_writer->xmlStartTag("flow_mat");
@@ -212,10 +201,10 @@ class assNumericExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("flow_mat");
         $a_xml_writer->xmlEndTag("itemfeedback");
         if (strlen($feedback_allcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "ident" => "response_allcorrect",
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
@@ -224,10 +213,10 @@ class assNumericExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
         if (strlen($feedback_onenotcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "ident" => "response_onenotcorrect",
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
