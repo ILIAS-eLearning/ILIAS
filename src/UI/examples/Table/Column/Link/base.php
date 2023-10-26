@@ -51,7 +51,7 @@ function base(): string
             ?array $filter_data,
             ?array $additional_parameters
         ): ?int {
-            return null;
+            return count($this->records);
         }
     };
 
