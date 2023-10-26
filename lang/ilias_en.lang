@@ -2518,6 +2518,8 @@ book#:#book_is_used#:#Is Used
 book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
 book#:#book_list#:#List
 book#:#book_log#:#Reservations
+book#:#book_mail_permanent_link#:#Link to Booking Pool
+book#:#book_mail_to_booker#:#Mail to User
 book#:#book_message#:#Message
 book#:#book_message_info#:#You may enter a message for the booking organisator here.
 book#:#book_messages#:#Messages
