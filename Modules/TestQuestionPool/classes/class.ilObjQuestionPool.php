@@ -542,8 +542,8 @@ class ilObjQuestionPool extends ilObject
             $this->error->raiseError('Creation of Questionpool Directory failed.', $this->error->FATAL);
         }
         // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
-        ilFileUtils::makeDir($this->getExportDirectory('xls'));
-        if (!@is_dir($this->getExportDirectory('xls'))) {
+        ilFileUtils::makeDir($this->getExportDirectory('xlsx'));
+        if (!@is_dir($this->getExportDirectory('xlsx'))) {
             $this->error->raiseError('Creation of Export Directory failed.', $this->error->FATAL);
         }
         ilFileUtils::makeDir($this->getExportDirectory('zip'));
@@ -561,9 +561,9 @@ class ilObjQuestionPool extends ilObject
             case 'xml':
                 $export_dir = ilExport::_getExportDirectory($this->getId(), $type, $this->getType());
                 break;
-            case 'xls':
+            case 'xlsx':
             case 'zip':
-                $export_dir = ilFileUtils::getDataDir() . '/qpl_data' . '/qpl_' . $this->getId() . '/export_$type';
+                $export_dir = ilFileUtils::getDataDir() . "/qpl_data/qpl_{$this->getId()}/export_{$type}";
                 break;
             default:
                 $export_dir = ilFileUtils::getDataDir() . '/qpl_data' . '/qpl_' . $this->getId() . '/export';

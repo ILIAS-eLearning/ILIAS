@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * Class ilQuestionPoolExportTableGUI
  * @author Michael Jansen <mjansen@databay.de>
@@ -23,20 +26,16 @@
  */
 class ilQuestionPoolExportTableGUI extends ilExportTableGUI
 {
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
 
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
+    public function __construct($parent_obj, $parent_cmd, $exp_obj)
     {
         global $DIC;
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
 
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
-
-        // NOT REQUIRED ANYMORE, PROBLEM NOW FIXED IN THE ROOT
-        // KEEP CODE, JF OPINIONS / ROOT FIXINGS CAN CHANGE
-        //$this->addCustomColumn($this->lng->txt('actions'), $this, 'formatActionsList');
+        parent::__construct($parent_obj, $parent_cmd, $exp_obj);
     }
 
     /**
@@ -45,16 +44,12 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
      */
     protected function formatActionsList($type, $filename): string
     {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $ilCtrl->setParameter($this->getParentObject(), 'file', $type . ':' . $filename);
-        $actions = [];
-        $action = $this->ui_factory->link()->standard($this->lng->txt('download'), $ilCtrl->getLinkTarget($this->getParentObject(), 'download'));
-        $ilCtrl->setParameter($this->getParentObject(), 'file', '');
+        $this->ctrl->setParameter($this->getParentObject(), 'file', $type . ':' . $filename);
+        $action = $this->ui_factory->link()->standard(
+            $this->lng->txt('download'),
+            $this->ctrl->getLinkTarget($this->getParentObject(), 'download')
+        );
+        $this->ctrl->setParameter($this->getParentObject(), 'file', '');
         $dropdown = $this->ui_factory->dropdown()->standard($action)->withLabel($this->lng->txt('actions'));
         return $this->ui_renderer->render($dropdown);
 
@@ -72,11 +67,60 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
         return false;
     }
 
-    /***
-     *
-     */
     protected function initMultiCommands(): void
     {
         $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
+    }
+
+    public function getExportFiles(): array
+    {
+        $obj_type = $this->obj->getType();
+        $types = [];
+        foreach ($this->parent_obj->getFormats() as $f) {
+            $types[] = $f['key'];
+            $this->formats[$f['key']] = $f['txt'];
+        }
+        $file = [];
+
+        foreach ($types as $type) {
+            $dir = ilExport::_getExportDirectory(
+                $this->obj->getId(),
+                $type,
+                $obj_type
+            );
+
+            // quit if import dir not available
+            if (!is_dir($dir) || !is_writable($dir)) {
+                continue;
+            }
+
+            // open directory
+            $h_dir = dir($dir);
+
+            // get files and save the in the array
+            while ($entry = $h_dir->read()) {
+                if ($entry !== "."
+                    && $entry !== ".."
+                    && (substr($entry, -4) === ".zip" || substr($entry, -5) === ".xlsx")
+                    && (preg_match("/^[0-9]{10}_{2}[0-9]+_{2}(" . $obj_type . "_)*[0-9]+\.zip\$/", $entry)
+                        || preg_match("/^[0-9]{10}_{2}[0-9]+_{2}(" . $obj_type . "_)*[0-9]+\.xlsx\$/", $entry))) {
+                    $ts = substr($entry, 0, strpos($entry, "__"));
+                    $file[$entry . $type] = [
+                        "type" => (string) $type,
+                        "file" => (string) $entry,
+                        "size" => (int) filesize($dir . "/" . $entry),
+                        "timestamp" => (int) $ts
+                    ];
+                }
+            }
+
+            // close import directory
+            $h_dir->close();
+        }
+
+        // sort files
+        ksort($file);
+        reset($file);
+        return $file;
     }
 }

@@ -291,7 +291,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             case 'ilquestionpoolexportgui':
                 $exp_gui = new ilQuestionPoolExportGUI($this);
                 $exp_gui->addFormat('xml', $this->lng->txt('qpl_export_xml'));
-                $exp_gui->addFormat('xls', $this->lng->txt('qpl_export_excel'), $this, 'createExportExcel');
+                $exp_gui->addFormat('xlsx', $this->lng->txt('qpl_export_excel'), $this, 'createExportExcel');
                 $ret = $this->ctrl->forwardCommand($exp_gui);
                 break;
 
@@ -1284,7 +1284,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $rbacsystem = $this->rbac_system;
         if ($rbacsystem->checkAccess('write', $this->qplrequest->getRefId())) {
             $question_ids = &$this->object->getAllQuestionIds();
-            $qpl_exp = new ilQuestionpoolExport($this->object, 'xls', $question_ids);
+            $qpl_exp = new ilQuestionpoolExport($this->object, 'xlsx', $question_ids);
             $qpl_exp->buildExportFile();
             $this->ctrl->redirectByClass('ilquestionpoolexportgui', '');
         }

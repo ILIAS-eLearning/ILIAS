@@ -74,8 +74,8 @@ class ilQuestionpoolExport
                 $this->qti_filename = $date . "__" . $this->inst_id . "__" .
                     "qti" . "_" . $this->qpl_obj->getId() . ".xml";
                 break;
-            case "xls":
-                $this->export_dir = $this->qpl_obj->getExportDirectory('xls');
+            case "xlsx":
+                $this->export_dir = $this->qpl_obj->getExportDirectory('xlsx');
                 $this->filename = $date . "__" . $this->inst_id . "__" .
                     "qpl" . "_" . $this->qpl_obj->getId() . ".xlsx";
                 $this->zipfilename = $date . "__" . $this->inst_id . "__" .
@@ -104,8 +104,8 @@ class ilQuestionpoolExport
     public function buildExportFile(): string
     {
         switch ($this->mode) {
-            case "xls":
-                return $this->buildExportFileXLS();
+            case "xlsx":
+                return $this->buildExportFileXLSX();
             case "xml":
             default:
                 return $this->buildExportFileXML();
@@ -189,7 +189,7 @@ class ilQuestionpoolExport
     /**
     * build xml export file
     */
-    protected function buildExportFileXLS(): string
+    protected function buildExportFileXLSX(): string
     {
         $worksheet = new ilAssExcelFormatHelper();
         $worksheet->addSheet('Sheet 1');
@@ -221,10 +221,6 @@ class ilQuestionpoolExport
 
         $excelfile = $this->export_dir . '/' . $this->filename;
         $worksheet->writeToFile($excelfile);
-        ilFileUtils::zip($excelfile, $this->export_dir . "/" . $this->zipfilename);
-        if (@file_exists($this->export_dir . "/" . $this->filename)) {
-            @unlink($this->export_dir . "/" . $this->filename);
-        }
-        return $this->export_dir . "/" . $this->zipfilename;
+        return $excelfile;
     }
 }
