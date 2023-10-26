@@ -9061,6 +9061,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s
 etal#:#notification_talks_subject_update#:#Update: %s
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Add Talks
 etal#:#tals_new#:#New Talks
@@ -13129,6 +13130,8 @@ prg#:#restart_period#:#Restart obligatory
 prg#:#restart_period_desc#:#automatic reassignment before expiry
 prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
 prg#:#restart_period_label#:#Days before expiry
+prg#:#restart_recheck_desc#:#For assignments made via an automatism, the system rechecks whether criteria for the assignment still exist.
+prg#:#restart_recheck_label#:#Check prerequisites again
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
 prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
 prg#:#rol#:#Role

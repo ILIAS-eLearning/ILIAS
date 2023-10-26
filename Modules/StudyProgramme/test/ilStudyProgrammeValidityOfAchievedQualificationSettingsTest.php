@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -175,6 +175,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 ['prg_no_restart'],
                 ['restart_period_label'],
                 ['restart_period_desc'],
+                ['restart_recheck_label'],
+                ['restart_recheck_desc'],
                 ['restart_period'],
                 ['optgrp_label_validity'],
                 ['optgrp_label_restart'],
@@ -191,6 +193,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 'prg_no_restart',
                 'restart_period_label',
                 'restart_period_desc',
+                'restart_recheck_label',
+                'restart_recheck_desc',
                 'restart_period',
                 'optgrp_label_validity',
                 'optgrp_label_restart',
