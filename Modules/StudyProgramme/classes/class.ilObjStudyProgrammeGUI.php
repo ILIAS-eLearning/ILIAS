@@ -111,7 +111,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             ->internal()
             ->domain()
             ->content()
-            ->view();
+            ->view($this->object);
     }
 
     public function executeCommand(): void
