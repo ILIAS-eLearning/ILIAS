@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use GuzzleHttp\Psr7\Request;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
 
 /**
  * Class ilMarkSchemaGUI
@@ -39,6 +40,7 @@ class ilMarkSchemaGUI
     protected ilGlobalPageTemplate $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilTabsGUI $tabs;
+    protected UIFactory $ui_factory;
 
     public function __construct($object)
     {
@@ -54,6 +56,7 @@ class ilMarkSchemaGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->request = $DIC->http()->request();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC['ui.factory'];
     }
 
     public function executeCommand(): void
@@ -75,11 +78,12 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
+        $this->populateMarkSchemaFormData();
         $this->object->getMarkSchema()->addMarkStep();
         $this->showMarkSchema();
     }
 
-    protected function saveMarkSchemaFormData(): bool
+    protected function populateMarkSchemaFormData(): bool
     {
         $no_save_error = true;
         $this->object->getMarkSchema()->flush();
@@ -178,7 +182,7 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
-        if ($this->saveMarkSchemaFormData()) {
+        if ($this->populateMarkSchemaFormData()) {
             $result = $this->object->checkMarks();
         } else {
             $result = 'mark_schema_invalid';
@@ -209,18 +213,32 @@ class ilMarkSchemaGUI
         $mark_schema_table->setShowRowsSelector(false);
 
         if ($this->object->canEditMarks()) {
-            global $DIC;
-            $button = $DIC->ui()->factory()->button()->standard(
+            $create_simple_schema_button = $this->ui_factory->button()->standard(
                 $this->lng->txt('tst_mark_create_simple_mark_schema'),
                 $this->ctrl->getFormAction($this, 'addSimpleMarkSchema')
             );
-            $this->toolbar->addComponent($button);
+            $this->toolbar->addComponent($create_simple_schema_button);
 
-            $button = $DIC->ui()->factory()->button()->standard(
+            $mark_schema_id = $mark_schema_table->getId();
+
+            $create_new_step_button = $this->ui_factory->button()->standard(
                 $this->lng->txt('tst_mark_create_new_mark_step'),
-                $this->ctrl->getFormAction($this, 'addMarkStep')
+                ''
+            )->withAdditionalOnLoadCode(
+                fn(string $id): string =>
+                "{$id}.addEventListener('click', "
+                . ' (e) => {'
+                . '     e.preventDefault();'
+                . '     e.target.name = "cmd[addMarkStep]";'
+                . "     let form = document.getElementById('form_{$mark_schema_id}');"
+                . '     let submitter = e.target.cloneNode();'
+                . '     submitter.style.visibility = "hidden";'
+                . '     form.appendChild(submitter);'
+                . '     form.requestSubmit(submitter);'
+                . ' }'
+                . ');'
             );
-            $this->toolbar->addComponent($button);
+            $this->toolbar->addComponent($create_new_step_button);
 
         }
 
