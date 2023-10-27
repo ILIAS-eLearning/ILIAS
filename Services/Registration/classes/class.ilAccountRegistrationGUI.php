@@ -28,7 +28,6 @@ class ilAccountRegistrationGUI
     protected ilRegistrationSettings $registration_settings;
     protected bool $code_enabled = false;
     protected bool $code_was_used;
-    protected ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation;
     protected ilRecommendedContentManager $recommended_content_manager;
 
     protected ilUserProfile $user_profile;
@@ -72,7 +71,6 @@ class ilAccountRegistrationGUI
         $this->code_enabled = ($this->registration_settings->registrationCodeRequired() ||
             $this->registration_settings->getAllowCodes());
 
-        $this->termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
         $this->recommended_content_manager = new ilRecommendedContentManager();
 
         $this->user_profile = new ilUserProfile();
@@ -205,22 +203,8 @@ class ilAccountRegistrationGUI
             }
         }
 
-        if (ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
-            $document = $this->termsOfServiceEvaluation->document();
-
-            $field = new ilFormSectionHeaderGUI();
-            $field->setTitle($this->lng->txt('usr_agreement'));
-            $this->form->addItem($field);
-
-            $field = new ilCustomInputGUI();
-            $field->setHtml('<div id="agreement">' . $document->content() . '</div>');
-            $this->form->addItem($field);
-
-            $field = new ilCheckboxInputGUI($this->lng->txt('accept_usr_agreement'), 'accept_terms_of_service');
-            $field->setRequired(true);
-            $field->setValue('1');
-            $this->form->addItem($field);
-        }
+        global $DIC;
+        array_map($this->form->addItem(...), $DIC['legalDocuments']->selfRegistration()->legacyInputGUIs());
 
         $this->form->addCommandButton("saveForm", $this->lng->txt("register"));
     }
@@ -307,16 +291,8 @@ class ilAccountRegistrationGUI
             $form_valid = false;
         }
 
-        $showGlobalTermsOfServieFailure = false;
-        if (ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service')) {
-            $agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
-            if ($agr_obj) {
-                $agr_obj->setAlert($this->lng->txt('force_accept_usr_agreement'));
-                $form_valid = false;
-            } else {
-                $showGlobalTermsOfServieFailure = true;
-            }
-        }
+        global $DIC;
+        $form_valid = $DIC['legalDocuments']->selfRegistration()->saveLegacyForm($this->form) && $form_valid;
 
         // no need if role is attached to code
         if (!$valid_role) {
@@ -361,12 +337,6 @@ class ilAccountRegistrationGUI
 
         if (!$form_valid) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-        } elseif ($showGlobalTermsOfServieFailure) {
-            $this->lng->loadLanguageModule('tos');
-            $this->tpl->setOnScreenMessage('failure', sprintf(
-                $this->lng->txt('tos_account_reg_not_possible'),
-                'mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
-            ));
         } else {
             $password = $this->createUser($valid_role);
             $this->distributeMails($password);
@@ -539,12 +509,8 @@ class ilAccountRegistrationGUI
         // setup user preferences
         $this->userObj->setLanguage($this->form->getInput('usr_language'));
 
-        $handleDocument = ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
-        if ($handleDocument) {
-            $helper = new ilTermsOfServiceHelper();
-
-            $helper->trackAcceptance($this->userObj, $this->termsOfServiceEvaluation->document());
-        }
+        global $DIC;
+        $DIC['legalDocuments']->selfRegistration()->userCreation($this->userObj);
 
         $hits_per_page = $this->settings->get("hits_per_page");
         if ($hits_per_page < 10) {

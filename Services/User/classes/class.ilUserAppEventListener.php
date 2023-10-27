@@ -49,27 +49,5 @@ class ilUserAppEventListener implements ilAppEventListener
                 $user_starting_point_repository->onRoleDeleted($parameter['object']);
             }
         }
-
-        if ('Services/TermsOfService' === $component && ilTermsOfServiceEventWithdrawn::class === $event) {
-            $user = $parameter['event']->getUser();
-
-            $defaultAuth = ilAuthUtils::AUTH_LOCAL;
-            if ($settings->get('auth_mode')) {
-                $defaultAuth = $settings->get('auth_mode');
-            }
-            $isLdapUser = (
-                $user->getAuthMode() == ilAuthUtils::AUTH_LDAP ||
-                ($user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
-            );
-
-            if ($isLdapUser) {
-                $mail = new ilTermsOfServiceWithdrawnMimeMail();
-                $mail->setAdditionalInformation(['user' => $user]);
-                $mail->setRecipients([$settings->get('admin_mail')]);
-                $mail->send();
-            } elseif ($settings->get('tos_withdrawal_usr_deletion', "0")) {
-                $user->delete();
-            }
-        }
     }
 }

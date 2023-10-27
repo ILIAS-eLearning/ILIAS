@@ -32,7 +32,7 @@ use ILIAS\User\Profile\ProfileChangeMailTokenDBRepository;
 /**
  * GUI class for personal profile
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilUserPrivacySettingsGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilUserPrivacySettingsGUI, ilLegalDocumentsAgreementGUI, ilLegalDocumentsWithdrawalGUI
  */
 class ilPersonalProfileGUI
 {
@@ -71,8 +71,6 @@ class ilPersonalProfileGUI
     private ?Interruptive $email_change_confirmation_modal = null;
 
     public function __construct(
-        private ?\ilTermsOfServiceDocumentEvaluation $terms_of_service_evaluation = null,
-        private ?\ilTermsOfServiceHelper $terms_of_service_helper = null
     ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -93,14 +91,6 @@ class ilPersonalProfileGUI
         $this->uploads = $DIC['upload'];
         $this->irss = $DIC['resource_storage'];
         $this->stakeholder = new ilUserProfilePictureStakeholder();
-
-        if ($this->terms_of_service_evaluation === null) {
-            $this->terms_of_service_evaluation = $DIC['tos.document.evaluator'];
-        }
-
-        if ($this->terms_of_service_helper === null) {
-            $this->terms_of_service_helper = new ilTermsOfServiceHelper();
-        }
 
         $this->user_defined_fields = ilUserDefinedFields::_getInstance();
 
@@ -148,6 +138,16 @@ class ilPersonalProfileGUI
                 $this->showChecklist(ilProfileChecklistStatus::STEP_VISIBILITY_OPTIONS);
                 $gui = new ilUserPrivacySettingsGUI();
                 $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(ilLegalDocumentsAgreementGUI::class):
+                $this->ctrl->forwardCommand(new ilLegalDocumentsAgreementGUI());
+                $this->tpl->printToStdout();
+                break;
+
+            case strtolower(ilLegalDocumentsWithdrawalGUI::class):
+                $this->ctrl->forwardCommand(new ilLegalDocumentsWithdrawalGUI());
+                $this->tpl->printToStdout();
                 break;
 
             default:
@@ -277,126 +277,6 @@ class ilPersonalProfileGUI
     public function showProfile(): void
     {
         $this->showPersonalData();
-    }
-
-    protected function showUserAgreement(): void
-    {
-        $this->tabs->clearTargets();
-        $this->tabs->clearSubTabs();
-
-        $tpl = new \ilTemplate('tpl.view_terms_of_service.html', true, true, 'Services/Init');
-
-        $this->tpl->setTitle($this->lng->txt('usr_agreement'));
-
-        $noAgreement = true;
-        if (!$this->user->isAnonymous() && $this->user->getId() > 0 && $this->user->getAgreeDate()) {
-            $helper = new \ilTermsOfServiceHelper();
-
-            $entity = $helper->getCurrentAcceptanceForUser($this->user);
-            if ($entity->getId()) {
-                $noAgreement = false;
-                $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $entity->getText());
-            }
-        } else {
-            $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->terms_of_service_evaluation->hasDocument();
-            if ($handleDocument) {
-                $noAgreement = false;
-                $document = $this->terms_of_service_evaluation->document();
-                $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
-            }
-        }
-
-        if ($noAgreement) {
-            $tpl->setVariable(
-                'TERMS_OF_SERVICE_CONTENT',
-                sprintf(
-                    $this->lng->txt('no_agreement_description'),
-                    'mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
-                        ilSystemSupportContacts::getMailsToAddress()
-                    )
-                )
-            );
-        }
-
-        $this->tpl->setContent($tpl->get());
-        $this->tpl->setPermanentLink('usr', null, 'agreement');
-        $this->tpl->printToStdout();
-    }
-
-    protected function showConsentWithdrawalConfirmation(): void
-    {
-        if (
-            !$this->user->getPref('consent_withdrawal_requested') ||
-            !$this->terms_of_service_helper->isIncludedUser($this->user)
-        ) {
-            $this->error_handler->raiseError($this->lng->txt('permission_denied'), $this->error_handler->MESSAGE);
-        }
-
-        $this->tabs->clearTargets();
-        $this->tabs->clearSubTabs();
-        $this->tpl->setTitle($this->lng->txt('refuse_tos_acceptance'));
-
-        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
-        $content = $tosWithdrawalGui->getConsentWithdrawalConfirmation($this);
-
-        $this->tpl->setContent($content);
-        $this->tpl->setPermanentLink('usr', null, 'agreement');
-        $this->tpl->printToStdout();
-    }
-
-    protected function cancelWithdrawal(): void
-    {
-        if (!$this->terms_of_service_helper->isIncludedUser($this->user)) {
-            $this->error_handler->raiseError($this->lng->txt('permission_denied'), $this->error_handler->MESSAGE);
-        }
-
-        $this->user->deletePref('consent_withdrawal_requested');
-
-        if (ilSession::get('orig_request_target')) {
-            $target = ilSession::get('orig_request_target');
-            ilSession::set('orig_request_target', '');
-            $this->ctrl->redirectToURL($target);
-        } else {
-            ilInitialisation::redirectToStartingPage();
-        }
-    }
-
-    protected function withdrawAcceptance(): void
-    {
-        if (
-            !$this->user->getPref('consent_withdrawal_requested') ||
-            !$this->terms_of_service_helper->isIncludedUser($this->user)
-        ) {
-            $this->error_handler->raiseError($this->lng->txt('permission_denied'), $this->error_handler->MESSAGE);
-        }
-        $this->terms_of_service_helper->resetAcceptance($this->user);
-
-        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
-        if ($this->settings->get('auth_mode')) {
-            $defaultAuth = $this->settings->get('auth_mode');
-        }
-
-        $withdrawalType = 0;
-        if (
-            $this->user->getAuthMode() == ilAuthUtils::AUTH_LDAP ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
-        ) {
-            $withdrawalType = 2;
-        } elseif ($this->settings->get('tos_withdrawal_usr_deletion', '0') !== '0') {
-            $withdrawalType = 1;
-        }
-
-        $domainEvent = new ilTermsOfServiceEventWithdrawn($this->user);
-        $this->eventHandler->raise(
-            'Services/TermsOfService',
-            'ilTermsOfServiceEventWithdrawn',
-            ['event' => $domainEvent]
-        );
-
-        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-        $this->auth_session->logout();
-
-        $this->ctrl->redirectToURL('login.php?tos_withdrawal_type=' . $withdrawalType . '&cmd=force_login');
     }
 
     /**

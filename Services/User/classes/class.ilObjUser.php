@@ -3698,17 +3698,11 @@ class ilObjUser extends ilObject
 
         $log->debug("Found users: " . count($users));
 
-        if (ilTermsOfServiceHelper::isEnabled()) {
-            $users = array_filter($users, static function (array $user) {
-                if ($user['agree_date'] || $user['user_id'] == SYSTEM_USER_ID || 'root' === $user['login']) {
-                    return true;
-                }
-
-                return false;
-            });
-
-            $log->debug("TOS filtered to users: " . count($users));
-        }
+        $hide_users = $DIC['legalDocuments']->usersWithHiddenOnlineStatus(array_map(intval(...), array_column($users, 'user_id')));
+        $users = array_filter(
+            $users,
+            fn($user) => !in_array((int) $user['user_id'], $hide_users, true)
+        );
 
         return $users;
     }
@@ -4042,65 +4036,6 @@ class ilObjUser extends ilObject
     public function getInactivationDate(): ?string
     {
         return $this->inactivation_date;
-    }
-
-    public function hasToAcceptTermsOfService(): bool
-    {
-        if (
-            ilTermsOfServiceHelper::isEnabled() &&
-            null == $this->agree_date &&
-            'root' != $this->login &&
-            !in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID))
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Get users that have or have not agreed to the user agreement.
-     * @param bool $a_agreed true, if users that have agreed should be returned
-     * @param ?int[] $a_users array of user ids (subset used as base) or null for all users
-     * @return int[] array of user IDs
-     */
-    public static function getUsersAgreed(
-        bool $a_agreed = true,
-        ?array $a_users = null
-    ): array {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $date_is = ($a_agreed)
-            ? "IS NOT NULL"
-            : "IS NULL";
-
-        $users = (is_array($a_users))
-            ? " AND " . $ilDB->in("usr_id", $a_users, false, "integer")
-            : "";
-
-        $set = $ilDB->query("SELECT usr_id FROM usr_data " .
-            " WHERE agree_date " . $date_is .
-            $users);
-        $ret = array();
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $ret[] = (int) $rec["usr_id"];
-        }
-        return $ret;
-    }
-
-    public function hasToAcceptTermsOfServiceInSession(
-        ?bool $status = null
-    ): bool {
-        if (null === $status) {
-            return (bool) ilSession::get('has_to_accept_agr_in_session');
-        }
-
-        if (ilTermsOfServiceHelper::isEnabled()) {
-            ilSession::set('has_to_accept_agr_in_session', $status);
-        }
-        return $status;
     }
 
     public function isAnonymous(): bool

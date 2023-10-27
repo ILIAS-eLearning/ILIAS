@@ -32,6 +32,9 @@ declare(strict_types=1);
 include_once './webservice/soap/lib/nusoap.php';
 include_once("./Services/Authentication/classes/class.ilAuthUtils.php");        // to get auth mode constants
 
+use ILIAS\Data\Result\Ok;
+use ILIAS\Data\Result\Error;
+
 class ilSoapAdministration
 {
     public const NUSOAP = 1;
@@ -86,8 +89,11 @@ class ilSoapAdministration
             return false;
         }
 
-        if ($ilUser->hasToAcceptTermsOfService()) {
-            $this->setMessage('User agreement no accepted.');
+        $can = $DIC['legalDocuments']->canUseSoapApi()->applyTo(new Ok($ilUser))->except(
+            fn($error) => new Error(is_string($error) ? $error : $error->getMessage())
+        );
+        if (!$can->isOk()) {
+            $this->setMessage($can->error());
             $this->setMessageCode('Server');
             return false;
         }
