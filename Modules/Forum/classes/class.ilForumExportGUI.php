@@ -374,6 +374,12 @@ class ilForumExportGUI
                 'thread_ids',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
+        } elseif ($this->ref_id > 0) {
+            $obj_id = $this->ilObjDataCache->lookupObjId($this->ref_id);
+            $topics = ilForum::getSortedThreadSubjects($obj_id);
+            if (count($topics) > 0) {
+                $thread_ids = array_keys($topics);
+            }
         }
         array_walk($thread_ids, function (int $threadId) use (&$threads, $isModerator): void {
             $thread = new ilForumTopic($threadId, $isModerator);

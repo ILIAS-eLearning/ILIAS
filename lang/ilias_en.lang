@@ -4126,11 +4126,18 @@ common#:#forums#:#Forums
 common#:#forums_anonymized#:#Forum anonymized
 common#:#forums_anonymous#:#anonym
 common#:#forums_articles#:#Articles
+common#:#forums_closed#:#closed
 common#:#forums_disable_forum_notification#:#Disable Notification for this Forum
 common#:#forums_enable_forum_notification#:#Enable Notification for this Forum
 common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.
 common#:#forums_last_post#:#Latest Article
+common#:#forums_last_posting_asc#:#Last Posting Ascending
+common#:#forums_last_posting_dsc#:#Last Posting Descending
 common#:#forums_notification_settings#:#Forums Notification Settings
+common#:#forums_rating_asc#:#Rating Ascending
+common#:#forums_rating_dsc#:#Rating Descending
+common#:#forums_thread_sorting_asc#:#Thread Title A→Z
+common#:#forums_thread_sorting_dsc#:#Thread Title Z→A
 common#:#forums_threads#:#Threads
 common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by ‘%s’.
 common#:#forums_your_name#:#Your Name
@@ -9781,6 +9788,7 @@ forum#:#deletePosting#:#Delete Posting
 forum#:#deletePostingDraft#:#Delete Draft
 forum#:#delete_draft_successfully#:#The draft was deleted successfully.
 forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
+forum#:#delete_thread#:#Delete Thread
 forum#:#descending_order#:#Latest postings at the top
 forum#:#edit_thread_draft#:#Edit thread draft postings created in forums.
 forum#:#empty_subject#:#On reply the user has to enter a new title.
@@ -9911,7 +9919,7 @@ forum#:#frm_statistics_enabled#:#Enable Statistics
 forum#:#frm_statistics_enabled_desc#:#Enable posting statistics for all participants
 forum#:#frm_statistics_ranking#:#Number of Postings
 forum#:#frm_subject_setting#:#Subject setting
-forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads?
+forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following thread?
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
 forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"
 forum#:#frm_wizard_page#:#Copy Forum (Step 2/2)
@@ -9923,7 +9931,7 @@ forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlig
 forum#:#merge#:#Merge
 forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
 forum#:#merged_threads_successfully#:#The selected threads were merged successfully
-forum#:#move_chosen_topics#:#Move Chosen Threads
+forum#:#move_chosen_topics#:#Move thread "%s" to:
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 forum#:#new_post#:#New Post
 forum#:#new_thread_with_post#:#New Thread with Posting
@@ -9948,6 +9956,7 @@ forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
 forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"
 forum#:#preset_subject#:#Preset subject on reply
 forum#:#publish#:#Publish
+forum#:#relevance#:#Relevance
 forum#:#reopen_topics#:#Reopen
 forum#:#reply_to_postings#:#Reply
 forum#:#reset_limited_view#:#Limited view on this post an all posts below it.
@@ -9973,9 +9982,12 @@ forum#:#sticky#:#Sticky
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
 forum#:#target_select#:#Select posting for limited view
+forum#:#thema#:#Threads
 forum#:#thread#:#Thread
 forum#:#thread_deleted_by#:#following thread in forum "%2$s"was deleted by "%1$s":
-forum#:#threads_moved_successfully#:#The chosen threads were moved to another forum successfully.
+forum#:#thread_overview#:#Thread-Overview
+forum#:#threads_moved_successfully#:#The chosen thread was moved to another forum successfully.
+forum#:#top_thema#:#Top-Threads
 forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications

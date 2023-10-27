@@ -30,6 +30,9 @@ class ilForumProperties
     public const VIEW_DATE_DESC = 3;
     public const FILE_UPLOAD_GLOBALLY_ALLOWED = 0;
     public const FILE_UPLOAD_INDIVIDUAL = 1;
+    public const PAGE_SIZE_THREAD_OVERVIEW = 10;
+    public const PAGE_NAME_THREAD_OVERVIEW = 'page';
+
     /** @var array<int, ilForumProperties> */
     private static array $instances = [];
 
