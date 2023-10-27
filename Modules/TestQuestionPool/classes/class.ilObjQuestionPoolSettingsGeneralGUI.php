@@ -155,7 +155,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $md_section = $md_obj->getGeneral();
 
         // title
-        $md_section->setTitle($form->getItemByPostVar('title')->getValue());
+        $md_section->setTitle($this->poolOBJ->getTitle());
         $md_section->update();
 
         // Description
@@ -212,7 +212,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
         $title->setRequired(true);
-        $title->setValue($md_section->getTitle());
+        $title->setValue($this->poolOBJ->getTitle());
         $form->addItem($title);
 
         $ids = $md_section->getDescriptionIds();
