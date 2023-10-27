@@ -23,7 +23,9 @@ namespace ILIAS\Skill\Table;
 
 use ILIAS\Data;
 use ILIAS\Skill\Tree;
+use ILIAS\Skill\Usage;
 use ILIAS\UI;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
@@ -32,7 +34,9 @@ class UsageTable
 {
     protected \ilLanguage $lng;
     protected UI\Factory $ui_fac;
+    protected ServerRequestInterface $request;
     protected Tree\SkillTreeManager $tree_manager;
+    protected Usage\SkillUsageManager $usage_manager;
     protected \ilSkillTreeRepository $tree_repo;
     protected int $skill_id = 0;
     protected int $tref_id = 0;
@@ -45,7 +49,9 @@ class UsageTable
 
         $this->lng = $DIC->language();
         $this->ui_fac = $DIC->ui()->factory();
+        $this->request = $DIC->http()->request();
         $this->tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
+        $this->usage_manager = $DIC->skills()->internal()->manager()->getUsageManager();
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
 
         $id_parts = explode(":", $cskill_id);
@@ -71,7 +77,8 @@ class UsageTable
         //$description = $tree->getSkillTreePathAsString($skill_id, $tref_id);
 
         $table = $this->ui_fac->table()
-                              ->data($title, $columns, $data_retrieval);
+                              ->data($title, $columns, $data_retrieval)
+                              ->withRequest($this->request);
 
         return $table;
     }
@@ -80,7 +87,7 @@ class UsageTable
     {
         $columns = [
             "type_info" => $this->ui_fac->table()->column()->statusIcon($this->lng->txt("skmg_type"))
-                                        ->withIsSortable(false),
+                                        ->withIsSortable(true),
             "count" => $this->ui_fac->table()->column()->text($this->lng->txt("skmg_number"))
                                     ->withIsSortable(false)
         ];
@@ -91,10 +98,12 @@ class UsageTable
     protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
     {
         $data_retrieval = new class (
-            $this->usage
+            $this->usage,
+            $this->usage_manager
         ) implements UI\Component\Table\DataRetrieval {
             public function __construct(
-                protected array $usage
+                protected array $usage,
+                protected Usage\SkillUsageManager $usage_manager
             ) {
             }
 
@@ -127,8 +136,8 @@ class UsageTable
                 $i = 0;
                 foreach ($this->usage as $type => $type_usages) {
                     $records[$i]["type"] = $type;
-                    $records[$i]["type_info"] = \ilSkillUsage::getTypeInfoString($type);
-                    $records[$i]["count"] = count($type_usages) . " " . \ilSkillUsage::getObjTypeString($type);
+                    $records[$i]["type_info"] = $this->usage_manager->getTypeInfoString($type);
+                    $records[$i]["count"] = count($type_usages) . " " . $this->usage_manager->getObjTypeString($type);
 
                     $i++;
                 }

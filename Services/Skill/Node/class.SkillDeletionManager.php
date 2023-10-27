@@ -27,6 +27,7 @@ use ILIAS\Skill\Personal\AssignedMaterialManager;
 use ILIAS\Skill\Profile\SkillProfileManager;
 use ILIAS\Skill\Profile\SkillProfileCompletionManager;
 use ILIAS\Skill\Resource\SkillResourcesManager;
+use ILIAS\Skill\Usage\SkillUsageManager;
 
 /**
  * Skill deletion manager
@@ -40,6 +41,7 @@ class SkillDeletionManager
     protected SkillProfileManager $profile_manager;
     protected SkillProfileCompletionManager $profile_completion_manager;
     protected SkillResourcesManager $resources_manager;
+    protected SkillUsageManager $usage_manager;
     protected \ilSkillTreeRepository $tree_repo;
     protected \ilSkillLevelRepository $level_repo;
     protected \ilSkillUserLevelRepository $user_level_repo;
@@ -52,6 +54,7 @@ class SkillDeletionManager
         SkillProfileManager $profile_manager = null,
         SkillProfileCompletionManager $profile_completion_manager = null,
         SkillResourcesManager $resources_manager = null,
+        SkillUsageManager $usage_manager = null,
         \ilSkillTreeRepository $tree_repo = null,
         \ilSkillLevelRepository $level_repo = null,
         \ilSkillUserLevelRepository $user_level_repo = null,
@@ -65,6 +68,7 @@ class SkillDeletionManager
         $this->profile_manager = ($profile_manager) ?: $DIC->skills()->internal()->manager()->getProfileManager();
         $this->profile_completion_manager = ($profile_completion_manager) ?: $DIC->skills()->internal()->manager()->getProfileCompletionManager();
         $this->resources_manager = ($resources_manager) ?: $DIC->skills()->internal()->manager()->getResourceManager();
+        $this->usage_manager = ($usage_manager) ?: $DIC->skills()->internal()->manager()->getUsageManager();
         $this->tree_repo = ($tree_repo) ?: $DIC->skills()->internal()->repo()->getTreeRepo();
         $this->level_repo = ($level_repo) ?: $DIC->skills()->internal()->repo()->getLevelRepo();
         $this->user_level_repo = ($user_level_repo) ?: $DIC->skills()->internal()->repo()->getUserLevelRepo();
@@ -142,7 +146,7 @@ class SkillDeletionManager
     {
         $this->level_repo->deleteLevelsOfSkill($skll_id);
         $this->user_level_repo->deleteUserLevelsOfSkill($skll_id);
-        \ilSkillUsage::removeUsagesForSkill($skll_id);
+        $this->usage_manager->removeUsagesForSkill($skll_id);
         $this->personal_manager->removePersonalSkillsForSkill($skll_id);
         $this->material_manager->removeAssignedMaterialsForSkill($skll_id);
         $this->profile_manager->deleteProfileLevelsForSkill($skll_id);
@@ -166,7 +170,7 @@ class SkillDeletionManager
     protected function deleteSkillTemplateReference(int $sktr_id): void
     {
         $this->user_level_repo->deleteUserLevelsOfSkill($sktr_id, true);
-        \ilSkillUsage::removeUsagesForSkill($sktr_id, true);
+        $this->usage_manager->removeUsagesForSkill($sktr_id, true);
         $this->personal_manager->removePersonalSkillsForSkill($sktr_id);
         $this->material_manager->removeAssignedMaterialsForSkill($sktr_id, true);
         $this->profile_manager->deleteProfileLevelsForSkill($sktr_id, true);
@@ -178,7 +182,7 @@ class SkillDeletionManager
     {
         $this->level_repo->deleteLevelsOfSkill($sktp_id);
         $this->user_level_repo->deleteUserLevelsOfSkill($sktp_id);
-        \ilSkillUsage::removeUsagesForSkill($sktp_id);
+        $this->usage_manager->removeUsagesForSkill($sktp_id);
         $this->material_manager->removeAssignedMaterialsForSkill($sktp_id);
         $this->profile_manager->deleteProfileLevelsForSkill($sktp_id);
         $this->resources_manager->removeResourcesForSkill($sktp_id);

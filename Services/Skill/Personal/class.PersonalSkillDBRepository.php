@@ -22,6 +22,7 @@ declare(strict_types=1);
 namespace ILIAS\Skill\Personal;
 
 use ILIAS\Skill\Service;
+use ILIAS\Skill\Usage\SkillUsageManager;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
@@ -142,10 +143,10 @@ class PersonalSkillDBRepository
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (isset($tref_ids[(int) $rec["skill_node_id"]])) {
-                $usages[$tref_ids[$rec["skill_node_id"]] . ":" . $rec["skill_node_id"]][\ilSkillUsage::PERSONAL_SKILL][] =
+                $usages[$tref_ids[$rec["skill_node_id"]] . ":" . $rec["skill_node_id"]][SkillUsageManager::PERSONAL_SKILL][] =
                     array("key" => $rec["user_id"]);
             } else {
-                $usages[$rec["skill_node_id"] . ":0"][\ilSkillUsage::PERSONAL_SKILL][] =
+                $usages[$rec["skill_node_id"] . ":0"][SkillUsageManager::PERSONAL_SKILL][] =
                     array("key" => $rec["user_id"]);
             }
         }

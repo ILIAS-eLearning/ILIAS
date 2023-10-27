@@ -292,8 +292,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 
         $this->setTabs("usage");
 
-        $usage_info = new ilSkillUsage();
-        $usages = $usage_info->getAllUsagesOfTemplate($this->base_skill_id);
+        $usages = $this->usage_manager->getAllUsagesOfTemplate($this->base_skill_id);
 
         $html = "";
         foreach ($usages as $k => $usage) {
@@ -318,8 +317,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 
         $this->setTabs("objects");
 
-        $usage_info = new ilSkillUsage();
-        $objects = $usage_info->getAssignedObjectsForSkillTemplate($this->base_skill_id);
+        $objects = $this->usage_manager->getAssignedObjectsForSkillTemplate($this->base_skill_id);
 
         $table = $this->table_manager->getAssignedObjectsTable($objects)->getComponent();
 

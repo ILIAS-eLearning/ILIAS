@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Personal;
+use ILIAS\Skill\Usage;
 
 /**
  * Handles deletion of (user) objects
@@ -36,6 +37,7 @@ class ilSkillObjDeletionHandler
     protected Profile\SkillProfileCompletionManager $profile_completion_manager;
     protected Personal\PersonalSkillManager $personal_manager;
     protected Personal\AssignedMaterialManager $assigned_material_manager;
+    protected Usage\SkillUsageManager $usage_manager;
 
     public function __construct(int $obj_id, string $obj_type)
     {
@@ -47,6 +49,7 @@ class ilSkillObjDeletionHandler
         $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
         $this->personal_manager = $DIC->skills()->internal()->manager()->getPersonalSkillManager();
         $this->assigned_material_manager = $DIC->skills()->internal()->manager()->getAssignedMaterialManager();
+        $this->usage_manager = $DIC->skills()->internal()->manager()->getUsageManager();
     }
 
     public function processDeletion(): void
@@ -74,6 +77,6 @@ class ilSkillObjDeletionHandler
                 }
             }
         }
-        ilSkillUsage::removeUsagesFromObject($this->obj_id);
+        $this->usage_manager->removeUsagesFromObject($this->obj_id);
     }
 }

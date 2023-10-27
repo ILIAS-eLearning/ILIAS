@@ -30,6 +30,7 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Table;
+use ILIAS\Skill\Usage;
 
 /**
  * Skill profile GUI class
@@ -62,6 +63,7 @@ class ilSkillProfileGUI
     protected Profile\SkillProfileManager $profile_manager;
     protected Profile\SkillProfileCompletionManager $profile_completion_manager;
     protected Table\TableManager $table_manager;
+    protected Usage\SkillUsageManager $usage_manager;
 
     /**
      * @var int[]
@@ -127,6 +129,7 @@ class ilSkillProfileGUI
         $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
         $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
         $this->table_manager = $DIC->skills()->internal()->manager()->getTableManager();
+        $this->usage_manager = $DIC->skills()->internal()->manager()->getUsageManager();
 
         $this->ctrl->saveParameter($this, ["sprof_id", "local_context"]);
 
@@ -949,8 +952,7 @@ class ilSkillProfileGUI
 
         $this->setTabs("objects");
 
-        $usage_info = new ilSkillUsage();
-        $objects = $usage_info->getAssignedObjectsForSkillProfile($this->profile->getId());
+        $objects = $this->usage_manager->getAssignedObjectsForSkillProfile($this->profile->getId());
 
         $table = $this->table_manager->getAssignedObjectsTable($objects)
                                      ->getComponent();

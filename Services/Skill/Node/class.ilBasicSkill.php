@@ -19,6 +19,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+use ILIAS\Skill\Usage\SkillUsageManager;
+
 /**
  * Basic Skill
  * @author Alex Killing <alex.killing@gmx.de>
@@ -585,11 +587,18 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         return "Skill";
     }
 
+    /**
+     * @inheritdoc
+     */
     public static function getUsageInfo(array $a_cskill_ids): array
     {
-        return ilSkillUsage::getUsageInfoGeneric(
+        global $DIC;
+
+        $usage_manager = $DIC->skills()->internal()->manager()->getUsageManager();
+
+        return $usage_manager->getUsageInfoGeneric(
             $a_cskill_ids,
-            ilSkillUsage::USER_ASSIGNED,
+            SkillUsageManager::USER_ASSIGNED,
             "skl_user_skill_level",
             "user_id"
         );

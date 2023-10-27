@@ -29,6 +29,7 @@ use ILIAS\Skill\Personal;
 use ILIAS\Skill\Resource;
 use ILIAS\Skill\Level;
 use ILIAS\Skill\Table;
+use ILIAS\Skill\Usage;
 
 /**
  * Skill internal manager service
@@ -137,5 +138,10 @@ class SkillInternalManagerService
     public function getDeletionManager(): Node\SkillDeletionManager
     {
         return new Node\SkillDeletionManager();
+    }
+
+    public function getUsageManager(): Usage\SkillUsageManager
+    {
+        return new Usage\SkillUsageManager();
     }
 }

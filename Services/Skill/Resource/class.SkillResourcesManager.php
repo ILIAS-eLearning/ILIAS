@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Resource;
 
+use ILIAS\Skill\Usage\SkillUsageManager;
+
 /**
  * Manages resources for skills. This is not about user assigned materials,
  * it is about resources that are assigned to skill levels in the
@@ -39,13 +41,13 @@ class SkillResourcesManager implements \ilSkillUsageInfo
 
     public function __construct(
         SkillResourceDBRepository $skill_res_repo = null,
-        \ilSkillLevelRepository $a_level_repo = null
+        \ilSkillLevelRepository $level_repo = null
     ) {
         global $DIC;
 
         $this->skill_res_repo = ($skill_res_repo)
             ?: $DIC->skills()->internal()->repo()->getResourceRepo();
-        $this->level_repo = ($a_level_repo)
+        $this->level_repo = ($level_repo)
             ?: $DIC->skills()->internal()->repo()->getLevelRepo();
     }
 
@@ -215,15 +217,17 @@ class SkillResourcesManager implements \ilSkillUsageInfo
     }
 
     /**
-     * @param array{skill_id: int, tref_id: int}[] $a_cskill_ids array of common skill ids
-     *
-     * @return array<string, array<string, array{key: string}[]>>
+     * @inheritdoc
      */
     public static function getUsageInfo(array $a_cskill_ids): array
     {
-        return \ilSkillUsage::getUsageInfoGeneric(
+        global $DIC;
+
+        $usage_manager = $DIC->skills()->internal()->manager()->getUsageManager();
+
+        return $usage_manager->getUsageInfoGeneric(
             $a_cskill_ids,
-            \ilSkillUsage::RESOURCE,
+            SkillUsageManager::RESOURCE,
             "skl_skill_resource",
             "rep_ref_id",
             "base_skill_id"

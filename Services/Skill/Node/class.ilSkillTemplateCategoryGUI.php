@@ -310,8 +310,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
         $this->setTabs("usage");
 
-        $usage_info = new ilSkillUsage();
-        $usages = $usage_info->getAllUsagesOfTemplate($this->requested_node_id);
+        $usages = $this->usage_manager->getAllUsagesOfTemplate($this->requested_node_id);
 
         $html = "";
         foreach ($usages as $k => $usage) {

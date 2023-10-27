@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Profile;
 
+use ILIAS\Skill\Usage\SkillUsageManager;
+
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
@@ -450,15 +452,17 @@ class SkillProfileManager implements \ilSkillUsageInfo
     }
 
     /**
-     * @param array{skill_id: int, tref_id: int}[] $a_cskill_ids
-     *
-     * @return array<string, array<string, array{key: string}[]>>
+     * @inheritdoc
      */
     public static function getUsageInfo(array $a_cskill_ids): array
     {
-        return \ilSkillUsage::getUsageInfoGeneric(
+        global $DIC;
+
+        $usage_manager = $DIC->skills()->internal()->manager()->getUsageManager();
+
+        return $usage_manager->getUsageInfoGeneric(
             $a_cskill_ids,
-            \ilSkillUsage::PROFILE,
+            SkillUsageManager::PROFILE,
             "skl_profile_level",
             "profile_id",
             "base_skill_id"

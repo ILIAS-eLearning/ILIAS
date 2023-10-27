@@ -22,6 +22,7 @@ declare(strict_types=1);
 use ILIAS\Skill\Service\SkillAdminGUIRequest;
 use ILIAS\Skill\Node;
 use ILIAS\Skill\Table;
+use ILIAS\Skill\Usage;
 use ILIAS\Skill\Access\SkillTreeAccess;
 use ILIAS\UI;
 
@@ -50,6 +51,7 @@ class ilSkillTreeNodeGUI
     protected Node\SkillTreeNodeManager $skill_tree_node_manager;
     protected SkillTreeAccess $tree_access_manager;
     protected Table\TableManager $table_manager;
+    protected Usage\SkillUsageManager $usage_manager;
     protected ilSkillTreeRepository $tree_repo;
     protected int $skill_tree_id = 0;
     protected ilTabsGUI $tabs;
@@ -99,6 +101,7 @@ class ilSkillTreeNodeGUI
         $this->skill_tree_node_manager = $node_manager;
         $this->tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->requested_ref_id);
         $this->table_manager = $DIC->skills()->internal()->manager()->getTableManager();
+        $this->usage_manager = $DIC->skills()->internal()->manager()->getUsageManager();
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
         $this->skill_tree_id = $this->tree_repo->getTreeIdForNodeId($this->requested_node_id);
 
@@ -117,8 +120,7 @@ class ilSkillTreeNodeGUI
             return $this->in_use;
         }
         $cskill_ids = ilSkillTreeNode::getAllCSkillIdsForNodeIds(array($this->node_object->getId()));
-        $u = new ilSkillUsage();
-        $usages = $u->getAllUsagesInfoOfSubtrees($cskill_ids);
+        $usages = $this->usage_manager->getAllUsagesInfoOfSubtrees($cskill_ids);
         if (count($usages) > 0) {
             $this->in_use = true;
         } else {
@@ -562,11 +564,10 @@ class ilSkillTreeNodeGUI
 
         $this->setTabs("usage");
 
-        $usage_info = new ilSkillUsage();
         $base_skill_id = ($this->base_skill_id > 0)
             ? $this->base_skill_id
             : $this->node_object->getId();
-        $usages = $usage_info->getAllUsagesInfoOfSubtree($base_skill_id, $this->tref_id);
+        $usages = $this->usage_manager->getAllUsagesInfoOfSubtree($base_skill_id, $this->tref_id);
 
         $html = "";
         foreach ($usages as $k => $usage) {
@@ -598,8 +599,7 @@ class ilSkillTreeNodeGUI
         $base_skill_id = ($this->base_skill_id > 0)
             ? $this->base_skill_id
             : $this->node_object->getId();
-        $usage_info = new ilSkillUsage();
-        $objects = $usage_info->getAssignedObjectsForSkill($base_skill_id, $this->tref_id);
+        $objects = $this->usage_manager->getAssignedObjectsForSkill($base_skill_id, $this->tref_id);
 
         $table = $this->table_manager->getAssignedObjectsTable($objects)->getComponent();
 

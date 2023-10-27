@@ -25,6 +25,7 @@ use ILIAS\Skill\Tree;
 use ILIAS\Skill\Node;
 use ILIAS\Skill\Access;
 use ILIAS\Skill\Table;
+use ILIAS\Skill\Usage;
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\GlobalScreen\ScreenContext;
 
@@ -48,6 +49,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected Access\SkillManagementAccess $skill_management_access_manager;
     protected Table\TableManager $skill_table_manager;
     protected Node\SkillDeletionManager $skill_deletion_manager;
+    protected Usage\SkillUsageManager $skill_usage_manager;
     protected ilSkillTreeRepository $skill_tree_repo;
     protected Tree\SkillTreeFactory $skill_tree_factory;
     protected UIServices $ui;
@@ -141,6 +143,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         );
         $this->skill_table_manager = $skill_manager->getTableManager();
         $this->skill_deletion_manager = $skill_manager->getDeletionManager();
+        $this->skill_usage_manager = $skill_manager->getUsageManager();
     }
 
     public function executeCommand(): void
@@ -683,12 +686,11 @@ class ilObjSkillTreeGUI extends ilObjectGUI
             // for skill and category templates check usage in references
         }
 
-        $u = new ilSkillUsage();
         $usages = [];
         if ($mode == "tree") {
-            $usages = $u->getAllUsagesInfoOfTrees($tree_ids);
+            $usages = $this->skill_usage_manager->getAllUsagesInfoOfTrees($tree_ids);
         } elseif ($mode == "basic" || $mode == "templates") {
-            $usages = $u->getAllUsagesInfoOfSubtrees($cskill_ids);
+            $usages = $this->skill_usage_manager->getAllUsagesInfoOfSubtrees($cskill_ids);
         } else {
             $this->ilias->raiseError("Skill Deletion - type mismatch.", $this->ilias->error_obj->MESSAGE);
         }

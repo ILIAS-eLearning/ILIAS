@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Personal;
 
+use ILIAS\Skill\Usage\SkillUsageManager;
+
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
@@ -102,21 +104,19 @@ class AssignedMaterialManager implements \ilSkillUsageInfo
     }
 
     /**
-     * @param array{skill_id: int, tref_id: int}[] $cskill_ids
-     *
-     * @return array<string, array<string, array{key: string}[]>>
+     * @inheritdoc
      */
-    public static function getUsageInfo(array $cskill_ids): array
+    public static function getUsageInfo(array $a_cskill_ids): array
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
         $personal_repo = $DIC->skills()->internal()->repo()->getPersonalSkillRepo();
+        $usage_manager = $DIC->skills()->internal()->manager()->getUsageManager();
 
         // material
-        $usages = \ilSkillUsage::getUsageInfoGeneric(
-            $cskill_ids,
-            \ilSkillUsage::USER_MATERIAL,
+        $usages = $usage_manager->getUsageInfoGeneric(
+            $a_cskill_ids,
+            SkillUsageManager::USER_MATERIAL,
             "skl_assigned_material",
             "user_id"
         );
@@ -124,7 +124,7 @@ class AssignedMaterialManager implements \ilSkillUsageInfo
         // users that use the skills as personal skills
         $pskill_ids = [];
         $tref_ids = [];
-        foreach ($cskill_ids as $cs) {
+        foreach ($a_cskill_ids as $cs) {
             $cs["tref_id"] = (int) $cs["tref_id"];
             $cs["skill_id"] = (int) $cs["skill_id"];
             if ($cs["tref_id"] > 0) {

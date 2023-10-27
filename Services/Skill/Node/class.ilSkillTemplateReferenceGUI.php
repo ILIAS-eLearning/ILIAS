@@ -361,8 +361,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 
         $this->setTabs("objects");
 
-        $usage_info = new ilSkillUsage();
-        $objects = $usage_info->getAssignedObjectsForSkill($this->base_skill_id, $this->tref_id);
+        $objects = $this->usage_manager->getAssignedObjectsForSkill($this->base_skill_id, $this->tref_id);
 
         $table = $this->table_manager->getAssignedObjectsTable($objects)->getComponent();
 
