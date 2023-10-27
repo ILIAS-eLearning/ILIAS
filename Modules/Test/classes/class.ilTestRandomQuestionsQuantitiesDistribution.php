@@ -147,7 +147,7 @@ class ilTestRandomQuestionsQuantitiesDistribution
     protected function registerQuestRelatedSrcPoolDef($questionId, ilTestRandomQuestionSetSourcePoolDefinition $definition)
     {
         if (!array_key_exists($questionId, $this->questRelatedSrcPoolDefRegister) ||
-            !is_numeric($this->questRelatedSrcPoolDefRegister[$questionId])) {
+            !is_numeric($questionId)) {
             $this->questRelatedSrcPoolDefRegister[$questionId] = $this->buildSourcePoolDefinitionListInstance();
         }
 
