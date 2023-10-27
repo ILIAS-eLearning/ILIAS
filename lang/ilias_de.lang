@@ -12287,6 +12287,7 @@ mme#:#move_to_top_item#:#In Haupteinträge verschieben
 mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_moved#:#Eintrag wurde erfolgreich verschoben.
 mme#:#msg_not_moved#:#Eintrag konnte nicht verschoben werden, wähle einen gültigen Haupteintrag aus.
+mme#:#msg_ref_id_not_callable#:#Diese Referenz-ID kann von Main-Menu nicht verwendet werden. Es werden nur Ziele im Magazin unterstützt.
 mme#:#msg_restore_confirm#:#Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenu gehen verloren.
 mme#:#msg_restored#:#Hauptmenu zurückgesetzt
 mme#:#msg_subitem_deleted#:#Eintrag gelöscht.

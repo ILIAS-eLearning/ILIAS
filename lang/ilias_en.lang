@@ -12277,6 +12277,7 @@ mme#:#move_to_top_item#:#Move to Top Items
 mme#:#msg_languages_added#:#Added languages
 mme#:#msg_moved#:#Item successfully moved
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.
 mme#:#msg_restored#:#Main Menu completely reset
 mme#:#msg_subitem_deleted#:#Item deleted.
