@@ -58,11 +58,11 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->gui = $DIC->survey()
             ->internal()
             ->gui();
-
         if (!$this->read_only) {
             // command dropdown
-            if (count($edit_manager->getMoveSurveyQuestions()) === 0 ||
-                $edit_manager->getMoveSurveyId() !== $this->object->getId()) {
+            if ((!($edit_manager->getQuestionClipboardMode($this->object->getRefId()) === "copy" && count($edit_manager->getQuestionClipboardQuestions($this->object->getRefId())) > 0))
+                    && (count($edit_manager->getMoveSurveyQuestions()) === 0 ||
+                $edit_manager->getMoveSurveyId() !== $this->object->getId())) {
                 $this->addMultiCommand("createQuestionblock", $lng->txt("define_questionblock"));
                 $this->addMultiCommand("unfoldQuestionblock", $lng->txt("unfold"));
                 $this->addMultiCommand("removeQuestions", $lng->txt("remove_question"));
@@ -326,6 +326,10 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                 $actions[] = $ui_factory->link()->standard(
                     $lng->txt("add_heading"),
                     $ilCtrl->getLinkTarget($this->parent_obj, "addHeading")
+                );
+                $actions[] = $ui_factory->link()->standard(
+                    $lng->txt("copy"),
+                    $ilCtrl->getLinkTarget($this->parent_obj, "copyQuestion")
                 );
             }
 

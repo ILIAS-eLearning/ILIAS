@@ -80,4 +80,13 @@ class InternalRepoService
     {
         return new Evaluation\EvaluationSessionRepo();
     }
+
+    public function questions(): Questions\QuestionDBRepository
+    {
+        return new Questions\QuestionDBRepository(
+            $this->data,
+            $this->db
+        );
+    }
+
 }
