@@ -9788,6 +9788,10 @@ forum#:#threads_moved_successfully#:#The chosen thread was moved to another foru
 forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
+forum#:#relevance#:#Relevance
+forum#:#top_thema#:#Top-Threads
+forum#:#thema#:#Threads
+forum#:#thread_overview#:#Thread-Overview
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_add_glossary#:#Add Glossary
 glo#:#glo_add_to_collection#:#Add Glossary to Collection Glossary

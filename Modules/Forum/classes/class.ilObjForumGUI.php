@@ -792,7 +792,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     {
         $data_objects = $tbl->setMapper($frm)->fetchDataAnReturnObject();
 
-        $thread_buffer = [];
+        $top_group = [];
+        $thread_group = [];
 
         if (count($data_objects) > 0) {
             foreach ($data_objects as $thread) {
@@ -811,18 +812,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $list_item = $this->factory->item()->standard($link)
                                                ->withActions($actions)
                                                ->withProperties($this->getThreadProperties($current_thread));
-                    $list_item = $this->addLeadImageToThreadOverview($current_thread, $list_item);
-                    $list_item = $this->markModeratorPostInOverview(
-                        $list_item,
-                        $current_thread->getThrAuthorId(),
-                        $ref_id
-                    );
-                    $thread_buffer[] = $list_item;
-                    $thread_buffer[] = $this->factory->divider()->horizontal();
+                    $list_item = $this->markTopThreadInOverview($current_thread, $list_item);
+                    if($current_thread->isSticky()) {
+                        $top_group[] = $list_item;
+                    } else {
+                        $thread_group[] = $list_item;
+                    }
+
                 }
             }
         }
-
+        $top_threads = $this->factory->item()->group($this->lng->txt('top_thema'), $top_group);
+        $normal_threads = $this->factory->item()->group($this->lng->txt('thema'), $thread_group);
         $url = $this->http->request()->getRequestTarget();
         $current_page = 0;
         if ($this->http->wrapper()->query()->has(ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)) {
@@ -840,8 +841,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                                         ->withCurrentPage($current_page);
 
         $vc_container = $this->factory->panel()->standard(
-            $this->lng->txt('forums_threads'),
-            $thread_buffer
+            $this->lng->txt('thread_overview'),
+            [$top_threads, $normal_threads]
         )->withViewControls($view_control);
 
         $default_html = $this->renderer->render($vc_container);
@@ -972,17 +973,25 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     {
         $this->ctrl->setParameter($this, 'thr_pk', $forum_topic->getId());
         $unread_counter = $forum_topic->getNumUnreadPosts();
+        $is_top_thread = $forum_topic->isSticky();
+
         if ($unread_counter === 0) {
             $unread = '';
         } else {
             $unread = ' (' . $unread_counter . ' ' . $this->lng->txt('unread') . ')';
         }
+
         $properties = [
             $this->lng->txt('forums_created_by') => $forum_topic->getUserAlias(),
             $this->lng->txt('forums_articles') => $forum_topic->getNumPosts() . $unread,
             $this->lng->txt('forums_last_post') => $this->object->Forum->convertDate($forum_topic->getLastPost()->getCreateDate()),
             $this->lng->txt('visits') => $forum_topic->getVisits(),
         ];
+
+        if ($is_top_thread === true) {
+            $is_top_thread = [$this->lng->txt('relevance') => $this->lng->txt('sticky')];
+            $properties = array_merge($properties, $is_top_thread);
+        }
 
         $rating_property = [];
         if ($this->objProperties->isIsThreadRatingEnabled()) {
@@ -1141,28 +1150,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return $open_close;
     }
 
-    protected function markModeratorPostInOverview(
-        Item $list_item,
-        int $author_id,
-        int $ref_id
-    ): Item {
-        $df = new \ILIAS\Data\Factory();
-        if ($this->objProperties->getMarkModeratorPosts() && ilForum::_isModerator($ref_id, $author_id)) {
-            $list_item = $list_item->withColor($df->color('#f3de2c'));
-        }
-        return $list_item;
-    }
-
-    protected function addLeadImageToThreadOverview(
+    protected function markTopThreadInOverview(
         ilForumTopic $current_thread,
         Item $list_item
     ): Item {
         if ($current_thread->isSticky()) {
-            $lead_image = $this->factory->image()->responsive(
-                "templates/default/images/icon_pin.svg",
-                $current_thread->getSubject()
-            );
-            $list_item = $list_item->withLeadImage($lead_image);
+            $df = new \ILIAS\Data\Factory();
+            $list_item = $list_item->withColor($df->color('#B54F00'));
         }
 
         return $list_item;
