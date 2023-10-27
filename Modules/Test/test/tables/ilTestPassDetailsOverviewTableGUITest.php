@@ -52,7 +52,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
         $this->tableGui = new ilTestPassDetailsOverviewTableGUI(
             $ctrl_mock,
-            $this->parentObj_mock,
+            $this->createMock(ilTestServiceGUI::class),
             ""
         );
     }

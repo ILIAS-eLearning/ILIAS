@@ -310,9 +310,9 @@ class ilTestServiceGUI
         return $cmd;
     }
 
-    public function buildPassOverviewTableGUI(ilTestEvaluationGUI $targetGUI): ilTestPassOverviewTableGUI
+    public function buildPassOverviewTableGUI(ilTestEvaluationGUI $target_gui): ilTestPassOverviewTableGUI
     {
-        $table = new ilTestPassOverviewTableGUI($targetGUI, '');
+        $table = new ilTestPassOverviewTableGUI($target_gui, '');
 
         $table->setPdfPresentationEnabled(
             $this->testrequest->isset('pdf') && $this->testrequest->raw('pdf') == 1
@@ -533,20 +533,19 @@ class ilTestServiceGUI
     }
 
     protected function getPassDetailsOverviewTableGUI(
-        $result_array,
-        $active_id,
-        $pass,
-        $targetGUI,
-        $targetCMD,
-        $questionDetailsCMD,
-        $questionAnchorNav,
+        array $result_array,
+        int $active_id,
+        int $pass,
+        ilTestServiceGUI|ilParticipantsTestResultsGUI $target_gui,
+        string $target_cmd,
+        string $questionDetailsCMD,
         ilTestQuestionRelatedObjectivesList $objectivesList = null,
-        $multipleObjectivesInvolved = true
+        bool $multipleObjectivesInvolved = true
     ): ilTestPassDetailsOverviewTableGUI {
-        $this->ctrl->setParameter($targetGUI, 'active_id', $active_id);
-        $this->ctrl->setParameter($targetGUI, 'pass', $pass);
+        $this->ctrl->setParameter($target_gui, 'active_id', $active_id);
+        $this->ctrl->setParameter($target_gui, 'pass', $pass);
 
-        $tableGUI = $this->buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD);
+        $tableGUI = $this->buildPassDetailsOverviewTableGUI($target_gui, $target_cmd);
         $tableGUI->setSingleAnswerScreenCmd($questionDetailsCMD);
         $tableGUI->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
 
@@ -580,8 +579,8 @@ class ilTestServiceGUI
 
         $tableGUI->initColumns();
 
-        $tableGUI->setFilterCommand($targetCMD . 'SetTableFilter');
-        $tableGUI->setResetCommand($targetCMD . 'ResetTableFilter');
+        $tableGUI->setFilterCommand($target_cmd . 'SetTableFilter');
+        $tableGUI->setResetCommand($target_cmd . 'ResetTableFilter');
 
         $tableGUI->setData($usersQuestionSolutions);
 
@@ -748,7 +747,7 @@ class ilTestServiceGUI
         ilTestSession $testSession,
         int $active_id,
         int $pass,
-        ilParticipantsTestResultsGUI $targetGUI,
+        ilParticipantsTestResultsGUI $target_gui,
         bool $show_pass_details = true,
         bool $show_answers = true,
         bool $show_question_only = false,
@@ -828,10 +827,9 @@ class ilTestServiceGUI
                     $result_array,
                     $active_id,
                     $pass,
-                    $targetGUI,
+                    $target_gui,
                     "getResultsOfUserOutput",
                     '',
-                    $show_answers,
                     $objectivesList
                 );
                 $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
@@ -965,11 +963,8 @@ class ilTestServiceGUI
         return $output;
     }
 
-    /**
-     * @return ilTestPassDetailsOverviewTableGUI
-     */
     protected function buildPassDetailsOverviewTableGUI(
-        ilParticipantsTestResultsGUI $target_gui,
+        ilTestServiceGUI|ilParticipantsTestResultsGUI $target_gui,
         string $target_cmd
     ): ilTestPassDetailsOverviewTableGUI {
         return new ilTestPassDetailsOverviewTableGUI($this->ctrl, $target_gui, $target_cmd);
@@ -1001,8 +996,10 @@ class ilTestServiceGUI
         return $gradingMessageBuilder;
     }
 
-    protected function buildQuestionRelatedObjectivesList(ilLOTestQuestionAdapter $objectivesAdapter, ilTestQuestionSequence $testSequence): ilTestQuestionRelatedObjectivesList
-    {
+    protected function buildQuestionRelatedObjectivesList(
+        ilLOTestQuestionAdapter $objectivesAdapter,
+        ilTestQuestionSequence $testSequence
+    ): ilTestQuestionRelatedObjectivesList {
         $questionRelatedObjectivesList = new ilTestQuestionRelatedObjectivesList();
 
         $objectivesAdapter->buildQuestionRelatedObjectiveList($testSequence, $questionRelatedObjectivesList);
@@ -1010,8 +1007,12 @@ class ilTestServiceGUI
         return $questionRelatedObjectivesList;
     }
 
-    protected function getFilteredTestResult(int $active_id, int $pass, bool $considerHiddenQuestions, bool $considerOptionalQuestions): array
-    {
+    protected function getFilteredTestResult(
+        int $active_id,
+        int $pass,
+        bool $considerHiddenQuestions,
+        bool $considerOptionalQuestions
+    ): array {
         $ilDB = $this->db;
         $component_repository = $this->component_repository;
 
