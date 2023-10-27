@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\LegalDocuments\Conductor;
+use ILIAS\Mail\Recipient;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
