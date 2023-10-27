@@ -1026,9 +1026,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     }
 
     /**
-     * @param int          $ref_id
-     * @param ilForumTopic $forum_topic
-     * @return Standard
      * @throws ilCtrlException
      */
     protected function getActionsForThreadOverview(int $ref_id, ilForumTopic $forum_topic): Standard

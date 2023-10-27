@@ -61,6 +61,7 @@ class ilForumThreadObjectTableGUI extends ilTable2GUI
         $this->mainTemplate->addCss('./Modules/Forum/css/forum_table.css');
         $this->is_post_draft_allowed = ilForumPostDraft::isSavePostDraftAllowed();
     }
+
     public function fetchDataAnReturnObject(): array
     {
         $excluded_ids = [];
