@@ -229,6 +229,7 @@ class ilMarkSchemaGUI
 
         require_once 'Modules/Test/classes/tables/class.ilMarkSchemaTableGUI.php';
         $mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', '', $this->object);
+        $mark_schema_table->setShowRowsSelector(false);
 
         if ($this->object->canEditMarks()) {
             require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
