@@ -754,6 +754,7 @@ class ilObjStudyProgramme extends ilContainer
                     $completed_crss[] = [
                         "crs_id" => $crs_id
                         , "prg_ref_id" => (int) $ref["parent"]
+                        , "prg_obj_id" => $containing_prg->getId()
                         , "crsr_ref_id" => (int) $ref["child"]
                         , "crsr_id" => (int) $ref["obj_id"]
                         , "title" => ilContainerReference::_lookupTitle((int) $ref["obj_id"])
@@ -920,12 +921,6 @@ class ilObjStudyProgramme extends ilContainer
     // USER ASSIGNMENTS
     ////////////////////////////////////
 
-    protected function getMessageCollection(string $topic): ilPRGMessageCollection
-    {
-        $msgs = new ilPRGMessageCollection();
-        return $msgs->withNewTopic($topic);
-    }
-
     /**
      * Assign a user to this node at the study program.
      *
@@ -988,7 +983,7 @@ class ilObjStudyProgramme extends ilContainer
 
         $this->assignment_repository->delete($assignment);
 
-        $affected_node_ids = array_map(fn ($pgs) => $pgs->getNodeId(), $assignment->getProgresses());
+        $affected_node_ids = array_map(fn($pgs) => $pgs->getNodeId(), $assignment->getProgresses());
         foreach ($affected_node_ids as $node_obj_id) {
             $this->refreshLPStatus($assignment->getUserId(), $node_obj_id);
         }
@@ -1151,7 +1146,7 @@ class ilObjStudyProgramme extends ilContainer
         $assignments = $this->getAssignments();
         $relevant = array_filter(
             $assignments,
-            fn ($ass) => $ass->getProgressForNode($this->getId())->isRelevant()
+            fn($ass) => $ass->getProgressForNode($this->getId())->isRelevant()
         );
         return count($relevant) > 0;
     }
@@ -1159,7 +1154,7 @@ class ilObjStudyProgramme extends ilContainer
     public function getIdsOfUsersWithRelevantProgress(): array
     {
         return array_map(
-            fn ($ass) => $ass->getUserId(),
+            fn($ass) => $ass->getUserId(),
             $this->getAssignments()
         );
     }
@@ -1545,23 +1540,6 @@ class ilObjStudyProgramme extends ilContainer
         }
     }
 
-    /**
-     * Get the obj id of the parent object for the given object. Returns null if
-     * object is not in the tree currently.
-     */
-    protected static function getParentId(ilObjCourseReference $leaf): ?int
-    {
-        global $DIC;
-        $tree = $DIC['tree'];
-        if (!$tree->isInTree($leaf->getRefId())) {
-            return null;
-        }
-
-        $nd = $tree->getParentNodeData($leaf->getRefId());
-        return $nd["obj_id"];
-    }
-
-
     public function updateCustomIcon(): void
     {
         $customIcon = $this->custom_icon_factory->getByObjId($this->getId(), $this->getType());
@@ -1646,28 +1624,6 @@ class ilObjStudyProgramme extends ilContainer
         return new DateTimeImmutable();
     }
 
-    protected function getObjIdsOfChildren(int $node_obj_id): array
-    {
-        $node_ref_id = self::getRefIdFor($node_obj_id);
-
-        $prgs = $this->tree->getChildsByType($node_ref_id, "prg");
-        $prg_ids = array_map(
-            static function ($nd) {
-                return (int) $nd['obj_id'];
-            },
-            $prgs
-        );
-
-        $prg_ref_ids = [];
-        $prg_refs = $this->tree->getChildsByType($node_ref_id, "prgr");
-        foreach ($prg_refs as $ref) {
-            $ref_obj = new ilObjStudyProgrammeReference((int) $ref['ref_id']);
-            $prg_ref_ids[] = $ref_obj->getReferencedObject()->getId();
-        }
-
-        return array_merge($prg_ids, $prg_ref_ids);
-    }
-
     protected function refreshLPStatus(int $usr_id, int $node_obj_id = null): void
     {
         if (is_null($node_obj_id)) {
@@ -1748,7 +1704,6 @@ class ilObjStudyProgramme extends ilContainer
         $this->refreshLPStatus($assignment->getUserId());
     }
 
-
     public function changeProgressDeadline(
         int $assignment_id,
         int $acting_usr_id,
@@ -1825,6 +1780,33 @@ class ilObjStudyProgramme extends ilContainer
         $this->refreshLPStatus($assignment->getUserId());
     }
 
+    public function acknowledgeCourses(
+        int $assignment_id,
+        array $nodes,
+        ilPRGMessageCollection $err_collection = null
+    ): void {
+        $acting_usr_id = $this->getLoggedInUserId();
+        $assignment = $this->assignment_repository->get($assignment_id);
+        foreach($nodes as $nodeinfo) {
+            [$node_obj_id, $courseref_obj_id] = $nodeinfo;
+            $assignment = $assignment->succeed(
+                $this->settings_repository,
+                $node_obj_id,
+                $courseref_obj_id
+            );
+
+            $msg = sprintf(
+                '%s, progress-id (%s/%s)',
+                $assignment->getUserInformation()->getFullname(),
+                $assignment->getId(),
+                (string) $node_obj_id
+            );
+            $err_collection->add(true, 'acknowledged_course', $msg);
+        }
+        $this->assignment_repository->store($assignment);
+        $this->refreshLPStatus($assignment->getUserId());
+    }
+
     public function canBeCompleted(ilPRGProgress $progress): bool
     {
         if ($this->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
@@ -1857,17 +1839,6 @@ class ilObjStudyProgramme extends ilContainer
             return $lng->txt("prg_status_failed");
         }
         throw new ilException("Unknown status: '$status'");
-    }
-
-    protected function getProgressIdString(ilPRGAssignment $assignment, ilPRGProgress $progress): string
-    {
-        $username = ilObjUser::_lookupFullname($assignment->getUserId());
-        return sprintf(
-            '%s, progress-id (%s/%s)',
-            $username,
-            $assignment->getId(),
-            $progress->getNodeId()
-        );
     }
 
     public function hasContentPage(): bool

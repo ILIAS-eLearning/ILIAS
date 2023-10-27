@@ -22,6 +22,9 @@ use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\LegalDocuments\Conductor;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Data\Result\Ok;
 
 /**
  * Class ilMailMimeTest
@@ -43,6 +46,9 @@ class ilMailTest extends ilMailBaseTest
         $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
         $this->setGlobalVariable('refinery', $refineryMock);
 
+        $legal_documents = $this->createMock(Conductor::class);
+        $this->setGlobalVariable('legalDocuments', $legal_documents);
+
         $senderUsrId = 666;
         $loginToIdMap = [
             'phpunit1' => 1,
@@ -53,17 +59,21 @@ class ilMailTest extends ilMailBaseTest
             'phpunit6' => 6,
             'phpunit7' => 7,
         ];
+
+        $transformation = $this->createMock(Transformation::class);
+        $transformation->expects(self::exactly(count($loginToIdMap)))->method('applyTo')->willReturn(new Ok(null));
+        $legal_documents->expects(self::exactly(count($loginToIdMap)))->method('userCanReadInternalMail')->willReturn($transformation);
+
         $userInstanceById = [];
         $mailOptionsById = [];
         foreach ($loginToIdMap as $usrId) {
             $user = $this
                 ->getMockBuilder(ilObjUser::class)
                 ->disableOriginalConstructor()
-                ->onlyMethods(['getId', 'hasToAcceptTermsOfService', 'checkTimeLimit', 'getActive'])
+                ->onlyMethods(['getId', 'checkTimeLimit', 'getActive'])
                 ->getMock();
             $user->method('getId')->willReturn($usrId);
             $user->method('getActive')->willReturn(true);
-            $user->method('hasToAcceptTermsOfService')->willReturn(false);
             $user->method('checkTimeLimit')->willReturn(true);
             $userInstanceById[$usrId] = $user;
 

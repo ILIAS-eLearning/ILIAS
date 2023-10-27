@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+<xs:schema xmlns:xs = 'http://www.w3.org/2001/XMLSchema'
 	targetNamespace = "http://www.ilias.de/Modules/Poll/poll/4_5"
 	xmlns:t = 'http://www.ilias.de/Modules/Poll/poll/4_5'>
 
-	<!-- t:Data type -->
-	<complexType name='Data' mixed='true'>
-	</complexType>
-
-
 	<!-- Poll -->
-	<element name='Poll'>
-		<complexType>
-		<sequence>
-			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:Question' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:Image' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:ViewResults' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:Dir' minOccurs='1' maxOccurs='1'/>
-            <element ref='t:ShowResultsAs' minOccurs='1' maxOccurs='1'/>
-            <element ref='t:ShowComments' minOccurs='1' maxOccurs='1'/>
-            <element ref='t:MaxAnswers' minOccurs='1' maxOccurs='1'/>
-            <element ref='t:ResultSort' minOccurs='1' maxOccurs='1'/>
-            <element ref='t:NonAnon' minOccurs='1' maxOccurs='1'/>
-		</sequence>
-		</complexType>
-	</element>
+	<xs:element name='Poll'>
+		<xs:complexType>
+		<xs:sequence>
+			<xs:element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:Question' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:Image' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:ViewResults' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:Dir' minOccurs='1' maxOccurs='1'/>
+            <xs:element ref='t:ShowResultsAs' minOccurs='1' maxOccurs='1'/>
+            <xs:element ref='t:ShowComments' minOccurs='1' maxOccurs='1'/>
+            <xs:element ref='t:MaxAnswers' minOccurs='1' maxOccurs='1'/>
+            <xs:element ref='t:ResultSort' minOccurs='1' maxOccurs='1'/>
+            <xs:element ref='t:NonAnon' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:Period' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:PeriodBegin' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:PeriodEnd' minOccurs='1' maxOccurs='1'/>
+		</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
-	<element name='Id' type='t:Data' />
-	<element name='Title' type='t:Data' />
-	<element name='Description' type='t:Data' />
-	<element name='Question' type='t:Data' />
-	<element name='Image' type='t:Data' />
-	<element name='ViewResults' type='t:Data' />
-	<element name='Dir' type='t:Data' />
-    <element name='ShowResultsAs' type='t:Data' />
-    <element name='ShowComments' type='t:Data' />
-    <element name='MaxAnswers' type='t:Data' />
-    <element name='ResultSort' type='t:Data' />
-    <element name='NonAnon' type='t:Data' />
+	<xs:element name='Id' type='xs:integer' />
+	<xs:element name='Title' type='xs:string' />
+	<xs:element name='Description' type='xs:string' />
+	<xs:element name='Question' type='xs:string' />
+	<xs:element name='Image' type='xs:string' />
+	<xs:element name='ViewResults' type='xs:integer' />
+	<xs:element name='Dir' type='xs:string' />
+    <xs:element name='ShowResultsAs' type='xs:integer' />
+    <xs:element name='ShowComments' type='xs:boolean' />
+    <xs:element name='MaxAnswers' type='xs:integer' />
+    <xs:element name='ResultSort' type='xs:integer' />
+    <xs:element name='NonAnon' type='xs:integer' />
+	<xs:element name='Period' type='xs:boolean' />
+	<xs:element name='PeriodBegin' type='xs:integer' />
+	<xs:element name='PeriodEnd' type='xs:integer' />
 
-	<!-- BlogAnswer -->
-	<element name='PollAnswer'>
-		<complexType>
-		<sequence>
-			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:PollId' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:Answer' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:Pos' minOccurs='1' maxOccurs='1'/>
-		</sequence>
-		</complexType>
-	</element>
+	<!-- PollAnswer -->
+	<xs:element name='PollAnswer'>
+		<xs:complexType>
+		<xs:sequence>
+			<xs:element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:PollId' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:Answer' minOccurs='1' maxOccurs='1'/>
+			<xs:element ref='t:Pos' minOccurs='1' maxOccurs='1'/>
+		</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
-	<element name='Id' type='t:Data' />
-	<element name='PollId' type='t:Data' />
-	<element name='Answer' type='t:Data' />
-	<element name='Pos' type='t:Data' />
+	<xs:element name='PollId' type='xs:integer' />
+	<xs:element name='Answer' type='xs:string' />
+	<xs:element name='Pos' type='xs:integer' />
 
-</schema>
+</xs:schema>

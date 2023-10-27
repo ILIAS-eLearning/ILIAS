@@ -68,4 +68,9 @@ class Factory implements I\Factory
     {
         return new Link($title);
     }
+
+    public function linkListing(string $title): I\LinkListing
+    {
+        return new LinkListing($title);
+    }
 }

@@ -24,12 +24,19 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
     public function addToForm(): void
     {
         $active_languages = $this->getADT()->getCopyOfDefinition()->getActiveLanguages();
+        $multilingual_value_support = $this->getADT()->getCopyOfDefinition()->getMultilingualValueSupport();
 
-        if (!count($active_languages)) {
+        if (
+            !count($active_languages) ||
+            !$multilingual_value_support
+        ) {
+
+            $languages = $this->getADT()->getTranslations();
+            $text = $languages[$this->getADT()->getCopyOfDefinition()->getDefaultLanguage()] ?? '';
             $this->addElementToForm(
                 $this->getTitle(),
-                (string) $this->getElementId(),
-                (string) $this->getADT()->getText(),
+                $this->getElementId() . '_' . $this->getADT()->getCopyOfDefinition()->getDefaultLanguage(),
+                $text,
                 false,
                 ''
             );
@@ -66,8 +73,19 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
      */
     public function importFromPost(): void
     {
-        if (!$this->getADT()->getCopyOfDefinition()->supportsTranslations()) {
-            parent::importFromPost();
+        $multilingual_value_support = $this->getADT()->getCopyOfDefinition()->getMultilingualValueSupport();
+        if (
+            !$this->getADT()->getCopyOfDefinition()->supportsTranslations() ||
+            !$multilingual_value_support
+        ) {
+            $language = $this->getADT()->getCopyOfDefinition()->getDefaultLanguage();
+            $this->getADT()->setTranslation(
+                $language,
+                $this->getForm()->getInput($this->getElementId() . '_' . $language)
+            );
+            $this->getADT()->setText($this->getForm()->getInput($this->getElementId() . '_' . $language));
+            $input_item = $this->getForm()->getItemByPostVar($this->getElementId() . '_' . $language);
+            $input_item->setValue($this->getADT()->getTextForLanguage($language));
             return;
         }
         $active_languages = $this->getADT()->getCopyOfDefinition()->getActiveLanguages();

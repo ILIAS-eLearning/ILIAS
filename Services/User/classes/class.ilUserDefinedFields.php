@@ -203,16 +203,30 @@ class ilUserDefinedFields
         return $cexp_definition;
     }
 
+    public function getProgrammeExportableFields(): array
+    {
+        $prg_exp_definition = [];
+        foreach ($this->definitions as $id => $definition) {
+            if ($definition['prg_export']) {
+                $prg_exp_definition[$id] = $definition;
+            }
+        }
+        return $prg_exp_definition;
+    }
+
     /**
      * Get exportable field
      */
     public function getExportableFields(int $a_obj_id): array // Missing array type.
     {
-        if (ilObject::_lookupType($a_obj_id) == 'crs') {
+        if (ilObject::_lookupType($a_obj_id) === 'crs') {
             return $this->getCourseExportableFields();
         }
-        if (ilObject::_lookupType($a_obj_id) == 'grp') {
+        if (ilObject::_lookupType($a_obj_id) === 'grp') {
             return $this->getGroupExportableFields();
+        }
+        if (ilObject::_lookupType($a_obj_id) === 'prg') {
+            return $this->getPRGExportableFields();
         }
         return [];
     }
@@ -362,6 +376,16 @@ class ilUserDefinedFields
         return $this->field_group_export;
     }
 
+    public function enablePrgExport(bool $prg_export): void
+    {
+        $this->field_prg_export = $prg_export;
+    }
+
+    public function enabledPrgExport(): bool
+    {
+        return $this->field_prg_export;
+    }
+
     public function enableCertificate(bool $a_c): void
     {
         $this->field_certificate = $a_c;
@@ -461,6 +485,8 @@ class ilUserDefinedFields
             'changeable_lua' => ['integer', (int) $this->enabledChangeableLocalUserAdministration()],
             'group_export' => ['integer', (int) $this->enabledGroupExport()],
             'certificate' => ['integer', (int) $this->enabledCertificate()],
+            'prg_export' => ['integer', (int) $this->enabledPrgExport()],
+
         ];
 
         $ilDB->insert('udf_definition', $values);
@@ -507,7 +533,8 @@ class ilUserDefinedFields
             'visible_lua' => ['integer', (int) $this->enabledVisibleLocalUserAdministration()],
             'changeable_lua' => ['integer', (int) $this->enabledChangeableLocalUserAdministration()],
             'group_export' => ['integer', (int) $this->enabledGroupExport()],
-            'certificate' => ['integer', (int) $this->enabledCertificate()]
+            'certificate' => ['integer', (int) $this->enabledCertificate()],
+            'prg_export' => ['integer', (int) $this->enabledPrgExport()],
         ];
         $this->db->update('udf_definition', $values, ['field_id' => ['integer',$a_id]]);
         $this->__read();
@@ -519,7 +546,7 @@ class ilUserDefinedFields
 
         $ilSetting = $DIC['ilSetting'];
 
-        $query = "SELECT * FROM udf_definition ";
+        $query = "SELECT * FROM udf_definition;";
         $res = $this->db->query($query);
 
         $this->definitions = [];
@@ -554,6 +581,7 @@ class ilUserDefinedFields
             $this->definitions[$row->field_id]['changeable_lua'] = $row->changeable_lua;
             $this->definitions[$row->field_id]['group_export'] = $row->group_export;
             $this->definitions[$row->field_id]['certificate'] = $row->certificate;
+            $this->definitions[$row->field_id]['prg_export'] = $row->prg_export;
         }
     }
 
@@ -613,6 +641,7 @@ class ilUserDefinedFields
                 "Searchable" => $definition["searchable"] ? "TRUE" : "FALSE",
                 "CourseExport" => $definition["course_export"] ? "TRUE" : "FALSE",
                 "GroupExport" => $definition["group_export"] ? "TRUE" : "FALSE",
+                "PRGExport" => $definition["prg_export"] ? "TRUE" : "FALSE",
                 "Certificate" => $definition["certificate"] ? "TRUE" : "FALSE",
                 "Export" => $definition["export"] ? "TRUE" : "FALSE",
                 "RegistrationVisible" => $definition["visib_reg"] ? "TRUE" : "FALSE",

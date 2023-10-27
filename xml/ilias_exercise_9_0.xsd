@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace = "http://www.ilias.de/Modules/Exercise/exp/9_0"
+        elementFormDefault="qualified">
+
+    <xs:element name="Exercise">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Title" type="xs:string"/>
+                <xs:element minOccurs="0" name="Description" type="xs:string"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Assignment"/>
+            </xs:sequence>
+            <!-- obj_id is internal ILIAS ID -->
+            <xs:attribute name="obj_id" use="required"/>
+            <!-- owner  is internal user ILIAS ID and refers to user who created the exercise object (e.g. tutor) -->
+            <xs:attribute name="owner"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Assignment">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="Instruction" type="xs:string"/>
+                <xs:element minOccurs="0" name="DueDate" type="xs:string"/>
+                <xs:element minOccurs="0" ref="Files"/>
+                <xs:element minOccurs="0" ref="Members"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- members to be attached -->
+    <xs:element name="Members">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Member"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Files">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="File"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Member">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="FirstName" type="xs:string"/>
+                <xs:element name="LastName" type="xs:string"/>
+                <xs:element name="Login" type="xs:string"/>
+                <xs:element minOccurs="0" ref="Marking"/>
+            </xs:sequence>
+            <!-- user id has internal is internal ILIAS ID -->
+            <xs:attribute name="usr_id" use="required"/>
+            <!-- action is implied, e.g. export purpose -->
+            <xs:attribute name="action">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Attach"/>
+                        <xs:enumeration value="Detach"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="File">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Filename" type="xs:string"/>
+                <xs:element minOccurs="0" ref="Content"/>
+            </xs:sequence>
+            <!-- size is implied, since it could be used to retrieve list of files and then decide if to download a
+            specific file -->
+            <xs:attribute name="size" type="xs:nonNegativeInteger"/>
+            <!-- action is implied, e.g. export purpose -->
+            <xs:attribute name="action">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Attach"/>
+                        <xs:enumeration value="Detach"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Base64 encoded file content -->
+    <xs:element name="Content" type="xs:base64Binary">
+        <xs:complexType mixed="true">
+            <xs:attribute name="mode">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="PLAIN"/>
+                        <xs:enumeration value="ZLIB"/>
+                        <xs:enumeration value="GZIP"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Optional Marking -->
+    <!-- HINT: when adding a new exercise the members must have action Attach, if you want to mark them -->
+    <xs:element name="Marking">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- any mark -->
+                <!-- required status and optional grade -->
+                <xs:element minOccurs="0" name="Mark" type="xs:string"/>
+                <!-- tutors note: will not be shown to student -->
+                <xs:element minOccurs="0" name="Notice" type="xs:string"/>
+                <!-- tutors comment to learner: will be shown to student -->
+                <xs:element minOccurs="0" name="Comment" type="xs:string"/>
+            </xs:sequence>
+            <xs:attribute name="status" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="NOT_GRADED"/>
+                        <xs:enumeration value="PASSED"/>
+                        <xs:enumeration value="FAILED"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

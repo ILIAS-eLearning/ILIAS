@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 /**
  * Poll export definition
@@ -42,19 +42,21 @@ class ilPollExporter extends ilXmlExporter
 
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-                "4.3.0" => array(
-                    "namespace" => "http://www.ilias.de/Services/Modules/Poll/4_3",
-                    "xsd_file" => "ilias_poll_4_3.xsd",
-                    "uses_dataset" => true,
-                    "min" => "4.3.0",
-                    "max" => "4.4.99"),
-                "5.0.0" => array(
-                    "namespace" => "http://www.ilias.de/Services/Modules/Poll/5_0",
-                    "xsd_file" => "ilias_poll_5_0.xsd",
-                    "uses_dataset" => true,
-                    "min" => "5.0.0",
-                    "max" => "")
-        );
+        return [
+            "5.0.0" => [
+                "namespace" => "http://www.ilias.de/Services/Modules/Poll/5_0",
+                "xsd_file" => "ilias_poll_5_0.xsd",
+                "uses_dataset" => true,
+                "min" => "5.0.0",
+                "max" => ""
+            ],
+            "4.3.0" => [
+                "namespace" => "http://www.ilias.de/Services/Modules/Poll/4_3",
+                "xsd_file" => "ilias_poll_4_3.xsd",
+                "uses_dataset" => true,
+                "min" => "4.3.0",
+                "max" => "4.4.99"
+            ]
+        ];
     }
 }

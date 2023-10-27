@@ -57,7 +57,7 @@ class ilCourseImporter extends ilXmlImporter
             $this->course = ilObjectFactory::getInstanceByRefId((int) $new_id, false);
         } elseif (!$this->course instanceof ilObjCourse) {
             $this->course = new ilObjCourse();
-            $this->course->create(true);
+            $this->course->create();
         }
 
         if ($a_entity == self::ENTITY_OBJECTIVE) {
@@ -81,6 +81,15 @@ class ilCourseImporter extends ilXmlImporter
             $this->course->update();
 
             $a_mapping->addMapping('Modules/Course', 'crs', $a_id, (string) $this->course->getId());
+
+            // workaround for ilImportContainer::createDummy which creates Metadata via create(true)
+            $this->course->deleteMetaData();
+            $a_mapping->addMapping(
+                'Services/MetaData',
+                'md',
+                $a_id . ':0:crs',
+                $this->course->getId() . ':0:crs'
+            );
         } catch (ilSaxParserException|Exception $e) {
             $this->logger->error('Parsing failed with message, "' . $e->getMessage() . '".');
         }

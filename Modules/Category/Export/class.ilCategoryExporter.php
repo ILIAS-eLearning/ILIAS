@@ -96,6 +96,13 @@ class ilCategoryExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
+            "9.0.0" => [
+                'namespace' => 'https://www.ilias.de/Modules/Category/cat/9_0',
+                'xsd_file' => 'ilias_cat_9_0.xsd',
+                'uses_dataset' => false,
+                'min' => '9.0',
+                'max' => ''
+            ],
             "4.3.0" => [
                 "namespace" => "https://www.ilias.de/Modules/Category/cat/4_3",
                 "xsd_file" => "ilias_cat_4_3.xsd",

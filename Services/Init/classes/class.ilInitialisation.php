@@ -33,6 +33,7 @@ use ILIAS\Filesystem\Definitions\SuffixDefinitions;
 use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
 use ILIAS\FileDelivery\Init;
+use ILIAS\LegalDocuments\Conductor;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -738,41 +739,9 @@ class ilInitialisation
         };
     }
 
-    protected static function initTermsOfService(\ILIAS\DI\Container $c): void
+    protected static function initLegalDocuments(Container $c): void
     {
-        $c['tos.criteria.type.factory'] = function (
-            \ILIAS\DI\Container $c
-        ): ilTermsOfServiceCriterionTypeFactoryInterface {
-            return new ilTermsOfServiceCriterionTypeFactory(
-                $c->rbac()->review(),
-                $c['ilObjDataCache'],
-                ilCountry::getCountryCodes()
-            );
-        };
-
-        $c['tos.service'] = function (\ILIAS\DI\Container $c): ilTermsOfServiceHelper {
-            $persistence = new ilTermsOfServiceDataGatewayFactory();
-            $persistence->setDatabaseAdapter($c->database());
-            return new ilTermsOfServiceHelper(
-                $persistence,
-                $c['tos.document.evaluator'],
-                $c['tos.criteria.type.factory'],
-                new ilObjTermsOfService()
-            );
-        };
-
-        $c['tos.document.evaluator'] = function (\ILIAS\DI\Container $c): ilTermsOfServiceDocumentEvaluation {
-            return new ilTermsOfServiceSequentialDocumentEvaluation(
-                new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
-                    $c['tos.criteria.type.factory'],
-                    $c->user(),
-                    $c->logger()->tos()
-                ),
-                $c->user(),
-                $c->logger()->tos(),
-                ilTermsOfServiceDocument::orderBy('sorting')->get()
-            );
-        };
+        $c['legalDocuments'] = static fn(Container $c) => new Conductor($c);
     }
 
     protected static function initAccessibilityControlConcept(\ILIAS\DI\Container $c): void
@@ -1300,7 +1269,7 @@ class ilInitialisation
         self::initCron($GLOBALS['DIC']);
         self::initAvatar($GLOBALS['DIC']);
         self::initCustomObjectIcons($GLOBALS['DIC']);
-        self::initTermsOfService($GLOBALS['DIC']);
+        self::initLegalDocuments($GLOBALS['DIC']);
         self::initAccessibilityControlConcept($GLOBALS['DIC']);
 
         // --- needs settings
@@ -1623,22 +1592,6 @@ class ilInitialisation
     }
 
     /**
-     * Extract current cmd from request
-     * @todo superglobal access <= refinery undefined
-     */
-    protected static function getCurrentCmd(): string
-    {
-        $cmd = $_POST['cmd'] ?? ($_GET['cmd'] ?? '');
-
-        if (is_array($cmd)) {
-            $cmd_keys = array_keys($cmd);
-            $cmd = array_shift($cmd_keys) ?? '';
-        }
-
-        return $cmd;
-    }
-
-    /**
      * Block authentication based on current request
      */
     protected static function blockedAuthentication(string $a_current_script): bool
@@ -1692,13 +1645,18 @@ class ilInitialisation
                 ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $requestCmdClass);
                 return true;
             }
-            $cmd = self::getCurrentCmd();
-            if (
-                $cmd == "showTermsOfService" ||
-                $cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
-                $cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'showLogout' ||
-                $cmd == 'doStandardAuthentication' || $cmd == 'doCasAuthentication'
-            ) {
+            $cmd = $DIC->ctrl()->getCmd();
+
+            if (in_array($cmd, [
+                'showLegalDocuments',
+                'showAccountMigration',
+                'migrateAccount',
+                'processCode',
+                'showLoginPage',
+                'showLogout',
+                'doStandardAuthentication',
+                'doCasAuthentication',
+            ], true)) {
                 ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmd: ' . $cmd);
                 return true;
             }

@@ -118,8 +118,8 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         if ($cmd === "questions") {
             $link = $this->ctrl->getLinkTargetByClass(
                 [
-                "ilObjSurveyGUI", "ilSurveyEditorGUI", "ilSurveyPageEditGUI"],
-                "renderPage"
+                "ilObjSurveyGUI", "ilSurveyEditorGUI"],
+                "questions"
             );
         }
         $this->ctrl->setParameterByClass(

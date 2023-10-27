@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Psr\Http\Message\ServerRequestInterface;
 
 class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
 {
     private ServerRequestInterface $httpRequest;
 
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
 
     private ilSetting $settings;
 
@@ -32,13 +32,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     private \ilGlobalTemplateInterface $main_tpl;
     private ilLogger $logger;
 
-    /**
-     * ilAuthFrontendCredentialsApache constructor.
-     * @param ServerRequestInterface $httpRequest
-     * @param ilCtrl $ctrl
-     * @param ilSetting $settings
-     */
-    public function __construct(ServerRequestInterface $httpRequest, ilCtrl $ctrl, ilSetting $settings)
+    public function __construct(ServerRequestInterface $httpRequest, ilCtrlInterface $ctrl, ilSetting $settings)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();

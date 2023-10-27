@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Administration;
 
@@ -125,7 +125,8 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "communication" => "icon_coma",
             "user_administration" => "icon_usra",
             "search_and_find" => "icon_safa",
-            "extending_ilias" => "icon_exta"
+            "extending_ilias" => "icon_exta",
+            'legal_regulations' => 'icon_lega',
         );
         $icon_path = \ilUtil::getImagePath("standard/" . $icon_map[$group] . ".svg");
         return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $title);
@@ -210,7 +211,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "maintenance" =>
                 array("adm", "lngf", "hlps", "wfe", 'fils', 'logs', 'sysc', "recf", "root"),
             "layout_and_navigation" =>
-                array("mme", "dshs", "stys", "adve", "accs"),
+                array("mme", "dshs", "stys", "adve"),
             "repository_and_objects" =>
                 array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
                       "mcts", "mobs", "svyf", "assf", "wbrs", 'lsos'),
@@ -221,11 +222,13 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "communication" =>
                 array("mail", "cadm", "nwss", "coms", "adn", "awra", "nota"),
             "user_administration" =>
-                array("usrf", 'tos', "rolf", "otpl", "auth", "ps"),
+                array("usrf", "rolf", "otpl", "auth", "ps"),
             "search_and_find" =>
                 array("seas", "mds", "taxs"),
             "extending_ilias" =>
-                array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt")
+                array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt"),
+            "legal_regulations" =>
+                array("impr" ,"tos", "accs", 'dpro')
         );
         $groups = [];
         // now get all items and groups that are accessible

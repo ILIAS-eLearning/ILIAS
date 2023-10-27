@@ -97,7 +97,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $columns->setDisabledScale(false);
         $columns->setNeutralCategoryTitle($this->lng->txt('matrix_neutral_answer'));
         $columns->setCategoryText($this->lng->txt('matrix_standard_answers'));
-        $columns->setShowSavePhrase(true);
         $a_form->addItem($columns);
 
 

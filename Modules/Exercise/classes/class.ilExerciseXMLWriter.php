@@ -118,7 +118,6 @@ class ilExerciseXMLWriter extends ilXmlWriter
 
     public function __buildHeader(): bool
     {
-        $this->xmlSetDtdDef("<!DOCTYPE Exercise PUBLIC \"-//ILIAS//DTD ExerciseAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_exercise_4_4.dtd\">");
         $this->xmlSetGenCmt("Exercise Object");
         $this->xmlHeader();
 

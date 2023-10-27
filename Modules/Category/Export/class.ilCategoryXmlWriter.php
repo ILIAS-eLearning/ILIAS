@@ -81,7 +81,6 @@ class ilCategoryXmlWriter extends ilXmlWriter
     {
         $ilSetting = $this->settings;
 
-        $this->xmlSetDtdDef("<!DOCTYPE category PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_cat_4_5.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS category " . $this->getCategory()->getId() . " of installation " . $ilSetting->get('inst_id') . ".");
         $this->xmlHeader();
 

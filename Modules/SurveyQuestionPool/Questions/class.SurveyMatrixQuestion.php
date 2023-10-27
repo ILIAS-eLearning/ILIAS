@@ -203,29 +203,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
     }
 
     /**
-     * Adds a phrase to the question
-     */
-    public function addPhrase(int $phrase_id): void
-    {
-        $ilUser = $this->user;
-        $ilDB = $this->db;
-
-        $result = $ilDB->queryF(
-            "SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s AND (svy_category.owner_fi = %s OR svy_category.owner_fi = %s) ORDER BY svy_phrase_cat.sequence",
-            array('integer', 'integer', 'integer'),
-            array($phrase_id, 0, $ilUser->getId())
-        );
-        while ($row = $ilDB->fetchAssoc($result)) {
-            $neutral = $row["neutral"];
-            if ((int) $row["defaultvalue"] === 1 && (int) $row["owner_fi"] === 0) {
-                $this->columns->addCategory($this->lng->txt($row["title"]), 0, $neutral);
-            } else {
-                $this->columns->addCategory($row["title"], 0, $neutral);
-            }
-        }
-    }
-
-    /**
      * Returns the question data fields from the database
      */
     public function getQuestionDataArray(int $id): array
@@ -631,43 +608,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
     }
 
-    /**
-     * Saves a set of columns to a default phrase
-     * (data currently comes from session)
-     */
-    public function savePhrase(
-        string $title
-    ): void {
-        $ilUser = $this->user;
-        $ilDB = $this->db;
-
-        $next_id = $ilDB->nextId('svy_phrase');
-        $ilDB->manipulateF(
-            "INSERT INTO svy_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
-            array('integer','text','text','integer','integer'),
-            array($next_id, $title, 1, $ilUser->getId(), time())
-        );
-        $phrase_id = $next_id;
-
-        $counter = 1;
-        $phrase_data = $this->edit_manager->getPhraseData();
-        foreach ($phrase_data as $data) {
-            $next_id = $ilDB->nextId('svy_category');
-            $affectedRows = $ilDB->manipulateF(
-                "INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",
-                array('integer','text','text','integer','integer','text'),
-                array($next_id, $data['answer'], 1, $ilUser->getId(), time(), $data['neutral'])
-            );
-            $category_id = $next_id;
-            $next_id = $ilDB->nextId('svy_phrase_cat');
-            $affectedRows = $ilDB->manipulateF(
-                "INSERT INTO svy_phrase_cat (phrase_category_id, phrase_fi, category_fi, sequence, other, scale) VALUES (%s, %s, %s, %s, %s, %s)",
-                array('integer', 'integer', 'integer','integer', 'integer', 'integer'),
-                array($next_id, $phrase_id, $category_id, $counter, ($data['other']) ? 1 : 0, $data['scale'])
-            );
-            $counter++;
-        }
-    }
 
     public function getQuestionType(): string
     {

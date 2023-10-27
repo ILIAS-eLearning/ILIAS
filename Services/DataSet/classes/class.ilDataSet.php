@@ -35,6 +35,8 @@
  */
 abstract class ilDataSet
 {
+    private const DATASET_NS = 'http://www.ilias.de/Services/DataSet/ds/4_3';
+
     public const EXPORT_NO_INST_ID = 1;
     public const EXPORT_ID_ILIAS_LOCAL = 2;
     public const EXPORT_ID_ILIAS_LOCAL_INVALID = 3;
@@ -237,17 +239,20 @@ abstract class ilDataSet
             //			$atts["xmlns:".$prefix] = $ns;
             $cnt++;
         }
-
         $this->ds_log->debug("Start writing Dataset, entity: " . $a_entity . ", schema version: " . $a_schema_version .
             ", ids: " . print_r($a_ids, true));
-        $writer->xmlStartTag($this->getDSPrefixString() . 'DataSet', $atts);
 
+        if ($this->getDSPrefix() !== '') {
+            $atts['xmlns:' . $this->getDSPrefix()] = self::DATASET_NS;
+        } else {
+            $atts['xmlns'] = self::DATASET_NS;
+        }
+        $writer->xmlStartTag($this->getDSPrefixString() . 'DataSet', $atts);
         // add types
         if (!$a_omit_types) {
             $this->ds_log->debug("...write types");
             $this->addTypesXml($writer, $a_entity, $a_schema_version);
         }
-
         // add records
         $this->ds_log->debug("...write records");
         $this->addRecordsXml($writer, $prefixes, $a_entity, $a_schema_version, $a_ids, $a_field);
@@ -278,7 +283,12 @@ abstract class ilDataSet
             );
 
             // entity tag
-            $a_writer->xmlStartTag($this->getXMLEntityTag($a_entity, $a_schema_version));
+            $a_writer->xmlStartTag(
+                $this->getXMLEntityTag($a_entity, $a_schema_version),
+                [
+                    'xmlns' => $this->getXmlNamespace($a_entity, $a_schema_version)
+                ]
+            );
 
             $rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
             foreach ($rec as $f => $c) {

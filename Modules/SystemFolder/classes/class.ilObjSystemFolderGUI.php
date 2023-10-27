@@ -27,7 +27,7 @@ use ILIAS\Setup\CLI\StatusCommand;
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI, ilImprintGUI
+ * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI
  * @ilCtrl_Calls ilObjSystemFolderGUI: ilObjectOwnershipManagementGUI, ilCronManagerGUI
  */
 class ilObjSystemFolderGUI extends ilObjectGUI
@@ -96,31 +96,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
-                break;
-
-            case 'ilimprintgui':
-                // page editor will set its own tabs
-                $ilTabs->clearTargets();
-                $ilTabs->setBackTarget(
-                    $this->lng->txt("back"),
-                    $this->ctrl->getLinkTarget($this, "")
-                );
-
-                $igui = new ilImprintGUI();
-
-                // needed for editor
-                $igui->setStyleId(
-                    $this->content_style_domain->getEffectiveStyleId()
-                );
-
-                if (!$this->checkPermissionBool("write")) {
-                    $igui->setEnableEditing(false);
-                }
-
-                $ret = $this->ctrl->forwardCommand($igui);
-                if ($ret != "") {
-                    $this->tpl->setContent($ret);
-                }
                 break;
 
             case "ilobjectownershipmanagementgui":
@@ -1000,7 +975,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         $this->initServerInfoForm();
         // TODO: remove sub tabs
-//        $this->tabs->setTabActive("server");
+        //        $this->tabs->setTabActive("server");
         $this->setServerInfoSubTabs("server_data");
 
         $btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");
@@ -1166,7 +1141,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilTabs->addSubTabTarget("basic_settings", $ilCtrl->getLinkTarget($this, "showBasicSettings"));
         $ilTabs->addSubTabTarget("header_title", $ilCtrl->getLinkTarget($this, "showHeaderTitle"));
         $ilTabs->addSubTabTarget("contact_data", $ilCtrl->getLinkTarget($this, "showContactInformation"));
-        $ilTabs->addSubTabTarget("adm_imprint", $ilCtrl->getLinkTargetByClass("ilimprintgui", "preview"));
 
         $ilTabs->setSubTabActive($a_activate);
         $ilTabs->setTabActive("general_settings");
@@ -1747,7 +1721,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showJavaServer");
 
-        // TODO check settings, ping server
+            // TODO check settings, ping server
         } else {
             $this->setGeneralSettingsSubTabs("java_server");
             $this->form->setValuesByPost();

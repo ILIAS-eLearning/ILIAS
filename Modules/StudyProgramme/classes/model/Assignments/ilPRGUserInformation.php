@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Additional information about a user, used in context of assignments
  */
 class ilPRGUserInformation
 {
-    public const COLNAMES = [
+    public const MANDATORY_FIELDS = [
         'firstname',
         'lastname',
         'login',
@@ -31,83 +31,58 @@ class ilPRGUserInformation
         'email',
         'gender',
         'title',
+        'org_units',
     ];
 
-    protected ilUserDefinedData $udf;
-    protected string $orgu_repr;
-    protected string $firstname;
-    protected string $lastname;
-    protected bool $active;
-    protected string $login;
-    protected string $email;
-    protected string $gender;
-    protected string $title;
-
     public function __construct(
-        ilUserDefinedData $udf,
-        string $orgu_repr,
-        string $firstname,
-        string $lastname,
-        string $login,
-        bool $active,
-        string $email,
-        string $gender,
-        string $title
+        protected array $user_data
     ) {
-        $this->udf = $udf;
-        $this->orgu_repr = $orgu_repr;
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        $this->active = $active;
-        $this->login = $login;
-        $this->email = $email;
-        $this->gender = $gender;
-        $this->title = $title;
+    }
+
+    public function getAvailableUserFields(): array
+    {
+        return array_keys($this->user_data);
+    }
+
+    public function getUserData(string $field)
+    {
+        return $this->user_data[$field];
     }
 
     public function getFirstname(): string
     {
-        return $this->firstname;
+        return $this->user_data['firstname'];
     }
     public function getLastname(): string
     {
-        return $this->lastname;
+        return $this->user_data['lastname'];
     }
     public function isActive(): bool
     {
-        return $this->active;
+        return (bool)$this->user_data['active'];
     }
     public function getEmail(): string
     {
-        return $this->email;
+        return $this->user_data['email'];
     }
     public function getLogin(): string
     {
-        return $this->login;
+        return $this->user_data['login'];
     }
     public function getOrguRepresentation(): string
     {
-        return $this->orgu_repr;
+        return $this->user_data['org_units'];
     }
-    public function getUdf(string $field)
-    {
-        return $this->udf->get($field);
-    }
-    public function getAllUdf(): ilUserDefinedData
-    {
-        return $this->udf;
-    }
-
     public function getFullname(): string
     {
-        return $this->lastname . ', ' . $this->firstname;
+        return $this->user_data['lastname'] . ', ' . $this->user_data['firstname'];
     }
     public function getGender(): string
     {
-        return $this->gender;
+        return $this->user_data['gender'];
     }
     public function getTitle(): string
     {
-        return $this->title;
+        return $this->user_data['title'];
     }
 }

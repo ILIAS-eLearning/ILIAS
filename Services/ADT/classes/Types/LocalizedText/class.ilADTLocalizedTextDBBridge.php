@@ -14,24 +14,20 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
         return 'adv_md_values_ltext';
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function isValidADT(ilADT $adt): bool
     {
         return $adt instanceof ilADTLocalizedText;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function readRecord(array $a_row): void
     {
         $active_languages = $this->getADT()->getCopyOfDefinition()->getActiveLanguages();
         $default_language = $this->getADT()->getCopyOfDefinition()->getDefaultLanguage();
         $language = $a_row[$this->getElementId() . '_language'];
 
-        if (strcmp($language, $default_language) === 0) {
+        if (!$this->getADT()->getCopyOfDefinition()->getMultilingualValueSupport()) {
+            $this->getADT()->setText($a_row[$this->getElementId() . '_translation' ]);
+        } elseif (strcmp($language, $default_language) === 0) {
             $this->getADT()->setText($a_row[$this->getElementId() . '_translation']);
         } elseif (!strlen($default_language)) {
             $this->getADT()->setText($a_row[$this->getElementId() . '_translation']);
@@ -44,9 +40,6 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function prepareInsert(array &$a_fields): void
     {
         $a_fields[$this->getElementId()] = [ilDBConstants::T_TEXT, $this->getADT()->getText()];
@@ -67,9 +60,6 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
         ];
     }
 
-    /**
-     *
-     */
     public function afterUpdate(): void
     {
         if (!$this->getADT()->getCopyOfDefinition()->supportsTranslations()) {
@@ -79,9 +69,6 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
         $this->insertTranslations();
     }
 
-    /**
-     * delete translations
-     */
     protected function deleteTranslations(): void
     {
         $this->db->manipulate(

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Filesystem\Filesystems;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\Filesystem\Util\Archive\Unzip;
+use ILIAS\Filesystem\Util\Archive\UnzipOptions;
+use ImportHandler\File\XML\Manifest\ilExportObjectType;
+use ImportHandler\ilFactory as ilImportFactory;
+use ImportStatus\ilFactory as ilImportStatusFactory;
+use ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ImportStatus\StatusType;
+use ImportStatus\Exception\ilException as ilImportStatusException;
+
 /**
  * Import class
  * @author Alex Killing <alex.killing@gmx.de>
@@ -26,29 +38,32 @@ class ilImport
 {
     protected ilLogger $log;
     protected ilObjectDefinition $objDefinition;
-
-    private array $entity_types = [];
-    private ?ilXmlImporter $importer = null;
-    private string $comp = '';
-    private string $current_comp = '';
-    protected string $install_id = "";
-    protected string $install_url = "";
+    protected array $entity_types = [];
+    protected ?ilXmlImporter $importer = null;
+    protected string $comp = '';
+    protected string $current_comp = '';
     protected string $entities = "";
     protected string $tmp_import_dir = "";
-
     protected ?ilImportMapping $mapping = null;
     protected array $skip_entity = array();
     protected array $configs = array();
     protected array $skip_importer = [];
+    protected Archives $archives;
+    protected Filesystems $filesystem;
+    protected ilImportFactory $import;
+    protected ilImportStatusFactory $import_status;
 
     public function __construct(int $a_target_id = 0)
     {
         global $DIC;
-
         $this->objDefinition = $DIC['objDefinition'];
         $this->mapping = new ilImportMapping();
         $this->mapping->setTargetId($a_target_id);
         $this->log = $DIC->logger()->exp();
+        $this->archives = $DIC->archives();
+        $this->filesystem = $DIC->filesystem();
+        $this->import = new ilImportFactory();
+        $this->import_status = new ilImportStatusFactory();
     }
 
     /**
@@ -60,13 +75,11 @@ class ilImport
         if (isset($this->configs[$a_comp])) {
             return $this->configs[$a_comp];
         }
-
         // create instance of export config object
         $comp_arr = explode("/", $a_comp);
         $a_class = "il" . $comp_arr[1] . "ImportConfig";
         $imp_config = new $a_class();
         $this->configs[$a_comp] = $imp_config;
-
         return $imp_config;
     }
 
@@ -111,35 +124,187 @@ class ilImport
         return $this->importObject(null, $a_tmp_file, $a_filename, $a_entity, $a_component, $a_copy_file);
     }
 
+    protected function unzipFile(
+        string $zip_file_name,
+        string $path_to_tmp_upload,
+        bool $file_is_on_server
+    ): ilImportStatusHandlerCollectionInterface {
+        $import_status_collection = $this->import_status->collection()->withNumberingEnabled(true);
+        $tmp_dir_info = new SplFileInfo(ilFileUtils::ilTempnam());
+        $this->filesystem->temp()->createDir($tmp_dir_info->getFilename());
+        $target_file_path_str = $tmp_dir_info->getRealPath() . DIRECTORY_SEPARATOR . $zip_file_name;
+        $target_dir_path_str = substr($target_file_path_str, 0, -4);
+        // Copy/move zip to tmp out directory
+        // File is not uploaded with the ilias storage system, therefore the php copy functions are used.
+        if (
+            (
+                $file_is_on_server &&
+                !copy($path_to_tmp_upload, $target_file_path_str)
+            ) || (
+                !$file_is_on_server &&
+                !ilFileUtils::moveUploadedFile($path_to_tmp_upload, $zip_file_name, $target_file_path_str)
+            )
+        ) {
+            return $import_status_collection->withAddedStatus(
+                $this->import_status->handler()
+                ->withType(StatusType::FAILED)
+                ->withContent($this->import_status->content()->builder()->string()->withString(
+                    'Could not move file.'
+                ))
+            );
+        }
+        /** @var Unzip $unzip **/
+        $unzip = $this->archives->unzip(
+            Streams::ofResource(fopen($target_file_path_str, 'rb')),
+            (new UnzipOptions())
+                ->withZipOutputPath($tmp_dir_info->getRealPath())
+                ->withOverwrite(false)
+                ->withFlat(false)
+                ->withEnsureTopDirectoy(true)
+        );
+        return $unzip->extract()
+            ? $import_status_collection->withAddedStatus(
+                $this->import_status->handler()->withType(StatusType::SUCCESS)
+                ->withContent($this->import_status->content()->builder()->string()->withString($target_dir_path_str))
+            )
+            : $import_status_collection->withAddedStatus(
+                $this->import_status->handler()->withType(StatusType::FAILED)
+                ->withContent($this->import_status->content()->builder()->string()->withString('Unzip failed.'))
+            );
+    }
+
+    protected function validateXMLFiles(SplFileInfo $manifest_spl): ilImportStatusHandlerCollectionInterface
+    {
+        $export_files = $this->import->file()->xml()->export()->collection();
+        $manifest_handlers = $this->import->file()->xml()->manifest()->handlerCollection();
+        $statuses = $this->import_status->collection();
+        // Find export xmls
+        try {
+            $manifest_handlers = $manifest_handlers->withElement(
+                $this->import->file()->xml()->manifest()->handler()->withFileInfo($manifest_spl)
+            );
+            // VALIDATE 1st manifest file, can be either export-set or export-file
+            $statuses = $manifest_handlers->validateElements();
+            if($statuses->hasStatusType(StatusType::FAILED)) {
+                return $statuses;
+            }
+            // If export set look for the export file manifests + VALIDATE
+            if ($manifest_handlers->containsExportObjectType(ilExportObjectType::EXPORT_SET)) {
+                $manifest_handlers = $manifest_handlers->findNextFiles();
+                $statuses = $manifest_handlers->validateElements();
+            }
+            if($statuses->hasStatusType(StatusType::FAILED)) {
+                return $statuses;
+            }
+            // If export file look for the export xmls
+            if ($manifest_handlers->containsExportObjectType(ilExportObjectType::EXPORT_FILE)) {
+                foreach ($manifest_handlers as $manfiest_file_handler) {
+                    $export_files = $export_files->withMerged($manfiest_file_handler->findXMLFileHandlers());
+                }
+            }
+        } catch (ilImportStatusException $e) {
+            $this->checkStatuses($e->getStatuses());
+        }
+        // VALIDATE export xmls
+        $path_to_export_item_child = $this->import->file()->path()->handler()
+            ->withStartAtRoot(true)
+            ->withNode($this->import->file()->path()->node()->simple()->withName('exp:Export'))
+            ->withNode($this->import->file()->path()->node()->simple()->withName('exp:ExportItem'))
+            ->withNode($this->import->file()->path()->node()->anyNode());
+        $component_tree = $this->import->file()->xml()->node()->info()->tree();
+        foreach ($export_files as $export_file) {
+            if ($export_file->isContainerExportXML()) {
+                $component_tree = $component_tree->withRootInFile($export_file, $path_to_export_item_child);
+                break;
+            }
+        }
+        foreach ($export_files as $export_file) {
+            $found_statuses = $export_file->loadExportInfo();
+            $xsd_file = $found_statuses->hasStatusType(StatusType::FAILED)
+                ? null
+                : $export_file->getXSDFileHandler();
+            if (!$found_statuses->hasStatusType(StatusType::FAILED) && is_null($xsd_file)) {
+                $found_statuses = $found_statuses->withAddedStatus($this->import_status->handler()
+                    ->withType(StatusType::DEBUG)
+                    ->withContent($this->import_status->content()->builder()->string()->withString(
+                        'Missing schema xsd file for entity of type: '
+                        . $export_file->getType()
+                        . ($export_file->getSubType() === '' ? '' : '_' . $export_file->getSubType())
+                    )));
+            }
+            if(!$found_statuses->hasStatusType(StatusType::FAILED) && !is_null($xsd_file)) {
+                try {
+                    $found_statuses = $this->import->file()->validation()->handler()->validateXMLAtPath(
+                        $export_file,
+                        $xsd_file,
+                        $path_to_export_item_child
+                    );
+                } catch (ilImportStatusException $e) {
+                    $found_statuses = $e->getStatuses();
+                }
+            }
+            if (!$found_statuses->hasStatusType(StatusType::FAILED)) {
+                continue;
+            }
+            $info_str = "<br> Location: " . $export_file->getILIASPath($component_tree) . "<br>";
+            $found_statuses = $found_statuses->mergeContentToElements(
+                $this->import_status->content()->builder()->string()->withString($info_str)
+            );
+            $statuses = $statuses->getMergedCollectionWith($found_statuses);
+        }
+        return $statuses;
+    }
+
+    protected function checkStatuses(ilImportStatusHandlerCollectionInterface $import_status_collection): void
+    {
+        if ($import_status_collection->hasStatusType(StatusType::FAILED)) {
+            throw new ilImportException($import_status_collection
+                ->withNumberingEnabled(true)
+                ->toString(StatusType::FAILED));
+        }
+    }
+
     final public function importObject(
         ?object $a_new_obj,
         string $a_tmp_file,
-        string $a_filename,
+        string $a_filename, // Verwerfen (sollte zip sein)
         string $a_type,
         string $a_comp = "",
         bool $a_copy_file = false
     ): ?int {
-        // create temporary directory
-        $tmpdir = ilFileUtils::ilTempnam();
-        ilFileUtils::makeDir($tmpdir);
-        if ($a_copy_file) {
-            copy($a_tmp_file, $tmpdir . "/" . $a_filename);
-        } else {
-            ilFileUtils::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir . "/" . $a_filename);
+        // Unzip
+        $status_collection = $this->unzipFile(
+            $a_filename,
+            $a_tmp_file,
+            $a_copy_file
+        );
+        $this->checkStatuses($status_collection);
+        $success_status = $status_collection->getCollectionOfAllByType(StatusType::SUCCESS)->current();
+        $target_dir_info = new SplFileInfo($success_status->getContent()->toString());
+        $delete_dir_info = new SplFileInfo($target_dir_info->getPath());
+        $manifest_spl = new SplFileInfo($target_dir_info->getRealPath() . DIRECTORY_SEPARATOR . 'manifest.xml');
+        // Validate manifest files
+        try {
+            $status_collection = $this->validateXMLFiles($manifest_spl);
+            $this->checkStatuses($status_collection);
+        } catch (Exception $e) {
+            $this->filesystem->temp()->deleteDir($delete_dir_info->getFilename());
+            throw $e;
         }
-
-        $this->log->debug("unzip: " . $tmpdir . "/" . $a_filename);
-        ilFileUtils::unzip($tmpdir . "/" . $a_filename);
-        $dir = $tmpdir . "/" . substr($a_filename, 0, strlen($a_filename) - 4);
-        $this->setTemporaryImportDir($dir);
-        $this->log->debug("dir: " . $dir);
-        $ret = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
-        $new_id = null;
-        if (is_array($ret) && array_key_exists('new_id', $ret)) {
-            $new_id = $ret['new_id'];
+        // Import
+        try {
+            $this->setTemporaryImportDir($target_dir_info->getRealPath());
+            $ret = $this->doImportObject($target_dir_info->getRealPath(), $a_type, $a_comp, $target_dir_info->getPath());
+            $new_id = null;
+            if (is_array($ret) && array_key_exists('new_id', $ret)) {
+                $new_id = $ret['new_id'];
+            }
+        } catch (Exception $e) {
+            $this->filesystem->temp()->deleteDir($delete_dir_info->getFilename());
+            throw $e;
         }
-        // delete temporary directory
-        ilFileUtils::delDir($tmpdir);
+        // Delete tmp files
+        $this->filesystem->temp()->deleteDir($delete_dir_info->getFilename());
         return $new_id;
     }
 

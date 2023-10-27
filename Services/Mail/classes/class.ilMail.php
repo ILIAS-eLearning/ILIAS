@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\LegalDocuments\Conductor;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -47,6 +48,7 @@ class ilMail
     /** @var array<int, null|ilObjUser> */
     private array $user_instances_by_id_map = [];
     private int $max_recipient_character_length = 998;
+    private readonly Conductor $legal_documents;
 
     public function __construct(
         private int $a_user_id,
@@ -66,7 +68,8 @@ class ilMail
         private ?int $mail_obj_ref_id = null,
         private ?ilObjUser $actor = null,
         private ?ilMailTemplatePlaceholderResolver $placeholder_resolver = null,
-        private ?ilMailTemplatePlaceholderToEmptyResolver $placeholder_to_empty_resolver = null
+        private ?ilMailTemplatePlaceholderToEmptyResolver $placeholder_to_empty_resolver = null,
+        ?Conductor $legal_documents = null
     ) {
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
@@ -95,6 +98,7 @@ class ilMail
         $this->setSaveInSentbox(false);
         $this->placeholder_resolver = $placeholder_resolver ?? $DIC->mail()->placeholderResolver();
         $this->placeholder_to_empty_resolver = $placeholder_to_empty_resolver ?? $DIC->mail()->placeholderToEmptyResolver();
+        $this->legal_documents = $legal_documents ?? $DIC['legalDocuments'];
     }
 
     public function autoresponder(): AutoresponderService
@@ -584,11 +588,7 @@ class ilMail
 
         $other_usr_ids = $this->getUserIds([$mail_data->getCc(), $mail_data->getBcc()]);
         $cc_bcc_recipients = array_map(
-            fn(int $user_id) => new Recipient(
-                $user_id,
-                $this->getUserInstanceById($user_id),
-                $this->getMailOptionsByUserId($user_id)
-            ),
+            $this->createRecipient(...),
             $other_usr_ids
         );
         $this->logger->debug(sprintf(
@@ -614,11 +614,7 @@ class ilMail
         array $to_usr_ids
     ): void {
         foreach ($to_usr_ids as $user_id) {
-            $recipient = new Recipient(
-                $user_id,
-                $this->getUserInstanceById($user_id),
-                $this->getMailOptionsByUserId($user_id)
-            );
+            $recipient = $this->createRecipient($user_id);
 
             $this->sendChanneledMails(
                 $mail_data,
@@ -645,11 +641,7 @@ class ilMail
         array $cc_bcc_recipients
     ): void {
         $to_recipients = array_map(
-            fn(int $user_id) => new Recipient(
-                $user_id,
-                $this->getUserInstanceById($user_id),
-                $this->getMailOptionsByUserId($user_id)
-            ),
+            $this->createRecipient(...),
             $to_usr_ids
         );
 
@@ -680,18 +672,18 @@ class ilMail
                 continue;
             }
 
-            if ($this->isSystemMail() && !$recipient->isUserAbleToReadInternalMails()) {
+            $can_read_internal = $recipient->evaluateInternalMailReadability();
+            if (!$this->isSystemMail() && !$can_read_internal->isOk()) {
                 $this->logger->debug(sprintf(
-                    "Skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+                    'Skipped recipient with id %s and reason: %s',
                     $recipient->getUserId(),
-                    var_export(!$recipient->hasToAcceptTermsOfService(), true),
-                    var_export(!$recipient->checkTimeLimit(), true)
+                    is_string($can_read_internal->error()) ? $can_read_internal->error() : $can_read_internal->error()->getMessage()
                 ));
                 continue;
             }
 
             if ($recipient->isUserActive()) {
-                if (!$recipient->isUserAbleToReadInternalMails() || $recipient->userWantsToReceiveExternalMails()) {
+                if (!$can_read_internal->isOk() || $recipient->userWantsToReceiveExternalMails()) {
                     $emailAddresses = $recipient->getExternalMailAddress();
                     $usrIdToExternalEmailAddressesMap[$recipient->getUserId()] = $emailAddresses;
 
@@ -1450,5 +1442,15 @@ class ilMail
     public function formatLinebreakMessage(string $message): string
     {
         return $message;
+    }
+
+    private function createRecipient(int $user_id): Recipient
+    {
+        return new Recipient(
+            $user_id,
+            $this->getUserInstanceById($user_id),
+            $this->getMailOptionsByUserId($user_id),
+            $this->legal_documents
+        );
     }
 }

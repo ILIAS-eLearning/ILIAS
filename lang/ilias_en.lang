@@ -103,6 +103,7 @@ administration#:#adm_imprint_inactive#:#Legal notice is not active and users are
 administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously
 administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation
+administration#:#adm_legal_regulations#:#Legal Regulations
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.
 administration#:#adm_maintenance#:#System Settings and Maintenance
@@ -277,6 +278,8 @@ administration#:#obj_blga_desc#:#Global Blog Settings
 administration#:#obj_chta_desc#:#Chat Administration
 administration#:#obj_excs#:#Exercise
 administration#:#obj_excs_desc#:#Global Exercise Settings
+administration#:#obj_impr#:#Legal Notice
+administration#:#obj_impr_desc#:#Deployment of Legal Notice
 administration#:#obj_mds#:#Metadata
 administration#:#obj_mds_desc#:#Configure Metadata and Custom Metadata Settings
 administration#:#obj_otpl#:#Didactic Templates
@@ -289,6 +292,7 @@ administration#:#options#:#Options
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#output_options#:#Output options
 administration#:#path_to_mkisofs#:#Path to mkisofs
+administration#:#prg_export#:#Visible in Study Programmes
 administration#:#purge_age_limit#:#Limit age
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.
 administration#:#purge_count_limit#:#Limit count
@@ -768,6 +772,7 @@ assessment#:#grading_obligations_missing_msg#:#You didn‘t complete all compuls
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
 assessment#:#height#:#Height
+assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
@@ -885,6 +890,7 @@ assessment#:#min_percentage_ne_0#:#One of your grade categories needs to start a
 assessment#:#misc#:#Misc Options
 assessment#:#msg_circle_added#:#Circle added
 assessment#:#msg_deleted_export_files#:#Export file(s) removed
+assessment#:#msg_no_questions_selected#:#No questions were selected.
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
 assessment#:#msg_poly_added#:#Polygon added
 assessment#:#msg_questions_moved#:#Question(s) moved
@@ -1037,6 +1043,7 @@ assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists 
 assessment#:#qpl_questions_deleted#:#Question(s) removed.
 assessment#:#qpl_reset_preview#:#Reset Preview
 assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments
+assessment#:#qpl_settings_availability#:#Availability
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existing taxonomies in this pool are offered for question filtering.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.
@@ -1090,6 +1097,7 @@ assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
 assessment#:#questionpool_not_selected#:#Please select a question pool!
+assessment#:#questions#:#Questions
 assessment#:#questions_from#:#questions from
 assessment#:#questions_per_page_view#:#Page View
 assessment#:#random_accept_sample#:#Accept Sample
@@ -1205,6 +1213,8 @@ assessment#:#suggested_solution#:#Content for Recapitulation
 assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
 assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode
 assessment#:#tab_nest_answers#:#Nesting
+assessment#:#tax_filter#:#Taxonomy
+assessment#:#tax_filter_notax#:#Questions without assigned Taxonomy
 assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
@@ -3390,9 +3400,7 @@ cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#tab_back_to_repository#:#Back to Repository
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
-common#:#accept_usr_agreement#:#Accept Terms of Service?
 common#:#accept_usr_agreement_btn#:#Accept
-common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
 common#:#access#:#Access
 common#:#accessFree#:#Remove 'Valid Until' Date
 common#:#accessRestrict#:#Set 'Valid Until' Date
@@ -3453,7 +3461,6 @@ common#:#adve_assessment_settings#:#Test and Assessment Settings
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
 common#:#adve_survey_settings#:#Survey Settings
-common#:#agree_date#:#Agreed on
 common#:#all#:#All
 common#:#all_global_roles#:#Global roles
 common#:#all_local_roles#:#Local roles (all)
@@ -3904,6 +3911,18 @@ common#:#download_selected_items#:#Download
 common#:#download_with_uploaded_filename#:#Download with uploaded filename
 common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
 common#:#downloading_settings#:#Download Settings
+common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?
+common#:#dpro_accept_usr_agreement_intro#:#There is a new data protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
+common#:#dpro_force_accept_usr_agreement#:#You must accept the Data Protection!
+common#:#dpro_refuse_acceptance#:#Refuse to Accept Data Protection
+common#:#dpro_usr_agreement#:#Data Protection
+common#:#dpro_usr_agreement_footer_intro#:#You have declared your consent to this Declaration of Data Protection.
+common#:#dpro_withdraw_consent_description#:#Withdraw your consent to our Declaration of Data Protection here.
+common#:#dpro_withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Data Protection.
+common#:#dpro_withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Data Protection.
+common#:#dpro_withdraw_consent_header#:#Withdraw to Consent of Declaration of Data Protection
+common#:#dpro_withdraw_consent_info#:#Withdraw your consent to our Data Protection.
+common#:#dpro_withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Data Protection.
 common#:#drafts#:#Drafts
 common#:#drag_file_here#:#Drag-and-drop your file here
 common#:#drag_files_here#:#Drag-and-drop your files here
@@ -4114,7 +4133,6 @@ common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 common#:#folder#:#Folder
 common#:#folders#:#Folders
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:
-common#:#force_accept_usr_agreement#:#You must accept the Terms of Service!
 common#:#forgot_password#:#Forgot your password?
 common#:#forgot_username#:#Forgot your username?
 common#:#form_input_not_valid#:#Some of the information entered is incomplete or invalid. Please correct your entry.
@@ -4126,11 +4144,18 @@ common#:#forums#:#Forums
 common#:#forums_anonymized#:#Forum anonymized
 common#:#forums_anonymous#:#anonym
 common#:#forums_articles#:#Articles
+common#:#forums_closed#:#closed
 common#:#forums_disable_forum_notification#:#Disable Notification for this Forum
 common#:#forums_enable_forum_notification#:#Enable Notification for this Forum
 common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.
 common#:#forums_last_post#:#Latest Article
+common#:#forums_last_posting_asc#:#Last Posting Ascending
+common#:#forums_last_posting_dsc#:#Last Posting Descending
 common#:#forums_notification_settings#:#Forums Notification Settings
+common#:#forums_rating_asc#:#Rating Ascending
+common#:#forums_rating_dsc#:#Rating Descending
+common#:#forums_thread_sorting_asc#:#Thread Title A→Z
+common#:#forums_thread_sorting_dsc#:#Thread Title Z→A
 common#:#forums_threads#:#Threads
 common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by ‘%s’.
 common#:#forums_your_name#:#Your Name
@@ -4855,6 +4880,8 @@ common#:#obj_crsv#:#Course Certificate
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_dcl#:#Data Collection
 common#:#obj_dcl_duplicate#:#Copy Data Collection
+common#:#obj_dpro#:#Data Protection
+common#:#obj_dpro_desc#:#Data Protection Settings
 common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Dashboard settings
 common#:#obj_ecss#:#ECS
@@ -5328,7 +5355,6 @@ common#:#referral_comment#:#How did you hear about ILIAS?
 common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh All Languages
 common#:#refuse#:#Refuse
-common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 common#:#reg_mail_body_2_confirmation#:#This link is only valid for %s. After this period has passed, the link will expire and you will have to restart the registration process from the beginning.
@@ -5703,6 +5729,18 @@ common#:#tomorrow#:#Tomorrow
 common#:#toolbar_more_actions#:#More Actions
 common#:#tools#:#Tools
 common#:#top_of_page#:#Top of page
+common#:#tos_accept_usr_agreement#:#Accept Terms of Service?
+common#:#tos_accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
+common#:#tos_force_accept_usr_agreement#:#You must accept the Terms of Service!
+common#:#tos_refuse_acceptance#:#Refuse to Accept Terms of Service
+common#:#tos_usr_agreement#:#Terms of Service
+common#:#tos_usr_agreement_footer_intro#:#You have declared your consent to these terms of service.
+common#:#tos_withdraw_consent_description#:#Withdraw your consent to our Terms of Service here.
+common#:#tos_withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service.
+common#:#tos_withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Terms of Service.
+common#:#tos_withdraw_consent_header#:#Withdraw Terms of Service Consent
+common#:#tos_withdraw_consent_info#:#Withdraw your consent to our Terms of Service.
+common#:#tos_withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service.
 common#:#total#:#Total
 common#:#tracking_settings#:#Learning Progress Settings
 common#:#translation#:#Translation
@@ -5814,6 +5852,7 @@ common#:#userfolder_export_file_size#:#File size
 common#:#userfolder_export_files#:#Files
 common#:#userfolder_export_xml#:#XML
 common#:#username#:#Username
+common#:#username_assistance#:#Username Assistance
 common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
 common#:#users_online#:#Active Users
@@ -5821,8 +5860,6 @@ common#:#usr#:#User
 common#:#usr_account_inactive#:#Inactive Account
 common#:#usr_active_only#:#Active Users only
 common#:#usr_add#:#Add User
-common#:#usr_agreement#:#Terms of Service
-common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.
 common#:#usr_edit#:#Edit User
 common#:#usr_field_change_components_listening#:#There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?
 common#:#usr_filter_coursemember#:#Member of course
@@ -5933,12 +5970,6 @@ common#:#wiki_add#:#Add Wiki
 common#:#wiki_new#:#New Wiki
 common#:#with#:#with
 common#:#withdraw_consent#:#Withdraw Consent
-common#:#withdraw_consent_description#:#Withdraw your consent to our Terms of Service here.
-common#:#withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service.
-common#:#withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Terms of Service.
-common#:#withdraw_consent_header#:#Withdraw Terms of Service Consent
-common#:#withdraw_consent_info#:#Withdraw your consent to our Terms of Service.
-common#:#withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service.
 common#:#withdraw_consent_info_internal#:#If you click on ‘Withdraw Consent’, your account will be deleted.
 common#:#withdraw_usr_agreement#:#Withdraw Consent
 common#:#withdrawal_complete#:#Withdrawal of consent complete.
@@ -6651,6 +6682,7 @@ content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predefined texts, e.g. ‘Previous’ and ’Next’.
 content#:#cont_location#:#Location
 content#:#cont_lpe_cas_login_form#:#CAS Login Form
+content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_login_form#:#Login Form
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
@@ -8788,6 +8820,19 @@ didactic#:#grp_closed_info#:#Group is not visible for non-members.
 didactic#:#more_translations#:#More Translations
 didactic#:#sess_closed#:#Closed Session
 didactic#:#sess_closed_info#:#Session is not visible for non-participants.
+dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
+dpro#:#dpro_agree_date#:#Data Protection agreed on
+dpro#:#dpro_last_reset_date#:#The Data Protection were reset on %s. Only reset the Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.
+dpro#:#dpro_mode#:#Mode
+dpro#:#dpro_mode_desc#:#Please configure when and how the Data Protection should be accepted.
+dpro#:#dpro_no_acceptance#:#Never, only informative
+dpro#:#dpro_once#:#Accept once
+dpro#:#dpro_reset_for_all_users#:#Reset Data Protection
+dpro#:#dpro_status_enable#:#Enable Data Protection
+dpro#:#dpro_status_enable_desc#:#Display relevant language-based Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Data Protection before they can enter ILIAS.
+dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.
+dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Data Protection withdrawal
+dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Data Protection document, this will result in the deletion of the user’s account.
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration#:#Activation Period Extension
@@ -9780,6 +9825,7 @@ forum#:#deletePosting#:#Delete Posting
 forum#:#deletePostingDraft#:#Delete Draft
 forum#:#delete_draft_successfully#:#The draft was deleted successfully.
 forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
+forum#:#delete_thread#:#Delete Thread
 forum#:#descending_order#:#Latest postings at the top
 forum#:#edit_thread_draft#:#Edit thread draft postings created in forums.
 forum#:#empty_subject#:#On reply the user has to enter a new title.
@@ -9910,7 +9956,7 @@ forum#:#frm_statistics_enabled#:#Enable Statistics
 forum#:#frm_statistics_enabled_desc#:#Enable posting statistics for all participants
 forum#:#frm_statistics_ranking#:#Number of Postings
 forum#:#frm_subject_setting#:#Subject setting
-forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads?
+forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following thread?
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
 forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"
 forum#:#frm_wizard_page#:#Copy Forum (Step 2/2)
@@ -9922,7 +9968,7 @@ forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlig
 forum#:#merge#:#Merge
 forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
 forum#:#merged_threads_successfully#:#The selected threads were merged successfully
-forum#:#move_chosen_topics#:#Move Chosen Threads
+forum#:#move_chosen_topics#:#Move thread "%s" to:
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 forum#:#new_post#:#New Post
 forum#:#new_thread_with_post#:#New Thread with Posting
@@ -9947,6 +9993,7 @@ forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
 forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"
 forum#:#preset_subject#:#Preset subject on reply
 forum#:#publish#:#Publish
+forum#:#relevance#:#Relevance
 forum#:#reopen_topics#:#Reopen
 forum#:#reply_to_postings#:#Reply
 forum#:#reset_limited_view#:#Limited view on this post an all posts below it.
@@ -9972,9 +10019,12 @@ forum#:#sticky#:#Sticky
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
 forum#:#target_select#:#Select posting for limited view
+forum#:#thema#:#Threads
 forum#:#thread#:#Thread
 forum#:#thread_deleted_by#:#following thread in forum "%2$s"was deleted by "%1$s":
-forum#:#threads_moved_successfully#:#The chosen threads were moved to another forum successfully.
+forum#:#thread_overview#:#Thread-Overview
+forum#:#threads_moved_successfully#:#The chosen thread was moved to another forum successfully.
+forum#:#top_thema#:#Top-Threads
 forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
@@ -10583,6 +10633,72 @@ ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported f
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
 ldap#:#ldap_username_filter#:#Username Filter
 ldap#:#ldap_username_filter_info#:#Use * as wildcard.
+ldoc#:#deleteDocument#:#Delete
+ldoc#:#detachCriterionAssignment#:#Delete
+ldoc#:#ldoc_acceptance_history#:#Acceptance History
+ldoc#:#ldoc_account_reg_not_possible#:#Self-registration is currently not possible. Please contact your <a href="%1$s">system administrator</a> for further information.
+ldoc#:#ldoc_add_document_btn_label#:#Add Document
+ldoc#:#ldoc_agreement_document#:#Document
+ldoc#:#ldoc_agreement_document_missing#:#Missing
+ldoc#:#ldoc_agreement_documents_tab_label#:#Documents
+ldoc#:#ldoc_agreement_exists#:#Existent
+ldoc#:#ldoc_agreement_missing#:#Missing
+ldoc#:#ldoc_crit_type_usr_country#:#Profile Country
+ldoc#:#ldoc_crit_type_usr_country_info#:#Your document is displayed (and must be accepted the first time a user logs in) if the country set in their user profile matches the country criterion selected from the list below.  Subsequent changes to the country in a user’s profile do not automatically lead to a new document being displayed. You cannot use the same country as the display criterion for more than one document.
+ldoc#:#ldoc_crit_type_usr_global_role#:#User Has Global Role
+ldoc#:#ldoc_crit_type_usr_global_role_info#:#The document is displayed (and must be accepted the first time a user logs in) if the global role the user has matches the global role selected from the list below.  Subsequent changes to a user’s global role do not automatically lead to a new ToS document being displayed.
+ldoc#:#ldoc_crit_type_usr_language#:#Profile Language
+ldoc#:#ldoc_crit_type_usr_language_info#:#Your document is displayed (and must be accepted) during registration if the user’s language (selected from the list below) matches the language used during registration; or upon login if the user switches to this language in their preferences.  Please note that each language can only be set as the display criterion for a single document.
+ldoc#:#ldoc_criterion_assignment_cannot_match#:#It is not possible to use this particular criterion for displaying your document. Because of another criterion this document would never match.
+ldoc#:#ldoc_criterion_assignment_must_be_unique#:#It is not possible to use this particular criterion for displaying your document. This criterion already exists.
+ldoc#:#ldoc_deleted_documents_p#:#The documents have been deleted.
+ldoc#:#ldoc_deleted_documents_s#:#The document has been deleted.
+ldoc#:#ldoc_disabled#:#Disabled
+ldoc#:#ldoc_doc_crit_attached#:#The criterion for displaying your document has been set successfully.
+ldoc#:#ldoc_doc_crit_changed#:#The criterion for displaying your document has been changed.
+ldoc#:#ldoc_doc_crit_detached#:#The criterion has been removed.
+ldoc#:#ldoc_doc_delete#:#Delete Document
+ldoc#:#ldoc_doc_detach_crit_confirm_title#:#Remove Criterion
+ldoc#:#ldoc_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your Terms of Service document?
+ldoc#:#ldoc_document#:#Document
+ldoc#:#ldoc_enabled#:#Enabled
+ldoc#:#ldoc_form_attach_criterion_head#:#Select Criterion for Displaying your Document
+ldoc#:#ldoc_form_criterion#:#Criterion
+ldoc#:#ldoc_form_document#:#Document
+ldoc#:#ldoc_form_document_content_changed#:#The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary.
+ldoc#:#ldoc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head/gt; information removed – only the contents of the body element will be used.
+ldoc#:#ldoc_form_document_new#:#Change Content
+ldoc#:#ldoc_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of the document. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed - only the contents of the body element will be used. The existing contents of the document will be replaced. The acceptance history will not be affected.
+ldoc#:#ldoc_form_document_title#:#Title
+ldoc#:#ldoc_form_document_title_info#:#Please enter a title for the document.
+ldoc#:#ldoc_form_edit_criterion_head#:#Edit Criterion for Displaying Your Document
+ldoc#:#ldoc_form_edit_doc_head#:#Edit Document
+ldoc#:#ldoc_form_new_doc_head#:#Create Document
+ldoc#:#ldoc_last_modified#:#Last Change
+ldoc#:#ldoc_ldoc_settings#:#Settings
+ldoc#:#ldoc_period#:#Period
+ldoc#:#ldoc_period_from#:#From
+ldoc#:#ldoc_period_until#:#Until
+ldoc#:#ldoc_reevaluate_on_login#:#Re-evaluate on Successful Login
+ldoc#:#ldoc_reevaluate_on_login_desc#:#After a successful login, automatically have ILIAS check whether a previously-accepted document is still valid or not. If, for example, a user has changed a setting that is the criterion for displaying a particular document (for example their language setting or country], and ILIAS can find a document with that criterion, then the user has to accept the new agreement.
+ldoc#:#ldoc_saved_sorting#:#The new order has been saved.
+ldoc#:#ldoc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
+ldoc#:#ldoc_sure_delete_documents_s#:#Are you sure you want to delete this document?
+ldoc#:#ldoc_tbl_docs_action_add_criterion#:#Add Criterion
+ldoc#:#ldoc_tbl_docs_cell_not_criterion#:#No criterion assigned
+ldoc#:#ldoc_tbl_docs_head_created#:#Creation Date
+ldoc#:#ldoc_tbl_docs_head_criteria#:#Criterion
+ldoc#:#ldoc_tbl_docs_head_last_change#:#Last Change
+ldoc#:#ldoc_tbl_docs_head_sorting#:#Order
+ldoc#:#ldoc_tbl_docs_head_title#:#Title
+ldoc#:#ldoc_tbl_docs_title#:#Documents
+ldoc#:#ldoc_tbl_hist_cell_not_criterion#:#No criterion assigned
+ldoc#:#ldoc_tbl_hist_head_acceptance_date#:#Date
+ldoc#:#ldoc_tbl_hist_head_criteria#:#Criterion
+ldoc#:#ldoc_tbl_hist_head_document#:#Document
+ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name
+ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name
+ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)
 lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#cont_update_lhist#:#Edit Learning History Element
 lhist#:#lhist_all#:#All
@@ -11569,6 +11685,8 @@ meta#:#md_adv_show#:#Show
 meta#:#md_adv_substitution_table#:#Display Options for Custom Metadata in the Repository
 meta#:#md_adv_text_max_length#:#Maximum Length
 meta#:#md_adv_text_multi#:#Multiline
+meta#:#md_adv_text_multi_val#:#Multilingual Values
+meta#:#md_adv_text_multi_val_info#:#Allow multilingual field values for this data field. Deactivating this option is recommended for texts that do not need translating, such as personal names.
 meta#:#md_advanced#:#Custom Metadata
 meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_copyright#:#Copyright
@@ -12264,6 +12382,7 @@ mme#:#move_to_top_item#:#Move to Top Items
 mme#:#msg_languages_added#:#Added languages
 mme#:#msg_moved#:#Item successfully moved
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.
 mme#:#msg_restored#:#Main Menu completely reset
 mme#:#msg_subitem_deleted#:#Item deleted.
@@ -12577,7 +12696,7 @@ obj#:#obj_deactivate_multilang#:#Deactivate Multilingualism
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the master language will be kept.
 obj#:#obj_fallback_lang#:#Default Language
 obj#:#obj_features#:#Additional Features
-obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type. The filename must not be modified after export. Error Message:
+obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type.
 obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
 obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
 obj#:#obj_master_lang#:#Master Language
@@ -12885,7 +13004,10 @@ prg#:#deadline_updated#:#Updated deadline
 prg#:#edit_participants#:#Edit Members
 prg#:#error_updating_deadline#:#Error during updating deadline.
 prg#:#error_updating_expire_date#:#Error during updating expire date.
+prg#:#export_memberships#:#Export Assignments
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
+prg#:#header_remove_certificate#:#Do you really want to remove the certificate for the selected Users?
+prg#:#header_update_certificate#:#Do you really want to update the certificate?
 prg#:#header_update_current_plan#:#Do you really want to reset all individual settings for the selected assignments?
 prg#:#inactive_only#:#inactive users only
 prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%' will soon expire. Please sign in again.
@@ -12905,6 +13027,7 @@ prg#:#membership_source_type#:#Source
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#modal_categories_title#:#Category to be monitored
 prg#:#modal_member_auto_select_title#:#Select source for auto assignment
+prg#:#msg_acknowledge_courses#:#Completed Courses have been acknowledged.
 prg#:#msg_change_deadline_date#:#Updated deadline for %s users.
 prg#:#msg_change_deadline_date_failed#:#Deadline not updated for:
 prg#:#msg_change_expire_date#:#Updated expire date for %s users.
@@ -12920,10 +13043,12 @@ prg#:#msg_mark_relevant_failed#:#Not marked marked relevant:
 prg#:#msg_points_must_be_positive#:#Only positive numbers are allowed.
 prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.
 prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:
+prg#:#msg_update_certificate#:#%s Certificate updated.
 prg#:#msg_update_from_settings#:#Updated %s users from settings:
 prg#:#msg_update_from_settings_failed#:#Updated from settings failed:
 prg#:#msg_update_individual_plan#:#Individual plan: %s successfully updated.
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
+prg#:#no_permission_to_update_certificate#:#You have no permission to update certificates.
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
 prg#:#obj_prg_select#:#-- Please select a study programme --
@@ -13019,13 +13144,16 @@ prg#:#prg_multi_change_expire_date#:#Change expire date
 prg#:#prg_multi_mail_user#:#Send Mail
 prg#:#prg_multi_mark_accredited#:#Accredited
 prg#:#prg_multi_mark_relevant#:#Mark Relevant
+prg#:#prg_multi_remove_certificate#:#Remove Certificate
 prg#:#prg_multi_remove_user#:#Remove User
 prg#:#prg_multi_unmark_accredited#:#Unmark Accredited
 prg#:#prg_multi_unmark_relevant#:#Unmark Relevant
+prg#:#prg_multi_update_certificate#:#Update Certificate
 prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_no_deadline#:#No fixed processing time
 prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.
+prg#:#prg_no_permission_to_remove_certificate#:#You do not have permission to remove certificates
 prg#:#prg_no_restart#:#No restart required
 prg#:#prg_no_user_selected#:#No User Selected
 prg#:#prg_no_validity_qualification#:#Long-Lasting qualification
@@ -13086,6 +13214,8 @@ prg#:#prg_status_outdated#:#Outdated
 prg#:#prg_still_valid#:#valid
 prg#:#prg_subtype_add#:#Add new subtype
 prg#:#prg_subtypes#:#Subtypes
+prg#:#prg_successfully_removed_certificate#:#Successfully removed certificate of selected Users
+prg#:#prg_successfully_updated_certificate#:#Successfully updated certificate of selected Users
 prg#:#prg_title#:#Title
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_type_add#:#Study Programme Type
@@ -13347,6 +13477,7 @@ ps#:#ps_export_excel#:#Start Excel Export
 ps#:#ps_export_files#:#Export Files
 ps#:#ps_export_groups#:#Allow export of user profile data in groups
 ps#:#ps_export_member#:#Members
+ps#:#ps_export_prgs#:#Allow export of user profile data in Study Programmes
 ps#:#ps_export_settings#:#Export Settings
 ps#:#ps_export_sub#:#Subscribers
 ps#:#ps_export_tutor#:#Tutors
@@ -16569,83 +16700,21 @@ tbl#:#tbl_template_created#:#The current view has been saved.
 tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
-tos#:#deleteDocument#:#Delete
-tos#:#detachCriterionAssignment#:#Delete
-tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_account_reg_not_possible#:#Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
-tos#:#tos_add_document_btn_label#:#Add Document
+tos#:#tos_agree_date#:#ToS agreed on
 tos#:#tos_agreement#:#Terms of Service
-tos#:#tos_agreement_document#:#Document
-tos#:#tos_agreement_document_missing#:#Missing
-tos#:#tos_agreement_documents_tab_label#:#Documents
-tos#:#tos_agreement_exists#:#Existent
-tos#:#tos_agreement_missing#:#Missing
-tos#:#tos_crit_type_usr_country#:#Profile Country
-tos#:#tos_crit_type_usr_country_info#:#Your ToS document is displayed (and must be accepted the first time a user logs in) if the country set in their user profile matches the country criterion selected from the list below.  Subsequent changes to the country in a user’s profile do not automatically lead to a new ToS document being displayed. You cannot use the same country as the display criterion for more than one ToS document.
-tos#:#tos_crit_type_usr_global_role#:#User Has Global Role
-tos#:#tos_crit_type_usr_global_role_info#:#The document is displayed (and must be accepted the first time a user logs in) if the global role the user has matches the global role selected from the list below.  Subsequent changes to a user’s global role do not automatically lead to a new ToS document being displayed.
-tos#:#tos_crit_type_usr_language#:#Profile Language
-tos#:#tos_crit_type_usr_language_info#:#Your ToS document is displayed (and must be accepted) during registration if the user’s language (selected from the list below) matches the language used during registration; or upon login if the user switches to this language in their preferences.  Please note that each language can only be set as the display criterion for a single ToS document.
-tos#:#tos_criterion_assignment_must_be_unique_insert#:#It is not possible to use this particular language/country as the criterion for displaying your ToS document. This language/country is already being used as the display criterion for a different ToS document.
-tos#:#tos_criterion_assignment_must_be_unique_update#:#It is not possible to change the criterion for displaying your ToS document to the language/country you have chosen. This language/country is already being used as the display criterion for a different ToS document.
-tos#:#tos_deleted_documents_p#:#The documents have been deleted.
-tos#:#tos_deleted_documents_s#:#The document has been deleted.
 tos#:#tos_disabled_no_docs_left#:#Terms of Service documents can no longer be displayed, because all ToS documents have been deleted. Users will no longer be required to agree to a ToS document when registering an account. Please create at least one document before re-checking the ‘Display Terms of Service’ box.
-tos#:#tos_doc_crit_attached#:#The criterion for displaying your ToS document has been set successfully.
-tos#:#tos_doc_crit_changed#:#The criterion for displaying your ToS document has been changed.
-tos#:#tos_doc_crit_detached#:#The criterion for displaying your ToS document has been removed.
-tos#:#tos_doc_delete#:#Delete Document
-tos#:#tos_doc_detach_crit_confirm_title#:#Remove Criterion
-tos#:#tos_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your Terms of Service document?
-tos#:#tos_document#:#Document
-tos#:#tos_form_attach_criterion_head#:#Select Criterion for Displaying your Terms of Service Document
-tos#:#tos_form_criterion#:#Criterion
-tos#:#tos_form_document#:#Document
-tos#:#tos_form_document_content_changed#:#The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary.
-tos#:#tos_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head/gt; information removed – only the contents of the body element will be used.
-tos#:#tos_form_document_new#:#Change Content
-tos#:#tos_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of the TOS document. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed - only the contents of the body element will be used. The existing contents of the TOS document will be replaced. The acceptance history will not be affected.
-tos#:#tos_form_document_title#:#Title
-tos#:#tos_form_document_title_info#:#Please enter a title for the document.
-tos#:#tos_form_edit_criterion_head#:#Edit Criterion for Displaying Your Terms of Service Document
-tos#:#tos_form_edit_doc_head#:#Edit Document
-tos#:#tos_form_new_doc_head#:#Create Document
-tos#:#tos_last_modified#:#Last Change
 tos#:#tos_last_reset_date#:#The Terms of Service were reset on %s. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS.
 tos#:#tos_never_reset#:#The Terms of Service have not yet been reset. Only reset the Terms of Service if changes have been made to the ToS document(s) and you require all users to agree to the new ToS.
 tos#:#tos_no_documents_exist#:#There are currently no Terms of Service documents available.
 tos#:#tos_no_documents_exist_cant_save#:#There are currently no Terms of Service documents available. Please add at least one document in order to activate this service.
-tos#:#tos_period#:#Period
-tos#:#tos_period_from#:#From
-tos#:#tos_period_until#:#Until
-tos#:#tos_reevaluate_on_login#:#Re-evaluate on Successful Login
-tos#:#tos_reevaluate_on_login_desc#:#After a successful login, automatically have ILIAS check whether a previously-accepted Terms of Service document is still valid or not. If, for example, a user has changed a setting that is the criterion for displaying a particular ToS document (for example their language setting or country], and ILIAS can find a document with that criterion, then the user has to accept the new TOS agreement.
+tos#:#tos_reset_for_all_users#:#Reset Terms of Service
 tos#:#tos_reset_successful#:#Terms of Service successfully reset.
-tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
-tos#:#tos_saved_sorting#:#The new order has been saved.
-tos#:#tos_status_desc#:#Display relevant language-based Terms of Service document at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Terms of Service before they can enter ILIAS.
+tos#:#tos_status_desc#:#Display relevant language-based Terms of Service documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Terms of Service before they can enter ILIAS.
 tos#:#tos_status_enable#:#Display Terms of Service
-tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
-tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete this document?
 tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the Terms of Service for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.
-tos#:#tos_tbl_docs_action_add_criterion#:#Add Criterion
-tos#:#tos_tbl_docs_cell_not_criterion#:#No criterion assigned
-tos#:#tos_tbl_docs_head_created#:#Creation Date
-tos#:#tos_tbl_docs_head_criteria#:#Criterion
-tos#:#tos_tbl_docs_head_last_change#:#Last Change
-tos#:#tos_tbl_docs_head_sorting#:#Order
-tos#:#tos_tbl_docs_head_title#:#Title
-tos#:#tos_tbl_docs_title#:#Documents
-tos#:#tos_tbl_hist_cell_not_criterion#:#No criterion assigned
-tos#:#tos_tbl_hist_head_acceptance_date#:#Date
-tos#:#tos_tbl_hist_head_criteria#:#Criterion
-tos#:#tos_tbl_hist_head_document#:#Document
-tos#:#tos_tbl_hist_head_firstname#:#First Name
-tos#:#tos_tbl_hist_head_lastname#:#Last Name
-tos#:#tos_tbl_hist_head_login#:#Username (Login)
-tos#:#tos_tos_settings#:#Settings
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion Upon Withdrawal From Terms of Service
-tos#:#tos_withdrawal_usr_deletion_info#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.
+tos#:#tos_withdrawal_usr_deletion#:#Account deletion upon ToS withdrawal
+tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'
@@ -16969,6 +17038,8 @@ user#:#interests#:#Interests
 user#:#interests_general#:#General Interests
 user#:#interests_help_looking#:#Looking For Help
 user#:#interests_help_offered#:#Offering Help
+user#:#ldoc_accepted_content#:#Accepted Content
+user#:#ldoc_not_accepted_yet#:#Not accepted yet
 user#:#msg_spoint_not_modified#:#Starting point not modified
 user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
@@ -16987,8 +17058,6 @@ user#:#starting_page#:#Starting Point
 user#:#starting_point#:#Starting Point
 user#:#starting_point_settings#:#Starting Point Settings
 user#:#starting_points#:#Starting Points
-user#:#tos_accepted_content#:#Accepted Content
-user#:#tos_not_accepted_yet#:#Not accepted yet
 user#:#user_access_limited#:#Limited
 user#:#user_access_unlimited#:#Unlimited
 user#:#user_account_code#:#Code

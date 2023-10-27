@@ -56,25 +56,24 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
 
     public const DATE_FORMAT_ENDOFDAY = 'Y-m-d 23:59:59';
 
-    protected ilDBInterface $db;
-    protected ilTree $tree;
-    protected ilStudyProgrammeSettingsRepository $settings_repo;
+    protected array $user_data_fields;
+
     /**
      * <id => ilPRGProgress>
      */
     protected array $progresses = [];
-    protected StudyProgrammeEvents $events;
 
     public function __construct(
-        ilDBInterface $db,
-        ilTree $tree,
-        ilStudyProgrammeSettingsRepository $settings_repo,
-        PRGEventsDelayed $events
+        protected ilDBInterface $db,
+        protected ilTree $tree,
+        protected ilStudyProgrammeSettingsRepository $settings_repo,
+        protected PRGEventsDelayed $events,
+        ilExportFieldsInfo $user_field_info
     ) {
-        $this->db = $db;
-        $this->tree = $tree;
-        $this->settings_repo = $settings_repo;
-        $this->events = $events;
+        $this->user_data_fields = array_merge(
+            array_keys($user_field_info->getSelectableFieldsInfo()),
+            ilPRGUserInformation::MANDATORY_FIELDS
+        );
     }
 
     public function getDashboardInstancesforUser(int $usr_id): array
@@ -391,6 +390,11 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
 
     protected function query($filter): ilDBStatement
     {
+        $user_fields_without_udf = array_filter(
+            $this->user_data_fields,
+            static fn($field) => !str_starts_with($field, 'udf_') && $field !== 'org_units'
+        );
+
         $q = 'SELECT'
             . '  ass.' . self::ASSIGNMENT_FIELD_ID . ' AS ' . self::ASSIGNMENT_FIELD_ID
             . ', ass.' . self::ASSIGNMENT_FIELD_USR_ID . ' AS ' . self::ASSIGNMENT_FIELD_USR_ID
@@ -416,7 +420,7 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             . ',' . self::PROGRESS_FIELD_MAIL_SENT_WILLEXPIRE
             . ',' . self::PROGRESS_FIELD_IS_INDIVIDUAL
 
-            . ', ' . implode(', ', ilPRGUserInformation::COLNAMES)
+            . ', ' . implode(', ', $user_fields_without_udf)
 
             . ' FROM ' . self::ASSIGNMENT_TABLE . ' ass '
             . ' JOIN ' . self::PROGRESS_TABLE . ' pgs '
@@ -517,10 +521,10 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
     {
         $children = array_filter(
             $this->tree->getChilds($this->getRefIdFor($node_obj_id)),
-            fn ($c) => in_array($c['type'], ['prg', 'prgr']),
+            fn($c) => in_array($c['type'], ['prg', 'prgr']),
         );
         $children = array_map(
-            fn ($c) => $c['type'] === 'prg' ? (int) $c['obj_id'] : ilContainerReference::_lookupTargetId((int) $c['obj_id']),
+            fn($c) => $c['type'] === 'prg' ? (int) $c['obj_id'] : ilContainerReference::_lookupTargetId((int) $c['obj_id']),
             $children
         );
 
@@ -604,12 +608,12 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $orgu_repo = OrgUnit\Positions\UserAssignment\ilOrgUnitUserAssignmentRepository::getInstance();
         $orgus = array_values($orgu_repo->findAllUserAssingmentsByUserIds([$usr_id]));
         if ($orgus) {
-            $orgu_ref_ids =  array_map(
-                fn ($orgu_assignment) => $orgu_assignment->getOrguId(),
+            $orgu_ref_ids = array_map(
+                fn($orgu_assignment) => $orgu_assignment->getOrguId(),
                 $orgus[0]
             );
             $orgus = array_map(
-                fn ($orgu_ref_id) => ilObject::_lookupTitle(ilObject::_lookupObjId($orgu_ref_id)),
+                fn($orgu_ref_id) => ilObject::_lookupTitle(ilObject::_lookupObjId($orgu_ref_id)),
                 $orgu_ref_ids
             );
         }
@@ -619,20 +623,26 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
     protected function buildUserInformation(array $row): ilPRGUserInformation
     {
         $udf_data = new ilUserDefinedData((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
-        $orgu_repr = ilObjUser::lookupOrgUnitsRepresentation((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
-
-        $orgu_repr = $this->interimOrguLookup((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
-
+        $user_data_values = [];
+        foreach ($this->user_data_fields as $field) {
+            switch($field) {
+                case 'active':
+                    $user_data_values[$field] = (bool)$row[$field];
+                    break;
+                case 'org_units':
+                    //$user_data_values[$field] = ilObjUser::lookupOrgUnitsRepresentation((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
+                    $user_data_values[$field] = $this->interimOrguLookup((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
+                    break;
+                case str_starts_with($field, 'udf_'):
+                    $udf_field_id = str_replace('udf_', 'f_', $field);
+                    $user_data_values[$field] = $udf_data->get($udf_field_id);
+                    break;
+                default:
+                    $user_data_values[$field] = $row[$field];
+            }
+        }
         return new ilPRGUserInformation(
-            $udf_data,
-            $orgu_repr,
-            (string) $row['firstname'],
-            (string) $row['lastname'],
-            (string) $row['login'],
-            (bool) $row['active'],
-            (string) $row['email'],
-            (string) $row['gender'],
-            (string) $row['title']
+            $user_data_values
         );
     }
 

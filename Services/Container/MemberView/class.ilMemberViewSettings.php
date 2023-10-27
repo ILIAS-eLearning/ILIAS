@@ -71,11 +71,13 @@ class ilMemberViewSettings
     {
         $this->container = $container;
         ilSession::set(self::SESSION_MEMBER_VIEW_CONTAINER, $this->container);
+        /** @var ilContainer $my_container **/
+        $my_container = ilObjectFactory::getInstanceByRefId($container);
         $this->container_service
             ->internal()
             ->domain()
             ->content()
-            ->mode()
+            ->mode($my_container)
             ->setContentMode();
     }
 

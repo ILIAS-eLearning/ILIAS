@@ -46,7 +46,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
     public const SUBACTION_FIELD_ACCESS_EXPORT = 9;
     public const SUBACTION_FIELD_ACCESS_SEARCHABLE = 10;
     public const SUBACTION_FIELD_ACCESS_CERTIFICATE = 11;
-
+    public const SUBACTION_FIELD_ACCESS_VISIBLE_PRG = 12;
 
     // caching
 
@@ -111,6 +111,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
                             ,self::SUBACTION_FIELD_ACCESS_EXPORT
                             ,self::SUBACTION_FIELD_ACCESS_SEARCHABLE
                             ,self::SUBACTION_FIELD_ACCESS_CERTIFICATE
+                            ,self::SUBACTION_FIELD_ACCESS_VISIBLE_PRG
                         )
                 )
             )

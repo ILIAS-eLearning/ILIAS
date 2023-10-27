@@ -34,7 +34,6 @@ class ilStudyProgrammeUserTable
     public const PRG_COLS = [
         ['name', 'name', false, true, true],
         ['login', 'login', false, true, true],
-        ['prg_orgus', 'prg_orgus', true, true, true],
         ['prg_status', 'prg_status', false, true, true],
         ['prg_completion_date', 'prg_completion_date', true, true, true],
         ['prg_completion_by', 'prg_completion_by', true, true, true],
@@ -113,9 +112,14 @@ class ilStudyProgrammeUserTable
 
     public function getColumns(int $prg_id, bool $add_active_column = false): array
     {
+        $prg_cols = $this->getPrgColumns();
+        $prg_cols_pre = array_slice($prg_cols, 0, 2);
+        $prg_cols_post = array_slice($prg_cols, 2);
+
         $columns = array_merge(
-            $this->getPrgColumns(),
-            $this->getUserDataColumns($prg_id)
+            $prg_cols_pre,
+            $this->getUserDataColumns($prg_id),
+            $prg_cols_post
         );
 
         if ($add_active_column) {
@@ -172,9 +176,8 @@ class ilStudyProgrammeUserTable
 
     protected function includeLearningProgress(int $usr_id): bool
     {
-        return
-            in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of)
-            || $this->skip_perm_check_on_user;
+        return $this->skip_perm_check_on_user
+            || in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of);
     }
 
     protected function toRow(ilPRGAssignment $ass, int $node_id): ilStudyProgrammeUserTableRow
@@ -184,7 +187,8 @@ class ilStudyProgrammeUserTable
             $ass->getId(),
             $ass->getUserId(),
             $node_id,
-            $ass->getRootId() === $node_id
+            $ass->getRootId() === $node_id,
+            $ass->getUserInformation()
         );
 
         $show_lp = $this->includeLearningProgress($ass->getUserId());
@@ -202,8 +206,7 @@ class ilStudyProgrammeUserTable
             ->withLastname($ass->getUserInformation()->getLastname())
             ->withLogin($ass->getUserInformation()->getLogin())
             ->withOrgUs($ass->getUserInformation()->getOrguRepresentation())
-            ->withUDF($ass->getUserInformation()->getAllUdf())
-            ->withGender($this->lng->txt('gender_' . $ass->getUserInformation()->getUdf('gender')))
+            ->withGender($this->lng->txt('gender_' . $ass->getUserInformation()->getGender()))
             ->withStatus($show_lp ? $this->statusToRepresent($pgs->getStatus()) : '')
             ->withStatusRaw($pgs->getStatus())
             ->withCompletionDate(

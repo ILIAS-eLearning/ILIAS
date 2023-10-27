@@ -10,7 +10,7 @@
 <!ELEMENT Title (#PCDATA)>
 <!ELEMENT Description (#PCDATA)>
 
-<!ELEMENT Assignment(Instruction?, DueDate?, Files?, Members?)>
+<!ELEMENT Assignment (Instruction?, DueDate?, Files?, Members?)>
 
 <!ELEMENT Instruction (#PCDATA)>
 <!--

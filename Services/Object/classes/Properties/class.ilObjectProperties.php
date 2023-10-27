@@ -27,6 +27,7 @@ class ilObjectProperties
         private ilObjectCorePropertiesRepository $core_properties_repository,
         private ilObjectAdditionalProperties $additional_properties,
         private ilObjectAdditionalPropertiesRepository $additional_properties_repository,
+        private ilMD $meta_data
     ) {
     }
 
@@ -41,6 +42,10 @@ class ilObjectProperties
         $this->core_properties = $this->core_properties_repository->store(
             $this->core_properties
             ->withPropertyTitleAndDescription($property_title_and_description)
+        );
+        $this->updateMetadataForTitleAndDescription(
+            $property_title_and_description->getTitle(),
+            $property_title_and_description->getLongDescription()
         );
     }
 
@@ -133,5 +138,22 @@ class ilObjectProperties
             $this->additional_properties
             ->withPropertyIcon($property_icon)
         );
+    }
+
+    private function updateMetadataForTitleAndDescription(
+        string $title,
+        string $description
+    ) {
+        $general_metadata = $this->meta_data->getGeneral();
+        $general_metadata->setTitle($title);
+
+        // sets first description (maybe not appropriate)
+        $general_metadata_ids = $general_metadata->getDescriptionIds();
+        if ($general_metadata_ids !== []) {
+            $general_metadata_description = $general_metadata_ids->getDescription($general_metadata_ids[0]);
+            $general_metadata_description->setDescription($description);
+            $general_metadata_description->update();
+        }
+        $general_metadata->update();
     }
 }

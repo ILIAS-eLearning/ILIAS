@@ -37,7 +37,6 @@ class ilCategoryReferenceXmlWriter extends ilContainerReferenceXmlWriter
     {
         $ilSetting = $this->settings;
 
-        $this->xmlSetDtdDef("<!DOCTYPE category reference PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_category_reference_4_3.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS category reference " . $this->getReference()->getId() . " of installation " . $ilSetting->get('inst_id') . ".");
         $this->xmlHeader();
     }

@@ -29,7 +29,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
     protected bool $allowMove = false;
     protected bool $disabled_scale = true;
     protected bool $show_wizard = false;
-    protected bool $show_save_phrase = false;
     protected string $categorytext;
     protected bool $show_neutral_category = false;
     protected string $neutral_category_title;
@@ -48,7 +47,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
 
         $this->show_wizard = false;
-        $this->show_save_phrase = false;
         $this->categorytext = $lng->txt('answer');
         $this->use_other_answer = false;
 
@@ -176,16 +174,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
     public function getCategoryText(): string
     {
         return $this->categorytext;
-    }
-
-    public function setShowSavePhrase(bool $a_value): void
-    {
-        $this->show_save_phrase = $a_value;
-    }
-
-    public function getShowSavePhrase(): bool
-    {
-        return $this->show_save_phrase;
     }
 
     public function getDisabledScale(): bool
@@ -346,20 +334,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
         }
 
-        if ($this->getShowWizard()) {
-            $tpl->setCurrentBlock("wizard");
-            $tpl->setVariable("CMD_WIZARD", 'cmd[addPhrase]');
-            $tpl->setVariable("WIZARD_BUTTON", ilUtil::getImagePath('object/wizard.svg'));
-            $tpl->setVariable("WIZARD_TEXT", $lng->txt('add_phrase'));
-            $tpl->parseCurrentBlock();
-        }
-
-        if ($this->getShowSavePhrase()) {
-            $tpl->setCurrentBlock('savephrase');
-            $tpl->setVariable("POST_VAR", $this->getPostVar());
-            $tpl->setVariable("VALUE_SAVE_PHRASE", $lng->txt('save_phrase'));
-            $tpl->parseCurrentBlock();
-        }
 
         if ($this->getShowNeutralCategory()) {
             if (is_object($neutral_category) && strlen($neutral_category->title)) {

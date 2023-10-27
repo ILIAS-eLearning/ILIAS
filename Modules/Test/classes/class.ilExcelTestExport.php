@@ -144,7 +144,7 @@ class ilExcelTestExport extends ilTestExportAbstract
                     foreach ($questions as $question) {
                         $question = assQuestion::instantiateQuestion((int) $question["id"]);
                         if (is_object($question)) {
-                            $row = $question->setExportDetailsXLS($this->worksheet, $row, $col, $active_id, $passCount);
+                            $row = $question->setExportDetailsXLSX($this->worksheet, $row, $col, $active_id, $passCount);
                         }
                     }
                 }

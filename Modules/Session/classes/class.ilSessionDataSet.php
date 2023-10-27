@@ -47,7 +47,7 @@ class ilSessionDataSet extends ilDataSet
 
     public function getSupportedVersions(): array
     {
-        return ['7.0'];
+        return ['9.0'];
         //return array("4.1.0", "5.0.0", "5.1.0", '5.4.0', '7.0');
     }
 
@@ -145,6 +145,8 @@ class ilSessionDataSet extends ilDataSet
                         'Type' => 'integer'
                     );
                 case "7.0":
+                case '9.0':
+                default:
                     return array(
                         "Id" => "integer",
                         "Title" => "text",
@@ -180,6 +182,8 @@ class ilSessionDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case '7.0':
+                case '9.0':
+                default:
                     return array(
                         "SessionId" => "integer",
                         "ItemId" => "text",
@@ -244,6 +248,8 @@ class ilSessionDataSet extends ilDataSet
                     $this->readDidacticTemplateType($a_ids);
                     break;
                 case "7.0":
+                case '9.0':
+                default:
                     $this->getDirectDataFromQuery($q = "SELECT ev.obj_id id, od.title title, odes.description description, " .
                         " location, tutor_name, tutor_email, tutor_phone, details, reg_type registration, " .
                         " reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, " .
@@ -268,6 +274,8 @@ class ilSessionDataSet extends ilDataSet
                 case "5.1.0":
                 case '5.4.0':
                 case '7.0':
+                case '9.0':
+                default:
                     $this->getDirectDataFromQuery($q = "SELECT event_id session_id, item_id " .
                         " FROM event_items " .
                         "WHERE " .
@@ -352,6 +360,8 @@ class ilSessionDataSet extends ilDataSet
                         break;
                     case '5.4.0':
                     case '7.0':
+                    case '9.0':
+                    default:
                         if (isset($a_rec['MailMembers'])) {
                             $newObj->setMailToMembersType((int) ($a_rec['MailMembers'] ?? 0));
                         }

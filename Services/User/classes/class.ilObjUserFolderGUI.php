@@ -49,6 +49,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         'export' => 'export',
         'course_export' => 'course_export',
         'group_export' => 'group_export',
+        'prg_export' => 'prg_export',
         'visib_reg' => 'header_visible_registration',
         'visib_lua' => 'usr_settings_visib_lua',
         'changeable_lua' => 'usr_settings_changeable_lua'
@@ -1775,6 +1776,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'user_reactivate_code' => (int) $this->settings->get('user_reactivate_code'),
             'user_own_account' => (int) $this->settings->get('user_delete_own_account'),
             'user_own_account_email' => $this->settings->get('user_delete_own_account_email'),
+            'dpro_withdrawal_usr_deletion' => (bool) $this->settings->get('dpro_withdrawal_usr_deletion'),
             'tos_withdrawal_usr_deletion' => (bool) $this->settings->get('tos_withdrawal_usr_deletion'),
 
             'session_handling_type' => $this->settings->get(
@@ -1938,8 +1940,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     $this->form->getInput('user_own_account_email')
                 );
                 $this->settings->set(
+                    'dpro_withdrawal_usr_deletion',
+                    $this->form->getInput('dpro_withdrawal_usr_deletion') === '1' ? '1' : '0'
+                );
+                $this->settings->set(
                     'tos_withdrawal_usr_deletion',
-                    (string) ($this->form->getInput('tos_withdrawal_usr_deletion'))
+                    $this->form->getInput('tos_withdrawal_usr_deletion') === '1' ? '1' : '0'
                 );
 
                 $this->settings->set(
@@ -2117,13 +2123,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
         $own->addSubItem($own_email);
 
-        $withdrawalProvokesDeletion = new ilCheckboxInputGUI(
-            $this->lng->txt('tos_withdrawal_usr_deletion'),
-            'tos_withdrawal_usr_deletion'
-        );
-        $withdrawalProvokesDeletion->setInfo($this->lng->txt('tos_withdrawal_usr_deletion_info'));
-        $withdrawalProvokesDeletion->setValue('1');
-        $this->form->addItem($withdrawalProvokesDeletion);
+        $this->lng->loadLanguageModule('tos');
+        $this->lng->loadLanguageModule('dpro');
+        $this->form->addItem($this->checkbox('tos_withdrawal_usr_deletion'));
+        $this->form->addItem($this->checkbox('dpro_withdrawal_usr_deletion'));
 
         $allow_client_maintenance = $this->settings->get(
             'session_allow_client_maintenance',
@@ -2601,6 +2604,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
             } else {
                 $this->ilias->deleteSetting('usr_settings_group_export_' . $field);
+            }
+
+            if (($checked['prg_export_' . $field] ?? false) && !($field_properties[$field]['prg_export_hide'] ?? false)) {
+                $this->ilias->setSetting(
+                    'usr_settings_prg_export_' . $field,
+                    '1'
+                );
+            } else {
+                $this->ilias->deleteSetting('usr_settings_prg_export_' . $field);
             }
 
             $is_fixed = array_key_exists(
@@ -3877,5 +3889,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this,
             'view'
         );
+    }
+
+    private function checkbox(string $name): ilCheckboxInputGUI
+    {
+        $checkbox = new ilCheckboxInputGUI($this->lng->txt($name), $name);
+        $checkbox->setInfo($this->lng->txt($name . '_desc'));
+        $checkbox->setValue('1');
+
+        return $checkbox;
     }
 }

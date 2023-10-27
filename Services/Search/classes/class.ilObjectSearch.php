@@ -51,7 +51,18 @@ class ilObjectSearch extends ilAbstractSearch
     }
 
 
+    public static function raiseContentChanged(int $obj_id) : void
+    {
+        global $DIC;
 
+        $DIC->event()->raise(
+            'Services/Search',
+            'contentChanged',
+            [
+                "obj_id" => $obj_id
+            ]
+        );
+    }
 
     public function performSearch(): ilSearchResult
     {

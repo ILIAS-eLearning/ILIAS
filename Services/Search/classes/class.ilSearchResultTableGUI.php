@@ -126,7 +126,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 
         if ($this->enabledRelevance()) {
             $pbar = ilProgressBar::getInstance();
-            $pbar->setCurrent($relevance);
+            $pbar->setCurrent((int) $relevance);
 
             $this->tpl->setCurrentBlock('relev');
             $this->tpl->setVariable('REL_PBAR', $pbar->render());

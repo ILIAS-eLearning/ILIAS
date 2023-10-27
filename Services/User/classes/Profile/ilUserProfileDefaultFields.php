@@ -30,6 +30,7 @@ class ilUserProfileDefaultFields
             'method' => 'getLogin',
             'course_export_fix_value' => 1,
             'group_export_fix_value' => 1,
+            'prg_export_fix_value' => 0,
             'changeable_hide' => true,
             'required_hide' => true,
             'group' => 'personal_data'
@@ -42,6 +43,7 @@ class ilUserProfileDefaultFields
             'course_export_hide' => true,
             'export_hide' => false,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'lists_hide' => true,
             'group' => 'personal_data'
         ],
@@ -55,6 +57,7 @@ class ilUserProfileDefaultFields
             'visib_lua_fix_value' => 1,
             'course_export_fix_value' => 1,
             'group_export_fix_value' => 1,
+            'prg_export_fix_value' => 1,
             'group' => 'personal_data'
         ],
         'lastname' => [
@@ -67,6 +70,7 @@ class ilUserProfileDefaultFields
             'visib_lua_fix_value' => 1,
             'course_export_fix_value' => 1,
             'group_export_fix_value' => 1,
+            'prg_export_fix_value' => 1,
             'group' => 'personal_data'
         ],
         'title' => [
@@ -97,6 +101,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'lists_hide' => true,
             'lang_var' => 'personal_picture',
             'group' => 'personal_data'
@@ -109,6 +114,7 @@ class ilUserProfileDefaultFields
             'export_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'lists_hide' => true,
             'group' => 'personal_data'
         ],
@@ -119,6 +125,7 @@ class ilUserProfileDefaultFields
             'method' => 'getGeneralInterests',
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'lists_hide' => true,
             'group' => 'interests'
         ],
@@ -129,6 +136,7 @@ class ilUserProfileDefaultFields
             'method' => 'getOfferingHelp',
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'lists_hide' => true,
             'group' => 'interests'
         ],
@@ -139,6 +147,7 @@ class ilUserProfileDefaultFields
             'method' => 'getLookingForHelp',
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'lists_hide' => true,
             'group' => 'interests'
         ],
@@ -149,6 +158,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => false,
             'group_export_hide' => false,
+            'prg_export_hide' => false,
             'export_hide' => true,
             'changeable_hide' => true,
             'changeable_fix_value' => 0,
@@ -264,6 +274,7 @@ class ilUserProfileDefaultFields
             'method' => 'getComment',
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'lists_hide' => true,
             'group' => 'contact_data'
         ],
@@ -281,6 +292,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'group' => 'settings'
         ],
         'skin_style' => [
@@ -289,6 +301,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'group' => 'settings'
         ],
         'hits_per_page' => [
@@ -302,6 +315,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'group' => 'settings'
         ],
         'hide_own_online_status' => [
@@ -311,6 +325,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'group' => 'settings',
             'default' => 'y',
             'options' => [
@@ -325,6 +340,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'group' => 'settings',
             'default' => 'y',
             'options' => [
@@ -339,6 +355,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'group' => 'settings',
             'default' => 'y',
             'options' => [
@@ -353,6 +370,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'group' => 'settings',
             'default' => 'y',
             'options' => [
@@ -367,6 +385,7 @@ class ilUserProfileDefaultFields
             'visib_reg_hide' => true,
             'course_export_hide' => true,
             'group_export_hide' => true,
+            'prg_export_hide' => true,
             'group' => 'preferences'],
         'mail_incoming_mail' => [
             'input' => 'selection',
@@ -380,6 +399,7 @@ class ilUserProfileDefaultFields
             'course_export_hide' => true,
             'group_export_hide' => true,
             'export_hide' => true,
+            'prg_export_hide' => true,
             'search_hide' => true,
             'group' => 'settings'
         ]

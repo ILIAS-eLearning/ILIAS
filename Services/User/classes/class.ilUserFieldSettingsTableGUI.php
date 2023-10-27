@@ -103,38 +103,39 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
                 // determine checked status
                 $checked = false;
-                if ($prop == "visible" && $user_settings_config->isVisible($field)) {
+                if ($prop === "visible" && $user_settings_config->isVisible($field)) {
                     $checked = true;
                 }
-                if ($prop == "changeable" && $user_settings_config->isChangeable($field)) {
+                if ($prop === "changeable" && $user_settings_config->isChangeable($field)) {
                     $checked = true;
                 }
-                if ($prop == "searchable" && ilUserSearchOptions::_isEnabled($field)) {
+                if ($prop === "searchable" && ilUserSearchOptions::_isEnabled($field)) {
                     $checked = true;
                 }
-                if ($prop == "required" && $ilSetting->get("require_" . $field) == "1") {
+                if ($prop === "required" && $ilSetting->get("require_" . $field) == "1") {
                     $checked = true;
                 }
-                if ($prop == "export" && $ilSetting->get("usr_settings_export_" . $field) == "1") {
+                if ($prop === "export" && $ilSetting->get("usr_settings_export_" . $field) == "1") {
                     $checked = true;
                 }
-                if ($prop == "course_export" && $ilSetting->get("usr_settings_course_export_" . $field) == "1") {
+                if ($prop === "course_export" && $ilSetting->get("usr_settings_course_export_" . $field) == "1") {
                     $checked = true;
                 }
-                if ($prop == "group_export" && $ilSetting->get("usr_settings_group_export_" . $field) == "1") {
+                if ($prop === "group_export" && $ilSetting->get("usr_settings_group_export_" . $field) == "1") {
                     $checked = true;
                 }
-                if ($prop == "visib_reg" && (int) $ilSetting->get('usr_settings_visib_reg_' . $field, '1')) {
+                if ($prop === "visib_reg" && (int) $ilSetting->get('usr_settings_visib_reg_' . $field, '1')) {
                     $checked = true;
                 }
-                if ($prop == "visib_lua" && (int) $ilSetting->get('usr_settings_visib_lua_' . $field, '1')) {
+                if ($prop === "visib_lua" && (int) $ilSetting->get('usr_settings_visib_lua_' . $field, '1')) {
                     $checked = true;
                 }
-
-                if ($prop == "changeable_lua" && (int) $ilSetting->get('usr_settings_changeable_lua_' . $field, '1')) {
+                if ($prop === "changeable_lua" && (int) $ilSetting->get('usr_settings_changeable_lua_' . $field, '1')) {
                     $checked = true;
                 }
-
+                if ($prop === "prg_export" && $ilSetting->get("usr_settings_prg_export_" . $field) === "1") {
+                    $checked = true;
+                }
 
                 if ($this->confirm_change == 1) {	// confirm value
                     $checked = $req_checked[$prop . "_" . $field] ?? false;

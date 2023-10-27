@@ -306,7 +306,7 @@ that contain certain sub-elements. Especially in combination with filters,
 this makes paths a powerful tool for working with the `Reader` and
 `Manipulator`. See the examples for possible ways to make use of this.
 
-#### Filters
+### Filters
 
 There are three types of filters:
 

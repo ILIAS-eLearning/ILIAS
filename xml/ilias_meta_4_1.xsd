@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+  xmlns:xs = 'http://www.w3.org/2001/XMLSchema'>
+
+<!-- Type: LanguageCode -->
+<xs:simpleType name='LanguageCode'>
+ <xs:restriction base='xs:string'>
+  <xs:enumeration value='none'/>
+  <xs:enumeration value='aa'/>
+  <xs:enumeration value='ab'/>
+  <xs:enumeration value='af'/>
+  <xs:enumeration value='am'/>
+  <xs:enumeration value='ar'/>
+  <xs:enumeration value='as'/>
+  <xs:enumeration value='ay'/>
+  <xs:enumeration value='az'/>
+  <xs:enumeration value='ba'/>
+  <xs:enumeration value='be'/>
+  <xs:enumeration value='bg'/>
+  <xs:enumeration value='bh'/>
+  <xs:enumeration value='bi'/>
+  <xs:enumeration value='bn'/>
+  <xs:enumeration value='bo'/>
+  <xs:enumeration value='br'/>
+  <xs:enumeration value='ca'/>
+  <xs:enumeration value='co'/>
+  <xs:enumeration value='cs'/>
+  <xs:enumeration value='cy'/>
+  <xs:enumeration value='da'/>
+  <xs:enumeration value='de'/>
+  <xs:enumeration value='dz'/>
+  <xs:enumeration value='el'/>
+  <xs:enumeration value='en'/>
+  <xs:enumeration value='eo'/>
+  <xs:enumeration value='es'/>
+  <xs:enumeration value='et'/>
+  <xs:enumeration value='eu'/>
+  <xs:enumeration value='fa'/>
+  <xs:enumeration value='fi'/>
+  <xs:enumeration value='fj'/>
+  <xs:enumeration value='fo'/>
+  <xs:enumeration value='fr'/>
+  <xs:enumeration value='fy'/>
+  <xs:enumeration value='ga'/>
+  <xs:enumeration value='gd'/>
+  <xs:enumeration value='gl'/>
+  <xs:enumeration value='gn'/>
+  <xs:enumeration value='gu'/>
+  <xs:enumeration value='ha'/>
+  <xs:enumeration value='he'/>
+  <xs:enumeration value='hi'/>
+  <xs:enumeration value='hr'/>
+  <xs:enumeration value='hu'/>
+  <xs:enumeration value='hy'/>
+  <xs:enumeration value='ia'/>
+  <xs:enumeration value='ie'/>
+  <xs:enumeration value='ik'/>
+  <xs:enumeration value='id'/>
+  <xs:enumeration value='is'/>
+  <xs:enumeration value='it'/>
+  <xs:enumeration value='iu'/>
+  <xs:enumeration value='ja'/>
+  <xs:enumeration value='jv'/>
+  <xs:enumeration value='ka'/>
+  <xs:enumeration value='kk'/>
+  <xs:enumeration value='kl'/>
+  <xs:enumeration value='km'/>
+  <xs:enumeration value='kn'/>
+  <xs:enumeration value='ko'/>
+  <xs:enumeration value='ks'/>
+  <xs:enumeration value='ku'/>
+  <xs:enumeration value='ky'/>
+  <xs:enumeration value='la'/>
+  <xs:enumeration value='ln'/>
+  <xs:enumeration value='lo'/>
+  <xs:enumeration value='lt'/>
+  <xs:enumeration value='lv'/>
+  <xs:enumeration value='mg'/>
+  <xs:enumeration value='mi'/>
+  <xs:enumeration value='mk'/>
+  <xs:enumeration value='ml'/>
+  <xs:enumeration value='mn'/>
+  <xs:enumeration value='mo'/>
+  <xs:enumeration value='mr'/>
+  <xs:enumeration value='ms'/>
+  <xs:enumeration value='mt'/>
+  <xs:enumeration value='my'/>
+  <xs:enumeration value='na'/>
+  <xs:enumeration value='ne'/>
+  <xs:enumeration value='nl'/>
+  <xs:enumeration value='no'/>
+  <xs:enumeration value='oc'/>
+  <xs:enumeration value='om'/>
+  <xs:enumeration value='or'/>
+  <xs:enumeration value='pa'/>
+  <xs:enumeration value='pl'/>
+  <xs:enumeration value='ps'/>
+  <xs:enumeration value='pt'/>
+  <xs:enumeration value='qu'/>
+  <xs:enumeration value='rm'/>
+  <xs:enumeration value='rn'/>
+  <xs:enumeration value='ro'/>
+  <xs:enumeration value='ru'/>
+  <xs:enumeration value='rw'/>
+  <xs:enumeration value='sa'/>
+  <xs:enumeration value='sd'/>
+  <xs:enumeration value='sg'/>
+  <xs:enumeration value='sh'/>
+  <xs:enumeration value='si'/>
+  <xs:enumeration value='sk'/>
+  <xs:enumeration value='sl'/>
+  <xs:enumeration value='sm'/>
+  <xs:enumeration value='sn'/>
+  <xs:enumeration value='so'/>
+  <xs:enumeration value='sq'/>
+  <xs:enumeration value='sr'/>
+  <xs:enumeration value='ss'/>
+  <xs:enumeration value='st'/>
+  <xs:enumeration value='su'/>
+  <xs:enumeration value='sv'/>
+  <xs:enumeration value='sw'/>
+  <xs:enumeration value='ta'/>
+  <xs:enumeration value='te'/>
+  <xs:enumeration value='tg'/>
+  <xs:enumeration value='th'/>
+  <xs:enumeration value='ti'/>
+  <xs:enumeration value='tk'/>
+  <xs:enumeration value='tl'/>
+  <xs:enumeration value='tn'/>
+  <xs:enumeration value='to'/>
+  <xs:enumeration value='tr'/>
+  <xs:enumeration value='ts'/>
+  <xs:enumeration value='tt'/>
+  <xs:enumeration value='tw'/>
+  <xs:enumeration value='ug'/>
+  <xs:enumeration value='uk'/>
+  <xs:enumeration value='ur'/>
+  <xs:enumeration value='uz'/>
+  <xs:enumeration value='vi'/>
+  <xs:enumeration value='vo'/>
+  <xs:enumeration value='wo'/>
+  <xs:enumeration value='xh'/>
+  <xs:enumeration value='yi'/>
+  <xs:enumeration value='yo'/>
+  <xs:enumeration value='za'/>
+  <xs:enumeration value='zh'/>
+  <xs:enumeration value='zu'/>
+ </xs:restriction>
+</xs:simpleType>
+
+<!-- TitleText -->
+<xs:complexType name='TitleText' mixed='true'>
+</xs:complexType>
+
+ <!-- MetaData -->
+ <xs:element name='MetaData'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:General'/>
+    <xs:element ref='t:Lifecycle' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='t:Meta-Metadata' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='t:Technical' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='t:Educational' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='t:Rights' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='t:Relation' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='t:Annotation' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='t:Classification' minOccurs='0' maxOccurs='unbounded'/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- General -->
+ <xs:element name='General'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Identifier' maxOccurs='unbounded'/>
+    <xs:element ref='t:Title'/>
+    <xs:element ref='t:Language' maxOccurs='unbounded'/>
+    <xs:element ref='t:Description' maxOccurs='unbounded'/>
+    <xs:element ref='t:Keyword' maxOccurs='unbounded'/>
+    <xs:element ref='t:Coverage' minOccurs='0' maxOccurs='1'/>
+   </xs:sequence>
+   <xs:attribute name='Structure' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Atomic'/>
+      <xs:enumeration value='Collection'/>
+      <xs:enumeration value='Networked'/>
+      <xs:enumeration value='Hierarchical'/>
+      <xs:enumeration value='Linear'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Identifier -->
+ <xs:element name='Identifier'>
+  <xs:complexType>
+   <xs:attribute name='Catalog' type='xs:string' use='optional'/>
+   <xs:attribute name='Entry' type='xs:ID' use='required'/>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Title -->
+ <xs:element name='Title'>
+  <xs:complexType mixed='true'>
+   <xs:complexContent>
+    <xs:extension base="t:TitleText">
+     <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+    </xs:extension>
+   </xs:complexContent>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Language -->
+ <xs:element name='Language'>
+  <xs:complexType>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Description -->
+ <xs:element name='Description'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Keyword -->
+ <xs:element name='Keyword'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Coverage -->
+ <xs:element name='Coverage'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Lifecycle -->
+ <xs:element name='Lifecycle'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Version'/>
+    <xs:element ref='t:Contribute' maxOccurs='unbounded'/>
+   </xs:sequence>
+   <xs:attribute name='Status' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Draft'/>
+      <xs:enumeration value='Final'/>
+      <xs:enumeration value='Revised'/>
+      <xs:enumeration value='Unavailable'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Version -->
+ <xs:element name='Version'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Contribute -->
+ <xs:element name='Contribute'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Entity' maxOccurs='unbounded'/>
+    <xs:element ref='t:Date'/>
+   </xs:sequence>
+   <xs:attribute name='Role' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Author'/>
+      <xs:enumeration value='Publisher'/>
+      <xs:enumeration value='Unknown'/>
+      <xs:enumeration value='Initiator'/>
+      <xs:enumeration value='Terminator'/>
+      <xs:enumeration value='Editor'/>
+      <xs:enumeration value='GraphicalDesigner'/>
+      <xs:enumeration value='TechnicalImplementer'/>
+      <xs:enumeration value='ContentProvider'/>
+      <xs:enumeration value='TechnicalValidator'/>
+      <xs:enumeration value='EducationalValidator'/>
+      <xs:enumeration value='ScriptWriter'/>
+      <xs:enumeration value='InstructionalDesigner'/>
+      <xs:enumeration value='SubjectMatterExpert'/>
+      <xs:enumeration value='Creator'/>
+      <xs:enumeration value='Validator'/>
+      <xs:enumeration value='PointOfContact'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Entity -->
+ <xs:element name='Entity'>
+  <xs:complexType mixed='true'>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Date -->
+ <xs:element name='Date'>
+  <xs:complexType mixed='true'>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Meta-Metadata -->
+ <xs:element name='Meta-Metadata'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Identifier' maxOccurs='unbounded'/>
+    <xs:element ref='t:Contribute' maxOccurs='unbounded'/>
+   </xs:sequence>
+   <xs:attribute name='MetadataScheme' use='required'>
+     <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='LOM v 1.0'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='Language' type='t:LanguageCode' use='optional'/>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Technical -->
+ <xs:element name='Technical'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Format' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='t:Size' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='t:Location' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:choice minOccurs='0' maxOccurs='1'>
+     <xs:element ref='t:Requirement' minOccurs='0' maxOccurs='unbounded'/>
+     <xs:element ref='t:OrComposite' minOccurs='0' maxOccurs='unbounded'/>
+    </xs:choice>
+    <xs:element ref='t:InstallationRemarks' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='t:OtherPlatformRequirements' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='t:Duration' minOccurs='0' maxOccurs='1'/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Format -->
+ <xs:element name='Format'>
+  <xs:complexType mixed='true'>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Size -->
+ <xs:element name='Size'>
+  <xs:complexType mixed='true'>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Location -->
+ <xs:element name='Location'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Type' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='LocalFile'/>
+      <xs:enumeration value='Reference'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- OrComposite -->
+ <xs:element name='OrComposite'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Requirement' maxOccurs='unbounded'/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Requirement -->
+ <xs:element name='Requirement'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Type'/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Type -->
+ <xs:element name='Type'>
+  <xs:complexType>
+   <xs:choice>
+    <xs:element ref='t:OperatingSystem'/>
+    <xs:element ref='t:Browser'/>
+   </xs:choice>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- OperatingSystem -->
+ <xs:element name='OperatingSystem'>
+  <xs:complexType>
+   <xs:attribute name='Name' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='PC-DOS'/>
+      <xs:enumeration value='MS-Windows'/>
+      <xs:enumeration value='MacOS'/>
+      <xs:enumeration value='Unix'/>
+      <xs:enumeration value='Multi-OS'/>
+      <xs:enumeration value='None'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='MinimumVersion' type='xs:string' use='optional'/>
+   <xs:attribute name='MaximumVersion' type='xs:string' use='optional'/>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Browser -->
+ <xs:element name='Browser'>
+  <xs:complexType>
+   <xs:attribute name='Name' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Any'/>
+      <xs:enumeration value='NetscapeCommunicator'/>
+      <xs:enumeration value='MS-InternetExplorer'/>
+      <xs:enumeration value='Opera'/>
+      <xs:enumeration value='Amaya'/>
+      <xs:enumeration value='Mozilla'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='MinimumVersion' type='xs:string' use='optional'/>
+   <xs:attribute name='MaximumVersion' type='xs:string' use='optional'/>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- InstallationRemarks -->
+ <xs:element name='InstallationRemarks'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- OtherPlatformRequirements -->
+ <xs:element name='OtherPlatformRequirements'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Duration -->
+ <xs:element name='Duration'>
+  <xs:complexType mixed='true'>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Educational -->
+ <xs:element name='Educational'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:TypicalAgeRange' maxOccurs='unbounded'/>
+    <xs:element ref='t:TypicalLearningTime'/>
+    <xs:element ref='t:Description' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='t:Language' minOccurs='0' maxOccurs='unbounded'/>
+   </xs:sequence>
+   <xs:attribute name='InteractivityType' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Active'/>
+      <xs:enumeration value='Expositive'/>
+      <xs:enumeration value='Mixed'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='LearningResourceType' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Exercise'/>
+      <xs:enumeration value='Simulation'/>
+      <xs:enumeration value='Questionnaire'/>
+      <xs:enumeration value='Diagram'/>
+      <xs:enumeration value='Figure'/>
+      <xs:enumeration value='Graph'/>
+      <xs:enumeration value='Index'/>
+      <xs:enumeration value='Slide'/>
+      <xs:enumeration value='Table'/>
+      <xs:enumeration value='NarrativeText'/>
+      <xs:enumeration value='Exam'/>
+      <xs:enumeration value='Experiment'/>
+      <xs:enumeration value='ProblemStatement'/>
+      <xs:enumeration value='SelfAssessment'/>
+      <xs:enumeration value='Lecture'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='InteractivityLevel' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='VeryLow'/>
+      <xs:enumeration value='Low'/>
+      <xs:enumeration value='Medium'/>
+      <xs:enumeration value='High'/>
+      <xs:enumeration value='VeryHigh'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='SemanticDensity' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='VeryLow'/>
+      <xs:enumeration value='Low'/>
+      <xs:enumeration value='Medium'/>
+      <xs:enumeration value='High'/>
+      <xs:enumeration value='VeryHigh'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='IntendedEndUserRole' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Teacher'/>
+      <xs:enumeration value='Author'/>
+      <xs:enumeration value='Learner'/>
+      <xs:enumeration value='Manager'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='Context' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='School'/>
+      <xs:enumeration value='HigherEducation'/>
+      <xs:enumeration value='Training'/>
+      <xs:enumeration value='Other'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='Difficulty' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='VeryEasy'/>
+      <xs:enumeration value='Easy'/>
+      <xs:enumeration value='Medium'/>
+      <xs:enumeration value='Difficult'/>
+      <xs:enumeration value='VeryDifficult'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- TypicalAgeRange -->
+ <xs:element name='TypicalAgeRange'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- TypicalLearningTime -->
+ <xs:element name='TypicalLearningTime'>
+  <xs:complexType mixed='true'>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Rights -->
+ <xs:element name='Rights'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Description'/>
+   </xs:sequence>
+   <xs:attribute name='Cost' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Yes'/>
+      <xs:enumeration value='No'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name='CopyrightAndOtherRestrictions' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Yes'/>
+      <xs:enumeration value='No'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Relation -->
+ <xs:element name='Relation'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Resource'/>
+   </xs:sequence>
+   <xs:attribute name='Kind' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='IsPartOf'/>
+      <xs:enumeration value='HasPart'/>
+      <xs:enumeration value='IsVersionOf'/>
+      <xs:enumeration value='HasVersion'/>
+      <xs:enumeration value='IsFormatOf'/>
+      <xs:enumeration value='HasFormat'/>
+      <xs:enumeration value='References'/>
+      <xs:enumeration value='IsReferencedBy'/>
+      <xs:enumeration value='IsBasedOn'/>
+      <xs:enumeration value='IsBasisFor'/>
+      <xs:enumeration value='Requires'/>
+      <xs:enumeration value='IsRequiredBy'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Resource -->
+ <xs:element name='Resource'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Identifier_' maxOccurs='unbounded'/>
+    <xs:element ref='t:Description' maxOccurs='unbounded'/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Identifier_ -->
+ <xs:element name='Identifier_'>
+  <xs:complexType>
+   <xs:attribute name='Catalog' type='xs:string' use='optional'/>
+   <xs:attribute name='Entry' type='xs:string' use='optional'/>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Annotation -->
+ <xs:element name='Annotation'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Entity'/>
+    <xs:element ref='t:Date'/>
+    <xs:element ref='t:Description'/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Classification -->
+ <xs:element name='Classification'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:TaxonPath' maxOccurs='unbounded'/>
+    <xs:element ref='t:Description'/>
+    <xs:element ref='t:Keyword' maxOccurs='unbounded'/>
+   </xs:sequence>
+   <xs:attribute name='Purpose' use='required'>
+    <xs:simpleType>
+     <xs:restriction base='xs:string'>
+      <xs:enumeration value='Discipline'/>
+      <xs:enumeration value='Idea'/>
+      <xs:enumeration value='Prerequisite'/>
+      <xs:enumeration value='EducationalObjective'/>
+      <xs:enumeration value='AccessibilityRestrictions'/>
+      <xs:enumeration value='EducationalLevel'/>
+      <xs:enumeration value='SkillLevel'/>
+      <xs:enumeration value='SecurityLevel'/>
+      <xs:enumeration value='Competency'/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- TaxonPath -->
+ <xs:element name='TaxonPath'>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref='t:Source'/>
+    <xs:element ref='t:Taxon' maxOccurs='unbounded'/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Source -->
+ <xs:element name='Source'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Taxon -->
+ <xs:element name='Taxon'>
+  <xs:complexType mixed='true'>
+   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+   <xs:attribute name='Id' type='xs:ID' use='optional'/>
+  </xs:complexType>
+ </xs:element>
+
+</xs:schema>

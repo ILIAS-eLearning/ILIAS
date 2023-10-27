@@ -43,7 +43,7 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
         // Edit Question
         if ($this->getEditQuestionCmd() !== null) {
             $action = $this->ilCtrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, $this->getEditQuestionCmd());
-            $button_edit_question = $this->ui->factory()->button()->standard($this->lng->txt('edit_question'), $action);
+            $button_edit_question = $this->ui->factory()->button()->primary($this->lng->txt('edit_question'), $action);
             $this->addComponent($button_edit_question);
         }
 

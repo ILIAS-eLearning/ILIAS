@@ -5,34 +5,7 @@ missing or wrong information using the [ILIAS issue tracker](https://mantis.ilia
 or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 In this documentation, we will outline briefly how support for 
-Learning Object Metadata (LOM) can be added to an ILIAS object. 
-
-### Identifying Your Object
-
-In `Services/MetaData`, objects in ILIAS are generally identified by
-three parameters:
-
-1. The `obj_id` of the object if it is a repository object, else the
-   `obj_id` of its parent repository object. If the object does not have
-   a fixed parent  (e.g. MediaObject), then this parameter is 0.
-2. The `obj_id` of the object. If the object is a repository object by
-   itself and not a sub-object, then you can set this parameter to 0, but
-   we recommend passing the `obj_id` again.
-3. The type of the object (and not its parent's), e.g. `'crs'` or `'lm'`.
-
-For example, consider three different objects:
-
-- a Group with `obj_id` 123,
-- a Page with `obj_id` 54 in an ILIAS Learning Module with `obj_id` 456,
-- and a MediaObject with `obj_id` 789.
-
-The corresponding ID-triples would then be
-
-|             | 1   | 2   | 3
-|-------------|-----|-----|-----
-| Group       | 123 | 123 | grp
-| Page in LM  | 456 | 54  | pg
-| MediaObject | 0   | 789 | mob
+Learning Object Metadata (LOM) can be added to an ILIAS object.
 
 ### Object: Creation, Changing Settings, Deletion
 
@@ -52,7 +25,7 @@ etc.
 Note that the implementation of the methods assumes that your object
 is a repository object. If it is a sub-object, you have to overwrite
 them in your component, and set the ID-triple in `ilMD` as described
-above.
+[here](identifying_objects.md).
 
 ### LOM Editor
 
@@ -65,7 +38,7 @@ when it does. In addition, add your object's type to the array in
 
 If your object is a repository object, you can just pass the object
 itself to the constructor of `ilObjectMetadataGUI`, and it will extract
-the ID-triple explained above. However, if your object is a sub-object of
+the [ID-triple](identifying_objects.md) automatically. However, if your object is a sub-object of
 a parent repository object, you have to  pass that parent to the constructor
 instead, along with the type and `obj_id` of your object.  In this case,
 a combination of the parent's type and your object's type in the form
@@ -126,8 +99,7 @@ In `ilObjMediaObjectGUI::executeCommand`:
 
 In order to display some elements of your object's LOM on its 'Info'
 tab, call `ilInfoScreenGUI::addMetaDataSections` when building the
-info screen. As parameters, you have to pass the ID-triple explained
-above.
+info screen. As parameters, you have to pass the familiar [ID-triple](identifying_objects.md).
 
 ### Import/Export
 
@@ -143,9 +115,9 @@ following entry to the array returned there:
     ];
 
 `$ids` is an array of the IDs of the to be exported objects. Each ID
-is composed of the familiar ID-triple, joined into one colon-separated
+is composed of the [ID-triple](identifying_objects.md), joined into one colon-separated
 string: `{obj_id of repository object}:{obj_id}:{type}`, e.g. `456:54:pg`
-for the Page in a LM from above.
+for the [Page in a LM example](identifying_objects.md).
 
 In addition, in `importRecord` of your object's `ilDataSet`, you need
 to add a mapping for the exported LOM from the exported object to the

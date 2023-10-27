@@ -256,6 +256,7 @@ class ilWikiPage extends ilPageObject
             );
 
             $this->wiki_log->debug("update news");
+            ilObjectSearch::raiseContentChanged($this->getWikiId());
             $this->updateNews(true);
         } else {
             return $updated;

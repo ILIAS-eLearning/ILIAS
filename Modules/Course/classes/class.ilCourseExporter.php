@@ -59,35 +59,87 @@ class ilCourseExporter extends ilXmlExporter
         );
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
+    protected function getActiveAdvMDRecords(int $a_id): array
     {
-        $dependencies = array();
-        if ($a_entity == self::ENTITY_MAIN) {
-            $obj_id = 0;
-            foreach ($a_ids as $id) {
-                $obj_id = $id;
-            }
-
-            $dependencies[] = array(
-                'component' => 'Modules/Course',
-                'entity' => self::ENTITY_OBJECTIVE,
-                'ids' => $obj_id
-            );
-
-            $page_ids = array();
-            foreach (ilCourseObjective::_getObjectiveIds($obj_id) as $objective_id) {
-                foreach (ilLOPage::getAllPages('lobj', $objective_id) as $page_id) {
-                    $page_ids[] = ('lobj:' . $page_id['id']);
+        $active = [];
+        foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType('crs') as $record_obj) {
+            foreach ($record_obj->getAssignedObjectTypes() as $obj_info) {
+                if ($obj_info['obj_type'] == 'crs' && $obj_info['optional'] == 0) {
+                    $active[] = $record_obj->getRecordId();
+                }
+                // local activation
+                if (
+                    $obj_info['obj_type'] == 'crs' &&
+                    $obj_info['optional'] == 1 &&
+                    $a_id == $record_obj->getParentObject()
+                ) {
+                    $active[] = $record_obj->getRecordId();
                 }
             }
+        }
+        return $active;
+    }
 
-            if ($page_ids !== []) {
-                $dependencies[] = array(
-                    'component' => 'Services/COPage',
-                    'entity' => 'pg',
-                    'ids' => $page_ids
-                );
+
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
+    {
+        if ($a_entity !== self::ENTITY_MAIN) {
+            return [];
+        }
+
+        $dependencies = [];
+        $obj_id = 0;
+        foreach ($a_ids as $id) {
+            $obj_id = $id;
+        }
+
+        $dependencies[] = [
+            'component' => 'Modules/Course',
+            'entity' => self::ENTITY_OBJECTIVE,
+            'ids' => $obj_id
+        ];
+
+        $page_ids = [];
+        foreach (ilCourseObjective::_getObjectiveIds($obj_id) as $objective_id) {
+            foreach (ilLOPage::getAllPages('lobj', $objective_id) as $page_id) {
+                $page_ids[] = ('lobj:' . $page_id['id']);
             }
+        }
+
+        if ($page_ids !== []) {
+            $dependencies[] = [
+                'component' => 'Services/COPage',
+                'entity' => 'pg',
+                'ids' => $page_ids
+            ];
+        }
+
+        $advmd_ids = [];
+        foreach ($a_ids as $id) {
+            $rec_ids = $this->getActiveAdvMDRecords($id);
+            foreach ($rec_ids as $rec_id) {
+                $advmd_ids[] = $id . ":" . $rec_id;
+            }
+        }
+
+        if ($advmd_ids !== []) {
+            $dependencies[] = [
+                "component" => "Services/AdvancedMetaData",
+                "entity" => "advmd",
+                "ids" => $advmd_ids
+            ];
+        }
+
+        $md_ids = [];
+        foreach ($a_ids as $crs_id) {
+            $md_ids[] = $crs_id . ":0:crs";
+        }
+        if ($md_ids !== []) {
+            $dependencies[] = [
+                    "component" => "Services/MetaData",
+                    "entity" => "md",
+                    "ids" => $md_ids
+            ];
         }
         return $dependencies;
     }
@@ -125,21 +177,28 @@ class ilCourseExporter extends ilXmlExporter
 
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            "4.1.0" => array(
+        return [
+            "9.0" => [
+                "namespace" => 'http://www.ilias.de/Modules/Course/crs/9',
+                "xsd_file" => 'ilias_crs_9_0.xsd',
+                "uses_dataset" => false,
+                "min" => "9.0",
+                "max" => ""
+            ],
+            "4.1.0" => [
                 "namespace" => "http://www.ilias.de/Modules/Course/crs/4_1",
                 "xsd_file" => "ilias_course_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",
                 "max" => "4.4.999"
-            ),
-            "5.0.0" => array(
+            ],
+            "5.0.0" => [
                 "namespace" => "http://www.ilias.de/Modules/Course/crs/5_0",
                 "xsd_file" => "ilias_crs_5_0.xsd",
                 "uses_dataset" => false,
                 "min" => "5.0.0",
                 "max" => ""
-            )
-        );
+            ]
+        ];
     }
 }

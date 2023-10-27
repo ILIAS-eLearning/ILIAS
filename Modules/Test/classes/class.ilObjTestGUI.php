@@ -72,9 +72,9 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling
 {
-    private static $infoScreenChildClasses = array(
+    private static $infoScreenChildClasses = [
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
-    );
+    ];
 
     private ilTestQuestionSetConfigFactory $test_question_set_config_factory;
     private ilTestPlayerFactory $test_player_factory;
@@ -192,9 +192,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $cmd = $this->ctrl->getCmd('testScreen');
 
-        $cmdsDisabledDueToOfflineStatus = array(
+        $cmdsDisabledDueToOfflineStatus = [
             'resumePlayer', 'resumePlayer', 'outUserResultsOverview', 'outUserListOfAnswerPasses'
-        );
+        ];
 
         if (!$this->getCreationMode() && $this->object->getOfflineStatus() && in_array($cmd, $cmdsDisabledDueToOfflineStatus)) {
             $cmd = 'infoScreen';
@@ -654,11 +654,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
 
                 $this->prepareOutput();
-                if (!in_array($cmd, array('addQuestion', 'browseForQuestions'))) {
+                if (!in_array($cmd, ['addQuestion', 'browseForQuestions'])) {
                     $this->buildPageViewToolbar($qid);
                 }
 
-                if (!$qid || in_array($cmd, array('insertQuestions', 'browseForQuestions'))) {
+                if (!$qid || in_array($cmd, ['insertQuestions', 'browseForQuestions'])) {
                     $pageObject = new ilTestExpressPageObjectGUI(0, 0, $this->object);
                     $ret = $this->ctrl->forwardCommand($pageObject);
                     $this->tpl->setContent($ret);
@@ -708,7 +708,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ctrl->setCmd("preview");
                 }
 
-                $page_gui->setQuestionHTML(array($q_gui->object->getId() => $q_gui->getPreview(true)));
+                $page_gui->setQuestionHTML([$q_gui->object->getId() => $q_gui->getPreview(true)]);
                 $page_gui->setTemplateTargetVar("ADM_CONTENT");
 
                 $page_gui->setOutputMode($this->object->evalTotalPersons() == 0 ? "edit" : 'preview');
@@ -1206,8 +1206,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $defaults = $tst->getAvailableDefaults();
         if (count($defaults)) {
             foreach ($defaults as $row) {
-                $options["tstdef_" . $row["test_defaults_id"]] = array($row["name"],
-                    $this->lng->txt("tst_default_settings"));
+                $options["tstdef_" . $row["test_defaults_id"]] = [$row["name"],
+                    $this->lng->txt("tst_default_settings")];
             }
         }
     }
@@ -1220,11 +1220,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $new_object->saveToDb();
 
-        $tstdef = $this->getDidacticTemplateVar("tstdef");
-        if ($tstdef) {
-            $testDefaultsId = $tstdef;
-            $testDefaults = $this->object->getTestDefaults($testDefaultsId);
-            $new_object->applyDefaults($testDefaults);
+        $test_def_id = $this->getDidacticTemplateVar("tstdef");
+        if ($test_def_id !== 0) {
+            $test_defaults = $new_object->getTestDefaults($test_def_id);
+            $new_object->applyDefaults($test_defaults);
         }
 
         $template_id = $this->getDidacticTemplateVar("tsttpl");
@@ -1592,7 +1591,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $qpl->createReference();
         $qpl->putInTree($parent_ref);
         $qpl->setPermissions($parent_ref);
-        $qpl->setOnline(1); // must be online to be available
+        $qpl->getObjectProperties()->storePropertyIsOnline($qpl->getObjectProperties()->getPropertyIsOnline()->withOnline()); // must be online to be available
         $qpl->saveToDb();
         return $qpl->getRefId();
     }
@@ -1895,7 +1894,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $checked_questions = $this->testrequest->raw('q_id');
 
         if (!is_array($checked_questions) && $checked_questions) {
-            $checked_questions = array($checked_questions);
+            $checked_questions = [$checked_questions];
         }
 
         if (!is_array($checked_questions)) {
@@ -2012,7 +2011,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->getTabsManager()->getQuestionsSubTabs();
         $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
 
-        $subScreenId = array('createQuestion');
+        $subScreenId = ['createQuestion'];
 
         $this->ctrl->setParameter($this, 'qtype', $this->testrequest->raw('qtype'));
 
@@ -2037,7 +2036,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $questions = $this->object->getQuestionTitlesAndIndexes();
         if ($questions) {
             $si = new ilSelectInputGUI($this->lng->txt("position"), "position");
-            $options = array('0' => $this->lng->txt('first'));
+            $options = ['0' => $this->lng->txt('first')];
             foreach ($questions as $key => $title) {
                 $options[$key] = $this->lng->txt('behind') . ' ' . $title . ' [' . $this->lng->txt('question_id_short') . ': ' . $key . ']';
             }
@@ -2166,11 +2165,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             if ($total != 0) {
                 $link = $this->ui_factory->link()->standard(
                     $this->lng->txt("test_has_datasets_warning_page_view_link"),
-                    $this->ctrl->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'))
+                    $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilParticipantsTestResultsGUI'])
                 );
 
                 $message = $this->lng->txt("test_has_datasets_warning_page_view");
-                $massage_box = $this->ui_factory->messageBox()->info($message)->withLinks(array($link));
+                $massage_box = $this->ui_factory->messageBox()->info($message)->withLinks([$link]);
                 $this->tpl->setCurrentBlock('mess');
                 $this->tpl->setVariable(
                     'MESSAGE',
@@ -2282,13 +2281,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("import_tst"));
         $fi = new ilFileInputGUI($this->lng->txt("import_file"), "xmldoc");
-        $fi->setSuffixes(array("zip"));
+        $fi->setSuffixes(["zip"]);
         $fi->setRequired(true);
         $form->addItem($fi);
         $tst = new ilObjTest();
         $questionpools = $tst->getAvailableQuestionpools(true, false, true, true);
         if (count($questionpools)) {
-            $options = array("-1" => $this->lng->txt("dont_use_questionpool"));
+            $options = ["-1" => $this->lng->txt("dont_use_questionpool")];
             foreach ($questionpools as $key => $value) {
                 $options[$key] = $value["title"];
             }
@@ -3313,9 +3312,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $questions[$k] = $this->lng->txt('behind') . ' ' . $q;
         }
 
-        $options = array(
+        $options = [
             0 => $this->lng->txt('first')
-        );
+        ];
         foreach ($questions as $k => $q) {
             $options[$k] = $q . ' [' . $this->lng->txt('question_id_short') . ': ' . $k . ']';
         }

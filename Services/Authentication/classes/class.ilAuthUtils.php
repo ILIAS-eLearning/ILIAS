@@ -421,7 +421,7 @@ class ilAuthUtils
 
     /**
      * @param ilLanguage $lng
-     * @return array<int|string, string>
+     * @return array<int|string, array{"txt": string, "checked"?: bool, "hide_in_ui"?: bool}>
      */
     public static function _getMultipleAuthModeOptions(ilLanguage $lng): array
     {

@@ -220,10 +220,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $num_unread = $thread->getNumUnreadPosts();
 
         $this->ctrl->setParameter($this->getParentObject(), 'page', 0);
-        $subject = '<div><a href="' . $this->ctrl->getLinkTarget(
-            $this->getParentObject(),
-            'viewThread'
-        ) . '">' . $thread->getSubject() . '</a></div>' . $subject;
+        $subject = $thread->getSubject();
+
         $this->ctrl->setParameter($this->getParentObject(), 'page', null);
         $this->tpl->setVariable('VAL_SUBJECT', $subject);
 

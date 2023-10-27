@@ -1,0 +1,1656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ilias_co_3_6.dtd for creating ILIAS Content (Learning Modules and DigiLib Objects) -->
+<!-- new in this version: -->
+<!-- -properties -->
+<!-- , see http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd for current version -->
+<!-- Initial version by Maik Stuehrenberg (Giessen University) for the BMBF-funded project MiLCA (Medienintensive Lehrmodule in der Computerlinguistik-Ausbildung), modelled after LOM version 1 Final Draft -->
+<!-- Modifications and adoption to ILIAS made by Maik Stuehrenberg (Giessen University), Martin Rus, Matthias Rulinski, Alexander Killing, Matthias Kunkel (ILIAS open source, University of Cologne), Sascha Hofmann (Databay AG, Aachen) -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- $Id: ilias_co_3_7.dtd 12010 2006-09-06 14:27:27Z akill $ -->
+<!--
+    Things still missing in ILIAS 3 (search for TO_IMPLEMENT in this document)
+    - Test (assessment is supposed to get a dtd of its own, but we'll need
+    - a reference concept for this)
+    - Internal Link Type Bibliography (is this needed?)
+    - Structure Aliases
+    - Formula
+    - Markup
+    - Anchor
+-->
+<!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
+
+<!--targetNamespace = "http://www.ilias.de/Services/Conditionsw/exp/9_0" -->
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+    <xs:simpleType name="langcode">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="none"/>
+            <xs:enumeration value="aa"/>
+            <xs:enumeration value="ab"/>
+            <xs:enumeration value="af"/>
+            <xs:enumeration value="am"/>
+            <xs:enumeration value="ar"/>
+            <xs:enumeration value="as"/>
+            <xs:enumeration value="ay"/>
+            <xs:enumeration value="az"/>
+            <xs:enumeration value="ba"/>
+            <xs:enumeration value="be"/>
+            <xs:enumeration value="bg"/>
+            <xs:enumeration value="bh"/>
+            <xs:enumeration value="bi"/>
+            <xs:enumeration value="bn"/>
+            <xs:enumeration value="bo"/>
+            <xs:enumeration value="br"/>
+            <xs:enumeration value="ca"/>
+            <xs:enumeration value="co"/>
+            <xs:enumeration value="cs"/>
+            <xs:enumeration value="cy"/>
+            <xs:enumeration value="da"/>
+            <xs:enumeration value="de"/>
+            <xs:enumeration value="dz"/>
+            <xs:enumeration value="el"/>
+            <xs:enumeration value="en"/>
+            <xs:enumeration value="eo"/>
+            <xs:enumeration value="es"/>
+            <xs:enumeration value="et"/>
+            <xs:enumeration value="eu"/>
+            <xs:enumeration value="fa"/>
+            <xs:enumeration value="fi"/>
+            <xs:enumeration value="fj"/>
+            <xs:enumeration value="fo"/>
+            <xs:enumeration value="fr"/>
+            <xs:enumeration value="fy"/>
+            <xs:enumeration value="ga"/>
+            <xs:enumeration value="gd"/>
+            <xs:enumeration value="gl"/>
+            <xs:enumeration value="gn"/>
+            <xs:enumeration value="gu"/>
+            <xs:enumeration value="ha"/>
+            <xs:enumeration value="he"/>
+            <xs:enumeration value="hi"/>
+            <xs:enumeration value="hr"/>
+            <xs:enumeration value="hu"/>
+            <xs:enumeration value="hy"/>
+            <xs:enumeration value="ia"/>
+            <xs:enumeration value="ie"/>
+            <xs:enumeration value="ik"/>
+            <xs:enumeration value="id"/>
+            <xs:enumeration value="is"/>
+            <xs:enumeration value="it"/>
+            <xs:enumeration value="iu"/>
+            <xs:enumeration value="ja"/>
+            <xs:enumeration value="jv"/>
+            <xs:enumeration value="ka"/>
+            <xs:enumeration value="kk"/>
+            <xs:enumeration value="kl"/>
+            <xs:enumeration value="km"/>
+            <xs:enumeration value="kn"/>
+            <xs:enumeration value="ko"/>
+            <xs:enumeration value="ks"/>
+            <xs:enumeration value="ku"/>
+            <xs:enumeration value="ky"/>
+            <xs:enumeration value="la"/>
+            <xs:enumeration value="ln"/>
+            <xs:enumeration value="lo"/>
+            <xs:enumeration value="lt"/>
+            <xs:enumeration value="lv"/>
+            <xs:enumeration value="mg"/>
+            <xs:enumeration value="mi"/>
+            <xs:enumeration value="mk"/>
+            <xs:enumeration value="ml"/>
+            <xs:enumeration value="mn"/>
+            <xs:enumeration value="mo"/>
+            <xs:enumeration value="mr"/>
+            <xs:enumeration value="ms"/>
+            <xs:enumeration value="mt"/>
+            <xs:enumeration value="my"/>
+            <xs:enumeration value="na"/>
+            <xs:enumeration value="ne"/>
+            <xs:enumeration value="nl"/>
+            <xs:enumeration value="no"/>
+            <xs:enumeration value="oc"/>
+            <xs:enumeration value="om"/>
+            <xs:enumeration value="or"/>
+            <xs:enumeration value="pa"/>
+            <xs:enumeration value="pl"/>
+            <xs:enumeration value="ps"/>
+            <xs:enumeration value="pt"/>
+            <xs:enumeration value="qu"/>
+            <xs:enumeration value="rm"/>
+            <xs:enumeration value="rn"/>
+            <xs:enumeration value="ro"/>
+            <xs:enumeration value="ru"/>
+            <xs:enumeration value="rw"/>
+            <xs:enumeration value="sa"/>
+            <xs:enumeration value="sd"/>
+            <xs:enumeration value="sg"/>
+            <xs:enumeration value="sh"/>
+            <xs:enumeration value="si"/>
+            <xs:enumeration value="sk"/>
+            <xs:enumeration value="sl"/>
+            <xs:enumeration value="sm"/>
+            <xs:enumeration value="sn"/>
+            <xs:enumeration value="so"/>
+            <xs:enumeration value="sq"/>
+            <xs:enumeration value="sr"/>
+            <xs:enumeration value="ss"/>
+            <xs:enumeration value="st"/>
+            <xs:enumeration value="su"/>
+            <xs:enumeration value="sv"/>
+            <xs:enumeration value="sw"/>
+            <xs:enumeration value="ta"/>
+            <xs:enumeration value="te"/>
+            <xs:enumeration value="tg"/>
+            <xs:enumeration value="th"/>
+            <xs:enumeration value="ti"/>
+            <xs:enumeration value="tk"/>
+            <xs:enumeration value="tl"/>
+            <xs:enumeration value="tn"/>
+            <xs:enumeration value="to"/>
+            <xs:enumeration value="tr"/>
+            <xs:enumeration value="ts"/>
+            <xs:enumeration value="tt"/>
+            <xs:enumeration value="tw"/>
+            <xs:enumeration value="ug"/>
+            <xs:enumeration value="uk"/>
+            <xs:enumeration value="ur"/>
+            <xs:enumeration value="uz"/>
+            <xs:enumeration value="vi"/>
+            <xs:enumeration value="vo"/>
+            <xs:enumeration value="wo"/>
+            <xs:enumeration value="xh"/>
+            <xs:enumeration value="yi"/>
+            <xs:enumeration value="yo"/>
+            <xs:enumeration value="za"/>
+            <xs:enumeration value="zh"/>
+            <xs:enumeration value="zu"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Types of (textual) content -->
+    <!--
+        TO_IMPLEMENT <!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor | Markup">
+        <!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor | Markup">
+        <!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
+        <!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
+        <!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code">
+        <!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
+        <!ENTITY % footnotetext "#PCDATA | br | Emph | Strong | ExtLink | IntLink">
+        <!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula">
+    -->
+    <xs:group name="text">
+        <xs:sequence>
+            <xs:choice minOccurs="0">
+                <xs:element ref="br"/>
+                <xs:element ref="Comment"/>
+                <xs:element ref="PageTurn"/>
+                <xs:element ref="Footnote"/>
+                <xs:element ref="Emph"/>
+                <xs:element ref="Strong"/>
+                <xs:element ref="Quotation"/>
+                <xs:element ref="Code"/>
+                <xs:element ref="ExtLink"/>
+                <xs:element ref="IntLink"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <xs:group name="commenttext">
+        <xs:sequence>
+            <xs:choice minOccurs="0">
+                <xs:element ref="br"/>
+                <xs:element ref="Emph"/>
+                <xs:element ref="PageTurn"/>
+                <xs:element ref="Footnote"/>
+                <xs:element ref="Strong"/>
+                <xs:element ref="Quotation"/>
+                <xs:element ref="Code"/>
+                <xs:element ref="ExtLink"/>
+                <xs:element ref="IntLink"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <xs:group name="emphtext">
+        <xs:sequence>
+            <xs:choice minOccurs="0">
+                <xs:element ref="br"/>
+                <xs:element ref="Comment"/>
+                <xs:element ref="PageTurn"/>
+                <xs:element ref="Footnote"/>
+                <xs:element ref="Strong"/>
+                <xs:element ref="Quotation"/>
+                <xs:element ref="Code"/>
+                <xs:element ref="ExtLink"/>
+                <xs:element ref="IntLink"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <xs:group name="strongtext">
+        <xs:sequence>
+            <xs:choice minOccurs="0">
+                <xs:element ref="br"/>
+                <xs:element ref="Comment"/>
+                <xs:element ref="PageTurn"/>
+                <xs:element ref="Footnote"/>
+                <xs:element ref="Emph"/>
+                <xs:element ref="Quotation"/>
+                <xs:element ref="Code"/>
+                <xs:element ref="ExtLink"/>
+                <xs:element ref="IntLink"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <xs:group name="linktext">
+        <xs:sequence>
+            <xs:choice minOccurs="0">
+                <xs:element ref="br"/>
+                <xs:element ref="Comment"/>
+                <xs:element ref="Emph"/>
+                <xs:element ref="Strong"/>
+                <xs:element ref="Quotation"/>
+                <xs:element ref="Code"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <xs:group name="simpletext">
+        <xs:sequence>
+            <xs:choice minOccurs="0">
+                <xs:element ref="br"/>
+                <xs:element ref="Emph"/>
+                <xs:element ref="Strong"/>
+                <xs:element ref="Quotation"/>
+                <xs:element ref="Code"/>
+                <xs:element ref="ExtLink"/>
+                <xs:element ref="IntLink"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <xs:group name="footnotetext">
+        <xs:sequence>
+            <xs:choice minOccurs="0">
+                <xs:element ref="br"/>
+                <xs:element ref="Emph"/>
+                <xs:element ref="Strong"/>
+                <xs:element ref="ExtLink"/>
+                <xs:element ref="IntLink"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <xs:group name="titletext">
+        <xs:sequence>
+            <xs:choice minOccurs="0">
+                <xs:element ref="br"/>
+                <xs:element ref="Emph"/>
+                <xs:element ref="Strong"/>
+                <xs:element ref="Quotation"/>
+                <xs:element ref="Code"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <!-- ContentObject -->
+    <!--  Object of highest complexity; ContentObject is a container for all content, meta data and layout information; it is comparable to an entire book -->
+    <!-- ContentObjects are comparable to LOM LearningObjects of aggregation level 3 -->
+    <!-- TO_IMPLEMENT <!ELEMENT ContentObject (MetaData, (StructureObject | PageObject | MediaObject)+, Test?, Glossary?, Bibliography?, Layout?)> -->
+    <xs:element name="ContentObject">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="MetaData"/>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="StructureObject"/>
+                    <xs:element ref="PageObject"/>
+                    <xs:element ref="MediaObject"/>
+                </xs:choice>
+                <xs:element minOccurs="0" ref="Properties"/>
+                <xs:element minOccurs="0" ref="Glossary"/>
+                <xs:element minOccurs="0" ref="Bibliography"/>
+                <xs:element minOccurs="0" ref="Layout"/>
+            </xs:sequence>
+            <xs:attribute name="Type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="LearningModule"/>
+                        <xs:enumeration value="LibObject"/>
+                        <xs:enumeration value="Glossary"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- If ContentObject is Glossary, no StructureObjects or PageObjects must be included -->
+    <!-- StructureObject -->
+    <!--  Object for structuring the learning material of a LearningModule and comparable to a chapter of a book; a StructureObject contains other StructureObjects (=chapters) and PageObjects (=pages) or a StructureAlias -->
+    <!-- StructureObjects are comparable to LOM LearningObjects of aggregation level 3 -->
+    <!-- TO_IMPLEMENT <!ELEMENT StructureObject (((MetaData, (StructureObject | PageObject)+) | StructureAlias), Layout?)> -->
+    <xs:element name="StructureObject">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:sequence>
+                    <xs:element ref="MetaData"/>
+                    <xs:choice maxOccurs="unbounded">
+                        <xs:element ref="StructureObject"/>
+                        <xs:element ref="PageObject"/>
+                    </xs:choice>
+                </xs:sequence>
+                <xs:element minOccurs="0" ref="Layout"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- StructureAlias -->
+    <!--  Alias for an already existing StructureObject; this allows an easy reuse of existing StructureObjects; an alias is not a copy but only a reference to the original object -->
+    <!--
+        TO_IMPLEMENT <!ELEMENT StructureAlias EMPTY>
+        <!ATTLIST StructureAlias
+        	OriginId CDATA #REQUIRED
+        >
+    -->
+    <!-- PageObject -->
+    <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
+    <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
+    <xs:element name="PageObject">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice>
+                    <xs:sequence>
+                        <xs:element ref="MetaData"/>
+                        <xs:element minOccurs="0" maxOccurs="unbounded" ref="PageContent"/>
+                    </xs:sequence>
+                    <xs:element ref="PageAlias"/>
+                </xs:choice>
+                <xs:element minOccurs="0" ref="Layout"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PageContent">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice>
+                    <xs:element ref="Paragraph"/>
+                    <xs:element ref="MediaObject"/>
+                    <xs:element ref="Table"/>
+                    <xs:element ref="List"/>
+                    <xs:element ref="FileList"/>
+                    <xs:element ref="Question"/>
+                    <xs:element ref="Section"/>
+                    <xs:element ref="Resources"/>
+                    <xs:element ref="Map"/>
+                    <xs:element ref="Tabs"/>
+                </xs:choice>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="BibItemIdentifier"/>
+            </xs:sequence>
+            <xs:attribute name="PCID"/>
+            <xs:attribute name="Enabled">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="True"/>
+                        <xs:enumeration value="False"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- enable/disable paragraph elements -->
+    <!-- BibItemIdentifier specify from which BibItem(s) the content comes -->
+    <xs:element name="BibItemIdentifier">
+        <xs:complexType>
+            <xs:attribute name="Catalog"/>
+            <xs:attribute name="Entry" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- PageAlias -->
+    <!--  Alias for an already existing PageObject; this allows an easy reuse of existing PageObjects; an alias is not a copy but only a reference to the original object -->
+    <xs:element name="PageAlias">
+        <xs:complexType>
+            <xs:attribute name="OriginId" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- PageTurn -->
+    <xs:element name="PageTurn">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="BibItemIdentifier"/>
+            </xs:sequence>
+            <xs:attribute name="NumberingType" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Roman"/>
+                        <xs:enumeration value="Arabic"/>
+                        <xs:enumeration value="Alphanumeric"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Number"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- MediaObject -->
+    <!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
+    <!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->
+    <xs:element name="MediaObject">
+        <xs:complexType>
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element ref="MetaData"/>
+                    <xs:element maxOccurs="unbounded" ref="MediaItem"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <xs:element ref="MediaAlias"/>
+                    <xs:element maxOccurs="unbounded" ref="MediaAliasItem"/>
+                </xs:sequence>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    <!-- MediaAlias -->
+    <!--  Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object -->
+    <xs:element name="MediaAlias">
+        <xs:complexType>
+            <xs:attribute name="OriginId" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- MediaAliasItem -->
+    <xs:element name="MediaAliasItem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="Layout"/>
+                <xs:element minOccurs="0" ref="Caption"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Parameter"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="MapArea"/>
+            </xs:sequence>
+            <xs:attribute name="Purpose" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Standard"/>
+                        <xs:enumeration value="Fullscreen"/>
+                        <xs:enumeration value="Additional"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- MediaItem -->
+    <!-- Location and Format as defined in Technical Section of Meta Data -->
+    <!-- Max. one Standard and one Fullscreen Item per MediaObject -->
+    <xs:element name="MediaItem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Location"/>
+                <xs:element minOccurs="0" ref="Format"/>
+                <xs:element minOccurs="0" ref="Layout"/>
+                <xs:element minOccurs="0" ref="Caption"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Parameter"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="MapArea"/>
+            </xs:sequence>
+            <xs:attribute name="Purpose" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Standard"/>
+                        <xs:enumeration value="Fullscreen"/>
+                        <xs:enumeration value="Additional"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="MapHighlightMode">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="None"/>
+                        <xs:enumeration value="Hover"/>
+                        <xs:enumeration value="Always"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="MapHighlightClass">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Accented"/>
+                        <xs:enumeration value="Light"/>
+                        <xs:enumeration value="Dark"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!--
+        MapAreas should be only defined for image objects with purpose
+        Standard or Fullscreen
+    -->
+    <xs:element name="MapArea">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="ExtLink"/>
+                <xs:element ref="IntLink"/>
+            </xs:choice>
+            <xs:attribute name="Shape" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Rect"/>
+                        <xs:enumeration value="Circle"/>
+                        <xs:enumeration value="Poly"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Coords"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Content Object Properties -->
+    <xs:element name="Properties">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Property"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Property">
+        <xs:complexType>
+            <xs:attribute name="Name" use="required"/>
+            <xs:attribute name="Value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Metadata -->
+    <!-- MetaData referring to LOM/SCORM standard, see http://ltsc.ieee.org/doc/wg12/LOM_1484_12_1_v1_Final_Draft.pdf for details -->
+    <!-- The base scheme consists of nine categories: -->
+    <!-- Relation and Classification can be used more than once in EducationalUnits but is useless in most of LearningObjects -->
+    <xs:element name="MetaData">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="General"/>
+                <xs:element minOccurs="0" ref="Lifecycle"/>
+                <xs:element minOccurs="0" ref="Meta-Metadata"/>
+                <xs:element minOccurs="0" ref="Technical"/>
+                <xs:element minOccurs="0" ref="Educational"/>
+                <xs:element minOccurs="0" ref="Rights"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Relation"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Annotation"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Classification"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- 1 General information about the resource as a whole -->
+    <xs:element name="General">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Identifier"/>
+                <xs:element ref="Title"/>
+                <xs:element maxOccurs="unbounded" ref="Language"/>
+                <xs:element maxOccurs="unbounded" ref="Description"/>
+                <xs:element maxOccurs="unbounded" ref="Keyword"/>
+                <xs:element minOccurs="0" ref="Coverage"/>
+            </xs:sequence>
+            <xs:attribute name="Structure" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Atomic"/>
+                        <xs:enumeration value="Collection"/>
+                        <xs:enumeration value="Networked"/>
+                        <xs:enumeration value="Hierarchical"/>
+                        <xs:enumeration value="Linear"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- 1.1 A global unique label, that identifies this learning object -->
+    <xs:element name="Identifier">
+        <xs:complexType>
+            <xs:attribute name="Catalog"/>
+            <xs:attribute name="Entry" use="required" type="xs:ID"/>
+        </xs:complexType>
+    </xs:element>
+    <!--  1.2 Name given to this resource -->
+    <!-- Title is the only element in MetaData having non #PCDATA content! due to use outside of MetaData -->
+    <xs:element name="Title">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="titletext"/>
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!--  1.3 The primary human language used within this resource to communicate to the intended user -->
+    <xs:element name="Language">
+        <xs:complexType>
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- 1.4 A textual description of the content of this resource being described -->
+    <xs:element name="Description">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- 1.5 Keywords or phrases describing this resource -->
+    <xs:element name="Keyword">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- 1.6 The span or extent of such things as time, culture, geography or region that applies to this resource -->
+    <xs:element name="Coverage">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- 2. History and current state of the resource and those who have affected this resource during its evolution -->
+    <!-- Contribute: (Creator | Validator) are NOT valid Role attributes! -->
+    <xs:element name="Lifecycle">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Version"/>
+                <xs:element maxOccurs="unbounded" ref="Contribute"/>
+            </xs:sequence>
+            <xs:attribute name="Status" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Draft"/>
+                        <xs:enumeration value="Final"/>
+                        <xs:enumeration value="Revised"/>
+                        <xs:enumeration value="Unavailable"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- 2.1 The edition of this resource -->
+    <xs:element name="Version">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!--  2.3 This sub-category describes those people or organization that have affected the state of this resource during its evolution -->
+    <xs:element name="Contribute">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Entity"/>
+                <xs:element ref="Date"/>
+            </xs:sequence>
+            <xs:attribute name="Role" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Author"/>
+                        <xs:enumeration value="Publisher"/>
+                        <xs:enumeration value="Unknown"/>
+                        <xs:enumeration value="Initiator"/>
+                        <xs:enumeration value="Terminator"/>
+                        <xs:enumeration value="Editor"/>
+                        <xs:enumeration value="GraphicalDesigner"/>
+                        <xs:enumeration value="TechnicalImplementer"/>
+                        <xs:enumeration value="ContentProvider"/>
+                        <xs:enumeration value="TechnicalValidator"/>
+                        <xs:enumeration value="EducationalValidator"/>
+                        <xs:enumeration value="ScriptWriter"/>
+                        <xs:enumeration value="InstructionalDesigner"/>
+                        <xs:enumeration value="SubjectMatterExpert"/>
+                        <xs:enumeration value="Creator"/>
+                        <xs:enumeration value="Validator"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!--  2.3.2 The identification of and information about the people or organizations contributing to this resource, most relevant first -->
+    <!-- LOM standard proposed Entity (#PCDATA | vCard). Support for vCards will be added later. -->
+    <xs:element name="Entity" type="xs:string"/>
+    <!--  2.3.3 This sub-category defines the date of the contribution -->
+    <xs:element name="Date" type="xs:string"/>
+    <!-- 3. Specific information about the meta-data record itself -->
+    <!-- Contribute: Only (Creator | Validator) are valid Role attributes! -->
+    <xs:element name="Meta-Metadata">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Identifier"/>
+                <xs:element maxOccurs="unbounded" ref="Contribute"/>
+            </xs:sequence>
+            <xs:attribute name="MetadataScheme" default="LOM v 1.0">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="LOM v 1.0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Language" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- 4. Technical requirements and characteristics of the resource -->
+    <xs:element name="Technical">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Format"/>
+                <xs:element minOccurs="0" ref="Size"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Location"/>
+                <xs:choice minOccurs="0">
+                    <xs:element minOccurs="0" maxOccurs="unbounded" ref="Requirement"/>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" ref="OrComposite"/>
+                </xs:choice>
+                <xs:element minOccurs="0" ref="InstallationRemarks"/>
+                <xs:element minOccurs="0" ref="OtherPlatformRequirements"/>
+                <xs:element minOccurs="0" ref="Duration"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- 4.1 Format is Mime Type e.g. (application-x-authorware-bin | application-x-authorware-map | application-x-authorware-seg | application-andrew-inset | application-excel | application-hstu | application-mac-binhex40 | application-mac-compactpro | application-msword | application-octet-stream | application-oda | application-pdf | application-postscript | application-powerpoint | application-rtf | application-smil | application-vnd.mif | application-vnd.ms-powerpoint | application-x-bcpio | application-x-cdlink | application-x-chess-pgn | application-x-compress | application-x-cpio | application-x-csh | application-x-director | application-x-dvi | application-x-futuresplash | application-x-gtar | application-x-gzip | application-x-hdf | application-x-httpd-cgi | application-x-javascript | application-x-koan | application-x-latex | application-x-mif | application-x-netcdf | application-x-sh | application-x-shar | application-x-shockwave-flash | application-x-stuffit | application-x-sv4cpio | application-x-sv4crc | application-x-tar | application-x-tcl | application-x-tex | application-x-texinfo | application-x-troff | application-x-troff-man | application-x-troff-me | application-x-troff-ms | application-x-ustar | application-x-wais-source | application-zip | audio-basic | audio-midi | audio-mpeg | audio-x-aiff | audio-x-pn-realaudio | audio-x-pn-realaudio-plugin | audio-x-realaudio | audio-x-wav | chemical-x-pdb | image-bmp | image-fif | image-gif | image-ief | image-jpeg | image-pict | image-png | image-tiff | image-x-cmu-raster | image-x-freehand | image-x-portable-anymap | image-x-portable-bitmap | image-x-portable-graymap | image-x-portable-pixmap | image-x-rgb | image-x-bmp | image-x-xbitmap | image-x-xpixmap | image-x-xwindowdump | model-iges | model-mesh | model-vrml | text-css | text-html | text-plain | text-richtext | text-sgml | text-tab-separated-values | text-x-setext | text-x-sgml | text-xml | video-mpeg | video-quicktime | video-x-msvideo | video-x-sgi-movie | x-conference-x-cooltalk | x-world-x-vrml | httpd-unix-directory) -->
+    <xs:element name="Format" type="xs:string"/>
+    <!--  4.2 The size of the digital resource in bytes. Only the digits '0'..'9' should be used; the unit is bytes, not MBytes,GB,etc. -->
+    <xs:element name="Size" type="xs:string"/>
+    <!--  4.3 A string that is used to access this resource, see LOM annotation -->
+    <xs:element name="Location">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="LocalFile"/>
+                        <xs:enumeration value="Reference"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- 4.4 Grouping of multiple requirements -->
+    <!-- 4.4.1 Defining attributes of OrComposite -->
+    <!-- This sub-category describes the technical capabilities required in order to use this resource -->
+    <xs:element name="OrComposite">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Requirement"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Requirement" type="Type"/>
+    <xs:complexType name="Type">
+        <xs:sequence>
+            <xs:element ref="Type"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Type">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="OperatingSystem"/>
+                <xs:element ref="Browser"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="OperatingSystem">
+        <xs:complexType>
+            <xs:attribute name="Name" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="PC-DOS"/>
+                        <xs:enumeration value="MS-Windows"/>
+                        <xs:enumeration value="MacOS"/>
+                        <xs:enumeration value="Unix"/>
+                        <xs:enumeration value="Multi-OS"/>
+                        <xs:enumeration value="None"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="MinimumVersion"/>
+            <xs:attribute name="MaximumVersion"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Browser">
+        <xs:complexType>
+            <xs:attribute name="Name" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Any"/>
+                        <xs:enumeration value="NetscapeCommunicator"/>
+                        <xs:enumeration value="MS-InternetExplorer"/>
+                        <xs:enumeration value="Opera"/>
+                        <xs:enumeration value="Amaya"/>
+                        <xs:enumeration value="Mozilla"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="MinimumVersion"/>
+            <xs:attribute name="MaximumVersion"/>
+        </xs:complexType>
+    </xs:element>
+    <!--  4.5 Description on how to install this resource -->
+    <xs:element name="InstallationRemarks">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- 4.6 Information about other software and hrdware requirements -->
+    <xs:element name="OtherPlatformRequirements">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- 4.7 Time continuous resource takes when -->
+    <xs:element name="Duration" type="xs:string"/>
+    <!-- 5. Key educational or pedagogic characteristics of the resource -->
+    <xs:element name="Educational">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="TypicalAgeRange"/>
+                <xs:element ref="TypicalLearningTime"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Description"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Language"/>
+            </xs:sequence>
+            <xs:attribute name="InteractivityType" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Active"/>
+                        <xs:enumeration value="Expositive"/>
+                        <xs:enumeration value="Mixed"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="LearningResourceType" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Exercise"/>
+                        <xs:enumeration value="Simulation"/>
+                        <xs:enumeration value="Questionnaire"/>
+                        <xs:enumeration value="Diagram"/>
+                        <xs:enumeration value="Figure"/>
+                        <xs:enumeration value="Graph"/>
+                        <xs:enumeration value="Index"/>
+                        <xs:enumeration value="Slide"/>
+                        <xs:enumeration value="Table"/>
+                        <xs:enumeration value="NarrativeText"/>
+                        <xs:enumeration value="Exam"/>
+                        <xs:enumeration value="Experiment"/>
+                        <xs:enumeration value="ProblemStatement"/>
+                        <xs:enumeration value="SelfAssessment"/>
+                        <xs:enumeration value="Lecture"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="InteractivityLevel" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="VeryLow"/>
+                        <xs:enumeration value="Low"/>
+                        <xs:enumeration value="Medium"/>
+                        <xs:enumeration value="High"/>
+                        <xs:enumeration value="VeryHigh"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="SemanticDensity" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="VeryLow"/>
+                        <xs:enumeration value="Low"/>
+                        <xs:enumeration value="Medium"/>
+                        <xs:enumeration value="High"/>
+                        <xs:enumeration value="VeryHigh"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="IntendedEndUserRole" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Teacher"/>
+                        <xs:enumeration value="Author"/>
+                        <xs:enumeration value="Learner"/>
+                        <xs:enumeration value="Manager"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Context" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="School"/>
+                        <xs:enumeration value="HigherEducation"/>
+                        <xs:enumeration value="Training"/>
+                        <xs:enumeration value="Other"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Difficulty" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="VeryEasy"/>
+                        <xs:enumeration value="Easy"/>
+                        <xs:enumeration value="Medium"/>
+                        <xs:enumeration value="Difficult"/>
+                        <xs:enumeration value="VeryDifficult"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!--  5.7 Age of the typical intended user -->
+    <xs:element name="TypicalAgeRange">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!--  5.9 Approximate or typical time it takes to work with this resource -->
+    <xs:element name="TypicalLearningTime" type="xs:string"/>
+    <!-- 6. Intellectual property rights and conditions of use for this resource -->
+    <xs:element name="Rights">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Description"/>
+            </xs:sequence>
+            <xs:attribute name="Cost" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Yes"/>
+                        <xs:enumeration value="No"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="CopyrightAndOtherRestrictions" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Yes"/>
+                        <xs:enumeration value="No"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- 7. Relationship between this resource and other resources, if any -->
+    <xs:element name="Relation">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="Resource">
+                    <xs:attribute name="Kind" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:token">
+                                <xs:enumeration value="IsPartOf"/>
+                                <xs:enumeration value="HasPart"/>
+                                <xs:enumeration value="IsVersionOf"/>
+                                <xs:enumeration value="HasVersion"/>
+                                <xs:enumeration value="IsFormatOf"/>
+                                <xs:enumeration value="HasFormat"/>
+                                <xs:enumeration value="References"/>
+                                <xs:enumeration value="IsReferencedBy"/>
+                                <xs:enumeration value="IsBasedOn"/>
+                                <xs:enumeration value="IsBasisFor"/>
+                                <xs:enumeration value="Requires"/>
+                                <xs:enumeration value="IsRequiredBy"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <!-- 7.2  The target resource that this relationship references -->
+    <!-- the Identifier should be of type IDREF cause its value is a reference -->
+    <!-- using the XML IDREF stating the CatalogEntry is obsolete (the CatalogEntry information could be retrieved with XSLT) -->
+    <xs:complexType name="Resource">
+        <xs:sequence>
+            <xs:element ref="Resource"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Resource">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Identifier_"/>
+                <xs:element maxOccurs="unbounded" ref="Description"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!--  7.2.1 A globally unique label, that identifies the target learning object -->
+    <xs:element name="Identifier_">
+        <xs:complexType>
+            <xs:attribute name="Catalog"/>
+            <xs:attribute name="Entry" type="xs:IDREF"/>
+        </xs:complexType>
+    </xs:element>
+    <!--  8. Comments on the educational use of this resource -->
+    <xs:element name="Annotation">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Entity"/>
+                <xs:element ref="Date"/>
+                <xs:element ref="Description"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!--  9. Description where this resource is placed within a particular classification system -->
+    <xs:element name="Classification">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="TaxonPath"/>
+                <xs:element ref="Description"/>
+                <xs:element maxOccurs="unbounded" ref="Keyword"/>
+            </xs:sequence>
+            <xs:attribute name="Purpose" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Discipline"/>
+                        <xs:enumeration value="Idea"/>
+                        <xs:enumeration value="Prerequisite"/>
+                        <xs:enumeration value="EducationalObjective"/>
+                        <xs:enumeration value="AccessibilityRestrictions"/>
+                        <xs:enumeration value="EducationalLevel"/>
+                        <xs:enumeration value="SkillLevel"/>
+                        <xs:enumeration value="SecurityLevel"/>
+                        <xs:enumeration value="Competency"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!--  9.2 This sub-category describes a taxonomic path in a specified classification system. see LOM -->
+    <xs:element name="TaxonPath">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Source"/>
+                <xs:element maxOccurs="unbounded" ref="Taxon"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!--  9.2.1 The name of the classification system -->
+    <xs:element name="Source">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- 9.2.2 -->
+    <xs:element name="Taxon">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+            <xs:attribute name="Id" type="xs:ID"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Paragraph -->
+    <!-- All textual content of a PageObject has to be divided in single paragraphs -->
+    <xs:element name="Paragraph">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="text"/>
+            <xs:attribute name="Language" use="required" type="langcode"/>
+            <xs:attribute name="Characteristic">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Headline1"/>
+                        <xs:enumeration value="Headline2"/>
+                        <xs:enumeration value="Headline3"/>
+                        <xs:enumeration value="Example"/>
+                        <xs:enumeration value="Citation"/>
+                        <xs:enumeration value="Mnemonic"/>
+                        <xs:enumeration value="Additional"/>
+                        <xs:enumeration value="List"/>
+                        <xs:enumeration value="Remark"/>
+                        <xs:enumeration value="Code"/>
+                        <xs:enumeration value="TableContent"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="SubCharacteristic"/>
+            <xs:attribute name="AutoIndent">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="y"/>
+                        <xs:enumeration value="n"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="ShowLineNumbers">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="y"/>
+                        <xs:enumeration value="n"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="DownloadTitle"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- br -->
+    <xs:element name="br">
+        <xs:complexType/>
+    </xs:element>
+    <!-- Comment -->
+    <xs:element name="Comment">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="commenttext"/>
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Emph -->
+    <xs:element name="Emph">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="emphtext"/>
+            <xs:attribute name="Reason">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Keyword"/>
+                        <xs:enumeration value="Intuition"/>
+                        <xs:enumeration value="MetaLanguageUse"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- Footnote -->
+    <xs:element name="Footnote">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="footnotetext"/>
+            <xs:attribute name="Creator">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Editor"/>
+                        <xs:enumeration value="Translator"/>
+                        <xs:enumeration value="Author"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- Strong -->
+    <xs:element name="Strong">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="strongtext"/>
+            <xs:attribute name="Reason">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Keyword"/>
+                        <xs:enumeration value="Intuition"/>
+                        <xs:enumeration value="MetaLanguageUse"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!-- Quotation -->
+    <xs:element name="Quotation">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="text"/>
+            <xs:attribute name="Language" use="required" type="langcode"/>
+            <xs:attribute name="Reference" type="xs:IDREF"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Code -->
+    <xs:element name="Code">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="br"/>
+            </xs:sequence>
+            <xs:attribute name="Id" type="xs:ID"/>
+            <xs:attribute name="ProgrammingLanguage"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Formula -->
+    <!--
+        TO_IMPLEMENT <!ELEMENT Formula (#PCDATA | br)*>
+        <!ATTLIST Formula
+        	Id ID #IMPLIED
+        >
+    -->
+    <!-- List -->
+    <xs:element name="List">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="Title"/>
+                <xs:element maxOccurs="unbounded" ref="ListItem"/>
+            </xs:sequence>
+            <xs:attribute name="Id" type="xs:ID"/>
+            <xs:attribute name="Type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Ordered"/>
+                        <xs:enumeration value="Unordered"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="NumberingType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Roman"/>
+                        <xs:enumeration value="roman"/>
+                        <xs:enumeration value="Alphabetic"/>
+                        <xs:enumeration value="alphabetic"/>
+                        <xs:enumeration value="Number"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ListItem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="PageContent"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- FileList -->
+    <xs:element name="FileList">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="Title"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="FileItem"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="FileItem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Identifier"/>
+                <xs:element ref="Location"/>
+                <xs:element minOccurs="0" ref="Format"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- Table -->
+    <!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->
+    <!-- Only a minimum of style elements and attributes defined -->
+    <xs:element name="Table">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="Title"/>
+                <xs:element minOccurs="0" ref="Caption"/>
+                <xs:element minOccurs="0" ref="Summary"/>
+                <xs:element maxOccurs="unbounded" ref="TableRow"/>
+            </xs:sequence>
+            <xs:attribute name="Language" use="required" type="langcode"/>
+            <xs:attribute name="Id" type="xs:ID"/>
+            <xs:attribute name="Width"/>
+            <xs:attribute name="Border"/>
+            <xs:attribute name="HorizontalAlign">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Left"/>
+                        <xs:enumeration value="Center"/>
+                        <xs:enumeration value="Right"/>
+                        <xs:enumeration value="LeftFloat"/>
+                        <xs:enumeration value="RightFloat"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="CellPadding"/>
+            <xs:attribute name="CellSpacing"/>
+            <xs:attribute name="Class"/>
+            <xs:attribute name="DataTable">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="y"/>
+                        <xs:enumeration value="n"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Caption">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="titletext"/>
+            <xs:attribute name="Align" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="top"/>
+                        <xs:enumeration value="bottom"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Summary">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="simpletext"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="TableRow">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="TableData"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="TableData">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="PageContent"/>
+            </xs:sequence>
+            <xs:attribute name="Width"/>
+            <xs:attribute name="Class"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- ExtLink -->
+    <!--  An element to link to _external_ resources outside the ILIAS system, e.g. to a web site -->
+    <!-- It is fixed to xlink-type simple, only required attribute value is href -->
+    <xs:element name="ExtLink">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="linktext"/>
+            <xs:attribute name="Href" use="required"/>
+            <xs:attribute name="Title"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- IntLink -->
+    <!-- An element to link to _internal_ resources via XML ID/IDREF -->
+    <!-- Each Object has an Identifier attribute (type ID) in its Metadata/General element; only this one should be used! -->
+    <!-- Other less usable Identifier attributes are in Metadata/Meta-Metadata and in Metadata/Resource element; they should be ignored! -->
+    <!-- In case of Anchor the concerning attribute Id of the Anchor should be used! -->
+    <!-- note: replaced IDREF by CDATA, IDERF does not work with links to resources outside this document -->
+    <xs:element name="IntLink">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="linktext"/>
+            <xs:attribute name="Target" use="required"/>
+            <xs:attribute name="Type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="StructureObject"/>
+                        <xs:enumeration value="PageObject"/>
+                        <xs:enumeration value="MediaObject"/>
+                        <xs:enumeration value="GlossaryItem"/>
+                        <xs:enumeration value="RepositoryItem"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="TargetFrame">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Media"/>
+                        <xs:enumeration value="FAQ"/>
+                        <xs:enumeration value="Glossary"/>
+                        <xs:enumeration value="New"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <!--
+        TO_IMPLEMENT <!ATTLIST IntLink
+        	Target CDATA #REQUIRED
+        	Type (StructureObject | PageObject | MediaObject | Test | TestItem | Glossary | GlossaryItem | Bibliography | Anchor) #REQUIRED
+        	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
+        >
+    -->
+    <!-- Anchor -->
+    <!--  Allows to jump to a specified target point within a page; the use of anchors in ILIAS is equal to its use in HTML -->
+    <!--
+        TO_IMPLEMENT <!ELEMENT Anchor (%linktext;)*>
+        <!ATTLIST Anchor
+        	Id ID #REQUIRED
+        >
+    -->
+    <!-- Markup -->
+    <!-- Markup element can be used for not supported items; the processing of this element can be adjusted in the XSLT stylesheet -->
+    <!--
+        TO_IMPLEMENT <!ELEMENT Markup (%text;)*>
+        <!ATTLIST Markup
+        	Type CDATA #REQUIRED
+        	Attribute1 CDATA #IMPLIED
+        	Attribute2 CDATA #IMPLIED
+        	Attribute3 CDATA #IMPLIED
+        	Attribute4 CDATA #IMPLIED
+        	Attribute5 CDATA #IMPLIED
+        >
+    -->
+    <!-- Test -->
+    <!--  Only a minimum of functionality defined to support simple multiple choice tests as already known in ILIAS 2 -->
+    <!--
+        TO_IMPLEMENT <!ELEMENT Test (MetaData, TestItem+)>
+        <!ELEMENT TestItem (MetaData, Introduction*, Question, Answer+, Hint*)>
+        <!ELEMENT Introduction (Paragraph | MediaObject)+>
+        <!ELEMENT Question (Paragraph | MediaObject)+>
+        <!ELEMENT Answer (Paragraph | MediaObject)+>
+        <!ATTLIST Answer
+        	Solution (Right | Wrong) #IMPLIED
+        >
+        <!ELEMENT Hint (Paragraph | MediaObject)+>
+    -->
+    <!-- Question -->
+    <xs:element name="Question">
+        <xs:complexType>
+            <xs:attribute name="QRef" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Section -->
+    <!-- il_Block, il_Example, il_Special, il_Additional, il_Excursus -->
+    <xs:element name="Section">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="PageContent"/>
+            </xs:sequence>
+            <xs:attribute name="StyleClass"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Resources -->
+    <xs:element name="Resources">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="ResourceList"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ResourceList">
+        <xs:complexType>
+            <xs:attribute name="Type" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Map -->
+    <xs:element name="Map">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="Layout"/>
+                <xs:element minOccurs="0" ref="MapCaption"/>
+            </xs:sequence>
+            <xs:attribute name="Latitude" use="required"/>
+            <xs:attribute name="Longitude" use="required"/>
+            <xs:attribute name="Zoom" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MapCaption">
+        <xs:complexType mixed="true">
+            <xs:group minOccurs="0" maxOccurs="unbounded" ref="titletext"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Plugged Component -->
+    <xs:element name="Plugged">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="PluggedParameter"/>
+            </xs:sequence>
+            <xs:attribute name="PluginName" use="required"/>
+            <xs:attribute name="PluginVersion" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PluggedParameter">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- TabbedContent -->
+    <xs:element name="Tabs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Tab"/>
+            </xs:sequence>
+            <xs:attribute name="Type">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="HorizontalTabs"/>
+                        <xs:enumeration value="Accordion"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Tab">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="Caption"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="PageContent"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- Glossary -->
+    <!--  The Glossary is a container for all GlossaryItems and always part of the LearningModule -->
+    <xs:element name="Glossary">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="MetaData"/>
+                <xs:element maxOccurs="unbounded" ref="GlossaryItem"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- A GlossaryItem consists of MetaData, a term and one or more definitions; it can be referred by PageObjects -->
+    <xs:element name="GlossaryItem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="GlossaryTerm"/>
+                <xs:element maxOccurs="unbounded" ref="Definition"/>
+            </xs:sequence>
+            <xs:attribute name="Language" use="required" type="langcode"/>
+            <xs:attribute name="Id" use="required" type="xs:ID"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- GlossaryTerms can be included in Paragraphs -->
+    <xs:element name="GlossaryTerm" type="xs:string"/>
+    <xs:element name="Definition">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="MetaData"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="PageContent"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- Layout -->
+    <!-- Layout information for formatting content output different from default layout -->
+    <xs:element name="Layout">
+        <xs:complexType>
+            <xs:attribute name="HorizontalAlign">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Left"/>
+                        <xs:enumeration value="Center"/>
+                        <xs:enumeration value="Right"/>
+                        <xs:enumeration value="LeftFloat"/>
+                        <xs:enumeration value="RightFloat"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Width"/>
+            <xs:attribute name="Height"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Parameter -->
+    <!-- Special parameters needed for MediaObjects, e.g. a starting class for Java objects; parameters depend on types of MediaObjects -->
+    <xs:element name="Parameter">
+        <xs:complexType>
+            <xs:attribute name="Name" use="required"/>
+            <xs:attribute name="Value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- Bibliography -->
+    <xs:element name="Bibliography">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="BibItem"/>
+                <xs:element minOccurs="0" ref="Abstract"/>
+            </xs:sequence>
+            <xs:attribute name="version"/>
+            <xs:attribute name="author"/>
+            <xs:attribute name="created"/>
+            <xs:attribute name="lastmodified"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- BibItem -->
+    <xs:element name="BibItem">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Identifier"/>
+                <xs:element maxOccurs="unbounded" ref="Language"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Author"/>
+                <xs:element ref="Booktitle"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="CrossRef"/>
+                <xs:element ref="Edition"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Editor"/>
+                <xs:element ref="HowPublished"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="WherePublished"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Institution"/>
+                <xs:element minOccurs="0" ref="Journal"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Keyword"/>
+                <xs:element minOccurs="0" ref="Month"/>
+                <xs:element minOccurs="0" ref="Pages"/>
+                <xs:element ref="Publisher"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="School"/>
+                <xs:element minOccurs="0" ref="Series"/>
+                <xs:element ref="Year"/>
+                <xs:choice>
+                    <xs:element ref="URL"/>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" ref="ISSN"/>
+                        <xs:element minOccurs="0" ref="ISBN"/>
+                    </xs:sequence>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="Type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="book"/>
+                        <xs:enumeration value="inbook"/>
+                        <xs:enumeration value="journalarticle"/>
+                        <xs:enumeration value="proceedings"/>
+                        <xs:enumeration value="inproceedings"/>
+                        <xs:enumeration value="dissertation"/>
+                        <xs:enumeration value="phdthesis"/>
+                        <xs:enumeration value="mastersthesis"/>
+                        <xs:enumeration value="techreport"/>
+                        <xs:enumeration value="manual"/>
+                        <xs:enumeration value="newspaperarticle"/>
+                        <xs:enumeration value="av"/>
+                        <xs:enumeration value="internet"/>
+                        <xs:enumeration value="unpublished"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Label" use="required" type="xs:ID"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Author">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="FirstName"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="MiddleName"/>
+                <xs:element ref="LastName"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Booktitle">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Language" use="required" type="langcode"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CrossRef" type="xs:string"/>
+    <xs:element name="Edition" type="xs:string"/>
+    <xs:element name="Editor" type="xs:string"/>
+    <xs:element name="HowPublished">
+        <xs:complexType>
+            <xs:attribute name="Type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="GreyLiterature"/>
+                        <xs:enumeration value="Print"/>
+                        <xs:enumeration value="Internet"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="WherePublished" type="xs:string"/>
+    <xs:element name="Institution" type="xs:string"/>
+    <xs:element name="Journal">
+        <xs:complexType mixed="true">
+            <xs:attribute name="Note"/>
+            <xs:attribute name="Number" use="required"/>
+            <xs:attribute name="Organization"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Month" type="xs:string"/>
+    <xs:element name="Pages" type="xs:string"/>
+    <xs:element name="Publisher" type="xs:string"/>
+    <xs:element name="School" type="xs:string"/>
+    <xs:element name="Series">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="SeriesTitle"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="SeriesEditor"/>
+                <xs:element minOccurs="0" ref="SeriesVolume"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="SeriesTitle" type="xs:string"/>
+    <xs:element name="SeriesEditor" type="xs:string"/>
+    <xs:element name="SeriesVolume" type="xs:string"/>
+    <xs:element name="Volume" type="xs:string"/>
+    <xs:element name="Year" type="xs:string"/>
+    <xs:element name="Abstract" type="xs:string"/>
+    <xs:element name="ISBN" type="xs:string"/>
+    <xs:element name="ISSN" type="xs:string"/>
+    <xs:element name="URL" type="xs:string"/>
+    <xs:element name="LastName" type="xs:string"/>
+    <xs:element name="FirstName" type="xs:string"/>
+    <xs:element name="MiddleName" type="xs:string"/>
+</xs:schema>

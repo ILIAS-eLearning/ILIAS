@@ -25,7 +25,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMultipleChoiceQuestionGUI, SurveyMetricQuestionGUI
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMatrixQuestionGUI
- * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilSurveyPhrasesGUI, ilInfoScreenGUI
+ * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilInfoScreenGUI
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilCommonActionDispatcherGUI
  */
@@ -113,11 +113,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
-                break;
-
-            case "ilsurveyphrasesgui":
-                $phrases_gui = new ilSurveyPhrasesGUI($this);
-                $this->ctrl->forwardCommand($phrases_gui);
                 break;
 
             case 'ilobjectcopygui':
@@ -780,7 +775,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             case "":
             case "ilpermissiongui":
             case "ilobjectmetadatagui":
-            case "ilsurveyphrasesgui":
                 break;
             default:
                 return;
@@ -806,14 +800,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                  "exportQuestions", "confirmDeleteQuestions", "cancelDeleteQuestions",
                  "confirmPasteQuestions", "cancelPasteQuestions", "uploadQuestions",
                  "editQuestion", "save", "cancel",
-                 "cancelExplorer", "linkChilds", "addGIT", "addST", "addPG", "preview",
-                 "moveCategory", "deleteCategory", "addPhrase", "addCategory", "savePhrase",
-                 "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase", "cancelSavePhrase",
+                 "cancelExplorer", "linkChilds", "preview",
+                 "moveCategory", "deleteCategory", "addCategory",
                  "insertBeforeCategory", "insertAfterCategory", "confirmDeleteCategory",
-                 "cancelDeleteCategory", "categories", "saveCategories",
-                 "savePhrase", "addPhrase"
+                 "cancelDeleteCategory", "categories", "saveCategories"
                  ),
-                array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"),
+                array("ilobjsurveyquestionpoolgui"),
                 "",
                 $force_active
             );
@@ -832,15 +824,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                 $this->ctrl->getLinkTarget($this, 'properties'),
                 array("properties", "saveProperties"),
                 "",
-                ""
-            );
-
-            // manage phrases
-            $this->tabs_gui->addTarget(
-                "manage_phrases",
-                $this->ctrl->getLinkTargetByClass("ilsurveyphrasesgui", "phrases"),
-                array("phrases", "deletePhrase", "confirmDeletePhrase", "cancelDeletePhrase", "editPhrase", "newPhrase", "saveEditPhrase", "phraseEditor"),
-                "ilsurveyphrasesgui",
                 ""
             );
 

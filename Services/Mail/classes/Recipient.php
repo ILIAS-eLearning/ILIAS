@@ -18,12 +18,18 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Result\Ok;
+use ILIAS\Data\Result\Error;
+use ILIAS\Data\Result;
+use ILIAS\LegalDocuments\Conductor;
+
 final class Recipient
 {
     public function __construct(
         private readonly int $user_id,
         private readonly ?ilObjUser $user,
-        private readonly ilMailOptions $mail_options
+        private readonly ilMailOptions $mail_options,
+        private readonly Conductor $legal_documents
     ) {
     }
 
@@ -47,9 +53,12 @@ final class Recipient
         return $this->user->getActive();
     }
 
-    public function isUserAbleToReadInternalMails(): bool
+    public function evaluateInternalMailReadability(): Result
     {
-        return !$this->user->hasToAcceptTermsOfService() && $this->user->checkTimeLimit();
+        if (!$this->user->checkTimeLimit()) {
+            return new Error('Account expired.');
+        }
+        return $this->legal_documents->userCanReadInternalMail($this->user)->applyTo(new Ok($this->user));
     }
 
     public function userWantsToReceiveExternalMails(): bool
@@ -69,15 +78,5 @@ final class Recipient
     public function getExternalMailAddress(): array
     {
         return $this->mail_options->getExternalEmailAddresses();
-    }
-
-    public function hasToAcceptTermsOfService(): bool
-    {
-        return $this->user->hasToAcceptTermsOfService();
-    }
-
-    public function checkTimeLimit(): bool
-    {
-        return $this->user->checkTimeLimit();
     }
 }

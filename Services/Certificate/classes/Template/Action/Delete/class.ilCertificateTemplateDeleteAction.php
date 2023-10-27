@@ -28,6 +28,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 
     public function __construct(
         private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly \ILIAS\Filesystem\Filesystem $file_system,
         private readonly string $rootDirectory = CLIENT_WEB_DIR,
         private readonly string $iliasVersion = ILIAS_VERSION_NUMERIC,
         ?ilCertificateUtilHelper $utilHelper = null,
@@ -82,10 +83,12 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 
         $newFilePath = $pathInfo['dirname'] . '/background.jpg.thumb.jpg';
 
-        $this->utilHelper->convertImage(
-            $this->rootDirectory . $relativePath,
-            $this->rootDirectory . $newFilePath,
-            "100"
-        );
+        if ($this->file_system->has($relativePath)) {
+            $this->utilHelper->convertImage(
+                $this->rootDirectory . $relativePath,
+                $this->rootDirectory . $newFilePath,
+                '100'
+            );
+        }
     }
 }

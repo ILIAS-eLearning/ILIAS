@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../prg_mocks.php");
@@ -41,20 +41,16 @@ class ilStudyProgrammeAssignmentActionsTest extends \PHPUnit\Framework\TestCase
         $this->messages = new ilPRGMessageCollection();
         $this->events = new ProgrammeEventsMock();
 
-        $udf = $this->getMockBuilder(ilUserDefinedData::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $user_info = new ilPRGUserInformation(
-            $udf,
-            'some OrgU',
-            'firstname',
-            'lasttname',
-            'login',
-            true,
-            'f.lastname@example.com',
-            'f',
-            'Prof. Dr.',
-        );
+        $user_info = new ilPRGUserInformation([
+            'firstname' => 'firstname',
+            'lastname' => 'lasttname',
+            'login' => 'login',
+            'active' => true,
+            'email' => 'f.lastname@example.com',
+            'gender' => 'f',
+            'title' => 'Prof. Dr.',
+            'org_units' => 'some OrgU',
+        ]);
 
         $this->ass = (new ilPRGAssignment(42, 7))
             ->withUserInformation($user_info)

@@ -32,6 +32,7 @@ class ilPCLoginPageElement extends ilPageContent
         'registration-link' => 'registration_link',
         'language-selection' => 'language_selection',
         'user-agreement' => 'user_agreement_link',
+        'dpro-agreement' => 'dpro_agreement_link',
         'saml-login' => 'saml_login'
     );
 

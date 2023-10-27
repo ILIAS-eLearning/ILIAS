@@ -48,6 +48,13 @@ class ilGroupImporter extends ilXmlImporter
             $parser->setMode(ilGroupXMLParser::$UPDATE);
             $parser->startParsing();
             $a_mapping->addMapping('Modules/Group', 'grp', $a_id, (string) $this->group->getId());
+            $a_mapping->addMapping(
+                'Services/MetaData',
+                'md',
+                $a_id . ':0:grp',
+                $this->group->getId() . ':0:grp'
+            );
+
         } catch (ilSaxParserException | ilWebLinkXmlParserException $e) {
             $GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "' . $e->getMessage() . '".');
         }

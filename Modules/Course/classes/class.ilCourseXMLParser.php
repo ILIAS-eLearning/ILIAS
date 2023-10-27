@@ -25,6 +25,11 @@ declare(strict_types=0);
  */
 class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 {
+    public const MODE_SOAP = 1;
+    public const MODE_EXPORT = 2;
+
+    private int $mode = self::MODE_EXPORT;
+
     private bool $in_meta_data = false;
     private bool $in_availability = false;
     private bool $in_registration = false;
@@ -67,6 +72,17 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         $this->md_obj = new ilMD($this->course_obj->getId(), 0, 'crs');
         $this->setMDObject($this->md_obj);
     }
+
+    public function setMode(int $a_mode): void
+    {
+        $this->mode = $a_mode;
+    }
+
+    public function getMode(): int
+    {
+        return $this->mode;
+    }
+
 
     /**
      * @inheritDoc
@@ -481,10 +497,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                  * This needs to be before MDUpdateListener, since otherwise container settings are
                  * overwritten by ilContainer::update in MDUpdateListener, see #24733.
                  */
+                if ($this->getMode() === self::MODE_SOAP) {
+                    $this->course_obj->MDUpdateListener('General');
+                    $this->adv_md_handler->save();
+                }
                 $this->course_obj->readContainerSettings();
-                $this->course_obj->MDUpdateListener('General');
                 $this->course_obj->update();
-                $this->adv_md_handler->save();
                 break;
 
             case 'Settings':

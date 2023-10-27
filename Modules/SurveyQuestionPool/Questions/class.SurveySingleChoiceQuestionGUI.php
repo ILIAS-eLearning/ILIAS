@@ -55,7 +55,6 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
         $answers->setRequired(false);
         $answers->setAllowMove(true);
         $answers->setShowWizard(true);
-        $answers->setShowSavePhrase(true);
         $answers->setUseOtherAnswer(true);
         $answers->setShowNeutralCategory(true);
         $answers->setNeutralCategoryTitle($this->lng->txt('svy_neutral_answer'));

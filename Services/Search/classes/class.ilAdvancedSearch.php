@@ -137,28 +137,29 @@ class ilAdvancedSearch extends ilAbstractSearch
 
         $ilDB = $DIC->database();
 
-        if (
-            !($this->options['lom_coverage'] ?? null) and
-            !($this->options['lom_structure'] ?? null)
-        ) {
-            return null;
-        }
-        $and = $locate = '';
-
+        $coverage_query = $general_query = '';
         if ($this->options['lom_coverage'] ?? null) {
             $this->setFields(array('coverage'));
             $and = $this->__createCoverageAndCondition();
             $locate = $this->__createLocateString();
+            $coverage_query = "SELECT rbac_id,obj_type,obj_id " .
+                $locate . " " .
+                "FROM il_meta_coverage " .
+                "WHERE obj_type " . $this->__getInStatement($this->getFilter()) . " " .
+                $and;
         }
         if ($this->options['lom_structure'] ?? null) {
-            $and .= ("AND general_structure = " . $ilDB->quote($this->options['lom_structure'], ilDBConstants::T_TEXT) . " ");
+            $and = ("AND general_structure = " . $ilDB->quote($this->options['lom_structure'], ilDBConstants::T_TEXT) . " ");
+            $general_query = "SELECT rbac_id,obj_type,obj_id " .
+                "FROM il_meta_general " .
+                "WHERE obj_type " . $this->__getInStatement($this->getFilter()) . " " .
+                $and;
         }
 
-        $query = "SELECT rbac_id,obj_type,obj_id " .
-            $locate . " " .
-            "FROM il_meta_general " .
-            "WHERE obj_type " . $this->__getInStatement($this->getFilter()) . " " .
-            $and;
+        $query = $this->joinOnRessourceIDs($general_query, $coverage_query);
+        if ($query === '') {
+            return null;
+        }
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -265,13 +266,24 @@ class ilAdvancedSearch extends ilAbstractSearch
 
     public function __searchRequirement(): ?ilSearchResult
     {
-        $query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_requirement ";
+        $query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_or_composite " .
+            "WHERE obj_type " . $this->__getInStatement($this->getFilter());
 
-        if (!strlen($where = $this->__createRequirementWhere())) {
+        $os_query = $browser_query = '';
+        if ($this->options['lom_operating_system'] ?? null) {
+            $os_query = $query . " AND type = 'operating system' AND " .
+                "name = " . $this->db->quote($this->options['lom_operating_system'], ilDBConstants::T_TEXT);
+        }
+        if ($this->options['lom_browser'] ?? null) {
+            $browser_query = $query . " AND type = 'browser' AND " .
+                "name = " . $this->db->quote($this->options['lom_browser'], ilDBConstants::T_TEXT);
+        }
+
+        $query = $this->joinOnRessourceIDs($os_query, $browser_query);
+        if ($query === '') {
             return null;
         }
-        $and = ("AND obj_type " . $this->__getInStatement($this->getFilter()));
-        $query = $query . $where . $and;
+
         $res = $this->db->query($query);
         #var_dump("<pre>",$query,"<pre>");
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -287,13 +299,36 @@ class ilAdvancedSearch extends ilAbstractSearch
 
     public function __searchEducational(): ?ilSearchResult
     {
-        $query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_educational ";
+        $query_start = "SELECT rbac_id,obj_id,obj_type ";
+        $and = " AND obj_type " . $this->__getInStatement($this->getFilter());
 
-        if (!strlen($where = $this->__createEducationalWhere())) {
+        $ed_query = $lr_type_query = $end_user_query = $context_query = '';
+        if ($where = $this->__createEducationalWhere()) {
+            $ed_query = $query_start . 'FROM il_meta_educational ' . $where . $and;
+        }
+        if ($this->options['lom_resource'] ?? null) {
+            $where = " WHERE learning_resource_type = " . $this->db->quote($this->options['lom_resource'], 'text');
+            $lr_type_query = $query_start . 'FROM il_meta_lr_type ' . $where . $and;
+        }
+        if ($this->options['lom_user_role'] ?? null) {
+            $where = " WHERE intended_end_user_role = " . $this->db->quote($this->options['lom_user_role'], 'text');
+            $end_user_query = $query_start . 'FROM il_meta_end_usr_role ' . $where . $and;
+        }
+        if ($this->options['lom_context'] ?? null) {
+            $where = " WHERE context = " . $this->db->quote($this->options['lom_context'], 'text');
+            $context_query = $query_start . 'FROM il_meta_context ' . $where . $and;
+        }
+
+        $query = $this->joinOnRessourceIDs(
+            $ed_query,
+            $lr_type_query,
+            $end_user_query,
+            $context_query
+        );
+        if ($query === '') {
             return null;
         }
-        $and = ("AND obj_type " . $this->__getInStatement($this->getFilter()));
-        $query = $query . $where . $and;
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry(
@@ -537,26 +572,14 @@ class ilAdvancedSearch extends ilAbstractSearch
             $and = $counter++ ? 'AND ' : ' ';
             $where .= ($and . "interactivity_type = " . $this->db->quote($this->options['lom_interactivity'], 'text') . " ");
         }
-        if ($this->options['lom_resource'] ?? null) {
-            $and = $counter++ ? 'AND ' : ' ';
-            $where .= ($and . "learning_resource_type = " . $this->db->quote($this->options['lom_resource'], 'text') . " ");
-        }
-        if ($this->options['lom_user_role'] ?? null) {
-            $and = $counter++ ? 'AND ' : ' ';
-            $where .= ($and . "intended_end_user_role = " . $this->db->quote($this->options['lom_user_role'], 'text') . " ");
-        }
-        if ($this->options['lom_context'] ?? null) {
-            $and = $counter++ ? 'AND ' : ' ';
-            $where .= ($and . "context = " . $this->db->quote($this->options['lom_context'], 'text') . " ");
-        }
         if (
             ($this->options['lom_level_start'] ?? null) or
             ($this->options['lom_level_end'] ?? null)) {
             $and = $counter++ ? 'AND ' : ' ';
 
             $fields = $this->__getDifference(
-                $this->options['lom_level_start'],
-                $this->options['lom_level_end'],
+                (int) $this->options['lom_level_start'],
+                (int) $this->options['lom_level_end'],
                 array('VeryLow','Low','Medium','High','VeryHigh')
             );
 
@@ -569,8 +592,8 @@ class ilAdvancedSearch extends ilAbstractSearch
             $and = $counter++ ? 'AND ' : ' ';
 
             $fields = $this->__getDifference(
-                $this->options['lom_density_start'],
-                $this->options['lom_density_end'],
+                (int) $this->options['lom_density_start'],
+                (int) $this->options['lom_density_end'],
                 array('VeryLow','Low','Medium','High','VeryHigh')
             );
 
@@ -583,30 +606,14 @@ class ilAdvancedSearch extends ilAbstractSearch
             $and = $counter++ ? 'AND ' : ' ';
 
             $fields = $this->__getDifference(
-                $this->options['lom_difficulty_start'],
-                $this->options['lom_difficulty_end'],
+                (int) $this->options['lom_difficulty_start'],
+                (int) $this->options['lom_difficulty_end'],
                 array('VeryEasy','Easy','Medium','Difficult','VeryDifficult')
             );
 
             $where .= ($and . "difficulty " . $this->__getInStatement($fields));
         }
 
-        return $counter ? $where : '';
-    }
-    public function __createRequirementWhere(): string
-    {
-        $counter = 0;
-        $where = 'WHERE ';
-
-
-        if ($this->options['lom_operating_system'] ?? null) {
-            $and = $counter++ ? 'AND ' : ' ';
-            $where .= ($and . "operating_system_name = " . $this->db->quote($this->options['lom_operating_system'], ilDBConstants::T_TEXT) . " ");
-        }
-        if ($this->options['lom_browser'] ?? null) {
-            $and = $counter++ ? 'AND ' : ' ';
-            $where .= ($and . "browser_name = " . $this->db->quote($this->options['lom_browser'], ilDBConstants::T_TEXT) . " ");
-        }
         return $counter ? $where : '';
     }
 
@@ -645,5 +652,31 @@ class ilAdvancedSearch extends ilAbstractSearch
         $in .= "') ";
 
         return $in;
+    }
+
+    protected function joinOnRessourceIDs(string ...$individual_queries): string
+    {
+        $non_empty_queries = [];
+        foreach ($individual_queries as $query) {
+            if ($query !== '') {
+                $non_empty_queries[] = $query;
+            }
+        }
+
+        if (count($non_empty_queries) < 2) {
+            return $non_empty_queries[0] ?? '';
+        }
+
+        $total_query = '';
+        foreach ($non_empty_queries as $query) {
+            if ($total_query === '') {
+                $total_query = $query;
+                continue;
+            }
+            $total_query = "SELECT t1.rbac_id, t1.obj_type, t1.obj_id " .
+                "FROM (" . $total_query . ") AS t1 JOIN (" . $query .
+                ") AS t2 ON t1.rbac_id = t2.rbac_id AND t1.obj_type = t2.obj_type AND t1.obj_id = t2.obj_id";
+        }
+        return $total_query;
     }
 }

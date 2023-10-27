@@ -79,13 +79,4 @@ class EditManager
         $this->repo->clearNewLinkType();
     }
 
-    public function setPhraseData(array $data): void
-    {
-        $this->repo->setPhraseData($data);
-    }
-
-    public function getPhraseData(): array
-    {
-        return $this->repo->getPhraseData();
-    }
 }

@@ -421,19 +421,20 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 }
             }
 
-            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('preview'),
-                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            $actions[] = $this->ui_factory->link()->standard(
+                $this->lng->txt('preview'),
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
             );
 
-            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('statistics'),
-                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
-
+            $actions[] = $this->ui_factory->link()->standard(
+                $this->lng->txt('statistics'),
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
             );
 
             if ($this->getEditable()) {
-                $this->ctrl->setParameterByClass($a_set['type_tag'].'GUI', 'q_id', $a_set['question_id']);
-                $editHref = $this->ctrl->getLinkTargetByClass($a_set['type_tag'].'GUI', 'editQuestion');
-                $this->ctrl->setParameterByClass($a_set['type_tag'].'GUI', 'q_id', null);
+                $this->ctrl->setParameterByClass($a_set['type_tag'] . 'GUI', 'q_id', $a_set['question_id']);
+                $editHref = $this->ctrl->getLinkTargetByClass($a_set['type_tag'] . 'GUI', 'editQuestion');
+                $this->ctrl->setParameterByClass($a_set['type_tag'] . 'GUI', 'q_id', null);
                 $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit_question'), $editHref);
 
                 $editPageHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
@@ -470,7 +471,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             }
 
             if ($this->isQuestionCommentingEnabled()) {
-                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('ass_comments'),$this->getCommentsAjaxLink($a_set['question_id']));
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('ass_comments'), $this->getCommentsAjaxLink($a_set['question_id']));
             }
         } else {
             $this->tpl->setCurrentBlock('hidden');

@@ -766,7 +766,7 @@ class ilExAssignment
         $this->domain->assignment()->instructionFiles($next_id)->createCollection();
 
         self::createNewAssignmentRecords($next_id, $exc);
-
+        ilObjectSearch::raiseContentChanged($this->getExerciseId());
         $this->handleCalendarEntries("create");
     }
 
@@ -819,7 +819,7 @@ class ilExAssignment
         );
         $exc = new ilObjExercise($this->getExerciseId(), false);
         $exc->updateAllUsersStatus();
-
+        ilObjectSearch::raiseContentChanged($this->getExerciseId());
         $this->handleCalendarEntries("update");
     }
 
