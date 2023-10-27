@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\LegalDocuments\test\ConsumerToolbox\KeyValueStore;
+
+use ILIAS\LegalDocuments\test\ContainerMock;
+use ilSetting;
+use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\ILIASSettingStore;
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__ . '/../../ContainerMock.php';
+
+class ILIASSettingStoreTest extends TestCase
+{
+    use ContainerMock;
+
+    public function testConstruct(): void
+    {
+        $this->assertInstanceOf(ILIASSettingStore::class, new ILIASSettingStore($this->mock(ilSetting::class)));
+    }
+
+    public function testValue(): void
+    {
+        $instance = new ILIASSettingStore($this->mockMethod(ilSetting::class, 'get', ['foo', ''], 'bar'));
+
+        $this->assertSame('bar', $instance->value('foo'));
+    }
+
+    public function testUpdate(): void
+    {
+        $settings = $this->mock(ilSetting::class);
+        $settings->expects(self::once())->method('set')->with('foo', 'bar');
+
+        $instance = new ILIASSettingStore($settings);
+
+        $instance->update('foo', 'bar');
+    }
+}

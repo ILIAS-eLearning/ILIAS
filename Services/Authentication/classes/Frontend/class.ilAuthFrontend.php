@@ -343,7 +343,6 @@ class ilAuthFrontend
         ilInitialisation::initUserAccount();
 
         ilSession::set('orig_request_target', '');
-        $user->hasToAcceptTermsOfServiceInSession(true);
 
 
         // --- anonymous/registered user

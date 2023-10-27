@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\LegalDocuments\Conductor;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Data\Result;
+
 class RecipientTest extends ilMailBaseTest
 {
     public function testCreate(): void
@@ -25,11 +29,11 @@ class RecipientTest extends ilMailBaseTest
         $user_id = 10;
         $user = $this->createMock(ilObjUser::class);
         $mail_options = $this->createMock(ilMailOptions::class);
-        $recipient = new Recipient($user_id, $user, $mail_options);
+        $recipient = new Recipient($user_id, $user, $mail_options, $this->createMock(Conductor::class));
         $this->assertEquals($user_id, $recipient->getUserId());
         $this->assertSame($mail_options, $recipient->getMailOptions());
 
-        $recipient = new Recipient($user_id, null, $mail_options);
+        $recipient = new Recipient($user_id, null, $mail_options, $this->createMock(Conductor::class));
         $this->assertEquals($user_id, $recipient->getUserId());
         $this->assertSame($mail_options, $recipient->getMailOptions());
     }
@@ -41,34 +45,35 @@ class RecipientTest extends ilMailBaseTest
         $mail_2 = "mail2@test.de";
         $external_mails = [$mail, $mail_2];
 
+        $result = $this->createMock(Result::class);
+
+        $transformation = $this->createMock(Transformation::class);
+        $transformation->expects(self::once())->method('applyTo')->willReturn($result);
+
+        $legal_documents = $this->createMock(Conductor::class);
+        $legal_documents->expects(self::once())->method('userCanReadInternalMail')->willReturn($transformation);
+
         $user = $this->createMock(ilObjUser::class);
-        $user->expects($this->exactly(2))
-            ->method("hasToAcceptTermsOfService")
-            ->willReturn(false)
-        ;
-        $user->expects($this->exactly(2))
-            ->method("checkTimeLimit")
-            ->willReturn(true)
-        ;
         $user->expects($this->once())
-            ->method("getActive")
-            ->willReturn(true)
-        ;
+             ->method("getActive")
+             ->willReturn(true);
+        $user->expects($this->once())
+             ->method("checkTimeLimit")
+             ->willReturn(true);
+
         $mail_options = $this->createMock(ilMailOptions::class);
         $mail_options->expects($this->exactly(3))
-             ->method("getIncomingType")
-             ->willReturn(2)
-        ;
+                     ->method("getIncomingType")
+                     ->willReturn(2);
+
         $mail_options->expects($this->atLeastOnce())
-             ->method("getExternalEmailAddresses")
-             ->willReturn($external_mails)
-        ;
-        $recipient = new Recipient($user_id, $user, $mail_options);
+                     ->method("getExternalEmailAddresses")
+                     ->willReturn($external_mails);
+
+        $recipient = new Recipient($user_id, $user, $mail_options, $legal_documents);
         $this->assertEquals($user_id, $recipient->getUserId());
         $this->assertTrue($recipient->isUser());
-        $this->assertFalse($recipient->hasToAcceptTermsOfService());
-        $this->assertTrue($recipient->checkTimeLimit());
-        $this->assertTrue($recipient->isUserAbleToReadInternalMails());
+        $this->assertSame($result, $recipient->evaluateInternalMailReadability());
         $this->assertTrue($recipient->isUserActive());
 
         $this->assertSame($mail_options, $recipient->getMailOptions());
@@ -86,35 +91,32 @@ class RecipientTest extends ilMailBaseTest
         $mail_2 = "mails2@test.de";
         $external_mails = [$mail, $mail_2];
 
+        $legal_documents = $this->createMock(Conductor::class);
+        $legal_documents->expects(self::never())->method('userCanReadInternalMail');
+
         $user = $this->createMock(ilObjUser::class);
-        $user->expects($this->exactly(2))
-             ->method("hasToAcceptTermsOfService")
-             ->willReturn(true)
-        ;
-        $user->expects($this->once())
-             ->method("checkTimeLimit")
-             ->willReturn(true)
-        ;
         $user->expects($this->once())
              ->method("getActive")
-             ->willReturn(false)
-        ;
+             ->willReturn(false);
+        $user->expects($this->once())
+             ->method("checkTimeLimit")
+             ->willReturn(false);
 
         $mail_options = $this->createMock(ilMailOptions::class);
         $mail_options->expects($this->exactly(3))
                      ->method("getIncomingType")
-                     ->willReturn(0)
-        ;
+                     ->willReturn(0);
+
         $mail_options->expects($this->atLeastOnce())
                      ->method("getExternalEmailAddresses")
-                     ->willReturn($external_mails)
-        ;
-        $recipient = new Recipient($user_id, $user, $mail_options);
+                     ->willReturn($external_mails);
+
+        $recipient = new Recipient($user_id, $user, $mail_options, $legal_documents);
         $this->assertEquals($user_id, $recipient->getUserId());
         $this->assertTrue($recipient->isUser());
-        $this->assertTrue($recipient->hasToAcceptTermsOfService());
-        $this->assertTrue($recipient->checkTimeLimit());
-        $this->assertFalse($recipient->isUserAbleToReadInternalMails());
+        $result = $recipient->evaluateInternalMailReadability();
+        $this->assertFalse($result->isOk());
+        $this->assertSame('Account expired.', $result->error());
         $this->assertFalse($recipient->isUserActive());
 
         $this->assertSame($mail_options, $recipient->getMailOptions());
