@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Class ilHTTPS
@@ -84,7 +87,7 @@ class ilHTTPS
      */
     public function isDetected(): bool
     {
-        if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
+        if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] === "on") {
             return true;
         }
 
@@ -93,7 +96,7 @@ class ilHTTPS
             /* echo $header_name;
              echo $_SERVER[$header_name];*/
             if (isset($_SERVER[$header_name])) {
-                if (strcasecmp($_SERVER[$header_name], $this->header_value) == 0) {
+                if (strcasecmp($_SERVER[$header_name], $this->header_value) === 0) {
                     $_SERVER["HTTPS"] = "on";
                     return true;
                 }
@@ -127,13 +130,14 @@ class ilHTTPS
                 define('IL_COOKIE_SECURE', true);
             }
 
-            session_set_cookie_params(
-                IL_COOKIE_EXPIRE,
-                IL_COOKIE_PATH,
-                IL_COOKIE_DOMAIN,
-                true,
-                IL_COOKIE_HTTPONLY
-            );
+            session_set_cookie_params([
+                'lifetime' => IL_COOKIE_EXPIRE,
+                'path' => IL_COOKIE_PATH,
+                'domain' => IL_COOKIE_DOMAIN,
+                'secure' => IL_COOKIE_SECURE,
+                'httponly' => true,
+                'samesite' => (strtolower(session_get_cookie_params()['samesite'] ?? '')) === 'strict' ? session_get_cookie_params()['samesite'] : 'Lax'
+            ]);
         }
     }
 
@@ -158,15 +162,15 @@ class ilHTTPS
         switch ($to_protocol) {
             case self::PROTOCOL_HTTP:
                 return (
-                        !in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) &&
-                        !in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
-                    ) && $_SERVER['HTTPS'] == 'on';
+                    !in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) &&
+                    !in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+                ) && $_SERVER['HTTPS'] === 'on';
 
             case self::PROTOCOL_HTTPS:
                 return (
-                        in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) ||
-                        in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
-                    ) && $_SERVER['HTTPS'] != 'on';
+                    in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) ||
+                    in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+                ) && $_SERVER['HTTPS'] !== 'on';
         }
 
         return false;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +19,7 @@
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
+use ILIAS\HTTP\Cookies\Cookie;
 
 /**
  * Util class
@@ -165,7 +167,7 @@ class ilUtil
         // use ilStyleDefinition instead of account to get the current skin
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin(
-                ) . "/" . $a_css_location . $stylesheet_name;
+            ) . "/" . $a_css_location . $stylesheet_name;
         }
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
@@ -462,7 +464,7 @@ class ilUtil
             $a_str = strip_tags($a_str);        // strip all other tags
             $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
 
-        // a possible solution could be something like:
+            // a possible solution could be something like:
             // $a_str = str_replace("<", "&lt;", $a_str);
             // $a_str = str_replace(">", "&gt;", $a_str);
             // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
@@ -1313,6 +1315,12 @@ class ilUtil
                                  ->withHttpOnly(defined('IL_COOKIE_HTTPONLY') ? IL_COOKIE_HTTPONLY : false);
 
 
+        if (
+            defined('IL_COOKIE_SECURE') && IL_COOKIE_SECURE &&
+            (!isset(session_get_cookie_params()['samesite']) || strtolower(session_get_cookie_params()['samesite']) !== 'strict')
+        ) {
+            $cookie = $cookie->withSamesite(Cookie::SAMESITE_LAX);
+        }
         $jar = $cookie_jar->with($cookie);
         $response = $jar->renderIntoResponseHeader($http->response());
         $http->saveResponse($response);
