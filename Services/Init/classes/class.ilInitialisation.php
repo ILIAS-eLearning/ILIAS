@@ -1623,22 +1623,6 @@ class ilInitialisation
     }
 
     /**
-     * Extract current cmd from request
-     * @todo superglobal access <= refinery undefined
-     */
-    protected static function getCurrentCmd(): string
-    {
-        $cmd = $_POST['cmd'] ?? ($_GET['cmd'] ?? '');
-
-        if (is_array($cmd)) {
-            $cmd_keys = array_keys($cmd);
-            $cmd = array_shift($cmd_keys) ?? '';
-        }
-
-        return $cmd;
-    }
-
-    /**
      * Block authentication based on current request
      */
     protected static function blockedAuthentication(string $a_current_script): bool
@@ -1692,7 +1676,7 @@ class ilInitialisation
                 ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $requestCmdClass);
                 return true;
             }
-            $cmd = self::getCurrentCmd();
+            $cmd = $DIC->ctrl()->getCmd();
             if (
                 $cmd == "showTermsOfService" ||
                 $cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
