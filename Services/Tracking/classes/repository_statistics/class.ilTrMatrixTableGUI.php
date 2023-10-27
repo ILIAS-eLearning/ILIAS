@@ -607,7 +607,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         // #7694
         if (!$a_set["active"] || ($a_set["privacy_conflict"] ?? false)) {
             $mess = array();
-            if ($a_set["privacy_conflict"]) {
+            if ($a_set["privacy_conflict"] ?? false) {
                 $mess[] = $this->lng->txt("status_no_permission");
             } elseif (!$a_set["active"]) {
                 $mess[] = $this->lng->txt("inactive");
