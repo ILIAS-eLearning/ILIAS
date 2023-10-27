@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilRbacLogTableGUI
@@ -144,7 +145,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
             // added only
             foreach ($raw["ops"] as $role_id => $ops) {
                 foreach ($ops as $op) {
-                    $result[] = ["action" => sprintf($this->lng->txt("rbac_log_operation_add"), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))),
+                    $result[] = ["action" => sprintf($this->lng->txt("rbac_log_operation_add"), ilObjRole::_getTranslation(ilObject::_lookupTitle((int) $role_id))),
                         "operation" => $this->getOPCaption($type, $op)];
                 }
             }
@@ -152,7 +153,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
             foreach ($raw["ops"] as $role_id => $actions) {
                 foreach ($actions as $action => $ops) {
                     foreach ((array) $ops as $op) {
-                        $result[] = ["action" => sprintf($this->lng->txt("rbac_log_operation_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))),
+                        $result[] = ["action" => sprintf($this->lng->txt("rbac_log_operation_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle((int) $role_id))),
                             "operation" => $this->getOPCaption($type, $op)];
                     }
                 }
@@ -162,7 +163,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         if (isset($raw["inht"])) {
             foreach ($raw["inht"] as $action => $role_ids) {
                 foreach ((array) $role_ids as $role_id) {
-                    $result[] = ["action" => sprintf($this->lng->txt("rbac_log_inheritance_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id)))];
+                    $result[] = ["action" => sprintf($this->lng->txt("rbac_log_inheritance_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle((int) $role_id)))];
                 }
             }
         }
