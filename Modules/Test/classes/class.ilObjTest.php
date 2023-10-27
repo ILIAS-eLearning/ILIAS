@@ -6391,7 +6391,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'show_grading_mark' => (int) $score_settings->getResultSummarySettings()->getShowGradingMarkEnabled(),
 
             'ResultsPresentation' => $score_settings->getResultDetailsSettings()->getResultsPresentation(),
-            'PrintBsWithRes' => (int) $score_settings->getResultDetailsSettings()->getPrintBestSolutionWithResult(),
+            'show_solution_list_comparison' => (int) $score_settings->getResultDetailsSettings()->getShowSolutionListComparison(),
             'examid_in_test_res' => (int) $score_settings->getResultDetailsSettings()->getShowExamIdInTestResults(),
 
             'highscore_enabled' => (int) $score_settings->getGamificationSettings()->getHighscoreEnabled(),
@@ -6538,7 +6538,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withResultDetailsSettings(
                 $score_settings->getResultDetailsSettings()
                 ->withResultsPresentation($testsettings['ResultsPresentation'])
-                ->withPrintBestSolutionWithResult((bool) $testsettings['PrintBsWithRes'])
+                ->withShowSolutionListComparison((bool) $testsettings['show_solution_list_comparison'])
                 ->withShowExamIdInTestResults((bool) $testsettings['examid_in_test_res'])
                 ->withExportSettings($testsettings['exportsettings'])
             )
