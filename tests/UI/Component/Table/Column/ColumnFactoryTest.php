@@ -34,7 +34,8 @@ class ColumnFactoryTest extends AbstractFactoryTest
         "status" => ["context" => false, "rules" => false],
         "statusIcon" => ["context" => false, "rules" => false],
         "timeSpan" => ["context" => false, "rules" => false],
-        "link" => ["context" => false, "rules" => false]
+        "link" => ["context" => false, "rules" => false],
+        "linkListing" => ["context" => false, "rules" => false]
     ];
 
     public $factory_title = 'ILIAS\\UI\\Component\\Table\\Column\\Factory';
@@ -61,7 +62,8 @@ class ColumnFactoryTest extends AbstractFactoryTest
             [Column\Status::class, $f->status("")],
             [Column\StatusIcon::class, $f->statusIcon("")],
             [Column\EMail::class, $f->eMail("")],
-            [Column\Link::class, $f->link("")]
+            [Column\Link::class, $f->link("")],
+            [Column\LinkListing::class, $f->linkListing("")]
         ];
     }
 
