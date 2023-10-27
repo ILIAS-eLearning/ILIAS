@@ -68,6 +68,7 @@ class ConfirmationTest extends TestCase
             public array $items = [];
             public string $cancel_label;
             public string $submit_label;
+            public string $submit_command;
 
             public function setFormAction(string $link): void
             {
