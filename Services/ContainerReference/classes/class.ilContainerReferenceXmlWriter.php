@@ -77,10 +77,7 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
 
     protected function buildHeader(): void
     {
-        $ilSetting = $this->settings;
-
-        $this->xmlSetDtdDef("<!DOCTYPE container reference PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_container_reference_4_3.dtd\">");
-        $this->xmlSetGenCmt("Export of ILIAS container reference " . $this->getReference()->getId() . " of installation " . $ilSetting->get('inst_id') . ".");
+        $this->xmlSetGenCmt("Export of ILIAS container reference " . $this->getReference()->getId() . " of installation " . $this->settings->get('inst_id') . ".");
         $this->xmlHeader();
     }
 

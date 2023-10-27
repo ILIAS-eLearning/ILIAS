@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <xs:element name="Folder">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="Title" type="Title"/>
+                <xs:element name="Description" type="xs:string"/>
+                <xs:element ref="Sort"/>
+            </xs:all>
+            <xs:attribute name="Id" type="xs:nonNegativeInteger"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="Title">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Sort">
+        <xs:complexType>
+            <xs:attribute name="type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Manual"/>
+                        <xs:enumeration value="Title"/>
+                        <xs:enumeration value="Inherit"/>
+                        <xs:enumeration value="Creation"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="direction">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="ASC"/>
+                        <xs:enumeration value="DESC"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="position">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Top"/>
+                        <xs:enumeration value="Bottom"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="order">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Title"/>
+                        <xs:enumeration value="Creation"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

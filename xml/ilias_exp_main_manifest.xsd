@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <xs:element name="Manifest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="unbounded" ref="ExportSet"/>
+            </xs:sequence>
+            <xs:attribute name="MainEntity" type="lowercaseNameString" use="required"/>
+            <!-- nameString is to strict
+            <xs:attribute name="Title" type="nameString" use="required"/>
+            -->
+            <xs:attribute name="Title" type="xs:string" use="required"/>
+            <xs:attribute name="InstallationId" type="xs:nonNegativeInteger" use="required"/>
+            <xs:attribute name="InstallationUrl" type="xs:anyURI" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ExportSet">
+        <xs:complexType>
+            <xs:attribute name="Path" type="componentPath" use="required"/>
+            <xs:attribute name="Type" type="lowercaseName" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="lowercaseNameString">
+        <xs:restriction>
+            <xs:pattern value="[a-z]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="nameString">
+        <xs:restriction>
+            <xs:pattern value="[A-Z][a-z]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="componentPath">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z0-9_]+[/][a-z0-9_]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="lowercaseName">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

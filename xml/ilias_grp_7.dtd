@@ -60,6 +60,7 @@
 		'Yes' | 'No'
 
 -->
+
 <!ATTLIST registration
     type CDATA #REQUIRED
     waitingList CDATA #IMPLIED
@@ -71,8 +72,7 @@
 >
 
 
-<!-- group period begin,end
-<!ELEMENT period (start,end)>
+<!-- group period begin,end -->
 
 <!ELEMENT temporarilyAvailable (start,end)>
 
@@ -100,9 +100,9 @@
 <!ELEMENT mailMembersType (#PCDATA)>
 
 <!ELEMENT RegistrationAccessCode EMPTY>
-<!ATTLIST
-	enabled (0,1) #REQUIRED
-	code #REQUIRED
+<!ATTLIST RegistrationAccessCode
+	enabled (0|1) #REQUIRED
+	code CDATA #REQUIRED
 >
 
 <!-- FILE stored in objects directory with filename "id" -->
@@ -131,10 +131,10 @@
 <!ELEMENT ViewMode (#PCDATA)>
 
 <!ELEMENT SessionLimit EMPTY>
-<!ATTLIST
-	active (0,1) #REQUIRED
-	previous #REQUIRED
-	next #REQUIRED
+<!ATTLIST SessionLimit
+	active (0|1) #REQUIRED
+	previous CDATA #REQUIRED
+	next CDATA #REQUIRED
 >
 
 <!ELEMENT ContainerSetting (#PCDATA)>
@@ -142,9 +142,9 @@
 		id CDATA #REQUIRED>
 
 <!ELEMENT GroupMap EMPTY>
-<!ATTLIST
-	enabled (0,1) #REQUIRED
-	latitude #REQUIRED
-	longitude #REQUIRED
-	location_zoom #REQUIRED
+<!ATTLIST GroupMap
+	enabled (0|1) #REQUIRED
+	latitude CDATA #REQUIRED
+	longitude CDATA #REQUIRED
+	location_zoom CDATA #REQUIRED
 >

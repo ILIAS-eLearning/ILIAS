@@ -84,8 +84,6 @@ declare(strict_types=1);
         } elseif ($this->getMode() == self::MODE_EXPORT) {
             $this->logger->debug('Using export mode');
             $this->__buildGroup();
-            $this->__buildMetaData();
-            $this->__buildAdvancedMetaData();
             $this->__buildTitleDescription();
             $this->__buildRegistration();
             $this->__buildExtraSettings();
@@ -104,7 +102,7 @@ declare(strict_types=1);
     // PRIVATE
     public function __buildHeader(): bool
     {
-        $this->xmlSetDtdDef("<!DOCTYPE group PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_group_3_10.dtd\">");
+        $this->xmlSetDtdDef("<!DOCTYPE group PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_grp_9_0.xsd\">");
         $this->xmlSetGenCmt("Export of ILIAS group " . $this->group_obj->getId() . " of installation " . $this->settings->get('inst_id') . ".");
         $this->xmlHeader();
         return true;

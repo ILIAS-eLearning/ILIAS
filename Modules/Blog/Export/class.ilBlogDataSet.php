@@ -53,7 +53,12 @@ class ilBlogDataSet extends ilDataSet
         string $a_entity,
         string $a_schema_version
     ): string {
-        return "https://www.ilias.de/xml/Modules/Blog/" . $a_entity;
+
+        if ($a_entity === 'blog' || $a_entity == 'blog_posting') {
+            // they share the same xsd, therfore the same namespace
+            return "http://www.ilias.de/xml/Modules/Blog/blog";
+        }
+        return "http://www.ilias.de/xml/Modules/Blog/" . $a_entity;
     }
 
     protected function getTypes(

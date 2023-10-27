@@ -29,7 +29,6 @@ class ilGroupReferenceXmlWriter extends ilContainerReferenceXmlWriter
 
         $ilSetting = $DIC['ilSetting'];
 
-        $this->xmlSetDtdDef("<!DOCTYPE course reference PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_course_reference_4_3.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS course reference " . $this->getReference()->getId() . " of installation " . $ilSetting->get('inst_id') . ".");
         $this->xmlHeader();
     }

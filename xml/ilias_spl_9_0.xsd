@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace = "http://www.ilias.de/Modules/SurveyQuestionPool/exp/9_0"
+        elementFormDefault="qualified">
+
+    <xs:element name="surveyobject">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="surveyquestions"/>
+            </xs:all>
+            <xs:attribute name="xmlns:xsi" type="xs:string"/>
+            <xs:attribute name="xsi:noNamespaceSchemaLocation" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="surveyquestions">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="question"/>
+                <xs:element ref="metadata"/>
+            </xs:all>
+            <xs:attribute name="id" type="xs:string"/>
+            <xs:attribute name="label" type="xs:string"/>
+            <xs:attribute name="online" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="question">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="description" type="xs:string"/>
+                <xs:element name="author" type="xs:string"/>
+                <xs:element ref="questiontext"/>
+                <xs:element minOccurs="0" ref="responses"/>
+                <xs:element minOccurs="0" ref="matrix"/>
+                <xs:element minOccurs="0" ref="material"/>
+                <xs:element minOccurs="0" ref="metadata"/>
+            </xs:all>
+            <xs:attribute name="id" type="xs:integer"/>
+            <xs:attribute name="title" type="xs:string"/>
+            <xs:attribute name="type" type="xs:string"/>
+            <xs:attribute name="subtype" type="xs:integer" use="optional"/>
+            <xs:attribute name="obligatory" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="questiontext">
+        <xs:complexType>
+            <xs:all>
+                <xs:element minOccurs="0" ref="material"/>
+            </xs:all>
+            <xs:attribute name="label" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="matrix">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="matrixrows"/>
+                <xs:element ref="responses"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="matrixrows">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="matrixrow"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="matrixrow">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="material"/>
+            </xs:all>
+            <xs:attribute name="id" type="xs:nonNegativeInteger" use="required"/>
+            <xs:attribute name="label" type="xs:string" use="optional"/>
+            <xs:attribute name="other" type="xs:nonNegativeInteger" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="responses">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="response_text"/>
+                <xs:element ref="response_num"/>
+                <xs:element ref="bipolar_adjectives"/>
+                <xs:element ref="response_single"/>
+                <xs:element ref="response_multiple"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="response_text">
+        <xs:complexType>
+            <xs:attribute name="id" type="xs:integer" use="required"/>
+            <xs:attribute name="rows" use="optional"/>
+            <xs:attribute name="columns" use="optional"/>
+            <xs:attribute name="maxLength" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="response_num">
+        <xs:complexType>
+            <xs:attribute name="id" type="xs:integer" use="required"/>
+            <xs:attribute name="formant" type="xs:string" use="required"/>
+            <xs:attribute name="min" type="xs:float" use="optional"/>
+            <xs:attribute name="max" type="xs:float" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="bipolar_adjectives">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="adjective"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="adjective">
+        <xs:complexType>
+            <xs:attribute name="label" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="response_single">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="material"/>
+            </xs:all>
+            <xs:attribute name="id" type="xs:integer" use="required"/>
+            <xs:attribute name="other" use="optional"/>
+            <xs:attribute name="neutral" use="optional"/>
+            <xs:attribute name="label" use="optional"/>
+            <xs:attribute name="scale" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="response_multiple">
+        <xs:all>
+            <xs:element ref="material"/>
+        </xs:all>
+        <xs:complexType>
+            <xs:attribute name="id" type="xs:integer" use="required"/>
+            <xs:attribute name="other" use="optional"/>
+            <xs:attribute name="neutral" use="optional"/>
+            <xs:attribute name="label" use="optional"/>
+            <xs:attribute name="scale" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="metadata">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="metadatafield"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="metadatafield">
+        <xs:complexType>
+            <xs:all>
+                <xs:element minOccurs="0" name="fieldentry" type="xs:string"/>
+                <xs:element minOccurs="0" name="fieldlabel" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="material">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="mattext"/>
+                <xs:element minOccurs="0" ref="matimage"/>
+            </xs:all>
+            <xs:attribute name="label" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="mattext" type="xs:string">
+        <xs:complexType>
+            <xs:attribute name="type" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="matimage">
+        <xs:complexType>
+            <xs:attribute name="label" type="xs:string" use="required"/>
+            <xs:attribute name="uri" type="xs:string" use="required"/>
+            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="id" type="xs:integer" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

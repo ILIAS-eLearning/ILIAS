@@ -86,8 +86,6 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->__buildFooter();
         } elseif ($this->getMode() == self::MODE_EXPORT) {
             $this->__buildCourseStart();
-            $this->__buildMetaData();
-            $this->__buildAdvancedMetaData();
             $this->__buildSetting();
             ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->course_obj->getId());
             ilContainer::_exportContainerSettings($this, $this->course_obj->getId());
@@ -112,7 +110,6 @@ class ilCourseXMLWriter extends ilXmlWriter
     // PRIVATE
     public function __buildHeader(): void
     {
-        $this->xmlSetDtdDef("<!DOCTYPE Course PUBLIC \"-//ILIAS//DTD Course//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_crs_5_0.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS course " . $this->course_obj->getId() . " of installation " . $this->setting->get('inst_id') . ".");
         $this->xmlHeader();
     }

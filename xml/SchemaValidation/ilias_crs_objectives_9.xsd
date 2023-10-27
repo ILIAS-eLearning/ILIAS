@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <xs:element name="Objectives">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="1" ref="Settings"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Objective"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Settings">
+        <xs:complexType>
+            <xs:attribute name="initialTestType" type="xs:integer" use="required"/>
+            <xs:attribute name="initialTestStart" type="xs:integer" use="required"/>
+            <xs:attribute name="qualifyingTestType" type="xs:integer" use="required"/>
+            <xs:attribute name="qualifyingTestStart" type="xs:integer" use="required"/>
+            <xs:attribute name="resetResults" type="xs:integer" use="required"/>
+            <xs:attribute name="passedObjectivesMode" type="xs:integer" use="required"/>
+            <xs:attribute name="iTest" type="xs:integer" use="required"/>
+            <xs:attribute name="qTest" type="xs:integer" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Objective">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="1" name="Title" type="xs:string"/>
+                <xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Material"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Test"/>
+            </xs:sequence>
+            <xs:attribute name="online" type="xs:integer" use="required"/>
+            <xs:attribute name="position" type="xs:integer" use="required"/>
+            <xs:attribute name="id" type="xs:integer" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Material">
+        <xs:complexType>
+            <xs:attribute name="refId" type="xs:integer" use="required"/>
+            <xs:attribute name="objId" type="xs:integer" use="required"/>
+            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="position" type="xs:integer" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Test">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="Question"/>
+            </xs:sequence>
+            <xs:attribute name="type" type="xs:integer" use="required"/>
+            <xs:attribute name="onjId" type="xs:string" use="required"/>
+            <xs:attribute name="refId" type="xs:integer" use="optional"/>
+            <xs:attribute name="testType" type="xs:integer" use="required"/>
+            <xs:attribute name="limit" type="xs:integer" use="optional"/>
+            <xs:attribute name="poolId" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Question">
+        <xs:complexType>
+            <xs:attribute name="id" type="xs:integer" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

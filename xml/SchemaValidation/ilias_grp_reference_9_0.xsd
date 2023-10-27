@@ -1,0 +1,37 @@
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace = "http://www.ilias.de/Modules/GroupReference/exp/9_0"
+        elementFormDefault="qualified">
+
+    <!--################################################################################################################
+    ## + Container Reference ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ##
+    #################################################################################################################-->
+
+    <xs:element name="ContainerReference">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="Target"/>
+                <xs:element ref="Title"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Target">
+        <xs:complexType>
+            <xs:attribute name="id" type="xs:nonNegativeInteger"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Title">
+        <xs:complexType>
+            <xs:attribute name="type" default="Reuse">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Reuse"/>
+                        <xs:enumeration value="Custom"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

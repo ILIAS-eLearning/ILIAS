@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Exporter class for meta data
@@ -49,8 +50,8 @@ class ilMetaDataExporter extends ilXmlExporter
     {
         return array(
             "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Services/MetaData/md/4_1",
-                "xsd_file" => "ilias_md_4_1.xsd",
+                "namespace" => "http://www.ilias.de/Services/MetaData/meta/4_1",
+                "xsd_file" => "ilias_meta_4_1.xsd",
                 "min" => "4.1.0",
                 "max" => ""
             )

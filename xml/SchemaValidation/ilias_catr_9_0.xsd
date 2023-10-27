@@ -1,0 +1,38 @@
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <!--################################################################################################################
+    ## + Container Reference ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ##
+    #################################################################################################################-->
+
+    <xs:element name="ContainerReference">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="Target"/>
+                <xs:element minOccurs="0" maxOccurs="1" name="Title" type="Title"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Target">
+        <xs:complexType>
+            <xs:attribute name="id" type="xs:nonNegativeInteger"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Title">
+        <xs:simpleContent>
+            <xs:extension base="xs:token">
+                <xs:attribute name="type" default="1">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:token">
+                            <xs:enumeration value="1"/>
+                            <xs:enumeration value="2"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <xs:element name="Manifest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="ExportSet"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="ExportFile"/>
+            </xs:sequence>
+            <xs:attribute name="MainEntity" type="lowercaseNameString" use="required"/>
+            <xs:attribute name="Title" type="nameString" use="required"/>
+            <xs:attribute name="InstallationId" type="xs:nonNegativeInteger" use="required"/>
+            <xs:attribute name="InstallationUrl" type="xs:anyURI" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ExportSet">
+        <xs:complexType>
+            <xs:attribute name="Path" type="componentPath" use="required"/>
+            <xs:attribute name="Type" type="lowercaseName" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ExportFile">
+        <xs:complexType>
+            <xs:attribute name="Component" type="componentPath" use="required"/>
+            <xs:attribute name="Path" type="xmlPath" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="xmlPath">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9/_]+\.xml"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="lowercaseNameString">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="nameString">
+        <xs:restriction base="xs:string">
+            <!-- <xs:pattern value="([A-Z]|[a-z]|\s)+"/> -->
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="componentPath">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_]+[/][a-zA-Z0-9_]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="lowercaseName">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

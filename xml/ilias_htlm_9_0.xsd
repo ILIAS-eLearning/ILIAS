@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace = "http://www.ilias.de/Module/HTMLLearningModule/exp/9_0"
+        elementFormDefault="qualified">
+
+    <xs:element name="html">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Id" type="xs:integer"/>
+                <xs:element name="Title" type="xs:string"/>
+                <xs:element name="Description" type="xs:string"/>
+                <xs:element name="StartFile" type="xs:string"/>
+                <xs:element name="Dir" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

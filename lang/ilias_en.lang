@@ -12696,7 +12696,7 @@ obj#:#obj_deactivate_multilang#:#Deactivate Multilingualism
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the master language will be kept.
 obj#:#obj_fallback_lang#:#Default Language
 obj#:#obj_features#:#Additional Features
-obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type. The filename must not be modified after export. Error Message:
+obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type.
 obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
 obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
 obj#:#obj_master_lang#:#Master Language

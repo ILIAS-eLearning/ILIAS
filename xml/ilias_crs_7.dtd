@@ -152,24 +152,24 @@
 <!ELEMENT ViewMode (#PCDATA)>
 
 <!ELEMENT SessionLimit EMPTY>
-<!ATTLIST
-		active (0,1) #REQUIRED
-		previous #REQUIRED
-		next #REQUIRED
+<!ATTLIST SessionLimit
+		active (0|1) #REQUIRED
+		previous CDATA #REQUIRED
+		next CDATA #REQUIRED
 >
 
 <!ELEMENT WelcomeMail EMPTY>
 <!ATTLIST WelcomeMail
-		status (0,1) #REQUIRED
+		status (0|1) #REQUIRED
 >
 
 <!ELEMENT StatusDetermination (#PCDATA)>
 <!ELEMENT MailToMembersType (#PCDATA)>
 
 <!ELEMENT CourseMap EMPTY>
-<!ATTLIST
-		enabled (0,1) #REQUIRED
-		latitude #REQUIRED
-		longitude #REQUIRED
-		location_zoom #REQUIRED
+<!ATTLIST CourseMap
+		enabled (0|1) #REQUIRED
+		latitude CDATA #REQUIRED
+		longitude CDATA #REQUIRED
+		location_zoom CDATA #REQUIRED
 >
