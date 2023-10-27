@@ -101,21 +101,17 @@ class ConductorTest extends TestCase
 
         $container = $this->mockTree(Container::class, [
             'ui' => [
-                'factory' => $this->mockMethod(UIFactory::class, 'legacy', [' '], $space),
                 'renderer' => $this->mockMethod(Renderer::class, 'render', [
-                    [...$components, $space, ...$components, $space],
+                    $components,
                 ], 'rendered'),
             ],
         ]);
 
-        $internal = $this->mockMethod(Internal::class, 'all', ['show-on-login-page'], [
-            fn() => $components,
-            fn() => $components,
-        ]);
+        $internal = $this->mockMethod(Internal::class, 'get', ['show-on-login-page', 'foo'], fn() => $components);
 
         $instance = new Conductor($container, $internal, $this->mock(Clock::class));
 
-        $this->assertSame('rendered', $instance->loginPageHTML());
+        $this->assertSame('rendered', $instance->loginPageHTML('foo'));
     }
 
     public function testLogoutText(): void

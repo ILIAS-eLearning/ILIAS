@@ -87,8 +87,8 @@ class WiringTest extends TestCase
     public function testShowOnLoginPage(): void
     {
         $proc = $this->fail(...);
-        $instance = new Wiring($this->mock(SlotConstructor::class), new Map());
-        $this->assertSame(['show-on-login-page' => [$proc]], $instance->showOnLoginPage($proc)->map()->value());
+        $instance = new Wiring($this->mockTree(SlotConstructor::class, ['id'=> 'foo']), new Map());
+        $this->assertSame(['show-on-login-page' => ['foo' => $proc]], $instance->showOnLoginPage($proc)->map()->value());
     }
 
     public function testHasAgreement(): void

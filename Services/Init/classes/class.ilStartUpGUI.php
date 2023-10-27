@@ -22,6 +22,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UICore\PageContentProvider;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\TermsOfService\Consumer as TermsOfService;
+use ILIAS\DataProtection\Consumer as DataProtection;
 
 /**
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
@@ -266,7 +268,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
         $page_editor_html = $this->showSamlLoginForm($page_editor_html);
         $page_editor_html = $this->showRegistrationLinks($page_editor_html);
-        $page_editor_html = $this->showLegalDocumentsLink($page_editor_html);
+        $page_editor_html = $this->showLegalDocumentsLinks($page_editor_html);
         $page_editor_html = $this->purgePlaceholders($page_editor_html);
 
         // check expired session and send message
@@ -1009,7 +1011,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
     }
 
-    private function showLegalDocumentsLink(string $page_editor_html): string
+    private function showLegalDocumentsLinks(string $page_editor_html): string
     {
         global $tpl;
         global $DIC;
@@ -1018,13 +1020,22 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $this->user->setId(ANONYMOUS_USER_ID);
         }
 
-        return $this->substituteLoginPageElements(
+        $page_editor_html = $this->substituteLoginPageElements(
             $tpl,
             $page_editor_html,
-            $DIC['legalDocuments']->loginPageHTML(),
+            $DIC['legalDocuments']->loginPageHTML(TermsOfService::ID),
             '[list-user-agreement]',
             'USER_AGREEMENT'
         );
+        $page_editor_html = $this->substituteLoginPageElements(
+            $tpl,
+            $page_editor_html,
+            $DIC['legalDocuments']->loginPageHTML(DataProtection::ID),
+            '[list-dpro-agreement]',
+            'DPRO_AGREEMENT'
+        );
+
+        return $page_editor_html;
     }
 
     private function purgePlaceholders(string $page_editor_html): string
@@ -1034,6 +1045,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 '[list-language-selection] ',
                 '[list-registration-link]',
                 '[list-user-agreement]',
+                '[list-dpro-agreement]',
                 '[list-login-form]',
                 '[list-cas-login-form]',
                 '[list-saml-login]',
