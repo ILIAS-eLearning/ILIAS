@@ -237,6 +237,9 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->setLaunchParameters((string) $this->_moduleProperties['LaunchParameters']);
         $this->_cmixObj->setEntitlementKey((string) $this->_moduleProperties['EntitlementKey']);
         $this->_cmixObj->setSwitchToReviewEnabled((bool) $this->_moduleProperties['SwitchToReview']);
+        if(isset($this->_moduleProperties['DeleteData'])) {
+            $this->_cmixObj->setDeleteData((int) $this->_moduleProperties['DeleteData']);
+        }
         $this->_cmixObj->save();
         $this->_cmixObj->updateMetaData();
 

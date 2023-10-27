@@ -160,4 +160,86 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db->manipulateF('DELETE FROM cmix_users WHERE usr_id = %s', ['integer'], [13]);
     }
+
+    public function step_13(): void
+    {
+        if (!$this->db->tableColumnExists('cmix_lrs_types', 'delete_data')) {
+            $this->db->addTableColumn('cmix_lrs_types', 'delete_data', array(
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => true,
+                'default' => 0
+            ));
+        }
+    }
+
+    public function step_14(): void
+    {
+        if (!$this->db->tableColumnExists('cmix_settings', 'delete_data')) {
+            $this->db->addTableColumn('cmix_settings', 'delete_data', array(
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => true,
+                'default' => 0
+            ));
+        }
+    }
+
+    public function step_15(): void
+    {
+        if (!$this->db->tableExists('cmix_del_user')) {
+            $fields_data = array(
+                'usr_id' => array(
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true
+                ),
+                'added' => array(
+                    'type' => 'timestamp',
+                    'notnull' => true
+                ),
+                'updated' => array(
+                    'type' => 'timestamp',
+                    'notnull' => false,
+                    'default' => null
+                ),
+            );
+            $this->db->createTable("cmix_del_user", $fields_data);
+            $this->db->addPrimaryKey("cmix_del_user", array("usr_id"));
+        }
+    }
+
+    public function step_16(): void
+    {
+        if (!$this->db->tableExists('cmix_del_object')) {
+            $fields_data = array(
+                'obj_id' => array(
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true
+                ),
+                'type_id' => array(
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true
+                ),
+                'activity_id' => array(
+                    'type' => 'text',
+                    'length' => 128,
+                    'notnull' => true,
+                ),
+                'added' => array(
+                    'type' => 'timestamp',
+                    'notnull' => true
+                ),
+                'updated' => array(
+                    'type' => 'timestamp',
+                    'notnull' => false,
+                    'default' => null
+                ),
+            );
+            $this->db->createTable("cmix_del_object", $fields_data);
+            $this->db->addPrimaryKey("cmix_del_object", array("obj_id", "type_id", "activity_id"));
+        }
+    }
 }

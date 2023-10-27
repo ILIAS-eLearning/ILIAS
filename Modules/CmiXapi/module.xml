@@ -25,8 +25,15 @@
 			<parent id="wfld">wfld</parent>
 		</object>
 	</objects>
+	<events>
+		<event type="listen" id="Services/User" />
+		<event type="listen" id="Services/Object" />
+		<event type="listen" id="Modules/Course" />
+		<event type="listen" id="Modules/Group" />
+	</events>
 	<crons>
 		<cron id="xapi_results_evaluation" class="ilXapiResultsCronjob" />
+		<cron id="xapi_deletion_cron" class="ilCmiXapiDelCron" />
 	</crons>
 	<copage />
 	<web_access_checker />

@@ -145,6 +145,8 @@ class ilObjCmiXapi extends ilObject2
 
     protected bool $no_substatements = false;
 
+    protected int $deleteData = 0;
+
     protected ?ilCmiXapiUser $currentCmixUser = null;
 
     private ilDBInterface $database;
@@ -627,6 +629,16 @@ class ilObjCmiXapi extends ilObject2
         $this->no_substatements = $no_substatements;
     }
 
+    public function getDeleteData(): int
+    {
+        return $this->deleteData;
+    }
+
+    public function setDeleteData(int $deleteData): void
+    {
+        $this->deleteData = $deleteData;
+    }
+
     public function getUserPrivacyComment(): string
     {
         return $this->userPrivacyComment;
@@ -731,6 +743,7 @@ class ilObjCmiXapi extends ilObject2
             $this->setTimestamp((bool) $row['c_timestamp']);
             $this->setDuration((bool) $row['duration']);
             $this->setNoSubstatements((bool) $row['no_substatements']);
+            $this->setDeleteData((int) $row['delete_data']);
 
             $this->setUserPrivacyComment($row['usr_privacy_comment']);
 
@@ -809,7 +822,8 @@ class ilObjCmiXapi extends ilObject2
             'hide_data' => ['integer', (int) $this->getHideData()],
             'c_timestamp' => ['integer', (int) $this->getTimestamp()],
             'duration' => ['integer', (int) $this->getDuration()],
-            'no_substatements' => ['integer', (int) $this->getNoSubstatements()]
+            'no_substatements' => ['integer', (int) $this->getNoSubstatements()],
+            'delete_data' => ['integer', $this->getDeleteData()]
         ]);
 
         $this->saveRepositoryActivationSettings();
@@ -876,13 +890,15 @@ class ilObjCmiXapi extends ilObject2
                 hide_data = %s,
                 c_timestamp = %s,
                 duration = %s,
-                no_substatements = %s
+                no_substatements = %s,
+                delete_data = %s
             WHERE lrs_type_id = %s
 		";
 
         $DIC->database()->manipulateF(
             $query,
             ['integer',
+             'integer',
              'integer',
              'integer',
              'integer',
@@ -916,6 +932,7 @@ class ilObjCmiXapi extends ilObject2
              $lrsType->getTimestamp(),
              $lrsType->getDuration(),
              $lrsType->getNoSubstatements(),
+             $lrsType->getDeleteData(),
              $lrsType->getTypeId()
             ]
         );
@@ -1209,7 +1226,8 @@ class ilObjCmiXapi extends ilObject2
             'hide_data' => (int) $this->getHideData(),
             'c_timestamp' => (int) $this->getTimestamp(),
             'duration' => (int) $this->getDuration(),
-            'no_substatements' => (int) $this->getNoSubstatements()
+            'no_substatements' => (int) $this->getNoSubstatements(),
+            'delete_data' => (int) $this->getDeleteData()
             //'bypass_proxy' => (int) $this->isBypassProxyEnabled()
         ];
     }
@@ -1269,6 +1287,7 @@ class ilObjCmiXapi extends ilObject2
         $new_obj->setTimestamp($this->getTimestamp());
         $new_obj->setDuration($this->getDuration());
         $new_obj->setNoSubstatements($this->getNoSubstatements());
+        $new_obj->setDeleteData($this->getDeleteData());
         $new_obj->update();
 
         if ($this->getSourceType() == self::SRC_TYPE_LOCAL) {

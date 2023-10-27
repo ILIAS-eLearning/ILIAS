@@ -120,6 +120,8 @@ class ilCmiXapiDataSet extends ilDataSet
         "EntitlementKey" => ["db_col" => "entitlement_key", "db_type" => "text"]
         ,
         "SwitchToReview" => ["db_col" => "switch_to_review", "db_type" => "integer"]
+        ,
+        "DeleteData" => ["db_col" => "delete_data", "db_type" => "integer"]
     ];
 
     /**

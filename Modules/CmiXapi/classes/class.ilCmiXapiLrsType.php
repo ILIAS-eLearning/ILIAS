@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilCmiXapiLrsType
@@ -58,6 +58,11 @@ class ilCmiXapiLrsType
 
     public const ENDPOINT_STATEMENTS_SUFFIX = 'statements';
     public const ENDPOINT_AGGREGATE_SUFFIX = 'statements/aggregate';
+
+    public const ENDPOINT_DELETE_SUFFIX = 'v2/batchdelete/initialise';
+    public const ENDPOINT_BATCH_SUFFIX = 'connection/batchdelete';
+    public const ENDPOINT_STATE_SUFFIX = 'state';
+
 
     protected int $type_id = 0;
 
@@ -107,6 +112,8 @@ class ilCmiXapiLrsType
     protected bool $duration = true;
 
     protected bool $no_substatements = false;
+
+    protected int $deleteData = 0;
 
     private ilDBInterface $database;
 
@@ -376,6 +383,16 @@ class ilCmiXapiLrsType
         $this->no_substatements = $no_substatements;
     }
 
+    public function getDeleteData(): int
+    {
+        return $this->deleteData;
+    }
+
+    public function setDeleteData(int $deleteData): void
+    {
+        $this->deleteData = $deleteData;
+    }
+
     public function getForcePrivacySettings(): bool
     {
         return $this->force_privacy_settings;
@@ -467,6 +484,7 @@ class ilCmiXapiLrsType
             $this->setTimestamp((bool) $row->c_timestamp);
             $this->setDuration((bool) $row->duration);
             $this->setNoSubstatements((bool) $row->no_substatements);
+            $this->setDeleteData((int) $row->delete_data);
 
             return true;
         }
@@ -525,7 +543,8 @@ class ilCmiXapiLrsType
                 'hide_data' => array('integer', (int) $this->getHideData()),
                 'c_timestamp' => array('integer', (int) $this->getTimestamp()),
                 'duration' => array('integer', (int) $this->getDuration()),
-                'no_substatements' => array('integer', (int) $this->getNoSubstatements())
+                'no_substatements' => array('integer', (int) $this->getNoSubstatements()),
+                'delete_data' => array('integer', $this->getDeleteData())
             )
         );
 
@@ -548,6 +567,21 @@ class ilCmiXapiLrsType
     public function getLrsEndpointStatementsAggregationLink(): string
     {
         return dirname($this->getLrsEndpoint(), 2) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
+    }
+
+    public function getLrsEndpointDeleteLink()
+    {
+        return dirname($this->getLrsEndpoint(), 2) . '/api/' . self::ENDPOINT_DELETE_SUFFIX;
+    }
+
+    public function getLrsEndpointBatchLink()
+    {
+        return dirname($this->getLrsEndpoint(), 2) . '/api/' . self::ENDPOINT_BATCH_SUFFIX;
+    }
+
+    public function getLrsEndpointStateLink()
+    {
+        return $this->getLrsEndpoint() . '/activities/' . self::ENDPOINT_STATE_SUFFIX;
     }
 
     public function getBasicAuth(): string

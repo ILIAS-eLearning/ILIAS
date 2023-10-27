@@ -485,6 +485,18 @@ class ilCmiXapiSettingsGUI
             $form->addItem($item);
         }
 
+        $item = new ilRadioGroupInputGUI($this->language->txt('conf_delete_data'), 'delete_data');
+        $options = ["0","1","2","11","12"];
+        for ((int) $i = 0; $i < count($options); $i++) {
+            $op = new ilRadioOption($this->language->txt('conf_delete_data_opt' . $options[$i]), $options[$i]);
+            $item->addOption($op);
+        }
+        $item->setValue((string) $this->object->getDeleteData());
+        $item->setInfo($this->language->txt('conf_delete_data_info'));
+        $form->addItem($item);
+
+
+
         $item = new ilFormSectionHeaderGUI();
         $item->setTitle($this->language->txt("log_options"));
         $form->addItem($item);
@@ -620,6 +632,7 @@ class ilCmiXapiSettingsGUI
                 $this->object->setTimestamp((bool) $form->getInput("timestamp"));
                 $this->object->setDuration((bool) $form->getInput("duration"));
                 $this->object->setNoSubstatements((bool) $form->getInput("no_substatements"));
+                $this->object->setDeleteData((int) $form->getInput("delete_data"));
             }
         } else { //SourceTypeExternal
             $this->object->setBypassProxyEnabled(true);

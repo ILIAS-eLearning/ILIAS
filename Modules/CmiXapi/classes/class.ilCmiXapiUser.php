@@ -619,4 +619,20 @@ class ilCmiXapiUser
 
         return $usrId;
     }
+
+    public static function deleteUsersForObject(int $objId, ?array $users = []): void
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $query = "DELETE FROM cmix_users WHERE obj_id = " . $DIC->database()->quote($objId, 'integer');
+        if (count($users) == 0) {
+            $DIC->database()->manipulate($query);
+        } else {
+            $DIC->database()->manipulateF(
+                $query . " AND usr_id = %s",
+                array('integer'),
+                $users
+            );
+        }
+    }
+
 }
