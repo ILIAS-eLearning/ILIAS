@@ -23,7 +23,7 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?, InitOpenedContent?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | LearningHistory | ConsultationHours | MyCourses | AMDPageList | AMDForm | Grid | Curriculum | Launcher | PRGStatusInfo), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | LearningHistory | ConsultationHours | MyCourses | AMDPageList | AMDForm | Grid | Curriculum | Launcher | PRGStatusInfo | PRGActionNote), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -555,3 +555,4 @@ col or row span. -->
 <!ELEMENT Curriculum EMPTY>
 <!ELEMENT Launcher EMPTY>
 <!ELEMENT PRGStatusInfo EMPTY>
+<!ELEMENT PRGActionNote EMPTY>

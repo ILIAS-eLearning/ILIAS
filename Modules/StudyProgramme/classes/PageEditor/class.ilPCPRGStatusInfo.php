@@ -21,6 +21,7 @@ declare(strict_types=1);
 /**
  * PageComponent "Status Information" for PageEditor in PRGs
  */
+#[AllowDynamicProperties]
 class ilPCPRGStatusInfo extends ilPageContent
 {
     public const PCTYPE = 'prgstatusinfo';
@@ -40,8 +41,8 @@ class ilPCPRGStatusInfo extends ilPageContent
     ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->cach_node = $this->dom->create_element(self::PCELEMENT);
-        $this->cach_node = $this->node->append_child($this->cach_node);
+        $this->cache_node = $this->dom_doc->createElement(self::PCELEMENT);
+        $this->cache_node = $this->node->appendChild($this->cache_node);
     }
 
     /**

@@ -28,6 +28,7 @@ class ilPRGPageObjectGUI extends ilContainerPageGUI
     public function getPageConfig(): ilPageConfig
     {
         $this->page_config->setEnablePCType(ilPCPRGStatusInfo::PCELEMENT, true);
+        $this->page_config->setEnablePCType(ilPCPRGActionNote::PCELEMENT, true);
         return $this->page_config;
     }
 }

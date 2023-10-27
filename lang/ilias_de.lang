@@ -13006,6 +13006,7 @@ prg#:#auto_memberships#:#Automatische Zuweisung
 prg#:#category#:#Kategorie
 prg#:#completion_date#:#Abschlussdatum
 prg#:#confirm_to_remove_selected_assignments#:#Benutzerzuweisung(en) wirklich entfernen?
+prg#:#cont_ed_insert_prgactionnote#:#Studienprogramm Aktionshinweis einfügen
 prg#:#cont_ed_insert_prgstatusinfo#:#Studienprogamm Statusinformation einfügen
 prg#:#content_automation#:#Inhaltsautomatisierung
 prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
@@ -13066,6 +13067,12 @@ prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
 prg#:#optgrp_label_restart#:#Wiederaufnahme
 prg#:#optgrp_label_validity#:#Ablauf
 prg#:#orgu#:#Organisationseinheit
+prg#:#pc_prg_action_note_label#:#Erforderliche Maßnahmen Studienprogramm
+prg#:#pc_prg_statusinfo_label#:#Statusinformation Studienprogramm
+prg#:#pc_prgactionnote_complete_content#:#Bitte vervollständigen Sie den Inhalt.
+prg#:#pc_prgactionnote_complete_content_with_deadline#:#Bitte vervollständigen Sie den Inhalt bis zum
+prg#:#pc_prgactionnote_headline#:#Erforderliche Maßnahmen
+prg#:#pc_prgactionnote_no_actions_required#:#Keine Maßnahmen erforderlich.
 prg#:#pc_prgstatus_edit_qualification#:#Erneut zu bearbeiten ab
 prg#:#pc_prgstatus_expiration_date#:#Ablaufdatum
 prg#:#pc_prgstatus_qualification_headline#:#Status Ihrer Qualifikation
@@ -13297,6 +13304,7 @@ prg#:#status_changed#:#Status aktualisiert
 prg#:#status_changed_due_to_deadline#:#Status wurde aufgrund des Bearbeitungszeitraums angepasst.
 prg#:#status_transition_not_allowed#:#Neuer Status nicht anwendbar
 prg#:#status_unchanged#:#Status unverändert
+prg#:#study_programme_icon#:#Page Editor Studienprogramm Icon
 prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
 prg#:#update_expire_date#:#Ablauf Qualifikation wurde erfolgreich aktualisiert.
 prg#:#updated_from_settings#:#Aus Einstellungen aktualisiert
