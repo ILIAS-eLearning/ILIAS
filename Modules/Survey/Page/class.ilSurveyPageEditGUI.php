@@ -207,7 +207,6 @@ class ilSurveyPageEditGUI
         bool $a_force_duplicate = false
     ): int {
         $ilDB = $this->db;
-
         $this->log->debug("append question, id: " . $a_new_id . ", duplicate: " . $a_duplicate . ", force: " . $a_force_duplicate);
 
         // get maximum sequence index in test
@@ -232,7 +231,6 @@ class ilSurveyPageEditGUI
         if ($this->object->isQuestionInSurvey($survey_question_id)) {
             return $survey_question_id;
         }
-
         // append to survey
         $next_id = $ilDB->nextId('svy_svy_qst');
         $affectedRows = $ilDB->manipulateF(
@@ -630,7 +628,6 @@ class ilSurveyPageEditGUI
             foreach ($nodes as $qid) {
                 // create new questions
                 $question = ilObjSurvey::_instanciateQuestion($qid);
-
                 // handle exisiting copies
                 $title = $question->getTitle();
                 $max = 0;
