@@ -168,6 +168,9 @@ class ilRbacSystem
 
             $ops = [];
             while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                if ($row->ops_id === ':') {
+                    continue;
+                }
                 if (in_array((int) $row->rol_id, $roles)) {
                     $ops = array_merge($ops, unserialize(stripslashes($row->ops_id)));
                 }
