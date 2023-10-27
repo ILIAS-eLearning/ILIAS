@@ -102,19 +102,6 @@ class ilObjQuestionPool extends ilObject
         return true;
     }
 
-    protected function beforeUpdateMetaData(): bool
-    {
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_gen = $md->getGeneral();
-        if ($md_gen == false) {
-            $md_creator = new ilMDCreator($this->getId(), 0, $this->getType());
-            $md_creator->setTitle($this->getTitle());
-            $md_creator->setTitleLanguage($this->user->getPref('language'));
-            $md_creator->create();
-        }
-        return true;
-    }
-
     /**
      * read object data from db into object
      * @param boolean
