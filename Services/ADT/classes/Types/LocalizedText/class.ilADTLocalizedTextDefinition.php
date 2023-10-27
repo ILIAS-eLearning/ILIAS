@@ -16,6 +16,8 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     private string $default_language = '';
     private int $max_length;
 
+    private bool $multilingual_value_support = false;
+
     public function getMaxLength(): ?int
     {
         return $this->max_length;
@@ -24,6 +26,16 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     public function setMaxLength(int $max_length): void
     {
         $this->max_length = $max_length;
+    }
+
+    public function setMultilingualValueSupport(bool $status): void
+    {
+        $this->multilingual_value_support = $status;
+    }
+
+    public function getMultilingualValueSupport() : bool
+    {
+        return $this->multilingual_value_support;
     }
 
     /**

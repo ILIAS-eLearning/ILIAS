@@ -11583,6 +11583,8 @@ meta#:#md_adv_show#:#Show
 meta#:#md_adv_substitution_table#:#Display Options for Custom Metadata in the Repository
 meta#:#md_adv_text_max_length#:#Maximum Length
 meta#:#md_adv_text_multi#:#Multiline
+meta#:#md_adv_text_multi_val#:#Multilingual Values
+meta#:#md_adv_text_multi_val_info#:#Allow multilingual field values for this data field. Deactivating this option is recommended for texts that do not need translating, such as personal names.
 meta#:#md_advanced#:#Custom Metadata
 meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_copyright#:#Copyright

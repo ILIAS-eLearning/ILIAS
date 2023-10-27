@@ -11593,6 +11593,8 @@ meta#:#md_adv_show#:#Anzeigen
 meta#:#md_adv_substitution_table#:#Darstellung im Magazin
 meta#:#md_adv_text_max_length#:#Maximale Länge
 meta#:#md_adv_text_multi#:#Mehrzeilig
+meta#:#md_adv_text_multi_val#:#Mehrsprachige Werte
+meta#:#md_adv_text_multi_val_info#:#Erlauben Sie mehrsprachige Feldwerte für dieses Datenfeld. Für Texte, die keiner Übersetzung bedürfen, wie z.B. Personennamen, empfiehlt sich die Deaktivierung dieser Option.
 meta#:#md_advanced#:#Benutzerdefinierte Metadaten
 meta#:#md_aria_language_selection#:#Sprachauswahl
 meta#:#md_copyright#:#Copyright
