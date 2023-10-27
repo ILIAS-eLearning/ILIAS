@@ -5359,19 +5359,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     * @return array The converted array ready for CSV use
     * @access public
     */
-    public function &processCSVRow($row, $quoteAll = false, $separator = ";"): array
-    {
+    public function processCSVRow(
+        mixed $row,
+        bool $quote_all = false,
+        string $separator = ";"
+    ): array {
         $resultarray = [];
         foreach ($row as $rowindex => $entry) {
             $surround = false;
-            if ($quoteAll) {
+            if ($quote_all) {
                 $surround = true;
             }
-            if (strpos($entry, "\"") !== false) {
+            if (is_string($entry) && strpos($entry, "\"") !== false) {
                 $entry = str_replace("\"", "\"\"", $entry);
                 $surround = true;
             }
-            if (strpos($entry, $separator) !== false) {
+            if (is_string($entry) && strpos($entry, $separator) !== false) {
                 $surround = true;
             }
             // replace all CR LF with LF (for Excel for Windows compatibility
