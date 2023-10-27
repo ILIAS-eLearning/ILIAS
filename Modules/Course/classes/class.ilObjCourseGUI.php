@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=0);
 
 declare(strict_types=0);
 
@@ -831,6 +832,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->object->setWaitingListAutoFill(false);
                 break;
         }
+        $this->object->handleAutoFill();
 
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
