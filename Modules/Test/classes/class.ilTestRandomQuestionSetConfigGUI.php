@@ -938,6 +938,15 @@ class ilTestRandomQuestionSetConfigGUI
                 $srcPoolDefinition->setPoolRefId($this->questionSetConfig->getFirstQuestionPoolRefIdByObjId((int) $newPool->getId()));
                 $srcPoolDefinition->saveToDb();
 
+                $md_obj = new ilMD($newPool->getId(), 0, "qpl");
+                $md_general = $md_obj->addGeneral();
+                $md_general->setTitle($newPool->getTitle());
+                $md_general->save();
+                $md_desc = $md_general->addDescription();
+                $md_desc->setDescription($newPool->getDescription());
+                $md_desc->save();
+                $md_obj->save();
+
                 ilTestRandomQuestionSetStagingPoolQuestionList::updateSourceQuestionPoolId(
                     $this->testOBJ->getTestId(),
                     $lostPool->getId(),
