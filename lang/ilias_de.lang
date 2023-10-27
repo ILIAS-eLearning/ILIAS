@@ -103,6 +103,7 @@ administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und so
 administration#:#adm_item_cmd_asynch#:#Asynchrones Laden der Aktionsmenüs im Magazin
 administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden asynchron geladen. Dies erhöht die Performanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Popup-Menüs kommen.
 administration#:#adm_layout_and_navigation#:#Layout und Navigation
+administration#:#adm_legal_regulations#:#Rechtliche Dokumente
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphabetische Sortierung in Listen. Beispiele sind nl_NL oder de_DE. Es können mehrere Werte angegeben werden (kommagetrennt). Der erste gültige Wert wird genutzt.
 administration#:#adm_maintenance#:#Systemeinstellungen und Wartung
@@ -277,6 +278,8 @@ administration#:#obj_blga_desc#:#Globale Blogeinstellungen
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
 administration#:#obj_excs#:#Übung
 administration#:#obj_excs_desc#:#Globale Übungseinstellungen
+administration#:#obj_impr#:#Impressum
+administration#:#obj_impr_desc#:#Bereitstellung des Impressums
 administration#:#obj_mds#:#Metadaten
 administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 administration#:#obj_otpl#:#Didaktische Vorlagen
