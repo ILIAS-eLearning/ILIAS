@@ -206,6 +206,7 @@ class ilMarkSchemaGUI
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showMarkSchema'));
 
         $mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', $this->object);
+        $mark_schema_table->setShowRowsSelector(false);
 
         if ($this->object->canEditMarks()) {
             global $DIC;
