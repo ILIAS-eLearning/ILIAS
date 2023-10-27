@@ -474,7 +474,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     continue;
                 }
 
-                $auth_mode = $auth_mode->withOption($key, $option['txt']);
+                $auth_mode = $auth_mode->withOption((string) $key, $option['txt']);
 
                 if (isset($option['checked'])) {
                     $auth_mode = $auth_mode->withValue($key);
