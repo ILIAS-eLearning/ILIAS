@@ -103,6 +103,7 @@ administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und so
 administration#:#adm_item_cmd_asynch#:#Asynchrones Laden der Aktionsmenüs im Magazin
 administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden asynchron geladen. Dies erhöht die Performanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Popup-Menüs kommen.
 administration#:#adm_layout_and_navigation#:#Layout und Navigation
+administration#:#adm_legal_regulations#:#Rechtliche Dokumente
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphabetische Sortierung in Listen. Beispiele sind nl_NL oder de_DE. Es können mehrere Werte angegeben werden (kommagetrennt). Der erste gültige Wert wird genutzt.
 administration#:#adm_maintenance#:#Systemeinstellungen und Wartung
@@ -277,6 +278,8 @@ administration#:#obj_blga_desc#:#Globale Blogeinstellungen
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
 administration#:#obj_excs#:#Übung
 administration#:#obj_excs_desc#:#Globale Übungseinstellungen
+administration#:#obj_impr#:#Impressum
+administration#:#obj_impr_desc#:#Bereitstellung des Impressums
 administration#:#obj_mds#:#Metadaten
 administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 administration#:#obj_otpl#:#Didaktische Vorlagen
@@ -289,6 +292,7 @@ administration#:#options#:#Optionen
 administration#:#org_op_edit_user_accounts#:#Anmeldekonten bearbeiten
 administration#:#output_options#:#Ausgabeoptionen
 administration#:#path_to_mkisofs#:#Mkisofs-Pfad
+administration#:#prg_export#:#Sichtbar im Studienprogramm
 administration#:#purge_age_limit#:#Begrenze Alter
 administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind, aus dem System entfernt.
 administration#:#purge_count_limit#:#Begrenze Anzahl
@@ -768,6 +772,7 @@ assessment#:#grading_obligations_missing_msg#:#Nicht alle verpflichtenden Fragen
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
 assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
 assessment#:#height#:#Höhe
+assessment#:#hints#:#Hinweise
 assessment#:#identical_scoring#:#Identische Bewertung
 assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit identischen Lösungen entsprechend der Vorgaben bewertet, selbst wenn die gleiche Lösung mehrere Male verwendet wurde. Ist das Kontrollkästchen nicht ausgewählt, wird nur die erste verwendete identische Lösung bewertet.
 assessment#:#imagemap#:#Imagemap
@@ -885,6 +890,7 @@ assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0
 assessment#:#misc#:#Verschiedene Optionen
 assessment#:#msg_circle_added#:#Kreis hinzugefügt
 assessment#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
+assessment#:#msg_no_questions_selected#:#Keine Fragen ausgewählt.
 assessment#:#msg_number_of_terms_too_low#:#Die Anzahl der Terme muss größer oder gleich der Anzahl der Definitionen sein.
 assessment#:#msg_poly_added#:#Polygon hinzugefügt
 assessment#:#msg_questions_moved#:#Fragen verschoben
@@ -1037,6 +1043,7 @@ assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möcht
 assessment#:#qpl_questions_deleted#:#Fragen gelöscht
 assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
 assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
+assessment#:#qpl_settings_availability#:#Verfügbarkeit
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Vorhandene Taxonomien können zum Filtern der Fragen genutzt werden.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Navigationsbaum
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Ist eine Taxonomie ausgewählt, wird diese nicht als Filter sondern als Navigationsbaum angezeigt.
@@ -1090,6 +1097,7 @@ assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragetyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
 assessment#:#questionpool_not_selected#:#Bitte wählen Sie einen Fragenpool aus!
+assessment#:#questions#:#Fragen
 assessment#:#questions_from#:#Fragen aus
 assessment#:#questions_per_page_view#:#Seitenansicht
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
@@ -1205,6 +1213,8 @@ assessment#:#suggested_solution#:#Inhalte zur Wiederholung
 assessment#:#suggested_solution_added_successfully#:#Der Hinweis auf Inhalte zur Wiederholung wurde erfolgreich hinzugefügt!
 assessment#:#ta_resulttable_vc_mode_aria#:#Anzeigeoptionen für Fragen
 assessment#:#tab_nest_answers#:#Einrückung
+assessment#:#tax_filter#:#Taxonomie
+assessment#:#tax_filter_notax#:#Fragen ohne zugeordnete Taxonomie
 assessment#:#term#:#Term
 assessment#:#term_image#:#Bild
 assessment#:#term_text#:#Text
@@ -3392,9 +3402,7 @@ cntr#:#sorting_new_items_position#:#Einfügen neuer Objekte
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
 common#:#HH#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
-common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#accept_usr_agreement_btn#:#Zustimmen
-common#:#accept_usr_agreement_intro#:#Es liegen neue Nutzungsbedingungen vor. Sie müssen sie akzeptieren, bevor Sie mit der Nutzung von ILIAS fortfahren können. Lesen Sie das folgende Dokument sorgfältig durch und geben Sie unten auf der Seite Ihre Zustimmung oder Ablehnung.
 common#:#access#:#Zugriff
 common#:#accessFree#:#Befristung des Zugriffs aufheben
 common#:#accessRestrict#:#Zugriff befristen
@@ -3455,7 +3463,6 @@ common#:#adve_assessment_settings#:#Test und Assessment-Einstellungen
 common#:#adve_frm_post_settings#:#Forenbeiträge
 common#:#adve_general_settings#:#Allgemeine Einstellungen
 common#:#adve_survey_settings#:#Umfrage-Einstellungen
-common#:#agree_date#:#Zugestimmt am
 common#:#all#:#Alle
 common#:#all_global_roles#:#Globale Rollen
 common#:#all_local_roles#:#Lokale Rollen (alle)
@@ -3908,6 +3915,20 @@ common#:#download_selected_items#:#Herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
 common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschließlich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
 common#:#downloading_settings#:#Einstellungen
+common#:#dpro_accept_usr_agreement#:#Datenschutzerklärung akzeptieren?
+common#:#dpro_accept_usr_agreement_intro#:#Es liegt eine neue Datenschutzerklärung vor. Sie müssen diese akzeptieren, bevor Sie mit der Nutzung von ILIAS fortfahren können. Lesen Sie das folgende Dokument sorgfältig durch und geben Sie unten auf der Seite Ihre Zustimmung oder Ablehnung.
+common#:#dpro_force_accept_usr_agreement#:#Sie müssen die Datenschutzerklärung akzeptieren!
+common#:#dpro_refuse_acceptance#:#Wiederruf der Akzeptanz der Datenschutzerklärung
+common#:#dpro_usr_agreement#:#Datenschutzerklärung
+common#:#dpro_usr_agreement_footer_intro#:#Zu dieser Datenschutzerklärung haben Sie ihr Einverständnis erklärt.
+common#:#dpro_withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu der Datenschutzerklärung.
+common#:#dpro_withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück, und loggen Sie sich erneut ein, um den Widerrufsvorgang abzuschließen.
+common#:#dpro_withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein, um den Widerrufsvorgang abzuschließen.
+common#:#dpro_withdraw_consent_header#:#Einverständnis zur Datenschutzerklärung widerrufen
+common#:#dpro_withdraw_consent_info#:#Widerrufen der Zustimmung zu der Datenschutzerklärung
+common#:#dpro_withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
+common#:#dpro_withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu der Datenschutzerklärung widerrufen möchten?
+common#:#dpro_withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu der Datenschutzerklärung widerrufen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#drafts#:#Entwürfe
 common#:#drag_file_here#:#Ziehen Sie die Datei in diesen Bereich
 common#:#drag_files_here#:#Ziehen Sie die Dateien in diesen Bereich
@@ -4118,7 +4139,6 @@ common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)
 common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#follow_link_to_read_mails#:#Um diese Mails zu lesen, klicken Sie bitte auf den folgenden Link:
-common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forgot_password#:#Passwort vergessen?
 common#:#forgot_username#:#Anmeldenamen vergessen?
 common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
@@ -4130,11 +4150,18 @@ common#:#forums#:#Foren
 common#:#forums_anonymized#:#Forum anonymisiert
 common#:#forums_anonymous#:#Anonym
 common#:#forums_articles#:#Beiträge
+common#:#forums_closed#:#geschlossen
 common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Forum beenden
 common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
+common#:#forums_last_posting_asc#:#Neuestes Thema zuerst
+common#:#forums_last_posting_dsc#:#Ältestes Thema zuerst
 common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
+common#:#forums_rating_asc#:#Bewertung aufsteigend
+common#:#forums_rating_dsc#:#Bewertung absteigend
+common#:#forums_thread_sorting_asc#:#Thema A→Z
+common#:#forums_thread_sorting_dsc#:#Thema Z→A
 common#:#forums_threads#:#Themen
 common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "%s" geschrieben markiert.
 common#:#forums_your_name#:#Ihr Name
@@ -4861,6 +4888,8 @@ common#:#obj_crsv#:#Kurszertifikat
 common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_dcl#:#Datensammlung
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
+common#:#obj_dpro#:#Datenschutzerklärung
+common#:#obj_dpro_desc#:#Datenschutzerklärung verwalten
 common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Dashboard administrieren
 common#:#obj_ecss#:#ECS
@@ -5334,7 +5363,6 @@ common#:#referral_comment#:#Woher kennen Sie ILIAS?
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Alle Sprachen aktualisieren
 common#:#refuse#:#Antrag ablehnen
-common#:#refuse_tos_acceptance#:#Akzeptanz der Nutzungsvereinbarung ablehnen
 common#:#reg_account_confirmation_successful#:#Das ILIAS-Konto wurde bestätigt und aktiviert.
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
@@ -5709,6 +5737,20 @@ common#:#tomorrow#:#Morgen
 common#:#toolbar_more_actions#:#Mehr Aktionen
 common#:#tools#:#Tools
 common#:#top_of_page#:#Seitenanfang
+common#:#tos_accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
+common#:#tos_accept_usr_agreement_intro#:#Es liegen neue Nutzungsbedingungen vor. Sie müssen sie akzeptieren, bevor Sie mit der Nutzung von ILIAS fortfahren können. Lesen Sie das folgende Dokument sorgfältig durch und geben Sie unten auf der Seite Ihre Zustimmung oder Ablehnung.
+common#:#tos_force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
+common#:#tos_refuse_acceptance#:#Akzeptanz der Nutzungsvereinbarung ablehnen
+common#:#tos_usr_agreement#:#Nutzungsvereinbarung
+common#:#tos_usr_agreement_footer_intro#:#Zu dieser Nutzungsvereinbarung haben Sie ihr Einverständnis erklärt.
+common#:#tos_withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsvereinbarungen.
+common#:#tos_withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück, und loggen Sie sich erneut ein, um den Widerrufsvorgang abzuschließen.
+common#:#tos_withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein, um den Widerrufsvorgang abzuschließen.
+common#:#tos_withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
+common#:#tos_withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsvereinbarungen
+common#:#tos_withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
+common#:#tos_withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
+common#:#tos_withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#total#:#Gesamt
 common#:#tracking_settings#:#Einstellungen
 common#:#translation#:#Übersetzung
@@ -5820,6 +5862,7 @@ common#:#userfolder_export_file_size#:#Dateigröße
 common#:#userfolder_export_files#:#Dateien
 common#:#userfolder_export_xml#:#XML
 common#:#username#:#Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
+common#:#username_assistance#:#Anmeldenamen-Unterstützung
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer existieren nicht. Daher können deren Mails nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
@@ -5827,8 +5870,6 @@ common#:#usr#:#Benutzer
 common#:#usr_account_inactive#:#Inaktiver Benutzer
 common#:#usr_active_only#:#Nur aktive Benutzer
 common#:#usr_add#:#Neuer Benutzer
-common#:#usr_agreement#:#Nutzungsvereinbarung
-common#:#usr_agreement_footer_intro#:#Zu dieser Nutzungsvereinbarung haben Sie ihr Einverständnis erklärt.
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_field_change_components_listening#:#Es gibt mindestens eine Komponente, die sich für die getätigten Änderungen interessiert. Möchten Sie die Änderungen samt der von den Komponenten beschriebenen Konsequenzen final durchführen?
 common#:#usr_filter_coursemember#:#Mitglied eines Kurses
@@ -5939,12 +5980,6 @@ common#:#wiki_add#:#Wiki anlegen
 common#:#wiki_new#:#Neues Wiki anlegen
 common#:#with#:#mit
 common#:#withdraw_consent#:#Einverständnis widerrufen
-common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsvereinbarungen.
-common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück, und loggen Sie sich erneut ein, um den Widerrufsvorgang abzuschließen.
-common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein, um den Widerrufsvorgang abzuschließen.
-common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
-common#:#withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsvereinbarungen
-common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
 common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen, wird Ihr ILIAS-Konto gelöscht.
 common#:#withdraw_usr_agreement#:#Widerrufen
 common#:#withdrawal_complete#:#Widerrufsvorgang abgeschlossen.
@@ -5953,8 +5988,6 @@ common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur 
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_mail_text#:#Guten Tag,[BR][BR]hiermit widerrufe ich mein Einverständnis zur Nutzungsvereinbarung Ihrer ILIAS-Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Anmeldename: %2$s[BR]Externes Konto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
-common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
-common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
@@ -6658,6 +6691,7 @@ content#:#cont_localization#:#Sprache
 content#:#cont_localization_info#:#Die Einstellung wird für vordefinierte Texte im Modul (z.B. "Vor" / "Zurück") benötigt.
 content#:#cont_location#:#Position
 content#:#cont_lpe_cas_login_form#:#CAS-Login-Maske
+content#:#cont_lpe_dpro_agreement_link#:#Link zur Datenschutzerklärung
 content#:#cont_lpe_language_selection#:#Sprachauswahl
 content#:#cont_lpe_login_form#:#Login-Maske
 content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
@@ -8798,6 +8832,19 @@ didactic#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
 didactic#:#more_translations#:#Weitere Übersetzungen
 didactic#:#sess_closed#:#Geschlossene Sitzung
 didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
+dpro#:#dpro_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Datenschutzerklärung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
+dpro#:#dpro_agree_date#:#Datenschutzerklärung zugestimmt am
+dpro#:#dpro_last_reset_date#:#Die Datenschutzerklärung wurden zuletzt am %s zurückgesetzt. Setzen Sie die Datenschutzerklärung nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
+dpro#:#dpro_mode#:#Modus
+dpro#:#dpro_mode_desc#:#Stellen Sie hier ein wann und wie die Datenschutzerklärung akzeptiert werden muss.
+dpro#:#dpro_no_acceptance#:#Nie aktzeptieren, nur anzeigen
+dpro#:#dpro_once#:#Einmalig akzeptieren
+dpro#:#dpro_reset_for_all_users#:#Datenschutzerklärung zurücksetzen
+dpro#:#dpro_status_enable#:#Datenschutzerklärung aktivieren
+dpro#:#dpro_status_enable_desc#:#Benutzer werden zum Unterzeichnen der Datenschutzerklärung aufgefordert, bevor sie ILIAS nutzen können.
+dpro#:#dpro_sure_reset_tos#:#Sind Sie sicher, dass die Datenschutzerklärung für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Anmeldekonten, die z.B. für die SOAP Web-Services genutzt werden.
+dpro#:#dpro_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf Datenschutzerklärung
+dpro#:#dpro_withdrawal_usr_deletion_desc#:#Wird die Zustimmung zur Datenschutzerklärung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos.
 ecs#:#cert_serial#:#Seriennummer des Zertifikates
 ecs#:#ecs_abr#:#Kürzel
 ecs#:#ecs_account_duration#:#Verlängerung der Aktivierungszeit
@@ -9790,6 +9837,7 @@ forum#:#deletePosting#:#Beitrag löschen
 forum#:#deletePostingDraft#:#Beitragsentwurf löschen
 forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
+forum#:#delete_thread#:#Thema löschen
 forum#:#descending_order#:#Neueste Beiträge oben
 forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
 forum#:#empty_subject#:#Benutzer müssen Titel selbst angeben.
@@ -9920,7 +9968,7 @@ forum#:#frm_statistics_enabled#:#Statistik anzeigen
 forum#:#frm_statistics_enabled_desc#:#Alle können im Reiter „Statistik“ sehen, wer wie viele Beiträge geschrieben hat.
 forum#:#frm_statistics_ranking#:#Anzahl der öffentl. Beiträge
 forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
-forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
+forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass das folgendende Thema gelöscht werden soll?
 forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden.
 forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
@@ -9932,8 +9980,8 @@ forum#:#mark_moderator_posts_desc#:#Beiträge der Moderation werden farblich her
 forum#:#merge#:#Zusammenführen
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
-forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
-forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
+forum#:#move_chosen_topics#:#Thema "%s" verschieben nach:
+forum#:#move_thread_to_forum#:#Verschiebe Thema in ein anderes Forum
 forum#:#new_post#:#Neuer Beitrag
 forum#:#new_thread_with_post#:#Neues Thema mit Beitrag
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt!###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -9957,7 +10005,8 @@ forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" 
 forum#:#post_updated_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" geändert
 forum#:#preset_subject#:#Titel des Beitrags wird für Antwort automatisch übernommen.
 forum#:#publish#:#Veröffentlichen
-forum#:#reopen_topics#:#Wiedereröffnen
+forum#:#relevance#:#Relevanz
+forum#:#reopen_topics#:#Thema wiedereröffnen
 forum#:#reply_to_postings#:#Antworten
 forum#:#reset_limited_view#:#Begrenzte Ansicht auf diesen Beitrag und alle darunter liegenden Beiträge
 forum#:#reset_limited_view_button#:#Gesamten Thread anzeigen
@@ -9967,12 +10016,12 @@ forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert.
 forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert.
 forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr.
-forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert.
-forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert.
+forum#:#sel_threads_make_sticky#:#Das Thema wurde als Top-Thema markiert.
+forum#:#sel_threads_make_unsticky#:#Das Thema wird nicht mehr als Top-Thema markiert.
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
-forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen.
-forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet.
+forum#:#selected_threads_closed#:#Das Thema wurde geschlossen.
+forum#:#selected_threads_reopened#:#Das Thema wurde wiedereröffnet.
 forum#:#sort_by_date#:#Nach Datum sortieren
 forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in der zeitlichen Reihenfolge der Erstellung gezeigt.
 forum#:#sort_by_posts#:#Nach Beiträge sortieren
@@ -9982,9 +10031,12 @@ forum#:#sticky#:#'Top-Thema'
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
 forum#:#switch_threads_for_merge#:#Das ausgewählte Thema ist älter als das Zielthema. Um eine sinnvolle Zusammenführung zu schaffen, werden Quell- und Zielthema getauscht.
 forum#:#target_select#:#Beitrag für begrenzte Ansicht auswählen
+forum#:#thema#:#Themen
 forum#:#thread#:#Thema
 forum#:#thread_deleted_by#:#folgendes Thema im Forum "%2$s" wurde von "%1$s" gelöscht:
-forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
+forum#:#thread_overview#:#Themenübersicht
+forum#:#threads_moved_successfully#:#Das gewählte Thema wurde erfolgreich in ein anderes Forum verschoben.
+forum#:#top_thema#:#Top-Themen
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
@@ -10593,6 +10645,72 @@ ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Anmeldekonten aus dem L
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
 ldap#:#ldap_username_filter#:#Anmeldenamen-Filter
 ldap#:#ldap_username_filter_info#:#Benutzen Sie * als Wildcard.
+ldoc#:#deleteDocument#:#Löschen
+ldoc#:#detachCriterionAssignment#:#Löschen
+ldoc#:#ldoc_acceptance_history#:#Zustimmungshistorie
+ldoc#:#ldoc_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
+ldoc#:#ldoc_add_document_btn_label#:#Dokument hinzufügen
+ldoc#:#ldoc_agreement_document#:#Dokument
+ldoc#:#ldoc_agreement_document_missing#:#Nicht vorhanden
+ldoc#:#ldoc_agreement_documents_tab_label#:#Dokumente
+ldoc#:#ldoc_agreement_exists#:#Vorhanden
+ldoc#:#ldoc_agreement_missing#:#Nicht vorhanden
+ldoc#:#ldoc_crit_type_usr_country#:#Benutzerland
+ldoc#:#ldoc_crit_type_usr_country_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login dieses Land gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
+ldoc#:#ldoc_crit_type_usr_global_role#:#Globale Rolle
+ldoc#:#ldoc_crit_type_usr_global_role_info#:#Das Dokument muss akzeptiert werden, wenn ein Benutzer beim ersten Login in diese Rolle eingetragen ist. Eine nachträgliche Änderung der Rolle führt nicht automatisch zur Vorlage eines neuen Dokuments.
+ldoc#:#ldoc_crit_type_usr_language#:#Benutzersprache
+ldoc#:#ldoc_crit_type_usr_language_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login diese Sprache gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
+ldoc#:#ldoc_criterion_assignment_cannot_match#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Durch ein anderes Vorlagekriterium wird das Dokument niemals zutreffen können.
+ldoc#:#ldoc_criterion_assignment_must_be_unique#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
+ldoc#:#ldoc_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
+ldoc#:#ldoc_deleted_documents_s#:#Das Dokument wurde gelöscht.
+ldoc#:#ldoc_disabled#:#Deaktiviert
+ldoc#:#ldoc_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
+ldoc#:#ldoc_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
+ldoc#:#ldoc_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
+ldoc#:#ldoc_doc_delete#:#Dokument löschen
+ldoc#:#ldoc_doc_detach_crit_confirm_title#:#Vorlagekriterium entfernen
+ldoc#:#ldoc_doc_sure_detach_crit#:#Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?
+ldoc#:#ldoc_document#:#Dokument
+ldoc#:#ldoc_enabled#:#Aktiviert
+ldoc#:#ldoc_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
+ldoc#:#ldoc_form_criterion#:#Vorlagekriterium
+ldoc#:#ldoc_form_document#:#Dokument
+ldoc#:#ldoc_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
+ldoc#:#ldoc_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
+ldoc#:#ldoc_form_document_new#:#Inhalt ändern
+ldoc#:#ldoc_form_document_new_info#:#Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht, die Historie ist davon nicht betroffen.
+ldoc#:#ldoc_form_document_title#:#Titel
+ldoc#:#ldoc_form_document_title_info#:#Geben Sie hier einen Titel für das Dokument ein.
+ldoc#:#ldoc_form_edit_criterion_head#:#Vorlagekriterium bearbeiten
+ldoc#:#ldoc_form_edit_doc_head#:#Dokument bearbeiten
+ldoc#:#ldoc_form_new_doc_head#:#Dokument erstellen
+ldoc#:#ldoc_last_modified#:#Letzte Änderung
+ldoc#:#ldoc_ldoc_settings#:#Einstellungen
+ldoc#:#ldoc_period#:#Zeitraum
+ldoc#:#ldoc_period_from#:#Von
+ldoc#:#ldoc_period_until#:#Bis
+ldoc#:#ldoc_reevaluate_on_login#:#Erneut prüfen beim Login
+ldoc#:#ldoc_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu akzeptieren.
+ldoc#:#ldoc_saved_sorting#:#Die Sortierung wurde gespeichert.
+ldoc#:#ldoc_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
+ldoc#:#ldoc_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
+ldoc#:#ldoc_tbl_docs_action_add_criterion#:#Vorlagekriterium hinzufügen
+ldoc#:#ldoc_tbl_docs_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
+ldoc#:#ldoc_tbl_docs_head_created#:#Erstellungsdatum
+ldoc#:#ldoc_tbl_docs_head_criteria#:#Vorlagekriterien
+ldoc#:#ldoc_tbl_docs_head_last_change#:#Letzte Änderung
+ldoc#:#ldoc_tbl_docs_head_sorting#:#Sortierung
+ldoc#:#ldoc_tbl_docs_head_title#:#Titel
+ldoc#:#ldoc_tbl_docs_title#:#Dokumente
+ldoc#:#ldoc_tbl_hist_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
+ldoc#:#ldoc_tbl_hist_head_acceptance_date#:#Datum
+ldoc#:#ldoc_tbl_hist_head_criteria#:#Vorlagekriterien
+ldoc#:#ldoc_tbl_hist_head_document#:#Dokument
+ldoc#:#ldoc_tbl_hist_head_firstname#:#Vorname
+ldoc#:#ldoc_tbl_hist_head_lastname#:#Nachname
+ldoc#:#ldoc_tbl_hist_head_login#:#Anmeldename
 lhist#:#cont_create_lhist#:#Element für Lernverlauf erstellen
 lhist#:#cont_update_lhist#:#Element für Lernverlaufs bearbeiten
 lhist#:#lhist_all#:#All
@@ -11579,6 +11697,8 @@ meta#:#md_adv_show#:#Anzeigen
 meta#:#md_adv_substitution_table#:#Darstellung im Magazin
 meta#:#md_adv_text_max_length#:#Maximale Länge
 meta#:#md_adv_text_multi#:#Mehrzeilig
+meta#:#md_adv_text_multi_val#:#Mehrsprachige Werte
+meta#:#md_adv_text_multi_val_info#:#Erlauben Sie mehrsprachige Feldwerte für dieses Datenfeld. Für Texte, die keiner Übersetzung bedürfen, wie z.B. Personennamen, empfiehlt sich die Deaktivierung dieser Option.
 meta#:#md_advanced#:#Benutzerdefinierte Metadaten
 meta#:#md_aria_language_selection#:#Sprachauswahl
 meta#:#md_copyright#:#Copyright
@@ -12274,6 +12394,7 @@ mme#:#move_to_top_item#:#In Haupteinträge verschieben
 mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_moved#:#Eintrag wurde erfolgreich verschoben.
 mme#:#msg_not_moved#:#Eintrag konnte nicht verschoben werden, wähle einen gültigen Haupteintrag aus.
+mme#:#msg_ref_id_not_callable#:#Diese Referenz-ID kann von Main-Menu nicht verwendet werden. Es werden nur Ziele im Magazin unterstützt.
 mme#:#msg_restore_confirm#:#Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenu gehen verloren.
 mme#:#msg_restored#:#Hauptmenu zurückgesetzt
 mme#:#msg_subitem_deleted#:#Eintrag gelöscht.
@@ -12895,7 +13016,10 @@ prg#:#deadline_updated#:#Stichtag aktualisiert
 prg#:#edit_participants#:#Zuweisungen bearbeiten
 prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
 prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
+prg#:#export_memberships#:#Zuweisungen exportieren
 prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
+prg#:#header_remove_certificate#:#Wollen Sie das Zertifikat von den ausgewählten Benutzern wirklich entfernen?
+prg#:#header_update_certificate#:#Wollen Sie das Zertifikat wirklich aktualisieren?
 prg#:#header_update_current_plan#:#Wollen Sie die individuellen Einstellungen der ausgewählten Zuweisungen wirklich zurücksetzen?
 prg#:#inactive_only#:#nur inaktive
 prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Qualifikation am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
@@ -12915,6 +13039,7 @@ prg#:#membership_source_type#:#Quelle
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#modal_categories_title#:#Zu überwachende Kategorie
 prg#:#modal_member_auto_select_title#:#Quelle für automatische Zuweisung wählen
+prg#:#msg_acknowledge_courses#:#Bestandene Kurse wurden anerkannt.
 prg#:#msg_change_deadline_date#:#Stichtag angepasst für %s Benutzer.
 prg#:#msg_change_deadline_date_failed#:#Stichtag nicht angepasst für:
 prg#:#msg_change_expire_date#:#Ablaufdatum angepasst für %s Benutzer.
@@ -12930,10 +13055,12 @@ prg#:#msg_mark_relevant_failed#:#Nicht als relevant markiert:
 prg#:#msg_points_must_be_positive#:#Nur positive Punktzahlen sind erlaubt.
 prg#:#msg_unmark_accredited#:#%s Benutzer als nicht akkreditiert markiert.
 prg#:#msg_unmark_accredited_failed#:#Akkreditierung entfernen nicht erfolgreich bei:
+prg#:#msg_update_certificate#:#%s Zertifikat aktualisiert.
 prg#:#msg_update_from_settings#:#%s Benutzer aus den Einstellungen aktualisiert.
 prg#:#msg_update_from_settings_failed#:#Aktualisierung nicht erfolgreich:
 prg#:#msg_update_individual_plan#:#Erfolgreich aktualisiert (%s)
 prg#:#msg_update_individual_plan_failed#:#Fehler beim Aktualisieren:
+prg#:#no_permission_to_update_certificate#:#Sie haben keine Berechtigung Zertifikate zu aktualisieren.
 prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
 prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
 prg#:#optgrp_label_restart#:#Wiederaufnahme
@@ -13027,13 +13154,16 @@ prg#:#prg_multi_change_expire_date#:#Ablauf der Qualifikation anpassen
 prg#:#prg_multi_mail_user#:#Mail versenden
 prg#:#prg_multi_mark_accredited#:#Akkreditieren
 prg#:#prg_multi_mark_relevant#:#Als relevant markieren
+prg#:#prg_multi_remove_certificate#:#Zertifikat entfernen
 prg#:#prg_multi_remove_user#:#Benutzer entfernen
 prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_multi_unmark_relevant#:#Als irrelevant markieren
+prg#:#prg_multi_update_certificate#:#Zertifikat aktualisieren
 prg#:#prg_multi_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 prg#:#prg_new#:#Neues Studienprogramm anlegen
 prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
 prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
+prg#:#prg_no_permission_to_remove_certificate#:#Sie haben keine Berechtigung Zertifikate zu entfernen
 prg#:#prg_no_restart#:#Keine automatische Wiederaufnahme (bei Ablauf der Qualifikation)
 prg#:#prg_no_user_selected#:#Es wurde kein Benutzer ausgewählt.
 prg#:#prg_no_validity_qualification#:#Kein Ablauf der Qualifikation
@@ -13094,6 +13224,8 @@ prg#:#prg_status_outdated#:#Abgelaufen
 prg#:#prg_still_valid#:#gültig
 prg#:#prg_subtype_add#:#Neuen Typ hinzufügen
 prg#:#prg_subtypes#:#Typen
+prg#:#prg_successfully_removed_certificate#:#Das Zertifikat der ausgewählten Benutzer wurde erfolgreich entfernt.
+prg#:#prg_successfully_updated_certificate#:#Zertifikat wurde für ausgwählte Benutzer erfolgreich aktualisiert
 prg#:#prg_title#:#Titel
 prg#:#prg_type#:#Studienprogrammtyp
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
@@ -13356,6 +13488,7 @@ ps#:#ps_export_excel#:#Starte Excel-Export
 ps#:#ps_export_files#:#Exportdateien
 ps#:#ps_export_groups#:#Export der Persönlichen Daten aus Gruppen erlauben
 ps#:#ps_export_member#:#Mitglieder
+ps#:#ps_export_prgs#:#Persönliche Daten in Studienprogrammen anzeigen und exportieren
 ps#:#ps_export_settings#:#Einstellungen zum Export
 ps#:#ps_export_sub#:#Noch nicht freigeschaltete Benutzer
 ps#:#ps_export_tutor#:#Kursbetreuung
@@ -16575,83 +16708,21 @@ tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 tbl#:#tbl_templates#:#Ansicht
-tos#:#deleteDocument#:#Löschen
-tos#:#detachCriterionAssignment#:#Löschen
-tos#:#tos_acceptance_history#:#Zustimmungshistorie
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
-tos#:#tos_add_document_btn_label#:#Dokument hinzufügen
+tos#:#tos_agree_date#:#Nutzungsvereinbarungen zugestimmt am
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
-tos#:#tos_agreement_document#:#Dokument
-tos#:#tos_agreement_document_missing#:#Nicht vorhanden
-tos#:#tos_agreement_documents_tab_label#:#Nutzungsvereinbarungen
-tos#:#tos_agreement_exists#:#Vorhanden
-tos#:#tos_agreement_missing#:#Nicht vorhanden
-tos#:#tos_crit_type_usr_country#:#Benutzerland
-tos#:#tos_crit_type_usr_country_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login dieses Land gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
-tos#:#tos_crit_type_usr_global_role#:#Globale Rolle
-tos#:#tos_crit_type_usr_global_role_info#:#Das Dokument muss akzeptiert werden, wenn ein Benutzer beim ersten Login in diese Rolle eingetragen ist. Eine nachträgliche Änderung der Rolle führt nicht automatisch zur Vorlage eines neuen Dokuments.
-tos#:#tos_crit_type_usr_language#:#Benutzersprache
-tos#:#tos_crit_type_usr_language_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login diese Sprache gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
-tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
-tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
-tos#:#tos_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
-tos#:#tos_deleted_documents_s#:#Das Dokument wurde gelöscht.
 tos#:#tos_disabled_no_docs_left#:#Die Nutzungsvereinbarungen wurden deaktiviert, da alle Dokumente gelöscht wurden. Erstellen Sie mindestens ein Dokument, bevor Sie die Nutzungsvereinbarungen wieder aktivieren.
-tos#:#tos_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
-tos#:#tos_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
-tos#:#tos_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
-tos#:#tos_doc_delete#:#Dokument löschen
-tos#:#tos_doc_detach_crit_confirm_title#:#Vorlagekriterium entfernen
-tos#:#tos_doc_sure_detach_crit#:#Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?
-tos#:#tos_document#:#Dokument
-tos#:#tos_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
-tos#:#tos_form_criterion#:#Vorlagekriterium
-tos#:#tos_form_document#:#Dokument
-tos#:#tos_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
-tos#:#tos_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
-tos#:#tos_form_document_new#:#Inhalt ändern
-tos#:#tos_form_document_new_info#:#Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht, die Historie ist davon nicht betroffen.
-tos#:#tos_form_document_title#:#Titel
-tos#:#tos_form_document_title_info#:#Geben Sie hier einen Titel für das Dokument ein.
-tos#:#tos_form_edit_criterion_head#:#Vorlagekriterium bearbeiten
-tos#:#tos_form_edit_doc_head#:#Dokument bearbeiten
-tos#:#tos_form_new_doc_head#:#Dokument erstellen
-tos#:#tos_last_modified#:#Letzte Änderung
 tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
 tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
 tos#:#tos_no_documents_exist#:#Aktuell liegen keine Nutzungsvereinbarungsdokumente vor.
 tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen keine Nutzungsvereinbarungen vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
-tos#:#tos_period#:#Zeitraum
-tos#:#tos_period_from#:#Von
-tos#:#tos_period_until#:#Bis
-tos#:#tos_reevaluate_on_login#:#Prüfe neue Nutzungsvereinbarung beim Login
-tos#:#tos_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu akzeptieren.
+tos#:#tos_reset_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
 tos#:#tos_reset_successful#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
-tos#:#tos_reset_tos_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
-tos#:#tos_saved_sorting#:#Die Sortierung wurde gespeichert.
 tos#:#tos_status_desc#:#Benutzer werden zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
 tos#:#tos_status_enable#:#Nutzungsvereinbarungen aktivieren
-tos#:#tos_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
-tos#:#tos_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
 tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Anmeldekonten, die z.B. für die SOAP Web-Services genutzt werden.
-tos#:#tos_tbl_docs_action_add_criterion#:#Vorlagekriterium hinzufügen
-tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
-tos#:#tos_tbl_docs_head_created#:#Erstellungsdatum
-tos#:#tos_tbl_docs_head_criteria#:#Vorlagekriterien
-tos#:#tos_tbl_docs_head_last_change#:#Letzte Änderung
-tos#:#tos_tbl_docs_head_sorting#:#Sortierung
-tos#:#tos_tbl_docs_head_title#:#Titel
-tos#:#tos_tbl_docs_title#:#Dokumente
-tos#:#tos_tbl_hist_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
-tos#:#tos_tbl_hist_head_acceptance_date#:#Datum
-tos#:#tos_tbl_hist_head_criteria#:#Vorlagekriterien
-tos#:#tos_tbl_hist_head_document#:#Dokument
-tos#:#tos_tbl_hist_head_firstname#:#Vorname
-tos#:#tos_tbl_hist_head_lastname#:#Nachname
-tos#:#tos_tbl_hist_head_login#:#Anmeldename
-tos#:#tos_tos_settings#:#Einstellungen
-tos#:#tos_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf
-tos#:#tos_withdrawal_usr_deletion_info#:#Wird die Zustimmung zur Nutzungsvereinbarung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos.
+tos#:#tos_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf der ToS
+tos#:#tos_withdrawal_usr_deletion_desc#:#Wird die Zustimmung zur Nutzungsvereinbarung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos.
 trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
 trac#:#cmix_lp_mode_deactivated_info#:#Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte.
 trac#:#cmix_lp_mode_when_completed#:#Abgeschlossen, wenn "completed".
@@ -16975,6 +17046,8 @@ user#:#interests#:#Interessen
 user#:#interests_general#:#Allgemeine Interessen
 user#:#interests_help_looking#:#Suche Hilfe
 user#:#interests_help_offered#:#Biete Hilfe
+user#:#ldoc_accepted_content#:#Akzeptierter Text
+user#:#ldoc_not_accepted_yet#:#Noch nicht akzeptiert
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 user#:#no_deactivate_yourself#:#Sie können Ihr eigenes Benutzerkonto nicht deaktivieren.
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
@@ -16993,8 +17066,6 @@ user#:#starting_page#:#Startseite
 user#:#starting_point#:#Startseite
 user#:#starting_point_settings#:#Einstellungen Startseite
 user#:#starting_points#:#Startseiten
-user#:#tos_accepted_content#:#Akzeptierter Text
-user#:#tos_not_accepted_yet#:#Noch nicht akzeptiert
 user#:#user_access_limited#:#Zeitlich begrenzt
 user#:#user_access_unlimited#:#Unbegrenzt
 user#:#user_account_code#:#Code
