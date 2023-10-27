@@ -18,10 +18,14 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Mail;
+
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
 use ILIAS\Data\Result;
 use ILIAS\LegalDocuments\Conductor;
+use ilObjUser;
+use ilMailOptions;
 
 final class Recipient
 {
@@ -45,7 +49,7 @@ final class Recipient
 
     public function isUser(): bool
     {
-        return ! is_null($this->user);
+        return !is_null($this->user);
     }
 
     public function isUserActive(): bool
