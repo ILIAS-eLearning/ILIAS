@@ -44,6 +44,9 @@ use ilStartUpGUI;
 
 class Blocks
 {
+    /** @var Closure(DateTimeImmutable): string */
+    private readonly Closure $format_date;
+
     /**
      * @param null|Closure(DateTimeImmutable): string $format_date
      */
