@@ -85,23 +85,6 @@ class EditingGUIRequest
         return $this->strArray("sort");
     }
 
-
-    public function getPhraseId(): int
-    {
-        return $this->int("p_id");
-    }
-
-    public function getPhraseIds(): array
-    {
-        return $this->intArray("phrase");
-    }
-
-    public function getPhraseTitle(): string
-    {
-        return $this->str("phrase_title");
-    }
-
-
     public function getAnswers(): array
     {
         $ans = $this->arrayArray("answers");

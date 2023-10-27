@@ -31,7 +31,6 @@ class EditSessionRepository
     public const KEY_QCLIP = self::KEY_BASE . "qclip";
     public const KEY_SLTYPE = self::KEY_BASE . "search_link_type";
     public const KEY_NLTYPE = self::KEY_BASE . "new_link_type";
-    public const KEY_PHRASE_DATA = self::KEY_BASE . "phr_data";
 
     public function __construct()
     {
@@ -98,15 +97,5 @@ class EditSessionRepository
         if (\ilSession::has(self::KEY_NLTYPE)) {
             \ilSession::clear(self::KEY_NLTYPE);
         }
-    }
-
-    public function setPhraseData(array $data): void
-    {
-        \ilSession::set(self::KEY_PHRASE_DATA, $data);
-    }
-
-    public function getPhraseData(): array
-    {
-        return (\ilSession::get(self::KEY_PHRASE_DATA) ?? []);
     }
 }

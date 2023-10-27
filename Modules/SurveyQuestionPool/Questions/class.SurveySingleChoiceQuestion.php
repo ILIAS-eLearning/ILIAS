@@ -47,50 +47,6 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $this->categories = new SurveyCategories();
     }
 
-    /**
-     * Gets the available categories for a given phrase
-     */
-    public function getCategoriesForPhrase(int $phrase_id): array
-    {
-        $ilDB = $this->db;
-        $categories = array();
-        $result = $ilDB->queryF(
-            "SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s ORDER BY svy_phrase_cat.sequence",
-            array('integer'),
-            array($phrase_id)
-        );
-        while ($row = $ilDB->fetchAssoc($result)) {
-            if ((int) $row["defaultvalue"] === 1 && (int) $row["owner_fi"] === 0) {
-                $categories[$row["category_id"]] = $this->lng->txt($row["title"]);
-            } else {
-                $categories[$row["category_id"]] = $row["title"];
-            }
-        }
-        return $categories;
-    }
-
-    /**
-     * Adds a phrase to the question
-     */
-    public function addPhrase(int $phrase_id): void
-    {
-        $ilUser = $this->user;
-        $ilDB = $this->db;
-
-        $result = $ilDB->queryF(
-            "SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s AND (svy_category.owner_fi = 0 OR svy_category.owner_fi = %s) ORDER BY svy_phrase_cat.sequence",
-            array('integer', 'integer'),
-            array($phrase_id, $ilUser->getId())
-        );
-        while ($row = $ilDB->fetchAssoc($result)) {
-            $neutral = $row["neutral"];
-            if ((int) $row["defaultvalue"] === 1 && (int) $row["owner_fi"] === 0) {
-                $this->categories->addCategory($this->lng->txt($row["title"]), 0, $neutral);
-            } else {
-                $this->categories->addCategory($row["title"], 0, $neutral);
-            }
-        }
-    }
 
     public function getQuestionDataArray(int $id): array
     {
@@ -325,43 +281,6 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     ): void {
         for ($i = $lower_limit; $i <= $upper_limit; $i++) {
             $this->categories->addCategory($i);
-        }
-    }
-
-    /**
-     * Saves a set of categories to a default phrase
-     * note: data comes from session
-     */
-    public function savePhrase(string $title): void
-    {
-        $ilUser = $this->user;
-        $ilDB = $this->db;
-
-        $next_id = $ilDB->nextId('svy_phrase');
-        $affectedRows = $ilDB->manipulateF(
-            "INSERT INTO svy_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
-            array('integer','text','text','integer','integer'),
-            array($next_id, $title, 1, $ilUser->getId(), time())
-        );
-        $phrase_id = $next_id;
-
-        $counter = 1;
-        $phrase_data = $this->edit_manager->getPhraseData();
-        foreach ($phrase_data as $data) {
-            $next_id = $ilDB->nextId('svy_category');
-            $affectedRows = $ilDB->manipulateF(
-                "INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",
-                array('integer','text','text','integer','integer','text'),
-                array($next_id, $data['answer'], 1, $ilUser->getId(), time(), $data['neutral'])
-            );
-            $category_id = $next_id;
-            $next_id = $ilDB->nextId('svy_phrase_cat');
-            $affectedRows = $ilDB->manipulateF(
-                "INSERT INTO svy_phrase_cat (phrase_category_id, phrase_fi, category_fi, sequence, other, scale) VALUES (%s, %s, %s, %s, %s, %s)",
-                array('integer', 'integer', 'integer','integer', 'integer', 'integer'),
-                array($next_id, $phrase_id, $category_id, $counter, ($data['other']) ? 1 : 0, $data['scale'])
-            );
-            $counter++;
         }
     }
 

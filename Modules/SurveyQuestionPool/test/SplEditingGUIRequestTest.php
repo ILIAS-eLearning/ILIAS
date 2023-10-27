@@ -129,35 +129,4 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testPhraseId(): void
-    {
-        $request = $this->getRequest(
-            [
-                "p_id" => 55
-            ],
-            []
-        );
-
-        $this->assertEquals(
-            55,
-            $request->getPhraseId()
-        );
-    }
-
-    public function testPhraseIds(): void
-    {
-        $request = $this->getRequest(
-            [
-
-            ],
-            [
-                "phrase" => ["13", "15", "19"]
-            ]
-        );
-
-        $this->assertEquals(
-            [13, 15, 19],
-            $request->getPhraseIds()
-        );
-    }
 }

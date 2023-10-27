@@ -869,40 +869,6 @@ class SurveyQuestion
         }
     }
 
-    /**
-     * Returns a phrase title for phrase id
-     */
-    public function getPhrase(int $phrase_id): string
-    {
-        $ilDB = $this->db;
-
-        $result = $ilDB->queryF(
-            "SELECT title FROM svy_phrase WHERE phrase_id = %s",
-            array('integer'),
-            array($phrase_id)
-        );
-        if ($row = $ilDB->fetchAssoc($result)) {
-            return $row["title"];
-        }
-        return "";
-    }
-
-    /**
-     * Returns true if the phrase title already exists for the current user(!)
-     */
-    public function phraseExists(string $title): bool
-    {
-        $ilUser = $this->user;
-        $ilDB = $this->db;
-
-        $result = $ilDB->queryF(
-            "SELECT phrase_id FROM svy_phrase WHERE title = %s AND owner_fi = %s",
-            array('text', 'integer'),
-            array($title, $ilUser->getId())
-        );
-        return $result->numRows() > 0;
-    }
-
     public static function _questionExists(int $question_id): bool
     {
         global $DIC;

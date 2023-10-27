@@ -28,7 +28,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
     protected ?SurveyCategories $values = null;
     protected bool $allowMove = false;
     protected bool $show_wizard = false;
-    protected bool $show_save_phrase = false;
     protected string $categorytext;
     protected string $labeltext;
     protected bool $use_other_answer;
@@ -46,7 +45,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
 
         $this->show_wizard = false;
-        $this->show_save_phrase = false;
         $this->categorytext = $lng->txt('row_text');
         $this->use_other_answer = false;
 
@@ -127,15 +125,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         return $this->labeltext;
     }
 
-    public function setShowSavePhrase(bool $a_value): void
-    {
-        $this->show_save_phrase = $a_value;
-    }
-
-    public function getShowSavePhrase(): bool
-    {
-        return $this->show_save_phrase;
-    }
 
     public function checkInput(): bool
     {
@@ -221,21 +210,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("REMOVE_BUTTON", $this->gui->symbol()->glyph("remove")->render());
                 $tpl->parseCurrentBlock();
             }
-        }
-
-        if ($this->getShowWizard()) {
-            $tpl->setCurrentBlock("wizard");
-            $tpl->setVariable("CMD_WIZARD", 'cmd[wizard' . $this->getFieldId() . ']');
-            $tpl->setVariable("WIZARD_BUTTON", ilUtil::getImagePath('object/wizard.svg'));
-            $tpl->setVariable("WIZARD_TEXT", $lng->txt('add_phrase'));
-            $tpl->parseCurrentBlock();
-        }
-
-        if ($this->getShowSavePhrase()) {
-            $tpl->setCurrentBlock('savephrase');
-            $tpl->setVariable("POST_VAR", $this->getPostVar());
-            $tpl->setVariable("VALUE_SAVE_PHRASE", $lng->txt('save_phrase'));
-            $tpl->parseCurrentBlock();
         }
 
         if ($this->getUseOtherAnswer()) {
