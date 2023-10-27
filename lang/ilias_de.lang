@@ -9740,7 +9740,7 @@ forum#:#merge#:#Zusammenführen
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
 forum#:#move_chosen_topics#:#Thema "%s" verschieben nach:
-forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
+forum#:#move_thread_to_forum#:#Verschiebe Thema in ein anderes Forum
 forum#:#new_post#:#Neuer Beitrag
 forum#:#new_thread_with_post#:#Neues Thema mit Beitrag
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt!###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -9764,7 +9764,7 @@ forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" 
 forum#:#post_updated_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" geändert
 forum#:#preset_subject#:#Titel des Beitrags wird für Antwort automatisch übernommen.
 forum#:#publish#:#Veröffentlichen
-forum#:#reopen_topics#:#Wiedereröffnen
+forum#:#reopen_topics#:#Thema wiedereröffnen
 forum#:#reply_to_postings#:#Antworten
 forum#:#reset_limited_view#:#Begrenzte Ansicht auf diesen Beitrag und alle darunter liegenden Beiträge
 forum#:#reset_limited_view_button#:#Gesamten Thread anzeigen
@@ -9774,12 +9774,12 @@ forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert.
 forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert.
 forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr.
-forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert.
-forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert.
+forum#:#sel_threads_make_sticky#:#Das Thema wurde als Top-Thema markiert.
+forum#:#sel_threads_make_unsticky#:#Das Thema wird nicht mehr als Top-Thema markiert.
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
-forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen.
-forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet.
+forum#:#selected_threads_closed#:#Das Thema wurde geschlossen.
+forum#:#selected_threads_reopened#:#Das Thema wurde wiedereröffnet.
 forum#:#sort_by_date#:#Nach Datum sortieren
 forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in der zeitlichen Reihenfolge der Erstellung gezeigt.
 forum#:#sort_by_posts#:#Nach Beiträge sortieren
