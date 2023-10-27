@@ -1234,7 +1234,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                 break;
 
             case "Title":
-                if ($this->in_meta_data) {
+                if ($this->in_meta_data && !$this->in_media_object) {
                     $this->current_object->setTitle(trim($this->chr_data));
                 }
                 if ($this->in_media_object) {
