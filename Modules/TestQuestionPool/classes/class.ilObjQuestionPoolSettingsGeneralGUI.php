@@ -116,35 +116,16 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
         $md_section = $md_obj->getGeneral();
 
-        $general_settings = $data['general_settings'] ?? [];
-        $title_and_description = current($general_settings);
+        $title_and_description = $data['general_settings']['title_and_description'] ?? null;
         if ($title_and_description instanceof ilObjectPropertyTitleAndDescription) {
             $this->poolOBJ->getObjectProperties()->storePropertyTitleAndDescription(
                 $title_and_description
             );
-
-            if ($md_section) {
-                $md_section->setTitle($title_and_description->getTitle());
-                $md_section->update();
-            }
-
-            $md_desc_ids = $md_section->getDescriptionIds();
-            if ($md_desc_ids) {
-                $md_desc = $md_section->getDescription(array_pop($md_desc_ids));
-            }
-            if (isset($md_desc)) {
-                $md_desc->setDescription($title_and_description->getDescription());
-                $md_desc->update();
-            } else {
-                $md_desc = $md_section->addDescription();
-                $md_desc->setDescription($title_and_description->getDescription());
-                $md_desc->save();
-            }
         }
 
-        $availability = $data['availability'] ?? [];
+        $online = $data['availability']['online'] ?? null;
         $this->poolOBJ->getObjectProperties()->storePropertyIsOnline(
-            current($availability) ?: $this->poolOBJ->getObjectProperties()->getPropertyIsOnline()->withOffline()
+            $online ?? $this->poolOBJ->getObjectProperties()->getPropertyIsOnline()->withOffline()
         );
 
         $display_settings = $data['display_settings'] ?? [];
@@ -176,7 +157,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
         $items['general_settings'] = $this->ui_factory->input()->field()->section(
             [
-                $title_and_description
+                'title_and_description' => $title_and_description
             ],
             $this->lng->txt('qpl_form_general_settings')
         );
@@ -187,7 +168,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
             $this->refinery
         );
         $availability = $this->ui_factory->input()->field()->section(
-            [$online],
+            ['online' => $online],
             $this->lng->txt('qpl_settings_availability')
         );
         $items['availability'] = $availability;
