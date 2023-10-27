@@ -123,7 +123,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
             );
         }
 
-        $components[] = $this->legal_documents->admin->externalSettingsMessage($this->data_protection_settings->deleteUserOnWithdrawal()->value());
+        $components[] = $this->legal_documents->admin()->externalSettingsMessage($this->data_protection_settings->deleteUserOnWithdrawal()->value());
 
         $components[] = $this->form();
         $this->tpl->setContent($this->container->ui()->renderer()->render($components));
