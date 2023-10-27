@@ -32,7 +32,7 @@ use ILIAS\Data\Factory;
 class ilObjStudyProgrammeMembersGUI
 {
     use ilTableCommandHelper;
-    use ilPRGUpdateCertificateHelper;
+    use ilPRGCertificateHelper;
 
     private const DEFAULT_CMD = "view";
 
@@ -47,10 +47,12 @@ class ilObjStudyProgrammeMembersGUI
     public const ACTION_CHANGE_EXPIRE_DATE = "change_expire_date";
     public const ACTION_UPDATE_CERTIFICATE = "update_certificate";
     public const ACTION_ACKNOWLEDGE_COURSES = "acknowledge_completed_courses";
+    public const ACTION_REMOVE_CERTIFICATE = "remove_certificate";
 
     public const F_COMMAND_OPTION_ALL = 'select_cmd_all';
     public const F_ALL_PROGRESS_IDS = 'all_progress_ids';
     public const F_SELECTED_PROGRESS_IDS = 'prgs_ids';
+    public const F_SELECTED_PROGRESS_ID = 'prgs_id';
     public const F_SELECTED_USER_IDS = 'usrids';
 
     protected ?ilObjStudyProgramme $object;
@@ -176,6 +178,8 @@ class ilObjStudyProgrammeMembersGUI
                     case "changeExpireDateMulti":
                     case "updateCertificate":
                     case "updateCertificateMulti":
+                    case "removeCertificate":
+                    case "removeCertificateMulti":
                         $cont = $this->$cmd();
                         $this->tpl->setContent($cont);
                         break;
@@ -197,6 +201,9 @@ class ilObjStudyProgrammeMembersGUI
                         break;
                     case "confirmedUpdateCertificate":
                         $this->confirmedUpdateCertificate();
+                        break;
+                    case "confirmedRemovalOfCertificate":
+                        $this->confirmedRemovalOfCertificate();
                         break;
 
                     default:
@@ -892,6 +899,9 @@ class ilObjStudyProgrammeMembersGUI
             case self::ACTION_UPDATE_CERTIFICATE:
                 $target_name = "updateCertificate";
                 break;
+            case self::ACTION_REMOVE_CERTIFICATE:
+                $target_name = "removeCertificate";
+                break;
             default:
                 throw new ilException("Unknown action: $action");
         }
@@ -993,6 +1003,62 @@ class ilObjStudyProgrammeMembersGUI
             }
         }
         $this->showSuccessMessage("successfully_updated_certificate");
+        $this->ctrl->redirect($this, "view");
+    }
+
+    public function removeCertificate(): string
+    {
+        $this->confirmation_gui->setFormAction($this->ctrl->getFormAction($this, 'confirmRemovalOfCertificate'));
+        $this->confirmation_gui->setHeaderText($this->lng->txt('header_remove_certificate'));
+        $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedRemovalOfCertificate');
+        $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
+
+        $prg_id = $this->getPrgrsId();
+        $user_name = ilObjUser::_lookupFullname($prg_id->getUsrId());
+        $this->confirmation_gui->addItem(
+            self::F_SELECTED_PROGRESS_ID,
+            (string) $prg_id,
+            $user_name
+        );
+        return $this->confirmation_gui->getHTML();
+    }
+
+    public function removeCertificateMulti(): string
+    {
+        $this->confirmation_gui->setFormAction($this->ctrl->getFormAction($this, 'confirmRemovalOfCertificate'));
+        $this->confirmation_gui->setHeaderText($this->lng->txt('header_remove_certificate'));
+        $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedRemovalOfCertificate');
+        $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
+
+        foreach ($this->getPostPrgsIds() as $progress_id) {
+            $user_name = ilObjUser::_lookupFullname($progress_id->getUsrId());
+            $this->confirmation_gui->addItem(
+                self::F_SELECTED_PROGRESS_IDS . '[]',
+                (string) $progress_id,
+                $user_name
+            );
+        }
+
+        return $this->confirmation_gui->getHTML();
+    }
+
+    public function confirmedRemovalOfCertificate(): void
+    {
+        $msgs = $this->getMessageCollection('msg_remove_certificate');
+        $pgs_ids = $this->getPostPrgsIds();
+        foreach ($pgs_ids as $idx => $prgs_id) {
+            if (!$this->mayCurrentUserEditProgressForUser($prgs_id->getUsrId())) {
+                $this->showInfoMessage("no_permission_to_remove_certificate");
+            } else {
+                $this->removeCertificateForUser(
+                    $prgs_id->getNodeId(),
+                    $prgs_id->getAssignmentId(),
+                    $prgs_id->getUsrId(),
+                    $this->user->getId()
+                );
+            }
+        }
+        $this->showSuccessMessage("successfully_removed_certificate");
         $this->ctrl->redirect($this, "view");
     }
 }
