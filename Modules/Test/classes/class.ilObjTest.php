@@ -6344,7 +6344,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
             'NrOfTries' => $main_settings->getTestBehaviourSettings()->getNumberOfTries(),
             'BlockAfterPassed' => (int) $main_settings->getTestBehaviourSettings()->getBlockAfterPassedEnabled(),
-            'pass_waiting' => $main_settings->getTestBehaviourSettings()->getPassWaitingEnabled(),
+            'pass_waiting' => $main_settings->getTestBehaviourSettings()->getPassWaiting(),
             'EnableProcessingTime' => (int) $main_settings->getTestBehaviourSettings()->getProcessingTimeEnabled(),
             'ProcessingTime' => $main_settings->getTestBehaviourSettings()->getProcessingTime(),
             'ResetProcessingTime' => $main_settings->getTestBehaviourSettings()->getResetProcessingTime(),
@@ -6391,7 +6391,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'show_grading_mark' => (int) $score_settings->getResultSummarySettings()->getShowGradingMarkEnabled(),
 
             'ResultsPresentation' => $score_settings->getResultDetailsSettings()->getResultsPresentation(),
-            'PrintBsWithRes' => (int) $score_settings->getResultDetailsSettings()->getPrintBestSolutionWithResult(),
+            'show_solution_list_comparison' => (int) $score_settings->getResultDetailsSettings()->getShowSolutionListComparison(),
             'examid_in_test_res' => (int) $score_settings->getResultDetailsSettings()->getShowExamIdInTestResults(),
 
             'highscore_enabled' => (int) $score_settings->getGamificationSettings()->getHighscoreEnabled(),
@@ -6432,7 +6432,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function applyDefaults($test_defaults): bool
     {
         $testsettings = unserialize($test_defaults['defaults']);
-        $this->mark_schema = unserialize($test_defaults['marks']);
+        $this->mark_schema->setMarkSteps(unserialize($test_defaults['marks']));
 
         $this->storeActivationSettings([
             'is_activation_limited' => $testsettings['activation_limited'],
@@ -6450,8 +6450,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             )
             ->withIntroductionSettings(
                 $main_settings->getIntroductionSettings()
-                ->withIntroductionEnabled($testsettings['IntroEnabled'])
-                ->withExamConditionsCheckboxEnabled($testsettings['ExamConditionsCheckboxEnabled'])
+                ->withIntroductionEnabled((bool) $testsettings['IntroEnabled'])
+                ->withExamConditionsCheckboxEnabled((bool) $testsettings['ExamConditionsCheckboxEnabled'])
             )
             ->withAccessSettings(
                 $main_settings->getAccessSettings()
@@ -6472,7 +6472,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withProcessingTimeEnabled((bool) $testsettings['EnableProcessingTime'])
                 ->withProcessingTime($testsettings['ProcessingTime'])
                 ->withResetProcessingTime((bool) $testsettings['ResetProcessingTime'])
-                ->withExamIdInTestPassEnabled($testsettings['examid_in_kiosk'])
+                ->withExamIdInTestPassEnabled((bool) ($testsettings['examid_in_test_pass'] ?? 0))
             )
             ->withQuestionBehaviourSettings(
                 $main_settings->getQuestionBehaviourSettings()
@@ -6480,7 +6480,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withAutosaveEnabled((bool) $testsettings['autosave'])
                 ->withAutosaveInterval($testsettings['autosave_ival'])
                 ->withShuffleQuestions((bool) $testsettings['Shuffle'])
-                ->withQuestionHintsEnabled($testsettings['offer_question_hints'])
+                ->withQuestionHintsEnabled((bool) $testsettings['offer_question_hints'])
                 ->withInstantFeedbackPointsEnabled((bool) $testsettings['AnswerFeedbackPoints'])
                 ->withInstantFeedbackGenericEnabled((bool) $testsettings['AnswerFeedback'])
                 ->withInstantFeedbackSpecificEnabled((bool) $testsettings['SpecificAnswerFeedback'])
@@ -6510,7 +6510,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withAdditionalSettings(
                 $main_settings->getAdditionalSettings()
                     ->withSkillsServiceEnabled((bool) $testsettings['skill_service'])
-                    ->withHideInfoTab($testsettings['HideInfoTab'])
+                    ->withHideInfoTab((bool) $testsettings['HideInfoTab'])
             );
 
         $this->getMainSettingsRepository()->store($main_settings);
@@ -6519,13 +6519,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $score_settings = $score_settings
             ->withScoringSettings(
                 $score_settings->getScoringSettings()
-                ->withPassScoring((bool)$testsettings['PassScoring'])
-                ->withScoreCutting((bool)$testsettings['ScoreCutting'])
-                ->withCountSystem((bool)$testsettings['CountSystem'])
+                ->withPassScoring($testsettings['PassScoring'])
+                ->withScoreCutting($testsettings['ScoreCutting'])
+                ->withCountSystem($testsettings['CountSystem'])
             )
             ->withResultSummarySettings(
                 $score_settings->getResultSummarySettings()
-                ->withPassDeletionAllowed($testsettings['pass_deletion_allowed'])
+                ->withPassDeletionAllowed((bool) $testsettings['pass_deletion_allowed'])
                 ->withShowGradingStatusEnabled((bool) $testsettings['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $testsettings['show_grading_mark'])
                 ->withScoreReporting($testsettings['ScoreReporting'])
@@ -6538,21 +6538,20 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withResultDetailsSettings(
                 $score_settings->getResultDetailsSettings()
                 ->withResultsPresentation($testsettings['ResultsPresentation'])
-                ->withPrintBestSolutionWithResult((bool) $testsettings['PrintBsWithRes'])
+                ->withShowSolutionListComparison((bool) ($testsettings['show_solution_list_comparison'] ?? 0))
                 ->withShowExamIdInTestResults((bool) $testsettings['examid_in_test_res'])
-                ->withExportSettings($testsettings['exportsettings'])
             )
             ->withGamificationSettings(
                 $score_settings->getGamificationSettings()
-                ->withHighscoreEnabled($testsettings['highscore_enabled'])
-                ->withHighscoreAnon($testsettings['highscore_anon'])
+                ->withHighscoreEnabled((bool) $testsettings['highscore_enabled'])
+                ->withHighscoreAnon((bool) $testsettings['highscore_anon'])
                 ->withHighscoreAchievedTS($testsettings['highscore_achieved_ts'])
-                ->withHighscoreScore($testsettings['highscore_score'])
+                ->withHighscoreScore((bool) $testsettings['highscore_score'])
                 ->withHighscorePercentage($testsettings['highscore_percentage'])
-                ->withHighscoreHints($testsettings['highscore_hints'])
-                ->withHighscoreWTime($testsettings['highscore_wtime'])
-                ->withHighscoreOwnTable($testsettings['highscore_own_table'])
-                ->withHighscoreTopTable($testsettings['highscore_top_table'])
+                ->withHighscoreHints((bool) $testsettings['highscore_hints'])
+                ->withHighscoreWTime((bool) $testsettings['highscore_wtime'])
+                ->withHighscoreOwnTable((bool) $testsettings['highscore_own_table'])
+                ->withHighscoreTopTable((bool) $testsettings['highscore_top_table'])
                 ->withHighscoreTopNum($testsettings['highscore_top_num'])
             )
         ;
@@ -6572,11 +6571,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function processPrintoutput2FO($print_output): string
     {
         if (extension_loaded("tidy")) {
-            $config = array(
+            $config = [
                 "indent" => false,
                 "output-xml" => true,
                 "numeric-entities" => true
-            );
+            ];
             $tidy = new tidy();
             $tidy->parseString($print_output, $config, 'utf8');
             $tidy->cleanRepair();
