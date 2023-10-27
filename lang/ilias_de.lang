@@ -13018,6 +13018,7 @@ prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von '
 prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
 prg#:#export_memberships#:#Zuweisungen exportieren
 prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
+prg#:#header_remove_certificate#:#Wollen Sie das Zertifikat von den ausgewählten Benutzern wirklich entfernen?
 prg#:#header_update_certificate#:#Wollen Sie das Zertifikat wirklich aktualisieren?
 prg#:#header_update_current_plan#:#Wollen Sie die individuellen Einstellungen der ausgewählten Zuweisungen wirklich zurücksetzen?
 prg#:#inactive_only#:#nur inaktive
@@ -13153,6 +13154,7 @@ prg#:#prg_multi_change_expire_date#:#Ablauf der Qualifikation anpassen
 prg#:#prg_multi_mail_user#:#Mail versenden
 prg#:#prg_multi_mark_accredited#:#Akkreditieren
 prg#:#prg_multi_mark_relevant#:#Als relevant markieren
+prg#:#prg_multi_remove_certificate#:#Zertifikat entfernen
 prg#:#prg_multi_remove_user#:#Benutzer entfernen
 prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_multi_unmark_relevant#:#Als irrelevant markieren
@@ -13161,6 +13163,7 @@ prg#:#prg_multi_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 prg#:#prg_new#:#Neues Studienprogramm anlegen
 prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
 prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
+prg#:#prg_no_permission_to_remove_certificate#:#Sie haben keine Berechtigung Zertifikate zu entfernen
 prg#:#prg_no_restart#:#Keine automatische Wiederaufnahme (bei Ablauf der Qualifikation)
 prg#:#prg_no_user_selected#:#Es wurde kein Benutzer ausgewählt.
 prg#:#prg_no_validity_qualification#:#Kein Ablauf der Qualifikation
@@ -13221,6 +13224,8 @@ prg#:#prg_status_outdated#:#Abgelaufen
 prg#:#prg_still_valid#:#gültig
 prg#:#prg_subtype_add#:#Neuen Typ hinzufügen
 prg#:#prg_subtypes#:#Typen
+prg#:#prg_successfully_removed_certificate#:#Das Zertifikat der ausgewählten Benutzer wurde erfolgreich entfernt.
+prg#:#prg_successfully_updated_certificate#:#Zertifikat wurde für ausgwählte Benutzer erfolgreich aktualisiert
 prg#:#prg_title#:#Titel
 prg#:#prg_type#:#Studienprogrammtyp
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
@@ -13292,7 +13297,6 @@ prg#:#status_changed#:#Status aktualisiert
 prg#:#status_changed_due_to_deadline#:#Status wurde aufgrund des Bearbeitungszeitraums angepasst.
 prg#:#status_transition_not_allowed#:#Neuer Status nicht anwendbar
 prg#:#status_unchanged#:#Status unverändert
-prg#:#successfully_updated_certificate#:#Zertifikat wurde für ausgwählte Benutzer erfolgreich aktualisiert
 prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
 prg#:#update_expire_date#:#Ablauf Qualifikation wurde erfolgreich aktualisiert.
 prg#:#updated_from_settings#:#Aus Einstellungen aktualisiert
