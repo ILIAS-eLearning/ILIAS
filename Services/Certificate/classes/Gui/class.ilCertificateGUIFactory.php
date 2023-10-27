@@ -49,7 +49,10 @@ class ilCertificateGUIFactory
         $logger = $DIC->logger()->cert();
 
         $templateRepository = new ilCertificateTemplateDatabaseRepository($this->dic->database(), $logger);
-        $deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
+        $deleteAction = new ilCertificateTemplateDeleteAction(
+            $templateRepository,
+            $DIC->filesystem()->web()
+        );
         $pathFactory = new ilCertificatePathFactory();
 
         $certificatePath = $pathFactory->create($object);

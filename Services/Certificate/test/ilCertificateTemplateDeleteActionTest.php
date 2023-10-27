@@ -61,6 +61,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
+            $this->createMock(\ILIAS\Filesystem\Filesystem::class),
             __DIR__,
             'v5.4.0',
             $utilHelper,
@@ -107,6 +108,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
+            $this->createMock(\ILIAS\Filesystem\Filesystem::class),
             __DIR__,
             'v5.4.0',
             $utilHelper,
