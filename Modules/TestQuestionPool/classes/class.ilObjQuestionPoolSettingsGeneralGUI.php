@@ -113,9 +113,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
     private function performSaveForm($data): void
     {
-        $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
-        $md_section = $md_obj->getGeneral();
-
         $title_and_description = $data['general_settings']['title_and_description'] ?? null;
         if ($title_and_description instanceof ilObjectPropertyTitleAndDescription) {
             $this->poolOBJ->getObjectProperties()->storePropertyTitleAndDescription(
