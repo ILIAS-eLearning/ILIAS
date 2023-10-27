@@ -9764,6 +9764,7 @@ forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" 
 forum#:#post_updated_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" geändert
 forum#:#preset_subject#:#Titel des Beitrags wird für Antwort automatisch übernommen.
 forum#:#publish#:#Veröffentlichen
+forum#:#relevance#:#Relevanz
 forum#:#reopen_topics#:#Thema wiedereröffnen
 forum#:#reply_to_postings#:#Antworten
 forum#:#reset_limited_view#:#Begrenzte Ansicht auf diesen Beitrag und alle darunter liegenden Beiträge
@@ -9789,16 +9790,15 @@ forum#:#sticky#:#'Top-Thema'
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
 forum#:#switch_threads_for_merge#:#Das ausgewählte Thema ist älter als das Zielthema. Um eine sinnvolle Zusammenführung zu schaffen, werden Quell- und Zielthema getauscht.
 forum#:#target_select#:#Beitrag für begrenzte Ansicht auswählen
+forum#:#thema#:#Themen
 forum#:#thread#:#Thema
 forum#:#thread_deleted_by#:#folgendes Thema im Forum "%2$s" wurde von "%1$s" gelöscht:
+forum#:#thread_overview#:#Themenübersicht
 forum#:#threads_moved_successfully#:#Das gewählte Thema wurde erfolgreich in ein anderes Forum verschoben.
+forum#:#top_thema#:#Top-Themen
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
-forum#:#relevance#:#Relevanz
-forum#:#top_thema#:#Top-Themen
-forum#:#thema#:#Themen
-forum#:#thread_overview#:#Themenübersicht
 glo#:#glo_add_from_other#:#Begriffe sammeln
 glo#:#glo_add_glossary#:#Glossar hinzufügen
 glo#:#glo_add_to_collection#:#Glossar zum Sammelglossar hinzufügen

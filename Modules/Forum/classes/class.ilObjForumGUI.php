@@ -813,12 +813,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                                                ->withActions($actions)
                                                ->withProperties($this->getThreadProperties($current_thread));
                     $list_item = $this->markTopThreadInOverview($current_thread, $list_item);
-                    if($current_thread->isSticky()) {
+                    if ($current_thread->isSticky()) {
                         $top_group[] = $list_item;
                     } else {
                         $thread_group[] = $list_item;
                     }
-
                 }
             }
         }
@@ -1063,7 +1062,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return $actions;
     }
 
-    private function getEditTitleModal(ilForumTopic $topic) : RoundTrip
+    private function getEditTitleModal(ilForumTopic $topic): RoundTrip
     {
         $topic_id = $this->refinery->kindlyTo()->string()->transform($topic->getId());
         $this->ctrl->setParameter($this, 'thr_pk', (string) $topic_id);

@@ -9757,6 +9757,7 @@ forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
 forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"
 forum#:#preset_subject#:#Preset subject on reply
 forum#:#publish#:#Publish
+forum#:#relevance#:#Relevance
 forum#:#reopen_topics#:#Reopen
 forum#:#reply_to_postings#:#Reply
 forum#:#reset_limited_view#:#Limited view on this post an all posts below it.
@@ -9782,16 +9783,15 @@ forum#:#sticky#:#Sticky
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
 forum#:#target_select#:#Select posting for limited view
+forum#:#thema#:#Threads
 forum#:#thread#:#Thread
 forum#:#thread_deleted_by#:#following thread in forum "%2$s"was deleted by "%1$s":
+forum#:#thread_overview#:#Thread-Overview
 forum#:#threads_moved_successfully#:#The chosen thread was moved to another forum successfully.
+forum#:#top_thema#:#Top-Threads
 forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
-forum#:#relevance#:#Relevance
-forum#:#top_thema#:#Top-Threads
-forum#:#thema#:#Threads
-forum#:#thread_overview#:#Thread-Overview
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_add_glossary#:#Add Glossary
 glo#:#glo_add_to_collection#:#Add Glossary to Collection Glossary
