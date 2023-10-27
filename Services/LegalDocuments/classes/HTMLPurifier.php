@@ -23,6 +23,7 @@ namespace ILIAS\LegalDocuments;
 use ilObjAdvancedEditing;
 use ilHtmlPurifierAbstractLibWrapper;
 use HTMLPurifier_Config;
+use Closure;
 
 class HTMLPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
@@ -30,6 +31,12 @@ class HTMLPurifier extends ilHtmlPurifierAbstractLibWrapper
     private array $allowed_tags;
     private string $cache_directory;
 
+    /** @var Closure(): HTMLPurifier_Config */
+    private Closure $create_config;
+
+    /**
+     * @param null|Closure(): HTMLPurifier_Config $create_config
+     */
     public function __construct(
         ?array $allowed_tags = null,
         ?string $cache_directory = null,
