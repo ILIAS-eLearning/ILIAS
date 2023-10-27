@@ -6690,6 +6690,7 @@ content#:#cont_localization#:#Sprache
 content#:#cont_localization_info#:#Die Einstellung wird für vordefinierte Texte im Modul (z.B. "Vor" / "Zurück") benötigt.
 content#:#cont_location#:#Position
 content#:#cont_lpe_cas_login_form#:#CAS-Login-Maske
+content#:#cont_lpe_dpro_agreement_link#:#Link zur Datenschutzerklärung
 content#:#cont_lpe_language_selection#:#Sprachauswahl
 content#:#cont_lpe_login_form#:#Login-Maske
 content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login

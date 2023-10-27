@@ -6681,6 +6681,7 @@ content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predefined texts, e.g. ‘Previous’ and ’Next’.
 content#:#cont_location#:#Location
 content#:#cont_lpe_cas_login_form#:#CAS Login Form
+content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_login_form#:#Login Form
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login

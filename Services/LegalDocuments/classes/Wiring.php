@@ -76,7 +76,7 @@ class Wiring implements UseSlot
 
     public function showOnLoginPage(callable $show): self
     {
-        return $this->addTo('show-on-login-page', Closure::fromCallable($show));
+        return $this->addTo('show-on-login-page', $this->slot->id(), Closure::fromCallable($show));
     }
 
     public function hasPublicPage(callable $public_page): self

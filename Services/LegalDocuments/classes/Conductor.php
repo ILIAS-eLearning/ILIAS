@@ -65,14 +65,13 @@ class Conductor
         }
     }
 
-    public function loginPageHTML(): string
+    public function loginPageHTML(string $id): string
     {
-        $space = $this->container->ui()->factory()->legacy(' ');
-
-        return $this->container->ui()->renderer()->render(array_merge(...array_map(
-            fn($proc): array => [...$proc(), $space],
-            $this->internal->all('show-on-login-page')
-        )));
+        $create = $this->internal->get('show-on-login-page', $id);
+        if (!$create) {
+            return '';
+        }
+        return $this->container->ui()->renderer()->render($create());
     }
 
     public function logoutText(): string
