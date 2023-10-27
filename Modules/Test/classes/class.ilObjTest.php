@@ -246,14 +246,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $this->db->manipulateF(
             "DELETE FROM tst_mark WHERE test_fi = %s",
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
 
         $this->db->manipulateF(
             "DELETE FROM tst_tests WHERE test_id = %s",
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
 
         /**
@@ -423,8 +423,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         if ($this->getTestId() > 0) {
             $this->db->manipulateF(
                 "UPDATE tst_tests SET complete = %s WHERE test_id = %s",
-                array('text', 'integer'),
-                array($complete, $this->test_id)
+                ['text', 'integer'],
+                [$complete, $this->test_id]
             );
         }
     }
@@ -459,8 +459,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 $result = $this->db->queryF(
                     "SELECT * FROM tst_tests WHERE test_id = %s",
-                    array('integer'),
-                    array($this->test_id)
+                    ['integer'],
+                    [$this->test_id]
                 );
                 if ($result->numRows() == 1) {
                     $oldrow = $this->db->fetchAssoc($result);
@@ -592,8 +592,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $result = $this->db->queryF(
                 "SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-                array('integer'),
-                array($this->getTestId())
+                ['integer'],
+                [$this->getTestId()]
             );
             if ($result->numRows() > 0) {
                 while ($row = $this->db->fetchAssoc($result)) {
@@ -604,15 +604,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // workaround for lost obligations
         // this method is called if a question is removed
         $currentQuestionsObligationsQuery = 'SELECT question_fi, obligatory FROM tst_test_question WHERE test_fi = %s';
-        $rset = $this->db->queryF($currentQuestionsObligationsQuery, array('integer'), array($this->getTestId()));
+        $rset = $this->db->queryF($currentQuestionsObligationsQuery, ['integer'], [$this->getTestId()]);
         while ($row = $this->db->fetchAssoc($rset)) {
             $obligatoryQuestionState[$row['question_fi']] = $row['obligatory'];
         }
         // delete existing category relations
         $this->db->manipulateF(
             "DELETE FROM tst_test_question WHERE test_fi = %s",
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
         // create new category relations
         foreach ($this->questions as $key => $value) {
@@ -623,20 +623,20 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
             // insert question
             $next_id = $this->db->nextId('tst_test_question');
-            $this->db->insert('tst_test_question', array(
-                'test_question_id' => array('integer', $next_id),
-                'test_fi' => array('integer', $this->getTestId()),
-                'question_fi' => array('integer', $value),
-                'sequence' => array('integer', $key),
-                'obligatory' => array('integer', $obligatoryQuestionState[$value]),
-                'tstamp' => array('integer', time())
-            ));
+            $this->db->insert('tst_test_question', [
+                'test_question_id' => ['integer', $next_id],
+                'test_fi' => ['integer', $this->getTestId()],
+                'question_fi' => ['integer', $value],
+                'sequence' => ['integer', $key],
+                'obligatory' => ['integer', $obligatoryQuestionState[$value]],
+                'tstamp' => ['integer', time()]
+            ]);
         }
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $result = $this->db->queryF(
                 "SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-                array('integer'),
-                array($this->getTestId())
+                ['integer'],
+                [$this->getTestId()]
             );
             $newquestions = [];
             if ($result->numRows() > 0) {
@@ -669,8 +669,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
-            array('integer','integer'),
-            array($active_id, $pass)
+            ['integer','integer'],
+            [$active_id, $pass]
         );
         return $result->numRows();
     }
@@ -848,8 +848,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $ilDB = $DIC['ilDB'];
         $result = $ilDB->queryF(
             "SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -895,8 +895,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $ilDB = $DIC['ilDB'];
         $result = $ilDB->queryF(
             "SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -918,8 +918,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $ilDB = $DIC['ilDB'];
         $result = $ilDB->queryF(
             "SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -982,8 +982,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-            array("integer"),
-            array($active_id)
+            ["integer"],
+            [$active_id]
         );
         if ($result->numRows()) {
             $row = $this->db->fetchAssoc($result);
@@ -1016,11 +1016,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime();
         if ($processing_time && $processing_time !== '') {
             if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string) $processing_time, $matches)) {
-                return array(
+                return [
                     'hh' => $matches[1],
                     'mm' => $matches[2],
                     'ss' => $matches[3],
-                );
+                ];
             }
         }
     }
@@ -1218,8 +1218,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $IN_userIds = $this->db->in('usr_id', $participantData->getUserIds(), false, 'integer');
         $this->db->manipulateF(
             "DELETE FROM usr_pref WHERE $IN_userIds AND keyword = %s",
-            array('text'),
-            array("tst_password_" . $this->getTestId())
+            ['text'],
+            ["tst_password_" . $this->getTestId()]
         );
 
         if (count($participantData->getActiveIds())) {
@@ -1275,29 +1275,29 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // Move a question up in sequence
         $result = $this->db->queryF(
             "SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-            array('integer', 'integer'),
-            array($this->getTestId(), $question_id)
+            ['integer', 'integer'],
+            [$this->getTestId(), $question_id]
         );
         $data = $this->db->fetchObject($result);
         if ($data->sequence > 1) {
             // OK, it's not the top question, so move it up
             $result = $this->db->queryF(
                 "SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-                array('integer','integer'),
-                array($this->getTestId(), $data->sequence - 1)
+                ['integer','integer'],
+                [$this->getTestId(), $data->sequence - 1]
             );
             $data_previous = $this->db->fetchObject($result);
             // change previous dataset
             $this->db->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-                array('integer','integer'),
-                array($data->sequence, $data_previous->test_question_id)
+                ['integer','integer'],
+                [$data->sequence, $data_previous->test_question_id]
             );
             // move actual dataset up
             $this->db->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-                array('integer','integer'),
-                array($data->sequence - 1, $data->test_question_id)
+                ['integer','integer'],
+                [$data->sequence - 1, $data->test_question_id]
             );
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 $this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence - 1), $question_id);
@@ -1318,14 +1318,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // Move a question down in sequence
         $result = $this->db->queryF(
             "SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-            array('integer','integer'),
-            array($this->getTestId(), $question_id)
+            ['integer','integer'],
+            [$this->getTestId(), $question_id]
         );
         $data = $this->db->fetchObject($result);
         $result = $this->db->queryF(
             "SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-            array('integer','integer'),
-            array($this->getTestId(), $data->sequence + 1)
+            ['integer','integer'],
+            [$this->getTestId(), $data->sequence + 1]
         );
         if ($result->numRows() == 1) {
             // OK, it's not the last question, so move it down
@@ -1333,14 +1333,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             // change next dataset
             $this->db->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-                array('integer','integer'),
-                array($data->sequence, $data_next->test_question_id)
+                ['integer','integer'],
+                [$data->sequence, $data_next->test_question_id]
             );
             // move actual dataset down
             $this->db->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-                array('integer','integer'),
-                array($data->sequence + 1, $data->test_question_id)
+                ['integer','integer'],
+                [$data->sequence + 1, $data->test_question_id]
             );
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 $this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence + 1), $question_id);
@@ -1381,8 +1381,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // get maximum sequence index in test
         $result = $this->db->queryF(
             "SELECT MAX(sequence) seq FROM tst_test_question WHERE test_fi=%s",
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
         $sequence = 1;
 
@@ -1394,8 +1394,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $next_id = $this->db->nextId('tst_test_question');
         $affectedRows = $this->db->manipulateF(
             "INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (%s, %s, %s, %s, %s)",
-            array('integer', 'integer','integer','integer','integer'),
-            array($next_id, $this->getTestId(), $duplicate_id, $sequence, time())
+            ['integer', 'integer','integer','integer','integer'],
+            [$next_id, $this->getTestId(), $duplicate_id, $sequence, time()]
         );
         if ($affectedRows == 1) {
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
@@ -1405,8 +1405,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // remove test_active entries, because test has changed
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM tst_active WHERE test_fi = %s",
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
         $this->loadQuestions();
         $this->saveCompleteStatus($testQuestionSetConfig);
@@ -1426,8 +1426,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
             $result = $this->db->queryF(
                 "SELECT qpl_questions.title FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
-                array('integer'),
-                array($this->getTestId())
+                ['integer'],
+                [$this->getTestId()]
             );
             while ($row = $this->db->fetchAssoc($result)) {
                 array_push($titles, $row["title"]);
@@ -1449,8 +1449,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
             $result = $this->db->queryF(
                 "SELECT qpl_questions.title, qpl_questions.question_id FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
-                array('integer'),
-                array($this->getTestId())
+                ['integer'],
+                [$this->getTestId()]
             );
             while ($row = $this->db->fetchAssoc($result)) {
                 $titles[$row['question_id']] = $row["title"];
@@ -1515,8 +1515,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         $row = $this->db->fetchObject($result);
         return $row;
@@ -1538,14 +1538,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             }
             $result = $this->db->queryF(
                 "SELECT qpl_questions.original_id FROM qpl_questions, tst_test_rnd_qst WHERE tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.question_fi = qpl_questions.question_id AND tst_test_rnd_qst.pass = %s",
-                array('integer','integer'),
-                array($active_id, $pass)
+                ['integer','integer'],
+                [$active_id, $pass]
             );
         } else {
             $result = $this->db->queryF(
                 "SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id",
-                array('integer'),
-                array($this->getTestId())
+                ['integer'],
+                [$this->getTestId()]
             );
         }
         while ($data = $this->db->fetchObject($result)) {
@@ -1572,8 +1572,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
         $result = $this->db->queryF(
             "SELECT type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         if ($result->numRows() == 1) {
             $data = $this->db->fetchObject($result);
@@ -1594,8 +1594,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $next_id = $this->db->nextId('tst_times');
         $affectedRows = $this->db->manipulateF(
             "INSERT INTO tst_times (times_id, active_fi, started, finished, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-            array('integer', 'integer', 'timestamp', 'timestamp', 'integer', 'integer'),
-            array($next_id, $active_id, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $pass, time())
+            ['integer', 'integer', 'timestamp', 'timestamp', 'integer', 'integer'],
+            [$next_id, $active_id, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $pass, time()]
         );
         return $next_id;
     }
@@ -1610,8 +1610,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $affectedRows = $this->db->manipulateF(
             "UPDATE tst_times SET finished = %s, tstamp = %s WHERE times_id = %s",
-            array('timestamp', 'integer', 'integer'),
-            array(date('Y-m-d H:i:s'), time(), $times_id)
+            ['timestamp', 'integer', 'integer'],
+            [date('Y-m-d H:i:s'), time(), $times_id]
         );
     }
 
@@ -1626,14 +1626,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         if (is_null($pass)) {
             $result = $this->db->queryF(
                 "SELECT question_fi FROM tst_solutions WHERE active_fi = %s AND pass = %s GROUP BY question_fi",
-                array('integer','integer'),
-                array($active_id, 0)
+                ['integer','integer'],
+                [$active_id, 0]
             );
         } else {
             $result = $this->db->queryF(
                 "SELECT question_fi FROM tst_solutions WHERE active_fi = %s AND pass = %s GROUP BY question_fi",
-                array('integer','integer'),
-                array($active_id, $pass)
+                ['integer','integer'],
+                [$active_id, $pass]
             );
         }
         $result_array = [];
@@ -1677,8 +1677,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             }
             $result = $this->db->queryF(
                 "SELECT qpl_questions.* FROM qpl_questions, tst_test_rnd_qst WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s AND " . $this->db->in('qpl_questions.question_id', $this->questions, false, 'integer'),
-                array('integer','integer'),
-                array($active_id, $pass)
+                ['integer','integer'],
+                [$active_id, $pass]
             );
         } else {
             if (count($this->questions) == 0) {
@@ -1755,8 +1755,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
         $result = $ilDB->queryF(
             "SELECT tst_active.active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-            array('integer', 'integer'),
-            array($user_id, $test_id)
+            ['integer', 'integer'],
+            [$user_id, $test_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -1838,8 +1838,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $solutionresult = $this->db->queryF(
             $query,
-            array('integer', 'integer'),
-            array($active_id, $pass)
+            ['integer', 'integer'],
+            [$active_id, $pass]
         );
 
         while ($row = $this->db->fetchAssoc($solutionresult)) {
@@ -1991,8 +1991,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s",
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
         $row = $this->db->fetchAssoc($result);
         return $row["total"];
@@ -2008,8 +2008,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
-            array('integer','integer'),
-            array($this->getTestId(), $user_id)
+            ['integer','integer'],
+            [$this->getTestId(), $user_id]
         );
         $time = 0;
         while ($row = $this->db->fetchAssoc($result)) {
@@ -2058,8 +2058,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi ORDER BY tst_times.active_fi, tst_times.started",
-            array('integer'),
-            array($test_id)
+            ['integer'],
+            [$test_id]
         );
         $time = 0;
         $times = [];
@@ -2100,8 +2100,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.active_fi, tst_times.started",
-            array('integer','integer'),
-            array($this->getTestId(), $active_id)
+            ['integer','integer'],
+            [$this->getTestId(), $active_id]
         );
         $time = 0;
         while ($row = $this->db->fetchAssoc($result)) {
@@ -2141,8 +2141,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $result = $ilDB->queryF(
             "SELECT * FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
-            array('integer','integer'),
-            array($active_id, $pass)
+            ['integer','integer'],
+            [$active_id, $pass]
         );
         $time = 0;
         while ($row = $ilDB->fetchAssoc($result)) {
@@ -2193,8 +2193,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.started",
-            array('integer','integer'),
-            array($test_id, $active_id)
+            ['integer','integer'],
+            [$test_id, $active_id]
         );
         $firstvisit = 0;
         $lastvisit = 0;
@@ -2224,7 +2224,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 $lastvisit = $epoch_2;
             }
         }
-        return array("firstvisit" => $firstvisit, "lastvisit" => $lastvisit);
+        return ["firstvisit" => $firstvisit, "lastvisit" => $lastvisit];
     }
 
     /**
@@ -2236,8 +2236,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $test_result = &$this->getTestResult($active_id, $pass);
         $result = $this->db->queryF(
             "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.active_id = %s AND tst_active.active_id = tst_times.active_fi",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         $times = [];
         $first_visit = 0;
@@ -2320,7 +2320,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         if (count($this->questions)) {
             $percent_worked_through = $qworkedthrough / count($this->questions);
         }
-        $result_array = array(
+        $result_array = [
             "qworkedthrough" => $qworkedthrough,
             "qmax" => count($this->questions),
             "pworkedthrough" => $percent_worked_through,
@@ -2333,7 +2333,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             "resultsmarks" => $result_mark,
             "passed" => $passed,
             "distancemedian" => "0"
-        );
+        ];
         foreach ($test_result as $key => $value) {
             if (preg_match("/\d+/", $key)) {
                 $result_array[$key] = $value;
@@ -2380,8 +2380,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT tst_active.active_id, usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname ASC",
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
         $persons_array = [];
         while ($row = $this->db->fetchAssoc($result)) {
@@ -2404,11 +2404,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     }
                 }
             }
-            $persons_array[$row["active_id"]] = array(
+            $persons_array[$row["active_id"]] = [
                 "name" => $name,
                 "fullname" => $fullname,
                 "login" => $login
-            );
+            ];
         }
         return $persons_array;
     }
@@ -2423,8 +2423,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT tst_active.user_fi, tst_active.active_id, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
         $persons_array = [];
         while ($row = $this->db->fetchAssoc($result)) {
@@ -2458,21 +2458,21 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT tst_active.user_fi, tst_active.active_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
         $persons_array = [];
         while ($row = $this->db->fetchAssoc($result)) {
             if ($this->getAnonymity()) {
-                $persons_array[$row["active_id"]] = array("name" => $this->lng->txt("anonymous"));
+                $persons_array[$row["active_id"]] = ["name" => $this->lng->txt("anonymous")];
             } else {
                 if (strlen($row["firstname"] . $row["lastname"] . $row["title"]) == 0) {
-                    $persons_array[$row["active_id"]] = array("name" => $this->lng->txt("deleted_user"));
+                    $persons_array[$row["active_id"]] = ["name" => $this->lng->txt("deleted_user")];
                 } else {
                     if ($row["user_fi"] == ANONYMOUS_USER_ID) {
-                        $persons_array[$row["active_id"]] = array("name" => $row["lastname"]);
+                        $persons_array[$row["active_id"]] = ["name" => $row["lastname"]];
                     } else {
-                        $persons_array[$row["active_id"]] = array("name" => trim($row["lastname"] . ", " . $row["firstname"] . " " . $row["title"]), "login" => $row["login"]);
+                        $persons_array[$row["active_id"]] = ["name" => trim($row["lastname"] . ", " . $row["firstname"] . " " . $row["title"]), "login" => $row["login"]];
                     }
                 }
             }
@@ -2496,8 +2496,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 "FROM tst_test_rnd_qst, qpl_questions " .
                 "WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id " .
                 "AND tst_test_rnd_qst.active_fi = %s ORDER BY tst_test_rnd_qst.sequence",
-                array('integer'),
-                array($active_id)
+                ['integer'],
+                [$active_id]
             );
         } else {
             $result = $this->db->queryF(
@@ -2506,8 +2506,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 "FROM tst_test_question, tst_active, qpl_questions " .
                 "WHERE tst_test_question.question_fi = qpl_questions.question_id " .
                 "AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi",
-                array('integer'),
-                array($active_id)
+                ['integer'],
+                [$active_id]
             );
         }
         $qtest = [];
@@ -2536,8 +2536,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 "WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id " .
                 "AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s " .
                 "ORDER BY tst_test_rnd_qst.sequence",
-                array('integer', 'integer'),
-                array($active_id, $pass)
+                ['integer', 'integer'],
+                [$active_id, $pass]
             );
         } else {
             $result = $this->db->queryF(
@@ -2546,8 +2546,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 "FROM tst_test_question, tst_active, qpl_questions " .
                 "WHERE tst_test_question.question_fi = qpl_questions.question_id " .
                 "AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi",
-                array('integer'),
-                array($active_id)
+                ['integer'],
+                [$active_id]
             );
         }
         $qpass = [];
@@ -2609,8 +2609,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $result = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
 
         $pass = null;
@@ -2656,8 +2656,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
                     $result = $this->db->queryF(
                         $query,
-                        array('integer','integer'),
-                        array($testpass, $active_id)
+                        ['integer','integer'],
+                        [$testpass, $active_id]
                     );
 
                     if ($result->numRows()) {
@@ -2689,8 +2689,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
                 $result = $this->db->queryF(
                     $query,
-                    array('integer'),
-                    array($active_id)
+                    ['integer'],
+                    [$active_id]
                 );
 
                 if ($result->numRows()) {
@@ -2702,8 +2702,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
                     $seqresult = $this->db->queryF(
                         "SELECT * FROM tst_sequence WHERE active_fi = %s",
-                        array('integer'),
-                        array($active_id)
+                        ['integer'],
+                        [$active_id]
                     );
 
                     while ($seqrow = $this->db->fetchAssoc($seqresult)) {
@@ -2781,8 +2781,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 						GROUP BY	tst_test_rnd_qst.active_fi,
 									tst_test_rnd_qst.pass
 					",
-                    array('integer', 'integer'),
-                    array($active_id, $pass)
+                    ['integer', 'integer'],
+                    [$active_id, $pass]
                 );
 
                 break;
@@ -2804,8 +2804,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
 						GROUP BY	tst_test_question.test_fi
 					",
-                    array('integer'),
-                    array($active_id)
+                    ['integer'],
+                    [$active_id]
                 );
 
                 break;
@@ -2818,10 +2818,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $row = $ilDB->fetchAssoc($res);
 
         if (is_array($row)) {
-            return array("count" => $row["qcount"], "points" => $row["qsum"]);
+            return ["count" => $row["qcount"], "points" => $row["qsum"]];
         }
 
-        return array("count" => 0, "points" => 0);
+        return ["count" => 0, "points" => 0];
     }
 
     public function &getCompleteEvaluationData($withStatistics = true, $filterby = "", $filtertext = ""): ilTestEvaluationData
@@ -2863,8 +2863,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             "AND qpl_questions.question_id = tst_test_result.question_fi " .
             "AND tst_active.test_fi = %s " .
             "ORDER BY tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp",
-            array('integer'),
-            array($test_id)
+            ['integer'],
+            [$test_id]
         );
         $overview = [];
         while ($row = $this->db->fetchAssoc($result)) {
@@ -2908,8 +2908,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             "AND qpl_questions.question_id = tst_test_result.question_fi " .
             "AND tst_active.test_fi = %s AND tst_active.active_id = %s" .
             "ORDER BY tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp",
-            array('integer', 'integer'),
-            array($this->getTestId(), $active_id)
+            ['integer', 'integer'],
+            [$this->getTestId(), $active_id]
         );
         $overview = [];
         while ($row = $this->db->fetchAssoc($result)) {
@@ -2971,7 +2971,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $query .= " AND " . $this->db->in('active_id', $active_ids_to_filter, false, 'integer');
         }
 
-        $result = $this->db->queryF($query, array('integer'), array($this->getTestId()));
+        $result = $this->db->queryF($query, ['integer'], [$this->getTestId()]);
         $times = [];
         while ($row = $this->db->fetchObject($result)) {
             preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
@@ -3721,10 +3721,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlSetDtdDef("<!DOCTYPE questestinterop SYSTEM \"ims_qtiasiv1p2p1.dtd\">");
         $a_xml_writer->xmlStartTag("questestinterop");
 
-        $attrs = array(
+        $attrs = [
             "ident" => "il_" . IL_INST_ID . "_tst_" . $this->getTestId(),
             "title" => $this->getTitle()
-        );
+        ];
         $a_xml_writer->xmlStartTag("assessment", $attrs);
         // add qti comment
         $a_xml_writer->xmlElement("qticomment", null, $this->getDescription());
@@ -4036,9 +4036,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         // add qti assessmentcontrol
         if ($this->getInstantFeedbackSolution() == 1) {
-            $attrs = array(
+            $attrs = [
                 "solutionswitch" => "Yes"
-            );
+            ];
         } else {
             $attrs = null;
         }
@@ -4168,9 +4168,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         // add qti assessmentcontrol
         if ($this->getInstantFeedbackSolution() == 1) {
-            $attrs = array(
+            $attrs = [
                 "solutionswitch" => "Yes"
-            );
+            ];
         } else {
             $attrs = null;
         }
@@ -4189,9 +4189,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlEndTag("presentation_material");
         }
 
-        $attrs = array(
+        $attrs = [
             "ident" => "1"
-        );
+        ];
         $a_xml_writer->xmlElement("section", $attrs, null);
         $a_xml_writer->xmlEndTag("assessment");
         $a_xml_writer->xmlEndTag("questestinterop");
@@ -4719,8 +4719,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $object_id = false;
         $result = $ilDB->queryF(
             "SELECT obj_fi FROM tst_tests WHERE test_id = %s",
-            array('integer'),
-            array($test_id)
+            ['integer'],
+            [$test_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -4743,8 +4743,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $object_id = false;
         $result = $ilDB->queryF(
             "SELECT tst_tests.obj_fi FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -4767,8 +4767,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $test_id = false;
         $result = $ilDB->queryF(
             "SELECT test_id FROM tst_tests WHERE obj_fi = %s",
-            array('integer'),
-            array($object_id)
+            ['integer'],
+            [$object_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -4794,8 +4794,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             }
             $result = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-                array('integer', 'integer', 'integer'),
-                array($active_id, $question_id, $pass)
+                ['integer', 'integer', 'integer'],
+                [$active_id, $question_id, $pass]
             );
             if ($result->numRows() == 1) {
                 $row = $this->db->fetchAssoc($result);
@@ -4818,8 +4818,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         if ($question_id) {
             $result = $this->db->queryF(
                 "SELECT question_text FROM qpl_questions WHERE question_id = %s",
-                array('integer'),
-                array($question_id)
+                ['integer'],
+                [$question_id]
             );
             if ($result->numRows() == 1) {
                 $row = $this->db->fetchAssoc($result);
@@ -4995,8 +4995,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
             $result = $this->db->queryF(
                 $queryString,
-                array("integer"),
-                array($active_id)
+                ["integer"],
+                [$active_id]
             );
 
             $count = $result->numRows();
@@ -5062,8 +5062,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         if ($this->getAnonymity()) {
             $result = $this->db->queryF(
                 "SELECT usr_id, %s login, %s lastname, %s firstname, client_ip clientip FROM usr_data WHERE " . $this->db->in('usr_id', $ids, false, 'integer') . " ORDER BY login",
-                array('text', 'text', 'text'),
-                array("", $this->lng->txt("anonymous"), "")
+                ['text', 'text', 'text'],
+                ["", $this->lng->txt("anonymous"), ""]
             );
         } else {
             $result = $this->db->query("SELECT usr_id, login, lastname, firstname, client_ip clientip FROM usr_data WHERE " . $this->db->in('usr_id', $ids, false, 'integer') . " ORDER BY login");
@@ -5084,7 +5084,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $result = [];
         foreach ($ids as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);
-            $result[$ref_id] = array("ref_id" => $ref_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
+            $result[$ref_id] = ["ref_id" => $ref_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id)];
         }
         return $result;
     }
@@ -5096,7 +5096,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
         $result = [];
         foreach ($ids as $obj_id) {
-            $result[$obj_id] = array("obj_id" => $obj_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
+            $result[$obj_id] = ["obj_id" => $obj_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id)];
         }
         return $result;
     }
@@ -5143,8 +5143,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
-            array('integer', 'integer'),
-            array($this->getTestId(), $user_id)
+            ['integer', 'integer'],
+            [$this->getTestId(), $user_id]
         );
     }
 
@@ -5158,13 +5158,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $this->db->manipulateF(
             "DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
-            array('integer', 'integer'),
-            array($this->getTestId(), $user_id)
+            ['integer', 'integer'],
+            [$this->getTestId(), $user_id]
         );
         $this->db->manipulateF(
             "INSERT INTO tst_invited_user (test_fi, user_fi, clientip, tstamp) VALUES (%s, %s, %s, %s)",
-            array('integer', 'integer', 'text', 'integer'),
-            array($this->getTestId(), $user_id, (strlen($client_ip)) ? $client_ip : null, time())
+            ['integer', 'integer', 'text', 'integer'],
+            [$this->getTestId(), $user_id, (strlen($client_ip)) ? $client_ip : null, time()]
         );
     }
 
@@ -5173,8 +5173,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $this->db->manipulateF(
             "UPDATE tst_invited_user SET clientip = %s, tstamp = %s WHERE test_fi=%s and user_fi=%s",
-            array('text', 'integer', 'integer', 'integer'),
-            array((strlen($client_ip)) ? $client_ip : null, time(), $this->getTestId(), $user_id)
+            ['text', 'integer', 'integer', 'integer'],
+            [(strlen($client_ip)) ? $client_ip : null, time(), $this->getTestId(), $user_id]
         );
     }
 
@@ -5190,14 +5190,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         if (is_numeric($question_fi)) {
             $result = $ilDB->queryF(
                 "SELECT question_fi, solved FROM tst_qst_solved WHERE active_fi = %s AND question_fi=%s",
-                array('integer', 'integer'),
-                array($active_id, $question_fi)
+                ['integer', 'integer'],
+                [$active_id, $question_fi]
             );
         } else {
             $result = $ilDB->queryF(
                 "SELECT question_fi, solved FROM tst_qst_solved WHERE active_fi = %s",
-                array('integer'),
-                array($active_id)
+                ['integer'],
+                [$active_id]
             );
         }
         $result_array = [];
@@ -5216,13 +5216,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $active_id = $this->getActiveIdOfUser($user_id);
         $this->db->manipulateF(
             "DELETE FROM tst_qst_solved WHERE active_fi = %s AND question_fi = %s",
-            array('integer', 'integer'),
-            array($active_id, $question_id)
+            ['integer', 'integer'],
+            [$active_id, $question_id]
         );
         $this->db->manipulateF(
             "INSERT INTO tst_qst_solved (solved, question_fi, active_fi) VALUES (%s, %s, %s)",
-            array('integer', 'integer', 'integer'),
-            array($value, $question_id, $active_id)
+            ['integer', 'integer', 'integer'],
+            [$value, $question_id, $active_id]
         );
     }
 
@@ -5233,8 +5233,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT submitted FROM tst_active WHERE active_id=%s AND submitted=%s",
-            array('integer', 'integer'),
-            array($active_id, 1)
+            ['integer', 'integer'],
+            [$active_id, 1]
         );
         return $result->numRows() == 1;
     }
@@ -5250,8 +5250,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $result = $this->db->queryF(
             "SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=%s",
-            array('integer', 'integer', 'integer'),
-            array($this->getTestId(), $user_id, 1)
+            ['integer', 'integer', 'integer'],
+            [$this->getTestId(), $user_id, 1]
         );
         return $result->numRows() == 1;
     }
@@ -5287,7 +5287,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function getAllTestResults($participants, $prepareForCSV = true): array
     {
         $results = [];
-        $row = array(
+        $row = [
             "user_id" => $this->lng->txt("user_id"),
             "matriculation" => $this->lng->txt("matriculation"),
             "lastname" => $this->lng->txt("lastname"),
@@ -5298,7 +5298,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             "percent_value" => $this->lng->txt("tst_percent_solved"),
             "mark" => $this->lng->txt("tst_mark"),
             "passed" => $this->lng->txt("tst_mark_passed"),
-        );
+        ];
         $results[] = $row;
         if (count($participants)) {
             foreach ($participants as $active_id => $user_rec) {
@@ -5331,7 +5331,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $user_rec['firstname'] = "";
                     $user_rec['lastname'] = $this->lng->txt("anonymous");
                 }
-                $row = array(
+                $row = [
                     "user_id" => $user_rec['usr_id'],
                     "matriculation" => $user_rec['matriculation'],
                     "lastname" => $user_rec['lastname'],
@@ -5342,7 +5342,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     "percent_value" => $percentvalue,
                     "mark" => $mark,
                     "passed" => $user_rec['passed'] ? '1' : '0',
-                );
+                ];
                 $results[] = $prepareForCSV ? $this->processCSVRow($row, true) : $row;
             }
         }
@@ -5406,8 +5406,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $ilDB = $DIC['ilDB'];
         $result = $ilDB->queryF(
             "SELECT tries FROM tst_active WHERE active_id = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -5432,8 +5432,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $ilDB = $DIC['ilDB'];
         $result = $ilDB->queryF(
             "SELECT MAX(pass) maxpass FROM tst_pass_result WHERE active_fi = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
 
         if ($result->numRows()) {
@@ -5456,8 +5456,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $result = $ilDB->queryF(
             "SELECT * FROM tst_pass_result WHERE active_fi = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
 
         if (!$result->numRows()) {
@@ -5561,8 +5561,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $result = $ilDB->queryF(
             $query,
-            array('integer', 'integer'),
-            array($active_id, $pass)
+            ['integer', 'integer'],
+            [$active_id, $pass]
         );
 
         while ($row = $ilDB->fetchAssoc($result)) {
@@ -5586,10 +5586,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      */
     public function isExecutable($testSession, $user_id, $allowPassIncrease = false): array
     {
-        $result = array(
+        $result = [
             "executable" => true,
             "errormessage" => ""
-        );
+        ];
 
         if (!$this->startingTimeReached()) {
             $result["executable"] = false;
@@ -5717,8 +5717,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
         $result = $this->db->queryF(
             "SELECT tst_times.started FROM tst_times WHERE tst_times.active_fi = %s AND tst_times.pass = %s ORDER BY tst_times.started",
-            array('integer', 'integer'),
-            array($active_id, $pass)
+            ['integer', 'integer'],
+            [$active_id, $pass]
         );
         if ($result->numRows()) {
             $row = $this->db->fetchAssoc($result);
@@ -5787,8 +5787,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $query_result = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
 
         $questions = [];
@@ -5825,8 +5825,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $row = $this->db->fetchAssoc($this->db->queryF(
             "SELECT COUNT(question_id) cnt FROM qpl_questions WHERE question_id = %s AND obj_fi = %s",
-            array('integer', 'integer'),
-            array($questionId, $this->getId())
+            ['integer', 'integer'],
+            [$questionId, $this->getId()]
         ));
 
         return (bool) $row['cnt'];
@@ -5869,8 +5869,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $query_result = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
 
         $questions = [];
@@ -6010,8 +6010,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $ilDB = $DIC['ilDB'];
         $result = $ilDB->queryF(
             "SELECT user_fi FROM tst_active WHERE active_id = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -6190,8 +6190,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $result = $ilDB->queryF(
             "SELECT anonymity FROM tst_tests WHERE obj_fi = %s",
-            array('integer'),
-            array($a_obj_id)
+            ['integer'],
+            [$a_obj_id]
         );
         while ($row = $ilDB->fetchAssoc($result)) {
             return (int) $row['anonymity'];
@@ -6233,7 +6233,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 			WHERE		tst_active.active_id = %s
 		";
 
-        $res = $ilDB->queryF($query, array('integer'), array($active_id));
+        $res = $ilDB->queryF($query, ['integer'], [$active_id]);
 
         while ($row = $ilDB->fetchAssoc($res)) {
             return $row['question_set_type'];
@@ -6278,8 +6278,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY name ASC",
-            array('integer'),
-            array($this->user->getId())
+            ['integer'],
+            [$this->user->getId()]
         );
         $defaults = [];
         while ($row = $this->db->fetchAssoc($result)) {
@@ -6292,8 +6292,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT * FROM tst_test_defaults WHERE test_defaults_id = %s",
-            array('integer'),
-            array($test_defaults_id)
+            ['integer'],
+            [$test_defaults_id]
         );
         if ($result->numRows() == 1) {
             $row = $this->db->fetchAssoc($result);
@@ -6307,8 +6307,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $this->db->manipulateF(
             "DELETE FROM tst_test_defaults WHERE test_defaults_id = %s",
-            array('integer'),
-            array($test_default_id)
+            ['integer'],
+            [$test_default_id]
         );
     }
 
@@ -6411,14 +6411,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $next_id = $this->db->nextId('tst_test_defaults');
         $this->db->insert(
             'tst_test_defaults',
-            array(
-                'test_defaults_id' => array('integer', $next_id),
-                'name' => array('text', $a_name),
-                'user_fi' => array('integer', $this->user->getId()),
-                'defaults' => array('clob', serialize($testsettings)),
-                'marks' => array('clob', serialize($this->mark_schema->getMarkSteps())),
-                'tstamp' => array('integer', time())
-            )
+            [
+                'test_defaults_id' => ['integer', $next_id],
+                'name' => ['text', $a_name],
+                'user_fi' => ['integer', $this->user->getId()],
+                'defaults' => ['clob', serialize($testsettings)],
+                'marks' => ['clob', serialize($this->mark_schema->getMarkSteps())],
+                'tstamp' => ['integer', time()]
+            ]
         );
     }
 
@@ -6572,11 +6572,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function processPrintoutput2FO($print_output): string
     {
         if (extension_loaded("tidy")) {
-            $config = array(
+            $config = [
                 "indent" => false,
                 "output-xml" => true,
                 "numeric-entities" => true
-            );
+            ];
             $tidy = new tidy();
             $tidy->parseString($print_output, $config, 'utf8');
             $tidy->cleanRepair();
@@ -6596,7 +6596,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $xsl
         );
 
-        $args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
+        $args = [ '/_xml' => $print_output, '/_xsl' => $xsl ];
         $xh = xslt_create();
         $params = [];
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
@@ -6624,11 +6624,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $html = str_replace("href=\"./", "href=\"" . ILIAS_HTTP_PATH . "/", $printoutput);
         $html = preg_replace("/<div id=\"dontprint\">.*?<\\/div>/ims", "", $html);
         if (extension_loaded("tidy")) {
-            $config = array(
+            $config = [
                 "indent" => false,
                 "output-xml" => true,
                 "numeric-entities" => true
-            );
+            ];
             $tidy = new tidy();
             $tidy->parseString($html, $config, 'utf8');
             $tidy->cleanRepair();
@@ -6733,8 +6733,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $feedback = [];
         $result = $ilDB->queryF(
             "SELECT * FROM tst_manual_fb WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
         while ($row = $ilDB->fetchAssoc($result)) {
@@ -6900,7 +6900,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                             $user_rec['firstname'] = "";
                             $user_rec['lastname'] = $this->lng->txt("anonymous");
                         }
-                        $row = array(
+                        $row = [
                             "user_id" => $user_rec['usr_id'],
                             "matriculation" => $user_rec['matriculation'],
                             "lastname" => $user_rec['lastname'],
@@ -6911,7 +6911,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                             "reached_points" => $reached_points,
                             "max_points" => $max_points,
                             "passed" => $user_rec['passed'] ? '1' : '0',
-                        );
+                        ];
                         $results[] = $row;
                     }
                 }
@@ -6969,8 +6969,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT passed FROM tst_result_cache WHERE active_fi = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows()) {
             $row = $this->db->fetchAssoc($result);
@@ -6999,8 +6999,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $result = $this->db->queryF(
             $query,
-            array('integer', 'integer'),
-            array($test_id, $question_id)
+            ['integer', 'integer'],
+            [$test_id, $question_id]
         );
         $foundusers = [];
         /** @noinspection PhpAssignmentInConditionInspection */
@@ -7012,7 +7012,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             if (!array_key_exists($row["active_fi"], $foundusers)) {
                 $foundusers[$row["active_fi"]] = [];
             }
-            array_push($foundusers[$row["active_fi"]], array("pass" => $row["pass"], "qid" => $row["question_fi"]));
+            array_push($foundusers[$row["active_fi"]], ["pass" => $row["pass"], "qid" => $row["question_fi"]]);
         }
         return $foundusers;
     }
@@ -7026,7 +7026,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $data = &$this->getCompleteEvaluationData();
         $foundParticipants = $data->getParticipants();
-        $results = array("overview" => [], "questions" => []);
+        $results = ["overview" => [], "questions" => []];
         if (count($foundParticipants)) {
             $results["overview"][$this->lng->txt("tst_eval_total_persons")] = count($foundParticipants);
             $total_finished = $data->getTotalFinishedParticipants();
@@ -7081,7 +7081,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 }
             }
             $percent = $max ? $reached / $max * 100.0 : 0;
-            $results["questions"][$question_id] = array(
+            $results["questions"][$question_id] = [
                 $question_title,
                 sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
                 sprintf("%.2f", $percent) . "%",
@@ -7089,7 +7089,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 sprintf("%.2f", $answered ? $reached / $answered : 0),
                 sprintf("%.2f", $answered ? $max / $answered : 0),
                 $percent / 100.0
-            );
+            ];
         }
         return $results;
     }
@@ -7183,8 +7183,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
             $result = $this->db->queryF(
                 $query,
-                array('integer'),
-                array($active_id)
+                ['integer'],
+                [$active_id]
             );
         }
 
@@ -7219,8 +7219,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $position = 1;
 
         $query = 'SELECT question_fi  FROM tst_test_question WHERE test_fi = %s';
-        $types = array('integer');
-        $values = array($this->getTestId());
+        $types = ['integer'];
+        $values = [$this->getTestId()];
 
         $new_question_id += 1;
 
@@ -7241,17 +7241,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
 
         $update_query = 'UPDATE tst_test_question SET sequence = %s WHERE test_fi = %s AND question_fi = %s';
-        $update_types = array('integer', 'integer', 'integer');
+        $update_types = ['integer', 'integer', 'integer'];
 
         foreach ($new_array as $position => $qid) {
             $this->db->manipulateF(
                 $update_query,
                 $update_types,
-                $vals = array(
+                $vals = [
                             $position,
                             $this->getTestId(),
                             $qid
-                        )
+                        ]
             );
         }
     }
@@ -7300,26 +7300,26 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         if ($question_before) {
             $query = 'SELECT sequence, test_fi FROM tst_test_question WHERE question_fi = %s';
-            $types = array('integer');
-            $values = array($question_before);
+            $types = ['integer'];
+            $values = [$question_before];
             $rset = $this->db->queryF($query, $types, $values);
         }
 
         if (!$question_before || ($rset && !($row = $this->db->fetchAssoc($rset)))) {
-            $row = array(
+            $row = [
             'sequence' => 0,
             'test_fi' => $this->getTestId(),
-        );
+        ];
         }
 
         $update = 'UPDATE tst_test_question SET sequence = sequence + 1 WHERE sequence > %s AND test_fi = %s';
-        $types = array('integer', 'integer');
-        $values = array($row['sequence'], $row['test_fi']);
+        $types = ['integer', 'integer'];
+        $values = [$row['sequence'], $row['test_fi']];
         $this->db->manipulateF($update, $types, $values);
 
         $update = 'UPDATE tst_test_question SET sequence = %s WHERE question_fi = %s';
-        $types = array('integer', 'integer');
-        $values = array($row['sequence'] + 1, $question_to_move);
+        $types = ['integer', 'integer'];
+        $values = [$row['sequence'] + 1, $question_to_move];
         $this->db->manipulateF($update, $types, $values);
 
         $this->reindexFixedQuestionOrdering();
@@ -7364,8 +7364,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             " JOIN tst_pass_result ON (tst_pass_result.active_fi = tst_active.active_id)" .
             " WHERE user_fi=%s" .
             " GROUP BY test_fi",
-            array('integer', 'integer'),
-            array($a_user_id, 1)
+            ['integer', 'integer'],
+            [$a_user_id, 1]
         );
         $all = [];
         while ($row = $ilDB->fetchAssoc($result)) {
@@ -7610,7 +7610,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $rset = $ilDB->queryF('SELECT obligatory FROM tst_test_question WHERE question_fi = %s', array('integer'), array($question_id));
+        $rset = $ilDB->queryF('SELECT obligatory FROM tst_test_question WHERE question_fi = %s', ['integer'], [$question_id]);
 
         if ($row = $ilDB->fetchAssoc($rset)) {
             return (bool) $row['obligatory'];
@@ -7638,8 +7638,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $rset = $ilDB->queryF(
             'SELECT obligations_answered FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
-            array('integer', 'integer'),
-            array($active_id, $pass)
+            ['integer', 'integer'],
+            [$active_id, $pass]
         );
 
         if ($row = $ilDB->fetchAssoc($rset)) {
@@ -7664,8 +7664,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $rset = $ilDB->queryF(
             'SELECT count(*) cnt FROM tst_test_question WHERE test_fi = %s AND obligatory = 1',
-            array('integer'),
-            array($test_id)
+            ['integer'],
+            [$test_id]
         );
 
         $row = $ilDB->fetchAssoc($rset);
@@ -7719,8 +7719,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $times = [];
         $result = $this->db->queryF(
             "SELECT tst_times.active_fi, tst_times.started FROM tst_times, tst_active WHERE tst_times.active_fi = tst_active.active_id AND tst_active.test_fi = %s ORDER BY tst_times.tstamp DESC",
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
         while ($row = $this->db->fetchAssoc($result)) {
             $times[$row['active_fi']] = $row['started'];
@@ -7733,8 +7733,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $times = [];
         $result = $this->db->queryF(
             "SELECT tst_addtime.active_fi, tst_addtime.additionaltime FROM tst_addtime, tst_active WHERE tst_addtime.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
-            array('integer'),
-            array($this->getTestId())
+            ['integer'],
+            [$this->getTestId()]
         );
         while ($row = $this->db->fetchAssoc($result)) {
             $times[$row['active_fi']] = $row['additionaltime'];
@@ -7746,8 +7746,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $result = $this->db->queryF(
             "SELECT additionaltime FROM tst_addtime WHERE active_fi = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows() > 0) {
             $row = $this->db->fetchAssoc($result);
@@ -7764,7 +7764,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         );
 
         if ($active_id) {
-            $participantData->setActiveIdsFilter(array($active_id));
+            $participantData->setActiveIdsFilter([$active_id]);
         }
 
         $participantData->load($this->getTestId());
@@ -7772,28 +7772,28 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         foreach ($participantData->getActiveIds() as $active_fi) {
             $result = $this->db->queryF(
                 "SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
-                array('integer'),
-                array($active_fi)
+                ['integer'],
+                [$active_fi]
             );
 
             if ($result->numRows() > 0) {
                 $this->db->manipulateF(
                     "DELETE FROM tst_addtime WHERE active_fi = %s",
-                    array('integer'),
-                    array($active_fi)
+                    ['integer'],
+                    [$active_fi]
                 );
             }
 
             $this->db->manipulateF(
                 "UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
-                array('integer','integer','timestamp','integer'),
-                array(0, 0, null, $active_fi)
+                ['integer','integer','timestamp','integer'],
+                [0, 0, null, $active_fi]
             );
 
             $this->db->manipulateF(
                 "INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
-                array('integer','integer','integer'),
-                array($active_fi, $minutes, time())
+                ['integer','integer','integer'],
+                [$active_fi, $minutes, time()]
             );
 
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
@@ -7821,7 +7821,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $ilDB = $DIC['ilDB'];
 
         $exam_id_query = 'SELECT exam_id FROM tst_pass_result WHERE active_fi = %s AND pass = %s';
-        $exam_id_result = $ilDB->queryF($exam_id_query, array( 'integer', 'integer' ), array( $active_id, $pass ));
+        $exam_id_result = $ilDB->queryF($exam_id_query, [ 'integer', 'integer' ], [ $active_id, $pass ]);
         if ($ilDB->numRows($exam_id_result) == 1) {
             $exam_id_row = $ilDB->fetchAssoc($exam_id_result);
 
@@ -7889,7 +7889,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $query = "SELECT question_set_type FROM tst_tests WHERE obj_fi = %s";
 
-        $res = $ilDB->queryF($query, array('integer'), array($objId));
+        $res = $ilDB->queryF($query, ['integer'], [$objId]);
 
         $questionSetType = null;
 
@@ -7974,7 +7974,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 			WHERE user_fi = %s
 		";
 
-        $res = $ilDB->queryF($query, array('integer'), array($userId));
+        $res = $ilDB->queryF($query, ['integer'], [$userId]);
 
         $objIds = [];
 
@@ -8092,7 +8092,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 			ORDER BY sequence
 		";
 
-        $questRes = $this->db->queryF($query, array('integer'), array($this->getTestId()));
+        $questRes = $this->db->queryF($query, ['integer'], [$this->getTestId()]);
 
         $row = $this->db->fetchAssoc($questRes);
         $questCount = $row['cnt'];
@@ -8108,8 +8108,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
             $partRes = $this->db->queryF(
                 $query,
-                array('integer'),
-                array($this->getTestId())
+                ['integer'],
+                [$this->getTestId()]
             );
 
             while ($row = $this->db->fetchAssoc($partRes)) {
@@ -8133,12 +8133,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
                 $new_sequence = serialize($sequence);
 
-                $this->db->update('tst_sequence', array(
-                    'sequence' => array('clob', $new_sequence)
-                ), array(
-                    'active_fi' => array('integer', $row['active_fi']),
-                    'pass' => array('integer', $row['pass'])
-                ));
+                $this->db->update('tst_sequence', [
+                    'sequence' => ['clob', $new_sequence]
+                ], [
+                    'active_fi' => ['integer', $row['active_fi']],
+                    'pass' => ['integer', $row['pass']]
+                ]);
             }
         } else {
             $new_sequence = serialize($questCount > 0 ? range(1, $questCount) : []);
@@ -8153,17 +8153,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
             $part_rest = $this->db->queryF(
                 $query,
-                array('integer'),
-                array($this->getTestId())
+                ['integer'],
+                [$this->getTestId()]
             );
 
             while ($row = $this->db->fetchAssoc($part_rest)) {
-                $this->db->update('tst_sequence', array(
-                    'sequence' => array('clob', $new_sequence)
-                ), array(
-                    'active_fi' => array('integer', $row['active_fi']),
-                    'pass' => array('integer', $row['pass'])
-                ));
+                $this->db->update('tst_sequence', [
+                    'sequence' => ['clob', $new_sequence]
+                ], [
+                    'active_fi' => ['integer', $row['active_fi']],
+                    'pass' => ['integer', $row['pass']]
+                ]);
             }
         }
     }
