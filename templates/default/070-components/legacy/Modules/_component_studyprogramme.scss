@@ -1,0 +1,53 @@
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_panel" as ls;
+@use "../../../050-layout/basics/" as *;
+
+/* PRG Page Editor Elements */
+
+.c-prg-statusinfo,
+.c-prg-actionnote {
+  &__wrapper {
+    width: 100%;
+    clear: both;
+    margin-bottom: 20px;
+    border: ls.$il-panel-border;
+    border-radius: ls.$il-panel-border-radius;
+    -webkit-box-shadow: ls.$il-panel-shadow;
+    box-shadow: ls.$il-panel-shadow;
+  }
+
+  &__headline {
+    background-color: $il-main-dark-bg;
+    padding: ls.$il-panel-heading-padding;
+    font-weight: $il-font-weight-base;
+    text-align: left;
+    vertical-align: middle;
+    h3 {
+      margin: 0;
+      color: ls.$il-panel-heading-color;
+    }
+  }
+
+  &__content {
+    border-bottom: $il-main-border;
+    background-color: $il-main-bg;
+  }
+
+  &__icon {
+    padding: ls.$il-panel-heading-padding;
+    display: table-cell;
+    vertical-align: top;
+    max-width: none;
+  }
+
+  &__text {
+    display: table-cell;
+    vertical-align: top;
+    width: 100%;
+    padding-left: $il-padding-base;
+  }
+
+  %__certificate {
+    text-decoration: $il-link-hover-decoration;
+  }
+}

@@ -4377,23 +4377,13 @@
 
 <!-- PRGStatusInfo -->
 <xsl:template match="PRGStatusInfo">
-	<xsl:if test="$mode = 'edit'">
-		<div class="copg-content-placeholder-prg-statusinfo il-prg-statusinfo-container">
-			<div>
-				<img class="icon prg large" src="./templates/default/images/standard/icon_prg.svg" alt="StatusInfo StudyProgramme" />
-				StatusInfo StudyProgramme
-			</div>
-		</div>
-	</xsl:if>
-	<xsl:if test="$mode != 'edit'">
-		<div class="il-prg-statusinfo-container">
-			<Launcher>
-				[[[PRG_STATUS_INFO]]]
-			</Launcher>
-		</div>
-	</xsl:if>
+	[[[PRG_STATUS_INFO]]]
 </xsl:template>
 
+<!-- PRGActionNote -->
+<xsl:template match="PRGActionNote">
+	[[[PRG_ACTION_NOTE]]]
+</xsl:template>
 
 <!-- helper functions -->
 

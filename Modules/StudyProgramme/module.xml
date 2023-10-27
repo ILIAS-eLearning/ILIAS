@@ -23,6 +23,7 @@
 		</object>
 		<copage>
 			<pagecontent pc_type="prgstatusinfo" name="PRGStatusInfo" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="127"/>
+			<pagecontent pc_type="prgactionnote" name="PRGActionNote" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="128"/>
 		</copage>
 	</objects>
 	<events>

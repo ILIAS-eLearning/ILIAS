@@ -148,6 +148,7 @@ interface Standard extends Icon
     public const PEAC = 'peac';    //Page Editor Accordion
     public const PEADL = 'peadl';   //Page Editor Advanced List
     public const PEADT = 'peadt';   //Page Editor Advanced Tables
+    public const PEAN = 'pean';     // Page Editor Study Programme Action Note
     public const PECD = 'pecd';     //Page Editor Code
     public const PECH = 'pech';     //Page Editor Consultation Hour
     public const PECL = 'pecl';     //Page Editor Column Layout

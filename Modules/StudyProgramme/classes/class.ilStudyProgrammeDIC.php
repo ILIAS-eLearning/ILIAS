@@ -371,19 +371,6 @@ class ilStudyProgrammeDIC
         $dic['current_user'] = static fn($dic) =>
             $DIC['ilUser'];
 
-        $dic['pc.statusinfo'] = static fn($dic) =>
-            new ilPRGStatusInfoBuilder(
-                $DIC['ui.factory'],
-                $DIC['ui.renderer'],
-                $DIC['lng'],
-                $DIC['ilCtrl'],
-                new ilTemplate("tpl.statusinformation.html", true, true, 'Modules/StudyProgramme'),
-                $dic['repo.assignment'],
-                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
-                new ilCertificateDownloadValidator(),
-                $dic['current_user']->getId()
-            );
-
         $dic['cron.riskyToFail'] = static fn($dic) =>
             new ilPrgRiskyToFail(
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
@@ -400,6 +387,31 @@ class ilStudyProgrammeDIC
                 $dic['ilStudyProgrammeEvents']
             );
         $dic['ui.factory'] = static fn($dic) => $DIC['ui.factory'];
+
+        $dic['pc.statusinfo'] = static fn($dic) =>
+            new ilPRGStatusInfoBuilder(
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['lng'],
+                $DIC['ilCtrl'],
+                new ilTemplate("tpl.statusinformation.html", true, true, 'Modules/StudyProgramme'),
+                $dic['repo.assignment'],
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                new ilCertificateDownloadValidator(),
+                $dic['current_user']->getId()
+            );
+
+        $dic['pc.actionnote'] = static fn($dic) =>
+            new ilPRGActionNoteBuilder(
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['lng'],
+                $DIC['ilCtrl'],
+                new ilTemplate("tpl.action_note.html", true, true, 'Modules/StudyProgramme'),
+                $dic['repo.assignment'],
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                $dic['current_user']->getId()
+            );
 
         return $dic;
     }

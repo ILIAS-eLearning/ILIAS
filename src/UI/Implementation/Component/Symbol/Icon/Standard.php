@@ -154,6 +154,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::PEAC,
         self::PEADL,
         self::PEADT,
+        self::PEAN,
         self::PECD,
         self::PECH,
         self::PECL,

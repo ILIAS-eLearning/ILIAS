@@ -12993,6 +12993,7 @@ prg#:#auto_memberships#:#Membership Automation
 prg#:#category#:#Category
 prg#:#completion_date#:#Completion Date
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?
+prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note
 prg#:#cont_ed_insert_prgstatusinfo#:#Insert Study Progamme Statusinformation
 prg#:#content_automation#:#Content Automation
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
@@ -13055,6 +13056,12 @@ prg#:#obj_prg_select#:#-- Please select a study programme --
 prg#:#optgrp_label_restart#:#Restart
 prg#:#optgrp_label_validity#:#Expiry
 prg#:#orgu#:#Organisational Unit
+prg#:#pc_prg_action_note_label#:#Required Actions Study Programme
+prg#:#pc_prg_statusinfo_label#:#Statusinformation Study Programme
+prg#:#pc_prgactionnote_complete_content#:#Please complete the content.
+prg#:#pc_prgactionnote_complete_content_with_deadline#:#Please complete the content until
+prg#:#pc_prgactionnote_headline#:#Required actions
+prg#:#pc_prgactionnote_no_actions_required#:#No actions required.
 prg#:#pc_prgstatus_edit_qualification#:#Re-processing required from
 prg#:#pc_prgstatus_expiration_date#:#Expiry date
 prg#:#pc_prgstatus_qualification_headline#:#Status of your qualification
@@ -13286,6 +13293,7 @@ prg#:#status_changed#:#Updated status
 prg#:#status_changed_due_to_deadline#:#Status changed according to deadline.
 prg#:#status_transition_not_allowed#:#Status change not allowed
 prg#:#status_unchanged#:#Status unchanged
+prg#:#study_programme_icon#:#Page Editor Study Programme Icon
 prg#:#update_deadline#:#Successfully update deadline.
 prg#:#update_expire_date#:#Successfully update expire date.
 prg#:#updated_from_settings#:#Updated from settings
