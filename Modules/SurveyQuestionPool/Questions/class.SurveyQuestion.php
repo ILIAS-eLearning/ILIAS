@@ -1065,15 +1065,6 @@ class SurveyQuestion
         }
         if (file_exists("./Modules/SurveyQuestionPool/Questions/class." . $type . ".php")) {
             return true;
-        } else {
-            global $DIC;
-
-            $component_factory = $DIC["component.factory"];
-            foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
-                if (strcmp($pl->getQuestionType(), $question_type) === 0) {
-                    return true;
-                }
-            }
         }
         return false;
     }
@@ -1090,13 +1081,6 @@ class SurveyQuestion
         if (file_exists("./Modules/SurveyQuestionPool/Questions/class." . $type_tag . ".php")) {
             $lng = $DIC->language();
             return $lng->txt($type_tag);
-        } else {
-            $component_factory = $DIC["component.factory"];
-            foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
-                if (strcmp($pl->getQuestionType(), $type_tag) === 0) {
-                    return $pl->getQuestionTypeTranslation();
-                }
-            }
         }
         return "";
     }

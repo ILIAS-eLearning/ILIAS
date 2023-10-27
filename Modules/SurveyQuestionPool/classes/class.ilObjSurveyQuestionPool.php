@@ -314,9 +314,7 @@ class ilObjSurveyQuestionPool extends ilObject
         $result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND " . $ilDB->in('svy_question.question_id', $question_array, false, 'integer'));
         while ($row = $ilDB->fetchAssoc($result)) {
             if ($row["plugin"]) {
-                if ($this->isPluginActive($row["type_tag"])) {
-                    $result_array[] = $row;
-                }
+                continue;
             } else {
                 $result_array[] = $row;
             }
@@ -382,9 +380,7 @@ class ilObjSurveyQuestionPool extends ilObject
         if ($query_result->numRows()) {
             while ($row = $ilDB->fetchAssoc($query_result)) {
                 if ($row["plugin"]) {
-                    if ($this->isPluginActive($row["type_tag"])) {
-                        $rows[] = $row;
-                    }
+                    continue;
                 } else {
                     $rows[] = $row;
                 }
@@ -690,15 +686,6 @@ class ilObjSurveyQuestionPool extends ilObject
             //array_push($questiontypes, $row["type_tag"]);
             if ((int) $row["plugin"] === 0) {
                 $types[$lng->txt($row["type_tag"])] = $row;
-            } else {
-                global $DIC;
-
-                $component_factory = $DIC["component.factory"];
-                foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
-                    if (strcmp($pl->getQuestionType(), $row["type_tag"]) === 0) {
-                        $types[$pl->getQuestionTypeTranslation()] = $row;
-                    }
-                }
             }
         }
         ksort($types);
@@ -770,12 +757,6 @@ class ilObjSurveyQuestionPool extends ilObject
         while ($row = $ilDB->fetchAssoc($result)) {
             if ((int) $row["plugin"] === 0) {
                 $types[$row['type_tag']] = $lng->txt($row["type_tag"]);
-            } else {
-                foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
-                    if (strcmp($pl->getQuestionType(), $row["type_tag"]) === 0) {
-                        $types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
-                    }
-                }
             }
         }
         ksort($types);
@@ -818,14 +799,6 @@ class ilObjSurveyQuestionPool extends ilObject
             }
         }
         return $result_array;
-    }
-
-    /**
-     * Checks whether or not a question plugin with a given name is active
-     */
-    public function isPluginActive(string $a_pname): bool
-    {
-        return $this->component_repository->getPluginByName($a_pname)->isActive();
     }
 
     /**

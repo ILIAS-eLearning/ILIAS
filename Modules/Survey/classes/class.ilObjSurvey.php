@@ -1820,9 +1820,7 @@ class ilObjSurvey extends ilObject
         while ($row = $ilDB->fetchAssoc($result)) {
             $add = true;
             if ($row["plugin"]) {
-                if (!$this->isPluginActive($row["type_tag"])) {
-                    $add = false;
-                }
+                $add = false;
             }
             if ($add) {
                 $question = self::_instanciateQuestion($row["question_id"]);
@@ -2862,9 +2860,7 @@ class ilObjSurvey extends ilObject
 
                 $row['ttype'] = $trans[$row['type_tag']];
                 if ($row["plugin"]) {
-                    if ($this->isPluginActive($row["type_tag"])) {
-                        $rows[] = $row;
-                    }
+                    continue;
                 } else {
                     $rows[] = $row;
                 }
@@ -4069,19 +4065,6 @@ class ilObjSurvey extends ilObject
             }
         }
         return false;
-    }
-
-    /**
-     * @todo deprecate / abandon
-     */
-    public function isPluginActive(string $a_pname): bool
-    {
-        $ilPluginAdmin = $this->plugin_admin;
-        if ($ilPluginAdmin->isActive(ilComponentInfo::TYPE_MODULES, "SurveyQuestionPool", "svyq", $a_pname)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public function setSurveyId(int $survey_id): void

@@ -15,8 +15,5 @@
 			<parent id="root">root</parent>
 		</object>
 	</objects>
-	<pluginslots>
-		<pluginslot id="svyq" name="SurveyQuestions" />
-	</pluginslots>
 	<logging />
 </module>
