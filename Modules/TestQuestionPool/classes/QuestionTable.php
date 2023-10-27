@@ -129,21 +129,21 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         $f = $this->ui_factory->table()->column();
         $df = $this->data_factory->dateFormat();
         $date_format = $df->withTime24($this->data_factory->dateFormat()->germanShort());
-        $icon_yes = $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('object/checkbox_checked.png'), 'yes'));
-        $icon_no = $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('object/checkbox_unchecked.png'), 'no'));
+        $icon_yes = $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_checked.svg'), 'yes'));
+        $icon_no = $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_unchecked.svg'), 'no'));
 
         return  [
             'title' => $f->link($this->lng->txt('title')),
-            'description' => $f->text($this->lng->txt('description')),
-            'ttype' => $f->text($this->lng->txt('question_type')),
-            'points' => $f->number($this->lng->txt('points')),
-            'author' => $f->text($this->lng->txt('author')),
-            'lifecycle' => $f->text($this->lng->txt('qst_lifecycle')),
-            'created' => $f->date($this->lng->txt('create_date'), $date_format),
-            'tstamp' => $f->date($this->lng->txt('last_update'), $date_format),
-            'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies')),
-            'feedback' => $f->boolean($this->lng->txt('feedback'), $icon_yes, $icon_no),
-            'hints' => $f->boolean($this->lng->txt('hints'), $icon_yes, $icon_no),
+            'description' => $f->text($this->lng->txt('description'))->withIsOptional(true, true),
+            'ttype' => $f->text($this->lng->txt('question_type'))->withIsOptional(true, true),
+            'points' => $f->number($this->lng->txt('points'))->withIsOptional(true, true),
+            'author' => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
+            'lifecycle' => $f->text($this->lng->txt('qst_lifecycle'))->withIsOptional(true, true),
+            'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies'))->withIsOptional(true, true),
+            'feedback' => $f->boolean($this->lng->txt('feedback'), $icon_yes, $icon_no)->withIsOptional(true, true),
+            'hints' => $f->boolean($this->lng->txt('hints'), $icon_yes, $icon_no)->withIsOptional(true, true),
+            'created' => $f->date($this->lng->txt('create_date'), $date_format)->withIsOptional(true, true),
+            'tstamp' => $f->date($this->lng->txt('last_update'), $date_format)->withIsOptional(true, true),
         ];
     }
 

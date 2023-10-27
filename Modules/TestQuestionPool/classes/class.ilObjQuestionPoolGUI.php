@@ -1145,7 +1145,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table_gui->setData($deleteable_questions);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
-    */
 
     /**
      * delete questions after confirmation
