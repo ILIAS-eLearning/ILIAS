@@ -103,6 +103,7 @@ administration#:#adm_imprint_inactive#:#Legal notice is not active and users are
 administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously
 administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation
+administration#:#adm_legal_regulations#:#Legal Regulations
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.
 administration#:#adm_maintenance#:#System Settings and Maintenance
@@ -277,6 +278,8 @@ administration#:#obj_blga_desc#:#Global Blog Settings
 administration#:#obj_chta_desc#:#Chat Administration
 administration#:#obj_excs#:#Exercise
 administration#:#obj_excs_desc#:#Global Exercise Settings
+administration#:#obj_impr#:#Legal Notice
+administration#:#obj_impr_desc#:#Deployment of Legal Notice
 administration#:#obj_mds#:#Metadata
 administration#:#obj_mds_desc#:#Configure Metadata and Custom Metadata Settings
 administration#:#obj_otpl#:#Didactic Templates
