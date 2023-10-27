@@ -68,6 +68,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected ilComponentRepository $component_repository;
     protected ilNavigationHistory $navigation_history;
     protected ilUIService $ui_service;
+    protected DataFactory $data_factory;
     protected URLBuilder $url_builder;
     protected URLBuilderToken $action_parameter_token;
     protected URLBuilderToken $row_id_token;
@@ -86,10 +87,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->component_repository = $DIC['component.repository'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->ui = $DIC->ui();
+        $this->ui_service = $DIC->uiService();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->qplrequest = $DIC->testQuestionPool()->internal()->request();
         $this->taxonomy = $DIC->taxonomy();
         $this->http_request = $DIC->http()->request();
+        $this->data_factory = new DataFactory();
         parent::__construct('', $this->qplrequest->raw('ref_id'), true, false);
 
         $this->ctrl->saveParameter($this, [
@@ -110,7 +113,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $this->lng->loadLanguageModule('assessment');
 
-        $this->data_factory = new DataFactory();
         $here_uri = $this->data_factory->uri($this->request->getUri()->__toString());
         $url_builder = new URLBuilder($here_uri);
         $query_params_namespace = ['qpool', 'table'];
@@ -123,7 +125,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->action_parameter_token = $action_parameter_token;
         $this->row_id_token = $row_id_token;
 
-        $this->ui_service = $DIC->uiService();
         $this->tpl->addJavascript('Services/Notes/js/ilNotes.js');
         $this->tpl->addJavascript('Services/UIComponent/Modal/js/Modal.js');
     }
@@ -1900,14 +1901,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if ($filter_params) {
             foreach (array_filter($filter_params) as $item => $value) {
                 if($item === 'taxonomies') {
-                    $tax_nodes = explode('-', $value);
-                    $tax_id = array_shift($tax_nodes);
-                    $table->addTaxonomyFilter(
-                        $tax_id,
-                        $tax_nodes,
-                        $this->object->getId(),
-                        $this->object->getType()
-                    );
+                    if($value === 'null') {
+                        $table->addTaxonomyFilterNoTaxonomySet(true);
+                    } else {
+                        $tax_nodes = explode('-', $value);
+                        $tax_id = array_shift($tax_nodes);
+                        $table->addTaxonomyFilter(
+                            $tax_id,
+                            $tax_nodes,
+                            $this->object->getId(),
+                            $this->object->getType()
+                        );
+                    }
                 } else {
                     $table->addFieldFilter($item, $value);
                 }
@@ -1916,7 +1921,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         return $r->render([
             $filter,
-            $table->getTable()->withRequest($this->request)
+            $table->getTable()
+            ->withRequest($this->request)
         ]);
     }
 }

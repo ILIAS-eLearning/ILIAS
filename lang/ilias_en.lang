@@ -1209,6 +1209,8 @@ assessment#:#suggested_solution#:#Content for Recapitulation
 assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
 assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode
 assessment#:#tab_nest_answers#:#Nesting
+assessment#:#tax_filter#:#Taxonomy
+assessment#:#tax_filter_notax#:#Questions without assigned Taxonomy
 assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text

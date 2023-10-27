@@ -80,7 +80,9 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         }
 
         $taxs = $this->taxonomy->getUsageOfObject($this->parent_obj_id, true);
-        $tax_filter_options = [];
+        $tax_filter_options = [
+            'null' => $this->lng->txt('tax_filter_notax')
+        ];
         foreach($taxs as $tax_entry) {
             $tax = new ilObjTaxonomy($tax_entry['tax_id']);
             $children = $tax->getTree()->getChilds($tax->getTree()->readRootId());
@@ -105,7 +107,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             'lifecycle' => $field_factory->select($this->lng->txt("qst_lifecycle"), $lifecycle_options),
             'type' => $field_factory->select($this->lng->txt("type"), $question_type_options),
             'commented' => $field_factory->select($this->lng->txt("ass_commented_questions_only"), ['1' => $this->lng->txt('yes'), '0' => $this->lng->txt('no')]),
-            'taxonomies' => $field_factory->select($this->lng->txt("taxonomies"), $tax_filter_options),
+            'taxonomies' => $field_factory->select($this->lng->txt("tax_filter"), $tax_filter_options),
         ];
 
         $active = array_fill(0, count($filter_inputs), true);
@@ -131,12 +133,11 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         $icon_no = $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('object/checkbox_unchecked.png'), 'no'));
 
         return  [
-            'title' => $f->text($this->lng->txt('title')),
+            'title' => $f->link($this->lng->txt('title')),
             'description' => $f->text($this->lng->txt('description')),
             'ttype' => $f->text($this->lng->txt('question_type')),
             'points' => $f->number($this->lng->txt('points')),
             'author' => $f->text($this->lng->txt('author')),
-            'title' => $f->text($this->lng->txt('title')),
             'lifecycle' => $f->text($this->lng->txt('qst_lifecycle')),
             'created' => $f->date($this->lng->txt('create_date'), $date_format),
             'tstamp' => $f->date($this->lng->txt('last_update'), $date_format),
@@ -156,13 +157,17 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
     ): \Generator {
         $no_write_access = !($this->rbac->checkAccess('write', $this->request_ref_id));
         foreach ($this->getData($order, $range) as $idx => $record) {
-            $row_id = (string)$record['obj_fi'];
             $row_id = (string)$record['question_id'];
             $record['created'] = (new \DateTimeImmutable())->setTimestamp($record['created']);
             $record['tstamp'] = (new \DateTimeImmutable())->setTimestamp($record['tstamp']);
-
             $lifecycle = ilAssQuestionLifecycle::getInstance($record['lifecycle']);
             $record['lifecycle'] = $lifecycle->getTranslation($this->lng);
+
+            $to_question = $this->url_builder
+                ->withParameter($this->action_parameter_token, 'edit_question')
+                ->withParameter($this->row_id_token, $row_id)
+                ->buildURI()->__toString();
+            $record['title'] = $this->ui_factory->link()->standard($record['title'], $to_question);
 
             $taxonomies = [];
             foreach ($record['taxonomies'] as $taxonomy_id => $tax_data) {
