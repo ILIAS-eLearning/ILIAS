@@ -586,4 +586,17 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             isset($row['id']) ? (int) $row['id'] : null
         );
     }
+
+    public function deleteUserCertificatesForObject(int $userId, int $obj_id): void
+    {
+        $this->logger->debug(sprintf('START - Delete certificate for user("%s") in object (obj_id: %s)"', $userId, $obj_id));
+
+        $sql = 'DELETE FROM il_cert_user_cert ' . PHP_EOL
+            . ' WHERE usr_id = ' . $this->database->quote($userId, 'integer') . PHP_EOL
+            . ' AND obj_id = ' . $this->database->quote($obj_id, 'integer');
+
+        $this->database->manipulate($sql);
+
+        $this->logger->debug(sprintf('END - Successfully deleted certificate for user("%s") in object (obj_id: %s)"', $userId, $obj_id));
+    }
 }
