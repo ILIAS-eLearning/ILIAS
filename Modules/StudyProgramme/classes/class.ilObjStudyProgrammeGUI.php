@@ -73,6 +73,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
      */
     public ?ilObject $object;
 
+    protected ILIAS\Container\Content\DomainService $internal_domain_service;
     protected ViewManager $container_view_manager;
 
     public function __construct()
@@ -107,12 +108,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $this->type_repository = $dic['model.Type.ilStudyProgrammeTypeRepository'];
         $this->ui_factory = $dic['ui.factory'];
 
-        $this->container_view_manager = $DIC
-            ->container()
-            ->internal()
-            ->domain()
-            ->content()
-            ->view($this->object);
+        $this->internal_domain_service = $DIC->container()->internal()->domain()->content();
+        $this->container_view_manager = $this->internal_domain_service->view($this->object);
     }
 
     public function executeCommand(): void
@@ -260,6 +257,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     $this->object->createContentPage();
                 }
                 $gui = new ilPRGPageObjectGUI($this->object->getId());
+                $gui->setItemPresentationManager(
+                    $this->internal_domain_service
+                        ->itemPresentation(
+                            $this->object,
+                            null,
+                            false
+                        )
+                );
                 $this->content_style_gui->addCss($this->tpl, $this->object->getRefId());
                 $this->ctrl->setCmd($cmd);
                 $out = $this->ctrl->forwardCommand($gui);
