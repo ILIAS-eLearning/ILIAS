@@ -32,7 +32,7 @@ class ilObjGroupReferenceAccess extends ilContainerReferenceAccess
                 include_once './Modules/GroupReference/classes/class.ilObjGroupReference.php';
                 $target_ref_id = ilObjGroupReference::_lookupTargetRefId($obj_id);
 
-                if (!$ilAccess->checkAccessOfUser($user_id, $permission, $cmd, $target_ref_id)) {
+                if (!$target_ref_id || !$ilAccess->checkAccessOfUser($user_id, $permission, $cmd, $target_ref_id)) {
                     return false;
                 }
                 break;
