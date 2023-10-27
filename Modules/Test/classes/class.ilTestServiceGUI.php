@@ -220,10 +220,10 @@ class ilTestServiceGUI
                 $testSequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
                 $testSequence->setConsiderOptionalQuestionsEnabled($considerOptionalQuestions);
 
-                $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
-                $objectivesList->loadObjectivesTitles();
+                $objectives_list = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
+                $objectives_list->loadObjectivesTitles();
 
-                $row['objectives'] = $objectivesList->getUniqueObjectivesStringForQuestions($testSequence->getUserSequenceQuestions());
+                $row['objectives'] = $objectives_list->getUniqueObjectivesStringForQuestions($testSequence->getUserSequenceQuestions());
             }
 
             if ($withResults) {
@@ -344,7 +344,7 @@ class ilTestServiceGUI
         $show_question_only = false,
         $show_reached_points = false,
         $anchorNav = false,
-        ilTestQuestionRelatedObjectivesList $objectivesList = null,
+        ilTestQuestionRelatedObjectivesList $objectives_list = null,
         ilTestResultHeaderLabelBuilder $testResultHeaderLabelBuilder = null
     ): string {
         $maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", true, true, "Modules/Test");
@@ -395,9 +395,9 @@ class ilTestServiceGUI
                         $template->setVariable("QUESTION_ID", $question_gui->object->getId());
                         $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
 
-                        if ($objectivesList !== null) {
+                        if ($objectives_list !== null) {
                             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';
-                            $objectives .= $objectivesList->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
+                            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
                             $template->setVariable("OBJECTIVES", $objectives);
                         }
 
@@ -538,26 +538,26 @@ class ilTestServiceGUI
         int $pass,
         ilTestServiceGUI|ilParticipantsTestResultsGUI $target_gui,
         string $target_cmd,
-        string $questionDetailsCMD,
-        ilTestQuestionRelatedObjectivesList $objectivesList = null,
-        bool $multipleObjectivesInvolved = true
+        string $question_details_cmd,
+        ilTestQuestionRelatedObjectivesList $objectives_list = null,
+        bool $multiple_objectives_involved = true
     ): ilTestPassDetailsOverviewTableGUI {
         $this->ctrl->setParameter($target_gui, 'active_id', $active_id);
         $this->ctrl->setParameter($target_gui, 'pass', $pass);
 
-        $tableGUI = $this->buildPassDetailsOverviewTableGUI($target_gui, $target_cmd);
-        $tableGUI->setSingleAnswerScreenCmd($questionDetailsCMD);
-        $tableGUI->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
+        $table_gui = $this->buildPassDetailsOverviewTableGUI($target_gui, $target_cmd);
+        $table_gui->setSingleAnswerScreenCmd($question_details_cmd);
+        $table_gui->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
 
-        if ($objectivesList !== null) {
-            $tableGUI->setQuestionRelatedObjectivesList($objectivesList);
-            $tableGUI->setObjectiveOrientedPresentationEnabled(true);
+        if ($objectives_list !== null) {
+            $table_gui->setQuestionRelatedObjectivesList($objectives_list);
+            $table_gui->setObjectiveOrientedPresentationEnabled(true);
         }
 
-        $tableGUI->setMultipleObjectivesInvolved($multipleObjectivesInvolved);
+        $table_gui->setMultipleObjectivesInvolved($multiple_objectives_involved);
 
-        $tableGUI->setActiveId($active_id);
-        $tableGUI->setShowSuggestedSolution(false);
+        $table_gui->setActiveId($active_id);
+        $table_gui->setShowSuggestedSolution(false);
 
         $usersQuestionSolutions = array();
 
@@ -567,24 +567,24 @@ class ilTestServiceGUI
             }
 
             if ($this->object->getShowSolutionSuggested() && strlen($val['solution'])) {
-                $tableGUI->setShowSuggestedSolution(true);
+                $table_gui->setShowSuggestedSolution(true);
             }
 
             if (isset($val['pass'])) {
-                $tableGUI->setPassColumnEnabled(true);
+                $table_gui->setPassColumnEnabled(true);
             }
 
             $usersQuestionSolutions[$key] = $val;
         }
 
-        $tableGUI->initColumns();
+        $table_gui->initColumns();
 
-        $tableGUI->setFilterCommand($target_cmd . 'SetTableFilter');
-        $tableGUI->setResetCommand($target_cmd . 'ResetTableFilter');
+        $table_gui->setFilterCommand($target_cmd . 'SetTableFilter');
+        $table_gui->setResetCommand($target_cmd . 'ResetTableFilter');
 
-        $tableGUI->setData($usersQuestionSolutions);
+        $table_gui->setData($usersQuestionSolutions);
 
-        return $tableGUI;
+        return $table_gui;
     }
 
     /**
@@ -687,7 +687,7 @@ class ilTestServiceGUI
      * @return string HTML code of the correct solution comparison
      * @access public
      */
-    public function getCorrectSolutionOutput($question_id, $active_id, $pass, ilTestQuestionRelatedObjectivesList $objectivesList = null): string
+    public function getCorrectSolutionOutput($question_id, $active_id, $pass, ilTestQuestionRelatedObjectivesList $objectives_list = null): string
     {
         $ilUser = $this->user;
 
@@ -719,9 +719,9 @@ class ilTestServiceGUI
         } else {
             $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
         }
-        if ($objectivesList !== null) {
+        if ($objectives_list !== null) {
             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';
-            $objectives .= $objectivesList->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
+            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
             $template->setVariable('OBJECTIVES', $objectives);
         }
         $template->setVariable("SOLUTION_OUTPUT", $result_output);
@@ -775,7 +775,7 @@ class ilTestServiceGUI
 
         if (!is_null($pass)) {
             $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
-            $objectivesList = null;
+            $objectives_list = null;
 
             if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
                 $testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
@@ -784,8 +784,8 @@ class ilTestServiceGUI
 
                 $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
 
-                $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
-                $objectivesList->loadObjectivesTitles();
+                $objectives_list = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
+                $objectives_list->loadObjectivesTitles();
 
                 $testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
                 $testResultHeaderLabelBuilder->setUserId($testSession->getUserId());
@@ -816,7 +816,7 @@ class ilTestServiceGUI
                     $show_question_only,
                     $show_reached_points,
                     $show_pass_details,
-                    $objectivesList,
+                    $objectives_list,
                     $testResultHeaderLabelBuilder
                 );
                 $template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
@@ -830,7 +830,7 @@ class ilTestServiceGUI
                     $target_gui,
                     "getResultsOfUserOutput",
                     '',
-                    $objectivesList
+                    $objectives_list
                 );
                 $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
                 $template->setVariable("PASS_DETAILS", $overviewTableGUI->getHTML());
@@ -1118,10 +1118,10 @@ class ilTestServiceGUI
             $testSequence->loadQuestions();
 
             $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
-            $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
-            $objectivesList->loadObjectivesTitles();
+            $objectives_list = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
+            $objectives_list->loadObjectivesTitles();
         } else {
-            $objectivesList = null;
+            $objectives_list = null;
         }
 
         $ilTabs = $this->tabs;
@@ -1152,7 +1152,7 @@ class ilTestServiceGUI
             $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
         }
 
-        $solution = $this->getCorrectSolutionOutput($active_id, $active_id, $pass, $objectivesList);
+        $solution = $this->getCorrectSolutionOutput($active_id, $active_id, $pass, $objectives_list);
 
         $this->tpl->setContent($solution);
     }

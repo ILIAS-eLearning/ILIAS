@@ -1220,11 +1220,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $new_object->saveToDb();
 
-        $tstdef = $this->getDidacticTemplateVar("tstdef");
-        if ($tstdef) {
-            $testDefaultsId = $tstdef;
-            $testDefaults = $this->object->getTestDefaults($testDefaultsId);
-            $new_object->applyDefaults($testDefaults);
+        $test_def_id = $this->getDidacticTemplateVar("tstdef");
+        if ($test_def_id !== 0) {
+            $test_defaults = $new_object->getTestDefaults($test_def_id);
+            $new_object->applyDefaults($test_defaults);
         }
 
         $template_id = $this->getDidacticTemplateVar("tsttpl");

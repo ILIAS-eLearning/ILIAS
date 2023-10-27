@@ -6391,7 +6391,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'show_grading_mark' => (int) $score_settings->getResultSummarySettings()->getShowGradingMarkEnabled(),
 
             'ResultsPresentation' => $score_settings->getResultDetailsSettings()->getResultsPresentation(),
-            'show_solution_list_comparison' => (int) $score_settings->getResultDetailsSettings()->getShowSolutionListComparison(),
+            'PrintBsWithRes' => (int) $score_settings->getResultDetailsSettings()->getPrintBestSolutionWithResult(),
             'examid_in_test_res' => (int) $score_settings->getResultDetailsSettings()->getShowExamIdInTestResults(),
 
             'highscore_enabled' => (int) $score_settings->getGamificationSettings()->getHighscoreEnabled(),
@@ -6538,7 +6538,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withResultDetailsSettings(
                 $score_settings->getResultDetailsSettings()
                 ->withResultsPresentation($testsettings['ResultsPresentation'])
-                ->withShowSolutionListComparison((bool) $testsettings['show_solution_list_comparison'])
+                ->withPrintBestSolutionWithResult((bool) $testsettings['PrintBsWithRes'])
                 ->withShowExamIdInTestResults((bool) $testsettings['examid_in_test_res'])
                 ->withExportSettings($testsettings['exportsettings'])
             )
@@ -6572,11 +6572,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function processPrintoutput2FO($print_output): string
     {
         if (extension_loaded("tidy")) {
-            $config = [
+            $config = array(
                 "indent" => false,
                 "output-xml" => true,
                 "numeric-entities" => true
-            ];
+            );
             $tidy = new tidy();
             $tidy->parseString($print_output, $config, 'utf8');
             $tidy->cleanRepair();
