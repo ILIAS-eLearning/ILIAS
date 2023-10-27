@@ -70,6 +70,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      */
     private $taxFilters = array();
 
+    private bool $taxFiltersExcludeAnyObjectsWithTaxonomies = false;
+
     /**
      * taxonomy parent ids
      *
@@ -239,6 +241,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         $this->taxParentTypes[$taxId] = $parentObjType;
     }
 
+    public function addTaxonomyFilterNoTaxonomySet(bool $flag): void
+    {
+        $this->taxFiltersExcludeAnyObjectsWithTaxonomies = $flag;
+    }
+
     public function setAvailableTaxonomyIds($availableTaxonomyIds): void
     {
         $this->availableTaxonomyIds = $availableTaxonomyIds;
@@ -357,7 +364,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function getTaxonomyFilterExpressions(): array
     {
-        $expressions = array();
+        $expressions = [];
+        if($this->taxFiltersExcludeAnyObjectsWithTaxonomies) {
+            $expressions[] = 'question_id NOT IN (SELECT DISTINCT item_id FROM tax_node_assignment)';
+            return $expressions;
+        }
 
         foreach ($this->taxFilters as $taxId => $taxNodes) {
             $questionIds = array();
