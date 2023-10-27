@@ -41,6 +41,7 @@ class ilLegalDocumentsAdministrationGUI
 {
     private readonly Container $container;
     private readonly UI $ui;
+    private readonly Administration $admin;
 
     public function __construct(
         private readonly string $parent_class,

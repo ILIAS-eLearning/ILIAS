@@ -173,7 +173,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
             );
         }
 
-        $components[] = $this->legal_documents->admin->externalSettingsMessage($this->tos_settings->deleteUserOnWithdrawal()->value());
+        $components[] = $this->legal_documents->admin()->externalSettingsMessage($this->tos_settings->deleteUserOnWithdrawal()->value());
 
         $components[] = $this->form();
         $this->tpl->setContent($this->dic->ui()->renderer()->render($components));
