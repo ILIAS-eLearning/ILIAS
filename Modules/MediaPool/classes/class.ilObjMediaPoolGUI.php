@@ -33,7 +33,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI, ilFileSystemGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI, ilMediaPoolImportGUI
- * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI, ilRepoStandardUploadHandlerGUI
+ * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI, ilRepoStandardUploadHandlerGUI, ilMediaCreationGUI
  */
 class ilObjMediaPoolGUI extends ilObject2GUI
 {
@@ -260,6 +260,29 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 }
                 $this->tpl->printToStdout();
                 break;
+
+            case "ilmediacreationgui":
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $this->ctrl->setReturn($this, "listMedia");
+                //$ilTabs->activateTab("content");
+                //$this->addContentSubTabs("manage");
+                $med_type = [];
+                $creation = new ilMediaCreationGUI([ilMediaCreationGUI::TYPE_ALL], function ($mob_id) {
+                    $this->afterUpload($mob_id);
+                }, function ($mob_id, $long_desc) {
+                    $this->afterUrlSaving($mob_id, $long_desc);
+                }, function ($mob_ids) {
+                    $this->afterPoolInsert($mob_ids);
+                }, function ($mob_id) {
+                    $this->finishSingleUpload($mob_id);
+                }, function ($mob_id) {
+                    $this->onMobUpdate($mob_id);
+                });
+                $this->ctrl->forwardCommand($creation);
+                $this->tpl->printToStdout();
+                break;
+
 
             case "ilobjfoldergui":
                 $this->checkPermission("write");
@@ -622,7 +645,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $ilToolbar->addButton(
                 $lng->txt("mep_create_mob"),
-                $ilCtrl->getLinkTarget($this, "createMediaObject")
+                $ilCtrl->getLinkTargetByClass("ilMediaCreationGUI", "")
             );
 
             $mset = new ilSetting("mobs");
@@ -1950,4 +1973,59 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         ilSession::clear("mep_move_ids");
         $this->ctrl->redirect($this, "listMedia");
     }
+
+    protected function afterUpload($mob_ids): void
+    {
+        $this->addMobsToPool($mob_ids, "", false);
+    }
+
+    protected function afterUrlSaving(int $mob_id, string $long_desc): void
+    {
+        $this->addMobsToPool([$mob_id], $long_desc);
+    }
+
+    protected function addMobsToPool(
+        array $mob_ids,
+        string $long_desc = "",
+        bool $redirect = true,
+        bool $extract = false
+    ): void {
+        $ctrl = $this->ctrl;
+        $user = $this->user;
+
+        $item_ids = [];
+        foreach ($mob_ids as $mob_id) {
+            $object = new ilObjMediaObject($mob_id);
+            if (!is_null($object)) {
+                $mep_item = new ilMediaPoolItem();
+                $mep_item->setTitle($object->getTitle());
+                $mep_item->setType("mob");
+                $mep_item->setForeignId($object->getId());
+                $mep_item->create();
+
+                $parent = $this->mep_item_id;
+                $tree = $this->object->getTree();
+                $tree->insertNode($mep_item->getId(), $parent);
+            }
+        }
+
+        if ($redirect) {
+            $ctrl->redirect($this, "listMedia");
+        }
+    }
+
+    protected function afterPoolInsert(array $mob_ids): void
+    {
+        $this->addMobsToPool($mob_ids, "", true, true);
+    }
+
+    public function finishSingleUpload(int $mob_id): void
+    {
+        $this->ctrl->redirect($this, "listMedia");
+    }
+
+    protected function onMobUpdate(int $mob_id): void
+    {
+    }
+
 }
