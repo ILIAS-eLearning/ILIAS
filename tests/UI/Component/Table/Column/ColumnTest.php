@@ -24,6 +24,7 @@ require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Table\Column;
 use ILIAS\UI\Implementation\Component\Link;
+use ILIAS\UI\Implementation\Component\Listing;
 
 /**
  * Basic Tests for Table-Columns.
@@ -109,5 +110,30 @@ class ColumnTest extends ILIAS_UI_TestBase
         $col = new Column\Link('col');
         $link = 'some string';
         $this->assertEquals($link, $col->format($link));
+    }
+
+    public function testDataTableColumnLinkListingFormat(): void
+    {
+        $col = new Column\LinkListing('col');
+        $link = new Link\Standard('label', '#');
+        $linklisting = new Listing\Unordered([$link, $link, $link]);
+        $this->assertEquals($linklisting, $col->format($linklisting));
+    }
+
+    public function testDataTableColumnLinkListingFormatAcceptsOnlyLinkListings(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $col = new Column\LinkListing('col');
+        $linklisting_invalid = new Link\Standard('label', '#');
+        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
+    }
+
+    public function testDataTableColumnLinkListingItemsFormatAcceptsOnlyLinks(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $col = new Column\LinkListing('col');
+        $link = 'some string';
+        $linklisting_invalid = new Listing\Unordered([$link, $link, $link]);
+        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
     }
 }
