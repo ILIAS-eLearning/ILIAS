@@ -5377,8 +5377,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             if (is_string($entry) && strpos($entry, $separator) !== false) {
                 $surround = true;
             }
-            // replace all CR LF with LF (for Excel for Windows compatibility
-            $entry = str_replace(chr(13) . chr(10), chr(10), $entry);
+
+            if (is_string($entry)) {
+                // replace all CR LF with LF (for Excel for Windows compatibility
+                $entry = str_replace(chr(13) . chr(10), chr(10), $entry);
+            }
 
             if ($surround) {
                 $entry = "\"" . $entry . "\"";
