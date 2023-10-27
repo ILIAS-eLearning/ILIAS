@@ -125,7 +125,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      The Link Column features a Listing of Standard Links.
+     *      The LinkListing Column features an Ordered or Unordered Listing of Standard Links.
      *
      * ---
      * @return \ILIAS\UI\Component\Table\Column\LinkListing

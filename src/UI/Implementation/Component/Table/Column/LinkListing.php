@@ -30,11 +30,10 @@ class LinkListing extends Column implements C\LinkListing
 {
     public function format($value): string|Component
     {
-        $value_arr = [$value];
-        $types = [Ordered::class, Unordered::class];
-        $this->checkArgListElements("value", $value_arr, $types);
-        $check = $value->getItems();
-        $this->checkArgListElements("list items", $check, Standard::class);
+        $listing = $this->toArray($value);
+        $this->checkArgListElements("value", $listing, [Ordered::class, Unordered::class]);
+        $listing_items = $value->getItems();
+        $this->checkArgListElements("list items", $listing_items, Standard::class);
         return $value;
     }
 }
