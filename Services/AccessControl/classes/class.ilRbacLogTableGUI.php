@@ -54,15 +54,15 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $this->setFilterCommand("applyLogFilter");
         $this->setResetCommand("resetLogFilter");
 
-        $this->action_map = array(ilRbacLog::EDIT_PERMISSIONS => $this->lng->txt("rbac_log_edit_permissions"),
-                                  ilRbacLog::MOVE_OBJECT => $this->lng->txt("rbac_log_move_object"),
-                                  ilRbacLog::LINK_OBJECT => $this->lng->txt("rbac_log_link_object"),
-                                  ilRbacLog::COPY_OBJECT => $this->lng->txt("rbac_log_copy_object"),
-                                  ilRbacLog::CREATE_OBJECT => $this->lng->txt("rbac_log_create_object"),
-                                  ilRbacLog::EDIT_TEMPLATE => $this->lng->txt("rbac_log_edit_template"),
-                                  ilRbacLog::EDIT_TEMPLATE_EXISTING => $this->lng->txt("rbac_log_edit_template_existing"),
-                                  ilRbacLog::CHANGE_OWNER => $this->lng->txt("rbac_log_change_owner")
-        );
+        $this->action_map = [ilRbacLog::EDIT_PERMISSIONS => $this->lng->txt("rbac_log_edit_permissions"),
+            ilRbacLog::MOVE_OBJECT => $this->lng->txt("rbac_log_move_object"),
+            ilRbacLog::LINK_OBJECT => $this->lng->txt("rbac_log_link_object"),
+            ilRbacLog::COPY_OBJECT => $this->lng->txt("rbac_log_copy_object"),
+            ilRbacLog::CREATE_OBJECT => $this->lng->txt("rbac_log_create_object"),
+            ilRbacLog::EDIT_TEMPLATE => $this->lng->txt("rbac_log_edit_template"),
+            ilRbacLog::EDIT_TEMPLATE_EXISTING => $this->lng->txt("rbac_log_edit_template_existing"),
+            ilRbacLog::CHANGE_OWNER => $this->lng->txt("rbac_log_change_owner")
+        ];
 
         $this->initFilter();
         $this->getItems($this->ref_id, $this->filter);
@@ -71,7 +71,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
     public function initFilter(): void
     {
         $item = $this->addFilterItemByMetaType("action", ilTable2GUI::FILTER_SELECT);
-        $item->setOptions(array("" => $this->lng->txt("all")) + $this->action_map);
+        $item->setOptions(["" => $this->lng->txt("all")] + $this->action_map);
         $this->filter["action"] = $item->getValue();
 
         $item = $this->addFilterItemByMetaType("date", ilTable2GUI::FILTER_DATE_RANGE);
@@ -112,7 +112,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
 
         if ($a_set["action"] == ilRbacLog::CHANGE_OWNER) {
             $user = ilObjUser::_lookupFullname($a_set["data"][0] ?? 0);
-            $changes = array(array("action" => $this->lng->txt("rbac_log_changed_owner"), "operation" => $user));
+            $changes = [["action" => $this->lng->txt("rbac_log_changed_owner"), "operation" => $user]];
         } elseif ($a_set["action"] == ilRbacLog::EDIT_TEMPLATE) {
             $changes = $this->parseChangesTemplate($a_set["data"] ?? []);
         } else {
@@ -129,31 +129,31 @@ class ilRbacLogTableGUI extends ilTable2GUI
 
     protected function parseChangesFaPa(array $raw): array
     {
-        $result = array();
+        $result = [];
 
         $type = ilObject::_lookupType($this->ref_id, true);
 
         if (isset($raw["src"]) && is_numeric($raw['src'])) {
             $obj_id = ilObject::_lookupObjectId($raw["src"]);
             if ($obj_id) {
-                $result[] = array("action" => $this->lng->txt("rbac_log_source_object"),
+                $result[] = ["action" => $this->lng->txt("rbac_log_source_object"),
                                   "operation" => "<a href=\"" . ilLink::_getLink($raw["src"]) . "\">" . ilObject::_lookupTitle($obj_id) . "</a>"
-                );
+                ];
             }
 
             // added only
             foreach ($raw["ops"] as $role_id => $ops) {
                 foreach ($ops as $op) {
-                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_operation_add"), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))),
-                        "operation" => $this->getOPCaption($type, $op));
+                    $result[] = ["action" => sprintf($this->lng->txt("rbac_log_operation_add"), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))),
+                        "operation" => $this->getOPCaption($type, $op)];
                 }
             }
         } elseif (isset($raw["ops"])) {
             foreach ($raw["ops"] as $role_id => $actions) {
                 foreach ($actions as $action => $ops) {
                     foreach ((array) $ops as $op) {
-                        $result[] = array("action" => sprintf($this->lng->txt("rbac_log_operation_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))),
-                            "operation" => $this->getOPCaption($type, $op));
+                        $result[] = ["action" => sprintf($this->lng->txt("rbac_log_operation_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))),
+                            "operation" => $this->getOPCaption($type, $op)];
                     }
                 }
             }
@@ -162,7 +162,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         if (isset($raw["inht"])) {
             foreach ($raw["inht"] as $action => $role_ids) {
                 foreach ((array) $role_ids as $role_id) {
-                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_inheritance_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))));
+                    $result[] = ["action" => sprintf($this->lng->txt("rbac_log_inheritance_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id)))];
                 }
             }
         }
@@ -172,16 +172,16 @@ class ilRbacLogTableGUI extends ilTable2GUI
 
     protected function parseChangesTemplate(array $raw): array
     {
-        $result = array();
+        $result = [];
         foreach ($raw as $type => $actions) {
             foreach ($actions as $action => $ops) {
                 foreach ($ops as $op) {
-                    $result[] = array("action" => sprintf(
+                    $result[] = ["action" => sprintf(
                         $this->lng->txt("rbac_log_operation_" . $action),
                         $this->lng->txt("obj_" . $type)
                     ),
                                       "operation" => $this->getOPCaption($type, $op)
-                    );
+                    ];
                 }
             }
         }
@@ -195,7 +195,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
     {
         // #11717
         if (is_array($a_op)) {
-            $res = array();
+            $res = [];
             foreach ($a_op as $op) {
                 $res[] = $this->getOPCaption($a_type, $op);
             }
