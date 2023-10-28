@@ -23,12 +23,12 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?, InitOpenedContent?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | LearningHistory | ConsultationHours | MyCourses | AMDPageList | AMDForm | Grid | Curriculum | Launcher | PRGStatusInfo | PRGActionNote), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | LearningHistory | ConsultationHours | MyCourses | AMDPageList | AMDForm | Grid | Curriculum | Launcher), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
 	PCID CDATA #IMPLIED
-	Enabled (True|False) #IMPLIED	
+	Enabled (True|False) #IMPLIED
 >
 
 <!-- BibItemIdentifier specify from which BibItem(s) the content comes -->
@@ -217,7 +217,6 @@
 	Id ID #IMPLIED
 	Type (Ordered | Unordered) #REQUIRED
 	Class CDATA #IMPLIED
-	ItemClass CDATA #IMPLIED
 	NumberingType (Decimal | Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
 	StartValue CDATA #IMPLIED
 >
@@ -228,17 +227,8 @@
 
 <!-- Simple Lists -->
 <!ELEMENT SimpleBulletList (SimpleListItem*)>
-<!ATTLIST SimpleBulletList
-	Class CDATA #IMPLIED
->
 <!ELEMENT SimpleNumberedList (SimpleListItem*)>
-<!ATTLIST SimpleNumberedList
-	Class CDATA #IMPLIED
->
 <!ELEMENT SimpleListItem (%text;)*>
-<!ATTLIST SimpleListItem
-	Class CDATA #IMPLIED
->
 
 <!-- FileList -->
 <!ELEMENT FileList (Title?, FileItem*)>
@@ -279,7 +269,7 @@
 	PCID CDATA #IMPLIED
 >
 
-<!-- Table Cell. The Hidden Attribute must be set to "Y", if a cell is hidden due to anothers (non-hidden) cell 
+<!-- Table Cell. The Hidden Attribute must be set to "Y", if a cell is hidden due to anothers (non-hidden) cell
 col or row span. -->
 <!ELEMENT TableData (PageContent*)>
 <!ATTLIST TableData
@@ -524,7 +514,7 @@ col or row span. -->
 
 <!ELEMENT ConsultationHours (ConsultationHoursGroup*)>
 <!ATTLIST ConsultationHours
-	Mode (auto | manual) #REQUIRED	
+	Mode (auto | manual) #REQUIRED
 	User CDATA #REQUIRED
 >
 
@@ -554,5 +544,3 @@ col or row span. -->
 
 <!ELEMENT Curriculum EMPTY>
 <!ELEMENT Launcher EMPTY>
-<!ELEMENT PRGStatusInfo EMPTY>
-<!ELEMENT PRGActionNote EMPTY>
