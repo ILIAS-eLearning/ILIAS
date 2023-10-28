@@ -36,6 +36,9 @@ class ilServicesContainerSuite extends TestSuite
         $suite->addTestSuite("ContentModeManagerTest");
         */
 
+        require_once("./Services/Container/test/Classification/ClassificationSessionRepositoryTest.php");
+        $suite->addTestSuite("ClassificationSessionRepositoryTest");
+
         return $suite;
     }
 }

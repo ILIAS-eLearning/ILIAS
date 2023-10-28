@@ -13,11 +13,11 @@
  * https://github.com/ILIAS-eLearning
  */
 
-/**
- * Repos for classification session data
- * @author Alexander Killing <killing@leifos.de>
- */
-class ilClassificationSessionRepository
+declare(strict_types=1);
+
+namespace ILIAS\Container\Classification;
+
+class ClassificationSessionRepository
 {
     public const BASE_SESSION_KEY = 'clsfct';
     protected string $key;
@@ -32,27 +32,27 @@ class ilClassificationSessionRepository
 
     public function unsetAll(): void
     {
-        ilSession::clear($this->key);
+        \ilSession::clear($this->key);
     }
 
     public function unsetValueForProvider(string $provider): void
     {
-        if (ilSession::has($this->key)) {
-            $vals = ilSession::get($this->key);
+        if (\ilSession::has($this->key)) {
+            $vals = \ilSession::get($this->key);
             unset($vals[$provider]);
-            ilSession::set($this->key, $vals);
+            \ilSession::set($this->key, $vals);
         }
     }
 
     public function isEmpty(): bool
     {
-        return !ilSession::has($this->key);
+        return !\ilSession::has($this->key);
     }
 
     public function getValueForProvider(string $provider): array
     {
-        if (ilSession::has($this->key)) {
-            $vals = ilSession::get($this->key);
+        if (\ilSession::has($this->key)) {
+            $vals = \ilSession::get($this->key);
             return $vals[$provider] ?? [];
         }
         return [];
@@ -61,10 +61,10 @@ class ilClassificationSessionRepository
     public function setValueForProvider(string $provider, array $value): void
     {
         $vals = [];
-        if (ilSession::has($this->key)) {
-            $vals = ilSession::get($this->key);
+        if (\ilSession::has($this->key)) {
+            $vals = \ilSession::get($this->key);
         }
         $vals[$provider] = $value;
-        ilSession::set($this->key, $vals);
+        \ilSession::set($this->key, $vals);
     }
 }

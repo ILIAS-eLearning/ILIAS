@@ -13,7 +13,9 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\Classification;
+declare(strict_types=1);
+
+namespace ILIAS\Container\Classification;
 
 use ILIAS\Repository;
 

@@ -59,4 +59,13 @@ class InternalGUIService
             $this
         );
     }
+
+    public function classification(): Classification\GUIService
+    {
+        return new Classification\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

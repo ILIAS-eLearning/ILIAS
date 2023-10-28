@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Container;
 
+use ILIAS\Container\Classification\ClassificationSessionRepository;
+
 /**
  * Repository internal repo service
  * @author Alexander Killing <killing@leifos.de>
@@ -40,6 +42,13 @@ class InternalRepoService
         return new Content\RepoService(
             $this->data,
             $this->db
+        );
+    }
+
+    public function classification(int $base_ref_id): ClassificationSessionRepository
+    {
+        return new ClassificationSessionRepository(
+            $base_ref_id
         );
     }
 }

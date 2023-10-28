@@ -590,10 +590,10 @@ class ilContainer extends ilObject
     public function isClassificationFilterActive(): bool
     {
         // apply container classification filters
-        $repo = new ilClassificationSessionRepository($this->getRefId());
+        $classification = $this->domain->classification($this->getRefId());
         foreach (ilClassificationProvider::getValidProviders($this->getRefId(), $this->getId(), $this->getType()) as $class_provider) {
             $id = get_class($class_provider);
-            $current = $repo->getValueForProvider($id);
+            $current = $classification->getSelectionOfProvider($id);
             if ($current) {
                 return true;
             }
@@ -652,22 +652,16 @@ class ilContainer extends ilObject
         $objects = self::getCompleteDescriptions($objects);
 
         // apply container classification filters
-        $repo = new ilClassificationSessionRepository($this->getRefId());
+        $classification = $this->domain->classification($this->getRefId());
         foreach (ilClassificationProvider::getValidProviders($this->getRefId(), $this->getId(), $this->getType()) as $class_provider) {
             $id = get_class($class_provider);
-            $current = $repo->getValueForProvider($id);
+            $current = $classification->getSelectionOfProvider($id);
             if ($current) {
                 $class_provider->setSelection($current);
                 $filtered = $class_provider->getFilteredObjects();
                 $objects = array_filter($objects, static function (array $i) use ($filtered): bool {
                     return (is_array($filtered) && in_array($i["obj_id"], $filtered));
                 });
-                //if (count($filtered) > 0) {
-                //    var_dump($filtered);
-                //    echo "<br><br>";
-                //    var_dump($objects);
-                //    exit;
-                //}
             }
         }
 

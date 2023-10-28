@@ -128,14 +128,14 @@ class ItemPresentationManager
     {
         $ref_id = $this->container->getRefId();
         // apply container classification filters
-        $repo = new \ilClassificationSessionRepository($ref_id);
+        $classification = $this->domain->classification($ref_id);
         foreach (\ilClassificationProvider::getValidProviders(
             $this->container->getRefId(),
             $this->container->getId(),
             $this->container->getType()
         ) as $class_provider) {
             $id = get_class($class_provider);
-            $current = $repo->getValueForProvider($id);
+            $current = $classification->getSelectionOfProvider($id);
             if ($current) {
                 return true;
             }

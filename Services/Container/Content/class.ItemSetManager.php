@@ -215,14 +215,14 @@ class ItemSetManager
     public function isClassificationFilterActive(): bool
     {
         // apply container classification filters
-        $repo = new \ilClassificationSessionRepository($this->parent_ref_id);
+        $classification = $this->domain->classification($this->parent_ref_id);
         foreach (\ilClassificationProvider::getValidProviders(
             $this->parent_ref_id,
             $this->parent_obj_id,
             $this->parent_type
         ) as $class_provider) {
             $id = get_class($class_provider);
-            $current = $repo->getValueForProvider($id);
+            $current = $classification->getSelectionOfProvider($id);
             if ($current) {
                 return true;
             }
@@ -307,14 +307,14 @@ class ItemSetManager
     protected function applyClassificationFilter(): void
     {
         // apply container classification filters
-        $repo = new \ilClassificationSessionRepository($this->parent_ref_id);
+        $classification = $this->domain->classification($this->parent_ref_id);
         foreach (\ilClassificationProvider::getValidProviders(
             $this->parent_ref_id,
             $this->parent_obj_id,
             $this->parent_type
         ) as $class_provider) {
             $id = get_class($class_provider);
-            $current = $repo->getValueForProvider($id);
+            $current = $classification->getSelectionOfProvider($id);
             if ($current) {
                 $class_provider->setSelection($current);
                 $filtered = $class_provider->getFilteredObjects();

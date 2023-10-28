@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use ILIAS\Classification\StandardGUIRequest;
+use ILIAS\Container\Classification\StandardGUIRequest;
 
 /**
  * Classification block, displayed in different contexts, e.g. categories
@@ -22,6 +22,7 @@ use ILIAS\Classification\StandardGUIRequest;
  */
 class ilClassificationBlockGUI extends ilBlockGUI
 {
+    protected \ILIAS\Container\Classification\ClassificationManager $classification;
     protected StandardGUIRequest $cl_request;
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
@@ -31,18 +32,22 @@ class ilClassificationBlockGUI extends ilBlockGUI
     protected array $providers;
     protected array $item_list_gui;
     protected static array $providers_cache;
-    protected ilClassificationSessionRepository $repo;
 
     public function __construct()
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-        $this->obj_definition = $DIC["objDefinition"];
-        $this->tree = $DIC->repositoryTree();
-        $this->access = $DIC->access();
-        $lng = $DIC->language();
+        $service = $DIC->container()->internal();
+
+        $domain = $service->domain();
+        $gui = $service->gui();
+
+        $this->lng = $domain->lng();
+        $this->obj_definition = $domain->objectDefinition();
+        $this->tree = $domain->repositoryTree();
+        $this->access = $domain->access();
+
+        $this->ctrl = $gui->ctrl();
 
         parent::__construct();
 
@@ -50,15 +55,12 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $this->parent_obj_id = ilObject::_lookupObjId($this->parent_ref_id);
         $this->parent_obj_type = ilObject::_lookupType($this->parent_obj_id);
 
-        $lng->loadLanguageModule("classification");
-        $this->setTitle($lng->txt("clsfct_block_title"));
-        // @todo: find another solution for this
-        //$this->setFooterInfo($lng->txt("clsfct_block_info"));
+        $this->lng->loadLanguageModule("classification");
+        $this->setTitle($this->lng->txt("clsfct_block_title"));
 
-        $service = new \ILIAS\Classification\Service($DIC);
-        $this->cl_request = $service->internal()->gui()->standardRequest();
+        $this->cl_request = $gui->classification()->standardRequest();
 
-        $this->repo = new ilClassificationSessionRepository($this->parent_ref_id);
+        $this->classification = $domain->classification($this->parent_ref_id);
     }
 
     public function getBlockType(): string
@@ -113,7 +115,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $ilCtrl = $this->ctrl;
 
         if (!$ilCtrl->isAsynch()) {
-//            $this->repo->unsetAll();
+            //            $this->repo->unsetAll();
         }
 
         $this->initProviders();
@@ -122,7 +124,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
             return "";
         }
 
-        $tpl->addJavaScript("Services/Classification/js/ilClassification.js");
+        $tpl->addJavaScript("Services/Container/Classification/js/ilClassification.js");
 
         return parent::getHTML();
     }
@@ -169,7 +171,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
         $overall_html = "";
         if (sizeof($html)) {
-            $btpl = new ilTemplate("tpl.classification_block.html", true, true, "Services/Classification");
+            $btpl = new ilTemplate("tpl.classification_block.html", true, true, "Services/Container/Classification");
 
             foreach ($html as $item) {
                 $btpl->setCurrentBlock("provider_chunk_bl");
@@ -186,7 +188,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
     protected function returnToParent(): void
     {
-        $this->repo->unsetAll();    // this resets, e.g. the taxonomy selection before showing the parent container
+        $this->classification->clearSelection();
         $this->ctrl->returnToParent($this);
     }
 
@@ -206,7 +208,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $this->initProviders();
 
         // empty selection is invalid
-        if ($this->repo->isEmpty()) {
+        if ($this->classification->isEmptySelection()) {
             exit();
         }
 
@@ -214,7 +216,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $no_provider = true;
         foreach ($this->providers as $provider) {
             $id = get_class($provider);
-            $current = $this->repo->getValueForProvider($id);
+            $current = $this->classification->getSelectionOfProvider($id);
             if ($current) {
                 $no_provider = false;
                 // combine providers AND
@@ -229,7 +231,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $has_content = false;
 
 
-        $ltpl = new ilTemplate("tpl.classification_object_list.html", true, true, "Services/Classification");
+        $ltpl = new ilTemplate("tpl.classification_object_list.html", true, true, "Services/Container/Classification");
 
         if (isset($all_matching_provider_object_ids) && sizeof($all_matching_provider_object_ids)) {
             $fields = array(
@@ -250,8 +252,6 @@ class ilClassificationBlockGUI extends ilBlockGUI
             if (sizeof($matching)) {
                 $valid_objects = array();
 
-                // :TODO: not sure if this makes sense...
-                include_once "Services/Object/classes/class.ilObjectListGUIPreloader.php";
                 $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
 
                 foreach ($matching as $item) {
@@ -300,7 +300,6 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
                                 $full_class = "ilObj" . $class . "ListGUI";
 
-                                include_once($location . "/class." . $full_class . ".php");
                                 $this->item_list_gui[$type] = new $full_class();
                                 $this->item_list_gui[$type]->enableDelete(false);
                                 $this->item_list_gui[$type]->enablePath(
@@ -362,7 +361,6 @@ class ilClassificationBlockGUI extends ilBlockGUI
     protected function initProviders(bool $a_check_post = false): void
     {
         if (!isset(self::$providers_cache[$this->parent_ref_id])) {
-            include_once "Services/Classification/classes/class.ilClassificationProvider.php";
             self::$providers_cache[$this->parent_ref_id] = ilClassificationProvider::getValidProviders(
                 $this->parent_ref_id,
                 $this->parent_obj_id,
@@ -373,16 +371,18 @@ class ilClassificationBlockGUI extends ilBlockGUI
         if ($a_check_post && !$this->cl_request->getRedraw()) {
             foreach ($this->providers as $provider) {
                 $id = get_class($provider);
-                $current = $provider->importPostData($this->repo->getValueForProvider($id));
+                $current = $provider->importPostData(
+                    $this->classification->getSelectionOfProvider($id)
+                );
                 if (is_array($current) || $current) {
-                    $this->repo->setValueForProvider($id, $current);
+                    $this->classification->setSelectionOfProvider($id, $current);
                 }
             }
         }
 
         foreach ($this->providers as $provider) {
             $id = get_class($provider);
-            $current = $this->repo->getValueForProvider($id);
+            $current = $this->classification->getSelectionOfProvider($id);
             if ($current) {
                 $provider->setSelection($current);
             }

@@ -23,6 +23,7 @@ namespace ILIAS\Container;
 use ILIAS\DI;
 use ILIAS\Repository;
 use ILIAS\Container\Page\PageManager;
+use ILIAS\Container\Classification\ClassificationManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -64,15 +65,11 @@ class InternalDomainService
         );
     }
 
-
-    /*
-        public function access(int $ref_id, int $user_id) : Access\AccessManager
-        {
-            return new Access\AccessManager(
-                $this,
-                $this->access,
-                $ref_id,
-                $user_id
-            );
-        }*/
+    public function classification(int $base_ref_id): ClassificationManager
+    {
+        return new ClassificationManager(
+            $this->repo_service->classification($base_ref_id),
+            $base_ref_id
+        );
+    }
 }
