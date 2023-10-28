@@ -493,7 +493,7 @@ class ilExSubmission
             }
 
             $row["timestamp"] = $row["ts"];
-            $row["filename"] = $path . "/" . $storage_id . "/" . basename($row["filename"]);
+            $row["filename"] = $path . "/" . $storage_id . "/" . basename($row["filename"] ?? "");
             $delivered[] = $row;
         }
 
