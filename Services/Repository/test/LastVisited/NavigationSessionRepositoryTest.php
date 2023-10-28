@@ -9,12 +9,12 @@ use PHPUnit\Framework\TestCase;
  */
 class NavigationSessionRepositoryTest extends TestCase
 {
-    protected \ILIAS\Navigation\NavigationSessionRepository $repo;
+    protected \ILIAS\Repository\LastVisited\NavigationSessionRepository $repo;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repo = new \ILIAS\Navigation\NavigationSessionRepository();
+        $this->repo = new \ILIAS\Repository\LastVisited\NavigationSessionRepository();
     }
 
     protected function tearDown(): void

@@ -17,13 +17,13 @@
  *********************************************************************/
 
 /**
- * Navigation History of Repository Items
+ * Last visited history for repository items
  *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilNavigationHistory
 {
-    protected \ILIAS\Navigation\NavigationSessionRepository $repo;
+    protected \ILIAS\Repository\LastVisited\NavigationSessionRepository $repo;
     protected ilObjUser $user;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -41,7 +41,7 @@ class ilNavigationHistory
         $this->obj_definition = $DIC["objDefinition"];
         $this->items = array();
 
-        $this->repo = new \ILIAS\Navigation\NavigationSessionRepository();
+        $this->repo = new \ILIAS\Repository\LastVisited\NavigationSessionRepository();
         $this->items = $this->repo->getHistory();
         $this->component_repository = $DIC["component.repository"];
     }

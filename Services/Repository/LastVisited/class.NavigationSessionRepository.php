@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Navigation;
+namespace ILIAS\Repository\LastVisited;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

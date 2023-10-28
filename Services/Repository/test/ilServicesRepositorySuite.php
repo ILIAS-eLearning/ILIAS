@@ -34,6 +34,9 @@ class ilServicesRepositorySuite extends TestSuite
         require_once("./Services/Repository/test/ClipboardSessionRepositoryTest.php");
         $suite->addTestSuite("ClipboardSessionRepositoryTest");
 
+        require_once("./Services/Repository/test/LastVisited/NavigationSessionRepositoryTest.php");
+        $suite->addTestSuite("NavigationSessionRepositoryTest");
+
         return $suite;
     }
 }
