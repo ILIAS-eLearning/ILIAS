@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Survey\Questions;
+namespace ILIAS\Survey\Sequence;
 
 use ILIAS\Survey\InternalDataService;
 
-class QuestionDBRepository
+class SequenceDBRepository
 {
     protected InternalDataService $data;
     protected \ilDBInterface $db;

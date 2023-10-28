@@ -29,7 +29,7 @@ use ILIAS\Survey\Editing\EditingGUIRequest;
  */
 class ilSurveyEditorGUI
 {
-    protected \ILIAS\Survey\Questions\QuestionManager $question_manager;
+    protected \ILIAS\Survey\Sequence\SequenceManager $sequence_manager;
     protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\PrintView\GUIService $print;
     protected \ILIAS\HTTP\Services $http;
@@ -98,7 +98,7 @@ class ilSurveyEditorGUI
         $this->gui = $DIC->survey()
             ->internal()
             ->gui();
-        $this->question_manager = $DIC->survey()->internal()->domain()->questions(
+        $this->sequence_manager = $DIC->survey()->internal()->domain()->sequence(
             $this->object->getSurveyId(),
             $this->object
         );
@@ -1252,7 +1252,7 @@ class ilSurveyEditorGUI
             $question->saveToDb();                  // this creates the copy
 
             $question_pointer[$qid] = $question->getId();
-            $this->question_manager->appendQuestion($question->getId(), false);
+            $this->sequence_manager->appendQuestion($question->getId(), false);
         }
 
         // copy textblocks

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Survey;
 
 use ILIAS\Survey\Mode\FeatureConfig;
@@ -25,12 +25,8 @@ use ILIAS\Survey\Mode\ModeFactory;
 use ILIAS\Survey\Code\CodeManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Survey\Editing\EditManager;
-use ILIAS\Survey\Questions\QuestionManager;
+use ILIAS\Survey\Sequence\SequenceManager;
 
-/**
- * Survey internal domain service
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
@@ -128,9 +124,9 @@ class InternalDomainService
         );
     }
 
-    public function questions(int $survey_id, \ilObjSurvey $survey): QuestionManager
+    public function sequence(int $survey_id, \ilObjSurvey $survey): SequenceManager
     {
-        return new QuestionManager(
+        return new SequenceManager(
             $this->repo_service,
             $this,
             $survey_id,

@@ -81,9 +81,9 @@ class InternalRepoService
         return new Evaluation\EvaluationSessionRepo();
     }
 
-    public function questions(): Questions\QuestionDBRepository
+    public function sequence(): Sequence\SequenceDBRepository
     {
-        return new Questions\QuestionDBRepository(
+        return new Sequence\SequenceDBRepository(
             $this->data,
             $this->db
         );

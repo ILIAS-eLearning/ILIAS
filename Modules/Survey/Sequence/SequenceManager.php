@@ -18,18 +18,18 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Survey\Questions;
+namespace ILIAS\Survey\Sequence;
 
 use ILIAS\Survey\InternalRepoService;
 use ILIAS\Survey\InternalDomainService;
 
-class QuestionManager
+class SequenceManager
 {
     protected \ilObjSurvey $survey;
     protected \ilLogger $log;
     protected int $survey_id;
     protected InternalDomainService $domain;
-    protected QuestionDBRepository $question_repo;
+    protected SequenceDBRepository $question_repo;
 
     public function __construct(
         InternalRepoService $repo,
@@ -37,7 +37,7 @@ class QuestionManager
         int $survey_id,
         \ilObjSurvey $survey
     ) {
-        $this->question_repo = $repo->questions();
+        $this->question_repo = $repo->sequence();
         $this->domain = $domain;
         $this->survey_id = $survey_id;        // not object id
         $this->log = $domain->log();
