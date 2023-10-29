@@ -216,6 +216,10 @@ class LinkManager
                     $node->setAttribute("Target", "il__ppage_" . $a_from_to[$obj_id]);
                     $changed = true;
                 }
+                if ($type == "WikiPage") {
+                    $node->setAttribute("Target", "il__wpage_" . $a_from_to[$obj_id]);
+                    $changed = true;
+                }
             }
         }
 
