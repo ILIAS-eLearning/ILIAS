@@ -652,7 +652,7 @@ class ilObjBlog extends ilObject2
 
         $feed = new ilFeedWriter();
 
-        $url = ilLink::_getStaticLink($a_wsp_id, "blog", true, $is_wsp);
+        $url = ilLink::_getStaticLink($a_wsp_id, "blog", true, (string) $is_wsp);
         $url = str_replace("&", "&amp;", $url);
 
         // #11870
