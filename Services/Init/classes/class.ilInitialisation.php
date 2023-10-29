@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -970,11 +971,12 @@ class ilInitialisation
     {
         global $DIC;
 
-        $a_auth_stat = "";
+        $session_expired = false;
         ilLoggerFactory::getLogger('init')->debug('Redirecting to login page.');
 
         if ($DIC['ilAuthSession']->isExpired()) {
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
+            $session_expired = true;
         }
         if (!$DIC['ilAuthSession']->isAuthenticated()) {
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
@@ -999,8 +1001,8 @@ class ilInitialisation
             ])
         );
 
-        $script = "login.php?" . $target . "client_id=" . $client_id .
-            "&auth_stat=" . $a_auth_stat;
+        $script = "login.php?" . $target . "client_id=" . $client_id;
+        $script .= $session_expired ? "&session_expired=1" : "";
 
         self::redirect(
             $script,
@@ -1373,6 +1375,10 @@ class ilInitialisation
             !$DIC['ilAuthSession']->isAuthenticated() or
             $DIC['ilAuthSession']->isExpired()
         ) {
+            if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
+                ilSession::_destroy($_COOKIE[session_name()], ilSession::SESSION_CLOSE_EXPIRE);
+            }
+
             ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
             $current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
             if (self::blockedAuthentication($current_script)) {
@@ -1468,7 +1474,6 @@ class ilInitialisation
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
-//        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
     }
 
     /**
