@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  *
@@ -593,8 +593,8 @@ class ilLDAPQuery
             /** @noinspection PhpMissingBreakStatementInspection */
             case self::LDAP_BIND_TEST:
                 ldap_set_option($this->lh, LDAP_OPT_NETWORK_TIMEOUT, ilLDAPServer::DEFAULT_NETWORK_TIMEOUT);
-            // fall through
-            // no break
+                // fall through
+                // no break
             case self::LDAP_BIND_DEFAULT:
                 // Now bind anonymously or as user
                 if (
