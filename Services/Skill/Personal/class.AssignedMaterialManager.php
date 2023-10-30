@@ -21,12 +21,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Personal;
 
-use ILIAS\Skill\Usage\SkillUsageManager;
+use ILIAS\Skill\Usage;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class AssignedMaterialManager implements \ilSkillUsageInfo
+class AssignedMaterialManager implements Usage\SkillUsageInfo
 {
     protected AssignedMaterialDBRepository $ass_mat_repo;
     protected PersonalSkillDBRepository $personal_repo;
@@ -116,7 +116,7 @@ class AssignedMaterialManager implements \ilSkillUsageInfo
         // material
         $usages = $usage_manager->getUsageInfoGeneric(
             $a_cskill_ids,
-            SkillUsageManager::USER_MATERIAL,
+            Usage\SkillUsageManager::USER_MATERIAL,
             "skl_assigned_material",
             "user_id"
         );
