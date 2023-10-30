@@ -256,7 +256,7 @@ class ilUserProfileDefaultFields
             'method' => 'getSecondEmail',
             'group' => 'contact_data',
             'change_listeners' => [
-                ilMailUserFieldChangeListener::class,
+                \ilMailUserFieldChangeListener::class,
             ]
         ],
         'hobby' => [

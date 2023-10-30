@@ -2647,7 +2647,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $this->ilias->setSetting(
             'mail_incoming_mail',
-            (int) $selected['default_mail_incoming_mail']
+            $selected['default_mail_incoming_mail']
         );
         $this->ilias->setSetting(
             'chat_osc_accept_msg',
