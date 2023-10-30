@@ -18,6 +18,7 @@
 
 use ILIAS\Modules\Test\AccessFileUploadAnswer;
 use ILIAS\Modules\Test\AccessQuestionImage;
+use ILIAS\Modules\Test\AccessFileUploadPreview;
 use ILIAS\Modules\Test\SimpleAccess;
 use ILIAS\Modules\Test\Readable;
 use ILIAS\Data\Result;
@@ -45,6 +46,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $can_it = $this->findMatch($ilWACPath->getPath(), [
             new AccessFileUploadAnswer($DIC, $readable),
             new AccessQuestionImage($readable),
+            new AccessFileUploadPreview($DIC->database(), $DIC->access()),
         ]);
 
 
