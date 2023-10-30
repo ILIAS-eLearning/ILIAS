@@ -1507,7 +1507,7 @@ class ilPageObjectGUI
                          'enable_blog' => $cfg->getEnablePCType("Blog") ? "y" : "n",
                          'enable_skills' => $cfg->getEnablePCType("Skills") ? "y" : "n",
                          'enable_learning_history' => $cfg->getEnablePCType("LearningHistory") ? "y" : "n",
-                         'enable_qover' => $cfg->getEnablePCType("QuestionOverview") ? "y" : "n",
+                         'enable_qover' => "n",
                          'enable_consultation_hours' => $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
                          'enable_my_courses' => $cfg->getEnablePCType("MyCourses") ? "y" : "n",
                          'enable_amd_page_list' => $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
