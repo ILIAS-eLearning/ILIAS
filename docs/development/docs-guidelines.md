@@ -48,7 +48,7 @@ guidelines to signify their level of requirement.
 * In Guidelines the audience SHOULD NOT be addressed directly (e.g. do not start
 with "You SHOULD").
 * In how-to, tutorials or similar, the audience MAY be addressed directly.
-* If contend from other files is referenced an internal link to this document
+* If content from other files is referenced an internal link to this document
 SHOULD be provided.
 * Line wrap after around 80 chars per line to improve readability SHOULD be used.
 * Screenshots and Images SHOULD be avoided in the documentation if possible. Use
