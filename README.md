@@ -3,7 +3,7 @@
 
 # ILIAS
 
-ILIAS is a powerful Open Source Learning Management System for developing and realising web-based e-learning. The software was developed to reduce the costs of using new media in education and further training and to ensure the maximum level of customer influence in the implementation of the software. ILIAS is published under the General Public Licence and free of charge.
+ILIAS is a powerful Open Source Learning Management System for developing and realizing web-based e-learning. The software was developed to reduce the costs of using new media in education and further training and to ensure the maximum level of customer influence in the implementation of the software. ILIAS is published under the General Public Licence and free of charge.
 
 ### Features
 [see all features on our official website](https://www.ilias.de/en/about-ilias/) or [read our booklet](http://www.ilias.de/docu/goto_docu_file_1854_download.html)
