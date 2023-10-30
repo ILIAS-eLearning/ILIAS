@@ -992,7 +992,7 @@ class ilObjQuestionPool extends ilObject
             } else {
                 $result = $ilDB->queryF(
                     'SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE ' .
-                    'qpl_questionpool.obj_fi = object_data.obj_id AND ' . $in . ' AND qpl_questionpool.offline = %s ' .
+                    'qpl_questionpool.obj_fi = object_data.obj_id AND ' . $in . ' AND object_data.offline = %s ' .
                     'ORDER BY object_data.title',
                     ['text'],
                     [0]
