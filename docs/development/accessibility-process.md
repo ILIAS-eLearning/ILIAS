@@ -29,7 +29,7 @@ interface and accessibility.
 competence of the ILIAS community as well as to identify concrete problems or provide
 concrete solutions.
 * Effective and efficient tools are provided to the community that help to meet the
-targets and goals that are set in this document and in the accessibilty guidelines.
+targets and goals that are set in this document and in the accessibility guidelines.
 * Regular tests of components of ILIAS make sure that there is no regression in
 accessibility properties of the system.
 * The general knowledge and awareness for accessibility in the ILIAS community is
