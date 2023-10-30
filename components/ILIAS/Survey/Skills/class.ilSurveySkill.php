@@ -32,6 +32,7 @@ class ilSurveySkill
     protected ilLogger $log;
     protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
     protected \ILIAS\Skill\Service\SkillPersonalService $skill_personal_service;
+    protected \ILIAS\Skill\Service\SkillUsageService $skill_usage_service;
 
     public function __construct(ilObjSurvey $a_survey)
     {
@@ -43,6 +44,7 @@ class ilSurveySkill
         $this->log = ilLoggerFactory::getLogger("svy");
         $this->skill_profile_service = $DIC->skills()->profile();
         $this->skill_personal_service = $DIC->skills()->personal();
+        $this->skill_usage_service = $DIC->skills()->usage();
     }
 
     public function read(): void
@@ -124,7 +126,7 @@ class ilSurveySkill
         );
 
         // add usage
-        ilSkillUsage::setUsage($this->survey->getId(), $a_base_skill_id, $a_tref_id);
+        $this->skill_usage_service->addUsage($this->survey->getId(), $a_base_skill_id, $a_tref_id);
     }
 
     public function removeQuestionSkillAssignment(
@@ -196,7 +198,7 @@ class ilSurveySkill
         // now remove all usages that have been confirmed
         foreach ($a_skills as $skill) {
             if (!in_array($skill["skill_id"] . ":" . $skill["tref_id"], $used_skills, true)) {
-                ilSkillUsage::setUsage($this->survey->getId(), $skill["skill_id"], $skill["tref_id"], false);
+                $this->skill_usage_service->removeUsage($this->survey->getId(), $skill["skill_id"], $skill["tref_id"]);
             }
         }
     }

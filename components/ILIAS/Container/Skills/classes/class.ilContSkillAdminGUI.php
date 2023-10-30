@@ -23,6 +23,7 @@ use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\Skill\Access\SkillTreeAccess;
 use ILIAS\Skill\Service\SkillProfileService;
 use ILIAS\Container\Skills as ContainerSkills;
+use ILIAS\Skill\Service\SkillUsageService;
 
 /**
  * Container skills administration
@@ -48,6 +49,7 @@ class ilContSkillAdminGUI
     protected SkillTreeAccess $tree_access_manager;
     protected SkillProfileService $profile_service;
     protected ContainerSkills\ContainerSkillManager $cont_skill_manager;
+    protected SkillUsageService $usage_service;
     protected array $params = [];
     protected ContainerSkills\SkillContainerGUIRequest $container_gui_request;
     protected int $requested_usr_id = 0;
@@ -82,6 +84,7 @@ class ilContSkillAdminGUI
             $this->container->getId(),
             $this->container->getRefId()
         );
+        $this->usage_service = $DIC->skills()->usage();
 
         $this->skmg_settings = new ilSkillManagementSettings();
         $this->container_gui_request = $DIC->skills()->internalContainer()->gui()->request();
@@ -390,7 +393,7 @@ class ilContSkillAdminGUI
         $s = explode(":", ($this->requested_selected_skill));
 
         $this->cont_skill_manager->addSkillForContainer((int) $s[0], (int) $s[1]);
-        ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1]);
+        $this->usage_service->addUsage($this->container->getId(), (int) $s[0], (int) $s[1]);
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
@@ -434,7 +437,7 @@ class ilContSkillAdminGUI
             foreach ($this->requested_combined_skill_ids as $id) {
                 $s = explode(":", $id);
                 $this->cont_skill_manager->removeSkillFromContainer((int) $s[0], (int) $s[1]);
-                ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1], false);
+                $this->usage_service->removeUsage($this->container->getId(), (int) $s[0], (int) $s[1]);
             }
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
