@@ -351,8 +351,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     protected function afterSave(ilObject $new_object): void
     {
+        $new_object->writePath();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
+
         ilUtil::redirect($this->getReturnLocation(
             "save",
             $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS, "")

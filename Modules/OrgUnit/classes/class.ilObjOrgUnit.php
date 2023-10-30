@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -531,6 +532,8 @@ class ilObjOrgUnit extends ilContainer
     {
         if ($this->getRefId()) {
             ilOrgUnitPathStorage::writePathByRefId($this->getRefId());
+        } else {
+            throw new \LogicException('No ref_id on OrgU with id ' . $this->getId(), 1);
         }
     }
 }
