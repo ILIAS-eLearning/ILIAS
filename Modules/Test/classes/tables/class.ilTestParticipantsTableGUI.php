@@ -47,9 +47,10 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer
     ) {
+        $this->setId('tst_participants_' . $parent_obj->getTestObj()->getRefId());
+
         parent::__construct($parent_obj, $parent_cmd);
 
-        $this->setId('tst_participants_' . $parent_obj->getTestObj()->getRefId());
         $this->setStyle('table', 'fullwidth');
 
         $this->setFormName('participantsForm');

@@ -71,9 +71,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         private UIRenderer $ui_renderer,
         private QuestionInfoService $questioninfo
     ) {
+        $this->setId('tst_qst_lst_' . $parent_ref_id);
+
         parent::__construct($parent_obj, $parent_cmd);
 
-        $this->setId('tst_qst_lst_' . $parent_ref_id);
         $this->setFormName('questionbrowser');
         $this->setStyle('table', 'fullwidth');
 

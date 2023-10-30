@@ -36,9 +36,10 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         private bool $anonymity = false,
         private bool $offeringQuestionHintsEnabled = false
     ) {
+        $this->setId('tst_eval_all');
+
         parent::__construct($parent_obj, $parent_cmd);
 
-        $this->setId('tst_eval_all');
         $this->setFormName('evaluation_all');
         $this->setStyle('table', 'fullwidth');
         $this->addColumn($this->lng->txt("name"), "name", "");

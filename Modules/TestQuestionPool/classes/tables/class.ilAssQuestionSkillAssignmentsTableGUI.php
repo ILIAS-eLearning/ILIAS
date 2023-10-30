@@ -62,13 +62,13 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 
     public function __construct($parentOBJ, $parentCmd, ilCtrl $ctrl, ilLanguage $lng)
     {
-        parent::__construct($parentOBJ, $parentCmd);
-
         $this->lng = $lng;
         $this->ctrl = $ctrl;
 
         $this->setId('assQstSkl');
         $this->setPrefix('assQstSkl');
+
+        parent::__construct($parentOBJ, $parentCmd);
 
         $this->setStyle('table', 'fullwidth');
 
