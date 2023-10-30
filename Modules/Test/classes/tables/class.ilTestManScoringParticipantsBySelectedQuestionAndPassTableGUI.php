@@ -41,14 +41,18 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
     public function __construct(ilTestScoringByQuestionsGUI $parent_obj, private ilAccess $access)
     {
-        parent::__construct($parent_obj, self::PARENT_DEFAULT_CMD);
         global $DIC;
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+
+        $this->setId('man_scor_by_qst_' . $parent_obj->getObject()->getId());
+
+        parent::__construct($parent_obj, self::PARENT_DEFAULT_CMD);
+
         $this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
         $this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
 
         $this->main_tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
-        $this->setId('man_scor_by_qst_' . $parent_obj->getObject()->getId());
+
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, self::PARENT_DEFAULT_CMD));
         $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");

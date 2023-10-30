@@ -29,9 +29,9 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 {
     public function __construct(ilTestScoringGUI $parent_obj, string $parent_cmd)
     {
-        parent::__construct($parent_obj, $parent_cmd);
-
         $this->setPrefix('manScorePassesTable');
+
+        parent::__construct($parent_obj, $parent_cmd);
 
         $this->setFormName('manScorePassesTable');
         $this->setStyle('table', 'fullwidth');

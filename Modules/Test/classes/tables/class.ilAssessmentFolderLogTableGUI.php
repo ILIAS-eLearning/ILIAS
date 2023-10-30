@@ -30,9 +30,11 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
         ilObjAssessmentFolderGUI $parent_obj,
         string $parent_cmd
     ) {
-        parent::__construct($parent_obj, $parent_cmd);
         global $DIC;
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+
+        parent::__construct($parent_obj, $parent_cmd);
+
         $this->setFormName('showlog');
         $this->setStyle('table', 'fullwidth');
 
