@@ -152,6 +152,7 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilObjDataCache"] = new ilObjectDataCache();
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["component.repository"] = $component_repository;
+        $GLOBALS["DIC"]["component.factory"] = $component_factory;
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["rbacadmin"] = new class () extends ilRbacAdmin {
             public function __construct()
