@@ -22,6 +22,7 @@ use ILIAS\Filesystem\Filesystem;
 
 /**
  * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
+ *  Please contant fabian@sr.solutions if you have questoins concerning this.
  */
 abstract class ilFileSystemAbstractionStorage
 {

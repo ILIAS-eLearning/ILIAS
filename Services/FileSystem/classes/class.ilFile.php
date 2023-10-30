@@ -1,22 +1,26 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Base class for all file (directory) operations
  * This class is abstract and needs to be extended
  *
  * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
+ *  Please contant fabian@sr.solutions if you have questoins concerning this.
  */
 abstract class ilFile
 {
