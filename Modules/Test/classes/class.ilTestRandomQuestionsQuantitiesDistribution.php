@@ -87,18 +87,13 @@ class ilTestRandomQuestionsQuantitiesDistribution
         $this->questRelatedSrcPoolDefRegister = [];
     }
 
-    /**
-     * @param integer $questionId
-     * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
-     */
-    protected function registerQuestRelatedSrcPoolDef($questionId, ilTestRandomQuestionSetSourcePoolDefinition $definition)
+    protected function registerQuestRelatedSrcPoolDef(int $question_id, ilTestRandomQuestionSetSourcePoolDefinition $definition)
     {
-        if (!array_key_exists($questionId, $this->questRelatedSrcPoolDefRegister) ||
-            !is_numeric($this->questRelatedSrcPoolDefRegister[$questionId])) {
-            $this->questRelatedSrcPoolDefRegister[$questionId] = $this->buildSourcePoolDefinitionListInstance();
+        if (!array_key_exists($question_id, $this->questRelatedSrcPoolDefRegister)) {
+            $this->questRelatedSrcPoolDefRegister[$question_id] = $this->buildSourcePoolDefinitionListInstance();
         }
 
-        $this->questRelatedSrcPoolDefRegister[$questionId]->addDefinition($definition);
+        $this->questRelatedSrcPoolDefRegister[$question_id]->addDefinition($question_id);
     }
 
     /**
