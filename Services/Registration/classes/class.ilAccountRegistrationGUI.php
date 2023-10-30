@@ -481,7 +481,7 @@ class ilAccountRegistrationGUI
 
                         case "relative":
                             $rel = unserialize($code_data["alimitdt"], ['allowed_classes' => false]);
-                            $access_limit = $rel["d"] * 86400 + $rel["m"] * 2592000 + $rel["y"] * 31536000 + time();
+                            $access_limit = (int) ($rel["d"] * 86400 + $rel["m"] * 2592000 + $rel["y"] * 31536000 + time());
                             break;
                     }
                 }
@@ -507,7 +507,7 @@ class ilAccountRegistrationGUI
 
         if ($access_limit) {
             $this->userObj->setTimeLimitUnlimited(false);
-            $this->userObj->setTimeLimitUntil((int) $access_limit);
+            $this->userObj->setTimeLimitUntil($access_limit);
         } else {
             $this->userObj->setTimeLimitUnlimited(true);
             $this->userObj->setTimeLimitUntil(time());
