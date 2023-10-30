@@ -1208,21 +1208,19 @@ const ClozeQuestionGapBuilder = (function () {
     $('.clone_fields_remove .glyph').off('click', pro.removeSelectOption);
     $('.clone_fields_remove .glyph').on('click', pro.removeSelectOption);
 
-    $('.remove_gap_button .glyph').off('click');
-    $('.remove_gap_button .glyph').on('click', () => {
-      const target = e.currentTarget.parentNode;
-      const getPosition = $(target).attr('id');
+    $('.remove_gap_button').off('click');
+    $('.remove_gap_button').on('click', (e) => {
+      const target = e.currentTarget;
+      const position = $(target).attr('id').split('_');
       const whereAmI = $(target).parents().eq(4).attr('class');
-      const pos = getPosition.split('_');
       if (confirm($('#delete_gap_question').text())) {
-        ClozeSettings.gaps_php[0].splice(pos[2], 1);
-        pro.removeFromTextarea(pos[2]);
+        ClozeSettings.gaps_php[0].splice(position[2], 1);
+        pro.removeFromTextarea(position[2]);
         pub.paintGaps();
         if (whereAmI == 'modal-body') {
           $('#ilGapModal').modal('hide');
         }
       }
-      // return false;
     });
   };
 
