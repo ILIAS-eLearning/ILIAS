@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\MediaObject;
-
 use ILIAS\COPage\Editor\Server\UIWrapper;
 use ILIAS\UI\Component\Dropdown\Dropdown;
 

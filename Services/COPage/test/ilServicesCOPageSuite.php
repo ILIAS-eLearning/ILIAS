@@ -100,9 +100,6 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCQuestionTest.php");
         $suite->addTestSuite("PCQuestionTest");
 
-        require_once("./Services/COPage/test/PCQuestionOverviewTest.php");
-        $suite->addTestSuite("PCQuestionOverviewTest");
-
         require_once("./Services/COPage/test/PCResourcesTest.php");
         $suite->addTestSuite("PCResourcesTest");
 

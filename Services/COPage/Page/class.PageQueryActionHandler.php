@@ -16,13 +16,13 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\Page;
+namespace ILIAS\COPage\Page;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
-use ILIAS\COPage\Editor\Components\Paragraph\ParagraphStyleSelector;
-use ILIAS\COPage\Editor\Components\Section\SectionStyleSelector;
-use ILIAS\COPage\Editor\Components\MediaObject\MediaObjectStyleSelector;
+use ParagraphStyleSelector;
+use SectionStyleSelector;
+use MediaObjectStyleSelector;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

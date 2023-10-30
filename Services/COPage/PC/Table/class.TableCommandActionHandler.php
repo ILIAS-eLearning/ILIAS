@@ -16,11 +16,10 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\Table;
+namespace ILIAS\COPage\PC\Table;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
-use ILIAS\COPage\Editor\Server\Response;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

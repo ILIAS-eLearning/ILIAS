@@ -16,12 +16,15 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\PlaceHolder;
+namespace ILIAS\COPage\PC\SourceCode;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
 
-class PlaceHolderCommandActionHandler implements Server\CommandActionHandler
+/**
+ * @author Alexander Killing <killing@leifos.de>
+ */
+class SourceCodeCommandActionHandler implements Server\CommandActionHandler
 {
     protected \ILIAS\DI\UIServices $ui;
     protected \ilLanguage $lng;
@@ -67,14 +70,38 @@ class PlaceHolderCommandActionHandler implements Server\CommandActionHandler
             $pc_id = $body["after_pcid"];
         }
 
-        // if ($form->checkInput()) {
-        $ph = new \ilPCPlaceHolder($page);
-        $ph->create($page, $hier_id, $pc_id);
-        $ph->setHeight("300px");
-        $ph->setContentClass(
-            $body["plach_type"]
-        );
-        $updated = $page->update();
+        $manual = ((string) ($body["form_input_1"] ?? "") === "manual");
+
+        $src = new \ilPCSourceCode($page);
+        $src->create($page, $hier_id, $pc_id);
+        if (($body["pcid"] ?? "") !== "") {
+            $src->writePCId($body["pcid"]);
+        }
+        $src_gui = new \ilPCSourceCodeGUI($page, $src, "", "");
+        $src_gui->setPageConfig($page->getPageConfig());
+        $src->setLanguage($this->user->getLanguage());
+        $src->setCharacteristic('Code');
+
+        $updated = true;
+
+        if ($manual) {
+            $form = $src_gui->getManualFormAdapter();
+            if ($form->isValid()) {
+                $src->setDownloadTitle(str_replace('"', '', $form->getData("title")));
+                $src->setSubCharacteristic($form->getData("subchar"));
+                $src->setShowLineNumbers($form->getData("linenumbers") ? "y" : "n");
+                $updated = $page->update();
+            }
+        } else {
+            $form = $src_gui->getImportFormAdapter();
+            if ($form->isValid()) {
+                $src->importFile((string) $form->getData("input_file"));
+                $src->setDownloadTitle(str_replace('"', '', $form->getData("title")));
+                $src->setSubCharacteristic($form->getData("subchar"));
+                $src->setShowLineNumbers($form->getData("linenumbers") ? "y" : "n");
+                $updated = $page->update();
+            }
+        }
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
@@ -82,24 +109,21 @@ class PlaceHolderCommandActionHandler implements Server\CommandActionHandler
     protected function updateCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
-        $page->addHierIDs();
-        $hier_id = $page->getHierIdForPcId($body["pcid"]);
-        $ph = $page->getContentObjectForPcId($body["pcid"]);
-        $ph_gui = new \ilPCPlaceHolderGUI($page, $ph, $hier_id, $body["pcid"]);
-        $ph_gui->setPageConfig($page->getPageConfig());
 
-        $form = $ph_gui->initCreationForm();
+        /** @var \ilPCSourceCode $pc_src */
+        $pc_src = $page->getContentObjectForPcId($body["pcid"]);
+        $src_gui = new \ilPCSourceCodeGUI($page, $pc_src, "", $body["pcid"]);
 
-        // note: we  have everyting in _POST here, form works the usual way
-        $updated = true;
-        if ($form->checkInput()) {
-            $ph->setContentClass(
-                $form->getInput("plach_type")
+        $form = $src_gui->getEditingFormAdapter();
+        if ($form->isValid()) {
+            $pc_src->setDownloadTitle(str_replace('"', '', $form->getData("title")));
+            $pc_src->setSubCharacteristic($form->getData("subchar"));
+            $pc_src->setShowLineNumbers($form->getData("linenumbers") ? "y" : "n");
+            $pc_src->setText(
+                $pc_src->input2xml($body["code"], 0, false)
             );
             $updated = $page->update();
         }
-
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
-
 }

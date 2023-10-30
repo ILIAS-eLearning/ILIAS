@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\Page;
+namespace ILIAS\COPage\Page;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;

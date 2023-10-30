@@ -1961,7 +1961,7 @@ class ilPageObjectGUI
 
 
         if ($a_paragraph_styles) {
-            $sel = new \ILIAS\COPage\Editor\Components\Paragraph\ParagraphStyleSelector($ui_wrapper, $a_style_id);
+            $sel = new \ParagraphStyleSelector($ui_wrapper, $a_style_id);
             $dd = $sel->getStyleSelector("");
             $btpl->setCurrentBlock("par_edit");
             $btpl->setVariable("TXT_PAR_FORMAT", $lng->txt("cont_par_format"));
@@ -1972,7 +1972,7 @@ class ilPageObjectGUI
         }
 
         // block styles
-        $sel = new \ILIAS\COPage\Editor\Components\Section\SectionStyleSelector($ui_wrapper, $a_style_id);
+        $sel = new \SectionStyleSelector($ui_wrapper, $a_style_id);
         $dd = $sel->getStyleSelector("", $type = "par-action", $action = "sec.class", $attr = "class", true);
         $btpl->setVariable("TXT_BLOCK", $lng->txt("cont_sur_block_format"));
         $btpl->setVariable("BLOCK_STYLE_SELECTOR", $ui->renderer()->render($dd));

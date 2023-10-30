@@ -20,18 +20,18 @@ namespace ILIAS\COPage\Editor\Server;
 
 use Psr\Http\Message;
 use ILIAS\DI\Exceptions\Exception;
-use ILIAS\COPage\Editor\Components\Page;
-use ILIAS\COPage\Editor\Components\Paragraph;
-use ILIAS\COPage\Editor\Components\Grid;
-use ILIAS\COPage\Editor\Components\Section;
-use ILIAS\COPage\Editor\Components\MediaObject;
-use ILIAS\COPage\Editor\Components\Table;
-use ILIAS\COPage\Editor\Components\Tabs;
-use ILIAS\COPage\Editor\Components\Resources;
-use ILIAS\COPage\Editor\Components\SourceCode;
-use ILIAS\COPage\Editor\Components\InteractiveImage;
-use ILIAS\COPage\Editor\Components\LayoutTemplate;
-use ILIAS\COPage\Editor\Components\PlaceHolder;
+use ILIAS\COPage\PC\Paragraph\ParagraphCommandActionHandler;
+use ILIAS\COPage\PC\Grid\GridCommandActionHandler;
+use ILIAS\COPage\PC\Section\SectionCommandActionHandler;
+use ILIAS\COPage\PC\MediaObject\MediaObjectCommandActionHandler;
+use ILIAS\COPage\PC\Table\TableCommandActionHandler;
+use ILIAS\COPage\PC\Tabs\TabsCommandActionHandler;
+use ILIAS\COPage\PC\Resources\ResourcesCommandActionHandler;
+use ILIAS\COPage\PC\SourceCode\SourceCodeCommandActionHandler;
+use ILIAS\COPage\PC\InteractiveImage\InteractiveImageCommandActionHandler;
+use ILIAS\COPage\PC\LayoutTemplate\LayoutTemplateCommandActionHandler;
+use ILIAS\COPage\PC\PlaceHolder\PlaceHolderCommandActionHandler;
+use ILIAS\COPage\Page\PageCommandActionHandler;
 
 /**
  * Page editor json server
@@ -97,10 +97,10 @@ class Server
 
         switch ($query["component"]) {
             case "Page":
-                $handler = new Page\PageQueryActionHandler($this->page_gui, $query["pc_id"] ?? "");
+                $handler = new \ILIAS\COPage\Page\PageQueryActionHandler($this->page_gui, $query["pc_id"] ?? "");
                 break;
             case "InteractiveImage":
-                $handler = new InteractiveImage\InteractiveImageQueryActionHandler($this->page_gui, $query["pc_id"] ?? "");
+                $handler = new \ILIAS\COPage\PC\InteractiveImage\InteractiveImageQueryActionHandler($this->page_gui, $query["pc_id"] ?? "");
                 break;
         }
 
@@ -118,41 +118,41 @@ class Server
 
         switch ($body["component"]) {
             case "Paragraph":
-                $handler = new Paragraph\ParagraphCommandActionHandler($this->page_gui);
+                $handler = new ParagraphCommandActionHandler($this->page_gui);
                 break;
             case "Page":
-                $handler = new Page\PageCommandActionHandler($this->page_gui);
+                $handler = new PageCommandActionHandler($this->page_gui);
                 break;
             case "Grid":
-                $handler = new Grid\GridCommandActionHandler($this->page_gui);
+                $handler = new GridCommandActionHandler($this->page_gui);
                 break;
             case "Tabs":
-                $handler = new Tabs\TabsCommandActionHandler($this->page_gui);
+                $handler = new TabsCommandActionHandler($this->page_gui);
                 break;
             case "Section":
-                $handler = new Section\SectionCommandActionHandler($this->page_gui);
+                $handler = new SectionCommandActionHandler($this->page_gui);
                 break;
             case "MediaObject":
-                $handler = new MediaObject\MediaObjectCommandActionHandler($this->page_gui);
+                $handler = new MediaObjectCommandActionHandler($this->page_gui);
                 break;
             case "Table":
             case "DataTable":
-                $handler = new Table\TableCommandActionHandler($this->page_gui);
+                $handler = new TableCommandActionHandler($this->page_gui);
                 break;
             case "Resources":
-                $handler = new Resources\ResourcesCommandActionHandler($this->page_gui);
+                $handler = new ResourcesCommandActionHandler($this->page_gui);
                 break;
             case "SourceCode":
-                $handler = new SourceCode\SourceCodeCommandActionHandler($this->page_gui);
+                $handler = new SourceCodeCommandActionHandler($this->page_gui);
                 break;
             case "InteractiveImage":
-                $handler = new InteractiveImage\InteractiveImageCommandActionHandler($this->page_gui);
+                $handler = new InteractiveImageCommandActionHandler($this->page_gui);
                 break;
             case "LayoutTemplate":
-                $handler = new LayoutTemplate\LayoutTemplateCommandActionHandler($this->page_gui);
+                $handler = new LayoutTemplateCommandActionHandler($this->page_gui);
                 break;
             case "PlaceHolder":
-                $handler = new PlaceHolder\PlaceHolderCommandActionHandler($this->page_gui);
+                $handler = new PlaceHolderCommandActionHandler($this->page_gui);
                 break;
         }
 
