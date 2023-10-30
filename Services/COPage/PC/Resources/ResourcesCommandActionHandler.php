@@ -16,7 +16,9 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\Tabs;
+declare(strict_types=1);
+
+namespace ILIAS\COPage\PC\Resources;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
@@ -24,7 +26,7 @@ use ILIAS\COPage\Editor\Server;
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class TabsCommandActionHandler implements Server\CommandActionHandler
+class ResourcesCommandActionHandler implements Server\CommandActionHandler
 {
     protected \ILIAS\DI\UIServices $ui;
     protected \ilLanguage $lng;
@@ -71,34 +73,25 @@ class TabsCommandActionHandler implements Server\CommandActionHandler
         }
 
         // if ($form->checkInput()) {
-        $tabs = new \ilPCTabs($page);
-        $tabs->create($page, $hier_id, $pc_id);
+        $res = new \ilPCResources($page);
+        $res->create($page, $hier_id, $pc_id);
 
-        $type = $body["type"];
-        $tabs->setTabType($type);
-        $tabs->setTemplate("");
-        switch ($type) {
-            case \ilPCTabs::ACCORDION_VER:
-                $t = explode(":", $body["vaccord_templ"] ?? "");
-                $tabs->setTemplate($t[2] ?? "");
-                $tabs->setBehavior($body["vbehavior"]);
-                //$tabs->setHorizontalAlign($body["valign"]);
-                break;
-            case \ilPCTabs::CAROUSEL:
-                $autotime = ($body["auto_time"] != "")
-                    ? (int) $body["auto_time"]
-                    : null;
-                $t = explode(":", $body["carousel_templ"]);
-                $tabs->setTemplate($t[2] ?? "");
-                //$tabs->setHorizontalAlign($body["calign"]);
-                $tabs->setAutoTime($autotime);
-                $tabs->setRandomStart((bool) ($body["rand_start"] ?? false));
-                break;
+        $res_type = $body["res_type"];
+
+        if ($res_type === "_other") {
+            $res->setResourceListType("_other");
+        } elseif ($res_type === "_lobj") {
+            $res->setResourceListType("_lobj");
+        } elseif ($res_type !== "itgr") {
+            $res->setResourceListType(
+                $body["type"]
+            );
+        } else {
+            $res->setItemGroupRefId(
+                $body["itgr"]
+            );
         }
 
-        for ($i = 0; $i < (int) $body["nr"]; $i++) {
-            $tabs->addTab($this->lng->txt("cont_new_tab"));
-        }
         $updated = $page->update();
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
@@ -108,34 +101,30 @@ class TabsCommandActionHandler implements Server\CommandActionHandler
     {
         $page = $this->page_gui->getPageObject();
 
-        /** @var \ilPCTabs $tabs */
-        $tabs = $page->getContentObjectForPcId($body["pcid"]);
+        /** @var \ilPCResources $res */
+        $res = $page->getContentObjectForPcId($body["pcid"]);
 
-        $type = $body["type"];
-        $tabs->setTabType($type);
-        $tabs->setTemplate("");
-        switch ($type) {
-            case \ilPCTabs::ACCORDION_VER:
-                $t = explode(":", $body["vaccord_templ"] ?? "");
-                $tabs->setTemplate($t[2] ?? "");
-                $tabs->setBehavior($body["vbehavior"]);
-                //$tabs->setHorizontalAlign($body["valign"]);
-                break;
-            case \ilPCTabs::CAROUSEL:
-                $autotime = ($body["auto_time"] != "")
-                    ? (int) $body["auto_time"]
-                    : null;
-                $t = explode(":", $body["carousel_templ"]);
-                $tabs->setTemplate($t[2] ?? "");
-                //$tabs->setHorizontalAlign($body["calign"]);
-                $tabs->setAutoTime($autotime);
-                $tabs->setRandomStart((bool) ($body["rand_start"] ?? false));
-                break;
+        $res_type = $body["res_type"];
+
+        if ($res_type === "_other") {
+            $res->setResourceListType("_other");
+        } elseif ($res_type === "_lobj") {
+            $res->setResourceListType("_lobj");
+        } elseif ($res_type !== "itgr") {
+            $res->setResourceListType(
+                $body["type"]
+            );
+        } else {
+            $res->setItemGroupRefId(
+                $body["itgr"]
+            );
         }
 
         $updated = $page->update();
+        if ($page instanceof \ilContainerPage) {
+            $page->addMissingContainerBlocks($this->page_gui->getItemPresentationManager());
+        }
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
-
 }

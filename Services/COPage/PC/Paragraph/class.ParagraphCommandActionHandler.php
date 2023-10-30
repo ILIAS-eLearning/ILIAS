@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\Paragraph;
+namespace ILIAS\COPage\PC\Paragraph;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
@@ -31,7 +31,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     protected \ilLanguage $lng;
     protected \ilPageObjectGUI $page_gui;
     protected \ilObjUser $user;
-    protected ParagraphResponseFactory  $response_factory;
+    protected ParagraphResponseFactory $response_factory;
     protected Server\UIWrapper $ui_wrapper;
 
     public function __construct(\ilPageObjectGUI $page_gui)

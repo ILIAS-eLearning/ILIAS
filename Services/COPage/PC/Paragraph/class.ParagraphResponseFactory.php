@@ -16,9 +16,9 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\Paragraph;
+namespace ILIAS\COPage\PC\Paragraph;
 
-use ILIAS\COPage\Editor\Server;
+use ILIAS\COPage\Editor\Server\Response;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -41,7 +41,7 @@ class ParagraphResponseFactory
         \ilPageObjectGUI $page_gui,
         $updated,
         string $pcid
-    ): Server\Response {
+    ): Response {
         $error = null;
         $rendered_content = null;
         $last_change = null;
@@ -78,7 +78,7 @@ class ParagraphResponseFactory
             $data->last_update = \ilDatePresentation::formatDate($lu, true);
         }
 
-        return new Server\Response($data);
+        return new Response($data);
     }
 
     /**
@@ -90,7 +90,7 @@ class ParagraphResponseFactory
         \ilPageObjectGUI $page_gui,
         $updated,
         array $pcids
-    ): Server\Response {
+    ): Response {
         $error = null;
         $rendered_content = null;
         $last_change = null;
@@ -120,7 +120,7 @@ class ParagraphResponseFactory
             $data->last_update = \ilDatePresentation::formatDate($lu, true);
         }
 
-        return new Server\Response($data);
+        return new Response($data);
     }
 
     protected function getParagraphOutput(

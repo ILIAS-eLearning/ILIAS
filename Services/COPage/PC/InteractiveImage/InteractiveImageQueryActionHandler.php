@@ -16,15 +16,10 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\InteractiveImage;
+namespace ILIAS\COPage\PC\InteractiveImage;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
-use ILIAS\FileUpload\Location;
-use ILIAS\FileUpload\FileUpload;
-use ILIAS\FileUpload\Handler\BasicHandlerResult;
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\Handler\HandlerResult;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

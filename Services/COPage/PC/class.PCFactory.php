@@ -106,7 +106,7 @@ class PCFactory
         }
         $pc_class = "ilPC" . $pc_def["name"];
         $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
-        require_once($pc_path);
+        //require_once($pc_path);
         $pc = new ("\\" . $pc_class)($page_object);
         if (!in_array(
             $node->nodeName,

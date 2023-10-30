@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\COPage\Editor\Components\LayoutTemplate;
+namespace ILIAS\COPage\PC\LayoutTemplate;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;

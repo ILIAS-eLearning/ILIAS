@@ -16,7 +16,9 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\MediaObject;
+declare(strict_types=1);
+
+namespace ILIAS\COPage\PC\MediaObject;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;

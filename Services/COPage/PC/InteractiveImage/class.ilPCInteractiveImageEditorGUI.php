@@ -18,8 +18,13 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\COPage\PC\InteractiveImage;
+
 use ILIAS\COPage\Editor\Components\PageComponentEditor;
 use ILIAS\COPage\Editor\Server\UIWrapper;
+use ilLanguage;
+use ilPageObjectGUI;
+use ilPCInteractiveImageGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -60,7 +65,8 @@ class ilPCInteractiveImageEditorGUI implements PageComponentEditor
         $html = $ui_wrapper->getRenderedAdapterForm(
             $form,
             [["Page", "component.save", $lng->txt("insert")],
-             ["Page", "component.cancel", $lng->txt("cancel")]]
+             ["Page", "component.cancel", $lng->txt("cancel")]
+            ]
         );
         return $html;
     }

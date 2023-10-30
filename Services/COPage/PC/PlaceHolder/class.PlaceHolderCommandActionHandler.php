@@ -16,15 +16,12 @@
  *
  *********************************************************************/
 
-namespace ILIAS\COPage\Editor\Components\Grid;
+namespace ILIAS\COPage\PC\PlaceHolder;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
-class GridCommandActionHandler implements Server\CommandActionHandler
+class PlaceHolderCommandActionHandler implements Server\CommandActionHandler
 {
     protected \ILIAS\DI\UIServices $ui;
     protected \ilLanguage $lng;
@@ -50,6 +47,9 @@ class GridCommandActionHandler implements Server\CommandActionHandler
             case "insert":
                 return $this->insertCommand($body);
 
+            case "update":
+                return $this->updateCommand($body);
+
             default:
                 throw new Exception("Unknown action " . $body["action"]);
         }
@@ -68,19 +68,38 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         }
 
         // if ($form->checkInput()) {
-        $post_layout_template = (int) $body["layout_template"];
-        $grid = new \ilPCGrid($page);
-        $grid->create($page, $hier_id, $pc_id);
-        $grid->applyTemplate(
-            $post_layout_template,
-            (int) $body["number_of_cells"],
-            (int) $body["s"],
-            (int) $body["m"],
-            (int) $body["l"],
-            (int) $body["xl"]
+        $ph = new \ilPCPlaceHolder($page);
+        $ph->create($page, $hier_id, $pc_id);
+        $ph->setHeight("300px");
+        $ph->setContentClass(
+            $body["plach_type"]
         );
         $updated = $page->update();
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
+
+    protected function updateCommand(array $body): Server\Response
+    {
+        $page = $this->page_gui->getPageObject();
+        $page->addHierIDs();
+        $hier_id = $page->getHierIdForPcId($body["pcid"]);
+        $ph = $page->getContentObjectForPcId($body["pcid"]);
+        $ph_gui = new \ilPCPlaceHolderGUI($page, $ph, $hier_id, $body["pcid"]);
+        $ph_gui->setPageConfig($page->getPageConfig());
+
+        $form = $ph_gui->initCreationForm();
+
+        // note: we  have everyting in _POST here, form works the usual way
+        $updated = true;
+        if ($form->checkInput()) {
+            $ph->setContentClass(
+                $form->getInput("plach_type")
+            );
+            $updated = $page->update();
+        }
+
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
+    }
+
 }

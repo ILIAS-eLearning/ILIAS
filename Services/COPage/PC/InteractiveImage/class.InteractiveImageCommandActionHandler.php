@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\COPage\Editor\Components\InteractiveImage;
+namespace ILIAS\COPage\PC\InteractiveImage;
 
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
