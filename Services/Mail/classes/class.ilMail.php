@@ -1359,17 +1359,13 @@ class ilMail
             $clientUrl .= '/login.php?client_id=' . CLIENT_ID; // #18051
         }
 
-        $signature = str_ireplace(
-            '[INSTALLATION_NAME]',
-            $DIC['ilClientIniFile']->readVariable('client', 'name'),
-            $signature
-        );
-        $signature = str_ireplace(
-            '[INSTALLATION_DESC]',
-            $DIC['ilClientIniFile']->readVariable('client', 'description'),
-            $signature
-        );
-        $signature = str_ireplace('[ILIAS_URL]', $clientUrl, $signature);
+        $placeholders = [
+            'INSTALLATION_NAME' => $DIC['ilClientIniFile']->readVariable('client', 'name'),
+            'INSTALLATION_DESC' => $DIC['ilClientIniFile']->readVariable('client', 'description'),
+            'ILIAS_URL' => $clientUrl,
+        ];
+
+        $signature = $DIC->mail()->mustacheFactory()->getBasicEngine()->render($signature, $placeholders);
 
         if (!preg_match('/^[\n\r]+/', (string) $signature)) {
             $signature = "\n" . $signature;

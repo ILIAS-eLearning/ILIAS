@@ -24,11 +24,11 @@ declare(strict_types=1);
  */
 class ilMailMimeSenderUserByEmailAddress extends ilMailMimeSenderUser
 {
-    public function __construct(ilSetting $settings, string $emailAddress)
+    public function __construct(ilSetting $settings, string $emailAddress, ilMustacheFactory $mustache_factory)
     {
         $user = new ilObjUser();
         $user->setEmail($emailAddress);
 
-        parent::__construct($settings, $user);
+        parent::__construct($settings, $user, $mustache_factory);
     }
 }

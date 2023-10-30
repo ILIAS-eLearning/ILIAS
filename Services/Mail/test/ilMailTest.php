@@ -150,6 +150,7 @@ class ilMailTest extends ilMailBaseTest
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
         $mailBox = $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock();
         $actor = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
+        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
 
         $mailService = new ilMail(
             $senderUsrId,
@@ -162,7 +163,7 @@ class ilMailTest extends ilMailBaseTest
             $mailFileData,
             $mailOptions,
             $mailBox,
-            new ilMailMimeSenderFactory($settings),
+            new ilMailMimeSenderFactory($settings, $mustache_factory),
             static function (string $login) use ($loginToIdMap): int {
                 return $loginToIdMap[$login] ?? 0;
             },

@@ -174,8 +174,9 @@ class ilMailMimeTest extends ilMailBaseTest
             'set',
             'get',
         ])->getMock();
+        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
 
-        $factory = new ilMailMimeSenderFactory($settings);
+        $factory = new ilMailMimeSenderFactory($settings, $mustache_factory);
         $this->assertInstanceOf(ilMailMimeSenderSystem::class, $factory->getSenderByUsrId(ANONYMOUS_USER_ID));
     }
 
@@ -188,8 +189,9 @@ class ilMailMimeTest extends ilMailBaseTest
             'set',
             'get',
         ])->getMock();
+        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
 
-        $factory = new ilMailMimeSenderFactory($settings);
+        $factory = new ilMailMimeSenderFactory($settings, $mustache_factory);
         $this->assertInstanceOf(ilMailMimeSenderSystem::class, $factory->system());
     }
 
@@ -216,8 +218,9 @@ class ilMailMimeTest extends ilMailBaseTest
             'set',
             'get',
         ])->getMock();
+        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
 
-        $factory = new ilMailMimeSenderFactory($settings);
+        $factory = new ilMailMimeSenderFactory($settings, $mustache_factory);
         $this->assertInstanceOf(ilMailMimeSenderUser::class, $factory->getSenderByUsrId(self::USER_ID));
     }
 
@@ -230,8 +233,9 @@ class ilMailMimeTest extends ilMailBaseTest
             'set',
             'get',
         ])->getMock();
+        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
 
-        $factory = new ilMailMimeSenderFactory($settings);
+        $factory = new ilMailMimeSenderFactory($settings, $mustache_factory);
         $this->assertInstanceOf(ilMailMimeSenderUser::class, $factory->user(self::USER_ID));
     }
 }

@@ -195,4 +195,38 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addPrimaryKey('mail_auto_responder', ['sender_id', 'receiver_id']);
         }
     }
+
+    public function step_12(): void
+    {
+        $settings = [
+            'mail_system_sys_signature',
+            'mail_system_usr_from_name',
+        ];
+
+        foreach ($settings as $keyword) {
+            $res = $this->db->queryF(
+                "SELECT value FROM settings WHERE keyword = %s AND value IS NOT NULL AND value != ''",
+                [ilDBConstants::T_TEXT],
+                [$keyword]
+            );
+            if ($this->db->numRows($res) === 1) {
+                $value = $this->db->fetchAssoc($res)['value'] ?? '';
+                if ($value === '') {
+                    return;
+                }
+
+                $value = preg_replace(
+                    '/\[([A-Z_]+?)\]/',
+                    '{{$1}}',
+                    $value
+                );
+
+                $this->db->manipulateF(
+                    'UPDATE settings SET value = %s WHERE keyword = %s',
+                    [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+                    [$value, $keyword]
+                );
+            }
+        }
+    }
 }

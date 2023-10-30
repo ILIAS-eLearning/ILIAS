@@ -27,13 +27,13 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
     /** @var array<int, ilObjUser> */
     protected static array $userInstances = [];
 
-    public function __construct(ilSetting $settings, int $usrId)
+    public function __construct(ilSetting $settings, int $usrId, ilMustacheFactory $mustache_factory)
     {
         if (!array_key_exists($usrId, self::$userInstances)) {
             self::$userInstances[$usrId] = new ilObjUser($usrId);
         }
 
-        parent::__construct($settings, self::$userInstances[$usrId]);
+        parent::__construct($settings, self::$userInstances[$usrId], $mustache_factory);
     }
 
     public static function addUserToCache(int $usrId, ilObjUser $user): void

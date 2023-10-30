@@ -24,8 +24,11 @@ declare(strict_types=1);
  */
 abstract class ilMailMimeSenderUser implements ilMailMimeSender
 {
-    public function __construct(protected ilSetting $settings, protected ilObjUser $user)
-    {
+    public function __construct(
+        protected ilSetting $settings,
+        protected ilObjUser $user,
+        protected ilMustacheFactory $mustache_factory
+    ) {
     }
 
     public function hasReplyToAddress(): bool
@@ -53,7 +56,10 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
 
     public function hasEnvelopFromAddress(): bool
     {
-        return $this->settings->get('mail_system_usr_env_from_addr', '') !== '' && $this->settings->get('mail_system_usr_env_from_addr', '') !== null;
+        return $this->settings->get('mail_system_usr_env_from_addr', '') !== '' && $this->settings->get(
+            'mail_system_usr_env_from_addr',
+            ''
+        ) !== null;
     }
 
     public function getEnvelopFromAddress(): string
@@ -73,13 +79,19 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
             return $this->user->getFullname();
         }
 
-        $name = str_ireplace('[FULLNAME]', $this->user->getFullname(), $from);
-        $name = str_ireplace('[FIRSTNAME]', $this->user->getFirstname(), $name);
-        $name = str_ireplace('[LASTNAME]', $this->user->getLastname(), $name);
-        if ($name !== $from) {
-            return $name;
+        $placeholders = [
+            'FULLNAME' => $this->user->getFullname(),
+            'FIRSTNAME' => $this->user->getFirstname(),
+            'LASTNAME' => $this->user->getLastname(),
+        ];
+
+        $template = $from;
+        $interpolated = $this->mustache_factory->getBasicEngine()->render($template, $placeholders);
+
+        if ($template !== $interpolated) {
+            return $interpolated;
         }
 
-        return $from;
+        return $template;
     }
 }

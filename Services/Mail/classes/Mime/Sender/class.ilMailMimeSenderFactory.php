@@ -28,8 +28,11 @@ class ilMailMimeSenderFactory
     protected array $senders = [];
     protected int $anonymousUsrId = 0;
 
-    public function __construct(protected ilSetting $settings, int $anonymousUsrId = null)
-    {
+    public function __construct(
+        protected ilSetting $settings,
+        protected ilMustacheFactory $mustache_factory,
+        int $anonymousUsrId = null
+    ) {
         if (null === $anonymousUsrId && defined('ANONYMOUS_USER_ID')) {
             $anonymousUsrId = ANONYMOUS_USER_ID;
         }
@@ -69,11 +72,11 @@ class ilMailMimeSenderFactory
 
     public function user(int $usrId): ilMailMimeSenderUser
     {
-        return new ilMailMimeSenderUserById($this->settings, $usrId);
+        return new ilMailMimeSenderUserById($this->settings, $usrId, $this->mustache_factory);
     }
 
     public function userByEmailAddress(string $emailAddress): ilMailMimeSenderUser
     {
-        return new ilMailMimeSenderUserByEmailAddress($this->settings, $emailAddress);
+        return new ilMailMimeSenderUserByEmailAddress($this->settings, $emailAddress, $this->mustache_factory);
     }
 }

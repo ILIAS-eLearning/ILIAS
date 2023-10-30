@@ -36,7 +36,10 @@ class MimeMailService
 
         if (!isset($this->dic['mail.mime.sender.factory'])) {
             $this->dic['mail.mime.sender.factory'] = static function (Container $c): ilMailMimeSenderFactory {
-                return new ilMailMimeSenderFactory($c->settings());
+                return new ilMailMimeSenderFactory(
+                    $c->settings(),
+                    $c->mail()->mustacheFactory()
+                );
             };
         }
     }
