@@ -524,12 +524,12 @@
 		"ifsnop/mysqldump-php": {
 			"source": "https://github.com/ifsnop/mysqldump-php",
 			"used_version": "2.10",
-			"added_by": "Daniel Weise <dweise@conceptsandtraining.de>",
+			"added_by": "Richard Klees <richard.klees@conceptsandtraining.de>, Fabian Schmid <fabian@sr.solutions>",
 			"wrapped_by": null,
 			"last_update": "2023-02-06",
 			"last_update_by": "",
-			"approved-by": "",
-			"approved-date": ""
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-10-30"
 		},
 		"patches": {
 			"phpmailer/phpmailer": {
