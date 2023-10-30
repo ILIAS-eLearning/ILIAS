@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Skill\Service\SkillUsageService;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -60,6 +62,8 @@ class ilAssQuestionSkillAssignmentImporter
      */
     protected $successImportAssignmentList;
 
+    protected SkillUsageService $skillUsageService;
+
     /**
      * ilAssQuestionSkillAssignmentImporter constructor.
      */
@@ -75,6 +79,7 @@ class ilAssQuestionSkillAssignmentImporter
         $this->importAssignmentList = null;
         $this->failedImportAssignmentList = new ilAssQuestionSkillAssignmentImportList();
         $this->successImportAssignmentList = new ilAssQuestionSkillAssignmentList($this->db);
+        $this->skillUsageService = $DIC->skills()->usage();
     }
 
     /**
@@ -227,7 +232,7 @@ class ilAssQuestionSkillAssignmentImporter
             $importableAssignment->saveComparisonExpressions();
 
             // add skill usage
-            ilSkillUsage::setUsage($this->getTargetParentObjId(), $foundSkillId['skill_id'], $foundSkillId['tref_id']);
+            $this->skillUsageService->addUsage($this->getTargetParentObjId(), $foundSkillId['skill_id'], $foundSkillId['tref_id']);
 
             $this->getSuccessImportAssignmentList()->addAssignment($importableAssignment);
         }
