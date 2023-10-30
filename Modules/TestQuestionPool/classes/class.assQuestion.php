@@ -20,6 +20,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\TA\Questions\assQuestionSuggestedSolution;
 use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 use ILIAS\DI\Container;
+use ILIAS\Skill\Service\SkillUsageService;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -156,6 +157,8 @@ abstract class assQuestion
 
     protected ilObjUser $current_user;
 
+    protected SkillUsageService $skillUsageService;
+
     /**
      * assQuestion constructor
      */
@@ -203,6 +206,7 @@ abstract class assQuestion
         $this->export_image_path = '';
         $this->shuffler = $DIC->refinery()->random()->dontShuffle();
         $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
+        $this->skillUsageService = $DIC->skills()->usage();
     }
 
     protected static $forcePassResultsUpdateEnabled = false;
@@ -1025,11 +1029,10 @@ abstract class assQuestion
 
             // remove skill usage
             if (!$assignment->isSkillUsed()) {
-                ilSkillUsage::setUsage(
+                $this->skillUsageService->removeUsage(
                     $assignment->getParentObjId(),
                     $assignment->getSkillBaseId(),
-                    $assignment->getSkillTrefId(),
-                    false
+                    $assignment->getSkillTrefId()
                 );
             }
         }
@@ -2265,7 +2268,7 @@ abstract class assQuestion
             $assignment->saveToDb();
 
             // add skill usage
-            ilSkillUsage::setUsage(
+            $this->skillUsageService->addUsage(
                 $trgParentId,
                 $assignment->getSkillBaseId(),
                 $assignment->getSkillTrefId()
@@ -2285,11 +2288,10 @@ abstract class assQuestion
 
             // remove skill usage
             if (!$assignment->isSkillUsed()) {
-                ilSkillUsage::setUsage(
+                $this->skillUsageService->removeUsage(
                     $assignment->getParentObjId(),
                     $assignment->getSkillBaseId(),
-                    $assignment->getSkillTrefId(),
-                    false
+                    $assignment->getSkillTrefId()
                 );
             }
         }
