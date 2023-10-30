@@ -21,12 +21,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Profile;
 
-use ILIAS\Skill\Usage\SkillUsageManager;
+use ILIAS\Skill\Usage;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillProfileManager implements \ilSkillUsageInfo
+class SkillProfileManager implements Usage\SkillUsageInfo
 {
     protected SkillProfileDBRepository $profile_repo;
     protected SkillProfileLevelsDBRepository $profile_levels_repo;
@@ -462,7 +462,7 @@ class SkillProfileManager implements \ilSkillUsageInfo
 
         return $usage_manager->getUsageInfoGeneric(
             $a_cskill_ids,
-            SkillUsageManager::PROFILE,
+            Usage\SkillUsageManager::PROFILE,
             "skl_profile_level",
             "profile_id",
             "base_skill_id"

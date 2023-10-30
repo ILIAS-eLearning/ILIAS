@@ -43,7 +43,7 @@ use ILIAS\Skill\Tree\SkillTreeFactory;
  *
  * @author Alex Killing <killing@leifos.com>
  */
-class SkillUsageManager implements \ilSkillUsageInfo
+class SkillUsageManager implements SkillUsageInfo
 {
     public const TYPE_GENERAL = "gen";
     public const USER_ASSIGNED = "user";
@@ -54,7 +54,7 @@ class SkillUsageManager implements \ilSkillUsageInfo
     public const RESOURCE = "res";
 
     /**
-     * @var \ilSkillUsageInfo[]
+     * @var SkillUsageInfo[]
      */
     protected array $classes = [\ilBasicSkill::class, AssignedMaterialManager::class, SkillProfileManager::class,
                                 SkillResourcesManager::class, SkillUsageManager::class];

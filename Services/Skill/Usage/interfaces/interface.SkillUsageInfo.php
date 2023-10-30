@@ -17,6 +17,8 @@ declare(strict_types=1);
 *
 ********************************************************************/
 
+namespace ILIAS\Skill\Usage;
+
 /**
  * Get info on usages of skills
  *
@@ -25,7 +27,7 @@ declare(strict_types=1);
  *
  * @ingroup ServicesSkill
  */
-interface ilSkillUsageInfo
+interface SkillUsageInfo
 {
     /**
      * Get title of an assigned item

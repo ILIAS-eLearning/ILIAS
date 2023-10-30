@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Resource;
 
-use ILIAS\Skill\Usage\SkillUsageManager;
+use ILIAS\Skill\Usage;
 
 /**
  * Manages resources for skills. This is not about user assigned materials,
@@ -34,7 +34,7 @@ use ILIAS\Skill\Usage\SkillUsageManager;
  *
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillResourcesManager implements \ilSkillUsageInfo
+class SkillResourcesManager implements Usage\SkillUsageInfo
 {
     protected SkillResourceDBRepository $skill_res_repo;
     protected \ilSkillLevelRepository $level_repo;
@@ -227,7 +227,7 @@ class SkillResourcesManager implements \ilSkillUsageInfo
 
         return $usage_manager->getUsageInfoGeneric(
             $a_cskill_ids,
-            SkillUsageManager::RESOURCE,
+            Usage\SkillUsageManager::RESOURCE,
             "skl_skill_resource",
             "rep_ref_id",
             "base_skill_id"
