@@ -34,7 +34,7 @@ the general working capacity of the groups.**
 
 The TB expects the experts to contribute their insights, opinions and criticism
 as early as possible in the development process. Also, the TB expects all community
-members to seak the experts advice and listen to their feedback. **The Technical
+members to seek the experts advice and listen to their feedback. **The Technical
 Board is committed to make the experts opinions heard in the development of ILIAS.
 Recommendations by experts will have a strong impact on the decisions of the TB.** 
 
@@ -45,7 +45,7 @@ responsabilities are wide ranging, so it is not to be expected for all its membe
 experts in all aspects it tackles. The UI/UX/A11y Expert Group can be reached through its own
 email address (ux@lists.ilias.de).
 * The task of the UX/UI/A11y experts is to promote uniform user guidance and simple usability across ILIAS, for sighted users as well as for user with special requirements for the user interface.
-* The UX/UI/A11y experts help to ask the right questions and find answers for all concepts, ideas, or problems regarding the user interface, the user experience or the accessibility of ILIAS. They take existing kitchen sink components and their rules into account and are willing to participate in the development or improvement of UI components for the UI framework. The coordinate their work with the coordinators of the UI framework.
+* The UX/UI/A11y experts help to ask the right questions and find answers for all concepts, ideas, or problems regarding the user interface, the user experience or the accessibility of ILIAS. They take existing kitchen sink components and their rules into account and are willing to participate in the development or improvement of UI components for the UI framework. They coordinate their work with the coordinators of the UI framework.
 * The UI/UX/A11y experts participate in related SIGs, such as SIG Accessibility or SIG Client, and take part in the discussions there.
 * As a common and open space to discuss issues, the UI/UX/A11y experts run the UI/UX/A11y clinic.
 * The UI/UX/A11y Expert Group plays a central role in the [Accessibility Process](accessibility-process.md#participants).
