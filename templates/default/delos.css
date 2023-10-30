@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/*
-* Dependencies
-*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -684,9 +681,8 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Normalize
-*/
-/* print less */
+* Dependencies
+*/ /* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -894,6 +890,9 @@ th {
   padding: 0;
 }
 
+/*
+* Normalize
+*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -2228,9 +2227,6 @@ th {
     display: none !important;
   }
 }
-/*
-* Elements
-*/
 * {
   box-sizing: border-box;
 }
@@ -2606,9 +2602,8 @@ code {
   }
 }
 /*
-* Components
+* Elements
 */
-/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -4748,13 +4743,6 @@ td.form-inline > div.form-group {
 }
 .il-item .il-item-actions {
   float: right;
-  /*
-  .btn-default {
-  	margin-right: $il-padding-small-horizontal;
-  }
-  &:last-child {
-  	margin-right: 0;
-  }*/
 }
 .il-item .il-item-divider {
   clear: both;
@@ -9248,6 +9236,7 @@ th.c-table-data__cell {
   padding-left: 12px;
 }
 
+.c-table-data__cell--link .c-table-data__header__resize-wrapper,
 .c-table-data__cell--text .c-table-data__header__resize-wrapper {
   min-width: 140px;
   resize: horizontal;
@@ -9741,7 +9730,6 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
-/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10406,7 +10394,6 @@ div.il_info {
   text-align: left;
 }
 
-/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -11034,7 +11021,6 @@ tbody.collapse.in {
   clip: auto;
 }
 
-/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -13268,6 +13254,49 @@ li.ilWikiBlockItem {
   padding: 5px 25px;
 }
 
+/* PRG Page Editor Elements */
+.c-prg-statusinfo__wrapper,
+.c-prg-actionnote__wrapper {
+  width: 100%;
+  clear: both;
+  margin-bottom: 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.c-prg-statusinfo__headline,
+.c-prg-actionnote__headline {
+  background-color: #f9f9f9;
+  padding: 9px 15px;
+  font-weight: 400;
+  text-align: left;
+  vertical-align: middle;
+}
+.c-prg-statusinfo__headline h3,
+.c-prg-actionnote__headline h3 {
+  margin: 0;
+  color: #161616;
+}
+.c-prg-statusinfo__content,
+.c-prg-actionnote__content {
+  border-bottom: 1px solid #dddddd;
+  background-color: white;
+}
+.c-prg-statusinfo__icon,
+.c-prg-actionnote__icon {
+  padding: 9px 15px;
+  display: table-cell;
+  vertical-align: top;
+  max-width: none;
+}
+.c-prg-statusinfo__text,
+.c-prg-actionnote__text {
+  display: table-cell;
+  vertical-align: top;
+  width: 100%;
+  padding-left: 9px;
+}
 .il-table-access-control-permissions {
   font-size: 0.75rem;
 }
@@ -18680,6 +18709,13 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
+/*
+* Components
+*/
+/* UI Framework */
+/* Component parts from old delos.scss */
+/* Adapted from Bootstrap 3 */
+/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
