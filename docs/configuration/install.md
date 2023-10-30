@@ -377,7 +377,7 @@ git clone https://github.com/ILIAS-eLearning/ILIAS.git . --single-branch
 git checkout release_X
 ```
 
-or unpack the downloaded archieve to the docroot. Replace `release_X` with the
+or unpack the downloaded archive to the docroot. Replace `release_X` with the
 branch or tag you actually want to install.
 
 The repository of ILIAS doesn't contain all code that is required to run. To
@@ -461,7 +461,7 @@ php setup/setup.php install /foo/bar/my-configuration.json
 ```
 
 The installation will display what currently happens and might prompt you with
-questions. You might want to have a look into the [documenation of the command line setup](../../setup/README.md)
+questions. You might want to have a look into the [documentation of the command line setup](../../setup/README.md)
 or into the help of the program itself `php setup/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 
@@ -633,7 +633,7 @@ composer install --no-dev
 
 if you use tags to pin a specific ILIAS version.
 
-In case of merge conflicts refer to [the ILIAS Developement Guide](http://www.ilias.de/docu/goto.php?target=pg_15604). 
+In case of merge conflicts refer to [the ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604). 
 You should only encounter these if you changed the code of your installation
 locally.
 
@@ -702,7 +702,7 @@ installation. Run them by using the `--run` parameter and have a look into
 the help of the command for more details: `php setup/setup.php migrate --help`.
 
 Both commands will display what currently happens and might prompt you with
-questions. You might want to have a look into the [documenation of the command line setup](../../setup/README.md)
+questions. You might want to have a look into the [documentation of the command line setup](../../setup/README.md)
 or into the help of the program itself `php setup/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 
