@@ -150,7 +150,7 @@ class ilObjectProperties
         // sets first description (maybe not appropriate)
         $general_metadata_ids = $general_metadata->getDescriptionIds();
         if ($general_metadata_ids !== []) {
-            $general_metadata_description = $general_metadata_ids->getDescription($general_metadata_ids[0]);
+            $general_metadata_description = $general_metadata->getDescription($general_metadata_ids[0]);
             $general_metadata_description->setDescription($description);
             $general_metadata_description->update();
         }
