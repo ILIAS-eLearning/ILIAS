@@ -930,7 +930,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                 }
                 // Update ecs export settings
                 $ecs = new ilECSCategorySettings($this->object);
-                if ($ecs->handleSettingsUpdate()) {
+                if ($ecs->handleSettingsUpdate($form)) {
                     $this->afterUpdate();
                     return;
                 }

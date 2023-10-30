@@ -693,7 +693,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
             // Update ecs export settings
             $ecs = new ilECSGlossarySettings($this->object);
-            if ($ecs->handleSettingsUpdate()) {
+            if ($ecs->handleSettingsUpdate($this->form)) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, "properties");
             }

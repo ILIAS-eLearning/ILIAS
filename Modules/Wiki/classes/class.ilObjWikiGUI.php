@@ -981,7 +981,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
                 // Update ecs export settings
                 $ecs = new ilECSWikiSettings($this->object);
-                if ($ecs->handleSettingsUpdate()) {
+                if ($ecs->handleSettingsUpdate($this->form)) {
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                     $ilCtrl->redirect($this, "editSettings");
                 }

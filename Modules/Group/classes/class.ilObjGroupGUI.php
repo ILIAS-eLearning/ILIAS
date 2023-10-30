@@ -695,7 +695,7 @@ class ilObjGroupGUI extends ilContainerGUI
             // END PATCH ChangeEvents: Record update Object.
             // Update ecs export settings
             $ecs = new ilECSGroupSettings($this->object);
-            $ecs->handleSettingsUpdate();
+            $ecs->handleSettingsUpdate($form);
         } else {
             $this->tpl->setOnScreenMessage('failure', $GLOBALS['DIC']->language()->txt('err_check_input')); // #16975
 
