@@ -160,6 +160,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
 
         if (!$limit_sessions) {
+            $this->visible_sessions = $session_ref_ids;
             return;
         }
 

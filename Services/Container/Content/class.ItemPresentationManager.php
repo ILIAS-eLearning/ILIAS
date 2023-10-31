@@ -171,7 +171,6 @@ class ItemPresentationManager
 
         // get view
         $view = $this->domain->content()->view($this->container);
-
         // get item block sequence generator
         $this->sequence_generator = $this->domain->content()->itemBlockSequenceGenerator(
             $this->container,
