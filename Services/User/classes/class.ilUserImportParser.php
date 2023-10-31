@@ -2255,7 +2255,7 @@ class ilUserImportParser extends ilSaxParser
             $mailOptions = new ilMailOptions($usr_id);
 
             $mailOptions->setSignature(array_key_exists("mail_signature", $this->prefs) ? $this->prefs["mail_signature"] : $mailOptions->getSignature());
-            $mailOptions->setIncomingType(array_key_exists("mail_incoming_type", $this->prefs) ? $this->prefs["mail_incoming_type"] : $mailOptions->getIncomingType());
+            $mailOptions->setIncomingType(array_key_exists("mail_incoming_type", $this->prefs) ? (int) $this->prefs["mail_incoming_type"] : $mailOptions->getIncomingType());
             $mailOptions->updateOptions();
         }
     }
