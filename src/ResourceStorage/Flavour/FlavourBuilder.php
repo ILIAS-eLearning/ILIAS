@@ -32,7 +32,7 @@ use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
- * @author Fabian Schmid <fabian@sr.solutions>
+ * @author   Fabian Schmid <fabian@sr.solutions>
  * @internal This class is not part of the public API and may be changed without notice. Do not use this class in your code.
  */
 class FlavourBuilder
@@ -103,10 +103,8 @@ class FlavourBuilder
             $flavour = $this->populateFlavourWithExistingStreams($flavour);
         }
 
-
         return $flavour;
     }
-
 
     private function read(
         ResourceIdentification $rid,
@@ -158,7 +156,6 @@ class FlavourBuilder
             return true;
         }
 
-
         return false;
     }
 
@@ -171,7 +168,6 @@ class FlavourBuilder
             $flavour
         );
     }
-
 
     private function storeFlavourStreams(Flavour $flavour, array $streams): void
     {
@@ -252,9 +248,13 @@ class FlavourBuilder
 
         // Get Orignal Stream of Resource/Revision
         $handler = $this->getStorageHandler($flavour);
-        $stream = $this->resource_builder->extractStream($revision);
-        $stream->rewind();
-
+        try {
+            $stream = $this->resource_builder->extractStream($revision);
+            $stream->rewind();
+        } catch (\Throwable $t) {
+            // error while reading file stream, cannot process
+            return $flavour;
+        }
 
         // Get Machine
         $machine = $this->flavour_machine_factory->get($definition);
@@ -275,7 +275,7 @@ class FlavourBuilder
                 $storable_streams[$result->getIndex()] = $generated_stream;
             }
 
-            $cloned_stream = Streams::ofString((string)$generated_stream);
+            $cloned_stream = Streams::ofString((string) $generated_stream);
 
             $flavour = $this->stream_access->populateFlavour(
                 $flavour,
@@ -291,7 +291,6 @@ class FlavourBuilder
 
         return $flavour;
     }
-
 
     // Helpers
 
