@@ -192,11 +192,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $cmd = $this->ctrl->getCmd('testScreen');
 
-        $cmdsDisabledDueToOfflineStatus = [
+        $cmds_disabled_due_to_offline_status = [
             'resumePlayer', 'resumePlayer', 'outUserResultsOverview', 'outUserListOfAnswerPasses'
         ];
 
-        if (!$this->getCreationMode() && $this->object->getOfflineStatus() && in_array($cmd, $cmdsDisabledDueToOfflineStatus)) {
+        if (!$this->getCreationMode() && $this->object->getOfflineStatus() && in_array($cmd, $cmds_disabled_due_to_offline_status)) {
             $cmd = 'infoScreen';
         }
 
@@ -757,7 +757,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             case 'ilassquestionpagegui':
                 if ($cmd == 'finishEditing') {
-                    $this->ctrl->redirectByClass('ilassquestionpreviewgui', 'show');
+                    $this->ctrl->redirectByClass('ilassquestionpreviewgui', ilAssQuestionPreviewGUI::CMD_SHOW);
                     break;
                 }
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
@@ -826,7 +826,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
-                if ($this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
+                if ($this->object->evalTotalPersons() !== 0) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
@@ -852,7 +852,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
-                if ($this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
+                if ($this->object->evalTotalPersons() !== 0) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
@@ -912,7 +912,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
                 }
-                if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && !$this->access->checkAccess('write', '', $this->object->getRefId())) {
+                if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution'])
+                    && !$this->access->checkAccess('write', '', $this->object->getRefId())) {
                     $this->redirectAfterMissingWrite();
                 }
                 // elba hack for storing question id for inserting new question after
@@ -938,7 +939,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $questionGui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
                     $questionGui->object->setObjId($this->object->getId());
 
-                    if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
+                    if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution'])
+                        && $this->object->evalTotalPersons() !== 0) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                         $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                     }
@@ -1013,18 +1015,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
      */
     protected function fetchAuthoringQuestionIdParameter(): int
     {
-        $qid = $this->testrequest->raw('q_id');
-
-        if (!$qid || $qid == 'Array') {
-            $questions = $this->object->getQuestionTitlesAndIndexes();
-
-            $keys = array_keys($questions);
-            $qid = (int) ($keys[0] ?? 0);
-
-            $_REQUEST['q_id'] = $qid;
-            $_GET['q_id'] = $qid;
-            $_POST['q_id'] = $qid;
-        }
+        $qid = $this->testrequest->int('q_id');
 
         if ($this->object->checkQuestionParent($qid)) {
             return $qid;
@@ -2160,9 +2151,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", "Modules/Test");
 
-        $total = $this->object->evalTotalPersons();
+        $has_started_test_runs = $this->object->evalTotalPersons() !== 0;
         if ($this->access->checkAccess("write", "", $this->ref_id)) {
-            if ($total != 0) {
+            if ($has_started_test_runs) {
                 $link = $this->ui_factory->link()->standard(
                     $this->lng->txt("test_has_datasets_warning_page_view_link"),
                     $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilParticipantsTestResultsGUI'])
@@ -2199,8 +2190,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             && count(ilSession::get('tst_qst_move_' . $this->object->getTestId()))
         );
 
-        $table_gui->setQuestionPositioningEnabled(!$total);
-        $table_gui->setQuestionManagingEnabled(!$total);
+        $table_gui->setQuestionPositioningEnabled($has_started_test_runs);
+        $table_gui->setQuestionManagingEnabled($has_started_test_runs);
         $table_gui->setObligatoryQuestionsHandlingEnabled($this->object->areObligationsEnabled());
 
         $table_gui->setTotalPoints($this->object->getFixedQuestionSetTotalPoints());

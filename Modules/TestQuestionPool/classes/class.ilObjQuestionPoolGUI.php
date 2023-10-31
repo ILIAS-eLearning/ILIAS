@@ -18,7 +18,6 @@
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
-use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;
@@ -202,7 +201,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if (!(in_array($next_class, ['', 'ilobjquestionpoolgui']) && $cmd == 'questions') && $q_id < 1) {
             $q_type = $this->qplrequest->raw('sel_question_types');
         }
-        if ($cmd != 'createQuestion' && $cmd != 'createQuestionForTest'
+        if ($cmd !== 'createQuestion' && $cmd !== 'createQuestionForTest'
             && $next_class != 'ilassquestionpagegui') {
             if (($this->qplrequest->raw('test_ref_id') != '') || ($this->qplrequest->raw('calling_test'))) {
                 $ref_id = $this->qplrequest->raw('test_ref_id');
@@ -283,7 +282,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 $question = $q_gui->object;
 
-                if ($this->questioninfo->isInActiveTest($question->getId())) {
+                if ($this->questioninfo->isInActiveTest($question->getObjId())) {
                     $this->tpl->setOnScreenMessage(
                         'failure',
                         $this->lng->txt('question_is_part_of_running_test'),
@@ -355,7 +354,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
-                if ($this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
+                if ($this->questioninfo->isInActiveTest($questionGUI->object->getObjId())) {
                     $this->tpl->setOnScreenMessage(
                         'failure',
                         $this->lng->txt('question_is_part_of_running_test'),
@@ -405,7 +404,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
-                if ($this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
+                if ($this->questioninfo->isInActiveTest($questionGUI->object->getObjId())) {
                     $this->tpl->setOnScreenMessage(
                         'failure',
                         $this->lng->txt('question_is_part_of_running_test'),
@@ -601,7 +600,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 if (in_array(
                     $cmd,
                     ['editQuestion', 'save', 'suggestedsolution']
-                ) && $this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
+                ) && $this->questioninfo->isInActiveTest($questionGUI->object->getObjId())
+                ) {
                     $this->tpl->setOnScreenMessage(
                         'failure',
                         $this->lng->txt('question_is_part_of_running_test'),
@@ -1452,17 +1452,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function editQuestionForTestObject(): void
     {
-        $p_gui = new ilAssQuestionPreviewGUI(
-            $this->ctrl,
-            $this->rbac_system,
-            $this->tabs_gui,
-            $this->tpl,
-            $this->lng,
-            $this->db,
-            $this->user,
-            new RandomGroup()
-        );
-        $this->ctrl->redirectByClass(get_class($p_gui), 'show');
+        $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, 'show');
     }
 
     protected function initImportForm(string $new_type): ilPropertyFormGUI
