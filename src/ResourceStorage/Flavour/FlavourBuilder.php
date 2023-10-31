@@ -86,9 +86,9 @@ class FlavourBuilder
         }
         if ($this->has($rid, $definition)) {
             return $this->read($rid, $definition, $force_building);
-        } else {
-            return $this->build($rid, $definition);
         }
+
+        return $this->build($rid, $definition);
     }
 
     private function build(
@@ -254,6 +254,7 @@ class FlavourBuilder
         $handler = $this->getStorageHandler($flavour);
         $stream = $this->resource_builder->extractStream($revision);
         $stream->rewind();
+
 
         // Get Machine
         $machine = $this->flavour_machine_factory->get($definition);

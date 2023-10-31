@@ -277,10 +277,13 @@ class ilResourceCollectionGUI implements UploadHandler
             $collection->add($rid);
 
             // ensure flavour
-            $this->irss->flavours()->ensure(
-                $rid,
-                $this->preview_definition
-            );
+            try {
+                $this->irss->flavours()->ensure(
+                    $rid,
+                    $this->preview_definition
+                );
+            } catch (\Throwable $e) {
+            }
         }
         $this->irss->collection()->store($collection);
         $this->postUpload();
@@ -377,6 +380,10 @@ class ilResourceCollectionGUI implements UploadHandler
                 'interruptive_items',
                 $to_array_of_string
             );
+        }
+
+        if($rid_strings[0] === 'ALL_OBJECTS') {
+            return $this->view_request->getCollection()->getResourceIdentifications();
         }
 
         if ($rid_strings === []) {

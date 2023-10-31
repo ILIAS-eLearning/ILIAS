@@ -58,7 +58,6 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
         private UploadBuilder $upload_builder
     ) {
         global $DIC;
-        global $DIC;
         $this->irss = $DIC->resourceStorage();
         $this->data_factory = new \ILIAS\Data\Factory();
     }
@@ -67,11 +66,10 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     {
         yield from $this->upload_builder->getDropZone();
 
-        yield $this->ui_factory->panel()
-                               ->standard($this->request->getTitle(), $this->buildTable())
-                               ->withViewControls([
-                                   $this->view_control_builder->getPagination()
-                               ]);
+        yield $this->ui_factory->panel()->standard(
+            $this->request->getTitle(),
+            $this->buildTable()
+        );
     }
 
     /**
@@ -80,7 +78,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     protected function buildTable(): \ILIAS\UI\Component\Table\Data
     {
         return $this->ui_factory->table()->data(
-            '', // we already have the title in the panel
+            $this->request->getTitle(), // we already have the title in the panel
             [
                 self::F_TITLE => $this->ui_factory->table()->column()->text(
                     $this->language->txt(self::F_TITLE)
@@ -101,7 +99,9 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
             $this->http->request()
         )->withActions(
             $this->action_builder->getActions()
-        )->withAdditionalParameters(['lorem' => 'ipsum']);
+        )->withNumberOfRows(
+            $this->request->getItemsPerPage()
+        );
     }
 
     public function getRows(
@@ -141,10 +141,10 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
         $sort_field = array_keys($order->get())[0];
         $sort_direction = $order->get()[$sort_field];
 
-//        $start = $range->getStart();
-//        $length = $range->getLength();
-//        $this->data_provider->getViewRequest()->setPage($start / $length);
-//        $this->data_provider->getViewRequest()->setItemsPerPage($length);
+        $start = $range->getStart();
+        $length = $range->getLength();
+        $this->data_provider->getViewRequest()->setPage((int) round($start / $length, 0, PHP_ROUND_HALF_DOWN));
+        $this->data_provider->getViewRequest()->setItemsPerPage($length);
 
         switch ($sort_field . '_' . $sort_direction) {
             case self::F_TITLE . '_' . Order::ASC:
@@ -170,6 +170,6 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
 
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        return count($this->data_provider->getIdentifications());
+        return $this->data_provider->getTotal();
     }
 }
