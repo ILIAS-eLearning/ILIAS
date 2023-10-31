@@ -2,7 +2,7 @@
 
 ## Short Term
 
-The survey module is using a larger number of HTML templates, sometimes even inputs are rendered via HTML templates. This should be removed and transferred to KS presentations. 
+The survey module is using a larger number of HTML templates, sometimes even inputs are rendered via HTML templates. This should be removed and transferred to KS presentations, as a part of this https://mantis.ilias.de/view.php?id=25211 should be fixed.
 
 ## Mid Term
 
