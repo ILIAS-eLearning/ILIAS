@@ -19,13 +19,13 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-use ILIAS\Skill\Usage\SkillUsageManager;
+use ILIAS\Skill\Usage;
 
 /**
  * Basic Skill
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
+class ilBasicSkill extends ilSkillTreeNode implements Usage\SkillUsageInfo
 {
     protected ilObjUser $user;
     protected ilSkillLevelRepository $bsc_skl_lvl_db_rep;
@@ -598,7 +598,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
         return $usage_manager->getUsageInfoGeneric(
             $a_cskill_ids,
-            SkillUsageManager::USER_ASSIGNED,
+            Usage\SkillUsageManager::USER_ASSIGNED,
             "skl_user_skill_level",
             "user_id"
         );

@@ -93,6 +93,14 @@ class SkillService implements SkillServiceInterface
     }
 
     /**
+     * External usage service facade
+     */
+    public function usage(): SkillUsageService
+    {
+        return new SkillUsageService($this->internal());
+    }
+
+    /**
      * @inheritDoc
      */
     public function internal(): SkillInternalService
