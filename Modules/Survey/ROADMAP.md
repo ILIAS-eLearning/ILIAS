@@ -2,11 +2,9 @@
 
 ## Short Term
 
+The survey module is using a larger number of HTML templates, sometimes even inputs are rendered via HTML templates. This should be removed and transferred to KS presentations. 
+
 ## Mid Term
-
-### Abandon undocumented plugin slot
-
-There is an undocumented plugin slot in the survey question pool module. If there is no interest in using it, it should be removed.
 
 ### Improve Architecture
 

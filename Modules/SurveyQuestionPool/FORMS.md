@@ -20,5 +20,3 @@ This is an overview of forms that need to be migrated to the KS and missing inpu
    - Single Choice
      - ilCategoryWizardInputGUI (open issue, local input?)
    - Text: none
-1. Add Phrase
-   - none
