@@ -93,7 +93,7 @@ class ilAssQuestionPreviewGUI
                 $this->tabs->addTarget(
                     "statistics",
                     $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', "assessment"),
-                    array("assessment"),
+                    ["assessment"],
                     $classname,
                     ""
                 );
@@ -347,7 +347,7 @@ class ilAssQuestionPreviewGUI
 
             $toolbarGUI->setEditQuestionCmd(
                 $this->ctrl->getLinkTargetByClass(
-                    array('ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)),
+                    ['ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)],
                     'editQuestion'
                 )
             );
@@ -383,7 +383,7 @@ class ilAssQuestionPreviewGUI
 
         $questionHtml .= $this->getQuestionNavigationHtml();
 
-        $pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $questionHtml));
+        $pageGUI->setQuestionHTML([$this->questionOBJ->getId() => $questionHtml]);
 
         $pageGUI->setPresentationTitle($this->questionOBJ->getTitle());
 
@@ -427,7 +427,7 @@ class ilAssQuestionPreviewGUI
 
         $this->questionGUI->setPreviewSession($this->previewSession);
 
-        $pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false)));
+        $pageGUI->setQuestionHTML([$this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false)]);
 
         $output = $this->questionGUI->getSolutionOutput(0, null, false, false, true, false, true, false, false);
 

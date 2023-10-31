@@ -268,45 +268,45 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function buildQuestionRemoveButton(array $rowData): string
+    protected function buildQuestionRemoveButton(array $row_data): string
     {
-        $this->ctrl->setParameter($this->getParentObject(), 'removeQid', $rowData['question_id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'removeQid', $row_data['question_id']);
         $removeUrl = $this->ctrl->getLinkTarget($this->getParentObject(), $this->getParentCmd());
         $this->ctrl->setParameter($this->getParentObject(), 'removeQid', '');
 
         return $this->ui_renderer->render($this->ui_factory->button()->standard($this->lng->txt('remove_question'), $removeUrl));
     }
 
-    protected function buildQuestionTitleLink(array $rowData): string
+    protected function buildQuestionTitleLink(array $row_data): string
     {
-        return '<a href="' . $this->getPreviewLink($rowData) . '">' . $rowData["title"] . '</a>';
+        return '<a href="' . $this->getPreviewLink($row_data) . '">' . $row_data["title"] . '</a>';
     }
 
-    protected function getPreviewLink(array $rowData): string
+    protected function getPreviewLink(array $row_data): string
     {
         $target_class = get_class($this->getParentObject());
         $this->ctrl->setParameterByClass(
             $target_class,
             'ref_id',
-            current(ilObject::_getAllReferences($rowData['obj_fi']))
+            current(ilObject::_getAllReferences($row_data['obj_fi']))
         );
 
         $this->ctrl->setParameterByClass(
             $target_class,
             'eqpl',
-            current(ilObject::_getAllReferences($rowData['obj_fi']))
+            current(ilObject::_getAllReferences($row_data['obj_fi']))
         );
 
         $this->ctrl->setParameterByClass(
             $target_class,
             'eqid',
-            $rowData['question_id']
+            $row_data['question_id']
         );
 
         $this->ctrl->setParameterByClass(
             $target_class,
             'q_id',
-            $rowData['question_id']
+            $row_data['question_id']
         );
 
         $this->ctrl->setParameterByClass(
@@ -327,13 +327,13 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         return $question_href;
     }
 
-    protected function getQuestionEditLink(array $rowData, string $target_class, string $cmd, array $target_class_path = []): string
+    protected function getQuestionEditLink(array $row_data, string $target_class, string $cmd, array $target_class_path = []): string
     {
         $target_class_path = array_merge(self::CLASS_PATH_FOR_QUESTION_EDIT_LINKS, [$target_class]);
-        return $this->getEditLink($rowData, $target_class, $cmd, $target_class_path);
+        return $this->getEditLink($row_data, $target_class, $cmd, $target_class_path);
     }
 
-    protected function getEditLink(array $rowData, string $target_class, string $cmd, array $target_class_path = []): string
+    protected function getEditLink(array $row_data, string $target_class, string $cmd, array $target_class_path = []): string
     {
         if ($target_class_path === []) {
             $target_class_path = $target_class;
@@ -341,13 +341,13 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass(
             $target_class,
             'ref_id',
-            current(ilObject::_getAllReferences($rowData['obj_fi']))
+            current(ilObject::_getAllReferences($row_data['obj_fi']))
         );
 
         $this->ctrl->setParameterByClass(
             $target_class,
             'q_id',
-            $rowData['question_id']
+            $row_data['question_id']
         );
         $this->ctrl->setParameterByClass(
             $target_class,
@@ -363,13 +363,13 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         return $link;
     }
 
-    protected function buildObligatoryColumnContent(array $rowData): string
+    protected function buildObligatoryColumnContent(array $row_data): string
     {
-        if (!$rowData['obligationPossible']) {
+        if (!$row_data['obligationPossible']) {
             return '&nbsp;';
         }
 
-        if ($rowData['obligatory'] && !$this->isQuestionManagingEnabled()) {
+        if ($row_data['obligatory'] && !$this->isQuestionManagingEnabled()) {
             return $this->ui_renderer->render(
                 $this->ui_factory->symbol()->icon()->custom(
                     ilUtil::getImagePath('standard/icon_alert.svg'),
@@ -378,8 +378,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             );
         }
 
-        $checkedAttr = $rowData['obligatory'] ? 'checked="checked"' : '';
-        return '<input type="checkbox" name="obligatory[' . $rowData['question_id'] . ']" value="1" ' . $checkedAttr . ' />';
+        $checkedAttr = $row_data['obligatory'] ? 'checked="checked"' : '';
+        return '<input type="checkbox" name="obligatory[' . $row_data['question_id'] . ']" value="1" ' . $checkedAttr . ' />';
     }
 
     protected function buildPositionInput($questionId, $position): string
