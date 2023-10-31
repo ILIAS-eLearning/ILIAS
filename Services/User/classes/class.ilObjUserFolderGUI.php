@@ -3084,13 +3084,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return $form;
     }
 
-    public function newAccountMailObject(): void
+    public function newAccountMailObject(ilPropertyFormGUI $form = null): void
     {
         $this->setSubTabs('settings');
         $this->tabs_gui->setTabActive('settings');
         $this->tabs_gui->setSubTabActive('user_new_account_mail');
 
-        $form = $this->initNewAccountMailForm();
+        if ($form === null) {
+            $form = $this->initNewAccountMailForm();
+        }
 
         $ftpl = new ilTemplate(
             'tpl.usrf_new_account_mail.html',
@@ -3102,7 +3104,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'FORM',
             $form->getHTML()
         );
-        unset($form);
 
         // placeholder help text
         $ftpl->setVariable(
@@ -3191,7 +3192,47 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function saveNewAccountMailObject(): void
     {
+        $form = $this->initNewAccountMailForm();
+
+        // If all forms in ILIAS use the UI/KS forms (here and in Services/Mail), we should move this to a proper constraint/trafo
+        $is_valid_template_syntax = $this->dic->refinery()->custom()->constraint(function ($value): bool {
+            try {
+                $this->dic->mail()->mustacheFactory()->getBasicEngine()->render((string) $value, []);
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }, $this->dic->language()->txt('mail_template_invalid_tpl_syntax'));
+
+        $valid_templates = true;
         $langs = $this->lng->getInstalledLanguages();
+        foreach ($langs as $lang_key) {
+            $subject = $this->user_request->getMailSubject($lang_key);
+            try {
+                $is_valid_template_syntax->check($subject);
+            } catch (Exception) {
+                $form->getItemByPostVar('subject_' . $lang_key)->setAlert(
+                    $is_valid_template_syntax->problemWith($subject)
+                );
+                $valid_templates = false;
+            }
+
+            $body = $this->user_request->getMailBody($lang_key);
+            try {
+                $is_valid_template_syntax->check($body);
+            } catch (Exception) {
+                $form->getItemByPostVar('body_' . $lang_key)->setAlert(
+                    $is_valid_template_syntax->problemWith($body)
+                );
+                $valid_templates = false;
+            }
+        }
+        if (!$valid_templates) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->newAccountMailObject($form);
+            return;
+        }
+
         foreach ($langs as $lang_key) {
             ilObjUserFolder::_writeNewAccountMail(
                 $lang_key,
