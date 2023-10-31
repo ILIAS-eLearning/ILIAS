@@ -382,27 +382,27 @@ class TableCommandActionHandler implements Server\CommandActionHandler
                         if (isset($body["style_cb"])) {
                             $class = $body["style"] ?? "";
                             if ($class === "") {
-                                $td_node->remove_attribute("Class");
+                                $td_node->removeAttribute("Class");
                             } else {
-                                $td_node->set_attribute("Class", $class);
+                                $td_node->setAttribute("Class", $class);
                             }
                         }
                         // set width
                         if (isset($body["width_cb"])) {
                             $width = $body["width"] ?? "";
                             if ($width === "") {
-                                $td_node->remove_attribute("Width");
+                                $td_node->removeAttribute("Width");
                             } else {
-                                $td_node->set_attribute("Width", $width);
+                                $td_node->setAttribute("Width", $width);
                             }
                         }
                         // set alignment
                         if (isset($body["al_cb"])) {
                             $alignment = $body["alignment"] ?? "";
                             if ($alignment === "") {
-                                $td_node->remove_attribute("HorizontalAlign");
+                                $td_node->removeAttribute("HorizontalAlign");
                             } else {
-                                $td_node->set_attribute("HorizontalAlign", $alignment);
+                                $td_node->setAttribute("HorizontalAlign", $alignment);
                             }
                         }
 
@@ -428,8 +428,8 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $right = (int) ($data["right"] ?? -1);
 
         $td_node = $tab->getTableDataNode($top, $left);
-        $td_node->set_attribute("ColSpan", $right - $left + 1);
-        $td_node->set_attribute("RowSpan", $bottom - $top + 1);
+        $td_node->setAttribute("ColSpan", $right - $left + 1);
+        $td_node->setAttribute("RowSpan", $bottom - $top + 1);
 
         $tab->fixHideAndSpans();
 

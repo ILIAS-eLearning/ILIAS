@@ -134,15 +134,14 @@ class ilPCTable extends ilPageContent
     /**
      * Get cell paragraph node of row $i and cell $j
      */
-    public function getTableDataNode(int $i, int $j): ?php4DOMElement
+    public function getTableDataNode(int $i, int $j): ?DOMElement
     {
-        $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId='" . $this->getHierId() . "']" .
             "/Table/TableRow[$i+1]/TableData[$j+1]";
-        $res = xpath_eval($xpc, $path);
+        $nodes = $this->dom_util->path($this->dom_doc, $path);
 
-        if (isset($res->nodeset[0])) {
-            return $res->nodeset[0];
+        if (count($nodes) > 0) {
+            return $nodes->item(0);
         }
         return null;
     }

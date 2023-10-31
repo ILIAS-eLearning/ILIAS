@@ -113,8 +113,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
                                     $this->lng->txt("cont_pc_code")
                                 )->withValue($par_content);
         $t = $this->gui->ui()->renderer()->render($f);
-        $t = str_replace("<textarea ", "<textarea name='code' rows='20' form='copg-src-form' ", $t);
-
+        $t = str_replace("<textarea", "<textarea name='code' rows='20' form='copg-src-form' ", $t);
         $this->tpl->setContent($t . $this->getEditorScriptTag($this->pc_id, "SourceCode"));
     }
 

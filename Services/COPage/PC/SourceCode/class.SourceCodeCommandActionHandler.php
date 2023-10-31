@@ -69,8 +69,7 @@ class SourceCodeCommandActionHandler implements Server\CommandActionHandler
             $hier_id = $hier_ids[$body["after_pcid"]];
             $pc_id = $body["after_pcid"];
         }
-
-        $manual = ((string) ($body["form_input_1"] ?? "") === "manual");
+        $manual = ((string) ($body["form/input_0"] ?? "") === "manual");
 
         $src = new \ilPCSourceCode($page);
         $src->create($page, $hier_id, $pc_id);
@@ -113,7 +112,6 @@ class SourceCodeCommandActionHandler implements Server\CommandActionHandler
         /** @var \ilPCSourceCode $pc_src */
         $pc_src = $page->getContentObjectForPcId($body["pcid"]);
         $src_gui = new \ilPCSourceCodeGUI($page, $pc_src, "", $body["pcid"]);
-
         $form = $src_gui->getEditingFormAdapter();
         if ($form->isValid()) {
             $pc_src->setDownloadTitle(str_replace('"', '', $form->getData("title")));

@@ -162,7 +162,6 @@ class ilPCParagraph extends ilPageContent
         $error = $this->checkTextArray($text);
 
         $orig_characteristic = "";
-
         // remove all childs
         if (empty($error)) {
             $t = $text[0]["text"] ?? "";

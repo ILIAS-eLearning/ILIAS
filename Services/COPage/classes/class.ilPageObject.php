@@ -736,6 +736,11 @@ abstract class ilPageObject
         return $cm->getContentDomNode($a_hier_id, $a_pc_id);
     }
 
+    public function getDomNodeForPCId(string $pc_id): ?DOMNode
+    {
+        return $this->getContentDomNode("", $pc_id);
+    }
+
     /**
      * set xml content of page, start with <PageObject...>,
      * end with </PageObject>, comply with ILIAS DTD, omit MetaData, use utf-8!

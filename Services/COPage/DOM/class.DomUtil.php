@@ -145,8 +145,8 @@ class DomUtil
     public function deleteAllChilds(
         \DOMNode $parent
     ): void {
-        foreach ($parent->childNodes as $child) {
-            $parent->removeChild($child);
+        while ($parent->hasChildNodes()) {
+            $parent->removeChild($parent->firstChild);
         }
     }
 
