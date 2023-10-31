@@ -5,7 +5,7 @@ It describes how Git hooks can be installed/activated [manually](#creating-git-h
 and where to find some offial Git hooks provided by the ILIAS community.
 Furtheremore it contains installation instructions for [CaptainHook](#the-easy-way-captainhook---git-hook-library),
 a Git hook PHP library used by ILIAS to manage and execute a shared Git
-hook configuration amongst contributers.
+hook configuration amongst contributors.
 
 **Table of Contents**
 * [General](#general)
@@ -13,7 +13,7 @@ hook configuration amongst contributers.
   * [The Easy Way: CaptainHook - Git Hook Library](#the-easy-way-captainhook---git-hook-library)
     * [Installation](#installation)
     * [Troubleshooting](#troubleshooting)
-  * [The Manualy Way: Creating Git Hooks](#the-manual-way-creating-git-hooks)
+  * [The Manual Way: Creating Git Hooks](#the-manual-way-creating-git-hooks)
     * [ILIAS Git Hooks](#ilias-git-hooks)
 
 ### General
@@ -122,7 +122,7 @@ similar to [captainhook.json](../../captainhook.json).
 
 #### The Manual Way: Creating Git Hooks
 
-Git hooks recide in the `.git/hooks` directory of a Git repository.
+Git hooks reside in the `.git/hooks` directory of a Git repository.
 To install/activate a Git hook first enter this directory.
 
 ```bash
@@ -130,7 +130,7 @@ cd .git/hooks
 ```
 
 By default every hook has the suffix `.sample`. This suffix prevents them
-from beeing executed by default when a particular Git event occurs.
+from being executed by default when a particular Git event occurs.
 
 Removing this suffix will activate the hook.
 

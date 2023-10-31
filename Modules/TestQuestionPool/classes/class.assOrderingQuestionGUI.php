@@ -190,9 +190,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $this->updateImageFiles();
         }
 
-        $this->object->setPoints((int)$this->request->raw("points"));
+        $points = (float) str_replace(',', '.', $this->request->raw('points'));
 
-        $use_nested = $this->request->raw(self::F_USE_NESTED) === "1";
+        $this->object->setPoints($points);
+
+        $use_nested = $this->request->raw(self::F_USE_NESTED) === '1';
         $this->object->setNestingType($use_nested);
     }
 

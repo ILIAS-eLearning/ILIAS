@@ -28,7 +28,7 @@ also include Testers, Translators, Authors and other people into the processes
 described here. If you want to contribute to said activities please have a look
 [here](contributing.md).
 
-As a contributor you will be named in the release notes of our major relases
+As a contributor you will be named in the release notes of our major releases
 with your name and your organisation as we find them in our commit history and
 in your profile on GitHub. If your don't want to be listed, please write a short
 mail to the [Technical Board of the ILIAS society](mailto:tb@lists.ilias.de).
@@ -68,7 +68,7 @@ code please make sure:
   reviewers as well
 * that your commit follows the [ILIAS coding
   guidelines](http://www.ilias.de/docu/goto_docu_pg_202_42.html) - this is a
-  bare minimun of style we want to maintain for new code
+  bare minimum of style we want to maintain for new code
 * you don't introduce new code violations which could have been easily found by
   importing and running our
   [PhpStorm PHP Inspection Profile](./inspection-configs/php-storm-php-inspections.xml)
@@ -87,7 +87,7 @@ to the ILIAS-repository as a general working space for incomplete features or id
 Prefer other measures like workshops or VCs for discussion about ideas or approaches.
 If you are positive that you definitely need to open a PR as a draft, prefix the
 summary with "WIP -"" for these kind of PRs to prevent them from being merged
-accidentially.
+accidentally.
 
 <a name="list-of-labels"></a>
 ## List of Labels
