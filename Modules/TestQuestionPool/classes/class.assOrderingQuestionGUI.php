@@ -182,7 +182,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $thumb_geometry = (int) ($post["thumb_geometry"] ?? $this->object->getThumbGeometry());
         $this->object->setThumbGeometry($thumb_geometry);
 
-        $this->object->setPoints((int) $post["points"]);
+        $points = (float) str_replace(',', '.', $post['points']);
+
+        $this->object->setPoints($points);
 
         $use_nested = $post[self::F_USE_NESTED] === "1";
 
