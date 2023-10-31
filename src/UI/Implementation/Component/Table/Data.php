@@ -423,11 +423,16 @@ class Data extends Table implements T\Data, JSBindable
         }
 
         $aspect_options = [];
+        $selected = [];
         foreach ($optional_cols as $id => $col) {
             $aspect_options[$id] = $col->getTitle();
+            if($col->isInitiallyVisible()) {
+                $selected[] = $id;
+            }
         }
 
         return $this->view_control_factory
-            ->fieldSelection($aspect_options);
+            ->fieldSelection($aspect_options)
+            ->withValue($selected);
     }
 }
