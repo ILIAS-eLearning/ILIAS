@@ -36,7 +36,7 @@
         "conditions": []
       },
       {
-        "action": "libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --config=./CI/PHP-CS-Fixer/code-format.php_cs --using-cache=no --dry-run -vvv {$STAGED_FILES|of-type:php}",
+        "action": "libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --config=./CI/PHP-CS-Fixer/code-format.php_cs --using-cache=no -vvv {$STAGED_FILES|of-type:php}",
         "options": [],
         "conditions": [
           {
