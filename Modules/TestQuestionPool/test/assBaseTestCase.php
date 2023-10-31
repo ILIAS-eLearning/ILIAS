@@ -63,6 +63,9 @@ abstract class assBaseTestCase extends TestCase
         $rbacsystem_mock = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
         $this->setGlobalVariable('rbacsystem', $rbacsystem_mock);
 
+        $rbacreview_mock = $this->getMockBuilder(ilRbacReview::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('rbacreview', $rbacreview_mock);
+
         $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
         $refineryMock->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
         $this->setGlobalVariable('refinery', $refineryMock);
