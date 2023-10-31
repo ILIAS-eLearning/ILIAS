@@ -23,6 +23,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorageServices;
 use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
 use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageStakeholder;
 use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
+use ILIAS\HTTP\Services;
 
 /**
  * @deprecated 11 This class will be removed with ILIAS 11. Please use
@@ -37,6 +38,7 @@ class ilObjectCommonSettings
         private ilLanguage $language,
         private FileUpload $upload,
         private ResourceStorageServices $storage,
+        private Services $http,
         private ilObjectTileImageStakeholder $stakeholder,
         private ilObjectTileImageFlavourDefinition $flavour,
         private ilObjectCorePropertiesRepository $core_properties_repository,
@@ -114,6 +116,7 @@ class ilObjectCommonSettings
             $this->stakeholder,
             $this->flavour,
             $this,
+            $this->http,
             $form
         );
     }

@@ -51,6 +51,7 @@ class ilObjectDIC extends PimpleContainer
             $DIC->language(),
             $DIC->upload(),
             $DIC->resourceStorage(),
+            $DIC->http(),
             $c['tile_image_stackholder'],
             $c['tile_image_flavour'],
             $c['core_properties_repository'],
