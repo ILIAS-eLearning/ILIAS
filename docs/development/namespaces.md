@@ -1,5 +1,3 @@
-# Namespaces
-
 ILIAS is using PSR-4 namespaces in its [src directory](../../src/README.md).
 
 You MAY also use namespaces in the `Modules` or `Services` directories. You SHOULD use `ILIAS\ModuleName` or `ILIAS\ServiceName`, e.g. `ILIAS\Course` or `ILIAS\ActiveRecord` in these cases.
