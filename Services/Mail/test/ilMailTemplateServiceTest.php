@@ -52,7 +52,8 @@ class ilMailTemplateServiceTest extends ilMailBaseTest
 
         $repo->expects($this->once())->method('findByContextId')->with($template->getContext())->willReturn($all);
         $repo->expects($this->exactly(count($all)))->method('store');
-        $service = new ilMailTemplateService($repo);
+        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
+        $service = new ilMailTemplateService($repo, $mustache_factory);
 
         $service->setAsContextDefault($template);
 
@@ -74,7 +75,8 @@ class ilMailTemplateServiceTest extends ilMailBaseTest
         $template->setContext('phpunit');
 
         $repo->expects($this->once())->method('store')->with($template);
-        $service = new ilMailTemplateService($repo);
+        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
+        $service = new ilMailTemplateService($repo, $mustache_factory);
 
         $service->unsetAsContextDefault($template);
 

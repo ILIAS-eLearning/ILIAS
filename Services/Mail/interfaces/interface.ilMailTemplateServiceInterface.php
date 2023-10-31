@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Templates\TemplateSubjectSyntaxException;
+use ILIAS\Mail\Templates\TemplateMessageSyntaxException;
+
 interface ilMailTemplateServiceInterface
 {
     public function createNewTemplate(
@@ -28,6 +31,9 @@ interface ilMailTemplateServiceInterface
         string $language
     ): ilMailTemplate;
 
+    /**
+     * @throws TemplateSubjectSyntaxException|TemplateMessageSyntaxException
+     */
     public function modifyExistingTemplate(
         int $templateId,
         string $contextId,

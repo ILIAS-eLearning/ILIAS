@@ -35,7 +35,10 @@ class MailService
     {
         if (!isset($this->dic[ilMailTemplateServiceInterface::class])) {
             $this->dic[ilMailTemplateServiceInterface::class] = static function (Container $c): ilMailTemplateServiceInterface {
-                return new ilMailTemplateService(new ilMailTemplateRepository($c->database()));
+                return new ilMailTemplateService(
+                    new ilMailTemplateRepository($c->database()),
+                    $c->mail()->mustacheFactory()
+                );
             };
         }
     }

@@ -11380,6 +11380,7 @@ mail#:#mail_template_client#:#Text Template
 mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
 mail#:#mail_template_context#:#Context
 mail#:#mail_template_default#:# (Default)
+mail#:#mail_template_invalid_tpl_syntax#:#An invalid syntax has been detected. Please ensure a valid input, especially regarding the placeholder syntax.
 mail#:#mail_template_missing_id#:#Can't execute the action because the text template id is missing.
 mail#:#mail_template_no_context_available#:#There is no context provided by any ILIAS service or module. Thus it is not possible to create or edit a text template.
 mail#:#mail_template_no_valid_context#:#The given context is not valid.
