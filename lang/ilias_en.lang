@@ -1268,8 +1268,8 @@ assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_activate_skill_service#:#Competence Service
-assessment#:#tst_activate_skill_service_desc#:#Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended.
-assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. Further access, including to tests already in progress, will be prevented at the end of the period.
+assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questions to competences and the definition of thresholds for reaching a specific competence level.
+assessment#:#tst_activation_limited_visibility_info#:#Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended.
 assessment#:#tst_activation_online_info#:#Participants can take the test if it is ‘Online’.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
