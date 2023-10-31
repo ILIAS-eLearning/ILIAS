@@ -86,7 +86,7 @@ class DatabaseHistoryRepository implements HistoryRepository
             return new Error('Not found.');
         }
 
-        return new Ok(new DocumentContent($result['type'], $result['title'], $result['text']));
+        return new Ok(new DocumentContent($result['type'], $result['title'] ?? '', $result['text'] ?? ''));
     }
 
     /**
@@ -145,7 +145,7 @@ class DatabaseHistoryRepository implements HistoryRepository
             $this->document_meta->documentFromRow($row, []),
             new Edit((int) $row['usr_id'], new DateTimeImmutable('@' . $row['ts'])),
             array_map(fn(array $criterion) => new CriterionContent($criterion['id'], $criterion['value']), json_decode($row['criteria'], true)),
-            new DocumentContent($row['old_type'], $row['old_title'], $row['old_text'])
+            new DocumentContent($row['old_type'], $row['old_title'] ?? '', $row['old_text'] ?? '')
         );
     }
 

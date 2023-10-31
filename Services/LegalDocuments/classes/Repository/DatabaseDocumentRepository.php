@@ -167,8 +167,8 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
      *     modification_ts: string,
      *     owner_usr_id: string,
      *     sorting: string,
-     *     text: string,
-     *     title: string,
+     *     text: ?string,
+     *     title: ?string,
      * } $row
      * @param list<Criterion> $criteria
      */
@@ -178,7 +178,7 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
             (int) $row['sorting'],
             new Edit((int) $row['last_modified_usr_id'], new DateTimeImmutable('@' . $row['modification_ts'])),
             new Edit((int) $row['owner_usr_id'], new DateTimeImmutable('@' . $row['creation_ts']))
-        ), new DocumentContent($row['type'], $row['title'], $row['text'] ?? ''), $criteria);
+        ), new DocumentContent($row['type'], $row['title'] ?? '', $row['text'] ?? ''), $criteria);
     }
 
     public function documentTable(): string
