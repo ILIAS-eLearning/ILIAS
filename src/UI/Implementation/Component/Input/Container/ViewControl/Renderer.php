@@ -78,7 +78,8 @@ class Renderer extends AbstractComponentRenderer
         );
         $id = $this->bindJavaScript($component);
 
-        $input_names = $this->getComponentInternalNames($component->getInputGroup());
+        $input_names = array_keys($component->getComponentInternalValues());
+
         $query_params = array_filter(
             $component->getRequest()?->getQueryParams(),
             fn($k) => ! in_array($k, $input_names),

@@ -51,7 +51,7 @@ class StackedInputData implements InputData
     public function getOr(string $name, $default)
     {
         try {
-            $this->get($name);
+            return $this->get($name);
         } catch (\LogicException $e) {
         }
         return $default;

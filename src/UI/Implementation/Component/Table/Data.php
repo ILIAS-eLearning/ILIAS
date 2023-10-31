@@ -371,8 +371,6 @@ class Data extends Table implements T\Data, JSBindable
         if ($request = $this->getRequest()) {
             $view_controls = $view_controls->withRequest($request);
             $data = $view_controls->getData();
-            //echo "<pre>------\n";
-            //print_r($data); die();
             $table = $table
                 ->withRange(($data[self::VIEWCONTROL_KEY_PAGINATION] ?? null)?->croppedTo($total_count ?? PHP_INT_MAX))
                 ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)
