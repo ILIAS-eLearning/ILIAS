@@ -1073,12 +1073,14 @@ class ilPCTableGUI extends ilPageContentGUI
             "/Table/TableRow";
         $nodes = $this->dom_util->path($this->dom, $path);
         $i = 0;
+        $total_rows = count($nodes);
         foreach ($nodes as $node) {
             $path2 = "//PageContent[@HierId='" . $this->getHierId() . "']" .
                 "/Table/TableRow[$i+1]/TableData";
             $nodes2 = $this->dom_util->path($this->dom, $path2);
             // if this is the first row -> col icons
             if ($i == 0) {
+                $total_cols = count($nodes2);
                 $j = 0;
                 foreach ($nodes2 as $node2) {
                     if ($j == 0) {

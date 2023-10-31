@@ -46,7 +46,8 @@ class ilPCSourceCode extends ilPCParagraph
         foreach ($nodes as $context_node) {
             $char = $context_node->getAttribute('Characteristic');
 
-            if ($char != "Code") {
+            if ($char !== "Code") {
+                $i++;
                 continue;
             }
 

@@ -271,22 +271,21 @@ class ilPCTabs extends ilPageContent
 
     public function saveCaption(string $pc_id, string $caption): void
     {
-        $tab_nodes = $this->tabs_node->child_nodes();
-        for ($i = 0; $i < count($tab_nodes); $i++) {
-            if ($tab_nodes[$i]->node_name() == "Tab") {
-                $current_pc_id = $tab_nodes[$i]->get_attribute("PCID");
+        $tab_nodes = $this->getChildNode()->childNodes;
+        foreach ($tab_nodes as $tab_node) {
+            if ($tab_node->nodeName === "Tab") {
+                $current_pc_id = $tab_node->getAttribute("PCID");
                 if ($current_pc_id === $pc_id) {
                     if ($caption !== "") {
-                        ilDOMUtil::setFirstOptionalElement(
-                            $this->dom,
-                            $tab_nodes[$i],
+                        $this->dom_util->setFirstOptionalElement(
+                            $tab_node,
                             "TabCaption",
-                            array(),
+                            [],
                             $caption,
-                            array()
+                            []
                         );
                     } else {
-                        ilDOMUtil::deleteAllChildsByName($tab_nodes[$i], array("TabCaption"));
+                        $this->dom_util->deleteAllChildsByName($tab_node, ["TabCaption"]);
                     }
                 }
             }
