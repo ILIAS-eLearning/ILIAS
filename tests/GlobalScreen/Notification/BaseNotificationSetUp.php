@@ -119,7 +119,7 @@ abstract class BaseNotificationSetUp extends TestCase
         $mocks = [
             'ui' => $this->createMock(\ILIAS\DI\UIServices::class),
             'ui.factory' => $this->createMock(\ILIAS\UI\Factory::class),
-            'provider_factory'=> $this->createMock(ProviderFactory::class),
+            'provider_factory' => $this->createMock(ProviderFactory::class),
         ];
         return new class ($mocks) extends ILIAS\DI\Container {
             public function globalScreen(): Services
@@ -133,6 +133,7 @@ abstract class BaseNotificationSetUp extends TestCase
     {
         $dic = $this->getDIC();
         $provider = new class ($dic) extends AbstractNotificationProvider {
+            public array $notifications = [];
             public function getNotifications(): array
             {
                 return $this->notifications;

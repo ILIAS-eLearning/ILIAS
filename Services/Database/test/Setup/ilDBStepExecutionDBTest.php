@@ -22,11 +22,16 @@ class ilDBStepExecutionDBTest extends TestCase
 {
     public const CLASS_NAME_200 = "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
     public const CLASS_NAME_201 = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+    /**
+     * @var ilDBInterface|(ilDBInterface&object&\PHPUnit\Framework\MockObject\MockObject)|(ilDBInterface&\PHPUnit\Framework\MockObject\MockObject)|(object&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private ilDBInterface|\PHPUnit\Framework\MockObject\MockObject $db;
+    private ilDBStepExecutionDB $execution_db;
 
     protected function setUp(): void
     {
         $this->db = $this->createMock(\ilDBInterface::class);
-        $this->execution_db = new \ilDBStepExecutionDB($this->db, fn () => new \DateTime());
+        $this->execution_db = new \ilDBStepExecutionDB($this->db, fn() => new \DateTime());
     }
 
     public function testStartedThrowsOnLongClassName(): void
@@ -60,7 +65,7 @@ class ilDBStepExecutionDBTest extends TestCase
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
+            ->setConstructorArgs([$this->db, fn() => new \DateTime($NOW)])
             ->getMock();
 
         $execution_db->expects($this->once())
@@ -79,7 +84,7 @@ class ilDBStepExecutionDBTest extends TestCase
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
+            ->setConstructorArgs([$this->db, fn() => new \DateTime($NOW)])
             ->getMock();
 
         $execution_db->expects($this->once())
@@ -105,7 +110,7 @@ class ilDBStepExecutionDBTest extends TestCase
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
+            ->setConstructorArgs([$this->db, fn() => new \DateTime($NOW)])
             ->getMock();
 
         $execution_db->expects($this->once())
@@ -151,7 +156,7 @@ class ilDBStepExecutionDBTest extends TestCase
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
+            ->setConstructorArgs([$this->db, fn() => new \DateTime($NOW)])
             ->getMock();
 
         $execution_db->expects($this->once())
@@ -185,7 +190,7 @@ class ilDBStepExecutionDBTest extends TestCase
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
+            ->setConstructorArgs([$this->db, fn() => new \DateTime($NOW)])
             ->getMock();
 
         $execution_db->expects($this->once())

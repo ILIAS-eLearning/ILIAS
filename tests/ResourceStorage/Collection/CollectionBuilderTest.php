@@ -37,6 +37,15 @@ class CollectionBuilderTest extends TestCase
 {
     public const DUMMY_RCID = 'dummy-rcid';
     private CollectionBuilder $collection_builder;
+    /**
+     * @var CollectionRepository|(CollectionRepository&object&MockObject)|(CollectionRepository&MockObject)|(object&MockObject)|MockObject
+     */
+    private CollectionRepository|MockObject $collection_repo;
+    /**
+     * @var ResourceBuilder|(ResourceBuilder&object&MockObject)|(ResourceBuilder&MockObject)|(object&MockObject)|MockObject
+     */
+    private ResourceBuilder|MockObject $resource_builder;
+    private Collections $collections;
 
     protected function setUp(): void
     {

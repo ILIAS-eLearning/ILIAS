@@ -145,8 +145,8 @@ class FlavourMachineTest extends AbstractBaseTest
     public function testDefaultMachineEngines(string $machine, string $engine): void
     {
         $factory = new \ILIAS\ResourceStorage\Flavour\Engine\Factory();
-        $engin_instance = $factory->get(new $machine());
-        $this->assertInstanceOf($engine, $engin_instance);
+        $engine_instance = $factory->get(new $machine());
+        $this->assertInstanceOf($engine, $engine_instance);
     }
 
     /**

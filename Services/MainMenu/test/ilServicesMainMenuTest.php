@@ -47,6 +47,11 @@ class ilServicesMainMenuTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup;
     /**
+     * @var ProviderFactory|(ProviderFactory&object&\PHPUnit\Framework\MockObject\MockObject)|(ProviderFactory&\PHPUnit\Framework\MockObject\MockObject)|(object&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private ProviderFactory|\PHPUnit\Framework\MockObject\MockObject $provider_factory_mock;
+    private Services $gs_mock;
+    /**
      * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected ilDBInterface $db_mock;

@@ -34,6 +34,7 @@ class CollectionRepositoryTest extends TestCase
     private const TEST_RCID = 'test_rcid';
     private \ilDBInterface|\PHPUnit\Framework\MockObject\MockObject $db_mock;
     private CollectionDBRepository $repo;
+    private DummyIDGenerator $rcid_generator;
 
     protected function setUp(): void
     {

@@ -43,6 +43,8 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
     protected function getFileNamePolicy(string $denied_ending): \ILIAS\ResourceStorage\Policy\FileNamePolicy
     {
         return new class ($denied_ending) implements FileNamePolicy {
+            private string $denied_ending;
+
             public function __construct(string $denied_ending)
             {
                 $this->denied_ending = $denied_ending;

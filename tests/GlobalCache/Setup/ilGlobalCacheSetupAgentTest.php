@@ -34,6 +34,7 @@ class TestObj extends \ilGlobalCacheSetupAgent
 
 class ilGlobalCacheSetupAgentTest extends TestCase
 {
+    private Refinery $refinery;
     /**
      * @var \ilGlobalCacheSetupAgent
      */
