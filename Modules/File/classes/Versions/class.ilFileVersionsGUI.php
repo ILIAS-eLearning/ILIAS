@@ -28,6 +28,7 @@ use ILIAS\Services\WOPI\Discovery\ActionRepository;
 use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\Services\WOPI\Discovery\ActionTarget;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -200,7 +201,8 @@ class ilFileVersionsGUI
                 return;
             case strtolower(ilWOPIEmbeddedApplicationGUI::class):
                 $action = $this->action_repo->getActionForSuffix(
-                    $this->current_revision->getInformation()->getSuffix()
+                    $this->current_revision->getInformation()->getSuffix(),
+                    ActionTarget::EDIT
                 );
 
                 $embeded_application = new EmbeddedApplication(
@@ -329,7 +331,8 @@ class ilFileVersionsGUI
         $suffix = $this->current_revision?->getInformation()?->getSuffix();
 
         if ($this->action_repo->hasActionForSuffix(
-            $this->current_revision->getInformation()->getSuffix()
+            $this->current_revision->getInformation()->getSuffix(),
+            ActionTarget::EDIT
         )) {
             $external_editor = $this->ui->factory()
                                         ->button()

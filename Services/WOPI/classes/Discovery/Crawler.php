@@ -27,16 +27,23 @@ use ILIAS\Data\URI;
  */
 class Crawler
 {
-    private const ACTION_EDIT = 'edit';
-    private const ACTION_VIEW = 'view';
     private const XPATH = '/wopi-discovery/net-zone/app';
-    private array $crawl_actions = [self::ACTION_EDIT];
+    private array $crawl_actions = []
+    ;
     private ?string $content = null;
     private ?\SimpleXMLElement $discovery = null;
     /**
      * @var \SimpleXMLElement[]|null
      */
     private ?array $xml_app_elements = null;
+
+    public function __construct()
+    {
+        $this->crawl_actions = [
+            ActionTarget::VIEW->value,
+            ActionTarget::EDIT->value,
+        ];
+    }
 
     public function validate(URI $discovery_url): bool
     {

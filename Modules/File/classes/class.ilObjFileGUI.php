@@ -30,6 +30,7 @@ use ILIAS\Data\Factory;
 use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
 use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
+use ILIAS\Services\WOPI\Discovery\ActionTarget;
 
 /**
  * GUI class for file objects.
@@ -241,7 +242,8 @@ class ilObjFileGUI extends ilObject2GUI
                     return;
                 }
                 $action = $this->action_repo->getActionForSuffix(
-                    $this->object->getFileExtension()
+                    $this->object->getFileExtension(),
+                    ActionTarget::EDIT
                 );
                 if (null === $action) {
                     $this->error->raiseError($this->lng->txt("no_action_avaliable"), $this->error->MESSAGE);
@@ -784,7 +786,8 @@ class ilObjFileGUI extends ilObject2GUI
         if (
             $this->checkPermissionBool("edit_file")
             && $this->action_repo->hasActionForSuffix(
-                $this->object->getFileExtension()
+                $this->object->getFileExtension(),
+                ActionTarget::EDIT
             )) {
             $external_editor = $this->ui->factory()
                                         ->button()

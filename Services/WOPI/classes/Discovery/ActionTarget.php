@@ -23,21 +23,8 @@ namespace ILIAS\Services\WOPI\Discovery;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface ActionRepository
+enum ActionTarget: string
 {
-    public function hasActionForSuffix(
-        string $suffix,
-        ActionTarget $action_target
-    ): bool;
-
-    public function getActionForSuffix(
-        string $suffix,
-        ActionTarget $action_target
-    ): ?Action;
-
-    public function getActions(): array;
-
-    public function store(Action $action, App $for_app): void;
-
-    public function clear(): void;
+    case EDIT = 'edit';
+    case VIEW = 'view';
 }
