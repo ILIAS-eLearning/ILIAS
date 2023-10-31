@@ -1189,18 +1189,20 @@ class ilExAssignment
         // users in idl may already exist before occuring in the members db table
         // if user starts an assignment with relative deadline
         $idl = $this->getIndividualDeadlines();
-        foreach ($idl as $user_id => $v) {
-            if (!isset($mem[$user_id])) {
-                if (ilObjUser::_exists($user_id)) {
-                    $name = ilObjUser::_lookupName($user_id);
-                    $mem[$user_id] =
-                        array(
-                            "name" => $name["lastname"] . ", " . $name["firstname"],
-                            "login" => $name["login"],
-                            "usr_id" => $user_id,
-                            "lastname" => $name["lastname"],
-                            "firstname" => $name["firstname"]
-                        );
+        if (!$this->ass_type->usesTeams()) {
+            foreach ($idl as $user_id => $v) {
+                if (!isset($mem[$user_id])) {
+                    if (ilObjUser::_exists($user_id)) {
+                        $name = ilObjUser::_lookupName($user_id);
+                        $mem[$user_id] =
+                            array(
+                                "name" => $name["lastname"] . ", " . $name["firstname"],
+                                "login" => $name["login"],
+                                "usr_id" => $user_id,
+                                "lastname" => $name["lastname"],
+                                "firstname" => $name["firstname"]
+                            );
+                    }
                 }
             }
         }
