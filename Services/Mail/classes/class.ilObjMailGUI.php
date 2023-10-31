@@ -636,7 +636,7 @@ class ilObjMailGUI extends ilObjectGUI
             return;
         }
 
-        // If all forms in ILIAS use the UI/KS forms (here and in Services/Mail), we should move this to a propert constraint/trafo
+        // If all forms in ILIAS use the UI/KS forms (here and in Services/Mail), we should move this to a proper constraint/trafo
         $is_valid_template_syntax = $this->refinery->custom()->constraint(function ($value): bool {
             try {
                 $this->mustache_factory->getBasicEngine()->render((string) $value, []);
