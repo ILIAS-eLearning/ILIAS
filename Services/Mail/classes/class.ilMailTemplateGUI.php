@@ -149,6 +149,12 @@ class ilMailTemplateGUI
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, 'showTemplates');
+        } catch (\ILIAS\Mail\Templates\TemplateSubjectSyntaxException) {
+            $form->getItemByPostVar('m_subject')->setAlert($this->lng->txt('mail_template_invalid_tpl_syntax'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+        } catch (\ILIAS\Mail\Templates\TemplateMessageSyntaxException) {
+            $form->getItemByPostVar('m_message')->setAlert($this->lng->txt('mail_template_invalid_tpl_syntax'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         } catch (Exception) {
             $form->getItemByPostVar('context')->setAlert(
                 $this->lng->txt('mail_template_no_valid_context')
@@ -222,6 +228,10 @@ class ilMailTemplateGUI
                 $this->ctrl->redirect($this, 'showTemplates');
             } catch (OutOfBoundsException) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
+            } catch (\ILIAS\Mail\Templates\TemplateSubjectSyntaxException) {
+                $form->getItemByPostVar('m_subject')->setAlert($this->lng->txt('mail_template_invalid_tpl_syntax'));
+            } catch (\ILIAS\Mail\Templates\TemplateMessageSyntaxException) {
+                $form->getItemByPostVar('m_message')->setAlert($this->lng->txt('mail_template_invalid_tpl_syntax'));
             } catch (Exception) {
                 $form->getItemByPostVar('context')->setAlert(
                     $this->lng->txt('mail_template_no_valid_context')

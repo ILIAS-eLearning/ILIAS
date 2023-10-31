@@ -11391,6 +11391,7 @@ mail#:#mail_template_client#:#Textvorlage
 mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Bei der Wahl einer Textvorlage werden Nachricht und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
 mail#:#mail_template_context#:#Kontext
 mail#:#mail_template_default#:# (Standard)
+mail#:#mail_template_invalid_tpl_syntax#:#Es wurde eine ungültige Syntax festgestellt. Bitte prüfen Sie Ihre Eingaben, vor allem hinsichtlich der Platzhalter-Syntax.
 mail#:#mail_template_missing_id#:#Die Aktion kann nicht ausgeführt werden, da die ID der Textvorlage nicht korrekt übertragen wurde.
 mail#:#mail_template_no_context_available#:#Aktuell wird von keinem ILIAS-Service oder -Modul ein Kontext bereitgestellt. Das Anlegen oder Bearbeiten von Textvorlagen ist daher nicht möglich.
 mail#:#mail_template_no_valid_context#:#Der gewählte Kontext ist nicht gültig.

@@ -18,10 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Templates\TemplateSubjectSyntaxException;
+use ILIAS\Mail\Templates\TemplateMessageSyntaxException;
+
 class ilMailTemplateService implements ilMailTemplateServiceInterface
 {
-    public function __construct(protected ilMailTemplateRepository $repository)
-    {
+    public function __construct(
+        protected ilMailTemplateRepository $repository,
+        protected ilMustacheFactory $mustacheFactory
+    ) {
     }
 
     public function createNewTemplate(
@@ -31,6 +36,18 @@ class ilMailTemplateService implements ilMailTemplateServiceInterface
         string $message,
         string $language
     ): ilMailTemplate {
+        try {
+            $this->mustacheFactory->getBasicEngine()->render($subject, []);
+        } catch (Exception) {
+            throw new TemplateSubjectSyntaxException('Invalid mail template for subject');
+        }
+
+        try {
+            $this->mustacheFactory->getBasicEngine()->render($message, []);
+        } catch (Exception) {
+            throw new TemplateMessageSyntaxException('Invalid mail template for message');
+        }
+
         $template = new ilMailTemplate();
         $template->setContext($contextId);
         $template->setTitle($title);
@@ -51,6 +68,18 @@ class ilMailTemplateService implements ilMailTemplateServiceInterface
         string $message,
         string $language
     ): void {
+        try {
+            $this->mustacheFactory->getBasicEngine()->render($subject, []);
+        } catch (Exception) {
+            throw new TemplateSubjectSyntaxException('Invalid mail template for subject');
+        }
+
+        try {
+            $this->mustacheFactory->getBasicEngine()->render($message, []);
+        } catch (Exception) {
+            throw new TemplateMessageSyntaxException('Invalid mail template for message');
+        }
+
         $template = $this->repository->findById($templateId);
 
         $template->setContext($contextId);

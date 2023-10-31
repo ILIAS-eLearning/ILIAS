@@ -32,6 +32,7 @@ class ilObjMailGUI extends ilObjectGUI
     private const PASSWORD_PLACE_HOLDER = '***********************';
 
     private readonly ilTabsGUI $tabs;
+    private readonly ilMustacheFactory $mustache_factory;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
@@ -40,6 +41,7 @@ class ilObjMailGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
         $this->tabs = $DIC->tabs();
+        $this->mustache_factory = $DIC->mail()->mustacheFactory();
 
         $this->lng->loadLanguageModule('mail');
     }
@@ -629,6 +631,33 @@ class ilObjMailGUI extends ilObjectGUI
             $form->getItemByPostVar('mail_smtp_password')->setRequired(true);
             $form->getItemByPostVar('mail_smtp_password')
                  ->setAlert($this->lng->txt('mail_smtp_password_req'));
+            $form->setValuesByPost();
+            $this->showExternalSettingsFormObject($form);
+            return;
+        }
+
+        // If all forms in ILIAS use the UI/KS forms (here and in Services/Mail), we should move this to a propert constraint/trafo
+        $is_valid_template_syntax = $this->refinery->custom()->constraint(function ($value): bool {
+            try {
+                $this->mustache_factory->getBasicEngine()->render((string) $value, []);
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }, $this->lng->txt('mail_template_invalid_tpl_syntax'));
+
+        $valid_templates = true;
+        foreach (['mail_system_usr_from_name', 'mail_system_sys_signature'] as $template) {
+            try {
+                $is_valid_template_syntax->check((string) $form->getInput($template));
+            } catch (Exception) {
+                $form->getItemByPostVar($template)->setAlert(
+                    $is_valid_template_syntax->problemWith((string) $form->getInput($template))
+                );
+                $valid_templates = false;
+            }
+        }
+        if (!$valid_templates) {
             $form->setValuesByPost();
             $this->showExternalSettingsFormObject($form);
             return;
