@@ -23,6 +23,7 @@ use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\Data\DataSize;
 use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
+use ILIAS\Services\WOPI\Discovery\ActionTarget;
 
 /**
  * Class ilObjFileListGUI
@@ -252,7 +253,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         $additional_check = match ($cmd) {
             ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION => ilObjFileAccess::isZIP($data['mime'] ?? null),
-            'editExternal' => $this->action_repo->hasActionForSuffix($data['suffix'] ?? ''),
+            'editExternal' => $this->action_repo->hasActionForSuffix($data['suffix'] ?? '', ActionTarget::EDIT),
             default => true,
         };
 

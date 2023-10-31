@@ -34,21 +34,25 @@ class ActionDBRepository implements ActionRepository
     ) {
     }
 
-    public function hasActionForSuffix(string $suffix): bool
-    {
-        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE ext = %s';
-        $result = $this->db->queryF($query, ['text'], [strtolower($suffix)]);
+    public function hasActionForSuffix(
+        string $suffix,
+        ActionTarget $action_target
+    ): bool {
+        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE ext = %s AND name = %s';
+        $result = $this->db->queryF($query, ['text', 'text'], [strtolower($suffix), $action_target->value]);
         return $result->numRows() > 0;
     }
 
-    public function getActionForSuffix(string $suffix): ?Action
-    {
-        if (!$this->hasActionForSuffix($suffix)) {
+    public function getActionForSuffix(
+        string $suffix,
+        ActionTarget $action_target
+    ): ?Action {
+        if (!$this->hasActionForSuffix($suffix, $action_target)) {
             return null;
         }
 
-        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE ext = %s';
-        $result = $this->db->queryF($query, ['text'], [$suffix]);
+        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE ext = %s AND name = %s';
+        $result = $this->db->queryF($query, ['text', 'text'], [strtolower($suffix), $action_target->value]);
         $row = $this->db->fetchAssoc($result);
         return $this->fromDBRow($row);
     }
