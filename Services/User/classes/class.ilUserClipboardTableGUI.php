@@ -76,7 +76,7 @@ class ilUserClipboardTableGUI extends ilTable2GUI
 
     public function parse(): void
     {
-        $content = array();
+        $content = [];
         foreach ($this->clipboard->getValidatedContent() as $user_id) {
             $row['usr_id'] = $user_id;
             $name_arr = ilObjUser::_lookupName($user_id);

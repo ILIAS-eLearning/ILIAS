@@ -61,6 +61,6 @@ abstract class ilUserActionProvider
 
     public function getJsScripts(string $a_action_type): array
     {
-        return array();
+        return [];
     }
 }

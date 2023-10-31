@@ -55,7 +55,7 @@ class ilUserLPTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("login");
         $this->setDefaultOrderDirection("asc");
 
-        $this->setExportFormats(array(self::EXPORT_EXCEL));
+        $this->setExportFormats([self::EXPORT_EXCEL]);
 
         $this->getItems();
     }
@@ -77,7 +77,7 @@ class ilUserLPTableGUI extends ilTable2GUI
             null,
             null,
             null,
-            array("online_time"),
+            ["online_time"],
             null,
             null
         );
@@ -97,7 +97,7 @@ class ilUserLPTableGUI extends ilTable2GUI
                 null,
                 null,
                 null,
-                array("online_time"),
+                ["online_time"],
                 null,
                 null
             );
@@ -123,7 +123,7 @@ class ilUserLPTableGUI extends ilTable2GUI
         if ($this->lp_active) {
             $ilCtrl->setParameterByClass("illearningprogressgui", "ref_id", $this->ref_id);
             $ilCtrl->setParameterByClass("illearningprogressgui", "obj_id", $a_set["usr_id"]);
-            $link = $ilCtrl->getLinkTargetByClass(array("ilobjusergui",'illearningprogressgui'), "");
+            $link = $ilCtrl->getLinkTargetByClass(["ilobjusergui",'illearningprogressgui'], "");
 
             $this->tpl->setCurrentBlock("login_link");
             $this->tpl->setVariable("HREF_LOGIN", $link);

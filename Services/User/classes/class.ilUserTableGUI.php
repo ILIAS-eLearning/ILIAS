@@ -140,13 +140,13 @@ class ilUserTableGUI extends ilTable2GUI
     {
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         foreach ($user_defined_fields->getDefinitions() as $field => $definition) {
-            $this->udf_fields["udf_" . $field] = array(
+            $this->udf_fields["udf_" . $field] = [
                 "txt" => $definition["field_name"],
                 "default" => false,
                 "options" => $definition["field_values"],
                 "type" => $definition["field_type"],
-                "sortable" => in_array($definition["field_type"], array(UDF_TYPE_TEXT, UDF_TYPE_SELECT))
-            );
+                "sortable" => in_array($definition["field_type"], [UDF_TYPE_TEXT, UDF_TYPE_SELECT])
+            ];
         }
     }
 
@@ -155,7 +155,7 @@ class ilUserTableGUI extends ilTable2GUI
      */
     public function getUserDefinedField(string $a_key): array // Missing array type.
     {
-        return $this->udf_fields[$a_key] ?? array();
+        return $this->udf_fields[$a_key] ?? [];
     }
 
     public function isUdfColumn(string $a_key): bool
@@ -178,55 +178,55 @@ class ilUserTableGUI extends ilTable2GUI
         $up->skipGroup("settings");
 
         // default fields
-        $cols = array();
+        $cols = [];
 
         // first and last name cannot be hidden
-        $cols["firstname"] = array(
+        $cols["firstname"] = [
             "txt" => $lng->txt("firstname"),
-            "default" => true);
-        $cols["lastname"] = array(
+            "default" => true];
+        $cols["lastname"] = [
             "txt" => $lng->txt("lastname"),
-            "default" => true);
+            "default" => true];
         if ($this->getMode() == self::MODE_USER_FOLDER) {
             $ufs = $up->getStandardFields();
 
-            $cols["access_until"] = array(
+            $cols["access_until"] = [
                 "txt" => $lng->txt("access_until"),
-                "default" => true);
-            $cols["last_login"] = array(
+                "default" => true];
+            $cols["last_login"] = [
                 "txt" => $lng->txt("last_login"),
-                "default" => true);
+                "default" => true];
 
             // #13967
-            $cols["create_date"] = array(
-                "txt" => $lng->txt("create_date"));
-            $cols["approve_date"] = array(
-                "txt" => $lng->txt("approve_date"));
-            $cols["agree_date"] = array(
-                "txt" => $lng->txt("agree_date"));
+            $cols["create_date"] = [
+                "txt" => $lng->txt("create_date")];
+            $cols["approve_date"] = [
+                "txt" => $lng->txt("approve_date")];
+            $cols["agree_date"] = [
+                "txt" => $lng->txt("agree_date")];
         } else {
             $ufs = $up->getLocalUserAdministrationFields();
         }
 
         // email should be the 1st "optional" field (can be hidden)
         if (isset($ufs["email"])) {
-            $cols["email"] = array(
+            $cols["email"] = [
                 "txt" => $lng->txt("email"),
-                "default" => true);
+                "default" => true];
         }
         if (isset($ufs["second_email"])) {
-            $cols["second_email"] = array(
+            $cols["second_email"] = [
                 "txt" => $lng->txt("second_email"),
-                "default" => true);
+                "default" => true];
         }
         // other user profile fields
         foreach ($ufs as $f => $fd) {
             if (!isset($cols[$f]) && (!isset($fd["lists_hide"]) || !$fd["lists_hide"])) {
                 // #18795
                 $caption = $fd["lang_var"] ?? $f;
-                $cols[$f] = array(
+                $cols[$f] = [
                     "txt" => $lng->txt($caption),
-                    "default" => false);
+                    "default" => false];
             }
         }
 
@@ -234,9 +234,9 @@ class ilUserTableGUI extends ilTable2GUI
         /**
          * LTI, showing depending by mode user?
          */
-        $cols["auth_mode"] = array(
+        $cols["auth_mode"] = [
             "txt" => $lng->txt("auth_mode"),
-            "default" => false);
+            "default" => false];
 
 
         // custom user fields
@@ -283,7 +283,7 @@ class ilUserTableGUI extends ilTable2GUI
             $user_filter = ilLocalUser::_getFolderIds(true);
         } else {
             if ($this->filter['time_limit_owner'] ?? null) {
-                $user_filter = array($this->filter['time_limit_owner']);
+                $user_filter = [$this->filter['time_limit_owner']];
             } else {
                 // All accessible users
                 $user_filter = ilLocalUser::_getFolderIds();
@@ -316,7 +316,7 @@ class ilUserTableGUI extends ilTable2GUI
             $additional_fields['org_units']
         );
 
-        $udf_filter = array();
+        $udf_filter = [];
         foreach ($this->filter as $k => $v) {
             if (strpos($k, "udf_") === 0) {
                 $udf_filter[$k] = $v;
@@ -381,7 +381,7 @@ class ilUserTableGUI extends ilTable2GUI
             $user_filter = ilLocalUser::_getFolderIds(true);
         } else {
             if ($this->filter['time_limit_owner']) {
-                $user_filter = array($this->filter['time_limit_owner']);
+                $user_filter = [$this->filter['time_limit_owner']];
             } else {
                 // All accessible users
                 $user_filter = ilLocalUser::_getFolderIds();
@@ -400,7 +400,7 @@ class ilUserTableGUI extends ilTable2GUI
         }
         $usr_data = $query->query();
 
-        $user_ids = array();
+        $user_ids = [];
 
         foreach ($usr_data["set"] as $item) {
             // #11632
@@ -471,11 +471,11 @@ class ilUserTableGUI extends ilTable2GUI
 
 
         // activation
-        $options = array(
+        $options = [
             "" => $lng->txt("user_all"),
             "active" => $lng->txt("active"),
             "inactive" => $lng->txt("inactive"),
-            );
+            ];
         $si = new ilSelectInputGUI($this->lng->txt("user_activation"), "activation");
         $si->setOptions($options);
         $this->addFilterItem($si);
@@ -514,16 +514,16 @@ class ilUserTableGUI extends ilTable2GUI
             $rs = new ilRepositorySelectorInputGUI($lng->txt("user_member_of_course_group"), "course_group");
             $rs->setSelectText($lng->txt("user_select_course_group"));
             $rs->setHeaderMessage($lng->txt("user_please_select_course_group"));
-            $rs->setClickableTypes(array("crs", "grp"));
+            $rs->setClickableTypes(["crs", "grp"]);
             $this->addFilterItem($rs);
             $rs->readFromSession();
             $this->filter["course_group"] = $rs->getValue();
         }
 
         // global roles
-        $options = array(
+        $options = [
             "" => $lng->txt("user_any"),
-            );
+            ];
         $roles = $rbacreview->getRolesByFilter(2, $ilUser->getId());
         foreach ($roles as $role) {
             $options[$role["rol_id"]] = $role["title"];
@@ -536,9 +536,9 @@ class ilUserTableGUI extends ilTable2GUI
 
         // authentication mode
         $auth_methods = ilAuthUtils::_getActiveAuthModes();
-        $options = array(
+        $options = [
             "" => $lng->txt("user_any"),
-        );
+        ];
         foreach ($auth_methods as $method => $value) {
             if ($method == 'default') {
                 $options[$method] = $this->lng->txt('auth_' . $method) . " (" . $this->lng->txt('auth_' . ilAuthUtils::_getAuthModeName($value)) . ")";
@@ -566,7 +566,7 @@ class ilUserTableGUI extends ilTable2GUI
         int $type,
         bool $a_optional = false,
         ?string $caption = null,
-        array $a_options = array()
+        array $a_options = []
     ): ?ilFormPropertyGUI {
         global $DIC;
 
@@ -579,7 +579,7 @@ class ilUserTableGUI extends ilTable2GUI
         switch ($type) {
             case UDF_TYPE_SELECT:
                 $item = new ilSelectInputGUI($caption, $id);
-                $sel_options = array("" => $this->lng->txt("user_all"));
+                $sel_options = ["" => $this->lng->txt("user_all")];
                 foreach ($a_options as $o) {
                     $sel_options[$o] = $o;
                 }
@@ -625,7 +625,7 @@ class ilUserTableGUI extends ilTable2GUI
                     "VAL_LAST_LOGIN",
                     ilDatePresentation::formatDate(new ilDateTime($a_set['last_login'], IL_CAL_DATETIME))
                 );
-            } elseif (in_array($c, array("firstname", "lastname"))) {
+            } elseif (in_array($c, ["firstname", "lastname"])) {
                 $this->tpl->setCurrentBlock($c);
                 $this->tpl->setVariable("VAL_" . strtoupper($c), (string) $a_set[$c]);
             } elseif ($c == 'auth_mode') {

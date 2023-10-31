@@ -58,7 +58,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
 
         switch ($a_context_type) {
             case self::CONTEXT_UDF:
-                return array($this->getRefId());
+                return [$this->getRefId()];
 
             case self::CONTEXT_FIELD:
                 $set = $ilDB->query("SELECT field_id id" .
@@ -66,10 +66,10 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
                 break;
 
             default:
-                return array();
+                return [];
         }
 
-        $res = array();
+        $res = [];
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = $row["id"];
         }
@@ -81,25 +81,25 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
 
     protected function buildPermissionMap(): array // Missing array type.
     {
-        return array(
-            self::CONTEXT_UDF => array(
-                "actions" => array(
+        return [
+            self::CONTEXT_UDF => [
+                "actions" => [
                     self::ACTION_UDF_CREATE_FIELD
-                )
-            ),
-            self::CONTEXT_FIELD => array(
-                "actions" => array(
+                ]
+            ],
+            self::CONTEXT_FIELD => [
+                "actions" => [
                     self::ACTION_FIELD_EDIT,
                     self::ACTION_FIELD_DELETE
-                ),
-                "subactions" => array(
+                ],
+                "subactions" => [
                     self::ACTION_FIELD_EDIT_PROPERTY =>
-                        array(
+                        [
                             self::SUBACTION_FIELD_TITLE
                             ,self::SUBACTION_FIELD_PROPERTIES
-                        )
+                        ]
                     ,self::ACTION_FIELD_EDIT_ACCESS =>
-                        array(
+                        [
                             self::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL
                             ,self::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION
                             ,self::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL
@@ -112,10 +112,10 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
                             ,self::SUBACTION_FIELD_ACCESS_SEARCHABLE
                             ,self::SUBACTION_FIELD_ACCESS_CERTIFICATE
                             ,self::SUBACTION_FIELD_ACCESS_VISIBLE_PRG
-                        )
-                )
-            )
-        );
+                        ]
+                ]
+            ]
+        ];
     }
 
 

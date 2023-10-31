@@ -66,22 +66,22 @@ class ilvCard
 
     public function __construct(string $version = "3.0")
     {
-        $this->types = array(
+        $this->types = [
             "FN" => "",
             "N" => "",
             "NICKNAME" => "",
-            "PHOTO" => array(),
+            "PHOTO" => [],
             "BDAY" => "",
-            "ADR" => array(),
-            "LABEL" => array(),
-            "TEL" => array(),
-            "EMAIL" => array(),
+            "ADR" => [],
+            "LABEL" => [],
+            "TEL" => [],
+            "EMAIL" => [],
             "MAILER" => "",
             "TZ" => "",
             "GEO" => "",
             "TITLE" => "",
             "ROLE" => "",
-            "LOGO" => array(),
+            "LOGO" => [],
             "AGENT" => "",
             "ORG" => "",
             "CATEGORIES" => "",
@@ -89,12 +89,12 @@ class ilvCard
             "PRODID" => "",
             "REV" => "",
             "SORT-STRING" => "",
-            "SOUND" => array(),
+            "SOUND" => [],
             "UID" => "",
             "URL" => "",
             "CLASS" => "",
-            "KEY" => array()
-        );
+            "KEY" => []
+        ];
         $this->types["VERSION"] = $version;
     }
 
@@ -215,7 +215,7 @@ class ilvCard
                             $test = implode('', $address);
                             if (strcmp($test, "") != 0) {
                                 $adr = "ADR";
-                                $adr_types = array();
+                                $adr_types = [];
                                 if ($address["TYPE"] > 0) {
                                     if (($address["TYPE"] & ADR_TYPE_DOM) > 0) {
                                         $adr_types[] = "dom";
@@ -258,7 +258,7 @@ class ilvCard
                     if (isset($this->types["LABEL"])) {
                         if (strcmp(($this->types["LABEL"]["LABEL"] ?? ""), "") != 0) {
                             $label = "LABEL";
-                            $adr_types = array();
+                            $adr_types = [];
                             if ($this->types["LABEL"]["TYPE"] > 0) {
                                 if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_DOM) > 0) {
                                     $adr_types[] = "dom";
@@ -294,7 +294,7 @@ class ilvCard
                         foreach ($this->types["TEL"] as $key => $phone) {
                             if (strcmp($phone["TEL"], "") != 0) {
                                 $tel = "TEL";
-                                $tel_types = array();
+                                $tel_types = [];
                                 if ($phone["TYPE"] > 0) {
                                     if (($phone["TYPE"] & TEL_TYPE_HOME) > 0) {
                                         $tel_types[] = "home";
@@ -356,7 +356,7 @@ class ilvCard
                         foreach ($this->types["EMAIL"] as $key => $mail) {
                             if (strcmp($mail["EMAIL"], "") != 0) {
                                 $email = "EMAIL";
-                                $adr_types = array();
+                                $adr_types = [];
                                 if ($mail["TYPE"] > 0) {
                                     if (($mail["TYPE"] & EMAIL_TYPE_INTERNET) > 0) {
                                         $adr_types[] = "internet";
@@ -554,7 +554,7 @@ class ilvCard
      */
     public function quoted_printable_encode(string $input, int $line_max = 76): string
     {
-        $hex = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
+        $hex = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
         $lines = preg_split("/(\r\n|\r|\n)/", $input);
         $eol = "\r\n";
         $linebreak = "=0D=0A";
@@ -718,12 +718,12 @@ class ilvCard
             $encoding = "b";
             $photo = base64_encode($photo);
         }
-        $this->types["PHOTO"] = array(
+        $this->types["PHOTO"] = [
             "VALUE" => $value,
             "TYPE" => $type,
             "ENCODING" => $encoding,
             "PHOTO" => $photo
-        );
+        ];
     }
 
     /**
@@ -820,7 +820,7 @@ class ilvCard
         $region = implode(",", $this->explodeVar($region));
         $postal_code = implode(",", $this->explodeVar($postal_code));
         $country = implode(",", $this->explodeVar($country));
-        $this->types["ADR"][] = array(
+        $this->types["ADR"][] = [
             "POBOX" => $po_box,
             "EXTENDED_ADDRESS" => $extended_address,
             "STREET_ADDRESS" => $street_address,
@@ -829,7 +829,7 @@ class ilvCard
             "POSTAL_CODE" => $postal_code,
             "COUNTRY" => $country,
             "TYPE" => $type
-        );
+        ];
     }
 
     /**
@@ -869,10 +869,10 @@ class ilvCard
         if ($type == ADR_TYPE_NONE) {
             $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
-        $this->types["LABEL"] = array(
+        $this->types["LABEL"] = [
             "LABEL" => $this->escape($label),
             "TYPE" => $type
-        );
+        ];
     }
 
     // Telecommunications Addressing Types
@@ -918,10 +918,10 @@ class ilvCard
         string $number = "",
         int $type = TEL_TYPE_VOICE
     ): void {
-        $this->types["TEL"][] = array(
+        $this->types["TEL"][] = [
             "TEL" => $this->escape($number),
             "TYPE" => $type
-        );
+        ];
     }
 
     /**
@@ -948,10 +948,10 @@ class ilvCard
         string $address = "",
         int $type = EMAIL_TYPE_INTERNET
     ): void {
-        $this->types["EMAIL"][] = array(
+        $this->types["EMAIL"][] = [
             "EMAIL" => $this->escape($address),
             "TYPE" => $type
-        );
+        ];
     }
 
     /**
@@ -1022,10 +1022,10 @@ class ilvCard
      */
     public function setPosition(string $latitude = "", string $longitude = ""): void
     {
-        $this->types["GEO"] = array(
+        $this->types["GEO"] = [
             "LAT" => $latitude,
             "LON" => $longitude
-        );
+        ];
     }
 
     // Organizational Types
@@ -1102,12 +1102,12 @@ class ilvCard
             $encoding = "b";
             $logo = base64_encode($logo);
         }
-        $this->types["LOGO"] = array(
+        $this->types["LOGO"] = [
             "VALUE" => $value,
             "TYPE" => $type,
             "ENCODING" => $encoding,
             "LOGO" => $logo
-        );
+        ];
     }
 
     /**
@@ -1302,12 +1302,12 @@ class ilvCard
             $encoding = "b";
             $sound = base64_encode($sound);
         }
-        $this->types["SOUND"] = array(
+        $this->types["SOUND"] = [
             "VALUE" => $value,
             "TYPE" => $type,
             "ENCODING" => $encoding,
             "SOUND" => $sound
-        );
+        ];
     }
 
     /**
@@ -1330,10 +1330,10 @@ class ilvCard
      */
     public function setUID(string $uid = "", string $type = ""): void
     {
-        $this->types["UID"] = array(
+        $this->types["UID"] = [
             "UID" => $this->escape($uid),
             "TYPE" => $type
-        );
+        ];
     }
 
     /**
@@ -1431,11 +1431,11 @@ class ilvCard
     {
         $encoding = "b";
         $key = base64_encode($key);
-        $this->types["KEY"] = array(
+        $this->types["KEY"] = [
             "KEY" => $key,
             "TYPE" => $type,
             "ENCODING" => $encoding
-        );
+        ];
     }
 
     public function getFilename(): string

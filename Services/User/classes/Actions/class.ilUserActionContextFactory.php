@@ -22,16 +22,16 @@
  */
 class ilUserActionContextFactory
 {
-    protected static array $contexts = array(
-        array(
+    protected static array $contexts = [
+        [
             "component" => "Services/Awareness",
             "class" => "ilAwarenessUserActionContext"
-        ),
-        array(
+        ],
+        [
             "component" => "Services/User/Gallery",
             "class" => "ilGalleryUserActionContext"
-        )
-    );
+        ]
+    ];
 
     /**
      * Get all action contexts
@@ -40,7 +40,7 @@ class ilUserActionContextFactory
      */
     public static function getAllActionContexts(): array
     {
-        $contexts = array();
+        $contexts = [];
 
         foreach (self::$contexts as $p) {
             $dir = $p["dir"] ?? "classes";
