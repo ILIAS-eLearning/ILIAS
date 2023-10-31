@@ -66,12 +66,6 @@ class UpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2(): void
-    {
-        $this->database->manipulate('UPDATE ldoc_documents SET `text` = "" WHERE `text` IS NULL');
-        $this->database->manipulate('ALTER TABLE ldoc_documents MODIFY COLUMN `text` longtext NOT NULL DEFAULT ""');
-    }
-
     /**
      * @param array<string, mixed> $attributes
      */
