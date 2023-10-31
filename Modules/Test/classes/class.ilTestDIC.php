@@ -24,7 +24,7 @@ use ILIAS\Test\InternalRequestService;
 
 class ilTestDIC
 {
-    public static ?Container $dic = null;
+    protected static ?Container $dic = null;
 
     public static function dic(): Container
     {
@@ -38,7 +38,6 @@ class ilTestDIC
     {
         global $DIC;
         $dic = $DIC;
-        $container = new Container();
 
         $dic['shuffler'] = static fn($c): ilTestShuffler =>
             new ilTestShuffler($dic['refinery']);
@@ -60,6 +59,8 @@ class ilTestDIC
                $dic['lng']
            );
 
+        $dic['main_settings_repository'] = static fn($c): ilObjTestMainSettingsDatabaseRepository =>
+            new ilObjTestMainSettingsDatabaseRepository($dic['ilDB']);
 
         $dic['participantAccessFilterFactory'] = static fn($c): ilTestParticipantAccessFilterFactory =>
             new ilTestParticipantAccessFilterFactory($dic['ilAccess']);

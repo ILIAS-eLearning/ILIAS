@@ -1832,14 +1832,6 @@ class ilObjectListGUI
         }
     }
 
-    public function insertTestScreenCommand(): void
-    {
-        if ($this->std_cmd_only || $this->type !== 'tst') {
-            return;
-        }
-        $this->insertCommand($this->getCommandLink('testScreen'), $this->lng->txt('tst_start_test'));
-    }
-
     public function insertInfoScreenCommand(): void
     {
         if ($this->std_cmd_only) {
@@ -1851,19 +1843,6 @@ class ilObjectListGUI
             $this->getCommandFrame('infoScreen'),
             ilUtil::getImagePath('standard/icon_info.svg')
         );
-    }
-
-    public function handleDisableInfoScreenCommand(): void
-    {
-        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
-
-        if (
-            $this->type === 'tst'
-            && $object !== null
-            && $object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()
-        ) {
-            $this->enableInfoScreen(false);
-        }
     }
 
     /**
@@ -2102,10 +2081,6 @@ class ilObjectListGUI
                 }
             }
             $this->insertLPSettingsCommand();
-
-            $this->insertTestScreenCommand();
-
-            $this->handleDisableInfoScreenCommand();
 
             // info screen command
             if ($this->getInfoScreenStatus()) {

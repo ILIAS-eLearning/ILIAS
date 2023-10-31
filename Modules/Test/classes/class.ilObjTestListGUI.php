@@ -32,17 +32,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 class ilObjTestListGUI extends ilObjectListGUI
 {
-    protected $command_link_params = array();
-
-    /**
-    * constructor
-    *
-    */
-    public function __construct($a_context = self::CONTEXT_REPOSITORY)
-    {
-        parent::__construct($a_context);
-        $this->info_screen_enabled = true;
-    }
+    protected $command_link_params = [];
 
     /**
     * initialisation
@@ -55,6 +45,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         $this->copy_enabled = true;
         $this->subscribe_enabled = true;
         $this->link_enabled = true;
+        $this->info_screen_enabled = true;
         $this->type = "tst";
         $this->gui_class_name = "ilobjtestgui";
 
@@ -62,7 +53,19 @@ class ilObjTestListGUI extends ilObjectListGUI
         $this->commands = ilObjTestAccess::_getCommands();
     }
 
-
+    public function initItem(
+        int $ref_id,
+        int $obj_id,
+        string $type,
+        string $title = '',
+        string $description = ''
+    ): void {
+        if (ilTestDIC::dic()['main_settings_repository']->getForObjFi($obj_id)
+            ->getAdditionalSettings()->getHideInfoTab()) {
+            $this->enableInfoScreen(false);
+        }
+        parent::initItem($ref_id, $obj_id, $type, $title, $description);
+    }
 
     /**
     * Get command target frame
@@ -105,8 +108,8 @@ class ilObjTestListGUI extends ilObjectListGUI
         // we cannot use ilObjTestAccess::_isOffline() because of text messages
         $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $this->user->getId());
         if ($onlineaccess !== true) {
-            $props[] = array("alert" => true, "property" => $this->lng->txt("status"),
-                "value" => $onlineaccess);
+            $props[] = ["alert" => true, "property" => $this->lng->txt("status"),
+                "value" => $onlineaccess];
         }
 
         return $props;
@@ -134,6 +137,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     public function getCommands(): array
     {
         $commands = parent::getCommands();
+        $this->insertCommand($this->getCommandLink('testScreen'), $this->lng->txt('tst_start_test'));
         return $this->handleUserResultsCommand($commands);
     }
 
