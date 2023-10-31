@@ -314,10 +314,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     case "infoScreen":
                         $this->ctrl->redirectByClass("ilInfoScreenGUI", "showSummary");
                         break;
-                    case 'getAsynchItemList':
-                        parent::getAsynchItemListObject();
-                        break;
-
                     case 'editPageFrame':
                         $this->editPageFrameObject();
                         break;

@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Tabelle nascoste
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Imprimere
 administration#:#adm_imprint_inactive#:#L'imprinting non è attivo e gli utenti non sono in grado di accedervi.
-administration#:#adm_item_cmd_asynch#:#Carica la Lista di Azioni sulle Risorse in modo asincrono
-administration#:#adm_item_cmd_asynch_info#:#Comandi delle azioni, n.b. nelle risorse, viene caricato in maniera asincrona. Questo generalmente incrementa le performance, ma rallenta lievemente il caricamento della lista di azioni.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Le impostazioni locali influenzano ad es. l'ordinamento nelle liste. Come esempio si veda nl_NL o de_DE. Localizzazioni multiple devono essere separate da una virgola. Sarà utilizzata la prima localizzazione valida.

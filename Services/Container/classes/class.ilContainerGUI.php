@@ -2078,49 +2078,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tabs->setBackTarget($this->lng->txt('back'), ilLink::_getLink($this->ref_id));
     }
 
-    public function getAsynchItemListObject(): void
-    {
-        $ref_id = $this->std_request->getCmdRefId();
-        $obj_id = ilObject::_lookupObjId($ref_id);
-        $type = ilObject::_lookupType($obj_id);
-
-        // this should be done via container-object->getSubItem in the future
-        $data = [
-            "child" => $ref_id,
-            "ref_id" => $ref_id,
-            "obj_id" => $obj_id,
-            "type" => $type
-        ];
-        $item_list_gui = ilObjectListGUIFactory::_getListGUIByType($type);
-        $item_list_gui->setContainerObject($this);
-
-        $item_list_gui->enableComments(true);
-        $item_list_gui->enableNotes(true);
-        $item_list_gui->enableTags(true);
-
-        $this->modifyItemGUI($item_list_gui, $data);
-        $html = $item_list_gui->getListItemHTML(
-            $ref_id,
-            $obj_id,
-            "",
-            "",
-            true,
-            true
-        );
-
-        // include plugin slot for async item list
-        foreach ($this->component_factory->getActivePluginsInSlot("uihk") as $plugin) {
-            $gui_class = $plugin->getUIClassInstance();
-            $resp = $gui_class->getHTML("Services/Container", "async_item_list", ["html" => $html]);
-            if ((string) $resp["mode"] !== ilUIHookPluginGUI::KEEP) {
-                $html = $gui_class->modifyHTML($html, $resp);
-            }
-        }
-
-        echo $html;
-        exit;
-    }
-
     protected function showPasswordInstructionObject(
         bool $a_init = true
     ): void {

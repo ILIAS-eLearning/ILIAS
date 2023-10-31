@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Fülek elrejtése
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Impresszum
 administration#:#adm_imprint_inactive#:#Az impresszum inaktív, a felhasználók nem érhetik el.
-administration#:#adm_item_cmd_asynch#:#Műveletek listaelemeink letöltése aszinkron módon
-administration#:#adm_item_cmd_asynch_info#:#A Műveletek listája (például a Tartalomtárban) aszinkron töltődik. Ez általában növeli a teljesítményt, de kissé lassítja a Műveletek listaelemeinek betöltését.
 administration#:#adm_layout_and_navigation#:#Kinézet és navigáció
 administration#:#adm_locale#:#Helyi
 administration#:#adm_locale_info#:#A helyi beállítások befolyásolják például a listák sorba rendezését. Például hu_HU.UTF-8 vagy de_DE. A többszörös helyi beállítások vesszővel választhatók el. Az első érvényest használjuk.

@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Reiter ausblenden
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Impressum
 administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und somit nicht für Benutzer erreichbar.
-administration#:#adm_item_cmd_asynch#:#Asynchrones Laden der Aktionsmenüs im Magazin
-administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden asynchron geladen. Dies erhöht die Performanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Popup-Menüs kommen.
 administration#:#adm_layout_and_navigation#:#Layout und Navigation
 administration#:#adm_legal_regulations#:#Rechtliche Dokumente
 administration#:#adm_locale#:#Locale

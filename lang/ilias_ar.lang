@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Hide Tabs
 administration#:#adm_https#:#HTTPS###24 10 2013 new variable
 administration#:#adm_imprint#:#Imprint
 administration#:#adm_imprint_inactive#:#The imprint is inactive and users are not able to access it.
-administration#:#adm_item_cmd_asynch#:#تحميل قوائم مصدر الوظيفة بشكل غير متزامن
-administration#:#adm_item_cmd_asynch_info#:#اوامر الوظيفة، على سبيل المثال يتم تحميلها في المكتبة بشكل غير متزامن. مما يزيد الاداء بشكل عام ولكن يبطئ تحميل قائمة اوامر الوظيفة قليلا.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#موقع
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.

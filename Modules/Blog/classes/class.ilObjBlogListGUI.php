@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Modal\Modal;
 
@@ -109,32 +109,5 @@ class ilObjBlogListGUI extends ilObjectListGUI
                 );
             }
         }
-    }
-
-    public function getListItemHTML(
-        int $ref_id,
-        int $obj_id,
-        string $title,
-        string $description,
-        bool $use_async = false,
-        bool $get_async_commands = false,
-        string $async_url = ""
-    ): string {
-        $html = parent::getListItemHTML(
-            $ref_id,
-            $obj_id,
-            $title,
-            $description,
-            $use_async,
-            $get_async_commands,
-            $async_url
-        );
-
-        if (!is_null($this->comment_modal)) {
-            global $DIC;
-            $renderer = $DIC->ui()->renderer();
-            $html .= $renderer->render($this->comment_modal);
-        }
-        return $html;
     }
 }
