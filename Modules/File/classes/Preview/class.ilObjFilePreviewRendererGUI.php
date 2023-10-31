@@ -35,7 +35,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
     private ilCtrlInterface $ctrl;
-    private ResourceIdentification $rid;
+    private ?ResourceIdentification $rid = null;
     private \ILIAS\ResourceStorage\Services $irss;
     private \ILIAS\HTTP\Services $http;
     private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
@@ -46,16 +46,15 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     private int $preview_size;
     private int $pages_to_extract;
     private bool $activated = false;
-    private string $file_name;
-    private Settings $settings;
+    private string $file_name = '';
 
     public function __construct(
         private ?int $object_id = null
     ) {
         global $DIC;
 
-        $this->settings = new Settings();
-        $this->activated = $this->settings->isPreviewEnabled();
+        $settings = new Settings();
+        $this->activated = $settings->isPreviewEnabled();
 
         $this->db = $DIC->database();
         $this->ctrl = $DIC->ctrl();
@@ -74,17 +73,22 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 
         $this->rid = $this->irss->manage()->find($rid_string);
         $this->flavour_definition = new PagesToExtract(
-            $this->settings->isPersisting(),
-            $this->settings->getImageSize(),
-            $this->settings->getMaximumPreviews()
+            $settings->isPersisting(),
+            $settings->getImageSize(),
+            $settings->getMaximumPreviews()
         );
         // Resolve File Name
-        $this->file_name = $this->irss->manage()->getCurrentRevision($this->rid)->getTitle();
+        if ($this->rid !== null) {
+            $this->file_name = $this->irss->manage()->getCurrentRevision($this->rid)->getTitle();
+        }
     }
 
     public function has(): bool
     {
         if (!$this->activated) {
+            return false;
+        }
+        if ($this->rid === null) {
             return false;
         }
         if (!$this->irss->flavours()->possible(
@@ -153,13 +157,13 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
                     ['integer'],
                     [$object_id]
                 )
-            )->rid ?? throw new InvalidArgumentException('No rid found for object_id ' . $this->object_id);
+            )->rid ?? '';
         }
         return $this->http_wrapper->query()->has(self::P_RID)
             ? $this->http_wrapper->query()->retrieve(
                 self::P_RID,
                 $this->refinery->to()->string()
-            ) : throw new InvalidArgumentException('No rid found in request');
+            ) : '';
     }
 
     protected function isAccessGranted(): bool
