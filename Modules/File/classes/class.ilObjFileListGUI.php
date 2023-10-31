@@ -51,6 +51,14 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->action_repo = new ActionDBRepository($DIC->database());
     }
 
+    /**
+     * @description This methods seems to be called by ItemRenderer
+     * @deprecated
+     */
+    public function insertCommands(): void
+    {
+    }
+
     protected function getTileImagePath(): string
     {
         if (!$this->use_flavor_for_cards) {
