@@ -1010,10 +1010,10 @@ class ilObjSurvey extends ilObject
             $this->setReminderLastSent((string) $data["reminder_last_sent"]);
             $this->setReminderTemplate((int) $data["reminder_tmpl"]);
             $this->setTutorNotificationStatus($data["tutor_ntf_status"]);
-            $this->setTutorNotificationRecipients(explode(";", $data["tutor_ntf_reci"]));
+            $this->setTutorNotificationRecipients(explode(";", $data["tutor_ntf_reci"] ?? ""));
             $this->setTutorNotificationTarget($data["tutor_ntf_target"]);
             $this->setTutorResultsStatus((bool) $data["tutor_res_status"]);
-            $this->setTutorResultsRecipients(explode(";", $data["tutor_res_reci"]));
+            $this->setTutorResultsRecipients(explode(";", $data["tutor_res_reci"] ?? ""));
 
             $this->setViewOwnResults((bool) $data["own_results_view"]);
             $this->setMailOwnResults((bool) $data["own_results_mail"]);
@@ -2407,7 +2407,7 @@ class ilObjSurvey extends ilObject
 
         //mailaddresses is just text split by commas.
         //sendMail can send emails if it gets an user id or an email as first parameter.
-        $recipients = explode(",", $this->mailaddresses);
+        $recipients = explode(",", $this->mailaddresses ?? "");
         foreach ($recipients as $recipient) {
             // #11298
             $ntf = new ilSystemNotification();
