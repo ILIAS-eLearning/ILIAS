@@ -855,13 +855,17 @@ class ilContainerRenderer
                     continue;
                 }
                 $item_data = $this->item_presentation->getRawDataByRefId($ref_id);
+                $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE;
+                if ($this->container_gui->isActiveAdministrationPanel()) {
+                    $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_ADMIN;
+                }
                 $html = $this->item_renderer->renderItem(
                     $item_data,
                     $position++,
                     false,
                     $pos_prefix,
                     "",
-                    \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE,
+                    $checkbox,
                     $this->item_presentation->isActiveItemOrdering()
                 );
                 if ($html != "") {
