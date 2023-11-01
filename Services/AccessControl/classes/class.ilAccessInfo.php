@@ -45,11 +45,11 @@ class ilAccessInfo
      */
     public function addInfoItem(string $a_type, string $a_text, string $a_data = ""): void
     {
-        $this->info_items[] = array(
+        $this->info_items[] = [
             "type" => $a_type,
             "text" => $a_text,
             "data" => $a_data
-        );
+        ];
     }
 
     /**

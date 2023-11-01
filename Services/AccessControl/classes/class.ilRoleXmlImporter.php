@@ -143,7 +143,7 @@ class ilRoleXmlImporter
 
         // Add operations
         $ops = $this->rbacreview->getOperations();
-        $operations = array();
+        $operations = [];
         foreach ($ops as $ope) {
             $operations[$ope['operation']] = $ope['ops_id'];
         }
@@ -158,7 +158,7 @@ class ilRoleXmlImporter
                     $this->rbacadmin->setRolePermission(
                         $this->getRole()->getId(),
                         $ops_group,
-                        array($ops_id),
+                        [$ops_id],
                         $this->getRoleFolderId() // #10161
                     );
                 }

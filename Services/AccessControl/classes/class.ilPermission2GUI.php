@@ -80,9 +80,9 @@ class ilPermission2GUI
         $form->setTitle($this->lng->txt("info_owner_of_object"));
 
         $login = new ilTextInputGUI($this->lng->txt("login"), "owner");
-        $login->setDataSource($this->ctrl->getLinkTargetByClass(array(get_class($this),
+        $login->setDataSource($this->ctrl->getLinkTargetByClass([get_class($this),
                                                                       'ilRepositorySearchGUI'
-        ), 'doUserAutoComplete', '', true));
+        ], 'doUserAutoComplete', '', true));
         $login->setRequired(true);
         $login->setSize(50);
         $login->setInfo($this->lng->txt("chown_warning"));
@@ -114,7 +114,7 @@ class ilPermission2GUI
             $this->objectDataCache->deleteCachedEntry($this->gui_obj->getObject()->getId());
 
             if (ilRbacLog::isActive()) {
-                ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->getObject()->getRefId(), array($user_id));
+                ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->getObject()->getRefId(), [$user_id]);
             }
         }
 
@@ -158,7 +158,7 @@ class ilPermission2GUI
 
         $this->tabs->addSubTabTarget(
             "info_status_info",
-            $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilobjectpermissionstatusgui"), "perminfo"),
+            $this->ctrl->getLinkTargetByClass([get_class($this), "ilobjectpermissionstatusgui"], "perminfo"),
             "",
             "",
             "",

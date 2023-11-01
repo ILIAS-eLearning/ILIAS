@@ -72,7 +72,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
             $this->ui_factory->symbol()->icon()->custom($img_path, $img_info)
         ));
 
-        $link = $this->ctrl->getLinkTargetByClass(array('ilpermissiongui'), 'perm', '', true);
+        $link = $this->ctrl->getLinkTargetByClass(['ilpermissiongui'], 'perm', '', true);
         $this->tpl->setVariable("ROLE_LINK", $link);
         $this->tpl->setVariable("TXT_ROLE", $a_set["role"]);
 

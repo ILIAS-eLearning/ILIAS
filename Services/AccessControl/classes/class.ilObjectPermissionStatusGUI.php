@@ -112,9 +112,9 @@ class ilObjectPermissionStatusGUI
         $this->toolbar->addText($this->lng->txt('user'));
 
         $login = new ilTextInputGUI($this->lng->txt("username"), "user_login");
-        $login->setDataSource($this->ctrl->getLinkTargetByClass(array(get_class($this),
+        $login->setDataSource($this->ctrl->getLinkTargetByClass([get_class($this),
                                                                       'ilRepositorySearchGUI'
-        ), 'doUserAutoComplete', '', true));
+        ], 'doUserAutoComplete', '', true));
         $login->setSize(15);
         $login->setValue($this->user->getLogin());
         $this->toolbar->addInputItem($login);
@@ -170,7 +170,7 @@ class ilObjectPermissionStatusGUI
      */
     public function getAssignedValidRoles(): array
     {
-        $assigned_valid_roles = array();
+        $assigned_valid_roles = [];
 
         $ops = [];
         foreach ($this->valid_roles as $role) {
@@ -213,9 +213,9 @@ class ilObjectPermissionStatusGUI
         $location = $objDefinition->getLocation($a_type);
         $full_class = "ilObj" . $class . "Access";
 
-        $cmds = call_user_func(array($full_class, "_getCommands"));
+        $cmds = call_user_func([$full_class, "_getCommands"]);
 
-        $cmds[] = array('permission' => 'visible', 'cmd' => 'info');
+        $cmds[] = ['permission' => 'visible', 'cmd' => 'info'];
 
         return $cmds;
     }
@@ -255,12 +255,12 @@ class ilObjectPermissionStatusGUI
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];
-        $infos = array();
+        $infos = [];
 
         $result_set[0][] = $this->lng->txt("info_view_of_user");
         $result_set[0][] = $this->user->getFullname() . " (#" . $this->user->getId() . ")";
 
-        $assigned_valid_roles = array();
+        $assigned_valid_roles = [];
 
         foreach ($this->getAssignedValidRoles() as $role) {
             $assigned_valid_roles[] = $role["translation"];
@@ -349,7 +349,7 @@ class ilObjectPermissionStatusGUI
         $ops_list = ilRbacReview::_getOperationList($this->object->getType());
 
         $counter = 0;
-        $result_set = array();
+        $result_set = [];
 
         // check permissions of user
         foreach ($ops_list as $ops) {

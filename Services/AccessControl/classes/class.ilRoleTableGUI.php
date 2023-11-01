@@ -278,7 +278,7 @@ class ilRoleTableGUI extends ilTable2GUI
         );
 
         $counter = 0;
-        $rows = array();
+        $rows = [];
         foreach ($role_list as $role) {
             if (
                 $role['parent'] and

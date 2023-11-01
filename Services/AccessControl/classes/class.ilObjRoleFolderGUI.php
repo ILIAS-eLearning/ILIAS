@@ -561,7 +561,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $role->changeExistingObjects(
             $a_start_obj,
             $mode,
-            array('all'),
+            ['all'],
             [],
             $a_operation_mode,
             $operation_stack
@@ -665,14 +665,14 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "view",
                 $this->ctrl->getLinkTarget($this, "view"),
-                array("", "view"),
+                ["", "view"],
                 get_class($this)
             );
 
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
-                array("editSettings"),
+                ["editSettings"],
                 get_class($this)
             );
         }
@@ -681,7 +681,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(
-                    array(get_class($this), 'ilpermissiongui'),
+                    [get_class($this), 'ilpermissiongui'],
                     "perm"
                 ),
                 "",
@@ -778,12 +778,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
                 $security = ilSecuritySettings::_getInstance();
 
-                $fields = array('adm_adm_role_protect' => array($security->isAdminRoleProtected(),
+                $fields = ['adm_adm_role_protect' => [$security->isAdminRoleProtected(),
                                                                 ilAdministrationSettingsFormHandler::VALUE_BOOL
-                )
-                );
+                ]
+                ];
 
-                return array(array("editSettings", $fields));
+                return [["editSettings", $fields]];
 
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
 
@@ -791,15 +791,15 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
                 $subitems = null;
                 if ($privacy->enabledRbacLog()) {
-                    $subitems = array('rbac_log_age' => $privacy->getRbacLogAge());
+                    $subitems = ['rbac_log_age' => $privacy->getRbacLogAge()];
                 }
-                $fields = array('rbac_log' => array($privacy->enabledRbacLog(),
+                $fields = ['rbac_log' => [$privacy->enabledRbacLog(),
                                                     ilAdministrationSettingsFormHandler::VALUE_BOOL,
                                                     $subitems
-                )
-                );
+                ]
+                ];
 
-                return array(array("editSettings", $fields));
+                return [["editSettings", $fields]];
         }
         return [];
     }

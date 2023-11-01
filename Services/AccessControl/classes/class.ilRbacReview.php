@@ -210,7 +210,7 @@ class ilRbacReview
             'WHERE assign = ' . $this->db->quote('y', 'text') . ' ' .
             'AND obd.type = ' . $this->db->quote('role', 'text') . ' ' .
             'AND t1.child IN (' .
-            $tree->getSubTreeQuery($ref_id, array('child')) . ' ' .
+            $tree->getSubTreeQuery($ref_id, ['child']) . ' ' .
             ') ';
 
         $res = $this->db->query($query);
@@ -251,9 +251,9 @@ class ilRbacReview
     protected function __setTemplateFilter(bool $a_templates): string
     {
         if ($a_templates) {
-            $where = "WHERE " . $this->db->in('object_data.type', array('role', 'rolt'), false, 'text') . " ";
+            $where = "WHERE " . $this->db->in('object_data.type', ['role', 'rolt'], false, 'text') . " ";
         } else {
-            $where = "WHERE " . $this->db->in('object_data.type', array('role'), false, 'text') . " ";
+            $where = "WHERE " . $this->db->in('object_data.type', ['role'], false, 'text') . " ";
         }
         return $where;
     }
@@ -561,9 +561,9 @@ class ilRbacReview
     {
         $ga = [];
         foreach ($this->getRolesOfRoleFolder(ROLE_FOLDER_ID, false) as $role_id) {
-            $ga[] = array('obj_id' => $role_id,
+            $ga[] = ['obj_id' => $role_id,
                           'role_type' => 'global'
-            );
+            ];
         }
         return $ga;
     }
@@ -576,9 +576,9 @@ class ilRbacReview
         $ga = [];
         foreach ($this->getGlobalRoles() as $role_id) {
             if (ilObjRole::_getAssignUsersStatus($role_id)) {
-                $ga[] = array('obj_id' => $role_id,
+                $ga[] = ['obj_id' => $role_id,
                               'role_type' => 'global'
-                );
+                ];
             }
         }
         return $ga;
@@ -605,10 +605,10 @@ class ilRbacReview
         $res = $this->db->query($query);
         $ops = [];
         while ($row = $this->db->fetchObject($res)) {
-            $ops[] = array('ops_id' => (int) $row->ops_id,
+            $ops[] = ['ops_id' => (int) $row->ops_id,
                            'operation' => $row->operation,
                            'description' => $row->description
-            );
+            ];
         }
         return $ops;
     }
@@ -622,10 +622,10 @@ class ilRbacReview
         $res = $this->db->query($query);
         $ops = [];
         while ($row = $this->db->fetchObject($res)) {
-            $ops = array('ops_id' => (int) $row->ops_id,
+            $ops = ['ops_id' => (int) $row->ops_id,
                          'operation' => $row->operation,
                          'description' => $row->description
-            );
+            ];
         }
         return $ops;
     }
@@ -1114,13 +1114,13 @@ class ilRbacReview
         }
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
-            $arr[] = array(
+            $arr[] = [
                 "ops_id" => (int) $row['ops_id'],
                 "operation" => $row['operation'],
                 "desc" => $row['description'],
                 "class" => $row['class'],
                 "order" => (int) $row['op_order']
-            );
+            ];
         }
         return $arr;
     }
@@ -1129,9 +1129,9 @@ class ilRbacReview
     {
         $arr = [];
         foreach ($a_ops_arr as $ops) {
-            $arr[$ops['class']][] = array('ops_id' => (int) $ops['ops_id'],
+            $arr[$ops['class']][] = ['ops_id' => (int) $ops['ops_id'],
                                           'name' => $ops['operation']
-            );
+            ];
         }
         return $arr;
     }
