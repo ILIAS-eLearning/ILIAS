@@ -692,14 +692,16 @@ class ilRbacReview
 
     public function getRoleOperationsOnObject(int $a_role_id, int $a_ref_id): array
     {
-        $query = "SELECT * FROM rbac_pa " .
+        $query = "SELECT ops_id FROM rbac_pa " .
             "WHERE rol_id = " . $this->db->quote($a_role_id, 'integer') . " " .
             "AND ref_id = " . $this->db->quote($a_ref_id, 'integer') . " ";
 
         $res = $this->db->query($query);
         $ops = [];
         while ($row = $this->db->fetchObject($res)) {
-            $ops = (array) unserialize($row->ops_id);
+            if ($row->ops_id !== ':') {
+                $ops = unserialize($row->ops_id);
+            }
         }
         return $ops;
     }
@@ -709,7 +711,7 @@ class ilRbacReview
      */
     public function getOperationsOnType(int $a_typ_id): array
     {
-        $query = 'SELECT * FROM rbac_ta ta JOIN rbac_operations o ON ta.ops_id = o.ops_id ' .
+        $query = 'SELECT ops_id FROM rbac_ta ta JOIN rbac_operations o ON ta.ops_id = o.ops_id ' .
             'WHERE typ_id = ' . $this->db->quote($a_typ_id, 'integer') . ' ' .
             'ORDER BY op_order';
 
