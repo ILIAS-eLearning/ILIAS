@@ -11,6 +11,10 @@ Since ILIAS 7 the editor makes extensive use of ES6 features. For ILIAS 7 the cu
 - Since ILIAS 7 the Return key created new text elements. The Backspace key at the beginning of a text element will merge the content of the current text element with the preceding one, if existing. The Delete key at the end of a text element will merge the content of the current text element with the succeeding one, if existing. See https://docu.ilias.de/goto_docu_wiki_wpage_6264_1357.html
 - Empty Links: Empty internal or external links, which have no text between starting and ending tag will be removed when the page is saved.
 
+## Footnotes
+
+During editing footnotes are not replaced with the numbering scheme, since this would require server side rendering of the whole page, which we want to avoid due to performance reasons.
+
 ## Internal Links
 
 - Not all contexts support internal links. If the "More > Link" menu does not offer the menu item "Internal Link" while editing text paragraphs, the context does not support internal links. If the internal link format is used anyway in a paragraph, e.g. by copying it from other sources, the outcome (both in editing and presentation) is currently undefined.
