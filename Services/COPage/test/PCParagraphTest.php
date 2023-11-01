@@ -209,7 +209,7 @@ class PCParagraphTest extends COPageTestBase
             '&lt;ul class="ilc_list_u_BulletedList"&gt;&lt;li class="ilc_list_item_StandardListItem"&gt;aa&lt;/li&gt;&lt;li class="ilc_list_item_StandardListItem"&gt;bb&lt;/li&gt;&lt;li class="ilc_list_item_StandardListItem"&gt;cc&lt;/li&gt;&lt;/ul&gt;'
             => '<SimpleBulletList Class="BulletedList"><SimpleListItem Class="StandardListItem">aa</SimpleListItem><SimpleListItem Class="StandardListItem">bb</SimpleListItem><SimpleListItem Class="StandardListItem">cc</SimpleListItem></SimpleBulletList>',
             '&lt;ul class="ilc_list_u_BulletedList"&gt;&lt;li class="ilc_list_item_StandardListItem"/&gt;&lt;/ul&gt;'
-            => '<SimpleBulletList Class="BulletedList"><SimpleListItem Class="StandardListItem"></SimpleListItem></SimpleBulletList>',
+            => '<SimpleBulletList Class="BulletedList"><SimpleListItem Class="StandardListItem"></SimpleListItem></SimpleBulletList>'
         ];
 
         foreach ($cases as $in => $expected) {
