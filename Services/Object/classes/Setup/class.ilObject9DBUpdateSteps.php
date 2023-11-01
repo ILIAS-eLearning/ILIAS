@@ -42,4 +42,55 @@ class ilObject9DBUpdateSteps implements \ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_2(): void
+    {
+        if ($this->db->tableColumnExists('object_data', 'type')) {
+            $this->db->manipulate(
+                'UPDATE object_data SET type = "" WHERE type IS NULL'
+            );
+            $this->db->modifyTableColumn(
+                'object_data',
+                'type',
+                [
+                    'type' => 'text',
+                    'notnull' => true,
+                    'length' => 4,
+                    'default' => 'none'
+                ]
+            );
+        }
+
+        if ($this->db->tableColumnExists('object_data', 'title')) {
+            $this->db->manipulate(
+                'UPDATE object_data SET title = "" WHERE title IS NULL'
+            );
+            $this->db->modifyTableColumn(
+                'object_data',
+                'title',
+                [
+                    'type' => 'text',
+                    'notnull' => true,
+                    'length' => 255,
+                    'default' => ''
+                ]
+            );
+        }
+
+        if ($this->db->tableColumnExists('object_data', 'description')) {
+            $this->db->manipulate(
+                'UPDATE object_data SET description = "" WHERE description IS NULL'
+            );
+            $this->db->modifyTableColumn(
+                'object_data',
+                'description',
+                [
+                    'type' => 'text',
+                    'notnull' => true,
+                    'length' => 128,
+                    'default' => ''
+                ]
+            );
+        }
+    }
 }
