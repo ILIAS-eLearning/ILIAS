@@ -149,7 +149,7 @@ class LinkManager
                 }
                 //$this->log->debug("map, type: " . $type . ", target: " . $target . ", new target: " . $new_target);
             }
-            if ($new_target !== false) {
+            if ($new_target !== false && !is_null($new_target)) {
                 $node->setAttribute("Target", $new_target);
                 $changed = true;
             } else {        // check wether link target is same installation
@@ -171,7 +171,7 @@ class LinkManager
             $orig_id = $node->getAttribute("OriginId");
             $id_arr = explode("_", $orig_id);
             $mob_id = $id_arr[count($id_arr) - 1];
-            \ilMediaItem::_resolveMapAreaLinks($mob_id);
+            \ilMediaItem::_resolveMapAreaLinks((int) $mob_id);
         }
         return $changed;
     }

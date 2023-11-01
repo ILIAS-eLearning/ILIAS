@@ -40,6 +40,7 @@ use ILIAS\Style\Content;
  */
 class ilStyleDataSet extends ilDataSet
 {
+    protected ?ilObjStyleSheet $current_obj = null;
     /**
      * @var ilLogger
      */
