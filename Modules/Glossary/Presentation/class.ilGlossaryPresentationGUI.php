@@ -34,7 +34,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     protected bool $fill_on_load_code;
     protected string $offline_dir;
     protected ilPropertyFormGUI $form;
-    protected \ILIAS\Glossary\InternalService $service;
     protected bool $offline;
     protected string $export_format;
     protected ilCtrl $ctrl;
@@ -192,7 +191,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
-        $service = $this->service;
 
         $lng->loadLanguageModule("content");
 
@@ -227,9 +225,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             case "ilpresentationfullgui":
                 $this->setTabs();
                 $this->showTaxonomy();
-                $full_gui = $service
-                                ->gui()
-                                ->presentation()
+                $full_gui = $this->gui->presentation()
                                 ->PresentationFullGUI($this, $this->glossary, $this->offlineMode(), $this->tax_node);
                 $this->ctrl->forwardCommand($full_gui);
                 break;
