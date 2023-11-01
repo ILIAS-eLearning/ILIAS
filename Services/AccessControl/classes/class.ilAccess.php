@@ -158,39 +158,6 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function storeCache(): void
-    {
-        $query = "DELETE FROM acc_cache WHERE user_id = " . $this->db->quote($this->user->getId(), 'integer');
-        $res = $this->db->manipulate($query);
-
-        $this->db->insert('acc_cache', [
-            'user_id' => ['integer', $this->user->getId()],
-            'time' => ['integer', time()],
-            'result' => ['clob', serialize($this->results)]
-        ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function readCache(int $a_secs = 0): bool
-    {
-        if ($a_secs > 0) {
-            $query = "SELECT * FROM acc_cache WHERE user_id = " .
-                $this->db->quote($this->user->getId(), 'integer');
-            $set = $this->db->query($query);
-            $rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-            if ((time() - $rec["time"]) < $a_secs) {
-                $this->results = unserialize($rec["result"]);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getResults(): array
     {
         return $this->results;

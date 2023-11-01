@@ -64,10 +64,6 @@ interface ilRBACAccessHandler
      */
     public function getPreventCachingLastResult(): bool;
 
-    public function storeCache(): void;
-
-    public function readCache(int $a_secs = 0): bool;
-
     public function getResults(): array;
 
     public function setResults(array $a_results);
