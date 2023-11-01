@@ -139,7 +139,8 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $setting = $this->setting;
 
         $subfields["comm_del_user"] = $f->input()->field()->checkbox(
-            $lng->txt("note_enable_comments_del_user")
+            $lng->txt("note_enable_comments_del_user"),
+            $lng->txt("note_enable_comments_del_user_info")
         )
             ->withValue((bool) $setting->get("comments_del_user", '0'));
         $subfields["comm_del_tutor"] = $f->input()->field()->checkbox(
