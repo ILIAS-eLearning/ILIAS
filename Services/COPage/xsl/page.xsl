@@ -1909,9 +1909,9 @@
 		</xsl:if>
 		<xsl:if test="$mode = 'print'">
 			<xsl:if test="$page_perma_link = ''">
-				<span class="ilc_Print_FileItem">
+				<a class="ilc_flist_a_FileListItemLink" href="#">
 					<xsl:call-template name="FileItemText"/>
-				</span>
+				</a>
 			</xsl:if>
 			<xsl:if test="$page_perma_link != ''">
 				<a class="ilc_flist_a_FileListItemLink" target="_blank">
