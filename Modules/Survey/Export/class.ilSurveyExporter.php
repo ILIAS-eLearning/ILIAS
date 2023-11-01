@@ -50,7 +50,7 @@ class ilSurveyExporter extends ilXmlExporter
             // Modules/Survey/set_1 anymore (since 7/2023)
             $missing = $svy_exp->export_dir . "/" . $svy_exp->subdir .
                 "/Modules/Survey/set_1";
-            ilFileUtils::makeDirParents($missing);
+            ilUtil::makeDirParents($missing);
 
             // here: svy_data/svy_301/export/1698817474__0__svy_301
             //       svy_301/export/1698817474__0__svy_301/Modules/Survey/set_1
