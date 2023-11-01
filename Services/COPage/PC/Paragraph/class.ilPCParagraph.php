@@ -1591,6 +1591,10 @@ class ilPCParagraph extends ilPageContent
             $class = $found[1];
             $text = str_replace('&lt;li class="ilc_list_item_' . $class . '"&gt;', '<SimpleListItem Class="' . $class . '">', $text);
         }
+        while (preg_match('~&lt;li class=\"ilc_list_item_([^\"]*)\"\/&gt;~i', $text, $found)) {
+            $class = $found[1];
+            $text = str_replace('&lt;li class="ilc_list_item_' . $class . '"/&gt;', '<SimpleListItem Class="' . $class . '"></SimpleListItem>', $text);
+        }
 
         $text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $text);
         $text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $text);
