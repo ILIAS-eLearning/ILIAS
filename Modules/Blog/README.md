@@ -8,4 +8,5 @@
 
 ## Tasks
 
+- Blog authors will get tasks for unpuplished blog postings.
 - A withdrawn timestamp is set when a blog posting gets a draft status after been published before. Postings that have been withdrawn are not be listed as tasks, see https://docu.ilias.de/goto_docu_wiki_wpage_5641_1357.html
