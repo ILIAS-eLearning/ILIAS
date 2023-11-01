@@ -765,7 +765,8 @@ class ilObjTaxonomyGUI extends ilObject2GUI
                     ($target_node->getTaxonomyId() == $tax->getId() ||
                     $target_node->getId() == $tree->readRootId())) {
                     // check if target is not within the selected nodes
-                    if ($tree->isGrandChild((int) $m_id, $target_node->getId())) {
+                    if ($tree->isGrandChild((int) $m_id, $target_node->getId()) ||
+                        $m_id == $target_node->getId()) {
                         ilUtil::sendFailure($lng->txt("tax_target_within_nodes"), true);
                         $this->ctrl->redirect($this, "listNodes");
                     }
