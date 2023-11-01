@@ -130,7 +130,7 @@ class ilObjectTableGUI extends ilTable2GUI
     public function parse(): void
     {
         $counter = 0;
-        $set = array();
+        $set = [];
         foreach ($this->getObjects() as $ref_id) {
             $type = ilObject::_lookupType(ilObject::_lookupObjId($ref_id));
             if ($type == 'rolf') {

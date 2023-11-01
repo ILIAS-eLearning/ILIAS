@@ -171,7 +171,7 @@ class ilObjectServiceSettingsGUI
                 $news->setInfo($lng->txt('obj_tool_setting_news_info'));
                 $form->addItem($news);
 
-                if (in_array(ilObject::_lookupType($obj_id), array('crs', 'grp'))) {
+                if (in_array(ilObject::_lookupType($obj_id), ['crs', 'grp'])) {
                     $refs = ilObject::_getAllReferences($obj_id);
                     $ref_id = array_pop($refs);
 
@@ -366,7 +366,7 @@ class ilObjectServiceSettingsGUI
         if (in_array(self::NEWS_VISIBILITY, $services)) {
             ilContainer::_writeContainerSetting($obj_id, self::NEWS_VISIBILITY, $form->getInput(self::NEWS_VISIBILITY));
 
-            if (in_array(ilObject::_lookupType($obj_id), array('crs', 'grp'))) {
+            if (in_array(ilObject::_lookupType($obj_id), ['crs', 'grp'])) {
                 $refs = ilObject::_getAllReferences($obj_id);
                 $ref_id = array_pop($refs);
 

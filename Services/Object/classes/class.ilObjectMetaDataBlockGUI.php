@@ -140,7 +140,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
             } else {
                 $value = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
 
-                if (in_array($element->getType(), array("MultiEnum", "Enum", "Text"))) {
+                if (in_array($element->getType(), ["MultiEnum", "Enum", "Text"])) {
                     $value->setDecoratorCallBack($this->callback);
                 }
 
