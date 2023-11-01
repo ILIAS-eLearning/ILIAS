@@ -97,7 +97,6 @@ class ItemRenderer
             $a_item_data["type"] === "sess" || $a_force_icon) {
             $item_list_gui->enableIcon(true);
         }
-
         if ($checkbox === self::CHECKBOX_ADMIN) {
             $item_list_gui->enableCheckbox(true);
         } elseif ($checkbox === self::CHECKBOX_DOWNLOAD) {

@@ -517,12 +517,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         } elseif ($this->isActiveAdministrationPanel()) {
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
-
             $toolbar = new ilToolbarGUI();
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
 
-            if ($this->object->gotItems()) {
+            if ($this->gotItems()) {
                 $toolbar->setLeadingImage(
                     ilUtil::getImagePath("nav/arrow_upright.svg"),
                     $lng->txt("actions")
@@ -555,15 +554,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     );
                 }
             }
-
             $main_tpl->addAdminPanelToolbar(
                 $toolbar,
-                $this->object->gotItems() && !$this->clipboard->hasEntries(),
-                $this->object->gotItems() && !$this->clipboard->hasEntries()
+                $this->gotItems() && !$this->clipboard->hasEntries(),
+                $this->gotItems() && !$this->clipboard->hasEntries()
             );
 
             // form action needed, see http://www.ilias.de/mantis/view.php?id=9630
-            if ($this->object->gotItems()) {
+            if ($this->gotItems()) {
                 $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
             }
         } elseif ($this->edit_order) {
@@ -608,13 +606,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
                 $GLOBALS['tpl']->addAdminPanelToolbar(
                     $toolbar,
-                    $this->object->gotItems(),
-                    $this->object->gotItems()
+                    $this->gotItems(),
+                    $this->gotItems()
                 );
             } else {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_no_downloadable_objects'), true);
             }
         }
+    }
+
+    protected function gotItems(): bool
+    {
+        return $this->getItemPresentation()->hasItems();
     }
 
     public function showPermanentLink(): void

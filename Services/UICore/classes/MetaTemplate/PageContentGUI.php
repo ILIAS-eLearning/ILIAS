@@ -539,16 +539,13 @@ class PageContentGUI
         if (null === $this->admin_panel_commands_toolbar) {
             return;
         }
-
         $current_toolbar = $this->admin_panel_commands_toolbar;
-
         // Add arrow if desired.
         if ($this->should_display_admin_panel_arrow) {
             $current_toolbar->setLeadingImage(\ilUtil::getImagePath("nav/arrow_upright.svg"), $lng->txt("actions"));
         }
 
         $this->fillPageFormAction();
-
         // Add top admin bar.
         $this->template->setCurrentBlock("adm_view_components");
         $this->template->setVariable("ADM_PANEL1", $current_toolbar->getHTML());
