@@ -23,6 +23,7 @@
  */
 class ilStyleImporter extends ilXmlImporter
 {
+    protected ilStyleDataSet $ds;
     /**
      * @var ilLogger
      */

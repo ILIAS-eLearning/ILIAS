@@ -45,9 +45,9 @@ class QuestionManager
         $updated = false;
         $nodes = $this->dom_util->path($dom, $path);
         foreach ($nodes as $node) {
-            $qref = $nodes->getAttribute("QRef");
+            $qref = $node->getAttribute("QRef");
             if (isset($a_mapping[$qref])) {
-                $nodes->setAttribute("QRef", "il__qst_" . $a_mapping[$qref]["pool"]);
+                $node->setAttribute("QRef", "il__qst_" . $a_mapping[$qref]["pool"]);
                 $updated = true;
             }
         }
