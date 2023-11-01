@@ -110,6 +110,12 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
             return;
         }
 
+        // In case of a parallel oather upload, the uploads may already have been processed. otherwise we have to do it
+        if (!$this->upload->hasBeenProcessed()) {
+            $this->upload->process();
+        }
+        $result_array = $this->upload->getResults();
+
         // Determine Legacy Upload (since there can be more than one in this form). This is not best practice, because
         // on the one hand we should actually use the wrapper, on the other hand with the conversion to the new forms
         // this problem no longer have anyway. But at the moment we have to pick the right one out of all uploadResults,
@@ -117,12 +123,11 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
 
         /** @var UploadedFile $file */
         $file = $this->http->request()->getUploadedFiles()['tile_image']; // Direct Access to the Psr7/UploadedFile
-        $temp_name = $file->getStream()->getMetadata('uri'); // Get the Path of the Temp. File
-        // In case of a parallel oather upload, the uploads may already have been processed. otherwise we have to do it
-        if (!$this->upload->hasBeenProcessed()) {
-            $this->upload->process();
+        if ($file->getClientFilename() === '') {
+            return;
         }
-        $result_array = $this->upload->getResults();
+
+        $temp_name = $file->getStream()->getMetadata('uri'); // Get the Path of the Temp. File
         $result = $result_array[$temp_name] ?? null;
 
         if (!($result instanceof UploadResult) || !$result->isOK()) {
