@@ -262,8 +262,6 @@ class ItemRenderer
             $a_item_data['description']
         );
 
-        // actions
-        $item_list_gui->insertCommands();
         return $item_list_gui->getAsCard(
             (int) $a_item_data['ref_id'],
             (int) $a_item_data['obj_id'],

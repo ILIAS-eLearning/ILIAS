@@ -170,7 +170,7 @@ class ilObjectListGUI
     protected string $title_link = '';
     protected bool $title_link_disabled = false;
     protected bool $lp_cmd_enabled = false;
-    protected array $current_actions;
+    protected array $current_actions = [];
     protected ?ilPathGUI $path_gui = null;
     protected array $default_command_params = [];
     protected array $header_icons = [];
@@ -2922,7 +2922,7 @@ class ilObjectListGUI
     /**
     * Get commands HTML (must be called after get list item html)
     */
-    public function getCommandsHTML(string $title): string
+    public function getCommandsHTML(string $title = ''): string
     {
         return $this->ui->renderer()->render($this->getCommandsDropdown($title, false));
     }
