@@ -380,9 +380,6 @@ class ilObjectTranslationGUI
         }
 
         foreach ($titles as $k => $v) {
-            if ($delete_checked && isset($check[$k])) {
-                continue;
-            }
             // update object data if default
             $is_default = ($post_default === $k);
 
