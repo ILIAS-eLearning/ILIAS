@@ -118,7 +118,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 
         $data = [];
 
-        $types = ilBadgeHandler::getInstance()->getAvailableTypes();
+        $types = ilBadgeHandler::getInstance()->getAvailableTypes(false);
 
         foreach (ilBadge::getObjectInstances($this->filter) as $badge_item) {
             // :TODO: container presentation
