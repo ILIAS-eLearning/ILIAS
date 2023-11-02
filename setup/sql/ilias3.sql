@@ -19779,7 +19779,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.0.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','9.0.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
