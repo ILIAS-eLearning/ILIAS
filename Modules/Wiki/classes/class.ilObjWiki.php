@@ -999,6 +999,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         foreach (ilObjWiki::_lookupImportantPagesList($this->getId()) as $ip) {
             $new_obj->addImportantPage($map[$ip["page_id"]], $ip["ord"], $ip["indent"]);
         }
+        $this->updateInternalLinksOnCopy($map);
 
         // copy rating categories
         include_once("./Services/Rating/classes/class.ilRatingCategory.php");
@@ -1011,6 +1012,26 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         }
         
         return $new_obj;
+    }
+
+    protected function updateInternalLinksOnCopy(array $map) : void
+    {
+        foreach ($map as $old_page_id => $new_page_id) {
+            // get links with targets inside the wiki
+            $targets = ilInternalLink::_getTargetsOfSource(
+                "wpg:pg",
+                $old_page_id,
+                "-"
+            );
+            foreach ($targets as $t) {
+                if ((int) $t["inst"] === 0 && $t["type"] === "wpag" && isset($map[(int) $t["id"]])) {
+                    $new_page = new ilWikiPage($new_page_id);
+                    if ($new_page->moveIntLinks([$t["id"] => $map[(int) $t["id"]]])) {
+                        $new_page->update(true, true);
+                    }
+                }
+            }
+        }
     }
 
     /**

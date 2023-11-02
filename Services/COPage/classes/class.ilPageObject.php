@@ -2215,7 +2215,6 @@ abstract class ilPageObject
         $this->buildDom();
 
         $changed = false;
-
         // resolve normal internal links
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
@@ -2235,6 +2234,10 @@ abstract class ilPageObject
                 }
                 if ($type == "PortfolioPage") {
                     $res->nodeset[$i]->set_attribute("Target", "il__ppage_" . $a_from_to[$obj_id]);
+                    $changed = true;
+                }
+                if ($type == "WikiPage") {
+                    $res->nodeset[$i]->set_attribute("Target", "il__wpage_" . $a_from_to[$obj_id]);
                     $changed = true;
                 }
             }

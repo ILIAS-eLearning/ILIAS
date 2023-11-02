@@ -46,6 +46,15 @@ class ilSurveyExporter extends ilXmlExporter
             // Unzip, since survey deletes this dir
             ilUtil::unzip($zip);
 
+            // unzip does not extract the included directory
+            // Modules/Survey/set_1 anymore (since 7/2023)
+            $missing = $svy_exp->export_dir . "/" . $svy_exp->subdir .
+                "/Modules/Survey/set_1";
+            ilUtil::makeDirParents($missing);
+
+            // here: svy_data/svy_301/export/1698817474__0__svy_301
+            //       svy_301/export/1698817474__0__svy_301/Modules/Survey/set_1
+            //       svy_data/svy_301/export/1698817474__0__svy_301.zip
             $GLOBALS['ilLog']->write(__METHOD__ . ': Created zip file ' . $zip);
             return "";
         } else {
