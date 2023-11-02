@@ -725,6 +725,14 @@ class ilObjectListGUI
         $this->setTitle($title);
         $this->setDescription($description);
 
+        $this->current_selection_list = new ilAdvancedSelectionListGUI();
+        $this->current_selection_list->setAriaListTitle(
+            sprintf(
+                $this->lng->txt('actions_for'),
+                htmlspecialchars(addslashes($this->getTitle()))
+            )
+        );
+
         // checks, whether any admin commands are included in the output
         $this->adm_commands_included = false;
         $this->prevent_access_caching = false;
@@ -1987,13 +1995,6 @@ class ilObjectListGUI
             return '';
         }
 
-        $this->current_selection_list = new ilAdvancedSelectionListGUI();
-        $this->current_selection_list->setAriaListTitle(
-            sprintf(
-                $this->lng->txt('actions_for'),
-                htmlspecialchars(addslashes($this->getTitle()))
-            )
-        );
         $this->current_selection_list->setAsynch($use_async && !$get_async_commands);
         $this->current_selection_list->setAsynchUrl($async_url);
         if ($header_actions) {
