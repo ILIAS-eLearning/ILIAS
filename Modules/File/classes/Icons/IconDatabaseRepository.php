@@ -22,6 +22,7 @@ namespace ILIAS\File\Icon;
 
 use ILIAS\ResourceStorage\Services;
 use ilUtil;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * @author Lukas Zehnder <lukas@sr.solutions>
@@ -211,14 +212,18 @@ class IconDatabaseRepository extends IconAbstractRepository
             $icon = $this->getActiveIconForSuffix($suffix);
             if (!$icon instanceof NullIcon) {
                 $resource_identification = $this->irss->manage()->find($icon->getRid());
-                if ($resource_identification !== null) {
-                    return $path_custom_file_icon = $this->irss->consume()->src($resource_identification)->getSrc(
-                        false
-                    );
+                if ($resource_identification instanceof ResourceIdentification) {
+                    try {
+                        return $this->irss->consume()->src($resource_identification)->getSrc(
+                            false
+                        );
+                    } catch (\Throwable) {
+                        // error reading the resource, continue
+                    }
                 }
             }
         }
-        return $path_default_file_icon = ilUtil::getImagePath("standard/icon_file.svg");
+        return ilUtil::getImagePath("standard/icon_file.svg");
     }
 
     public function updateIcon(string $a_rid, bool $a_active, bool $a_is_default_icon, array $a_suffixes): Icon
