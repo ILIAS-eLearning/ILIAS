@@ -358,16 +358,16 @@ class ilObjSurveyQuestionPool extends ilObject
             foreach ($arrFilter as $key => $value) {
                 $arrFilter[$key] = str_replace('%', '', $value);
             }
-            if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title'])) {
+            if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title'] ?? "")) {
                 $where .= " AND " . $ilDB->like('svy_question.title', 'text', "%%" . $arrFilter['title'] . "%%");
             }
-            if (array_key_exists('description', $arrFilter) && strlen($arrFilter['description'])) {
+            if (array_key_exists('description', $arrFilter) && strlen($arrFilter['description'] ?? "")) {
                 $where .= " AND " . $ilDB->like('svy_question.description', 'text', "%%" . $arrFilter['description'] . "%%");
             }
-            if (array_key_exists('author', $arrFilter) && strlen($arrFilter['author'])) {
+            if (array_key_exists('author', $arrFilter) && strlen($arrFilter['author'] ?? "")) {
                 $where .= " AND " . $ilDB->like('svy_question.author', 'text', "%%" . $arrFilter['author'] . "%%");
             }
-            if (array_key_exists('type', $arrFilter) && strlen($arrFilter['type'])) {
+            if (array_key_exists('type', $arrFilter) && strlen($arrFilter['type'] ?? "")) {
                 $where .= " AND svy_qtype.type_tag = " . $ilDB->quote($arrFilter['type'], 'text');
             }
         }

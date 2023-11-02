@@ -95,9 +95,9 @@ class SurveyTextQuestion extends SurveyQuestion
     public function isComplete(): bool
     {
         if (
-            strlen($this->getTitle()) &&
-            strlen($this->getAuthor()) &&
-            strlen($this->getQuestiontext())
+            strlen($this->getTitle() ?? "") &&
+            strlen($this->getAuthor() ?? "") &&
+            strlen($this->getQuestiontext() ?? "")
         ) {
             return true;
         } else {
@@ -164,7 +164,7 @@ class SurveyTextQuestion extends SurveyQuestion
 
         $a_xml_writer->xmlElement("description", null, $this->getDescription());
         $a_xml_writer->xmlElement("author", null, $this->getAuthor());
-        if (strlen($this->label)) {
+        if (strlen($this->label ?? "")) {
             $attrs = array(
                 "label" => $this->label,
             );
@@ -220,7 +220,7 @@ class SurveyTextQuestion extends SurveyQuestion
     ): array {
         $entered_value = $post_data[$this->getId() . "_text_question"] ?? "";
         $data = array();
-        if (strlen($entered_value)) {
+        if (strlen($entered_value ?? "")) {
             $data[] = array("textanswer" => $entered_value);
         }
         return $data;
@@ -236,11 +236,11 @@ class SurveyTextQuestion extends SurveyQuestion
     ): string {
         $entered_value = $post_data[$this->getId() . "_text_question"];
 
-        if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) {
+        if ((!$this->getObligatory()) && (strlen($entered_value ?? "") == 0)) {
             return "";
         }
 
-        if (strlen($entered_value) == 0) {
+        if (strlen($entered_value ?? "") == 0) {
             return $this->lng->txt("text_question_not_filled_out");
         }
 
@@ -269,7 +269,7 @@ class SurveyTextQuestion extends SurveyQuestion
         if ($a_return) {
             return array(array("value" => null, "textanswer" => $entered_value));
         }
-        if (strlen($entered_value) == 0) {
+        if (strlen($entered_value ?? "") == 0) {
             return null;
         }
 
@@ -280,7 +280,7 @@ class SurveyTextQuestion extends SurveyQuestion
         $fields['question_fi'] = array("integer", $this->getId());
         $fields['active_fi'] = array("integer", $active_id);
         $fields['value'] = array("float", null);
-        $fields['textanswer'] = array("clob", (strlen($entered_value)) ? $entered_value : null);
+        $fields['textanswer'] = array("clob", (strlen($entered_value ?? "")) ? $entered_value : null);
         $fields['tstamp'] = array("integer", time());
 
         $ilDB->insert("svy_answer", $fields);
