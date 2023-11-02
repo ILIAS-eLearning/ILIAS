@@ -22,6 +22,8 @@ use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\Component\Modal\LightboxImagePage;
 use ILIAS\Modules\File\Preview\Settings;
+use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
+use ILIAS\ResourceStorage\Flavour\Definition\FitToSquare;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -47,6 +49,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     private int $pages_to_extract;
     private bool $activated = false;
     private string $file_name = '';
+    private FlavourDefinition $fallback_flavour_definition;
 
     public function __construct(
         private ?int $object_id = null
@@ -77,6 +80,10 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
             $settings->getImageSize(),
             $settings->getMaximumPreviews()
         );
+        $this->fallback_flavour_definition = new FitToSquare(
+            $settings->isPersisting(),
+            $settings->getImageSize()
+        );
         // Resolve File Name
         if ($this->rid !== null) {
             $this->file_name = $this->irss->manage()->getCurrentRevision($this->rid)->getTitle();
@@ -91,10 +98,16 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
         if ($this->rid === null) {
             return false;
         }
-        if (!$this->irss->flavours()->possible(
-            $this->rid,
-            $this->flavour_definition
-        )) {
+        if (
+            !$this->irss->flavours()->possible(
+                $this->rid,
+                $this->flavour_definition
+            )
+            && !$this->irss->flavours()->possible(
+                $this->rid,
+                $this->fallback_flavour_definition
+            )
+        ) {
             return false;
         }
         return $this->isAccessGranted();
@@ -195,6 +208,11 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 
         // Resolve Flavour for Definition
         $flavour = $this->irss->flavours()->get($this->rid, $this->flavour_definition);
+        $flavour_urls = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray();
+        if ($flavour_urls === []) { // Try Fallback
+            $flavour = $this->irss->flavours()->get($this->rid, $this->fallback_flavour_definition);
+            $flavour_urls = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray();
+        }
 
         $page_title = function (?int $index): string {
             $index_string = $index !== null ? (($index + 1) . ' ') : '';
@@ -206,7 +224,6 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
         };
 
         // Build Pages for Lightbox
-        $flavour_urls = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray();
         $pages = array_map(function (string $url, $i) use ($page_title): LightboxImagePage {
             $title = $page_title($i);
             return $this->ui_factory->modal()->lightboxImagePage(

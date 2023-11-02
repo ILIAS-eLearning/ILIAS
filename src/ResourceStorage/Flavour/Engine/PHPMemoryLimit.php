@@ -22,34 +22,21 @@ namespace ILIAS\ResourceStorage\Flavour\Engine;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
+ * @internal
  */
-class GDEngine implements Engine
+trait PHPMemoryLimit
 {
-    use PHPMemoryLimit;
-
-    protected array $supported = [
-        'jpg',
-        'jpeg',
-        'png',
-        'gif',
-        'bmp',
-        'tiff',
-        'tif',
-        'webp'
-    ];
-
-    public function __construct()
+    public function getSizeLimitInBytes(): int
     {
+        $memory_limit = ini_get('memory_limit');
+        if (preg_match('/^(\d+)(.)$/', $memory_limit, $matches)) {
+            $memory_limit = match ($matches[2]) {
+                'K' => $matches[1] * 1024,
+                'M' => $matches[1] * 1024 * 1024,
+                'G' => $matches[1] * 1024 * 1024 * 1024,
+                default => $memory_limit,
+            };
+        }
+        return (int) $memory_limit;
     }
-
-    public function supports(string $suffix): bool
-    {
-        return in_array(strtolower($suffix), $this->supported);
-    }
-
-    public function isRunning(): bool
-    {
-        return extension_loaded('gd');
-    }
-
 }

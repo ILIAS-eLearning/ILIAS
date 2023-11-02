@@ -234,6 +234,10 @@ class FlavourBuilder
         }
         $current_revision = $this->getResource($rid)->getCurrentRevision();
         $suffix = $current_revision->getInformation()->getSuffix();
+        $size = $current_revision->getInformation()->getSize();
+        if($size > $engine->getSizeLimitInBytes()) {
+            return false;
+        }
 
         return $engine->supports($suffix);
     }
