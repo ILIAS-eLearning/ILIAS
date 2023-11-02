@@ -39,7 +39,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /** @var string[] */
     protected array $mails = [];
     protected int $inbox;
-    private bool $has_access;
+    private bool $has_access = false;
 
     public function __construct()
     {
