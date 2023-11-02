@@ -19,8 +19,6 @@
 
 declare(strict_types=1);
 
-use JetBrains\PhpStorm\NoReturn;
-
 class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
 {
     public const TABLE_NAME = 'il_orgu_permissions';
