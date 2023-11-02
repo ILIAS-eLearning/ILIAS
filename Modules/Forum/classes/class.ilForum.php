@@ -409,8 +409,11 @@ class ilForum
             [$oldFrmData->getTopPk()]
         );
 
+        $last_post_src = '';
         $row = $this->db->fetchObject($res);
-        $last_post_src = $oldFrmData->getTopPk() . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
+        if ($row !== null) {
+            $last_post_src = $oldFrmData->getTopPk() . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
+        }
 
         $this->db->manipulateF(
             'UPDATE frm_data ' .
@@ -433,8 +436,11 @@ class ilForum
             [$newFrmData->getTopPk()]
         );
 
+        $last_post_dest = '';
         $row = $this->db->fetchObject($res);
-        $last_post_dest = $newFrmData->getTopPk() . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
+        if ($row !== null) {
+            $last_post_dest = $newFrmData->getTopPk() . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
+        }
 
         $this->db->manipulateF(
             'UPDATE frm_data SET top_num_posts = top_num_posts + %s, top_num_threads = top_num_threads + %s, ' .
