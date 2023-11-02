@@ -383,7 +383,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $container_view->setOutput();
 
-
         // it is important not to show the subobjects/admin panel here, since
         // we will create nested forms in case, e.g. a news/calendar item is added
         if (! $this->ctrl->isAsynch()) {
