@@ -72,8 +72,9 @@ class ilObjectTileImage
         if ($this->rid !== null
             && $this->rid !== ''
             && ($resource = $this->storage_services->manage()->find($this->rid)) !== null
+            && ($from_IRSS = $this->getImageFromIRSS($resource)) !== null
         ) {
-            return $this->getImageFromIRSS($resource);
+            return $from_IRSS;
         }
 
         if ($this->exists()) {
@@ -87,13 +88,20 @@ class ilObjectTileImage
         return $this->image_factory->responsive(\ilUtil::getImagePath('cont_tile/cont_tile_default.svg'), '');
     }
 
-    private function getImageFromIRSS(ResourceIdentification $resource): Image
+    private function getImageFromIRSS(ResourceIdentification $resource): ?Image
     {
         $flavour = $this->storage_services->flavours()->get($resource, $this->flavour_definition);
         $urls = $this->storage_services->consume()->flavourUrls($flavour)->getURLsAsArray();
+        if($urls === []) {
+            return null;
+        }
 
         $available_widths = $this->flavour_definition->getWidths();
         array_pop($available_widths);
+
+        if(!isset($urls[count($available_widths)])) {
+            return null;
+        }
 
         $image = $this->image_factory->responsive($urls[count($available_widths)], '');
         return array_reduce(
@@ -126,7 +134,7 @@ class ilObjectTileImage
             $flavour = $this->storage_services->flavours()->get($resource, $this->flavour_definition);
             $urls = $this->storage_services->consume()->flavourUrls($flavour)->getURLsAsArray(false);
 
-            return array_pop($urls);
+            return array_pop($urls) ?? '';
         }
 
         if (!$this->exists()) {
