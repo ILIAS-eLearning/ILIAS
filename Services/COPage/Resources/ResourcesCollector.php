@@ -71,6 +71,7 @@ class ResourcesCollector
 
         // for all page components...
         $defs = $this->pc_definition->getPCDefinitions();
+        $pg->buildDom();
         foreach ($defs as $def) {
             $pc_class = $def["pc_class"];
             /** @var \ilPageContent $pc_obj */

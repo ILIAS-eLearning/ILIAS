@@ -1428,7 +1428,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $item["id"]);
                 $preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_cmd);
             } else {
-                $preview = $this->buildExportLink($a_link_template, "posting", $item["id"]);
+                $preview = $this->buildExportLink($a_link_template, "posting", (string) $item["id"]);
             }
             $more_link = $preview;
 

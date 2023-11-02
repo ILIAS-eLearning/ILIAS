@@ -265,7 +265,7 @@ class BlogHtmlExport
                     $this->keywords
                 );
 
-                $file = self::buildExportLink($a_link_template, "posting", $page["id"], $this->keywords);
+                $file = self::buildExportLink($a_link_template, "posting", (string) $page["id"], $this->keywords);
 
                 if (!$a_tpl_callback) {
                     $tpl = $this->getInitialisedTemplate();
@@ -286,7 +286,7 @@ class BlogHtmlExport
                     $page["id"]
                 );
 
-                $this->writeExportFile($file, $tpl, $page_content, $nav, $back, $comments);
+                $this->writeExportFile($file, $tpl, $page_content, $nav, (bool) $back, $comments);
 
                 $this->co_page_html_export->collectPageElements("blp:pg", $page["id"]);
             }
