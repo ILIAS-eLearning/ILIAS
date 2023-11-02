@@ -74,7 +74,7 @@ class ProfileLevelAssignmentTable
     {
         $columns = [
             "title" => $this->ui_fac->table()->column()->text($this->lng->txt("title"))
-                                    ->withIsSortable(false)
+                                    ->withIsSortable(true) // change to false when bug 38399 is fixed
         ];
 
         return $columns;
@@ -127,7 +127,7 @@ class ProfileLevelAssignmentTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
-                $records = $this->getRecords($order);
+                $records = $this->getRecords($range, $order);
                 foreach ($records as $idx => $record) {
                     $row_id = $record["id"];
 
@@ -139,10 +139,10 @@ class ProfileLevelAssignmentTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): ?int {
-                return null;
+                return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Order $order): array
+            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
             {
                 $level_data = $this->skill->getLevelData();
 
@@ -153,6 +153,18 @@ class ProfileLevelAssignmentTable
                     $records[$i]["title"] = $levels["title"];
 
                     $i++;
+                }
+
+                if ($order) { // remove order when bug 38399 is fixed
+                    list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+                    usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
+                    if ($order_direction === "DESC") {
+                        $records = array_reverse($records);
+                    }
+                }
+
+                if ($range) {
+                    $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
                 }
 
                 return $records;
