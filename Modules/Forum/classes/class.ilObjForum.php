@@ -483,7 +483,7 @@ class ilObjForum extends ilObject
         $tmp_file_obj->delete($posting_ids);
 
         // Get All draft IDs
-        $posting_ids = [];
+        $draft_ids = [];
         $res = $this->db->query(
             'SELECT draft_id FROM frm_posts_drafts WHERE  '
             . $this->db->in('thread_id', $thread_ids_to_delete)
