@@ -87,7 +87,7 @@ class UsageTable
     {
         $columns = [
             "type_info" => $this->ui_fac->table()->column()->statusIcon($this->lng->txt("skmg_type"))
-                                        ->withIsSortable(true),
+                                        ->withIsSortable(true), // change to false when bug 38399 is fixed
             "count" => $this->ui_fac->table()->column()->text($this->lng->txt("skmg_number"))
                                     ->withIsSortable(false)
         ];
@@ -115,7 +115,7 @@ class UsageTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
-                $records = $this->getRecords($order);
+                $records = $this->getRecords($range, $order);
                 foreach ($records as $idx => $record) {
                     $row_id = $record["type"];
 
@@ -127,10 +127,10 @@ class UsageTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): ?int {
-                return null;
+                return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Order $order): array
+            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
             {
                 $records = [];
                 $i = 0;
@@ -140,6 +140,18 @@ class UsageTable
                     $records[$i]["count"] = count($type_usages) . " " . $this->usage_manager->getObjTypeString($type);
 
                     $i++;
+                }
+
+                if ($order) { // remove order when bug 38399 is fixed
+                    list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+                    usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
+                    if ($order_direction === "DESC") {
+                        $records = array_reverse($records);
+                    }
+                }
+
+                if ($range) {
+                    $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
                 }
 
                 return $records;

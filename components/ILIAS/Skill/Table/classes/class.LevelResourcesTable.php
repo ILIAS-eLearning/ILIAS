@@ -276,7 +276,7 @@ class LevelResourcesTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
-                $records = $this->getRecords($order);
+                $records = $this->getRecords($range, $order);
                 foreach ($records as $idx => $record) {
                     $row_id = (string) $record["rep_ref_id"];
 
@@ -294,10 +294,10 @@ class LevelResourcesTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): ?int {
-                return null;
+                return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Order $order): array
+            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
             {
                 $resources = $this->resource_manager->getResourcesOfLevel(
                     $this->base_skill_id,
@@ -348,10 +348,16 @@ class LevelResourcesTable
                     $i++;
                 }
 
-                list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
-                if ($order_direction === "DESC") {
-                    $records = array_reverse($records);
+                if ($order) {
+                    list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+                    usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
+                    if ($order_direction === "DESC") {
+                        $records = array_reverse($records);
+                    }
+                }
+
+                if ($range) {
+                    $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
                 }
 
                 return $records;
