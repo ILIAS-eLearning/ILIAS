@@ -580,6 +580,20 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
             ]
         );
+
+        if ($this->getCreationMode() !== true && count($this->object->getObjectTranslation()->getLanguages()) > 1) {
+            $languages = ilMDLanguageItem::_getLanguages();
+            $a_form->getItemByPostVar('title')
+                   ->setInfo(
+                       implode(
+                           ': ',
+                           [
+                               $this->lng->txt('language'),
+                               $languages[$this->object->getObjectTranslation()->getDefaultLanguage()]
+                           ]
+                       )
+                   );
+        }
     }
 
     private function addAvailabilitySection(ilPropertyFormGUI $form): void
@@ -597,6 +611,11 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     {
         $a_values['activation_online'] = $this->object->getOfflineStatus() === false;
         $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
+
+        if (count($this->object->getObjectTranslation()->getLanguages()) > 1) {
+            $a_values['title'] = $this->object->getObjectTranslation()->getDefaultTitle();
+            $a_values['desc'] = $this->object->getObjectTranslation()->getDefaultDescription();
+        }
     }
 
     protected function updateCustom(ilPropertyFormGUI $form): void
