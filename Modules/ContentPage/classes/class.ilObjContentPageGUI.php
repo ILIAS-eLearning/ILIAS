@@ -654,6 +654,20 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
         $a_form->addItem($presentationHeader);
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
+
+        if ($this->getCreationMode() !== true && count($this->object->getObjectTranslation()->getLanguages()) > 1) {
+            $languages = ilMDLanguageItem::_getLanguages();
+            $a_form->getItemByPostVar('title')
+                ->setInfo(
+                    implode(
+                        ': ',
+                        [
+                            $this->lng->txt('language'),
+                            $languages[$this->object->getObjectTranslation()->getDefaultLanguage()]
+                        ]
+                    )
+                );
+        }
     }
 
     /**
@@ -662,6 +676,11 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     protected function getEditFormCustomValues(array &$a_values)
     {
         $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
+
+        if (count($this->object->getObjectTranslation()->getLanguages()) > 1) {
+            $a_values['title'] = $this->object->getObjectTranslation()->getDefaultTitle();
+            $a_values['desc'] = $this->object->getObjectTranslation()->getDefaultDescription();
+        }
     }
 
     /**
