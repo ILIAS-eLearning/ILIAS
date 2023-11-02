@@ -35,6 +35,6 @@ class ilSurveyEvaluationResultsAnswer
         $this->active_id = $a_active_id;
         $this->value = $a_value;
         $this->text = trim($a_text);
-        $this->tstamp = trim($a_tstamp);
+        $this->tstamp = trim((string) $a_tstamp);
     }
 }

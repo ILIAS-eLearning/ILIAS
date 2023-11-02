@@ -2422,7 +2422,7 @@ class ilObjSurvey extends ilObject
 
             $messagetext = $this->mailparticipantdata;
             $data = [];
-            if (trim($messagetext)) {
+            if (trim($messagetext ?? "")) {
                 if (!$this->hasAnonymizedResults()) {
                     $data = ilObjUser::_getUserData(array($a_user_id));
                     $data = $data[0];
@@ -2431,7 +2431,7 @@ class ilObjSurvey extends ilObject
                     if ($this->hasAnonymizedResults()) { // #16480
                         $messagetext = str_replace('[' . $key . ']', '', $messagetext);
                     } else {
-                        $messagetext = str_replace('[' . $key . ']', trim($data[$mapping]), $messagetext);
+                        $messagetext = str_replace('[' . $key . ']', trim($data[$mapping] ?? ""), $messagetext);
                     }
                 }
                 $ntf->setIntroductionDirect($messagetext);
@@ -2457,7 +2457,7 @@ class ilObjSurvey extends ilObject
             $ntf->setGotoLangId('survey_notification_tutor_link');
             $ntf->setReasonLangId('survey_notification_finished_reason');
 
-            $recipient = trim($recipient);
+            $recipient = trim($recipient ?? "");
             $user_id = (int) ilObjUser::_lookupId($recipient);
             if ($user_id > 0) {
                 $ntf->sendMailAndReturnRecipients([$user_id]);

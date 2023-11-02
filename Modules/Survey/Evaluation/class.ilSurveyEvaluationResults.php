@@ -82,7 +82,7 @@ class ilSurveyEvaluationResults
     ): void {
         $this->mode_value = is_array($a_value)
             ? $a_value
-            : trim($a_value);
+            : trim($a_value ?? "");
         $this->mode_nr_of_selections = $a_nr_of_selections;
     }
 
@@ -136,7 +136,7 @@ class ilSurveyEvaluationResults
     {
         $this->median = is_array($a_value)
             ? $a_value
-            : trim($a_value);
+            : trim($a_value ?? "");
     }
 
     /**

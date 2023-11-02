@@ -818,7 +818,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 // question block
                 if (count($page) > 1) {
                     if ($page[0]["questionblock_show_blocktitle"]) {
-                        $rtpl->setVariable("BLOCK_TITLE", trim($page[0]["questionblock_title"]));
+                        $rtpl->setVariable("BLOCK_TITLE", trim($page[0]["questionblock_title"] ?? ""));
                     }
                 }
 
@@ -829,7 +829,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
                     // heading
                     if (strlen($question["heading"])) {
-                        $rtpl->setVariable("HEADING", trim($question["heading"]));
+                        $rtpl->setVariable("HEADING", trim($question["heading"] ?? ""));
                     }
 
                     $rtpl->setVariable(
@@ -897,7 +897,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 // question block
                 if (count($page) > 1) {
                     if ($page[0]["questionblock_show_blocktitle"]) {
-                        $res[$this->lng->txt("questionblock")] = trim($page[0]["questionblock_title"]) . "\n";
+                        $res[$this->lng->txt("questionblock")] = trim($page[0]["questionblock_title"] ?? "") . "\n";
                     }
                 }
 
@@ -911,11 +911,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
                     // heading
                     if (strlen($question["heading"])) {
-                        $question_parts[$this->lng->txt("heading")] = trim($question["heading"]);
+                        $question_parts[$this->lng->txt("heading")] = trim($question["heading"] ?? "");
                     }
 
                     if ($show_titles) {
-                        $question_parts[$this->lng->txt("title")] = trim($question["title"]);
+                        $question_parts[$this->lng->txt("title")] = trim($question["title"] ?? "");
                     }
 
                     if ($question["questionblock_show_questiontext"]) {
