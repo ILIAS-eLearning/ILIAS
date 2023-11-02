@@ -140,6 +140,36 @@ class FlySystemFileAccessTest extends TestCase
         $this->assertSame($mimeType, $actualMimeType);
     }
 
+    public function testPutContentExistingFile(): void
+    {
+        $content = 'Test file content.';
+        $this->filesystemMock->shouldReceive('has')
+                             ->once()
+                             ->andReturn(true);
+        $this->filesystemMock->shouldReceive('write')
+                             ->with('/path/to/your/file', $content)
+                             ->once()
+                             ->andReturn(true);
+
+        $this->subject->put('/path/to/your/file', $content);
+    }
+
+    public function testPutContentNonExistingFile(): void
+    {
+        $content = 'Test file content.';
+        $this->filesystemMock->shouldReceive('has')
+                             ->twice()
+                             ->andReturn(false);
+
+        $this->filesystemMock->shouldReceive('write')
+                             ->with('/path/to/your/file', $content)
+                             ->once()
+                             ->andReturn(true);
+
+        $this->subject->put('/path/to/your/file', $content);
+    }
+
+
     public function testGetMimeTypeWithUnknownMimeTypeWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -544,45 +574,6 @@ class FlySystemFileAccessTest extends TestCase
         );
 
         $this->subject->update($path, $content);
-    }
-
-    /**
-     * @Test
-     * @small
-     */
-    public function testPutWhichShouldSucceed(): void
-    {
-        $path = '/path/to/your/file';
-        $content = "some awesome content";
-
-        $this->filesystemMock->shouldReceive('put')
-                             ->once()
-                             ->withArgs([$path, $content])
-                             ->andReturn(true);
-
-        $this->subject->put($path, $content);
-    }
-
-    /**
-     * @Test
-     * @small
-     */
-    public function testPutWithAdapterErrorWhichShouldFail(): void
-    {
-        $path = '/path/to/your/file';
-        $content = "some awesome content";
-
-        $this->filesystemMock->shouldReceive('put')
-                             ->once()
-                             ->withArgs([$path, $content])
-                             ->andReturn(false);
-
-        $this->expectException(IOException::class);
-        $this->expectExceptionMessage(
-            "Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable."
-        );
-
-        $this->subject->put($path, $content);
     }
 
     /**
