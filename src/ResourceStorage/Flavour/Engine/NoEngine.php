@@ -29,7 +29,6 @@ class NoEngine implements Engine
     {
     }
 
-
     public function supports(string $suffix): bool
     {
         return true;
@@ -39,4 +38,10 @@ class NoEngine implements Engine
     {
         return true;
     }
+
+    public function getSizeLimitInBytes(): int
+    {
+        return 0;
+    }
+
 }

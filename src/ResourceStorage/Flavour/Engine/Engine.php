@@ -30,4 +30,6 @@ interface Engine
     public function supports(string $suffix): bool;
 
     public function isRunning(): bool;
+
+    public function getSizeLimitInBytes(): int;
 }

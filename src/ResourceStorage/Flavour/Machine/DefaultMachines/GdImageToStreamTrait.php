@@ -21,6 +21,7 @@ namespace ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines;
 
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Flavour\Engine\PHPMemoryLimit;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -28,6 +29,7 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 trait GdImageToStreamTrait
 {
+    use PHPMemoryLimit;
     /**
      * Currently this is the only way to make a FileStream from a GD image resource.
      * As soon as this is possible diretly, we can just switch the implementation here.
@@ -45,12 +47,24 @@ trait GdImageToStreamTrait
 
     protected function from(FileStream $stream): ?\GdImage
     {
-        if ($stream->getSize() > ini_get('memory_limit')) {
-            // return null; // we could stop here if the memorsy-limit is reached, but we must convert things like 1000M to bytes then
+        if ($stream->getSize() > $this->getSizeLimitInBytes()) {
+            return null;
         }
 
         try {
-            return imagecreatefromstring((string)$stream);
+            // we try to use the most common formats first
+            // this is faster than using imagecreatefromstring
+            // and also more memory efficient
+            $filename = $stream->getMetadata('uri');
+            $mime = mime_content_type($filename);
+            return match ($mime) {
+                'image/jpeg' => imagecreatefromjpeg($filename),
+                'image/png' => imagecreatefrompng($filename),
+                'image/gif' => imagecreatefromgif($filename),
+                'image/bmp' => imagecreatefrombmp($filename),
+                'image/webp' => imagecreatefromwebp($filename),
+                default => imagecreatefromstring((string) $stream)
+            };
         } catch (\Throwable $t) {
             return null;
         }
