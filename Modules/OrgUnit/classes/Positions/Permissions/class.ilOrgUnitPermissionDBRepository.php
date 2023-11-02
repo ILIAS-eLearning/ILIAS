@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,9 +16,8 @@
  *
  ********************************************************************
  */
-declare(strict_types=1);
 
-use JetBrains\PhpStorm\NoReturn;
+declare(strict_types=1);
 
 class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
 {
@@ -328,7 +328,7 @@ class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
         $ids = json_decode($operations);
         $ret = [];
         foreach ($ids as $operation_id) {
-            $ret[] = $this->operationRepo->getById($operation_id);
+            $ret[] = $this->operationRepo->getById((int)$operation_id);
         }
         return $ret;
     }
