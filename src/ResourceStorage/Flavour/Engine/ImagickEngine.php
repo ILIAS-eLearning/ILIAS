@@ -25,6 +25,8 @@ namespace ILIAS\ResourceStorage\Flavour\Engine;
  */
 class ImagickEngine implements Engine
 {
+    use PHPMemoryLimit;
+
     protected array $whitelist = [
         'jpg',
         'jpeg',
@@ -33,6 +35,7 @@ class ImagickEngine implements Engine
         'webp',
         'webm',
         'tiff',
+        'tif',
         'bmp',
         'pdf',
         'pdf',
@@ -44,21 +47,21 @@ class ImagickEngine implements Engine
     {
         $this->supported = array_intersect(
             array_map(
-                fn ($item): string => strtolower($item),
+                fn($item): string => strtolower($item),
                 \Imagick::queryFormats()
             ),
             $this->whitelist
         ) ?? [];
     }
 
-
     public function supports(string $suffix): bool
     {
-        return in_array(strtolower($suffix), $this->supported);
+        return in_array(strtolower($suffix), $this->supported, true);
     }
 
     public function isRunning(): bool
     {
         return extension_loaded('imagick') && class_exists(\Imagick::class);
     }
+
 }
