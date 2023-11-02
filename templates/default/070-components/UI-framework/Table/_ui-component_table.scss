@@ -291,6 +291,7 @@ th.c-table-data__cell:after {
 
 // Text
 .c-table-data__cell--link,
+.c-table-data__cell--linklisting,
 .c-table-data__cell--text {
     .c-table-data__header__resize-wrapper {
         min-width: 140px;
@@ -411,7 +412,7 @@ td.c-table-data__cell--highlighted {
         td.c-table-data__cell--number {
             text-align: inherit;
         }
-        
+
         // Highlighted Columns
         td.c-table-data__cell--highlighted {
             font-size: $il-font-size-xxlarge;
