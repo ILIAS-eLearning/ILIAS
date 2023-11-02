@@ -472,7 +472,7 @@ class ilUserStartingPointGUI
         $table->addHiddenInput("role", $role);
         $table->addHiddenInput("role_type", 1);
         $table->setTitle($this->lng->txt('user_role_selection'));
-        $table->addMultiCommand('saveStartingPoint', $this->lng->txt('user_choose_role'));
+        $table->addMultiCommand('saveStartingPoint', $this->lng->txt('select'));
         $table->parse($entries);
 
         $this->tpl->setContent($table->getHTML());
