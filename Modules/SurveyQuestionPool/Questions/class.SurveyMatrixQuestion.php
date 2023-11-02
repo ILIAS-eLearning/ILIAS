@@ -492,7 +492,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $attrs = array(
                 "id" => $i
             );
-            if (strlen($this->getRow($i)->label)) {
+            if (strlen($this->getRow($i)->label ?? "")) {
                 $attrs['label'] = $this->getRow($i)->label;
             }
             if ($this->getRow($i)->other) {
@@ -669,7 +669,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 $counter = 0;
                 foreach ($post_data as $key => $value) {
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
-                        if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]]) == 0) {
+                        if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]] ?? "") == 0) {
                             return $this->lng->txt("question_mr_no_other_answer");
                         }
                         $counter++;
@@ -683,7 +683,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 $counter = 0;
                 foreach ($post_data as $key => $value) {
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
-                        if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]]) == 0) {
+                        if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]] ?? "") == 0) {
                             return $this->lng->txt("question_mr_no_other_answer");
                         }
                         $counter++;
@@ -714,7 +714,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
             case 0:
                 foreach ($post_data as $key => $value) {
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
-                        if (strlen($value)) {
+                        if (strlen($value ?? "")) {
                             $other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data))
                                 ? $this->stripSlashesAddSpaceFallback($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
                                 : null;
@@ -1042,7 +1042,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     {
         for ($i = 0; $i < $this->getColumnCount(); $i++) {
             $column = $this->getColumn($i);
-            if ($column->neutral && strlen($column->title)) {
+            if ($column->neutral && strlen($column->title ?? "")) {
                 return true;
             }
         }

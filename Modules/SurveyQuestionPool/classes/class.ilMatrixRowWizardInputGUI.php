@@ -134,7 +134,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && ($this->getRequired() && (!$foundvalues['other'][$idx]))) {
+                    if (((strlen($answervalue ?? "")) == 0) && ($this->getRequired() && (!$foundvalues['other'][$idx]))) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
