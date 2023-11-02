@@ -528,7 +528,9 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $map = array();
         foreach ($pages as $p) {
             $page = new ilWikiPage($p["id"]);
+            $page->setWikiRefId($this->getRefId());
             $new_page = new ilWikiPage();
+            $new_page->setWikiRefId($new_obj->getRefId());
             $new_page->setTitle($page->getTitle());
             $new_page->setWikiId($new_obj->getId());
             $new_page->setTitle($page->getTitle());
