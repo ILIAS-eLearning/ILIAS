@@ -1914,7 +1914,7 @@ class ilObjUserGUI extends ilObjectGUI
         } elseif ('pwassist' == $a_target) {
             $ilCtrl->redirectByClass(['ilStartUpGUI', 'ilPasswordAssistanceGUI'], '');
         } else {
-            $target = $this->legal_documents->findGotoLink($a_target);
+            $target = $DIC['legalDocuments']->findGotoLink($a_target);
             if ($target->isOK()) {
                 $ilCtrl->setTargetScript('ilias.php');
                 $ilCtrl->redirectByClass($target->value()->guiPath(), $target->value()->command());
