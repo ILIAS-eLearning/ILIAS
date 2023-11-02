@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile;
 
+use ILIAS\Services\Mail\ilMailUserFieldChangeListener;
+
 class ilUserProfileDefaultFields
 {
     private array $default_profile_fields = [
@@ -256,7 +258,7 @@ class ilUserProfileDefaultFields
             'method' => 'getSecondEmail',
             'group' => 'contact_data',
             'change_listeners' => [
-                \ilMailUserFieldChangeListener::class,
+                ilMailUserFieldChangeListener::class,
             ]
         ],
         'hobby' => [

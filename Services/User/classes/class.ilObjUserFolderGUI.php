@@ -118,17 +118,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
     }
 
     private function getTranslationForField(
-        string $fieldName,
+        string $field_name,
         array $properties
     ): string {
         $translation = (!isset($properties['lang_var']) || $properties['lang_var'] === '')
-            ? $fieldName
+            ? $field_name
             : $properties['lang_var'];
 
-        if ($fieldName === 'country') {
+        if ($field_name === 'country') {
             $translation = 'country_free_text';
         }
-        if ($fieldName === 'sel_country') {
+        if ($field_name === 'sel_country') {
             $translation = 'country_selection';
         }
 
@@ -2501,8 +2501,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             ilMemberAgreement::_reset();
         }
 
-        $changedFields = $this->collectChangedFields();
-        if ($this->handleChangeListeners($changedFields, $field_properties)) {
+        $changed_fields = $this->collectChangedFields();
+        if ($this->handleChangeListeners($changed_fields, $field_properties)) {
             return;
         }
 
@@ -2636,10 +2636,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
         }
 
-        if ($checked['export_preferences'] ?? false) {
+        if (isset($checked['export_preferences']) && $checked['export_preferences'] === 1) {
             $this->ilias->setSetting(
                 'usr_settings_export_preferences',
-                $checked['export_preferences']
+                '1'
             );
         } else {
             $this->ilias->deleteSetting('usr_settings_export_preferences');
@@ -2666,11 +2666,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $selected['default_hide_own_online_status']
         );
 
-        if ($this->usrFieldChangeListenersAccepted && count($changedFields) > 0) {
+        if ($this->usrFieldChangeListenersAccepted && count($changed_fields) > 0) {
             $this->event->raise(
                 'Services/User',
                 'onUserFieldAttributesChanged',
-                $changedFields
+                $changed_fields
             );
         }
 
@@ -2685,10 +2685,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
     }
 
     /**
-     * @param InterestedUserFieldChangeListener[] $interestedChangeListeners
+     * @param InterestedUserFieldChangeListener[] $interested_change_listeners
      */
     public function showFieldChangeComponentsListeningConfirmDialog(
-        array $interestedChangeListeners
+        array $interested_change_listeners
     ): void {
         $post = $this->user_request->getParsedBody();
         $confirmDialog = new ilConfirmationGUI();
@@ -2707,9 +2707,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'Services/User'
         );
 
-        foreach ($interestedChangeListeners as $interestedChangeListener) {
-            $tpl->setVariable('FIELD_NAME', $interestedChangeListener->getName());
-            foreach ($interestedChangeListener->getAttributes() as $attribute) {
+        foreach ($interested_change_listeners as $interested_change_listener) {
+            $tpl->setVariable('FIELD_NAME', $interested_change_listener->getName());
+            foreach ($interested_change_listener->getAttributes() as $attribute) {
                 $tpl->setVariable('ATTRIBUTE_NAME', $attribute->getName());
                 foreach ($attribute->getComponents() as $component) {
                     $tpl->setVariable('COMPONENT_NAME', $component->getComponentName());
@@ -2739,58 +2739,58 @@ class ilObjUserFolderGUI extends ilObjectGUI
     }
 
     /**
-     * @param array<string, ChangedUserFieldAttribute> $changedFields
-     * @param array<string, array>                     $fieldProperties => See ilUserProfile::getStandardFields()
+     * @param array<string, ChangedUserFieldAttribute> $changed_fields
+     * @param array<string, array>                     $field_properties => See ilUserProfile::getStandardFields()
      * @return bool
      */
     public function handleChangeListeners(
-        array $changedFields,
-        array $fieldProperties
+        array $changed_fields,
+        array $field_properties
     ): bool {
-        if (count($changedFields) > 0) {
-            $interestedChangeListeners = [];
-            foreach ($fieldProperties as $fieldName => $properties) {
+        if (count($changed_fields) > 0) {
+            $interested_change_listeners = [];
+            foreach ($field_properties as $field_name => $properties) {
                 if (!isset($properties['change_listeners'])) {
                     continue;
                 }
 
-                foreach ($properties['change_listeners'] as $changeListenerClassName) {
+                foreach ($properties['change_listeners'] as $change_listener_class_name) {
                     /**
                      * @var UserFieldAttributesChangeListener $listener
                      */
-                    $listener = new $changeListenerClassName($this->dic);
-                    foreach ($changedFields as $changedField) {
-                        $attributeName = $changedField->getAttributeName();
-                        $descriptionForField = $listener->getDescriptionForField($fieldName, $attributeName);
-                        if ($descriptionForField !== null && $descriptionForField !== '') {
-                            $interestedChangeListener = null;
-                            foreach ($interestedChangeListeners as $interestedListener) {
-                                if ($interestedListener->getFieldName() === $fieldName) {
-                                    $interestedChangeListener = $interestedListener;
+                    $listener = new $change_listener_class_name($this->dic);
+                    foreach ($changed_fields as $changed_field) {
+                        $attribute_name = $changed_field->getAttributeName();
+                        $description_for_field = $listener->getDescriptionForField($field_name, $attribute_name);
+                        if ($description_for_field !== null && $description_for_field !== '') {
+                            $interested_change_listener = null;
+                            foreach ($interested_change_listeners as $interested_listener) {
+                                if ($interested_listener->getFieldName() === $field_name) {
+                                    $interested_change_listener = $interested_listener;
                                     break;
                                 }
                             }
 
-                            if ($interestedChangeListener === null) {
-                                $interestedChangeListener = new InterestedUserFieldChangeListener(
-                                    $this->getTranslationForField($fieldName, $properties),
-                                    $fieldName
+                            if ($interested_change_listener === null) {
+                                $interested_change_listener = new InterestedUserFieldChangeListener(
+                                    $this->getTranslationForField($field_name, $properties),
+                                    $field_name
                                 );
-                                $interestedChangeListeners[] = $interestedChangeListener;
+                                $interested_change_listeners[] = $interested_change_listener;
                             }
 
-                            $interestedAttribute = $interestedChangeListener->addAttribute($attributeName);
-                            $interestedAttribute->addComponent(
+                            $interested_attribute = $interested_change_listener->addAttribute($attribute_name);
+                            $interested_attribute->addComponent(
                                 $listener->getComponentName(),
-                                $descriptionForField
+                                $description_for_field
                             );
                         }
                     }
                 }
             }
 
-            if (!$this->usrFieldChangeListenersAccepted && count($interestedChangeListeners) > 0) {
-                $this->showFieldChangeComponentsListeningConfirmDialog($interestedChangeListeners);
+            if (!$this->usrFieldChangeListenersAccepted && count($interested_change_listeners) > 0) {
+                $this->showFieldChangeComponentsListeningConfirmDialog($interested_change_listeners);
                 return true;
             }
         }
@@ -2803,7 +2803,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      */
     private function collectChangedFields(): array
     {
-        $changedFields = [];
+        $changed_fields = [];
         $post = $this->user_request->getParsedBody();
         if (
             !isset($post['chb'])
@@ -2811,7 +2811,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             && !isset($post['current'])
             && !is_array($post['current'])
         ) {
-            return $changedFields;
+            return $changed_fields;
         }
 
         $old = $post['current'];
@@ -2827,10 +2827,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $oldToNewDiff = array_diff_assoc($old, $new);
 
         foreach ($oldToNewDiff as $key => $oldValue) {
-            $changedFields[$key] = new ChangedUserFieldAttribute($key, $oldValue, $new[$key]);
+            $changed_fields[$key] = new ChangedUserFieldAttribute($key, $oldValue, $new[$key]);
         }
 
-        return $changedFields;
+        return $changed_fields;
     }
 
     /**

@@ -247,11 +247,11 @@ class FlySystemFileAccess implements FileAccess
      */
     public function put(string $path, string $content): void
     {
-        if ($this->flysystem_operator->put($path, $content) === false) {
-            throw new IOException(
-                "Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable."
-            );
+        if ($this->flysystem_operator->has($path)) {
+            $this->update($path, $content);
+            return;
         }
+        $this->write($path, $content);
     }
 
     /**
