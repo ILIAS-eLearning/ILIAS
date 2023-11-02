@@ -397,6 +397,7 @@ class PageContentManager
     public function pasteContents(
         \ilObjUser $user,
         string $a_hier_id,
+        \ilPageObject $page,
         bool $a_self_ass = false
     ) {
         $a_hid = explode(":", $a_hier_id);
@@ -412,7 +413,7 @@ class PageContentManager
                 $error
             );
             if (empty($error)) {
-                $this->handleCopiedContent($temp_dom, $a_self_ass);
+                $this->handleCopiedContent($page, $temp_dom, $a_self_ass);
                 $path = "//PageContent";
                 $nodes = $this->dom_util->path($temp_dom, $path);
                 foreach ($nodes as $node) {
@@ -433,12 +434,13 @@ class PageContentManager
     }
 
     public function copyXmlContent(
+        \ilPageObject $page,
         string $xml,
         bool $a_clone_mobs = false,
         int $a_new_parent_id = 0,
         int $obj_copy_id = 0
     ): string {
-        $this->handleCopiedContent($this->dom, true, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
+        $this->handleCopiedContent($page, $this->dom, true, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
         $this->dom->documentElement;
         $xml = $this->dom_util->dump($this->dom->documentElement);
         $xml = preg_replace('/<\?xml[^>]*>/i', "", $xml);
@@ -456,6 +458,7 @@ class PageContentManager
      * - called by ilPageEditorGUI->paste -> pasteContents
      */
     protected function handleCopiedContent(
+        \ilPageObject $page,
         \DOMDocument $dom,
         bool $a_self_ass = true,
         bool $a_clone_mobs = false,
@@ -467,7 +470,7 @@ class PageContentManager
             $cl = $def["pc_class"];
             if ($cl == 'ilPCPlugged') {
                 // the page object is provided for ilPageComponentPlugin
-                \ilPCPlugged::handleCopiedPluggedContent($this, $dom);
+                \ilPCPlugged::handleCopiedPluggedContent($page, $dom);
             } else {
                 $cl::handleCopiedContent($dom, $a_self_ass, $a_clone_mobs, $new_parent_id, $obj_copy_id);
             }
@@ -638,7 +641,11 @@ class PageContentManager
 
         //check for PlaceHolder to remove in EditMode-keep in Layout Mode
         if ($remove_placeholder && !$placeholder_enabled) {
-            $this->dom_util->deleteAllChildsByName($curr_node, ["PlaceHolder"]);
+            foreach ($curr_node->childNodes as $sub_node) {
+                if ($sub_node->nodeName == "PlaceHolder") {
+                    $curr_node->parentNode->removeChild($curr_node);
+                }
+            }
         }
     }
 

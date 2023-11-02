@@ -799,6 +799,7 @@ s     */
     ): string {
         $cm = $this->page_manager->contentFromXml($this->getXMLContent());
         return $cm->copyXmlContent(
+            $this,
             $a_clone_mobs,
             $a_new_parent_id,
             $obj_copy_id
@@ -1826,6 +1827,7 @@ s     */
         $cm->pasteContents(
             $user,
             $a_hier_id,
+            $this,
             $a_self_ass
         );
         return $this->update();
