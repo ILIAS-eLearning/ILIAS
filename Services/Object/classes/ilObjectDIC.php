@@ -32,7 +32,7 @@ use ILIAS\DI\Container as ILIASContainer;
 
 class ilObjectDIC extends PimpleContainer
 {
-    public static ?ilObjectDIC $dic = null;
+    private static ?ilObjectDIC $dic = null;
 
     public static function dic(): self
     {
