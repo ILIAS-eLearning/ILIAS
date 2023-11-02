@@ -145,6 +145,9 @@ class ilObjectProperties
         string $description
     ) {
         $general_metadata = $this->meta_data->getGeneral();
+        if ($general_metadata === null) {
+            return;
+        }
         $general_metadata->setTitle($title);
 
         // sets first description (maybe not appropriate)
