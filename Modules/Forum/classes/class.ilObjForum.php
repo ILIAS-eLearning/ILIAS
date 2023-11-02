@@ -456,7 +456,7 @@ class ilObjForum extends ilObject
             $originalPageObject->delete();
         }
 
-        $this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$this->getId()]);
+        $this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', [ilDBConstants::T_INTEGER], [$this->getId()]);
 
         $topData = $this->Forum->getOneTopic();
 
@@ -472,7 +472,7 @@ class ilObjForum extends ilObject
         $posting_ids = [];
         $res = $this->db->query(
             'SELECT pos_pk FROM frm_posts WHERE  '
-            . $this->db->in('pos_thr_fk', $thread_ids_to_delete)
+            . $this->db->in('pos_thr_fk', $thread_ids_to_delete, false, ilDBConstants::T_INTEGER)
         );
 
         while ($row = $res->fetchObject()) {
@@ -486,7 +486,7 @@ class ilObjForum extends ilObject
         $draft_ids = [];
         $res = $this->db->query(
             'SELECT draft_id FROM frm_posts_drafts WHERE  '
-            . $this->db->in('thread_id', $thread_ids_to_delete)
+            . $this->db->in('thread_id', $thread_ids_to_delete, false, ilDBConstants::T_INTEGER)
         );
 
         while ($row = $res->fetchObject()) {
@@ -501,7 +501,7 @@ class ilObjForum extends ilObject
                 'thr_fk',
                 $thread_ids_to_delete,
                 false,
-                'integer'
+                ilDBConstants::T_INTEGER
             )
         );
         $this->db->manipulate(
@@ -509,7 +509,7 @@ class ilObjForum extends ilObject
                 'pos_thr_fk',
                 $thread_ids_to_delete,
                 false,
-                'integer'
+                ilDBConstants::T_INTEGER
             )
         );
         $this->db->manipulate(
@@ -517,15 +517,15 @@ class ilObjForum extends ilObject
                 'thr_pk',
                 $thread_ids_to_delete,
                 false,
-                'integer'
+                ilDBConstants::T_INTEGER
             )
         );
 
         $obj_id = [$this->getId()];
 
-        $this->db->manipulateF('DELETE FROM frm_data WHERE top_frm_fk = %s', ['integer'], $obj_id);
-        $this->db->manipulateF('DELETE FROM frm_settings WHERE obj_id = %s', ['integer'], $obj_id);
-        $this->db->manipulateF('DELETE FROM frm_user_read WHERE obj_id = %s', ['integer'], $obj_id);
+        $this->db->manipulateF('DELETE FROM frm_data WHERE top_frm_fk = %s', [ilDBConstants::T_INTEGER], $obj_id);
+        $this->db->manipulateF('DELETE FROM frm_settings WHERE obj_id = %s', [ilDBConstants::T_INTEGER], $obj_id);
+        $this->db->manipulateF('DELETE FROM frm_user_read WHERE obj_id = %s', [ilDBConstants::T_INTEGER], $obj_id);
         $this->db->manipulate(
             'DELETE FROM frm_notification WHERE ' . $this->db->in(
                 'thread_id',
@@ -534,8 +534,8 @@ class ilObjForum extends ilObject
                 'integer'
             )
         );
-        $this->db->manipulateF('DELETE FROM frm_notification WHERE  frm_id = %s', ['integer'], $obj_id);
-        $this->db->manipulateF('DELETE FROM frm_posts_deleted WHERE obj_id = %s', ['integer'], $obj_id);
+        $this->db->manipulateF('DELETE FROM frm_notification WHERE  frm_id = %s', [ilDBConstants::T_INTEGER], $obj_id);
+        $this->db->manipulateF('DELETE FROM frm_posts_deleted WHERE obj_id = %s', [ilDBConstants::T_INTEGER], $obj_id);
         $this->deleteDraftsByForumId($topData->getTopPk());
 
         return true;
