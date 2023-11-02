@@ -57,8 +57,11 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
     {
         $next_class = strtolower($this->ctrl->getNextClass());
 
+        $tabFactory = new ilChatroomTabGUIFactory($this);
+
         switch ($next_class) {
             case strtolower(ilPermissionGUI::class):
+                $tabFactory->getAdminTabsForCommand($this->ctrl->getCmd());
                 $this->prepareOutput();
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
@@ -76,7 +79,6 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
                 break;
 
             default:
-                $tabFactory = new ilChatroomTabGUIFactory($this);
                 $tabFactory->getAdminTabsForCommand($this->ctrl->getCmd());
                 $res = explode('-', $this->ctrl->getCmd(), 2);
                 if (!array_key_exists(1, $res)) {
@@ -84,6 +86,11 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
                 }
 
                 $this->dispatchCall($res[0], $res[1]);
+        }
+
+        if ($tabFactory->getActivatedTab() !== null &&
+            $this->tabs_gui->getActiveTab() !== $tabFactory->getActivatedTab()) {
+            $this->tabs_gui->activateTab($tabFactory->getActivatedTab());
         }
     }
 
