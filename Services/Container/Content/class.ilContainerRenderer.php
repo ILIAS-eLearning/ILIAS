@@ -492,6 +492,17 @@ class ilContainerRenderer
         return false;
     }
 
+    protected function getViewModeOfItemGroup(int $ref_id): int
+    {
+        $item_group = new ilObjItemGroup($ref_id);
+        $view_mode = ilContainerContentGUI::VIEW_MODE_LIST;
+        if ($item_group->getListPresentation() !== "") {
+            $view_mode = ($item_group->getListPresentation() === "tile")
+                ? ilContainerContentGUI::VIEW_MODE_TILE
+                : ilContainerContentGUI::VIEW_MODE_LIST;
+        }
+        return $view_mode;
+    }
     /**
      * @param mixed $a_block_id
      */
@@ -859,12 +870,18 @@ class ilContainerRenderer
                 if ($this->container_gui->isActiveAdministrationPanel()) {
                     $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_ADMIN;
                 }
+                $item_group_list_presentation = "";
+                if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
+                    if ($this->getViewModeOfItemGroup((int) $block_id) === ilContainerContentGUI::VIEW_MODE_TILE) {
+                        $item_group_list_presentation = "tile";
+                    }
+                }
                 $html = $this->item_renderer->renderItem(
                     $item_data,
                     $position++,
                     false,
                     $pos_prefix,
-                    "",
+                    $item_group_list_presentation,
                     $checkbox,
                     $this->item_presentation->isActiveItemOrdering()
                 );
