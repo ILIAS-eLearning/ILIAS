@@ -3070,7 +3070,7 @@ class ilObjSurvey extends ilObject
                 }
             }
             foreach ($question_array as $question) {
-                if (strlen($question["heading"])) {
+                if (strlen($question["heading"] ?? "")) {
                     $a_xml_writer->xmlElement("textblock", null, $question["heading"]);
                 }
                 $questionObject = self::_instanciateQuestion($question["question_id"]);
