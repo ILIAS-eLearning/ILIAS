@@ -257,7 +257,10 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
                 }
                 break;
         }
-        $this->addHeaderAction();
+
+        if ($this->object->getType() !== 'chta') {
+            $this->addHeaderAction();
+        }
 
         if ($tabFactory !== null &&
             $tabFactory->getActivatedTab() !== null &&
