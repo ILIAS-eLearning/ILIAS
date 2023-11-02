@@ -225,23 +225,26 @@ class ilUserStartingPointGUI
     {
         $roles = $this->starting_point_repository->getGlobalRolesWithoutStartingPoint();
 
+
         // role type
         $radg = new ilRadioGroupInputGUI($this->lng->txt('role'), 'role_type');
-        $radg->setValue('0');
-        $op1 = new ilRadioOption($this->lng->txt('user_global_role'), '0');
-        $radg->addOption($op1);
+        $radg->setValue('1');
+        if ($roles !== []) {
+            $radg->setValue('0');
+            $op1 = new ilRadioOption($this->lng->txt('user_global_role'), '0');
+            $radg->addOption($op1);
+
+            $role_options = [];
+            foreach ($roles as $role) {
+                $role_options[$role['id']] = $role['title'];
+            }
+            $si_roles = new ilSelectInputGUI($this->lng->txt('roles_without_starting_point'), 'role');
+            $si_roles->setOptions($role_options);
+            $op1->addSubItem($si_roles);
+        }
+
         $op2 = new ilRadioOption($this->lng->txt('user_local_role'), '1');
         $radg->addOption($op2);
-
-        $role_options = [];
-        foreach ($roles as $role) {
-            $role_options[$role['id']] = $role['title'];
-        }
-        $si_roles = new ilSelectInputGUI($this->lng->txt('roles_without_starting_point'), 'role');
-        $si_roles->setOptions($role_options);
-        $op1->addSubItem($si_roles);
-
-        // local role
         $role_search = new ilRoleAutoCompleteInputGUI('', 'role_search', $this, 'addRoleAutoCompleteObject');
         $role_search->setSize(40);
         $op2->addSubItem($role_search);
