@@ -496,6 +496,11 @@ class ilObjSurvey extends ilObject
         return ($this->getTitle() && count($this->questions));
     }
 
+    public function hasQuestions(): bool
+    {
+        return count($this->questions);
+    }
+
     /**
      * Saves the completion status of the survey
      * @todo move to survey manager/repo

@@ -232,18 +232,19 @@ class ilSurveyEditorGUI
                     ? 'browseForQuestions'
                     : 'browseForQuestionblocks';
 
-                $this->gui->link(
+                $this->gui->button(
                     $this->lng->txt("browse_for_questions"),
                     $this->ctrl->getLinkTarget($this, $cmd)
-                )->emphasised()->toToolbar(true);
+                )->toToolbar(true);
             }
 
-            $ilToolbar->addSeparator();
-
-            $this->gui->link(
-                $this->lng->txt("add_heading"),
-                $this->ctrl->getLinkTarget($this, "addHeading")
-            )->emphasised()->toToolbar();
+            if ($this->object->hasQuestions()) {
+                $ilToolbar->addSeparator();
+                $this->gui->button(
+                    $this->lng->txt("add_heading"),
+                    $this->ctrl->getLinkTarget($this, "addHeading")
+                )->toToolbar();
+            }
 
             $ilToolbar->addSeparator();
             $print_view = $this->print->list($this->object->getRefId());
