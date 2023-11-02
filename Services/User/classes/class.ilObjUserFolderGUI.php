@@ -2636,10 +2636,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
         }
 
-        if ($checked['export_preferences'] ?? false) {
+        if (isset($checked['export_preferences']) && $checked['export_preferences'] === 1) {
             $this->ilias->setSetting(
                 'usr_settings_export_preferences',
-                $checked['export_preferences']
+                '1'
             );
         } else {
             $this->ilias->deleteSetting('usr_settings_export_preferences');
