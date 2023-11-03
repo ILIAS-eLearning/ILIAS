@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 /**
  * Export
  * @author    Alex Killing <alex.killing@gmx.de>
@@ -70,7 +71,8 @@ class ilExport
 
         // create instance of export config object
         $comp_arr = explode("/", $a_comp);
-        $a_class = "il" . $comp_arr[1] . "ExportConfig";
+        $component = str_replace("_", "", $comp_arr[2]);
+        $a_class = "il" . $component . "ExportConfig";
         $exp_config = new $a_class();
         $this->configs[$a_comp] = $exp_config;
         return $exp_config;
@@ -432,7 +434,8 @@ class ilExport
 
         $comp = $a_component;
         $c = explode("/", $comp);
-        $class = "il" . $c[1] . "Exporter";
+        $component = str_replace("_", "", $c[2]);
+        $class = "il" . $component . "Exporter";
 
         // manifest writer
         $this->manifest_writer = new ilXmlWriter();
@@ -530,7 +533,8 @@ class ilExport
         $sequence = $exp->getXmlExportHeadDependencies($a_entity, $a_target_release, $a_id);
         foreach ($sequence as $s) {
             $comp = explode("/", $s["component"]);
-            $exp_class = "il" . $comp[1] . "Exporter";
+            $component = str_replace("_", "", $comp[2]);
+            $exp_class = "il" . $component . "Exporter";
             $s = $this->processExporter(
                 $s["component"],
                 $exp_class,
@@ -602,7 +606,8 @@ class ilExport
         $sequence = $exp->getXmlExportTailDependencies($a_entity, $a_target_release, $a_id);
         foreach ($sequence as $s) {
             $comp = explode("/", $s["component"]);
-            $exp_class = "il" . $comp[1] . "Exporter";
+            $component = str_replace("_", "", $comp[2]);
+            $exp_class = "il" . $component . "Exporter";
             $s = $this->processExporter(
                 $s["component"],
                 $exp_class,
