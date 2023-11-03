@@ -45,6 +45,7 @@ class ilFileSystemGUI
     public const CMD_UNZIP_FILE = "unzipFile";
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
+    protected \ILIAS\Filesystem\Util\Archive\LegacyArchives $unzip;
     protected ilCtrlInterface $ctrl;
     protected bool $use_upload_directory = false;
     protected array $allowed_suffixes = [];
@@ -718,7 +719,7 @@ class ilFileSystemGUI
                 $name,
                 true
             );
-        // end upload
+            // end upload
         } elseif ($uploaded_file) {
             // check if the file is in the ftp directory and readable
             if (ilUploadFiles::_checkUploadFile($uploaded_file)) {
