@@ -36,12 +36,6 @@ class ilLuceneSearchObjectListGUIFactory
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
-        $container_view_manager = $DIC
-            ->container()
-            ->internal()
-            ->domain()
-            ->content()
-            ->view();
 
 
         if (isset(self::$item_list_gui[$a_type])) {
@@ -66,9 +60,6 @@ class ilLuceneSearchObjectListGUIFactory
         $item_list_gui->enableLinkedPath(true);
         $item_list_gui->enableSearchFragments(true);
         $item_list_gui->enableRelevance(false);
-        if ($container_view_manager->isAdminView()) {
-            $item_list_gui->enableCheckbox(false);
-        }
 
         return self::$item_list_gui[$a_type] = $item_list_gui;
     }

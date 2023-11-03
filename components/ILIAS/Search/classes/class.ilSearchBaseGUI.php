@@ -98,12 +98,6 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             ->internal()
             ->domain()
             ->clipboard();
-        $this->container_view_manager = $DIC
-            ->container()
-            ->internal()
-            ->domain()
-            ->content()
-            ->view();
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -351,14 +345,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
     public function enableAdministrationPanel(): void
     {
-        $this->container_view_manager->setAdminView();
-        $this->ctrl->redirect($this);
     }
 
     public function disableAdministrationPanel(): void
     {
-        $this->container_view_manager->setContentView();
-        $this->ctrl->redirect($this);
     }
 
     /**
