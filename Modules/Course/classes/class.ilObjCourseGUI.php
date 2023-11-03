@@ -15,7 +15,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-declare(strict_types=0);
 
 declare(strict_types=0);
 
