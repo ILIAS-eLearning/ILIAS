@@ -218,7 +218,7 @@ class ilFileXMLWriter extends ilXmlWriter
     {
         if (!$this->getOmitHeader()) {
             $this->xmlSetDtdDef(
-                "<!DOCTYPE File PUBLIC \"-//ILIAS//DTD FileAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_file_3_8.dtd\">"
+                "<!DOCTYPE File PUBLIC \"-//ILIAS//DTD FileAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/components/ILIAS/Export/xml/ilias_file_3_8.dtd\">"
             );
             $this->xmlSetGenCmt("Exercise Object");
             $this->xmlHeader();

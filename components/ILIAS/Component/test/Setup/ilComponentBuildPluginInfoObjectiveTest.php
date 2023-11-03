@@ -95,17 +95,14 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     {
         $this->dirs = [
             "components/ILIAS" => ["Module1", "Module2"],
-            "components/ILIAS" => ["Service1"],
             "components/ILIAS/Module1" => ["Slot1", "Slot2"],
-            "components/ILIAS/Module2" => [],
-            "components/ILIAS/Service1" => ["Slot3",".DS_Store"] // .DS_Store should be skipped
+            "components/ILIAS/Module2" => []
         ];
 
         $this->builder->build();
 
-        $expected = ["components/ILIAS", "components/ILIAS", "components/ILIAS/Module1", "components/ILIAS/Module2",
-            "components/ILIAS/Service1", "components/ILIAS/Module1/Slot1", "components/ILIAS/Module1/Slot2",
-            "components/ILIAS/Service1/Slot3"];
+        $expected = ["components/ILIAS", "components/ILIAS/Module1", "components/ILIAS/Module2",
+            "components/ILIAS/Module1/Slot1", "components/ILIAS/Module1/Slot2"];
         sort($expected);
         sort($this->scanned);
         $this->assertEquals($expected, $this->scanned);
@@ -115,19 +112,15 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     {
         $this->dirs = [
             "components/ILIAS" => ["Module1"],
-            "components/ILIAS" => ["Service1"],
             "components/ILIAS/Module1" => ["Slot1"],
-            "components/ILIAS/Service1" => ["Slot2"],
-            "components/ILIAS/Module1/Slot1" => ["Plugin1", "Plugin2"],
-            "components/ILIAS/Service1/Slot2" => ["Plugin3"]
+            "components/ILIAS/Module1/Slot1" => ["Plugin1", "Plugin2"]
         ];
 
         $this->builder->build();
 
         $expected = [
             "components/ILIAS/Module1/Slot1/Plugin1",
-            "components/ILIAS/Module1/Slot1/Plugin2",
-            "components/ILIAS/Service1/Slot2/Plugin3"
+            "components/ILIAS/Module1/Slot1/Plugin2"
         ];
         sort($expected);
         sort($this->added);

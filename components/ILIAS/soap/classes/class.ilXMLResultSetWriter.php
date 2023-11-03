@@ -30,7 +30,7 @@ class ilXMLResultSetWriter extends ilXmlWriter
 
     private function buildHeader(): void
     {
-        $this->xmlSetDtdDef("<!DOCTYPE result PUBLIC \"-//ILIAS//DTD XMLResultSet//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_xml_resultset_3_7.dtd\">");
+        $this->xmlSetDtdDef("<!DOCTYPE result PUBLIC \"-//ILIAS//DTD XMLResultSet//EN\" \"" . ILIAS_HTTP_PATH . "/components/ILIAS/Export/xml/ilias_xml_resultset_3_7.dtd\">");
         $this->xmlHeader();
         $this->xmlStartTag("result");
     }

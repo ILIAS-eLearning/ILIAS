@@ -62,7 +62,7 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
     {
         $this->xmlSetDtdDef(
             "<!DOCTYPE learning sequence PUBLIC \"-//ILIAS//DTD LearningSequence//EN\" \"" .
-            ILIAS_HTTP_PATH . "/xml/ilias_lso_5_4.dtd\">"
+            ILIAS_HTTP_PATH . "/components/ILIAS/Export/xml/ilias_lso_5_4.dtd\">"
         );
 
         $this->xmlSetGenCmt(

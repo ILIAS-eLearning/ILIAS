@@ -98,7 +98,6 @@ final class RootFolderTest extends TestCase
         'test',
         'tests',
         'wopi',
-        'xml',
         '.settings'
     ];
 

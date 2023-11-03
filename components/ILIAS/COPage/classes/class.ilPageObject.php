@@ -775,7 +775,7 @@ s     */
                 ? "encoding=\"" . $this->encoding . "\""
                 : "";
             return "<?xml version=\"1.0\" $enc_str ?>" .
-                "<!DOCTYPE PageObject SYSTEM \"" . $this->getIliasAbsolutePath() . "/xml/" . $this->cur_dtd . "\">" .
+                "<!DOCTYPE PageObject SYSTEM \"" . $this->getIliasAbsolutePath() . "/components/ILIAS/Export/xml/" . $this->cur_dtd . "\">" .
                 $this->xml;
         } else {
             return $this->xml;

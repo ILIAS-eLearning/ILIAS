@@ -565,16 +565,16 @@ class ilExport
                          /* "TargetRelease" => $a_target_release, */
                          "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
                          "xmlns:exp" => "http://www.ilias.de/Services/Export/exp/4_1",
-                         "xsi:schemaLocation" => "http://www.ilias.de/Services/Export/exp/4_1 " . ILIAS_HTTP_PATH . "/xml/ilias_export_4_1.xsd"
+                         "xsi:schemaLocation" => "http://www.ilias.de/Services/Export/exp/4_1 " . ILIAS_HTTP_PATH . "/components/ILIAS/Export/xml/ilias_export_4_1.xsd"
         );
         if ($sv["namespace"] != "" && $sv["xsd_file"] != "") {
             $attribs["xsi:schemaLocation"] .= " " . $sv["namespace"] . " " .
-                ILIAS_HTTP_PATH . "/xml/" . $sv["xsd_file"];
+                ILIAS_HTTP_PATH . "/components/ILIAS/Export/xml/" . $sv["xsd_file"];
             $attribs["xmlns"] = $sv["namespace"];
         }
         if ($sv["uses_dataset"]) {
             $attribs["xsi:schemaLocation"] .= " " .
-                "http://www.ilias.de/Services/DataSet/ds/4_3 " . ILIAS_HTTP_PATH . "/xml/ilias_ds_4_3.xsd";
+                "http://www.ilias.de/Services/DataSet/ds/4_3 " . ILIAS_HTTP_PATH . "/components/ILIAS/Export/xml/ilias_ds_4_3.xsd";
             $attribs["xmlns:ds"] = "http://www.ilias.de/Services/DataSet/ds/4_3";
         }
         $export_writer->xmlStartTag('exp:Export', $attribs);

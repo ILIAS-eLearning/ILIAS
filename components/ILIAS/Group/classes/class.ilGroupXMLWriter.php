@@ -102,7 +102,7 @@ declare(strict_types=1);
     // PRIVATE
     public function __buildHeader(): bool
     {
-        $this->xmlSetDtdDef("<!DOCTYPE group PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_grp_9_0.xsd\">");
+        $this->xmlSetDtdDef("<!DOCTYPE group PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/components/ILIAS/Export/xml/ilias_grp_9_0.xsd\">");
         $this->xmlSetGenCmt("Export of ILIAS group " . $this->group_obj->getId() . " of installation " . $this->settings->get('inst_id') . ".");
         $this->xmlHeader();
         return true;

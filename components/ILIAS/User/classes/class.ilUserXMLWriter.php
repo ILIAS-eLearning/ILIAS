@@ -95,7 +95,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
     public function __buildHeader(): void
     {
-        $this->xmlSetDtdDef('<!DOCTYPE Users PUBLIC "-//ILIAS//DTD UserImport//EN" "' . ILIAS_HTTP_PATH . '/xml/ilias_user_5_1.dtd">');
+        $this->xmlSetDtdDef('<!DOCTYPE Users PUBLIC "-//ILIAS//DTD UserImport//EN" "' . ILIAS_HTTP_PATH . '/components/ILIAS/Export/xml/ilias_user_5_1.dtd">');
         $this->xmlSetGenCmt('User of ilias system');
         $this->xmlHeader();
 

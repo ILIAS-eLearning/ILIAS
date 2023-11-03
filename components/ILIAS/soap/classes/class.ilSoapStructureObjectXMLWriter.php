@@ -51,7 +51,7 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
 
     private function buildHeader(): void
     {
-        $this->xmlSetDtdDef("<!DOCTYPE RepositoryObject PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_soap_structure_object_3_7.dtd\">");
+        $this->xmlSetDtdDef("<!DOCTYPE RepositoryObject PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"" . ILIAS_HTTP_PATH . "/components/ILIAS/Export/xml/ilias_soap_structure_object_3_7.dtd\">");
         $this->xmlSetGenCmt("Internal Structure Information of Repository Object");
         $this->xmlHeader();
     }

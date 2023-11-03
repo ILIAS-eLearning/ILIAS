@@ -76,7 +76,7 @@ class ilRoleXmlExport extends ilXmlWriter
      */
     public function writeHeader(): void
     {
-        $this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_role_definition_4_2.dtd\">");
+        $this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"" . ILIAS_HTTP_PATH . "/components/ILIAS/Export/xml/ilias_role_definition_4_2.dtd\">");
         $this->xmlSetGenCmt("Role Definition");
         $this->xmlHeader();
     }
