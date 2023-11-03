@@ -470,7 +470,11 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             $this->showDefinitionTabs("term_content");
         }
 
-        $term = new ilGlossaryTerm($term_id);
+        try {
+            $term = new ilGlossaryTerm($term_id);
+        } catch (Exception $e) {
+            return "";
+        }
 
         if (!$a_get_html) {
             $tpl->loadStandardTemplate();
