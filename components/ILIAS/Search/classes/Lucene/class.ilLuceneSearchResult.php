@@ -86,7 +86,7 @@ class ilLuceneSearchResult implements Iterator
      * Iterator key
      * @return
      */
-    public function key(): mixed
+    public function key(): int
     {
         return $this->position;
     }
@@ -95,7 +95,7 @@ class ilLuceneSearchResult implements Iterator
      * Iterator current
      * @return
      */
-    public function current(): mixed
+    public function current(): int
     {
         return $this->objects[$this->position];
     }
