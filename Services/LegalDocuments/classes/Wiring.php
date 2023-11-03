@@ -81,7 +81,7 @@ class Wiring implements UseSlot
 
     public function hasPublicPage(callable $public_page): self
     {
-        return $this->addTo('agreement-public', $this->slot->id(), fn(...$args) => new Ok($public_page(...$args)));
+        return $this->addTo('public-page', $this->slot->id(), fn(...$args) => new Ok($public_page(...$args)));
     }
 
     public function hasAgreement(Agreement $on_login, ?string $goto_name = null): self
