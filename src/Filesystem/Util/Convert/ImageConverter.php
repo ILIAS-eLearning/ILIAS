@@ -173,12 +173,17 @@ class ImageConverter
             self::RESOLUTION,
             self::RESOLUTION
         );
-        $this->image->resampleImage(
-            self::RESOLUTION,
-            self::RESOLUTION,
-            \Imagick::FILTER_LANCZOS,
-            1
-        );
+        try {
+            $this->image->resampleImage(
+                self::RESOLUTION,
+                self::RESOLUTION,
+                \Imagick::FILTER_LANCZOS,
+                1
+            );
+        } catch (\Throwable $t) {
+            // Cannot resample image, continue without resampling
+        }
+
         $quality = $this->output_options->getQuality();
 
         // if $this->output_options->getFormat() is 'keep', we map it to the original format
