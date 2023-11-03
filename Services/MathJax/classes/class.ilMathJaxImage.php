@@ -115,6 +115,10 @@ class ilMathJaxImage
      */
     public function read(): string
     {
+        // todo: temporary workaround for #38445
+        // this allows a further testing of the MathJax but should be removed when the underlying problem is solved
+        return file_get_contents($this->absolutePath());
+        
         return $this->fs->read($this->filepath());
     }
 
