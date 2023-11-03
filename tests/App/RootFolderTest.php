@@ -95,7 +95,6 @@ final class RootFolderTest extends TestCase
         'scripts',
         'setup',
         'src',
-        'sso',
         'templates',
         'test',
         'tests',

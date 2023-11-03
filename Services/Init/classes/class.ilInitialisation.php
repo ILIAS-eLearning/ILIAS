@@ -667,7 +667,7 @@ class ilInitialisation
         define('IL_COOKIE_EXPIRE', 0);
         define('IL_COOKIE_DOMAIN', '');
         if (!defined('IL_COOKIE_PATH')) {
-            // Might be already defined by ./sso/index.php or other scripts (like those in ./Services/SAML/lib/*)
+            // Might be already defined by ./cli/sso/index.php or other scripts (like those in ./Services/SAML/lib/*)
             define('IL_COOKIE_PATH', $cookie_path);
         }
     }
