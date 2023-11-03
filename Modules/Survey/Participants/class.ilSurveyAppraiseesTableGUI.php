@@ -40,7 +40,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
 
         $this->raters_mode = $a_raters_mode;
-        $this->fallback_url = trim($a_fallback_url);
+        $this->fallback_url = trim($a_fallback_url ?? "");
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
