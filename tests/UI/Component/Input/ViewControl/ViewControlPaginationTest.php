@@ -114,13 +114,13 @@ class ViewControlPaginationTest extends ViewControlBaseTest
 
         <button class="btn btn-link" id="id_1">1</button>
         <span class="il-viewcontrol-pagination__spacer">...</span>
-        <button class="btn btn-link" id="id_2">3</button>
-        <button class="btn btn-link" id="id_3">4</button>
-        <button class="btn btn-link engaged" aria-pressed="true" id="id_4">5</button>
-        <button class="btn btn-link" id="id_5">6</button>
-        <button class="btn btn-link" id="id_6">7</button>
+        <button class="btn btn-link" id="id_2">5</button>
+        <button class="btn btn-link" id="id_3">6</button>
+        <button class="btn btn-link engaged" aria-pressed="true" id="id_4">7</button>
+        <button class="btn btn-link" id="id_5">8</button>
+        <button class="btn btn-link" id="id_6">9</button>
         <span class="il-viewcontrol-pagination__spacer">...</span>
-        <button class="btn btn-link" id="id_7">15</button>
+        <button class="btn btn-link" id="id_7">21</button>
 
         <div class="btn btn-ctrl browse next">
             <a tabindex="0" class="glyph" aria-label="next" id="id_9">
@@ -169,34 +169,36 @@ class ViewControlPaginationTest extends ViewControlBaseTest
     public function testViewControlPaginationRenderingRanges(): void
     {
         $r = $this->getStubRenderer();
-        $ranges = $r->mock_buildRanges(8, 3);
+        $ranges = $r->mock_buildRanges($total = 8, $pagelimit = 3); //0-2, 3-5, 6-7
         $this->assertEquals(3, count($ranges));
-        $ranges = $r->mock_buildRanges(10, 5);
+        $ranges = $r->mock_buildRanges(10, 5); //0-4, 5-9
         $this->assertEquals(2, count($ranges));
         $ranges = $r->mock_buildRanges(101, 5);
-        $this->assertEquals(17, count($ranges));
+        $this->assertEquals(21, count($ranges));
     }
 
     public function testViewControlPaginationRenderingFindCurrent(): void
     {
         $r = $this->getStubRenderer();
         $ranges = $r->mock_buildRanges(20, 5);
-        $this->assertEquals(0, $r->mock_findCurrentPage($ranges, 5));
+        $this->assertEquals(0, $r->mock_findCurrentPage($ranges, 3));
+        $this->assertEquals(1, $r->mock_findCurrentPage($ranges, 5));
         $this->assertEquals(1, $r->mock_findCurrentPage($ranges, 6));
+        $this->assertEquals(2, $r->mock_findCurrentPage($ranges, 10));
         $this->assertEquals(3, $r->mock_findCurrentPage($ranges, 19));
     }
 
     public function testViewControlPaginationRenderingEntries(): void
     {
         $r = $this->getStubRenderer();
-        $ranges = $r->mock_buildRanges(200, 5);
-        $slices = $r->mock_sliceRangesToVisibleEntries($ranges, 6, 5);
+        $ranges = $r->mock_buildRanges(203, 5);
+        $slices = $r->mock_sliceRangesToVisibleEntries($ranges, $current = 6, $visible_entries = 5);
         $this->assertEquals(5, count($slices));
         $this->assertEquals(0, $slices[0]->getStart());
-        $this->assertEquals(30, $slices[1]->getStart());
-        $this->assertEquals(36, $slices[2]->getStart());
-        $this->assertEquals(42, $slices[3]->getStart());
-        $this->assertEquals(198, $slices[4]->getStart());
+        $this->assertEquals(25, $slices[1]->getStart());
+        $this->assertEquals(30, $slices[2]->getStart());
+        $this->assertEquals(35, $slices[3]->getStart());
+        $this->assertEquals(200, $slices[4]->getStart());
     }
 
     public function testViewControlPaginationRenderingOutsideContainer(): void
