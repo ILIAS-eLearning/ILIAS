@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\Condition\Definition;
 
+use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\Refinery\Constraint;
 use ILIAS\LegalDocuments\Condition;
 use ILIAS\LegalDocuments\ConditionDefinition;
@@ -72,13 +73,15 @@ class UserLanguageDefinition implements ConditionDefinition
 
     /**
      * @param array<string, string> $options
+     * @param null|string|int $value
      */
-    private function radio($lang_key, array $options, $value)
+    private function radio(string $lang_key, array $options, $value): Radio
     {
         $field = $this->ui->create()->input()->field()->radio($lang_key);
         foreach ($options as $key => $label) {
             $field = $field->withOption((string) $key, $label);
         }
-        return $value === null ? $field : $field->withValue($value);
+
+        return $value !== null && isset($options[(string) $value]) ? $field->withValue((string) $value) : $field;
     }
 }
