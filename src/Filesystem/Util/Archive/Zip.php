@@ -38,8 +38,11 @@ class Zip
 
     private string $zip_output_file = '';
     protected \ZipArchive $zip;
-    private const ITERATION = 1000;
-    private int $counter = 1;
+    private const STORE_ITERATION = 1000;
+    private int $store_counter = 1;
+    private const PATH_ITERATION = 1000;
+    private int $path_counter = 1;
+    private int $store_iteration;
 
     /**
      * @var FileStream[]
@@ -61,6 +64,8 @@ class Zip
         } else {
             $this->zip_output_file = is_writable('php://temp') ? 'php://temp' : $this->buildTempPath();
         }
+        $this->store_iteration = (int) (shell_exec('ulimit -n') ?: self::PATH_ITERATION);
+
         $this->zip = new \ZipArchive();
         if ($this->zip->open($this->zip_output_file, \ZipArchive::CREATE) !== true) {
             throw new \Exception("cannot open <$this->zip_output_file>\n");
@@ -74,29 +79,34 @@ class Zip
         return $tmpfname;
     }
 
-
-    public function get(): \ILIAS\Filesystem\Stream\Stream
+    private function storeZIPtoFilesystem(): void
     {
         foreach ($this->streams as $path_inside_zip => $stream) {
             $path = $stream->getMetadata('uri');
-            if ($this->counter === 0) {
+            if ($this->store_counter === 0) {
                 $this->zip->open($this->zip_output_file);
             }
             if (is_int($path_inside_zip)) {
                 $path_inside_zip = basename($path);
             }
             $this->zip->addFile($path, $path_inside_zip);
-            if ($this->counter === self::ITERATION) {
+            if ($this->store_counter === $this->store_iteration) {
                 $this->zip->close();
-                $this->counter = 0;
+                $this->store_counter = 0;
             } else {
-                $this->counter++;
+                $this->store_counter++;
             }
         }
+    }
+
+
+    public function get(): \ILIAS\Filesystem\Stream\Stream
+    {
+        $this->storeZIPtoFilesystem();
 
         $this->zip->close();
 
-        return Streams::ofResource(fopen($this->zip_output_file, 'r'));
+        return Streams::ofResource(fopen($this->zip_output_file, 'rb'));
     }
 
     /**
@@ -115,7 +125,16 @@ class Zip
 
     public function addStream(FileStream $stream, string $path_inside_zip): void
     {
+        // we must store the ZIP to e temporary files every 1000 files, otherwise we will get a Too Many Open Files error
         $this->streams[$path_inside_zip] = $stream;
+
+        if ($this->path_counter === self::PATH_ITERATION) {
+            $this->storeZIPtoFilesystem();
+            $this->streams = [];
+            $this->path_counter = 0;
+        } else {
+            $this->path_counter++;
+        }
     }
 
     /**

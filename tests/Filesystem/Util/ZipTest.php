@@ -132,6 +132,30 @@ class ZipTest extends TestCase
         $this->assertEquals([], iterator_to_array($unzip->getFiles()));
     }
 
+    public function testLargeZIPs(): void
+    {
+        // get ulimit
+        $ulimit = (int) shell_exec('ulimit -n');
+        $this->assertGreaterThan(1000, $ulimit);
+
+        $zip = new Zip(new ZipOptions());
+
+        $file_names = [];
+
+        for ($i = 0; $i < $ulimit * 2; $i++) {
+            $path_inside_zip = $file_names[] = 'test' . $i;
+            $zip->addStream(Streams::ofResource(fopen(__DIR__ . '/Convert/img/robot.jpg', 'rb')), $path_inside_zip);
+        }
+        $this->assertTrue(true); // no warning or error
+
+        // check if the zip now contains all files
+        $unzip = new Unzip(new UnzipOptions(), $zip->get());
+        $file_names_in_zip = iterator_to_array($unzip->getFiles());
+        sort($file_names);
+        sort($file_names_in_zip);
+        $this->assertEquals($file_names, $file_names_in_zip);
+    }
+
     /**
      * @dataProvider getZips
      * @param mixed[] $expected_directories
