@@ -660,15 +660,15 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         }
 
         foreach ($type_pos_map as $grp_id => $obj_types) {
-            $grp_pos = str_pad($grp_pos_map[$grp_id], 4, "0", STR_PAD_LEFT);
+            $grp_pos = str_pad((string) $grp_pos_map[$grp_id], 4, "0", STR_PAD_LEFT);
 
             asort($obj_types);
             $pos = 0;
             foreach (array_keys($obj_types) as $obj_type) {
                 $pos += 10;
                 $type_pos = $grp_pos . str_pad((string) $pos, 4, "0", STR_PAD_LEFT);
-                $ilSetting->set("obj_add_new_pos_" . $obj_type, $type_pos);
-                $ilSetting->set("obj_add_new_pos_grp_" . $obj_type, $grp_id);
+                $ilSetting->set("obj_add_new_pos_" . $obj_type, (string) $type_pos);
+                $ilSetting->set("obj_add_new_pos_grp_" . $obj_type, (string) $grp_id);
             }
         }
 
