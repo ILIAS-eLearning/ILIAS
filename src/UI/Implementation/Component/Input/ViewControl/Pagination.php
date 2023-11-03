@@ -53,10 +53,14 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
     ) {
         parent::__construct($data_factory, $refinery);
 
-        $this->setInputGroup($field_factory->group([
-            $field_factory->hidden(), //offset
-            $field_factory->hidden(), //limit
-        ])->withAdditionalTransformation($this->getRangeTransform()));
+        $this->setInputGroup(
+            $field_factory->group([
+                $field_factory->hidden(), //offset
+                $field_factory->hidden(), //limit
+            ])
+            ->withAdditionalTransformation($this->getRangeTransform())
+            ->withAdditionalTransformation($this->getCorrectOffsetForPageSize())
+        );
 
         $this->internal_selection_signal = $signal_generator->create();
         $this->number_of_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
@@ -72,6 +76,21 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
                     $limit = array_shift($options);
                 };
                 return $this->data_factory->range($offset, $limit);
+            }
+        );
+    }
+
+    protected function getCorrectOffsetForPageSize(): Transformation
+    {
+        return $this->refinery->custom()->transformation(
+            function ($v): Range {
+                list($offset, $limit) = $v->unpack();
+                if($limit === 0) {
+                    return $v;
+                }
+                $current_page = floor($offset / $limit);
+                $offset = $current_page * $limit;
+                return $this->data_factory->range((int)$offset, $limit);
             }
         );
     }

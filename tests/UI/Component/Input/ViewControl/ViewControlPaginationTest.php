@@ -71,15 +71,72 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $this->assertEquals($o, $vc->withLimitOptions($o)->getLimitOptions($o));
     }
 
-    public function testViewControlPaginationWithInput(): void
-    {
-        $v = [5,25];
 
+    public static function providePaginationInput(): array
+    {
+        return [
+            [
+                'offset' => 24,
+                'limit' => 25,
+                'expected' => [0, 25]
+            ],
+            [
+                'offset' => 25,
+                'limit' => 25,
+                'expected' => [25, 25]
+            ],
+            [
+                'offset' => 52,
+                'limit' => 25,
+                'expected' => [50, 25]
+            ],
+            [
+                'offset' => 7,
+                'limit' => 5,
+                'expected' => [5, 5]
+            ],
+            [
+                'offset' => 99,
+                'limit' => 5,
+                'expected' => [95, 5]
+            ],
+            [
+                'offset' => 4,
+                'limit' => 3,
+                'expected' => [3, 3]
+            ],
+            [
+                'offset' => 4,
+                'limit' => PHP_INT_MAX,
+                'expected' => [0, PHP_INT_MAX]
+            ],
+            [
+                'offset' => 0,
+                'limit' => 2,
+                'expected' => [0, 2]
+            ],
+            [
+                'offset' => 10,
+                'limit' => 0,
+                'expected' => [10, 5] //default smallest limit
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider providePaginationInput
+     */
+    public function testViewControlPaginationWithInput(
+        int $offset,
+        int $page_size,
+        array $expected
+    ): void {
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
             ->will(
-                $this->onConsecutiveCalls($v[0], $v[1])
+                $this->onConsecutiveCalls($offset, $page_size)
             );
 
         $vc = $this->buildVCFactory()->pagination()
@@ -88,10 +145,10 @@ class ViewControlPaginationTest extends ViewControlBaseTest
 
         $df = $this->buildDataFactory();
         $this->assertEquals(
-            $df->ok($df->range(5, 25)),
+            $df->ok($df->range(...$expected)),
             $vc->getContent()
         );
-        $this->assertEquals($v, $vc->getValue());
+        $this->assertEquals([$offset, $page_size], $vc->getValue());
     }
 
     public function testViewControlPaginationRendering(): void
