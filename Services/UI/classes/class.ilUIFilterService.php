@@ -108,7 +108,10 @@ class ilUIFilterService
             // values
             $val = $this->session->getValue($filter_id, $input_id);
             if (!is_null($val)) {
-                $i = $i->withValue($val);
+                try {
+                    $i = $i->withValue($val);
+                } catch (InvalidArgumentException $e) {
+                }
             }
             $inputs_with_session_data[$input_id] = $i;
         }
