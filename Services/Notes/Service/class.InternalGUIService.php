@@ -99,7 +99,7 @@ class InternalGUIService
         int $news_id = 0,
         bool $include_subs = false,
         bool $ajax = true,
-        string $search_text
+        string $search_text = ""
     ): \ilCommentGUI {
         return new \ilCommentGUI(
             $rep_obj_id,
