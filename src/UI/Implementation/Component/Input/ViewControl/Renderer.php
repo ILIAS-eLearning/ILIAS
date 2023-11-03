@@ -198,7 +198,7 @@ class Renderer extends AbstractComponentRenderer
         if ($page_limit >= $total_count) {
             return [$data_factory->range(0, $page_limit)];
         }
-        foreach (range(0, $total_count, $page_limit + 1) as $idx => $start) {
+        foreach (range(0, $total_count - 1, $page_limit) as $idx => $start) {
             $ranges[] = $data_factory->range($start, $page_limit);
         }
         return $ranges;
@@ -263,6 +263,7 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $ranges = $this->buildRanges($total_count, $limit);
             $current = $this->findCurrentPage($ranges, $offset);
+
 
             if ($limit >= $total_count) {
                 $entries = $ranges;
