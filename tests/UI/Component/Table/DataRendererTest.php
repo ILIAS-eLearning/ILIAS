@@ -60,7 +60,7 @@ class DTRenderer extends I\Table\Renderer
         TestDefaultRenderer $default_renderer,
         I\Table\Data $component,
         $tpl,
-        I\Signal $sortation_signal
+        ?I\Signal $sortation_signal
     ) {
         return $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
     }
@@ -244,16 +244,16 @@ class DataRendererTest extends TableTestBase
             ): \Generator {
                 yield $row_builder->buldDataRow('', []);
             }
-           public function getTotalRowCount(
-               ?array $filter_data,
-               ?array $additional_parameters
-           ): ?int {
-               return null;
-           }
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return null;
+            }
         };
         $columns = [
             'f1' => $f->text("Field 1")->withIndex(1),
-            'f2' => $f->text("Field 2")->withIndex(2),
+            'f2' => $f->text("Field 2")->withIndex(2)->withIsSortable(false),
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
         $sortation_signal = new I\Signal('sort_header_signal_id');
@@ -276,13 +276,11 @@ class DataRendererTest extends TableTestBase
                     </div>
                 </th>
                 <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
-                    <div class="c-table-data__header__resize-wrapper">
-                        <button class="btn btn-link" id="id_3">Field 2</button>
-                    </div>
+                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
                 </th>
                 <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" tabindex="-1" aria-colindex="2">
                     <div class="c-table-data__header__resize-wrapper">
-                        <button class="btn btn-link" id="id_4">Field 3</button>
+                        <button class="btn btn-link" id="id_3">Field 3</button>
                     </div>
                 </th>
             </tr>
@@ -308,6 +306,80 @@ EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
     }
+
+
+    public function testDataTableRenderHeaderWithoutSortableColums(): void
+    {
+        $renderer = $this->getRenderer();
+        $data_factory = new \ILIAS\Data\Factory();
+        $tpl = $this->getTemplateFactory()->getTemplate("src/UI/templates/default/Table/tpl.datatable.html", true, true);
+        $f = $this->getColumnFactory();
+        $data = new class () implements ILIAS\UI\Component\Table\DataRetrieval {
+            public function getRows(
+                Component\Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Data\Range $range,
+                Data\Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): \Generator {
+                yield $row_builder->buldDataRow('', []);
+            }
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return null;
+            }
+        };
+        $columns = [
+            'f1' => $f->text("Field 1")->withIsSortable(false),
+            'f2' => $f->text("Field 2")->withIsSortable(false)
+        ];
+
+        $sortation_signal = null;
+
+        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+            ->withRequest($this->getDummyRequest());
+        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
+        $actual = $this->brutallyTrimHTML($tpl->get());
+        $expected = <<<EOT
+<div class="c-table-data" id="{ID}">
+    <div class="viewcontrols">{VIEW_CONTROLS}</div>
+    <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+        <thead>
+            <tr class="c-table-data__header c-table-data__row" role="rowgroup">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0">
+                    <div class="c-table-data__header__resize-wrapper">Field 1</div>
+                </th>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
+                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="c-table-data__body" role="rowgroup"></tbody>
+    </table>
+
+    <div class="c-table-data__async_modal_container"></div>
+
+    <div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="c-table-data__async_messageresponse modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+EOT;
+        $expected = $this->brutallyTrimHTML($expected);
+        $this->assertEquals($expected, $actual);
+    }
+
+
 
     public function testDataTableRowBuilder()
     {
