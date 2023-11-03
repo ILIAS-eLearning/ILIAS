@@ -87,7 +87,6 @@ final class RootFolderTest extends TestCase
         'Services',
         'cron',
         'data',
-        'dicto',
         'docs',
         'extern',
         'include',
