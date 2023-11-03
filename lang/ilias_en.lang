@@ -8827,6 +8827,8 @@ dpro#:#dpro_last_reset_date#:#The Data Protection were reset on %s. Only reset t
 dpro#:#dpro_mode#:#Mode
 dpro#:#dpro_mode_desc#:#Please configure when and how the Data Protection should be accepted.
 dpro#:#dpro_no_acceptance#:#Never, only informative
+dpro#:#dpro_no_documents_exist#:#There are currently no Declaration of Data Protection documents available.
+dpro#:#dpro_no_documents_exist_cant_save#:#There are currently no Declaration of Data Protection documents available. Please add at least one document in order to activate this service.
 dpro#:#dpro_once#:#Accept once
 dpro#:#dpro_reset_for_all_users#:#Reset Data Protection
 dpro#:#dpro_status_enable#:#Enable Data Protection
