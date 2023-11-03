@@ -1,24 +1,23 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This is the global ILIAS test suite. It searches automatically for
+ * components test suites by scanning all Modules/.../test and
+ * Services/.../test directories for test suite files.
+ *
+ * Test suite files are identified automatically, if they are named
+ * "ilServices[ServiceName]Suite.php" or ilModules[ModuleName]Suite.php".
+ *
+ * @author	<alex.killing@gmx.de>
+ */
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Runner\Filter\Factory as FilterFactory;
 use PHPUnit\Runner\Filter\ExcludeGroupFilterIterator as GroupExcludeFilter;
 
-/**
-* This is the global ILIAS test suite. It searches automatically for
-* components test suites by scanning all Modules/.../test and
-* Services/.../test directories for test suite files.
-*
-* Test suite files are identified automatically, if they are named
-* "ilServices[ServiceName]Suite.php" or ilModules[ModuleName]Suite.php".
-*
-* @author	<alex.killing@gmx.de>
-*/
 class ILIASSuite extends TestSuite
 {
     /**
@@ -26,6 +25,27 @@ class ILIASSuite extends TestSuite
      */
     public const REGEX_TEST_FILENAME = "#[a-zA-Z]+Test\.php#";
     public const PHP_UNIT_PARENT_CLASS = TestCase::class;
+
+    public const COMPONENTS = [
+        "App",
+        "BackgroundTasks",
+        "Cache",
+        "DI",
+        "Data",
+        "FileUpload",
+        "Filesystem",
+        "GlobalCache",
+        "GlobalScreen",
+        "HTTP",
+        "KioskMode",
+        "Language",
+        "Refinery",
+        "ResourceStorage",
+        "Setup",
+        "Types",
+        "UI",
+        "VirusScanner"
+    ];
 
     public static function suite()
     {
@@ -35,23 +55,25 @@ class ILIASSuite extends TestSuite
 
         // scan Modules and Services directories
         $basedirs = array("components/ILIAS");
-
         foreach ($basedirs as $basedir) {
             // read current directory
             $dir = opendir($basedir);
 
             while ($file = readdir($dir)) {
-                if ($file != "." && $file != ".." && is_dir($basedir . "/" . $file)) {
-                    $suite_path =
-                        $basedir . "/" . $file . "/test/il" . $basedir . $file . "Suite.php";
-                    if (is_file($suite_path)) {
-                        include_once($suite_path);
-
-                        $name = "il" . $basedir . $file . "Suite";
-                        $s = $name::suite();
-                        echo "Adding Suite: " . $name . "\n";
-                        $suite->addTest($s);
-                        //$suite->addTestSuite("ilSettingTest");
+                if (!in_array($file, self::COMPONENTS, true)) {
+                    if ($file != "." && $file != ".." && is_dir($basedir . "/" . $file)) {
+                        $file_name = str_replace("_", "", $file);
+                        $suite_path =
+                            $basedir . "/" . $file . "/test/ilComponents" . $file_name . "Suite.php";
+                        if (is_file($suite_path)) {
+                            include_once($suite_path);
+                            $file_name = str_replace("_", "", $file);
+                            $name = "ilComponents" . $file_name . "Suite";
+                            $s = $name::suite();
+                            echo "Adding Suite: " . $name . "\n";
+                            $suite->addTest($s);
+                            //$suite->addTestSuite("ilSettingTest");
+                        }
                     }
                 }
             }
@@ -69,7 +91,11 @@ class ILIASSuite extends TestSuite
      */
     protected static function addTestFolderToSuite(ILIASSuite $suite): ILIASSuite
     {
-        $test_directories = array("tests");
+        $test_directories = [];
+        foreach (self::COMPONENTS as $component) {
+            $test_directories[] = "components/ILIAS/" . $component . "/tests";
+        }
+
         while ($aux_dir = current($test_directories)) {
             if ($handle = opendir($aux_dir)) {
                 $aux_dir .= DIRECTORY_SEPARATOR;
