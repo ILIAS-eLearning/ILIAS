@@ -85,7 +85,6 @@ final class RootFolderTest extends TestCase
         'Customizing',
         'Modules',
         'Services',
-        'cron',
         'data',
         'docs',
         'extern',
