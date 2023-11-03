@@ -128,7 +128,7 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
         $folders = $this->filesystem->finder()->in([""]);
         $folders = $folders->directories();
         $folders = $folders->date($date);
-        $folders = $folders->sort(fn (
+        $folders = $folders->sort(fn(
             Metadata $a,
             Metadata $b
         ): int => strlen($a->getPath()) - strlen($b->getPath()));

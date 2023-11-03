@@ -27,6 +27,7 @@ use ILIAS\ResourceStorage\Preloader\SecureString;
  * File System Explorer GUI class
  *
  * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
+ * Please contant fabian@sr.solutions if you have questoins concerning this.
  */
 class ilFileSystemGUI
 {
@@ -718,7 +719,7 @@ class ilFileSystemGUI
                 $name,
                 true
             );
-        // end upload
+            // end upload
         } elseif ($uploaded_file) {
             // check if the file is in the ftp directory and readable
             if (ilUploadFiles::_checkUploadFile($uploaded_file)) {

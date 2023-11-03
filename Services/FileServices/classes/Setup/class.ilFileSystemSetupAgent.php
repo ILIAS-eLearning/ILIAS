@@ -1,23 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Data;
 use ILIAS\UI;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 class ilFileSystemSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
@@ -43,7 +46,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(fn ($data): \ilFileSystemSetupConfig => new \ilFileSystemSetupConfig(
+        return $this->refinery->custom()->transformation(fn($data): \ilFileSystemSetupConfig => new \ilFileSystemSetupConfig(
             $data["data_dir"]
         ));
     }
