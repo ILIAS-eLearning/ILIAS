@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 chdir("../..");
-require_once "./include/inc.header.php";
+require_once "./cli/inc.header.php";
 include_once "./webservice/soap/include/inc.soap_functions.php";
 $results = array();
 foreach ($_POST as $key => $value) {

@@ -157,7 +157,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             return $this->raiseError('No ref_id given. Aborting!', 'Client');
         }
 
-        include_once 'include/inc.header.php';
+        include_once 'cli/inc.header.php';
 
         if (!$obj_id = ilObject::_lookupObjectId($a_ref_id)) {
             return $this->raiseError(

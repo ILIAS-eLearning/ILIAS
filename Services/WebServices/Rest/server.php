@@ -9,7 +9,7 @@ ilContext::init(ilContext::CONTEXT_REST);
 
 $_COOKIE['client_id'] = $_GET['client_id'] = $_REQUEST['client_id'];
 
-include_once './include/inc.header.php';
+include_once './cli/inc.header.php';
 
 
 include_once './Services/WebServices/Rest/classes/class.ilRestServer.php';

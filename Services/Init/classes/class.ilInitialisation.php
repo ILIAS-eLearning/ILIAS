@@ -100,7 +100,7 @@ class ilInitialisation
     protected static function requireCommonIncludes(): void
     {
         /** @noRector */
-        require_once "include/inc.ilias_version.php";
+        require_once "cli/inc.ilias_version.php";
 
         self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
     }
@@ -113,10 +113,10 @@ class ilInitialisation
     {
         if (ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS) {
             /** @noRector */
-            require_once("include/inc.xml5compliance.php");
+            require_once("cli/inc.xml5compliance.php");
         }
         /** @noRector */
-        require_once("include/inc.xsl5compliance.php");
+        require_once("cli/inc.xsl5compliance.php");
     }
 
     /**
