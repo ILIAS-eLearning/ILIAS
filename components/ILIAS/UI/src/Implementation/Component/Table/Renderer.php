@@ -266,13 +266,15 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
             }
 
-            //TODO: move this?
+            $sortation_signal = null;
             $sortation_view_control = array_filter(
                 $view_controls->getInputs(),
                 static fn($i): bool => $i instanceof Component\Input\ViewControl\Sortation
             );
-            $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
-            $sortation_signal->addOption('parent_container', $id);
+            if($sortation_view_control) {
+                $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
+                $sortation_signal->addOption('parent_container', $id);
+            }
         }
 
         $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
