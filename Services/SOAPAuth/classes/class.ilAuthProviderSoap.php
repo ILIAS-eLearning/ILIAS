@@ -67,7 +67,7 @@ class ilAuthProviderSoap extends ilAuthProvider
             $this->uri .= ('/' . $this->server_uri);
         }
 
-        require_once './webservice/soap/lib/nusoap.php';
+        require_once './components/ILIAS/soap/lib/nusoap.php';
         $this->client = new nusoap_client($this->uri);
     }
 

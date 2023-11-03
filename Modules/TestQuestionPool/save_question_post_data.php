@@ -4,7 +4,7 @@
 
 chdir("../..");
 require_once "./cli/inc.header.php";
-include_once "./webservice/soap/include/inc.soap_functions.php";
+include_once "./components/ILIAS/soap/include/inc.soap_functions.php";
 $results = array();
 foreach ($_POST as $key => $value) {
     if (preg_match("/value_(\d+)_1/", $key, $matches)) {

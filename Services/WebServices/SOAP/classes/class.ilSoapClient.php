@@ -83,7 +83,7 @@ class ilSoapClient
             if (trim($this->settings->get('soap_wsdl_path', '')) !== '') {
                 $this->uri = $this->settings->get('soap_wsdl_path', '');
             } else {
-                $this->uri = ilUtil::_getHttpPath() . '/webservice/soap/server.php?wsdl';
+                $this->uri = ilUtil::_getHttpPath() . '/public/soap/server.php?wsdl';
             }
         }
         try {

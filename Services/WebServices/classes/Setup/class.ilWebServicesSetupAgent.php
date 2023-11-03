@@ -89,6 +89,9 @@ class ilWebServicesSetupAgent implements Setup\Agent
             $wsrv_objective,
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilECSUpdateSteps8()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilSoapWsdlPathUpdateStep()
             )
         );
     }

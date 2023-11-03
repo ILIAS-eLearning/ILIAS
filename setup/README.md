@@ -498,14 +498,14 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
 	"webservices" : {
 		"soap_user_administration" : true,
-		"soap_wsdl_path" : "https://test7.ilias.de/webservice/soap/server.php?wsdl",
+		"soap_wsdl_path" : "https://test7.ilias.de/public/soap/server.php?wsdl",
 		"soap_connect_timeout" : 30,
 		"rpc_server_host" : "192.168.47.13",
 		"rpc_server_port" : "11112"
 	},
     ```
   * *soap_user_administration* (type: boolean) enable administration per soap, defaults to `false`
-  * *soap_wsdl_path* (type: string) path to the ilias wsdl file, default is `http:///webservice/soap/server.php?wsdl`
+  * *soap_wsdl_path* (type: string) path to the ilias wsdl file, default is `http:///public/soap/server.php?wsdl`
   * *soap_connect_timeout* (type: number) maximum time in seconds until a connection attempt to the SOAP-Webservice is interrupted, defaults to `10`
   * *rpc_server_host* (type: string) Java-Server host (must be set too, if *rpc_server_port* is set)
   * *rpc_server_port* (type: string or number) Java-Server port (must be set too, if *rpc_server_host* is set)

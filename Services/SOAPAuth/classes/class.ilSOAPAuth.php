@@ -17,7 +17,7 @@
 
 declare(strict_types=1);
 
-include_once("./webservice/soap/lib/nusoap.php");
+include_once("./components/ILIAS/soap/lib/nusoap.php");
 
 class ilSOAPAuth
 {
@@ -47,7 +47,7 @@ class ilSOAPAuth
             $uri .= "/" . $server_uri;
         }
 
-        require_once './webservice/soap/lib/nusoap.php';
+        require_once './components/ILIAS/soap/lib/nusoap.php';
         $soap_client = new nusoap_client($uri);
         if ($err = $soap_client->getError()) {
             return "SOAP Authentication Initialisation Error: " . $err;

@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author Alex Killing <alex.killing@gmx.de>
  */
 
-include_once './webservice/soap/lib/nusoap.php';
+include_once './components/ILIAS/soap/lib/nusoap.php';
 
 function isValidSession(string $ext_uid, string $soap_pw, bool $new_user): array
 {
