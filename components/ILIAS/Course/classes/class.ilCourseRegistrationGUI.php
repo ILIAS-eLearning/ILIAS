@@ -21,7 +21,7 @@ declare(strict_types=0);
  * GUI class for course registrations
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * @version      $Id$
- * @ingroup      ModulesCourse
+ * @ingroup components\ILIASCourse
  * @ilCtrl_Calls ilCourseRegistrationGUI:
  */
 class ilCourseRegistrationGUI extends ilRegistrationGUI

@@ -23,7 +23,7 @@ use ILIAS\Refinery\Transformation;
 *
 * @author Maximilian Becker <mbecker@databay.de>
 *
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class assClozeGapTest extends assBaseTestCase
 {
@@ -32,7 +32,7 @@ class assClozeGapTest extends assBaseTestCase
     protected function setUp(): void
     {
         chdir(dirname(__FILE__));
-        chdir('../../../');
+        chdir('../../../../');
 
         parent::setUp();
 

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilObjForum
  * @author  Wolfgang Merkens <wmerkens@databay.de>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilObjForum extends ilObject
 {

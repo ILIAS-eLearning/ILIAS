@@ -62,7 +62,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
 
         $DIC->language()->loadLanguageModule('assessment');
         $this->language = $DIC->language();
-        $this->setRowTemplate('tpl.cmix_scoring_table_row.html', 'Modules/CmiXapi');
+        $this->setRowTemplate('tpl.cmix_scoring_table_row.html', 'components/ILIAS/CmiXapi');
 
         if ($tableId === 'highscore') {
             $this->setTitle(

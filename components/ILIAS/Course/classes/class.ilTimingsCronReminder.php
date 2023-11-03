@@ -240,7 +240,7 @@ class ilTimingsCronReminder extends ilCronJob
     protected function buildTopMailBody(int $user_id, string $language_variable): ilTemplate
     {
         $this->log->debug('start...');
-        $tpl = new ilTemplate('tpl.crs_timings_cron_reminder_mail.html', true, true, 'Modules/Course');
+        $tpl = new ilTemplate('tpl.crs_timings_cron_reminder_mail.html', true, true, 'components/ILIAS/Course');
 
         $this->getUserLanguage($user_id);
         $this->buildMailSalutation($user_id, $tpl);

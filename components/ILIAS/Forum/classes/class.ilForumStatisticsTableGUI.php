@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilForumStatisticsTableGUI
  * @author Michael Jansen <mjansen@databay.de>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumStatisticsTableGUI extends ilTable2GUI
 {
@@ -48,7 +48,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
             $this->has_active_lp = true;
         }
 
-        $this->setRowTemplate('tpl.statistics_table_row.html', 'Modules/Forum');
+        $this->setRowTemplate('tpl.statistics_table_row.html', 'components/ILIAS/Forum');
 
         $columns = $this->getColumnDefinition();
         foreach ($columns as $column) {

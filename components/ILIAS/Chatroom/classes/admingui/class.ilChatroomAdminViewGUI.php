@@ -23,11 +23,11 @@ declare(strict_types=1);
  * @author  Jan Posselt <jposselt@databay.de>
  * @author  Thomas Joußen <tjoussen@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 {
-    private const CHATROOM_README_PATH = '/Modules/Chatroom/README.md';
+    private const CHATROOM_README_PATH = '/components/ILIAS/Chatroom/README.md';
 
     protected ilSetting $commonSettings;
 
@@ -99,7 +99,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
     protected function createSettingTemplate(ilPropertyFormGUI $form): ilTemplate
     {
         $furtherInformation = sprintf($this->ilLng->txt('server_further_information'), $this->getReadmePath());
-        $serverTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'Modules/Chatroom');
+        $serverTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'components/ILIAS/Chatroom');
         $serverTpl->setVariable('VAL_SERVERSETTINGS_FORM', $form->getHTML());
         $serverTpl->setVariable('LBL_SERVERSETTINGS_FURTHER_INFORMATION', $furtherInformation);
 

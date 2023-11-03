@@ -20,7 +20,7 @@
  * @author Fabian Wolf <wolf@leifos.com>
  * @extends ilContainerReferenceGUI
  * @ilCtrl_Calls ilObjGroupReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
- * @ingroup ModulesGroupReference
+ * @ingroup components\ILIASGroupReference
  */
 class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
 {
@@ -59,7 +59,7 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
         include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
         $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
 
-        include_once('./Modules/Group/classes/class.ilObjGroupGUI.php');
+        include_once('./components/ILIAS/Group/classes/class.ilObjGroupGUI.php');
         ilObjGroupGUI::_goto($target_ref_id);
     }
 }

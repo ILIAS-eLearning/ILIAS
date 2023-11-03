@@ -39,7 +39,7 @@ class ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI extends ilTable2GUI
 
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("title"));
-        $this->setRowTemplate("tpl.acknowledge_completed_courses_row.html", "Modules/StudyProgramme");
+        $this->setRowTemplate("tpl.acknowledge_completed_courses_row.html", "components/ILIAS/StudyProgramme");
         $this->setData($completed_courses);
     }
 

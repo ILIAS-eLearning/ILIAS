@@ -370,7 +370,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             "tpl.wiki_page_view_main_column.html",
             true,
             true,
-            "Modules/Wiki"
+            "components/ILIAS/Wiki"
         );
 
         $callback = array($this, "observeNoteAction");
@@ -667,7 +667,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 "tpl.wiki_page_deletion_confirmation.html",
                 true,
                 true,
-                "Modules/Wiki"
+                "components/ILIAS/Wiki"
             );
 
             $dtpl->setVariable("PAGE_TITLE", $this->getWikiPage()->getTitle());
@@ -1130,7 +1130,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $lng = $DIC->language();
 
-        $a_tpl->addJavaScript("./Modules/Wiki/js/WikiEdit.js");
+        $a_tpl->addJavaScript("./components/ILIAS/Wiki/js/WikiEdit.js");
         $a_tpl->addOnLoadCode("il.Wiki.Edit.txt.page_exists = '" . $lng->txt("wiki_page_exists") . "';");
         $a_tpl->addOnLoadCode("il.Wiki.Edit.txt.new_page = '" . $lng->txt("wiki_new_page") . "';");
     }
@@ -1213,7 +1213,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $lng->loadLanguageModule("wiki");
 
-        $tpl = new ilTemplate("tpl.wiki_ac_search_result.html", true, true, "Modules/Wiki");
+        $tpl = new ilTemplate("tpl.wiki_ac_search_result.html", true, true, "components/ILIAS/Wiki");
         $term = $this->wiki_request->getTerm();
 
         $pages = ilObjWiki::_performSearch($this->getPageObject()->getParentId(), $term);

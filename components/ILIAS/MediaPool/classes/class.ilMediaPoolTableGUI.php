@@ -133,7 +133,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("mep_title_and_description"));
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.mep_list_row.html", "Modules/MediaPool");
+        $this->setRowTemplate("tpl.mep_list_row.html", "components/ILIAS/MediaPool");
 
         if ($this->showAdvMetadata()) {
             // adv metadata init (adds filter)
@@ -592,7 +592,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
 
-        $mtpl = new ilTemplate("tpl.media_sel_table.html", true, true, "Modules/MediaPool");
+        $mtpl = new ilTemplate("tpl.media_sel_table.html", true, true, "components/ILIAS/MediaPool");
 
         $pre = "";
         if ($this->current_folder !== $this->tree->getRootId() && !$this->all_objects) {

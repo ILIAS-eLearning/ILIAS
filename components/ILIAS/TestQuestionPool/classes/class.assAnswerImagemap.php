@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * Class for true/false or yes/no answers
@@ -24,7 +24,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 * ASS_AnswerImagemap is a class for true/false or yes/no answers used for example in multiple choice tests.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class ASS_AnswerImagemap extends ASS_AnswerBinaryState
 {

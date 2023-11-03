@@ -53,7 +53,7 @@ class ilLMMenuItemsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.lm_menu_entry_row.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.lm_menu_entry_row.html", "components/ILIAS/LearningModule");
 
         //		$this->addMultiCommand("deleteMenuEntry", $lng->txt("delete"));
         $this->addCommandButton("saveMenuProperties", $lng->txt("save"));

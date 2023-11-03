@@ -187,7 +187,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     protected function initListTemplate(): void
     {
         $this->setListTpl(
-            new ilTemplate('tpl.prop_nested_ordering_list.html', true, true, 'Modules/TestQuestionPool')
+            new ilTemplate('tpl.prop_nested_ordering_list.html', true, true, 'components/ILIAS/TestQuestionPool')
         );
     }
 
@@ -437,7 +437,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $config['itemClass'] = $this->getCssItemClass();
         $config['handleClass'] = $this->getCssHandleClass();
 
-        $this->global_tpl->addJavaScript('Modules/TestQuestionPool/templates/default/nested_ordering.js');
+        $this->global_tpl->addJavaScript('components/ILIAS/TestQuestionPool/templates/default/nested_ordering.js');
         $this->global_tpl->addOnLoadCode("nested_ordering_input.init('"
             . $this->getInstanceId() . "', '"
             . $this->getPostVarSubField('indentation') . "', "

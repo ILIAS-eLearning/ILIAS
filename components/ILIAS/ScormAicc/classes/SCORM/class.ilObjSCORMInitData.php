@@ -26,7 +26,7 @@ declare(strict_types=1);
 * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 * @version $Id: class.ilObjSCORMInitData.php  $
 *
-* @ingroup ModulesScormAicc
+* @ingroup components\ILIASScormAicc
 */
 class ilObjSCORMInitData
 {

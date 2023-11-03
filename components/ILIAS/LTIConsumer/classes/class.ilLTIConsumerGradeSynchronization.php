@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilLTIConsumerGradeSynchronization
 {

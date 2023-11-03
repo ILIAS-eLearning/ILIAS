@@ -21,7 +21,7 @@ declare(strict_types=1);
  * Class ilSCORMTrackingItemsPerUserFilterGUI
  *
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
- * @ingroup ModulesScormAicc
+ * @ingroup components\ILIASScormAicc
  */
 class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
 {

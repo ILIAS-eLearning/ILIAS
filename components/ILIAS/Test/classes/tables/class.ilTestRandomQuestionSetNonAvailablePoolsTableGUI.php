@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
- * @package     Modules/Test(QuestionPool)
+ * @package components\ILIAS/Test(QuestionPool)
  */
 class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 {
@@ -49,7 +49,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 
         $this->setTitle($this->lng->txt('tst_non_avail_pools_table'));
 
-        $this->setRowTemplate('tpl.il_tst_non_avail_pools_row.html', 'Modules/Test');
+        $this->setRowTemplate('tpl.il_tst_non_avail_pools_row.html', 'components/ILIAS/Test');
 
         $this->enable('header');
         $this->disable('sort');

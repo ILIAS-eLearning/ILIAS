@@ -24,12 +24,12 @@ class ilModulesWebResourceSuite extends TestSuite
 {
     public static function suite(): self
     {
-        require_once("./Modules/WebResource/test/ilWebResourceParameterTest.php");
-        require_once("./Modules/WebResource/test/ilWebResourceItemsContainerTest.php");
-        require_once("./Modules/WebResource/test/ilWebResourceDatabaseRepositoryTest.php");
-        require_once("./Modules/WebResource/test/ilWebResourceItemTest.php");
-        require_once("./Modules/WebResource/test/ilWebResourceItemInternalTest.php");
-        require_once("./Modules/WebResource/test/ilWebResourceItemExternalTest.php");
+        require_once("./components/ILIAS/WebResource/test/ilWebResourceParameterTest.php");
+        require_once("./components/ILIAS/WebResource/test/ilWebResourceItemsContainerTest.php");
+        require_once("./components/ILIAS/WebResource/test/ilWebResourceDatabaseRepositoryTest.php");
+        require_once("./components/ILIAS/WebResource/test/ilWebResourceItemTest.php");
+        require_once("./components/ILIAS/WebResource/test/ilWebResourceItemInternalTest.php");
+        require_once("./components/ILIAS/WebResource/test/ilWebResourceItemExternalTest.php");
 
         $suite = new self();
         $suite->addTestSuite(ilWebResourceParameterTest::class);

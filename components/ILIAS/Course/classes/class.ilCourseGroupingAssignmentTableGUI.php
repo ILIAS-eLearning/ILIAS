@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 {
@@ -56,7 +56,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 
         $this->setTitle($this->lng->txt('crs_grp_assign_crs') . ' (' . $a_group_obj->getTitle() . ')');
 
-        $this->setRowTemplate("tpl.crs_grp_select_crs.html", "Modules/Course");
+        $this->setRowTemplate("tpl.crs_grp_select_crs.html", "components/ILIAS/Course");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 
         $this->addMultiCommand('assignCourse', $this->lng->txt('grouping_change_assignment'));

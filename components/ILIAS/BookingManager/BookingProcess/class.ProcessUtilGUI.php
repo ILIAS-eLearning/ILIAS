@@ -213,7 +213,7 @@ class ProcessUtilGUI
         $pfile = $obj->getPostFile();
         $ptext = $obj->getPostText();
 
-        $mytpl = new \ilTemplate('tpl.booking_reservation_post.html', true, true, 'Modules/BookingManager/BookingProcess');
+        $mytpl = new \ilTemplate('tpl.booking_reservation_post.html', true, true, 'components/ILIAS/BookingManager/BookingProcess');
         $mytpl->setVariable("TITLE", $lng->txt('book_post_booking_information'));
 
         if ($ptext) {

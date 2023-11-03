@@ -20,7 +20,7 @@
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
@@ -157,7 +157,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
      */
     public function insert(ilTemplate $a_tpl): void
     {
-        $tpl = new ilTemplate("tpl.prop_kprimchoicewizardinput.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_kprimchoicewizardinput.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($this->values as $value) {
             /**
@@ -316,9 +316,9 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
 
-        $this->tpl->addJavascript("Modules/TestQuestionPool/templates/default/answerwizardinput.js");
-        $this->tpl->addJavascript("Modules/TestQuestionPool/templates/default/kprimchoicewizard.js");
-        $this->tpl->addJavascript('Modules/TestQuestionPool/js/ilAssKprimChoice.js');
+        $this->tpl->addJavascript("components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
+        $this->tpl->addJavascript("components/ILIAS/TestQuestionPool/templates/default/kprimchoicewizard.js");
+        $this->tpl->addJavascript('components/ILIAS/TestQuestionPool/js/ilAssKprimChoice.js');
     }
 
     public function checkUploads($foundvalues): bool

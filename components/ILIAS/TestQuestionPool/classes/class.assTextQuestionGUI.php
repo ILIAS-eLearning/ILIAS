@@ -27,7 +27,7 @@
  *
  * @version	$Id$
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  * @ilCtrl_Calls assTextQuestionGUI: ilFormPropertyDispatchGUI
  */
 class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
@@ -167,8 +167,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $solution = $this->getBestAnswer($this->renderPurposeSupportsFormHtml());
         }
 
-        $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "Modules/TestQuestionPool");
-        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
+        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         $solution = $this->object->getHtmlUserSolutionPurifier()->purify($solution);
         if ($this->renderPurposeSupportsFormHtml()) {
@@ -281,8 +281,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $solution = $this->getBestAnswer($this->renderPurposeSupportsFormHtml());
         }
 
-        $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "Modules/TestQuestionPool");
-        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
+        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         $solution = $this->object->getHtmlUserSolutionPurifier()->purify($this->object->getLatestAutosaveContent($active_id));
         if ($this->renderPurposeSupportsFormHtml()) {
@@ -360,7 +360,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $tplFile = 'tpl.il_as_qpl_text_question_best_solution_ta.html';
         }
 
-        $tpl = new ilTemplate($tplFile, true, true, 'Modules/TestQuestionPool');
+        $tpl = new ilTemplate($tplFile, true, true, 'components/ILIAS/TestQuestionPool');
 
         foreach ($answers as $answer) {
             $keywordString = '';
@@ -410,7 +410,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
-        $template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", true, true, "components/ILIAS/TestQuestionPool");
         if ($this->object->getMaxNumOfChars()) {
             $template->setCurrentBlock("maximum_char_hint");
             $template->setVariable("MAXIMUM_CHAR_HINT", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxNumOfChars()));
@@ -473,7 +473,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $user_solution = str_replace(['{', '}', '\\'], ['&#123', '&#125', '&#92'], $user_solution);
         }
 
-        $template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", true, true, "components/ILIAS/TestQuestionPool");
         if ($this->object->getMaxNumOfChars()) {
             $template->setCurrentBlock("maximum_char_hint");
             $template->setVariable("MAXIMUM_CHAR_HINT", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxNumOfChars()));
@@ -510,7 +510,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     protected function getJsCode(): string
     {
-        $tpl = new ilTemplate('tpl.charcounter.html', true, true, 'Modules/TestQuestionPool');
+        $tpl = new ilTemplate('tpl.charcounter.html', true, true, 'components/ILIAS/TestQuestionPool');
 
         $tpl->setCurrentBlock('tinymce_handler');
         $tpl->touchBlock('tinymce_handler');

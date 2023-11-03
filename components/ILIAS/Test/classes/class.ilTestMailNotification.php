@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author Nadia Ahmad <nahmad@databay.de>
  *
  * @version	$Id:$
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestMailNotification extends ilMailNotification
 {

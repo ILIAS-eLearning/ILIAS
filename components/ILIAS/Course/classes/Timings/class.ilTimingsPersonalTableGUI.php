@@ -24,7 +24,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 /**
  * TableGUI class for editing personal timings
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilTimingsPersonalTableGUI extends ilTable2GUI
 {
@@ -76,7 +76,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
     public function init(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
-        $this->setRowTemplate('tpl.crs_personal_timings_row.html', 'Modules/Course');
+        $this->setRowTemplate('tpl.crs_personal_timings_row.html', 'components/ILIAS/Course');
         $this->setTitle($this->lng->txt('crs_timings_edit_personal'));
         $this->addColumn($this->lng->txt('title'), '', '40%');
         $this->addColumn($this->lng->txt('crs_timings_short_start_end'), '');

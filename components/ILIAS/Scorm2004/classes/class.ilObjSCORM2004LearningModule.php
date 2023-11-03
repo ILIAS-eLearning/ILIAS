@@ -38,9 +38,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
     protected string $imsmanifestFile;
 
-    public const CONVERT_XSL = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
-    public const WRAPPER_HTML = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
-    public const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
+    public const CONVERT_XSL = './components/ILIAS/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
+    public const WRAPPER_HTML = './components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+    public const WRAPPER_JS = './components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 
     /**
     * Constructor

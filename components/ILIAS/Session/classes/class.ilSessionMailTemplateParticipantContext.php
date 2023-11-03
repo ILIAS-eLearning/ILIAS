@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Mail context template for mails send via session participants tab
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @package ModulesSession
+ * @package components\ILIASSession
  */
 class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
 {

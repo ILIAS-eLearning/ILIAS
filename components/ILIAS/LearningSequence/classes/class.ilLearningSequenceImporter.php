@@ -46,7 +46,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $parser = new ilLearningSequenceXMLParser($this->obj, $a_xml);
         $this->data = $parser->start();
 
-        $a_mapping->addMapping("Modules/LearningSequence", "lso", $a_id, (string) $this->obj->getId());
+        $a_mapping->addMapping("components/ILIAS/LearningSequence", "lso", $a_id, (string) $this->obj->getId());
     }
 
     public function finalProcessing(ilImportMapping $a_mapping): void

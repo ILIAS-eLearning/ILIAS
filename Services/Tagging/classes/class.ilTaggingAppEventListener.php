@@ -27,8 +27,8 @@ class ilTaggingAppEventListener
 {
     /**
     * Handle an event in a listener.
-     * @param string $a_component   component, e.g. "Modules/Forum" or "Services/User"
-     * @param string $a_event       component, e.g. "Modules/Forum" or "Services/User"
+     * @param string $a_component   component, e.g. "components/ILIAS/Forum" or "Services/User"
+     * @param string $a_event       component, e.g. "components/ILIAS/Forum" or "Services/User"
      * @param array  $a_parameter   parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
     public static function handleEvent(

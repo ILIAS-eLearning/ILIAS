@@ -47,7 +47,7 @@ class ilLinksTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.links_table_row.html",
-            "Modules/LearningModule"
+            "components/ILIAS/LearningModule"
         );
         $this->lm_id = $a_lm_id;
         $this->lm_type = $a_lm_type;

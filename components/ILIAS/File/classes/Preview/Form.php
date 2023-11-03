@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Modules\File\Preview;
+namespace ILIAS\components\File\Preview;
 
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Input\Field\Section;

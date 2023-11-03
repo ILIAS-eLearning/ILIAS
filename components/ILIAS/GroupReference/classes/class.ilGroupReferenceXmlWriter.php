@@ -10,7 +10,7 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceXm
  * @author Fabian Wolf <wolf@leifos.com>
  * @extends ilContainerReferenceXmlWriter
  *
- * @ingroup ModulesGroupReference
+ * @ingroup components\ILIASGroupReference
  */
 class ilGroupReferenceXmlWriter extends ilContainerReferenceXmlWriter
 {

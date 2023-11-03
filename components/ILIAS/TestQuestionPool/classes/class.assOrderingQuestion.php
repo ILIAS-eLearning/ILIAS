@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 use ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository as OQRepository;
 
@@ -32,7 +32,7 @@ use ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository as OQRepos
  *
  * @version     $Id$
  *
- * @ingroup     ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  */
 class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {

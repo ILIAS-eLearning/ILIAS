@@ -45,7 +45,7 @@ class ilSoapDataCollectionAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        require_once "Modules/DataCollection/classes/class.ilObjDataCollection.php";
+        require_once "components/ILIAS/DataCollection/classes/class.ilObjDataCollection.php";
         if (!$target_obj = new ilObjDataCollection($target_ref_id)) {
             return $this->raiseError('No valid target given.', 'CLIENT');
         }
@@ -65,7 +65,7 @@ class ilSoapDataCollectionAdministration extends ilSoapAdministration
         }
 
         try {
-            require_once "Modules/DataCollection/classes/Content/class.ilDclContentExporter.php";
+            require_once "components/ILIAS/DataCollection/classes/Content/class.ilDclContentExporter.php";
             $exporter = new ilDclContentExporter($target_ref_id, $table_id);
             return $exporter->export($format, $filepath);
         } catch (ilException $exception) {

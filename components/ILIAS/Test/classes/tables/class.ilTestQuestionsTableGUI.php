@@ -28,7 +28,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 * @author Björn Heyser <bheyser@databay.de>
 * @version $Id$
 *
-* @ingroup ModulesTest
+* @ingroup components\ILIASTest
 */
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
@@ -80,7 +80,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         $this->setExternalSegmentation(true);
 
-        $this->setRowTemplate("tpl.il_as_tst_questions_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_questions_row.html", "components/ILIAS/Test");
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 

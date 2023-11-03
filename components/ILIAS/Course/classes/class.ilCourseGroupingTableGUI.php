@@ -19,7 +19,7 @@ declare(strict_types=0);
 
 /**
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseGroupingTableGUI extends ilTable2GUI
 {
@@ -41,7 +41,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         $this->addMultiCommand('askDeleteGrouping', $this->lng->txt('delete'));
         $this->setSelectAllCheckbox('grouping');
 
-        $this->setRowTemplate("tpl.groupings.html", "Modules/Course");
+        $this->setRowTemplate("tpl.groupings.html", "components/ILIAS/Course");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 
         $this->setDefaultOrderField('title');

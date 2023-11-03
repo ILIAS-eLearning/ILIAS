@@ -69,9 +69,9 @@ if ($plugin) {
     */
     //require_once __DIR__.'/classes/XapiProxy/vendor/autoload.php';
 
-    chdir("../../../../../../../");
+    chdir("../../../../../../../../");
 } else {
-    chdir("../../");
+    chdir("../../../");
 }
 require_once("Services/Init/classes/class.ilInitialisation.php");
 //instead of DataService

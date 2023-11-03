@@ -82,7 +82,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.exc_assignments_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.exc_assignments_row.html", "components/ILIAS/Exercise");
         //$this->disable("footer");
         $this->setEnableTitle(true);
         $this->setSelectAllCheckbox("id");

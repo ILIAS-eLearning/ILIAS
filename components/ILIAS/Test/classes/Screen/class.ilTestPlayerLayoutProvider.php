@@ -40,7 +40,7 @@ use ILIAS\UI\Component\Image\Image;
  *
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {

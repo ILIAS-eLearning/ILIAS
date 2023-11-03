@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilBannedUsersTableGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilBannedUsersTableGUI extends ilTable2GUI
 {
@@ -44,7 +44,7 @@ class ilBannedUsersTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('chtr_ban_actor_tbl_head'), 'actor');
 
         $this->setSelectAllCheckbox('banned_user_id');
-        $this->setRowTemplate('tpl.banned_user_table_row.html', 'Modules/Chatroom');
+        $this->setRowTemplate('tpl.banned_user_table_row.html', 'components/ILIAS/Chatroom');
 
         $this->addMultiCommand('ban-delete', $this->lng->txt('unban'));
     }

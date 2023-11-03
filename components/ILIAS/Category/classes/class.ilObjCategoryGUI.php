@@ -31,7 +31,7 @@ use ILIAS\Category\StandardGUIRequest;
  * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilTaxonomySettingsGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
- * @ingroup      ModulesCategory
+ * @ingroup components\ILIASCategory
  */
 class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface
 {
@@ -1002,7 +1002,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
             'ADM_CONTENT',
             'adm_content',
             'tpl.cat_admin_users.html',
-            "Modules/Category"
+            "components/ILIAS/Category"
         );
 
         if (count($rbacreview->getGlobalAssignableRoles()) ||

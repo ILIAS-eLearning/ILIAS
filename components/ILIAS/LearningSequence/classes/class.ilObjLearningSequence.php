@@ -119,7 +119,7 @@ class ilObjLearningSequence extends ilContainer
     protected function raiseEvent(string $event_type): void
     {
         $this->app_event_handler->raise(
-            'Modules/LearningSequence',
+            'components/ILIAS/LearningSequence',
             $event_type,
             array(
                 'obj_id' => $this->getId(),

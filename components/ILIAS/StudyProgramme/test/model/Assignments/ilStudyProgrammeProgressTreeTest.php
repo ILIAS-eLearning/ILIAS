@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\StudyProgramme\Assignment\Node;
 use ILIAS\StudyProgramme\Assignment\Zipper;
 
-require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
+require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
 
 class NodeMock extends Node
 {

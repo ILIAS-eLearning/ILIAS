@@ -22,7 +22,7 @@ use ILIAS\Skill\Service\SkillUsageService;
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
- * @package     Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilAssQuestionSkillAssignmentImporter
 {
@@ -208,14 +208,14 @@ class ilAssQuestionSkillAssignmentImporter
             }
 
             $this->getImportMappingRegistry()->addMapping(
-                'Modules/Test',
+                'components/ILIAS/Test',
                 'skl_base_id_reverse',
                 $foundSkillId['skill_id'],
                 $assignment->getImportSkillBaseId()
             );
 
             $this->getImportMappingRegistry()->addMapping(
-                'Modules/Test',
+                'components/ILIAS/Test',
                 'skl_tref_id_reverse',
                 $foundSkillId['tref_id'],
                 $assignment->getImportSkillTrefId()

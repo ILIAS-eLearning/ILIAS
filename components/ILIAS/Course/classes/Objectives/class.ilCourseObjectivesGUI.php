@@ -158,7 +158,7 @@ class ilCourseObjectivesGUI
         if (!$this->access->checkAccess("write", '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
         }
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.crs_objectives.html', 'Modules/Course');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.crs_objectives.html', 'components/ILIAS/Course');
         $this->toolbar->addButton(
             $this->lng->txt('crs_add_objective'),
             $this->ctrl->getLinkTarget($this, "'create")
@@ -1039,7 +1039,7 @@ class ilCourseObjectivesGUI
 
         $over = new ilCustomInputGUI($this->lng->txt('crs_objective_qst_summary'), '');
 
-        $tpl = new ilTemplate('tpl.crs_objective_qst_summary.html', true, true, 'Modules/Course');
+        $tpl = new ilTemplate('tpl.crs_objective_qst_summary.html', true, true, 'components/ILIAS/Course');
 
         $limit = 0;
 

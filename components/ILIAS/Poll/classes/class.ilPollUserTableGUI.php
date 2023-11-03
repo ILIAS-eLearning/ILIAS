@@ -65,7 +65,7 @@ class ilPollUserTableGUI extends ilTable2GUI
         );
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.user_row.html", "Modules/Poll");
+        $this->setRowTemplate("tpl.user_row.html", "components/ILIAS/Poll");
         $this->setDefaultOrderField("login");
         $this->setDefaultOrderDirection("asc");
 

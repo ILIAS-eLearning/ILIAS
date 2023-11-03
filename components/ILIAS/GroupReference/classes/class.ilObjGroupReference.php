@@ -8,7 +8,7 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReference.p
  * @author Fabian Wolf <wolf@leifos.com>
  * @extends ilContainerReference
  *
- * @ingroup ModulesGroupReference
+ * @ingroup components\ILIASGroupReference
 */
 class ilObjGroupReference extends ilContainerReference
 {

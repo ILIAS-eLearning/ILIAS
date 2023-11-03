@@ -62,7 +62,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.svy_skill_row.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.svy_skill_row.html", "components/ILIAS/Survey");
     }
 
     public function getSkills(): void

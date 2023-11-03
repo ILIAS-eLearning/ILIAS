@@ -2057,7 +2057,7 @@ class ilPageObjectGUI
 
     public function displayMedia(bool $a_fullscreen = false): void
     {
-        $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+        $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "components/ILIAS/LearningModule");
         $tpl->setCurrentBlock("ilMedia");
 
         //$int_links = $page_object->getInternalLinks();

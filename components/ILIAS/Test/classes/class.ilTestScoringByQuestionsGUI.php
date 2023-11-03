@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
+require_once 'components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * ilTestScoringByQuestionsGUI
  * @author     Michael Jansen <mjansen@databay.de>
  * @author     Björn Heyser <bheyser@databay.de>
  * @version    $Id$
- * @ingroup    ModulesTest
+ * @ingroup components\ILIASTest
  * @extends    ilTestServiceGUI
  */
 class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
@@ -369,7 +369,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $data = $this->object->getCompleteEvaluationData(false);
         $participant = $data->getParticipant($active_id);
         $question_gui = $this->object->createQuestionGUI('', $question_id);
-        $tmp_tpl = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'Modules/Test');
+        $tmp_tpl = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'components/ILIAS/Test');
         if ($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
             $aresult_output = $question_gui->getAutoSavedSolutionOutput(
                 $active_id,

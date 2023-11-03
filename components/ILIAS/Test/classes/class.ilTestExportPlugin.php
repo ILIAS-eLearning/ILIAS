@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Abstract parent class for all event hook plugin classes.
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 abstract class ilTestExportPlugin extends ilPlugin
 {

@@ -32,7 +32,7 @@ class ilModulesSessionSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/Session/test/EventItemsTest.php");
+        require_once("./components/ILIAS/Session/test/EventItemsTest.php");
         $suite->addTestSuite(EventItemsTest::class);
 
         return $suite;

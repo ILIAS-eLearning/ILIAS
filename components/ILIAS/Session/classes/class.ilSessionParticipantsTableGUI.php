@@ -101,7 +101,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
 
-        $this->setRowTemplate("tpl.sess_members_row.html", "Modules/Session");
+        $this->setRowTemplate("tpl.sess_members_row.html", "components/ILIAS/Session");
 
         $this->addColumn('', 'f', '1', true);
         $this->addColumn($this->lng->txt('name'), 'name', '20%');

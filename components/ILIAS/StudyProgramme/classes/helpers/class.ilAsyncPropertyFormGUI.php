@@ -31,7 +31,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * @var string Path to the async-form js
      */
-    protected static string $js_path = "./Modules/StudyProgramme/templates/js/";
+    protected static string $js_path = "./components/ILIAS/StudyProgramme/templates/js/";
 
     /**
      * @var string Default form name (used for jquery-selection)

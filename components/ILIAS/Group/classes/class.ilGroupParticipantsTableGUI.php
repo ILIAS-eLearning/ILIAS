@@ -22,7 +22,7 @@ declare(strict_types=1);
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 *
-* @ingroup ModulesGroup
+* @ingroup components\ILIASGroup
 */
 class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 {
@@ -86,7 +86,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $this->addColumn($this->lng->txt('actions'), 'optional', '', false, 'ilMembershipRowActionsHeader');
         $this->setDefaultOrderField('roles');
 
-        $this->setRowTemplate("tpl.show_participants_row.html", "Modules/Group");
+        $this->setRowTemplate("tpl.show_participants_row.html", "components/ILIAS/Group");
 
         $this->setShowRowsSelector(true);
 

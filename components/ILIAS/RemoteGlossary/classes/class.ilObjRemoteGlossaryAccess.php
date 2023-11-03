@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @version $Id$
 *
 *
-* @ingroup ModulesRemoteGlossary
+* @ingroup components\ILIASRemoteGlossary
 */
 
 class ilObjRemoteGlossaryAccess extends ilObjectAccess

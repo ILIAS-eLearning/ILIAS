@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Button\Button;
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilTestQuestionNavigationGUI
 {
@@ -549,7 +549,7 @@ class ilTestQuestionNavigationGUI
                     'tpl.tst_question_navigation.html',
                     true,
                     true,
-                    'Modules/Test'
+                    'components/ILIAS/Test'
                 );
             default:
             case 'actions':
@@ -557,7 +557,7 @@ class ilTestQuestionNavigationGUI
                     'tpl.tst_question_actions.html',
                     true,
                     true,
-                    'Modules/Test'
+                    'components/ILIAS/Test'
                 );
         }
     }

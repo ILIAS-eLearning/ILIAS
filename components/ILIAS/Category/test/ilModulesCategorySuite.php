@@ -31,7 +31,7 @@ class ilModulesCategorySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/Category/test/CatStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/Category/test/CatStandardGUIRequestTest.php");
         $suite->addTestSuite("CatStandardGUIRequestTest");
 
         return $suite;

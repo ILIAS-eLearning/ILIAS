@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\File\Icon\IconDatabaseRepository;
-use ILIAS\Modules\File\Settings\General;
+use ILIAS\components\File\Settings\General;
 
 /**
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>

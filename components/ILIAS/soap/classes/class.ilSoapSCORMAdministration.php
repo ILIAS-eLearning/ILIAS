@@ -88,8 +88,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             );
         }
 
-        require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
-        require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
+        require_once("./components/ILIAS/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
+        require_once("./components/ILIAS/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
 
         $imsFilename = $lm_obj->getDataDirectory() . DIRECTORY_SEPARATOR . "imsmanifest.xml";
 

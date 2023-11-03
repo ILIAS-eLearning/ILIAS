@@ -339,7 +339,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
     public function initCSSandJS(): void
     {
         global $tpl;
-        $tpl->addJavascript('./Modules/OrgUnit/templates/default/multi_line_input.js');
+        $tpl->addJavascript('./components/ILIAS/OrgUnit/templates/default/multi_line_input.js');
     }
 
     public function insert(ilTemplate $a_tpl): int

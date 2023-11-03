@@ -22,7 +22,7 @@
  * @author  Roland Küstermann <roland@kuestermann.com>
  * @version $Id: class.ilObjectXMLParser.php 12811 2006-12-08 18:37:44Z akill $
  *
- * @ingroup ModulesExercise
+ * @ingroup components\ILIASExercise
  *
  * @extends ilSaxParser
  */

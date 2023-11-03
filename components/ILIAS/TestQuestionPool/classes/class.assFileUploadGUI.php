@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * The assFileUploadGUI class encapsulates the GUI representation for file upload questions.
@@ -27,7 +27,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @version	$Id$
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  *
  * @ilctrl_iscalledby assFileUploadGUI: ilObjQuestionPoolGUI
  * @ilCtrl_Calls assFileUploadGUI: ilFormPropertyDispatchGUI
@@ -228,7 +228,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $show_question_text = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
-        $template = new ilTemplate("tpl.il_as_qpl_fileupload_output_solution.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_fileupload_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
 
         $solutionvalue = "";
         if (($active_id > 0) && (!$show_correct_solution)) {
@@ -247,7 +247,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             #$this->buildFileTableDeleteButtonInstance(), assFileUploadGUI::DELETE_FILES_TBL_POSTVAR
             #);
             // hey.
-            $table_gui->setRowTemplate("tpl.il_as_qpl_fileupload_file_view_row.html", "Modules/TestQuestionPool");
+            $table_gui->setRowTemplate("tpl.il_as_qpl_fileupload_file_view_row.html", "components/ILIAS/TestQuestionPool");
             $table_gui->setSelectAllCheckbox("");
             // hey: prevPassSolutions - table refactored
             #$table_gui->clearCommandButtons();
@@ -294,7 +294,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
         $questionoutput = $template->get();
-        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
+        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput((int) $active_id, $pass) : "";
         if (strlen($feedback)) {
             $cssClass = (
@@ -316,7 +316,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
-        $template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         if (is_object($this->getPreviewSession())) {
             $files = $this->object->getPreviewFileUploads($this->getPreviewSession());
@@ -362,7 +362,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     // hey.
     {
         // generate the question output
-        $template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         if ($active_id) {
             $files = $this->object->getTestOutputSolutions($active_id, $pass);

@@ -42,7 +42,7 @@ class ilCourseWaitingList extends ilWaitingList
         }
         $this->logger->debug('Raise new event: Modules/Course addToList');
         $this->eventHandler->raise(
-            "Modules/Course",
+            "components/ILIAS/Course",
             'addToWaitingList',
             [
                 'obj_id' => $this->getObjId(),
@@ -59,7 +59,7 @@ class ilCourseWaitingList extends ilWaitingList
         }
         $this->logger->debug('Raise new event: Modules/Course removeFromList');
         $this->eventHandler->raise(
-            "Modules/Course",
+            "components/ILIAS/Course",
             'removeFromWaitingList',
             [
                 'obj_id' => $this->getObjId(),

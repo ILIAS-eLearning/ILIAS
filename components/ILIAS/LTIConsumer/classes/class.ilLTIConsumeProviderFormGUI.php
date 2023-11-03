@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 {
@@ -953,7 +953,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->clearCommandButtons();
         $this->addCommandButton("cancelContentSelection", $lng->txt('cancel'));
         $src = $DIC->ctrl()->getLinkTargetByClass(ilObjLTIConsumerGUI::class, 'contentSelectionRequest');
-        $template = new ilTemplate('tpl.lti_content_selection.html', true, true, "Modules/LTIConsumer");
+        $template = new ilTemplate('tpl.lti_content_selection.html', true, true, "components/ILIAS/LTIConsumer");
         $template->setVariable('LTI_CONTENT_SELECTION_IFRAME_SRC', $src);
         return $this->getHTML() . $template->get();
     }
@@ -975,7 +975,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->getItemByPostVar('lti_dyn_reg_custom_params')->setDisabled(true);
         $this->clearCommandButtons();
         //$this->addCommandButton("cancelDynReg", $DIC->language()->txt('cancel'));
-        $template = new ilTemplate('tpl.lti_dyn_reg_request.html', true, true, "Modules/LTIConsumer");
+        $template = new ilTemplate('tpl.lti_dyn_reg_request.html', true, true, "components/ILIAS/LTIConsumer");
         $template->setVariable('LTI_TOOL_REG_URL', $toolRegUrl);
         $template->setVariable('LTI_DYN_REG_URL', $regUrl);
         $template->setVariable('LTI_REG_END_URL', ilObjLTIConsumer::getRegistrationEndUrl());

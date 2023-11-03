@@ -100,7 +100,7 @@ class ilContObjectExport
     ): string {
         if (in_array($a_mode, array("master", "masternomedia"))) {
             $exp = new ilExport();
-            $conf = $exp->getConfig("Modules/LearningModule");
+            $conf = $exp->getConfig("components/ILIAS/LearningModule");
             $conf->setMasterLanguageOnly(true, ($a_mode == "master"));
             $exp->exportObject($this->cont_obj->getType(), $this->cont_obj->getId(), "5.1.0");
             return "";

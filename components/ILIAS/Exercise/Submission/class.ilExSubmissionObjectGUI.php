@@ -269,7 +269,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
 
         $html = "";
-        $tpl = new ilTemplate("tpl.exc_select_resource.html", true, true, "Modules/Exercise");
+        $tpl = new ilTemplate("tpl.exc_select_resource.html", true, true, "components/ILIAS/Exercise");
 
         if (is_array($a_items)) {
             $tpl->setCurrentBlock("item");

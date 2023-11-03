@@ -21,7 +21,7 @@ declare(strict_types=0);
 /**
  * Handles course mail placeholders
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @package ModulesCourse
+ * @package components\ILIASCourse
  */
 class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 {

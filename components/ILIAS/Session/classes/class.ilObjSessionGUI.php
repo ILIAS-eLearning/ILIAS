@@ -29,7 +29,7 @@ declare(strict_types=1);
 * @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI, ilSessionMembershipGUI, ilObjectMetaDataGUI, ilPropertyFormGUI
 * @ilCtrl_Calls ilObjSessionGUI: ilBookingGatewayGUI
 *
-* @ingroup ModulesSession
+* @ingroup components\ILIASSession
 */
 class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
@@ -344,7 +344,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_registered'), true);
 
                 $ilAppEventHandler->raise(
-                    "Modules/Session",
+                    "components/ILIAS/Session",
                     'enter',
                     array(
                         'obj_id' => $this->getCurrentObject()->getId(),
@@ -361,7 +361,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $part->addSubscriber($ilUser->getId());
 
                 $ilAppEventHandler->raise(
-                    "Modules/Session",
+                    "components/ILIAS/Session",
                     'register',
                     array(
                         'obj_id' => $this->getCurrentObject()->getId(),
@@ -434,7 +434,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         $ilAppEventHandler->raise(
-            "Modules/Session",
+            "components/ILIAS/Session",
             'unregister',
             array(
                 'obj_id' => $this->getCurrentObject()->getId(),
@@ -944,7 +944,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->tabs_gui->setTabActive('settings');
 
         $this->initForm('edit');
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_edit.html', 'Modules/Session');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_edit.html', 'components/ILIAS/Session');
         $this->tpl->setVariable('EVENT_EDIT_TABLE', $this->form->getHTML());
     }
 
@@ -1284,11 +1284,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->MESSAGE);
         }
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_list.html', 'Modules/Session');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_list.html', 'components/ILIAS/Session');
         $this->__showButton($this->ctrl->getLinkTarget($this, 'exportCSV'), $this->lng->txt('event_csv_export'));
 
         $this->tpl->addBlockFile("EVENTS_TABLE", "events_table", "tpl.table.html");
-        $this->tpl->addBlockFile('TBL_CONTENT', 'tbl_content', 'tpl.sess_list_row.html', 'Modules/Session');
+        $this->tpl->addBlockFile('TBL_CONTENT', 'tbl_content', 'tpl.sess_list_row.html', 'components/ILIAS/Session');
 
         $members_obj = $this->initContainer(true);
         $members = $members_obj->getParticipants();

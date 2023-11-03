@@ -75,7 +75,7 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
         } else {
             $this->addColumn($this->lng->txt('crs_loc_qtest_info'), 'qt', '25%');
         }
-        $this->setRowTemplate('tpl.crs_objectives_usr_result_row.html', 'Modules/Course');
+        $this->setRowTemplate('tpl.crs_objectives_usr_result_row.html', 'components/ILIAS/Course');
         $this->disable('sort');
         $this->disable('num_info');
     }

@@ -23,7 +23,7 @@ use ILIAS\Refinery\Factory;
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilMemberExportGUI
 {

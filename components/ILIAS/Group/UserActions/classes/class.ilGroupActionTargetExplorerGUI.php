@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Action target explorer
  *
  * @author Alex Killing <killing@leifos.de>
- * @ingroup ModulesGroup
+ * @ingroup components\ILIASGroup
  */
 class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
 {

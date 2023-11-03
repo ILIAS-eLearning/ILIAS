@@ -367,7 +367,7 @@ class PortfolioHtmlExport
             "tpl.export_page.html",
             true,
             true,
-            "Modules/Portfolio"
+            "components/ILIAS/Portfolio"
         );
 
         $comments = ($this->include_comments)

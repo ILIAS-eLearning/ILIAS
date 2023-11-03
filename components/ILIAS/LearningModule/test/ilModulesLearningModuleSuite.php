@@ -32,7 +32,7 @@ class ilModulesLearningModuleSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/LearningModule/test/LMEditingGUIRequestTest.php");
+        require_once("./components/ILIAS/LearningModule/test/LMEditingGUIRequestTest.php");
         $suite->addTestSuite("LMEditingGUIRequestTest");
 
         return $suite;

@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilObjForumAdministrationAccess
  * @author  Nadia Matuschek <nmatuschek@databay.de>
  * @version $Id:$
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilObjForumAdministrationAccess extends ilObjectAccess
 {

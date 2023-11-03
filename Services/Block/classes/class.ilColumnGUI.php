@@ -78,10 +78,10 @@ class ilColumnGUI
         "ilPDMailBlockGUI" => "Services/Mail/",
         "ilSelectedItemsBlockGUI" => "Services/Dashboard/Block/",
         "ilPDNewsBlockGUI" => "Services/News/",
-        'ilPollBlockGUI' => 'Modules/Poll/',
+        'ilPollBlockGUI' => 'components/ILIAS/Poll/',
         'ilClassificationBlockGUI' => 'Services/Classification/',
-        "ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/",
-        "ilPDStudyProgrammeExpandableListGUI" => "Modules/StudyProgramme/",
+        "ilPDStudyProgrammeSimpleListGUI" => "components/ILIAS/StudyProgramme/",
+        "ilPDStudyProgrammeExpandableListGUI" => "components/ILIAS/StudyProgramme/",
     );
 
     protected static array $block_types = array(

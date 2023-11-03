@@ -57,7 +57,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 
         // $this->setEnableHeader(true);
         // $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.list_row.html", "Modules/WorkspaceFolder");
+        $this->setRowTemplate("tpl.list_row.html", "components/ILIAS/WorkspaceFolder");
         //$this->disable("footer");
         // $this->setEnableTitle(true);
         $this->setEnableNumInfo(false);

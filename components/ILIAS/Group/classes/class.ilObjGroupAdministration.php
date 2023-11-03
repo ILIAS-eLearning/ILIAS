@@ -6,7 +6,7 @@ declare(strict_types=1);
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @package ModulesGroup
+ * @package components\ILIASGroup
  */
 class ilObjGroupAdministration extends ilObject
 {

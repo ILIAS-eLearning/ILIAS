@@ -29,7 +29,7 @@ declare(strict_types=1);
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  *
- * @ingroup ModulesGroup
+ * @ingroup components\ILIASGroup
  */
 class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 {
@@ -70,7 +70,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
         $this->addCommandButton('updateParticipants', $this->lng->txt('save'));
         $this->addCommandButton('participants', $this->lng->txt('cancel'));
 
-        $this->setRowTemplate("tpl.edit_participants_row.html", "Modules/Group");
+        $this->setRowTemplate("tpl.edit_participants_row.html", "components/ILIAS/Group");
 
         $this->disable('sort');
         $this->enable('header');

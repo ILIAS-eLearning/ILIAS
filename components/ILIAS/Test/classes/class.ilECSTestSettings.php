@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * $Id: class.ilObjCourseGUI.php 31646 2011-11-14 11:39:37Z jluetzen $
 *
-* @ingroup ModulesTest
+* @ingroup components\ILIASTest
 */
 class ilECSTestSettings extends ilECSObjectSettings
 {

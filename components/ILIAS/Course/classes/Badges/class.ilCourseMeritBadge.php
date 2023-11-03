@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * Class ilCourseMeritBadge
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesCourse
+ * @package components\ILIASCourse
  */
 class ilCourseMeritBadge implements ilBadgeType
 {

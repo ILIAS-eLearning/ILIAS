@@ -31,7 +31,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->initTableColumns();
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showThreads'));
-        $this->setRowTemplate('tpl.forums_threads_drafts_table.html', 'Modules/Forum');
+        $this->setRowTemplate('tpl.forums_threads_drafts_table.html', 'components/ILIAS/Forum');
         $this->setShowRowsSelector(false);
         $this->setEnableNumInfo(false);
     }

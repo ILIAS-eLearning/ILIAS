@@ -22,7 +22,7 @@ declare(strict_types=1);
  * ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI
  * @author     Michael Jansen <mjansen@datababay.de>
  * @version    $Id $
- * @ingroup    ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTable2GUI
 {
@@ -55,7 +55,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, self::PARENT_DEFAULT_CMD));
-        $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "components/ILIAS/Test");
         $this->setShowRowsSelector(true);
 
         $this->initOrdering();

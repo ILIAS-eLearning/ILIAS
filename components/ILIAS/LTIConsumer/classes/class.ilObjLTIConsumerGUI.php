@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilObjLTIConsumerGUI
  * @author       Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author       Björn Heyser <info@bjoernheyser.de>
- * @package      Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilObjectCopyGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilPermissionGUI
@@ -410,7 +410,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
             //$emailPrimary = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user());
             $ltiMessageHint = (string) $ref_id . ":" . CLIENT_ID . ":" . base64_encode($redirectUrl);
-            $tplLogin = new ilTemplate("tpl.lti_initial_login.html", true, true, "Modules/LTIConsumer");
+            $tplLogin = new ilTemplate("tpl.lti_initial_login.html", true, true, "components/ILIAS/LTIConsumer");
             $tplLogin->setVariable("LTI_INITIAL_LOGIN_ACTION", $provider->getInitiateLogin());
             $tplLogin->setVariable("ISS", ilObjLTIConsumer::getIliasHttpPath());
             $tplLogin->setVariable("TARGET_LINK_URL", $provider->getProviderUrl());
@@ -424,7 +424,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $loginData = ilSession::get('lti13_login_data');
             // ToDo: correct Link!! replace ILIAS_HTTP_PATH
             $data = ilObjLTIConsumer::buildContentSelectionParameters($provider, (int) $ref_id, ilObjLTIConsumer::getIliasHttpPath() . "/" . $DIC->ctrl()->getLinkTarget($this, 'contentSelectionResponse'), $loginData['nonce']);
-            $tplContentSelection = new ilTemplate("tpl.lti_jwt_autosubmit.html", true, true, "Modules/LTIConsumer");
+            $tplContentSelection = new ilTemplate("tpl.lti_jwt_autosubmit.html", true, true, "components/ILIAS/LTIConsumer");
             $tplContentSelection->setVariable("LTI_JWT_FORM_ACTION", $provider->getContentItemUrl());
             $tplContentSelection->setVariable("LTI_JWT_ID_TOKEN", $data['id_token']);
             $tplContentSelection->setVariable("LTI_JWT_STATE", $loginData['state']);
@@ -512,7 +512,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $this->initMetadata($newObj);
         }
         $type = ilObjectFactory::getTypeByRefId((int) $refId);
-        $template = new ilTemplate('tpl.lti_content_selection_finished.html', true, true, 'Modules/LTIConsumer');
+        $template = new ilTemplate('tpl.lti_content_selection_finished.html', true, true, 'components/ILIAS/LTIConsumer');
         $redirect = ilObjLTIConsumer::getIliasHttpPath() . "/" . "goto.php?target=" . $type . "_" . $refId;
         $template->setVariable("CONTENT_SELECTION_REDIRECT", $redirect);
         echo $template->get();

@@ -45,7 +45,7 @@ class ilContributorTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField("name");
 
-        $this->setRowTemplate("tpl.contributor_row.html", "Modules/Blog");
+        $this->setRowTemplate("tpl.contributor_row.html", "components/ILIAS/Blog");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->setSelectAllCheckbox("id"); // #16472

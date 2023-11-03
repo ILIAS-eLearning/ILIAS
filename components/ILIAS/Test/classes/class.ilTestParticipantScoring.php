@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestParticipantScoring
 {

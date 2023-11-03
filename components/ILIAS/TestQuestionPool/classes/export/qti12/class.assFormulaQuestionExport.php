@@ -22,7 +22,7 @@
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id: class.assFormulaQuestionExport.php 1185 2010-02-02 08:36:26Z hschottm $
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class assFormulaQuestionExport extends assQuestionExport
 {

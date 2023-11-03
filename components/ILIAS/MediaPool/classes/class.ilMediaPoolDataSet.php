@@ -273,7 +273,7 @@ class ilMediaPoolDataSet extends ilDataSet
                 $newObj->update();
 
                 $this->current_obj = $newObj;
-                $a_mapping->addMapping("Modules/MediaPool", "mep", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/MediaPool", "mep", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
                 break;
 
@@ -281,11 +281,11 @@ class ilMediaPoolDataSet extends ilDataSet
                 if (!$this->getTranslationImportMode()) {
                     switch ($a_rec["Type"]) {
                         case "fold":
-                            $parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
+                            $parent = (int) $a_mapping->getMapping("components/ILIAS/MediaPool", "mep_tree", $a_rec["Parent"]);
                             $fold_id =
                                 $this->current_obj->createFolder($a_rec["Title"], $parent);
                             $a_mapping->addMapping(
-                                "Modules/MediaPool",
+                                "components/ILIAS/MediaPool",
                                 "mep_tree",
                                 $a_rec["Child"],
                                 $fold_id
@@ -293,7 +293,7 @@ class ilMediaPoolDataSet extends ilDataSet
                             break;
 
                         case "mob":
-                            $parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
+                            $parent = (int) $a_mapping->getMapping("components/ILIAS/MediaPool", "mep_tree", $a_rec["Parent"]);
                             $mob_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob", $a_rec["ForeignId"]);
                             $item = new ilMediaPoolItem();
                             $item->setType("mob");
@@ -310,14 +310,14 @@ class ilMediaPoolDataSet extends ilDataSet
                             break;
 
                         case "pg":
-                            $parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
+                            $parent = (int) $a_mapping->getMapping("components/ILIAS/MediaPool", "mep_tree", $a_rec["Parent"]);
 
                             $item = new ilMediaPoolItem();
                             $item->setType("pg");
                             $item->setTitle($a_rec["Title"]);
                             $item->setImportId($a_rec["ImportId"]);
                             $item->create();
-                            $a_mapping->addMapping("Modules/MediaPool", "pg", $a_rec["Child"], $item->getId());
+                            $a_mapping->addMapping("components/ILIAS/MediaPool", "pg", $a_rec["Child"], $item->getId());
                             $a_mapping->addMapping(
                                 "Services/COPage",
                                 "pg",
@@ -342,7 +342,7 @@ class ilMediaPoolDataSet extends ilDataSet
                         $pool = ilMediaPoolItem::getPoolForItemId($pg_id);
                         $pool = current($pool);
                         if ($pool == $this->getTranslationMep()->getId()) {
-                            $a_mapping->addMapping("Modules/MediaPool", "pg", $a_rec["Child"], $pg_id);
+                            $a_mapping->addMapping("components/ILIAS/MediaPool", "pg", $a_rec["Child"], $pg_id);
                             $a_mapping->addMapping(
                                 "Services/COPage",
                                 "pg",

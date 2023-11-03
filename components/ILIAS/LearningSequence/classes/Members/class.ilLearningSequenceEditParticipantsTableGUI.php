@@ -40,7 +40,7 @@ class ilLearningSequenceEditParticipantsTableGUI extends ilTable2GUI
 
         $this->setFormName('participants');
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
-        $this->setRowTemplate("tpl.edit_participants_row.html", "Modules/LearningSequence");
+        $this->setRowTemplate("tpl.edit_participants_row.html", "components/ILIAS/LearningSequence");
 
         $this->addColumn($this->lng->txt('name'), 'name', '20%');
         $this->addColumn($this->lng->txt('login'), 'login', '25%');

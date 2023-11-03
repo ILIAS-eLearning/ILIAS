@@ -68,7 +68,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $cmd));
         $this->setSelectAllCheckbox('category_ids[]');
-        $this->setRowTemplate('tpl.unit_category_row.html', 'Modules/TestQuestionPool');
+        $this->setRowTemplate('tpl.unit_category_row.html', 'components/ILIAS/TestQuestionPool');
     }
 
     abstract protected function populateTitle(): void;

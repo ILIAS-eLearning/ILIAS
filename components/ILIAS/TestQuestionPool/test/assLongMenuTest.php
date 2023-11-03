@@ -20,7 +20,7 @@
  *
  * @author Guido Vollbach <gvollbachdatabay.de>
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  */
 class assLongmenuTest extends assBaseTestCase
 {
@@ -38,7 +38,7 @@ class assLongmenuTest extends assBaseTestCase
     protected function setUp(): void
     {
         chdir(dirname(__FILE__));
-        chdir('../../../');
+        chdir('../../../../');
 
         parent::setUp();
 

@@ -21,7 +21,7 @@
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
  * @version $Id$
- * @ingroup ModulesLearningModule
+ * @ingroup components\ILIASLearningModule
  */
 
 class ilTestQuestionPoolImporter extends ilXmlImporter
@@ -46,7 +46,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             $newObj->getObjectProperties()->storePropertyIsOnline($newObj->getObjectProperties()->getPropertyIsOnline()->withOffline()); // sets Question pools to always online
 
             ilSession::set('qpl_import_subdir', $this->getImportPackageName());
-        } elseif (($new_id = $a_mapping->getMapping('Modules/TestQuestionPool', 'qpl', "new_id")) !== null) {
+        } elseif (($new_id = $a_mapping->getMapping('components/ILIAS/TestQuestionPool', 'qpl', "new_id")) !== null) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {
             // Shouldn't happen
@@ -120,7 +120,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
                 );
 
                 $a_mapping->addMapping(
-                    "Modules/TestQuestionPool",
+                    "components/ILIAS/TestQuestionPool",
                     "quest",
                     $oldQuestionId,
                     $newQuestionId
@@ -130,7 +130,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 
         $this->importQuestionSkillAssignments($xml_file, $a_mapping, $newObj->getId());
 
-        $a_mapping->addMapping("Modules/TestQuestionPool", "qpl", $a_id, $newObj->getId());
+        $a_mapping->addMapping("components/ILIAS/TestQuestionPool", "qpl", $a_id, $newObj->getId());
 
         ilObjQuestionPool::_setImportDirectory(null);
 
@@ -144,7 +144,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
      */
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
-        $maps = $a_mapping->getMappingsOfEntity("Modules/TestQuestionPool", "qpl");
+        $maps = $a_mapping->getMappingsOfEntity("components/ILIAS/TestQuestionPool", "qpl");
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
@@ -199,7 +199,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         $importer->setTargetParentObjId($targetParentObjId);
         $importer->setImportInstallationId($this->getInstallId());
         $importer->setImportMappingRegistry($mappingRegistry);
-        $importer->setImportMappingComponent('Modules/TestQuestionPool');
+        $importer->setImportMappingComponent('components/ILIAS/TestQuestionPool');
         $importer->setImportAssignmentList($parser->getAssignmentList());
 
         $importer->import();

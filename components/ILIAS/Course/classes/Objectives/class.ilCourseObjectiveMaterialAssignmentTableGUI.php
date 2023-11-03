@@ -21,7 +21,7 @@ declare(strict_types=0);
 /**
  * TableGUI for material assignments of course objectives
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 {
@@ -46,7 +46,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('type'), 'type', "1px");
         $this->addColumn($this->lng->txt('title'), 'title', '99%');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.crs_objective_list_materials_row.html", "Modules/Course");
+        $this->setRowTemplate("tpl.crs_objective_list_materials_row.html", "components/ILIAS/Course");
         $this->setDefaultOrderField('title');
         $this->setShowRowsSelector(true);
         $this->setNoEntriesText($this->lng->txt('crs_no_objective_lms_found'));

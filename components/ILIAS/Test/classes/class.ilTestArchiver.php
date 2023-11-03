@@ -31,7 +31,7 @@ use ILIAS\Test\InternalRequestService;
  *
  * @version $Id$
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestArchiver
 {

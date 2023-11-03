@@ -730,7 +730,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 'ADM_CONTENT',
                 'adm_content',
                 'tpl.webr_manage.html',
-                'Modules/WebResource'
+                'components/ILIAS/WebResource'
             );
             $table = new ilWebResourceEditableLinkTableGUI($this, 'view');
             $table->setInvalidLinks($invalid);
@@ -1052,7 +1052,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                             'tpl.link_dyn_param_edit.html',
                             true,
                             true,
-                            'Modules/WebResource'
+                            'components/ILIAS/WebResource'
                         );
                         $ptpl->setVariable(
                             'INFO_TXT',
@@ -1214,7 +1214,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.webr_manage.html',
-            'Modules/WebResource'
+            'components/ILIAS/WebResource'
         );
         $this->showToolbar('ACTION_BUTTONS');
 
@@ -1223,7 +1223,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $js = ilInternalLinkGUI::getInitHTML("");
 
-        $this->tpl->addJavaScript("Modules/WebResource/js/intLink.js");
+        $this->tpl->addJavaScript("components/ILIAS/WebResource/js/intLink.js");
         $this->tpl->addJavascript("Services/Form/js/Form.js");
 
         $this->tpl->setVariable('TABLE_LINKS', $table->getHTML() . $js);
@@ -1241,7 +1241,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.webr_view.html',
-            'Modules/WebResource'
+            'components/ILIAS/WebResource'
         );
         $this->showToolbar('ACTION_BUTTONS');
         $this->tpl->setVariable('LINK_TABLE', $table->getHTML());
@@ -1259,7 +1259,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.webr_view.html',
-            'Modules/WebResource'
+            'components/ILIAS/WebResource'
         );
         $this->showToolbar('ACTION_BUTTONS');
         $this->tpl->setVariable('LINK_TABLE', $table->getHTML());
@@ -1695,7 +1695,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             "tpl.export_html.html",
             true,
             true,
-            "Modules/WebResource"
+            "components/ILIAS/WebResource"
         );
 
         $items = $this->getWebLinkRepo()->getAllItemsAsContainer(true)

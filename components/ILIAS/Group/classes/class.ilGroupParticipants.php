@@ -24,13 +24,13 @@ declare(strict_types=1);
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 *
-* @ingroup ModulesGroup
+* @ingroup components\ILIASGroup
 */
 
 
 class ilGroupParticipants extends ilParticipants
 {
-    protected const COMPONENT_NAME = 'Modules/Group';
+    protected const COMPONENT_NAME = 'components/ILIAS/Group';
 
     protected static array $instances = [];
 
@@ -103,7 +103,7 @@ class ilGroupParticipants extends ilParticipants
 
         $this->logger->info('Raise new event: Modules/Group addSubscriber.');
         $this->eventHandler->raise(
-            "Modules/Group",
+            "components/ILIAS/Group",
             'addSubscriber',
             array(
                     'obj_id' => $this->getObjId(),

@@ -25,7 +25,7 @@
  * @ilCtrl_Calls ilQuestionEditGUI: assErrorTextGUI, assOrderingHorizontalGUI, assTextSubsetGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilQuestionEditGUI: assLongMenuGUI
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  */
 class ilQuestionEditGUI
 {

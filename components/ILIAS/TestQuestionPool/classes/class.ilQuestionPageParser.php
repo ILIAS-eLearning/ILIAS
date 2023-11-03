@@ -725,7 +725,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                         $import_id_parsed = ilUtil::parseImportId($a_attribs['Entry']);
                         if ($import_id_parsed['type'] == 'st') {
                             $this->mapping->addMapping(
-                                'Modules/LearningModule',
+                                'components/ILIAS/LearningModule',
                                 'lm_tree',
                                 $import_id_parsed['id'],
                                 $this->current_object->getId()
@@ -923,7 +923,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                         $import_id_parsed = ilUtil::parseImportId($this->lm_page_object->getImportId());
                         if ($import_id_parsed['type'] == 'pg') {
                             $this->mapping->addMapping(
-                                'Modules/LearningModule',
+                                'components/ILIAS/LearningModule',
                                 'pg',
                                 $import_id_parsed['id'],
                                 $this->lm_page_object->getId()

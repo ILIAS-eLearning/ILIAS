@@ -20,7 +20,7 @@
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class assFileUploadImport extends assQuestionImport
 {

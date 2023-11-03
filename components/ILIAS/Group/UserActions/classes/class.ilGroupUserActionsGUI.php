@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Group user actions
  *
  * @author Alex Killing <killing@leifos.de>
- * @ingroup ModulesGroup
+ * @ingroup components\ILIASGroup
  *
  * @ilCtrl_Calls ilGroupUserActionsGUI: ilGroupAddToGroupActionGUI
  */

@@ -619,7 +619,7 @@ class PropertyAndActionBuilderUI
                     $modal->setHeading($output_filename);
                     $modal = $modal->getHTML();
 
-                    $img_tpl = new \ilTemplate("tpl.image_file.html", true, true, "Modules/Exercise");
+                    $img_tpl = new \ilTemplate("tpl.image_file.html", true, true, "components/ILIAS/Exercise");
                     $img_tpl->setCurrentBlock("image_content");
                     $img_tpl->setVariable("MODAL", $modal);
                     $img_tpl->setVariable("ITEM_ID", $item_id);
@@ -635,7 +635,7 @@ class PropertyAndActionBuilderUI
                     );
 
                 } elseif ($this->media_type->isAudio($mime) || $this->media_type->isVideo($mime)) {
-                    $media_tpl = new \ilTemplate("tpl.media_file.html", true, true, "Modules/Exercise");
+                    $media_tpl = new \ilTemplate("tpl.media_file.html", true, true, "components/ILIAS/Exercise");
 
                     if ($this->media_type->isAudio($mime)) {
                         $p = $ui_factory->player()->audio($file['fullpath']);

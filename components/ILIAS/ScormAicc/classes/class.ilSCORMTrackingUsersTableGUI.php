@@ -21,7 +21,7 @@ declare(strict_types=1);
  * Description of class
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesScormAicc
+ * @ingroup components\ILIASScormAicc
  */
 class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 {
@@ -122,7 +122,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(false);
 
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-        $this->setRowTemplate('tpl.scorm_track_items.html', 'Modules/ScormAicc');
+        $this->setRowTemplate('tpl.scorm_track_items.html', 'components/ILIAS/ScormAicc');
         $this->setTitle($this->lng->txt('cont_tracking_items'));
 
         $this->addColumn('', '', '1px');

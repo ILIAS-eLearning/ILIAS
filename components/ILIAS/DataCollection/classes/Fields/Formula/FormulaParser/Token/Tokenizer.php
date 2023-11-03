@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Token;
+namespace ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Token;
 
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Math\Operators;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Math\Functions;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Math\Operators;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Math\Functions;
 
 class Tokenizer
 {

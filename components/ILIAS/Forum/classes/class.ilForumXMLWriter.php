@@ -26,7 +26,7 @@ declare(strict_types=1);
  * The author is responsible for well-formedness and validity
  * of the xml document.
  * @author  Andreas Kordosz (akordosz@databay.de)
- * @ingroup ModulesFile
+ * @ingroup components\ILIASFile
  */
 class ilForumXMLWriter extends ilXmlWriter
 {

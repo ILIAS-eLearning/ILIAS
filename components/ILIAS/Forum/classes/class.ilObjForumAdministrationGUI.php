@@ -28,7 +28,7 @@ use ILIAS\Data\Result\Ok;
  * @author            Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls      ilObjForumAdministrationGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjForumAdministrationGUI: ilAdministrationGUI
- * @ingroup           ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {

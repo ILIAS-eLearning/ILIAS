@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Modules\OrgUnit\ARHelper\DIC;
+use ILIAS\components\OrgUnit\ARHelper\DIC;
 
 /**
  * Class ilBiblTranslationGUI

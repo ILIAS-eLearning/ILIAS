@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilChatroomServerSettings
  * @author  Andreas Kordosz <akordosz@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilChatroomServerSettings
 {

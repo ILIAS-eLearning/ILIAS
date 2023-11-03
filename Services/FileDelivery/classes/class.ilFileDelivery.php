@@ -22,7 +22,7 @@ use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\FileDelivery\HttpServiceAware;
 use ILIAS\FileDelivery\ilFileDeliveryService;
-use ILIAS\Modules\File\Settings\General;
+use ILIAS\components\File\Settings\General;
 
 /**
  * Class ilFileDelivery

@@ -28,7 +28,7 @@ use ILIAS\Skill\Service\SkillPersonalService;
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestSkillEvaluation
 {

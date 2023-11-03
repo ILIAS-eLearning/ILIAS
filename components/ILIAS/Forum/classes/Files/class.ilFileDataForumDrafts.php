@@ -23,7 +23,7 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 /**
  * This class handles all operations on files for the forum object.
  * @author    Stefan Meyer <meyer@leifos.com>
- * @ingroup   ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilFileDataForumDrafts implements ilFileDataForumInterface
 {

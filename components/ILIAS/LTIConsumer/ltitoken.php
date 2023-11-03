@@ -24,7 +24,7 @@ use ILIAS\Filesystem\Exception\IOException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
 
-chdir("../../");
+chdir("../../../");
 
 require_once("Services/Init/classes/class.ilInitialisation.php");
 

@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Modules\EmployeeTalk\Talk\Repository;
+namespace ILIAS\components\EmployeeTalk\Talk\Repository;
 
 use ilObjTalkTemplate;
 use ilTree;

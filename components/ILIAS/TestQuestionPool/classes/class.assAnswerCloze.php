@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Class for cloze question numeric answers
@@ -28,7 +28,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @version	$Id$
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  *
  * @see ASS_AnswerBinaryState
  *

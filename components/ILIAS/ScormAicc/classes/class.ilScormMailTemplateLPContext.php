@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Handles scorm mail placeholders
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @package ModulesCourse
+ * @package components\ILIASCourse
  */
 class ilScormMailTemplateLPContext extends ilMailTemplateContext
 {

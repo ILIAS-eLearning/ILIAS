@@ -105,7 +105,7 @@ class ilTermListTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.term_tbl_row.html", "Modules/Glossary");
+        $this->setRowTemplate("tpl.term_tbl_row.html", "components/ILIAS/Glossary");
         $this->setEnableTitle(true);
 
         $this->addMultiCommand("copyTerms", $this->lng->txt("copy"));

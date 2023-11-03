@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author	Björn Heyser <bheyser@databay.de>
  * @version	$Id: class.ilTestMissingQuestionPoolIdParameterException.php 44690 2013-09-10 13:38:03Z bheyser $
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestMissingSourcePoolDefinitionParameterException extends ilTestException
 {

@@ -73,7 +73,7 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
         $up = $this->gui->symbol()->glyph("up")->render();
         $down = $this->gui->symbol()->glyph("down")->render();
 
-        $tpl = new ilTemplate("tpl.adv_col_sort_input.html", true, true, "Modules/Glossary");
+        $tpl = new ilTemplate("tpl.adv_col_sort_input.html", true, true, "components/ILIAS/Glossary");
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $k => $v) {
                 $tpl->setCurrentBlock("item");

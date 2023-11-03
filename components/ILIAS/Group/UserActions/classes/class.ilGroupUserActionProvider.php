@@ -99,7 +99,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
         switch ($a_action_type) {
             case "add_to":
                 return array(
-                    "./Modules/Group/UserActions/js/GroupUserActions.js",
+                    "./components/ILIAS/Group/UserActions/js/GroupUserActions.js",
                     "./src/UI/templates/js/Modal/modal.js",
                     ilExplorerBaseGUI::getLocalExplorerJsPath(),
                     ilExplorerBaseGUI::getLocalJsTreeJsPath()

@@ -91,7 +91,7 @@ class ilLMNavigationRendererGUI
     {
         $page_id = $this->current_page;
 
-        $tpl = new ilTemplate("tpl.lm_navigation.html", true, true, "Modules/LearningModule/Presentation");
+        $tpl = new ilTemplate("tpl.lm_navigation.html", true, true, "components/ILIAS/LearningModule/Presentation");
 
         if (empty($page_id)) {
             return "";

@@ -210,7 +210,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         if ($member->notify() && $member->finalized()) {
             $info->addProperty($this->txt('grading_record'), nl2br($member->record()));
             if (($member->viewFile()) && $member->fileName() && $member->fileName() != "") {
-                $tpl = new ilTemplate("tpl.iass_user_file_download.html", true, true, "Modules/IndividualAssessment");
+                $tpl = new ilTemplate("tpl.iass_user_file_download.html", true, true, "components/ILIAS/IndividualAssessment");
                 $tpl->setVariable("FILE_NAME", $member->fileName());
                 $tpl->setVariable("HREF", $this->ctrl->getLinkTarget($this, "downloadFile"));
                 $info->addProperty($this->txt('iass_upload_file'), $tpl->get());

@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Group Pool listener. Listens to events of other components.
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesGroup
+ * @ingroup components\ILIASGroup
  */
 class ilGroupAppEventListener
 {
@@ -79,7 +79,7 @@ class ilGroupAppEventListener
     /**
     * Handle an event in a listener.
     *
-    * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
+    * @param	string	$a_component	component, e.g. "components/ILIAS/Forum" or "Services/User"
     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */

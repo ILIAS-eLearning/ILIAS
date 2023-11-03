@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilLTIConsumerProviderTableGUI extends ilTable2GUI
 {
@@ -103,7 +103,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate('tpl.lti_consume_provider_table_row.html', 'Modules/LTIConsumer');
+        $this->setRowTemplate('tpl.lti_consume_provider_table_row.html', 'components/ILIAS/LTIConsumer');
 
         $this->setTitle($DIC->language()->txt('tbl_provider_header'));
         //$this->setDescription($DIC->language()->txt('tbl_provider_header_info'));

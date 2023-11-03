@@ -25,7 +25,7 @@ use ILIAS\HTTP\Services as HTTPService;
 use ILIAS\Data\Factory as DataFactory;
 
 /**
- * @package Modules/Test
+ * @package components\ILIAS/Test
  * Results for one user and pass in a Presentation Table
  */
 class ilTestResultsPresentationFactory

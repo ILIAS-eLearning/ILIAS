@@ -20,7 +20,7 @@
  *
  * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id: $
- * @ingroup ModulesMediaPool
+ * @ingroup components\ILIASMediaPool
  */
 class ilFileImporter extends ilXmlImporter
 {
@@ -59,7 +59,7 @@ class ilFileImporter extends ilXmlImporter
 
         $newObj->update();        // this is necessary for case ii (e.g. wiki import)
 
-        $a_mapping->addMapping("Modules/File", "file", $a_id, $newObj->getId());
+        $a_mapping->addMapping("components/ILIAS/File", "file", $a_id, $newObj->getId());
         $a_mapping->addMapping(
             "Services/MetaData",
             "md",

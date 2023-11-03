@@ -26,7 +26,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @author  Jan Posselt <jposselt@databay.de>
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilChatroomTabGUIFactory
 {

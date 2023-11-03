@@ -24,7 +24,7 @@ use ILIAS\UI\Component\Modal\Interruptive;
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestNavigationToolbarGUI extends ilToolbarGUI
 {

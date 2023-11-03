@@ -55,7 +55,7 @@ class SlotGUI
     {
         global $DIC;
         $ui = $DIC->ui();
-        $tpl = new \ilTemplate("tpl.slot.html", true, true, "Modules/BookingManager/BookingProcess");
+        $tpl = new \ilTemplate("tpl.slot.html", true, true, "components/ILIAS/BookingManager/BookingProcess");
 
         $modal = $ui->factory()->modal()->roundtrip("", $ui->factory()->legacy(""));
         $url = $this->link . '&replaceSignal=' . $modal->getReplaceSignal()->getId();

@@ -119,7 +119,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
                 $emails = explode(",", $crs->getContactEmail());
                 foreach ($emails as $email) {
                     $email = trim($email);
-                    $etpl = new ilTemplate("tpl.crs_contact_email.html", true, true, 'Modules/Course');
+                    $etpl = new ilTemplate("tpl.crs_contact_email.html", true, true, 'components/ILIAS/Course');
                     $etpl->setVariable(
                         "EMAIL_LINK",
                         ilMailFormCall::getLinkTarget(

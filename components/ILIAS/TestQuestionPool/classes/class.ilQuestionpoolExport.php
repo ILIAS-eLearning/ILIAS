@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * Export class for questionpools
@@ -25,7 +25,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 *
 * @version $Id$
 *
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class ilQuestionpoolExport
 {

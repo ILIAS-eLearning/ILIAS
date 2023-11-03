@@ -88,7 +88,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
     */
     public function insert($a_tpl)
     {
-        $tpl = new ilTemplate("tpl.prop_randomtestroinput.html", true, true, "Modules/Test");
+        $tpl = new ilTemplate("tpl.prop_randomtestroinput.html", true, true, "components/ILIAS/Test");
         $i = 0;
         foreach ($this->values as $value) {
             if ($value['num_of_q'] > 0) {

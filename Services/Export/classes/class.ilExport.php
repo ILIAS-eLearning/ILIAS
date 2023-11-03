@@ -57,7 +57,7 @@ class ilExport
 
     /**
      * Get configuration (note that configurations are optional, null may be returned!)
-     * @param string $a_comp component (e.g. "Modules/Glossary")
+     * @param string $a_comp component (e.g. "components/ILIAS/Glossary")
      * @return ilExportConfig $a_comp configuration object
      * @throws ilExportException thronw if no config exists
      */
@@ -476,7 +476,7 @@ class ilExport
 
     /**
      * Process exporter
-     * @param string $a_comp           e.g. "Modules/Forum"
+     * @param string $a_comp           e.g. "components/ILIAS/Forum"
      * @param string $a_class
      * @param string $a_entity         e.g. "frm"
      * @param string $a_target_release e.g. "5.1.0"

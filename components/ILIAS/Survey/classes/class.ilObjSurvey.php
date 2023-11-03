@@ -3240,10 +3240,10 @@ class ilObjSurvey extends ilObject
                 $this->svy_log->debug("question pool id = " . $svy_qpl_id);
 
                 $imp = new ilImport();
-                $config = $imp->getConfig("Modules/Survey");
+                $config = $imp->getConfig("components/ILIAS/Survey");
                 $config->setQuestionPoolID($svy_qpl_id);
-                $imp->getMapping()->addMapping("Modules/Survey", "svy", 0, $this->getId());
-                $imp->importFromDirectory($import_subdir, "svy", "Modules/Survey");
+                $imp->getMapping()->addMapping("components/ILIAS/Survey", "svy", 0, $this->getId());
+                $imp->importFromDirectory($import_subdir, "svy", "components/ILIAS/Survey");
                 $this->svy_log->debug("config(Modules/survey)->getQuestionPoolId =" . $config->getQuestionPoolID());
             }
         }

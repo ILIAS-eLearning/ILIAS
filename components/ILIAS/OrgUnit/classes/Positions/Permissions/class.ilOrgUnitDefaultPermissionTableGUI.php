@@ -16,7 +16,7 @@
  ********************************************************************
  */
 
-use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
+use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitPermissionTableGUI
@@ -54,7 +54,7 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->disable('sort');
         $this->setFormAction($this->dic()->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->disable('numinfo');
-        $this->setRowTemplate("tpl.obj_role_template_perm_row.html", "Modules/OrgUnit");
+        $this->setRowTemplate("tpl.obj_role_template_perm_row.html", "components/ILIAS/OrgUnit");
         $this->setShowRowsSelector(false);
         $this->setDisableFilterHiding(true);
         $this->setData($this->ilOrgUnitPermission->getPossibleOperations());

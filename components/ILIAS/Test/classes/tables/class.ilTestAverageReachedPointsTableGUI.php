@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @author  Helmut Schottmüller <ilias@aurealis.de>
  * @version $Id$
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 {
@@ -41,7 +41,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("percentage"), 'percentage', '');
         $this->addColumn($this->lng->txt("number_of_answers"), 'answers', '');
 
-        $this->setRowTemplate("tpl.il_as_tst_average_reached_points_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_average_reached_points_row.html", "components/ILIAS/Test");
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 

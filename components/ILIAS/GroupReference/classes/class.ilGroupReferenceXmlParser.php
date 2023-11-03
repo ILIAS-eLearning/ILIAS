@@ -11,7 +11,7 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceXm
  * @author Fabian Wolf <wolf@leifos.com>
  * @extends ilContainerReferenceXmlParser
  *
- * @ingroup ModulesGroupReference
+ * @ingroup components\ILIASGroupReference
  */
 class ilGroupReferenceXmlParser extends ilContainerReferenceXmlParser
 {

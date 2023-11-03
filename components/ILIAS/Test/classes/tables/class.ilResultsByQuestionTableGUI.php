@@ -26,7 +26,7 @@ declare(strict_types=1);
  *
  * @version $Id$
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilResultsByQuestionTableGUI extends ilTable2GUI
 {
@@ -41,7 +41,7 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("file_uploads"), "", "20%");
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj));
-        $this->setRowTemplate("tpl.table_results_by_question_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.table_results_by_question_row.html", "components/ILIAS/Test");
         $this->setDefaultOrderField("question_title");
         $this->setDefaultOrderDirection("asc");
     }

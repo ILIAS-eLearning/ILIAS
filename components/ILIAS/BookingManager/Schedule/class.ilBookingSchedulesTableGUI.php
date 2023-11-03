@@ -53,7 +53,7 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.booking_schedule_row.html", "Modules/BookingManager");
+        $this->setRowTemplate("tpl.booking_schedule_row.html", "components/ILIAS/BookingManager");
         $this->domain = $DIC
             ->bookingManager()
             ->internal()

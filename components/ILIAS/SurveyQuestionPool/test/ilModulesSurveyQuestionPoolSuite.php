@@ -31,7 +31,7 @@ class ilModulesSurveyQuestionPoolSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/SurveyQuestionPool/test/SplEditingGUIRequestTest.php");
+        require_once("./components/ILIAS/SurveyQuestionPool/test/SplEditingGUIRequestTest.php");
         $suite->addTestSuite("SplEditingGUIRequestTest");
 
         return $suite;

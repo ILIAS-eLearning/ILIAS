@@ -24,7 +24,7 @@ use ILIAS\HTTP\Services as HTTPService;
 /**
  * TableGUI class for search results
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesWebResource
+ * @ingroup components\ILIASWebResource
  */
 class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 {
@@ -63,7 +63,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         );
         $this->setRowTemplate(
             "tpl.webr_editable_link_row.html",
-            'Modules/WebResource'
+            'components/ILIAS/WebResource'
         );
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(true);

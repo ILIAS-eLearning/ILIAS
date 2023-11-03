@@ -467,10 +467,10 @@ class ilLearningModuleDataSet extends ilDataSet
                 $newObj->setStoreTries($a_rec["StoreTries"]);
                 $newObj->setRestrictForwardNavigation($a_rec["RestrictForwNav"]);
                 if ($a_rec["HeaderPage"] > 0) {
-                    $a_mapping->addMapping("Modules/LearningModule", "lm_header_page", $a_rec["HeaderPage"], "-");
+                    $a_mapping->addMapping("components/ILIAS/LearningModule", "lm_header_page", $a_rec["HeaderPage"], "-");
                 }
                 if ($a_rec["FooterPage"] > 0) {
-                    $a_mapping->addMapping("Modules/LearningModule", "lm_footer_page", $a_rec["FooterPage"], "-");
+                    $a_mapping->addMapping("components/ILIAS/LearningModule", "lm_footer_page", $a_rec["FooterPage"], "-");
                 }
 
                 $newObj->update();
@@ -482,8 +482,8 @@ class ilLearningModuleDataSet extends ilDataSet
                     $this->reading_time_manager->activate($newObj->getId(), true);
                 }
 
-                $a_mapping->addMapping("Modules/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("Modules/LearningModule", "lm_style", $newObj->getId(), $a_rec["StyleId"]);
+                $a_mapping->addMapping("components/ILIAS/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/LearningModule", "lm_style", $newObj->getId(), $a_rec["StyleId"]);
                 $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
                     "Services/MetaData",
@@ -497,7 +497,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 if (!$this->getTranslationImportMode()) {
                     switch ($a_rec["Type"]) {
                         case "st":
-                            $parent = (int) $a_mapping->getMapping("Modules/LearningModule", "lm_tree", $a_rec["Parent"]);
+                            $parent = (int) $a_mapping->getMapping("components/ILIAS/LearningModule", "lm_tree", $a_rec["Parent"]);
                             $st_obj = new ilStructureObject($this->current_obj);
                             $st_obj->setType("st");
                             $st_obj->setLMId($this->current_obj->getId());
@@ -507,7 +507,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             $st_obj->create(true);
                             ilLMObject::putInTree($st_obj, $parent, ilTree::POS_LAST_NODE);
                             $a_mapping->addMapping(
-                                "Modules/LearningModule",
+                                "components/ILIAS/LearningModule",
                                 "lm_tree",
                                 $a_rec["Child"],
                                 $st_obj->getId()
@@ -521,7 +521,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             break;
 
                         case "pg":
-                            $parent = (int) $a_mapping->getMapping("Modules/LearningModule", "lm_tree", $a_rec["Parent"]);
+                            $parent = (int) $a_mapping->getMapping("components/ILIAS/LearningModule", "lm_tree", $a_rec["Parent"]);
                             $pg_obj = new ilLMPageObject($this->current_obj);
                             $pg_obj->setType("pg");
                             $pg_obj->setLMId($this->current_obj->getId());
@@ -531,12 +531,12 @@ class ilLearningModuleDataSet extends ilDataSet
                             $pg_obj->create(true, true);
                             ilLMObject::putInTree($pg_obj, $parent, ilTree::POS_LAST_NODE);
                             $a_mapping->addMapping(
-                                "Modules/LearningModule",
+                                "components/ILIAS/LearningModule",
                                 "lm_tree",
                                 $a_rec["Child"],
                                 $pg_obj->getId()
                             );
-                            $a_mapping->addMapping("Modules/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());
+                            $a_mapping->addMapping("components/ILIAS/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());
                             $this->lm_log->debug("add pg map (1), old : " . $a_rec["Child"] . ", new: " . $pg_obj->getId());
                             $a_mapping->addMapping(
                                 "Services/COPage",
@@ -562,12 +562,12 @@ class ilLearningModuleDataSet extends ilDataSet
                             $pg_obj->setImportId($a_rec["ImportId"]);
                             $pg_obj->create(true, true);
                             $a_mapping->addMapping(
-                                "Modules/LearningModule",
+                                "components/ILIAS/LearningModule",
                                 "lm_tree",
                                 $a_rec["Child"],
                                 $pg_obj->getId()
                             );
-                            $a_mapping->addMapping("Modules/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());
+                            $a_mapping->addMapping("components/ILIAS/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());
                             $this->lm_log->debug("add pg map (2), old : " . $a_rec["Child"] . ", new: " . $pg_obj->getId());
                             $a_mapping->addMapping(
                                 "Services/COPage",
@@ -598,7 +598,7 @@ class ilLearningModuleDataSet extends ilDataSet
                                     $trans->setTitle($a_rec["Title"]);
                                     $trans->save();
                                     $a_mapping->addMapping(
-                                        "Modules/LearningModule",
+                                        "components/ILIAS/LearningModule",
                                         "link",
                                         "il_" . $this->getCurrentInstallationId() . "_" . $a_rec["Type"] . "_" . $a_rec["Child"],
                                         $a_rec["ImportId"]
@@ -620,10 +620,10 @@ class ilLearningModuleDataSet extends ilDataSet
                                     $trans = new ilLMObjTranslation($pg_id, $this->getTranslationLang());
                                     $trans->setTitle($a_rec["Title"]);
                                     $trans->save();
-                                    $a_mapping->addMapping("Modules/LearningModule", "pg", $a_rec["Child"], $pg_id);
+                                    $a_mapping->addMapping("components/ILIAS/LearningModule", "pg", $a_rec["Child"], $pg_id);
                                     $this->lm_log->debug("add pg map (3), old : " . $a_rec["Child"] . ", new: " . $pg_id);
                                     $a_mapping->addMapping(
-                                        "Modules/LearningModule",
+                                        "components/ILIAS/LearningModule",
                                         "link",
                                         "il_" . $this->getCurrentInstallationId() . "_" . $a_rec["Type"] . "_" . $a_rec["Child"],
                                         $a_rec["ImportId"]
@@ -645,7 +645,7 @@ class ilLearningModuleDataSet extends ilDataSet
             case "lm_data_transl":
                 if (!$this->getTranslationImportMode()) {
                     // save page/chapter title translation
-                    $lm_obj_id = $a_mapping->getMapping("Modules/LearningModule", "lm_tree", $a_rec["Id"]);
+                    $lm_obj_id = $a_mapping->getMapping("components/ILIAS/LearningModule", "lm_tree", $a_rec["Id"]);
                     if ($lm_obj_id > 0) {
                         $t = new ilLMObjTranslation($lm_obj_id, $a_rec["Lang"]);
                         $t->setTitle($a_rec["Title"]);
@@ -656,7 +656,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 break;
 
             case "lm_menu":
-                $lm_id = (int) $a_mapping->getMapping("Modules/LearningModule", "lm", $a_rec["LmId"]);
+                $lm_id = (int) $a_mapping->getMapping("components/ILIAS/LearningModule", "lm", $a_rec["LmId"]);
                 if ($lm_id > 0) {
                     $lm_menu_ed = new ilLMMenuEditor();
                     $lm_menu_ed->setObjId($lm_id);

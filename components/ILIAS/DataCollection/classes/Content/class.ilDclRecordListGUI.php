@@ -273,7 +273,7 @@ class ilDclRecordListGUI
      */
     public function endImport(int $i, array $warnings): void
     {
-        $output = new ilTemplate("tpl.dcl_import_terminated.html", true, true, "Modules/DataCollection");
+        $output = new ilTemplate("tpl.dcl_import_terminated.html", true, true, "components/ILIAS/DataCollection");
         $output->setVariable("IMPORT_TERMINATED", $this->lng->txt("dcl_import_terminated") . ": " . $i);
         foreach ($warnings as $warning) {
             $output->setCurrentBlock("warnings");

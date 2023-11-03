@@ -110,7 +110,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         $this->setData($tableData);
 
         if ($this->tableMode == self::TBL_MODE_ADMINISTRATION) {
-            $this->setRowTemplate('tpl.tst_question_hints_administration_table_row.html', 'Modules/TestQuestionPool');
+            $this->setRowTemplate('tpl.tst_question_hints_administration_table_row.html', 'components/ILIAS/TestQuestionPool');
 
             $this->setSelectAllCheckbox('hint_ids[]');
 
@@ -118,7 +118,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
             $this->initAdministrationColumns($rowCount);
             $this->initAdministrationCommands($rowCount);
         } else {
-            $this->setRowTemplate('tpl.tst_question_hints_testoutput_table_row.html', 'Modules/TestQuestionPool');
+            $this->setRowTemplate('tpl.tst_question_hints_testoutput_table_row.html', 'components/ILIAS/TestQuestionPool');
 
             $this->initTestoutputColumns();
             $this->initTestoutputCommands();

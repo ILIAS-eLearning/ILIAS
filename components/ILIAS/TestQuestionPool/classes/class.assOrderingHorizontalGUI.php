@@ -15,7 +15,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * The assOrderingHorizontalGUI class encapsulates the GUI representation for horizontal ordering questions.
@@ -26,7 +26,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @version	$Id$
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  *
  * @ilctrl_iscalledby assOrderingHorizontalGUI: ilObjQuestionPoolGUI
  * @ilCtrl_Calls assOrderingHorizontalGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
@@ -139,7 +139,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         $show_question_text = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
-        $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output_solution.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
 
         if (($active_id > 0) && (!$show_correct_solution)) {
             $elements = [];
@@ -203,7 +203,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         }
 
         $questionoutput = $template->get();
-        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
+        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 
@@ -241,7 +241,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $elements = $this->object->getRandomOrderingElements();
         }
 
-        $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_preview.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_preview.html", true, true, "components/ILIAS/TestQuestionPool");
         $js = <<<JS
 
         $('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
@@ -277,7 +277,7 @@ JS;
             iljQueryUtil::initjQueryUI();
             $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
         }
-        $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
+        $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/orderinghorizontal.js");
         return $questionoutput;
     }
 
@@ -286,7 +286,7 @@ JS;
     // hey.
     {
         // generate the question output
-        $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $js = <<<JS
     $().ready(function() {
         if (typeof $.fn.ilHorizontalOrderingQuestion != 'undefined') {
@@ -339,7 +339,7 @@ JS;
             iljQueryUtil::initjQueryUI();
             $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
         }
-        $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
+        $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/orderinghorizontal.js");
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
         return $pageoutput;
@@ -456,7 +456,7 @@ JS;
      */
     public function renderAggregateView($aggregate): ilTemplate
     {
-        $tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($aggregate as $key => $line_data) {
             $tpl->setCurrentBlock('aggregaterow');

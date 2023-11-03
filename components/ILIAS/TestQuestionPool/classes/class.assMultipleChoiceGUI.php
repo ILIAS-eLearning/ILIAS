@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Multiple choice question GUI representation
@@ -29,7 +29,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @author		Maximilian Becker <mbecker@databay.de>
  * @version	$Id$
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  * @ilCtrl_Calls assMultipleChoiceGUI: ilFormPropertyDispatchGUI
  */
 class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
@@ -241,8 +241,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             }
         }
 
-        $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output_solution.html", true, true, "Modules/TestQuestionPool");
-        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
+        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
             if (($active_id > 0) && (!$show_correct_solution)) {
@@ -417,7 +417,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $keys = $this->getChoiceKeys();
 
         $this->tpl->addOnLoadCode('ilAssMultipleChoiceCharCounterInit();');
-        $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "components/ILIAS/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
             if (strlen($answer->getImage())) {
@@ -534,10 +534,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             }
         }
         // generate the question output
-        $this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+        $this->tpl->addJavaScript('components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js');
         $this->tpl->addOnLoadCode('ilAssMultipleChoiceCharCounterInit();');
 
-        $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "components/ILIAS/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
             if (strlen($answer->getImage())) {
@@ -621,9 +621,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     protected function getUseUnchangedAnswerCheckboxHtml(): string
     {
         // hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
-        $this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+        $this->tpl->addJavaScript('components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js');
 
-        $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+        $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'components/ILIAS/TestQuestionPool');
 
         // HEY: affects next if (!) /// noneAboveChecked repaired but disabled because the checked input ..
         if (false) { // .. makes the qstEditController initialize the "edit" instead of the "answered" state
@@ -643,7 +643,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function getPresentationJavascripts(): array
     {
-        return array('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+        return array('components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js');
     }
 
     /**
@@ -895,7 +895,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     public function renderAggregateView($aggregate): ilTemplate
     {
-        $tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "components/ILIAS/TestQuestionPool");
 
         $tpl->setCurrentBlock('headercell');
         $tpl->setVariable('HEADER', $this->lng->txt('tst_answer_aggr_answer_header'));

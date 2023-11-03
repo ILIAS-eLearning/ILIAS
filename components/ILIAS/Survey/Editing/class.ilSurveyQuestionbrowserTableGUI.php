@@ -68,7 +68,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 
         $this->addMultiCommand('insertQuestions', $this->lng->txt('insert'));
 
-        $this->setRowTemplate("tpl.il_svy_svy_questionbrowser_row.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.il_svy_svy_questionbrowser_row.html", "components/ILIAS/Survey");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");

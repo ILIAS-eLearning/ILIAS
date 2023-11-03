@@ -39,6 +39,6 @@ class ilChatroomImporter extends ilXmlImporter
         $parser->setImportInstallId($this->getInstallId());
         $parser->startParsing();
 
-        $a_mapping->addMapping('Modules/Chatroom', 'chtr', $a_id, (string) $newObj->getId());
+        $a_mapping->addMapping('components/ILIAS/Chatroom', 'chtr', $a_id, (string) $newObj->getId());
     }
 }

@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @version $Id$
 *
 *
-* @ingroup ModulesRemoteLearningModule
+* @ingroup components\ILIASRemoteLearningModule
 */
 
 class ilObjRemoteLearningModuleAccess extends ilObjectAccess

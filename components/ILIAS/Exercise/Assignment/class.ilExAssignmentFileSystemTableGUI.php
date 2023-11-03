@@ -62,7 +62,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
         $this->setLimit(9999);
 
         //default template with order block
-        //$this->setRowTemplate("tpl.exc_ass_instruction_file_row.html", "Modules/Exercise");
+        //$this->setRowTemplate("tpl.exc_ass_instruction_file_row.html", "components/ILIAS/Exercise");
         $this->setDefaultOrderField("order_val");
         $this->setDefaultOrderDirection("asc");
     }

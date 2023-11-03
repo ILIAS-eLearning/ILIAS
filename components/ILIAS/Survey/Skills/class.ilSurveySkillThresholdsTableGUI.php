@@ -69,7 +69,7 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("survey_skill_level"));
         $this->addColumn($this->lng->txt("survey_up_to_x_points"));
 
-        $this->setRowTemplate("tpl.svy_skill_threshold_row.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.svy_skill_threshold_row.html", "components/ILIAS/Survey");
 
         //		$this->addMultiCommand("saveThresholds", $lng->txt("save"));
         $this->addCommandButton("saveThresholds", $lng->txt("save"));

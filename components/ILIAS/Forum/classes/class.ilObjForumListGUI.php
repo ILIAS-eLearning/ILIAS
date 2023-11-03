@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilObjForumListGUI
  * @author  Alex Killing <alex.killing@gmx.de>
  * $Id$
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilObjForumListGUI extends ilObjectListGUI
 {

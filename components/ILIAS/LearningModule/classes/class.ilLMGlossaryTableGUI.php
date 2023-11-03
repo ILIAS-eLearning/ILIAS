@@ -54,7 +54,7 @@ class ilLMGlossaryTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.lm_glossary_row.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.lm_glossary_row.html", "components/ILIAS/LearningModule");
     }
 
     protected function fillRow(array $a_set): void

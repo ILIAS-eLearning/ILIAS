@@ -241,7 +241,7 @@ class ilObjOrgUnit extends ilContainer
         foreach ($user_ids as $user_id) {
             $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getRefId());
 
-            $this->ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToEmployeeRole', array(
+            $this->ilAppEventHandler->raise('components/ILIAS/OrgUnit', 'assignUsersToEmployeeRole', array(
                 'object' => $this,
                 'obj_id' => $this->getId(),
                 'ref_id' => $this->getRefId(),
@@ -264,7 +264,7 @@ class ilObjOrgUnit extends ilContainer
         foreach ($user_ids as $user_id) {
             $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getRefId());
 
-            $this->ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToSuperiorRole', array(
+            $this->ilAppEventHandler->raise('components/ILIAS/OrgUnit', 'assignUsersToSuperiorRole', array(
                 'object' => $this,
                 'obj_id' => $this->getId(),
                 'ref_id' => $this->getRefId(),
@@ -285,7 +285,7 @@ class ilObjOrgUnit extends ilContainer
             $this->assignmentRepo->delete($assignment);
         }
 
-        $this->ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromEmployeeRole', array(
+        $this->ilAppEventHandler->raise('components/ILIAS/OrgUnit', 'deassignUserFromEmployeeRole', array(
             'object' => $this,
             'obj_id' => $this->getId(),
             'ref_id' => $this->getRefId(),
@@ -305,7 +305,7 @@ class ilObjOrgUnit extends ilContainer
             $this->assignmentRepo->delete($assignment);
         }
 
-        $this->ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromSuperiorRole', array(
+        $this->ilAppEventHandler->raise('components/ILIAS/OrgUnit', 'deassignUserFromSuperiorRole', array(
             'object' => $this,
             'obj_id' => $this->getId(),
             'ref_id' => $this->getRefId(),
@@ -326,7 +326,7 @@ class ilObjOrgUnit extends ilContainer
 
         $return = $this->rbacadmin->assignUser($role_id, $user_id);
 
-        $this->ilAppEventHandler->raise('Modules/OrgUnit', 'assignUserToLocalRole', array(
+        $this->ilAppEventHandler->raise('components/ILIAS/OrgUnit', 'assignUserToLocalRole', array(
             'object' => $this,
             'obj_id' => $this->getId(),
             'ref_id' => $this->getRefId(),
@@ -349,7 +349,7 @@ class ilObjOrgUnit extends ilContainer
 
         $return = $this->rbacadmin->deassignUser($role_id, $user_id);
 
-        $this->ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromLocalRole', array(
+        $this->ilAppEventHandler->raise('components/ILIAS/OrgUnit', 'deassignUserFromLocalRole', array(
             'object' => $this,
             'obj_id' => $this->getId(),
             'ref_id' => $this->getRefId(),
@@ -439,7 +439,7 @@ class ilObjOrgUnit extends ilContainer
         $query = "DELETE FROM object_translation WHERE obj_id = " . $this->ilDb->quote($this->getId(), 'integer');
         $this->ilDb->manipulate($query);
 
-        $this->ilAppEventHandler->raise('Modules/OrgUnit', 'delete', array(
+        $this->ilAppEventHandler->raise('components/ILIAS/OrgUnit', 'delete', array(
             'object' => $this,
             'obj_id' => $this->getId(),
         ));

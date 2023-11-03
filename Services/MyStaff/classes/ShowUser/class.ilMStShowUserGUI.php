@@ -17,7 +17,7 @@
  */
 
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\Modules\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
+use ILIAS\components\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 
 /**

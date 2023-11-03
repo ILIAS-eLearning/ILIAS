@@ -19,7 +19,7 @@
 /**
  * Class ilAssQuestionLifecycle
  * @author      Björn Heyser <info@bjoernheyser.de>
- * @package     Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilAssQuestionLifecycle
 {

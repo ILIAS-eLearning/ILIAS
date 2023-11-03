@@ -49,7 +49,7 @@ class ilWikiImporter extends ilXmlImporter
     public function finalProcessing(
         ilImportMapping $a_mapping
     ): void {
-        $wpg_map = $a_mapping->getMappingsOfEntity("Modules/Wiki", "wpg");
+        $wpg_map = $a_mapping->getMappingsOfEntity("components/ILIAS/Wiki", "wpg");
 
         foreach ($wpg_map as $wpg_id) {
             $wiki_id = ilWikiPage::lookupWikiId($wpg_id);

@@ -16,11 +16,11 @@
  ********************************************************************
  */
 
-namespace ILIAS\Modules\OrgUnit\ARHelper;
+namespace ILIAS\components\OrgUnit\ARHelper;
 
 /**
  * Class BaseForm
- * @package ILIAS\Modules\OrgUnit\CtrlHelper
+ * @package ILIAS\components\OrgUnit\CtrlHelper
  */
 abstract class BaseForm extends \ilPropertyFormGUI
 {

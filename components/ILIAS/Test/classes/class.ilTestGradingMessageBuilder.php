@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestGradingMessageBuilder
 {
@@ -207,7 +207,7 @@ class ilTestGradingMessageBuilder
 
     public function initListTemplate()
     {
-        $this->tpl = new ilTemplate('tpl.tst_grading_msg_list.html', true, true, 'Modules/Test');
+        $this->tpl = new ilTemplate('tpl.tst_grading_msg_list.html', true, true, 'components/ILIAS/Test');
     }
 
     private function populateListEntry($label, $value)

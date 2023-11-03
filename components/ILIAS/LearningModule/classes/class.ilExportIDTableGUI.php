@@ -81,7 +81,7 @@ class ilExportIDTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cont_export_id"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.export_id_row.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.export_id_row.html", "components/ILIAS/LearningModule");
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
 

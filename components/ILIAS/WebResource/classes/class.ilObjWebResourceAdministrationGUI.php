@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Web Resource Administration Settings.
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjWebResourceAdministrationGUI: ilPermissionGUI
- * @ingroup      ModulesWebResource
+ * @ingroup components\ILIASWebResource
  */
 class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 {

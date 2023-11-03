@@ -11,7 +11,7 @@ declare(strict_types=1);
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * $Id: class.ilObjCourseGUI.php 31646 2011-11-14 11:39:37Z jluetzen $
 *
-* @ingroup ModulesGroup
+* @ingroup components\ILIASGroup
 */
 class ilECSGroupSettings extends ilECSObjectSettings
 {

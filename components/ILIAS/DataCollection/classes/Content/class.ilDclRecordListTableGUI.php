@@ -58,7 +58,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->table = $table;
         $this->parent_obj = $a_parent_obj;
-        $this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
+        $this->setRowTemplate("tpl.record_list_row.html", "components/ILIAS/DataCollection");
         $this->mode = $mode;
 
         // Setup columns and sorting columns

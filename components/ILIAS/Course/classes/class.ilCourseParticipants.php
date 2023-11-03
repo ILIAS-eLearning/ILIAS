@@ -19,11 +19,11 @@ declare(strict_types=0);
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseParticipants extends ilParticipants
 {
-    protected const COMPONENT_NAME = 'Modules/Course';
+    protected const COMPONENT_NAME = 'components/ILIAS/Course';
 
     protected static array $instances = [];
 
@@ -80,7 +80,7 @@ class ilCourseParticipants extends ilParticipants
     {
         parent::addSubscriber($a_usr_id);
         $this->eventHandler->raise(
-            "Modules/Course",
+            "components/ILIAS/Course",
             'addSubscriber',
             array(
                 'obj_id' => $this->getObjId(),
@@ -157,7 +157,7 @@ class ilCourseParticipants extends ilParticipants
         if (strlen($update_query)) {
             $ilDB->manipulate($update_query);
             if ($a_passed) {
-                $ilAppEventHandler->raise('Modules/Course', 'participantHasPassedCourse', array(
+                $ilAppEventHandler->raise('components/ILIAS/Course', 'participantHasPassedCourse', array(
                     'obj_id' => $a_obj_id,
                     'usr_id' => $a_usr_id,
                 ));

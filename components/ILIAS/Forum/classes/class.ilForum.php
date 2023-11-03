@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class Forum
  * core functions for forum
  * @author  Wolfgang Merkens <wmerkens@databay.de>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForum
 {
@@ -444,7 +444,7 @@ class ilForum
         );
 
         $this->event->raise(
-            'Modules/Forum',
+            'components/ILIAS/Forum',
             'movedThreads',
             [
                 'source_ref_id' => $src_forum->getId(),
@@ -507,7 +507,7 @@ class ilForum
         }
 
         $this->event->raise(
-            'Modules/Forum',
+            'components/ILIAS/Forum',
             'censoredPost',
             [
                 'ref_id' => $this->getForumRefId(),
@@ -545,7 +545,7 @@ class ilForum
             }
 
             $this->event->raise(
-                'Modules/Forum',
+                'components/ILIAS/Forum',
                 'beforePostDeletion',
                 [
                     'obj_id' => $this->getForumId(),
@@ -706,7 +706,7 @@ class ilForum
 
         if ($raiseEvents) {
             $this->event->raise(
-                'Modules/Forum',
+                'components/ILIAS/Forum',
                 'afterPostDeletion',
                 [
                     'obj_id' => $this->getForumId(),
@@ -1741,7 +1741,7 @@ class ilForum
         }
 
         $this->event->raise(
-            'Modules/Forum',
+            'components/ILIAS/Forum',
             'mergedThreads',
             [
                 'obj_id' => $this->getForumId(),

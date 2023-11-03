@@ -98,7 +98,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.booking_object_row.html", "Modules/BookingManager");
+        $this->setRowTemplate("tpl.booking_object_row.html", "components/ILIAS/BookingManager");
         $this->process_class = $DIC->bookingManager()
             ->internal()
             ->gui()

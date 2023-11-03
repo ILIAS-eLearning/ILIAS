@@ -25,7 +25,7 @@ declare(strict_types=1);
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class assMatchingQuestionExport extends assQuestionExport
 {

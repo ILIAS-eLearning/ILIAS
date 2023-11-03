@@ -23,7 +23,7 @@
  */
 class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    use \ILIAS\components\OrgUnit\ARHelper\DIC;
     public const F_FIELD_ID = "field_id";
     public const F_FILTER_TYPE = "filter_type";
     protected \ilBiblFactoryFacade $facade;

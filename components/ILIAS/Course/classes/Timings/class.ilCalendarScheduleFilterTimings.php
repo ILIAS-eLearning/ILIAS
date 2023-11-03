@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * Calendar schedule filter for individual timings
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
 {

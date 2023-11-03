@@ -272,7 +272,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $lng = $this->lng;
 
         $neutral_category = null;
-        $tpl = new ilTemplate("tpl.prop_categorywizardinput.html", true, true, "Modules/SurveyQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_categorywizardinput.html", true, true, "components/ILIAS/SurveyQuestionPool");
         if (is_object($this->values)) {
             for ($i = 0; $i < $this->values->getCategoryCount(); $i++) {
                 $cat = $this->values->getCategory($i);
@@ -394,6 +394,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
         $tpl = $this->tpl;
         $tpl->addJavaScript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavaScript("./Modules/SurveyQuestionPool/Categories/js/categorywizard.js");
+        $tpl->addJavaScript("./components/ILIAS/SurveyQuestionPool/Categories/js/categorywizard.js");
     }
 }

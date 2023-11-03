@@ -28,7 +28,7 @@ use ILIAS\DI\LoggingServices;
  *
  * @ilCtrl_Calls ilObjTestVerificationGUI: ilWorkspaceAccessGUI
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilObjTestVerificationGUI extends ilObject2GUI
 {

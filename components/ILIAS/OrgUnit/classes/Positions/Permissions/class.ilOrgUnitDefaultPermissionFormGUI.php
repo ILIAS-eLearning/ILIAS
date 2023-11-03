@@ -16,7 +16,7 @@
  ********************************************************************
  */
 
-use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
+use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitDefaultPermissionFormGUI
@@ -34,7 +34,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
 
     /**
      * ilOrgUnitDefaultPermissionFormGUI constructor.
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
+     * @param \ILIAS\components\OrgUnit\ARHelper\BaseCommands $parent_gui
      * @param ilOrgUnitPermission[]                        $ilOrgUnitPermissionsFilter
      * @param ilObjectDefinition                           $objectDefinition
      */

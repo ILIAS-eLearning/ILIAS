@@ -71,7 +71,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.booking_assign_participant_row.html", "Modules/BookingManager");
+        $this->setRowTemplate("tpl.booking_assign_participant_row.html", "components/ILIAS/BookingManager");
 
 
         $this->addHiddenInput('object_id', $a_booking_obj_id);

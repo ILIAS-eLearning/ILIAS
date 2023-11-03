@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Modules\EmployeeTalk\Talk;
+namespace ILIAS\components\EmployeeTalk\Talk;
 
 interface EmployeeTalkPositionAccessLevel
 {

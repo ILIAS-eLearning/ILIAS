@@ -322,7 +322,7 @@ abstract class AbstractUIModifier implements UIModifier
         $panels = [];
         $ui_factory = $this->service->gui()->ui()->factory();
 
-        $a_tpl = new \ilTemplate("tpl.svy_results_details_panel.html", true, true, "Modules/Survey/Evaluation");
+        $a_tpl = new \ilTemplate("tpl.svy_results_details_panel.html", true, true, "components/ILIAS/Survey/Evaluation");
 
         $question_res = $a_results;
         $matrix = false;
@@ -379,7 +379,7 @@ abstract class AbstractUIModifier implements UIModifier
     ): string {
         $a_results = $a_eval->getResults();
 
-        $a_tpl = new \ilTemplate("tpl.svy_results_details_table.html", true, true, "Modules/Survey/Evaluation");
+        $a_tpl = new \ilTemplate("tpl.svy_results_details_table.html", true, true, "components/ILIAS/Survey/Evaluation");
 
         // grid
         if ($request->getShowTable()) {
@@ -418,7 +418,7 @@ abstract class AbstractUIModifier implements UIModifier
     ): string {
         $a_results = $a_eval->getResults();
 
-        $a_tpl = new \ilTemplate("tpl.svy_results_details_chart.html", true, true, "Modules/Survey/Evaluation");
+        $a_tpl = new \ilTemplate("tpl.svy_results_details_chart.html", true, true, "components/ILIAS/Survey/Evaluation");
         // chart
         if ($request->getShowChart()) {
             $chart = $a_eval->getChart($a_results);
@@ -458,7 +458,7 @@ abstract class AbstractUIModifier implements UIModifier
         $question = $question_res->getQuestion();
         $lng = $this->service->gui()->lng();
 
-        $a_tpl = new \ilTemplate("tpl.svy_results_details_text.html", true, true, "Modules/Survey/Evaluation");
+        $a_tpl = new \ilTemplate("tpl.svy_results_details_text.html", true, true, "components/ILIAS/Survey/Evaluation");
 
         // text answers
         $texts = $a_eval->getTextAnswers($a_results);
@@ -508,7 +508,7 @@ abstract class AbstractUIModifier implements UIModifier
             "tpl.svy_results_details_card.html",
             true,
             true,
-            "Modules/Survey/Evaluation"
+            "components/ILIAS/Survey/Evaluation"
         );
 
         if (true) {     // formerly check for matrix type, shouldnt be needed

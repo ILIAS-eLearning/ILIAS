@@ -10,7 +10,7 @@ declare(strict_types=1);
 *
 * @version $Id$
 *
-* @ingroup ModulesGroup
+* @ingroup components\ILIASGroup
 */
 class ilGroupImporter extends ilXmlImporter
 {
@@ -47,7 +47,7 @@ class ilGroupImporter extends ilXmlImporter
             $parser = new ilGroupXMLParser($this->group, $a_xml, 0);
             $parser->setMode(ilGroupXMLParser::$UPDATE);
             $parser->startParsing();
-            $a_mapping->addMapping('Modules/Group', 'grp', $a_id, (string) $this->group->getId());
+            $a_mapping->addMapping('components/ILIAS/Group', 'grp', $a_id, (string) $this->group->getId());
             $a_mapping->addMapping(
                 'Services/MetaData',
                 'md',

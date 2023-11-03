@@ -24,7 +24,7 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class assClozeTestExport extends assQuestionExport
 {

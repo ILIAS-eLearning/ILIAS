@@ -18,7 +18,7 @@
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
- * @ingroup Modules/Course
+ * @ingroup components\ILIAS/Course
  */
 class ilCourseDefinedFieldDefinition
 {

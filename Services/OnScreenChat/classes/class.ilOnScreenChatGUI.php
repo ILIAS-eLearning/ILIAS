@@ -295,7 +295,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $page->addJavascript('./Services/Notifications/js/browser_notifications.js');
             $page->addJavascript('./Services/OnScreenChat/js/onscreenchat-notifications.js');
             $page->addJavascript('./Services/OnScreenChat/js/moment.js');
-            $page->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io-client/dist/socket.io.js');
+            $page->addJavascript('./components/ILIAS/Chatroom/chat/node_modules/socket.io-client/dist/socket.io.js');
             $page->addJavascript('./Services/OnScreenChat/js/chat.js');
             $page->addJavascript('./Services/OnScreenChat/js/onscreenchat.js');
             $page->addOnLoadCode("il.Chat.setConfig(" . json_encode($chatConfig, JSON_THROW_ON_ERROR) . ");");

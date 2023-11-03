@@ -66,7 +66,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("valid"), "valid");
         $this->addColumn($this->lng->txt("action"), "");
 
-        $this->setRowTemplate("tpl.exc_peer_review_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.exc_peer_review_row.html", "components/ILIAS/Exercise");
 
         $this->disable("numinfo");
 

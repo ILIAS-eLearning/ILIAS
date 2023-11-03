@@ -31,7 +31,7 @@ class ilModulesWikiSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/Wiki/test/WikiUtilTest.php");
+        require_once("./components/ILIAS/Wiki/test/WikiUtilTest.php");
         $suite->addTestSuite("WikiUtilTest");
 
         return $suite;

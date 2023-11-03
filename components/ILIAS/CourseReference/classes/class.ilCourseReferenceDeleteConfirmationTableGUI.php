@@ -70,7 +70,7 @@ class ilCourseReferenceDeleteConfirmationTableGUI extends ilTable2GUI
      */
     public function init()
     {
-        $this->setRowTemplate('tpl.crsr_mem_deletion_confirmation_row.html', 'Modules/CourseReference');
+        $this->setRowTemplate('tpl.crsr_mem_deletion_confirmation_row.html', 'components/ILIAS/CourseReference');
         $this->addCommandButton('deleteParticipantsWithLinkedCourses', $this->lng->txt('confirm'));
         $this->addCommandButton('participants', $this->lng->txt('cancel'));
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));

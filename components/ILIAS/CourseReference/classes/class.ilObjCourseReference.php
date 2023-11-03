@@ -30,7 +30,7 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReference.p
 * @version $Id$
 *
 *
-* @ingroup ModulesCourseReference
+* @ingroup components\ILIASCourseReference
 */
 class ilObjCourseReference extends ilContainerReference
 {

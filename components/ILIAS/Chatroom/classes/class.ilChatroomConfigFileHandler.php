@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 /**
  * Class ilChatroomConfigFileHandler
- * @package Modules\Chatroom\classes
+ * @package components\ILIAS\Chatroom\classes
  * @author  Thomas Joußen <tjoussen@databay.de>
  * @since   19.02.16
  * @version $Id$

@@ -47,7 +47,7 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.search_result.html",
-            "Modules/Wiki"
+            "components/ILIAS/Wiki"
         );
 
         $this->setData($a_results);

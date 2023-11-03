@@ -35,7 +35,7 @@ class VideoWidgetGUI
     ) {
         global $DIC;
 
-        $main_tpl->addJavaScript("Modules/MediaCast/Video/js/video_widget.js");
+        $main_tpl->addJavaScript("components/ILIAS/MediaCast/Video/js/video_widget.js");
         $this->main_tpl = $main_tpl;
         $this->dom_wrapper_id = $dom_wrapper_id;
         $this->ui = $DIC->ui();
@@ -62,7 +62,7 @@ class VideoWidgetGUI
         $video_tpl_html = $ui->renderer()->render($video);
         $video_tpl_html = str_replace("\n", "", $video_tpl_html);
 
-        $tpl = new \ilTemplate("tpl.wrapper.html", true, true, "Modules/MediaCast/Video");
+        $tpl = new \ilTemplate("tpl.wrapper.html", true, true, "components/ILIAS/MediaCast/Video");
         $f = $ui->factory();
 
         $tpl->setVariable("ID", $this->dom_wrapper_id);

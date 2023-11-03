@@ -71,7 +71,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
     {
         $this->setFormName('participants');
         $this->setDefaultOrderField('roles');
-        $this->setRowTemplate("tpl.show_participants_row.html", "Modules/LearningSequence");
+        $this->setRowTemplate("tpl.show_participants_row.html", "components/ILIAS/LearningSequence");
         $this->setShowRowsSelector(true);
         $this->setSelectAllCheckbox('participants');
 

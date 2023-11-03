@@ -47,7 +47,7 @@ class ilBookingBulkCreationTableGUI extends ilTable2GUI
         $this->setFormAction($ctrl->getFormAction($a_parent_obj, "createObjects"));
         $this->setRowTemplate(
             "tpl.bulk_creation_row.html",
-            "Modules/BookingManager/Objects"
+            "components/ILIAS/BookingManager/Objects"
         );
         $this->addHiddenInput("data", $raw_data);
     }

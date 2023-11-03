@@ -17,7 +17,7 @@
  *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
-use ILIAS\Modules\OrgUnit\ARHelper\DIC;
+use ILIAS\components\OrgUnit\ARHelper\DIC;
 
 /**
  * Class ilBTControllerGUI

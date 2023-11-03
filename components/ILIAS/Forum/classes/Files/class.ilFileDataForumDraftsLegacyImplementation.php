@@ -23,7 +23,7 @@ use ILIAS\Filesystem\Stream\Streams;
 /**
  * This class handles all operations on files for the drafts of a forum object.
  * @author    Nadia Matuschek <nmatuschek@databay.de>
- * @ingroup   ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilFileDataForumDraftsLegacyImplementation extends ilFileData implements ilFileDataForumInterface
 {

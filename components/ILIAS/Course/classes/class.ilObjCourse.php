@@ -569,7 +569,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         }
         $this->__createDefaultSettings();
         $this->app_event_handler->raise(
-            'Modules/Course',
+            'components/ILIAS/Course',
             'create',
             array('object' => $this,
                   'obj_id' => $this->getId(),
@@ -908,7 +908,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         ilCourseDefinedFieldDefinition::_deleteByContainer($this->getId());
 
         $this->app_event_handler->raise(
-            'Modules/Course',
+            'components/ILIAS/Course',
             'delete',
             array('object' => $this,
                   'obj_id' => $this->getId(),
@@ -932,7 +932,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         parent::update();
 
         $this->app_event_handler->raise(
-            'Modules/Course',
+            'components/ILIAS/Course',
             'update',
             array('object' => $this,
                   'obj_id' => $this->getId(),

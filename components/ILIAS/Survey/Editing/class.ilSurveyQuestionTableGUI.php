@@ -96,7 +96,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.il_svy_svy_question_table.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.il_svy_svy_question_table.html", "components/ILIAS/Survey");
 
         $this->setShowRowsSelector(true);
 

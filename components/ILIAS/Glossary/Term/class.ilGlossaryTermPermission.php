@@ -21,7 +21,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ModulesGlossary
+ * @ingroup components\ILIASGlossary
  */
 class ilGlossaryTermPermission
 {

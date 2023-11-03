@@ -39,7 +39,7 @@ use ILIAS\ResourceStorage\Revision\RevisionCollection;
  */
 class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    use \ILIAS\components\OrgUnit\ARHelper\DIC;
 
     public const P_ENTRY_ID = 'entry_id';
     public const CMD_SHOW_CONTENT = 'showContent';

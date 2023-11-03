@@ -116,7 +116,7 @@ class ilCOPageExporter extends ilXmlExporter
                     "entity" => "mob",
                     "ids" => $mob_ids),
                 array(
-                    "component" => "Modules/File",
+                    "component" => "components/ILIAS/File",
                     "entity" => "file",
                     "ids" => $file_ids)
                 );

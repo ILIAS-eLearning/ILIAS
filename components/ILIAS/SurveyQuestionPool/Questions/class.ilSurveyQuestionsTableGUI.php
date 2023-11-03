@@ -105,7 +105,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         }
 
 
-        $this->setRowTemplate("tpl.il_svy_qpl_questions_row.html", "Modules/SurveyQuestionPool");
+        $this->setRowTemplate("tpl.il_svy_qpl_questions_row.html", "components/ILIAS/SurveyQuestionPool");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilTestReindexedSequencePositionMap
  * @author      Björn Heyser <info@bjoernheyser.de>
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestReindexedSequencePositionMap
 {

@@ -25,7 +25,7 @@
  * @ilCtrl_Calls ilAssQuestionPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilAssQuestionPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  */
 class ilAssQuestionPageGUI extends ilPageObjectGUI
 {
@@ -138,7 +138,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     public function insertPageToc(string $a_output): string
     {
         if (!empty($this->questionInfoHTML) || !empty($this->questionActionsHTML)) {
-            $tpl = new ilTemplate('tpl.tst_question_subtitle_blocks.html', true, true, 'Modules/TestQuestionPool');
+            $tpl = new ilTemplate('tpl.tst_question_subtitle_blocks.html', true, true, 'components/ILIAS/TestQuestionPool');
             $tpl->setVariable('QUESTION_INFO', $this->questionInfoHTML);
             $tpl->setVariable('QUESTION_ACTIONS', $this->questionActionsHTML);
             $a_output = str_replace("{{{{{PageTOC}}}}}", $tpl->get(), $a_output);

@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\Test\test;
+namespace ILIAS\components\Test\test;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\Modules\Test\AccessFileUploadAnswer;
-use ILIAS\Modules\Test\Readable;
+use ILIAS\components\Test\AccessFileUploadAnswer;
+use ILIAS\components\Test\Readable;
 use ILIAS\DI\Container;
 use ilObjUser;
 use ilTestSession;

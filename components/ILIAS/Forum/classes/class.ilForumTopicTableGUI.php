@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author  Nadia Matuschek <nmatuschek@databay.de>
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumTopicTableGUI extends ilTable2GUI
 {
@@ -66,7 +66,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->mainTemplate->addCss('./Modules/Forum/css/forum_table.css');
+        $this->mainTemplate->addCss('./components/ILIAS/Forum/css/forum_table.css');
         $this->is_post_draft_allowed = ilForumPostDraft::isSavePostDraftAllowed();
     }
 
@@ -103,7 +103,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         }
 
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showThreads'));
-        $this->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');
+        $this->setRowTemplate('tpl.forums_threads_table.html', 'components/ILIAS/Forum');
 
         $this->addMultiCommand('', $this->lng->txt('please_choose'));
         if ($this->settings->get('forum_notification') > 0 && !$this->user->isAnonymous()) {
@@ -141,7 +141,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
         $this->disable('sort');
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'confirmMergeThreads'));
-        $this->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');
+        $this->setRowTemplate('tpl.forums_threads_table.html', 'components/ILIAS/Forum');
 
         $this->mainTemplate->setOnScreenMessage('info', $this->lng->txt('please_choose_target'));
 

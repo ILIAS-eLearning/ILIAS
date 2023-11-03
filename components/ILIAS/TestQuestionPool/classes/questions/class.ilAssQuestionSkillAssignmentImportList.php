@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
- * @package     Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  * @implements Iterator<ilAssQuestionSkillAssignmentImport>
  */
 class ilAssQuestionSkillAssignmentImportList implements Iterator

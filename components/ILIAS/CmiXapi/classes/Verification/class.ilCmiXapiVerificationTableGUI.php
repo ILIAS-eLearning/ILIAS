@@ -44,7 +44,7 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt("cmxv_create"));
         $this->setDescription($this->lng->txt("cmxv_create_info"));
 
-        $this->setRowTemplate("tpl.cmix_verification_row.html", "Modules/CmiXapi");
+        $this->setRowTemplate("tpl.cmix_verification_row.html", "components/ILIAS/CmiXapi");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->getItems();

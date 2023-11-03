@@ -18,7 +18,7 @@
  */
 declare(strict_types=1);
 
-use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
+use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
 use ILIAS\HTTP\Services;
 
 /**

@@ -69,9 +69,9 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
         }
 
         // create object, put it into the tree and use the parser to update the settings
-        include_once './Modules/Exercise/classes/class.ilObjExercise.php';
-        include_once './Modules/Exercise/classes/class.ilExerciseXMLParser.php';
-        include_once './Modules/Exercise/exceptions/class.ilExerciseException.php';
+        include_once './components/ILIAS/Exercise/classes/class.ilObjExercise.php';
+        include_once './components/ILIAS/Exercise/classes/class.ilExerciseXMLParser.php';
+        include_once './components/ILIAS/Exercise/exceptions/class.ilExerciseException.php';
 
         $exercise = new ilObjExercise();
         $exercise->create();
@@ -154,8 +154,8 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './Modules/Exercise/classes/class.ilExerciseXMLParser.php';
-        include_once './Modules/Exercise/exceptions/class.ilExerciseException.php';
+        include_once './components/ILIAS/Exercise/classes/class.ilExerciseXMLParser.php';
+        include_once './components/ILIAS/Exercise/exceptions/class.ilExerciseException.php';
         $exerciseXMLParser = new ilExerciseXMLParser($exercise, $exercise_xml, $obj_id);
 
         try {
@@ -237,7 +237,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './Modules/Exercise/classes/class.ilExerciseXMLWriter.php';
+        include_once './components/ILIAS/Exercise/classes/class.ilExerciseXMLWriter.php';
 
         $xmlWriter = new ilExerciseXMLWriter();
         $xmlWriter->setExercise($exercise);

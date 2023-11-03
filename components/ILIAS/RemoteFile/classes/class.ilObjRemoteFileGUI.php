@@ -26,7 +26,7 @@ declare(strict_types=1);
 *
 * @ilCtrl_Calls ilObjRemoteFileGUI: ilPermissionGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjRemoteFileGUI: ilCommonActionDispatcherGUI
-* @ingroup ModulesRemoteFile
+* @ingroup components\ILIASRemoteFile
 */
 
 class ilObjRemoteFileGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClassInterface

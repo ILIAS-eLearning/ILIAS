@@ -28,7 +28,7 @@ use ILIAS\Test\InternalRequestService;
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/Test
+ * @package components\ILIAS/Test
  *
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilTestEvaluationGUI
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilAssQuestionPageGUI
@@ -369,9 +369,9 @@ class ilParticipantsTestResultsGUI
 
         if ($template instanceof ilTemplate) {
             $this->main_tpl->setVariable("ADM_CONTENT", $template->get());
-            $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+            $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
             if ($this->getTestObj()->getShowSolutionAnswersOnly()) {
-                $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+                $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"), "print");
             }
         }
     }
@@ -392,7 +392,7 @@ class ilParticipantsTestResultsGUI
             $this->tabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
         }
 
-        $template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", true, true, "Modules/Test");
+        $template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", true, true, "components/ILIAS/Test");
 
         $toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->main_tpl, $this->lng);
 

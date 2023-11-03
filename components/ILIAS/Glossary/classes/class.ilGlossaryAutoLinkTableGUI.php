@@ -48,7 +48,7 @@ class ilGlossaryAutoLinkTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"));
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.glo_glossary_auto_link_row.html", "Modules/Glossary");
+        $this->setRowTemplate("tpl.glo_glossary_auto_link_row.html", "components/ILIAS/Glossary");
     }
 
     protected function fillRow(array $a_set): void

@@ -22,7 +22,7 @@ declare(strict_types=1);
  * ilForumAuthorInformationCache
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumAuthorInformationCache
 {

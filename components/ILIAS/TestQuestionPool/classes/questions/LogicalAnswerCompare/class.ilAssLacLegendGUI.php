@@ -18,7 +18,7 @@
 
 /**
  * @author  Björn Heyser <bheyser@databay.de>
- * @package Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilAssLacLegendGUI
 {
@@ -84,7 +84,7 @@ class ilAssLacLegendGUI
      */
     public function get(): \ILIAS\UI\Component\Modal\Modal
     {
-        $this->pageTemplate->addCss('Modules/TestQuestionPool/templates/default/lac_legend.css');
+        $this->pageTemplate->addCss('components/ILIAS/TestQuestionPool/templates/default/lac_legend.css');
 
         $tpl = $this->getTemplate();
 
@@ -110,7 +110,7 @@ class ilAssLacLegendGUI
             'tpl.qpl_logical_answer_compare_legend.html',
             true,
             true,
-            'Modules/TestQuestionPool'
+            'components/ILIAS/TestQuestionPool'
         );
     }
 

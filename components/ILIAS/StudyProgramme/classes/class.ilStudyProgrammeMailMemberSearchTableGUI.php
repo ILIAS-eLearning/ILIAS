@@ -38,7 +38,7 @@ class ilStudyProgrammeMailMemberSearchTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($parent_obj));
         $this->ctrl->clearParameters($parent_obj);
 
-        $this->setRowTemplate('tpl.mail_member_search_row.html', 'Modules/StudyProgramme');
+        $this->setRowTemplate('tpl.mail_member_search_row.html', 'components/ILIAS/StudyProgramme');
 
         // setup columns
         $this->addColumn('', '', '1%', true);

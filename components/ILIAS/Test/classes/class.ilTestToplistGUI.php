@@ -23,7 +23,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * @author  Maximilian Becker <mbecker@databay.de>
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestToplistGUI
 {

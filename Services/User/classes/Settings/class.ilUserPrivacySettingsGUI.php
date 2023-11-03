@@ -475,7 +475,7 @@ class ilUserPrivacySettingsGUI
                     $this->user->writePrefs();
 
                     $this->event->raise(
-                        'Modules/Chatroom',
+                        'components/ILIAS/Chatroom',
                         'chatSettingsChanged',
                         [
                             'user' => $this->user
@@ -495,7 +495,7 @@ class ilUserPrivacySettingsGUI
     protected function appendChatJsToTemplate(
         ilGlobalTemplateInterface $pageTemplate
     ): ilTemplate {
-        $tpl = new ilTemplate('tpl.personal_chat_settings_form.html', true, true, 'Modules/Chatroom');
+        $tpl = new ilTemplate('tpl.personal_chat_settings_form.html', true, true, 'components/ILIAS/Chatroom');
         if ($this->shouldShowOnScreenChatOptions() && $this->chatSettings->get('enable_browser_notifications', '0')) {
             $pageTemplate->addJavaScript('./Services/Notifications/js/browser_notifications.js');
 

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestExportFilename
 {

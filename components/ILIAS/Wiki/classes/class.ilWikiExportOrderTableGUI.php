@@ -53,7 +53,7 @@ class ilWikiExportOrderTableGUI extends ilTable2GUI
 
         $this->addCommandButton($cmd, $lng->txt("continue"));
 
-        $this->setRowTemplate("tpl.table_row_export_order.html", "Modules/Wiki");
+        $this->setRowTemplate("tpl.table_row_export_order.html", "components/ILIAS/Wiki");
         $this->setLimit(9999);
 
         $this->getItems($a_all_pages, $a_page_ids);

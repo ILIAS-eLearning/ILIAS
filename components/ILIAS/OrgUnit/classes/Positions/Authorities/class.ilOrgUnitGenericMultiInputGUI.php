@@ -215,7 +215,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         $first_label = true;
         //		$tpl = new \ilTemplate("tpl.multi_line_input.html", true, true, 'Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting');
-        $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'Modules/OrgUnit');
+        $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'components/ILIAS/OrgUnit');
 
         $class = 'multi_input_line';
         $this->addCustomAttribute('class', $class, true);
@@ -333,7 +333,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     public function initCSSandJS()
     {
         global $tpl;
-        $tpl->addJavascript('Modules/OrgUnit/js/generic_multi_line_input.js');
+        $tpl->addJavascript('components/ILIAS/OrgUnit/js/generic_multi_line_input.js');
     }
 
     /**
@@ -346,7 +346,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
 
         $output .= $this->render(0, true);
         if ($this->getMulti() && is_array($this->line_values) && count($this->line_values) > 0) {
-            $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'Modules/OrgUnit');
+            $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'components/ILIAS/OrgUnit');
             $image_plus = ilGlyphGUI::get(ilGlyphGUI::ADD);
             $image_minus = '<span class="glyphicon glyphicon-minus hide"></span>';
 
@@ -366,7 +366,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
             if ($this->render_one_for_empty_value) {
                 $output .= $this->render(0, true);
             } else {
-                $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'Modules/OrgUnit');
+                $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'components/ILIAS/OrgUnit');
                 $image_plus = ilGlyphGUI::get(ilGlyphGUI::ADD);
                 $image_minus = '<span class="glyphicon glyphicon-minus hide"></span>';
 

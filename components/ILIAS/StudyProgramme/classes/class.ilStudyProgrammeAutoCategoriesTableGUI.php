@@ -39,7 +39,7 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setExternalSorting(false);
         $this->setExternalSegmentation(true);
-        $this->setRowTemplate("tpl.autocats_table_row.html", "Modules/StudyProgramme");
+        $this->setRowTemplate("tpl.autocats_table_row.html", "components/ILIAS/StudyProgramme");
         $this->setShowRowsSelector(false);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "view"));
         $this->disable('sort');

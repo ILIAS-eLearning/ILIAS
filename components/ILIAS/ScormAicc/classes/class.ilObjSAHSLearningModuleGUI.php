@@ -27,7 +27,7 @@ declare(strict_types=1);
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
 *
-* @ingroup ModulesScormAicc
+* @ingroup components\ILIASScormAicc
 */
 class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 {

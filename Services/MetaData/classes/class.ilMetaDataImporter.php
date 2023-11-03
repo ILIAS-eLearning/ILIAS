@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Importer class for media pools
  * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id: $
- * @ingroup ModulesMediaPool
+ * @ingroup components\ILIASMediaPool
  */
 class ilMetaDataImporter extends ilXmlImporter
 {

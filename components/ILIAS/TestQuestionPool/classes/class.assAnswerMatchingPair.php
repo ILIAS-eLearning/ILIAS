@@ -22,7 +22,7 @@ declare(strict_types=1);
 * Class for matching question pairs
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class assAnswerMatchingPair
 {

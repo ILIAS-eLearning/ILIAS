@@ -40,4 +40,16 @@ class ilObjectDBUpdateSteps implements \ilDatabaseUpdateSteps
 
         $this->db->modifyTableColumn("object_translation", "title", $field);
     }
+
+    public function step_2(): void
+    {
+        if ($this->db->tableExists("il_object_def")) {
+            $query = "UPDATE il_object_def SET " . PHP_EOL
+                . " component = REPLACE(component, 'Modules', 'components/ILIAS'), " . PHP_EOL
+                . " location = REPLACE(location, 'Modules', 'components/ILIAS')" . PHP_EOL
+                . " WHERE component LIKE ('Modules/%')";
+
+            $this->db->manipulate($query);
+        }
+    }
 }

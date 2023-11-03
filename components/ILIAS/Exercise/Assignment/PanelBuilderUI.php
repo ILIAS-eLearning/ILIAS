@@ -77,7 +77,7 @@ class PanelBuilderUI
                 "tpl.panel_content.html",
                 true,
                 true,
-                "Modules/Exercise/Assignment"
+                "components/ILIAS/Exercise/Assignment"
             );
 
             // properties

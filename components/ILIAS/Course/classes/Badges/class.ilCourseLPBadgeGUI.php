@@ -19,7 +19,7 @@
  * Course LP badge gui
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 {

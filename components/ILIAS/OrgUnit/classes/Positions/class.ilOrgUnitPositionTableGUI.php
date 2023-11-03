@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
-use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
+use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
+use ILIAS\components\OrgUnit\ARHelper\DropdownBuilder;
 
 /**
  * Class ilOrgUnitPositionTableGUI
@@ -37,7 +37,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
 
     /**
      * ilOrgUnitPositionTableGUI constructor.
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_obj
+     * @param \ILIAS\components\OrgUnit\ARHelper\BaseCommands $parent_obj
      * @param string                                       $parent_cmd
      */
     public function __construct(BaseCommands $parent_obj, $parent_cmd)
@@ -50,7 +50,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
 
         $this->setPrefix('orgu_types_table');
         $this->setId('orgu_types_table');
-        $this->setRowTemplate('tpl.position_row.html', 'Modules/OrgUnit');
+        $this->setRowTemplate('tpl.position_row.html', 'components/ILIAS/OrgUnit');
         $this->initColumns();
         $this->addColumn($this->lng->txt('action'), '', '100px', false, 'text-right');
         $this->buildData();

@@ -24,7 +24,7 @@ use ILIAS\Refinery\Factory as Refinery;
 /**
  * Forum export to HTML and Print.
  * @author Wolfgang Merkens <wmerkens@databay.de>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumExportGUI
 {
@@ -262,7 +262,7 @@ class ilForumExportGUI
 
         ilDatePresentation::setUseRelativeDates(false);
 
-        $tpl = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
+        $tpl = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'components/ILIAS/Forum');
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
@@ -315,7 +315,7 @@ class ilForumExportGUI
 
         ilDatePresentation::setUseRelativeDates(false);
 
-        $tpl = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
+        $tpl = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'components/ILIAS/Forum');
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
@@ -357,7 +357,7 @@ class ilForumExportGUI
 
         ilDatePresentation::setUseRelativeDates(false);
 
-        $tpl = new ilGlobalTemplate('tpl.forums_export_html.html', true, true, 'Modules/Forum');
+        $tpl = new ilGlobalTemplate('tpl.forums_export_html.html', true, true, 'components/ILIAS/Forum');
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
         $tpl->setVariable('BASE', (str_ends_with(ILIAS_HTTP_PATH, '/') ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));

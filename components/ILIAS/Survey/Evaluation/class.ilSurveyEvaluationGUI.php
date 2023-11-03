@@ -226,7 +226,7 @@ class ilSurveyEvaluationGUI
 
             // code needed
             $this->tpl->setVariable("TABS", "");
-            $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", "Modules/Survey");
+            $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", "components/ILIAS/Survey");
             $this->tpl->setCurrentBlock("adm_content");
             $this->tpl->setVariable("AUTHENTICATION_NEEDED", $this->lng->txt("svy_check_evaluation_authentication_needed"));
             $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "checkEvaluationAccess"));
@@ -742,7 +742,7 @@ class ilSurveyEvaluationGUI
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
         $results = array();
 
-        $eval_tpl = new ilTemplate("tpl.il_svy_svy_evaluation.html", true, true, "Modules/Survey");
+        $eval_tpl = new ilTemplate("tpl.il_svy_svy_evaluation.html", true, true, "components/ILIAS/Survey");
 
 
         if ($details) {
@@ -762,8 +762,8 @@ class ilSurveyEvaluationGUI
         if (!$this->object->get360Mode() || $appr_id) {
             if ($details) {
                 //templates: results, table of contents
-                $dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey/Evaluation");
-                $toc_tpl = new ilTemplate("tpl.svy_results_table_contents.html", true, true, "Modules/Survey/Evaluation");
+                $dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "components/ILIAS/Survey/Evaluation");
+                $toc_tpl = new ilTemplate("tpl.svy_results_table_contents.html", true, true, "components/ILIAS/Survey/Evaluation");
                 $this->lng->loadLanguageModule("content");
                 $toc_tpl->setVariable("TITLE_TOC", $this->lng->txt('cont_toc'));
             }

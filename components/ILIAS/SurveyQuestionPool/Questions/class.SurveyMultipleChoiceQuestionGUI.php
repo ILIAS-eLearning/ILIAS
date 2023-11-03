@@ -207,7 +207,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
     ): string {
         $options = $this->getParsedAnswers($working_data);
 
-        $template = new ilTemplate("tpl.il_svy_qpl_mc_printview.html", true, true, "Modules/SurveyQuestionPool");
+        $template = new ilTemplate("tpl.il_svy_qpl_mc_printview.html", true, true, "components/ILIAS/SurveyQuestionPool");
         switch ($this->object->getOrientation()) {
             case 0:
                 // vertical orientation
@@ -299,7 +299,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
         int $survey_id = null,
         bool $compress_view = false
     ): string {
-        $template = new ilTemplate("tpl.il_svy_out_mc.html", true, true, "Modules/SurveyQuestionPool");
+        $template = new ilTemplate("tpl.il_svy_out_mc.html", true, true, "components/ILIAS/SurveyQuestionPool");
         switch ($this->object->getOrientation()) {
             case 0:
                 // vertical orientation

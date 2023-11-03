@@ -29,7 +29,7 @@ use ILIAS\Chatroom\AccessBridge;
  * @version           $Id$
  * @ilCtrl_Calls      ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
- * @ingroup           ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInterface
 {

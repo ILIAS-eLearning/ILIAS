@@ -53,7 +53,7 @@ class ilLearningSequenceAppEventListener
                 }
                 break;
 
-            case "Modules/LearningSequence":
+            case "components/ILIAS/LearningSequence":
                 switch ($event) {
                     case "deleteParticipant":
                         self::onParticipantDeletion($parameter);

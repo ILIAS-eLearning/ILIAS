@@ -344,11 +344,11 @@ class ilBlogDataSet extends ilDataSet
                 if ($a_rec["Style"] ?? false) {
                     self::$style_map[$a_rec["Style"]][] = $newObj->getId();
                 }
-                $a_mapping->addMapping("Modules/Blog", "blog", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Blog", "blog", $a_rec["Id"], $newObj->getId());
                 break;
 
             case "blog_posting":
-                $blog_id = (int) $a_mapping->getMapping("Modules/Blog", "blog", $a_rec["BlogId"]);
+                $blog_id = (int) $a_mapping->getMapping("components/ILIAS/Blog", "blog", $a_rec["BlogId"]);
                 if ($blog_id) {
                     $newObj = new ilBlogPosting();
                     $newObj->setBlogId($blog_id);

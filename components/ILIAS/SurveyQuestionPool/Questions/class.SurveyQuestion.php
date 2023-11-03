@@ -1063,7 +1063,7 @@ class SurveyQuestion
         } elseif ($gui === 2) {
             $type .= "Evaluation";
         }
-        if (file_exists("./Modules/SurveyQuestionPool/Questions/class." . $type . ".php")) {
+        if (file_exists("./components/ILIAS/SurveyQuestionPool/Questions/class." . $type . ".php")) {
             return true;
         }
         return false;
@@ -1078,7 +1078,7 @@ class SurveyQuestion
     ): string {
         global $DIC;
 
-        if (file_exists("./Modules/SurveyQuestionPool/Questions/class." . $type_tag . ".php")) {
+        if (file_exists("./components/ILIAS/SurveyQuestionPool/Questions/class." . $type_tag . ".php")) {
             $lng = $DIC->language();
             return $lng->txt($type_tag);
         }

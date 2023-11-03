@@ -53,7 +53,7 @@ class ModuleManager
             $imp = new \ilImport();
             $conf = $imp->getConfig("Services/Help");
             $conf->setModuleId($id);
-            $new_id = $imp->importObject(null, $file["tmp_name"], $file["name"], "lm", "Modules/LearningModule"); //
+            $new_id = $imp->importObject(null, $file["tmp_name"], $file["name"], "lm", "components/ILIAS/LearningModule"); //
             $newObj = new \ilObjLearningModule($new_id, false);
 
             $this->repo->writeHelpModuleLmId($id, $newObj->getId());

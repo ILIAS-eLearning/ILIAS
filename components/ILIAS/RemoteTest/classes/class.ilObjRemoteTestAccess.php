@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @version $Id$
 *
 *
-* @ingroup ModulesRemoteTest
+* @ingroup components\ILIASRemoteTest
 */
 
 class ilObjRemoteTestAccess extends ilObjectAccess

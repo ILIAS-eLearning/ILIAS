@@ -296,7 +296,7 @@ class WikiHtmlExport
             "tpl.export_page.html",
             true,
             true,
-            "Modules/Wiki"
+            "components/ILIAS/Wiki"
         );
         $ep_tpl->setVariable("PAGE_CONTENT", $page_content);
 

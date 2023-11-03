@@ -94,7 +94,7 @@
 		"classmap": [
 			"./Customizing/global/plugins",
 			"./Services/",
-			"./Modules",
+			"./components/ILIAS",
 			"./libs/ilias",
 			"./components/ILIAS/soap",
 			"./setup/classes"
@@ -173,7 +173,7 @@
 		"technosophos/libris" : {
 			"source" : "github.com/filp/whoops",
 			"used_version" : "v2.0.2",
-			"wrapped_by" : "Modules/Bibliographic/classes/Types/Ris/class.ilRisWrapper.php",
+			"wrapped_by" : "components/ILIAS/Bibliographic/classes/Types/Ris/class.ilRisWrapper.php",
 			"added_by" : "Fabian Schmid <fs@studer-raimann.ch>",
 			"last_update" : "2016-03-31",
 			"last_update_by" : "Fabian Schmid <fs@studer-raimann.ch>",

@@ -503,7 +503,7 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
     {
         if (in_array($a_mode, array("master", "masternomedia"))) {
             $exp = new ilExport();
-            $conf = $exp->getConfig("Modules/MediaPool");
+            $conf = $exp->getConfig("components/ILIAS/MediaPool");
             $conf->setMasterLanguageOnly(true, ($a_mode === "master"));
             $exp->exportObject($this->getType(), $this->getId(), "4.4.0");
         }

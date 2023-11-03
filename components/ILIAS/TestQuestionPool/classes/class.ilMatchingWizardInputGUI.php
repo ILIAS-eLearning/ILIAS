@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
  *
  * @version $Id$
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  */
 class ilMatchingWizardInputGUI extends ilTextInputGUI
 {
@@ -273,10 +273,10 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         global $DIC;
         $lng = $DIC['lng'];
         $global_tpl = $DIC['tpl'];
-        $global_tpl->addJavascript('./Modules/TestQuestionPool/templates/default/matchinginput.js');
+        $global_tpl->addJavascript('./components/ILIAS/TestQuestionPool/templates/default/matchinginput.js');
         $global_tpl->addOnLoadCode('il.test.matchingquestion.init();');
 
-        $tpl = new ilTemplate("tpl.prop_matchingwizardinput.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_matchingwizardinput.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
             if (!$this->hideImages) {

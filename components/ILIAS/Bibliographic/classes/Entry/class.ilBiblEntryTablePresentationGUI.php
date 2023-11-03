@@ -84,7 +84,7 @@ class ilBiblEntryTablePresentationGUI
                             "tpl.bibliographic_italicizer.html",
                             true,
                             true,
-                            "Modules/Bibliographic"
+                            "components/ILIAS/Bibliographic"
                         );
                         $it_tpl->setCurrentBlock("italic_section");
                         $it_tpl->setVariable('ITALIC_STRING', $italic_text);

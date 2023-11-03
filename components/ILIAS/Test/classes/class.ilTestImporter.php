@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  * @author Stefan Meyer <meyer@leifos.com>
  * @version $Id$
- * @ingroup ModulesLearningModule
+ * @ingroup components\ILIASLearningModule
  */
 class ilTestImporter extends ilXmlImporter
 {
@@ -67,7 +67,7 @@ class ilTestImporter extends ilXmlImporter
             $questionParentObjId = $newObj->getId();
         } else {
             // single object
-            $new_id = (int) $a_mapping->getMapping('Modules/Test', 'tst', 'new_id');
+            $new_id = (int) $a_mapping->getMapping('components/ILIAS/Test', 'tst', 'new_id');
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
 
             $questionParentObjId = ilSession::get('tst_import_qst_parent') ?? $newObj->getId();
@@ -122,7 +122,7 @@ class ilTestImporter extends ilXmlImporter
             );
 
             $a_mapping->addMapping(
-                "Modules/Test",
+                "components/ILIAS/Test",
                 "quest",
                 (string) $oldQuestionId,
                 (string) $newQuestionId
@@ -137,8 +137,8 @@ class ilTestImporter extends ilXmlImporter
         // import test results
         if (@file_exists(ilSession::get("tst_import_results_file"))) {
             $results = new ilTestResultsImportParser(ilSession::get("tst_import_results_file"), $newObj, $this->db, $this->log);
-            $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'quest'));
-            $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'rnd_src_pool_def'));
+            $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'quest'));
+            $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'rnd_src_pool_def'));
             $results->startParsing();
         }
 
@@ -149,7 +149,7 @@ class ilTestImporter extends ilXmlImporter
         $importedAssignmentList = $this->importQuestionSkillAssignments($a_mapping, $newObj, $xml_file);
         $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $newObj, $xml_file);
 
-        $a_mapping->addMapping("Modules/Test", "tst", (string) $a_id, (string) $newObj->getId());
+        $a_mapping->addMapping("components/ILIAS/Test", "tst", (string) $a_id, (string) $newObj->getId());
     }
 
     /**
@@ -159,7 +159,7 @@ class ilTestImporter extends ilXmlImporter
      */
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
-        $maps = $a_mapping->getMappingsOfEntity("Modules/Test", "tst");
+        $maps = $a_mapping->getMappingsOfEntity("components/ILIAS/Test", "tst");
 
         foreach ($maps as $old => $new) {
             if ($old == "new_id" || (int) $old <= 0) {
@@ -318,7 +318,7 @@ class ilTestImporter extends ilXmlImporter
         $importer->setTargetParentObjId($testOBJ->getId());
         $importer->setImportInstallationId((int) $this->getInstallId());
         $importer->setImportMappingRegistry($mapping);
-        $importer->setImportMappingComponent('Modules/Test');
+        $importer->setImportMappingComponent('components/ILIAS/Test');
         $importer->setImportAssignmentList($parser->getAssignmentList());
 
         $importer->import();

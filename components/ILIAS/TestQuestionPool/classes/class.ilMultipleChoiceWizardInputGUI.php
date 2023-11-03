@@ -211,7 +211,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $tpl = new ilTemplate("tpl.prop_multiplechoicewizardinput.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_multiplechoicewizardinput.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
             if ($this->getSingleline()) {
@@ -375,8 +375,8 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
-        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/multiplechoicewizard.js");
+        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
+        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/multiplechoicewizard.js");
     }
 
     public function setPending(string $a_val): void

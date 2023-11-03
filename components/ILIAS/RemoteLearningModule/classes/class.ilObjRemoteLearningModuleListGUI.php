@@ -23,7 +23,7 @@ declare(strict_types=1);
 * @version $Id$
 *
 *
-* @ingroup ModulesRemoteLearningModule
+* @ingroup components\ILIASRemoteLearningModule
 */
 class ilObjRemoteLearningModuleListGUI extends ilRemoteObjectBaseListGUI
 {

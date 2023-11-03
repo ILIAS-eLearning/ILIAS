@@ -23,7 +23,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 * @author Helmut Schottmüller <ilias@aurealis.de>
 * @version $Id$
 *
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
  *
  * @ilCtrl_Calls ilQuestionBrowserTableGUI: ilFormPropertyDispatchGUI
 */
@@ -138,7 +138,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             }
         }
 
-        $this->setRowTemplate("tpl.il_as_qpl_questionbrowser_row.html", "Modules/TestQuestionPool");
+        $this->setRowTemplate("tpl.il_as_qpl_questionbrowser_row.html", "components/ILIAS/TestQuestionPool");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");
@@ -389,7 +389,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('statistics');
                     $this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS));
                     $this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
-                    $this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "Modules/TestQuestionPool"));
+                    $this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "components/ILIAS/TestQuestionPool"));
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'author') == 0) {

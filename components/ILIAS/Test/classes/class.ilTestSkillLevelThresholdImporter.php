@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestSkillLevelThresholdImporter
 {
@@ -109,13 +109,13 @@ class ilTestSkillLevelThresholdImporter
             $skill = $skillData['skill'];
 
             $importSkillBaseId = $this->getImportMappingRegistry()->getMapping(
-                'Modules/Test',
+                'components/ILIAS/Test',
                 'skl_base_id_reverse',
                 $skillData['skill_base_id']
             );
 
             $importSkillTrefId = $this->getImportMappingRegistry()->getMapping(
-                'Modules/Test',
+                'components/ILIAS/Test',
                 'skl_tref_id_reverse',
                 $skillData['skill_tref_id']
             );

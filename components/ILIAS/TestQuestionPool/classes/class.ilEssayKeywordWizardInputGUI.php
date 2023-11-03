@@ -104,7 +104,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $tpl = new ilTemplate("tpl.prop_essaykeywordswizardinput.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_essaykeywordswizardinput.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
             if ($this->getSingleline()) {
@@ -179,7 +179,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
-        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/essaykeywordwizard.js");
+        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
+        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/essaykeywordwizard.js");
     }
 }

@@ -18,7 +18,7 @@
 
 use ILIAS\FileDelivery\Delivery\Disposition;
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Class for file upload questions

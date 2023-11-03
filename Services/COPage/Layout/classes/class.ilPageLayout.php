@@ -23,7 +23,7 @@
  */
 class ilPageLayout
 {
-    public const SEQ_TEMPLATE_DIR = './Modules/Scorm2004/templates/editor/page_layouts_temp/thumbnails';
+    public const SEQ_TEMPLATE_DIR = './components/ILIAS/Scorm2004/templates/editor/page_layouts_temp/thumbnails';
     public const MODULE_SCORM = 1;
     public const MODULE_PORTFOLIO = 2;
     public const MODULE_LM = 3;

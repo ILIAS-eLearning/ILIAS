@@ -50,7 +50,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $this->setId('myst_etal_list');
 
         parent::__construct($a_parent_obj, $a_parent_cmd, '');
-        $this->setRowTemplate('tpl.list_employee_talk_row.html', "Modules/EmployeeTalk");
+        $this->setRowTemplate('tpl.list_employee_talk_row.html', "components/ILIAS/EmployeeTalk");
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj));
         ;
         $this->setDefaultOrderDirection('desc');

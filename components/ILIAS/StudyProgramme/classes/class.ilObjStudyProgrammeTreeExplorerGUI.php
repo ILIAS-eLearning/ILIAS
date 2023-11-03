@@ -59,8 +59,8 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         'lp_object' => 'lp-object',
     ];
 
-    protected string $js_study_programme_path = "./Modules/StudyProgramme/templates/js/ilStudyProgramme.js";
-    protected string $css_study_programme_path = "./Modules/StudyProgramme/templates/css/ilStudyProgrammeTree.css";
+    protected string $js_study_programme_path = "./components/ILIAS/StudyProgramme/templates/js/ilStudyProgramme.js";
+    protected string $css_study_programme_path = "./components/ILIAS/StudyProgramme/templates/css/ilStudyProgrammeTree.css";
 
     /**
      * @param $parent_obj string|object|array
@@ -245,7 +245,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      */
     protected function getNodeTemplateInstance(): ilTemplate
     {
-        return new ilTemplate("tpl.tree_node_content.html", true, true, "Modules/StudyProgramme");
+        return new ilTemplate("tpl.tree_node_content.html", true, true, "components/ILIAS/StudyProgramme");
     }
 
     /**

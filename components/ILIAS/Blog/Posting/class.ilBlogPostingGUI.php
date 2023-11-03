@@ -186,7 +186,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             "tpl.blog_page_view_main_column.html",
             true,
             true,
-            "Modules/Blog"
+            "components/ILIAS/Blog"
         );
 
         // page commands
@@ -330,7 +330,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         }
         $rel = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(true);
-        $tpl = new ilTemplate("tpl.posting_head.html", true, true, "Modules/Blog");
+        $tpl = new ilTemplate("tpl.posting_head.html", true, true, "components/ILIAS/Blog");
 
         // reading time
         $reading_time = $this->reading_time_manager->getReadingTime(
@@ -383,7 +383,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 "tpl.blog_posting_deletion_confirmation.html",
                 true,
                 true,
-                "Modules/Blog"
+                "components/ILIAS/Blog"
             );
 
             $dtpl->setVariable("PAGE_TITLE", $this->getBlogPosting()->getTitle());

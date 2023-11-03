@@ -219,11 +219,11 @@ class ilPollDataSet extends ilDataSet
                     }
                 }
 
-                $a_mapping->addMapping("Modules/Poll", "poll", (string) ($a_rec["Id"] ?? "0"), (string) $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Poll", "poll", (string) ($a_rec["Id"] ?? "0"), (string) $newObj->getId());
                 break;
 
             case "poll_answer":
-                $poll_id = (int) $a_mapping->getMapping("Modules/Poll", "poll", (string) ($a_rec["PollId"] ?? "0"));
+                $poll_id = (int) $a_mapping->getMapping("components/ILIAS/Poll", "poll", (string) ($a_rec["PollId"] ?? "0"));
                 if ($poll_id) {
                     $poll = new ilObjPoll($poll_id, false);
                     $poll->saveAnswer((string) ($a_rec["Answer"] ?? ''), (int) ($a_rec["pos"] ?? 10));

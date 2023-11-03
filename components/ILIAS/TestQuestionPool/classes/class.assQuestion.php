@@ -22,7 +22,7 @@ use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 use ILIAS\DI\Container;
 use ILIAS\Skill\Service\SkillUsageService;
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Abstract basic class which is to be extended by the concrete assessment question type classes
@@ -1188,7 +1188,7 @@ abstract class assQuestion
 
                 $component = '';
 
-                if ($levels[4] === 'Modules' || $levels[4] === 'Services') {
+                if ($levels[4] === 'components/ILIAS' || $levels[4] === 'Services') {
                     $component = $levels[4] . DIRECTORY_SEPARATOR . $levels[5];
                 }
 

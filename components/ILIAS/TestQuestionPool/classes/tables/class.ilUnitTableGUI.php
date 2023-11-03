@@ -74,7 +74,7 @@ class ilUnitTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('sequence');
         $this->setDefaultOrderDirection('ASC');
 
-        $this->setRowTemplate('tpl.unit_row_html', 'Modules/TestQuestionPool');
+        $this->setRowTemplate('tpl.unit_row_html', 'components/ILIAS/TestQuestionPool');
     }
 
     /**

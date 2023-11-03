@@ -59,7 +59,7 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($this->parent_obj, $this->parent_cmd));
-        $this->setRowTemplate("tpl.lm_question_row.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.lm_question_row.html", "components/ILIAS/LearningModule");
         $this->setEnableTitle(true);
 
         $this->getItems();

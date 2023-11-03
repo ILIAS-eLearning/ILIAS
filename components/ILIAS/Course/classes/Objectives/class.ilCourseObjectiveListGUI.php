@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * List gui for course objectives
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseObjectiveListGUI extends ilObjectListGUI
 {

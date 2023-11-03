@@ -59,7 +59,7 @@ class ilStudyProgrammeProgressListGUI
     public function getHTML(): string
     {
         if ($this->html === null) {
-            $tpl = $this->getTemplate("Modules/StudyProgramme", static::$tpl_file, true, true);
+            $tpl = $this->getTemplate("components/ILIAS/StudyProgramme", static::$tpl_file, true, true);
             $this->fillTemplate($tpl);
             $this->html = $tpl->get();
         }

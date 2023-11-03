@@ -52,7 +52,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         $this->disable('sort');
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->disable('numinfo');
-        $this->setRowTemplate("tpl.obj_position_perm_row.html", "Modules/OrgUnit");
+        $this->setRowTemplate("tpl.obj_position_perm_row.html", "components/ILIAS/OrgUnit");
         $this->setShowRowsSelector(false);
         $this->setDisableFilterHiding(true);
         $this->setNoEntriesText($this->lng->txt('msg_no_roles_of_type'));

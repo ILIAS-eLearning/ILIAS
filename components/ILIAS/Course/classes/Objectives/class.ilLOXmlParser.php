@@ -88,7 +88,7 @@ class ilLOXmlParser
 
         foreach ($root->Objective as $obj) {
             $mapped_objective_id = $this->getMapping()->getMapping(
-                'Modules/Course',
+                'components/ILIAS/Course',
                 'objectives',
                 (string) $obj->attributes()->id
             );
@@ -138,7 +138,7 @@ class ilLOXmlParser
             $new_objective_id = $new_obj->add();
 
             $this->getMapping()->addMapping(
-                'Modules/Course',
+                'components/ILIAS/Course',
                 'objectives',
                 (string) $obj->attributes()->id,
                 (string) $new_objective_id
@@ -167,7 +167,7 @@ class ilLOXmlParser
                 switch ($mat_type) {
                     case 'st':
                         $mapped_chapter = $this->getMapping()->getMapping(
-                            'Modules/LearningModule',
+                            'components/ILIAS/LearningModule',
                             'lm_tree',
                             (string) $mat->attributes()->objId
                         );
@@ -178,7 +178,7 @@ class ilLOXmlParser
 
                     case 'pg':
                         $mapped_page = $this->getMapping()->getMapping(
-                            'Modules/LearningModule',
+                            'components/ILIAS/LearningModule',
                             'pg',
                             (string) $mat->attributes()->objId
                         );
@@ -281,14 +281,14 @@ class ilLOXmlParser
 
     protected function getMappingForQuestion(int $qid): int
     {
-        $new_qid = $this->getMapping()->getMapping('Modules/Test', 'quest', (string) $qid);
+        $new_qid = $this->getMapping()->getMapping('components/ILIAS/Test', 'quest', (string) $qid);
         $this->logger->debug('Found new question_id: ' . $new_qid . ' for ' . $qid);
         return (int) $new_qid;
     }
 
     protected function getMappingForQpls(int $a_id): int
     {
-        $new_id = $this->getMapping()->getMapping('Modules/Test', 'rnd_src_pool_def', (string) $a_id);
+        $new_id = $this->getMapping()->getMapping('components/ILIAS/Test', 'rnd_src_pool_def', (string) $a_id);
         if ($new_id) {
             return (int) $new_id;
         }

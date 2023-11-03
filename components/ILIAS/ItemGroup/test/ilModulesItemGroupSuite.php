@@ -31,7 +31,7 @@ class ilModulesItemGroupSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/ItemGroup/test/ItemGroupStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/ItemGroup/test/ItemGroupStandardGUIRequestTest.php");
         $suite->addTestSuite("ItemGroupStandardGUIRequestTest");
 
         return $suite;

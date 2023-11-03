@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Webresource xml importer
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesWebResource
+ * @ingroup components\ILIASWebResource
  */
 class ilWebResourceImporter extends ilXmlImporter
 {
@@ -68,7 +68,7 @@ class ilWebResourceImporter extends ilXmlImporter
             $parser->setMode(ilWebLinkXmlParser::MODE_CREATE);
             $parser->start();
             $a_mapping->addMapping(
-                'Modules/WebResource',
+                'components/ILIAS/WebResource',
                 'webr',
                 $a_id,
                 (string) $this->link->getId()

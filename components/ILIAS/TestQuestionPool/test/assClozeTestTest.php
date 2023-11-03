@@ -21,7 +21,7 @@
 *
 * @author Maximilian Becker <mbecker@databay.de>
 *
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class assClozeTestTest extends assBaseTestCase
 {

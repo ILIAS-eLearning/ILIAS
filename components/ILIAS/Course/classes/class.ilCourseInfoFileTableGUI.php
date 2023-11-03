@@ -33,7 +33,7 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('filetype'), 'filetype', "20%");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.crs_info_file_row.html", "Modules/Course");
+        $this->setRowTemplate("tpl.crs_info_file_row.html", "components/ILIAS/Course");
         $this->setDefaultOrderField("filename");
         $this->setDefaultOrderDirection("desc");
     }

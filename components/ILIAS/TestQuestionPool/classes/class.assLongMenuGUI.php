@@ -19,12 +19,12 @@
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * @version		$Id$
  *
- * @package     Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  *
  * @ilCtrl_Calls assLongMenuGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
@@ -203,7 +203,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $long_menu_text->setValue($this->object->getLongMenuTextValue());
         $form->addItem($long_menu_text);
 
-        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap_button_code.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap_button_code.html", true, true, "components/ILIAS/TestQuestionPool");
         $tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
         $tpl->parseCurrentBlock();
         $button = new ilCustomInputGUI('&nbsp;', '');
@@ -265,9 +265,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $answers = $this->request->raw('hidden_text_files');
         }
 
-        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestionGapBuilder.js');
-        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestion.js');
-        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap.html", true, true, "Modules/TestQuestionPool");
+        $this->tpl->addJavaScript('./components/ILIAS/TestQuestionPool/templates/default/longMenuQuestionGapBuilder.js');
+        $this->tpl->addJavaScript('./components/ILIAS/TestQuestionPool/templates/default/longMenuQuestion.js');
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap.html", true, true, "components/ILIAS/TestQuestionPool");
         $tpl->setVariable('MAX_INPUT_FIELDS', assLongMenu::MAX_INPUT_FIELDS);
         $tpl->setVariable('GAP_PLACEHOLDER', assLongMenu::GAP_PLACEHOLDER);
         $tpl->setVariable('SELECT_BOX', $this->lng->txt('insert_gap'));
@@ -338,7 +338,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $show_manual_scoring = false,
         $show_question_text = true
     ): string {
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output_solution.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
 
         if ($show_question_text) {
             $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
@@ -349,7 +349,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $correct_solution = $this->object->getCorrectAnswersForQuestionSolution($this->object->getId());
         }
         $template->setVariable('LONGMENU_TEXT_SOLUTION', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($correct_solution, true, $graphicalOutput));
-        $solution_template = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
+        $solution_template = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $question_output = $template->get();
         $feedback = '';
         if ($show_feedback) {
@@ -422,8 +422,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     protected function getTemplateForPreviewAndTest(array $user_solution): ilTemplate
     {
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
-        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestionPlayer.js');
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "components/ILIAS/TestQuestionPool");
+        $this->tpl->addJavaScript('./components/ILIAS/TestQuestionPool/templates/default/longMenuQuestionPlayer.js');
         $this->tpl->addOnLoadCode('il.test.player.longmenu.init('
             . $this->object->getMinAutoComplete() . ', '
             . json_encode($this->object->getAvailableAnswerOptions())
@@ -495,7 +495,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 }
             }
         }
-        $tpl = new ilTemplate('tpl.il_as_aggregated_longmenu_question_answers_table.html', true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate('tpl.il_as_aggregated_longmenu_question_answers_table.html', true, true, "components/ILIAS/TestQuestionPool");
         $json = json_decode($this->object->getJsonStructure());
         foreach ($json as $key => $value) {
             $tpl->setVariable('TITLE', 'Longmenu ' . ($key + 1));
@@ -552,7 +552,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     private function getTextGapTemplate($key, $value, $solution, $ok = false, $graphical = false): string
     {
-        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_text_gap.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_text_gap.html", true, true, "components/ILIAS/TestQuestionPool");
         if ($solution) {
             $tpl->setVariable('DISABLED', 'disabled');
             $tpl->setVariable('JS_IGNORE', '_ignore');
@@ -572,7 +572,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     private function getSelectGapTemplate($key, $answers, $user_value, $solution, $ok = false, $graphical = false): string
     {
-        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_select_gap.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_select_gap.html", true, true, "components/ILIAS/TestQuestionPool");
         $tpl->setVariable('KEY', $key);
         if ($solution) {
             $tpl->setVariable('DISABLED', 'disabled');

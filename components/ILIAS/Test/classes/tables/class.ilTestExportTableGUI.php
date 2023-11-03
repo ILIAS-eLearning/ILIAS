@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author Helmut Schottmüller <ilias@aurealis.de>
  * @version $Id$
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestExportTableGUI extends ilExportTableGUI
 {

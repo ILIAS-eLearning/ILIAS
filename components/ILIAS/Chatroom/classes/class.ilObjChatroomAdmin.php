@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilObjChatroomAdmin
  * @author  Jan Posselt <jposselt at databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilObjChatroomAdmin extends ilObject
 {

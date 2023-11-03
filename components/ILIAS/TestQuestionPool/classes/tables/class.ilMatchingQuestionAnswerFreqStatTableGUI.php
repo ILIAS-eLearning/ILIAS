@@ -22,7 +22,7 @@
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilMatchingQuestionAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTableGUI
 {

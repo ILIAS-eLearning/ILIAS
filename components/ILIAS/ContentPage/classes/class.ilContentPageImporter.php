@@ -67,7 +67,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
             }
         }
 
-        $styleMapping = $a_mapping->getMappingsOfEntity('Modules/ContentPage', 'style');
+        $styleMapping = $a_mapping->getMappingsOfEntity('components/ILIAS/ContentPage', 'style');
         foreach ($styleMapping as $newCopaId => $oldStyleId) {
             $newStyleId = (int) $a_mapping->getMapping('Services/Style', 'sty', $oldStyleId);
             if ($newCopaId > 0 && $newStyleId > 0) {

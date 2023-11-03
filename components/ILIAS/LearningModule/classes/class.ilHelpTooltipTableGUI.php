@@ -52,7 +52,7 @@ class ilHelpTooltipTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("help_tt_text"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.help_tooltip.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.help_tooltip.html", "components/ILIAS/LearningModule");
         $this->setDefaultOrderField("tt_id");
         $this->setDefaultOrderDirection("asc");
 

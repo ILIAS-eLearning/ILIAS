@@ -22,7 +22,7 @@
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
 {
@@ -72,7 +72,7 @@ class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $tpl = new ilTemplate("tpl.prop_errortextcorrection_input.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_errortextcorrection_input.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
             $tpl->setCurrentBlock("prop_points_propval");

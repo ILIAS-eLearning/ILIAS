@@ -43,7 +43,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
         $this->addColumn("", "", "1");	// checkbox
         $this->setEnableHeader(false);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.term_usage_row.html", "Modules/Glossary");
+        $this->setRowTemplate("tpl.term_usage_row.html", "components/ILIAS/Glossary");
         $this->getItems();
         $this->setTitle($lng->txt("cont_usage"));
     }

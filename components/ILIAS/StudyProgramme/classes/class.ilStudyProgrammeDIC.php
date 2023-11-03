@@ -394,7 +394,7 @@ class ilStudyProgrammeDIC
                 $DIC['ui.renderer'],
                 $DIC['lng'],
                 $DIC['ilCtrl'],
-                new ilTemplate("tpl.statusinformation.html", true, true, 'Modules/StudyProgramme'),
+                new ilTemplate("tpl.statusinformation.html", true, true, 'components/ILIAS/StudyProgramme'),
                 $dic['repo.assignment'],
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 new ilCertificateDownloadValidator(),
@@ -407,7 +407,7 @@ class ilStudyProgrammeDIC
                 $DIC['ui.renderer'],
                 $DIC['lng'],
                 $DIC['ilCtrl'],
-                new ilTemplate("tpl.action_note.html", true, true, 'Modules/StudyProgramme'),
+                new ilTemplate("tpl.action_note.html", true, true, 'components/ILIAS/StudyProgramme'),
                 $dic['repo.assignment'],
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['current_user']->getId()

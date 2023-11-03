@@ -32,7 +32,7 @@ class ilModulesMediaPoolSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/MediaPool/test/MepClipboardSessionRepositoryTest.php");
+        require_once("./components/ILIAS/MediaPool/test/MepClipboardSessionRepositoryTest.php");
         $suite->addTestSuite("MepClipboardSessionRepositoryTest");
 
         return $suite;

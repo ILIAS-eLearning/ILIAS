@@ -64,7 +64,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox("items[]");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.item_group_items_row.html", "Modules/ItemGroup");
+        $this->setRowTemplate("tpl.item_group_items_row.html", "components/ILIAS/ItemGroup");
 
         $this->addCommandButton("saveItemAssignment", $lng->txt("save"));
     }

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\File\Settings\General;
+use ILIAS\components\File\Settings\General;
 use ILIAS\Data\DataSize;
 
 /**
@@ -84,7 +84,7 @@ trait ilObjFileInfoProvider
             "sendfile",
             $this->getFileObj()->getRefId()
         )) {
-            $download_link_tpl = new ilTemplate("tpl.download_link.html", true, true, "Modules/File");
+            $download_link_tpl = new ilTemplate("tpl.download_link.html", true, true, "components/ILIAS/File");
             $download_link_tpl->setVariable("LINK", ilObjFileAccess::_getPermanentDownloadLink($this->getNodeID()));
         }
 

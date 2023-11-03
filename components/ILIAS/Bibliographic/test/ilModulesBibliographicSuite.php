@@ -40,10 +40,10 @@ class ilModulesBibliographicSuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once("./Modules/Bibliographic/test/ilBibtechParserTest.php");
+        require_once("./components/ILIAS/Bibliographic/test/ilBibtechParserTest.php");
         $suite->addTestSuite("ilBibtechParserTest");
         /** @noRector */
-        require_once("./Modules/Bibliographic/test/ilRisParserTest.php");
+        require_once("./components/ILIAS/Bibliographic/test/ilRisParserTest.php");
         $suite->addTestSuite("ilRisParserTest");
 
         return $suite;

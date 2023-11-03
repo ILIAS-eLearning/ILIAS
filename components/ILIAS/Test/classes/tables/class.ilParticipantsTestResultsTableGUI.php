@@ -26,7 +26,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  * @author Helmut Schottmüller <ilias@aurealis.de>
  * @version $Id$
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 
 class ilParticipantsTestResultsTableGUI extends ilTable2GUI
@@ -50,7 +50,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->setFormName('partResultsForm');
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 
-        $this->setRowTemplate("tpl.il_as_tst_scorings_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_scorings_row.html", "components/ILIAS/Test");
 
         $this->enable('header');
         $this->enable('sort');

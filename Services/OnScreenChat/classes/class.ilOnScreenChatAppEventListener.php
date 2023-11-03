@@ -26,7 +26,7 @@ class ilOnScreenChatAppEventListener implements ilAppEventListener
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         switch ($a_component) {
-            case 'Modules/Chatroom':
+            case 'components/ILIAS/Chatroom':
                 switch ($a_event) {
                     case 'chatSettingsChanged':
                         $GLOBALS['ilLog']->info("Received event: chatSettingsChanged");

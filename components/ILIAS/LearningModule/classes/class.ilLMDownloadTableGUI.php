@@ -45,7 +45,7 @@ class ilLMDownloadTableGUI extends ilTable2GUI
         $this->setMaxCount(9999);
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.download_file_row.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.download_file_row.html", "components/ILIAS/LearningModule");
     }
 
     public function getDownloadFiles(): void

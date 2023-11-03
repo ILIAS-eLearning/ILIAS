@@ -50,7 +50,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         );
         $this->setDescription(sprintf($this->lng->txt("poll_population"), $total));
 
-        $this->setRowTemplate("tpl.answer_row.html", "Modules/Poll");
+        $this->setRowTemplate("tpl.answer_row.html", "components/ILIAS/Poll");
         $this->setDefaultOrderField("pos");
         $this->setDefaultOrderDirection("asc");
 

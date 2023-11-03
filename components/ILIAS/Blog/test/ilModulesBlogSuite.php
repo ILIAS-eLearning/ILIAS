@@ -31,7 +31,7 @@ class ilModulesBlogSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/Blog/test/BlogStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/Blog/test/BlogStandardGUIRequestTest.php");
         $suite->addTestSuite("BlogStandardGUIRequestTest");
 
         return $suite;

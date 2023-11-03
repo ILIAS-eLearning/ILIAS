@@ -31,7 +31,7 @@ class ilModulesCategoryReferenceSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/CategoryReference/test/CategoryReferenceTest.php");
+        require_once("./components/ILIAS/CategoryReference/test/CategoryReferenceTest.php");
         $suite->addTestSuite("CategoryReferenceTest");
 
         return $suite;

@@ -437,7 +437,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab('logs');
 
-        $template = new ilTemplate("tpl.assessment_logs.html", true, true, "Modules/Test");
+        $template = new ilTemplate("tpl.assessment_logs.html", true, true, "components/ILIAS/Test");
 
         $p_test = 0;
         $fromdate = 0;

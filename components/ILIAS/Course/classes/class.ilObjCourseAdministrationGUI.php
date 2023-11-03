@@ -22,7 +22,7 @@ declare(strict_types=0);
  * Course Administration Settings
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjCourseAdministrationGUI: ilPermissionGUI, ilMemberExportSettingsGUI, ilUserActionadminGUI
- * @ingroup      ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI
 {

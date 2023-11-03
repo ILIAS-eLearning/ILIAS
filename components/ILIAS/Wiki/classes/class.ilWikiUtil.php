@@ -97,7 +97,7 @@ class ilWikiUtil
         global $DIC;
         $page_repo = $DIC->wiki()->internal()->repo()->page();
 
-        include_once("./Modules/Wiki/libs/Sanitizer.php");
+        include_once("./components/ILIAS/Wiki/libs/Sanitizer.php");
         $collect = array();
         // both from mediawiki DefaulSettings.php
         $wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";

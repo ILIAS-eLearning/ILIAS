@@ -91,7 +91,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
         } else {
             $this->disable("footer");
         }
-        $this->setRowTemplate("tpl.term_tbl_pres_row.html", "Modules/Glossary");
+        $this->setRowTemplate("tpl.term_tbl_pres_row.html", "components/ILIAS/Glossary");
         $this->setEnableTitle(true);
 
         if (!$this->offline) {

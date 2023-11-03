@@ -20,7 +20,7 @@
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 {
@@ -72,7 +72,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 
         $this->setStyle('table', 'fullwidth');
 
-        $this->setRowTemplate("tpl.tst_skl_qst_assignment_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.tst_skl_qst_assignment_row.html", "components/ILIAS/Test");
 
         $this->enable('header');
         $this->disable('sort');

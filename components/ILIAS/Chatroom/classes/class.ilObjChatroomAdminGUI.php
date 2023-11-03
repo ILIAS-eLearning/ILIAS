@@ -26,7 +26,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls      ilObjChatroomAdminGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls      ilObjChatroomAdminGUI: ilExportGUI, ilObjChatroomGUI
  * @ilCtrl_IsCalledBy ilObjChatroomAdminGUI: ilRepositoryGUI, ilAdministrationGUI
- * @ingroup           ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 {

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
+use ILIAS\components\OrgUnit\ARHelper\DropdownBuilder;
 
 class ilOrgUnitTypeTableGUI extends ilTable2GUI
 {
@@ -42,7 +42,7 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         $this->setPrefix('orgu_types_table');
         $this->setId('orgu_types_table');
         parent::__construct($parent_obj, $parent_cmd);
-        $this->setRowTemplate('tpl.types_row.html', 'Modules/OrgUnit');
+        $this->setRowTemplate('tpl.types_row.html', 'components/ILIAS/OrgUnit');
         $this->initColumns();
         $this->addColumn($this->lng->txt('action'));
         $this->buildData();

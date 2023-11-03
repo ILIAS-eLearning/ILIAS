@@ -59,7 +59,7 @@ class PageRenderer
         $page = $this->page_data;
 
         $required = false;
-        $stpl = new \ilTemplate("tpl.page.html", true, true, "Modules/Survey/Page");
+        $stpl = new \ilTemplate("tpl.page.html", true, true, "components/ILIAS/Survey/Page");
 
         // question block title
         if (count($page) > 1 && $page[0]["questionblock_show_blocktitle"]) {

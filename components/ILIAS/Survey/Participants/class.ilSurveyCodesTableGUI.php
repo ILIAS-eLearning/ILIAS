@@ -47,7 +47,7 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("mail_sent_short"), 'sent', '');
         $this->addColumn($this->lng->txt("survey_code_url"));
 
-        $this->setRowTemplate("tpl.il_svy_svy_codes_row.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.il_svy_svy_codes_row.html", "components/ILIAS/Survey");
 
         $this->addMultiCommand('editCodes', $this->lng->txt('edit'));
         $this->addMultiCommand('exportCodes', $this->lng->txt('export'));

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilObjWebResourceAdministration
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesWebResource
+ * @package components\ILIASWebResource
  */
 class ilObjWebResourceAdministration extends ilObject
 {

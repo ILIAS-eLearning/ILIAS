@@ -126,7 +126,7 @@ class ilHelpDataSet extends ilDataSet
                     // new import (5.1): get chapter from learning module import mapping
                     if ((int) $new_chap === 0) {
                         $new_chap = $a_mapping->getMapping(
-                            'Modules/LearningModule',
+                            'components/ILIAS/LearningModule',
                             'lm_tree',
                             $a_rec["Chap"]
                         );

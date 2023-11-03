@@ -31,7 +31,7 @@ class ilModulesPortfolioSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/Portfolio/test/AccessSessionRepositoryTest.php");
+        require_once("./components/ILIAS/Portfolio/test/AccessSessionRepositoryTest.php");
         $suite->addTestSuite("AccessSessionRepositoryTest");
 
         return $suite;

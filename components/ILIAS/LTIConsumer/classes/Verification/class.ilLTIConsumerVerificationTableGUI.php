@@ -45,7 +45,7 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt("ltiv_create"));
         $this->setDescription($this->lng->txt("ltiv_create_info"));
 
-        $this->setRowTemplate("tpl.lti_verification_row.html", "Modules/LTIConsumer");
+        $this->setRowTemplate("tpl.lti_verification_row.html", "components/ILIAS/LTIConsumer");
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->getItems();

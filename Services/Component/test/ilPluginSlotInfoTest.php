@@ -30,7 +30,7 @@ class ilPluginSlotInfoTest extends TestCase
         $slots = [];
         $this->component = new ilComponentInfo(
             "mod1",
-            "Modules",
+            "components/ILIAS",
             "Module1",
             $slots
         );
@@ -64,10 +64,10 @@ class ilPluginSlotInfoTest extends TestCase
     public function testGetter(): void
     {
         $slots = [];
-        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1", $slots), $this->pluginslot->getComponent());
+        $this->assertEquals(new ilComponentInfo("mod1", "components/ILIAS", "Module1", $slots), $this->pluginslot->getComponent());
         $this->assertEquals("slt1", $this->pluginslot->getId());
         $this->assertEquals("Slot1", $this->pluginslot->getName());
-        $this->assertEquals("Modules/Module1/Slot1", $this->pluginslot->getQualifiedName());
+        $this->assertEquals("components/ILIAS/Module1/Slot1", $this->pluginslot->getQualifiedName());
     }
 
     public function testGetPlugins(): void
@@ -119,7 +119,7 @@ class ilPluginSlotInfoTest extends TestCase
     public function testGetPath(): void
     {
         $this->assertEquals(
-            ilComponentRepository::PLUGIN_BASE_PATH . "/" . "Modules/Module1/Slot1",
+            ilComponentRepository::PLUGIN_BASE_PATH . "/" . "components/ILIAS/Module1/Slot1",
             $this->pluginslot->getPath()
         );
     }

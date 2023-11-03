@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  *
  * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilTestResultsToolbarGUI
@@ -93,7 +93,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
         $testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
         $testResultHeaderLabelBuilder->initObjectiveOrientedMode();
 
-        $tpl = new ilTemplate('tpl.il_as_tst_virtual_pass_details.html', false, false, 'Modules/Test');
+        $tpl = new ilTemplate('tpl.il_as_tst_virtual_pass_details.html', false, false, 'components/ILIAS/Test');
 
         $command_solution_details = "";
         if ($this->object->getShowSolutionDetails()) {

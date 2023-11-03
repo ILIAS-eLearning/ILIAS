@@ -17,7 +17,7 @@
  */
 
 declare(strict_types=1);
-use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
+use ILIAS\components\OrgUnit\ARHelper\BaseForm;
 
 /**
  * Class ilOrgUnitAuthorityFormGUI

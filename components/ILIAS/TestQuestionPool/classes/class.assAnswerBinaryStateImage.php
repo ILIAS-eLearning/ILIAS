@@ -26,7 +26,7 @@
  *
  * @version	$Id$
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  *
  * @see ASS_AnswerSimple
  */

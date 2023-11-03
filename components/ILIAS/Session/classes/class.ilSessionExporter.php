@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id: $
- * @ingroup ModulesSession
+ * @ingroup components\ILIASSession
  */
 class ilSessionExporter extends ilXmlExporter
 {

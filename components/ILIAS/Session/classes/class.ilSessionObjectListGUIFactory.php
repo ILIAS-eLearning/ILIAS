@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Stefan Meyer <meyer@leifos.com>
  * @id $Id$
  *
- * @ingroup ModulesSession
+ * @ingroup components\ILIASSession
  */
 class ilSessionObjectListGUIFactory
 {

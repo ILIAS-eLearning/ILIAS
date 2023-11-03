@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author  Jan Posselt <jposselt@databay.de>
  * @author  Thomas Joußen <tjoussen@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilChatroomClearGUI extends ilChatroomGUIHandler
 {

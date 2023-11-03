@@ -111,7 +111,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         // create the questionpool class in the ILIAS database (object_data table)
         $this->_cmixObj->create(true);
         $this->_newId = (string) $this->_cmixObj->getId();
-        $this->_mapping->addMapping('Modules/CmiXapi', 'cmix', (string) $this->_import_objId, (string) $this->_newId);
+        $this->_mapping->addMapping('components/ILIAS/CmiXapi', 'cmix', (string) $this->_import_objId, (string) $this->_newId);
         //$this->getImport();
         $this->_cmixObj->update();
 
@@ -130,7 +130,7 @@ class ilCmiXapiImporter extends ilXmlImporter
             //$_SESSION['tst_import_subdir'] = $this->getImportPackageName();
             $this->_cmixObj->save(); // this generates test id first time
             //var_dump([$this->getImportDirectory(), $this->_import_dirname]); exit;
-            $this->_mapping->addMapping("Modules/CmiXapi", "cmix", (string) $this->_import_objId, $this->_newId);
+            $this->_mapping->addMapping("components/ILIAS/CmiXapi", "cmix", (string) $this->_import_objId, $this->_newId);
         }
         $this->_cmixObj->save();
         $this->_cmixObj->update();

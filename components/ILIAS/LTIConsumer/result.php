@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-chdir("../../");
+chdir("../../../");
 
 if (!isset($_GET['client_id']) || !strlen($_GET['client_id'])) {
     header('HTTP/1.1 401 Authorization Required');

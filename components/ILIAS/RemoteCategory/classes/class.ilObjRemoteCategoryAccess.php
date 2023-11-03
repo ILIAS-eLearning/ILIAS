@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @version $Id$
 *
 *
-* @ingroup ModulesRemoteCategory
+* @ingroup components\ILIASRemoteCategory
 */
 
 class ilObjRemoteCategoryAccess extends ilObjectAccess

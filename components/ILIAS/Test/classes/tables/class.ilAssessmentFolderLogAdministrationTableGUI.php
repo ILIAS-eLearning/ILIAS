@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 {
@@ -39,7 +39,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("ass_log_count_datasets"), 'nr', '15%');
         $this->addColumn($this->lng->txt("ass_location"), '', '30%');
 
-        $this->setRowTemplate("tpl.il_as_tst_assessment_log_administration_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_assessment_log_administration_row.html", "components/ILIAS/Test");
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 

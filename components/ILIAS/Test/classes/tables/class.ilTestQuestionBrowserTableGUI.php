@@ -83,7 +83,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         );  // name of col is proper "updated" but in data array the key is "tstamp"
         $this->addColumn($this->getParentObjectLabel(), 'qpl', '');
         $this->setSelectAllCheckbox('q_id');
-        $this->setRowTemplate("tpl.il_as_tst_question_browser_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_question_browser_row.html", "components/ILIAS/Test");
 
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         $this->setDefaultOrderField("title");

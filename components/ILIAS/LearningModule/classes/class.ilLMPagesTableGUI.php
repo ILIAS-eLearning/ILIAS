@@ -60,7 +60,7 @@ class ilLMPagesTableGUI extends ilTable2GUI
         $this->setLimit(9999);
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.page_list_row.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.page_list_row.html", "components/ILIAS/LearningModule");
 
         if (ilEditClipboard::getContentObjectType() == "pg" &&
             ilEditClipboard::getAction() == "copy") {

@@ -23,7 +23,7 @@ declare(strict_types=1);
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
-* @ingroup ModulesRemoteCategory
+* @ingroup components\ILIASRemoteCategory
 */
 
 class ilObjRemoteCategory extends ilRemoteObjectBase

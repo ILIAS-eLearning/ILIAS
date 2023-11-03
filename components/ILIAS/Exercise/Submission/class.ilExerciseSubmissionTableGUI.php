@@ -77,7 +77,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         $this->setShowTemplates(true);
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.exc_members_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.exc_members_row.html", "components/ILIAS/Exercise");
 
         #25100
         if ($this->mode == self::MODE_BY_ASSIGNMENT) {
@@ -657,7 +657,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
         $url = $ilCtrl->getLinkTarget($this->getParentObject(), "saveCommentForLearners", "", true, false);
 
-        $tpl->addJavaScript("Modules/Exercise/js/ilExcManagement.js");
+        $tpl->addJavaScript("components/ILIAS/Exercise/js/ilExcManagement.js");
         $tpl->addOnLoadCode('il.ExcManagement.init("' . $url . '");');
 
         return parent::render() .

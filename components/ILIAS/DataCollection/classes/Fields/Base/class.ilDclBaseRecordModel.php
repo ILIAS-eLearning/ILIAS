@@ -647,7 +647,7 @@ class ilDclBaseRecordModel
             ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
 
             $this->event->raise(
-                'Modules/DataCollection',
+                'components/ILIAS/DataCollection',
                 'deleteRecord',
                 [
                     'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),

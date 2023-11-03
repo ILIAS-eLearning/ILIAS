@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\Test\AccessFileUploadAnswer;
-use ILIAS\Modules\Test\AccessQuestionImage;
-use ILIAS\Modules\Test\SimpleAccess;
-use ILIAS\Modules\Test\Readable;
+use ILIAS\components\Test\AccessFileUploadAnswer;
+use ILIAS\components\Test\AccessQuestionImage;
+use ILIAS\components\Test\SimpleAccess;
+use ILIAS\components\Test\Readable;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
 
@@ -35,7 +35,7 @@ use ILIAS\Data\Result\Error;
 * @author 	Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ingroup ModulesTest
+* @ingroup components\ILIASTest
 */
 class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 {

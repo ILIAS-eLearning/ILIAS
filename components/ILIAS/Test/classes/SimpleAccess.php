@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\Test;
+namespace ILIAS\components\Test;
 
 use ILIAS\Data\Result;
 

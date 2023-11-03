@@ -390,7 +390,7 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
 
     protected function raiseEvent(string $event, ilOrgUnitUserAssignment $assignment): void
     {
-        $this->ilAppEventHandler->raise('Modules/OrgUnit', $event, array(
+        $this->ilAppEventHandler->raise('components/ILIAS/OrgUnit', $event, array(
             'obj_id' => $assignment->getOrguId(),
             'usr_id' => $assignment->getUserId(),
             'position_id' => $assignment->getPositionId()

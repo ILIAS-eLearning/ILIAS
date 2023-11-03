@@ -26,7 +26,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @author       Alex Killing <alex.killing@gmx.de>
  * @version      $Id$
  * @ilCtrl_Calls ilLinkResourceHandlerGUI: ilObjLinkResourceGUI
- * @ingroup      ModulesWebResource
+ * @ingroup components\ILIASWebResource
  */
 class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
 {

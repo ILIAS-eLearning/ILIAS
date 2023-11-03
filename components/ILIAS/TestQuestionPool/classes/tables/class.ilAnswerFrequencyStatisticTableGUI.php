@@ -26,7 +26,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
  * @author    Stephan Kergomard <office@kergomard.ch>
  * @version    $Id$
  *
- * @package    Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 {
@@ -60,7 +60,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         $this->setPrefix('tstAnswerStatistic');
         $this->setTitle($this->language->txt('tst_corrections_answers_tbl'));
 
-        $this->setRowTemplate('tpl.tst_corrections_answer_row.html', 'Modules/Test');
+        $this->setRowTemplate('tpl.tst_corrections_answer_row.html', 'components/ILIAS/Test');
 
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context = '');
 

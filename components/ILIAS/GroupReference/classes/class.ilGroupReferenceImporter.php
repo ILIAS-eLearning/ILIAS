@@ -11,7 +11,7 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceIm
 *
 * @author Fabian Wolf <wolf@leifos.com>
 * @extends ilContainerReferenceImporter
-* @ingroup ModulesGroupReference
+* @ingroup components\ILIASGroupReference
 */
 class ilGroupReferenceImporter extends ilContainerReferenceImporter
 {

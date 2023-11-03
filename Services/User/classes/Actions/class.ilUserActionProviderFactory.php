@@ -40,11 +40,11 @@ class ilUserActionProviderFactory
             "class" => "ilChatUserActionProvider"
         ],
         [
-            "component" => "Modules/Group/UserActions",
+            "component" => "components/ILIAS/Group/UserActions",
             "class" => "ilGroupUserActionProvider"
         ],
         [
-            "component" => "Modules/EmployeeTalk",
+            "component" => "components/ILIAS/EmployeeTalk",
             "class" => "EmployeeTalkUserActionProvider"
         ]
     ];

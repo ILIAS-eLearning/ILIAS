@@ -20,7 +20,7 @@
  * Export User Interface Class
  * @author       Michael Jansen <mjansen@databay.de>
  * @version      $Id$
- * @ingroup      ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilQuestionPoolExportGUI extends ilExportGUI
 {

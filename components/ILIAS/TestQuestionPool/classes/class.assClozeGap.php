@@ -18,7 +18,7 @@
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Class for cloze question gaps
@@ -30,7 +30,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @version	$Id$
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
 */
 class assClozeGap
 {

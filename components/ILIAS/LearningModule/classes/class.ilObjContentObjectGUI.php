@@ -987,7 +987,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
         $up_gui = "ilobjlearningmodulegui";
 
-        $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
+        $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "components/ILIAS/LearningModule");
         $ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
         $ilCtrl->setParameter($this, "obj_id", null);
 
@@ -2017,7 +2017,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             "ADM_CONTENT",
             "adm_content",
             "tpl.lm_public_selector.html",
-            "Modules/LearningModule"
+            "components/ILIAS/LearningModule"
         );
 
         // get learning module object

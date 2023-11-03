@@ -493,7 +493,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 }
 
                 $event_obj_id = ilObject::_lookupObjId($ref_id);
-                include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+                include_once 'components/ILIAS/Session/classes/class.ilEventParticipants.php';
                 $event_part = new ilEventParticipants($event_obj_id);
                 $member_ids = array_keys($event_part->getParticipants());
                 $data = ilObjUser::_getUsersForIds($member_ids, $active);

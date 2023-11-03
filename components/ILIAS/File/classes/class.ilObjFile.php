@@ -28,7 +28,7 @@ use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
  * @author  Sascha Hofmann <shofmann@databay.de>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version $Id$
- * @ingroup ModulesFile
+ * @ingroup components\ILIASFile
  */
 class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 {

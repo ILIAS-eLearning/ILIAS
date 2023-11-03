@@ -22,7 +22,7 @@
  * @author  Björn Heyser <info@bjoernheyser.de>
  * @version $Id$
  *
- * @package Modules/Test(QuestionPool)
+ * @package components\ILIAS/Test(QuestionPool)
  */
 class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
 {
@@ -78,7 +78,7 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $tpl = new ilTemplate("tpl.prop_matchingpaircorrection_input.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_matchingpaircorrection_input.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
 
         foreach ($this->pairs as $pair) {

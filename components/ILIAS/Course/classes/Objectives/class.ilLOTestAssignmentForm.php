@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * LO test assignment form creator
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @package ModulesCourse
+ * @package components\ILIASCourse
  */
 class ilLOTestAssignmentForm
 {

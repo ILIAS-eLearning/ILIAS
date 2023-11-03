@@ -54,7 +54,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('excv_create'));
         $this->setDescription($this->lng->txt('excv_create_info'));
 
-        $this->setRowTemplate('tpl.exc_verification_row.html', 'Modules/Exercise');
+        $this->setRowTemplate('tpl.exc_verification_row.html', 'components/ILIAS/Exercise');
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->getItems();

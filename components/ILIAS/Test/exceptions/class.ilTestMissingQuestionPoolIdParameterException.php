@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author	Björn Heyser <bheyser@databay.de>
  * @version	$Id$
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestMissingQuestionPoolIdParameterException extends ilTestException
 {

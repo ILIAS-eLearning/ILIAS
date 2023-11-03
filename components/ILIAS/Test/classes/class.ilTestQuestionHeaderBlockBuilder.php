@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 {
@@ -324,7 +324,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
      */
     public function getQuestionInfoHTML(): string
     {
-        $tpl = new ilTemplate('tpl.tst_question_info.html', true, true, 'Modules/Test');
+        $tpl = new ilTemplate('tpl.tst_question_info.html', true, true, 'components/ILIAS/Test');
 
         // position and/or points
         switch ($this->getHeaderMode()) {

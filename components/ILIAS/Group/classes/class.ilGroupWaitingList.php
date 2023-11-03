@@ -29,7 +29,7 @@ declare(strict_types=1);
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 *
-* @ingroup ModulesGroup
+* @ingroup components\ILIASGroup
 */
 
 class ilGroupWaitingList extends ilWaitingList
@@ -47,7 +47,7 @@ class ilGroupWaitingList extends ilWaitingList
 
         $GLOBALS['DIC']->logger()->grp()->info('Raise new event: Modules/Group addToList.');
         $ilAppEventHandler->raise(
-            "Modules/Group",
+            "components/ILIAS/Group",
             'addToWaitingList',
             array(
                     'obj_id' => $this->getObjId(),

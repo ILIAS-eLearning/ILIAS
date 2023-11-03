@@ -32,7 +32,7 @@ class ilTestTopListTableGUI extends ilTable2GUI
         $this->setId('tst_top_list_' . $this->test->getRefId());
         parent::__construct($a_parent_obj, '', '');
 
-        $this->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
+        $this->setRowTemplate('tpl.toplist_tbl_rows.html', 'components/ILIAS/Test');
 
         $this->setEnableNumInfo(false);
         $this->disable('sort');

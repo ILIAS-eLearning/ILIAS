@@ -23,7 +23,7 @@ declare(strict_types=1);
 * @author Helmut Schottmüller <ilias@aurealis.de>
 * @version $Id$
 *
-* @ingroup ModulesTest
+* @ingroup components\ILIASTest
 */
 
 class ilTestAggregatedResultsTableGUI extends ilTable2GUI
@@ -38,7 +38,7 @@ class ilTestAggregatedResultsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("result"), 'result', '');
         $this->addColumn($this->lng->txt("value"), 'value', '');
 
-        $this->setRowTemplate("tpl.il_as_tst_aggregated_results_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_aggregated_results_row.html", "components/ILIAS/Test");
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 

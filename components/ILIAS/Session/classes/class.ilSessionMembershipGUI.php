@@ -153,7 +153,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 
     protected function initParticipantTemplate(): void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_edit_members.html', 'Modules/Session');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_edit_members.html', 'components/ILIAS/Session');
     }
 
     protected function initWaitingList(): ilSessionWaitingList

@@ -1416,7 +1416,7 @@ class ilObjCmiXapi extends ilObject2
             );
             $ctxTemplate['returnURL'] = $href;
         } else {
-            $ctxTemplate['returnURL'] = ILIAS_HTTP_PATH . "/Modules/CmiXapi/xapiexit.php?lang={$lang}";
+            $ctxTemplate['returnURL'] = ILIAS_HTTP_PATH . "/components/ILIAS/CmiXapi/xapiexit.php?lang={$lang}";
         }
         if (!empty($this->getMasteryScore())) {
             $ctxTemplate['masteryScore'] = $this->getMasteryScore();

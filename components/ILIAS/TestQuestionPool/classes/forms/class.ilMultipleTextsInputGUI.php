@@ -130,7 +130,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     public function render(string $a_mode = ""): string
     {
-        $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
         foreach ($this->getIdentifiedMultiValues() as $identifier => $value) {
             if ($value !== null) {
@@ -187,8 +187,8 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                         $(rowElem).find("input:text").val("");
                     }'
             ];
-            $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
-            $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/identifiedwizardinput.js");
+            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
+            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/identifiedwizardinput.js");
             $this->tpl->addOnLoadCode("$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init("
                 . json_encode($config)
                 . ");");

@@ -20,7 +20,7 @@
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  *
  * @ilCtrl_Calls assKprimChoiceGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
@@ -362,7 +362,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             }
         }
 
-        $template = new ilTemplate("tpl.il_as_qpl_mc_kprim_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_mc_kprim_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($keys as $answer_id) {
             $answer = $this->object->getAnswer($answer_id);
@@ -448,7 +448,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
 
-        $template = new ilTemplate("tpl.il_as_qpl_mc_kprim_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_mc_kprim_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($keys as $answer_id) {
             $answer = $this->object->getAnswer($answer_id);
@@ -571,7 +571,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
 
         // generate the question output
-        $template = new ilTemplate("tpl.il_as_qpl_mc_kprim_output_solution.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_mc_kprim_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($keys as $answer_id) {
             $answer = $this->object->getAnswer($answer_id);
@@ -684,7 +684,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $questionoutput = $template->get();
         $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput((int) $active_id, $pass) : "";
 
-        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
+        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         if (strlen($feedback)) {
             $cssClass = (
@@ -802,7 +802,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $trueOptionLabel = $this->object->getTrueOptionLabelTranslation($this->lng, $this->object->getOptionLabel());
         $falseOptionLabel = $this->object->getFalseOptionLabelTranslation($this->lng, $this->object->getOptionLabel());
 
-        $tpl = new ilTemplate('tpl.il_as_aggregated_kprim_answers_table.html', true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate('tpl.il_as_aggregated_kprim_answers_table.html', true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($aggregate as $lineData) {
             $tpl->setCurrentBlock('aggregaterow');

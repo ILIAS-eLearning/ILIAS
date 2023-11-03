@@ -79,7 +79,7 @@ class ilStudyProgrammeAppEventListener
                 }
                 break;
 
-            case "Modules/Course":
+            case "components/ILIAS/Course":
                 switch ($event) {
                     case "addParticipant":
                         self::addMemberToProgrammes(
@@ -95,7 +95,7 @@ class ilStudyProgrammeAppEventListener
                         break;
                 }
                 break;
-            case "Modules/Group":
+            case "components/ILIAS/Group":
                 switch ($event) {
                     case "addParticipant":
                         self::addMemberToProgrammes(
@@ -127,7 +127,7 @@ class ilStudyProgrammeAppEventListener
                         break;
                 }
                 break;
-            case "Modules/OrgUnit":
+            case "components/ILIAS/OrgUnit":
                 switch ($event) {
                     case "assignUserToPosition":
                         self::addMemberToProgrammes(
@@ -144,7 +144,7 @@ class ilStudyProgrammeAppEventListener
                 }
                 break;
 
-            case 'Modules/StudyProgramme':
+            case 'components/ILIAS/StudyProgramme':
                 switch ($event) {
                     case 'userSuccessful':
                         $DIC->certificate()->userCertificates()->certificateCriteriaMet(

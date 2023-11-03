@@ -19,7 +19,7 @@
  * Formula Question Variable
  * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @version       $Id: class.assFormulaQuestionVariable.php 465 2009-06-29 08:27:36Z hschottm $
- * @ingroup       ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  * */
 class assFormulaQuestionVariable
 {

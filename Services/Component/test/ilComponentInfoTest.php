@@ -30,7 +30,7 @@ class ilComponentInfoTest extends TestCase
 
         $this->component = new ilComponentInfo(
             "mod1",
-            "Modules",
+            "components/ILIAS",
             "Module1",
             $slots
         );
@@ -57,9 +57,9 @@ class ilComponentInfoTest extends TestCase
     public function testGetter(): void
     {
         $this->assertEquals("mod1", $this->component->getId());
-        $this->assertEquals("Modules", $this->component->getType());
+        $this->assertEquals("components/ILIAS", $this->component->getType());
         $this->assertEquals("Module1", $this->component->getName());
-        $this->assertEquals("Modules/Module1", $this->component->getQualifiedName());
+        $this->assertEquals("components/ILIAS/Module1", $this->component->getQualifiedName());
     }
 
     public function testInvalidTypeThrowsException(): void

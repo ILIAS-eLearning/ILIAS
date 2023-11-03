@@ -58,7 +58,7 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("survey_reached_level"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.survey_skill_change.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.survey_skill_change.html", "components/ILIAS/Survey");
     }
 
     public function getSkillLevelsForAppraisee(): void

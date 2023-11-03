@@ -257,7 +257,7 @@ class ilGlossaryTermGUI
             $a_lang = $lng->getLangKey();
         }
 
-        $tpl = new ilTemplate("tpl.glossary_overlay.html", true, true, "Modules/Glossary");
+        $tpl = new ilTemplate("tpl.glossary_overlay.html", true, true, "components/ILIAS/Glossary");
         //		$this->output(true, $tpl);
         if ($a_outputmode == "preview") {
             $a_outputmode = "presentation";

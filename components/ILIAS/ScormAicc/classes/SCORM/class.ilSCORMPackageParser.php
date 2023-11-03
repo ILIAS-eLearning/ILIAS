@@ -23,7 +23,7 @@ declare(strict_types=1);
 * @author
 * @version $Id$
 *
-* @ingroup ModulesScormAicc
+* @ingroup components\ILIASScormAicc
 */
 class ilSCORMPackageParser extends ilSaxParser
 {

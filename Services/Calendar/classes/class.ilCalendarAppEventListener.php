@@ -35,7 +35,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
     /**
      * Handle events like create, update, delete
      * @access public
-     * @param string $a_component component, e.g. "Modules/Forum" or "Services/User"
+     * @param string $a_component component, e.g. "components/ILIAS/Forum" or "Services/User"
      * @param string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
      * @param array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)     *
      * @static
@@ -49,10 +49,10 @@ class ilCalendarAppEventListener implements ilAppEventListener
 
         $delete_cache = false;
         switch ($a_component) {
-            case 'Modules/Session':
-            case 'Modules/Group':
-            case 'Modules/Course':
-            case 'Modules/EmployeeTalk':
+            case 'components/ILIAS/Session':
+            case 'components/ILIAS/Group':
+            case 'components/ILIAS/Course':
+            case 'components/ILIAS/EmployeeTalk':
                 switch ($a_event) {
                     case 'create':
                         $logger->debug('Handling create event');
@@ -86,7 +86,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
                 }
                 break;
 
-            case 'Modules/Exercise':
+            case 'components/ILIAS/Exercise':
                 switch ($a_event) {
                     case 'createAssignment':
                         $logger->debug('Handling create event (exercise assignment)');

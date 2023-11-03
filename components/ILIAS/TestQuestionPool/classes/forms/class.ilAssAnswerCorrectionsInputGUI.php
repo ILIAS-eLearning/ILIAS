@@ -22,7 +22,7 @@
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
 {
@@ -117,7 +117,7 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $tpl = new ilTemplate("tpl.prop_textsubsetcorrection_input.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_textsubsetcorrection_input.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
             if (!$this->isHidePointsEnabled()) {

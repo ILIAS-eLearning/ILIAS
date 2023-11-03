@@ -51,7 +51,7 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, self::PARENT_DEFAULT_CMD));
 
-        $this->setRowTemplate("tpl.il_as_tst_man_scoring_participant_tblrow.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_man_scoring_participant_tblrow.html", "components/ILIAS/Test");
 
         $this->initColumns();
         $this->initOrdering();

@@ -28,7 +28,7 @@ class ilModulesFolderSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/Folder/test/FoldStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/Folder/test/FoldStandardGUIRequestTest.php");
         $suite->addTestSuite("FoldStandardGUIRequestTest");
 
         return $suite;

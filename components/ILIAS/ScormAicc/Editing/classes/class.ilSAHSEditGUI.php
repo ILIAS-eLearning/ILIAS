@@ -27,7 +27,7 @@ declare(strict_types=1);
 *
 * @ilCtrl_Calls ilSAHSEditGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilObjSCORMLearningModuleGUI, ilInfoScreenGUI, ilObjSCORM2004LearningModuleGUI, ilExportGUI, ilObjSAHSLearningModuleGUI, ilLTIProviderObjectSettingGUI
 *
-* @ingroup ModulesScormAicc
+* @ingroup components\ILIASScormAicc
 */
 class ilSAHSEditGUI implements ilCtrlBaseClassInterface
 {

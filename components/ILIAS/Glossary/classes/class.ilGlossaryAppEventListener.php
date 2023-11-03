@@ -38,7 +38,7 @@ class ilGlossaryAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
-            case "Modules/Glossary":
+            case "components/ILIAS/Glossary":
                 switch ($a_event) {
                     case "deleteTerm":
                         $handler = new ilGlossaryObjDeletionHandler();

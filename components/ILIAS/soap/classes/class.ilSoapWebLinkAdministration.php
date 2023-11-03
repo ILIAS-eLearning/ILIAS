@@ -72,7 +72,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         }
 
         try {
-            include_once './Modules/WebResource/classes/class.ilWebLinkXmlWriter.php';
+            include_once './components/ILIAS/WebResource/classes/class.ilWebLinkXmlWriter.php';
             $writer = new ilWebLinkXmlWriter(true);
             $writer->setObjId($obj_id);
             $writer->write();
@@ -123,8 +123,8 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         }
 
         // create object, put it into the tree and use the parser to update the settings
-        include_once './Modules/WebResource/classes/class.ilObjLinkResource.php';
-        include_once './Modules/WebResource/classes/class.ilWebLinkXmlParser.php';
+        include_once './components/ILIAS/WebResource/classes/class.ilObjLinkResource.php';
+        include_once './components/ILIAS/WebResource/classes/class.ilWebLinkXmlParser.php';
 
         $webl = new ilObjLinkResource();
         $webl->setTitle('XML Import');
@@ -201,7 +201,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         }
 
         try {
-            include_once './Modules/WebResource/classes/class.ilWebLinkXmlParser.php';
+            include_once './components/ILIAS/WebResource/classes/class.ilWebLinkXmlParser.php';
             /** @noinspection PhpParamsInspection */
             $parser = new ilWebLinkXmlParser($webl, $weblink_xml);
             $parser->setMode(ilWebLinkXmlParser::MODE_UPDATE);

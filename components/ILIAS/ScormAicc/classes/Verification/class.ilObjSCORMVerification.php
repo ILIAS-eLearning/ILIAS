@@ -21,7 +21,7 @@ declare(strict_types=1);
  * SCORM Verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
- * @ingroup ModulesScormAicc
+ * @ingroup components\ILIASScormAicc
  */
 class ilObjSCORMVerification extends ilVerificationObject
 {

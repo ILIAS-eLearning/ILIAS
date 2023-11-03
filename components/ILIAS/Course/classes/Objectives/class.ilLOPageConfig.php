@@ -21,7 +21,7 @@ declare(strict_types=0);
 /**
  * (Course) learning objective page configuration
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilLOPageConfig extends ilPageConfig
 {

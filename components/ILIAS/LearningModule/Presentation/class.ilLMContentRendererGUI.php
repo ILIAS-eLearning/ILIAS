@@ -324,7 +324,7 @@ class ilLMContentRendererGUI
                     "tpl.out_of_focus_message.html",
                     true,
                     true,
-                    "Modules/LearningModule"
+                    "components/ILIAS/LearningModule"
                 );
                 $mtpl->setVariable("MESSAGE", $this->lng->txt("cont_out_of_focus_message"));
                 $mtpl->setVariable("TXT_SHOW_CONTENT", $this->lng->txt("cont_show_content_after_focus"));
@@ -355,7 +355,7 @@ class ilLMContentRendererGUI
                         "tpl.out_of_focus_message.html",
                         true,
                         true,
-                        "Modules/LearningModule"
+                        "components/ILIAS/LearningModule"
                     );
                     $mtpl->setVariable("MESSAGE", $this->lng->txt("cont_out_of_focus_message_last_page"));
                     $mtpl->setVariable("TXT_SHOW_CONTENT", $this->lng->txt("cont_show_content_after_focus"));
@@ -396,7 +396,7 @@ class ilLMContentRendererGUI
     protected function renderMessageScreen(string $a_content): string
     {
         // content style
-        $tpl = new ilTemplate("tpl.page_message_screen.html", true, true, "Modules/LearningModule");
+        $tpl = new ilTemplate("tpl.page_message_screen.html", true, true, "components/ILIAS/LearningModule");
         $tpl->setVariable("TXT_PAGE_NO_PUBLIC_ACCESS", $a_content);
 
         return $tpl->get();
@@ -428,7 +428,7 @@ class ilLMContentRendererGUI
             "tpl.no_content_message.html",
             true,
             true,
-            "Modules/LearningModule"
+            "components/ILIAS/LearningModule"
         );
         $mtpl->setVariable("MESSAGE", $this->lng->txt("cont_no_page_in_chapter"));
         $mtpl->setVariable(
@@ -452,7 +452,7 @@ class ilLMContentRendererGUI
             "tpl.no_content_message.html",
             true,
             true,
-            "Modules/LearningModule"
+            "components/ILIAS/LearningModule"
         );
         $m = $this->lng->txt("cont_page_currently_deactivated");
         $act_data = ilLMPage::_lookupActivationData($this->requested_obj_id, $this->lm->getType());
@@ -484,7 +484,7 @@ class ilLMContentRendererGUI
         $conds = ilObjContentObject::_getMissingPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $this->current_page);
         $topchap = ilObjContentObject::_getMissingPreconditionsTopChapter($this->lm->getRefId(), $this->lm->getId(), $this->current_page);
 
-        $ptpl = new ilTemplate("tpl.page_preconditions.html", true, true, "Modules/LearningModule");
+        $ptpl = new ilTemplate("tpl.page_preconditions.html", true, true, "components/ILIAS/LearningModule");
 
         // list all missing preconditions
         foreach ($conds as $cond) {

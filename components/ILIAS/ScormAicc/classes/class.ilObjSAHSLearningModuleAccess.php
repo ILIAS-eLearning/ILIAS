@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilObjContentObjectAccess
  * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ModulesScormAicc
+ * @ingroup components\ILIASScormAicc
  */
 class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditionHandling
 {

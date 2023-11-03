@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilForumModeratorsGUI
  * @author       Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
- * @ingroup      ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumModeratorsGUI
 {

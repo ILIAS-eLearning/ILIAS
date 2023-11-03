@@ -22,7 +22,7 @@
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * $Id: class.ilObjCourseGUI.php 31646 2011-11-14 11:39:37Z jluetzen $
  *
- * @ingroup Modules/File
+ * @ingroup components\ILIAS/File
  */
 class ilECSFileSettings extends ilECSObjectSettings
 {

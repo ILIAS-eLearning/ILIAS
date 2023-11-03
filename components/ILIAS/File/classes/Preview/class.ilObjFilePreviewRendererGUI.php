@@ -21,7 +21,7 @@ use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\Component\Modal\LightboxImagePage;
-use ILIAS\Modules\File\Preview\Settings;
+use ILIAS\components\File\Preview\Settings;
 use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
 use ILIAS\ResourceStorage\Flavour\Definition\FitToSquare;
 
@@ -240,7 +240,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
             $pages = $this->ui_factory->modal()->lightboxTextPage(
                 sprintf(
                     $this->language->txt('preview_not_possible'),
-                    'Modules/File/classes/Preview/README.md'
+                    'components/ILIAS/File/classes/Preview/README.md'
                 ),
                 $this->language->txt('preview')
             );

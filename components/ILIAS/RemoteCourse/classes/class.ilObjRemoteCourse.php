@@ -23,7 +23,7 @@ declare(strict_types=1);
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
-* @ingroup ModulesRemoteCourse
+* @ingroup components\ILIASRemoteCourse
 */
 
 class ilObjRemoteCourse extends ilRemoteObjectBase

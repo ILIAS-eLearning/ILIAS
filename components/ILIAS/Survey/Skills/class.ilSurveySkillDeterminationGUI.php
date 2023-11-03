@@ -60,7 +60,7 @@ class ilSurveySkillDeterminationGUI
         } else { // Mode self evaluation, No Appraisee and Rater involved.
             $apps = $this->survey->getSurveyParticipants();
         }
-        $ctpl = new ilTemplate("tpl.svy_skill_list_changes.html", true, true, "Modules/Survey");
+        $ctpl = new ilTemplate("tpl.svy_skill_list_changes.html", true, true, "components/ILIAS/Survey");
         foreach ($apps as $app) {
             $changes_table = new ilSurveySkillChangesTableGUI(
                 $this,

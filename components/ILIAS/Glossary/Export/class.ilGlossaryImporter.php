@@ -29,7 +29,7 @@ class ilGlossaryImporter extends ilXmlImporter
     {
         $this->ds = new ilGlossaryDataSet();
         $this->ds->setDSPrefix("ds");
-        $this->config = $this->getImport()->getConfig("Modules/Glossary");
+        $this->config = $this->getImport()->getConfig("components/ILIAS/Glossary");
     }
 
     public function importXmlRepresentation(
@@ -72,7 +72,7 @@ class ilGlossaryImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ): void {
         // get all glossaries of the import
-        $maps = $a_mapping->getMappingsOfEntity("Modules/Glossary", "glo");
+        $maps = $a_mapping->getMappingsOfEntity("components/ILIAS/Glossary", "glo");
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
@@ -86,7 +86,7 @@ class ilGlossaryImporter extends ilXmlImporter
 
                 // advmd column order
                 if ($this->exportedFromSameInstallation()) {
-                    $advmdco = $a_mapping->getMappingsOfEntity("Modules/Glossary", "advmd_col_order");
+                    $advmdco = $a_mapping->getMappingsOfEntity("components/ILIAS/Glossary", "advmd_col_order");
                     foreach ($advmdco as $id => $order) {
                         $id = explode(":", $id);
                         $field_glo_id = $id[0];

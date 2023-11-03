@@ -26,7 +26,7 @@ use ILIAS\LTIOAuth;
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilLTIConsumerLaunch
 {

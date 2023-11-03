@@ -26,7 +26,7 @@ declare(strict_types=1);
 *
 * @ilCtrl_Calls ilObjRemoteWikiGUI: ilPermissionGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjRemoteWikiGUI: ilCommonActionDispatcherGUI
-* @ingroup ModulesRemoteWiki
+* @ingroup components\ILIASRemoteWiki
 */
 
 class ilObjRemoteWikiGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClassInterface

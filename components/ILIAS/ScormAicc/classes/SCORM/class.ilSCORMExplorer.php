@@ -157,10 +157,10 @@ class ilSCORMExplorer extends ilExplorer
         $ilBench = $DIC['ilBench'];
 
         if (isset($option["visible"]) && $option["visible"] == true) {
-            $tpl = new ilTemplate("tpl.sahs_tree_ul.html", true, true, "Modules/ScormAicc");
+            $tpl = new ilTemplate("tpl.sahs_tree_ul.html", true, true, "components/ILIAS/ScormAicc");
             $tpl = $this->insertObject($option, $tpl, $jsApi);
         } else {
-            $tpl = new ilTemplate("tpl.sahs_tree_free.html", true, true, "Modules/ScormAicc");
+            $tpl = new ilTemplate("tpl.sahs_tree_free.html", true, true, "components/ILIAS/ScormAicc");
         }
 
         if (isset($option["childs"]) && is_array($option["childs"]) && count($option["childs"]) > 0) {

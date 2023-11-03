@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\File\Settings\General;
+use ILIAS\components\File\Settings\General;
 
 /**
  * Class ilObjFileServices

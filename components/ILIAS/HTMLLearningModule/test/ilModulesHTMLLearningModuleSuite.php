@@ -31,7 +31,7 @@ class ilModulesHTMLLearningModuleSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/HTMLLearningModule/test/HTMLLearningModuleStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/HTMLLearningModule/test/HTMLLearningModuleStandardGUIRequestTest.php");
         $suite->addTestSuite("HTMLLearningModuleStandardGUIRequestTest");
 
         return $suite;

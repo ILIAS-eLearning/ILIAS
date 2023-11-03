@@ -22,11 +22,11 @@ use ILIAS\Data;
 class ilArtifactComponentRepositoryTest extends TestCase
 {
     public static array $component_data = [
-        "mod1" => ["Modules", "Module1", [
+        "mod1" => ["components/ILIAS", "Module1", [
             ["slt1", "Slot1"],
             ["slt2", "Slot2"],
         ]],
-        "mod2" => ["Modules", "Module2", [
+        "mod2" => ["components/ILIAS", "Module2", [
         ]],
         "ser1" => ["Services", "Service1", [
             ["slt3", "Slot3"]
@@ -38,7 +38,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
 
     public static array $plugin_data = [
         "plg1" => [
-            "Modules",
+            "components/ILIAS",
             "Module1",
             "Slot1",
             "Plugin1",
@@ -128,7 +128,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $slots1 = [];
         $this->mod1 = new ilComponentInfo(
             "mod1",
-            "Modules",
+            "components/ILIAS",
             "Module1",
             $slots1
         );
@@ -169,7 +169,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $slots2 = [];
         $this->mod2 = new ilComponentInfo(
             "mod2",
-            "Modules",
+            "components/ILIAS",
             "Module2",
             $slots2
         );
@@ -228,12 +228,12 @@ class ilArtifactComponentRepositoryTest extends TestCase
 
     public function testHasComponent(): void
     {
-        $this->assertTrue($this->db->hasComponent("Modules", "Module1"));
-        $this->assertTrue($this->db->hasComponent("Modules", "Module2"));
+        $this->assertTrue($this->db->hasComponent("components/ILIAS", "Module1"));
+        $this->assertTrue($this->db->hasComponent("components/ILIAS", "Module2"));
         $this->assertTrue($this->db->hasComponent("Services", "Service1"));
         $this->assertTrue($this->db->hasComponent("Services", "Service2"));
-        $this->assertFalse($this->db->hasComponent("Modules", "Module3"));
-        $this->assertFalse($this->db->hasComponent("Modules", "Module4"));
+        $this->assertFalse($this->db->hasComponent("components/ILIAS", "Module3"));
+        $this->assertFalse($this->db->hasComponent("components/ILIAS", "Module4"));
         $this->assertFalse($this->db->hasComponent("Services", "Service3"));
         $this->assertFalse($this->db->hasComponent("Services", "Service4"));
     }
@@ -283,8 +283,8 @@ class ilArtifactComponentRepositoryTest extends TestCase
 
     public function testGetComponentByTypeAndName(): void
     {
-        $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("Modules", "Module1"));
-        $this->assertEquals($this->mod2, $this->db->getComponentByTypeAndName("Modules", "Module2"));
+        $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("components/ILIAS", "Module1"));
+        $this->assertEquals($this->mod2, $this->db->getComponentByTypeAndName("components/ILIAS", "Module2"));
         $this->assertEquals($this->ser1, $this->db->getComponentByTypeAndName("Services", "Service1"));
         $this->assertEquals($this->ser2, $this->db->getComponentByTypeAndName("Services", "Service2"));
     }
@@ -292,7 +292,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
     public function testGetComponentByTypeAndNameThrowsOnUnknownComponent1(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->db->getComponentByTypeAndName("Modules", "Module3");
+        $this->db->getComponentByTypeAndName("components/ILIAS", "Module3");
     }
 
     public function testGetComponentByTypeAndNameThrowsOnUnknownComponent2(): void
@@ -337,7 +337,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $db = new class ($this->data_factory, $this->plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData(): array
             {
-                return ["mod2" => ["Modules", "Module2", []]];
+                return ["mod2" => ["components/ILIAS", "Module2", []]];
             }
             protected function readPluginData(): array
             {
@@ -401,13 +401,13 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $db = new class ($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData(): array
             {
-                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+                return ["mod1" => ["components/ILIAS", "Module1", [["slt1", "Slot1"]]]];
             }
             protected function readPluginData(): array
             {
                 return [
                     "plg1" => [
-                        "Modules",
+                        "components/ILIAS",
                         "Module1",
                         "Slot1",
                         "Plugin1",
@@ -436,7 +436,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
     public function testGetPluginViaComponentAndPluginSlot(): void
     {
         $plg1 = $this->db
-            ->getComponentByTypeAndName("Modules", "Module1")
+            ->getComponentByTypeAndName("components/ILIAS", "Module1")
             ->getPluginSlotById("slt1")
             ->getPluginById("plg1");
 
@@ -468,13 +468,13 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $db = new class ($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData(): array
             {
-                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+                return ["mod1" => ["components/ILIAS", "Module1", [["slt1", "Slot1"]]]];
             }
             protected function readPluginData(): array
             {
                 return [
                     "plg1" => [
-                        "Modules",
+                        "components/ILIAS",
                         "Module1",
                         "Slot1",
                         "Plugin1",
@@ -509,13 +509,13 @@ class ilArtifactComponentRepositoryTest extends TestCase
             }
             protected function readComponentData(): array
             {
-                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+                return ["mod1" => ["components/ILIAS", "Module1", [["slt1", "Slot1"]]]];
             }
             protected function readPluginData(): array
             {
                 return [
                     "plg1" => [
-                        "Modules",
+                        "components/ILIAS",
                         "Module1",
                         "Slot1",
                         "Plugin1",
@@ -544,7 +544,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->db->_buildDatabase();
 
         $this->assertEquals($this->mod1, $this->db->getComponentById("mod1"));
-        $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("Modules", "Module1"));
+        $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("components/ILIAS", "Module1"));
         $this->assertEquals($this->slt1, $this->db->getPluginSlotById("slt1"));
         $this->assertEquals($this->plg1, $this->db->getPluginById("plg1"));
         $this->assertEquals($this->plg2, $this->db->getPluginByName("Plugin2"));
@@ -557,13 +557,13 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $db = new class ($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData(): array
             {
-                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+                return ["mod1" => ["components/ILIAS", "Module1", [["slt1", "Slot1"]]]];
             }
             protected function readPluginData(): array
             {
                 return [
                     "plg1" => [
-                        "Modules",
+                        "components/ILIAS",
                         "Module1",
                         "Slot1",
                         "Plugin1",
@@ -599,13 +599,13 @@ class ilArtifactComponentRepositoryTest extends TestCase
             }
             protected function readComponentData(): array
             {
-                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+                return ["mod1" => ["components/ILIAS", "Module1", [["slt1", "Slot1"]]]];
             }
             protected function readPluginData(): array
             {
                 return [
                     "plg1" => [
-                        "Modules",
+                        "components/ILIAS",
                         "Module1",
                         "Slot1",
                         "Plugin1",
@@ -636,13 +636,13 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $db = new class ($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData(): array
             {
-                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+                return ["mod1" => ["components/ILIAS", "Module1", [["slt1", "Slot1"]]]];
             }
             protected function readPluginData(): array
             {
                 return [
                     "plg1" => [
-                        "Modules",
+                        "components/ILIAS",
                         "Module1",
                         "Slot1",
                         "Plugin1",
@@ -678,13 +678,13 @@ class ilArtifactComponentRepositoryTest extends TestCase
             }
             protected function readComponentData(): array
             {
-                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+                return ["mod1" => ["components/ILIAS", "Module1", [["slt1", "Slot1"]]]];
             }
             protected function readPluginData(): array
             {
                 return [
                     "plg1" => [
-                        "Modules",
+                        "components/ILIAS",
                         "Module1",
                         "Slot1",
                         "Plugin1",

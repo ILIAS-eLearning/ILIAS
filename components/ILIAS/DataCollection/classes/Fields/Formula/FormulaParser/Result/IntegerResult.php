@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\Result;
+namespace ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result\Result;
 
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Math\Functions;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Math\Functions;
 
 class IntegerResult extends Result
 {

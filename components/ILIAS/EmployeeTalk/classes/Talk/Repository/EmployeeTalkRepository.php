@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Modules\EmployeeTalk\Talk\Repository;
+namespace ILIAS\components\EmployeeTalk\Talk\Repository;
 
-use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
 
 interface EmployeeTalkRepository
 {

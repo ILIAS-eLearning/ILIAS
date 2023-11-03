@@ -20,7 +20,7 @@
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilAssQuestionRelatedNavigationBarGUI
 {
@@ -126,7 +126,7 @@ class ilAssQuestionRelatedNavigationBarGUI
 
     public function getHTML(): string
     {
-        $navTpl = new ilTemplate('tpl.qst_question_related_navigation.html', true, true, 'Modules/TestQuestionPool');
+        $navTpl = new ilTemplate('tpl.qst_question_related_navigation.html', true, true, 'components/ILIAS/TestQuestionPool');
 
         $parseQuestionRelatedNavigation = false;
 

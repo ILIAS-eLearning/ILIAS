@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilObjForumAccess
  * @author  Alex Killing <alex.killing@gmx.de>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilObjForumAccess extends ilObjectAccess
 {

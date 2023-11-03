@@ -331,7 +331,7 @@ class ilObjExercise extends ilObject
         ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());
 
         $ilAppEventHandler->raise(
-            'Modules/Exercise',
+            'components/ILIAS/Exercise',
             'delete',
             array('obj_id' => $this->getId())
         );

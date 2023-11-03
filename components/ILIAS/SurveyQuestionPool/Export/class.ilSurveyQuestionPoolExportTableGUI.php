@@ -59,7 +59,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
             $this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
         }
 
-        $this->setRowTemplate("tpl.il_svy_qpl_export_row.html", "Modules/SurveyQuestionPool");
+        $this->setRowTemplate("tpl.il_svy_qpl_export_row.html", "components/ILIAS/SurveyQuestionPool");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("file");

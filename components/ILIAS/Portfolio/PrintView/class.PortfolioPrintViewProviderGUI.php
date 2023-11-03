@@ -185,7 +185,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             "tpl.prtf_cover.html",
             true,
             true,
-            "Modules/Portfolio"
+            "components/ILIAS/Portfolio"
         );
         foreach ($pages as $page) {
             if ($page["type"] != \ilPortfolioPage::TYPE_BLOG) {
@@ -237,7 +237,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         $print_pages[] = $cover_tpl->get();
 
-        $page_head_tpl = new \ilTemplate("tpl.prtf_page_head.html", true, true, "Modules/Portfolio");
+        $page_head_tpl = new \ilTemplate("tpl.prtf_page_head.html", true, true, "components/ILIAS/Portfolio");
         $page_head_tpl->setVariable("AUTHOR", $author_str);
         $page_head_tpl->setVariable("DATE", $date_str);
         $page_head_str = $page_head_tpl->get();

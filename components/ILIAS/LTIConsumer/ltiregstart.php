@@ -19,7 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 /** @noRector */
-chdir("../../");
+chdir("../../../");
 
 require_once("Services/Init/classes/class.ilInitialisation.php");
 

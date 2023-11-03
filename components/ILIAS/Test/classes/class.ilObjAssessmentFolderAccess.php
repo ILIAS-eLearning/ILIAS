@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilObjAssessmentFolderAccess
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilObjAssessmentFolderAccess extends ilObjectAccess
 {

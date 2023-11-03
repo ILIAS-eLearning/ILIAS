@@ -103,7 +103,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
                     ilFileUtils::rCopy($source_dir, $target_dir);
                 }
 
-                $a_mapping->addMapping("Modules/HTMLLearningModule", "htlm", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/HTMLLearningModule", "htlm", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
                     "Services/MetaData",
                     "md",

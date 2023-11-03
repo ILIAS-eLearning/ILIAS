@@ -162,7 +162,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
             $user_answer = $this->getParsedAnswers($working_data);
             $user_answer = $user_answer[0]["value"];
         }
-        $template = new ilTemplate("tpl.il_svy_qpl_metric_printview.html", true, true, "Modules/SurveyQuestionPool");
+        $template = new ilTemplate("tpl.il_svy_qpl_metric_printview.html", true, true, "components/ILIAS/SurveyQuestionPool");
         $template->setVariable("MIN_MAX", $this->object->getMinMaxText());
 
         if ($show_questiontext) {
@@ -199,7 +199,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         int $survey_id = null,
         bool $compress_view = false
     ): string {
-        $template = new ilTemplate("tpl.il_svy_out_metric.html", true, true, "Modules/SurveyQuestionPool");
+        $template = new ilTemplate("tpl.il_svy_out_metric.html", true, true, "components/ILIAS/SurveyQuestionPool");
         $template->setVariable("MIN_MAX", $this->object->getMinMaxText());
 
         if ($show_questiontext) {

@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 /**
- * @package Modules/Test
+ * @package components\ILIAS/Test
  * Results for one question/user
  */
 class ilQuestionResult

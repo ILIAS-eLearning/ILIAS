@@ -16,7 +16,7 @@
  ********************************************************************
  */
 
-namespace ILIAS\Modules\OrgUnit\ARHelper;
+namespace ILIAS\components\OrgUnit\ARHelper;
 
 use ILIAS\DI\Container;
 

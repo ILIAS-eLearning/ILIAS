@@ -152,7 +152,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->ctrl->setReturn($this, "properties");
         }
         // deprecated, moved for less file
-        //$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
+        //$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "components/ILIAS/Survey"), "screen");
         $this->prepareOutput();
 
         $this->log->debug("next_class= $next_class");
@@ -809,7 +809,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function getUserResultsTable(
         int $a_active_id
     ): string {
-        $rtpl = new ilTemplate("tpl.svy_view_user_results.html", true, true, "Modules/Survey");
+        $rtpl = new ilTemplate("tpl.svy_view_user_results.html", true, true, "components/ILIAS/Survey");
 
         $show_titles = $this->object->getShowQuestionTitles();
 

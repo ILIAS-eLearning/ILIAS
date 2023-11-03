@@ -165,7 +165,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     ): string {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.schedule_input.html", true, true, "Modules/BookingManager");
+        $tpl = new ilTemplate("tpl.schedule_input.html", true, true, "components/ILIAS/BookingManager");
 
         $lng->loadLanguageModule("dateplaner");
 
@@ -242,7 +242,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     {
         $tpl = $this->tpl;
 
-        $tpl->addJavascript("Modules/BookingManager/js/ScheduleInput.js");
+        $tpl->addJavascript("components/ILIAS/BookingManager/js/ScheduleInput.js");
 
         $html = $this->render();
 

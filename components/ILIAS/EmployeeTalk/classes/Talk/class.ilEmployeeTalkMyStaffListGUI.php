@@ -21,10 +21,10 @@ declare(strict_types=1);
 use ILIAS\EmployeeTalk\UI\ControlFlowCommandHandler;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\Modules\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
-use ILIAS\Modules\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
-use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\Modules\EmployeeTalk\Talk\EmployeeTalkPositionAccessLevel;
+use ILIAS\components\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
+use ILIAS\components\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
+use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\components\EmployeeTalk\Talk\EmployeeTalkPositionAccessLevel;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\UIServices;
 

@@ -56,7 +56,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
 
-        $this->setRowTemplate('tpl.il_as_tst_pass_overview_row.html', 'Modules/Test');
+        $this->setRowTemplate('tpl.il_as_tst_pass_overview_row.html', 'components/ILIAS/Test');
     }
 
     public function init(): void

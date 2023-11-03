@@ -26,17 +26,17 @@ class ilModulesIndividualAssessmentSuite extends TestSuite
     {
         $suite = new ilModulesIndividualAssessmentSuite();
 
-        require_once("./Modules/IndividualAssessment/test/AccessControl/ilIndividualAssessmentAccessHandlerTest.php");
-        require_once("./Modules/IndividualAssessment/test/Members/ilIndividualAssessmentMemberTest.php");
-        require_once("./Modules/IndividualAssessment/test/Members/ilIndividualAssessmentMembersTest.php");
-        require_once("./Modules/IndividualAssessment/test/Members/ilIndividualAssessmentMembersStorageDBTest.php");
-        require_once("./Modules/IndividualAssessment/test/Settings/ilIndividualAssessmentSettingsTest.php");
-        require_once("./Modules/IndividualAssessment/test/Settings/ilIndividualAssessmentInfoSettingsTest.php");
-        require_once("./Modules/IndividualAssessment/test/Settings/ilIndividualAssessmentCommonSettingsGUITest.php");
-        require_once("./Modules/IndividualAssessment/test/Settings/ilIndividualAssessmentSettingsStorageDBTest.php");
-        require_once("./Modules/IndividualAssessment/test/ilIndividualAssessmentDataSetTest.php");
-        require_once("./Modules/IndividualAssessment/test/ilIndividualAssessmentExporterTest.php");
-        require_once("./Modules/IndividualAssessment/test/ilIndividualAssessmentUserGradingTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/AccessControl/ilIndividualAssessmentAccessHandlerTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/Members/ilIndividualAssessmentMemberTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/Members/ilIndividualAssessmentMembersTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/Members/ilIndividualAssessmentMembersStorageDBTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/Settings/ilIndividualAssessmentSettingsTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/Settings/ilIndividualAssessmentInfoSettingsTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/Settings/ilIndividualAssessmentCommonSettingsGUITest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/Settings/ilIndividualAssessmentSettingsStorageDBTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/ilIndividualAssessmentDataSetTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/ilIndividualAssessmentExporterTest.php");
+        require_once("./components/ILIAS/IndividualAssessment/test/ilIndividualAssessmentUserGradingTest.php");
 
         $suite->addTestSuite('ilIndividualAssessmentAccessHandlerTest');
         $suite->addTestSuite('ilIndividualAssessmentMemberTest');

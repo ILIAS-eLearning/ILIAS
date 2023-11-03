@@ -58,7 +58,7 @@ class ilCategoryImporter extends ilXmlImporter
             $parser->setCategory($this->category);
             $parser->setMode(ilCategoryXmlParser::MODE_UPDATE);
             $parser->startParsing();
-            $a_mapping->addMapping('Modules/Category', 'cat', $a_id, (string) $this->category->getId());
+            $a_mapping->addMapping('components/ILIAS/Category', 'cat', $a_id, (string) $this->category->getId());
         } catch (ilSaxParserException | Exception $e) {
             $GLOBALS['ilLog']->write(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
         }
@@ -89,7 +89,7 @@ class ilCategoryImporter extends ilXmlImporter
     public function finalProcessing(
         ilImportMapping $a_mapping
     ): void {
-        $maps = $a_mapping->getMappingsOfEntity("Modules/Category", "cat");
+        $maps = $a_mapping->getMappingsOfEntity("components/ILIAS/Category", "cat");
         foreach ($maps as $old => $new) {
             if ($old !== "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object

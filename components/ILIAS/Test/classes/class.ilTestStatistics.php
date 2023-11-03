@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * This class calculates statistical data for a test which has to be
@@ -27,7 +27,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
-* @ingroup ModulesTest
+* @ingroup components\ILIASTest
 */
 class ilTestStatistics
 {

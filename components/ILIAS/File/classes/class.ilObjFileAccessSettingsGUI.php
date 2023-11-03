@@ -17,8 +17,8 @@
 
 use ILIAS\HTTP\Services;
 use ILIAS\File\Icon\ilObjFileIconsOverviewGUI;
-use ILIAS\Modules\File\Preview\Settings;
-use ILIAS\Modules\File\Settings\General;
+use ILIAS\components\File\Preview\Settings;
+use ILIAS\components\File\Settings\General;
 
 /**
  * Class ilObjFileAccessSettingsGUI
@@ -40,8 +40,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     public const CMD_SAVE_SETTINGS = 'saveSettings';
     public const CMD_VIEW = 'view';
     private ilLanguage $language;
-    private \ILIAS\Modules\File\Preview\Form $preview_settings;
-    private \ILIAS\Modules\File\Settings\Form $file_object_settings;
+    private \ILIAS\components\File\Preview\Form $preview_settings;
+    private \ILIAS\components\File\Settings\Form $file_object_settings;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $ui_renderer;
     protected Services $http;
@@ -56,8 +56,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         global $DIC;
         $this->type = "facs";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-        $this->preview_settings = new ILIAS\Modules\File\Preview\Form(new Settings());
-        $this->file_object_settings = new \ILIAS\Modules\File\Settings\Form(new General());
+        $this->preview_settings = new ILIAS\components\File\Preview\Form(new Settings());
+        $this->file_object_settings = new \ILIAS\components\File\Settings\Form(new General());
         $this->http = $DIC->http();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();

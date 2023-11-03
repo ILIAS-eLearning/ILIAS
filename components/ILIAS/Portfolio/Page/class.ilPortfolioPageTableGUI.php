@@ -62,7 +62,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.portfolio_page_row.html", "Modules/Portfolio");
+        $this->setRowTemplate("tpl.portfolio_page_row.html", "components/ILIAS/Portfolio");
 
         //$this->addMultiCommand("confirmPortfolioPageDeletion", $lng->txt("delete"));
         //$this->addMultiCommand("copyPageForm", $lng->txt("prtf_copy_page"));

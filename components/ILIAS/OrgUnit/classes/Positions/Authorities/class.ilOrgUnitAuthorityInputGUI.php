@@ -98,7 +98,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
      */
     protected function render(): string
     {
-        $tpl = new ilTemplate("tpl.authority_input.html", true, true, "Modules/OrgUnit");
+        $tpl = new ilTemplate("tpl.authority_input.html", true, true, "components/ILIAS/OrgUnit");
         //		if (strlen($this->getValue())) {
         //			$tpl->setCurrentBlock("prop_text_propval");
         //			$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
@@ -179,7 +179,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
          * @var $globalTpl \ilTemplate
          */
         $globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
-        $globalTpl->addJavascript("./Modules/OrgUnit/templates/default/authority.js");
+        $globalTpl->addJavascript("./components/ILIAS/OrgUnit/templates/default/authority.js");
 
         $config = json_encode(array());
 

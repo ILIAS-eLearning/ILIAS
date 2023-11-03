@@ -49,7 +49,7 @@ class ilTermDefinitionBulkCreationTableGUI extends ilTable2GUI
         $this->setFormAction($ctrl->getFormAction($a_parent_obj, "createTermDefinitionPairs"));
         $this->setRowTemplate(
             "tpl.bulk_creation_row.html",
-            "Modules/Glossary"
+            "components/ILIAS/Glossary"
         );
         $this->addHiddenInput("bulk_data", $raw_data);
     }

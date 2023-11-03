@@ -230,7 +230,7 @@ class ilPCAMDPageList extends ilPageContent
                 ? (int) $parts[1]
                 : 0;
 
-            $ltpl = new ilTemplate("tpl.wiki_amd_page_list.html", true, true, "Modules/Wiki");
+            $ltpl = new ilTemplate("tpl.wiki_amd_page_list.html", true, true, "components/ILIAS/Wiki");
 
             $pages = $this->findPages($list_id);
             if (count($pages)) {

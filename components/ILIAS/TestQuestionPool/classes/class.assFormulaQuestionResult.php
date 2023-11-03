@@ -20,7 +20,7 @@
  * Formula Question Result
  * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @version       $Id: class.assFormulaQuestionResult.php 944 2009-11-09 16:11:30Z hschottm $
- * @ingroup       ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  * */
 class assFormulaQuestionResult
 {

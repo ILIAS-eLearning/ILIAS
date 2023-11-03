@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
-* @ingroup ModulesTest
+* @ingroup components\ILIASTest
 */
 
 /**

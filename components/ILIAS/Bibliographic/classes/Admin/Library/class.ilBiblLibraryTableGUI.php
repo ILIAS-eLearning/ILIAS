@@ -24,7 +24,7 @@
  */
 class ilBiblLibraryTableGUI extends ilTable2GUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    use \ILIAS\components\OrgUnit\ARHelper\DIC;
 
 
     /**
@@ -38,7 +38,7 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
         $this->initColumns();
         $this->setEnableNumInfo(false);
         $this->setFormAction($this->ctrl()->getFormAction($parent_gui));
-        $this->setRowTemplate('tpl.bibl_settings_lib_list_row.html', 'Modules/Bibliographic');
+        $this->setRowTemplate('tpl.bibl_settings_lib_list_row.html', 'components/ILIAS/Bibliographic');
     }
 
 

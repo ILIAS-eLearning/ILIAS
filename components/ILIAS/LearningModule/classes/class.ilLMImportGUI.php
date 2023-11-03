@@ -109,7 +109,7 @@ class ilLMImportGUI
         $lng = $this->lng;
 
         $imp = new ilImport();
-        $conf = $imp->getConfig("Modules/LearningModule");
+        $conf = $imp->getConfig("components/ILIAS/LearningModule");
 
         $target_lang = $this->request->getImportLang();
         $ot = ilObjectTranslation::getInstance($this->lm->getId());
@@ -124,7 +124,7 @@ class ilLMImportGUI
             $_FILES["importfile"]["tmp_name"],
             $_FILES["importfile"]["name"],
             "lm",
-            "Modules/LearningModule"
+            "components/ILIAS/LearningModule"
         );
         //echo "h"; exit;
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

@@ -19,7 +19,7 @@ declare(strict_types=0);
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseImporter extends ilXmlImporter
 {
@@ -80,7 +80,7 @@ class ilCourseImporter extends ilXmlImporter
             $this->course->setOfflineStatus(true);
             $this->course->update();
 
-            $a_mapping->addMapping('Modules/Course', 'crs', $a_id, (string) $this->course->getId());
+            $a_mapping->addMapping('components/ILIAS/Course', 'crs', $a_id, (string) $this->course->getId());
 
             // workaround for ilImportContainer::createDummy which creates Metadata via create(true)
             $this->course->deleteMetaData();

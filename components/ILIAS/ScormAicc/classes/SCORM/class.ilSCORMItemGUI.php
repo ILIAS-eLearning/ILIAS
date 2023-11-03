@@ -23,7 +23,7 @@ declare(strict_types=1);
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ingroup ModulesScormAicc
+* @ingroup components\ILIASScormAicc
 */
 class ilSCORMItemGUI extends ilSCORMObjectGUI
 {
@@ -54,7 +54,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
                     ? "?" . $this->sc_object->getParameters()
                     : "";
 
-                $this->tpl = new ilGlobalTemplate("tpl.scorm_content_frameset.html", true, true, "Modules/ScormAicc");
+                $this->tpl = new ilGlobalTemplate("tpl.scorm_content_frameset.html", true, true, "components/ILIAS/ScormAicc");
                 $this->tpl->setVariable("ITEM_LOCATION", $slm_obj->getDataDirectory() . "/" . $resource->getHref() . $param_str);
                 $this->tpl->setVariable("ITEM_ID", $objId);
                 $this->tpl->setVariable("REF_ID", $refId);
@@ -66,7 +66,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
         }
 
         // this point is only reached if now resource could be displayed above!
-        $this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", "Modules/ScormAicc");
+        $this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", "components/ILIAS/ScormAicc");
         $this->tpl->setCurrentBlock("par_table");
         $this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_item"));
         $this->displayParameter(

@@ -20,7 +20,7 @@ declare(strict_types=1);
 /**
  * Class ilSCORMTrackingItems
  * @author  Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
- * @ingroup ModulesScormAicc
+ * @ingroup components\ILIASScormAicc
  */
 class ilSCORMTrackingItems
 {

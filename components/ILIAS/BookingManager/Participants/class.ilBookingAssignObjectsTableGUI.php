@@ -92,7 +92,7 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         //$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.booking_assign_object_row.html", "Modules/BookingManager");
+        $this->setRowTemplate("tpl.booking_assign_object_row.html", "components/ILIAS/BookingManager");
 
         $this->getItems();
     }

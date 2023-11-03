@@ -280,7 +280,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     {
         $lng = $this->lng;
 
-        $template = new ilTemplate("tpl.prop_imagemap_file.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.prop_imagemap_file.html", true, true, "components/ILIAS/TestQuestionPool");
 
         $this->outputSuffixes($template, "allowed_image_suffixes");
 
@@ -378,7 +378,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $template->get());
         $a_tpl->parseCurrentBlock();
 
-        $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
-        $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/imagemap.js");
+        $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
+        $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/imagemap.js");
     }
 }

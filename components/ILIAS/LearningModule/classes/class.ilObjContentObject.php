@@ -986,14 +986,14 @@ class ilObjContentObject extends ilObject
      */
     public static function getAvailableLayouts(): array
     {
-        $dir = opendir("./Modules/LearningModule/layouts/lm");
+        $dir = opendir("./components/ILIAS/LearningModule/layouts/lm");
 
         $layouts = array();
 
         while ($file = readdir($dir)) {
             if ($file != "." && $file != ".." && $file != "CVS" && $file != ".svn") {
                 // directories
-                if (is_dir("./Modules/LearningModule/layouts/lm/" . $file)) {
+                if (is_dir("./components/ILIAS/LearningModule/layouts/lm/" . $file)) {
                     $layouts[$file] = $file;
                 }
             }

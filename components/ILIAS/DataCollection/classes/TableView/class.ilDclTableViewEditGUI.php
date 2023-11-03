@@ -134,7 +134,7 @@ class ilDclTableViewEditGUI
                         $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
                         break;
                     case 'editGeneralSettings':
-                        $settings_tpl = new ilTemplate("tpl.dcl_settings.html", true, true, 'Modules/DataCollection');
+                        $settings_tpl = new ilTemplate("tpl.dcl_settings.html", true, true, 'components/ILIAS/DataCollection');
 
                         $this->setTabs('general_settings');
                         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);

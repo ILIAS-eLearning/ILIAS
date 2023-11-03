@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Component;
  * Class ilChatroomViewGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilChatroomViewGUI extends ilChatroomGUIHandler
 {
@@ -78,12 +78,12 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      */
     private function setupTemplate(): void
     {
-        $this->mainTpl->addJavaScript('Modules/Chatroom/js/chat.js');
-        $this->mainTpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
+        $this->mainTpl->addJavaScript('components/ILIAS/Chatroom/js/chat.js');
+        $this->mainTpl->addJavaScript('components/ILIAS/Chatroom/js/iliaschat.jquery.js');
         $this->mainTpl->addJavaScript('node_modules/jquery-outside-events/jquery.ba-outside-events.js');
         $this->mainTpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
 
-        $this->mainTpl->addCss('Modules/Chatroom/templates/default/style.css');
+        $this->mainTpl->addCss('components/ILIAS/Chatroom/templates/default/style.css');
 
         $this->mainTpl->setPermanentLink($this->gui->getObject()->getType(), $this->gui->getObject()->getRefId());
     }
@@ -153,7 +153,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             );
         }
 
-        $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
+        $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'components/ILIAS/Chatroom');
         $roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
         $roomTpl->setVariable('INSTANCE', $settings->getInstance());
         $roomTpl->setVariable('SCOPE', $scope);
@@ -186,7 +186,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     private function sendMessageForm(): Component
     {
-        $template = new ilTemplate('tpl.chatroom_send_message_form.html', true, true, 'Modules/Chatroom');
+        $template = new ilTemplate('tpl.chatroom_send_message_form.html', true, true, 'components/ILIAS/Chatroom');
         $this->renderSendMessageBox($template);
 
         return $this->legacy($template->get());
@@ -194,7 +194,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     private function userList(): string
     {
-        $roomRightTpl = new ilTemplate('tpl.chatroom_right.html', true, true, 'Modules/Chatroom');
+        $roomRightTpl = new ilTemplate('tpl.chatroom_right.html', true, true, 'components/ILIAS/Chatroom');
         $this->renderRightUsersBlock($roomRightTpl);
 
         return $this->panel($this->ilLng->txt('users'), $this->legacy($roomRightTpl->get()));

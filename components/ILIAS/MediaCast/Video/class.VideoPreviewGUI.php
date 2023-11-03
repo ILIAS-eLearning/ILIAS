@@ -52,7 +52,7 @@ class VideoPreviewGUI
     {
         $lng = $this->lng;
 
-        $tpl = new \ilTemplate("tpl.video_preview.html", true, true, "Modules/MediaCast/Video");
+        $tpl = new \ilTemplate("tpl.video_preview.html", true, true, "components/ILIAS/MediaCast/Video");
         $im = $this->ui->factory()->image()->responsive($this->file, "");
         $tpl->setVariable("IMAGE", $this->ui->renderer()->render($im));
         $tpl->setVariable("ONCLICK", $this->onclick);

@@ -47,7 +47,7 @@ class ilCmiXapiAppEventListener
                 }
                 break;
 
-            case "Modules/Course":
+            case "components/ILIAS/Course":
                 if ($event == "deleteParticipant") {
                     self::removeMembers(
                         'crs',
@@ -55,7 +55,7 @@ class ilCmiXapiAppEventListener
                     );
                 }
                 break;
-            case "Modules/Group":
+            case "components/ILIAS/Group":
                 if ($event == "deleteParticipant") {
                     self::removeMembers(
                         'grp',

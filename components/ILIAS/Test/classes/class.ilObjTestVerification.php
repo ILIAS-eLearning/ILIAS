@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Test Verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilObjTestVerification extends ilVerificationObject
 {

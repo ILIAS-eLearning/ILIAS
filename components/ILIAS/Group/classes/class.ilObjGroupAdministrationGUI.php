@@ -26,7 +26,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls ilObjGroupAdministrationGUI: ilPermissionGUI, ilMemberExportSettingsGUI, ilUserActionadminGUI
  *
- * @ingroup ModulesGroup
+ * @ingroup components\ILIASGroup
  */
 class ilObjGroupAdministrationGUI extends ilMembershipAdministrationGUI
 {

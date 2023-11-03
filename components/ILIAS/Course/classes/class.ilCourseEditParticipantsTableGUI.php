@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 {
@@ -71,7 +71,7 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 
         $this->addCommandButton('updateParticipants', $this->lng->txt('save'));
         $this->addCommandButton('participants', $this->lng->txt('cancel'));
-        $this->setRowTemplate("tpl.edit_participants_row.html", "Modules/Course");
+        $this->setRowTemplate("tpl.edit_participants_row.html", "components/ILIAS/Course");
         $this->disable('sort');
         $this->enable('header');
         $this->enable('numinfo');

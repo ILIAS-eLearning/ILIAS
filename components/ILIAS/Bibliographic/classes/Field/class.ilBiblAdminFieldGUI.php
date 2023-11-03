@@ -23,7 +23,7 @@
  */
 abstract class ilBiblAdminFieldGUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    use \ILIAS\components\OrgUnit\ARHelper\DIC;
 
     public const CMD_INIT_DEFAULT_FIELDS_AND_SORTING = 'initDefaultFieldsAndSorting';
     public const SUBTAB_RIS = 'subtab_ris';

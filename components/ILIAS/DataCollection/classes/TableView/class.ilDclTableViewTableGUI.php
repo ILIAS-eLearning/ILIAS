@@ -54,10 +54,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->addColumn('', '', '1', true);
             $this->addColumn($this->lng->txt('dcl_order'), '', '30px');
 
-            $this->setRowTemplate('tpl.tableview_list_row.html', 'Modules/DataCollection');
+            $this->setRowTemplate('tpl.tableview_list_row.html', 'components/ILIAS/DataCollection');
             $this->setData($this->table->getTableViews());
         } elseif ($this->parent_obj instanceof ilDclDetailedViewGUI) {
-            $this->setRowTemplate('tpl.detailview_list_row.html', 'Modules/DataCollection');
+            $this->setRowTemplate('tpl.detailview_list_row.html', 'components/ILIAS/DataCollection');
             $this->setData($this->table->getVisibleTableViews($ref_id, true));
         }
 

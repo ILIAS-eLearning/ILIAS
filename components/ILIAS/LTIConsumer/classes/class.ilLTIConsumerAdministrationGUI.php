@@ -27,7 +27,7 @@ use GuzzleHttp\Psr7\Uri;
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilLTIConsumerAdministrationGUI
 {

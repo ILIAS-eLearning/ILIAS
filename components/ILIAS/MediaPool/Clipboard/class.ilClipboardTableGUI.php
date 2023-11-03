@@ -48,7 +48,7 @@ class ilClipboardTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.clipboard_tbl_row.html",
-            "Modules/MediaPool/Clipboard"
+            "components/ILIAS/MediaPool/Clipboard"
         );
         $this->getItems();
 

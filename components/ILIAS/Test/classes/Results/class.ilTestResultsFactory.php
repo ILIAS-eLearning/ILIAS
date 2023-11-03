@@ -22,7 +22,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /**
- * @package Modules/Test
+ * @package components\ILIAS/Test
  * Results (currently, for one user and pass)
  */
 class ilTestResultsFactory

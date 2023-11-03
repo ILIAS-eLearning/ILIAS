@@ -60,7 +60,7 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.exc_crit_cat_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.exc_crit_cat_row.html", "components/ILIAS/Exercise");
         $this->setSelectAllCheckbox("id");
 
         $this->addMultiCommand("confirmDeletion", $lng->txt("delete"));

@@ -22,7 +22,7 @@ use ILIAS\DI\UIServices;
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
- * @package        Modules/Test(QuestionPool)
+ * @package components\ILIAS/Test(QuestionPool)
  */
 class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElementsInputGUI
 {
@@ -278,7 +278,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      */
     protected function getItemTemplate(): ilTemplate
     {
-        return new ilTemplate('tpl.prop_ass_nested_order_elem.html', true, true, 'Modules/TestQuestionPool');
+        return new ilTemplate('tpl.prop_ass_nested_order_elem.html', true, true, 'components/ILIAS/TestQuestionPool');
     }
 
     /**

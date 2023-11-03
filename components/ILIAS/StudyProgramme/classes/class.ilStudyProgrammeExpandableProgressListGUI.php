@@ -281,7 +281,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
             return false;
         }
 
-        $this->tpl->addCSS("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
+        $this->tpl->addCSS("components/ILIAS/StudyProgramme/templates/css/ilStudyProgramme.css");
         $this->css_added = true;
     }
 }

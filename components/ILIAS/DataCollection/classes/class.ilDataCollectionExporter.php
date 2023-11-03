@@ -71,7 +71,7 @@ class ilDataCollectionExporter extends ilXmlExporter
     {
         $dependencies = [
             ilDclDatatype::INPUTFORMAT_FILEUPLOAD => [
-                'component' => 'Modules/File',
+                'component' => 'components/ILIAS/File',
                 'entity' => 'file',
                 'ids' => [],
             ],

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * XML writer for weblinks
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesWebResource
+ * @ingroup components\ILIASWebResource
  */
 class ilWebLinkXmlWriter extends ilXmlWriter
 {

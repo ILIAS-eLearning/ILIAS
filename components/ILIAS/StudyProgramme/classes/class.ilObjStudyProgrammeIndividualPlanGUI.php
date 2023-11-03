@@ -64,7 +64,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
         $lng->loadLanguageModule("prg");
 
-        $this->tpl->addCss("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
+        $this->tpl->addCss("components/ILIAS/StudyProgramme/templates/css/ilStudyProgramme.css");
     }
 
     public function setParentGUI(ilObjStudyProgrammeMembersGUI $parent_gui): void
@@ -131,7 +131,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $gui = new ilStudyProgrammeIndividualPlanProgressListGUI($progress);
         $gui->setOnlyRelevant(true);
         // Wrap a frame around the original gui element to correct rendering.
-        $tpl = new ilTemplate("tpl.individual_plan_tree_frame.html", false, false, "Modules/StudyProgramme");
+        $tpl = new ilTemplate("tpl.individual_plan_tree_frame.html", false, false, "components/ILIAS/StudyProgramme");
         $tpl->setVariable("CONTENT", $gui->getHTML());
         return $this->buildFrame("view", $tpl->get());
     }
@@ -296,7 +296,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
             $tabs[] = 'manage';
         }
 
-        $tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/StudyProgramme");
+        $tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "components/ILIAS/StudyProgramme");
         $ass = $this->getAssignmentObject();
         $user_id = $ass->getUserId();
         $tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($user_id));

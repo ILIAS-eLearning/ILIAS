@@ -2,13 +2,13 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/Group/classes/class.ilObjGroupListGUI.php";
+include_once "./components/ILIAS/Group/classes/class.ilObjGroupListGUI.php";
 
 /**
  * @author Fabian Wolf <wolf@leifos.com>
  * @extends ilObjGroupListGUI
  *
- * @ingroup ModulesGroupReference
+ * @ingroup components\ILIASGroupReference
 */
 class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
 {
@@ -122,7 +122,7 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
         parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
-        include_once('./Modules/GroupReference/classes/class.ilObjGroupReferenceAccess.php');
+        include_once('./components/ILIAS/GroupReference/classes/class.ilObjGroupReferenceAccess.php');
         $this->commands = ilObjGroupReferenceAccess::_getCommands($this->reference_ref_id);
 
         if ($ilAccess->checkAccess('write', '', $this->reference_ref_id) or $this->deleted) {

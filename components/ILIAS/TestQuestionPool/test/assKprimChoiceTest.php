@@ -20,7 +20,7 @@
  *
  * @author Guido Vollbach <gvollbachdatabay.de>
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  */
 class assKprimChoiceTest extends assBaseTestCase
 {

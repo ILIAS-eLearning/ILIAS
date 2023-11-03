@@ -24,7 +24,7 @@ use ILIAS\Test\InternalRequestService;
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestLearningObjectivesStatusGUI
 {
@@ -74,7 +74,7 @@ class ilTestLearningObjectivesStatusGUI
     {
         $this->lng->loadLanguageModule('crs');
 
-        $tpl = new ilTemplate('tpl.tst_lo_status.html', true, true, 'Modules/Test');
+        $tpl = new ilTemplate('tpl.tst_lo_status.html', true, true, 'components/ILIAS/Test');
 
         $tpl->setCurrentBlock('objectives_progress_header');
         $tpl->setVariable('OBJECTIVES_PROGRESS_HEADER', $this->lng->txt($this->getHeaderLangVar($objectiveId)));

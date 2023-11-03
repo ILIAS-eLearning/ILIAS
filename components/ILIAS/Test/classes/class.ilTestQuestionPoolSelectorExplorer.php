@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
- * @package        Modules/Test(QuestionPool)
+ * @package components\ILIAS/Test(QuestionPool)
  */
 class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
 {

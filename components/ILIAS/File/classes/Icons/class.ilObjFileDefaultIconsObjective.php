@@ -29,7 +29,7 @@ use ilDBInterface;
  */
 class ilObjFileDefaultIconsObjective implements \ILIAS\Setup\Objective
 {
-    private const PATH_DEFAULT_ICON_DIR = __DIR__ . "/../../../../templates/default/images/default_file_icons/";
+    private const PATH_DEFAULT_ICON_DIR = __DIR__ . "/../../../../../templates/default/images/default_file_icons/";
 
     /**
      * @inheritDoc

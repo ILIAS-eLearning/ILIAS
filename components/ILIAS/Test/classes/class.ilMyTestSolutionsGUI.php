@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/Test
+ * @package components\ILIAS/Test
  *
  * @ilCtrl_Calls ilMyTestSolutionsGUI: ilTestEvaluationGUI
  * @ilCtrl_Calls ilMyTestSolutionsGUI: ilAssQuestionPageGUI

@@ -123,11 +123,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
+        require_once 'components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
         $processLockerFactory = new ilAssQuestionProcessLockerFactory(new ilSetting('assessment'), $ilDB);
         $processLockerFactory->setQuestionId($question_id);
         $processLockerFactory->setUserId($ilUser->getId());
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+        include_once("./components/ILIAS/Test/classes/class.ilObjAssessmentFolder.php");
         $processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
         $processLocker = $processLockerFactory->getLocker();
 
@@ -173,7 +173,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             });
 
             if ($totalrows !== 0) {
-                include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+                include_once "./components/ILIAS/TestQuestionPool/classes/class.assQuestion.php";
                 $question = assQuestion::instantiateQuestion($question_id);
                 $question->setProcessLocker($processLocker);
                 $question->calculateResultsFromSolution($active_id, $pass);
@@ -259,7 +259,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             return $this->raiseError("Wrong solution data. ILIAS did not execute any database queries", '');
         }
 
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+        include_once "./components/ILIAS/TestQuestionPool/classes/class.assQuestion.php";
         $question = assQuestion::instantiateQuestion($question_id);
         $question->calculateResultsFromSolution($active_id, $pass);
         return "TRUE";
@@ -429,7 +429,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $row = $ilDB->fetchAssoc($result);
         $is_random = $row["random_test"];
 
-        include_once "./Modules/Test/classes/class.ilTestSequence.php";
+        include_once "./components/ILIAS/Test/classes/class.ilTestSequence.php";
         $sequence = new ilTestSequence($ilDB, $active_id, $pass, $questioninfo);
         return $sequence->getSequenceForQuestion($question_id);
     }
@@ -466,7 +466,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $row = $ilDB->fetchAssoc($result);
         $is_random = $row["random_test"];
 
-        include_once "./Modules/Test/classes/class.ilTestSequence.php";
+        include_once "./components/ILIAS/Test/classes/class.ilTestSequence.php";
         $sequence = new ilTestSequence($ilDB, $active_id, $pass, $questioninfo);
         $result = $ilDB->queryF(
             "SELECT question_fi, points FROM tst_test_result WHERE active_fi = %s AND pass = %s",
@@ -524,7 +524,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $row = $ilDB->fetchAssoc($result);
         $is_random = $row["random_test"];
 
-        include_once "./Modules/Test/classes/class.ilTestSequence.php";
+        include_once "./components/ILIAS/Test/classes/class.ilTestSequence.php";
         $sequence = new ilTestSequence($ilDB, $active_id, $pass, $questioninfo);
         return $sequence->getUserQuestionCount();
     }
@@ -578,9 +578,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
             $a_user_ids = $a_user_ids['item'];
         }
 
-        include_once './Modules/Test/classes/class.ilObjTest.php';
-        include_once './Modules/Test/classes/class.ilTestParticipantData.php';
-        require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+        include_once './components/ILIAS/Test/classes/class.ilObjTest.php';
+        include_once './components/ILIAS/Test/classes/class.ilTestParticipantData.php';
+        require_once 'components/ILIAS/Test/classes/class.ilTestParticipantAccessFilter.php';
         $part = new ilTestParticipantData($GLOBALS['DIC']['ilDB'], $GLOBALS['DIC']['lng']);
         $part->setParticipantAccessFilter(
             ilTestParticipantAccessFilter::getManageParticipantsUserFilter($test_ref_id)
@@ -657,12 +657,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $xmlResultSet->addColumn("lastname");
         $xmlResultSet->addColumn("matriculation");
 
-        include_once './Modules/Test/classes/class.ilObjTest.php';
+        include_once './components/ILIAS/Test/classes/class.ilObjTest.php';
         $test_obj = new ilObjTest($obj_id, false);
         $participants = $test_obj->getTestParticipants();
 
-        require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
-        require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+        require_once 'components/ILIAS/Test/classes/class.ilTestParticipantAccessFilter.php';
+        require_once 'components/ILIAS/Test/classes/class.ilTestParticipantList.php';
         $accessFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($test_ref_id);
         $participantList = new ilTestParticipantList($test_obj);
         $participantList->initializeFromDbRows($participants);
@@ -738,7 +738,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
     protected function getTestAccess(int $refId): ilTestAccess
     {
-        require_once 'Modules/Test/classes/class.ilTestAccess.php';
+        require_once 'components/ILIAS/Test/classes/class.ilTestAccess.php';
 
         $testId = ilObjTestAccess::_getTestIDFromObjectID(ilObject::_lookupObjectId($refId));
         return new ilTestAccess($refId, $testId);

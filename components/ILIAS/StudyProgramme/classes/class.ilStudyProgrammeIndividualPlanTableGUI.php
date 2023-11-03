@@ -51,7 +51,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         // TODO: switch this to internal sorting/segmentation
         $this->setExternalSorting(false);
         $this->setExternalSegmentation(false);
-        $this->setRowTemplate("tpl.individual_plan_table_row.html", "Modules/StudyProgramme");
+        $this->setRowTemplate("tpl.individual_plan_table_row.html", "components/ILIAS/StudyProgramme");
         $this->setDefaultOrderDirection("asc");
 
         $this->getParentObject()->appendIndividualPlanActions($this);

@@ -41,7 +41,7 @@ class ilFoundUsersTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("firstname"), "", "33%");
         $this->addColumn($lng->txt("lastname"), "", "33%");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.table_found_users_row.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.table_found_users_row.html", "components/ILIAS/Survey");
         $this->setDefaultOrderField("lastname");
         $this->setDefaultOrderDirection("asc");
     }

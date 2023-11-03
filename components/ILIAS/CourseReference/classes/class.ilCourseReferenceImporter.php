@@ -13,7 +13,7 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceIm
 *
 * @version $Id$
 *
-* @ingroup ModulesContainerReference
+* @ingroup components\ILIASContainerReference
 */
 class ilCourseReferenceImporter extends ilContainerReferenceImporter
 {

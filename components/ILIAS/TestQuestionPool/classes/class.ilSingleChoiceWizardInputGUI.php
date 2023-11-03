@@ -373,7 +373,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $tpl = new ilTemplate("tpl.prop_singlechoicewizardinput.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_singlechoicewizardinput.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
             if ($this->getSingleline()) {
@@ -536,7 +536,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
-        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/singlechoicewizard.js");
+        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
+        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/singlechoicewizard.js");
     }
 }

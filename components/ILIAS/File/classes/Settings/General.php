@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Modules\File\Settings;
+namespace ILIAS\components\File\Settings;
 
 use ILIAS\Administration\Setting;
 use ilSetting;

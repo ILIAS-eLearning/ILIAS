@@ -38,7 +38,7 @@ class ilLearningModuleImporter extends ilXmlImporter
 
         $this->log = ilLoggerFactory::getLogger('lm');
 
-        $this->config = $this->getImport()->getConfig("Modules/LearningModule");
+        $this->config = $this->getImport()->getConfig("components/ILIAS/LearningModule");
         if ($this->config->getTranslationImportMode()) {
             $this->ds->setTranslationImportMode(
                 $this->config->getTranslationLM(),
@@ -117,7 +117,7 @@ class ilLearningModuleImporter extends ilXmlImporter
 
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
-        $pg_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "pg");
+        $pg_map = $a_mapping->getMappingsOfEntity("components/ILIAS/LearningModule", "pg");
 
         $this->log->debug("pg map entries: " . count($pg_map));
         foreach ($pg_map as $pg_id) {
@@ -127,15 +127,15 @@ class ilLearningModuleImporter extends ilXmlImporter
         }
 
         // header footer page
-        foreach ($a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm_header_page") as $old_id => $dummy) {
-            $new_page_id = (int) $a_mapping->getMapping("Modules/LearningModule", "pg", $old_id);
+        foreach ($a_mapping->getMappingsOfEntity("components/ILIAS/LearningModule", "lm_header_page") as $old_id => $dummy) {
+            $new_page_id = (int) $a_mapping->getMapping("components/ILIAS/LearningModule", "pg", $old_id);
             if ($new_page_id > 0) {
                 $lm_id = ilLMPageObject::_lookupContObjID($new_page_id);
                 ilObjLearningModule::writeHeaderPage($lm_id, $new_page_id);
             }
         }
-        foreach ($a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm_footer_page") as $old_id => $dummy) {
-            $new_page_id = (int) $a_mapping->getMapping("Modules/LearningModule", "pg", $old_id);
+        foreach ($a_mapping->getMappingsOfEntity("components/ILIAS/LearningModule", "lm_footer_page") as $old_id => $dummy) {
+            $new_page_id = (int) $a_mapping->getMapping("components/ILIAS/LearningModule", "pg", $old_id);
             if ($new_page_id > 0) {
                 $lm_id = ilLMPageObject::_lookupContObjID($new_page_id);
                 ilObjLearningModule::writeFooterPage($lm_id, $new_page_id);
@@ -143,7 +143,7 @@ class ilLearningModuleImporter extends ilXmlImporter
         }
 
 
-        $link_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "link");
+        $link_map = $a_mapping->getMappingsOfEntity("components/ILIAS/LearningModule", "link");
         $pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");
         foreach ($pages as $p) {
             $id = explode(":", $p);
@@ -156,7 +156,7 @@ class ilLearningModuleImporter extends ilXmlImporter
                     $updated = $new_page->resolveQuestionReferences($this->qtis);
 
                     // in translation mode use link mapping to fix internal links
-                    //$a_mapping->addMapping("Modules/LearningModule", "link",
+                    //$a_mapping->addMapping("components/ILIAS/LearningModule", "link",
                     if ($this->config->getTranslationImportMode()) {
                         $il = $new_page->resolveIntLinks($link_map);
                         if ($il) {
@@ -173,7 +173,7 @@ class ilLearningModuleImporter extends ilXmlImporter
 
         // assign style
         /*
-        $alls_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm_style");
+        $alls_map = $a_mapping->getMappingsOfEntity("components/ILIAS/LearningModule", "lm_style");
         foreach ($alls_map as $new_lm_id => $old_style_id) {
             $new_style_id = (int) $a_mapping->getMapping("Services/Style", "sty", $old_style_id);
             if ($new_lm_id > 0 && $new_style_id > 0) {
@@ -184,13 +184,13 @@ class ilLearningModuleImporter extends ilXmlImporter
 
         // menu item ref ids
         $ref_mapping = $a_mapping->getMappingsOfEntity('Services/Container', 'refs');
-        $lm_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm");
+        $lm_map = $a_mapping->getMappingsOfEntity("components/ILIAS/LearningModule", "lm");
         foreach ($lm_map as $old_lm_id => $new_lm_id) {
             ilLMMenuEditor::fixImportMenuItems($new_lm_id, $ref_mapping);
         }
 
         // typical reading time
-        $lm_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm");
+        $lm_map = $a_mapping->getMappingsOfEntity("components/ILIAS/LearningModule", "lm");
         foreach ($lm_map as $old_lm_id => $new_lm_id) {
             $this->reading_time_manager->updateReadingTime($new_lm_id);
         }

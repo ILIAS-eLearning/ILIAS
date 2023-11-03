@@ -427,7 +427,7 @@ class ilCmiXapiDataSet extends ilDataSet
                 $newObj->update();
 
                 //$this->current_obj = $newObj;
-                $a_mapping->addMapping("Modules/CmiXapi", "cmix", $a_rec["Id"], (string) $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/CmiXapi", "cmix", $a_rec["Id"], (string) $newObj->getId());
                 break;
         }
     }

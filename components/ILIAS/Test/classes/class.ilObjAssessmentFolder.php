@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilObjAssessmentFolder
  * @author    Helmut Schottmüller <hschottm@gmx.de>
  * @author    Björn Heyser <bheyser@databay.de>
- * @ingroup   ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilObjAssessmentFolder extends ilObject
 {

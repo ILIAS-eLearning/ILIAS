@@ -170,7 +170,7 @@ class VideoViewGUI
         $autoplay = $this->getAutoplay();
 
         $lng = $this->lng;
-        $tpl = new \ilTemplate("tpl.video_cast_side.html", true, true, "Modules/MediaCast/Presentation");
+        $tpl = new \ilTemplate("tpl.video_cast_side.html", true, true, "components/ILIAS/MediaCast/Presentation");
 
         $factory = $this->ui->factory();
         $renderer = $this->ui->renderer();
@@ -255,7 +255,7 @@ class VideoViewGUI
                 )
             );
 
-            $item_tpl = new \ilTemplate("tpl.playlist_item.html", true, true, "Modules/MediaCast/Video");
+            $item_tpl = new \ilTemplate("tpl.playlist_item.html", true, true, "components/ILIAS/MediaCast/Video");
             $item_tpl->setVariable("TITLE", " ");
             $item_content = str_replace("\n", "", $item_tpl->get());
 
@@ -293,7 +293,7 @@ class VideoViewGUI
         // this is current only to include the resize mechanism when
         // the main menu is changed, so that the player is resized, too
         //\ilMediaPlayerGUI::initJavascript();
-        $tpl = new \ilTemplate("tpl.video_cast_layout.html", true, true, "Modules/MediaCast/Presentation");
+        $tpl = new \ilTemplate("tpl.video_cast_layout.html", true, true, "components/ILIAS/MediaCast/Presentation");
         $side_column = $this->renderSideColumn();
 
 

@@ -24,8 +24,8 @@ use PHPUnit\Framework\TestCase;
  * Unit tests for ilTestFinalMarkLangVarBuilder
  * @author  Björn Heyser <bheyser@databay.de>
  * @version $Id$
- * @package Modules/Test
- * @ingroup ModulesTest
+ * @package components\ILIAS/Test
+ * @ingroup components\ILIASTest
  */
 class ilTestFinalMarkLangVarBuilderTest extends TestCase
 {
@@ -34,7 +34,7 @@ class ilTestFinalMarkLangVarBuilderTest extends TestCase
     protected function setUp(): void
     {
         chdir(dirname(__FILE__));
-        chdir('../../../');
+        chdir('../../../../');
     }
 
     /**

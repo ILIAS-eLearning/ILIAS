@@ -25,7 +25,7 @@
  */
 class ilBiblLibraryFormGUI extends ilPropertyFormGUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    use \ILIAS\components\OrgUnit\ARHelper\DIC;
     protected \ilBiblLibraryInterface $object;
 
 

@@ -22,7 +22,7 @@
  * @author  Martin Studer <ms@studer-raimann.ch>
  *
  * @version $Id: $
- * @ingroup ModulesBibliographic
+ * @ingroup components\ILIASBibliographic
  */
 class ilBibliographicExporter extends ilXmlExporter
 {

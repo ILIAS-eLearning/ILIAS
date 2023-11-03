@@ -21,7 +21,7 @@
 *
 * @author Maximilian Becker <mbecker@databay.de>
 *
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class assAnswerMatchingTermTest extends assBaseTestCase
 {
@@ -30,7 +30,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
     protected function setUp(): void
     {
         chdir(dirname(__FILE__));
-        chdir('../../../');
+        chdir('../../../../');
     }
 
     public function test_instantiateObjectSimple(): void

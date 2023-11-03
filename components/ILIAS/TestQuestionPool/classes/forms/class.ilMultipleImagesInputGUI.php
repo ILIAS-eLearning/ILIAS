@@ -396,8 +396,8 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                     }'
             ];
 
-            $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
-            $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/identifiedwizardinput.js");
+            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
+            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/identifiedwizardinput.js");
             $this->tpl->addOnLoadCode("$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init("
                 . json_encode($config)
                 . ");");
@@ -453,6 +453,6 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     protected function getTemplate(): ilTemplate
     {
-        return new ilTemplate(self::RENDERING_TEMPLATE, true, true, "Modules/TestQuestionPool");
+        return new ilTemplate(self::RENDERING_TEMPLATE, true, true, "components/ILIAS/TestQuestionPool");
     }
 }

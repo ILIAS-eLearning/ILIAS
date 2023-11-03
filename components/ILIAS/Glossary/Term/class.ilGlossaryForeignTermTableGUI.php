@@ -45,7 +45,7 @@ class ilGlossaryForeignTermTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("glo_term"));
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.glo_foreign_term_row.html", "Modules/Glossary");
+        $this->setRowTemplate("tpl.glo_foreign_term_row.html", "components/ILIAS/Glossary");
 
         $this->addMultiCommand("copyTerms", $this->lng->txt("glo_copy_terms"));
         $this->addMultiCommand("referenceTerms", $this->lng->txt("glo_reference_terms"));

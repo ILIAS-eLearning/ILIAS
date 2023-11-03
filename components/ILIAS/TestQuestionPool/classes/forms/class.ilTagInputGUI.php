@@ -142,9 +142,9 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
         $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
         $this->setType("tag_input");
-        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/bootstrap-tagsinput_2015_25_03.js');
-        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/typeahead_0.11.1.js');
-        $this->tpl->addCss('./Modules/TestQuestionPool/templates/default/bootstrap-tagsinput_2015_25_03.css');
+        $this->tpl->addJavaScript('./components/ILIAS/TestQuestionPool/templates/default/bootstrap-tagsinput_2015_25_03.js');
+        $this->tpl->addJavaScript('./components/ILIAS/TestQuestionPool/templates/default/typeahead_0.11.1.js');
+        $this->tpl->addCss('./components/ILIAS/TestQuestionPool/templates/default/bootstrap-tagsinput_2015_25_03.css');
     }
 
     /**
@@ -183,7 +183,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      */
     public function render(): string
     {
-        $this->tpl->addJavaScript('Modules/TestQuestionPool/templates/default/tagInput.js');
+        $this->tpl->addJavaScript('components/ILIAS/TestQuestionPool/templates/default/tagInput.js');
         $config = [
             'min_length' => $this->type_ahead_min_length,
             'limit' => $this->type_ahead_limit,
@@ -201,7 +201,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
             'ilBootstrapTaggingOnLoad.initConfig(' . json_encode($config) . ');'
         );
 
-        $tpl = new ilTemplate("tpl.prop_tag_typeahead.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_tag_typeahead.html", true, true, "components/ILIAS/TestQuestionPool");
         foreach ($this->getOptions() as $option_text) {
             $tpl->setCurrentBlock("prop_select_option");
             $tpl->setVariable("VAL_SELECT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($option_text));

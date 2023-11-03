@@ -107,7 +107,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('crs_loc_tbl_tst_type'), 'ttype');
         $this->addColumn($this->lng->txt('crs_loc_tbl_tst_qst_qpl'), 'qstqpl');
 
-        $this->setRowTemplate("tpl.crs_loc_tst_row.html", "Modules/Course");
+        $this->setRowTemplate("tpl.crs_loc_tst_row.html", "components/ILIAS/Course");
         $this->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this->getParentObject()));
 
         if ($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS) {

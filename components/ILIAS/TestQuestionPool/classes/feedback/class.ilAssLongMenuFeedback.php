@@ -19,7 +19,7 @@
 /**
  * @version		$Id$
  *
- * @package     Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilAssLongMenuFeedback extends ilAssMultiOptionQuestionFeedback
 {

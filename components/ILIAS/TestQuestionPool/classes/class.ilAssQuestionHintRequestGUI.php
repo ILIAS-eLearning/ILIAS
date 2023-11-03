@@ -284,7 +284,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
                 'CONTENT',
                 'kiosk_content',
                 'tpl.il_tst_question_hints_kiosk_page.html',
-                'Modules/TestQuestionPool'
+                'components/ILIAS/TestQuestionPool'
             );
 
             $tpl->setVariable('KIOSK_HEAD', $this->parentGUI->getKioskHead());

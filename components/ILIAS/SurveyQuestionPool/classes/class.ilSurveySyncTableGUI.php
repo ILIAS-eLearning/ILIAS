@@ -60,7 +60,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.il_svy_qpl_sync.html", "Modules/SurveyQuestionPool");
+        $this->setRowTemplate("tpl.il_svy_qpl_sync.html", "components/ILIAS/SurveyQuestionPool");
 
         $this->importData();
     }

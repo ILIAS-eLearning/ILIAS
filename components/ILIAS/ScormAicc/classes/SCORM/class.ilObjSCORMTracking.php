@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilObjSCORMTracking
  * @author  Alex Killing <alex.killing@gmx.de>
- * @ingroup ModulesScormAicc
+ * @ingroup components\ILIASScormAicc
  */
 class ilObjSCORMTracking
 {

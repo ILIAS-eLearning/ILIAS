@@ -83,7 +83,7 @@ class ilGlossaryTermReferences
         }
 
         // delete flashcard entries
-        $this->event_handler->raise("Modules/Glossary", "deleteTerm", ["term_id" => $a_term_id]);
+        $this->event_handler->raise("components/ILIAS/Glossary", "deleteTerm", ["term_id" => $a_term_id]);
     }
 
     public function read(): void

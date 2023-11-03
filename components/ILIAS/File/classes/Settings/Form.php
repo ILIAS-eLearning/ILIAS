@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Modules\File\Settings;
+namespace ILIAS\components\File\Settings;
 
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Input\Field\Section;

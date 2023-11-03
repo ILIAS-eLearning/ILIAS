@@ -28,7 +28,7 @@ class ilTimingOverviewTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setTitle($this->lng->txt('timing'));
-        $this->setRowTemplate("tpl.il_as_tst_timing_overview_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_timing_overview_row.html", "components/ILIAS/Test");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->addColumn($this->lng->txt("login"), 'login', '');

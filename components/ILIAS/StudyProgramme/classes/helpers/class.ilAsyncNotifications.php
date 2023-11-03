@@ -50,7 +50,7 @@ class ilAsyncNotifications
     public function __construct(string $content_container_id = null)
     {
         $this->js_init = false;
-        $this->js_path = "./Modules/StudyProgramme/templates/js/";
+        $this->js_path = "./components/ILIAS/StudyProgramme/templates/js/";
         $this->content_container_id = $content_container_id ?? "ilContentContainer";
     }
 

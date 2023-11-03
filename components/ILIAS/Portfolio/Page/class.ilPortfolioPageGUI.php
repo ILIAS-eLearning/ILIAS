@@ -727,7 +727,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 $data = ilArrayUtil::sortArray($data, "path_sort", "ASC");
             }
 
-            $tpl = new ilTemplate("tpl.pc_my_courses.html", true, true, "Modules/Portfolio");
+            $tpl = new ilTemplate("tpl.pc_my_courses.html", true, true, "components/ILIAS/Portfolio");
             $tpl->setVariable("TITLE", $this->lng->txt("prtf_page_element_my_courses_title"));
             $tpl->setVariable("INFO", $this->lng->txt("prtf_page_element_my_courses_info")); // #14464
 
@@ -879,7 +879,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
             // #15508
             if (!self::$initialized) {
-                $GLOBALS["tpl"]->addJavaScript("Modules/Portfolio/js/ilPortfolio.js");
+                $GLOBALS["tpl"]->addJavaScript("components/ILIAS/Portfolio/js/ilPortfolio.js");
                 $GLOBALS["tpl"]->addOnLoadCode("ilPortfolio.init()");
             }
             self::$initialized++;

@@ -546,7 +546,7 @@ class ilExerciseDataSet extends ilDataSet
                 $newObj->saveData();
                 $this->current_exc = $newObj;
 
-                $a_mapping->addMapping("Modules/Exercise", "exc", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Exercise", "exc", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping('Services/Object', 'objs', $a_rec['Id'], $newObj->getId());
                 $a_mapping->addMapping('Services/AdvancedMetaData', 'parent', $a_rec['Id'], $newObj->getId());
                 $a_mapping->addMapping(
@@ -558,7 +558,7 @@ class ilExerciseDataSet extends ilDataSet
                 break;
 
             case "exc_assignment":
-                $exc_id = $a_mapping->getMapping("Modules/Exercise", "exc", $a_rec["ExerciseId"]);
+                $exc_id = $a_mapping->getMapping("components/ILIAS/Exercise", "exc", $a_rec["ExerciseId"]);
                 if ($exc_id > 0) {
                     if (is_object($this->current_exc) && $this->current_exc->getId() == $exc_id) {
                         $exc = $this->current_exc;
@@ -620,7 +620,7 @@ class ilExerciseDataSet extends ilDataSet
 
                     // criteria catalogue
                     if ($a_rec["PeerCritCat"]) {
-                        $ass->setPeerReviewCriteriaCatalogue((int) $a_mapping->getMapping("Modules/Exercise", "exc_crit_cat", $a_rec["PeerCritCat"]));
+                        $ass->setPeerReviewCriteriaCatalogue((int) $a_mapping->getMapping("components/ILIAS/Exercise", "exc_crit_cat", $a_rec["PeerCritCat"]));
                     }
 
                     $ass->save();
@@ -663,13 +663,13 @@ class ilExerciseDataSet extends ilDataSet
                         $ar->save();
                     }
 
-                    $a_mapping->addMapping("Modules/Exercise", "exc_assignment", $a_rec["Id"], $ass->getId());
+                    $a_mapping->addMapping("components/ILIAS/Exercise", "exc_assignment", $a_rec["Id"], $ass->getId());
                 }
 
                 break;
 
             case "exc_crit_cat":
-                $exc_id = $a_mapping->getMapping("Modules/Exercise", "exc", $a_rec["Parent"]);
+                $exc_id = $a_mapping->getMapping("components/ILIAS/Exercise", "exc", $a_rec["Parent"]);
                 if ($exc_id > 0) {
                     $crit_cat = new ilExcCriteriaCatalogue();
                     $crit_cat->setParent($exc_id);
@@ -677,12 +677,12 @@ class ilExerciseDataSet extends ilDataSet
                     $crit_cat->setPosition($a_rec["Pos"]);
                     $crit_cat->save();
 
-                    $a_mapping->addMapping("Modules/Exercise", "exc_crit_cat", $a_rec["Id"], $crit_cat->getId());
+                    $a_mapping->addMapping("components/ILIAS/Exercise", "exc_crit_cat", $a_rec["Id"], $crit_cat->getId());
                 }
                 break;
 
             case "exc_crit":
-                $crit_cat_id = $a_mapping->getMapping("Modules/Exercise", "exc_crit_cat", $a_rec["Parent"]);
+                $crit_cat_id = $a_mapping->getMapping("components/ILIAS/Exercise", "exc_crit_cat", $a_rec["Parent"]);
                 if ($crit_cat_id > 0) {
                     $crit = ilExcCriteria::getInstanceByType($a_rec["Type"]);
                     $crit->setParent($crit_cat_id);
@@ -697,7 +697,7 @@ class ilExerciseDataSet extends ilDataSet
 
             case "exc_ass_file_order":
 
-                $ass_id = $a_mapping->getMapping("Modules/Exercise", "exc_assignment", $a_rec["AssignmentId"]);
+                $ass_id = $a_mapping->getMapping("components/ILIAS/Exercise", "exc_assignment", $a_rec["AssignmentId"]);
                 if ($ass_id > 0) {
                     ilExAssignment::instructionFileInsertOrder($a_rec["Filename"], $ass_id, $a_rec["OrderNr"]);
                 }
@@ -705,8 +705,8 @@ class ilExerciseDataSet extends ilDataSet
 
             case "exc_ass_reminders":
                 // (5.3) reminders
-                $new_ass_id = $a_mapping->getMapping("Modules/Exercise", "exc_assignment", $a_rec["AssId"]);
-                $new_exc_id = $a_mapping->getMapping('Modules/Exercise', 'exc', $a_rec['ExcId']);
+                $new_ass_id = $a_mapping->getMapping("components/ILIAS/Exercise", "exc_assignment", $a_rec["AssId"]);
+                $new_exc_id = $a_mapping->getMapping('components/ILIAS/Exercise', 'exc', $a_rec['ExcId']);
                 //always UTC timestamp in db.
                 $end = new ilDateTime($a_rec["End"], IL_CAL_DATETIME, "UTC");
                 $rmd = new ilExAssignmentReminder($new_exc_id, $new_ass_id, $a_rec["Type"]);

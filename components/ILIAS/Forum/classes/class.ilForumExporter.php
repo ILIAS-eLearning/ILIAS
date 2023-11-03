@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Exporter class for sessions
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id: $
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
 {

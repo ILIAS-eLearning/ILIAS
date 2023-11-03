@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Group to lp connector
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesGroup
+ * @package components\ILIASGroup
  */
 class ilGroupLP extends ilObjectLP
 {

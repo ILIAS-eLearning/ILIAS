@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * The assErrorTextGUI class encapsulates the GUI representation for error text questions.
@@ -272,7 +272,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $show_question_text = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
-        $template = new ilTemplate("tpl.il_as_qpl_errortext_output_solution.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_errortext_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
 
 
         $selections = [
@@ -307,7 +307,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $template->setVariable("ERRORTEXT", $errortext);
         $questionoutput = $template->get();
 
-        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
+        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         $feedback = '';
         if ($show_feedback) {
@@ -369,7 +369,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
     private function generateQuestionOutput($selections, $show_question_only): string
     {
-        $template = new ilTemplate("tpl.il_as_qpl_errortext_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_errortext_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         if ($this->object->getTextSize() >= 10) {
             $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
@@ -384,7 +384,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $template->setVariable("ERRORTEXT_VALUE", join(',', $selections['user']));
 
         $this->tpl->addOnLoadCode('il.test.player.errortext.init()');
-        $this->tpl->addJavascript('./Modules/TestQuestionPool/templates/default/errortext.js');
+        $this->tpl->addJavascript('./components/ILIAS/TestQuestionPool/templates/default/errortext.js');
         $questionoutput = $template->get();
 
         if ($show_question_only) {

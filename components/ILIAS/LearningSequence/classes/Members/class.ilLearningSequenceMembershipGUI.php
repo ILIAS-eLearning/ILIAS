@@ -235,7 +235,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
      */
     protected function initParticipantTemplate(): void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lso_edit_members.html', 'Modules/LearningSequence');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lso_edit_members.html', 'components/ILIAS/LearningSequence');
     }
 
     /**

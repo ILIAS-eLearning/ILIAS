@@ -23,7 +23,7 @@ use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 
 /**
- * @package Modules/Test
+ * @package components\ILIAS/Test
  * provides Transformations to shuffle questions and answers
  */
 class ilTestShuffler

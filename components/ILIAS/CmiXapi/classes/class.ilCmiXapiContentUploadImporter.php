@@ -36,7 +36,7 @@ class ilCmiXapiContentUploadImporter
 {
     public const RELATIVE_CONTENT_DIRECTORY_NAMEBASE = 'lm_data/lm_';
 
-    public const RELATIVE_XSD_DIRECTORY = 'Modules/CmiXapi/xml/contentschema';
+    public const RELATIVE_XSD_DIRECTORY = 'components/ILIAS/CmiXapi/xml/contentschema';
 
     public const IMP_FILE_EXTENSION_XML = 'xml';
     public const IMP_FILE_EXTENSION_ZIP = 'zip';

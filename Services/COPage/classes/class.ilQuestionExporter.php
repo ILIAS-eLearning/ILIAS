@@ -16,7 +16,7 @@
  *********************************************************************/
 
 
-require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
+require_once("./components/ILIAS/TestQuestionPool/classes/class.assQuestionGUI.php");
 
 /**
  * Scorm 2004 Question Exporter
@@ -25,7 +25,7 @@ require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
  *
  * @version $Id: class.ilQuestionExporter.php 12658 2006-11-29 08:51:48Z akill $
  *
- * @ingroup ModulesScormAicc
+ * @ingroup components\ILIASScormAicc
  */
 class ilQuestionExporter
 {

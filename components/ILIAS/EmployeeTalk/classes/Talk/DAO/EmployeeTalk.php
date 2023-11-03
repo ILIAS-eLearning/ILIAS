@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Modules\EmployeeTalk\Talk\DAO;
+namespace ILIAS\components\EmployeeTalk\Talk\DAO;
 
 use ilDateTime;
 

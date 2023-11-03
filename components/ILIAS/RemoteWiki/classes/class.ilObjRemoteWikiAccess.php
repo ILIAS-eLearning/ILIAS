@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @version $Id$
 *
 *
-* @ingroup ModulesRemoteWiki
+* @ingroup components\ILIASRemoteWiki
 */
 
 class ilObjRemoteWikiAccess extends ilObjectAccess

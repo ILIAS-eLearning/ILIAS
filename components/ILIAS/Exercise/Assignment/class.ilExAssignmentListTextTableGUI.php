@@ -72,7 +72,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.exc_list_text_assignment_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.exc_list_text_assignment_row.html", "components/ILIAS/Exercise");
 
         if (!$a_disable_peer_review &&
             $this->ass->getPeerReview() &&

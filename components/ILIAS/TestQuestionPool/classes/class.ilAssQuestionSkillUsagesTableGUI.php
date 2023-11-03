@@ -20,7 +20,7 @@
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
 {
@@ -69,7 +69,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         $this->setPrefix(self::TABLE_ID . $this->poolId);
         parent::__construct($this, self::CMD_SHOW);
 
-        $this->setRowTemplate("tpl.il_as_qpl_skl_assign_stat_row.html", "Modules/TestQuestionPool");#
+        $this->setRowTemplate("tpl.il_as_qpl_skl_assign_stat_row.html", "components/ILIAS/TestQuestionPool");#
 
         $this->setDefaultOrderField("qpl_qst_skl_usg_skill_col");
         $this->setDefaultOrderDirection("asc");

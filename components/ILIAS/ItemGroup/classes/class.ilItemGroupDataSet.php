@@ -149,7 +149,7 @@ class ilItemGroupDataSet extends ilDataSet
                 $newObj->setHideTitle($a_rec["HideTitle"]);
                 $newObj->update();
                 $this->current_obj = $newObj;
-                $a_mapping->addMapping("Modules/ItemGroup", "itgr", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/ItemGroup", "itgr", $a_rec["Id"], $newObj->getId());
 
                 break;
 

@@ -19,7 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 /** @noRector */
-chdir("../../");
+chdir("../../../");
 
 /**
  * There is no way to process a $_GET Request with
@@ -76,9 +76,9 @@ if (count($mh) == 2) { // launch message auth
 
 ilSession::set('lti13_login_data', $data);
 if ($isContentSelection) {
-    $url = "../../" . base64_decode($redirect_uri);
+    $url = "../../../" . base64_decode($redirect_uri);
 } else {
-    $url = "../../goto.php?target=lti_" . $ref_id . "&client_id=" . $client_id;
+    $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $client_id;
 }
 
 $DIC->http()->saveResponse(

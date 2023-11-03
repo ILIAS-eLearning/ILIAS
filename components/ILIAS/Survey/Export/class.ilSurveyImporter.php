@@ -82,7 +82,7 @@ class ilSurveyImporter extends ilXmlImporter
         if ($a_entity === "svy") {
             // Container import => test object already created
             if (!($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id))) {    // case ii, non container
-                $new_id = $a_mapping->getMapping("Modules/Survey", "svy", 0);
+                $new_id = $a_mapping->getMapping("components/ILIAS/Survey", "svy", 0);
             }
             /** @var ilObjSurvey $newObj */
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
@@ -95,10 +95,10 @@ class ilSurveyImporter extends ilXmlImporter
                 $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
                 return;
             }
-            $GLOBALS['ilLog']->write("getQuestionPoolID = " . $this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID());
+            $GLOBALS['ilLog']->write("getQuestionPoolID = " . $this->getImport()->getConfig("components/ILIAS/Survey")->getQuestionPoolID());
 
             $import = new SurveyImportParser(
-                $this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID(),
+                $this->getImport()->getConfig("components/ILIAS/Survey")->getQuestionPoolID(),
                 $xml_file,
                 true,
                 $a_mapping
@@ -163,7 +163,7 @@ class ilSurveyImporter extends ilXmlImporter
                 $newObj->setOutro(ilRTE::_replaceMediaObjectImageSrc($newObj->getOutro(), 1));
                 $newObj->saveToDb();
             }
-            $a_mapping->addMapping("Modules/Survey", "svy", (int) $a_id, $newObj->getId());
+            $a_mapping->addMapping("components/ILIAS/Survey", "svy", (int) $a_id, $newObj->getId());
         } else {
             $parser = new ilDataSetImportParser(
                 $a_entity,

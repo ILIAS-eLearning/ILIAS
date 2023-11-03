@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * LO courses user results
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesCourse
+ * @package components\ILIASCourse
  */
 class ilLOUserResults
 {

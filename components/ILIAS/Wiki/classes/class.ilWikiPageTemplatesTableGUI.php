@@ -59,7 +59,7 @@ class ilWikiPageTemplatesTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("title");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.wiki_page_templates_row.html", "Modules/Wiki");
+        $this->setRowTemplate("tpl.wiki_page_templates_row.html", "components/ILIAS/Wiki");
 
         $this->addMultiCommand("remove", $lng->txt("wiki_remove_template_status"));
         $this->addCommandButton("saveTemplateSettings", $lng->txt("save"));

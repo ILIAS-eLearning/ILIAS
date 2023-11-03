@@ -22,7 +22,7 @@ use ILIAS\MyStaff\ilMyStaffAccess;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommandHandler;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
-use ILIAS\Modules\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
+use ILIAS\components\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
 use ILIAS\DI\UIServices;
 
 /**

@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilChatroomInstaller
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilChatroomInstaller
 {

@@ -27,26 +27,26 @@ class ilModulesLearningSequenceSuite extends TestSuite
         $suite = new ilModulesLearningSequenceSuite();
 
         // add each test class of the component
-        require_once("./Modules/LearningSequence/test/Activation/ilLearningSequenceActivationTest.php");
-        require_once("./Modules/LearningSequence/test/Activation/ilLearningSequenceActivationDBTest.php");
-        require_once("./Modules/LearningSequence/test/LearnerProgress/ilLearnerProgressDBTest.php");
-        require_once("./Modules/LearningSequence/test/LearnerProgress/ilLSLPTest.php");
-        require_once("./Modules/LearningSequence/test/LearnerProgress/ilLSLPEventHandlerTest.php");
-        require_once("./Modules/LearningSequence/test/LearnerProgress/LSLearnerItemTest.php");
-        require_once("./Modules/LearningSequence/test/LSItems/ilLSItemsDBTest.php");
-        require_once("./Modules/LearningSequence/test/LSItems/LSItemTest.php");
-        require_once("./Modules/LearningSequence/test/PostConditions/ilLSPostConditionTest.php");
-        require_once("./Modules/LearningSequence/test/PostConditions/ilLSPostConditionDBTest.php");
-        require_once("./Modules/LearningSequence/test/Settings/ilLearningSequenceSettingsTest.php");
-        require_once("./Modules/LearningSequence/test/Settings/ilLearningSequenceSettingsDBTest.php");
-        require_once("./Modules/LearningSequence/test/LSControlBuilderTest.php");
-        require_once("./Modules/LearningSequence/test/LSLocatorBuilderTest.php");
-        require_once("./Modules/LearningSequence/test/LSTOCBuilderTest.php");
-        require_once("./Modules/LearningSequence/test/LSUrlBuilderTest.php");
-        require_once("./Modules/LearningSequence/test/LSItems/LSItemTest.php");
-        require_once("./Modules/LearningSequence/test/LearnerProgress/LSLearnerItemTest.php");
-        require_once("./Modules/LearningSequence/test/GlobalSettings/GlobalSettingsTest.php");
-        require_once("./Modules/LearningSequence/test/LearnerProgress/ilLSLPEventHandlerTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/Activation/ilLearningSequenceActivationTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/Activation/ilLearningSequenceActivationDBTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LearnerProgress/ilLearnerProgressDBTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LearnerProgress/ilLSLPTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LearnerProgress/ilLSLPEventHandlerTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LearnerProgress/LSLearnerItemTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LSItems/ilLSItemsDBTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LSItems/LSItemTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/PostConditions/ilLSPostConditionTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/PostConditions/ilLSPostConditionDBTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/Settings/ilLearningSequenceSettingsTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/Settings/ilLearningSequenceSettingsDBTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LSControlBuilderTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LSLocatorBuilderTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LSTOCBuilderTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LSUrlBuilderTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LSItems/LSItemTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LearnerProgress/LSLearnerItemTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/GlobalSettings/GlobalSettingsTest.php");
+        require_once("./components/ILIAS/LearningSequence/test/LearnerProgress/ilLSLPEventHandlerTest.php");
 
         $suite->addTestSuite("ilLearningSequenceActivationTest");
         $suite->addTestSuite("ilLearningSequenceActivationDBTest");

@@ -479,7 +479,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // xmldocfile is deprecated! Use domxml_open_file instead.
         // But since using relative pathes with domxml under windows don't work,
         // we need another solution:
-        $xmlfile = file_get_contents("./Modules/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
+        $xmlfile = file_get_contents("./components/ILIAS/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
 
         $error = null;
         $doc = $this->dom_util->docFromString($xmlfile, $error);
@@ -624,7 +624,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             ilAccordionGUI::addJavaScript();
             ilAccordionGUI::addCss();
 
-            $this->tpl->addJavaScript("./Modules/LearningModule/js/LearningModule.js");
+            $this->tpl->addJavaScript("./components/ILIAS/LearningModule/js/LearningModule.js");
 
             // handle initial content
             if ($this->requested_frame == "") {
@@ -663,7 +663,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
     public function media(): string
     {
-        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "components/ILIAS/LearningModule");
 
         // set style sheets
         $this->setContentStyles();
@@ -680,7 +680,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
     public function glossary(): string
     {
-        $this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "Modules/LearningModule");
+        $this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "components/ILIAS/LearningModule");
         $this->renderPageTitle();
 
         iljQueryUtil::initjQuery($this->tpl);
@@ -712,7 +712,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function page(): string
     {
         $ilUser = $this->user;
-        $this->tpl = new ilGlobalTemplate("tpl.page_fullscreen.html", true, true, "Modules/LearningModule");
+        $this->tpl = new ilGlobalTemplate("tpl.page_fullscreen.html", true, true, "components/ILIAS/LearningModule");
         $GLOBALS["tpl"] = $this->tpl;
         $this->renderPageTitle();
 
@@ -774,7 +774,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
 
-        $tpl_menu = new ilTemplate("tpl.lm_sub_menu.html", true, true, "Modules/LearningModule");
+        $tpl_menu = new ilTemplate("tpl.lm_sub_menu.html", true, true, "components/ILIAS/LearningModule");
 
         $pg_id = $this->getCurrentPageId();
         if ($pg_id == 0) {
@@ -1112,7 +1112,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->fill_on_load_code = true;
         $this->setContentStyles();
 
-        $tpl = new ilTemplate("tpl.lm_content.html", true, true, "Modules/LearningModule/Presentation");
+        $tpl = new ilTemplate("tpl.lm_content.html", true, true, "components/ILIAS/LearningModule/Presentation");
 
         if (!$skip_nav) {
             $navigation_renderer = new ilLMNavigationRendererGUI(
@@ -1444,7 +1444,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $disabled = false;
         $img_alt = "";
 
-        $tpl = new ilTemplate("tpl.lm_print_selection.html", true, true, "Modules/LearningModule");
+        $tpl = new ilTemplate("tpl.lm_print_selection.html", true, true, "components/ILIAS/LearningModule");
 
         $this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
         $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -1688,7 +1688,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $this->setContentStyles();
 
-        $tpl = new ilTemplate("tpl.lm_print_view.html", true, true, "Modules/LearningModule");
+        $tpl = new ilTemplate("tpl.lm_print_view.html", true, true, "components/ILIAS/LearningModule");
 
         // set title header
         $this->tpl->setTitle($this->getLMPresentationTitle());
@@ -2182,7 +2182,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu()) {
             return;
         }
-        $tpl = new ilTemplate("tpl.lm_download_list.html", true, true, "Modules/LearningModule");
+        $tpl = new ilTemplate("tpl.lm_download_list.html", true, true, "components/ILIAS/LearningModule");
 
         // output copyright information
         $md = new ilMD($this->lm->getId(), 0, $this->lm->getType());
@@ -2255,7 +2255,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // content style
         $this->setContentStyles();
 
-        $tpl = new ilTemplate("tpl.page_message_screen.html", true, true, "Modules/LearningModule");
+        $tpl = new ilTemplate("tpl.page_message_screen.html", true, true, "components/ILIAS/LearningModule");
         $tpl->setVariable("TXT_PAGE_NO_PUBLIC_ACCESS", $a_content);
 
         $this->tpl->setVariable("PAGE_CONTENT", $tpl->get());
@@ -2441,7 +2441,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->addResourceFiles();
         switch ($pars["cmd"]) {
             case "layout":
-                $tpl = new ilTemplate("tpl.embedded_view.html", true, true, "Modules/LearningModule");
+                $tpl = new ilTemplate("tpl.embedded_view.html", true, true, "components/ILIAS/LearningModule");
                 $tpl->setVariable("HEAD_ACTION", $this->getHeaderAction());
                 $tpl->setVariable("PAGE_RATING", $this->renderRating());
                 $tpl->setVariable("PAGE", $this->getContent(true));

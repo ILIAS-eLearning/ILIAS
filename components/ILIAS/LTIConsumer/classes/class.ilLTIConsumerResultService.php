@@ -20,7 +20,7 @@ declare(strict_types=1);
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilLTIConsumerResultService
 {
@@ -238,7 +238,7 @@ class ilLTIConsumerResultService
      */
     protected function loadResponse($a_name): string
     {
-        return file_get_contents('./Modules/LTIConsumer/responses/' . $a_name);
+        return file_get_contents('./components/ILIAS/LTIConsumer/responses/' . $a_name);
     }
 
 

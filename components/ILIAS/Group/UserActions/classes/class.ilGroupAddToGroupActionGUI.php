@@ -12,7 +12,7 @@ use ILIAS\Refinery\Factory;
  * Add user to group from awareness tool
  *
  * @author Alex Killing <killing@leifos.de>
- * @ingroup ModulesGroup
+ * @ingroup components\ILIASGroup
  */
 class ilGroupAddToGroupActionGUI
 {
@@ -152,7 +152,7 @@ class ilGroupAddToGroupActionGUI
         if ($modal_exists) {
             echo $this->ui->renderer()->renderAsync($this->ui->factory()->legacy($a_content));
         } else {
-            $mtpl = new ilTemplate("tpl.grp_add_to_grp_modal_content.html", true, true, "./Modules/Group/UserActions");
+            $mtpl = new ilTemplate("tpl.grp_add_to_grp_modal_content.html", true, true, "./components/ILIAS/Group/UserActions");
             $mtpl->setVariable("CONTENT", $a_content);
             $content = $this->ui->factory()->legacy($mtpl->get());
             $modal = $this->ui->factory()->modal()->roundtrip(

@@ -32,7 +32,7 @@ class ilModulesWorkspaceRootFolderSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/WorkspaceRootFolder/test/WorkspaceRootFolderAccessTest.php");
+        require_once("./components/ILIAS/WorkspaceRootFolder/test/WorkspaceRootFolderAccessTest.php");
         $suite->addTestSuite("WorkspaceRootFolderAccessTest");
 
         return $suite;

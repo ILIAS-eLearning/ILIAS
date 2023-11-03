@@ -378,14 +378,14 @@ class ilWikiDataSet extends ilDataSet
 
                 $newObj->update(true);
                 $this->current_obj = $newObj;
-                $a_mapping->addMapping("Modules/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("Services/Rating", "rating_category_parent_id", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
                 break;
 
             case "wpg":
-                $wiki_id = $a_mapping->getMapping("Modules/Wiki", "wiki", $a_rec["WikiId"]);
+                $wiki_id = $a_mapping->getMapping("components/ILIAS/Wiki", "wiki", $a_rec["WikiId"]);
                 $lang = ($a_rec["Title"] ?? "");
                 $wpage = new ilWikiPage();
                 if (!in_array($lang, ["", "-"])) {
@@ -407,14 +407,14 @@ class ilWikiDataSet extends ilDataSet
                     $wtpl->save($wpage->getId(), (int) $a_rec["TemplateNewPages"], (int) $a_rec["TemplateAddToPage"]);
                 }
 
-                $a_mapping->addMapping("Modules/Wiki", "wpg", $a_rec["Id"], $wpage->getId());
+                $a_mapping->addMapping("components/ILIAS/Wiki", "wpg", $a_rec["Id"], $wpage->getId());
                 $a_mapping->addMapping("Services/COPage", "pg", "wpg:" . $a_rec["Id"], "wpg:" . $wpage->getId());
                 $a_mapping->addMapping("Services/AdvancedMetaData", "advmd_sub_item", "advmd:wpg:" . $a_rec["Id"], $wpage->getId());
                 break;
 
             case "wiki_imp_page":
-                $wiki_id = $a_mapping->getMapping("Modules/Wiki", "wiki", $a_rec["WikiId"]);
-                $page_id = $a_mapping->getMapping("Modules/Wiki", "wpg", $a_rec["PageId"]);
+                $wiki_id = $a_mapping->getMapping("components/ILIAS/Wiki", "wiki", $a_rec["WikiId"]);
+                $page_id = $a_mapping->getMapping("components/ILIAS/Wiki", "wpg", $a_rec["PageId"]);
                 if ($wiki_id > 0 && $page_id > 0 && is_object($this->current_obj) && $this->current_obj->getId() === (int) $wiki_id) {
                     $this->imp_page_repo->add($this->current_obj->getId(), (int) $page_id, (int) $a_rec["Ord"], (int) $a_rec["Indent"]);
                 }

@@ -201,10 +201,10 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         global $DIC;
         $lng = $DIC['lng'];
         $global_tpl = $DIC['tpl'];
-        $global_tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
-        $global_tpl->addJavascript("./Modules/TestQuestionPool/templates/default/matchingpairwizard.js");
+        $global_tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
+        $global_tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/matchingpairwizard.js");
 
-        $tpl = new ilTemplate("tpl.prop_matchingpairinput.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_matchingpairinput.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
 
         foreach ($this->pairs as $pair) {

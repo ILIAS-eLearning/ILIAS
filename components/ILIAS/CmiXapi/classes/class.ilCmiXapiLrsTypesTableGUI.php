@@ -43,7 +43,7 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate('tpl.cmix_lrs_types_table_row.html', 'Modules/CmiXapi');
+        $this->setRowTemplate('tpl.cmix_lrs_types_table_row.html', 'components/ILIAS/CmiXapi');
 
         $this->setTitle($DIC->language()->txt('tbl_lrs_types_header'));
         //$this->setDescription($DIC->language()->txt('tbl_lrs_types_header_info'));

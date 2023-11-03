@@ -31,7 +31,7 @@ class ilModulesBookingManagerSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/BookingManager/test/BookManStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/BookingManager/test/BookManStandardGUIRequestTest.php");
         $suite->addTestSuite("BookManStandardGUIRequestTest");
 
         return $suite;

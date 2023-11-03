@@ -69,7 +69,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
-        $this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
+        $this->setRowTemplate("tpl.members_table_row.html", "components/ILIAS/StudyProgramme");
         $this->setShowRowsSelector(true);
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, "view"));
         $this->addColumn("", "", "1", true);

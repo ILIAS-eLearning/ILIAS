@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
-use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
+use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
+use ILIAS\components\OrgUnit\ARHelper\DropdownBuilder;
 
 /**
  * Class ilOrgUnitRecursiveUserAssignmentTableGUI
@@ -60,7 +60,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->setTitle($position->getTitle());
-        $this->setRowTemplate("tpl.staff_row.html", "Modules/OrgUnit");
+        $this->setRowTemplate("tpl.staff_row.html", "components/ILIAS/OrgUnit");
         $this->setData($this->loadData());
     }
 

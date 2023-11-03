@@ -48,7 +48,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         $this->addColumn("", "", "1");    // checkbox
         $this->setEnableHeader(false);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.mep_page_usage_row.html", "Modules/MediaPool");
+        $this->setRowTemplate("tpl.mep_page_usage_row.html", "components/ILIAS/MediaPool");
         $this->getItems();
         $this->setTitle($lng->txt("cont_mob_usages"));
     }

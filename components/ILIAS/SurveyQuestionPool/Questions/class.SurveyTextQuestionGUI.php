@@ -106,7 +106,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
             $user_answer = $user_answer[0]["textanswer"];
         }
 
-        $template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", true, true, "Modules/SurveyQuestionPool");
+        $template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", true, true, "components/ILIAS/SurveyQuestionPool");
         if ($show_questiontext) {
             $this->outQuestionText($template);
         }
@@ -145,7 +145,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         int $survey_id = null,
         bool $compress_view = false
     ): string {
-        $template = new ilTemplate("tpl.il_svy_out_text.html", true, true, "Modules/SurveyQuestionPool");
+        $template = new ilTemplate("tpl.il_svy_out_text.html", true, true, "components/ILIAS/SurveyQuestionPool");
 
         if ($this->object->getTextHeight() === 1) {
             $template->setCurrentBlock("textinput");

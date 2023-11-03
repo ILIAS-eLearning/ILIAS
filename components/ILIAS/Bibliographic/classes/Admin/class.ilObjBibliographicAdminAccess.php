@@ -21,7 +21,7 @@
  * @author  Theodor Truffer
  * @author  Martin Studer <ms@studer-raimann.ch>
  *
- * @ingroup ModulesBibliographic
+ * @ingroup components\ILIASBibliographic
  */
 class ilObjBibliographicAdminAccess extends ilObjectAccess
 {

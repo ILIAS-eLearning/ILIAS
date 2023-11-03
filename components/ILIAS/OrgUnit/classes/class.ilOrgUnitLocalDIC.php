@@ -61,8 +61,8 @@ class ilOrgUnitLocalDIC
         $dic['refinery'] = static fn (): \ILIAS\Refinery\Factory => $DIC['refinery'];
         $dic['access'] = static fn (): \ilAccessHandler => $DIC['ilAccess'];
         $dic['lng'] = static fn (): \ilLanguage => $DIC['lng'];
-        $dic['dropdownbuilder'] = static fn ($d): \ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder =>
-            new  \ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder(
+        $dic['dropdownbuilder'] = static fn ($d): \ILIAS\components\OrgUnit\ARHelper\DropdownBuilder =>
+            new  \ILIAS\components\OrgUnit\ARHelper\DropdownBuilder(
                 $d['ui.factory'],
                 $d['ui.renderer'],
                 $d['lng']

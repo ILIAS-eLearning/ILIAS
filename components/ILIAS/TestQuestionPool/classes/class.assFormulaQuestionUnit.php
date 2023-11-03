@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Formula Question Unit
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  */
 class assFormulaQuestionUnit
 {

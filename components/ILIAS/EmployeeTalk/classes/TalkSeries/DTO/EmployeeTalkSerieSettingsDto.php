@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Modules\EmployeeTalk\TalkSeries\DTO;
+namespace ILIAS\components\EmployeeTalk\TalkSeries\DTO;
 
 final class EmployeeTalkSerieSettingsDto
 {

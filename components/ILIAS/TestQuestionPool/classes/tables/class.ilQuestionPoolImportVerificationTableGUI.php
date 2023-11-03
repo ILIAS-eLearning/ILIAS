@@ -35,7 +35,7 @@ class ilQuestionPoolImportVerificationTableGUI extends ilTable2GUI
         $this->setLimit(PHP_INT_MAX);
         $this->setSelectAllCheckbox('ident[]');
 
-        $this->setRowTemplate('tpl.qpl_import_verification_row.html', 'Modules/TestQuestionPool');
+        $this->setRowTemplate('tpl.qpl_import_verification_row.html', 'components/ILIAS/TestQuestionPool');
         $this->addMultiCommand('importVerifiedFile', $this->lng->txt("import"));
         $this->addCommandButton('cancelImport', $this->lng->txt("cancel"));
 

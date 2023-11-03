@@ -135,7 +135,7 @@ class ilLocalUserGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.cat_admin_users.html',
-            "Modules/Category"
+            "components/ILIAS/Category"
         );
         if (count($this->rbacReview->getGlobalAssignableRoles())
             or in_array(SYSTEM_ROLE_ID, $this->rbacReview->assignedRoles($this->user->getId()))
@@ -258,7 +258,7 @@ class ilLocalUserGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.cat_role_assignment.html',
-            "Modules/Category"
+            "components/ILIAS/Category"
         );
         $ass_roles = $this->rbacReview->assignedRoles($this->getObjId());
         $counter = 0;

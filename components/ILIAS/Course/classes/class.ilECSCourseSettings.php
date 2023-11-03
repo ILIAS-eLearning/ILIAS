@@ -21,7 +21,7 @@ declare(strict_types=0);
 /**
  * Class ilECSCourseSettings
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilECSCourseSettings extends ilECSObjectSettings
 {

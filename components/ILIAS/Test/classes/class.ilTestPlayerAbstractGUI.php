@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Output class for assessment test execution
@@ -464,7 +464,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public function displayAccessCodeCmd()
     {
-        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "Modules/Test");
+        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "components/ILIAS/Test");
         $this->tpl->setCurrentBlock("adm_content");
         $this->tpl->setVariable("TEXT_ANONYMOUS_CODE_CREATED", $this->lng->txt("tst_access_code_created"));
         $this->tpl->setVariable("TEXT_ANONYMOUS_CODE", $this->test_session->getAccessCodeFromSession());
@@ -511,7 +511,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED, '', false, false);
 
-        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");
+        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "components/ILIAS/Test");
         $this->tpl->setVariable("TEXT_REDIRECT", $this->lng->txt("redirectAfterSave"));
         $this->tpl->setVariable("URL", $url);
     }
@@ -525,7 +525,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED, '', false, false);
 
-        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");
+        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "components/ILIAS/Test");
         $this->tpl->setVariable("TEXT_REDIRECT", $this->lng->txt("redirectAfterSave"));
         $this->tpl->setVariable("URL", $url);
     }
@@ -790,7 +790,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     */
     public function showFinalStatementCmd()
     {
-        $template = new ilTemplate("tpl.il_as_tst_final_statement.html", true, true, "Modules/Test");
+        $template = new ilTemplate("tpl.il_as_tst_final_statement.html", true, true, "components/ILIAS/Test");
         $this->ctrl->setParameter($this, "skipfinalstatement", 1);
         $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED));
         $template->setVariable("FINALSTATEMENT", $this->object->prepareTextareaOutput($this->object->getFinalStatement(), true));
@@ -1101,7 +1101,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     */
     public function confirmSubmitAnswers()
     {
-        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_submit_answers_confirm.html", "Modules/Test");
+        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_submit_answers_confirm.html", "components/ILIAS/Test");
         $this->tpl->setCurrentBlock("adm_content");
         if ($this->object->isTestFinished($this->test_session->getActiveId())) {
             $this->tpl->setCurrentBlock("not_submit_allowed");
@@ -1168,7 +1168,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         // jQuery is required by tpl.workingtime.js
         iljQueryUtil::initjQuery();
-        $template = new ilTemplate("tpl.workingtime.js", true, true, 'Modules/Test');
+        $template = new ilTemplate("tpl.workingtime.js", true, true, 'components/ILIAS/Test');
         $template->setVariable("STRING_MINUTE", $this->lng->txt("minute"));
         $template->setVariable("STRING_MINUTES", $this->lng->txt("minutes"));
         $template->setVariable("STRING_SECOND", $this->lng->txt("second"));
@@ -1285,7 +1285,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->help->setSubScreenId("question_summary");
 
         if ($fullpage) {
-            $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
+            $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "components/ILIAS/Test");
         }
 
         $obligationsFulfilled = \ilObjTest::allObligationsAnswered(
@@ -1363,7 +1363,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     */
     public function outCorrectSolution(): void
     {
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_correct_solution.html", "Modules/Test");
+        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_correct_solution.html", "components/ILIAS/Test");
 
         $this->tpl->setCurrentBlock("ContentStyle");
         $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
@@ -1373,9 +1373,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
         $this->tpl->parseCurrentBlock();
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
         if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"), "print");
         }
 
         $this->tpl->setCurrentBlock("adm_content");
@@ -1399,7 +1399,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     */
     public function showListOfAnswers($active_id, $pass = null, $top_data = "", $bottom_data = "")
     {
-        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_finish_list_of_answers.html", "Modules/Test");
+        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_finish_list_of_answers.html", "components/ILIAS/Test");
 
         $result_array = &$this->object->getTestResult(
             $active_id,
@@ -1415,7 +1415,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             if (is_numeric($question)) {
                 $this->tpl->setCurrentBlock("printview_question");
                 $question_gui = $this->object->createQuestionGUI("", $question);
-                $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "Modules/TestQuestionPool");
+                $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "components/ILIAS/TestQuestionPool");
                 $template->setVariable("COUNTER_QUESTION", $counter . ". ");
                 $template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 
@@ -1435,9 +1435,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             }
         }
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
         if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"), "print");
         }
         if (strlen($top_data)) {
             $this->tpl->setCurrentBlock("top_data");
@@ -1542,7 +1542,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->getContentBlockName(),
             'adm_content',
             'tpl.il_as_tst_question_summary.html',
-            'Modules/Test'
+            'components/ILIAS/Test'
         );
     }
 
@@ -1570,7 +1570,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->getContentBlockName(),
             'adm_content',
             'tpl.il_as_tst_output.html',
-            'Modules/Test'
+            'components/ILIAS/Test'
         );
     }
 
@@ -1706,7 +1706,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         if ($this->object->getKioskMode()) {
             //$this->tpl->setBodyClass("kiosk");
             $this->tpl->hideFooter();
-            $this->tpl->addBlockfile('CONTENT', 'adm_content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
+            $this->tpl->addBlockfile('CONTENT', 'adm_content', "tpl.il_as_tst_kiosk_mode_content.html", "components/ILIAS/Test");
             $this->tpl->setContent($this->ctrl->getHTML($helperGui));
         } else {
             $this->tpl->setVariable($this->getContentBlockName(), $this->ctrl->getHTML($helperGui));
@@ -1882,7 +1882,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $solutionoutput
         );
 
-        $tpl = new ilTemplate('tpl.tst_player_response_modal.html', true, true, 'Modules/Test');
+        $tpl = new ilTemplate('tpl.tst_player_response_modal.html', true, true, 'components/ILIAS/Test');
 
         // populate the instant response blocks in the
         $saved_tpl = $this->tpl;
@@ -2222,7 +2222,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function populateMessageContent($contentHTML)
     {
         if ($this->object->getKioskMode()) {
-            $this->tpl->addBlockfile($this->getContentBlockName(), 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
+            $this->tpl->addBlockfile($this->getContentBlockName(), 'content', "tpl.il_as_tst_kiosk_mode_content.html", "components/ILIAS/Test");
             $this->tpl->setContent($contentHTML);
         } else {
             $this->tpl->setVariable($this->getContentBlockName(), $contentHTML);
@@ -2245,7 +2245,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateDiscardSolutionModal()
     {
-        $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'Modules/Test');
+        $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'components/ILIAS/Test');
 
         $tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('discard_answer_confirmation'));
 
@@ -2293,7 +2293,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return;
         }
 
-        $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'Modules/Test');
+        $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'components/ILIAS/Test');
 
         if ($this->object->isInstantFeedbackAnswerFixationEnabled() && $this->object->isForceInstantFeedbackEnabled()) {
             $text = $this->lng->txt('save_on_navigation_locked_confirmation');
@@ -2451,7 +2451,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $config['forcedInstantFeedback'] = $this->object->isForceInstantFeedbackEnabled();
         $config['nextQuestionLocks'] = $this->object->isFollowupQuestionAnswerFixationEnabled();
 
-        $this->tpl->addJavascript('./Modules/Test/js/ilTestPlayerQuestionEditControl.js');
+        $this->tpl->addJavascript('./components/ILIAS/Test/js/ilTestPlayerQuestionEditControl.js');
         $this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init(' . json_encode($config) . ')');
     }
     // fau.

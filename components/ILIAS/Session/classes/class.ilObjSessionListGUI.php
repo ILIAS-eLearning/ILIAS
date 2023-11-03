@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ingroup ModulesSession
+* @ingroup components\ILIASSession
 */
 class ilObjSessionListGUI extends ilObjectListGUI
 {

@@ -94,6 +94,6 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
      */
     public function getProviderNameForPresentation(): string
     {
-        return "Modules/EmployeeTalk";
+        return "components/ILIAS/EmployeeTalk";
     }
 }

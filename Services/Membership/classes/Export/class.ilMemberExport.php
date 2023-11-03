@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class for generation of member export files
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
- * @ingroup Modules/Course
+ * @ingroup components\ILIAS/Course
  */
 class ilMemberExport
 {

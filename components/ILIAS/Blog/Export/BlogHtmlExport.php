@@ -403,7 +403,7 @@ class BlogHtmlExport
             "tpl.export_page.html",
             true,
             true,
-            "Modules/Blog"
+            "components/ILIAS/Blog"
         );
         if ($a_back) {
             $ep_tpl->setVariable("PAGE_CONTENT", $a_content);

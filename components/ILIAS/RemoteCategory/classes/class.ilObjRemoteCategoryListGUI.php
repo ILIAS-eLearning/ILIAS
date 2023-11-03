@@ -22,7 +22,7 @@ declare(strict_types=1);
 * @author Stefan Meyer <meyer@leifos.com>
 *
 *
-* @ingroup ModulesRemoteCategory
+* @ingroup components\ILIASRemoteCategory
 */
 class ilObjRemoteCategoryListGUI extends ilRemoteObjectBaseListGUI
 {

@@ -80,7 +80,7 @@ class ilExAssignmentGUI
 
         $state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
-        $tpl = new ilTemplate("tpl.assignment_head.html", true, true, "Modules/Exercise");
+        $tpl = new ilTemplate("tpl.assignment_head.html", true, true, "components/ILIAS/Exercise");
 
         // we are completely ignoring the extended deadline here
 
@@ -174,7 +174,7 @@ class ilExAssignmentGUI
 
         $this->current_ass_id = $a_ass->getId();
 
-        $tpl = new ilTemplate("tpl.assignment_body.html", true, true, "Modules/Exercise");
+        $tpl = new ilTemplate("tpl.assignment_body.html", true, true, "components/ILIAS/Exercise");
 
         $state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
@@ -324,7 +324,7 @@ class ilExAssignmentGUI
                     $modal->setHeading($output_filename);
                     $modal = $modal->getHTML();
 
-                    $img_tpl = new ilTemplate("tpl.image_file.html", true, true, "Modules/Exercise");
+                    $img_tpl = new ilTemplate("tpl.image_file.html", true, true, "components/ILIAS/Exercise");
                     $img_tpl->setCurrentBlock("image_content");
                     $img_tpl->setVariable("MODAL", $modal);
                     $img_tpl->setVariable("ITEM_ID", $item_id);
@@ -335,7 +335,7 @@ class ilExAssignmentGUI
 
                     $a_info->addProperty($output_filename, $img_tpl->get());
                 } elseif ($this->media_type->isAudio($mime) || $this->media_type->isVideo($mime)) {
-                    $media_tpl = new ilTemplate("tpl.media_file.html", true, true, "Modules/Exercise");
+                    $media_tpl = new ilTemplate("tpl.media_file.html", true, true, "components/ILIAS/Exercise");
 
                     if ($this->media_type->isAudio($mime)) {
                         $p = $ui_factory->player()->audio($file['fullpath']);

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Show forum threads
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilObjForumSubItemListGUI extends ilSubItemListGUI
 {

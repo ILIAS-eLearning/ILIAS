@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\ExpressionParser;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Substitution\FieldSubstitution;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\ExpressionParser;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Substitution\FieldSubstitution;
 
 class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
 {

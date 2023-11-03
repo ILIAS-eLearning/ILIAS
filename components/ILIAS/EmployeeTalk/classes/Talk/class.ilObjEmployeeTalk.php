@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Modules\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
-use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\Modules\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
+use ILIAS\components\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
+use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\components\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
 
 final class ilObjEmployeeTalk extends ilObject
 {
@@ -101,7 +101,7 @@ final class ilObjEmployeeTalk extends ilObject
         $container = $GLOBALS['DIC'];
 
         $container->event()->raise(
-            'Modules/EmployeeTalk',
+            'components/ILIAS/EmployeeTalk',
             'create',
             ['object' => $this,
              'obj_id' => $this->getId(),
@@ -136,7 +136,7 @@ final class ilObjEmployeeTalk extends ilObject
         $container = $GLOBALS['DIC'];
 
         $container->event()->raise(
-            'Modules/EmployeeTalk',
+            'components/ILIAS/EmployeeTalk',
             'update',
             ['object' => $this,
                   'obj_id' => $this->getId(),
@@ -211,7 +211,7 @@ final class ilObjEmployeeTalk extends ilObject
         $container = $GLOBALS['DIC'];
 
         $container->event()->raise(
-            'Modules/EmployeeTalk',
+            'components/ILIAS/EmployeeTalk',
             'delete',
             [
                 'object' => $this,

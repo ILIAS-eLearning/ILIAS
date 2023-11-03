@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Importer class for forums
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
 {
@@ -52,7 +52,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
         $parser->setSchemaVersion($this->getSchemaVersion());
         $parser->startParsing();
 
-        $a_mapping->addMapping('Modules/Forum', 'frm', $a_id, (string) $newObj->getId());
+        $a_mapping->addMapping('components/ILIAS/Forum', 'frm', $a_id, (string) $newObj->getId());
     }
 
     public function finalProcessing(ilImportMapping $a_mapping): void
@@ -66,7 +66,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
             ilForumPage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
         }
 
-        $styleMapping = $a_mapping->getMappingsOfEntity('Modules/Forum', 'style');
+        $styleMapping = $a_mapping->getMappingsOfEntity('components/ILIAS/Forum', 'style');
         foreach ($styleMapping as $newForumId => $oldStyleId) {
             $newStyleId = (int) $a_mapping->getMapping('Services/Style', 'sty', $oldStyleId);
             if ($newForumId > 0 && $newStyleId > 0) {

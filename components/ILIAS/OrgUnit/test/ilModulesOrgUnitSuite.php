@@ -30,31 +30,31 @@ class ilModulesOrgUnitSuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitTest.php");
+        require_once("./components/ILIAS/OrgUnit/test/ilModulesOrgUnitTest.php");
         $suite->addTestSuite("ilModulesOrgUnitTest");
         /** @noRector */
-        require_once("./Modules/OrgUnit/test/ilOrgUnitOperationContextRegisteredObjectiveTest.php");
+        require_once("./components/ILIAS/OrgUnit/test/ilOrgUnitOperationContextRegisteredObjectiveTest.php");
         $suite->addTestSuite("ilOrgUnitOperationContextRegisteredObjectiveTest");
         /** @noRector */
-        require_once("./Modules/OrgUnit/test/ilOrgUnitOperationRegisteredObjectiveTest.php");
+        require_once("./components/ILIAS/OrgUnit/test/ilOrgUnitOperationRegisteredObjectiveTest.php");
         $suite->addTestSuite("ilOrgUnitOperationRegisteredObjectiveTest");
 
-        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitAuthorityTest.php");
+        require_once("./components/ILIAS/OrgUnit/test/ilModulesOrgUnitAuthorityTest.php");
         $suite->addTestSuite("ilModulesOrgUnitAuthorityTest");
 
-        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitPositionTest.php");
+        require_once("./components/ILIAS/OrgUnit/test/ilModulesOrgUnitPositionTest.php");
         $suite->addTestSuite("ilModulesOrgUnitPositionTest");
 
-        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitUserAssignmentTest.php");
+        require_once("./components/ILIAS/OrgUnit/test/ilModulesOrgUnitUserAssignmentTest.php");
         $suite->addTestSuite("ilModulesOrgUnitUserAssignmentTest");
 
-        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitOperationContextTest.php");
+        require_once("./components/ILIAS/OrgUnit/test/ilModulesOrgUnitOperationContextTest.php");
         $suite->addTestSuite("ilModulesOrgUnitOperationContextTest");
 
-        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitOperationTest.php");
+        require_once("./components/ILIAS/OrgUnit/test/ilModulesOrgUnitOperationTest.php");
         $suite->addTestSuite("ilModulesOrgUnitOperationTest");
 
-        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitPermissionTest.php");
+        require_once("./components/ILIAS/OrgUnit/test/ilModulesOrgUnitPermissionTest.php");
         $suite->addTestSuite("ilModulesOrgUnitPermissionTest");
 
         return $suite;

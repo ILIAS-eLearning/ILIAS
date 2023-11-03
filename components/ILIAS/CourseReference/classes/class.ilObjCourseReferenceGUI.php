@@ -22,7 +22,7 @@
  * @version      $Id$
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI, ilLearningProgressGUI
- * @ingroup      ModulesCourseReference
+ * @ingroup components\ILIASCourseReference
  */
 class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 {

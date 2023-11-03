@@ -60,7 +60,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
         //$this->setEnableNumInfo(false);
         //$this->setLimit(100);
-        $this->setRowTemplate("tpl.session_materials_row.html", "Modules/Session");
+        $this->setRowTemplate("tpl.session_materials_row.html", "components/ILIAS/Session");
 
         $this->setFormName('materials');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));

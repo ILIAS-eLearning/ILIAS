@@ -229,4 +229,27 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             }
         }
     }
+
+    public function step_13(): void
+    {
+        if ($this->db->tableExists("mail_tpl_ctx")) {
+            $query = "UPDATE mail_tpl_ctx SET " . PHP_EOL
+                . " component = REPLACE(component, 'Modules', 'components/ILIAS') " . PHP_EOL
+                . " WHERE component LIKE ('Modules/%')";
+
+            $this->db->manipulate($query);
+        }
+    }
+
+    public function step_14(): void
+    {
+        if ($this->db->tableExists("mail_tpl_ctx")) {
+            $query = "UPDATE mail_tpl_ctx SET " . PHP_EOL
+                . " path = REPLACE(path, 'Modules', 'components/ILIAS') " . PHP_EOL
+                . " WHERE component LIKE ('Modules/%')" . PHP_EOL
+                . " AND path IS NOT NULL";
+
+            $this->db->manipulate($query);
+        }
+    }
 }

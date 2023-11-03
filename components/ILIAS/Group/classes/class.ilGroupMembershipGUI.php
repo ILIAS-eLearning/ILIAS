@@ -209,7 +209,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
      */
     protected function initParticipantTemplate(): void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.grp_edit_members.html', 'Modules/Group');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.grp_edit_members.html', 'components/ILIAS/Group');
     }
 
     public function getLocalTypeRole(bool $a_translation = false): array

@@ -22,7 +22,7 @@ declare(strict_types=1);
  * XML  parser for weblink xml
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
- * @ingroup ModulesWebResource
+ * @ingroup components\ILIASWebResource
  */
 class ilWebLinkXmlParser extends ilMDSaxParser
 {

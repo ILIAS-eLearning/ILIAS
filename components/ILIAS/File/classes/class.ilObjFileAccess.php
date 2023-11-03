@@ -17,14 +17,14 @@
  *********************************************************************/
 
 use ILIAS\FileUpload\MimeType;
-use ILIAS\Modules\File\Settings\General;
+use ILIAS\components\File\Settings\General;
 
 /**
  * Access class for file objects.
  * @author  Alex Killing <alex.killing@gmx.de>
  * @author  Stefan Born <stefan.born@phzh.ch>
  * @version $Id$
- * @ingroup ModulesFile
+ * @ingroup components\ILIASFile
  */
 class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
 {

@@ -20,7 +20,7 @@ class ilCourseReferenceExporter extends ilContainerReferenceExporter
      */
     protected function initWriter(ilContainerReference $ref): ilContainerReferenceXmlWriter
     {
-        include_once './Modules/CourseReference/classes/class.ilCourseReferenceXmlWriter.php';
+        include_once './components/ILIAS/CourseReference/classes/class.ilCourseReferenceXmlWriter.php';
         return new ilCourseReferenceXmlWriter($ref);
     }
 }

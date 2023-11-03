@@ -887,7 +887,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
      */
     protected function getMediaPoolPageGUI($mep_item_id, $old_nr = 0)
     {
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
+        include_once("./components/ILIAS/MediaPool/classes/class.ilMediaPoolPageGUI.php");
         $page_gui = new ilMediaPoolPageGUI($mep_item_id, $old_nr);
         $page_gui->setPoolGUI($this);
 
@@ -1677,7 +1677,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         ilObjMediaObjectGUI::includePresentationJS($a_tpl);
 
-        $tpl->addJavaScript("./Modules/MediaPool/js/ilMediaPool.js");
+        $tpl->addJavaScript("./components/ILIAS/MediaPool/js/ilMediaPool.js");
 
         $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", "");
         $ilCtrl->setParameterByClass("ilobjmediapoolgui", "ref_id", $a_mpool_ref_id);

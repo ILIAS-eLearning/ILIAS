@@ -59,7 +59,7 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
 
         $DIC->language()->loadLanguageModule('assessment');
 
-        $this->setRowTemplate('tpl.lti_consumer_scoring_table_row.html', 'Modules/LTIConsumer');
+        $this->setRowTemplate('tpl.lti_consumer_scoring_table_row.html', 'components/ILIAS/LTIConsumer');
 
         if ($tableId === 'highscore') {
             $this->setTitle(

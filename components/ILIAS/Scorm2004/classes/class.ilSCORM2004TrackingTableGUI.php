@@ -43,7 +43,7 @@ class ilSCORM2004TrackingTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.table_scorm_2004_tracking_row.html",
-            "Modules/Scorm2004"
+            "components/ILIAS/Scorm2004"
         );
         $this->setDefaultOrderField("user_full_name");
         $this->addMultiCommand("deleteTrackingData", $this->lng->txt("cont_delete_track_data"));

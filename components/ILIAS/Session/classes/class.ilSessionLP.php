@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id: class.ilLPStatusPlugin.php 43734 2013-07-29 15:27:58Z jluetzen $
- * @package ModulesSession
+ * @package components\ILIASSession
  */
 class ilSessionLP extends ilObjectLP
 {

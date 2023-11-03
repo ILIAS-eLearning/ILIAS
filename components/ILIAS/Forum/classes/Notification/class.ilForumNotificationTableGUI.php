@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilForumNotificationTableGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumNotificationTableGUI extends ilTable2GUI
 {
@@ -44,7 +44,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         parent::__construct($settings_gui, $cmd);
 
         $this->setTitle($this->lng->txt(strtolower($type)));
-        $this->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
+        $this->setRowTemplate('tpl.forums_members_row.html', 'components/ILIAS/Forum');
         $this->setFormAction($this->ctrl->getFormAction($settings_gui, 'showMembers'));
 
         $this->addColumn('', '', '1%', true);

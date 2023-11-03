@@ -55,7 +55,7 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
         // $this->addColumn($this->lng->txt("gender"), "gender");
         $this->addColumn($this->lng->txt("status"), "status");
 
-        $this->setRowTemplate("tpl.il_svy_svy_participants_row.html", "Modules/Survey/Participants");
+        $this->setRowTemplate("tpl.il_svy_svy_participants_row.html", "components/ILIAS/Survey/Participants");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("name");
 

@@ -22,7 +22,7 @@
  * @author	Björn Heyser <bheyser@databay.de>
  * @version	$Id$
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 interface ilTestSequenceSummaryProvider
 {

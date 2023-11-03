@@ -56,7 +56,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("existing_constraints"), "");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.svy_constraints_row.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.svy_constraints_row.html", "components/ILIAS/Survey");
 
         if (!$this->read_only) {
             $this->addMultiCommand("createConstraints", $lng->txt("constraint_add"));
@@ -135,7 +135,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
                     "id" => $id,
                     "title" => $title,
                     "type" => $type,
-                    "icon" => ilUtil::getImagePath($icontype, "Modules/Survey"),
+                    "icon" => ilUtil::getImagePath($icontype, "components/ILIAS/Survey"),
                     "content" => $content,
                     "constraints" => $parsed,
                     "conjunction" => $conjunction

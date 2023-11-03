@@ -30,7 +30,7 @@ declare(strict_types=1);
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ingroup ModulesGroup
+* @ingroup components\ILIASGroup
 */
 class ilGroupRegistrationGUI extends ilRegistrationGUI
 {

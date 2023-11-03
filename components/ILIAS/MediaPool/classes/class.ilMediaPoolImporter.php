@@ -31,7 +31,7 @@ class ilMediaPoolImporter extends ilXmlImporter
         $this->ds = new ilMediaPoolDataSet();
         $this->ds->setDSPrefix("ds");
 
-        $this->config = $this->getImport()->getConfig("Modules/MediaPool");
+        $this->config = $this->getImport()->getConfig("components/ILIAS/MediaPool");
         if ($this->config->getTranslationImportMode()) {
             $this->ds->setTranslationImportMode(
                 $this->config->getTranslationMep(),
@@ -66,7 +66,7 @@ class ilMediaPoolImporter extends ilXmlImporter
     public function finalProcessing(
         ilImportMapping $a_mapping
     ): void {
-        $pg_map = $a_mapping->getMappingsOfEntity("Modules/MediaPool", "pg");
+        $pg_map = $a_mapping->getMappingsOfEntity("components/ILIAS/MediaPool", "pg");
 
         foreach ($pg_map as $pg_id) {
             $mep_id = ilMediaPoolItem::getPoolForItemId($pg_id);

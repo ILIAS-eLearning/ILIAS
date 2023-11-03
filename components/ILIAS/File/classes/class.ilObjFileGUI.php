@@ -22,7 +22,7 @@ use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\File\Icon\IconDatabaseRepository;
-use ILIAS\Modules\File\Settings\General;
+use ILIAS\components\File\Settings\General;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data\DataSize;
 use ILIAS\Refinery\String\Group;
@@ -40,7 +40,7 @@ use ILIAS\Services\WOPI\Discovery\ActionTarget;
  * @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI, ilFileVersionsGUI, ilWOPIEmbeddedApplicationGUI
- * @ingroup      ModulesFile
+ * @ingroup components\ILIASFile
  */
 class ilObjFileGUI extends ilObject2GUI
 {

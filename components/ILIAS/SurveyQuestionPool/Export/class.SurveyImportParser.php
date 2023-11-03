@@ -500,7 +500,7 @@ class SurveyImportParser extends ilSaxParser
                     }
                     $this->questions[$this->original_question_id] = $question_id;
                     if ($this->mapping) {
-                        $this->mapping->addMapping("Modules/Survey", "svy_q", $this->original_question_id, $question_id);
+                        $this->mapping->addMapping("components/ILIAS/Survey", "svy_q", $this->original_question_id, $question_id);
                     }
                     $this->activequestion = null;
                 }

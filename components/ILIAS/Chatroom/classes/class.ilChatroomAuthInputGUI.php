@@ -174,7 +174,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     {
         global $DIC;
 
-        $tpl = new ilTemplate('tpl.chatroom_auth_input.html', true, true, 'Modules/Chatroom');
+        $tpl = new ilTemplate('tpl.chatroom_auth_input.html', true, true, 'components/ILIAS/Chatroom');
 
         for ($i = 1, $iMax = count($this->values); $i <= $iMax; $i++) {
             $const = 'NAME_AUTH_PROP_' . $i;

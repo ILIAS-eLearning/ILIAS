@@ -11,7 +11,7 @@ class ilModulesGroupSuite extends TestSuite
     public static function suite()
     {
         $suite = new ilModulesGroupSuite();
-        include_once("./Modules/Group/test/ilGroupEventHandlerTest.php");
+        include_once("./components/ILIAS/Group/test/ilGroupEventHandlerTest.php");
         $suite->addTestSuite(ilGroupEventHandlerTest::class);
         return $suite;
     }

@@ -26,7 +26,7 @@ declare(strict_types=1);
 class ilStudyProgrammeCourseListGUI extends ilObjCourseListGUI
 {
     protected static string $tpl_file_name = "tpl.course_list_item.html";
-    protected static string $tpl_component = "Modules/StudyProgramme";
+    protected static string $tpl_component = "components/ILIAS/StudyProgramme";
 
     protected int $indent = 0;
 

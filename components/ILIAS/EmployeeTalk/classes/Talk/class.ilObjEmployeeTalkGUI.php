@@ -19,8 +19,8 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
-use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
+use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\components\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
 use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;

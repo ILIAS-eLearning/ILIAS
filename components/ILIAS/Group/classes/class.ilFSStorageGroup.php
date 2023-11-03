@@ -20,7 +20,7 @@ declare(strict_types=1);
 * @version $Id$
 *
 *
-* @ingroup ModulesGroup
+* @ingroup components\ILIASGroup
 */
 class ilFSStorageGroup extends ilFileSystemAbstractionStorage
 {

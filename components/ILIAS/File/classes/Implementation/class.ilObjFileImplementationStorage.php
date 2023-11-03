@@ -18,7 +18,7 @@
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\Modules\File\Settings\General;
+use ILIAS\components\File\Settings\General;
 use ILIAS\ResourceStorage\Revision\RevisionStatus;
 
 /**

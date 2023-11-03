@@ -55,7 +55,7 @@ class ilModulesTestSuite extends TestSuite
         }
 
         chdir(dirname(__FILE__));
-        chdir('../../../');
+        chdir('../../../../');
 
 
         $suite = new ilModulesTestSuite();

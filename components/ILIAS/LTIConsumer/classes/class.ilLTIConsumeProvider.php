@@ -26,7 +26,7 @@ use ILIAS\Filesystem\Exception\IOException;
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilLTIConsumeProvider
 {
@@ -1069,16 +1069,16 @@ class ilLTIConsumeProvider
 
     // public function getAuthenticationRequestUrl(): string
     // {
-    // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltiauth.php";
+    // return ILIAS_HTTP_PATH . "/components/ILIAS/LTIConsumer/ltiauth.php";
     // }
 
     // public function getAccessTokenUrl(): string
     // {
-    // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltitoken.php";
+    // return ILIAS_HTTP_PATH . "/components/ILIAS/LTIConsumer/ltitoken.php";
     // }
 
     // public function getPublicKeysetUrl(): string
     // {
-    // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/lticerts.php";
+    // return ILIAS_HTTP_PATH . "/components/ILIAS/LTIConsumer/lticerts.php";
     // }
 }

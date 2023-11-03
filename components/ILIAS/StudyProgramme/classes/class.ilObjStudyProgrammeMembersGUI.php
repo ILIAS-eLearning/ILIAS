@@ -381,7 +381,7 @@ class ilObjStudyProgrammeMembersGUI
             "tpl.acknowledge_completed_courses.html",
             true,
             true,
-            "Modules/StudyProgramme"
+            "components/ILIAS/StudyProgramme"
         );
         $tpl->setVariable("TITLE", $this->lng->txt("prg_acknowledge_completed_courses"));
         $tpl->setVariable("CAPTION_ADD", $this->lng->txt("btn_next"));

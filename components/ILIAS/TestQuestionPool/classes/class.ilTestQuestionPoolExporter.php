@@ -21,7 +21,7 @@
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
  * @version $Id$
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestQuestionPoolExporter extends ilXmlExporter
 {

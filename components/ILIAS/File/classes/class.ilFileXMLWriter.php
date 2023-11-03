@@ -28,7 +28,7 @@
  * @author  Roland Küstermann <Roland@kuestermann.com>
  * @version $Id: class.ilExerciseXMLWriter.php,v 1.3 2005/11/04 12:50:24 smeyer Exp $
  *
- * @ingroup ModulesFile
+ * @ingroup components\ILIASFile
  */
 class ilFileXMLWriter extends ilXmlWriter
 {

@@ -23,7 +23,7 @@ use ILIAS\Skill\Service\SkillUsageService;
  * directly from a test) to competences.
  *
  * @author  Björn Heyser <bheyser@databay.de>
- * @package Modules/Test
+ * @package components\ILIAS/Test
  *
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentsTableGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilSkillSelectorGUI
@@ -349,7 +349,7 @@ class ilAssQuestionSkillAssignmentsGUI
         );
 
         if (!$skillSelectorExplorerGUI->handleCommand()) {
-            $tpl = new ilTemplate('tpl.qpl_qst_skl_assign_selection.html', false, false, 'Modules/TestQuestionPool');
+            $tpl = new ilTemplate('tpl.qpl_qst_skl_assign_selection.html', false, false, 'components/ILIAS/TestQuestionPool');
 
             $tpl->setVariable('SKILL_SELECTOR_HEADER', $this->getSkillSelectorHeader($questionId));
 

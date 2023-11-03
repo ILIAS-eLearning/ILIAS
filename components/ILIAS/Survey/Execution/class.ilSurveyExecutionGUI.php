@@ -418,8 +418,8 @@ class ilSurveyExecutionGUI
             }
 
             $required = false;
-            //$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
-            $stpl = new ilTemplate("tpl.il_svy_svy_content.html", true, true, "Modules/Survey");
+            //$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "components/ILIAS/Survey");
+            $stpl = new ilTemplate("tpl.il_svy_svy_content.html", true, true, "components/ILIAS/Survey");
 
             // title / appraisee
             if ($this->feature_config->usesAppraisees()) {

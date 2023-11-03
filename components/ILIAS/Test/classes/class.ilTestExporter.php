@@ -25,7 +25,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
  *
  * @author Stefan Meyer <meyer@leifos.com>
  * @version $Id$
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilTestExporter extends ilXmlExporter
 {

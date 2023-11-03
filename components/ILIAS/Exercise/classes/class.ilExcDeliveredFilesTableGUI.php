@@ -65,7 +65,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.delivered_file_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.delivered_file_row.html", "components/ILIAS/Exercise");
         $this->disable("footer");
         $this->setEnableTitle(true);
 

@@ -23,7 +23,7 @@
  */
 class ilBiblTranslationTableGUI extends ilTable2GUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    use \ILIAS\components\OrgUnit\ARHelper\DIC;
     protected \ilBiblFieldInterface $field;
     protected \ilBiblTranslationFactoryInterface $translation_facory;
 
@@ -40,7 +40,7 @@ class ilBiblTranslationTableGUI extends ilTable2GUI
         $this->setPrefix($table_id);
         $this->setFormName($table_id);
         $this->ctrl()->saveParameter($a_parent_obj, $this->getNavParameter());
-        $this->setRowTemplate("tpl.bibl_admin_translation_row.html", "Modules/Bibliographic");
+        $this->setRowTemplate("tpl.bibl_admin_translation_row.html", "components/ILIAS/Bibliographic");
         parent::__construct($a_parent_obj);
         $this->setFormAction($this->ctrl()->getFormAction($a_parent_obj));
         $this->setExternalSorting(true);

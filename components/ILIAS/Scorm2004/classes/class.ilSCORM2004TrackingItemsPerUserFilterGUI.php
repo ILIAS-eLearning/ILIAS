@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilSCORM2004TrackingItemsPerUserFilterGUI
  *
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
- * @ingroup ModulesScorm2004
+ * @ingroup components\ILIASScorm2004
  */
 class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
 {

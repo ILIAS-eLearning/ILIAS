@@ -25,7 +25,7 @@ declare(strict_types=1);
 *
 * @ilCtrl_Calls ilObjRemoteTestGUI: ilPermissionGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjRemoteTestGUI: ilCommonActionDispatcherGUI
-* @ingroup ModulesRemoteTest
+* @ingroup components\ILIASRemoteTest
 */
 
 class ilObjRemoteTestGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClassInterface

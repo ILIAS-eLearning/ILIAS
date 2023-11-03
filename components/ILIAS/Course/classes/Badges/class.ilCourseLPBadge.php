@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilCourseLPBadge
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
- * @package ModulesCourse
+ * @package components\ILIASCourse
  */
 class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
 {

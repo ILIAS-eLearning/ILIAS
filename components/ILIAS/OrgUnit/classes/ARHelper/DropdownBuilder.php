@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\OrgUnit\ARHelper;
+namespace ILIAS\components\OrgUnit\ARHelper;
 
 /**
  * This is to construct/collect the entries (=Links) of a row's action-dropdown

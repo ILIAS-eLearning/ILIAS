@@ -159,7 +159,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.prop_matrixrowwizardinput.html", true, true, "Modules/SurveyQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_matrixrowwizardinput.html", true, true, "components/ILIAS/SurveyQuestionPool");
         if (is_object($this->values)) {
             for ($i = 0; $i < $this->values->getCategoryCount(); $i++) {
                 $cat = $this->values->getCategory($i);
@@ -229,6 +229,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 
         $tpl = $this->tpl;
         $tpl->addJavaScript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavaScript("./Modules/SurveyQuestionPool/js/matrixrowwizard.js");
+        $tpl->addJavaScript("./components/ILIAS/SurveyQuestionPool/js/matrixrowwizard.js");
     }
 }

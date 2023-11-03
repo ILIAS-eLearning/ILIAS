@@ -29,7 +29,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
 
     public function testPurge(): void
     {
-        $type = "Modules";
+        $type = "components/ILIAS";
         $name = "NAME";
         $id = "ID";
 
@@ -42,7 +42,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
 
     public function testBeginTag(): void
     {
-        $type1 = "Modules";
+        $type1 = "components/ILIAS";
         $name1 = "NAME1";
         $id1 = "ID1";
         $name2 = "NAME2";
@@ -113,10 +113,10 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $this->processor->beginComponent("Module1", "Modules");
+        $this->processor->beginComponent("Module1", "components/ILIAS");
         $this->processor->beginTag("module", ["id" => "id"]);
 
-        $this->processor->beginComponent("Module2", "Modules");
+        $this->processor->beginComponent("Module2", "components/ILIAS");
         $this->processor->beginTag("module", ["id" => "id"]);
     }
 
@@ -124,11 +124,11 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $this->processor->beginComponent("Module1", "Modules");
+        $this->processor->beginComponent("Module1", "components/ILIAS");
         $this->processor->beginTag("module", ["id" => "id1"]);
         $this->processor->beginTag("pluginslot", ["id" => "id", "name" => "name"]);
 
-        $this->processor->beginComponent("Module2", "Modules");
+        $this->processor->beginComponent("Module2", "components/ILIAS");
         $this->processor->beginTag("module", ["id" => "id2"]);
         $this->processor->beginTag("pluginslot", ["id" => "id", "name" => "name"]);
     }

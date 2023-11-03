@@ -25,11 +25,11 @@ declare(strict_types=1);
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  *
- * @ingroup ModulesSession
+ * @ingroup components\ILIASSession
  */
 class ilSessionParticipants extends ilParticipants
 {
-    public const COMPONENT_NAME = 'Modules/Session';
+    public const COMPONENT_NAME = 'components/ILIAS/Session';
 
     protected static array $instances = [];
 

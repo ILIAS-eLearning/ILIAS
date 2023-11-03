@@ -24,7 +24,7 @@ declare(strict_types=1);
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
-* @ingroup ModulesTest
+* @ingroup components\ILIASTest
 *
 */
 class ilEvaluationAllTableGUI extends ilTable2GUI
@@ -99,7 +99,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("detailed_evaluation"), "", "");
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
-        $this->setRowTemplate("tpl.table_evaluation_all.html", "Modules/Test");
+        $this->setRowTemplate("tpl.table_evaluation_all.html", "components/ILIAS/Test");
         $this->setDefaultOrderField("name");
         $this->setDefaultOrderDirection("asc");
         $this->enable('sort');

@@ -23,7 +23,7 @@ declare(strict_types=1);
  * PathGUI which handles materials assigned to sessions
 
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesSession
+ * @ingroup components\ILIASSession
  */
 class ilSessionClassificationPathGUI extends ilPathGUI
 {

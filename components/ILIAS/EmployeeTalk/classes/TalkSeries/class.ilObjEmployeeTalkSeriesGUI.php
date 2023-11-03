@@ -19,8 +19,8 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
-use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\Modules\EmployeeTalk\Talk\EmployeeTalkPeriod;
+use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\components\EmployeeTalk\Talk\EmployeeTalkPeriod;
 use ILIAS\EmployeeTalk\Metadata\MetadataHandlerInterface;
 use ILIAS\EmployeeTalk\Metadata\MetadataHandler;
 use ILIAS\EmployeeTalk\Notification\NotificationHandlerInterface;

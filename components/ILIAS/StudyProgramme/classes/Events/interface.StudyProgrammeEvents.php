@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 interface StudyProgrammeEvents
 {
-    public const COMPONENT = "Modules/StudyProgramme";
+    public const COMPONENT = "components/ILIAS/StudyProgramme";
     public const EVENT_USER_ASSIGNED = 'userAssigned';
     public const EVENT_USER_REASSIGNED = 'userReAssigned';
     public const EVENT_USER_DEASSIGNED = 'userDeassigned';

@@ -52,7 +52,7 @@ class ilTermQuickListTableGUI extends ilTable2GUI
         $this->addColumn("", "");
         $this->setEnableHeader(false);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.term_quick_list_row.html", "Modules/Glossary");
+        $this->setRowTemplate("tpl.term_quick_list_row.html", "components/ILIAS/Glossary");
         $this->setEnableTitle(false);
         $this->setData($this->glossary->getTermList("", "", "", 0, false, false, null, true));
     }

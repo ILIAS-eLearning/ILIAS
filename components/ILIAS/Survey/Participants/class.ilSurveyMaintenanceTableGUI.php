@@ -54,7 +54,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("svy_status"), '', '');
         $this->addColumn($this->lng->txt("survey_results_finished"), 'finished', '');
 
-        $this->setRowTemplate("tpl.il_svy_svy_maintenance_row.html", "Modules/Survey/Participants");
+        $this->setRowTemplate("tpl.il_svy_svy_maintenance_row.html", "components/ILIAS/Survey/Participants");
 
         if ($confirmdelete) {
             $this->addCommandButton('confirmDeleteSelectedUserData', $this->lng->txt('confirm'));

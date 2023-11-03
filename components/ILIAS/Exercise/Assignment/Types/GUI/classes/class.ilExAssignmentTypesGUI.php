@@ -20,7 +20,7 @@
  * Assignment types gui.
  *
  * @author killing@leifos.de
- * @ingroup ModulesExercise
+ * @ingroup components\ILIASExercise
  */
 class ilExAssignmentTypesGUI
 {

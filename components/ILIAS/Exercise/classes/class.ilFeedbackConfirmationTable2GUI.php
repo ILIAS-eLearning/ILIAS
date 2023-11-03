@@ -59,7 +59,7 @@ class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("file"), "file");
 
         $this->setFormAction($ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.multi_feedback_confirmation_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.multi_feedback_confirmation_row.html", "components/ILIAS/Exercise");
 
         $this->addCommandButton("saveMultiFeedback", $lng->txt("save"));
         $this->addCommandButton("cancelMultiFeedback", $lng->txt("cancel"));

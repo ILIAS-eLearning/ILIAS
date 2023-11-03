@@ -32,7 +32,7 @@ class ilModulesPollSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/Poll/test/PollBlockTest.php");
+        require_once("./components/ILIAS/Poll/test/PollBlockTest.php");
         $suite->addTestSuite(PollBlockTest::class);
 
         return $suite;

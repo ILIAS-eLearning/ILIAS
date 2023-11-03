@@ -94,7 +94,7 @@ class ilCourseExporter extends ilXmlExporter
         }
 
         $dependencies[] = [
-            'component' => 'Modules/Course',
+            'component' => 'components/ILIAS/Course',
             'entity' => self::ENTITY_OBJECTIVE,
             'ids' => $obj_id
         ];

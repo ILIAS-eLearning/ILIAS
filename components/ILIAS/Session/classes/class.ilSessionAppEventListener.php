@@ -97,7 +97,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         }
 
 
-        if ('Modules/Session' !== $this->component) {
+        if ('components/ILIAS/Session' !== $this->component) {
             return;
         }
 

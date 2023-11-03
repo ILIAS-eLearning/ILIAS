@@ -19,7 +19,7 @@ declare(strict_types=0);
 
 /**
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseStartObjectsTableGUI extends ilTable2GUI
 {
@@ -47,7 +47,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
             $this->addMultiCommand('askDeleteStarter', $this->lng->txt('delete'));
         }
 
-        $this->setRowTemplate("tpl.crs_add_starter.html", "Modules/Course");
+        $this->setRowTemplate("tpl.crs_add_starter.html", "components/ILIAS/Course");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setSelectAllCheckbox('starter');
 

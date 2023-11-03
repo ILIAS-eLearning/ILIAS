@@ -34,7 +34,7 @@ class ilLearningSequenceWaitingList extends ilWaitingList
         /** @noinspection PhpUndefinedMethodInspection */
         $log->lso()->info('Raise new event: Modules/LearningSerquence addToList.');
         $app_event_handler->raise(
-            "Modules/LearningSequence",
+            "components/ILIAS/LearningSequence",
             'addToWaitingList',
             array(
                 'obj_id' => $this->getObjId(),

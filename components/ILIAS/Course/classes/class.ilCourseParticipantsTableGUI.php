@@ -20,7 +20,7 @@ declare(strict_types=0);
 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 {
@@ -110,7 +110,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         $this->addColumn($this->lng->txt('actions'), 'optional', '', false, 'ilMembershipRowActionsHeader');
 
-        $this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
+        $this->setRowTemplate("tpl.show_participants_row.html", "components/ILIAS/Course");
 
         $this->setDefaultOrderField('roles');
         $this->enable('sort');

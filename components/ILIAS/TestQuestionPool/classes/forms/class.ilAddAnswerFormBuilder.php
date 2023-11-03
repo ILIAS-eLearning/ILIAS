@@ -27,7 +27,7 @@ use Psr\Http\Message\RequestInterface;
  * @author    Stephan Kergomard <webmaster@kergomard.ch>
  * @version    $Id$
  *
- * @package    Modules/Test(QuestionPool)
+ * @package components\ILIAS/Test(QuestionPool)
  */
 class ilAddAnswerFormBuilder
 {

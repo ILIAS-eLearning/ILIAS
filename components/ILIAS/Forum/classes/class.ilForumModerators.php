@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilForumModerators
  * @author  Nadia Matuschek <nmatuschek@databay.de>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumModerators
 {

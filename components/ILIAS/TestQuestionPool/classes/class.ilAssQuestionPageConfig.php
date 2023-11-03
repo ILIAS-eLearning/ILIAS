@@ -23,7 +23,7 @@
  *
  * @version $Id$
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  */
 class ilAssQuestionPageConfig extends ilPageConfig
 {

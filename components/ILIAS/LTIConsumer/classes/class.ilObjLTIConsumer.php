@@ -29,7 +29,7 @@ use Firebase\JWT\JWT;
  * @author      Björn Heyser <info@bjoernheyser.de>
  * @author      Stefan Schneider <eqsoft4@gmail.com>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilObjLTIConsumer extends ilObject2
 {
@@ -752,7 +752,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
-            "lis_outcome_service_url" => self::getIliasHttpPath() . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
+            "lis_outcome_service_url" => self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/result.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
 
@@ -862,7 +862,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => "",//$token,
-            "lis_outcome_service_url" => self::getIliasHttpPath() . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
+            "lis_outcome_service_url" => self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/result.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
 
@@ -874,13 +874,13 @@ class ilObjLTIConsumer extends ilObject2
         }
 
         if ($this->getProvider()->isGradeSynchronization()) {
-            include_once("Modules/LTIConsumer/classes/class.ilLTIConsumerGradeService.php");
+            include_once("components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerGradeService.php");
             $gradeservice = new ilLTIConsumerGradeService();
-            $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
+            $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
 
             // ! Moodle as tool provider requires a custom_lineitems_url even though this should be optional in launch request, especially if only posting score scope is permitted by platform
             // http://www.imsglobal.org/spec/lti-ags/v2p0#example-link-has-a-single-line-item-tool-can-only-post-score
-            $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/linetitems/";
+            $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/linetitems/";
 
             $launch_vars['custom_ags_scopes'] = implode(",", $gradeservice->getPermittedScopes());
         }
@@ -1171,7 +1171,7 @@ class ilObjLTIConsumer extends ilObject2
         } else {
             $uri = $rq_uri;
         }
-        $uri = str_replace("Modules/LTIConsumer", "", $uri);
+        $uri = str_replace("components/ILIAS/LTIConsumer", "", $uri);
         $iliasHttpPath = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
         $f = new \ILIAS\Data\Factory();
         $uri = $f->uri(rtrim($iliasHttpPath, "/"));
@@ -1185,37 +1185,37 @@ class ilObjLTIConsumer extends ilObject2
 
     public static function getAuthenticationRequestUrl(): string
     {
-        return self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiauth.php";
+        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiauth.php";
     }
 
     public static function getAccessTokenUrl(): string
     {
-        return self::getIliasHttpPath() . "/Modules/LTIConsumer/ltitoken.php";
+        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltitoken.php";
     }
 
     public static function getPublicKeysetUrl(): string
     {
-        return self::getIliasHttpPath() . "/Modules/LTIConsumer/lticerts.php";
+        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/lticerts.php";
     }
 
     public static function getRegistrationUrl(): string
     {
-        return self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiregistration.php";
+        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiregistration.php";
     }
 
     public static function getRegistrationStartUrl(): string
     {
-        return self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiregstart.php";
+        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiregstart.php";
     }
 
     public static function getRegistrationEndUrl(): string
     {
-        return self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiregend.php";
+        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiregend.php";
     }
 
     public static function getOpenidConfigUrl(): string
     {
-        return self::getIliasHttpPath() . "/Modules/LTIConsumer/lticonfig.php";
+        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/lticonfig.php";
     }
 
     public static function getOpenidConfig(): array

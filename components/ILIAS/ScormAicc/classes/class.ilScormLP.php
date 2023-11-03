@@ -22,7 +22,7 @@ declare(strict_types=1);
  * SCORM to lp connector
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesScormAicc
+ * @package components\ILIASScormAicc
  */
 class ilScormLP extends ilObjectLP
 {

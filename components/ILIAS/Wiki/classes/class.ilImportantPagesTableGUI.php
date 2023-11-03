@@ -62,7 +62,7 @@ class ilImportantPagesTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.imp_pages_row.html", "Modules/Wiki");
+        $this->setRowTemplate("tpl.imp_pages_row.html", "components/ILIAS/Wiki");
         //$this->disable("footer");
         $this->setEnableTitle(true);
 

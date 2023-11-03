@@ -588,7 +588,7 @@ class ilObjectDefinition
     /**
     * Get all repository object types of component
     *
-    * This is only every called with $a_component_type = "Modules".
+    * This is only every called with $a_component_type = "components/ILIAS".
     * This is only used in two locations:
     *    - Services/Repository/Administration/class.ilModulesTableGUI.php
     *    - Services/Repository/Administration/class.ilObjRepositorySettings.php

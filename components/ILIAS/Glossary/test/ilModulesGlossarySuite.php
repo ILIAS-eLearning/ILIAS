@@ -31,7 +31,7 @@ class ilModulesGlossarySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/Glossary/test/GloPresentationGUIRequestTest.php");
+        require_once("./components/ILIAS/Glossary/test/GloPresentationGUIRequestTest.php");
         $suite->addTestSuite("GloPresentationGUIRequestTest");
 
         return $suite;

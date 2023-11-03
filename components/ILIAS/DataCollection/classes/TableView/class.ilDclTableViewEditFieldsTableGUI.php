@@ -42,7 +42,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
-        $this->setRowTemplate('tpl.tableview_fields_row.html', 'Modules/DataCollection');
+        $this->setRowTemplate('tpl.tableview_fields_row.html', 'components/ILIAS/DataCollection');
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(false);

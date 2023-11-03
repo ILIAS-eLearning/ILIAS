@@ -62,7 +62,7 @@ class ilObjCategory extends ilContainer
         }
 
         $ilAppEventHandler->raise(
-            'Modules/Category',
+            'components/ILIAS/Category',
             'delete',
             [
                 'object' => $this,

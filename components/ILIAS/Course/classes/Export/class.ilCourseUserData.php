@@ -20,7 +20,7 @@ declare(strict_types=0);
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseUserData
 {

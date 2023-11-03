@@ -26,7 +26,7 @@ use ILIAS\UI\Factory as UIFactory;
 /**
  * Class ilMarkSchemaGUI
  * @author  Michael Jansen <mjansen@databay.de>
- * @package ModulesTest
+ * @package components\ILIASTest
  */
 class ilMarkSchemaGUI
 {

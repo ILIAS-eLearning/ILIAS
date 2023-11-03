@@ -19,7 +19,7 @@
 /**
  * Interface ilMarkSchemaAware
  * @author Michael Jansen <mjansen@databay.de>
- * @package ModulesTest
+ * @package components\ILIASTest
  */
 interface ilMarkSchemaAware
 {

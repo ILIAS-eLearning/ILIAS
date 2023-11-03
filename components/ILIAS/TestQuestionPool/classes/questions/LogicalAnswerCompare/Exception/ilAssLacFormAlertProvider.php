@@ -20,7 +20,7 @@
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/TestQuestionPool/AssQuestion/LogicalAnswerComparison
+ * @package components\ILIAS/TestQuestionPool/AssQuestion/LogicalAnswerComparison
  */
 interface ilAssLacFormAlertProvider
 {

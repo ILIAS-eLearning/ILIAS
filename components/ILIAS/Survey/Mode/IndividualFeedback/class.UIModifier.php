@@ -244,7 +244,7 @@ class UIModifier extends Mode\AbstractUIModifier
 
         \ilDatePresentation::setUseRelativeDates(false);
 
-        $a_tpl = new \ilTemplate("tpl.svy_results_details_table.html", true, true, "Modules/Survey/Evaluation");
+        $a_tpl = new \ilTemplate("tpl.svy_results_details_table.html", true, true, "components/ILIAS/Survey/Evaluation");
 
         // table
         $ret = "";
@@ -379,7 +379,7 @@ class UIModifier extends Mode\AbstractUIModifier
 
                     $a_tpl->setVariable("HEADER", $part_caption);
                     $ret .= $a_tpl->get();
-                    $a_tpl = new \ilTemplate("tpl.svy_results_details_table.html", true, true, "Modules/Survey/Evaluation");
+                    $a_tpl = new \ilTemplate("tpl.svy_results_details_table.html", true, true, "components/ILIAS/Survey/Evaluation");
                 }
             }
         }

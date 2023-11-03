@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * Handle user timings
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilTimingsUser
 {

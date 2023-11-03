@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  * Unit tests for ASS_Mark
  * @author  Maximilian Becker <mbecker@databay.de>
  * @version $Id$
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilassMarkTest extends TestCase
 {
@@ -37,7 +37,7 @@ class ilassMarkTest extends TestCase
     protected function setUp(): void
     {
         chdir(dirname(__FILE__));
-        chdir('../../../');
+        chdir('../../../../');
 
         $this->ass_mark = new ASS_Mark();
     }

@@ -50,7 +50,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.table_row_contributors.html",
-            "Modules/Wiki"
+            "components/ILIAS/Wiki"
         );
         $this->getContributors();
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), "saveGrading"));

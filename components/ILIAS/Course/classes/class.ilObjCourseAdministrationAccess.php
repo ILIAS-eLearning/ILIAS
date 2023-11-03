@@ -21,7 +21,7 @@ declare(strict_types=0);
  * Class ilObjCourseAdministrationAccess
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilObjCourseAdministrationAccess extends ilObjectAccess
 {

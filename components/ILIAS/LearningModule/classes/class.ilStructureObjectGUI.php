@@ -148,7 +148,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl->setParameterByClass($up_gui, "active_node", $this->obj->getId());
         $ilCtrl->setParameterByClass($up_gui, "active_node", null);
 
-        $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
+        $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "components/ILIAS/LearningModule");
         $ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
         $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
 
@@ -255,7 +255,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         $this->setTabs();
 
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", "Modules/LearningModule");
+        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", "components/ILIAS/LearningModule");
         $num = 0;
 
         $this->tpl->setCurrentBlock("form");

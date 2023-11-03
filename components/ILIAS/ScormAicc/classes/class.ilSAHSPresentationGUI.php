@@ -31,7 +31,7 @@ declare(strict_types=1);
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilLearningProgressGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilObjSCORMLearningModuleGUI, ilObjSCORM2004LearningModuleGUI
 *
-* @ingroup ModulesScormAicc
+* @ingroup components\ILIASScormAicc
 */
 class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 {

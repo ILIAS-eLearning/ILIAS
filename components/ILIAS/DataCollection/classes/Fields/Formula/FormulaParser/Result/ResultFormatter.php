@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result;
+namespace ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result;
 
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Math\Operators;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Math\Functions;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\Result\IntegerResult;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Math\Operators;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Math\Functions;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result\Result\IntegerResult;
 
 class ResultFormatter
 {

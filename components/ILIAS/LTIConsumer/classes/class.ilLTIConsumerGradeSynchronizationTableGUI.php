@@ -58,7 +58,7 @@ class ilLTIConsumerGradeSynchronizationTableGUI extends ilTable2GUI
         $DIC->language()->loadLanguageModule('form');
 
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate('tpl.lti_grade_synchronization_table_row.html', 'Modules/LTIConsumer');
+        $this->setRowTemplate('tpl.lti_grade_synchronization_table_row.html', 'components/ILIAS/LTIConsumer');
 
         $this->initColumns();
         $this->initFilter();

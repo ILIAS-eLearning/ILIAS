@@ -24,7 +24,7 @@ declare(strict_types=1);
 class ilChatroomObjectDefinition
 {
     /**
-     * Module base path, set to "Modules/$this->moduleName/"
+     * Module base path, set to "components/ILIAS/$this->moduleName/"
      * @var string
      */
     private readonly string $moduleBasePath;
@@ -62,7 +62,7 @@ class ilChatroomObjectDefinition
      */
     public static function getDefaultDefinition(string $moduleName): self
     {
-        return new self($moduleName, 'Modules/' . $moduleName . '/');
+        return new self($moduleName, 'components/ILIAS/' . $moduleName . '/');
     }
 
     /**
@@ -74,7 +74,7 @@ class ilChatroomObjectDefinition
     {
         return new self(
             $moduleName,
-            'Modules/' . $moduleName . '/',
+            'components/ILIAS/' . $moduleName . '/',
             'classes',
             $guiScope
         );

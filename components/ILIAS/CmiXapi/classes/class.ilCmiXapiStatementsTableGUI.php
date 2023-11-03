@@ -59,7 +59,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $DIC->language()->loadLanguageModule('form');
 
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate('tpl.cmix_statements_table_row.html', 'Modules/CmiXapi');
+        $this->setRowTemplate('tpl.cmix_statements_table_row.html', 'components/ILIAS/CmiXapi');
 
         #$this->setTitle($DIC->language()->txt('tbl_statements_header'));
         #$this->setDescription($DIC->language()->txt('tbl_statements_header_info'));

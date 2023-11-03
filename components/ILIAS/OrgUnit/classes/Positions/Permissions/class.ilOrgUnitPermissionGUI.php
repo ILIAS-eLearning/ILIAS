@@ -16,7 +16,7 @@
  ********************************************************************
  */
 
-use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
+use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitPermissionGUI

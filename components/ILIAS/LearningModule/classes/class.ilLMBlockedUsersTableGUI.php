@@ -53,7 +53,7 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cont_unlocked"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.blocked_users.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.blocked_users.html", "components/ILIAS/LearningModule");
 
         $this->addMultiCommand("sendMailToBlockedUsers", $lng->txt("send_mail"));
         $this->addMultiCommand("resetNumberOfTries", $lng->txt("cont_reset_nr_of_tries"));

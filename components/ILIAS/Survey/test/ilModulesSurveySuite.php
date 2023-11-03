@@ -31,7 +31,7 @@ class ilModulesSurveySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/Survey/test/SvyEvaluationGUIRequestTest.php");
+        require_once("./components/ILIAS/Survey/test/SvyEvaluationGUIRequestTest.php");
         $suite->addTestSuite("SvyEvaluationGUIRequestTest");
 
         return $suite;

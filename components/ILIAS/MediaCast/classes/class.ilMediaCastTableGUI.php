@@ -71,7 +71,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.table_media_cast_row.html",
-            "Modules/MediaCast"
+            "components/ILIAS/MediaCast"
         );
 
         $this->media_type = $DIC->mediaObjects()->internal()->domain()->mediaType();

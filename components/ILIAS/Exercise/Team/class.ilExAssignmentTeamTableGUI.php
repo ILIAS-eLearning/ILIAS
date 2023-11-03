@@ -67,7 +67,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField("name");
 
-        $this->setRowTemplate("tpl.exc_team_member_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.exc_team_member_row.html", "components/ILIAS/Exercise");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         if (!$this->read_only) {

@@ -45,7 +45,7 @@ class ilSumScoreTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("svy_sum_score"), 'score', '');
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 
-        $this->setRowTemplate("tpl.sum_score_row.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.sum_score_row.html", "components/ILIAS/Survey");
 
         $this->setDefaultOrderField('username');
 

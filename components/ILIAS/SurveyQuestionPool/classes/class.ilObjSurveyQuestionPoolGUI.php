@@ -91,7 +91,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             );
         }
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "components/ILIAS/Survey"), "screen");
         $this->prepareOutput();
 
         $cmd = $this->ctrl->getCmd("questions");

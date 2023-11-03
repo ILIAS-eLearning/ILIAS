@@ -75,7 +75,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
             );
         }
 
-        $this->setRowTemplate("tpl.il_svy_svy_appraisees_row.html", "Modules/Survey");
+        $this->setRowTemplate("tpl.il_svy_svy_appraisees_row.html", "components/ILIAS/Survey");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 

@@ -59,7 +59,7 @@ class QuestionInfoService
             return '';
         }
 
-        if (file_exists("./Modules/TestQuestionPool/classes/class." . $question_type . ".php")) {
+        if (file_exists("./components/ILIAS/TestQuestionPool/classes/class." . $question_type . ".php")) {
             return $this->lng->txt($question_type);
         }
 

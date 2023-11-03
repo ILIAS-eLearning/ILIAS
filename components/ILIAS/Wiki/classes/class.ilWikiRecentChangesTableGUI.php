@@ -59,7 +59,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.table_row_recent_changes.html",
-            "Modules/Wiki"
+            "components/ILIAS/Wiki"
         );
         $this->getRecentChanges();
 

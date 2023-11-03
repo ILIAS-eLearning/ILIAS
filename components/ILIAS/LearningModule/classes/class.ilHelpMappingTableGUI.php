@@ -55,7 +55,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cont_screen_ids"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.help_map_row.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.help_map_row.html", "components/ILIAS/LearningModule");
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
 

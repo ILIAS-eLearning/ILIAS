@@ -31,7 +31,7 @@ class ilModulesMediaCastSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/MediaCast/test/MediaCastStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/MediaCast/test/MediaCastStandardGUIRequestTest.php");
         $suite->addTestSuite("MediaCastStandardGUIRequestTest");
 
         return $suite;

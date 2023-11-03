@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @author      Björn Heyser <info@bjoernheyser.de>
  * @author      Stefan Schneider <info@eqsoft.com>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilLTIConsumerContentGUI
 {
@@ -73,7 +73,7 @@ class ilLTIConsumerContentGUI
     {
         if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
             if ($this->object->isLaunchMethodEmbedded()) {
-                $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'Modules/LTIConsumer');
+                $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
                 $tpl->setVariable("EMBEDDED_IFRAME_SRC", $this->dic->ctrl()->getLinkTarget(
                     $this,
                     self::CMD_SHOW_EMBEDDED
@@ -84,7 +84,7 @@ class ilLTIConsumerContentGUI
             }
         } else {
             if ($this->object->isLaunchMethodEmbedded() && (ilSession::get('lti13_login_data') == null)) {
-                $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'Modules/LTIConsumer');
+                $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
                 $tpl->setVariable("EMBEDDED_IFRAME_SRC", $this->dic->ctrl()->getLinkTarget(
                     $this,
                     self::CMD_SHOW_EMBEDDED
@@ -298,7 +298,7 @@ class ilLTIConsumerContentGUI
     {
         if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
             $this->initCmixUser();
-            $tpl = new ilTemplate('tpl.lti_embedded.html', true, true, 'Modules/LTIConsumer');
+            $tpl = new ilTemplate('tpl.lti_embedded.html', true, true, 'components/ILIAS/LTIConsumer');
             foreach ($this->getLaunchParameters() as $field => $value) {
                 $tpl->setCurrentBlock('launch_parameter');
                 $tpl->setVariable('LAUNCH_PARAMETER', $field);

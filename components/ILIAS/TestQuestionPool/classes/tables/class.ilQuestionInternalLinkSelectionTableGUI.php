@@ -38,7 +38,7 @@ class ilQuestionInternalLinkSelectionTableGUI extends ilTable2GUI
         $this->setId('qst_ils_' . $a_parent_obj->object->getId() . '_' . substr(md5($a_template_context), 0, 6));
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-        $this->setRowTemplate('tpl.il_as_qpl_question_internal_link_selection_table_row.html', 'Modules/TestQuestionPool');
+        $this->setRowTemplate('tpl.il_as_qpl_question_internal_link_selection_table_row.html', 'components/ILIAS/TestQuestionPool');
         $this->setLimit(PHP_INT_MAX);
 
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), 'cancelExplorer'));

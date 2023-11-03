@@ -507,7 +507,7 @@ abstract class assQuestionGUI
     {
         // @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the CONTENT variable wrapped in a block named content)
         if (!$this->tpl->blockExists('content')) {
-            $this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", "Modules/TestQuestionPool");
+            $this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", "components/ILIAS/TestQuestionPool");
         }
         // @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the STATUSLINE variable wrapped in a block named statusline)
         if (!$this->tpl->blockExists('statusline')) {
@@ -515,7 +515,7 @@ abstract class assQuestionGUI
         }
         // @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x because ass[XYZ]QuestionGUI::editQuestion is called multiple times
         if (!$this->tpl->blockExists('adm_content')) {
-            $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "Modules/TestQuestionPool");
+            $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "components/ILIAS/TestQuestionPool");
         }
     }
 
@@ -572,7 +572,7 @@ abstract class assQuestionGUI
 
     protected function getUseUnchangedAnswerCheckboxHtml(): string
     {
-        $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+        $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'components/ILIAS/TestQuestionPool');
         $tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->object->getTestPresentationConfig()->getUseUnchangedAnswerLabel());
         return $tpl->get();
     }
@@ -584,7 +584,7 @@ abstract class assQuestionGUI
 
     protected function getPreviousSolutionConfirmationCheckboxHtml(): string
     {
-        $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+        $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'components/ILIAS/TestQuestionPool');
         $tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->lng->txt('use_previous_solution'));
         return $tpl->get();
     }
@@ -620,7 +620,7 @@ abstract class assQuestionGUI
 
         $this->ctrl->saveParameter($this, 'test_express_mode');
 
-        $template = new ilTemplate("tpl.il_as_qpl_sync_original.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_sync_original.html", true, true, "components/ILIAS/TestQuestionPool");
         $template->setVariable("BUTTON_YES", $this->lng->txt("yes"));
         $template->setVariable("BUTTON_NO", $this->lng->txt("no"));
         $template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -1255,7 +1255,7 @@ abstract class assQuestionGUI
             $form->setId("suggestedsolutiondisplay");
 
             $title = new ilSolutionTitleInputGUI($this->lng->txt("showSuggestedSolution"), "solutiontype");
-            $template = new ilTemplate("tpl.il_as_qpl_suggested_solution_input_presentation.html", true, true, "Modules/TestQuestionPool");
+            $template = new ilTemplate("tpl.il_as_qpl_suggested_solution_input_presentation.html", true, true, "components/ILIAS/TestQuestionPool");
 
             if ($solution->isOfTypeLink()) {
                 $href = assQuestion::_getInternalLinkHref($solution->getInternalLink());
@@ -1436,7 +1436,7 @@ abstract class assQuestionGUI
         // build html-output
         $exp->setOutput(0);
 
-        $template = new ilTemplate("tpl.il_as_qpl_explorer.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_explorer.html", true, true, "components/ILIAS/TestQuestionPool");
         $template->setVariable("EXPLORER_TREE", $exp->getOutput());
         $template->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
         $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "suggestedsolution"));

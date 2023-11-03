@@ -16,14 +16,14 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Class for single choice questions
  * assFormulaQuestion is a class for single choice questions.
  * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
- * @ingroup       ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  */
 class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAssQuestionAutosaveable
 {
@@ -391,7 +391,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                         }
                     }
 
-                    $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution_image.html", true, true, 'Modules/TestQuestionPool');
+                    $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution_image.html", true, true, 'components/ILIAS/TestQuestionPool');
 
                     $correctness_icon = $correctness_icons['not_correct'];
                     if ($resObj->isCorrect($this->getVariables(), $this->getResults(), $user_value, $resunit)) {
@@ -405,7 +405,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                 }
                 $resultOutput = "";
                 if ($result_output) {
-                    $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution_result.html", true, true, 'Modules/TestQuestionPool');
+                    $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution_result.html", true, true, 'components/ILIAS/TestQuestionPool');
 
                     if (is_array($userdata) &&
                         array_key_exists($resObj->getResult(), $userdata) &&

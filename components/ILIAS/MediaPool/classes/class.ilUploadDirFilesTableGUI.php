@@ -53,7 +53,7 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.upload_dir_files_row.html", "Modules/MediaPool");
+        $this->setRowTemplate("tpl.upload_dir_files_row.html", "components/ILIAS/MediaPool");
         $this->disable("footer");
         $this->setEnableTitle(true);
         $this->setSelectAllCheckbox("file[]");

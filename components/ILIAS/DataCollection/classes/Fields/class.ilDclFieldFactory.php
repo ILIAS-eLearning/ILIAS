@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilDclFieldFactory
 {
-    public static string $field_base_path_patter = "./Modules/DataCollection/classes/Fields/%s/";
+    public static string $field_base_path_patter = "./components/ILIAS/DataCollection/classes/Fields/%s/";
     public static string $default_prefix = "ilDcl";
     public static string $record_field_class_patter = "%sRecordFieldModel";
     public static string $field_class_patter = "%sFieldModel";

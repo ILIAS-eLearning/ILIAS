@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Modules\File\Preview;
+namespace ILIAS\components\File\Preview;
 
 use ILIAS\Administration\Setting;
 use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;

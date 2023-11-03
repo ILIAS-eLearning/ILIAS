@@ -24,7 +24,7 @@
  */
 class ilBiblFieldFilterGUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    use \ILIAS\components\OrgUnit\ARHelper\DIC;
     public const FILTER_ID = 'filter_id';
     public const CMD_STANDARD = 'index';
     public const CMD_ADD = 'add';

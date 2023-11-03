@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Export class for tests
@@ -29,7 +29,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @version $Id$
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 abstract class ilTestExport
 {

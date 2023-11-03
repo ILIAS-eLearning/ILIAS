@@ -133,7 +133,7 @@ class ilCourseContentGUI
     {
         $this->tabs->setSubTabActive('crs_content');
 
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html", 'Modules/Course');
+        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html", 'components/ILIAS/Course');
         $this->tpl->setVariable("INFO_STRING", $this->lng->txt('crs_info_start'));
         $this->tpl->setVariable("TBL_TITLE_START", $this->lng->txt('crs_table_start_objects'));
         $this->tpl->setVariable("HEADER_NR", $this->lng->txt('crs_nr'));
@@ -350,7 +350,7 @@ class ilCourseContentGUI
      */
     public function showUserTimings(): void
     {
-        $this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.crs_user_timings.html', 'Modules/Course');
+        $this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.crs_user_timings.html', 'components/ILIAS/Course');
         $this->tabs->clearSubTabs();
         $this->tabs->setTabActive('members');
 

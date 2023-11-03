@@ -31,7 +31,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilTestCorrectionsGUI
 {
@@ -266,7 +266,7 @@ class ilTestCorrectionsGUI
         $pageGUI->setQuestionHTML(array($questionGUI->object->getId() => $solutionHTML));
         $pageGUI->setPresentationTitle($questionGUI->object->getTitle());
 
-        $tpl = new ilTemplate('tpl.tst_corrections_solution_presentation.html', true, true, 'Modules/Test');
+        $tpl = new ilTemplate('tpl.tst_corrections_solution_presentation.html', true, true, 'components/ILIAS/Test');
         $tpl->setVariable('SOLUTION_PRESENTATION', $pageGUI->preview());
 
         $this->populatePageTitleAndDescription($questionGUI);

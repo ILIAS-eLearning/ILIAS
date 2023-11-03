@@ -260,7 +260,7 @@ class ilGlossaryTerm
         $this->page_object->delete();
 
         // delete flashcard entries
-        $this->event_handler->raise("Modules/Glossary", "deleteTerm", ["term_id" => $this->getId()]);
+        $this->event_handler->raise("components/ILIAS/Glossary", "deleteTerm", ["term_id" => $this->getId()]);
     }
 
     public function update(): void

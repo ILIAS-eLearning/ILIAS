@@ -68,7 +68,7 @@ class ilModulesScorm2004Suite extends TestSuite
             //            ilUnitUtil::performInitialisation();
         } else {
             chdir(__DIR__);
-            chdir('../../../');
+            chdir('../../../../');
         }
 
         $suite = new self();

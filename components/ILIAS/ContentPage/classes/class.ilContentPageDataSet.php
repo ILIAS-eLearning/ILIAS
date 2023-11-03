@@ -123,7 +123,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                 );
 
                 $a_mapping->addMapping(
-                    'Modules/ContentPage',
+                    'components/ILIAS/ContentPage',
                     self::OBJ_TYPE,
                     (string) $a_rec['id'],
                     (string) $newObject->getId()

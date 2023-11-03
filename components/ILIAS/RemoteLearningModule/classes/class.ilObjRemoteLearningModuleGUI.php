@@ -26,7 +26,7 @@ declare(strict_types=1);
 *
 * @ilCtrl_Calls ilObjRemoteLearningModuleGUI: ilPermissionGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjRemoteLearningModuleGUI: ilCommonActionDispatcherGUI
-* @ingroup ModulesRemoteLearningModule
+* @ingroup components\ILIASRemoteLearningModule
 */
 
 class ilObjRemoteLearningModuleGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClassInterface

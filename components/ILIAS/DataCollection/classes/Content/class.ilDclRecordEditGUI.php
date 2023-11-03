@@ -655,7 +655,7 @@ class ilDclRecordEditGUI
         $record_obj->doUpdate($create_mode);
 
         $ilAppEventHandler->raise(
-            'Modules/DataCollection',
+            'components/ILIAS/DataCollection',
             $dispatchEvent . 'Record',
             $dispatchEventData
         );
@@ -780,7 +780,7 @@ class ilDclRecordEditGUI
         $results = $this->parseSearchResults($results);
 
         foreach ($results as $entry) {
-            $tpl = new ilTemplate("tpl.dcl_tree.html", true, true, "Modules/DataCollection");
+            $tpl = new ilTemplate("tpl.dcl_tree.html", true, true, "components/ILIAS/DataCollection");
             foreach ((array) $entry['refs'] as $reference) {
                 $path = new ilPathGUI();
                 $tpl->setCurrentBlock('result');

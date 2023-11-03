@@ -106,7 +106,7 @@ class ilPCPRGStatusInfo extends ilPageContent
 
     protected function getTemplate(): string
     {
-        $template = new ilTemplate("tpl.statusinfo_poeditor_element.html", true, true, 'Modules/StudyProgramme');
+        $template = new ilTemplate("tpl.statusinfo_poeditor_element.html", true, true, 'components/ILIAS/StudyProgramme');
         $icon = "./templates/default/images/standard/icon_prg.svg";
 
         $template->setVariable("ICON", $icon);

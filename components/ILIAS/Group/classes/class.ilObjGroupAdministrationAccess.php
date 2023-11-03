@@ -9,7 +9,7 @@ declare(strict_types=1);
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ingroup ModulesGroup
+ * @ingroup components\ILIASGroup
  */
 class ilObjGroupAdministrationAccess extends ilObjectAccess
 {

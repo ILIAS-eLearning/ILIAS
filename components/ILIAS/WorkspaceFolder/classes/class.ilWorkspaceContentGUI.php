@@ -76,7 +76,7 @@ class ilWorkspaceContentGUI
         }
 
         if ($this->admin) {
-            $tpl = new ilTemplate("tpl.admin_container.html", true, true, "Modules/WorkspaceFolder");
+            $tpl = new ilTemplate("tpl.admin_container.html", true, true, "components/ILIAS/WorkspaceFolder");
             $tpl->setVariable("ITEMS", $html);
             $tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
             $html = $tpl->get();

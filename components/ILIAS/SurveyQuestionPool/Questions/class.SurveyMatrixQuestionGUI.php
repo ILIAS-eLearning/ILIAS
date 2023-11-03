@@ -260,7 +260,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $layout = $this->object->getLayout();
         $neutralstyle = "3px solid #808080";
         $bordercolor = "#808080";
-        $template = new ilTemplate("tpl.il_svy_qpl_matrix_printview.html", true, true, "Modules/SurveyQuestionPool");
+        $template = new ilTemplate("tpl.il_svy_qpl_matrix_printview.html", true, true, "components/ILIAS/SurveyQuestionPool");
 
         if ($this->show_layout_row) {
             $layout_row = $this->getLayoutRow();
@@ -269,7 +269,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             $template->parseCurrentBlock();
         }
 
-        $tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", true, true, "Modules/SurveyQuestionPool");
+        $tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", true, true, "components/ILIAS/SurveyQuestionPool");
         if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
             $tplheaders->setCurrentBlock("bipolar_start");
             $style = array();
@@ -337,7 +337,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
         for ($i = 0; $i < $this->object->getRowCount(); $i++) {
             $rowobj = $this->object->getRow($i);
-            $tplrow = new ilTemplate("tpl.il_svy_qpl_matrix_printview_row.html", true, true, "Modules/SurveyQuestionPool");
+            $tplrow = new ilTemplate("tpl.il_svy_qpl_matrix_printview_row.html", true, true, "components/ILIAS/SurveyQuestionPool");
             for ($j = 0; $j < $this->object->getColumnCount(); $j++) {
                 $cat = $this->object->getColumn($j);
                 if ($i === 0 && $j === 0) {
@@ -472,7 +472,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
         $ilTabs->activateTab("layout");
 
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_layout.html", "Modules/SurveyQuestionPool");
+        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_layout.html", "components/ILIAS/SurveyQuestionPool");
         $this->show_layout_row = true;
         $question_output = $this->getWorkingForm();
         $this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
@@ -516,7 +516,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     public function getLayoutRow(): string
     {
         $percent_values = $this->object->getLayout();
-        $template = new ilTemplate("tpl.il_svy_out_matrix_layout.html", true, true, "Modules/SurveyQuestionPool");
+        $template = new ilTemplate("tpl.il_svy_out_matrix_layout.html", true, true, "components/ILIAS/SurveyQuestionPool");
         if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
             $template->setCurrentBlock("bipolar_start");
             $template->setVariable("VALUE_PERCENT_BIPOLAR_ADJECTIVE1", " value=\"" . $percent_values["percent_bipolar_adjective1"] . "\"");
@@ -562,7 +562,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $layout = $this->object->getLayout();
         $neutralstyle = "3px solid #808080";
         $bordercolor = "#808080";
-        $template = new ilTemplate("tpl.il_svy_out_matrix.html", true, true, "Modules/SurveyQuestionPool");
+        $template = new ilTemplate("tpl.il_svy_out_matrix.html", true, true, "components/ILIAS/SurveyQuestionPool");
 
         if ($this->show_layout_row) {
             $layout_row = $this->getLayoutRow();
@@ -571,7 +571,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             $template->parseCurrentBlock();
         }
 
-        $tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", true, true, "Modules/SurveyQuestionPool");
+        $tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", true, true, "components/ILIAS/SurveyQuestionPool");
         if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
             $tplheaders->setCurrentBlock("bipolar_start");
             $style = array();
@@ -636,7 +636,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $rowclass = array("tblrow1", "tblrow2");
         for ($i = 0; $i < $this->object->getRowCount(); $i++) {
             $rowobj = $this->object->getRow($i);
-            $tplrow = new ilTemplate("tpl.il_svy_out_matrix_row.html", true, true, "Modules/SurveyQuestionPool");
+            $tplrow = new ilTemplate("tpl.il_svy_out_matrix_row.html", true, true, "components/ILIAS/SurveyQuestionPool");
             for ($j = 0; $j < $this->object->getColumnCount(); $j++) {
                 $cat = $this->object->getColumn($j);
                 if ($i === 0 && $j === 0) {

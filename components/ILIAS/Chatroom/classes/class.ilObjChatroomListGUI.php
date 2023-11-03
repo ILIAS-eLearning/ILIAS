@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilObjChatlistListGUI
  * @author   Jan Posselt <jposselt at databay.de>
  * @version  $Id$
- * @ingroup  ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilObjChatroomListGUI extends ilObjectListGUI
 {

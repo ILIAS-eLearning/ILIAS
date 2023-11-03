@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Alex Killing <alex.killing@gmx.de>
  * $Id$
  *
- * @ingroup ModulesScormAicc
+ * @ingroup components\ILIASScormAicc
  */
 class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 {

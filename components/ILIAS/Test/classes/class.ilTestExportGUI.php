@@ -29,7 +29,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
  *
  * @version      $Id$
  *
- * @ingroup      ModulesTest
+ * @ingroup components\ILIASTest
  *
  * @ilCtrl_Calls ilTestExportGUI: ilParticipantsTestResultsGUI
  */

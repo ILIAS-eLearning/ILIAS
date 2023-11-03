@@ -23,7 +23,7 @@ declare(strict_types=1);
  * Access class for chatroom objects.
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilObjChatroomAdminAccess extends ilObjectAccess
 {

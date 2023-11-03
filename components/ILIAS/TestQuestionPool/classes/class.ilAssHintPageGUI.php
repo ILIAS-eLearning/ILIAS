@@ -25,7 +25,7 @@
  * @ilCtrl_Calls ilAssHintPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilAssHintPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
  *
- * @ingroup ModulesTestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
  * ilasshintpagegui
  */
 class ilAssHintPageGUI extends ilPageObjectGUI

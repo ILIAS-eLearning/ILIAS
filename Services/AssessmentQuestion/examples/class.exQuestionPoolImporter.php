@@ -8,7 +8,7 @@
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/Test(QuestionPool)
+ * @package components\ILIAS/Test(QuestionPool)
  */
 class exQuestionPoolImporter extends ilXmlImporter
 {
@@ -38,7 +38,7 @@ class exQuestionPoolImporter extends ilXmlImporter
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        $maps = $a_mapping->getMappingsOfEntity("Modules/TestQuestionPool", "qpl");
+        $maps = $a_mapping->getMappingsOfEntity("components/ILIAS/TestQuestionPool", "qpl");
 
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {

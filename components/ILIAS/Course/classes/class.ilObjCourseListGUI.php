@@ -22,7 +22,7 @@ declare(strict_types=0);
  * Class ilObjCourseListGUI
  * @author  Alex Killing <alex.killing@gmx.de>
  * $Id$
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilObjCourseListGUI extends ilObjectListGUI
 {

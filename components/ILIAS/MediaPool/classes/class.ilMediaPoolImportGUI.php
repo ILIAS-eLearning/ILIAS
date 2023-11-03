@@ -106,7 +106,7 @@ class ilMediaPoolImportGUI
         $imp = new ilImport();
 
         /** @var ilMediaPoolImportConfig $conf */
-        $conf = $imp->getConfig("Modules/MediaPool");
+        $conf = $imp->getConfig("components/ILIAS/MediaPool");
 
         $target_lang = $this->request->getImportLang();
         $ot = ilObjectTranslation::getInstance($this->mep->getId());
@@ -121,7 +121,7 @@ class ilMediaPoolImportGUI
             $_FILES["importfile"]["tmp_name"],
             $_FILES["importfile"]["name"],
             "mep",
-            "Modules/MediaPool"
+            "components/ILIAS/MediaPool"
         );
         //echo "h"; exit;
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

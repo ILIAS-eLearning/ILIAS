@@ -94,7 +94,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         $this->setFormAction(
             $this->ctrl->getFormAction($this->getParentObject())
         );
-        $this->setRowTemplate("tpl.webr_link_row.html", 'Modules/WebResource');
+        $this->setRowTemplate("tpl.webr_link_row.html", 'components/ILIAS/WebResource');
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(false);
     }

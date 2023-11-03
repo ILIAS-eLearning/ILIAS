@@ -144,7 +144,7 @@ class ilOrgUnitImporter extends ilXmlImporter
         $container_mappings = $a_mapping->getMappingsOfEntity("Services/Container", "objs");
         foreach ($container_mappings as $old => $new) {
             if (ilObject2::_lookupType($new) === 'orgu') {
-                $a_mapping->addMapping('Modules/OrgUnit', 'orgu', $old, $new);
+                $a_mapping->addMapping('components/ILIAS/OrgUnit', 'orgu', $old, $new);
             }
         }
     }

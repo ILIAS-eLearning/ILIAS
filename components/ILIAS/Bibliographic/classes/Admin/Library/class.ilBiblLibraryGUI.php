@@ -23,7 +23,7 @@
  */
 class ilBiblLibraryGUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    use \ILIAS\components\OrgUnit\ARHelper\DIC;
     public const F_LIB_ID = 'lib_id';
     public const CMD_DELETE = 'delete';
     public const CMD_EDIT = 'edit';

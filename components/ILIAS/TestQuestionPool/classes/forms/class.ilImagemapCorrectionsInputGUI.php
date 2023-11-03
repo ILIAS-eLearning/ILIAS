@@ -22,7 +22,7 @@
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
 {
@@ -84,7 +84,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $template = new ilTemplate("tpl.prop_imagemapquestioncorrection_input.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.prop_imagemapquestioncorrection_input.html", true, true, "components/ILIAS/TestQuestionPool");
 
         if ($this->getImage() != "") {
             $template->setCurrentBlock("image");
@@ -166,6 +166,6 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
         global $DIC;
         $tpl = $DIC['tpl'];
         #$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        #$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/imagemap.js");
+        #$tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/imagemap.js");
     }
 }

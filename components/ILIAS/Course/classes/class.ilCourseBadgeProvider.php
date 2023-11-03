@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * Class ilCourseBadgeProvider
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesCourse
+ * @package components\ILIASCourse
  */
 class ilCourseBadgeProvider implements ilBadgeProvider
 {

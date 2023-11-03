@@ -94,7 +94,7 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('name');
         $this->setDefaultOrderDirection('asc');
 
-        $this->setRowTemplate('tpl.sess_list_row.html', 'Modules/Session');
+        $this->setRowTemplate('tpl.sess_list_row.html', 'components/ILIAS/Session');
 
         $this->getItems($this->events, $a_members);
     }

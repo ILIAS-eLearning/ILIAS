@@ -60,7 +60,7 @@ class ilScormAiccExporter extends ilXmlExporter
     //
     //            return array (
     //                array(
-    //                    "component" => "Modules/ScormAicc",
+    //                    "component" => "components/ILIAS/ScormAicc",
     //                    "entity" => "md",
     //                    "ids" => $md_ids)
     //                );

@@ -21,7 +21,7 @@ declare(strict_types=0);
 /**
  * Course to lp connector
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesCourse
+ * @package components\ILIASCourse
  */
 class ilCourseLP extends ilObjectLP
 {

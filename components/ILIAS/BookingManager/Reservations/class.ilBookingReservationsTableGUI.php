@@ -173,7 +173,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.booking_reservation_row.html", "Modules/BookingManager/Reservations");
+        $this->setRowTemplate("tpl.booking_reservation_row.html", "components/ILIAS/BookingManager/Reservations");
         $this->setResetCommand("resetLogFilter");
         $this->setFilterCommand("applyLogFilter");
         $this->setDisableFilterHiding(true);

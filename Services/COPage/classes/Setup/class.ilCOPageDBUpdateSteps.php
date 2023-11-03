@@ -265,4 +265,14 @@ EOT;
         ));
     }
 
+    public function step_13(): void
+    {
+        if ($this->db->tableExists("copg_pc_def")) {
+            $query = "UPDATE copg_pc_def SET " . PHP_EOL
+                . " component = REPLACE(component, 'Modules', 'components/ILIAS') " . PHP_EOL
+                . " WHERE component LIKE ('Modules/%')";
+
+            $this->db->manipulate($query);
+        }
+    }
 }

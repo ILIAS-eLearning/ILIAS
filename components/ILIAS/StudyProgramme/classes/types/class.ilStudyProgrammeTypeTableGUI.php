@@ -42,7 +42,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
 
         parent::__construct($parent_obj, $parent_cmd);
 
-        $this->setRowTemplate('tpl.types_row.html', 'Modules/StudyProgramme');
+        $this->setRowTemplate('tpl.types_row.html', 'components/ILIAS/StudyProgramme');
         $this->initColumns();
         $action_column = "";
         if ($this->access->checkAccess("write", "", $this->obj_ref_id)) {

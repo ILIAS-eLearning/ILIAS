@@ -47,7 +47,7 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
         // import qti data
         $newObj->importObject($xml_file);
         $a_mapping->addMapping(
-            "Modules/SurveyQuestionPool",
+            "components/ILIAS/SurveyQuestionPool",
             "spl",
             $a_id,
             $newObj->getId()

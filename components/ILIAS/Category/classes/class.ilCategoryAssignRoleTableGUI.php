@@ -48,7 +48,7 @@ class ilCategoryAssignRoleTableGUI extends ilTable2GUI
 
         $ilCtrl->saveParameter($a_parent_obj, 'obj_id');
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.cat_role_assignment.html", "Modules/Category");
+        $this->setRowTemplate("tpl.cat_role_assignment.html", "components/ILIAS/Category");
         $this->setDefaultOrderDirection("asc");
         $this->setShowRowsSelector(false);
         $this->setLimit(999999);

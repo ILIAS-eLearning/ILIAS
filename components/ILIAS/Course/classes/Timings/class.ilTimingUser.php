@@ -21,7 +21,7 @@ declare(strict_types=0);
  * TableGUI class for timings administration
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilTimingUser
 {

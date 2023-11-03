@@ -23,8 +23,8 @@
  *
  * @version		$Id$
  *
- * @ingroup ModulesTestQuestionPool
- * @package Modules/TestQuestionPool
+ * @ingroup components\ILIASTestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilAssQuestionTypeOrderer
 {

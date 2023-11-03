@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\DI\Container;
-use ILIAS\Modules\EmployeeTalk\Talk\EmployeeTalkPositionAccessLevel;
-use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
+use ILIAS\components\EmployeeTalk\Talk\EmployeeTalkPositionAccessLevel;
+use ILIAS\components\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use OrgUnit\User\ilOrgUnitUser;
 

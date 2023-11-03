@@ -348,7 +348,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_members_list.html', 'Modules/Forum');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_members_list.html', 'components/ILIAS/Forum');
 
         // instantiate the property form
         if (!$this->initNotificationSettingsForm()) {

@@ -22,7 +22,7 @@
  * question from a test question pool (or directly from a test).
  *
  * @author  Björn Heyser <bheyser@databay.de>
- * @package Modules/Test
+ * @package components\ILIAS/Test
  */
 class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 {

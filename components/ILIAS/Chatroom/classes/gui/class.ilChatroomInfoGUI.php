@@ -23,7 +23,7 @@ declare(strict_types=1);
  * Provides methods to prepare and display the info task.
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilChatroomInfoGUI extends ilChatroomGUIHandler
 {

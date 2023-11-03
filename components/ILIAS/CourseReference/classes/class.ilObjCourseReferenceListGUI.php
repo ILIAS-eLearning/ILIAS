@@ -21,7 +21,7 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once "./Modules/Course/classes/class.ilObjCourseListGUI.php";
+include_once "./components/ILIAS/Course/classes/class.ilObjCourseListGUI.php";
 
 /**
 *
@@ -29,7 +29,7 @@ include_once "./Modules/Course/classes/class.ilObjCourseListGUI.php";
 * @version $Id$
 *
 *
-* @ingroup ModulesCourseReference
+* @ingroup components\ILIASCourseReference
 */
 class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 {
@@ -141,7 +141,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
-        include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
+        include_once('./components/ILIAS/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
         $this->commands = ilObjCourseReferenceAccess::_getCommands($this->reference_ref_id);
 
         if ($ilAccess->checkAccess('write', '', $this->reference_ref_id) or $this->deleted) {

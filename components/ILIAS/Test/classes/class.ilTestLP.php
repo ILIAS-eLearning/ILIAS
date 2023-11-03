@@ -25,7 +25,7 @@ use ILIAS\Test\InternalRequestService;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id: class.ilLPStatusPlugin.php 43734 2013-07-29 15:27:58Z jluetzen $
- * @package ModulesTest
+ * @package components\ILIASTest
  */
 class ilTestLP extends ilObjectLP
 {

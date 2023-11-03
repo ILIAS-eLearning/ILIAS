@@ -78,7 +78,7 @@ class ilGlossaryFlashcardGUI
 
     public function listBoxes(): void
     {
-        $flashcard_tpl = new ilTemplate("tpl.flashcard_overview.html", true, true, "Modules/Glossary");
+        $flashcard_tpl = new ilTemplate("tpl.flashcard_overview.html", true, true, "components/ILIAS/Glossary");
 
         $reset_btn = $this->ui_fac->button()->standard(
             $this->lng->txt("glo_reset_all_boxes"),

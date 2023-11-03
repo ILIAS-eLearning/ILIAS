@@ -29,7 +29,7 @@ declare(strict_types=1);
  */
 class ilCmiXapiLaunchGUI
 {
-    public const XAPI_PROXY_ENDPOINT = 'Modules/CmiXapi/xapiproxy.php';
+    public const XAPI_PROXY_ENDPOINT = 'components/ILIAS/CmiXapi/xapiproxy.php';
 
     protected ilObjCmiXapi $object;
 
@@ -140,7 +140,7 @@ class ilCmiXapiLaunchGUI
     protected function getAuthTokenFetchLink(): string
     {
         $link = implode('/', [
-            ILIAS_HTTP_PATH, 'Modules', 'CmiXapi', 'xapitoken.php'
+            ILIAS_HTTP_PATH, 'components/ILIAS', 'CmiXapi', 'xapitoken.php'
         ]);
 
         $param = $this->buildAuthTokenFetchParam();

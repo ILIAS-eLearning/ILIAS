@@ -24,7 +24,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilLOPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilLOPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilLOPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
- * @ingroup      ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilLOPageGUI extends ilPageObjectGUI
 {

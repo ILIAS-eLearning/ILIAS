@@ -20,7 +20,7 @@
  * Base trait for ilExAssignmetnTypeGUI implementations
  *
  * @author killing@leifos.de
- * @ingroup ModulesExercise
+ * @ingroup components\ILIASExercise
  */
 trait ilExAssignmentTypeGUIBase
 {

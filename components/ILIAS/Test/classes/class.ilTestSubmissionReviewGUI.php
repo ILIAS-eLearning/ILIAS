@@ -164,7 +164,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         $html .= $this->buildToolbar('review_nav_bottom')->getHTML();
 
         if ($this->object->isShowExamIdInTestPassEnabled() && !$this->object->getKioskMode()) {
-            $examIdTpl = new ilTemplate("tpl.exam_id_block.html", true, true, 'Modules/Test');
+            $examIdTpl = new ilTemplate("tpl.exam_id_block.html", true, true, 'components/ILIAS/Test');
             $examIdTpl->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
                 $this->testSession->getActiveId(),
                 $this->testSession->getPass(),

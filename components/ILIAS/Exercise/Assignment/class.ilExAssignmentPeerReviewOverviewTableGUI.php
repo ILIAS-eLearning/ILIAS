@@ -49,7 +49,7 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField("recipient");
 
-        $this->setRowTemplate("tpl.exc_peer_review_overview_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.exc_peer_review_overview_row.html", "components/ILIAS/Exercise");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->setTitle($a_ass->getTitle() . ": " . $this->lng->txt("exc_peer_review_overview"));

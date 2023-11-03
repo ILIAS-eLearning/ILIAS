@@ -43,7 +43,7 @@ class ObjectSelectionListGUI
 
     public function render() : string
     {
-        $tpl = new \ilTemplate("tpl.obj_selection.html", true, true, "Modules/BookingManager/BookingProcess");
+        $tpl = new \ilTemplate("tpl.obj_selection.html", true, true, "components/ILIAS/BookingManager/BookingProcess");
 
         $selected = $this->object_selection->getSelectedObjects();
         foreach ($this->object_manager->getObjectTitles() as $id => $title) {

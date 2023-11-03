@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * A class defining mark schemas for assessment test objects
@@ -28,7 +28,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @version	$Id$
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ASS_MarkSchema
 {

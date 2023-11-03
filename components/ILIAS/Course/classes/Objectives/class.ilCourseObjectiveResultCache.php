@@ -21,7 +21,7 @@ declare(strict_types=0);
 /**
  * Caches results for a specific user and course
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseObjectiveResultCache
 {

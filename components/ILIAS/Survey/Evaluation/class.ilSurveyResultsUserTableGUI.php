@@ -44,7 +44,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 
         $this->setRowTemplate(
             "tpl.il_svy_svy_results_user_row.html",
-            "Modules/Survey/Evaluation"
+            "components/ILIAS/Survey/Evaluation"
         );
 
         if (!is_null($a_parent_obj)) {

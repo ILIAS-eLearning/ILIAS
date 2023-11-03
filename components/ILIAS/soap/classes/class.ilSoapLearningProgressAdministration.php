@@ -121,7 +121,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
             switch ($obj->getType()) {
                 case 'sahs':
-                    include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
+                    include_once './components/ILIAS/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
                     $subtype = ilObjSAHSLearningModule::_lookupSubType($obj->getId());
 
                     switch ($subtype) {

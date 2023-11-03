@@ -64,8 +64,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $newObj->setDescription("");
         $newObj->create();
 
-        include_once("./Modules/Group/classes/class.ilObjGroup.php");
-        include_once 'Modules/Group/classes/class.ilGroupXMLParser.php';
+        include_once("./components/ILIAS/Group/classes/class.ilObjGroup.php");
+        include_once 'components/ILIAS/Group/classes/class.ilGroupXMLParser.php';
         $xml_parser = new ilGroupXMLParser($newObj, $grp_xml, $target_id);
         $xml_parser->startParsing();
         $new_ref_id = $xml_parser->getObjectRefId();
@@ -93,7 +93,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to edit groups', 'Server');
         }
 
-        include_once("./Modules/Group/classes/class.ilObjGroup.php");
+        include_once("./components/ILIAS/Group/classes/class.ilObjGroup.php");
 
         /** @var ilObjGroup $grp */
         if (!$grp = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
@@ -108,7 +108,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             return $this->raiseError('Reference id does not point to a group!', 'CLIENT_WRONG_TYPE');
         }
 
-        include_once 'Modules/Group/classes/class.ilGroupXMLParser.php';
+        include_once 'components/ILIAS/Group/classes/class.ilGroupXMLParser.php';
         $xml_parser = new ilGroupXMLParser($grp, $grp_xml, -1);
         $xml_parser->setMode(ilGroupXMLParser::$UPDATE);
         $xml_parser->startParsing();
@@ -163,7 +163,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             );
         }
 
-        include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';
+        include_once 'components/ILIAS/Group/classes/class.ilGroupXMLWriter.php';
         $xml_writer = new ilGroupXMLWriter($grp_obj);
         $xml_writer->start();
 
@@ -222,7 +222,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             return $this->raiseError('Cannot create user instance!', 'Server');
         }
 
-        include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
+        include_once 'components/ILIAS/Group/classes/class.ilGroupParticipants.php';
         $group_members = ilGroupParticipants::_getInstanceByObjId($tmp_group->getId());
 
         switch ($type) {
@@ -321,7 +321,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to read group data', 'Server');
         }
 
-        include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
+        include_once('./components/ILIAS/Group/classes/class.ilGroupParticipants.php');
         $participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjId($group_id));
 
         if ($participants->isAdmin($user_id)) {
@@ -429,8 +429,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $ref_ids = array_unique($ref_ids);
 
         include_once 'components/ILIAS/soap/classes/class.ilXMLResultSetWriter.php';
-        include_once 'Modules/Group/classes/class.ilObjGroup.php';
-        include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';
+        include_once 'components/ILIAS/Group/classes/class.ilObjGroup.php';
+        include_once 'components/ILIAS/Group/classes/class.ilGroupXMLWriter.php';
 
         $xmlResultSet = new ilXMLResultSet();
         $xmlResultSet->addColumn("ref_id");

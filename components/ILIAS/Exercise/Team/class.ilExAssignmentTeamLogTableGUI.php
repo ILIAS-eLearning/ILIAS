@@ -46,7 +46,7 @@ class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("tstamp");
         $this->setDefaultOrderDirection("desc");
 
-        $this->setRowTemplate("tpl.exc_team_log_row.html", "Modules/Exercise");
+        $this->setRowTemplate("tpl.exc_team_log_row.html", "components/ILIAS/Exercise");
         $this->setFormAction($ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->getItems();

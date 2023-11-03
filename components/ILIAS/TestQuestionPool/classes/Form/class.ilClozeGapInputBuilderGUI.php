@@ -282,11 +282,11 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             . 'ClozeQuestionGapBuilder.Init();'
         );
         $DIC->ui()->mainTemplate()->addJavascript(
-            './Modules/TestQuestionPool/templates/default/clozeQuestionGapBuilder.js'
+            './components/ILIAS/TestQuestionPool/templates/default/clozeQuestionGapBuilder.js'
         );
 
 
-        $custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'Modules/TestQuestionPool');
+        $custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'components/ILIAS/TestQuestionPool');
         $custom_template->setVariable("MY_MODAL", $modal->getHTML());
         $custom_template->setVariable('GAP_JSON', json_encode(array($this->getValue())));
         $custom_template->setVariable('GAP', $lng->txt('gap'));

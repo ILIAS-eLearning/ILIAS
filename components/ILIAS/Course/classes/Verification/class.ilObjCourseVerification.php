@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * Course Verification
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilObjCourseVerification extends ilVerificationObject
 {

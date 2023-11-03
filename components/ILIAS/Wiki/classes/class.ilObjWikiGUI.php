@@ -1486,7 +1486,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilAccess = $DIC->access();
         $ilCtrl = $DIC->ctrl();
 
-        $tpl->addJavaScript("./Modules/Wiki/js/WikiPres.js");
+        $tpl->addJavaScript("./components/ILIAS/Wiki/js/WikiPres.js");
 
         // setting asynch to false fixes #0019457, since otherwise ilBlockGUI would act on asynch and output html when side blocks
         // being processed during the export. This is a flaw in ilCtrl and/or ilBlockGUI.

@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Substitution;
+namespace ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Substitution;
 
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Token\Tokenizer;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Token\Token;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Token\Tokenizer;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Token\Token;
 
 class FieldSubstitution
 {

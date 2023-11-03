@@ -20,7 +20,7 @@ declare(strict_types=1);
 /**
  * List all completed learning modules for current user
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesScormAicc
+ * @ingroup components\ILIASScormAicc
  */
 class ilSCORMVerificationTableGUI extends ilTable2GUI
 {
@@ -54,7 +54,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('scov_create'));
         $this->setDescription($this->lng->txt('scov_create_info'));
 
-        $this->setRowTemplate('tpl.sahs_verification_row.html', 'Modules/ScormAicc');
+        $this->setRowTemplate('tpl.sahs_verification_row.html', 'components/ILIAS/ScormAicc');
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->getItems();

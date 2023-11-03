@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\OrgUnit\ARHelper\DIC;
+use ILIAS\components\OrgUnit\ARHelper\DIC;
 
 /**
  * Class ilMMItemTranslationGUI

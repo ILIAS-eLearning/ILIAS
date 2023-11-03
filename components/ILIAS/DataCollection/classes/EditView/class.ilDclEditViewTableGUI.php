@@ -39,7 +39,7 @@ class ilDclEditViewTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
-        $this->setRowTemplate('tpl.tableview_edit_view.html', 'Modules/DataCollection');
+        $this->setRowTemplate('tpl.tableview_edit_view.html', 'components/ILIAS/DataCollection');
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(false);

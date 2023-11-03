@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
- * @package     Modules/LTIConsumer
+ * @package components\ILIAS/LTIConsumer
  */
 class ilObjLTIConsumerListGUI extends ilObjectListGUI
 {

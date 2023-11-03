@@ -21,7 +21,7 @@
 *
 * @author Maximilian Becker <mbecker@databay.de>
 *
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class assAnswerBinaryStateImageTest extends assBaseTestCase
 {
@@ -30,7 +30,7 @@ class assAnswerBinaryStateImageTest extends assBaseTestCase
     protected function setUp(): void
     {
         chdir(dirname(__FILE__));
-        chdir('../../../');
+        chdir('../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

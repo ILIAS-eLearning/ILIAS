@@ -50,7 +50,7 @@ class ilSurveyExporter extends ilXmlExporter
             // unzip does not extract the included directory
             // Modules/Survey/set_1 anymore (since 7/2023)
             $missing = $svy_exp->export_dir . "/" . $svy_exp->subdir .
-                "/Modules/Survey/set_1";
+                "/components/ILIAS/Survey/set_1";
             ilFileUtils::makeDirParents($missing);
 
             // here: svy_data/svy_301/export/1698817474__0__svy_301
@@ -71,11 +71,11 @@ class ilSurveyExporter extends ilXmlExporter
         if ($a_entity === "svy") {
             return array(
                     array(
-                            "component" => "Modules/Survey",
+                            "component" => "components/ILIAS/Survey",
                             "entity" => "svy_quest_skill",
                             "ids" => $a_ids),
                     array(
-                            "component" => "Modules/Survey",
+                            "component" => "components/ILIAS/Survey",
                             "entity" => "svy_skill_threshold",
                             "ids" => $a_ids),
                     array(

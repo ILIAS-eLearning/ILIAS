@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilChatroomCreateGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  * @TODO    IN USE?
  */
 class ilChatroomCreateGUI extends ilChatroomGUIHandler

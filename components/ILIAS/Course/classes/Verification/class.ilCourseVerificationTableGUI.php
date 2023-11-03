@@ -23,7 +23,7 @@ use ILIAS\DI\Container;
 /**
  * List all completed course for current user
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilCourseVerificationTableGUI extends ilTable2GUI
 {
@@ -55,7 +55,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('crsv_create'));
         $this->setDescription($this->lng->txt('crsv_create_info'));
 
-        $this->setRowTemplate('tpl.crs_verification_row.html', 'Modules/Course');
+        $this->setRowTemplate('tpl.crs_verification_row.html', 'components/ILIAS/Course');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->getItems();

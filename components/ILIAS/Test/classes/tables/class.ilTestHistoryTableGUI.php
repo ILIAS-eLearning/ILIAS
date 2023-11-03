@@ -23,7 +23,7 @@ declare(strict_types=1);
 * @author Helmut Schottmüller <ilias@aurealis.de>
 * @version $Id$
 *
-* @ingroup ModulesTest
+* @ingroup components\ILIASTest
 */
 
 class ilTestHistoryTableGUI extends ilTable2GUI
@@ -41,7 +41,7 @@ class ilTestHistoryTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("user"), 'user', '25%');
         $this->addColumn($this->lng->txt("assessment_log_text"), 'log', '50%');
 
-        $this->setRowTemplate("tpl.il_as_tst_history_row.html", "Modules/Test");
+        $this->setRowTemplate("tpl.il_as_tst_history_row.html", "components/ILIAS/Test");
 
         $this->setDefaultOrderField("datetime");
         $this->setDefaultOrderDirection("asc");

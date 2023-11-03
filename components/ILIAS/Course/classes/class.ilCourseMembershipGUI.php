@@ -307,7 +307,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 
     protected function initParticipantTemplate(): void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.crs_edit_members.html', 'Modules/Course');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.crs_edit_members.html', 'components/ILIAS/Course');
     }
 
     /**

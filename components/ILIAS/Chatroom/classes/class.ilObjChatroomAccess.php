@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Access class for chatroom objects.
  * @author  Jan Posselt <jposselt at databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 {

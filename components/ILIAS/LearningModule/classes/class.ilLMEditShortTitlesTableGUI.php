@@ -49,7 +49,7 @@ class ilLMEditShortTitlesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cont_short_title"));
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.short_title_row.html", "Modules/LearningModule");
+        $this->setRowTemplate("tpl.short_title_row.html", "components/ILIAS/LearningModule");
 
         $this->addCommandButton("save", $this->lng->txt("save"));
     }

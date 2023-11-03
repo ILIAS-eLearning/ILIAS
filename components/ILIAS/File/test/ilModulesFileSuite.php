@@ -29,7 +29,7 @@ class ilModulesFileSuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once("./Modules/File/test/ilModulesFileTest.php");
+        require_once("./components/ILIAS/File/test/ilModulesFileTest.php");
         $suite->addTestSuite("ilModulesFileTest");
 
         return $suite;

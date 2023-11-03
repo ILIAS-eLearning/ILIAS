@@ -32,7 +32,18 @@ class ilStudyProgrammePCStatusInfoUpdateSteps implements ilDatabaseUpdateSteps
     public function step_1(): void
     {
         $this->db->manipulate(
-            "INSERT INTO " . self::TABLE_NAME . " VALUES ('prg','ilContainerPage','classes','Modules/StudyProgramme')"
+            "INSERT INTO " . self::TABLE_NAME . " VALUES ('prg','ilContainerPage','classes','components/ILIAS/StudyProgramme')"
         );
+    }
+
+    public function step_2(): void
+    {
+        if ($this->db->tableExists(self::TABLE_NAME)) {
+            $query = "UPDATE " . self::TABLE_NAME . " SET " . PHP_EOL
+                . " component = REPLACE(component, 'Modules', 'components/ILIAS') " . PHP_EOL
+                . " WHERE component LIKE ('Modules/%')";
+
+            $this->db->manipulate($query);
+        }
     }
 }

@@ -67,7 +67,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 
         $this->setRowTemplate(
             "tpl.il_svy_svy_results_cumulated_row.html",
-            "Modules/Survey/Evaluation"
+            "components/ILIAS/Survey/Evaluation"
         );
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setShowRowsSelector(false);

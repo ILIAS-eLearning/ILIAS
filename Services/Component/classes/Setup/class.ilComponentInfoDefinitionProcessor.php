@@ -54,7 +54,7 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
     public function beginTag(string $name, array $attributes): void
     {
         if ($name === "module") {
-            $type = "Modules";
+            $type = "components/ILIAS";
         } elseif ($name === "service") {
             $type = "Services";
         } elseif ($name === "pluginslot") {

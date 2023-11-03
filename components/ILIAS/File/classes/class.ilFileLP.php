@@ -19,7 +19,7 @@
  * File to lp connector
  *
  * @author  Michael Jansen <mjansen@databay.de>
- * @package ModulesFile
+ * @package components\ILIASFile
  */
 class ilFileLP extends ilObjectLP
 {

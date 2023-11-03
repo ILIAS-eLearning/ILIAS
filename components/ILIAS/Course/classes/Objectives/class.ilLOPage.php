@@ -20,7 +20,7 @@ declare(strict_types=0);
 /**
  * (Course) learning objective page object
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesCourse
+ * @ingroup components\ILIASCourse
  */
 class ilLOPage extends ilPageObject
 {

@@ -756,16 +756,16 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $new_ref = null;
         switch ($source_obj->getType()) {
             case 'cat':
-                include_once('./Modules/CategoryReference/classes/class.ilObjCategoryReference.php');
+                include_once('./components/ILIAS/CategoryReference/classes/class.ilObjCategoryReference.php');
                 $new_ref = new ilObjCategoryReference();
                 break;
 
             case 'crs':
-                include_once('./Modules/CourseReference/classes/class.ilObjCourseReference.php');
+                include_once('./components/ILIAS/CourseReference/classes/class.ilObjCourseReference.php');
                 $new_ref = new ilObjCourseReference();
                 break;
             case 'grp':
-                include_once('./Modules/GroupReference/classes/class.ilObjGroupReference.php');
+                include_once('./components/ILIAS/GroupReference/classes/class.ilObjGroupReference.php');
                 $new_ref = new ilObjGroupReference();
                 break;
         }
@@ -1233,7 +1233,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         include_once 'components/ILIAS/soap/classes/class.ilXMLResultSet.php';
         include_once 'components/ILIAS/soap/classes/class.ilXMLResultSetWriter.php';
-        include_once 'Modules/Course/classes/class.ilCourseXMLWriter.php';
+        include_once 'components/ILIAS/Course/classes/class.ilCourseXMLWriter.php';
 
         $xmlResultSet = new ilXMLResultSet();
         $xmlResultSet->addColumn("ref_id");

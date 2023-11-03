@@ -23,7 +23,7 @@ declare(strict_types=1);
 *
 * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 *
-* @ingroup ModulesScormAicc
+* @ingroup components\ILIASScormAicc
 */
 class ilSCORM2004DeleteData
 {

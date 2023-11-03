@@ -72,7 +72,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->dic->language()->loadLanguageModule('file');
 
         // Appearance
-        $this->setRowTemplate("tpl.file_version_row.html", "Modules/File");
+        $this->setRowTemplate("tpl.file_version_row.html", "components/ILIAS/File");
         $this->setLimit(9999);
         $this->setEnableHeader(true);
         $this->disable("footer");

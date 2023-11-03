@@ -286,7 +286,7 @@ class ilSCORM13PlayerGUI
 
     public function getRTEjs(): void
     {
-        $js_data = file_get_contents("./Modules/Scorm2004/scripts/buildrte/rte.js");
+        $js_data = file_get_contents("./components/ILIAS/Scorm2004/scripts/buildrte/rte.js");
         if (self::ENABLE_GZIP == 1) {
             ob_start("ob_gzhandler");
         }
@@ -439,8 +439,8 @@ class ilSCORM13PlayerGUI
         $config['langstrings'] = $langstrings;
 
         //template variables
-        //$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
-        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.player.html", true, true, "Modules/Scorm2004");
+        //$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "components/ILIAS/Scorm2004");
+        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.player.html", true, true, "components/ILIAS/Scorm2004");
         $this->tpl->setVariable("JS_FILE", iljQueryUtil::getLocaljQueryPath());
 
         // include ilias rte css, if given
@@ -456,7 +456,7 @@ class ilSCORM13PlayerGUI
         // include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         // $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
         // $this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
-        $this->tpl->setVariable('TREE_JS', "./Modules/Scorm2004/scripts/ilNestedList.js");
+        $this->tpl->setVariable('TREE_JS', "./components/ILIAS/Scorm2004/scripts/ilNestedList.js");
         foreach ($langstrings as $key => $value) {
             $this->tpl->setVariable($key, $value);
         }
@@ -469,7 +469,7 @@ class ilSCORM13PlayerGUI
         $this->tpl->setVariable('JS_DATA', json_encode($config));
         list($tsfrac, $tsint) = explode(' ', microtime());
         $this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000 * (float) $tsfrac));
-        $this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
+        $this->tpl->setVariable('BASE_DIR', './components/ILIAS/Scorm2004/');
         $this->tpl->setVariable('TXT_COLLAPSE', $lng->txt('scplayer_collapsetree'));
         if ($this->slm->getDebug()) {
             $this->tpl->setVariable('TXT_DEBUGGER', $lng->txt('scplayer_debugger'));
@@ -486,7 +486,7 @@ class ilSCORM13PlayerGUI
         if ($this->slm->getCacheDeactivated()) {
             $this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getRTEjs&ref_id=' . $this->ref_id);
         } else {
-            $this->tpl->setVariable('JS_SCRIPTS', './Modules/Scorm2004/scripts/buildrte/rte-min.js');
+            $this->tpl->setVariable('JS_SCRIPTS', './components/ILIAS/Scorm2004/scripts/buildrte/rte-min.js');
         }
 
         //disable top menu
@@ -515,7 +515,7 @@ class ilSCORM13PlayerGUI
 
     public static function getInlineCSS(): string
     {
-        $is_tpl = new ilTemplate("tpl.scorm2004.inlinecss.html", true, true, "Modules/Scorm2004");
+        $is_tpl = new ilTemplate("tpl.scorm2004.inlinecss.html", true, true, "components/ILIAS/Scorm2004");
         $is_tpl->setVariable('IC_ASSET', ilUtil::getImagePath("scorm/asset.svg", ""));
         $is_tpl->setVariable('IC_COMPLETED', ilUtil::getImagePath("scorm/completed.svg", ""));
         $is_tpl->setVariable('IC_NOTATTEMPTED', ilUtil::getImagePath("scorm/not_attempted.svg", ""));
@@ -984,7 +984,7 @@ class ilSCORM13PlayerGUI
             "" => ""
         );
 
-        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");
+        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.specialpages.html", false, false, "components/ILIAS/Scorm2004");
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('TXT_SPECIALPAGE', $lng->txt($specialpages[$this->page]));
         if ($this->page !== "_TOC_" && $this->page !== "_SEQABANDON_" && $this->page !== "_SEQABANDONALL_") {
@@ -1221,7 +1221,7 @@ class ilSCORM13PlayerGUI
     //    */
     //    public function get_max_attempts()
     //    {
-    //        include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
+    //        include_once "./components/ILIAS/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
     //        return ilObjSCORMInitData::get_max_attempts($this->packageId);
     //    }
 
@@ -1653,13 +1653,13 @@ class ilSCORM13PlayerGUI
                     $_SESSION["debug_pw"] = $this->slm->getDebugPw();
                 }
                 if ($_SESSION["debug_pw"]!=$this->slm->getDebugPw()) {
-                    $this->tpl = new ilTemplate("tpl.scorm2004.debug_pw.html", false, false, "./Modules/Scorm2004");
+                    $this->tpl = new ilTemplate("tpl.scorm2004.debug_pw.html", false, false, "./components/ILIAS/Scorm2004");
                     $this->tpl->setVariable('SUBMIT', $lng->txt("debugwindow_submit"));
                     $this->tpl->setVariable('CANCEL', $lng->txt("debugwindow_cancel"));
                     $this->tpl->setVariable('PASSWORD_ENTER', $lng->txt("debugwindow_password_enter"));
                     $this->tpl->setVariable('DEBUG_URL','ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=debugGUI&ref_id='.$this->ref_id);
                 } else {*/
-        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.debug.html", false, false, "./Modules/Scorm2004");
+        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.debug.html", false, false, "./components/ILIAS/Scorm2004");
         $this->tpl->setVariable('CONSOLE', $lng->txt("debugwindow_console"));
         $this->tpl->setVariable('LOGS', $lng->txt("debugwindow_logs"));
         $this->tpl->setVariable('COMMENT', $lng->txt("debugwindow_comment"));
@@ -1673,9 +1673,9 @@ class ilSCORM13PlayerGUI
         $this->tpl->setVariable('FILENAME', $lng->txt("debugwindow_filename"));
         $this->tpl->setVariable('DATE', $lng->txt("debugwindow_date"));
         $this->tpl->setVariable('ACTION', $lng->txt("debugwindow_action"));
-        $this->tpl->setVariable('RECORD_IMG', ilUtil::getImagePath("record.png", "./Modules/Scorm2004"));
-        $this->tpl->setVariable('STOP_IMG', ilUtil::getImagePath("stop.png", "./Modules/Scorm2004"));
-        $this->tpl->setVariable('COMMENT_IMG', ilUtil::getImagePath("comment.png", "./Modules/Scorm2004"));
+        $this->tpl->setVariable('RECORD_IMG', ilUtil::getImagePath("record.png", "./components/ILIAS/Scorm2004"));
+        $this->tpl->setVariable('STOP_IMG', ilUtil::getImagePath("stop.png", "./components/ILIAS/Scorm2004"));
+        $this->tpl->setVariable('COMMENT_IMG', ilUtil::getImagePath("comment.png", "./components/ILIAS/Scorm2004"));
         $logfile = $this->logFileName() . ".html";
         $this->tpl->setVariable('LOGFILE', $this->logFileName() . ".html");
         $this->tpl->setVariable('FILES_DATA', json_encode($this->getLogFileList($lng->txt("debugwindow_delete"), $lng->txt("debugwindow_download"), $lng->txt("debugwindow_open"))));
@@ -1686,7 +1686,7 @@ class ilSCORM13PlayerGUI
 
     private function getLogTemplate(): \ilTemplate
     {
-        return new ilTemplate("tpl.scorm2004.debugtxt.txt", true, true, "Modules/Scorm2004");
+        return new ilTemplate("tpl.scorm2004.debugtxt.txt", true, true, "components/ILIAS/Scorm2004");
     }
 
     /**
@@ -1710,7 +1710,7 @@ class ilSCORM13PlayerGUI
                 $row = $ilDB->fetchAssoc($res);
                 $debug_fields = $row['debug_fields'];
                 if ($debug_fields == null) {*/
-        $debug_fields = parse_ini_file("./Modules/Scorm2004/scripts/rtemain/debug_default.ini", true);
+        $debug_fields = parse_ini_file("./components/ILIAS/Scorm2004/scripts/rtemain/debug_default.ini", true);
         //		}
         if ($test_sco) {
             $ini_array = $debug_fields['test_sco'];
@@ -2069,7 +2069,7 @@ class ilSCORM13PlayerGUI
         //csv columns
         $columns_fixed = array('id','title','type','attempted');
 
-        $ini_data = parse_ini_file("./Modules/Scorm2004/scripts/rtemain/debug_default.ini", true);
+        $ini_data = parse_ini_file("./components/ILIAS/Scorm2004/scripts/rtemain/debug_default.ini", true);
         $ini_array = $ini_data['summary'];
         $colums_variable = array();
         $api_keys = array();

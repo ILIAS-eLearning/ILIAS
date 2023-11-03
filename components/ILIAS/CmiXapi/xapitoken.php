@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-chdir("../../");
+chdir("../../../");
 require_once 'libs/composer/vendor/autoload.php';
 
 /**

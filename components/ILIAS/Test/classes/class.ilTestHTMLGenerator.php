@@ -124,7 +124,7 @@ class ilTestHTMLGenerator
         return $this->makeHtmlDocument($html, '<style>' . $this->getCssContent() . '</style>');
     }
 
-    private function getTemplatePath($a_filename, $module_path = 'Modules/Test/'): string
+    private function getTemplatePath($a_filename, $module_path = 'components/ILIAS/Test/'): string
     {
         $fname = '';
         if (ilStyleDefinition::getCurrentSkin() != "default") {

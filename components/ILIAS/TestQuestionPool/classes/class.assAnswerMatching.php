@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * Class for matching question answers
@@ -24,7 +24,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 * ASS_AnswerSimple is a class for matching question answers
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @ingroup ModulesTestQuestionPool
+* @ingroup components\ILIASTestQuestionPool
 */
 class ASS_AnswerMatching
 {

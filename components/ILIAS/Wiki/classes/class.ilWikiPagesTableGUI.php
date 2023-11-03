@@ -77,7 +77,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt("wiki_created_by"), "user_sort");
                 $this->setRowTemplate(
                     "tpl.table_row_wiki_new_page.html",
-                    "Modules/Wiki"
+                    "components/ILIAS/Wiki"
                 );
                 break;
 
@@ -87,7 +87,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt("wiki_page_hits"), "cnt");
                 $this->setRowTemplate(
                     "tpl.table_row_wiki_popular_page.html",
-                    "Modules/Wiki"
+                    "components/ILIAS/Wiki"
                 );
                 break;
 
@@ -96,7 +96,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 $this->addLanguageColumn();
                 $this->setRowTemplate(
                     "tpl.table_row_wiki_orphaned_page.html",
-                    "Modules/Wiki"
+                    "components/ILIAS/Wiki"
                 );
                 break;
 
@@ -109,7 +109,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt("wiki_last_changed_by"), "user_sort");
                 $this->setRowTemplate(
                     "tpl.table_row_wiki_page.html",
-                    "Modules/Wiki"
+                    "components/ILIAS/Wiki"
                 );
                 break;
         }

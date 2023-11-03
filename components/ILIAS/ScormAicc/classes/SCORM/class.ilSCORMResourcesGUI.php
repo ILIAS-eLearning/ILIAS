@@ -23,7 +23,7 @@ declare(strict_types=1);
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ingroup ModulesScormAicc
+* @ingroup components\ILIASScormAicc
 */
 class ilSCORMResourcesGUI extends ilSCORMObjectGUI
 {
@@ -35,7 +35,7 @@ class ilSCORMResourcesGUI extends ilSCORMObjectGUI
 
     public function view(): void
     {
-        $this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", "Modules/ScormAicc");
+        $this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", "components/ILIAS/ScormAicc");
         $this->tpl->setCurrentBlock("par_table");
         $this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_resources"));
         $this->displayParameter(

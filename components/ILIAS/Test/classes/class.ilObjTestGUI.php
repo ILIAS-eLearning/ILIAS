@@ -27,7 +27,7 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Class ilObjTestGUI
@@ -68,7 +68,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI, ilLTIProviderObjectSettingGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPageGUI
  *
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling
 {
@@ -1312,7 +1312,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
 
-        $importVerificationTpl = new ilTemplate('tpl.tst_import_verification.html', true, true, 'Modules/Test');
+        $importVerificationTpl = new ilTemplate('tpl.tst_import_verification.html', true, true, 'components/ILIAS/Test');
 
         // on import creation screen the pool was chosen (-1 for no pool)
         // BUT when no pool is available the input on creation screen is missing, so the field value -1 for no pool is not submitted.
@@ -1453,8 +1453,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $fullPath = ilSession::get('tst_import_dir') . '/' . $fileName;
             $imp = new ilImport($this->testrequest->getRefId());
             $map = $imp->getMapping();
-            $map->addMapping('Modules/Test', 'tst', 'new_id', (string) $newObj->getId());
-            $imp->importObject($newObj, $fullPath, $fileName, 'tst', 'Modules/Test', true);
+            $map->addMapping('components/ILIAS/Test', 'tst', 'new_id', (string) $newObj->getId());
+            $imp->importObject($newObj, $fullPath, $fileName, 'tst', 'components/ILIAS/Test', true);
         } else {
             $qtiParser = new ilQTIParser(ilSession::get("tst_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"] ?? '');
             if (!isset($_POST["ident"]) || !is_array($_POST["ident"]) || !count($_POST["ident"])) {
@@ -2149,7 +2149,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
 
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", "Modules/Test");
+        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", "components/ILIAS/Test");
 
         $has_started_test_runs = $this->object->evalTotalPersons() !== 0;
         if ($this->access->checkAccess("write", "", $this->ref_id)) {
@@ -2329,13 +2329,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         $this->getTabsManager()->getQuestionsSubTabs();
-        $template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", true, true, "Modules/Test");
+        $template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", true, true, "components/ILIAS/Test");
 
         $template->setCurrentBlock("navigation_buttons");
         $template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
         $template->parseCurrentBlock();
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
 
         $print_date = mktime((int) date("H"), (int) date("i"), (int) date("s"), (int) date("m"), (int) date("d"), (int) date("Y"));
         $max_points = 0;
@@ -2394,9 +2394,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ctrl->redirect($this, "infoScreen");
         }
         $this->getTabsManager()->getQuestionsSubTabs();
-        $template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", true, true, "Modules/Test");
+        $template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", true, true, "components/ILIAS/Test");
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
 
         $max_points = 0;
         $counter = 1;

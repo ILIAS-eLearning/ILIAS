@@ -47,7 +47,7 @@ class ilPortfolioRoleAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("prtf_template_title"), "template_title");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.prtf_role_assignment_row.html", "Modules/Portfolio/Administration");
+        $this->setRowTemplate("tpl.prtf_role_assignment_row.html", "components/ILIAS/Portfolio/Administration");
 
         $this->addMultiCommand("confirmAssignmentDeletion", $this->lng->txt("prtf_delete_assignment"));
     }

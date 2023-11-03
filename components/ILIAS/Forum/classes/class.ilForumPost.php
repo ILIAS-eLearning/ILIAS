@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ModulesForum
+ * @ingroup components\ILIASForum
  */
 class ilForumPost
 {

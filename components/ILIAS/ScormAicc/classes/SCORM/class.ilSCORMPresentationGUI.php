@@ -26,7 +26,7 @@ declare(strict_types=1);
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ingroup ModulesScormAicc
+* @ingroup components\ILIASScormAicc
 */
 class ilSCORMPresentationGUI
 {
@@ -127,9 +127,9 @@ class ilSCORMPresentationGUI
 
             // should be able to grep templates
             if ($debug) {
-                $this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
+                $this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "components/ILIAS/ScormAicc");
             } else {
-                $this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
+                $this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js.html", false, false, "components/ILIAS/ScormAicc");
             }
 
             $this->tpl->setVariable("EXPLORER_LINK", $exp_link);
@@ -137,9 +137,9 @@ class ilSCORMPresentationGUI
             $this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
         } else {
             if ($debug) {
-                $this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "Modules/ScormAicc");
+                $this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "components/ILIAS/ScormAicc");
             } else {
-                $this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "Modules/ScormAicc");
+                $this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "components/ILIAS/ScormAicc");
             }
 
             $this->ctrl->setParameter($this, "autolaunch", $items[0] ?? "");
@@ -364,8 +364,8 @@ class ilSCORMPresentationGUI
 
         $ilBench->start("SCORMExplorer", "initExplorer");
 
-        $this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
-        //        $this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
+        $this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "components/ILIAS/ScormAicc");
+        //        $this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "components/ILIAS/ScormAicc");
         $exp = new ilSCORMExplorer($this->ctrl->getLinkTarget($this, "view"), $this->slm);
         $exp->setTargetGet("obj_id");
         $exp->setFrameTarget($a_target);
@@ -396,7 +396,7 @@ class ilSCORMPresentationGUI
         $ilBench->stop("SCORMExplorer", "getOutput");
 
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-        $this->tpl->addBlockFile("CONTENT", "content", "tpl.sahs_explorer.html", "Modules/ScormAicc");
+        $this->tpl->addBlockFile("CONTENT", "content", "tpl.sahs_explorer.html", "components/ILIAS/ScormAicc");
         //$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
         $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
         $this->tpl->setVariable("EXPLORER", $output);
@@ -439,7 +439,7 @@ class ilSCORMPresentationGUI
     {
         global $DIC;
         $lng = $DIC->language();
-        $this->tpl = new ilGlobalTemplate("tpl.scorm_content_select.html", true, true, "Modules/ScormAicc");
+        $this->tpl = new ilGlobalTemplate("tpl.scorm_content_select.html", true, true, "components/ILIAS/ScormAicc");
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('TXT_SPECIALPAGE', $lng->txt("seq_toc"));
         $this->tpl->printToStdout("DEFAULT", false);
@@ -459,9 +459,9 @@ class ilSCORMPresentationGUI
 
         header('Content-Type: text/javascript; charset=UTF-8');
         print("function iliasApi() {\r\n");
-        $js_data = file_get_contents("./Modules/ScormAicc/scripts/basisAPI.js");
+        $js_data = file_get_contents("./components/ILIAS/ScormAicc/scripts/basisAPI.js");
         echo $js_data;
-        $js_data = file_get_contents("./Modules/ScormAicc/scripts/SCORM1_2standard.js");//want to give opportunities to different files (Uwe Kohnle)
+        $js_data = file_get_contents("./components/ILIAS/ScormAicc/scripts/SCORM1_2standard.js");//want to give opportunities to different files (Uwe Kohnle)
         echo $js_data;
         print("}\r\n");
 

@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result;
+namespace ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result;
 
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Token\Token;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\Result\Result;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Token\Token;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result\Result\Result;
 
 interface ResultResolver
 {

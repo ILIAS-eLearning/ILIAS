@@ -21,7 +21,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ModulesSystemFolder
+ * @ingroup components\ILIASSystemFolder
  */
 class ilSystemSupportContacts
 {

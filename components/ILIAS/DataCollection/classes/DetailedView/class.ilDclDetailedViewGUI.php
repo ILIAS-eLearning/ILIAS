@@ -160,7 +160,7 @@ class ilDclDetailedViewGUI
         $tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC->ctrl();
 
-        $rctpl = new ilDataCollectionGlobalTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
+        $rctpl = new ilDataCollectionGlobalTemplate("tpl.record_view.html", false, true, "components/ILIAS/DataCollection");
 
         $ilTabs->setTabActive("id_content");
 
@@ -287,7 +287,7 @@ class ilDclDetailedViewGUI
         }
         $field = $ref_recs[0]->getTable()->getFieldByTitle($found[1]);
 
-        $tpl = new ilTemplate("tpl.reference_list.html", true, true, "Modules/DataCollection");
+        $tpl = new ilTemplate("tpl.reference_list.html", true, true, "components/ILIAS/DataCollection");
         $tpl->setCurrentBlock("reference_list");
 
         if (!$field) {

@@ -26,9 +26,9 @@ declare(strict_types=1);
  * $Id$
  *
  * @extends ilObjectListGUI
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 
 class ilObjTestListGUI extends ilObjectListGUI
 {

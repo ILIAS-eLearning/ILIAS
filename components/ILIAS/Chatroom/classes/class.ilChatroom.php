@@ -28,7 +28,7 @@ use ILIAS\Chatroom\GlobalScreen\ChatInvitationNotificationProvider;
  * Class ilChatroom
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- * @ingroup ModulesChatroom
+ * @ingroup components\ILIASChatroom
  */
 class ilChatroom
 {

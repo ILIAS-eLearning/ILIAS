@@ -83,7 +83,7 @@ class ilContainerImporter extends ilXmlImporter
         }
 
         // skills
-        $crs_map = $a_mapping->getMappingsOfEntity('Modules/Course', 'crs');
+        $crs_map = $a_mapping->getMappingsOfEntity('components/ILIAS/Course', 'crs');
         $new_crs_obj_id = end($crs_map);
         $new_crs_ref_ids = ilObject::_getAllReferences((int) $new_crs_obj_id);
         $new_crs_ref_id = end($new_crs_ref_ids);

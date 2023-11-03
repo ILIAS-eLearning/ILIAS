@@ -177,7 +177,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $template = new ilTemplate("tpl.prop_suggestedsolutionselector.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.prop_suggestedsolutionselector.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($this->getOptions() as $option_value => $option_text) {
             $template->setCurrentBlock("prop_intlink_select_option");

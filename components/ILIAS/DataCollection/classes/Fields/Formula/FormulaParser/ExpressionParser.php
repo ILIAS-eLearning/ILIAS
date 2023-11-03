@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser;
+namespace ILIAS\components\DataCollection\Fields\Formula\FormulaParser;
 
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Substitution\FieldSubstitution;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Token\Tokenizer;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\MathResultResolver;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\SubstitutionResultResolver;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Token\MathToken;
-use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\ResultFormatter;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Substitution\FieldSubstitution;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Token\Tokenizer;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result\MathResultResolver;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result\SubstitutionResultResolver;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Token\MathToken;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result\ResultFormatter;
 
 class ExpressionParser
 {

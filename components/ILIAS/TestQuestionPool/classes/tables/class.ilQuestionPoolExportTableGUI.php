@@ -22,7 +22,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 /**
  * Class ilQuestionPoolExportTableGUI
  * @author Michael Jansen <mjansen@databay.de>
- * @ingroup ModulesTest
+ * @ingroup components\ILIASTest
  */
 class ilQuestionPoolExportTableGUI extends ilExportTableGUI
 {

@@ -22,7 +22,7 @@
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/TestQuestionPool
+ * @package components\ILIAS/TestQuestionPool
  */
 class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
 {
@@ -61,7 +61,7 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
 
     public function insert(ilTemplate $a_tpl): void
     {
-        $tpl = new ilTemplate("tpl.prop_kprimchoicecorrection_input.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.prop_kprimchoicecorrection_input.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($this->values as $value) {
             /**

@@ -39,7 +39,7 @@ class ilECSAppEventListener implements ilAppEventListener
 
     /**
     * Handle an event in a listener.
-    * @param	string $a_component component, e.g. "Modules/Forum" or "Services/User"
+    * @param	string $a_component component, e.g. "components/ILIAS/Forum" or "Services/User"
     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
@@ -76,7 +76,7 @@ class ilECSAppEventListener implements ilAppEventListener
                 }
                 break;
 
-            case 'Modules/Group':
+            case 'components/ILIAS/Group':
 
                 $this->logger->debug('New event from group: ' . $a_event);
                 switch ($a_event) {
@@ -126,7 +126,7 @@ class ilECSAppEventListener implements ilAppEventListener
                 }
                 break;
 
-            case 'Modules/Course':
+            case 'components/ILIAS/Course':
 
                 $this->logger->info(__METHOD__ . ': New event from course: ' . $a_event);
                 switch ($a_event) {

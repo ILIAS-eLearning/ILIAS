@@ -21,7 +21,7 @@
 * @author Helmut Schottmüller <ilias@aurealis.de>
 * @version $Id$
 *
-* @ingroup ModulesQuestionPool
+* @ingroup components\ILIASQuestionPool
 */
 
 class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
@@ -49,7 +49,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 
         $this->addCommandButton('print', $this->lng->txt('print'), "javascript:window.print();return false;");
 
-        $this->setRowTemplate("tpl.il_as_qpl_printview_row.html", "Modules/TestQuestionPool");
+        $this->setRowTemplate("tpl.il_as_qpl_printview_row.html", "components/ILIAS/TestQuestionPool");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");

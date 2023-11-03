@@ -290,7 +290,7 @@ class ilGlossaryDataSet extends ilDataSet
 
                 $this->current_obj = $newObj;
                 $this->old_glo_id = $a_rec["Id"];
-                $a_mapping->addMapping("Modules/Glossary", "glo", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Glossary", "glo", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
                     "Services/MetaData",
@@ -305,7 +305,7 @@ class ilGlossaryDataSet extends ilDataSet
 
                 // id, glo_id, term, language, import_id, short_text, short_text_dirty
 
-                $glo_id = (int) $a_mapping->getMapping("Modules/Glossary", "glo", $a_rec["GloId"]);
+                $glo_id = (int) $a_mapping->getMapping("components/ILIAS/Glossary", "glo", $a_rec["GloId"]);
                 $term = new ilGlossaryTerm();
                 $term->setGlossaryId($glo_id);
                 $term->setTerm($a_rec["Term"]);
@@ -320,7 +320,7 @@ class ilGlossaryDataSet extends ilDataSet
                 $this->log->debug("glo_term, import id: " . $term->getImportId() . ", term id: " . $term_id);
 
                 $a_mapping->addMapping(
-                    "Modules/Glossary",
+                    "components/ILIAS/Glossary",
                     "term",
                     $a_rec["Id"],
                     $term_id
@@ -359,12 +359,12 @@ class ilGlossaryDataSet extends ilDataSet
                 // glo_id, field_id, order_nr
                 // we save the ordering in the mapping, the glossary importer needs to fix this in the final
                 // processing
-                $a_mapping->addMapping("Modules/Glossary", "advmd_col_order", $a_rec["GloId"] . ":" . $a_rec["FieldId"], $a_rec["OrderNr"]);
+                $a_mapping->addMapping("components/ILIAS/Glossary", "advmd_col_order", $a_rec["GloId"] . ":" . $a_rec["FieldId"], $a_rec["OrderNr"]);
                 break;
 
             case "glo_auto_glossaries":
                 $auto_glo_id = ilObject::_lookupObjIdByImportId($a_rec["AutoGloId"]);
-                $glo_id = (int) $a_mapping->getMapping("Modules/Glossary", "glo", $a_rec["GloId"]);
+                $glo_id = (int) $a_mapping->getMapping("components/ILIAS/Glossary", "glo", $a_rec["GloId"]);
                 if ($glo_id > 0 && $auto_glo_id > 0 && ilObject::_lookupType($auto_glo_id) == "glo") {
                     $glo = new ilObjGlossary($glo_id, false);
                     $glo->addAutoGlossary($auto_glo_id);

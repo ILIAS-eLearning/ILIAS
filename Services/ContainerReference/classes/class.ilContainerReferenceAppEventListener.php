@@ -32,9 +32,9 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
         $ilLog = $DIC["ilLog"];
 
         switch ($a_component) {
-            case 'Modules/Course':
-            case 'Modules/Category':
-            case 'Modules/StudyProgramme':
+            case 'components/ILIAS/Course':
+            case 'components/ILIAS/Category':
+            case 'components/ILIAS/StudyProgramme':
                 switch ($a_event) {
                     case 'delete':
                         $ilLog->write(__METHOD__ . ': Handling delete event.');

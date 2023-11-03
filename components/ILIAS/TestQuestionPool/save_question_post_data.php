@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-chdir("../..");
+chdir("../../..");
 require_once "./cli/inc.header.php";
 include_once "./components/ILIAS/soap/include/inc.soap_functions.php";
 $results = array();

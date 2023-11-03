@@ -214,7 +214,7 @@ class ilWikiStatGUI
 
             // render
 
-            $vtpl = new ilTemplate("tpl.wiki_stat_list.html", true, true, "Modules/Wiki");
+            $vtpl = new ilTemplate("tpl.wiki_stat_list.html", true, true, "components/ILIAS/Wiki");
 
             $vtpl->setVariable("CHART", $this->renderGraph($params["figure"], $chart_data));
 

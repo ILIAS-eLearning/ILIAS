@@ -111,7 +111,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
                 }
             }
 
-            $tpl = new ilTemplate("tpl.ass_info_tool.html", true, true, "Modules/Exercise");
+            $tpl = new ilTemplate("tpl.ass_info_tool.html", true, true, "components/ILIAS/Exercise");
             $assignment = new ilExAssignment($ass_id);
 
             $title = ilObject::_lookupTitle($exc_id) . ": " . $assignment->getTitle();

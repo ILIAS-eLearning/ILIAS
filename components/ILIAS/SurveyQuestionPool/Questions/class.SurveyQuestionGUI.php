@@ -593,7 +593,7 @@ abstract class SurveyQuestionGUI
 
         $ilTabs->activateTab("preview");
 
-        $tpl = new ilTemplate("tpl.il_svy_qpl_preview.html", true, true, "Modules/SurveyQuestionPool");
+        $tpl = new ilTemplate("tpl.il_svy_qpl_preview.html", true, true, "components/ILIAS/SurveyQuestionPool");
 
         if ($this->object->getObligatory()) {
             $tpl->setCurrentBlock("required");
