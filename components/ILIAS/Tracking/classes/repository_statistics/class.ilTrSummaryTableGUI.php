@@ -21,7 +21,7 @@ declare(strict_types=0);
 /**
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilTrSummaryTableGUI: ilFormPropertyDispatchGUI
- * @ingroup      Services
+ * @ingroup components/ILIAS
  */
 class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 {
@@ -97,7 +97,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $this->setFormAction(
             $this->ctrl->getFormActionByClass(get_class($this))
         );
-        $this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
+        $this->setRowTemplate("tpl.trac_summary_row.html", "components/ILIAS/Tracking");
         $this->initFilter();
 
         $this->getItems($a_parent_obj->getObjId(), $a_ref_id);

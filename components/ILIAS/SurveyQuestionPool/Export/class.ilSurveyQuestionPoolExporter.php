@@ -49,7 +49,7 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
 
         // service settings
         $deps[] = [
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "common",
             "ids" => $a_ids
         ];

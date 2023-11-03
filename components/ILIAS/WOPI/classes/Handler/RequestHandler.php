@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\WOPI\Handler;
+namespace ILIAS\components\WOPI\Handler;
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileDelivery\Token\DataSigner;

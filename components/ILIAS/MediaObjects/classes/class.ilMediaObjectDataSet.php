@@ -333,9 +333,9 @@ class ilMediaObjectDataSet extends ilDataSet
                     ilMediaSvgSanitizer::sanitizeDir($target_dir);	// see #20339
                 }
 
-                $a_mapping->addMapping("Services/MediaObjects", "mob", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/MediaObjects", "mob", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
-                    "Services/MetaData",
+                    "components/ILIAS/MetaData",
                     "md",
                     "0:" . $a_rec["Id"] . ":mob",
                     "0:" . $newObj->getId() . ":mob"
@@ -345,7 +345,7 @@ class ilMediaObjectDataSet extends ilDataSet
             case "mob_media_item":
 
                 // determine parent mob
-                $mob_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob", $a_rec["MobId"]);
+                $mob_id = (int) $a_mapping->getMapping("components/ILIAS/MediaObjects", "mob", $a_rec["MobId"]);
                 if (is_object($this->current_mob) && $this->current_mob->getId() == $mob_id) {
                     $mob = $this->current_mob;
                 } else {
@@ -366,14 +366,14 @@ class ilMediaObjectDataSet extends ilDataSet
                 $newObj->create();
                 $this->current_media_item = $newObj;
 
-                $a_mapping->addMapping("Services/MediaObjects", "mob_media_item", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/MediaObjects", "mob_media_item", $a_rec["Id"], $newObj->getId());
 
                 break;
 
             case "mob_mi_parameter":
 
                 // get media item
-                $med_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob_media_item", $a_rec["MiId"]);
+                $med_id = (int) $a_mapping->getMapping("components/ILIAS/MediaObjects", "mob_media_item", $a_rec["MiId"]);
                 if (is_object($this->current_media_item) && $this->current_media_item->getId() == $med_id) {
                     $med = $this->current_media_item;
                 } else {
@@ -385,7 +385,7 @@ class ilMediaObjectDataSet extends ilDataSet
 
             case "mob_mi_map_area":
                 // get media item
-                $med_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob_media_item", $a_rec["MiId"]);
+                $med_id = (int) $a_mapping->getMapping("components/ILIAS/MediaObjects", "mob_media_item", $a_rec["MiId"]);
                 if (is_object($this->current_media_item) && $this->current_media_item->getId() == $med_id) {
                     $med = $this->current_media_item;
                 } else {

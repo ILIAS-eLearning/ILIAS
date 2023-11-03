@@ -51,7 +51,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("type"));
         $this->addColumn($this->lng->txt("cont_versions"));
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.mob_usage_row.html", "Services/MediaObjects");
+        $this->setRowTemplate("tpl.mob_usage_row.html", "components/ILIAS/MediaObjects");
         $this->getItems();
         $this->setTitle($lng->txt("cont_mob_usages"));
     }

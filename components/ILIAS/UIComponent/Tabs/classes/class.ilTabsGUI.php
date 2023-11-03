@@ -369,12 +369,12 @@ class ilTabsGUI
         }
 
         if ($a_get_sub_tabs) {
-            $tpl = new ilTemplate("tpl.sub_tabs.html", true, true, "Services/UIComponent/Tabs");
+            $tpl = new ilTemplate("tpl.sub_tabs.html", true, true, "components/ILIAS/UIComponent/Tabs");
             $pre = "sub";
             $pre2 = "SUB_";
             $sr_pre = "sub_";
         } else {
-            $tpl = new ilTemplate("tpl.tabs.html", true, true, "Services/UIComponent/Tabs");
+            $tpl = new ilTemplate("tpl.tabs.html", true, true, "components/ILIAS/UIComponent/Tabs");
             if ($a_after_tabs_anchor) {
                 $tpl->touchBlock("after_tabs");
             }

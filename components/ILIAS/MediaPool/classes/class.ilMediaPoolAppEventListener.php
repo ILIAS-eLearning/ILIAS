@@ -26,7 +26,7 @@ class ilMediaPoolAppEventListener
     /**
     * Handle an event in a listener.
     *
-    * @param	string	$a_component	component, e.g. "components/ILIAS/Forum" or "Services/User"
+    * @param	string	$a_component	component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
@@ -36,7 +36,7 @@ class ilMediaPoolAppEventListener
         array $a_parameter
     ): void {
         switch ($a_component) {
-            case "Services/Object":
+            case "components/ILIAS/Object":
                 switch ($a_event) {
                     case "update":
                         if ($a_parameter["obj_type"] === "mob") {

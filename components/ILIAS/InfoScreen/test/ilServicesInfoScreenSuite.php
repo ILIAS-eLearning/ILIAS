@@ -31,7 +31,7 @@ class ilServicesInfoScreenSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/InfoScreen/test/InfoScreenStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/InfoScreen/test/InfoScreenStandardGUIRequestTest.php");
         $suite->addTestSuite("InfoScreenStandardGUIRequestTest");
 
         return $suite;

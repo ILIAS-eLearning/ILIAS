@@ -208,7 +208,7 @@ class ilCalendarDataSet extends ilDataSet
                 // please note: we currently only support private user calendars to
                 // be imported
                 if (($a_rec["Type"] ?? 0) == 1) {
-                    $usr_id = (int) $a_mapping->getMapping("Services/User", "usr", $a_rec["ObjId"]);
+                    $usr_id = (int) $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["ObjId"]);
                     if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
                         $category = new ilCalendarCategory(0);
                         $category->setTitle((string) $a_rec["Title"]);
@@ -217,7 +217,7 @@ class ilCalendarDataSet extends ilDataSet
                         $category->setObjId((int) $usr_id);
                         $category->add();
                         $a_mapping->addMapping(
-                            "Services/Calendar",
+                            "components/ILIAS/Calendar",
                             "calendar",
                             $a_rec["CatId"],
                             (string) $category->getCategoryID()
@@ -249,7 +249,7 @@ class ilCalendarDataSet extends ilDataSet
                     $entry->enableNotification((bool) ($a_rec["Notification"] ?? false));
                     $entry->save();
                     $a_mapping->addMapping(
-                        "Services/Calendar",
+                        "components/ILIAS/Calendar",
                         "cal_entry",
                         $a_rec["Id"],
                         (string) $entry->getEntryId()
@@ -258,8 +258,8 @@ class ilCalendarDataSet extends ilDataSet
                 break;
 
             case "cal_assignment":
-                $cat_id = (int) $a_mapping->getMapping("Services/Calendar", "calendar", $a_rec["CatId"]);
-                $entry_id = (int) $a_mapping->getMapping("Services/Calendar", "cal_entry", $a_rec["EntryId"]);
+                $cat_id = (int) $a_mapping->getMapping("components/ILIAS/Calendar", "calendar", $a_rec["CatId"]);
+                $entry_id = (int) $a_mapping->getMapping("components/ILIAS/Calendar", "cal_entry", $a_rec["EntryId"]);
                 if ($cat_id > 0 && $entry_id > 0) {
                     $ass = new ilCalendarCategoryAssignments($entry_id);
                     $ass->addAssignment($cat_id);
@@ -267,7 +267,7 @@ class ilCalendarDataSet extends ilDataSet
                 break;
 
             case "recurrence_rule":
-                $entry_id = $a_mapping->getMapping("Services/Calendar", "cal_entry", $a_rec["EntryId"]);
+                $entry_id = $a_mapping->getMapping("components/ILIAS/Calendar", "cal_entry", $a_rec["EntryId"]);
                 if ($entry_id > 0) {
                     $rec = new ilCalendarRecurrence();
                     $rec->setEntryId((int) $entry_id);
@@ -287,7 +287,7 @@ class ilCalendarDataSet extends ilDataSet
                     $rec->setWeekstart((string) ($a_rec["Weekstart"] ?? ''));
                     $rec->save();
                     $a_mapping->addMapping(
-                        "Services/Calendar",
+                        "components/ILIAS/Calendar",
                         "recurrence_rule",
                         $a_rec["RuleId"],
                         (string) $rec->getRecurrenceId()

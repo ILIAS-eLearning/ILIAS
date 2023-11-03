@@ -211,7 +211,7 @@ class ilRbacAdmin
         if (!$alreadyAssigned) {
             ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event assign user');
             $GLOBALS['DIC']['ilAppEventHandler']->raise(
-                'Services/AccessControl',
+                'components/ILIAS/AccessControl',
                 'assignUser',
                 [
                     'obj_id' => $obj_id,
@@ -244,7 +244,7 @@ class ilRbacAdmin
             $type = ilObject::_lookupType($obj_id);
 
             ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event deassign user');
-            $GLOBALS['DIC']['ilAppEventHandler']->raise('Services/AccessControl', 'deassignUser', [
+            $GLOBALS['DIC']['ilAppEventHandler']->raise('components/ILIAS/AccessControl', 'deassignUser', [
                 'obj_id' => $obj_id,
                 'usr_id' => $a_usr_id,
                 'role_id' => $a_rol_id,

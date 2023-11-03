@@ -16,7 +16,7 @@
  ********************************************************************
  */
 
-include_once "Services/Object/classes/class.ilObjectLP.php";
+include_once "components/ILIAS/Object/classes/class.ilObjectLP.php";
 
 /**
  * Plugin to lp connector

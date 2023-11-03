@@ -51,7 +51,7 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
      */
     protected function initTable(): void
     {
-        $this->setRowTemplate('tpl.ch_booking_row.html', 'Services/Calendar');
+        $this->setRowTemplate('tpl.ch_booking_row.html', 'components/ILIAS/Calendar');
 
         $this->setTitle($this->lng->txt('cal_ch_bookings_tbl'));
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));

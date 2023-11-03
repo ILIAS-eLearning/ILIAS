@@ -110,7 +110,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->type = 'frm';
         parent::__construct($data, $id, $call_by_reference, false);
 
-        $this->tpl->addJavaScript('./Services/JavaScript/js/Basic.js');
+        $this->tpl->addJavaScript('./components/ILIAS/JavaScript/js/Basic.js');
 
         $this->lng->loadLanguageModule('forum');
         $this->lng->loadLanguageModule('content');

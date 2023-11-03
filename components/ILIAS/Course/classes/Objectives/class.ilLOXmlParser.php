@@ -144,7 +144,7 @@ class ilLOXmlParser
                 (string) $new_objective_id
             );
             $this->getMapping()->addMapping(
-                'Services/COPage',
+                'components/ILIAS/COPage',
                 'pg',
                 'lobj:' . $obj->attributes()->id,
                 'lobj:' . $new_objective_id
@@ -267,14 +267,14 @@ class ilLOXmlParser
 
     protected function getMappingInfoForItem(int $a_ref_id): int
     {
-        $new_ref_id = $this->getMapping()->getMapping('Services/Container', 'refs', (string) $a_ref_id);
+        $new_ref_id = $this->getMapping()->getMapping('components/ILIAS/Container', 'refs', (string) $a_ref_id);
         $this->logger->debug(': Found new ref_id: ' . $new_ref_id . ' for ' . $a_ref_id);
         return (int) $new_ref_id;
     }
 
     protected function getMappingInfoForItemObject(int $a_obj_id): int
     {
-        $new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', (string) $a_obj_id);
+        $new_obj_id = $this->getMapping()->getMapping('components/ILIAS/Container', 'objs', (string) $a_obj_id);
         $this->logger->debug('Found new ref_id: ' . $new_obj_id . ' for ' . $a_obj_id);
         return (int) $new_obj_id;
     }

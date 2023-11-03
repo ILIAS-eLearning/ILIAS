@@ -313,7 +313,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     {
         $lng = $this->lng;
 
-        $ttpl = new ilTemplate("tpl.prop_textarea.html", true, true, "Services/Form");
+        $ttpl = new ilTemplate("tpl.prop_textarea.html", true, true, "components/ILIAS/Form");
 
         // disabled rte
         if ($this->getUseRte() && $this->getDisabled()) {

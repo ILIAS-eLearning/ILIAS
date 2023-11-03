@@ -87,7 +87,7 @@ class ilBibliographicDataSet extends ilDataSet
     ): void {
         switch ($a_entity) {
             case 'bibl':
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['id'])) {
                     // container content
                     $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {

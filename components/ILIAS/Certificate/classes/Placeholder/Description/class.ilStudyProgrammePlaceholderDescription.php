@@ -61,7 +61,7 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
     public function createPlaceholderHtmlDescription(?ilTemplate $template = null): string
     {
         if (null === $template) {
-            $template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
+            $template = new ilTemplate('tpl.default_description.html', true, true, 'components/ILIAS/Certificate');
         }
 
         $template->setVariable("PLACEHOLDER_INTRODUCTION", $this->language->txt('certificate_ph_introduction'));

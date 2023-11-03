@@ -47,7 +47,7 @@ class ilLTIProviderReleasedObjectsTableGUI extends ilObjectTableGUI
         $this->addColumn($this->lng->txt('lti_consumer'), 'consumer', '30%');
 
         $this->setOrderColumn('title');
-        $this->setRowTemplate('tpl.lti_object_table_row.html', 'Services/LTI');
+        $this->setRowTemplate('tpl.lti_object_table_row.html', 'components/ILIAS/LTI');
     }
 
     /**

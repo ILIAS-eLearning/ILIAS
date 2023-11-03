@@ -109,7 +109,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
 
     public function render(): string
     {
-        $tpl = new ilTemplate("tpl.prop_radio.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_radio.html", true, true, "components/ILIAS/Form");
 
         foreach ($this->getOptions() as $option) {
             // information text for option

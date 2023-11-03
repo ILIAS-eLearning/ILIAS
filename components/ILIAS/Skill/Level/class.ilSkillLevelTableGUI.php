@@ -88,7 +88,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.skill_level_row.html", "Services/Skill");
+        $this->setRowTemplate("tpl.skill_level_row.html", "components/ILIAS/Skill");
         $this->setEnableTitle(true);
 
         if ($this->tref_id == 0 && !$this->in_use && $this->manage_perm) {

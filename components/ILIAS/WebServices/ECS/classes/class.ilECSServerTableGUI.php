@@ -45,7 +45,7 @@ class ilECSServerTableGUI extends ilTable2GUI
     public function initTable(): void
     {
         $this->setTitle($this->lng->txt('ecs_available_ecs'));
-        $this->setRowTemplate('tpl.ecs_server_row.html', 'Services/WebServices/ECS');
+        $this->setRowTemplate('tpl.ecs_server_row.html', 'components/ILIAS/WebServices/ECS');
 
         $this->addColumn($this->lng->txt('ecs_tbl_active'), '', '1%');
         $this->addColumn($this->lng->txt('title'), '', '80%');

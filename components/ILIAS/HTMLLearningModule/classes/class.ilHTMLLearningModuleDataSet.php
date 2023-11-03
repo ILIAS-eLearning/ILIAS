@@ -81,7 +81,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
         switch ($a_entity) {
             case "htlm":
 
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     /** @var ilObjFileBasedLM $newObj */
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
@@ -105,7 +105,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
 
                 $a_mapping->addMapping("components/ILIAS/HTMLLearningModule", "htlm", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
-                    "Services/MetaData",
+                    "components/ILIAS/MetaData",
                     "md",
                     $a_rec["Id"] . ":0:htlm",
                     $newObj->getId() . ":0:htlm"

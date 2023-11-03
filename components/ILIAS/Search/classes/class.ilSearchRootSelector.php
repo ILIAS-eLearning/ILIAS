@@ -150,7 +150,7 @@ class ilSearchRootSelector extends ilExplorer
      */
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void
     {
-        #$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
+        #$tpl = new ilTemplate("tpl.tree.html", true, true, "components/ILIAS/UIComponent/Explorer");
 
         if (in_array("root", $this->clickable_types)) {
             $tpl->setCurrentBlock("link");

@@ -39,7 +39,7 @@ a view on these objects. It rather provides interfaces that describe how consume
 and providers of a kiosk mode should collaborate and functionality that helps to
 implement both sides of the collaboration.
 
-This library is complemented by the [Kiosk-Mode-Service](../../Services/KioskMode/README.md)
+This library is complemented by the [Kiosk-Mode-Service](../../components/ILIAS/KioskMode_/README.md)
 that provides functionality to construct views for certain objects and concrete
 database functionality.
 
@@ -76,7 +76,7 @@ kiosk mode of the object:
 
 ## Implementing a Provider
 
-Please use `ilKioskModeView` in `Services\KioskMode\classes\` as a base to implement
+Please use `ilKioskModeView` in `components\KioskMode\classes\` as a base to implement
 this for ILIAS-objects.
 
 * `State` MUST only contain information about the view (not about LP, completion, ...)

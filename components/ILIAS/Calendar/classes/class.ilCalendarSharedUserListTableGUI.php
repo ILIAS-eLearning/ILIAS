@@ -36,7 +36,7 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
     {
         parent::__construct($parent_obj, $parent_cmd);
 
-        $this->setRowTemplate('tpl.calendar_shared_user_list_row.html', 'Services/Calendar');
+        $this->setRowTemplate('tpl.calendar_shared_user_list_row.html', 'components/ILIAS/Calendar');
 
         $this->addColumn('', 'id', '1px');
         $this->addColumn($this->lng->txt('name'), 'last_firstname', '60%');

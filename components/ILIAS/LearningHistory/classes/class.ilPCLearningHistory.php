@@ -184,7 +184,7 @@ class ilPCLearningHistory extends ilPageContent
             }
         }
         if ($user_id > 0) {
-            $tpl = new ilTemplate("tpl.pc_lhist.html", true, true, "Services/LearningHistory");
+            $tpl = new ilTemplate("tpl.pc_lhist.html", true, true, "components/ILIAS/LearningHistory");
             $hist_gui = new ilLearningHistoryGUI();
             $hist_gui->setUserId($user_id);
             $from_unix = ($from != "")

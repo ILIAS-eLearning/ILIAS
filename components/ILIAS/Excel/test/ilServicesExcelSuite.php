@@ -31,7 +31,7 @@ class ilServicesExcelSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Excel/test/ExcelTest.php");
+        require_once("./components/ILIAS/Excel/test/ExcelTest.php");
         $suite->addTestSuite("ExcelTest");
 
         return $suite;

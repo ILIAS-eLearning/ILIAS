@@ -38,8 +38,8 @@ use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
 
 include_once './components/ILIAS/soap/lib/nusoap.php';
 include_once './components/ILIAS/soap/include/inc.soap_functions.php';
-require_once('./Services/WebServices/SOAP/classes/class.ilSoapHook.php');
-require_once('./Services/Init/classes/class.ilInitialisation.php');
+require_once('./components/ILIAS/WebServices/SOAP/classes/class.ilSoapHook.php');
+require_once('./components/ILIAS/Init/classes/class.ilInitialisation.php');
 
 class ilNusoapUserAdministrationAdapter
 {

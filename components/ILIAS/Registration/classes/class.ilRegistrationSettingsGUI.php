@@ -619,7 +619,7 @@ class ilRegistrationSettingsGUI
      */
     private function parseRoleList(array $roles, string $url): string
     {
-        $tpl = new ilTemplate('tpl.registration_roles.html', true, true, 'Services/Registration');
+        $tpl = new ilTemplate('tpl.registration_roles.html', true, true, 'components/ILIAS/Registration');
 
         $tpl->setVariable("EDIT", $this->lng->txt("edit"));
         $tpl->setVariable("LINK_EDIT", $url);

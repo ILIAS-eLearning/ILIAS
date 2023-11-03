@@ -298,7 +298,7 @@ class ilCalendarExport
     protected function createRecurrences(ilCalendarEntry $app): ilICalWriter
     {
         $str_writer = new ilICalWriter();
-        include_once './Services/Calendar/classes/class.ilCalendarRecurrences.php';
+        include_once './components/ILIAS/Calendar/classes/class.ilCalendarRecurrences.php';
         foreach (ilCalendarRecurrences::_getRecurrences($app->getEntryId()) as $rec) {
             foreach (ilCalendarRecurrenceExclusions::getExclusionDates($app->getEntryId()) as $excl) {
                 $str_writer->addLine($excl->toICal());
@@ -326,7 +326,7 @@ class ilCalendarExport
             $str_writer->addLine('URL;VALUE=URI:' . ILIAS_HTTP_PATH);
         } else {
             $refs = ilObject::_getAllReferences($cat->getObjId());
-            include_once './Services/Link/classes/class.ilLink.php';
+            include_once './components/ILIAS/Link/classes/class.ilLink.php';
             $str_writer->addLine('URL;VALUE=URI:' . ilLink::_getLink(current($refs)));
         }
         return $str_writer;

@@ -31,7 +31,7 @@ class ilServicesLinkSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Link/test/LinkStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/Link/test/LinkStandardGUIRequestTest.php");
         $suite->addTestSuite("LinkStandardGUIRequestTest");
 
         return $suite;

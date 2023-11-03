@@ -254,7 +254,7 @@ class ilAccordionGUI
     public static function getLocalJavascriptFiles(): array
     {
         return array(
-            "./Services/Accordion/js/accordion.js",
+            "./components/ILIAS/Accordion/js/accordion.js",
             self::$owl_path . self::$owl_js_path
         );
     }
@@ -262,7 +262,7 @@ class ilAccordionGUI
     public static function getLocalCssFiles(): array
     {
         return array(
-            "./Services/Accordion/css/accordion.css",
+            "./components/ILIAS/Accordion/css/accordion.css",
             self::$owl_path . self::$owl_css_path
         );
     }
@@ -309,7 +309,7 @@ class ilAccordionGUI
         $this->addJavascript();
         $this->addCss();
 
-        $tpl = new ilTemplate("tpl.accordion.html", true, true, "Services/Accordion");
+        $tpl = new ilTemplate("tpl.accordion.html", true, true, "components/ILIAS/Accordion");
         foreach ($this->getItems() as $item) {
             $tpl->setCurrentBlock("item");
             $tpl->setVariable("HEADER", $item["header"]);

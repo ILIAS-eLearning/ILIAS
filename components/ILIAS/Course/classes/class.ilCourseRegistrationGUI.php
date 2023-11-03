@@ -98,7 +98,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
         $warning = '';
         if (ilDateTime::_before($now, $start)) {
-            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'Services/Membership');
+            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'components/ILIAS/Membership');
             $tpl->setVariable('TXT_FIRST', $this->lng->txt('mem_start'));
             $tpl->setVariable('FIRST', ilDatePresentation::formatDate($start));
 
@@ -107,7 +107,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
             $warning = $this->lng->txt('mem_reg_not_started');
         } elseif (ilDateTime::_after($now, $end)) {
-            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'Services/Membership');
+            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'components/ILIAS/Membership');
             $tpl->setVariable('TXT_FIRST', $this->lng->txt('mem_start'));
             $tpl->setVariable('FIRST', ilDatePresentation::formatDate($start));
 
@@ -116,7 +116,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
             $warning = $this->lng->txt('mem_reg_expired');
         } else {
-            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'Services/Membership');
+            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'components/ILIAS/Membership');
             $tpl->setVariable('TXT_FIRST', $this->lng->txt('mem_end'));
             $tpl->setVariable('FIRST', ilDatePresentation::formatDate($end));
         }
@@ -137,7 +137,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         if (!$this->container->isSubscriptionMembershipLimited()) {
             return;
         }
-        $tpl = new ilTemplate('tpl.max_members_form.html', true, true, 'Services/Membership');
+        $tpl = new ilTemplate('tpl.max_members_form.html', true, true, 'components/ILIAS/Membership');
 
         $alert = '';
         if ($this->container->getSubscriptionMinMembers()) {

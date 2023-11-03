@@ -21,7 +21,7 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Exceptions/classes/class.ilException.php');
+include_once('components/ILIAS/Exceptions/classes/class.ilException.php');
 
 /**
 *

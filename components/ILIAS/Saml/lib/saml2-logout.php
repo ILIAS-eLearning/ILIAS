@@ -50,10 +50,10 @@ if (isset($_GET["client_id"])) {
 }
 define('IL_COOKIE_PATH', $cookie_path);
 
-require_once 'Services/Context/classes/class.ilContext.php';
+require_once 'components/ILIAS/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SAML);
 
-require_once 'Services/Init/classes/class.ilInitialisation.php';
+require_once 'components/ILIAS/Init/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
 $factory = new ilSamlAuthFactory();
@@ -63,7 +63,7 @@ ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 $GLOBALS['DIC']['ilAuthSession']->logout();
 
 $GLOBALS['ilAppEventHandler']->raise(
-    'Services/Authentication',
+    'components/ILIAS/Authentication',
     'afterLogout',
     [
         'username' => $GLOBALS['DIC']->user()->getLogin(),

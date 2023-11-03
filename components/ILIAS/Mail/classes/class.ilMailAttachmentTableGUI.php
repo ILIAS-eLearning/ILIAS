@@ -40,7 +40,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
 
         $this->setSelectAllCheckbox('filename[]');
 
-        $this->setRowTemplate('tpl.mail_attachment_row.html', 'Services/Mail');
+        $this->setRowTemplate('tpl.mail_attachment_row.html', 'components/ILIAS/Mail');
 
         $this->addMultiCommand('saveAttachments', $this->lng->txt('adopt'));
         $this->addMultiCommand('deleteAttachments', $this->lng->txt('delete'));

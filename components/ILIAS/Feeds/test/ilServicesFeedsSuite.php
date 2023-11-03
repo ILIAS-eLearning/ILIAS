@@ -31,7 +31,7 @@ class ilServicesFeedsSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Feeds/test/FeedItemTest.php");
+        require_once("./components/ILIAS/Feeds/test/FeedItemTest.php");
         $suite->addTestSuite("FeedItemTest");
 
         return $suite;

@@ -381,7 +381,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
         foreach ($block_sequence->getBlocks() as $block) {
             // render block
-            $tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
+            $tpl = new ilTemplate("tpl.resource_block.html", true, true, "components/ILIAS/COPage");
             $cnt = 0;
             $max = 5;
             if (!($block->getBlock() instanceof \ILIAS\Container\Content\ObjectivesBlock) &&

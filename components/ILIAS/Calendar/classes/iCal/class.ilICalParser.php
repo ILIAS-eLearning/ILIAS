@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup Services/Calendar
+ * @ingroup components/ILIAS/Calendar
  */
 class ilICalParser
 {

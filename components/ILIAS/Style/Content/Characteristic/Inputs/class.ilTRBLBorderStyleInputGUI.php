@@ -143,10 +143,10 @@ class ilTRBLBorderStyleInputGUI extends ilFormPropertyGUI
     {
         $lng = $this->lng;
         $value = "";
-        $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
+        $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "components/ILIAS/Style/Content");
 
         foreach ($this->dirs as $dir) {
-            $tpl = new ilTemplate("tpl.prop_trbl_select.html", true, true, "Services/Style/Content");
+            $tpl = new ilTemplate("tpl.prop_trbl_select.html", true, true, "components/ILIAS/Style/Content");
             $pre_options = array_merge(
                 array("" => ""),
                 ilObjStyleSheet::_getStyleParameterValues("border-style")

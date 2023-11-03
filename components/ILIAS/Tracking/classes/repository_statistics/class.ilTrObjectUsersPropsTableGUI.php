@@ -120,7 +120,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         );
         $this->setRowTemplate(
             "tpl.object_users_props_row.html",
-            "Services/Tracking"
+            "components/ILIAS/Tracking"
         );
         $this->setEnableTitle(true);
         $this->setShowTemplates(true);

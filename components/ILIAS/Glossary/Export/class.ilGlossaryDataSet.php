@@ -267,7 +267,7 @@ class ilGlossaryDataSet extends ilDataSet
         switch ($a_entity) {
             case "glo":
 
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjGlossary();
@@ -291,14 +291,14 @@ class ilGlossaryDataSet extends ilDataSet
                 $this->current_obj = $newObj;
                 $this->old_glo_id = $a_rec["Id"];
                 $a_mapping->addMapping("components/ILIAS/Glossary", "glo", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Object", "obj", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
-                    "Services/MetaData",
+                    "components/ILIAS/MetaData",
                     "md",
                     $a_rec["Id"] . ":0:glo",
                     $newObj->getId() . ":0:glo"
                 );
-                $a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
                 break;
 
             case "glo_term":
@@ -327,28 +327,28 @@ class ilGlossaryDataSet extends ilDataSet
                 );
 
                 $a_mapping->addMapping(
-                    "Services/Taxonomy",
+                    "components/ILIAS/Taxonomy",
                     "tax_item",
                     "glo:term:" . $a_rec["Id"],
                     $term_id
                 );
 
                 $a_mapping->addMapping(
-                    "Services/Taxonomy",
+                    "components/ILIAS/Taxonomy",
                     "tax_item_obj_id",
                     "glo:term:" . $a_rec["Id"],
                     $glo_id
                 );
 
                 $a_mapping->addMapping(
-                    "Services/AdvancedMetaData",
+                    "components/ILIAS/AdvancedMetaData",
                     "advmd_sub_item",
                     "advmd:term:" . $a_rec["Id"],
                     $term_id
                 );
 
                 $a_mapping->addMapping(
-                    "Services/COPage",
+                    "components/ILIAS/COPage",
                     "pg",
                     "term:" . $a_rec["Id"],
                     "term:" . $term_id

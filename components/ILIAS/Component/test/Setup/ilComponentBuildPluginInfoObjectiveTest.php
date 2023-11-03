@@ -85,7 +85,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     {
         $this->builder->build();
 
-        $expected = ["components/ILIAS", "Services"];
+        $expected = ["components/ILIAS"];
         sort($expected);
         sort($this->scanned);
         $this->assertEquals($expected, $this->scanned);
@@ -95,17 +95,17 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     {
         $this->dirs = [
             "components/ILIAS" => ["Module1", "Module2"],
-            "Services" => ["Service1"],
+            "components/ILIAS" => ["Service1"],
             "components/ILIAS/Module1" => ["Slot1", "Slot2"],
             "components/ILIAS/Module2" => [],
-            "Services/Service1" => ["Slot3",".DS_Store"] // .DS_Store should be skipped
+            "components/ILIAS/Service1" => ["Slot3",".DS_Store"] // .DS_Store should be skipped
         ];
 
         $this->builder->build();
 
-        $expected = ["components/ILIAS", "Services", "components/ILIAS/Module1", "components/ILIAS/Module2",
-            "Services/Service1", "components/ILIAS/Module1/Slot1", "components/ILIAS/Module1/Slot2",
-            "Services/Service1/Slot3"];
+        $expected = ["components/ILIAS", "components/ILIAS", "components/ILIAS/Module1", "components/ILIAS/Module2",
+            "components/ILIAS/Service1", "components/ILIAS/Module1/Slot1", "components/ILIAS/Module1/Slot2",
+            "components/ILIAS/Service1/Slot3"];
         sort($expected);
         sort($this->scanned);
         $this->assertEquals($expected, $this->scanned);
@@ -115,11 +115,11 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     {
         $this->dirs = [
             "components/ILIAS" => ["Module1"],
-            "Services" => ["Service1"],
+            "components/ILIAS" => ["Service1"],
             "components/ILIAS/Module1" => ["Slot1"],
-            "Services/Service1" => ["Slot2"],
+            "components/ILIAS/Service1" => ["Slot2"],
             "components/ILIAS/Module1/Slot1" => ["Plugin1", "Plugin2"],
-            "Services/Service1/Slot2" => ["Plugin3"]
+            "components/ILIAS/Service1/Slot2" => ["Plugin3"]
         ];
 
         $this->builder->build();
@@ -127,7 +127,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $expected = [
             "components/ILIAS/Module1/Slot1/Plugin1",
             "components/ILIAS/Module1/Slot1/Plugin2",
-            "Services/Service1/Slot2/Plugin3"
+            "components/ILIAS/Service1/Slot2/Plugin3"
         ];
         sort($expected);
         sort($this->added);

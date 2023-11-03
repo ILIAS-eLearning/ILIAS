@@ -50,7 +50,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
     {
         parent::finalProcessing($a_mapping);
 
-        $copaMap = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
+        $copaMap = $a_mapping->getMappingsOfEntity('components/ILIAS/COPage', 'pg');
         foreach ($copaMap as $oldCopaId => $newCopaId) {
             $newCopaId = (int) substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
 
@@ -69,7 +69,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
 
         $styleMapping = $a_mapping->getMappingsOfEntity('components/ILIAS/ContentPage', 'style');
         foreach ($styleMapping as $newCopaId => $oldStyleId) {
-            $newStyleId = (int) $a_mapping->getMapping('Services/Style', 'sty', $oldStyleId);
+            $newStyleId = (int) $a_mapping->getMapping('components/ILIAS/Style', 'sty', $oldStyleId);
             if ($newCopaId > 0 && $newStyleId > 0) {
                 $copa = ilObjectFactory::getInstanceByObjId((int) $newCopaId, false);
                 if (!$copa || !($copa instanceof ilObjContentPage)) {

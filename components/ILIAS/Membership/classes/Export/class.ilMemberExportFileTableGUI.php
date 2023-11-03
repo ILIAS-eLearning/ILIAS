@@ -40,7 +40,7 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('date');
         $this->setDefaultOrderDirection('desc');
 
-        $this->setRowTemplate('tpl.mem_export_file_row.html', 'Services/Membership');
+        $this->setRowTemplate('tpl.mem_export_file_row.html', 'components/ILIAS/Membership');
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         $this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
         $this->setSelectAllCheckbox('id[]');

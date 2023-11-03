@@ -59,7 +59,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('active_languages');
         $this->enable('select_all');
 
-        $this->setRowTemplate('tpl.record_language_selection_row.html', 'Services/AdvancedMetaData');
+        $this->setRowTemplate('tpl.record_language_selection_row.html', 'components/ILIAS/AdvancedMetaData');
         $this->setDefaultOrderField(self::COL_LANGUAGE);
         $this->setDefaultOrderDirection('asc');
 

@@ -84,7 +84,7 @@ class ilPageMultiLangGUI
 
         $lng->loadLanguageModule("meta");
 
-        $tpl = new ilTemplate("tpl.page_multi_lang_info.html", true, true, "Services/COPage");
+        $tpl = new ilTemplate("tpl.page_multi_lang_info.html", true, true, "components/ILIAS/COPage");
         $tpl->setVariable("TXT_MASTER_LANG", $lng->txt("obj_master_lang"));
         $tpl->setVariable("VAL_ML", $lng->txt("meta_l_" . $this->ot->getMasterLanguage()));
         $cl = ($a_page_lang == "-")

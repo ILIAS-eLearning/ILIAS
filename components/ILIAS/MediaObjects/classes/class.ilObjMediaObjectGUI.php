@@ -1392,7 +1392,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $lng = $DIC->language();
 
-        $tpl = new ilTemplate("tpl.media_info.html", true, true, "Services/MediaObjects");
+        $tpl = new ilTemplate("tpl.media_info.html", true, true, "components/ILIAS/MediaObjects");
         $types = array("Standard", "Fullscreen");
         foreach ($types as $type) {
             if ($type == "Fullscreen" && !$a_mob->hasFullscreenItem()) {
@@ -1583,7 +1583,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         iljQueryUtil::initjQuery($a_tpl);
         $a_tpl->addJavaScript(iljQueryUtil::getLocalMaphilightPath());
-        $a_tpl->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
+        $a_tpl->addJavaScript("./components/ILIAS/COPage/js/ilCOPagePres.js");
 
         ilPlayerUtil::initMediaElementJs($a_tpl);
     }

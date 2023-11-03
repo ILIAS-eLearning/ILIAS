@@ -5,7 +5,7 @@ Disclaimer: This documentation does not warrant completeness or correctness. Ple
 - User IDs of the persons that created and last updated the AdministrativeNotification entry as well as the timestamps of the creation and last update of the entry are stored. This data is stored in order to ensure internal traceability regarding timing and authorship in the event of any problems caused by the AdministrativeNotification entry.
 - User IDs of the persons that dismissed the notification are stored. This prevents the AdministrativeNotification service from showing dismissed notifications again.
 - The AdministrativeNotification service employs the following services, please consult the respective privacy.mds:
-  - [GlobalScreen](../../Services/GlobalScreen/PRIVACY.md)
+  - [GlobalScreen](../../components/ILIAS/GlobalScreen_/PRIVACY.md)
 
 ## Data being presented
 - The AdministrativeNotification service does not present any personal data.

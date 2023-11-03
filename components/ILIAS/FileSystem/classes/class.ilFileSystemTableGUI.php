@@ -103,7 +103,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.directory_row.html",
-            "Services/FileSystem"
+            "components/ILIAS/FileSystem"
         );
         $this->setEnableTitle(true);
     }

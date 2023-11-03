@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/ContainerReference/classes/class.ilContainerReferenceXmlParser.php';
+include_once './components/ILIAS/ContainerReference/classes/class.ilContainerReferenceXmlParser.php';
 
 
 /**

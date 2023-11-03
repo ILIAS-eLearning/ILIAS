@@ -134,7 +134,7 @@ class ilMailingListsGUI
         }
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'components/ILIAS/Contact');
         $this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 
         $this->tpl->printToStdout();
@@ -225,7 +225,7 @@ class ilMailingListsGUI
     public function showMailingLists(): bool
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'components/ILIAS/Contact');
 
         // check if current user may send mails
         $mail = new ilMail($this->user->getId());
@@ -360,7 +360,7 @@ class ilMailingListsGUI
         }
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'components/ILIAS/Contact');
 
         $this->form_gui->setValuesByPost();
 
@@ -403,7 +403,7 @@ class ilMailingListsGUI
     public function showForm(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'components/ILIAS/Contact');
 
         if ($this->mlists->getCurrentMailingList() && $this->mlists->getCurrentMailingList()->getId()) {
             if (!$this->mlists->isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
@@ -436,7 +436,7 @@ class ilMailingListsGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.mail_mailing_lists_members.html',
-            'Services/Contact'
+            'components/ILIAS/Contact'
         );
 
         $tbl = new ilMailingListsMembersTableGUI($this, 'showMembersList', $this->mlists->getCurrentMailingList());
@@ -538,7 +538,7 @@ class ilMailingListsGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.mail_mailing_lists_members.html',
-            'Services/Contact'
+            'components/ILIAS/Contact'
         );
         $this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 
@@ -675,7 +675,7 @@ class ilMailingListsGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.mail_mailing_lists_members_form.html',
-            'Services/Contact'
+            'components/ILIAS/Contact'
         );
 
         if (!($form instanceof ilPropertyFormGUI)) {

@@ -180,7 +180,7 @@ class ilTinyMCE extends ilRTE
                 ($cfg_template ?? "tpl.tinymce.js"),
                 true,
                 true,
-                "Services/RTE"
+                "components/ILIAS/RTE"
             );
             $this->handleImgContextMenuItem($tpl);
             $tags = ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
@@ -270,7 +270,7 @@ class ilTinyMCE extends ilRTE
     {
         $this->handleImagePluginsBeforeRendering($tags);
 
-        $tpl = new ilTemplate('tpl.tinymce.js', true, true, 'Services/RTE');
+        $tpl = new ilTemplate('tpl.tinymce.js', true, true, 'components/ILIAS/RTE');
         $this->handleImgContextMenuItem($tpl);
         $tpl->setCurrentBlock('tinymce');
 
@@ -317,7 +317,7 @@ class ilTinyMCE extends ilRTE
         $validtags = ["strong", "em", "p", "br", "div", "span"];
         $buttontags = ['strong', 'em'];
 
-        $template = new ilTemplate('tpl.usereditor.js', true, true, 'Services/RTE');
+        $template = new ilTemplate('tpl.usereditor.js', true, true, 'components/ILIAS/RTE');
         $this->handleImgContextMenuItem($template);
         $template->setCurrentBlock('tinymce');
 

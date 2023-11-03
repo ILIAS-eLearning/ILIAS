@@ -49,7 +49,7 @@ class ilServicesBadgeSuite extends TestSuite
 
         foreach ($tests as $test) {
             $name = current(array_reverse(explode('\\', $test)));
-            require_once('./Services/Badge/test/' . $name . '.php');
+            require_once('./components/ILIAS/Badge/test/' . $name . '.php');
             $suite->addTestSuite($test);
         }
 

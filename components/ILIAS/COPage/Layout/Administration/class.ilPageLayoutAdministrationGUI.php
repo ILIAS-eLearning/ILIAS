@@ -140,7 +140,7 @@ class ilPageLayoutAdministrationGUI
             );
         }
 
-        $oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "Services/COPage/Layout");
+        $oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "components/ILIAS/COPage/Layout");
 
         $pglayout_table = new ilPageLayoutTableGUI($this, "listLayouts");
         $oa_tpl->setVariable("PGLAYOUT_TABLE", $pglayout_table->getHTML());
@@ -360,7 +360,7 @@ class ilPageLayoutAdministrationGUI
             "pgtp",
             $this->admin_request->getObjId(),
             "4.2.0",
-            "Services/COPage",
+            "components/ILIAS/COPage",
             "Title",
             $tmpdir
         );

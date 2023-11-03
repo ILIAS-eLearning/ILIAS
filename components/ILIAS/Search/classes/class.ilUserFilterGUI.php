@@ -91,7 +91,7 @@ class ilUserFilterGUI
 
     public function getHTML(): string
     {
-        $tpl = new ilTemplate('tpl.search_user_filter.html', true, true, 'Services/Search');
+        $tpl = new ilTemplate('tpl.search_user_filter.html', true, true, 'components/ILIAS/Search');
 
         $tpl->setVariable("FILTER_ACTION", $this->ctrl->getFormAction($this));
         $tpl->setVariable("TBL_TITLE", $this->lng->txt('trac_lp_filter'));

@@ -53,7 +53,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
             $this->addCommandButton(ilMMTopItemGUI::CMD_SAVE_TABLE, $this->lng->txt('button_save'));
         }
         $this->initColumns();
-        $this->setRowTemplate('tpl.top_items.html', 'Services/MainMenu');
+        $this->setRowTemplate('tpl.top_items.html', 'components/ILIAS/MainMenu');
     }
 
     private function initColumns(): void

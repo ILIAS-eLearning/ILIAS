@@ -298,11 +298,11 @@ class ilUserDataSet extends ilDataSet
             case "personal_data":
                 // only users themselves import their profiles!
                 // thus we can map the import id of the dataset to the current user
-                $a_mapping->addMapping("Services/User", "usr", $a_rec["Id"], $ilUser->getId());
+                $a_mapping->addMapping("components/ILIAS/User", "usr", $a_rec["Id"], $ilUser->getId());
                 break;
 
             case "usr_profile":
-                $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["Id"]);
+                $usr_id = $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["Id"]);
                 if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
                     if (!isset($this->users[$usr_id])) {
                         $this->users[$usr_id] = new ilObjUser($usr_id);
@@ -347,7 +347,7 @@ class ilUserDataSet extends ilDataSet
                 break;
 
             case "usr_setting":
-                $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["UserId"]);
+                $usr_id = $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["UserId"]);
                 if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
                     if (!isset($this->users[$usr_id])) {
                         $this->users[$usr_id] = new ilObjUser($usr_id);
@@ -358,7 +358,7 @@ class ilUserDataSet extends ilDataSet
                 break;
 
             case "usr_multi":
-                $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["UserId"]);
+                $usr_id = $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["UserId"]);
                 if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
                     $this->multi[$usr_id][$a_rec["FieldId"]][] = ilUtil::secureString($a_rec["Value"]);
                 }

@@ -109,7 +109,7 @@ class ilAuthShibbolethSettingsGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.shib_role_assignment.html',
-            'Services/AuthShibboleth'
+            'components/ILIAS/AuthShibboleth'
         );
         $this->tpl->setVariable('NEW_RULE_TABLE', $this->form->getHTML());
         if (($html = $this->parseRulesTable()) !== '') {
@@ -280,7 +280,7 @@ class ilAuthShibbolethSettingsGUI
                 'ADM_CONTENT',
                 'adm_content',
                 'tpl.shib_role_assignment.html',
-                'Services/AuthShibboleth'
+                'components/ILIAS/AuthShibboleth'
             );
             $this->tpl->setVariable('NEW_RULE_TABLE', $this->form->getHTML());
             if (($html = $this->parseRulesTable()) !== '') {
@@ -306,7 +306,7 @@ class ilAuthShibbolethSettingsGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.shib_role_assignment.html',
-            'Services/AuthShibboleth'
+            'components/ILIAS/AuthShibboleth'
         );
         $this->tpl->setVariable('NEW_RULE_TABLE', $this->form->getHTML());
 
@@ -337,7 +337,7 @@ class ilAuthShibbolethSettingsGUI
                 'ADM_CONTENT',
                 'adm_content',
                 'tpl.shib_role_assignment.html',
-                'Services/AuthShibboleth'
+                'components/ILIAS/AuthShibboleth'
             );
             $this->tpl->setVariable('NEW_RULE_TABLE', $this->form->getHTML());
 

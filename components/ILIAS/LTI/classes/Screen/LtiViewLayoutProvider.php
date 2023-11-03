@@ -55,7 +55,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
      */
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack): ?PageBuilderModification
     {
-        $this->globalScreen()->layout()->meta()->addCss('./Services/LTI/templates/default/lti.css');
+        $this->globalScreen()->layout()->meta()->addCss('./components/ILIAS/LTI/templates/default/lti.css');
         $is_exit_mode = $this->isLTIExitMode($screen_context_stack);
         $external_css = ($is_exit_mode) ? '' : $this->dic["lti"]->getExternalCss();
         if ($external_css !== '') {

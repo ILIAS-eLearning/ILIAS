@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Button\Shy;
-use ILIAS\Services\Dashboard\Block\BlockDTO;
+use ILIAS\components\Dashboard\Block\BlockDTO;
 
 class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
 {

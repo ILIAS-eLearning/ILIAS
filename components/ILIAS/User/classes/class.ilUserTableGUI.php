@@ -86,7 +86,7 @@ class ilUserTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
 
         $this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
-        $this->setRowTemplate("tpl.user_list_row.html", "Services/User");
+        $this->setRowTemplate("tpl.user_list_row.html", "components/ILIAS/User");
         //$this->disable("footer");
         $this->setEnableTitle(true);
         $this->initFilter();

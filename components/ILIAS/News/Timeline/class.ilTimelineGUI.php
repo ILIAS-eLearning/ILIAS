@@ -49,10 +49,10 @@ class ilTimelineGUI
     public function render(
         bool $a_items_only = false
     ): string {
-        $this->tpl->addJavaScript("./Services/News/Timeline/js/Timeline.js");
-        $this->tpl->addJavaScript("./Services/News/Timeline/libs/jquery-dynamic-max-height-master/src/jquery.dynamicmaxheight.js");
+        $this->tpl->addJavaScript("./components/ILIAS/News/Timeline/js/Timeline.js");
+        $this->tpl->addJavaScript("./components/ILIAS/News/Timeline/libs/jquery-dynamic-max-height-master/src/jquery.dynamicmaxheight.js");
 
-        $t = new ilTemplate("tpl.timeline.html", true, true, "Services/News/Timeline");
+        $t = new ilTemplate("tpl.timeline.html", true, true, "components/ILIAS/News/Timeline");
         if (!$a_items_only) {
             $t->touchBlock("list_start");
             $t->touchBlock("list_end");

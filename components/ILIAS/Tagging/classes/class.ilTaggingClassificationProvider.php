@@ -122,7 +122,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     }
                     reset($tags);
 
-                    $tpl = new ilTemplate("tpl.tag_cloud_block.html", true, true, "Services/Tagging");
+                    $tpl = new ilTemplate("tpl.tag_cloud_block.html", true, true, "components/ILIAS/Tagging");
 
                     $tpl->setCurrentBlock("tag_bl");
                     foreach ($tags as $tag => $counter) {

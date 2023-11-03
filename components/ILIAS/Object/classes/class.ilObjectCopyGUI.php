@@ -404,7 +404,7 @@ class ilObjectCopyGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.paste_into_multiple_objects.html',
-            "Services/Object"
+            "components/ILIAS/Object"
         );
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_copy_clipboard_source'));
@@ -809,7 +809,7 @@ class ilObjectCopyGUI
         $this->log->debug('Target(s): ' . print_r($this->getTargets(), true));
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt($this->getType() . '_copy_threads_info'));
-        $this->tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
+        $this->tpl->addJavaScript('./components/ILIAS/CopyWizard/js/ilContainer.js');
         $this->tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
 
         $table = new ilObjectCopySelectionTableGUI($this, 'showItemSelection', $this->getType(), $copy_page);

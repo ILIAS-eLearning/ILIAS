@@ -31,7 +31,7 @@ class ilServicesAccordionSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Accordion/test/AccordionStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/Accordion/test/AccordionStandardGUIRequestTest.php");
         $suite->addTestSuite("AccordionStandardGUIRequestTest");
 
         return $suite;

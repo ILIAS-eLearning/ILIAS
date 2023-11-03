@@ -56,7 +56,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('search_title_description'), 'title', '99%');
 
         $this->setEnableHeader(true);
-        $this->setRowTemplate("tpl.obj_copy_search_result_row.html", "Services/Object");
+        $this->setRowTemplate("tpl.obj_copy_search_result_row.html", "components/ILIAS/Object");
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(true);
         $this->setDefaultOrderField('title');

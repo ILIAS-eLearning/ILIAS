@@ -29,9 +29,9 @@ class ilServicesFileDeliverySuite extends TestSuite
         $suite = new self();
 
         $suite->addTestFiles([
-            './Services/FileDelivery/test/FileDeliveryTypes/XSendfileTest.php',
-            './Services/FileDelivery/test/FileDeliveryTypes/XAccelTest.php',
-            './Services/FileDelivery/test/FileDeliveryTypes/FileDeliveryTypeFactoryTest.php'
+            './components/ILIAS/FileDelivery/test/FileDeliveryTypes/XSendfileTest.php',
+            './components/ILIAS/FileDelivery/test/FileDeliveryTypes/XAccelTest.php',
+            './components/ILIAS/FileDelivery/test/FileDeliveryTypes/FileDeliveryTypeFactoryTest.php'
         ]);
 
         return $suite;

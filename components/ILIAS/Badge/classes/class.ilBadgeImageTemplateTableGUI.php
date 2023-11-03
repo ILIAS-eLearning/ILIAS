@@ -57,7 +57,7 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox("id");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.template_row.html", "Services/Badge");
+        $this->setRowTemplate("tpl.template_row.html", "components/ILIAS/Badge");
         $this->setDefaultOrderField("title");
 
         $this->getItems();

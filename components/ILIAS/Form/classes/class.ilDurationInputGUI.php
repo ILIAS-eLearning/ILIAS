@@ -181,7 +181,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.prop_duration.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_duration.html", true, true, "components/ILIAS/Form");
 
         if ($this->getShowMonths()) {
             $tpl->setCurrentBlock("dur_months");

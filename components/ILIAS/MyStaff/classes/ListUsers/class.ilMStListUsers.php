@@ -20,7 +20,7 @@ declare(strict_types=1);
 namespace ILIAS\MyStaff\ListUsers;
 
 use ILIAS\DI\Container;
-use ILIAS\Services\MyStaff\Utils\ListFetcherResult;
+use ILIAS\components\MyStaff\Utils\ListFetcherResult;
 
 /**
  * Class ilListUser

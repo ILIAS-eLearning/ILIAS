@@ -19,7 +19,7 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
     /**
      * @var string relative path to the php artifact file.
      */
-    public const ARTIFACT_PATH = "./Services/UICore/artifacts/ctrl_structure.php";
+    public const ARTIFACT_PATH = "./components/ILIAS/UICore/artifacts/ctrl_structure.php";
 
     /**
      * @inheritDoc
@@ -34,7 +34,7 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
      */
     public function build(): Artifact
     {
-        $ilias_path = dirname(__FILE__, 6);
+        $ilias_path = dirname(__FILE__, 7);
         $class_map = require $ilias_path . "/libs/composer/vendor/composer/autoload_classmap.php";
 
         return new ArrayArtifact(

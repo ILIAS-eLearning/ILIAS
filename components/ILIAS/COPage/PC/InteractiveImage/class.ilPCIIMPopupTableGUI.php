@@ -44,7 +44,7 @@ class ilPCIIMPopupTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.iim_popup_content_row.html",
-            "Services/COPage"
+            "components/ILIAS/COPage"
         );
 
         $this->content_obj = $a_content_obj;

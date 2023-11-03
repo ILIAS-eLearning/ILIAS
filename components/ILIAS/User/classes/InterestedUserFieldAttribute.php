@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Services\User;
+namespace ILIAS\components\User;
 
 use ilLanguage;
 use ilObjUserFolderGUI;

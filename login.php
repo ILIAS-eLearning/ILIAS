@@ -19,7 +19,7 @@ if (!file_exists(getcwd() . "/ilias.ini.php")) {
     exit();
 }
 
-require_once("Services/Init/classes/class.ilInitialisation.php");
+require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 $ilCtrl->setCmd('showLoginPageOrStartupPage');

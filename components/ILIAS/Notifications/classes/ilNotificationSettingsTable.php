@@ -72,7 +72,7 @@ class ilNotificationSettingsTable extends ilTable2GUI
             );
         }
 
-        $this->setRowTemplate('tpl.type_line.html', 'Services/Notifications');
+        $this->setRowTemplate('tpl.type_line.html', 'components/ILIAS/Notifications');
         $this->setSelectAllCheckbox('');
     }
 

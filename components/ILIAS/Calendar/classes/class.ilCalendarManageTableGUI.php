@@ -53,7 +53,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('title'), 'title', '79%');
         $this->addColumn('', '', '20%');
 
-        $this->setRowTemplate("tpl.manage_row.html", "Services/Calendar");
+        $this->setRowTemplate("tpl.manage_row.html", "components/ILIAS/Calendar");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "manage"));
 
         $this->enable('select_all');

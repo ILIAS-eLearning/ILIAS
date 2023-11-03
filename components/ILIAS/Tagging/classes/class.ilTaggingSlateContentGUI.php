@@ -115,7 +115,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
             "tpl.tag_cloud.html",
             true,
             true,
-            "Services/Tagging"
+            "components/ILIAS/Tagging"
         );
         $max = 1;
         foreach ($this->tags as $tag) {

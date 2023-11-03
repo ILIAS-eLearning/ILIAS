@@ -139,7 +139,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.lp_progress_container.html',
-            'Services/Tracking'
+            'components/ILIAS/Tracking'
         );
 
         $info = new ilInfoScreenGUI($this);
@@ -209,7 +209,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.lp_list_progress.html',
-            'Services/Tracking'
+            'components/ILIAS/Tracking'
         );
 
         // User info

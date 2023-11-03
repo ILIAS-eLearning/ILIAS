@@ -26,7 +26,7 @@ class ilServicesExportSuite extends TestSuite
     {
         $suite = new ilServicesExportSuite();
 
-        include_once("./Services/Export/test/ilExportOptionsTest.php");
+        include_once("./components/ILIAS/Export/test/ilExportOptionsTest.php");
         $suite->addTestSuite(ilExportOptionsTest::class);
         return $suite;
     }

@@ -176,7 +176,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $renderer = $DIC->ui()->renderer();
             $factory = $DIC->ui()->factory();
 
-            $chatWindowTemplate = new ilTemplate('tpl.chat-window.html', false, false, 'Services/OnScreenChat');
+            $chatWindowTemplate = new ilTemplate('tpl.chat-window.html', false, false, 'components/ILIAS/OnScreenChat');
             $chatWindowTemplate->setVariable('SUBMIT_ACTION', $renderer->render(
                 $factory->button()->standard($DIC->language()->txt('chat_osc_send'), 'onscreenchat-submit')
             ));
@@ -196,13 +196,13 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     'tpl.chat-message.html',
                     false,
                     false,
-                    'Services/OnScreenChat'
+                    'components/ILIAS/OnScreenChat'
                 ))->get(),
                 'modalTemplate' => (new ilTemplate(
                     'tpl.chat-add-user.html',
                     false,
                     false,
-                    'Services/OnScreenChat'
+                    'components/ILIAS/OnScreenChat'
                 ))->get(),
                 'userId' => $DIC->user()->getId(),
                 'username' => $DIC->user()->getLogin(),
@@ -290,14 +290,14 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 
             $page->addJavaScript('./node_modules/jquery-outside-events/jquery.ba-outside-events.js');
             $page->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
-            $page->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
+            $page->addJavascript('./components/ILIAS/UIComponent/Modal/js/Modal.js');
             $page->addJavascript('./node_modules/moment/min/moment-with-locales.min.js');
-            $page->addJavascript('./Services/Notifications/js/browser_notifications.js');
-            $page->addJavascript('./Services/OnScreenChat/js/onscreenchat-notifications.js');
-            $page->addJavascript('./Services/OnScreenChat/js/moment.js');
+            $page->addJavascript('./components/ILIAS/Notifications/js/browser_notifications.js');
+            $page->addJavascript('./components/ILIAS/OnScreenChat/js/onscreenchat-notifications.js');
+            $page->addJavascript('./components/ILIAS/OnScreenChat/js/moment.js');
             $page->addJavascript('./components/ILIAS/Chatroom/chat/node_modules/socket.io-client/dist/socket.io.js');
-            $page->addJavascript('./Services/OnScreenChat/js/chat.js');
-            $page->addJavascript('./Services/OnScreenChat/js/onscreenchat.js');
+            $page->addJavascript('./components/ILIAS/OnScreenChat/js/chat.js');
+            $page->addJavascript('./components/ILIAS/OnScreenChat/js/onscreenchat.js');
             $page->addOnLoadCode("il.Chat.setConfig(" . json_encode($chatConfig, JSON_THROW_ON_ERROR) . ");");
             $page->addOnLoadCode("il.OnScreenChat.setConfig(" . json_encode($guiConfig, JSON_THROW_ON_ERROR) . ");");
             $page->addOnLoadCode("il.OnScreenChat.init();");

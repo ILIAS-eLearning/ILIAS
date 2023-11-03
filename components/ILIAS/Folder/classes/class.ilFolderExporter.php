@@ -30,7 +30,7 @@ class ilFolderExporter extends ilXmlExporter
         // always trigger container because of co-page(s)
         return [
             [
-                'component' => 'Services/Container',
+                'component' => 'components/ILIAS/Container',
                 'entity' => 'struct',
                 'ids' => $a_ids
             ]

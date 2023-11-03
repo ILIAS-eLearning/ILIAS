@@ -17,8 +17,8 @@ class ilServicesStyleSuite extends TestSuite
         $suite = new ilServicesStyleSuite();
 
         // add each test class of the component
-        include_once("./Services/Style/System/test/ilServicesStyleSystemSuite.php");
-        include_once("./Services/Style/Content/test/ilServicesStyleContentSuite.php");
+        include_once("./components/ILIAS/Style/System/test/ilServicesStyleSystemSuite.php");
+        include_once("./components/ILIAS/Style/Content/test/ilServicesStyleContentSuite.php");
         $suite->addTestSuite("ilServicesStyleSystemSuite");
         $suite->addTestSuite("ilServicesStyleContentSuite");
         return $suite;

@@ -161,7 +161,7 @@ class ilECSMappingSettingsGUI
         $this->tabs->activateTab('ecs_crs_allocation');
         $this->tabs->activateSubTab('cInitTree');
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ecs_cmap_overview.html', 'Services/WebServices/ECS');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ecs_cmap_overview.html', 'components/ILIAS/WebServices/ECS');
 
         $explorer = $this->cShowLocalExplorer();
         if (!$form instanceof ilPropertyFormGUI) {
@@ -469,7 +469,7 @@ class ilECSMappingSettingsGUI
         $imp = new ilCustomInputGUI($this->lng->txt('ecs_cmap_def_cat'), 'default_cat');
         $imp->setRequired(true);
 
-        $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'Services/WebServices/ECS');
+        $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'components/ILIAS/WebServices/ECS');
         $tpl->setVariable('SIZE', 5);
         $tpl->setVariable('MAXLENGTH', 11);
         $tpl->setVariable('POST_VAR', 'default_cat');
@@ -496,7 +496,7 @@ class ilECSMappingSettingsGUI
         $allinone_cat = new ilCustomInputGUI($this->lng->txt('ecs_cmap_all_in_one_cat'), 'allinone_cat');
         $allinone_cat->setRequired(true);
 
-        $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'Services/WebServices/ECS');
+        $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'components/ILIAS/WebServices/ECS');
         $tpl->setVariable('SIZE', 5);
         $tpl->setVariable('MAXLENGTH', 11);
         $tpl->setVariable('POST_VAR', 'allinone_cat');
@@ -775,7 +775,7 @@ class ilECSMappingSettingsGUI
      */
     protected function dEditTree(ilPropertyFormGUI $form = null): void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ecs_edit_tree.html', 'Services/WebServices/ECS');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ecs_edit_tree.html', 'components/ILIAS/WebServices/ECS');
 
         $this->ctrl->saveParameter($this, 'cid');
 

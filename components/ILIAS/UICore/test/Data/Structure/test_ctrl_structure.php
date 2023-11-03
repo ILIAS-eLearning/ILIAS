@@ -23,7 +23,7 @@ return [
     'ilctrlbaseclass1testgui' => [
         ilCtrlStructureInterface::KEY_CLASS_CID => '0',
         ilCtrlStructureInterface::KEY_CLASS_NAME => 'ilCtrlBaseClass1TestGUI',
-        ilCtrlStructureInterface::KEY_CLASS_PATH => './Services/UICore/test/Data/GUI/class.ilCtrlBaseClass1TestGUI.php',
+        ilCtrlStructureInterface::KEY_CLASS_PATH => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlBaseClass1TestGUI.php',
         ilCtrlStructureInterface::KEY_CLASS_PARENTS => [],
         ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [
             'ilctrlcommandclass1testgui',
@@ -34,7 +34,7 @@ return [
     'ilctrlbaseclass2testgui' => [
         ilCtrlStructureInterface::KEY_CLASS_CID => '1',
         ilCtrlStructureInterface::KEY_CLASS_NAME => 'ilCtrlBaseClass2TestGUI',
-        ilCtrlStructureInterface::KEY_CLASS_PATH => './Services/UICore/test/Data/GUI/class.ilCtrlBaseClass2TestGUI.php',
+        ilCtrlStructureInterface::KEY_CLASS_PATH => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlBaseClass2TestGUI.php',
         ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
             'ilctrlcommandclass1testgui'
         ],
@@ -46,7 +46,7 @@ return [
     'ilctrlcommandclass1testgui' => [
         ilCtrlStructureInterface::KEY_CLASS_CID => '2',
         ilCtrlStructureInterface::KEY_CLASS_NAME => 'ilCtrlCommandClass1TestGUI',
-        ilCtrlStructureInterface::KEY_CLASS_PATH => './Services/UICore/test/Data/GUI/class.ilCtrlCommandClass1TestGUI.php',
+        ilCtrlStructureInterface::KEY_CLASS_PATH => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlCommandClass1TestGUI.php',
         ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
             'ilctrlbaseclass1testgui',
             'ilctrlbaseclass2testgui',
@@ -60,7 +60,7 @@ return [
     'ilctrlcommandclass2testgui' => [
         ilCtrlStructureInterface::KEY_CLASS_CID => '3',
         ilCtrlStructureInterface::KEY_CLASS_NAME => 'ilCtrlCommandClass2TestGUI',
-        ilCtrlStructureInterface::KEY_CLASS_PATH => './Services/UICore/test/Data/GUI/class.ilCtrlCommandClass2TestGUI.php',
+        ilCtrlStructureInterface::KEY_CLASS_PATH => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlCommandClass2TestGUI.php',
         ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
             'ilctrlcommandclass1testgui',
         ],
@@ -70,7 +70,7 @@ return [
     'ilias\\tests\\ctrl\\ilctrlnamespacedtestgui' => [
         ilCtrlStructureInterface::KEY_CLASS_CID => '4',
         ilCtrlStructureInterface::KEY_CLASS_NAME => 'ILIAS\\Tests\\Ctrl\\ilCtrlNamespacedTestGUI',
-        ilCtrlStructureInterface::KEY_CLASS_PATH => './Services/UICore/test/Data/GUI/class.ilCtrlNamespacedTestGUI.php',
+        ilCtrlStructureInterface::KEY_CLASS_PATH => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlNamespacedTestGUI.php',
         ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
             'ilctrlbaseclass1testgui',
         ],

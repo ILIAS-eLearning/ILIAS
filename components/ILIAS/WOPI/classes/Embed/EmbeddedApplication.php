@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\WOPI\Embed;
+namespace ILIAS\components\WOPI\Embed;
 
 use ILIAS\Data\URI;
-use ILIAS\Services\WOPI\Discovery\Action;
+use ILIAS\components\WOPI\Discovery\Action;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\Services\WOPI\Handler\RequestHandler;
+use ILIAS\components\WOPI\Handler\RequestHandler;
 use ILIAS\FileDelivery\Token\DataSigner;
 
 /**

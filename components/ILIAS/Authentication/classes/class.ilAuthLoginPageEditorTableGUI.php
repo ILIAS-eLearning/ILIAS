@@ -88,7 +88,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
     protected function initTable(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
-        $this->setRowTemplate('tpl.auth_login_page_editor_table_row.html', 'Services/Authentication');
+        $this->setRowTemplate('tpl.auth_login_page_editor_table_row.html', 'components/ILIAS/Authentication');
         $this->setId('loginpageeditor');
         $this->setSelectAllCheckbox('languages');
         $this->setFormName('login_pages');

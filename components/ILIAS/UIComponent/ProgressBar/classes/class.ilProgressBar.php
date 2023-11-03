@@ -126,7 +126,7 @@ class ilProgressBar
 
     public function render(): string
     {
-        $tpl = new ilTemplate("tpl.il_progress.html", true, true, "Services/UIComponent/ProgressBar");
+        $tpl = new ilTemplate("tpl.il_progress.html", true, true, "components/ILIAS/UIComponent/ProgressBar");
 
         $tpl->setVariable("MIN", $this->min);
         $tpl->setVariable("MAX", $this->max);
@@ -158,7 +158,7 @@ class ilProgressBar
         }
 
         if ($this->ajax_url !== '' && $this->ajax_timeout) {
-            $this->main_tpl->addJavaScript("Services/UIComponent/ProgressBar/js/progress_bar.js");
+            $this->main_tpl->addJavaScript("components/ILIAS/UIComponent/ProgressBar/js/progress_bar.js");
             $tpl->setCurrentBlock('async_status');
             $tpl->setVariable('ASYNC_STATUS_ID', $this->unique_id);
             $tpl->setVariable('ICON_OK', ilUtil::getImagePath('standard/icon_ok.svg'));

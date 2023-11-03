@@ -38,7 +38,7 @@ class ilRoleSelectionTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('context'), 'context', "30%");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.show_role_selection_row.html", "Services/AccessControl");
+        $this->setRowTemplate("tpl.show_role_selection_row.html", "components/ILIAS/AccessControl");
         $this->setDefaultOrderField('type');
         $this->setDefaultOrderDirection("desc");
     }

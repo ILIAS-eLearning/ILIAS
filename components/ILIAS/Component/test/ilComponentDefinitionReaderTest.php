@@ -33,7 +33,7 @@ class ilComponentDefinitionReaderTest extends TestCase
 
     public static array $components = [
         ["components/ILIAS", "A_Module", "/path/to/module.xml"],
-        ["Services", "A_Service", "/other/path/to/service.xml"]
+        ["components/ILIAS", "A_Service", "/other/path/to/service.xml"]
     ];
 
     protected function setUp(): void
@@ -101,7 +101,7 @@ class ilComponentDefinitionReaderTest extends TestCase
 
         $this->assertIsArray($components);
         $this->assertContains(["components/ILIAS", "Course", realpath(__DIR__ . "/../../../components/ILIAS/Course/module.xml")], $components);
-        $this->assertContains(["Services", "Component", realpath(__DIR__ . "/../../../Services/Component/service.xml")], $components);
+        $this->assertContains(["components/ILIAS", "Component", realpath(__DIR__ . "/../../../Services/Component/service.xml")], $components);
     }
 
     public function testReadComponentDefinitions(): void

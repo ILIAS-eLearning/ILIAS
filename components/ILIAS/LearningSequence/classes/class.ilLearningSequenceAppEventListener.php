@@ -30,14 +30,14 @@ class ilLearningSequenceAppEventListener
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
         switch ($component) {
-            case "Services/Tracking":
+            case "components/ILIAS/Tracking":
                 switch ($event) {
                     case "updateStatus":
                         self::onServiceTrackingUpdateStatus($parameter);
                         break;
                 }
                 break;
-            case "Services/Object":
+            case "components/ILIAS/Object":
                 switch ($event) {
                     case "beforeDeletion":
                         self::onObjectDeletion($parameter);

@@ -161,7 +161,7 @@ class ilContObjectExport
                 "help",
                 $this->cont_obj->getId(),
                 "4.3.0",
-                "Services/Help",
+                "components/ILIAS/Help",
                 "OnlineHelp",
                 $this->export_dir . "/" . $this->subdir
             );

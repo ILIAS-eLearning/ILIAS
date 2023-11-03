@@ -112,7 +112,7 @@ class ilDataCollectionDataSet extends ilDataSet
     ): void {
         switch ($a_entity) {
             case 'dcl':
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['id'])) {
                     $new_obj = ilObjectFactory::getInstanceByObjId((int)$new_id, false);
                 } else {
                     $new_obj = new ilObjDataCollection();
@@ -191,7 +191,7 @@ class ilDataCollectionDataSet extends ilDataSet
                         $a_rec['id'],
                         (string) $tableview->getId()
                     );
-                    $a_mapping->addMapping('Services/COPage', 'pg', 'dclf:' . $a_rec['id'], 'dclf:' . $tableview->getId());
+                    $a_mapping->addMapping('components/ILIAS/COPage', 'pg', 'dclf:' . $a_rec['id'], 'dclf:' . $tableview->getId());
                 }
                 break;
             case 'il_dcl_field':
@@ -285,7 +285,7 @@ class ilDataCollectionDataSet extends ilDataSet
                     if ($a_rec['type'] == 0 && $a_rec['formtype'] == 0) { //set page_object to tableview
                         // This mapping is needed for the import handled by Services/COPage
                         $a_mapping->addMapping(
-                            'Services/COPage',
+                            'components/ILIAS/COPage',
                             'pg',
                             'dclf:' . $a_rec['id'],
                             'dclf:' . $tableview->getId()
@@ -435,7 +435,7 @@ class ilDataCollectionDataSet extends ilDataSet
                         switch ($record_field->getField()->getDatatypeId()) {
                             case ilDclDatatype::INPUTFORMAT_MOB:
                                 // Check if we got a mapping from old object
-                                $new_mob_id = $a_mapping->getMapping('Services/MediaObjects', 'mob', $a_rec['value']);
+                                $new_mob_id = $a_mapping->getMapping('components/ILIAS/MediaObjects', 'mob', $a_rec['value']);
                                 $value = ($new_mob_id) ? (int) $new_mob_id : null;
                                 $this->import_temp_new_mob_ids[] = $new_mob_id;
                                 break;

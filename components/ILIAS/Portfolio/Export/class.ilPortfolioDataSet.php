@@ -169,7 +169,7 @@ class ilPortfolioDataSet extends ilDataSet
             case "prtt":
 
                 // container copy
-                if ($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"])) {
+                if ($new_id = $a_mapping->getMapping("components/ILIAS/Container", "objs", $a_rec["Id"])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjPortfolioTemplate();
@@ -196,7 +196,7 @@ class ilPortfolioDataSet extends ilDataSet
                 }
 
                 $a_mapping->addMapping("components/ILIAS/Portfolio", "prtt", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Object", "obj", $a_rec["Id"], $newObj->getId());
                 break;
 
             case "portfolio_page":
@@ -209,7 +209,7 @@ class ilPortfolioDataSet extends ilDataSet
                     $newObj->setOrderNr($a_rec["OrderNr"]);
                     $newObj->create(true);
 
-                    $a_mapping->addMapping("Services/COPage", "pg", "prtt:" . $a_rec["Id"], "prtt:" . $newObj->getId());
+                    $a_mapping->addMapping("components/ILIAS/COPage", "pg", "prtt:" . $a_rec["Id"], "prtt:" . $newObj->getId());
                 }
                 break;
         }

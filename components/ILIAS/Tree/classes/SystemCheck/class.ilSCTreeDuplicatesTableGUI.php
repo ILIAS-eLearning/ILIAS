@@ -21,7 +21,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 
         $this->setDisableFilterHiding(true);
-        $this->setRowTemplate('tpl.sc_tree_duplicates_row.html', 'Services/Tree');
+        $this->setRowTemplate('tpl.sc_tree_duplicates_row.html', 'components/ILIAS/Tree');
 
         $this->addColumn($this->lng->txt('sysc_duplicates_repository'), '');
         $this->addColumn($this->lng->txt('sysc_duplicates_trash'), '');

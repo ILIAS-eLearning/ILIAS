@@ -338,7 +338,7 @@ class ilSearchResultPresentation
             !strlen($more)) {
             return;
         }
-        $tpl = new ilTemplate('tpl.lucene_additional_information.html', true, true, 'Services/Search');
+        $tpl = new ilTemplate('tpl.lucene_additional_information.html', true, true, 'components/ILIAS/Search');
         $tpl->setVariable('SUBITEM', $sub);
         if (strlen($path)) {
             $tpl->setVariable('PATH', $path);
@@ -357,7 +357,7 @@ class ilSearchResultPresentation
         $path_gui->enableTextOnly(false);
         $path_gui->setUseImages(false);
 
-        $tpl = new ilTemplate('tpl.lucene_path.html', true, true, 'Services/Search');
+        $tpl = new ilTemplate('tpl.lucene_path.html', true, true, 'components/ILIAS/Search');
         $tpl->setVariable('PATH_ITEM', $path_gui->getPath(ROOT_FOLDER_ID, $a_ref_id));
         return $tpl->get();
     }
@@ -372,7 +372,7 @@ class ilSearchResultPresentation
         if (!$num_refs = $this->getMoreReferencesCounter($a_ref_id)) {
             return '';
         }
-        $tpl = new ilTemplate('tpl.lucene_more_references.html', true, true, 'Services/Search');
+        $tpl = new ilTemplate('tpl.lucene_more_references.html', true, true, 'components/ILIAS/Search');
         $this->ctrl->setParameter($this->getContainer(), 'refs', $a_ref_id);
         $tpl->setVariable('MORE_REFS_LINK', $this->ctrl->getLinkTarget($this->getContainer(), ''));
         $this->ctrl->clearParameters($this->getContainer());

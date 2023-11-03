@@ -105,7 +105,7 @@ Note this is an older entry. Should be done with integration of the question ser
   - ./Modules/Scorm2004/scripts/questions/question_handling.js 
   - Modules/TestQuestionPool/js/ilAssMultipleChoice.js
   - Modules/TestQuestionPool/js/ilMatchingQuestion.js
-  - (./Services/COPage/js/ilCOPageQuestionHandler.js)
+  - (./components/ILIAS/COPage/js/ilCOPageQuestionHandler.js)
 - ilPCQuestion::getJSTextInitCode loads
   - ilias.question.txt... strings
 - ilPCQuestion::getQuestionJsOfPage

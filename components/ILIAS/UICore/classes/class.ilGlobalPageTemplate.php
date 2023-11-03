@@ -22,7 +22,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Notifications\ilNotificationOSDGUI;
-use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
+use ILIAS\components\UICore\MetaTemplate\PageContentGUI;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\UICore\PageContentProvider;
 use ILIAS\Accessibility\GlobalPageHandler;
@@ -97,7 +97,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         iljQueryUtil::initjQuery($this);
         iljQueryUtil::initjQueryUI($this);
-        $this->gs->layout()->meta()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
+        $this->gs->layout()->meta()->addJs("./components/ILIAS/JavaScript/js/Basic.js", true, 1);
         ilUIFramework::init($this);
         ilBuddySystemGUI::initializeFrontend($this);
         ilOnScreenChatGUI::initializeFrontend($this);

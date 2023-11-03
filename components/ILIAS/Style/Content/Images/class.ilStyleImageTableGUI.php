@@ -69,7 +69,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"));
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.style_image_row.html", "Services/Style/Content/Images");
+        $this->setRowTemplate("tpl.style_image_row.html", "components/ILIAS/Style/Content/Images");
         $this->setSelectAllCheckbox("file");
         $this->getItems();
 

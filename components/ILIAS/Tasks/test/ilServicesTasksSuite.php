@@ -31,13 +31,13 @@ class ilServicesTasksSuite extends TestSuite
 
         $suite = new self();
 
-        include_once("./Services/Tasks/test/ilDerivedTaskTest.php");
+        include_once("./components/ILIAS/Tasks/test/ilDerivedTaskTest.php");
         $suite->addTestSuite("ilDerivedTaskTest");
 
-        include_once("./Services/Tasks/test/ilDerivedTaskFactoryTest.php");
+        include_once("./components/ILIAS/Tasks/test/ilDerivedTaskFactoryTest.php");
         $suite->addTestSuite("ilDerivedTaskFactoryTest");
 
-        include_once("./Services/Tasks/test/ilDerivedTaskCollectorTest.php");
+        include_once("./components/ILIAS/Tasks/test/ilDerivedTaskCollectorTest.php");
         $suite->addTestSuite("ilDerivedTaskCollectorTest");
 
         return $suite;

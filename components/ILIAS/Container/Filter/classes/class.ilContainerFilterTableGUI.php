@@ -48,7 +48,7 @@ class ilContainerFilterTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cont_filter_record"));
         $this->addColumn($this->lng->txt("cont_filter_field"));
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.cont_filter_row.html", "Services/Container/Filter");
+        $this->setRowTemplate("tpl.cont_filter_row.html", "components/ILIAS/Container/Filter");
     }
 
     protected function getItems(): array

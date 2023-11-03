@@ -25,7 +25,7 @@ class ilServicesLoggingSuite extends TestSuite
     public static function suite(): self
     {
         $suite = new ilServicesLoggingSuite();
-        include_once('./Services/Logging/test/ilLogComponentLevelTest.php');
+        include_once('./components/ILIAS/Logging/test/ilLogComponentLevelTest.php');
         $suite->addTestSuite(ilLogComponentLevelTest::class);
         return $suite;
     }

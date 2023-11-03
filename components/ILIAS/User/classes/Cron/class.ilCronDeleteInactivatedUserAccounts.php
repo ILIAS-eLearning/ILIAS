@@ -24,7 +24,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
 /**
  * This cron deletes user accounts by INACTIVATION period
  * @author Bjoern Heyser <bheyser@databay.de>
- * @package Services/User
+ * @package components/ILIAS/User
  */
 class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 {

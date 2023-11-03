@@ -149,7 +149,7 @@ class ilPCDataTableEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
 
         $lng = $this->lng;
         $lng->loadLanguageModule("content");
-        $tpl = new \ilTemplate("tpl.table_top_actions.html", true, true, "Services/COPage/Editor");
+        $tpl = new \ilTemplate("tpl.table_top_actions.html", true, true, "components/ILIAS/COPage/Editor");
 
         $quit_button = $ui_wrapper->getRenderedButton(
             $lng->txt("cont_finish_table_editing"),

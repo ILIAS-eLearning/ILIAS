@@ -78,7 +78,7 @@ class ilTrashTableGUI extends ilTable2GUI
 
         $this->setRowTemplate(
             'tpl.trash_list_row.html',
-            'Services/Repository/Trash'
+            'components/ILIAS/Repository/Trash'
         );
         $this->setSelectAllCheckbox('trash_id');
 

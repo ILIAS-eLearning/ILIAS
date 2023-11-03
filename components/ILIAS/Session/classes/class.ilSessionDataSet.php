@@ -324,7 +324,7 @@ class ilSessionDataSet extends ilDataSet
     {
         switch ($a_entity) {
             case "sess":
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     $refs = ilObject::_getAllReferences((int) $new_id);
                     $newObj = ilObjectFactory::getInstanceByRefId(end($refs), false);
                 } else {
@@ -391,10 +391,10 @@ class ilSessionDataSet extends ilDataSet
 
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("components/ILIAS/Session", "sess", $a_rec["Id"], (string) $newObj->getId());
-                $a_mapping->addMapping('Services/Object', 'objs', $a_rec['Id'], (string) $newObj->getId());
-                $a_mapping->addMapping('Services/AdvancedMetaData', 'parent', $a_rec['Id'], (string) $newObj->getId());
+                $a_mapping->addMapping('components/ILIAS/Object', 'objs', $a_rec['Id'], (string) $newObj->getId());
+                $a_mapping->addMapping('components/ILIAS/AdvancedMetaData', 'parent', $a_rec['Id'], (string) $newObj->getId());
                 $a_mapping->addMapping(
-                    "Services/MetaData",
+                    "components/ILIAS/MetaData",
                     "md",
                     $a_rec["Id"] . ":0:sess",
                     $newObj->getId() . ":0:sess"
@@ -402,7 +402,7 @@ class ilSessionDataSet extends ilDataSet
                 break;
 
             case "sess_item":
-                if ($obj_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['ItemId'])) {
+                if ($obj_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['ItemId'])) {
                     $ref_id = current(ilObject::_getAllReferences((int) $obj_id));
                     $evi = new ilEventItems($this->current_obj->getId());
                     $evi->addItem($ref_id);

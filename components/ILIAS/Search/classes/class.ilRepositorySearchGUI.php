@@ -695,7 +695,7 @@ class ilRepositorySearchGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'components/ILIAS/Search');
         $this->addNewSearchButton();
         $this->showSearchUserTable([$selected], 'showSearchResults');
     }
@@ -1165,7 +1165,7 @@ class ilRepositorySearchGUI
         $counter = 0;
         $f_result = array();
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'components/ILIAS/Search');
         $this->addNewSearchButton();
 
         $rep_search = ilSession::get('rep_search');
@@ -1341,7 +1341,7 @@ class ilRepositorySearchGUI
         $members = array_unique($members);
         $this->__appendToStoredResults($members);
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'components/ILIAS/Search');
 
         $this->addNewSearchButton();
         $rep_search = ilSession::get('rep_search');

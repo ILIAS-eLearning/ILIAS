@@ -31,7 +31,7 @@ class ilServicesHelpSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Help/test/HelpStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/Help/test/HelpStandardGUIRequestTest.php");
         $suite->addTestSuite("HelpStandardGUIRequestTest");
 
         return $suite;

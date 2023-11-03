@@ -175,7 +175,7 @@ class ilCalendarCategoryGUI
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget($this->lng->txt("cal_back_to_list"), $this->ctrl->getLinkTarget($this, 'cancel'));
 
-        $ed_tpl = new ilTemplate('tpl.edit_category.html', true, true, 'Services/Calendar');
+        $ed_tpl = new ilTemplate('tpl.edit_category.html', true, true, 'components/ILIAS/Calendar');
 
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initFormCategory('create');
@@ -986,7 +986,7 @@ class ilCalendarCategoryGUI
     {
         $this->lng->loadLanguageModule('pd');
 
-        $tpl = new ilTemplate('tpl.calendar_selection.html', true, true, 'Services/Calendar');
+        $tpl = new ilTemplate('tpl.calendar_selection.html', true, true, 'components/ILIAS/Calendar');
         switch (ilCalendarUserSettings::_getInstance()->getCalendarSelectionType()) {
             case ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP:
                 $tpl->setVariable('HTEXT', $this->lng->txt('dash_memberships'));
@@ -1109,7 +1109,7 @@ class ilCalendarCategoryGUI
 
     protected function addReferenceLinks($a_obj_id): string
     {
-        $tpl = new ilTemplate('tpl.cal_reference_links.html', true, true, 'Services/Calendar');
+        $tpl = new ilTemplate('tpl.cal_reference_links.html', true, true, 'components/ILIAS/Calendar');
 
         foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id => $ref_id) {
             $parent_ref_id = $this->tree->getParentId($ref_id);

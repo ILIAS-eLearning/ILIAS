@@ -119,7 +119,7 @@ class ilNotificationSetupHelper
                 'mail',
                 'mail_desc',
                 'ilNotificationMailHandler',
-                'Services/Notifications/classes/class.ilNotificationMailHandler.php'
+                'components/ILIAS/Notifications/classes/class.ilNotificationMailHandler.php'
             );
             self::registerChannel(
                 $ilDB,
@@ -127,7 +127,7 @@ class ilNotificationSetupHelper
                 'osd',
                 'osd_desc',
                 'ilNotificationOSDHandler',
-                'Services/Notifications/classes/class.ilNotificationOSDHandler.php'
+                'components/ILIAS/Notifications/classes/class.ilNotificationOSDHandler.php'
             );
         }
 

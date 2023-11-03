@@ -31,7 +31,7 @@
 /db_template_writer.php
 /setup/sql/dbupdate_custom.php
 /install_client.php
-/Services/GlobalScreen/artifacts/global_screen_providers.php
+/components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php
 /Services/Style/System/data/data.php
 /Services/UICore/artifacts/ctrl_structure.php
 /Services/UICore/artifacts/ctrl_plugin_structure.php
@@ -67,7 +67,7 @@ phpstan-baseline.neon
 
 # File Delivery
 override.php
-Services/ResourceStorage/artifacts/flavour_data.php
+components/ILIAS/ResourceStorage_/artifacts/flavour_data.php
 Services/FileHandlingDemo
 src/FileDelivery/artifacts
 src/StaticURL/artifacts

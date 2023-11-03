@@ -27,7 +27,7 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
         $this->setFormName($table_id);
         parent::__construct($a_parent_obj);
         $this->ctrl->saveParameter($a_parent_obj, $this->getNavParameter());
-        $this->setRowTemplate("tpl.translation_row.html", "Services/MainMenu");
+        $this->setRowTemplate("tpl.translation_row.html", "components/ILIAS/MainMenu");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setExternalSorting(true);
         $this->setDefaultOrderField("id");

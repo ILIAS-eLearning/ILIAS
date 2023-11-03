@@ -250,7 +250,7 @@ class ContentAssembler
         $signal = $modal->getShowSignal();
 
         yield ContentType::MODAL => $modal;
-        yield ContentType::JS_SOURCE => 'Services/MetaData/js/ilMetaCopyrightListener.js';
+        yield ContentType::JS_SOURCE => 'components/ILIAS/MetaData/js/ilMetaCopyrightListener.js';
         yield ContentType::FORM => $this->getCopyrightSection($set, $signal);
     }
 

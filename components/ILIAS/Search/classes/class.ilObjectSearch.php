@@ -56,7 +56,7 @@ class ilObjectSearch extends ilAbstractSearch
         global $DIC;
 
         $DIC->event()->raise(
-            'Services/Search',
+            'components/ILIAS/Search',
             'contentChanged',
             [
                 "obj_id" => $obj_id

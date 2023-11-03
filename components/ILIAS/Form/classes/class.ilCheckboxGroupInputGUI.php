@@ -169,7 +169,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
 
     protected function render($a_mode = ''): string
     {
-        $tpl = new ilTemplate("tpl.prop_checkbox_group.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_checkbox_group.html", true, true, "components/ILIAS/Form");
 
         foreach ($this->getOptions() as $option) {
             // information text for option

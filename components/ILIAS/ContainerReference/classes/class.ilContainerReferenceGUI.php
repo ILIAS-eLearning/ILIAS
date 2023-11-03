@@ -84,7 +84,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 
             case 'ilpermissiongui':
                 $ilTabs->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+                include_once("components/ILIAS/AccessControl/classes/class.ilPermissionGUI.php");
                 $ilCtrl->forwardCommand(new ilPermissionGUI($this));
                 break;
 
@@ -262,7 +262,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ttype->addOption($custom);
         $form->addItem($ttype);
 
-        include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
+        include_once("./components/ILIAS/Form/classes/class.ilRepositorySelector2InputGUI.php");
         $repo = new ilRepositorySelector2InputGUI($this->lng->txt("objref_edit_ref"), "target_id");
         //$repo->setParent($this);
         $repo->setRequired(true);

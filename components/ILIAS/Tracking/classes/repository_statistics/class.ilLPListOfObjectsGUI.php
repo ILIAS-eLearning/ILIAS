@@ -244,7 +244,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.lp_loo.html',
-            'Services/Tracking'
+            'components/ILIAS/Tracking'
         );
 
         // Show back button
@@ -324,7 +324,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.lp_loo.html',
-            'Services/Tracking'
+            'components/ILIAS/Tracking'
         );
 
         $info = new ilInfoScreenGUI($this);
@@ -365,7 +365,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.lp_list_objects.html',
-            'Services/Tracking'
+            'components/ILIAS/Tracking'
         );
 
         $lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);
@@ -429,7 +429,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.lp_loo.html',
-            'Services/Tracking'
+            'components/ILIAS/Tracking'
         );
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));

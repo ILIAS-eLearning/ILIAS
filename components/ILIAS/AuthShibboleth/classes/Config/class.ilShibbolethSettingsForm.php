@@ -76,7 +76,7 @@ class ilShibbolethSettingsForm
         $field = $this->ui->input()->field();
         $custom_trafo = fn (callable $c) => $this->refinery->custom()->transformation($c);
         /** @noRector  */
-        $read_me_link = "./Services/AuthShibboleth/README.SHIBBOLETH.txt";
+        $read_me_link = "./components/ILIAS/AuthShibboleth/README.SHIBBOLETH.txt";
         $active = $field->checkbox($this->txt('shib_active'), $this->lng->txt("auth_shib_instructions"))
                         ->withValue($this->settings->isActive())
                         ->withAdditionalTransformation($custom_trafo(function ($v): void {

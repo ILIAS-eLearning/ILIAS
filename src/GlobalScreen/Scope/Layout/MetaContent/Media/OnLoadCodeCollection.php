@@ -21,7 +21,7 @@ namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
 /**
  * Class OnLoadCodeCollection
- * @package ILIAS\Services\UICore\Page\Media
+ * @package ILIAS\components\UICore\Page\Media
  */
 class OnLoadCodeCollection extends AbstractCollection
 {

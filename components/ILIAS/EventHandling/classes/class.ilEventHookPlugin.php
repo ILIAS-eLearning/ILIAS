@@ -28,7 +28,7 @@ abstract class ilEventHookPlugin extends ilPlugin
     /**
      * Handle the event
      *
-     * @param	string		component, e.g. "Services/User"
+     * @param	string		component, e.g. "components/ILIAS/User"
      * @param	string		event, e.g. "afterUpdate"
      * @param	array		array of event specific parameters
      */

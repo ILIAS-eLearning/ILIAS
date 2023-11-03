@@ -74,7 +74,7 @@ class ilBibliographicExporter extends ilXmlExporter
         $res = [];
         if ($a_entity == "bibl") {
             $res[] = [
-                "component" => "Services/Object",
+                "component" => "components/ILIAS/Object",
                 "entity" => "common",
                 "ids" => $a_ids
             ];

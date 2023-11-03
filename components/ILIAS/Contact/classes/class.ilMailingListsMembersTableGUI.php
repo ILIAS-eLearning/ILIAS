@@ -31,7 +31,7 @@ class ilMailingListsMembersTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, 'showMemberForm'));
         $this->setTitle(sprintf($this->lng->txt('mail_members_of_mailing_list'), $mailing_list->getTitle()));
-        $this->setRowTemplate('tpl.mail_mailing_lists_membersrow.html', 'Services/Contact');
+        $this->setRowTemplate('tpl.mail_mailing_lists_membersrow.html', 'components/ILIAS/Contact');
 
         $this->addCommandButton('showMailingLists', $this->lng->txt('back'));
 

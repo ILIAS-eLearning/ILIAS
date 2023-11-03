@@ -58,7 +58,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.table_row_pd_news.html",
-            "Services/News"
+            "components/ILIAS/News"
         );
         $this->setDefaultOrderField("update_date");
         $this->setDefaultOrderDirection("desc");

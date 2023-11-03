@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\Services\Database\Integrity\Field;
+use ILIAS\components\Database\Integrity\Field;
 
 class FieldTest extends TestCase
 {

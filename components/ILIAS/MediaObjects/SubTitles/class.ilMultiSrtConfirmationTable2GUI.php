@@ -55,7 +55,7 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("language"), "language");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.multi_srt_confirmation_row.html", "Services/MediaObjects");
+        $this->setRowTemplate("tpl.multi_srt_confirmation_row.html", "components/ILIAS/MediaObjects");
 
         $this->addCommandButton("saveMultiSrt", $lng->txt("save"));
         $this->addCommandButton("cancelMultiSrt", $lng->txt("cancel"));

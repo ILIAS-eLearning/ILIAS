@@ -31,7 +31,7 @@ class ilUnitTestPCDefinition extends \ILIAS\COPage\PC\PCDefinition
                 "int_links" => 1,
                 "style_classes" => 1,
                 "xsl" => 0,
-                "component" => "Services/COPage",
+                "component" => "components/ILIAS/COPage",
                 "def_enabled" => 1,
                 "top_item" => 1,
                 "order_nr" => 10

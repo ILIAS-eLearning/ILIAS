@@ -26,9 +26,22 @@
       0 => 'ilobjfileaccesssettingsgui',
     ),
   ),
+  'ilias\\tests\\ctrl\\ilctrlnamespacedtestgui' => 
+  array (
+    'cid' => '10',
+    'class_name' => 'ILIAS\\Tests\\Ctrl\\ilCtrlNamespacedTestGUI',
+    'class_path' => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlNamespacedTestGUI.php',
+    'children' => 
+    array (
+    ),
+    'parents' => 
+    array (
+      0 => 'ilctrlbaseclass1testgui',
+    ),
+  ),
   'mcstimagegallerygui' => 
   array (
-    'cid' => '11',
+    'cid' => '12',
     'class_name' => 'McstImageGalleryGUI',
     'class_path' => './components/ILIAS/MediaCast/Presentation/class.McstImageGalleryGUI.php',
     'children' => 
@@ -41,7 +54,7 @@
   ),
   'mcstpodcastgui' => 
   array (
-    'cid' => '12',
+    'cid' => '13',
     'class_name' => 'McstPodcastGUI',
     'class_path' => './components/ILIAS/MediaCast/Presentation/class.McstPodcastGUI.php',
     'children' => 
@@ -55,9 +68,9 @@
   ),
   'skilltreeadmingui' => 
   array (
-    'cid' => '13',
+    'cid' => '14',
     'class_name' => 'SkillTreeAdminGUI',
-    'class_path' => './Services/Skill/Tree/class.SkillTreeAdminGUI.php',
+    'class_path' => './components/ILIAS/Skill/Tree/class.SkillTreeAdminGUI.php',
     'children' => 
     array (
       0 => 'ilobjskilltreegui',
@@ -69,7 +82,7 @@
   ),
   'surveymatrixquestiongui' => 
   array (
-    'cid' => '15',
+    'cid' => '16',
     'class_name' => 'SurveyMatrixQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveyMatrixQuestionGUI.php',
     'children' => 
@@ -83,7 +96,7 @@
   ),
   'surveymetricquestiongui' => 
   array (
-    'cid' => '16',
+    'cid' => '17',
     'class_name' => 'SurveyMetricQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveyMetricQuestionGUI.php',
     'children' => 
@@ -97,7 +110,7 @@
   ),
   'surveymultiplechoicequestiongui' => 
   array (
-    'cid' => '17',
+    'cid' => '18',
     'class_name' => 'SurveyMultipleChoiceQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveyMultipleChoiceQuestionGUI.php',
     'children' => 
@@ -111,7 +124,7 @@
   ),
   'surveysinglechoicequestiongui' => 
   array (
-    'cid' => '19',
+    'cid' => '1a',
     'class_name' => 'SurveySingleChoiceQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveySingleChoiceQuestionGUI.php',
     'children' => 
@@ -125,7 +138,7 @@
   ),
   'surveytextquestiongui' => 
   array (
-    'cid' => '1a',
+    'cid' => '1b',
     'class_name' => 'SurveyTextQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveyTextQuestionGUI.php',
     'children' => 
@@ -139,7 +152,7 @@
   ),
   'assclozetestgui' => 
   array (
-    'cid' => '1b',
+    'cid' => '1c',
     'class_name' => 'assClozeTestGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assClozeTestGUI.php',
     'children' => 
@@ -157,7 +170,7 @@
   ),
   'asserrortextgui' => 
   array (
-    'cid' => '1c',
+    'cid' => '1d',
     'class_name' => 'assErrorTextGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assErrorTextGUI.php',
     'children' => 
@@ -173,7 +186,7 @@
   ),
   'assfileuploadgui' => 
   array (
-    'cid' => '1e',
+    'cid' => '1f',
     'class_name' => 'assFileUploadGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assFileUploadGUI.php',
     'children' => 
@@ -188,7 +201,7 @@
   ),
   'assformulaquestiongui' => 
   array (
-    'cid' => '1f',
+    'cid' => '1g',
     'class_name' => 'assFormulaQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assFormulaQuestionGUI.php',
     'children' => 
@@ -206,7 +219,7 @@
   ),
   'assimagemapquestiongui' => 
   array (
-    'cid' => '1g',
+    'cid' => '1h',
     'class_name' => 'assImagemapQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assImagemapQuestionGUI.php',
     'children' => 
@@ -225,7 +238,7 @@
   ),
   'asskprimchoicegui' => 
   array (
-    'cid' => '1h',
+    'cid' => '1i',
     'class_name' => 'assKprimChoiceGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assKprimChoiceGUI.php',
     'children' => 
@@ -242,7 +255,7 @@
   ),
   'asslongmenugui' => 
   array (
-    'cid' => '1i',
+    'cid' => '1j',
     'class_name' => 'assLongMenuGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assLongMenuGUI.php',
     'children' => 
@@ -259,7 +272,7 @@
   ),
   'assmatchingquestiongui' => 
   array (
-    'cid' => '1j',
+    'cid' => '1k',
     'class_name' => 'assMatchingQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assMatchingQuestionGUI.php',
     'children' => 
@@ -277,7 +290,7 @@
   ),
   'assmultiplechoicegui' => 
   array (
-    'cid' => '1k',
+    'cid' => '1l',
     'class_name' => 'assMultipleChoiceGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assMultipleChoiceGUI.php',
     'children' => 
@@ -295,7 +308,7 @@
   ),
   'assnumericgui' => 
   array (
-    'cid' => '1l',
+    'cid' => '1m',
     'class_name' => 'assNumericGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assNumericGUI.php',
     'children' => 
@@ -313,7 +326,7 @@
   ),
   'assorderinghorizontalgui' => 
   array (
-    'cid' => '1m',
+    'cid' => '1n',
     'class_name' => 'assOrderingHorizontalGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assOrderingHorizontalGUI.php',
     'children' => 
@@ -330,7 +343,7 @@
   ),
   'assorderingquestiongui' => 
   array (
-    'cid' => '1n',
+    'cid' => '1o',
     'class_name' => 'assOrderingQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assOrderingQuestionGUI.php',
     'children' => 
@@ -348,7 +361,7 @@
   ),
   'asssinglechoicegui' => 
   array (
-    'cid' => '1p',
+    'cid' => '1q',
     'class_name' => 'assSingleChoiceGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assSingleChoiceGUI.php',
     'children' => 
@@ -366,7 +379,7 @@
   ),
   'asstextquestiongui' => 
   array (
-    'cid' => '1q',
+    'cid' => '1r',
     'class_name' => 'assTextQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assTextQuestionGUI.php',
     'children' => 
@@ -384,7 +397,7 @@
   ),
   'asstextsubsetgui' => 
   array (
-    'cid' => '1r',
+    'cid' => '1s',
     'class_name' => 'assTextSubsetGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assTextSubsetGUI.php',
     'children' => 
@@ -402,9 +415,9 @@
   ),
   'iladnnotificationgui' => 
   array (
-    'cid' => '1w',
+    'cid' => '1x',
     'class_name' => 'ilADNNotificationGUI',
-    'class_path' => './Services/AdministrativeNotification/classes/class.ilADNNotificationGUI.php',
+    'class_path' => './components/ILIAS/AdministrativeNotification/classes/class.ilADNNotificationGUI.php',
     'children' => 
     array (
     ),
@@ -416,9 +429,9 @@
   ),
   'ilaccessibilitycontrolconceptgui' => 
   array (
-    'cid' => '22',
+    'cid' => '23',
     'class_name' => 'ilAccessibilityControlConceptGUI',
-    'class_path' => './Services/Accessibility/classes/class.ilAccessibilityControlConceptGUI.php',
+    'class_path' => './components/ILIAS/Accessibility/classes/class.ilAccessibilityControlConceptGUI.php',
     'children' => 
     array (
     ),
@@ -429,9 +442,9 @@
   ),
   'ilaccessibilitydocumentgui' => 
   array (
-    'cid' => '25',
+    'cid' => '26',
     'class_name' => 'ilAccessibilityDocumentGUI',
-    'class_path' => './Services/Accessibility/classes/Document/class.ilAccessibilityDocumentGUI.php',
+    'class_path' => './components/ILIAS/Accessibility/classes/Document/class.ilAccessibilityDocumentGUI.php',
     'children' => 
     array (
     ),
@@ -442,7 +455,7 @@
   ),
   'ilaccessibilitysupportcontactsgui' => 
   array (
-    'cid' => '27',
+    'cid' => '28',
     'class_name' => 'ilAccessibilitySupportContactsGUI',
     'class_path' => './components/ILIAS/SystemFolder/classes/class.ilAccessibilitySupportContactsGUI.php',
     'children' => 
@@ -454,9 +467,9 @@
   ),
   'ilaccordionpropertiesstoragegui' => 
   array (
-    'cid' => '2b',
+    'cid' => '2c',
     'class_name' => 'ilAccordionPropertiesStorageGUI',
-    'class_path' => './Services/Accordion/classes/class.ilAccordionPropertiesStorageGUI.php',
+    'class_path' => './components/ILIAS/Accordion/classes/class.ilAccordionPropertiesStorageGUI.php',
     'children' => 
     array (
     ),
@@ -466,9 +479,9 @@
   ),
   'ilaccountregistrationgui' => 
   array (
-    'cid' => '2c',
+    'cid' => '2d',
     'class_name' => 'ilAccountRegistrationGUI',
-    'class_path' => './Services/Registration/classes/class.ilAccountRegistrationGUI.php',
+    'class_path' => './components/ILIAS/Registration/classes/class.ilAccountRegistrationGUI.php',
     'children' => 
     array (
     ),
@@ -479,9 +492,9 @@
   ),
   'ilachievementsgui' => 
   array (
-    'cid' => '2d',
+    'cid' => '2e',
     'class_name' => 'ilAchievementsGUI',
-    'class_path' => './Services/Dashboard/Achievements/classes/class.ilAchievementsGUI.php',
+    'class_path' => './components/ILIAS/Dashboard/Achievements/classes/class.ilAchievementsGUI.php',
     'children' => 
     array (
       0 => 'illearningprogressgui',
@@ -497,9 +510,9 @@
   ),
   'iladministrationgui' => 
   array (
-    'cid' => '2h',
+    'cid' => '2i',
     'class_name' => 'ilAdministrationGUI',
-    'class_path' => './Services/Administration/classes/class.ilAdministrationGUI.php',
+    'class_path' => './components/ILIAS/Administration/classes/class.ilAdministrationGUI.php',
     'children' => 
     array (
       0 => 'ilobjgroupgui',
@@ -636,9 +649,9 @@
   ),
   'iladvancedmdrecordtranslationgui' => 
   array (
-    'cid' => '2p',
+    'cid' => '2q',
     'class_name' => 'ilAdvancedMDRecordTranslationGUI',
-    'class_path' => './Services/AdvancedMetaData/classes/Translation/class.ilAdvancedMDRecordTranslationGUI.php',
+    'class_path' => './components/ILIAS/AdvancedMetaData/classes/Translation/class.ilAdvancedMDRecordTranslationGUI.php',
     'children' => 
     array (
     ),
@@ -649,9 +662,9 @@
   ),
   'iladvancedmdsettingsgui' => 
   array (
-    'cid' => '2q',
+    'cid' => '2r',
     'class_name' => 'ilAdvancedMDSettingsGUI',
-    'class_path' => './Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php',
+    'class_path' => './components/ILIAS/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpropertyformgui',
@@ -665,9 +678,9 @@
   ),
   'iladvancedsearchgui' => 
   array (
-    'cid' => '2s',
+    'cid' => '2t',
     'class_name' => 'ilAdvancedSearchGUI',
-    'class_path' => './Services/Search/classes/class.ilAdvancedSearchGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/class.ilAdvancedSearchGUI.php',
     'children' => 
     array (
       0 => 'ilobjectgui',
@@ -687,9 +700,9 @@
   ),
   'ilappointmentpresentationbookingpoolgui' => 
   array (
-    'cid' => '2x',
+    'cid' => '2y',
     'class_name' => 'ilAppointmentPresentationBookingPoolGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationBookingPoolGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationBookingPoolGUI.php',
     'children' => 
     array (
     ),
@@ -700,9 +713,9 @@
   ),
   'ilappointmentpresentationconsultationhoursgui' => 
   array (
-    'cid' => '2y',
+    'cid' => '2z',
     'class_name' => 'ilAppointmentPresentationConsultationHoursGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationConsultationHoursGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationConsultationHoursGUI.php',
     'children' => 
     array (
     ),
@@ -713,9 +726,9 @@
   ),
   'ilappointmentpresentationcoursegui' => 
   array (
-    'cid' => '2z',
+    'cid' => '30',
     'class_name' => 'ilAppointmentPresentationCourseGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationCourseGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationCourseGUI.php',
     'children' => 
     array (
     ),
@@ -726,9 +739,9 @@
   ),
   'ilappointmentpresentationemployeetalkgui' => 
   array (
-    'cid' => '30',
+    'cid' => '31',
     'class_name' => 'ilAppointmentPresentationEmployeeTalkGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationEmployeeTalkGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationEmployeeTalkGUI.php',
     'children' => 
     array (
     ),
@@ -739,9 +752,9 @@
   ),
   'ilappointmentpresentationexercisegui' => 
   array (
-    'cid' => '31',
+    'cid' => '32',
     'class_name' => 'ilAppointmentPresentationExerciseGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationExerciseGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationExerciseGUI.php',
     'children' => 
     array (
     ),
@@ -752,9 +765,9 @@
   ),
   'ilappointmentpresentationgui' => 
   array (
-    'cid' => '32',
+    'cid' => '33',
     'class_name' => 'ilAppointmentPresentationGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php',
     'children' => 
     array (
     ),
@@ -765,9 +778,9 @@
   ),
   'ilappointmentpresentationgroupgui' => 
   array (
-    'cid' => '33',
+    'cid' => '34',
     'class_name' => 'ilAppointmentPresentationGroupGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGroupGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGroupGUI.php',
     'children' => 
     array (
     ),
@@ -778,9 +791,9 @@
   ),
   'ilappointmentpresentationpublicgui' => 
   array (
-    'cid' => '34',
+    'cid' => '35',
     'class_name' => 'ilAppointmentPresentationPublicGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationPublicGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationPublicGUI.php',
     'children' => 
     array (
     ),
@@ -791,9 +804,9 @@
   ),
   'ilappointmentpresentationsessiongui' => 
   array (
-    'cid' => '35',
+    'cid' => '36',
     'class_name' => 'ilAppointmentPresentationSessionGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationSessionGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationSessionGUI.php',
     'children' => 
     array (
     ),
@@ -804,9 +817,9 @@
   ),
   'ilappointmentpresentationusergui' => 
   array (
-    'cid' => '36',
+    'cid' => '37',
     'class_name' => 'ilAppointmentPresentationUserGUI',
-    'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationUserGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationUserGUI.php',
     'children' => 
     array (
     ),
@@ -817,7 +830,7 @@
   ),
   'ilassgenfeedbackpagegui' => 
   array (
-    'cid' => '3a',
+    'cid' => '3b',
     'class_name' => 'ilAssGenFeedbackPageGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php',
     'children' => 
@@ -846,7 +859,7 @@
   ),
   'ilasshintpagegui' => 
   array (
-    'cid' => '3b',
+    'cid' => '3c',
     'class_name' => 'ilAssHintPageGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssHintPageGUI.php',
     'children' => 
@@ -868,7 +881,7 @@
   ),
   'ilassquestionfeedbackeditinggui' => 
   array (
-    'cid' => '3l',
+    'cid' => '3m',
     'class_name' => 'ilAssQuestionFeedbackEditingGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php',
     'children' => 
@@ -886,7 +899,7 @@
   ),
   'ilassquestionhintgui' => 
   array (
-    'cid' => '3n',
+    'cid' => '3o',
     'class_name' => 'ilAssQuestionHintGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php',
     'children' => 
@@ -900,7 +913,7 @@
   ),
   'ilassquestionhintrequestgui' => 
   array (
-    'cid' => '3o',
+    'cid' => '3p',
     'class_name' => 'ilAssQuestionHintRequestGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php',
     'children' => 
@@ -919,7 +932,7 @@
   ),
   'ilassquestionhintsgui' => 
   array (
-    'cid' => '3p',
+    'cid' => '3q',
     'class_name' => 'ilAssQuestionHintsGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php',
     'children' => 
@@ -938,7 +951,7 @@
   ),
   'ilassquestionhintstablegui' => 
   array (
-    'cid' => '3q',
+    'cid' => '3r',
     'class_name' => 'ilAssQuestionHintsTableGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php',
     'children' => 
@@ -952,7 +965,7 @@
   ),
   'ilassquestionpagegui' => 
   array (
-    'cid' => '3r',
+    'cid' => '3s',
     'class_name' => 'ilAssQuestionPageGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php',
     'children' => 
@@ -982,7 +995,7 @@
   ),
   'ilassquestionpreviewgui' => 
   array (
-    'cid' => '3s',
+    'cid' => '3t',
     'class_name' => 'ilAssQuestionPreviewGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php',
     'children' => 
@@ -1002,7 +1015,7 @@
   ),
   'ilassquestionpreviewtoolbargui' => 
   array (
-    'cid' => '3t',
+    'cid' => '3u',
     'class_name' => 'ilAssQuestionPreviewToolbarGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionPreviewToolbarGUI.php',
     'children' => 
@@ -1015,7 +1028,7 @@
   ),
   'ilassquestionrelatednavigationbargui' => 
   array (
-    'cid' => '3u',
+    'cid' => '3v',
     'class_name' => 'ilAssQuestionRelatedNavigationBarGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php',
     'children' => 
@@ -1028,7 +1041,7 @@
   ),
   'ilassquestionskillassignmentpropertyformgui' => 
   array (
-    'cid' => '3v',
+    'cid' => '3w',
     'class_name' => 'ilAssQuestionSkillAssignmentPropertyFormGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/forms/class.ilAssQuestionSkillAssignmentPropertyFormGUI.php',
     'children' => 
@@ -1041,7 +1054,7 @@
   ),
   'ilassquestionskillassignmentsgui' => 
   array (
-    'cid' => '3w',
+    'cid' => '3x',
     'class_name' => 'ilAssQuestionSkillAssignmentsGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php',
     'children' => 
@@ -1061,7 +1074,7 @@
   ),
   'ilassquestionskillassignmentstablegui' => 
   array (
-    'cid' => '3x',
+    'cid' => '3y',
     'class_name' => 'ilAssQuestionSkillAssignmentsTableGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/tables/class.ilAssQuestionSkillAssignmentsTableGUI.php',
     'children' => 
@@ -1074,7 +1087,7 @@
   ),
   'ilassquestionskillusagestablegui' => 
   array (
-    'cid' => '3y',
+    'cid' => '3z',
     'class_name' => 'ilAssQuestionSkillUsagesTableGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesTableGUI.php',
     'children' => 
@@ -1087,7 +1100,7 @@
   ),
   'ilassspecfeedbackpagegui' => 
   array (
-    'cid' => '40',
+    'cid' => '41',
     'class_name' => 'ilAssSpecFeedbackPageGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php',
     'children' => 
@@ -1113,7 +1126,7 @@
   ),
   'ilassignmentpresentationgui' => 
   array (
-    'cid' => '44',
+    'cid' => '45',
     'class_name' => 'ilAssignmentPresentationGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/class.ilAssignmentPresentationGUI.php',
     'children' => 
@@ -1127,9 +1140,9 @@
   ),
   'ilauthloginpageeditorgui' => 
   array (
-    'cid' => '48',
+    'cid' => '49',
     'class_name' => 'ilAuthLoginPageEditorGUI',
-    'class_path' => './Services/Authentication/classes/class.ilAuthLoginPageEditorGUI.php',
+    'class_path' => './components/ILIAS/Authentication/classes/class.ilAuthLoginPageEditorGUI.php',
     'children' => 
     array (
       0 => 'illoginpagegui',
@@ -1141,9 +1154,9 @@
   ),
   'ilauthshibbolethsettingsgui' => 
   array (
-    'cid' => '4a',
+    'cid' => '4b',
     'class_name' => 'ilAuthShibbolethSettingsGUI',
-    'class_path' => './Services/AuthShibboleth/classes/class.ilAuthShibbolethSettingsGUI.php',
+    'class_path' => './components/ILIAS/AuthShibboleth/classes/class.ilAuthShibbolethSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -1154,9 +1167,9 @@
   ),
   'ilawarenessgui' => 
   array (
-    'cid' => '4c',
+    'cid' => '4d',
     'class_name' => 'ilAwarenessGUI',
-    'class_path' => './Services/Awareness/classes/class.ilAwarenessGUI.php',
+    'class_path' => './components/ILIAS/Awareness/classes/class.ilAwarenessGUI.php',
     'children' => 
     array (
     ),
@@ -1166,9 +1179,9 @@
   ),
   'ilbtcontrollergui' => 
   array (
-    'cid' => '4d',
+    'cid' => '4e',
     'class_name' => 'ilBTControllerGUI',
-    'class_path' => './Services/BackgroundTasks/classes/class.ilBTControllerGUI.php',
+    'class_path' => './components/ILIAS/BackgroundTasks_/classes/class.ilBTControllerGUI.php',
     'children' => 
     array (
     ),
@@ -1178,9 +1191,9 @@
   ),
   'ilbadgemanagementgui' => 
   array (
-    'cid' => '4i',
+    'cid' => '4j',
     'class_name' => 'ilBadgeManagementGUI',
-    'class_path' => './Services/Badge/classes/class.ilBadgeManagementGUI.php',
+    'class_path' => './components/ILIAS/Badge/classes/class.ilBadgeManagementGUI.php',
     'children' => 
     array (
       0 => 'ilpropertyformgui',
@@ -1194,9 +1207,9 @@
   ),
   'ilbadgeprofilegui' => 
   array (
-    'cid' => '4k',
+    'cid' => '4l',
     'class_name' => 'ilBadgeProfileGUI',
-    'class_path' => './Services/Badge/classes/class.ilBadgeProfileGUI.php',
+    'class_path' => './components/ILIAS/Badge/classes/class.ilBadgeProfileGUI.php',
     'children' => 
     array (
     ),
@@ -1207,9 +1220,9 @@
   ),
   'ilbasicskillgui' => 
   array (
-    'cid' => '4p',
+    'cid' => '4q',
     'class_name' => 'ilBasicSkillGUI',
-    'class_path' => './Services/Skill/Node/class.ilBasicSkillGUI.php',
+    'class_path' => './components/ILIAS/Skill/Node/class.ilBasicSkillGUI.php',
     'children' => 
     array (
     ),
@@ -1221,9 +1234,9 @@
   ),
   'ilbasicskilltemplategui' => 
   array (
-    'cid' => '4q',
+    'cid' => '4r',
     'class_name' => 'ilBasicSkillTemplateGUI',
-    'class_path' => './Services/Skill/Node/class.ilBasicSkillTemplateGUI.php',
+    'class_path' => './components/ILIAS/Skill/Node/class.ilBasicSkillTemplateGUI.php',
     'children' => 
     array (
     ),
@@ -1235,7 +1248,7 @@
   ),
   'ilbibladminbibtexfieldgui' => 
   array (
-    'cid' => '4s',
+    'cid' => '4t',
     'class_name' => 'ilBiblAdminBibtexFieldGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Field/class.ilBiblAdminBibtexFieldGUI.php',
     'children' => 
@@ -1249,7 +1262,7 @@
   ),
   'ilbibladminfieldgui' => 
   array (
-    'cid' => '4t',
+    'cid' => '4u',
     'class_name' => 'ilBiblAdminFieldGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Field/class.ilBiblAdminFieldGUI.php',
     'children' => 
@@ -1262,7 +1275,7 @@
   ),
   'ilbibladminrisfieldgui' => 
   array (
-    'cid' => '4v',
+    'cid' => '4w',
     'class_name' => 'ilBiblAdminRisFieldGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Field/class.ilBiblAdminRisFieldGUI.php',
     'children' => 
@@ -1276,7 +1289,7 @@
   ),
   'ilbiblentrytablegui' => 
   array (
-    'cid' => '4x',
+    'cid' => '4y',
     'class_name' => 'ilBiblEntryTableGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Entry/class.ilBiblEntryTableGUI.php',
     'children' => 
@@ -1289,7 +1302,7 @@
   ),
   'ilbiblfieldfiltergui' => 
   array (
-    'cid' => '50',
+    'cid' => '51',
     'class_name' => 'ilBiblFieldFilterGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/FieldFilter/class.ilBiblFieldFilterGUI.php',
     'children' => 
@@ -1302,7 +1315,7 @@
   ),
   'ilbibllibrarygui' => 
   array (
-    'cid' => '54',
+    'cid' => '55',
     'class_name' => 'ilBiblLibraryGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Admin/Library/class.ilBiblLibraryGUI.php',
     'children' => 
@@ -1315,7 +1328,7 @@
   ),
   'ilbibltranslationgui' => 
   array (
-    'cid' => '57',
+    'cid' => '58',
     'class_name' => 'ilBiblTranslationGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Translation/class.ilBiblTranslationGUI.php',
     'children' => 
@@ -1329,7 +1342,7 @@
   ),
   'ilblogexercisegui' => 
   array (
-    'cid' => '5b',
+    'cid' => '5c',
     'class_name' => 'ilBlogExerciseGUI',
     'class_path' => './components/ILIAS/Blog/Exercise/class.ilBlogExerciseGUI.php',
     'children' => 
@@ -1342,7 +1355,7 @@
   ),
   'ilblogpostinggui' => 
   array (
-    'cid' => '5d',
+    'cid' => '5e',
     'class_name' => 'ilBlogPostingGUI',
     'class_path' => './components/ILIAS/Blog/Posting/class.ilBlogPostingGUI.php',
     'children' => 
@@ -1362,7 +1375,7 @@
   ),
   'ilbookbulkcreationgui' => 
   array (
-    'cid' => '5e',
+    'cid' => '5f',
     'class_name' => 'ilBookBulkCreationGUI',
     'class_path' => './components/ILIAS/BookingManager/Objects/class.ilBookBulkCreationGUI.php',
     'children' => 
@@ -1375,7 +1388,7 @@
   ),
   'ilbookinggatewaygui' => 
   array (
-    'cid' => '5i',
+    'cid' => '5j',
     'class_name' => 'ilBookingGatewayGUI',
     'class_path' => './components/ILIAS/BookingManager/BookingService/class.ilBookingGatewayGUI.php',
     'children' => 
@@ -1392,7 +1405,7 @@
   ),
   'ilbookingobjectgui' => 
   array (
-    'cid' => '5j',
+    'cid' => '5k',
     'class_name' => 'ilBookingObjectGUI',
     'class_path' => './components/ILIAS/BookingManager/Objects/class.ilBookingObjectGUI.php',
     'children' => 
@@ -1409,7 +1422,7 @@
   ),
   'ilbookingobjectservicegui' => 
   array (
-    'cid' => '5k',
+    'cid' => '5l',
     'class_name' => 'ilBookingObjectServiceGUI',
     'class_path' => './components/ILIAS/BookingManager/BookingService/class.ilBookingObjectServiceGUI.php',
     'children' => 
@@ -1425,7 +1438,7 @@
   ),
   'ilbookingparticipantgui' => 
   array (
-    'cid' => '5m',
+    'cid' => '5n',
     'class_name' => 'ilBookingParticipantGUI',
     'class_path' => './components/ILIAS/BookingManager/Participants/class.ilBookingParticipantGUI.php',
     'children' => 
@@ -1439,7 +1452,7 @@
   ),
   'ilbookingpreferencesgui' => 
   array (
-    'cid' => '5o',
+    'cid' => '5p',
     'class_name' => 'ilBookingPreferencesGUI',
     'class_path' => './components/ILIAS/BookingManager/Preferences/class.ilBookingPreferencesGUI.php',
     'children' => 
@@ -1452,7 +1465,7 @@
   ),
   'ilbookingprocesswithschedulegui' => 
   array (
-    'cid' => '5p',
+    'cid' => '5q',
     'class_name' => 'ilBookingProcessWithScheduleGUI',
     'class_path' => './components/ILIAS/BookingManager/BookingProcess/class.ilBookingProcessWithScheduleGUI.php',
     'children' => 
@@ -1466,7 +1479,7 @@
   ),
   'ilbookingprocesswithoutschedulegui' => 
   array (
-    'cid' => '5q',
+    'cid' => '5r',
     'class_name' => 'ilBookingProcessWithoutScheduleGUI',
     'class_path' => './components/ILIAS/BookingManager/BookingProcess/class.ilBookingProcessWithoutScheduleGUI.php',
     'children' => 
@@ -1480,7 +1493,7 @@
   ),
   'ilbookingreservationsgui' => 
   array (
-    'cid' => '5r',
+    'cid' => '5s',
     'class_name' => 'ilBookingReservationsGUI',
     'class_path' => './components/ILIAS/BookingManager/Reservations/class.ilBookingReservationsGUI.php',
     'children' => 
@@ -1494,7 +1507,7 @@
   ),
   'ilbookingschedulegui' => 
   array (
-    'cid' => '5t',
+    'cid' => '5u',
     'class_name' => 'ilBookingScheduleGUI',
     'class_path' => './components/ILIAS/BookingManager/Schedule/class.ilBookingScheduleGUI.php',
     'children' => 
@@ -1507,9 +1520,9 @@
   ),
   'ilbuddysystemgui' => 
   array (
-    'cid' => '5v',
+    'cid' => '5w',
     'class_name' => 'ilBuddySystemGUI',
-    'class_path' => './Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php',
+    'class_path' => './components/ILIAS/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php',
     'children' => 
     array (
     ),
@@ -1523,9 +1536,9 @@
   ),
   'ilcassettingsgui' => 
   array (
-    'cid' => '5x',
+    'cid' => '5y',
     'class_name' => 'ilCASSettingsGUI',
-    'class_path' => './Services/CAS/classes/class.ilCASSettingsGUI.php',
+    'class_path' => './components/ILIAS/CAS/classes/class.ilCASSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -1536,9 +1549,9 @@
   ),
   'ilcalendaragendalistgui' => 
   array (
-    'cid' => '5z',
+    'cid' => '60',
     'class_name' => 'ilCalendarAgendaListGUI',
-    'class_path' => './Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php',
     'children' => 
     array (
       0 => 'ilcalendarappointmentpresentationgui',
@@ -1550,9 +1563,9 @@
   ),
   'ilcalendarappointmentgui' => 
   array (
-    'cid' => '60',
+    'cid' => '61',
     'class_name' => 'ilCalendarAppointmentGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarAppointmentGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarAppointmentGUI.php',
     'children' => 
     array (
     ),
@@ -1571,9 +1584,9 @@
   ),
   'ilcalendarappointmentpresentationgui' => 
   array (
-    'cid' => '62',
+    'cid' => '63',
     'class_name' => 'ilCalendarAppointmentPresentationGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php',
     'children' => 
     array (
       0 => 'ilinfoscreengui',
@@ -1601,9 +1614,9 @@
   ),
   'ilcalendarblockgui' => 
   array (
-    'cid' => '64',
+    'cid' => '65',
     'class_name' => 'ilCalendarBlockGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarBlockGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarBlockGUI.php',
     'children' => 
     array (
       0 => 'ilcalendarappointmentgui',
@@ -1621,9 +1634,9 @@
   ),
   'ilcalendarcategorygui' => 
   array (
-    'cid' => '65',
+    'cid' => '66',
     'class_name' => 'ilCalendarCategoryGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarCategoryGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarCategoryGUI.php',
     'children' => 
     array (
       0 => 'ilcalendarappointmentgui',
@@ -1636,9 +1649,9 @@
   ),
   'ilcalendardaygui' => 
   array (
-    'cid' => '67',
+    'cid' => '68',
     'class_name' => 'ilCalendarDayGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarDayGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarDayGUI.php',
     'children' => 
     array (
       0 => 'ilcalendarappointmentgui',
@@ -1653,9 +1666,9 @@
   ),
   'ilcalendarinboxgui' => 
   array (
-    'cid' => '69',
+    'cid' => '6a',
     'class_name' => 'ilCalendarInboxGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarInboxGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarInboxGUI.php',
     'children' => 
     array (
       0 => 'ilcalendarappointmentgui',
@@ -1669,9 +1682,9 @@
   ),
   'ilcalendarmonthgui' => 
   array (
-    'cid' => '6c',
+    'cid' => '6d',
     'class_name' => 'ilCalendarMonthGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarMonthGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarMonthGUI.php',
     'children' => 
     array (
       0 => 'ilcalendarappointmentgui',
@@ -1688,9 +1701,9 @@
   ),
   'ilcalendarpresentationgui' => 
   array (
-    'cid' => '6d',
+    'cid' => '6e',
     'class_name' => 'ilCalendarPresentationGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarPresentationGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarPresentationGUI.php',
     'children' => 
     array (
       0 => 'ilcalendarmonthgui',
@@ -1715,9 +1728,9 @@
   ),
   'ilcalendarselectionblockgui' => 
   array (
-    'cid' => '6f',
+    'cid' => '6g',
     'class_name' => 'ilCalendarSelectionBlockGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarSelectionBlockGUI.php',
     'children' => 
     array (
     ),
@@ -1728,9 +1741,9 @@
   ),
   'ilcalendarsubscriptiongui' => 
   array (
-    'cid' => '6j',
+    'cid' => '6k',
     'class_name' => 'ilCalendarSubscriptionGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarSubscriptionGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarSubscriptionGUI.php',
     'children' => 
     array (
     ),
@@ -1741,9 +1754,9 @@
   ),
   'ilcalendarusersettingsgui' => 
   array (
-    'cid' => '6k',
+    'cid' => '6l',
     'class_name' => 'ilCalendarUserSettingsGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarUserSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -1754,9 +1767,9 @@
   ),
   'ilcalendarweekgui' => 
   array (
-    'cid' => '6m',
+    'cid' => '6n',
     'class_name' => 'ilCalendarWeekGUI',
-    'class_path' => './Services/Calendar/classes/class.ilCalendarWeekGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarWeekGUI.php',
     'children' => 
     array (
       0 => 'ilcalendarappointmentgui',
@@ -1771,9 +1784,9 @@
   ),
   'ilcertificategui' => 
   array (
-    'cid' => '6p',
+    'cid' => '6q',
     'class_name' => 'ilCertificateGUI',
-    'class_path' => './Services/Certificate/classes/class.ilCertificateGUI.php',
+    'class_path' => './components/ILIAS/Certificate/classes/class.ilCertificateGUI.php',
     'children' => 
     array (
       0 => 'ilpropertyformgui',
@@ -1792,7 +1805,7 @@
   ),
   'ilchatroomauthinputgui' => 
   array (
-    'cid' => '6s',
+    'cid' => '6t',
     'class_name' => 'ilChatroomAuthInputGUI',
     'class_path' => './components/ILIAS/Chatroom/classes/class.ilChatroomAuthInputGUI.php',
     'children' => 
@@ -1805,9 +1818,9 @@
   ),
   'ilclassificationblockgui' => 
   array (
-    'cid' => '77',
+    'cid' => '78',
     'class_name' => 'ilClassificationBlockGUI',
-    'class_path' => './Services/Container/Classification/class.ilClassificationBlockGUI.php',
+    'class_path' => './components/ILIAS/Container/Classification/class.ilClassificationBlockGUI.php',
     'children' => 
     array (
     ),
@@ -1818,7 +1831,7 @@
   ),
   'ilcmixapiexportgui' => 
   array (
-    'cid' => '7b',
+    'cid' => '7c',
     'class_name' => 'ilCmiXapiExportGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiExportGUI.php',
     'children' => 
@@ -1831,7 +1844,7 @@
   ),
   'ilcmixapilaunchgui' => 
   array (
-    'cid' => '7c',
+    'cid' => '7d',
     'class_name' => 'ilCmiXapiLaunchGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiLaunchGUI.php',
     'children' => 
@@ -1844,7 +1857,7 @@
   ),
   'ilcmixapiregistrationgui' => 
   array (
-    'cid' => '7e',
+    'cid' => '7f',
     'class_name' => 'ilCmiXapiRegistrationGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiRegistrationGUI.php',
     'children' => 
@@ -1857,7 +1870,7 @@
   ),
   'ilcmixapiscoringgui' => 
   array (
-    'cid' => '7f',
+    'cid' => '7g',
     'class_name' => 'ilCmiXapiScoringGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiScoringGUI.php',
     'children' => 
@@ -1870,7 +1883,7 @@
   ),
   'ilcmixapisettingsgui' => 
   array (
-    'cid' => '7h',
+    'cid' => '7i',
     'class_name' => 'ilCmiXapiSettingsGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiSettingsGUI.php',
     'children' => 
@@ -1884,7 +1897,7 @@
   ),
   'ilcmixapistatementsgui' => 
   array (
-    'cid' => '7i',
+    'cid' => '7j',
     'class_name' => 'ilCmiXapiStatementsGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiStatementsGUI.php',
     'children' => 
@@ -1897,9 +1910,9 @@
   ),
   'ilcolumngui' => 
   array (
-    'cid' => '7m',
+    'cid' => '7n',
     'class_name' => 'ilColumnGUI',
-    'class_path' => './Services/Block/classes/class.ilColumnGUI.php',
+    'class_path' => './components/ILIAS/Block/classes/class.ilColumnGUI.php',
     'children' => 
     array (
       0 => 'ilcalendarblockgui',
@@ -1939,9 +1952,9 @@
   ),
   'ilcommentgui' => 
   array (
-    'cid' => '7o',
+    'cid' => '7p',
     'class_name' => 'ilCommentGUI',
-    'class_path' => './Services/Notes/Comment/class.ilCommentGUI.php',
+    'class_path' => './components/ILIAS/Notes/Comment/class.ilCommentGUI.php',
     'children' => 
     array (
     ),
@@ -1957,9 +1970,9 @@
   ),
   'ilcommonactiondispatchergui' => 
   array (
-    'cid' => '7p',
+    'cid' => '7q',
     'class_name' => 'ilCommonActionDispatcherGUI',
-    'class_path' => './Services/Object/classes/class.ilCommonActionDispatcherGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/class.ilCommonActionDispatcherGUI.php',
     'children' => 
     array (
       0 => 'ilnotegui',
@@ -2036,9 +2049,9 @@
   ),
   'ilconditionhandlergui' => 
   array (
-    'cid' => '7q',
+    'cid' => '7r',
     'class_name' => 'ilConditionHandlerGUI',
-    'class_path' => './Services/Conditions/classes/class.ilConditionHandlerGUI.php',
+    'class_path' => './components/ILIAS/Conditions/classes/class.ilConditionHandlerGUI.php',
     'children' => 
     array (
     ),
@@ -2052,9 +2065,9 @@
   ),
   'ilconfirmationgui' => 
   array (
-    'cid' => '7s',
+    'cid' => '7t',
     'class_name' => 'ilConfirmationGUI',
-    'class_path' => './Services/UIComponent/Confirmation/class.ilConfirmationGUI.php',
+    'class_path' => './components/ILIAS/UIComponent/Confirmation/class.ilConfirmationGUI.php',
     'children' => 
     array (
     ),
@@ -2071,9 +2084,9 @@
   ),
   'ilconsultationhoursgui' => 
   array (
-    'cid' => '7w',
+    'cid' => '7x',
     'class_name' => 'ilConsultationHoursGUI',
-    'class_path' => './Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php',
     'children' => 
     array (
       0 => 'ilpublicuserprofilegui',
@@ -2090,9 +2103,9 @@
   ),
   'ilcontskilladmingui' => 
   array (
-    'cid' => '7z',
+    'cid' => '80',
     'class_name' => 'ilContSkillAdminGUI',
-    'class_path' => './Services/Container/Skills/classes/class.ilContSkillAdminGUI.php',
+    'class_path' => './components/ILIAS/Container/Skills/classes/class.ilContSkillAdminGUI.php',
     'children' => 
     array (
       0 => 'ilskillprofilegui',
@@ -2105,9 +2118,9 @@
   ),
   'ilcontskillpresentationgui' => 
   array (
-    'cid' => '81',
+    'cid' => '82',
     'class_name' => 'ilContSkillPresentationGUI',
-    'class_path' => './Services/Container/Skills/classes/class.ilContSkillPresentationGUI.php',
+    'class_path' => './components/ILIAS/Container/Skills/classes/class.ilContSkillPresentationGUI.php',
     'children' => 
     array (
       0 => 'ilpersonalskillsgui',
@@ -2119,9 +2132,9 @@
   ),
   'ilcontactgui' => 
   array (
-    'cid' => '83',
+    'cid' => '84',
     'class_name' => 'ilContactGUI',
-    'class_path' => './Services/Contact/classes/class.ilContactGUI.php',
+    'class_path' => './components/ILIAS/Contact/classes/class.ilContactGUI.php',
     'children' => 
     array (
       0 => 'ilmailsearchcoursesgui',
@@ -2138,9 +2151,9 @@
   ),
   'ilcontainerblockpropertiesstoragegui' => 
   array (
-    'cid' => '84',
+    'cid' => '85',
     'class_name' => 'ilContainerBlockPropertiesStorageGUI',
-    'class_path' => './Services/Container/Content/class.ilContainerBlockPropertiesStorageGUI.php',
+    'class_path' => './components/ILIAS/Container/Content/class.ilContainerBlockPropertiesStorageGUI.php',
     'children' => 
     array (
       0 => 'ilcontainerblockpropertiesstoragegui',
@@ -2152,9 +2165,9 @@
   ),
   'ilcontainerfilteradmingui' => 
   array (
-    'cid' => '87',
+    'cid' => '88',
     'class_name' => 'ilContainerFilterAdminGUI',
-    'class_path' => './Services/Container/Filter/classes/class.ilContainerFilterAdminGUI.php',
+    'class_path' => './components/ILIAS/Container/Filter/classes/class.ilContainerFilterAdminGUI.php',
     'children' => 
     array (
     ),
@@ -2165,9 +2178,9 @@
   ),
   'ilcontainergui' => 
   array (
-    'cid' => '89',
+    'cid' => '8a',
     'class_name' => 'ilContainerGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerGUI.php',
+    'class_path' => './components/ILIAS/Container/classes/class.ilContainerGUI.php',
     'children' => 
     array (
     ),
@@ -2182,9 +2195,9 @@
   ),
   'ilcontainernewssettingsgui' => 
   array (
-    'cid' => '8b',
+    'cid' => '8c',
     'class_name' => 'ilContainerNewsSettingsGUI',
-    'class_path' => './Services/Container/News/class.ilContainerNewsSettingsGUI.php',
+    'class_path' => './components/ILIAS/Container/News/class.ilContainerNewsSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -2198,9 +2211,9 @@
   ),
   'ilcontainerpagegui' => 
   array (
-    'cid' => '8d',
+    'cid' => '8e',
     'class_name' => 'ilContainerPageGUI',
-    'class_path' => './Services/Container/Page/class.ilContainerPageGUI.php',
+    'class_path' => './components/ILIAS/Container/Page/class.ilContainerPageGUI.php',
     'children' => 
     array (
       0 => 'ilpageeditorgui',
@@ -2224,9 +2237,9 @@
   ),
   'ilcontainerskillgui' => 
   array (
-    'cid' => '8h',
+    'cid' => '8i',
     'class_name' => 'ilContainerSkillGUI',
-    'class_path' => './Services/Container/Skills/classes/class.ilContainerSkillGUI.php',
+    'class_path' => './components/ILIAS/Container/Skills/classes/class.ilContainerSkillGUI.php',
     'children' => 
     array (
       0 => 'ilcontskillpresentationgui',
@@ -2240,9 +2253,9 @@
   ),
   'ilcontainerstartobjectsgui' => 
   array (
-    'cid' => '8k',
+    'cid' => '8l',
     'class_name' => 'ilContainerStartObjectsGUI',
-    'class_path' => './Services/Container/StartObjects/class.ilContainerStartObjectsGUI.php',
+    'class_path' => './components/ILIAS/Container/StartObjects/class.ilContainerStartObjectsGUI.php',
     'children' => 
     array (
       0 => 'ilcontainerstartobjectspagegui',
@@ -2255,9 +2268,9 @@
   ),
   'ilcontainerstartobjectspagegui' => 
   array (
-    'cid' => '8l',
+    'cid' => '8m',
     'class_name' => 'ilContainerStartObjectsPageGUI',
-    'class_path' => './Services/Container/StartObjects/class.ilContainerStartObjectsPageGUI.php',
+    'class_path' => './components/ILIAS/Container/StartObjects/class.ilContainerStartObjectsPageGUI.php',
     'children' => 
     array (
       0 => 'ilpageeditorgui',
@@ -2277,7 +2290,7 @@
   ),
   'ilcontentpagepagegui' => 
   array (
-    'cid' => '8n',
+    'cid' => '8o',
     'class_name' => 'ilContentPagePageGUI',
     'class_path' => './components/ILIAS/ContentPage/classes/class.ilContentPagePageGUI.php',
     'children' => 
@@ -2298,9 +2311,9 @@
   ),
   'ilcontentstyleimagegui' => 
   array (
-    'cid' => '8o',
+    'cid' => '8p',
     'class_name' => 'ilContentStyleImageGUI',
-    'class_path' => './Services/Style/Content/Images/class.ilContentStyleImageGUI.php',
+    'class_path' => './components/ILIAS/Style/Content/Images/class.ilContentStyleImageGUI.php',
     'children' => 
     array (
     ),
@@ -2311,9 +2324,9 @@
   ),
   'ilcontentstylesettingsgui' => 
   array (
-    'cid' => '8p',
+    'cid' => '8q',
     'class_name' => 'ilContentStyleSettingsGUI',
-    'class_path' => './Services/Style/Content/classes/class.ilContentStyleSettingsGUI.php',
+    'class_path' => './components/ILIAS/Style/Content/classes/class.ilContentStyleSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilobjstylesheetgui',
@@ -2325,7 +2338,7 @@
   ),
   'ilcoursecontentgui' => 
   array (
-    'cid' => '8u',
+    'cid' => '8v',
     'class_name' => 'ilCourseContentGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilCourseContentGUI.php',
     'children' => 
@@ -2342,7 +2355,7 @@
   ),
   'ilcoursemembershipgui' => 
   array (
-    'cid' => '90',
+    'cid' => '91',
     'class_name' => 'ilCourseMembershipGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilCourseMembershipGUI.php',
     'children' => 
@@ -2362,7 +2375,7 @@
   ),
   'ilcourseobjectivesgui' => 
   array (
-    'cid' => '95',
+    'cid' => '96',
     'class_name' => 'ilCourseObjectivesGUI',
     'class_path' => './components/ILIAS/Course/classes/Objectives/class.ilCourseObjectivesGUI.php',
     'children' => 
@@ -2378,7 +2391,7 @@
   ),
   'ilcourseparticipantsgroupsgui' => 
   array (
-    'cid' => '97',
+    'cid' => '98',
     'class_name' => 'ilCourseParticipantsGroupsGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilCourseParticipantsGroupsGUI.php',
     'children' => 
@@ -2394,7 +2407,7 @@
   ),
   'ilcourseregistrationgui' => 
   array (
-    'cid' => '9b',
+    'cid' => '9c',
     'class_name' => 'ilCourseRegistrationGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilCourseRegistrationGUI.php',
     'children' => 
@@ -2407,9 +2420,9 @@
   ),
   'ilcronmanagergui' => 
   array (
-    'cid' => '9e',
+    'cid' => '9f',
     'class_name' => 'ilCronManagerGUI',
-    'class_path' => './Services/Cron/classes/class.ilCronManagerGUI.php',
+    'class_path' => './components/ILIAS/Cron/classes/class.ilCronManagerGUI.php',
     'children' => 
     array (
       0 => 'ilpropertyformgui',
@@ -2420,11 +2433,69 @@
       1 => 'ilobjsystemfoldergui',
     ),
   ),
-  'ilcustomuserfieldsgui' => 
+  'ilctrlbaseclass1testgui' => 
+  array (
+    'cid' => '9h',
+    'class_name' => 'ilCtrlBaseClass1TestGUI',
+    'class_path' => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlBaseClass1TestGUI.php',
+    'children' => 
+    array (
+      0 => 'ilctrlcommandclass1testgui',
+      1 => 'ilias\\tests\\ctrl\\ilctrlnamespacedtestgui',
+      2 => 'ilvalidtestplugingui',
+    ),
+    'parents' => 
+    array (
+    ),
+  ),
+  'ilctrlbaseclass2testgui' => 
   array (
     'cid' => '9i',
+    'class_name' => 'ilCtrlBaseClass2TestGUI',
+    'class_path' => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlBaseClass2TestGUI.php',
+    'children' => 
+    array (
+      0 => 'ilctrlcommandclass1testgui',
+    ),
+    'parents' => 
+    array (
+      0 => 'ilctrlcommandclass1testgui',
+    ),
+  ),
+  'ilctrlcommandclass1testgui' => 
+  array (
+    'cid' => '9j',
+    'class_name' => 'ilCtrlCommandClass1TestGUI',
+    'class_path' => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlCommandClass1TestGUI.php',
+    'children' => 
+    array (
+      0 => 'ilctrlbaseclass2testgui',
+      1 => 'ilctrlcommandclass2testgui',
+    ),
+    'parents' => 
+    array (
+      0 => 'ilctrlbaseclass1testgui',
+      1 => 'ilctrlbaseclass2testgui',
+    ),
+  ),
+  'ilctrlcommandclass2testgui' => 
+  array (
+    'cid' => '9k',
+    'class_name' => 'ilCtrlCommandClass2TestGUI',
+    'class_path' => './components/ILIAS/UICore/test/Data/GUI/class.ilCtrlCommandClass2TestGUI.php',
+    'children' => 
+    array (
+    ),
+    'parents' => 
+    array (
+      0 => 'ilctrlcommandclass1testgui',
+    ),
+  ),
+  'ilcustomuserfieldsgui' => 
+  array (
+    'cid' => '9n',
     'class_name' => 'ilCustomUserFieldsGUI',
-    'class_path' => './Services/User/classes/class.ilCustomUserFieldsGUI.php',
+    'class_path' => './components/ILIAS/User/classes/class.ilCustomUserFieldsGUI.php',
     'children' => 
     array (
     ),
@@ -2435,9 +2506,9 @@
   ),
   'ildashboardblockgui' => 
   array (
-    'cid' => '9k',
+    'cid' => '9p',
     'class_name' => 'ilDashboardBlockGUI',
-    'class_path' => './Services/Dashboard/Block/classes/class.ilDashboardBlockGUI.php',
+    'class_path' => './components/ILIAS/Dashboard/Block/classes/class.ilDashboardBlockGUI.php',
     'children' => 
     array (
       0 => 'ilcommonactiondispatchergui',
@@ -2449,9 +2520,9 @@
   ),
   'ildashboardgui' => 
   array (
-    'cid' => '9m',
+    'cid' => '9r',
     'class_name' => 'ilDashboardGUI',
-    'class_path' => './Services/Dashboard/classes/class.ilDashboardGUI.php',
+    'class_path' => './components/ILIAS/Dashboard/classes/class.ilDashboardGUI.php',
     'children' => 
     array (
       0 => 'ilpersonalprofilegui',
@@ -2487,7 +2558,7 @@
   ),
   'ildashboardlearningsequencegui' => 
   array (
-    'cid' => '9n',
+    'cid' => '9s',
     'class_name' => 'ilDashboardLearningSequenceGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/class.ilDashboardLearningSequenceGUI.php',
     'children' => 
@@ -2502,9 +2573,9 @@
   ),
   'ildashboardrecommendedcontentgui' => 
   array (
-    'cid' => '9o',
+    'cid' => '9t',
     'class_name' => 'ilDashboardRecommendedContentGUI',
-    'class_path' => './Services/Repository/RecommendedContent/classes/class.ilDashboardRecommendedContentGUI.php',
+    'class_path' => './components/ILIAS/Repository/RecommendedContent/classes/class.ilDashboardRecommendedContentGUI.php',
     'children' => 
     array (
     ),
@@ -2515,7 +2586,7 @@
   ),
   'ildclcreateviewdefinitiongui' => 
   array (
-    'cid' => '9t',
+    'cid' => '9y',
     'class_name' => 'ilDclCreateViewDefinitionGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/CreateView/class.ilDclCreateViewDefinitionGUI.php',
     'children' => 
@@ -2532,7 +2603,7 @@
   ),
   'ildcldetailedviewdefinitiongui' => 
   array (
-    'cid' => '9v',
+    'cid' => 'a0',
     'class_name' => 'ilDclDetailedViewDefinitionGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php',
     'children' => 
@@ -2550,7 +2621,7 @@
   ),
   'ildcldetailedviewgui' => 
   array (
-    'cid' => '9w',
+    'cid' => 'a1',
     'class_name' => 'ilDclDetailedViewGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php',
     'children' => 
@@ -2565,7 +2636,7 @@
   ),
   'ildcleditviewdefinitiongui' => 
   array (
-    'cid' => '9x',
+    'cid' => 'a2',
     'class_name' => 'ilDclEditViewDefinitionGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/EditView/class.ilDclEditViewDefinitionGUI.php',
     'children' => 
@@ -2582,7 +2653,7 @@
   ),
   'ildclexportgui' => 
   array (
-    'cid' => '9z',
+    'cid' => 'a4',
     'class_name' => 'ilDclExportGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/class.ilDclExportGUI.php',
     'children' => 
@@ -2595,7 +2666,7 @@
   ),
   'ildclfieldeditgui' => 
   array (
-    'cid' => 'a1',
+    'cid' => 'a6',
     'class_name' => 'ilDclFieldEditGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Fields/class.ilDclFieldEditGUI.php',
     'children' => 
@@ -2608,7 +2679,7 @@
   ),
   'ildclfieldlistgui' => 
   array (
-    'cid' => 'a2',
+    'cid' => 'a7',
     'class_name' => 'ilDclFieldListGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Fields/class.ilDclFieldListGUI.php',
     'children' => 
@@ -2621,7 +2692,7 @@
   ),
   'ildclpropertyformgui' => 
   array (
-    'cid' => 'a5',
+    'cid' => 'aa',
     'class_name' => 'ilDclPropertyFormGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Helpers/class.ilDclPropertyFormGUI.php',
     'children' => 
@@ -2635,7 +2706,7 @@
   ),
   'ildclrecordeditgui' => 
   array (
-    'cid' => 'a6',
+    'cid' => 'ab',
     'class_name' => 'ilDclRecordEditGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Content/class.ilDclRecordEditGUI.php',
     'children' => 
@@ -2648,7 +2719,7 @@
   ),
   'ildclrecordlistgui' => 
   array (
-    'cid' => 'a7',
+    'cid' => 'ac',
     'class_name' => 'ilDclRecordListGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Content/class.ilDclRecordListGUI.php',
     'children' => 
@@ -2661,7 +2732,7 @@
   ),
   'ildcltableeditgui' => 
   array (
-    'cid' => 'a9',
+    'cid' => 'ae',
     'class_name' => 'ilDclTableEditGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Table/class.ilDclTableEditGUI.php',
     'children' => 
@@ -2674,7 +2745,7 @@
   ),
   'ildcltablelistgui' => 
   array (
-    'cid' => 'aa',
+    'cid' => 'af',
     'class_name' => 'ilDclTableListGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Table/class.ilDclTableListGUI.php',
     'children' => 
@@ -2691,7 +2762,7 @@
   ),
   'ildcltablevieweditgui' => 
   array (
-    'cid' => 'ae',
+    'cid' => 'aj',
     'class_name' => 'ilDclTableViewEditGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php',
     'children' => 
@@ -2707,7 +2778,7 @@
   ),
   'ildcltableviewgui' => 
   array (
-    'cid' => 'af',
+    'cid' => 'ak',
     'class_name' => 'ilDclTableViewGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/TableView/class.ilDclTableViewGUI.php',
     'children' => 
@@ -2721,9 +2792,9 @@
   ),
   'ilderivedtasksgui' => 
   array (
-    'cid' => 'ai',
+    'cid' => 'an',
     'class_name' => 'ilDerivedTasksGUI',
-    'class_path' => './Services/Tasks/DerivedTasks/classes/class.ilDerivedTasksGUI.php',
+    'class_path' => './components/ILIAS/Tasks/DerivedTasks/classes/class.ilDerivedTasksGUI.php',
     'children' => 
     array (
     ),
@@ -2734,9 +2805,9 @@
   ),
   'ildidactictemplategui' => 
   array (
-    'cid' => 'aj',
+    'cid' => 'ao',
     'class_name' => 'ilDidacticTemplateGUI',
-    'class_path' => './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php',
+    'class_path' => './components/ILIAS/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php',
     'children' => 
     array (
     ),
@@ -2753,9 +2824,9 @@
   ),
   'ildidactictemplatesettingsgui' => 
   array (
-    'cid' => 'ak',
+    'cid' => 'ap',
     'class_name' => 'ilDidacticTemplateSettingsGUI',
-    'class_path' => './Services/DidacticTemplate/classes/Setting/class.ilDidacticTemplateSettingsGUI.php',
+    'class_path' => './components/ILIAS/DidacticTemplate/classes/Setting/class.ilDidacticTemplateSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilmultilingualismgui',
@@ -2769,9 +2840,9 @@
   ),
   'ilecsmappingsettingsgui' => 
   array (
-    'cid' => 'ar',
+    'cid' => 'aw',
     'class_name' => 'ilECSMappingSettingsGUI',
-    'class_path' => './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingSettingsGUI.php',
+    'class_path' => './components/ILIAS/WebServices/ECS/classes/Mapping/class.ilECSMappingSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -2782,9 +2853,9 @@
   ),
   'ilecsparticipantsettingsgui' => 
   array (
-    'cid' => 'at',
+    'cid' => 'ay',
     'class_name' => 'ilECSParticipantSettingsGUI',
-    'class_path' => './Services/WebServices/ECS/classes/class.ilECSParticipantSettingsGUI.php',
+    'class_path' => './components/ILIAS/WebServices/ECS/classes/class.ilECSParticipantSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -2795,9 +2866,9 @@
   ),
   'ilecssettingsgui' => 
   array (
-    'cid' => 'av',
+    'cid' => 'b0',
     'class_name' => 'ilECSSettingsGUI',
-    'class_path' => './Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php',
+    'class_path' => './components/ILIAS/WebServices/ECS/classes/class.ilECSSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilecsmappingsettingsgui',
@@ -2810,9 +2881,9 @@
   ),
   'ilecsuserconsentmodalgui' => 
   array (
-    'cid' => 'aw',
+    'cid' => 'b1',
     'class_name' => 'ilECSUserConsentModalGUI',
-    'class_path' => './Services/WebServices/ECS/classes/Consent/class.ilECSUserConsentModalGUI.php',
+    'class_path' => './components/ILIAS/WebServices/ECS/classes/Consent/class.ilECSUserConsentModalGUI.php',
     'children' => 
     array (
     ),
@@ -2830,7 +2901,7 @@
   ),
   'ileditclipboardgui' => 
   array (
-    'cid' => 'ay',
+    'cid' => 'b3',
     'class_name' => 'ilEditClipboardGUI',
     'class_path' => './components/ILIAS/MediaPool/Clipboard/class.ilEditClipboardGUI.php',
     'children' => 
@@ -2874,7 +2945,7 @@
   ),
   'ilemployeetalkappointmentgui' => 
   array (
-    'cid' => 'az',
+    'cid' => 'b4',
     'class_name' => 'ilEmployeeTalkAppointmentGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/Talk/class.ilEmployeeTalkAppointmentGUI.php',
     'children' => 
@@ -2887,7 +2958,7 @@
   ),
   'ilemployeetalkmystafflistgui' => 
   array (
-    'cid' => 'b0',
+    'cid' => 'b5',
     'class_name' => 'ilEmployeeTalkMyStaffListGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/Talk/class.ilEmployeeTalkMyStaffListGUI.php',
     'children' => 
@@ -2903,7 +2974,7 @@
   ),
   'ilemployeetalkmystaffusergui' => 
   array (
-    'cid' => 'b1',
+    'cid' => 'b6',
     'class_name' => 'ilEmployeeTalkMyStaffUserGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/Talk/class.ilEmployeeTalkMyStaffUserGUI.php',
     'children' => 
@@ -2919,7 +2990,7 @@
   ),
   'ilexasstypewikiteamgui' => 
   array (
-    'cid' => 'bb',
+    'cid' => 'bg',
     'class_name' => 'ilExAssTypeWikiTeamGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/Types/GUI/classes/class.ilExAssTypeWikiTeamGUI.php',
     'children' => 
@@ -2932,7 +3003,7 @@
   ),
   'ilexassignmenteditorgui' => 
   array (
-    'cid' => 'bc',
+    'cid' => 'bh',
     'class_name' => 'ilExAssignmentEditorGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/class.ilExAssignmentEditorGUI.php',
     'children' => 
@@ -2949,7 +3020,7 @@
   ),
   'ilexassignmentfilesystemgui' => 
   array (
-    'cid' => 'bd',
+    'cid' => 'bi',
     'class_name' => 'ilExAssignmentFileSystemGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/class.ilExAssignmentFileSystemGUI.php',
     'children' => 
@@ -2962,7 +3033,7 @@
   ),
   'ilexpeerreviewgui' => 
   array (
-    'cid' => 'bn',
+    'cid' => 'bs',
     'class_name' => 'ilExPeerReviewGUI',
     'class_path' => './components/ILIAS/Exercise/PeerReview/class.ilExPeerReviewGUI.php',
     'children' => 
@@ -2982,7 +3053,7 @@
   ),
   'ilexsubmissionfilegui' => 
   array (
-    'cid' => 'bp',
+    'cid' => 'bu',
     'class_name' => 'ilExSubmissionFileGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionFileGUI.php',
     'children' => 
@@ -2997,7 +3068,7 @@
   ),
   'ilexsubmissiongui' => 
   array (
-    'cid' => 'bq',
+    'cid' => 'bv',
     'class_name' => 'ilExSubmissionGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionGUI.php',
     'children' => 
@@ -3016,7 +3087,7 @@
   ),
   'ilexsubmissionobjectgui' => 
   array (
-    'cid' => 'br',
+    'cid' => 'bw',
     'class_name' => 'ilExSubmissionObjectGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionObjectGUI.php',
     'children' => 
@@ -3029,7 +3100,7 @@
   ),
   'ilexsubmissionteamgui' => 
   array (
-    'cid' => 'bs',
+    'cid' => 'bx',
     'class_name' => 'ilExSubmissionTeamGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionTeamGUI.php',
     'children' => 
@@ -3044,7 +3115,7 @@
   ),
   'ilexsubmissiontextgui' => 
   array (
-    'cid' => 'bt',
+    'cid' => 'by',
     'class_name' => 'ilExSubmissionTextGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionTextGUI.php',
     'children' => 
@@ -3059,7 +3130,7 @@
   ),
   'ilexccriteriacataloguegui' => 
   array (
-    'cid' => 'bu',
+    'cid' => 'bz',
     'class_name' => 'ilExcCriteriaCatalogueGUI',
     'class_path' => './components/ILIAS/Exercise/PeerReview/Criteria/class.ilExcCriteriaCatalogueGUI.php',
     'children' => 
@@ -3073,7 +3144,7 @@
   ),
   'ilexccriteriagui' => 
   array (
-    'cid' => 'bw',
+    'cid' => 'c1',
     'class_name' => 'ilExcCriteriaGUI',
     'class_path' => './components/ILIAS/Exercise/PeerReview/Criteria/class.ilExcCriteriaGUI.php',
     'children' => 
@@ -3086,7 +3157,7 @@
   ),
   'ilexcrandomassignmentgui' => 
   array (
-    'cid' => 'bz',
+    'cid' => 'c4',
     'class_name' => 'ilExcRandomAssignmentGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/Mandatory/class.ilExcRandomAssignmentGUI.php',
     'children' => 
@@ -3099,7 +3170,7 @@
   ),
   'ilexercisehandlergui' => 
   array (
-    'cid' => 'c0',
+    'cid' => 'c5',
     'class_name' => 'ilExerciseHandlerGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilExerciseHandlerGUI.php',
     'children' => 
@@ -3112,7 +3183,7 @@
   ),
   'ilexercisemanagementgui' => 
   array (
-    'cid' => 'c1',
+    'cid' => 'c6',
     'class_name' => 'ilExerciseManagementGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilExerciseManagementGUI.php',
     'children' => 
@@ -3133,9 +3204,9 @@
   ),
   'ilexportgui' => 
   array (
-    'cid' => 'c6',
+    'cid' => 'cb',
     'class_name' => 'ilExportGUI',
-    'class_path' => './Services/Export/classes/class.ilExportGUI.php',
+    'class_path' => './components/ILIAS/Export/classes/class.ilExportGUI.php',
     'children' => 
     array (
     ),
@@ -3176,7 +3247,7 @@
   ),
   'ilextidgui' => 
   array (
-    'cid' => 'ca',
+    'cid' => 'cf',
     'class_name' => 'ilExtIdGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/ExtId/class.ilExtIdGUI.php',
     'children' => 
@@ -3189,9 +3260,9 @@
   ),
   'ilfilesystemgui' => 
   array (
-    'cid' => 'cf',
+    'cid' => 'ck',
     'class_name' => 'ilFileSystemGUI',
-    'class_path' => './Services/FileSystem/classes/class.ilFileSystemGUI.php',
+    'class_path' => './components/ILIAS/FileSystem/classes/class.ilFileSystemGUI.php',
     'children' => 
     array (
     ),
@@ -3210,7 +3281,7 @@
   ),
   'ilfileversionsgui' => 
   array (
-    'cid' => 'ci',
+    'cid' => 'cn',
     'class_name' => 'ilFileVersionsGUI',
     'class_path' => './components/ILIAS/File/classes/Versions/class.ilFileVersionsGUI.php',
     'children' => 
@@ -3225,7 +3296,7 @@
   ),
   'ilfileversionsuploadhandlergui' => 
   array (
-    'cid' => 'ck',
+    'cid' => 'cp',
     'class_name' => 'ilFileVersionsUploadHandlerGUI',
     'class_path' => './components/ILIAS/File/classes/Versions/class.ilFileVersionsUploadHandlerGUI.php',
     'children' => 
@@ -3238,9 +3309,9 @@
   ),
   'ilformpropertydispatchgui' => 
   array (
-    'cid' => 'co',
+    'cid' => 'ct',
     'class_name' => 'ilFormPropertyDispatchGUI',
-    'class_path' => './Services/Form/classes/class.ilFormPropertyDispatchGUI.php',
+    'class_path' => './components/ILIAS/Form/classes/class.ilFormPropertyDispatchGUI.php',
     'children' => 
     array (
       0 => 'ilchatroomauthinputgui',
@@ -3301,7 +3372,7 @@
   ),
   'ilforumexportgui' => 
   array (
-    'cid' => 'cu',
+    'cid' => 'cz',
     'class_name' => 'ilForumExportGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilForumExportGUI.php',
     'children' => 
@@ -3314,7 +3385,7 @@
   ),
   'ilforummoderatorsgui' => 
   array (
-    'cid' => 'cv',
+    'cid' => 'd0',
     'class_name' => 'ilForumModeratorsGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilForumModeratorsGUI.php',
     'children' => 
@@ -3328,7 +3399,7 @@
   ),
   'ilforumpagegui' => 
   array (
-    'cid' => 'd0',
+    'cid' => 'd5',
     'class_name' => 'ilForumPageGUI',
     'class_path' => './components/ILIAS/Forum/classes/CoPage/class.ilForumPageGUI.php',
     'children' => 
@@ -3349,7 +3420,7 @@
   ),
   'ilforumsettingsgui' => 
   array (
-    'cid' => 'd1',
+    'cid' => 'd6',
     'class_name' => 'ilForumSettingsGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilForumSettingsGUI.php',
     'children' => 
@@ -3363,7 +3434,7 @@
   ),
   'ilglobalunitconfigurationgui' => 
   array (
-    'cid' => 'd9',
+    'cid' => 'de',
     'class_name' => 'ilGlobalUnitConfigurationGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilGlobalUnitConfigurationGUI.php',
     'children' => 
@@ -3376,7 +3447,7 @@
   ),
   'ilglossarydefpagegui' => 
   array (
-    'cid' => 'db',
+    'cid' => 'dg',
     'class_name' => 'ilGlossaryDefPageGUI',
     'class_path' => './components/ILIAS/Glossary/Definition/class.ilGlossaryDefPageGUI.php',
     'children' => 
@@ -3399,7 +3470,7 @@
   ),
   'ilglossaryeditorgui' => 
   array (
-    'cid' => 'dc',
+    'cid' => 'dh',
     'class_name' => 'ilGlossaryEditorGUI',
     'class_path' => './components/ILIAS/Glossary/Editing/class.ilGlossaryEditorGUI.php',
     'children' => 
@@ -3412,7 +3483,7 @@
   ),
   'ilglossaryflashcardboxgui' => 
   array (
-    'cid' => 'dd',
+    'cid' => 'di',
     'class_name' => 'ilGlossaryFlashcardBoxGUI',
     'class_path' => './components/ILIAS/Glossary/Flashcard/class.ilGlossaryFlashcardBoxGUI.php',
     'children' => 
@@ -3426,7 +3497,7 @@
   ),
   'ilglossaryflashcardgui' => 
   array (
-    'cid' => 'de',
+    'cid' => 'dj',
     'class_name' => 'ilGlossaryFlashcardGUI',
     'class_path' => './components/ILIAS/Glossary/Flashcard/class.ilGlossaryFlashcardGUI.php',
     'children' => 
@@ -3440,7 +3511,7 @@
   ),
   'ilglossaryforeigntermcollectorgui' => 
   array (
-    'cid' => 'df',
+    'cid' => 'dk',
     'class_name' => 'ilGlossaryForeignTermCollectorGUI',
     'class_path' => './components/ILIAS/Glossary/Term/class.ilGlossaryForeignTermCollectorGUI.php',
     'children' => 
@@ -3453,7 +3524,7 @@
   ),
   'ilglossarypresentationgui' => 
   array (
-    'cid' => 'di',
+    'cid' => 'dn',
     'class_name' => 'ilGlossaryPresentationGUI',
     'class_path' => './components/ILIAS/Glossary/Presentation/class.ilGlossaryPresentationGUI.php',
     'children' => 
@@ -3472,7 +3543,7 @@
   ),
   'ilglossarytermgui' => 
   array (
-    'cid' => 'dj',
+    'cid' => 'do',
     'class_name' => 'ilGlossaryTermGUI',
     'class_path' => './components/ILIAS/Glossary/Term/class.ilGlossaryTermGUI.php',
     'children' => 
@@ -3489,7 +3560,7 @@
   ),
   'ilgroupaddtogroupactiongui' => 
   array (
-    'cid' => 'dn',
+    'cid' => 'ds',
     'class_name' => 'ilGroupAddToGroupActionGUI',
     'class_path' => './components/ILIAS/Group/UserActions/classes/class.ilGroupAddToGroupActionGUI.php',
     'children' => 
@@ -3502,7 +3573,7 @@
   ),
   'ilgroupmembershipgui' => 
   array (
-    'cid' => 'dp',
+    'cid' => 'du',
     'class_name' => 'ilGroupMembershipGUI',
     'class_path' => './components/ILIAS/Group/classes/class.ilGroupMembershipGUI.php',
     'children' => 
@@ -3522,7 +3593,7 @@
   ),
   'ilgroupregistrationgui' => 
   array (
-    'cid' => 'dr',
+    'cid' => 'dw',
     'class_name' => 'ilGroupRegistrationGUI',
     'class_path' => './components/ILIAS/Group/classes/class.ilGroupRegistrationGUI.php',
     'children' => 
@@ -3535,7 +3606,7 @@
   ),
   'ilgroupuseractionsgui' => 
   array (
-    'cid' => 'ds',
+    'cid' => 'dx',
     'class_name' => 'ilGroupUserActionsGUI',
     'class_path' => './components/ILIAS/Group/UserActions/classes/class.ilGroupUserActionsGUI.php',
     'children' => 
@@ -3549,7 +3620,7 @@
   ),
   'ilhtlmeditorgui' => 
   array (
-    'cid' => 'du',
+    'cid' => 'dz',
     'class_name' => 'ilHTLMEditorGUI',
     'class_path' => './components/ILIAS/HTMLLearningModule/classes/class.ilHTLMEditorGUI.php',
     'children' => 
@@ -3562,7 +3633,7 @@
   ),
   'ilhtlmpresentationgui' => 
   array (
-    'cid' => 'dv',
+    'cid' => 'e0',
     'class_name' => 'ilHTLMPresentationGUI',
     'class_path' => './components/ILIAS/HTMLLearningModule/classes/class.ilHTLMPresentationGUI.php',
     'children' => 
@@ -3575,9 +3646,9 @@
   ),
   'ilhelpgui' => 
   array (
-    'cid' => 'dw',
+    'cid' => 'e1',
     'class_name' => 'ilHelpGUI',
-    'class_path' => './Services/Help/classes/class.ilHelpGUI.php',
+    'class_path' => './components/ILIAS/Help/classes/class.ilHelpGUI.php',
     'children' => 
     array (
       0 => 'illmpagegui',
@@ -3588,9 +3659,9 @@
   ),
   'ilimagemapeditorgui' => 
   array (
-    'cid' => 'e7',
+    'cid' => 'ec',
     'class_name' => 'ilImageMapEditorGUI',
-    'class_path' => './Services/MediaObjects/ImageMap/class.ilImageMapEditorGUI.php',
+    'class_path' => './components/ILIAS/MediaObjects/ImageMap/class.ilImageMapEditorGUI.php',
     'children' => 
     array (
       0 => 'ilinternallinkgui',
@@ -3602,9 +3673,9 @@
   ),
   'ilimprintgui' => 
   array (
-    'cid' => 'ec',
+    'cid' => 'eh',
     'class_name' => 'ilImprintGUI',
-    'class_path' => './Services/Imprint/classes/class.ilImprintGUI.php',
+    'class_path' => './components/ILIAS/Imprint/classes/class.ilImprintGUI.php',
     'children' => 
     array (
       0 => 'ilpageeditorgui',
@@ -3619,7 +3690,7 @@
   ),
   'ilindividualassessmentcommonsettingsgui' => 
   array (
-    'cid' => 'ee',
+    'cid' => 'ej',
     'class_name' => 'ilIndividualAssessmentCommonSettingsGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentCommonSettingsGUI.php',
     'children' => 
@@ -3632,7 +3703,7 @@
   ),
   'ilindividualassessmentmembergui' => 
   array (
-    'cid' => 'ef',
+    'cid' => 'ek',
     'class_name' => 'ilIndividualAssessmentMemberGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/class.ilIndividualAssessmentMemberGUI.php',
     'children' => 
@@ -3645,7 +3716,7 @@
   ),
   'ilindividualassessmentmembersgui' => 
   array (
-    'cid' => 'eg',
+    'cid' => 'el',
     'class_name' => 'ilIndividualAssessmentMembersGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/class.ilIndividualAssessmentMembersGUI.php',
     'children' => 
@@ -3660,7 +3731,7 @@
   ),
   'ilindividualassessmentsettingsgui' => 
   array (
-    'cid' => 'ei',
+    'cid' => 'en',
     'class_name' => 'ilIndividualAssessmentSettingsGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php',
     'children' => 
@@ -3675,9 +3746,9 @@
   ),
   'ilinfoscreengui' => 
   array (
-    'cid' => 'ej',
+    'cid' => 'eo',
     'class_name' => 'ilInfoScreenGUI',
-    'class_path' => './Services/InfoScreen/classes/class.ilInfoScreenGUI.php',
+    'class_path' => './components/ILIAS/InfoScreen/classes/class.ilInfoScreenGUI.php',
     'children' => 
     array (
       0 => 'ilcommentgui',
@@ -3752,9 +3823,9 @@
   ),
   'ilinternallinkgui' => 
   array (
-    'cid' => 'el',
+    'cid' => 'eq',
     'class_name' => 'ilInternalLinkGUI',
-    'class_path' => './Services/Link/classes/class.ilInternalLinkGUI.php',
+    'class_path' => './components/ILIAS/Link/classes/class.ilInternalLinkGUI.php',
     'children' => 
     array (
     ),
@@ -3782,9 +3853,9 @@
   ),
   'illdapsettingsgui' => 
   array (
-    'cid' => 'eu',
+    'cid' => 'f0',
     'class_name' => 'ilLDAPSettingsGUI',
-    'class_path' => './Services/LDAP/classes/class.ilLDAPSettingsGUI.php',
+    'class_path' => './components/ILIAS/LDAP/classes/class.ilLDAPSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -3795,7 +3866,7 @@
   ),
   'illmeditshorttitlesgui' => 
   array (
-    'cid' => 'ey',
+    'cid' => 'f4',
     'class_name' => 'ilLMEditShortTitlesGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilLMEditShortTitlesGUI.php',
     'children' => 
@@ -3809,7 +3880,7 @@
   ),
   'illmeditorgui' => 
   array (
-    'cid' => 'f1',
+    'cid' => 'f7',
     'class_name' => 'ilLMEditorGUI',
     'class_path' => './components/ILIAS/LearningModule/Editing/class.ilLMEditorGUI.php',
     'children' => 
@@ -3822,7 +3893,7 @@
   ),
   'illmimportgui' => 
   array (
-    'cid' => 'f4',
+    'cid' => 'fa',
     'class_name' => 'ilLMImportGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilLMImportGUI.php',
     'children' => 
@@ -3836,7 +3907,7 @@
   ),
   'illmpagegui' => 
   array (
-    'cid' => 'f9',
+    'cid' => 'ff',
     'class_name' => 'ilLMPageGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilLMPageGUI.php',
     'children' => 
@@ -3861,7 +3932,7 @@
   ),
   'illmpageobjectgui' => 
   array (
-    'cid' => 'fa',
+    'cid' => 'fg',
     'class_name' => 'ilLMPageObjectGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilLMPageObjectGUI.php',
     'children' => 
@@ -3877,7 +3948,7 @@
   ),
   'illmpresentationgui' => 
   array (
-    'cid' => 'fc',
+    'cid' => 'fi',
     'class_name' => 'ilLMPresentationGUI',
     'class_path' => './components/ILIAS/LearningModule/Presentation/class.ilLMPresentationGUI.php',
     'children' => 
@@ -3897,7 +3968,7 @@
   ),
   'illoeditorgui' => 
   array (
-    'cid' => 'fh',
+    'cid' => 'fn',
     'class_name' => 'ilLOEditorGUI',
     'class_path' => './components/ILIAS/Course/classes/Objectives/class.ilLOEditorGUI.php',
     'children' => 
@@ -3914,7 +3985,7 @@
   ),
   'illomembertestresultgui' => 
   array (
-    'cid' => 'fi',
+    'cid' => 'fo',
     'class_name' => 'ilLOMemberTestResultGUI',
     'class_path' => './components/ILIAS/Course/classes/Objectives/class.ilLOMemberTestResultGUI.php',
     'children' => 
@@ -3927,7 +3998,7 @@
   ),
   'illopagegui' => 
   array (
-    'cid' => 'fk',
+    'cid' => 'fq',
     'class_name' => 'ilLOPageGUI',
     'class_path' => './components/ILIAS/Course/classes/Objectives/class.ilLOPageGUI.php',
     'children' => 
@@ -3949,9 +4020,9 @@
   ),
   'illplistofobjectsgui' => 
   array (
-    'cid' => 'fn',
+    'cid' => 'ft',
     'class_name' => 'ilLPListOfObjectsGUI',
-    'class_path' => './Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php',
     'children' => 
     array (
       0 => 'iluserfiltergui',
@@ -3967,9 +4038,9 @@
   ),
   'illplistofprogressgui' => 
   array (
-    'cid' => 'fo',
+    'cid' => 'fu',
     'class_name' => 'ilLPListOfProgressGUI',
-    'class_path' => './Services/Tracking/classes/repository_statistics/class.ilLPListOfProgressGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilLPListOfProgressGUI.php',
     'children' => 
     array (
       0 => 'illpprogresstablegui',
@@ -3981,9 +4052,9 @@
   ),
   'illplistofsettingsgui' => 
   array (
-    'cid' => 'fp',
+    'cid' => 'fv',
     'class_name' => 'ilLPListOfSettingsGUI',
-    'class_path' => './Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -3994,9 +4065,9 @@
   ),
   'illpobjectstatisticsadmintablegui' => 
   array (
-    'cid' => 'fq',
+    'cid' => 'fw',
     'class_name' => 'ilLPObjectStatisticsAdminTableGUI',
-    'class_path' => './Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsAdminTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsAdminTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4007,9 +4078,9 @@
   ),
   'illpobjectstatisticsdailytablegui' => 
   array (
-    'cid' => 'fr',
+    'cid' => 'fx',
     'class_name' => 'ilLPObjectStatisticsDailyTableGUI',
-    'class_path' => './Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4021,9 +4092,9 @@
   ),
   'illpobjectstatisticsgui' => 
   array (
-    'cid' => 'fs',
+    'cid' => 'fy',
     'class_name' => 'ilLPObjectStatisticsGUI',
-    'class_path' => './Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php',
     'children' => 
     array (
       0 => 'illpobjectstatisticstablegui',
@@ -4038,9 +4109,9 @@
   ),
   'illpobjectstatisticslptablegui' => 
   array (
-    'cid' => 'ft',
+    'cid' => 'fz',
     'class_name' => 'ilLPObjectStatisticsLPTableGUI',
-    'class_path' => './Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4052,9 +4123,9 @@
   ),
   'illpobjectstatisticstablegui' => 
   array (
-    'cid' => 'fu',
+    'cid' => 'g0',
     'class_name' => 'ilLPObjectStatisticsTableGUI',
-    'class_path' => './Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4066,9 +4137,9 @@
   ),
   'illpobjectstatisticstypestablegui' => 
   array (
-    'cid' => 'fv',
+    'cid' => 'g1',
     'class_name' => 'ilLPObjectStatisticsTypesTableGUI',
-    'class_path' => './Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4079,9 +4150,9 @@
   ),
   'illpprogresstablegui' => 
   array (
-    'cid' => 'fw',
+    'cid' => 'g2',
     'class_name' => 'ilLPProgressTableGUI',
-    'class_path' => './Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4093,7 +4164,7 @@
   ),
   'illticonsumeprovidersettingsgui' => 
   array (
-    'cid' => 'g1',
+    'cid' => 'g7',
     'class_name' => 'ilLTIConsumeProviderSettingsGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumeProviderSettingsGUI.php',
     'children' => 
@@ -4106,7 +4177,7 @@
   ),
   'illticonsumeradministrationgui' => 
   array (
-    'cid' => 'g2',
+    'cid' => 'g8',
     'class_name' => 'ilLTIConsumerAdministrationGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerAdministrationGUI.php',
     'children' => 
@@ -4119,7 +4190,7 @@
   ),
   'illticonsumercontentgui' => 
   array (
-    'cid' => 'g3',
+    'cid' => 'g9',
     'class_name' => 'ilLTIConsumerContentGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerContentGUI.php',
     'children' => 
@@ -4132,7 +4203,7 @@
   ),
   'illticonsumergradesynchronizationgui' => 
   array (
-    'cid' => 'g4',
+    'cid' => 'ga',
     'class_name' => 'ilLTIConsumerGradeSynchronizationGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerGradeSynchronizationGUI.php',
     'children' => 
@@ -4145,7 +4216,7 @@
   ),
   'illticonsumerscoringgui' => 
   array (
-    'cid' => 'g9',
+    'cid' => 'gf',
     'class_name' => 'ilLTIConsumerScoringGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerScoringGUI.php',
     'children' => 
@@ -4158,7 +4229,7 @@
   ),
   'illticonsumersettingsgui' => 
   array (
-    'cid' => 'gc',
+    'cid' => 'gi',
     'class_name' => 'ilLTIConsumerSettingsGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerSettingsGUI.php',
     'children' => 
@@ -4173,7 +4244,7 @@
   ),
   'illticonsumerxapistatementsgui' => 
   array (
-    'cid' => 'ge',
+    'cid' => 'gk',
     'class_name' => 'ilLTIConsumerXapiStatementsGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerXapiStatementsGUI.php',
     'children' => 
@@ -4186,9 +4257,9 @@
   ),
   'illtiproviderobjectsettinggui' => 
   array (
-    'cid' => 'gf',
+    'cid' => 'gl',
     'class_name' => 'ilLTIProviderObjectSettingGUI',
-    'class_path' => './Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSettingGUI.php',
+    'class_path' => './components/ILIAS/LTI/classes/InternalProvider/class.ilLTIProviderObjectSettingGUI.php',
     'children' => 
     array (
     ),
@@ -4208,9 +4279,9 @@
   ),
   'illtiroutergui' => 
   array (
-    'cid' => 'gh',
+    'cid' => 'gn',
     'class_name' => 'ilLTIRouterGUI',
-    'class_path' => './Services/LTI/classes/class.ilLTIRouterGUI.php',
+    'class_path' => './components/ILIAS/LTI/classes/class.ilLTIRouterGUI.php',
     'children' => 
     array (
       0 => 'illtiviewgui',
@@ -4221,9 +4292,9 @@
   ),
   'illtiviewgui' => 
   array (
-    'cid' => 'gi',
+    'cid' => 'go',
     'class_name' => 'ilLTIViewGUI',
-    'class_path' => './Services/LTI/classes/class.ilLTIViewGUI.php',
+    'class_path' => './components/ILIAS/LTI/classes/class.ilLTIViewGUI.php',
     'children' => 
     array (
     ),
@@ -4234,9 +4305,9 @@
   ),
   'illearninghistorygui' => 
   array (
-    'cid' => 'gl',
+    'cid' => 'gr',
     'class_name' => 'ilLearningHistoryGUI',
-    'class_path' => './Services/LearningHistory/classes/class.ilLearningHistoryGUI.php',
+    'class_path' => './components/ILIAS/LearningHistory/classes/class.ilLearningHistoryGUI.php',
     'children' => 
     array (
     ),
@@ -4249,9 +4320,9 @@
   ),
   'illearningprogressgui' => 
   array (
-    'cid' => 'go',
+    'cid' => 'gu',
     'class_name' => 'ilLearningProgressGUI',
-    'class_path' => './Services/Tracking/classes/class.ilLearningProgressGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/class.ilLearningProgressGUI.php',
     'children' => 
     array (
       0 => 'illplistofobjectsgui',
@@ -4293,7 +4364,7 @@
   ),
   'illearningsequencemembershipgui' => 
   array (
-    'cid' => 'gq',
+    'cid' => 'gw',
     'class_name' => 'ilLearningSequenceMembershipGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Members/class.ilLearningSequenceMembershipGUI.php',
     'children' => 
@@ -4313,9 +4384,9 @@
   ),
   'illegaldocumentsadministrationgui' => 
   array (
-    'cid' => 'gt',
+    'cid' => 'gz',
     'class_name' => 'ilLegalDocumentsAdministrationGUI',
-    'class_path' => './Services/LegalDocuments/classes/class.ilLegalDocumentsAdministrationGUI.php',
+    'class_path' => './components/ILIAS/LegalDocuments/classes/class.ilLegalDocumentsAdministrationGUI.php',
     'children' => 
     array (
     ),
@@ -4327,9 +4398,9 @@
   ),
   'illegaldocumentsagreementgui' => 
   array (
-    'cid' => 'gu',
+    'cid' => 'h0',
     'class_name' => 'ilLegalDocumentsAgreementGUI',
-    'class_path' => './Services/LegalDocuments/classes/class.ilLegalDocumentsAgreementGUI.php',
+    'class_path' => './components/ILIAS/LegalDocuments/classes/class.ilLegalDocumentsAgreementGUI.php',
     'children' => 
     array (
     ),
@@ -4340,9 +4411,9 @@
   ),
   'illegaldocumentswithdrawalgui' => 
   array (
-    'cid' => 'gv',
+    'cid' => 'h1',
     'class_name' => 'ilLegalDocumentsWithdrawalGUI',
-    'class_path' => './Services/LegalDocuments/classes/class.ilLegalDocumentsWithdrawalGUI.php',
+    'class_path' => './components/ILIAS/LegalDocuments/classes/class.ilLegalDocumentsWithdrawalGUI.php',
     'children' => 
     array (
     ),
@@ -4353,9 +4424,9 @@
   ),
   'illikegui' => 
   array (
-    'cid' => 'gx',
+    'cid' => 'h3',
     'class_name' => 'ilLikeGUI',
-    'class_path' => './Services/Like/classes/class.ilLikeGUI.php',
+    'class_path' => './components/ILIAS/Like/classes/class.ilLikeGUI.php',
     'children' => 
     array (
     ),
@@ -4366,9 +4437,9 @@
   ),
   'illinkinputgui' => 
   array (
-    'cid' => 'gy',
+    'cid' => 'h4',
     'class_name' => 'ilLinkInputGUI',
-    'class_path' => './Services/Form/classes/class.ilLinkInputGUI.php',
+    'class_path' => './components/ILIAS/Form/classes/class.ilLinkInputGUI.php',
     'children' => 
     array (
       0 => 'ilinternallinkgui',
@@ -4380,7 +4451,7 @@
   ),
   'illinkresourcehandlergui' => 
   array (
-    'cid' => 'gz',
+    'cid' => 'h5',
     'class_name' => 'ilLinkResourceHandlerGUI',
     'class_path' => './components/ILIAS/WebResource/classes/class.ilLinkResourceHandlerGUI.php',
     'children' => 
@@ -4393,7 +4464,7 @@
   ),
   'illocalunitconfigurationgui' => 
   array (
-    'cid' => 'h4',
+    'cid' => 'ha',
     'class_name' => 'ilLocalUnitConfigurationGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilLocalUnitConfigurationGUI.php',
     'children' => 
@@ -4407,7 +4478,7 @@
   ),
   'illocalusergui' => 
   array (
-    'cid' => 'h5',
+    'cid' => 'hb',
     'class_name' => 'ilLocalUserGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/LocalUser/class.ilLocalUserGUI.php',
     'children' => 
@@ -4420,9 +4491,9 @@
   ),
   'illoginpagegui' => 
   array (
-    'cid' => 'ha',
+    'cid' => 'hg',
     'class_name' => 'ilLoginPageGUI',
-    'class_path' => './Services/Authentication/classes/class.ilLoginPageGUI.php',
+    'class_path' => './components/ILIAS/Authentication/classes/class.ilLoginPageGUI.php',
     'children' => 
     array (
       0 => 'ilpageeditorgui',
@@ -4441,9 +4512,9 @@
   ),
   'illuceneadvancedsearchgui' => 
   array (
-    'cid' => 'hc',
+    'cid' => 'hi',
     'class_name' => 'ilLuceneAdvancedSearchGUI',
-    'class_path' => './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/Lucene/class.ilLuceneAdvancedSearchGUI.php',
     'children' => 
     array (
       0 => 'ilobjectgui',
@@ -4462,9 +4533,9 @@
   ),
   'illucenesearchgui' => 
   array (
-    'cid' => 'he',
+    'cid' => 'hk',
     'class_name' => 'ilLuceneSearchGUI',
-    'class_path' => './Services/Search/classes/Lucene/class.ilLuceneSearchGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/Lucene/class.ilLuceneSearchGUI.php',
     'children' => 
     array (
       0 => 'ilpropertyformgui',
@@ -4484,9 +4555,9 @@
   ),
   'illuceneusersearchgui' => 
   array (
-    'cid' => 'hf',
+    'cid' => 'hl',
     'class_name' => 'ilLuceneUserSearchGUI',
-    'class_path' => './Services/Search/classes/Lucene/class.ilLuceneUserSearchGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/Lucene/class.ilLuceneUserSearchGUI.php',
     'children' => 
     array (
       0 => 'ilpublicuserprofilegui',
@@ -4498,9 +4569,9 @@
   ),
   'ilmdcopyrightimageuploadhandlergui' => 
   array (
-    'cid' => 'hg',
+    'cid' => 'hm',
     'class_name' => 'ilMDCopyrightImageUploadHandlerGUI',
-    'class_path' => './Services/MetaData/classes/Settings/Copyright/class.ilMDCopyrightImageUploadHandlerGUI.php',
+    'class_path' => './components/ILIAS/MetaData/classes/Settings/Copyright/class.ilMDCopyrightImageUploadHandlerGUI.php',
     'children' => 
     array (
     ),
@@ -4511,9 +4582,9 @@
   ),
   'ilmdcopyrightselectiongui' => 
   array (
-    'cid' => 'hh',
+    'cid' => 'hn',
     'class_name' => 'ilMDCopyrightSelectionGUI',
-    'class_path' => './Services/MetaData/classes/Settings/Copyright/class.ilMDCopyrightSelectionGUI.php',
+    'class_path' => './components/ILIAS/MetaData/classes/Settings/Copyright/class.ilMDCopyrightSelectionGUI.php',
     'children' => 
     array (
       0 => 'ilmdcopyrightusagegui',
@@ -4526,9 +4597,9 @@
   ),
   'ilmdcopyrightusagegui' => 
   array (
-    'cid' => 'hj',
+    'cid' => 'hp',
     'class_name' => 'ilMDCopyrightUsageGUI',
-    'class_path' => './Services/MetaData/classes/Settings/Copyright/Usage/class.ilMDCopyrightUsageGUI.php',
+    'class_path' => './components/ILIAS/MetaData/classes/Settings/Copyright/Usage/class.ilMDCopyrightUsageGUI.php',
     'children' => 
     array (
       0 => 'ilpublicuserprofilegui',
@@ -4540,9 +4611,9 @@
   ),
   'ilmdeditorgui' => 
   array (
-    'cid' => 'hl',
+    'cid' => 'hr',
     'class_name' => 'ilMDEditorGUI',
-    'class_path' => './Services/MetaData/classes/Editor/class.ilMDEditorGUI.php',
+    'class_path' => './components/ILIAS/MetaData/classes/Editor/class.ilMDEditorGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4569,9 +4640,9 @@
   ),
   'ilmmitemtranslationgui' => 
   array (
-    'cid' => 'hn',
+    'cid' => 'ht',
     'class_name' => 'ilMMItemTranslationGUI',
-    'class_path' => './Services/MainMenu/classes/Administration/class.ilMMItemTranslationGUI.php',
+    'class_path' => './components/ILIAS/MainMenu/classes/Administration/class.ilMMItemTranslationGUI.php',
     'children' => 
     array (
     ),
@@ -4583,9 +4654,9 @@
   ),
   'ilmmsubitemgui' => 
   array (
-    'cid' => 'hp',
+    'cid' => 'hv',
     'class_name' => 'ilMMSubItemGUI',
-    'class_path' => './Services/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
+    'class_path' => './components/ILIAS/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
     'children' => 
     array (
       0 => 'ilmmitemtranslationgui',
@@ -4597,9 +4668,9 @@
   ),
   'ilmmtopitemgui' => 
   array (
-    'cid' => 'ht',
+    'cid' => 'hz',
     'class_name' => 'ilMMTopItemGUI',
-    'class_path' => './Services/MainMenu/classes/Administration/class.ilMMTopItemGUI.php',
+    'class_path' => './components/ILIAS/MainMenu/classes/Administration/class.ilMMTopItemGUI.php',
     'children' => 
     array (
       0 => 'ilmmitemtranslationgui',
@@ -4611,9 +4682,9 @@
   ),
   'ilmmuploadhandlergui' => 
   array (
-    'cid' => 'hv',
+    'cid' => 'i1',
     'class_name' => 'ilMMUploadHandlerGUI',
-    'class_path' => './Services/MainMenu/classes/Administration/class.ilMMUploadHandlerGUI.php',
+    'class_path' => './components/ILIAS/MainMenu/classes/Administration/class.ilMMUploadHandlerGUI.php',
     'children' => 
     array (
     ),
@@ -4624,9 +4695,9 @@
   ),
   'ilmstlistcertificatesgui' => 
   array (
-    'cid' => 'hw',
+    'cid' => 'i2',
     'class_name' => 'ilMStListCertificatesGUI',
-    'class_path' => './Services/MyStaff/classes/ListCertificates/class.ilMStListCertificatesGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ListCertificates/class.ilMStListCertificatesGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4639,9 +4710,9 @@
   ),
   'ilmstlistcompetencesgui' => 
   array (
-    'cid' => 'hx',
+    'cid' => 'i3',
     'class_name' => 'ilMStListCompetencesGUI',
-    'class_path' => './Services/MyStaff/classes/ListCompetences/class.ilMStListCompetencesGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ListCompetences/class.ilMStListCompetencesGUI.php',
     'children' => 
     array (
       0 => 'ilmstlistcompetencesskillsgui',
@@ -4653,9 +4724,9 @@
   ),
   'ilmstlistcompetencesskillsgui' => 
   array (
-    'cid' => 'hy',
+    'cid' => 'i4',
     'class_name' => 'ilMStListCompetencesSkillsGUI',
-    'class_path' => './Services/MyStaff/classes/ListCompetences/Skills/class.ilMStListCompetencesSkillsGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ListCompetences/Skills/class.ilMStListCompetencesSkillsGUI.php',
     'children' => 
     array (
     ),
@@ -4666,9 +4737,9 @@
   ),
   'ilmstlistcoursesgui' => 
   array (
-    'cid' => 'hz',
+    'cid' => 'i5',
     'class_name' => 'ilMStListCoursesGUI',
-    'class_path' => './Services/MyStaff/classes/ListCourses/class.ilMStListCoursesGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ListCourses/class.ilMStListCoursesGUI.php',
     'children' => 
     array (
       0 => 'ilmstlistcoursestablegui',
@@ -4680,9 +4751,9 @@
   ),
   'ilmstlistcoursestablegui' => 
   array (
-    'cid' => 'i0',
+    'cid' => 'i6',
     'class_name' => 'ilMStListCoursesTableGUI',
-    'class_path' => './Services/MyStaff/classes/ListCourses/class.ilMStListCoursesTableGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ListCourses/class.ilMStListCoursesTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4694,9 +4765,9 @@
   ),
   'ilmstlistusersgui' => 
   array (
-    'cid' => 'i1',
+    'cid' => 'i7',
     'class_name' => 'ilMStListUsersGUI',
-    'class_path' => './Services/MyStaff/classes/ListUsers/class.ilMStListUsersGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ListUsers/class.ilMStListUsersGUI.php',
     'children' => 
     array (
     ),
@@ -4707,9 +4778,9 @@
   ),
   'ilmstshowusercompetencesgui' => 
   array (
-    'cid' => 'i2',
+    'cid' => 'i8',
     'class_name' => 'ilMStShowUserCompetencesGUI',
-    'class_path' => './Services/MyStaff/classes/ShowUser/Competences/class.ilMStShowUserCompetencesGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ShowUser/Competences/class.ilMStShowUserCompetencesGUI.php',
     'children' => 
     array (
     ),
@@ -4720,9 +4791,9 @@
   ),
   'ilmstshowusercoursesgui' => 
   array (
-    'cid' => 'i3',
+    'cid' => 'i9',
     'class_name' => 'ilMStShowUserCoursesGUI',
-    'class_path' => './Services/MyStaff/classes/ShowUser/Courses/class.ilMStShowUserCoursesGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ShowUser/Courses/class.ilMStShowUserCoursesGUI.php',
     'children' => 
     array (
       0 => 'ilmstshowusercoursestablegui',
@@ -4734,9 +4805,9 @@
   ),
   'ilmstshowusercoursestablegui' => 
   array (
-    'cid' => 'i4',
+    'cid' => 'ia',
     'class_name' => 'ilMStShowUserCoursesTableGUI',
-    'class_path' => './Services/MyStaff/classes/ShowUser/Courses/class.ilMStShowUserCoursesTableGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ShowUser/Courses/class.ilMStShowUserCoursesTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -4748,9 +4819,9 @@
   ),
   'ilmstshowusergui' => 
   array (
-    'cid' => 'i5',
+    'cid' => 'ib',
     'class_name' => 'ilMStShowUserGUI',
-    'class_path' => './Services/MyStaff/classes/ShowUser/class.ilMStShowUserGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/ShowUser/class.ilMStShowUserGUI.php',
     'children' => 
     array (
       0 => 'ilusercertificategui',
@@ -4765,9 +4836,9 @@
   ),
   'ilmailattachmentgui' => 
   array (
-    'cid' => 'i6',
+    'cid' => 'ic',
     'class_name' => 'ilMailAttachmentGUI',
-    'class_path' => './Services/Mail/classes/class.ilMailAttachmentGUI.php',
+    'class_path' => './components/ILIAS/Mail/classes/class.ilMailAttachmentGUI.php',
     'children' => 
     array (
     ),
@@ -4779,9 +4850,9 @@
   ),
   'ilmailfoldergui' => 
   array (
-    'cid' => 'i8',
+    'cid' => 'ie',
     'class_name' => 'ilMailFolderGUI',
-    'class_path' => './Services/Mail/classes/class.ilMailFolderGUI.php',
+    'class_path' => './components/ILIAS/Mail/classes/class.ilMailFolderGUI.php',
     'children' => 
     array (
       0 => 'ilpublicuserprofilegui',
@@ -4793,9 +4864,9 @@
   ),
   'ilmailformgui' => 
   array (
-    'cid' => 'ib',
+    'cid' => 'ih',
     'class_name' => 'ilMailFormGUI',
-    'class_path' => './Services/Mail/classes/class.ilMailFormGUI.php',
+    'class_path' => './components/ILIAS/Mail/classes/class.ilMailFormGUI.php',
     'children' => 
     array (
       0 => 'ilmailattachmentgui',
@@ -4811,9 +4882,9 @@
   ),
   'ilmailgui' => 
   array (
-    'cid' => 'ic',
+    'cid' => 'ii',
     'class_name' => 'ilMailGUI',
-    'class_path' => './Services/Mail/classes/class.ilMailGUI.php',
+    'class_path' => './components/ILIAS/Mail/classes/class.ilMailGUI.php',
     'children' => 
     array (
       0 => 'ilmailfoldergui',
@@ -4830,9 +4901,9 @@
   ),
   'ilmailmembersearchgui' => 
   array (
-    'cid' => 'id',
+    'cid' => 'ij',
     'class_name' => 'ilMailMemberSearchGUI',
-    'class_path' => './Services/Contact/classes/class.ilMailMemberSearchGUI.php',
+    'class_path' => './components/ILIAS/Contact/classes/class.ilMailMemberSearchGUI.php',
     'children' => 
     array (
     ),
@@ -4848,9 +4919,9 @@
   ),
   'ilmailoptionsgui' => 
   array (
-    'cid' => 'ig',
+    'cid' => 'im',
     'class_name' => 'ilMailOptionsGUI',
-    'class_path' => './Services/Mail/classes/class.ilMailOptionsGUI.php',
+    'class_path' => './components/ILIAS/Mail/classes/class.ilMailOptionsGUI.php',
     'children' => 
     array (
     ),
@@ -4862,9 +4933,9 @@
   ),
   'ilmailsearchcoursesgui' => 
   array (
-    'cid' => 'ii',
+    'cid' => 'io',
     'class_name' => 'ilMailSearchCoursesGUI',
-    'class_path' => './Services/Contact/classes/class.ilMailSearchCoursesGUI.php',
+    'class_path' => './components/ILIAS/Contact/classes/class.ilMailSearchCoursesGUI.php',
     'children' => 
     array (
       0 => 'ilbuddysystemgui',
@@ -4878,9 +4949,9 @@
   ),
   'ilmailsearchgui' => 
   array (
-    'cid' => 'ij',
+    'cid' => 'ip',
     'class_name' => 'ilMailSearchGUI',
-    'class_path' => './Services/Contact/classes/class.ilMailSearchGUI.php',
+    'class_path' => './components/ILIAS/Contact/classes/class.ilMailSearchGUI.php',
     'children' => 
     array (
     ),
@@ -4894,9 +4965,9 @@
   ),
   'ilmailsearchgroupsgui' => 
   array (
-    'cid' => 'ik',
+    'cid' => 'iq',
     'class_name' => 'ilMailSearchGroupsGUI',
-    'class_path' => './Services/Contact/classes/class.ilMailSearchGroupsGUI.php',
+    'class_path' => './components/ILIAS/Contact/classes/class.ilMailSearchGroupsGUI.php',
     'children' => 
     array (
       0 => 'ilbuddysystemgui',
@@ -4910,9 +4981,9 @@
   ),
   'ilmailtemplategui' => 
   array (
-    'cid' => 'ip',
+    'cid' => 'iv',
     'class_name' => 'ilMailTemplateGUI',
-    'class_path' => './Services/Mail/classes/class.ilMailTemplateGUI.php',
+    'class_path' => './components/ILIAS/Mail/classes/class.ilMailTemplateGUI.php',
     'children' => 
     array (
     ),
@@ -4923,9 +4994,9 @@
   ),
   'ilmailinglistsgui' => 
   array (
-    'cid' => 'is',
+    'cid' => 'iy',
     'class_name' => 'ilMailingListsGUI',
-    'class_path' => './Services/Contact/classes/class.ilMailingListsGUI.php',
+    'class_path' => './components/ILIAS/Contact/classes/class.ilMailingListsGUI.php',
     'children' => 
     array (
     ),
@@ -4937,7 +5008,7 @@
   ),
   'ilmarkschemagui' => 
   array (
-    'cid' => 'iy',
+    'cid' => 'j4',
     'class_name' => 'ilMarkSchemaGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilMarkSchemaGUI.php',
     'children' => 
@@ -4950,9 +5021,9 @@
   ),
   'ilmathjaxsettingsgui' => 
   array (
-    'cid' => 'j3',
+    'cid' => 'j9',
     'class_name' => 'ilMathJaxSettingsGUI',
-    'class_path' => './Services/MathJax/classes/class.ilMathJaxSettingsGUI.php',
+    'class_path' => './components/ILIAS/MathJax/classes/class.ilMathJaxSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -4963,7 +5034,7 @@
   ),
   'ilmediacasthandlergui' => 
   array (
-    'cid' => 'j5',
+    'cid' => 'jb',
     'class_name' => 'ilMediaCastHandlerGUI',
     'class_path' => './components/ILIAS/MediaCast/classes/class.ilMediaCastHandlerGUI.php',
     'children' => 
@@ -4976,9 +5047,9 @@
   ),
   'ilmediacreationgui' => 
   array (
-    'cid' => 'j9',
+    'cid' => 'jf',
     'class_name' => 'ilMediaCreationGUI',
-    'class_path' => './Services/MediaObjects/Creation/class.ilMediaCreationGUI.php',
+    'class_path' => './components/ILIAS/MediaObjects/Creation/class.ilMediaCreationGUI.php',
     'children' => 
     array (
       0 => 'ilpropertyformgui',
@@ -4992,9 +5063,9 @@
   ),
   'ilmediaobjectsplayerwrappergui' => 
   array (
-    'cid' => 'jb',
+    'cid' => 'jh',
     'class_name' => 'ilMediaObjectsPlayerWrapperGUI',
-    'class_path' => './Services/MediaObjects/Player/class.ilMediaObjectsPlayerWrapperGUI.php',
+    'class_path' => './components/ILIAS/MediaObjects/Player/class.ilMediaObjectsPlayerWrapperGUI.php',
     'children' => 
     array (
     ),
@@ -5005,7 +5076,7 @@
   ),
   'ilmediapoolimportgui' => 
   array (
-    'cid' => 'jd',
+    'cid' => 'jj',
     'class_name' => 'ilMediaPoolImportGUI',
     'class_path' => './components/ILIAS/MediaPool/classes/class.ilMediaPoolImportGUI.php',
     'children' => 
@@ -5018,7 +5089,7 @@
   ),
   'ilmediapoolpagegui' => 
   array (
-    'cid' => 'je',
+    'cid' => 'jk',
     'class_name' => 'ilMediaPoolPageGUI',
     'class_path' => './components/ILIAS/MediaPool/classes/class.ilMediaPoolPageGUI.php',
     'children' => 
@@ -5035,7 +5106,7 @@
   ),
   'ilmediapoolpresentationgui' => 
   array (
-    'cid' => 'jg',
+    'cid' => 'jm',
     'class_name' => 'ilMediaPoolPresentationGUI',
     'class_path' => './components/ILIAS/MediaPool/classes/class.ilMediaPoolPresentationGUI.php',
     'children' => 
@@ -5048,9 +5119,9 @@
   ),
   'ilmemberagreementgui' => 
   array (
-    'cid' => 'ji',
+    'cid' => 'jo',
     'class_name' => 'ilMemberAgreementGUI',
-    'class_path' => './Services/Membership/classes/class.ilMemberAgreementGUI.php',
+    'class_path' => './components/ILIAS/Membership/classes/class.ilMemberAgreementGUI.php',
     'children' => 
     array (
     ),
@@ -5062,9 +5133,9 @@
   ),
   'ilmemberexportgui' => 
   array (
-    'cid' => 'jk',
+    'cid' => 'jq',
     'class_name' => 'ilMemberExportGUI',
-    'class_path' => './Services/Membership/classes/Export/class.ilMemberExportGUI.php',
+    'class_path' => './components/ILIAS/Membership/classes/Export/class.ilMemberExportGUI.php',
     'children' => 
     array (
     ),
@@ -5080,9 +5151,9 @@
   ),
   'ilmemberexportsettingsgui' => 
   array (
-    'cid' => 'jl',
+    'cid' => 'jr',
     'class_name' => 'ilMemberExportSettingsGUI',
-    'class_path' => './Services/Membership/classes/Export/class.ilMemberExportSettingsGUI.php',
+    'class_path' => './components/ILIAS/Membership/classes/Export/class.ilMemberExportSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -5096,9 +5167,9 @@
   ),
   'ilmembershipblockgui' => 
   array (
-    'cid' => 'jo',
+    'cid' => 'ju',
     'class_name' => 'ilMembershipBlockGUI',
-    'class_path' => './Services/Dashboard/Block/classes/class.ilMembershipBlockGUI.php',
+    'class_path' => './components/ILIAS/Dashboard/Block/classes/class.ilMembershipBlockGUI.php',
     'children' => 
     array (
     ),
@@ -5110,9 +5181,9 @@
   ),
   'ilmembershipmailgui' => 
   array (
-    'cid' => 'jq',
+    'cid' => 'jw',
     'class_name' => 'ilMembershipMailGUI',
-    'class_path' => './Services/Membership/classes/class.ilMembershipMailGUI.php',
+    'class_path' => './components/ILIAS/Membership/classes/class.ilMembershipMailGUI.php',
     'children' => 
     array (
     ),
@@ -5123,9 +5194,9 @@
   ),
   'ilmembershipoverviewgui' => 
   array (
-    'cid' => 'jr',
+    'cid' => 'jx',
     'class_name' => 'ilMembershipOverviewGUI',
-    'class_path' => './Services/Membership/classes/class.ilMembershipOverviewGUI.php',
+    'class_path' => './components/ILIAS/Membership/classes/class.ilMembershipOverviewGUI.php',
     'children' => 
     array (
       0 => 'ilmembershipblockgui',
@@ -5137,9 +5208,9 @@
   ),
   'ilmessagegui' => 
   array (
-    'cid' => 'jt',
+    'cid' => 'jz',
     'class_name' => 'ilMessageGUI',
-    'class_path' => './Services/Notes/Message/class.ilMessageGUI.php',
+    'class_path' => './components/ILIAS/Notes/Message/class.ilMessageGUI.php',
     'children' => 
     array (
     ),
@@ -5150,9 +5221,9 @@
   ),
   'ilmobmultisrtuploadgui' => 
   array (
-    'cid' => 'jw',
+    'cid' => 'k2',
     'class_name' => 'ilMobMultiSrtUploadGUI',
-    'class_path' => './Services/MediaObjects/SubTitles/class.ilMobMultiSrtUploadGUI.php',
+    'class_path' => './components/ILIAS/MediaObjects/SubTitles/class.ilMobMultiSrtUploadGUI.php',
     'children' => 
     array (
     ),
@@ -5165,9 +5236,9 @@
   ),
   'ilmultilingualismgui' => 
   array (
-    'cid' => 'k2',
+    'cid' => 'k8',
     'class_name' => 'ilMultilingualismGUI',
-    'class_path' => './Services/Multilingualism/classes/class.ilMultilingualismGUI.php',
+    'class_path' => './components/ILIAS/Multilingualism/classes/class.ilMultilingualismGUI.php',
     'children' => 
     array (
     ),
@@ -5178,9 +5249,9 @@
   ),
   'ilmystaffgui' => 
   array (
-    'cid' => 'k8',
+    'cid' => 'ke',
     'class_name' => 'ilMyStaffGUI',
-    'class_path' => './Services/MyStaff/classes/class.ilMyStaffGUI.php',
+    'class_path' => './components/ILIAS/MyStaff/classes/class.ilMyStaffGUI.php',
     'children' => 
     array (
       0 => 'ilemployeetalkmystafflistgui',
@@ -5197,7 +5268,7 @@
   ),
   'ilmytestresultsgui' => 
   array (
-    'cid' => 'k9',
+    'cid' => 'kf',
     'class_name' => 'ilMyTestResultsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilMyTestResultsGUI.php',
     'children' => 
@@ -5214,7 +5285,7 @@
   ),
   'ilmytestsolutionsgui' => 
   array (
-    'cid' => 'ka',
+    'cid' => 'kg',
     'class_name' => 'ilMyTestSolutionsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilMyTestSolutionsGUI.php',
     'children' => 
@@ -5229,9 +5300,9 @@
   ),
   'ilnewsforcontextblockgui' => 
   array (
-    'cid' => 'ke',
+    'cid' => 'kk',
     'class_name' => 'ilNewsForContextBlockGUI',
-    'class_path' => './Services/News/classes/class.ilNewsForContextBlockGUI.php',
+    'class_path' => './components/ILIAS/News/classes/class.ilNewsForContextBlockGUI.php',
     'children' => 
     array (
       0 => 'ilnewsitemgui',
@@ -5243,9 +5314,9 @@
   ),
   'ilnewsitemgui' => 
   array (
-    'cid' => 'kg',
+    'cid' => 'km',
     'class_name' => 'ilNewsItemGUI',
-    'class_path' => './Services/News/classes/class.ilNewsItemGUI.php',
+    'class_path' => './components/ILIAS/News/classes/class.ilNewsItemGUI.php',
     'children' => 
     array (
     ),
@@ -5258,9 +5329,9 @@
   ),
   'ilnewstimelinegui' => 
   array (
-    'cid' => 'kh',
+    'cid' => 'kn',
     'class_name' => 'ilNewsTimelineGUI',
-    'class_path' => './Services/News/classes/class.ilNewsTimelineGUI.php',
+    'class_path' => './components/ILIAS/News/classes/class.ilNewsTimelineGUI.php',
     'children' => 
     array (
       0 => 'illikegui',
@@ -5275,9 +5346,9 @@
   ),
   'ilnotegui' => 
   array (
-    'cid' => 'kk',
+    'cid' => 'kq',
     'class_name' => 'ilNoteGUI',
-    'class_path' => './Services/Notes/Note/class.ilNoteGUI.php',
+    'class_path' => './components/ILIAS/Notes/Note/class.ilNoteGUI.php',
     'children' => 
     array (
     ),
@@ -5315,9 +5386,9 @@
   ),
   'ilnotificationgui' => 
   array (
-    'cid' => 'kl',
+    'cid' => 'kr',
     'class_name' => 'ilNotificationGUI',
-    'class_path' => './Services/Notifications/classes/class.ilNotificationGUI.php',
+    'class_path' => './components/ILIAS/Notifications/classes/class.ilNotificationGUI.php',
     'children' => 
     array (
     ),
@@ -5327,9 +5398,9 @@
   ),
   'ilobjaccessibilitysettingsgui' => 
   array (
-    'cid' => 'ko',
+    'cid' => 'ku',
     'class_name' => 'ilObjAccessibilitySettingsGUI',
-    'class_path' => './Services/Accessibility/classes/class.ilObjAccessibilitySettingsGUI.php',
+    'class_path' => './components/ILIAS/Accessibility/classes/class.ilObjAccessibilitySettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5342,9 +5413,9 @@
   ),
   'ilobjadministrativenotificationgui' => 
   array (
-    'cid' => 'kp',
+    'cid' => 'kv',
     'class_name' => 'ilObjAdministrativeNotificationGUI',
-    'class_path' => './Services/AdministrativeNotification/classes/class.ilObjAdministrativeNotificationGUI.php',
+    'class_path' => './components/ILIAS/AdministrativeNotification/classes/class.ilObjAdministrativeNotificationGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5357,9 +5428,9 @@
   ),
   'ilobjadvancededitinggui' => 
   array (
-    'cid' => 'kq',
+    'cid' => 'kw',
     'class_name' => 'ilObjAdvancedEditingGUI',
-    'class_path' => './Services/AdvancedEditing/classes/class.ilObjAdvancedEditingGUI.php',
+    'class_path' => './components/ILIAS/AdvancedEditing/classes/class.ilObjAdvancedEditingGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5371,7 +5442,7 @@
   ),
   'ilobjassessmentfoldergui' => 
   array (
-    'cid' => 'kr',
+    'cid' => 'kx',
     'class_name' => 'ilObjAssessmentFolderGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilObjAssessmentFolderGUI.php',
     'children' => 
@@ -5386,9 +5457,9 @@
   ),
   'ilobjauthsettingsgui' => 
   array (
-    'cid' => 'ks',
+    'cid' => 'ky',
     'class_name' => 'ilObjAuthSettingsGUI',
-    'class_path' => './Services/Authentication/classes/class.ilObjAuthSettingsGUI.php',
+    'class_path' => './components/ILIAS/Authentication/classes/class.ilObjAuthSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5407,9 +5478,9 @@
   ),
   'ilobjawarenessadministrationgui' => 
   array (
-    'cid' => 'ku',
+    'cid' => 'l0',
     'class_name' => 'ilObjAwarenessAdministrationGUI',
-    'class_path' => './Services/Awareness/Administration/class.ilObjAwarenessAdministrationGUI.php',
+    'class_path' => './components/ILIAS/Awareness/Administration/class.ilObjAwarenessAdministrationGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5422,9 +5493,9 @@
   ),
   'ilobjbadgeadministrationgui' => 
   array (
-    'cid' => 'kv',
+    'cid' => 'l1',
     'class_name' => 'ilObjBadgeAdministrationGUI',
-    'class_path' => './Services/Badge/classes/class.ilObjBadgeAdministrationGUI.php',
+    'class_path' => './components/ILIAS/Badge/classes/class.ilObjBadgeAdministrationGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5437,7 +5508,7 @@
   ),
   'ilobjbibliographicadmingui' => 
   array (
-    'cid' => 'kw',
+    'cid' => 'l2',
     'class_name' => 'ilObjBibliographicAdminGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/class.ilObjBibliographicAdminGUI.php',
     'children' => 
@@ -5455,7 +5526,7 @@
   ),
   'ilobjbibliographicgui' => 
   array (
-    'cid' => 'kx',
+    'cid' => 'l3',
     'class_name' => 'ilObjBibliographicGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/class.ilObjBibliographicGUI.php',
     'children' => 
@@ -5479,7 +5550,7 @@
   ),
   'ilobjbibliographicuploadhandlergui' => 
   array (
-    'cid' => 'kz',
+    'cid' => 'l5',
     'class_name' => 'ilObjBibliographicUploadHandlerGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/class.ilObjBibliographicUploadHandlerGUI.php',
     'children' => 
@@ -5494,7 +5565,7 @@
   ),
   'ilobjblogadministrationgui' => 
   array (
-    'cid' => 'l0',
+    'cid' => 'l6',
     'class_name' => 'ilObjBlogAdministrationGUI',
     'class_path' => './components/ILIAS/Blog/Administration/class.ilObjBlogAdministrationGUI.php',
     'children' => 
@@ -5508,7 +5579,7 @@
   ),
   'ilobjbloggui' => 
   array (
-    'cid' => 'l1',
+    'cid' => 'l7',
     'class_name' => 'ilObjBlogGUI',
     'class_path' => './components/ILIAS/Blog/classes/class.ilObjBlogGUI.php',
     'children' => 
@@ -5538,7 +5609,7 @@
   ),
   'ilobjbookingpoolgui' => 
   array (
-    'cid' => 'l3',
+    'cid' => 'l9',
     'class_name' => 'ilObjBookingPoolGUI',
     'class_path' => './components/ILIAS/BookingManager/classes/class.ilObjBookingPoolGUI.php',
     'children' => 
@@ -5564,9 +5635,9 @@
   ),
   'ilobjcalendarsettingsgui' => 
   array (
-    'cid' => 'l5',
+    'cid' => 'lb',
     'class_name' => 'ilObjCalendarSettingsGUI',
-    'class_path' => './Services/Calendar/classes/class.ilObjCalendarSettingsGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilObjCalendarSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5578,7 +5649,7 @@
   ),
   'ilobjcategorygui' => 
   array (
-    'cid' => 'l6',
+    'cid' => 'lc',
     'class_name' => 'ilObjCategoryGUI',
     'class_path' => './components/ILIAS/Category/classes/class.ilObjCategoryGUI.php',
     'children' => 
@@ -5615,7 +5686,7 @@
   ),
   'ilobjcategoryreferencegui' => 
   array (
-    'cid' => 'l8',
+    'cid' => 'le',
     'class_name' => 'ilObjCategoryReferenceGUI',
     'class_path' => './components/ILIAS/CategoryReference/classes/class.ilObjCategoryReferenceGUI.php',
     'children' => 
@@ -5632,9 +5703,9 @@
   ),
   'ilobjcertificatesettingsgui' => 
   array (
-    'cid' => 'la',
+    'cid' => 'lg',
     'class_name' => 'ilObjCertificateSettingsGUI',
-    'class_path' => './Services/Certificate/classes/class.ilObjCertificateSettingsGUI.php',
+    'class_path' => './components/ILIAS/Certificate/classes/class.ilObjCertificateSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5646,7 +5717,7 @@
   ),
   'ilobjchatroomadmingui' => 
   array (
-    'cid' => 'lb',
+    'cid' => 'lh',
     'class_name' => 'ilObjChatroomAdminGUI',
     'class_path' => './components/ILIAS/Chatroom/classes/class.ilObjChatroomAdminGUI.php',
     'children' => 
@@ -5666,7 +5737,7 @@
   ),
   'ilobjchatroomgui' => 
   array (
-    'cid' => 'lc',
+    'cid' => 'li',
     'class_name' => 'ilObjChatroomGUI',
     'class_path' => './components/ILIAS/Chatroom/classes/class.ilObjChatroomGUI.php',
     'children' => 
@@ -5690,7 +5761,7 @@
   ),
   'ilobjcloudgui' => 
   array (
-    'cid' => 'lf',
+    'cid' => 'll',
     'class_name' => 'ilObjCloudGUI',
     'class_path' => './components/ILIAS/Cloud/classes/class.ilObjCloudGUI.php',
     'children' => 
@@ -5714,7 +5785,7 @@
   ),
   'ilobjcmixapiadministrationgui' => 
   array (
-    'cid' => 'lh',
+    'cid' => 'ln',
     'class_name' => 'ilObjCmiXapiAdministrationGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilObjCmiXapiAdministrationGUI.php',
     'children' => 
@@ -5728,7 +5799,7 @@
   ),
   'ilobjcmixapigui' => 
   array (
-    'cid' => 'li',
+    'cid' => 'lo',
     'class_name' => 'ilObjCmiXapiGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilObjCmiXapiGUI.php',
     'children' => 
@@ -5754,7 +5825,7 @@
   ),
   'ilobjcmixapiverificationgui' => 
   array (
-    'cid' => 'lk',
+    'cid' => 'lq',
     'class_name' => 'ilObjCmiXapiVerificationGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/Verification/class.ilObjCmiXapiVerificationGUI.php',
     'children' => 
@@ -5767,9 +5838,9 @@
   ),
   'ilobjcommentssettingsgui' => 
   array (
-    'cid' => 'lm',
+    'cid' => 'ls',
     'class_name' => 'ilObjCommentsSettingsGUI',
-    'class_path' => './Services/Notes/Administration/classes/class.ilObjCommentsSettingsGUI.php',
+    'class_path' => './components/ILIAS/Notes/Administration/classes/class.ilObjCommentsSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5781,9 +5852,9 @@
   ),
   'ilobjcomponentsettingsgui' => 
   array (
-    'cid' => 'ln',
+    'cid' => 'lt',
     'class_name' => 'ilObjComponentSettingsGUI',
-    'class_path' => './Services/Component/classes/Settings/class.ilObjComponentSettingsGUI.php',
+    'class_path' => './components/ILIAS/Component/classes/Settings/class.ilObjComponentSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5795,9 +5866,9 @@
   ),
   'ilobjcontactadministrationgui' => 
   array (
-    'cid' => 'lo',
+    'cid' => 'lu',
     'class_name' => 'ilObjContactAdministrationGUI',
-    'class_path' => './Services/Contact/classes/class.ilObjContactAdministrationGUI.php',
+    'class_path' => './components/ILIAS/Contact/classes/class.ilObjContactAdministrationGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -5809,7 +5880,7 @@
   ),
   'ilobjcontentobjectgui' => 
   array (
-    'cid' => 'lp',
+    'cid' => 'lv',
     'class_name' => 'ilObjContentObjectGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilObjContentObjectGUI.php',
     'children' => 
@@ -5837,7 +5908,7 @@
   ),
   'ilobjcontentpageadministrationgui' => 
   array (
-    'cid' => 'lq',
+    'cid' => 'lw',
     'class_name' => 'ilObjContentPageAdministrationGUI',
     'class_path' => './components/ILIAS/ContentPage/classes/class.ilObjContentPageAdministrationGUI.php',
     'children' => 
@@ -5851,7 +5922,7 @@
   ),
   'ilobjcontentpagegui' => 
   array (
-    'cid' => 'lr',
+    'cid' => 'lx',
     'class_name' => 'ilObjContentPageGUI',
     'class_path' => './components/ILIAS/ContentPage/classes/class.ilObjContentPageGUI.php',
     'children' => 
@@ -5877,7 +5948,7 @@
   ),
   'ilobjcourseadministrationgui' => 
   array (
-    'cid' => 'lt',
+    'cid' => 'lz',
     'class_name' => 'ilObjCourseAdministrationGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilObjCourseAdministrationGUI.php',
     'children' => 
@@ -5893,7 +5964,7 @@
   ),
   'ilobjcoursegui' => 
   array (
-    'cid' => 'lu',
+    'cid' => 'm0',
     'class_name' => 'ilObjCourseGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilObjCourseGUI.php',
     'children' => 
@@ -5955,7 +6026,7 @@
   ),
   'ilobjcoursegroupinggui' => 
   array (
-    'cid' => 'lv',
+    'cid' => 'm1',
     'class_name' => 'ilObjCourseGroupingGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilObjCourseGroupingGUI.php',
     'children' => 
@@ -5969,7 +6040,7 @@
   ),
   'ilobjcoursereferencegui' => 
   array (
-    'cid' => 'lx',
+    'cid' => 'm3',
     'class_name' => 'ilObjCourseReferenceGUI',
     'class_path' => './components/ILIAS/CourseReference/classes/class.ilObjCourseReferenceGUI.php',
     'children' => 
@@ -5988,7 +6059,7 @@
   ),
   'ilobjcourseverificationgui' => 
   array (
-    'cid' => 'lz',
+    'cid' => 'm5',
     'class_name' => 'ilObjCourseVerificationGUI',
     'class_path' => './components/ILIAS/Course/classes/Verification/class.ilObjCourseVerificationGUI.php',
     'children' => 
@@ -6002,9 +6073,9 @@
   ),
   'ilobjdashboardsettingsgui' => 
   array (
-    'cid' => 'm1',
+    'cid' => 'm7',
     'class_name' => 'ilObjDashboardSettingsGUI',
-    'class_path' => './Services/Dashboard/Administration/classes/class.ilObjDashboardSettingsGUI.php',
+    'class_path' => './components/ILIAS/Dashboard/Administration/classes/class.ilObjDashboardSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6016,7 +6087,7 @@
   ),
   'ilobjdatacollectiongui' => 
   array (
-    'cid' => 'm2',
+    'cid' => 'm8',
     'class_name' => 'ilObjDataCollectionGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/class.ilObjDataCollectionGUI.php',
     'children' => 
@@ -6045,9 +6116,9 @@
   ),
   'ilobjdataprotectiongui' => 
   array (
-    'cid' => 'm4',
+    'cid' => 'ma',
     'class_name' => 'ilObjDataProtectionGUI',
-    'class_path' => './Services/DataProtection/classes/class.ilObjDataProtectionGUI.php',
+    'class_path' => './components/ILIAS/DataProtection/classes/class.ilObjDataProtectionGUI.php',
     'children' => 
     array (
       0 => 'illegaldocumentsadministrationgui',
@@ -6060,9 +6131,9 @@
   ),
   'ilobjecssettingsgui' => 
   array (
-    'cid' => 'm5',
+    'cid' => 'mb',
     'class_name' => 'ilObjECSSettingsGUI',
-    'class_path' => './Services/WebServices/ECS/classes/class.ilObjECSSettingsGUI.php',
+    'class_path' => './components/ILIAS/WebServices/ECS/classes/class.ilObjECSSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6075,7 +6146,7 @@
   ),
   'ilobjemployeetalkgui' => 
   array (
-    'cid' => 'm6',
+    'cid' => 'mc',
     'class_name' => 'ilObjEmployeeTalkGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/Talk/class.ilObjEmployeeTalkGUI.php',
     'children' => 
@@ -6098,7 +6169,7 @@
   ),
   'ilobjemployeetalkseriesgui' => 
   array (
-    'cid' => 'm8',
+    'cid' => 'me',
     'class_name' => 'ilObjEmployeeTalkSeriesGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/TalkSeries/class.ilObjEmployeeTalkSeriesGUI.php',
     'children' => 
@@ -6123,7 +6194,7 @@
   ),
   'ilobjemployeetalkserieslistgui' => 
   array (
-    'cid' => 'm9',
+    'cid' => 'mf',
     'class_name' => 'ilObjEmployeeTalkSeriesListGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/TalkSeries/class.ilObjEmployeeTalkSeriesListGUI.php',
     'children' => 
@@ -6136,7 +6207,7 @@
   ),
   'ilobjexerciseadministrationgui' => 
   array (
-    'cid' => 'ma',
+    'cid' => 'mg',
     'class_name' => 'ilObjExerciseAdministrationGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilObjExerciseAdministrationGUI.php',
     'children' => 
@@ -6150,7 +6221,7 @@
   ),
   'ilobjexercisegui' => 
   array (
-    'cid' => 'mb',
+    'cid' => 'mh',
     'class_name' => 'ilObjExerciseGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilObjExerciseGUI.php',
     'children' => 
@@ -6181,7 +6252,7 @@
   ),
   'ilobjexerciseverificationgui' => 
   array (
-    'cid' => 'me',
+    'cid' => 'mk',
     'class_name' => 'ilObjExerciseVerificationGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilObjExerciseVerificationGUI.php',
     'children' => 
@@ -6196,9 +6267,9 @@
   ),
   'ilobjexternaltoolssettingsgui' => 
   array (
-    'cid' => 'mg',
+    'cid' => 'mm',
     'class_name' => 'ilObjExternalToolsSettingsGUI',
-    'class_path' => './Services/Administration/classes/class.ilObjExternalToolsSettingsGUI.php',
+    'class_path' => './components/ILIAS/Administration/classes/class.ilObjExternalToolsSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6212,7 +6283,7 @@
   ),
   'ilobjfileaccesssettingsgui' => 
   array (
-    'cid' => 'mh',
+    'cid' => 'mn',
     'class_name' => 'ilObjFileAccessSettingsGUI',
     'class_path' => './components/ILIAS/File/classes/class.ilObjFileAccessSettingsGUI.php',
     'children' => 
@@ -6227,7 +6298,7 @@
   ),
   'ilobjfilebasedlmgui' => 
   array (
-    'cid' => 'mi',
+    'cid' => 'mo',
     'class_name' => 'ilObjFileBasedLMGUI',
     'class_path' => './components/ILIAS/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php',
     'children' => 
@@ -6251,7 +6322,7 @@
   ),
   'ilobjfilegui' => 
   array (
-    'cid' => 'mk',
+    'cid' => 'mq',
     'class_name' => 'ilObjFileGUI',
     'class_path' => './components/ILIAS/File/classes/class.ilObjFileGUI.php',
     'children' => 
@@ -6283,7 +6354,7 @@
   ),
   'ilobjfilepreviewrenderergui' => 
   array (
-    'cid' => 'mm',
+    'cid' => 'ms',
     'class_name' => 'ilObjFilePreviewRendererGUI',
     'class_path' => './components/ILIAS/File/classes/Preview/class.ilObjFilePreviewRendererGUI.php',
     'children' => 
@@ -6295,9 +6366,9 @@
   ),
   'ilobjfileservicesgui' => 
   array (
-    'cid' => 'mn',
+    'cid' => 'mt',
     'class_name' => 'ilObjFileServicesGUI',
-    'class_path' => './Services/FileServices/classes/class.ilObjFileServicesGUI.php',
+    'class_path' => './components/ILIAS/FileServices/classes/class.ilObjFileServicesGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6311,7 +6382,7 @@
   ),
   'ilobjfileuploadhandlergui' => 
   array (
-    'cid' => 'mo',
+    'cid' => 'mu',
     'class_name' => 'ilObjFileUploadHandlerGUI',
     'class_path' => './components/ILIAS/File/classes/class.ilObjFileUploadHandlerGUI.php',
     'children' => 
@@ -6328,7 +6399,7 @@
   ),
   'ilobjfoldergui' => 
   array (
-    'cid' => 'mp',
+    'cid' => 'mv',
     'class_name' => 'ilObjFolderGUI',
     'class_path' => './components/ILIAS/Folder/classes/class.ilObjFolderGUI.php',
     'children' => 
@@ -6360,7 +6431,7 @@
   ),
   'ilobjforumadministrationgui' => 
   array (
-    'cid' => 'mr',
+    'cid' => 'mx',
     'class_name' => 'ilObjForumAdministrationGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilObjForumAdministrationGUI.php',
     'children' => 
@@ -6374,7 +6445,7 @@
   ),
   'ilobjforumgui' => 
   array (
-    'cid' => 'ms',
+    'cid' => 'my',
     'class_name' => 'ilObjForumGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilObjForumGUI.php',
     'children' => 
@@ -6404,7 +6475,7 @@
   ),
   'ilobjglossarygui' => 
   array (
-    'cid' => 'mw',
+    'cid' => 'n2',
     'class_name' => 'ilObjGlossaryGUI',
     'class_path' => './components/ILIAS/Glossary/classes/class.ilObjGlossaryGUI.php',
     'children' => 
@@ -6431,7 +6502,7 @@
   ),
   'ilobjgroupadministrationgui' => 
   array (
-    'cid' => 'mz',
+    'cid' => 'n5',
     'class_name' => 'ilObjGroupAdministrationGUI',
     'class_path' => './components/ILIAS/Group/classes/class.ilObjGroupAdministrationGUI.php',
     'children' => 
@@ -6447,7 +6518,7 @@
   ),
   'ilobjgroupgui' => 
   array (
-    'cid' => 'n0',
+    'cid' => 'n6',
     'class_name' => 'ilObjGroupGUI',
     'class_path' => './components/ILIAS/Group/classes/class.ilObjGroupGUI.php',
     'children' => 
@@ -6494,7 +6565,7 @@
   ),
   'ilobjgroupreferencegui' => 
   array (
-    'cid' => 'n2',
+    'cid' => 'n8',
     'class_name' => 'ilObjGroupReferenceGUI',
     'class_path' => './components/ILIAS/GroupReference/classes/class.ilObjGroupReferenceGUI.php',
     'children' => 
@@ -6511,9 +6582,9 @@
   ),
   'ilobjhelpsettingsgui' => 
   array (
-    'cid' => 'n4',
+    'cid' => 'na',
     'class_name' => 'ilObjHelpSettingsGUI',
-    'class_path' => './Services/Help/Administration/class.ilObjHelpSettingsGUI.php',
+    'class_path' => './components/ILIAS/Help/Administration/class.ilObjHelpSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6525,7 +6596,7 @@
   ),
   'ilobjindividualassessmentgui' => 
   array (
-    'cid' => 'n5',
+    'cid' => 'nb',
     'class_name' => 'ilObjIndividualAssessmentGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/class.ilObjIndividualAssessmentGUI.php',
     'children' => 
@@ -6549,7 +6620,7 @@
   ),
   'ilobjitemgroupgui' => 
   array (
-    'cid' => 'n7',
+    'cid' => 'nd',
     'class_name' => 'ilObjItemGroupGUI',
     'class_path' => './components/ILIAS/ItemGroup/classes/class.ilObjItemGroupGUI.php',
     'children' => 
@@ -6568,9 +6639,9 @@
   ),
   'ilobjltiadministrationgui' => 
   array (
-    'cid' => 'n9',
+    'cid' => 'nf',
     'class_name' => 'ilObjLTIAdministrationGUI',
-    'class_path' => './Services/LTI/classes/class.ilObjLTIAdministrationGUI.php',
+    'class_path' => './components/ILIAS/LTI/classes/class.ilObjLTIAdministrationGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6583,7 +6654,7 @@
   ),
   'ilobjlticonsumergui' => 
   array (
-    'cid' => 'na',
+    'cid' => 'ng',
     'class_name' => 'ilObjLTIConsumerGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilObjLTIConsumerGUI.php',
     'children' => 
@@ -6608,7 +6679,7 @@
   ),
   'ilobjlticonsumerverificationgui' => 
   array (
-    'cid' => 'nc',
+    'cid' => 'ni',
     'class_name' => 'ilObjLTIConsumerVerificationGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/Verification/class.ilObjLTIConsumerVerificationGUI.php',
     'children' => 
@@ -6621,9 +6692,9 @@
   ),
   'ilobjlanguageextgui' => 
   array (
-    'cid' => 'ne',
+    'cid' => 'nk',
     'class_name' => 'ilObjLanguageExtGUI',
-    'class_path' => './Services/Language/classes/class.ilObjLanguageExtGUI.php',
+    'class_path' => './components/ILIAS/Language_/classes/class.ilObjLanguageExtGUI.php',
     'children' => 
     array (
     ),
@@ -6635,9 +6706,9 @@
   ),
   'ilobjlanguagefoldergui' => 
   array (
-    'cid' => 'nf',
+    'cid' => 'nl',
     'class_name' => 'ilObjLanguageFolderGUI',
-    'class_path' => './Services/Language/classes/class.ilObjLanguageFolderGUI.php',
+    'class_path' => './components/ILIAS/Language_/classes/class.ilObjLanguageFolderGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6649,9 +6720,9 @@
   ),
   'ilobjlearninghistorysettingsgui' => 
   array (
-    'cid' => 'nh',
+    'cid' => 'nn',
     'class_name' => 'ilObjLearningHistorySettingsGUI',
-    'class_path' => './Services/LearningHistory/Administration/classes/class.ilObjLearningHistorySettingsGUI.php',
+    'class_path' => './components/ILIAS/LearningHistory/Administration/classes/class.ilObjLearningHistorySettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6663,7 +6734,7 @@
   ),
   'ilobjlearningmodulegui' => 
   array (
-    'cid' => 'ni',
+    'cid' => 'no',
     'class_name' => 'ilObjLearningModuleGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilObjLearningModuleGUI.php',
     'children' => 
@@ -6695,7 +6766,7 @@
   ),
   'ilobjlearningresourcessettingsgui' => 
   array (
-    'cid' => 'nl',
+    'cid' => 'nr',
     'class_name' => 'ilObjLearningResourcesSettingsGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilObjLearningResourcesSettingsGUI.php',
     'children' => 
@@ -6709,7 +6780,7 @@
   ),
   'ilobjlearningsequenceadmingui' => 
   array (
-    'cid' => 'nm',
+    'cid' => 'ns',
     'class_name' => 'ilObjLearningSequenceAdminGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/class.ilObjLearningSequenceAdminGUI.php',
     'children' => 
@@ -6723,7 +6794,7 @@
   ),
   'ilobjlearningsequencecontentgui' => 
   array (
-    'cid' => 'nn',
+    'cid' => 'nt',
     'class_name' => 'ilObjLearningSequenceContentGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Content/class.ilObjLearningSequenceContentGUI.php',
     'children' => 
@@ -6736,7 +6807,7 @@
   ),
   'ilobjlearningsequenceeditextrogui' => 
   array (
-    'cid' => 'np',
+    'cid' => 'nv',
     'class_name' => 'ilObjLearningSequenceEditExtroGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/PageEditor/class.ilObjLearningSequenceEditExtroGUI.php',
     'children' => 
@@ -6751,7 +6822,7 @@
   ),
   'ilobjlearningsequenceeditintrogui' => 
   array (
-    'cid' => 'nq',
+    'cid' => 'nw',
     'class_name' => 'ilObjLearningSequenceEditIntroGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/PageEditor/class.ilObjLearningSequenceEditIntroGUI.php',
     'children' => 
@@ -6766,7 +6837,7 @@
   ),
   'ilobjlearningsequencegui' => 
   array (
-    'cid' => 'nr',
+    'cid' => 'nx',
     'class_name' => 'ilObjLearningSequenceGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/class.ilObjLearningSequenceGUI.php',
     'children' => 
@@ -6805,7 +6876,7 @@
   ),
   'ilobjlearningsequencelppollinggui' => 
   array (
-    'cid' => 'ns',
+    'cid' => 'ny',
     'class_name' => 'ilObjLearningSequenceLPPollingGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Player/class.ilObjLearningSequenceLPPollingGUI.php',
     'children' => 
@@ -6818,7 +6889,7 @@
   ),
   'ilobjlearningsequencelearnergui' => 
   array (
-    'cid' => 'nt',
+    'cid' => 'nz',
     'class_name' => 'ilObjLearningSequenceLearnerGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Player/class.ilObjLearningSequenceLearnerGUI.php',
     'children' => 
@@ -6831,7 +6902,7 @@
   ),
   'ilobjlearningsequencesettingsgui' => 
   array (
-    'cid' => 'nv',
+    'cid' => 'o1',
     'class_name' => 'ilObjLearningSequenceSettingsGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Settings/class.ilObjLearningSequenceSettingsGUI.php',
     'children' => 
@@ -6844,9 +6915,9 @@
   ),
   'ilobjlegaldocumentsgui' => 
   array (
-    'cid' => 'nw',
+    'cid' => 'o2',
     'class_name' => 'ilObjLegalDocumentsGUI',
-    'class_path' => './Services/LegalDocuments/classes/class.ilObjLegalDocumentsGUI.php',
+    'class_path' => './components/ILIAS/LegalDocuments/classes/class.ilObjLegalDocumentsGUI.php',
     'children' => 
     array (
     ),
@@ -6858,9 +6929,9 @@
   ),
   'ilobjlegalnoticegui' => 
   array (
-    'cid' => 'nx',
+    'cid' => 'o3',
     'class_name' => 'ilObjLegalNoticeGUI',
-    'class_path' => './Services/Imprint/classes/class.ilObjLegalNoticeGUI.php',
+    'class_path' => './components/ILIAS/Imprint/classes/class.ilObjLegalNoticeGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6873,7 +6944,7 @@
   ),
   'ilobjlinkresourcegui' => 
   array (
-    'cid' => 'ny',
+    'cid' => 'o4',
     'class_name' => 'ilObjLinkResourceGUI',
     'class_path' => './components/ILIAS/WebResource/classes/class.ilObjLinkResourceGUI.php',
     'children' => 
@@ -6899,9 +6970,9 @@
   ),
   'ilobjloggingsettingsgui' => 
   array (
-    'cid' => 'o1',
+    'cid' => 'o7',
     'class_name' => 'ilObjLoggingSettingsGUI',
-    'class_path' => './Services/Logging/classes/class.ilObjLoggingSettingsGUI.php',
+    'class_path' => './components/ILIAS/Logging/classes/class.ilObjLoggingSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6913,9 +6984,9 @@
   ),
   'ilobjmdsettingsgui' => 
   array (
-    'cid' => 'o2',
+    'cid' => 'o8',
     'class_name' => 'ilObjMDSettingsGUI',
-    'class_path' => './Services/MetaData/classes/Settings/class.ilObjMDSettingsGUI.php',
+    'class_path' => './components/ILIAS/MetaData/classes/Settings/class.ilObjMDSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6929,9 +7000,9 @@
   ),
   'ilobjmailgui' => 
   array (
-    'cid' => 'o3',
+    'cid' => 'o9',
     'class_name' => 'ilObjMailGUI',
-    'class_path' => './Services/Mail/classes/class.ilObjMailGUI.php',
+    'class_path' => './components/ILIAS/Mail/classes/class.ilObjMailGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6944,9 +7015,9 @@
   ),
   'ilobjmainmenugui' => 
   array (
-    'cid' => 'o4',
+    'cid' => 'oa',
     'class_name' => 'ilObjMainMenuGUI',
-    'class_path' => './Services/MainMenu/classes/class.ilObjMainMenuGUI.php',
+    'class_path' => './components/ILIAS/MainMenu/classes/class.ilObjMainMenuGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -6961,7 +7032,7 @@
   ),
   'ilobjmediacastgui' => 
   array (
-    'cid' => 'o5',
+    'cid' => 'ob',
     'class_name' => 'ilObjMediaCastGUI',
     'class_path' => './components/ILIAS/MediaCast/classes/class.ilObjMediaCastGUI.php',
     'children' => 
@@ -6986,7 +7057,7 @@
   ),
   'ilobjmediacastsettingsgui' => 
   array (
-    'cid' => 'o7',
+    'cid' => 'od',
     'class_name' => 'ilObjMediaCastSettingsGUI',
     'class_path' => './components/ILIAS/MediaCast/classes/class.ilObjMediaCastSettingsGUI.php',
     'children' => 
@@ -7000,9 +7071,9 @@
   ),
   'ilobjmediaobjectgui' => 
   array (
-    'cid' => 'o8',
+    'cid' => 'oe',
     'class_name' => 'ilObjMediaObjectGUI',
-    'class_path' => './Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php',
+    'class_path' => './components/ILIAS/MediaObjects/classes/class.ilObjMediaObjectGUI.php',
     'children' => 
     array (
       0 => 'ilobjectmetadatagui',
@@ -7019,9 +7090,9 @@
   ),
   'ilobjmediaobjectssettingsgui' => 
   array (
-    'cid' => 'o9',
+    'cid' => 'of',
     'class_name' => 'ilObjMediaObjectsSettingsGUI',
-    'class_path' => './Services/MediaObjects/classes/class.ilObjMediaObjectsSettingsGUI.php',
+    'class_path' => './components/ILIAS/MediaObjects/classes/class.ilObjMediaObjectsSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7033,7 +7104,7 @@
   ),
   'ilobjmediapoolgui' => 
   array (
-    'cid' => 'oa',
+    'cid' => 'og',
     'class_name' => 'ilObjMediaPoolGUI',
     'class_path' => './components/ILIAS/MediaPool/classes/class.ilObjMediaPoolGUI.php',
     'children' => 
@@ -7064,9 +7135,9 @@
   ),
   'ilobjnewssettingsgui' => 
   array (
-    'cid' => 'od',
+    'cid' => 'oj',
     'class_name' => 'ilObjNewsSettingsGUI',
-    'class_path' => './Services/News/classes/class.ilObjNewsSettingsGUI.php',
+    'class_path' => './components/ILIAS/News/classes/class.ilObjNewsSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7078,9 +7149,9 @@
   ),
   'ilobjnotessettingsgui' => 
   array (
-    'cid' => 'oe',
+    'cid' => 'ok',
     'class_name' => 'ilObjNotesSettingsGUI',
-    'class_path' => './Services/Notes/Administration/classes/class.ilObjNotesSettingsGUI.php',
+    'class_path' => './components/ILIAS/Notes/Administration/classes/class.ilObjNotesSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7092,9 +7163,9 @@
   ),
   'ilobjnotificationadmingui' => 
   array (
-    'cid' => 'of',
+    'cid' => 'ol',
     'class_name' => 'ilObjNotificationAdminGUI',
-    'class_path' => './Services/Notifications/classes/class.ilObjNotificationAdminGUI.php',
+    'class_path' => './components/ILIAS/Notifications/classes/class.ilObjNotificationAdminGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7106,9 +7177,9 @@
   ),
   'ilobjnotificationsettingsgui' => 
   array (
-    'cid' => 'og',
+    'cid' => 'om',
     'class_name' => 'ilObjNotificationSettingsGUI',
-    'class_path' => './Services/Notification/classes/class.ilObjNotificationSettingsGUI.php',
+    'class_path' => './components/ILIAS/Notification/classes/class.ilObjNotificationSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -7120,9 +7191,9 @@
   ),
   'ilobjobjectfoldergui' => 
   array (
-    'cid' => 'oh',
+    'cid' => 'on',
     'class_name' => 'ilObjObjectFolderGUI',
-    'class_path' => './Services/Object/classes/class.ilObjObjectFolderGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/class.ilObjObjectFolderGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7134,9 +7205,9 @@
   ),
   'ilobjobjecttemplateadministrationgui' => 
   array (
-    'cid' => 'oi',
+    'cid' => 'oo',
     'class_name' => 'ilObjObjectTemplateAdministrationGUI',
-    'class_path' => './Services/DidacticTemplate/classes/class.ilObjObjectTemplateAdministrationGUI.php',
+    'class_path' => './components/ILIAS/DidacticTemplate/classes/class.ilObjObjectTemplateAdministrationGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7149,7 +7220,7 @@
   ),
   'ilobjorgunitgui' => 
   array (
-    'cid' => 'oj',
+    'cid' => 'op',
     'class_name' => 'ilObjOrgUnitGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/class.ilObjOrgUnitGUI.php',
     'children' => 
@@ -7187,9 +7258,9 @@
   ),
   'ilobjpersonalworkspacesettingsgui' => 
   array (
-    'cid' => 'on',
+    'cid' => 'ot',
     'class_name' => 'ilObjPersonalWorkspaceSettingsGUI',
-    'class_path' => './Services/PersonalWorkspace/Administration/classes/class.ilObjPersonalWorkspaceSettingsGUI.php',
+    'class_path' => './components/ILIAS/PersonalWorkspace/Administration/classes/class.ilObjPersonalWorkspaceSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7201,9 +7272,9 @@
   ),
   'ilobjplugindispatchgui' => 
   array (
-    'cid' => 'oo',
+    'cid' => 'ou',
     'class_name' => 'ilObjPluginDispatchGUI',
-    'class_path' => './Services/Repository/PluginSlot/class.ilObjPluginDispatchGUI.php',
+    'class_path' => './components/ILIAS/Repository/PluginSlot/class.ilObjPluginDispatchGUI.php',
     'children' => 
     array (
       0 => 'ilobjorgunitgui',
@@ -7214,7 +7285,7 @@
   ),
   'ilobjpollgui' => 
   array (
-    'cid' => 'op',
+    'cid' => 'ov',
     'class_name' => 'ilObjPollGUI',
     'class_path' => './components/ILIAS/Poll/classes/class.ilObjPollGUI.php',
     'children' => 
@@ -7234,7 +7305,7 @@
   ),
   'ilobjportfolioadministrationgui' => 
   array (
-    'cid' => 'or',
+    'cid' => 'ox',
     'class_name' => 'ilObjPortfolioAdministrationGUI',
     'class_path' => './components/ILIAS/Portfolio/Administration/class.ilObjPortfolioAdministrationGUI.php',
     'children' => 
@@ -7249,7 +7320,7 @@
   ),
   'ilobjportfoliogui' => 
   array (
-    'cid' => 'ot',
+    'cid' => 'oz',
     'class_name' => 'ilObjPortfolioGUI',
     'class_path' => './components/ILIAS/Portfolio/classes/class.ilObjPortfolioGUI.php',
     'children' => 
@@ -7271,7 +7342,7 @@
   ),
   'ilobjportfoliotemplategui' => 
   array (
-    'cid' => 'ou',
+    'cid' => 'p0',
     'class_name' => 'ilObjPortfolioTemplateGUI',
     'class_path' => './components/ILIAS/Portfolio/Template/class.ilObjPortfolioTemplateGUI.php',
     'children' => 
@@ -7295,9 +7366,9 @@
   ),
   'ilobjprivacysecuritygui' => 
   array (
-    'cid' => 'ow',
+    'cid' => 'p2',
     'class_name' => 'ilObjPrivacySecurityGUI',
-    'class_path' => './Services/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php',
+    'class_path' => './components/ILIAS/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7309,7 +7380,7 @@
   ),
   'ilobjquestionpoolgui' => 
   array (
-    'cid' => 'ox',
+    'cid' => 'p3',
     'class_name' => 'ilObjQuestionPoolGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php',
     'children' => 
@@ -7358,7 +7429,7 @@
   ),
   'ilobjquestionpoolsettingsgeneralgui' => 
   array (
-    'cid' => 'oz',
+    'cid' => 'p5',
     'class_name' => 'ilObjQuestionPoolSettingsGeneralGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilObjQuestionPoolSettingsGeneralGUI.php',
     'children' => 
@@ -7372,9 +7443,9 @@
   ),
   'ilobjrecoveryfoldergui' => 
   array (
-    'cid' => 'p0',
+    'cid' => 'p6',
     'class_name' => 'ilObjRecoveryFolderGUI',
-    'class_path' => './Services/Administration/classes/class.ilObjRecoveryFolderGUI.php',
+    'class_path' => './components/ILIAS/Administration/classes/class.ilObjRecoveryFolderGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7386,7 +7457,7 @@
   ),
   'ilobjremotecategorygui' => 
   array (
-    'cid' => 'p2',
+    'cid' => 'p8',
     'class_name' => 'ilObjRemoteCategoryGUI',
     'class_path' => './components/ILIAS/RemoteCategory/classes/class.ilObjRemoteCategoryGUI.php',
     'children' => 
@@ -7404,7 +7475,7 @@
   ),
   'ilobjremotecoursegui' => 
   array (
-    'cid' => 'p4',
+    'cid' => 'pa',
     'class_name' => 'ilObjRemoteCourseGUI',
     'class_path' => './components/ILIAS/RemoteCourse/classes/class.ilObjRemoteCourseGUI.php',
     'children' => 
@@ -7422,7 +7493,7 @@
   ),
   'ilobjremotefilegui' => 
   array (
-    'cid' => 'p6',
+    'cid' => 'pc',
     'class_name' => 'ilObjRemoteFileGUI',
     'class_path' => './components/ILIAS/RemoteFile/classes/class.ilObjRemoteFileGUI.php',
     'children' => 
@@ -7440,7 +7511,7 @@
   ),
   'ilobjremoteglossarygui' => 
   array (
-    'cid' => 'p8',
+    'cid' => 'pe',
     'class_name' => 'ilObjRemoteGlossaryGUI',
     'class_path' => './components/ILIAS/RemoteGlossary/classes/class.ilObjRemoteGlossaryGUI.php',
     'children' => 
@@ -7458,7 +7529,7 @@
   ),
   'ilobjremotegroupgui' => 
   array (
-    'cid' => 'pa',
+    'cid' => 'pg',
     'class_name' => 'ilObjRemoteGroupGUI',
     'class_path' => './components/ILIAS/RemoteGroup/classes/class.ilObjRemoteGroupGUI.php',
     'children' => 
@@ -7476,7 +7547,7 @@
   ),
   'ilobjremotelearningmodulegui' => 
   array (
-    'cid' => 'pc',
+    'cid' => 'pi',
     'class_name' => 'ilObjRemoteLearningModuleGUI',
     'class_path' => './components/ILIAS/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleGUI.php',
     'children' => 
@@ -7494,7 +7565,7 @@
   ),
   'ilobjremotetestgui' => 
   array (
-    'cid' => 'pe',
+    'cid' => 'pk',
     'class_name' => 'ilObjRemoteTestGUI',
     'class_path' => './components/ILIAS/RemoteTest/classes/class.ilObjRemoteTestGUI.php',
     'children' => 
@@ -7512,7 +7583,7 @@
   ),
   'ilobjremotewikigui' => 
   array (
-    'cid' => 'pg',
+    'cid' => 'pm',
     'class_name' => 'ilObjRemoteWikiGUI',
     'class_path' => './components/ILIAS/RemoteWiki/classes/class.ilObjRemoteWikiGUI.php',
     'children' => 
@@ -7530,9 +7601,9 @@
   ),
   'ilobjrepositorysettingsgui' => 
   array (
-    'cid' => 'pi',
+    'cid' => 'po',
     'class_name' => 'ilObjRepositorySettingsGUI',
-    'class_path' => './Services/Repository/Administration/class.ilObjRepositorySettingsGUI.php',
+    'class_path' => './components/ILIAS/Repository/Administration/class.ilObjRepositorySettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7544,9 +7615,9 @@
   ),
   'ilobjrolefoldergui' => 
   array (
-    'cid' => 'pj',
+    'cid' => 'pp',
     'class_name' => 'ilObjRoleFolderGUI',
-    'class_path' => './Services/AccessControl/classes/class.ilObjRoleFolderGUI.php',
+    'class_path' => './components/ILIAS/AccessControl/classes/class.ilObjRoleFolderGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7559,9 +7630,9 @@
   ),
   'ilobjrolegui' => 
   array (
-    'cid' => 'pk',
+    'cid' => 'pq',
     'class_name' => 'ilObjRoleGUI',
-    'class_path' => './Services/AccessControl/classes/class.ilObjRoleGUI.php',
+    'class_path' => './components/ILIAS/AccessControl/classes/class.ilObjRoleGUI.php',
     'children' => 
     array (
       0 => 'ilrepositorysearchgui',
@@ -7577,9 +7648,9 @@
   ),
   'ilobjroletemplategui' => 
   array (
-    'cid' => 'pl',
+    'cid' => 'pr',
     'class_name' => 'ilObjRoleTemplateGUI',
-    'class_path' => './Services/AccessControl/classes/class.ilObjRoleTemplateGUI.php',
+    'class_path' => './components/ILIAS/AccessControl/classes/class.ilObjRoleTemplateGUI.php',
     'children' => 
     array (
     ),
@@ -7590,7 +7661,7 @@
   ),
   'ilobjrootfoldergui' => 
   array (
-    'cid' => 'pn',
+    'cid' => 'pt',
     'class_name' => 'ilObjRootFolderGUI',
     'class_path' => './components/ILIAS/RootFolder/classes/class.ilObjRootFolderGUI.php',
     'children' => 
@@ -7617,7 +7688,7 @@
   ),
   'ilobjsahslearningmodulegui' => 
   array (
-    'cid' => 'pp',
+    'cid' => 'pv',
     'class_name' => 'ilObjSAHSLearningModuleGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php',
     'children' => 
@@ -7641,7 +7712,7 @@
   ),
   'ilobjscorm2004learningmodulegui' => 
   array (
-    'cid' => 'pr',
+    'cid' => 'px',
     'class_name' => 'ilObjSCORM2004LearningModuleGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php',
     'children' => 
@@ -7669,7 +7740,7 @@
   ),
   'ilobjscormlearningmodulegui' => 
   array (
-    'cid' => 'ps',
+    'cid' => 'py',
     'class_name' => 'ilObjSCORMLearningModuleGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php',
     'children' => 
@@ -7693,7 +7764,7 @@
   ),
   'ilobjscormverificationgui' => 
   array (
-    'cid' => 'pt',
+    'cid' => 'pz',
     'class_name' => 'ilObjSCORMVerificationGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/Verification/class.ilObjSCORMVerificationGUI.php',
     'children' => 
@@ -7707,9 +7778,9 @@
   ),
   'ilobjsearchlucenesettingsformgui' => 
   array (
-    'cid' => 'pv',
+    'cid' => 'q1',
     'class_name' => 'ilObjSearchLuceneSettingsFormGUI',
-    'class_path' => './Services/Search/classes/ObjGUI/class.ilObjSearchLuceneSettingsFormGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/ObjGUI/class.ilObjSearchLuceneSettingsFormGUI.php',
     'children' => 
     array (
     ),
@@ -7720,9 +7791,9 @@
   ),
   'ilobjsearchsettingsformgui' => 
   array (
-    'cid' => 'pw',
+    'cid' => 'q2',
     'class_name' => 'ilObjSearchSettingsFormGUI',
-    'class_path' => './Services/Search/classes/ObjGUI/class.ilObjSearchSettingsFormGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/ObjGUI/class.ilObjSearchSettingsFormGUI.php',
     'children' => 
     array (
     ),
@@ -7733,9 +7804,9 @@
   ),
   'ilobjsearchsettingsgui' => 
   array (
-    'cid' => 'px',
+    'cid' => 'q3',
     'class_name' => 'ilObjSearchSettingsGUI',
-    'class_path' => './Services/Search/classes/ObjGUI/class.ilObjSearchSettingsGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/ObjGUI/class.ilObjSearchSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7749,7 +7820,7 @@
   ),
   'ilobjsessiongui' => 
   array (
-    'cid' => 'py',
+    'cid' => 'q4',
     'class_name' => 'ilObjSessionGUI',
     'class_path' => './components/ILIAS/Session/classes/class.ilObjSessionGUI.php',
     'children' => 
@@ -7774,9 +7845,9 @@
   ),
   'ilobjskillmanagementgui' => 
   array (
-    'cid' => 'q0',
+    'cid' => 'q6',
     'class_name' => 'ilObjSkillManagementGUI',
-    'class_path' => './Services/Skill/classes/class.ilObjSkillManagementGUI.php',
+    'class_path' => './components/ILIAS/Skill/classes/class.ilObjSkillManagementGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7795,9 +7866,9 @@
   ),
   'ilobjskilltreegui' => 
   array (
-    'cid' => 'q1',
+    'cid' => 'q7',
     'class_name' => 'ilObjSkillTreeGUI',
-    'class_path' => './Services/Skill/Tree/class.ilObjSkillTreeGUI.php',
+    'class_path' => './components/ILIAS/Skill/Tree/class.ilObjSkillTreeGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7818,7 +7889,7 @@
   ),
   'ilobjstudyprogrammeadmingui' => 
   array (
-    'cid' => 'q2',
+    'cid' => 'q8',
     'class_name' => 'ilObjStudyProgrammeAdminGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeAdminGUI.php',
     'children' => 
@@ -7833,7 +7904,7 @@
   ),
   'ilobjstudyprogrammeautocategoriesgui' => 
   array (
-    'cid' => 'q3',
+    'cid' => 'q9',
     'class_name' => 'ilObjStudyProgrammeAutoCategoriesGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeAutoCategoriesGUI.php',
     'children' => 
@@ -7847,7 +7918,7 @@
   ),
   'ilobjstudyprogrammeautomembershipsgui' => 
   array (
-    'cid' => 'q4',
+    'cid' => 'qa',
     'class_name' => 'ilObjStudyProgrammeAutoMembershipsGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeAutoMembershipsGUI.php',
     'children' => 
@@ -7862,7 +7933,7 @@
   ),
   'ilobjstudyprogrammegui' => 
   array (
-    'cid' => 'q5',
+    'cid' => 'qb',
     'class_name' => 'ilObjStudyProgrammeGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeGUI.php',
     'children' => 
@@ -7895,7 +7966,7 @@
   ),
   'ilobjstudyprogrammeindividualplangui' => 
   array (
-    'cid' => 'q6',
+    'cid' => 'qc',
     'class_name' => 'ilObjStudyProgrammeIndividualPlanGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php',
     'children' => 
@@ -7908,7 +7979,7 @@
   ),
   'ilobjstudyprogrammemembersgui' => 
   array (
-    'cid' => 'q8',
+    'cid' => 'qe',
     'class_name' => 'ilObjStudyProgrammeMembersGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php',
     'children' => 
@@ -7928,7 +7999,7 @@
   ),
   'ilobjstudyprogrammereferencegui' => 
   array (
-    'cid' => 'q9',
+    'cid' => 'qf',
     'class_name' => 'ilObjStudyProgrammeReferenceGUI',
     'class_path' => './components/ILIAS/StudyProgrammeReference/classes/class.ilObjStudyProgrammeReferenceGUI.php',
     'children' => 
@@ -7944,7 +8015,7 @@
   ),
   'ilobjstudyprogrammesettingsgui' => 
   array (
-    'cid' => 'qb',
+    'cid' => 'qh',
     'class_name' => 'ilObjStudyProgrammeSettingsGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php',
     'children' => 
@@ -7958,7 +8029,7 @@
   ),
   'ilobjstudyprogrammetreegui' => 
   array (
-    'cid' => 'qd',
+    'cid' => 'qj',
     'class_name' => 'ilObjStudyProgrammeTreeGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php',
     'children' => 
@@ -7971,9 +8042,9 @@
   ),
   'ilobjstylesettingsgui' => 
   array (
-    'cid' => 'qe',
+    'cid' => 'qk',
     'class_name' => 'ilObjStyleSettingsGUI',
-    'class_path' => './Services/Style/classes/class.ilObjStyleSettingsGUI.php',
+    'class_path' => './components/ILIAS/Style/classes/class.ilObjStyleSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -7988,9 +8059,9 @@
   ),
   'ilobjstylesheetgui' => 
   array (
-    'cid' => 'qf',
+    'cid' => 'ql',
     'class_name' => 'ilObjStyleSheetGUI',
-    'class_path' => './Services/Style/Content/classes/class.ilObjStyleSheetGUI.php',
+    'class_path' => './components/ILIAS/Style/Content/classes/class.ilObjStyleSheetGUI.php',
     'children' => 
     array (
       0 => 'ilexportgui',
@@ -8009,7 +8080,7 @@
   ),
   'ilobjsurveyadministrationgui' => 
   array (
-    'cid' => 'qh',
+    'cid' => 'qn',
     'class_name' => 'ilObjSurveyAdministrationGUI',
     'class_path' => './components/ILIAS/Survey/Administration/class.ilObjSurveyAdministrationGUI.php',
     'children' => 
@@ -8023,7 +8094,7 @@
   ),
   'ilobjsurveygui' => 
   array (
-    'cid' => 'qi',
+    'cid' => 'qo',
     'class_name' => 'ilObjSurveyGUI',
     'class_path' => './components/ILIAS/Survey/classes/class.ilObjSurveyGUI.php',
     'children' => 
@@ -8053,7 +8124,7 @@
   ),
   'ilobjsurveyquestionpoolgui' => 
   array (
-    'cid' => 'qk',
+    'cid' => 'qq',
     'class_name' => 'ilObjSurveyQuestionPoolGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolGUI.php',
     'children' => 
@@ -8077,9 +8148,9 @@
   ),
   'ilobjsystemcheckgui' => 
   array (
-    'cid' => 'qm',
+    'cid' => 'qs',
     'class_name' => 'ilObjSystemCheckGUI',
-    'class_path' => './Services/SystemCheck/classes/class.ilObjSystemCheckGUI.php',
+    'class_path' => './components/ILIAS/SystemCheck/classes/class.ilObjSystemCheckGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -8094,7 +8165,7 @@
   ),
   'ilobjsystemfoldergui' => 
   array (
-    'cid' => 'qn',
+    'cid' => 'qt',
     'class_name' => 'ilObjSystemFolderGUI',
     'class_path' => './components/ILIAS/SystemFolder/classes/class.ilObjSystemFolderGUI.php',
     'children' => 
@@ -8111,9 +8182,9 @@
   ),
   'ilobjtaggingsettingsgui' => 
   array (
-    'cid' => 'qo',
+    'cid' => 'qu',
     'class_name' => 'ilObjTaggingSettingsGUI',
-    'class_path' => './Services/Tagging/classes/class.ilObjTaggingSettingsGUI.php',
+    'class_path' => './components/ILIAS/Tagging/classes/class.ilObjTaggingSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -8125,7 +8196,7 @@
   ),
   'ilobjtalktemplateadministrationgui' => 
   array (
-    'cid' => 'qp',
+    'cid' => 'qv',
     'class_name' => 'ilObjTalkTemplateAdministrationGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/class.ilObjTalkTemplateAdministrationGUI.php',
     'children' => 
@@ -8147,7 +8218,7 @@
   ),
   'ilobjtalktemplateadministrationlistgui' => 
   array (
-    'cid' => 'qq',
+    'cid' => 'qw',
     'class_name' => 'ilObjTalkTemplateAdministrationListGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/class.ilObjTalkTemplateAdministrationListGUI.php',
     'children' => 
@@ -8161,7 +8232,7 @@
   ),
   'ilobjtalktemplategui' => 
   array (
-    'cid' => 'qr',
+    'cid' => 'qx',
     'class_name' => 'ilObjTalkTemplateGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/class.ilObjTalkTemplateGUI.php',
     'children' => 
@@ -8181,9 +8252,9 @@
   ),
   'ilobjtaxonomyadministrationgui' => 
   array (
-    'cid' => 'qt',
+    'cid' => 'qz',
     'class_name' => 'ilObjTaxonomyAdministrationGUI',
-    'class_path' => './Services/Taxonomy/classes/class.ilObjTaxonomyAdministrationGUI.php',
+    'class_path' => './components/ILIAS/Taxonomy/classes/class.ilObjTaxonomyAdministrationGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -8195,9 +8266,9 @@
   ),
   'ilobjtaxonomygui' => 
   array (
-    'cid' => 'qu',
+    'cid' => 'r0',
     'class_name' => 'ilObjTaxonomyGUI',
-    'class_path' => './Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php',
+    'class_path' => './components/ILIAS/Taxonomy/classes/class.ilObjTaxonomyGUI.php',
     'children' => 
     array (
       0 => 'ilobjtaxonomygui',
@@ -8211,9 +8282,9 @@
   ),
   'ilobjtermsofservicegui' => 
   array (
-    'cid' => 'qv',
+    'cid' => 'r1',
     'class_name' => 'ilObjTermsOfServiceGUI',
-    'class_path' => './Services/TermsOfService/classes/class.ilObjTermsOfServiceGUI.php',
+    'class_path' => './components/ILIAS/TermsOfService/classes/class.ilObjTermsOfServiceGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -8226,7 +8297,7 @@
   ),
   'ilobjtestgui' => 
   array (
-    'cid' => 'qw',
+    'cid' => 'r2',
     'class_name' => 'ilObjTestGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilObjTestGUI.php',
     'children' => 
@@ -8301,7 +8372,7 @@
   ),
   'ilobjtestsettingsmaingui' => 
   array (
-    'cid' => 'qy',
+    'cid' => 'r4',
     'class_name' => 'ilObjTestSettingsMainGUI',
     'class_path' => './components/ILIAS/Test/classes/MainSettings/class.ilObjTestSettingsMainGUI.php',
     'children' => 
@@ -8317,7 +8388,7 @@
   ),
   'ilobjtestsettingsscoringresultsgui' => 
   array (
-    'cid' => 'qz',
+    'cid' => 'r5',
     'class_name' => 'ilObjTestSettingsScoringResultsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php',
     'children' => 
@@ -8332,7 +8403,7 @@
   ),
   'ilobjtestverificationgui' => 
   array (
-    'cid' => 'r0',
+    'cid' => 'r6',
     'class_name' => 'ilObjTestVerificationGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilObjTestVerificationGUI.php',
     'children' => 
@@ -8347,9 +8418,9 @@
   ),
   'ilobjuserfoldergui' => 
   array (
-    'cid' => 'r3',
+    'cid' => 'r9',
     'class_name' => 'ilObjUserFolderGUI',
-    'class_path' => './Services/User/classes/class.ilObjUserFolderGUI.php',
+    'class_path' => './components/ILIAS/User/classes/class.ilObjUserFolderGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -8368,9 +8439,9 @@
   ),
   'ilobjusergui' => 
   array (
-    'cid' => 'r4',
+    'cid' => 'ra',
     'class_name' => 'ilObjUserGUI',
-    'class_path' => './Services/User/classes/class.ilObjUserGUI.php',
+    'class_path' => './components/ILIAS/User/classes/class.ilObjUserGUI.php',
     'children' => 
     array (
       0 => 'illearningprogressgui',
@@ -8389,9 +8460,9 @@
   ),
   'ilobjusertrackinggui' => 
   array (
-    'cid' => 'r5',
+    'cid' => 'rb',
     'class_name' => 'ilObjUserTrackingGUI',
-    'class_path' => './Services/Tracking/classes/class.ilObjUserTrackingGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/class.ilObjUserTrackingGUI.php',
     'children' => 
     array (
       0 => 'illearningprogressgui',
@@ -8406,9 +8477,9 @@
   ),
   'ilobjwebdavgui' => 
   array (
-    'cid' => 'r6',
+    'cid' => 'rc',
     'class_name' => 'ilObjWebDAVGUI',
-    'class_path' => './Services/WebDAV/classes/class.ilObjWebDAVGUI.php',
+    'class_path' => './components/ILIAS/WebDAV/classes/class.ilObjWebDAVGUI.php',
     'children' => 
     array (
       0 => 'ilpermissiongui',
@@ -8421,7 +8492,7 @@
   ),
   'ilobjwebresourceadministrationgui' => 
   array (
-    'cid' => 'r7',
+    'cid' => 'rd',
     'class_name' => 'ilObjWebResourceAdministrationGUI',
     'class_path' => './components/ILIAS/WebResource/classes/class.ilObjWebResourceAdministrationGUI.php',
     'children' => 
@@ -8435,7 +8506,7 @@
   ),
   'ilobjwikigui' => 
   array (
-    'cid' => 'r8',
+    'cid' => 're',
     'class_name' => 'ilObjWikiGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilObjWikiGUI.php',
     'children' => 
@@ -8467,7 +8538,7 @@
   ),
   'ilobjwikisettingsgui' => 
   array (
-    'cid' => 'rb',
+    'cid' => 'rh',
     'class_name' => 'ilObjWikiSettingsGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilObjWikiSettingsGUI.php',
     'children' => 
@@ -8481,7 +8552,7 @@
   ),
   'ilobjworkspacefoldergui' => 
   array (
-    'cid' => 'rd',
+    'cid' => 'rj',
     'class_name' => 'ilObjWorkspaceFolderGUI',
     'class_path' => './components/ILIAS/WorkspaceFolder/classes/class.ilObjWorkspaceFolderGUI.php',
     'children' => 
@@ -8496,7 +8567,7 @@
   ),
   'ilobjworkspacerootfoldergui' => 
   array (
-    'cid' => 'rg',
+    'cid' => 'rm',
     'class_name' => 'ilObjWorkspaceRootFolderGUI',
     'class_path' => './components/ILIAS/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderGUI.php',
     'children' => 
@@ -8511,9 +8582,9 @@
   ),
   'ilobjectactivationgui' => 
   array (
-    'cid' => 'rj',
+    'cid' => 'rp',
     'class_name' => 'ilObjectActivationGUI',
-    'class_path' => './Services/Object/classes/class.ilObjectActivationGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/class.ilObjectActivationGUI.php',
     'children' => 
     array (
       0 => 'ilconditionhandlergui',
@@ -8525,9 +8596,9 @@
   ),
   'ilobjectcontentstylesettingsgui' => 
   array (
-    'cid' => 'rn',
+    'cid' => 'rt',
     'class_name' => 'ilObjectContentStyleSettingsGUI',
-    'class_path' => './Services/Style/Content/Object/class.ilObjectContentStyleSettingsGUI.php',
+    'class_path' => './components/ILIAS/Style/Content/Object/class.ilObjectContentStyleSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilobjstylesheetgui',
@@ -8554,9 +8625,9 @@
   ),
   'ilobjectcopygui' => 
   array (
-    'cid' => 'rp',
+    'cid' => 'rv',
     'class_name' => 'ilObjectCopyGUI',
-    'class_path' => './Services/Object/classes/class.ilObjectCopyGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/class.ilObjectCopyGUI.php',
     'children' => 
     array (
     ),
@@ -8614,9 +8685,9 @@
   ),
   'ilobjectcustomiconuploadhandlergui' => 
   array (
-    'cid' => 'ru',
+    'cid' => 's0',
     'class_name' => 'ilObjectCustomIconUploadHandlerGUI',
-    'class_path' => './Services/Object/classes/Properties/AdditionalProperties/Icon/class.ilObjectCustomIconUploadHandlerGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/Properties/AdditionalProperties/Icon/class.ilObjectCustomIconUploadHandlerGUI.php',
     'children' => 
     array (
     ),
@@ -8626,9 +8697,9 @@
   ),
   'ilobjectcustomuserfieldsgui' => 
   array (
-    'cid' => 'rv',
+    'cid' => 's1',
     'class_name' => 'ilObjectCustomUserFieldsGUI',
-    'class_path' => './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php',
+    'class_path' => './components/ILIAS/Membership/classes/class.ilObjectCustomUserFieldsGUI.php',
     'children' => 
     array (
     ),
@@ -8643,9 +8714,9 @@
   ),
   'ilobjectgui' => 
   array (
-    'cid' => 'rx',
+    'cid' => 's3',
     'class_name' => 'ilObjectGUI',
-    'class_path' => './Services/Object/classes/class.ilObjectGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/class.ilObjectGUI.php',
     'children' => 
     array (
     ),
@@ -8659,9 +8730,9 @@
   ),
   'ilobjectmetadatablockgui' => 
   array (
-    'cid' => 'rz',
+    'cid' => 's5',
     'class_name' => 'ilObjectMetaDataBlockGUI',
-    'class_path' => './Services/Object/classes/class.ilObjectMetaDataBlockGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/class.ilObjectMetaDataBlockGUI.php',
     'children' => 
     array (
     ),
@@ -8672,9 +8743,9 @@
   ),
   'ilobjectmetadatagui' => 
   array (
-    'cid' => 's0',
+    'cid' => 's6',
     'class_name' => 'ilObjectMetaDataGUI',
-    'class_path' => './Services/Object/classes/class.ilObjectMetaDataGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/class.ilObjectMetaDataGUI.php',
     'children' => 
     array (
       0 => 'ilmdeditorgui',
@@ -8723,9 +8794,9 @@
   ),
   'ilobjectownershipmanagementgui' => 
   array (
-    'cid' => 's1',
+    'cid' => 's7',
     'class_name' => 'ilObjectOwnershipManagementGUI',
-    'class_path' => './Services/Object/classes/class.ilObjectOwnershipManagementGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/class.ilObjectOwnershipManagementGUI.php',
     'children' => 
     array (
     ),
@@ -8740,9 +8811,9 @@
   ),
   'ilobjectpermissionstatusgui' => 
   array (
-    'cid' => 's3',
+    'cid' => 's9',
     'class_name' => 'ilObjectPermissionStatusGUI',
-    'class_path' => './Services/AccessControl/classes/class.ilObjectPermissionStatusGUI.php',
+    'class_path' => './components/ILIAS/AccessControl/classes/class.ilObjectPermissionStatusGUI.php',
     'children' => 
     array (
       0 => 'ilrepositorysearchgui',
@@ -8754,9 +8825,9 @@
   ),
   'ilobjectservicesettingsgui' => 
   array (
-    'cid' => 's9',
+    'cid' => 'sf',
     'class_name' => 'ilObjectServiceSettingsGUI',
-    'class_path' => './Services/Object/classes/class.ilObjectServiceSettingsGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/class.ilObjectServiceSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -8768,9 +8839,9 @@
   ),
   'ilobjecttileimageuploadhandlergui' => 
   array (
-    'cid' => 'sc',
+    'cid' => 'si',
     'class_name' => 'ilObjectTileImageUploadHandlerGUI',
-    'class_path' => './Services/Object/classes/Properties/CoreProperties/TileImage/class.ilObjectTileImageUploadHandlerGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/Properties/CoreProperties/TileImage/class.ilObjectTileImageUploadHandlerGUI.php',
     'children' => 
     array (
     ),
@@ -8780,9 +8851,9 @@
   ),
   'ilobjecttranslationgui' => 
   array (
-    'cid' => 'se',
+    'cid' => 'sk',
     'class_name' => 'ilObjectTranslationGUI',
-    'class_path' => './Services/Object/classes/Translation/class.ilObjectTranslationGUI.php',
+    'class_path' => './components/ILIAS/Object/classes/Translation/class.ilObjectTranslationGUI.php',
     'children' => 
     array (
     ),
@@ -8804,9 +8875,9 @@
   ),
   'ilonscreenchatgui' => 
   array (
-    'cid' => 'sg',
+    'cid' => 'sm',
     'class_name' => 'ilOnScreenChatGUI',
-    'class_path' => './Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
+    'class_path' => './components/ILIAS/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
     'children' => 
     array (
     ),
@@ -8816,9 +8887,9 @@
   ),
   'ilopenidconnectsettingsgui' => 
   array (
-    'cid' => 'sh',
+    'cid' => 'sn',
     'class_name' => 'ilOpenIdConnectSettingsGUI',
-    'class_path' => './Services/OpenIdConnect/classes/class.ilOpenIdConnectSettingsGUI.php',
+    'class_path' => './components/ILIAS/OpenIdConnect/classes/class.ilOpenIdConnectSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -8829,7 +8900,7 @@
   ),
   'ilorgunitdefaultpermissiongui' => 
   array (
-    'cid' => 'sm',
+    'cid' => 'ss',
     'class_name' => 'ilOrgUnitDefaultPermissionGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitDefaultPermissionGUI.php',
     'children' => 
@@ -8842,7 +8913,7 @@
   ),
   'ilorgunitexportgui' => 
   array (
-    'cid' => 'sp',
+    'cid' => 'sv',
     'class_name' => 'ilOrgUnitExportGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/class.ilOrgUnitExportGUI.php',
     'children' => 
@@ -8855,7 +8926,7 @@
   ),
   'ilorgunitglobalsettingsgui' => 
   array (
-    'cid' => 'st',
+    'cid' => 'sz',
     'class_name' => 'ilOrgUnitGlobalSettingsGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Settings/class.ilOrgUnitGlobalSettingsGUI.php',
     'children' => 
@@ -8868,7 +8939,7 @@
   ),
   'ilorgunitpermissiongui' => 
   array (
-    'cid' => 'sv',
+    'cid' => 't1',
     'class_name' => 'ilOrgUnitPermissionGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitPermissionGUI.php',
     'children' => 
@@ -8881,7 +8952,7 @@
   ),
   'ilorgunitpositiongui' => 
   array (
-    'cid' => 'sy',
+    'cid' => 't4',
     'class_name' => 'ilOrgUnitPositionGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Positions/class.ilOrgUnitPositionGUI.php',
     'children' => 
@@ -8896,7 +8967,7 @@
   ),
   'ilorgunitsimpleimportgui' => 
   array (
-    'cid' => 't1',
+    'cid' => 't7',
     'class_name' => 'ilOrgUnitSimpleImportGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php',
     'children' => 
@@ -8909,7 +8980,7 @@
   ),
   'ilorgunitsimpleuserimportgui' => 
   array (
-    'cid' => 't2',
+    'cid' => 't8',
     'class_name' => 'ilOrgUnitSimpleUserImportGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImportGUI.php',
     'children' => 
@@ -8922,7 +8993,7 @@
   ),
   'ilorgunittypegui' => 
   array (
-    'cid' => 't6',
+    'cid' => 'tc',
     'class_name' => 'ilOrgUnitTypeGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Types/class.ilOrgUnitTypeGUI.php',
     'children' => 
@@ -8935,7 +9006,7 @@
   ),
   'ilorgunituserassignmentgui' => 
   array (
-    'cid' => 't8',
+    'cid' => 'te',
     'class_name' => 'ilOrgUnitUserAssignmentGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentGUI.php',
     'children' => 
@@ -8949,7 +9020,7 @@
   ),
   'ilpcamdformgui' => 
   array (
-    'cid' => 'tb',
+    'cid' => 'th',
     'class_name' => 'ilPCAMDFormGUI',
     'class_path' => './components/ILIAS/Portfolio/Page/class.ilPCAMDFormGUI.php',
     'children' => 
@@ -8963,7 +9034,7 @@
   ),
   'ilpcamdpagelistgui' => 
   array (
-    'cid' => 'tc',
+    'cid' => 'ti',
     'class_name' => 'ilPCAMDPageListGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilPCAMDPageListGUI.php',
     'children' => 
@@ -8976,9 +9047,9 @@
   ),
   'ilpcbloggui' => 
   array (
-    'cid' => 'td',
+    'cid' => 'tj',
     'class_name' => 'ilPCBlogGUI',
-    'class_path' => './Services/COPage/PC/Blog/class.ilPCBlogGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Blog/class.ilPCBlogGUI.php',
     'children' => 
     array (
     ),
@@ -8989,7 +9060,7 @@
   ),
   'ilpcconsultationhoursgui' => 
   array (
-    'cid' => 'te',
+    'cid' => 'tk',
     'class_name' => 'ilPCConsultationHoursGUI',
     'class_path' => './components/ILIAS/Portfolio/Page/class.ilPCConsultationHoursGUI.php',
     'children' => 
@@ -9002,9 +9073,9 @@
   ),
   'ilpccontentincludegui' => 
   array (
-    'cid' => 'tf',
+    'cid' => 'tl',
     'class_name' => 'ilPCContentIncludeGUI',
-    'class_path' => './Services/COPage/PC/ContentInclude/class.ilPCContentIncludeGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/ContentInclude/class.ilPCContentIncludeGUI.php',
     'children' => 
     array (
     ),
@@ -9015,9 +9086,9 @@
   ),
   'ilpccontenttemplategui' => 
   array (
-    'cid' => 'tg',
+    'cid' => 'tm',
     'class_name' => 'ilPCContentTemplateGUI',
-    'class_path' => './Services/COPage/PC/ContentTemplate/class.ilPCContentTemplateGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/ContentTemplate/class.ilPCContentTemplateGUI.php',
     'children' => 
     array (
     ),
@@ -9028,7 +9099,7 @@
   ),
   'ilpccurriculumgui' => 
   array (
-    'cid' => 'th',
+    'cid' => 'tn',
     'class_name' => 'ilPCCurriculumGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/PageEditor/class.ilPCCurriculumGUI.php',
     'children' => 
@@ -9041,9 +9112,9 @@
   ),
   'ilpcdatatablegui' => 
   array (
-    'cid' => 'tj',
+    'cid' => 'tp',
     'class_name' => 'ilPCDataTableGUI',
-    'class_path' => './Services/COPage/PC/Table/class.ilPCDataTableGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Table/class.ilPCDataTableGUI.php',
     'children' => 
     array (
     ),
@@ -9054,9 +9125,9 @@
   ),
   'ilpcfileitemgui' => 
   array (
-    'cid' => 'tl',
+    'cid' => 'tr',
     'class_name' => 'ilPCFileItemGUI',
-    'class_path' => './Services/COPage/PC/FileList/class.ilPCFileItemGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/FileList/class.ilPCFileItemGUI.php',
     'children' => 
     array (
     ),
@@ -9067,9 +9138,9 @@
   ),
   'ilpcfilelistgui' => 
   array (
-    'cid' => 'tm',
+    'cid' => 'ts',
     'class_name' => 'ilPCFileListGUI',
-    'class_path' => './Services/COPage/PC/FileList/class.ilPCFileListGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/FileList/class.ilPCFileListGUI.php',
     'children' => 
     array (
     ),
@@ -9080,9 +9151,9 @@
   ),
   'ilpcgridcellgui' => 
   array (
-    'cid' => 'to',
+    'cid' => 'tu',
     'class_name' => 'ilPCGridCellGUI',
-    'class_path' => './Services/COPage/PC/Grid/class.ilPCGridCellGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Grid/class.ilPCGridCellGUI.php',
     'children' => 
     array (
     ),
@@ -9093,9 +9164,9 @@
   ),
   'ilpcgridgui' => 
   array (
-    'cid' => 'tr',
+    'cid' => 'tx',
     'class_name' => 'ilPCGridGUI',
-    'class_path' => './Services/COPage/PC/Grid/class.ilPCGridGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Grid/class.ilPCGridGUI.php',
     'children' => 
     array (
     ),
@@ -9106,9 +9177,9 @@
   ),
   'ilpciimtriggereditorgui' => 
   array (
-    'cid' => 'tu',
+    'cid' => 'u0',
     'class_name' => 'ilPCIIMTriggerEditorGUI',
-    'class_path' => './Services/COPage/PC/InteractiveImage/class.ilPCIIMTriggerEditorGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/InteractiveImage/class.ilPCIIMTriggerEditorGUI.php',
     'children' => 
     array (
       0 => 'ilinternallinkgui',
@@ -9120,9 +9191,9 @@
   ),
   'ilpcimagemapeditorgui' => 
   array (
-    'cid' => 'tw',
+    'cid' => 'u2',
     'class_name' => 'ilPCImageMapEditorGUI',
-    'class_path' => './Services/COPage/PC/MediaObject/class.ilPCImageMapEditorGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/MediaObject/class.ilPCImageMapEditorGUI.php',
     'children' => 
     array (
       0 => 'ilinternallinkgui',
@@ -9134,9 +9205,9 @@
   ),
   'ilpcinteractiveimagegui' => 
   array (
-    'cid' => 'ty',
+    'cid' => 'u4',
     'class_name' => 'ilPCInteractiveImageGUI',
-    'class_path' => './Services/COPage/PC/InteractiveImage/class.ilPCInteractiveImageGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/InteractiveImage/class.ilPCInteractiveImageGUI.php',
     'children' => 
     array (
       0 => 'ilpciimtriggereditorgui',
@@ -9149,7 +9220,7 @@
   ),
   'ilpclaunchergui' => 
   array (
-    'cid' => 'tz',
+    'cid' => 'u5',
     'class_name' => 'ilPCLauncherGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/PageEditor/class.ilPCLauncherGUI.php',
     'children' => 
@@ -9162,9 +9233,9 @@
   ),
   'ilpclayouttemplategui' => 
   array (
-    'cid' => 'u1',
+    'cid' => 'u7',
     'class_name' => 'ilPCLayoutTemplateGUI',
-    'class_path' => './Services/COPage/PC/LayoutTemplate/class.ilPCLayoutTemplateGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/LayoutTemplate/class.ilPCLayoutTemplateGUI.php',
     'children' => 
     array (
     ),
@@ -9175,9 +9246,9 @@
   ),
   'ilpclearninghistorygui' => 
   array (
-    'cid' => 'u2',
+    'cid' => 'u8',
     'class_name' => 'ilPCLearningHistoryGUI',
-    'class_path' => './Services/LearningHistory/classes/class.ilPCLearningHistoryGUI.php',
+    'class_path' => './components/ILIAS/LearningHistory/classes/class.ilPCLearningHistoryGUI.php',
     'children' => 
     array (
     ),
@@ -9188,9 +9259,9 @@
   ),
   'ilpclistgui' => 
   array (
-    'cid' => 'u3',
+    'cid' => 'u9',
     'class_name' => 'ilPCListGUI',
-    'class_path' => './Services/COPage/PC/List/class.ilPCListGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/List/class.ilPCListGUI.php',
     'children' => 
     array (
     ),
@@ -9201,9 +9272,9 @@
   ),
   'ilpclistitemgui' => 
   array (
-    'cid' => 'u4',
+    'cid' => 'ua',
     'class_name' => 'ilPCListItemGUI',
-    'class_path' => './Services/COPage/PC/List/class.ilPCListItemGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/List/class.ilPCListItemGUI.php',
     'children' => 
     array (
     ),
@@ -9214,9 +9285,9 @@
   ),
   'ilpcloginpageelementgui' => 
   array (
-    'cid' => 'u5',
+    'cid' => 'ub',
     'class_name' => 'ilPCLoginPageElementGUI',
-    'class_path' => './Services/COPage/PC/Login/class.ilPCLoginPageElementGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Login/class.ilPCLoginPageElementGUI.php',
     'children' => 
     array (
     ),
@@ -9227,9 +9298,9 @@
   ),
   'ilpcmapgui' => 
   array (
-    'cid' => 'u6',
+    'cid' => 'uc',
     'class_name' => 'ilPCMapGUI',
-    'class_path' => './Services/COPage/PC/Map/class.ilPCMapGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Map/class.ilPCMapGUI.php',
     'children' => 
     array (
     ),
@@ -9240,9 +9311,9 @@
   ),
   'ilpcmediaobjectgui' => 
   array (
-    'cid' => 'u8',
+    'cid' => 'ue',
     'class_name' => 'ilPCMediaObjectGUI',
-    'class_path' => './Services/COPage/PC/MediaObject/class.ilPCMediaObjectGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/MediaObject/class.ilPCMediaObjectGUI.php',
     'children' => 
     array (
       0 => 'ilobjmediaobjectgui',
@@ -9256,7 +9327,7 @@
   ),
   'ilpcmycoursesgui' => 
   array (
-    'cid' => 'u9',
+    'cid' => 'uf',
     'class_name' => 'ilPCMyCoursesGUI',
     'class_path' => './components/ILIAS/Portfolio/Page/class.ilPCMyCoursesGUI.php',
     'children' => 
@@ -9269,7 +9340,7 @@
   ),
   'ilpcprgactionnotegui' => 
   array (
-    'cid' => 'ua',
+    'cid' => 'ug',
     'class_name' => 'ilPCPRGActionNoteGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/PageEditor/class.ilPCPRGActionNoteGUI.php',
     'children' => 
@@ -9282,7 +9353,7 @@
   ),
   'ilpcprgstatusinfogui' => 
   array (
-    'cid' => 'ub',
+    'cid' => 'uh',
     'class_name' => 'ilPCPRGStatusInfoGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/PageEditor/class.ilPCPRGStatusInfoGUI.php',
     'children' => 
@@ -9295,9 +9366,9 @@
   ),
   'ilpcparagraphgui' => 
   array (
-    'cid' => 'ud',
+    'cid' => 'uj',
     'class_name' => 'ilPCParagraphGUI',
-    'class_path' => './Services/COPage/PC/Paragraph/class.ilPCParagraphGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Paragraph/class.ilPCParagraphGUI.php',
     'children' => 
     array (
     ),
@@ -9308,9 +9379,9 @@
   ),
   'ilpcplaceholdergui' => 
   array (
-    'cid' => 'uf',
+    'cid' => 'ul',
     'class_name' => 'ilPCPlaceHolderGUI',
-    'class_path' => './Services/COPage/PC/PlaceHolder/class.ilPCPlaceHolderGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/PlaceHolder/class.ilPCPlaceHolderGUI.php',
     'children' => 
     array (
       0 => 'ilpcmediaobjectgui',
@@ -9322,9 +9393,9 @@
   ),
   'ilpcpluggedgui' => 
   array (
-    'cid' => 'ug',
+    'cid' => 'um',
     'class_name' => 'ilPCPluggedGUI',
-    'class_path' => './Services/COPage/PC/Plugged/class.ilPCPluggedGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Plugged/class.ilPCPluggedGUI.php',
     'children' => 
     array (
     ),
@@ -9335,9 +9406,9 @@
   ),
   'ilpcprofilegui' => 
   array (
-    'cid' => 'uh',
+    'cid' => 'un',
     'class_name' => 'ilPCProfileGUI',
-    'class_path' => './Services/COPage/PC/Profile/class.ilPCProfileGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Profile/class.ilPCProfileGUI.php',
     'children' => 
     array (
     ),
@@ -9348,9 +9419,9 @@
   ),
   'ilpcquestiongui' => 
   array (
-    'cid' => 'ui',
+    'cid' => 'uo',
     'class_name' => 'ilPCQuestionGUI',
-    'class_path' => './Services/COPage/PC/Question/class.ilPCQuestionGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Question/class.ilPCQuestionGUI.php',
     'children' => 
     array (
     ),
@@ -9361,9 +9432,9 @@
   ),
   'ilpcresourcesgui' => 
   array (
-    'cid' => 'uk',
+    'cid' => 'uq',
     'class_name' => 'ilPCResourcesGUI',
-    'class_path' => './Services/COPage/PC/Resources/class.ilPCResourcesGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Resources/class.ilPCResourcesGUI.php',
     'children' => 
     array (
     ),
@@ -9374,9 +9445,9 @@
   ),
   'ilpcsectiongui' => 
   array (
-    'cid' => 'um',
+    'cid' => 'us',
     'class_name' => 'ilPCSectionGUI',
-    'class_path' => './Services/COPage/PC/Section/class.ilPCSectionGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Section/class.ilPCSectionGUI.php',
     'children' => 
     array (
       0 => 'ilpropertyformgui',
@@ -9388,9 +9459,9 @@
   ),
   'ilpcskillsgui' => 
   array (
-    'cid' => 'un',
+    'cid' => 'ut',
     'class_name' => 'ilPCSkillsGUI',
-    'class_path' => './Services/COPage/PC/Skills/class.ilPCSkillsGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Skills/class.ilPCSkillsGUI.php',
     'children' => 
     array (
     ),
@@ -9401,9 +9472,9 @@
   ),
   'ilpcsourcecodegui' => 
   array (
-    'cid' => 'up',
+    'cid' => 'uv',
     'class_name' => 'ilPCSourceCodeGUI',
-    'class_path' => './Services/COPage/PC/SourceCode/class.ilPCSourceCodeGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/SourceCode/class.ilPCSourceCodeGUI.php',
     'children' => 
     array (
       0 => 'ilrepostandarduploadhandlergui',
@@ -9415,9 +9486,9 @@
   ),
   'ilpctabgui' => 
   array (
-    'cid' => 'uq',
+    'cid' => 'uw',
     'class_name' => 'ilPCTabGUI',
-    'class_path' => './Services/COPage/PC/Tabs/class.ilPCTabGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Tabs/class.ilPCTabGUI.php',
     'children' => 
     array (
     ),
@@ -9428,9 +9499,9 @@
   ),
   'ilpctabledatagui' => 
   array (
-    'cid' => 'ur',
+    'cid' => 'ux',
     'class_name' => 'ilPCTableDataGUI',
-    'class_path' => './Services/COPage/PC/Table/class.ilPCTableDataGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Table/class.ilPCTableDataGUI.php',
     'children' => 
     array (
     ),
@@ -9441,9 +9512,9 @@
   ),
   'ilpctablegui' => 
   array (
-    'cid' => 'us',
+    'cid' => 'uy',
     'class_name' => 'ilPCTableGUI',
-    'class_path' => './Services/COPage/PC/Table/class.ilPCTableGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Table/class.ilPCTableGUI.php',
     'children' => 
     array (
       0 => 'ilassgenfeedbackpagegui',
@@ -9455,9 +9526,9 @@
   ),
   'ilpctabsgui' => 
   array (
-    'cid' => 'uu',
+    'cid' => 'v0',
     'class_name' => 'ilPCTabsGUI',
-    'class_path' => './Services/COPage/PC/Tabs/class.ilPCTabsGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Tabs/class.ilPCTabsGUI.php',
     'children' => 
     array (
     ),
@@ -9468,9 +9539,9 @@
   ),
   'ilpcverificationgui' => 
   array (
-    'cid' => 'uw',
+    'cid' => 'v2',
     'class_name' => 'ilPCVerificationGUI',
-    'class_path' => './Services/COPage/PC/Verification/class.ilPCVerificationGUI.php',
+    'class_path' => './components/ILIAS/COPage/PC/Verification/class.ilPCVerificationGUI.php',
     'children' => 
     array (
     ),
@@ -9481,9 +9552,9 @@
   ),
   'ilpdcalendarblockgui' => 
   array (
-    'cid' => 'ux',
+    'cid' => 'v3',
     'class_name' => 'ilPDCalendarBlockGUI',
-    'class_path' => './Services/Calendar/classes/class.ilPDCalendarBlockGUI.php',
+    'class_path' => './components/ILIAS/Calendar/classes/class.ilPDCalendarBlockGUI.php',
     'children' => 
     array (
       0 => 'ilcalendardaygui',
@@ -9502,9 +9573,9 @@
   ),
   'ilpdmailblockgui' => 
   array (
-    'cid' => 'uy',
+    'cid' => 'v4',
     'class_name' => 'ilPDMailBlockGUI',
-    'class_path' => './Services/Mail/classes/class.ilPDMailBlockGUI.php',
+    'class_path' => './components/ILIAS/Mail/classes/class.ilPDMailBlockGUI.php',
     'children' => 
     array (
     ),
@@ -9516,9 +9587,9 @@
   ),
   'ilpdnewsblockgui' => 
   array (
-    'cid' => 'v0',
+    'cid' => 'v6',
     'class_name' => 'ilPDNewsBlockGUI',
-    'class_path' => './Services/News/classes/class.ilPDNewsBlockGUI.php',
+    'class_path' => './components/ILIAS/News/classes/class.ilPDNewsBlockGUI.php',
     'children' => 
     array (
     ),
@@ -9529,9 +9600,9 @@
   ),
   'ilpdnewsgui' => 
   array (
-    'cid' => 'v1',
+    'cid' => 'v7',
     'class_name' => 'ilPDNewsGUI',
-    'class_path' => './Services/News/classes/class.ilPDNewsGUI.php',
+    'class_path' => './components/ILIAS/News/classes/class.ilPDNewsGUI.php',
     'children' => 
     array (
       0 => 'ilnewstimelinegui',
@@ -9544,9 +9615,9 @@
   ),
   'ilpdnotesgui' => 
   array (
-    'cid' => 'v3',
+    'cid' => 'v9',
     'class_name' => 'ilPDNotesGUI',
-    'class_path' => './Services/Notes/Note/class.ilPDNotesGUI.php',
+    'class_path' => './components/ILIAS/Notes/Note/class.ilPDNotesGUI.php',
     'children' => 
     array (
       0 => 'ilnotegui',
@@ -9558,7 +9629,7 @@
   ),
   'ilpdstudyprogrammeexpandablelistgui' => 
   array (
-    'cid' => 'v4',
+    'cid' => 'va',
     'class_name' => 'ilPDStudyProgrammeExpandableListGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilPDStudyProgrammeExpandableListGUI.php',
     'children' => 
@@ -9571,7 +9642,7 @@
   ),
   'ilpdstudyprogrammesimplelistgui' => 
   array (
-    'cid' => 'v5',
+    'cid' => 'vb',
     'class_name' => 'ilPDStudyProgrammeSimpleListGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilPDStudyProgrammeSimpleListGUI.php',
     'children' => 
@@ -9584,9 +9655,9 @@
   ),
   'ilpdtasksblockgui' => 
   array (
-    'cid' => 'v6',
+    'cid' => 'vc',
     'class_name' => 'ilPDTasksBlockGUI',
-    'class_path' => './Services/Tasks/classes/class.ilPDTasksBlockGUI.php',
+    'class_path' => './components/ILIAS/Tasks/classes/class.ilPDTasksBlockGUI.php',
     'children' => 
     array (
     ),
@@ -9597,7 +9668,7 @@
   ),
   'ilprgmembersexportgui' => 
   array (
-    'cid' => 'v7',
+    'cid' => 'vd',
     'class_name' => 'ilPRGMembersExportGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/memberexport/class.ilPRGMembersExportGUI.php',
     'children' => 
@@ -9610,7 +9681,7 @@
   ),
   'ilprgpageobjectgui' => 
   array (
-    'cid' => 'v8',
+    'cid' => 've',
     'class_name' => 'ilPRGPageObjectGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/PageEditor/class.ilPRGPageObjectGUI.php',
     'children' => 
@@ -9625,9 +9696,9 @@
   ),
   'ilpageeditorgui' => 
   array (
-    'cid' => 'vb',
+    'cid' => 'vh',
     'class_name' => 'ilPageEditorGUI',
-    'class_path' => './Services/COPage/classes/class.ilPageEditorGUI.php',
+    'class_path' => './components/ILIAS/COPage/classes/class.ilPageEditorGUI.php',
     'children' => 
     array (
       0 => 'ilpcparagraphgui',
@@ -9707,9 +9778,9 @@
   ),
   'ilpageeditorserveradaptergui' => 
   array (
-    'cid' => 'vc',
+    'cid' => 'vi',
     'class_name' => 'ilPageEditorServerAdapterGUI',
-    'class_path' => './Services/COPage/Editor/class.ilPageEditorServerAdapterGUI.php',
+    'class_path' => './components/ILIAS/COPage/Editor/class.ilPageEditorServerAdapterGUI.php',
     'children' => 
     array (
     ),
@@ -9720,9 +9791,9 @@
   ),
   'ilpagelayoutadministrationgui' => 
   array (
-    'cid' => 've',
+    'cid' => 'vk',
     'class_name' => 'ilPageLayoutAdministrationGUI',
-    'class_path' => './Services/COPage/Layout/Administration/class.ilPageLayoutAdministrationGUI.php',
+    'class_path' => './components/ILIAS/COPage/Layout/Administration/class.ilPageLayoutAdministrationGUI.php',
     'children' => 
     array (
       0 => 'ilpagelayoutgui',
@@ -9734,9 +9805,9 @@
   ),
   'ilpagelayoutgui' => 
   array (
-    'cid' => 'vf',
+    'cid' => 'vl',
     'class_name' => 'ilPageLayoutGUI',
-    'class_path' => './Services/COPage/Layout/classes/class.ilPageLayoutGUI.php',
+    'class_path' => './components/ILIAS/COPage/Layout/classes/class.ilPageLayoutGUI.php',
     'children' => 
     array (
       0 => 'ilpageeditorgui',
@@ -9751,9 +9822,9 @@
   ),
   'ilpagemultilanggui' => 
   array (
-    'cid' => 'vh',
+    'cid' => 'vn',
     'class_name' => 'ilPageMultiLangGUI',
-    'class_path' => './Services/COPage/classes/class.ilPageMultiLangGUI.php',
+    'class_path' => './components/ILIAS/COPage/classes/class.ilPageMultiLangGUI.php',
     'children' => 
     array (
     ),
@@ -9773,9 +9844,9 @@
   ),
   'ilpageobjectgui' => 
   array (
-    'cid' => 'vj',
+    'cid' => 'vp',
     'class_name' => 'ilPageObjectGUI',
-    'class_path' => './Services/COPage/classes/class.ilPageObjectGUI.php',
+    'class_path' => './components/ILIAS/COPage/classes/class.ilPageObjectGUI.php',
     'children' => 
     array (
       0 => 'ilpageeditorgui',
@@ -9809,7 +9880,7 @@
   ),
   'ilparticipantsperassignmenttablegui' => 
   array (
-    'cid' => 'vm',
+    'cid' => 'vs',
     'class_name' => 'ilParticipantsPerAssignmentTableGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilParticipantsPerAssignmentTableGUI.php',
     'children' => 
@@ -9823,7 +9894,7 @@
   ),
   'ilparticipantstestresultsgui' => 
   array (
-    'cid' => 'vn',
+    'cid' => 'vt',
     'class_name' => 'ilParticipantsTestResultsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilParticipantsTestResultsGUI.php',
     'children' => 
@@ -9842,9 +9913,9 @@
   ),
   'ilpasswordassistancegui' => 
   array (
-    'cid' => 'vp',
+    'cid' => 'vv',
     'class_name' => 'ilPasswordAssistanceGUI',
-    'class_path' => './Services/Init/classes/class.ilPasswordAssistanceGUI.php',
+    'class_path' => './components/ILIAS/Init/classes/class.ilPasswordAssistanceGUI.php',
     'children' => 
     array (
     ),
@@ -9855,9 +9926,9 @@
   ),
   'ilpermissiongui' => 
   array (
-    'cid' => 'vu',
+    'cid' => 'w0',
     'class_name' => 'ilPermissionGUI',
-    'class_path' => './Services/AccessControl/classes/class.ilPermissionGUI.php',
+    'class_path' => './components/ILIAS/AccessControl/classes/class.ilPermissionGUI.php',
     'children' => 
     array (
       0 => 'ilobjrolegui',
@@ -9996,9 +10067,9 @@
   ),
   'ilpersonalprofilegui' => 
   array (
-    'cid' => 'vv',
+    'cid' => 'w1',
     'class_name' => 'ilPersonalProfileGUI',
-    'class_path' => './Services/User/classes/Profile/class.ilPersonalProfileGUI.php',
+    'class_path' => './components/ILIAS/User/classes/Profile/class.ilPersonalProfileGUI.php',
     'children' => 
     array (
       0 => 'ilpublicuserprofilegui',
@@ -10013,9 +10084,9 @@
   ),
   'ilpersonalsettingsgui' => 
   array (
-    'cid' => 'vw',
+    'cid' => 'w2',
     'class_name' => 'ilPersonalSettingsGUI',
-    'class_path' => './Services/User/classes/Settings/class.ilPersonalSettingsGUI.php',
+    'class_path' => './components/ILIAS/User/classes/Settings/class.ilPersonalSettingsGUI.php',
     'children' => 
     array (
       0 => 'ilmailoptionsgui',
@@ -10027,9 +10098,9 @@
   ),
   'ilpersonalskillsgui' => 
   array (
-    'cid' => 'vz',
+    'cid' => 'w5',
     'class_name' => 'ilPersonalSkillsGUI',
-    'class_path' => './Services/Skill/Personal/class.ilPersonalSkillsGUI.php',
+    'class_path' => './components/ILIAS/Skill/Personal/class.ilPersonalSkillsGUI.php',
     'children' => 
     array (
     ),
@@ -10041,9 +10112,9 @@
   ),
   'ilpersonalworkspacegui' => 
   array (
-    'cid' => 'w0',
+    'cid' => 'w6',
     'class_name' => 'ilPersonalWorkspaceGUI',
-    'class_path' => './Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php',
+    'class_path' => './components/ILIAS/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php',
     'children' => 
     array (
       0 => 'ilobjworkspacerootfoldergui',
@@ -10066,7 +10137,7 @@
   ),
   'ilpollblockgui' => 
   array (
-    'cid' => 'w4',
+    'cid' => 'wa',
     'class_name' => 'ilPollBlockGUI',
     'class_path' => './components/ILIAS/Poll/classes/BlockGUI/class.ilPollBlockGUI.php',
     'children' => 
@@ -10079,7 +10150,7 @@
   ),
   'ilportfolioexercisegui' => 
   array (
-    'cid' => 'w7',
+    'cid' => 'wd',
     'class_name' => 'ilPortfolioExerciseGUI',
     'class_path' => './components/ILIAS/Portfolio/Exercise/class.ilPortfolioExerciseGUI.php',
     'children' => 
@@ -10093,7 +10164,7 @@
   ),
   'ilportfoliopagegui' => 
   array (
-    'cid' => 'w8',
+    'cid' => 'we',
     'class_name' => 'ilPortfolioPageGUI',
     'class_path' => './components/ILIAS/Portfolio/Page/class.ilPortfolioPageGUI.php',
     'children' => 
@@ -10117,7 +10188,7 @@
   ),
   'ilportfoliorepositorygui' => 
   array (
-    'cid' => 'wa',
+    'cid' => 'wg',
     'class_name' => 'ilPortfolioRepositoryGUI',
     'class_path' => './components/ILIAS/Portfolio/classes/class.ilPortfolioRepositoryGUI.php',
     'children' => 
@@ -10132,7 +10203,7 @@
   ),
   'ilportfolioroleassignmentgui' => 
   array (
-    'cid' => 'wb',
+    'cid' => 'wh',
     'class_name' => 'ilPortfolioRoleAssignmentGUI',
     'class_path' => './components/ILIAS/Portfolio/Administration/class.ilPortfolioRoleAssignmentGUI.php',
     'children' => 
@@ -10146,7 +10217,7 @@
   ),
   'ilportfoliotemplatepagegui' => 
   array (
-    'cid' => 'we',
+    'cid' => 'wk',
     'class_name' => 'ilPortfolioTemplatePageGUI',
     'class_path' => './components/ILIAS/Portfolio/Template/class.ilPortfolioTemplatePageGUI.php',
     'children' => 
@@ -10165,7 +10236,7 @@
   ),
   'ilpresentationfullgui' => 
   array (
-    'cid' => 'wf',
+    'cid' => 'wl',
     'class_name' => 'ilPresentationFullGUI',
     'class_path' => './components/ILIAS/Glossary/Presentation/class.ilPresentationFullGUI.php',
     'children' => 
@@ -10178,7 +10249,7 @@
   ),
   'ilpresentationlisttablegui' => 
   array (
-    'cid' => 'wg',
+    'cid' => 'wm',
     'class_name' => 'ilPresentationListTableGUI',
     'class_path' => './components/ILIAS/Glossary/Presentation/class.ilPresentationListTableGUI.php',
     'children' => 
@@ -10192,9 +10263,9 @@
   ),
   'ilpropertyformgui' => 
   array (
-    'cid' => 'wi',
+    'cid' => 'wo',
     'class_name' => 'ilPropertyFormGUI',
-    'class_path' => './Services/Form/classes/class.ilPropertyFormGUI.php',
+    'class_path' => './components/ILIAS/Form/classes/class.ilPropertyFormGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -10265,9 +10336,9 @@
   ),
   'ilpublicuserprofilegui' => 
   array (
-    'cid' => 'wl',
+    'cid' => 'wr',
     'class_name' => 'ilPublicUserProfileGUI',
-    'class_path' => './Services/User/classes/Profile/class.ilPublicUserProfileGUI.php',
+    'class_path' => './components/ILIAS/User/classes/Profile/class.ilPublicUserProfileGUI.php',
     'children' => 
     array (
       0 => 'ilobjportfoliogui',
@@ -10318,7 +10389,7 @@
   ),
   'ilquestionbrowsertablegui' => 
   array (
-    'cid' => 'wm',
+    'cid' => 'ws',
     'class_name' => 'ilQuestionBrowserTableGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php',
     'children' => 
@@ -10332,7 +10403,7 @@
   ),
   'ilquestioneditgui' => 
   array (
-    'cid' => 'wo',
+    'cid' => 'wu',
     'class_name' => 'ilQuestionEditGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilQuestionEditGUI.php',
     'children' => 
@@ -10360,7 +10431,7 @@
   ),
   'ilquestionpoolexportgui' => 
   array (
-    'cid' => 'wq',
+    'cid' => 'ww',
     'class_name' => 'ilQuestionPoolExportGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php',
     'children' => 
@@ -10373,7 +10444,7 @@
   ),
   'ilquestionpoolskilladministrationgui' => 
   array (
-    'cid' => 'wu',
+    'cid' => 'x0',
     'class_name' => 'ilQuestionPoolSkillAdministrationGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilQuestionPoolSkillAdministrationGUI.php',
     'children' => 
@@ -10388,9 +10459,9 @@
   ),
   'ilratingcategorygui' => 
   array (
-    'cid' => 'wz',
+    'cid' => 'x5',
     'class_name' => 'ilRatingCategoryGUI',
-    'class_path' => './Services/Rating/classes/class.ilRatingCategoryGUI.php',
+    'class_path' => './components/ILIAS/Rating/classes/class.ilRatingCategoryGUI.php',
     'children' => 
     array (
     ),
@@ -10401,9 +10472,9 @@
   ),
   'ilratinggui' => 
   array (
-    'cid' => 'x1',
+    'cid' => 'x7',
     'class_name' => 'ilRatingGUI',
-    'class_path' => './Services/Rating/classes/class.ilRatingGUI.php',
+    'class_path' => './components/ILIAS/Rating/classes/class.ilRatingGUI.php',
     'children' => 
     array (
       0 => 'ilratingcategorygui',
@@ -10423,9 +10494,9 @@
   ),
   'ilrecommendedcontentroleconfiggui' => 
   array (
-    'cid' => 'x3',
+    'cid' => 'x9',
     'class_name' => 'ilRecommendedContentRoleConfigGUI',
-    'class_path' => './Services/Repository/RecommendedContent/classes/class.ilRecommendedContentRoleConfigGUI.php',
+    'class_path' => './components/ILIAS/Repository/RecommendedContent/classes/class.ilRecommendedContentRoleConfigGUI.php',
     'children' => 
     array (
     ),
@@ -10436,9 +10507,9 @@
   ),
   'ilregistrationsettingsgui' => 
   array (
-    'cid' => 'x9',
+    'cid' => 'xf',
     'class_name' => 'ilRegistrationSettingsGUI',
-    'class_path' => './Services/Registration/classes/class.ilRegistrationSettingsGUI.php',
+    'class_path' => './components/ILIAS/Registration/classes/class.ilRegistrationSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -10449,9 +10520,9 @@
   ),
   'ilrepostandarduploadhandlergui' => 
   array (
-    'cid' => 'xd',
+    'cid' => 'xj',
     'class_name' => 'ilRepoStandardUploadHandlerGUI',
-    'class_path' => './Services/Repository/Service/Form/class.ilRepoStandardUploadHandlerGUI.php',
+    'class_path' => './components/ILIAS/Repository/Service/Form/class.ilRepoStandardUploadHandlerGUI.php',
     'children' => 
     array (
     ),
@@ -10466,9 +10537,9 @@
   ),
   'ilrepositorygui' => 
   array (
-    'cid' => 'xf',
+    'cid' => 'xl',
     'class_name' => 'ilRepositoryGUI',
-    'class_path' => './Services/Repository/classes/class.ilRepositoryGUI.php',
+    'class_path' => './components/ILIAS/Repository/classes/class.ilRepositoryGUI.php',
     'children' => 
     array (
       0 => 'ilobjgroupgui',
@@ -10534,9 +10605,9 @@
   ),
   'ilrepositoryobjectsearchgui' => 
   array (
-    'cid' => 'xi',
+    'cid' => 'xo',
     'class_name' => 'ilRepositoryObjectSearchGUI',
-    'class_path' => './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/class.ilRepositoryObjectSearchGUI.php',
     'children' => 
     array (
     ),
@@ -10548,9 +10619,9 @@
   ),
   'ilrepositorysearchgui' => 
   array (
-    'cid' => 'xk',
+    'cid' => 'xq',
     'class_name' => 'ilRepositorySearchGUI',
-    'class_path' => './Services/Search/classes/class.ilRepositorySearchGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/class.ilRepositorySearchGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -10585,9 +10656,9 @@
   ),
   'ilrepositoryselector2inputgui' => 
   array (
-    'cid' => 'xl',
+    'cid' => 'xr',
     'class_name' => 'ilRepositorySelector2InputGUI',
-    'class_path' => './Services/Form/classes/class.ilRepositorySelector2InputGUI.php',
+    'class_path' => './components/ILIAS/Form/classes/class.ilRepositorySelector2InputGUI.php',
     'children' => 
     array (
     ),
@@ -10598,9 +10669,9 @@
   ),
   'ilrepositoryselectorexplorergui' => 
   array (
-    'cid' => 'xm',
+    'cid' => 'xs',
     'class_name' => 'ilRepositorySelectorExplorerGUI',
-    'class_path' => './Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php',
+    'class_path' => './components/ILIAS/Repository/classes/class.ilRepositorySelectorExplorerGUI.php',
     'children' => 
     array (
     ),
@@ -10611,9 +10682,9 @@
   ),
   'ilrepositoryselectorinputgui' => 
   array (
-    'cid' => 'xn',
+    'cid' => 'xt',
     'class_name' => 'ilRepositorySelectorInputGUI',
-    'class_path' => './Services/Form/classes/class.ilRepositorySelectorInputGUI.php',
+    'class_path' => './components/ILIAS/Form/classes/class.ilRepositorySelectorInputGUI.php',
     'children' => 
     array (
     ),
@@ -10624,9 +10695,9 @@
   ),
   'ilrepositorytrashgui' => 
   array (
-    'cid' => 'xo',
+    'cid' => 'xu',
     'class_name' => 'ilRepositoryTrashGUI',
-    'class_path' => './Services/Repository/Trash/class.ilRepositoryTrashGUI.php',
+    'class_path' => './components/ILIAS/Repository/Trash/class.ilRepositoryTrashGUI.php',
     'children' => 
     array (
       0 => 'ilpropertyformgui',
@@ -10641,9 +10712,9 @@
   ),
   'ilresourcecollectiongui' => 
   array (
-    'cid' => 'xq',
+    'cid' => 'xw',
     'class_name' => 'ilResourceCollectionGUI',
-    'class_path' => './Services/ResourceStorage/classes/Collections/class.ilResourceCollectionGUI.php',
+    'class_path' => './components/ILIAS/ResourceStorage_/classes/Collections/class.ilResourceCollectionGUI.php',
     'children' => 
     array (
     ),
@@ -10656,9 +10727,9 @@
   ),
   'ilresourceoverviewgui' => 
   array (
-    'cid' => 'xr',
+    'cid' => 'xx',
     'class_name' => 'ilResourceOverviewGUI',
-    'class_path' => './Services/ResourceStorage/classes/Resources/class.ilResourceOverviewGUI.php',
+    'class_path' => './components/ILIAS/ResourceStorage_/classes/Resources/class.ilResourceOverviewGUI.php',
     'children' => 
     array (
       0 => 'ilresourcecollectiongui',
@@ -10670,7 +10741,7 @@
   ),
   'ilsahseditgui' => 
   array (
-    'cid' => 'xz',
+    'cid' => 'y5',
     'class_name' => 'ilSAHSEditGUI',
     'class_path' => './components/ILIAS/ScormAicc/Editing/classes/class.ilSAHSEditGUI.php',
     'children' => 
@@ -10690,7 +10761,7 @@
   ),
   'ilsahspresentationgui' => 
   array (
-    'cid' => 'y0',
+    'cid' => 'y6',
     'class_name' => 'ilSAHSPresentationGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilSAHSPresentationGUI.php',
     'children' => 
@@ -10708,7 +10779,7 @@
   ),
   'ilscorm13playergui' => 
   array (
-    'cid' => 'y3',
+    'cid' => 'y9',
     'class_name' => 'ilSCORM13PlayerGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilSCORM13PlayerGUI.php',
     'children' => 
@@ -10721,7 +10792,7 @@
   ),
   'ilscorm2004trackingitemsperscofiltergui' => 
   array (
-    'cid' => 'y4',
+    'cid' => 'ya',
     'class_name' => 'ilSCORM2004TrackingItemsPerScoFilterGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerScoFilterGUI.php',
     'children' => 
@@ -10734,7 +10805,7 @@
   ),
   'ilscorm2004trackingitemsperuserfiltergui' => 
   array (
-    'cid' => 'y5',
+    'cid' => 'yb',
     'class_name' => 'ilSCORM2004TrackingItemsPerUserFilterGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php',
     'children' => 
@@ -10747,7 +10818,7 @@
   ),
   'ilscorm2004trackingitemstablegui' => 
   array (
-    'cid' => 'y6',
+    'cid' => 'yc',
     'class_name' => 'ilSCORM2004TrackingItemsTableGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php',
     'children' => 
@@ -10760,7 +10831,7 @@
   ),
   'ilscormpresentationgui' => 
   array (
-    'cid' => 'yc',
+    'cid' => 'yi',
     'class_name' => 'ilSCORMPresentationGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/SCORM/class.ilSCORMPresentationGUI.php',
     'children' => 
@@ -10773,7 +10844,7 @@
   ),
   'ilscormtrackingitemsperscofiltergui' => 
   array (
-    'cid' => 'yg',
+    'cid' => 'ym',
     'class_name' => 'ilSCORMTrackingItemsPerScoFilterGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoFilterGUI.php',
     'children' => 
@@ -10786,7 +10857,7 @@
   ),
   'ilscormtrackingitemsperuserfiltergui' => 
   array (
-    'cid' => 'yi',
+    'cid' => 'yo',
     'class_name' => 'ilSCORMTrackingItemsPerUserFilterGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php',
     'children' => 
@@ -10799,7 +10870,7 @@
   ),
   'ilscormtrackingitemstablegui' => 
   array (
-    'cid' => 'yl',
+    'cid' => 'yr',
     'class_name' => 'ilSCORMTrackingItemsTableGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php',
     'children' => 
@@ -10812,9 +10883,9 @@
   ),
   'ilsctreetasksgui' => 
   array (
-    'cid' => 'yr',
+    'cid' => 'yx',
     'class_name' => 'ilSCTreeTasksGUI',
-    'class_path' => './Services/Tree/classes/SystemCheck/class.ilSCTreeTasksGUI.php',
+    'class_path' => './components/ILIAS/Tree/classes/SystemCheck/class.ilSCTreeTasksGUI.php',
     'children' => 
     array (
     ),
@@ -10825,9 +10896,9 @@
   ),
   'ilsamlsettingsgui' => 
   array (
-    'cid' => 'yv',
+    'cid' => 'z1',
     'class_name' => 'ilSamlSettingsGUI',
-    'class_path' => './Services/Saml/classes/class.ilSamlSettingsGUI.php',
+    'class_path' => './components/ILIAS/Saml/classes/class.ilSamlSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -10838,9 +10909,9 @@
   ),
   'ilsearchbasegui' => 
   array (
-    'cid' => 'yx',
+    'cid' => 'z3',
     'class_name' => 'ilSearchBaseGUI',
-    'class_path' => './Services/Search/classes/class.ilSearchBaseGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/class.ilSearchBaseGUI.php',
     'children' => 
     array (
     ),
@@ -10851,9 +10922,9 @@
   ),
   'ilsearchcontrollergui' => 
   array (
-    'cid' => 'yy',
+    'cid' => 'z4',
     'class_name' => 'ilSearchControllerGUI',
-    'class_path' => './Services/Search/classes/class.ilSearchControllerGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/class.ilSearchControllerGUI.php',
     'children' => 
     array (
       0 => 'ilsearchgui',
@@ -10869,9 +10940,9 @@
   ),
   'ilsearchgui' => 
   array (
-    'cid' => 'yz',
+    'cid' => 'z5',
     'class_name' => 'ilSearchGUI',
-    'class_path' => './Services/Search/classes/class.ilSearchGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/class.ilSearchGUI.php',
     'children' => 
     array (
       0 => 'ilpropertyformgui',
@@ -10891,9 +10962,9 @@
   ),
   'ilselecteditemsblockgui' => 
   array (
-    'cid' => 'z3',
+    'cid' => 'z9',
     'class_name' => 'ilSelectedItemsBlockGUI',
-    'class_path' => './Services/Dashboard/Block/classes/class.ilSelectedItemsBlockGUI.php',
+    'class_path' => './components/ILIAS/Dashboard/Block/classes/class.ilSelectedItemsBlockGUI.php',
     'children' => 
     array (
     ),
@@ -10905,7 +10976,7 @@
   ),
   'ilsessionmembershipgui' => 
   array (
-    'cid' => 'z6',
+    'cid' => 'zc',
     'class_name' => 'ilSessionMembershipGUI',
     'class_path' => './components/ILIAS/Session/classes/class.ilSessionMembershipGUI.php',
     'children' => 
@@ -10923,7 +10994,7 @@
   ),
   'ilsessionoverviewgui' => 
   array (
-    'cid' => 'z8',
+    'cid' => 'ze',
     'class_name' => 'ilSessionOverviewGUI',
     'class_path' => './components/ILIAS/Session/classes/class.ilSessionOverviewGUI.php',
     'children' => 
@@ -10941,9 +11012,9 @@
   ),
   'ilsessionstatisticsgui' => 
   array (
-    'cid' => 'zc',
+    'cid' => 'zi',
     'class_name' => 'ilSessionStatisticsGUI',
-    'class_path' => './Services/Authentication/classes/class.ilSessionStatisticsGUI.php',
+    'class_path' => './components/ILIAS/Authentication/classes/class.ilSessionStatisticsGUI.php',
     'children' => 
     array (
     ),
@@ -10954,9 +11025,9 @@
   ),
   'ilsettingspermissiongui' => 
   array (
-    'cid' => 'zd',
+    'cid' => 'zj',
     'class_name' => 'ilSettingsPermissionGUI',
-    'class_path' => './Services/AccessControl/classes/class.ilSettingsPermissionGUI.php',
+    'class_path' => './components/ILIAS/AccessControl/classes/class.ilSettingsPermissionGUI.php',
     'children' => 
     array (
     ),
@@ -10967,9 +11038,9 @@
   ),
   'ilsharedresourcegui' => 
   array (
-    'cid' => 'ze',
+    'cid' => 'zk',
     'class_name' => 'ilSharedResourceGUI',
-    'class_path' => './Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php',
+    'class_path' => './components/ILIAS/PersonalWorkspace/classes/class.ilSharedResourceGUI.php',
     'children' => 
     array (
       0 => 'ilobjbloggui',
@@ -10985,9 +11056,9 @@
   ),
   'ilsingleusersharegui' => 
   array (
-    'cid' => 'zh',
+    'cid' => 'zn',
     'class_name' => 'ilSingleUserShareGUI',
-    'class_path' => './Services/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php',
+    'class_path' => './components/ILIAS/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php',
     'children' => 
     array (
     ),
@@ -10998,9 +11069,9 @@
   ),
   'ilskillcategorygui' => 
   array (
-    'cid' => 'zj',
+    'cid' => 'zp',
     'class_name' => 'ilSkillCategoryGUI',
-    'class_path' => './Services/Skill/Node/class.ilSkillCategoryGUI.php',
+    'class_path' => './components/ILIAS/Skill/Node/class.ilSkillCategoryGUI.php',
     'children' => 
     array (
     ),
@@ -11012,9 +11083,9 @@
   ),
   'ilskillprofilegui' => 
   array (
-    'cid' => 'zl',
+    'cid' => 'zr',
     'class_name' => 'ilSkillProfileGUI',
-    'class_path' => './Services/Skill/Profile/class.ilSkillProfileGUI.php',
+    'class_path' => './components/ILIAS/Skill/Profile/class.ilSkillProfileGUI.php',
     'children' => 
     array (
       0 => 'ilrepositorysearchgui',
@@ -11027,9 +11098,9 @@
   ),
   'ilskillprofileuploadhandlergui' => 
   array (
-    'cid' => 'zn',
+    'cid' => 'zt',
     'class_name' => 'ilSkillProfileUploadHandlerGUI',
-    'class_path' => './Services/Skill/Profile/class.ilSkillProfileUploadHandlerGUI.php',
+    'class_path' => './components/ILIAS/Skill/Profile/class.ilSkillProfileUploadHandlerGUI.php',
     'children' => 
     array (
     ),
@@ -11041,9 +11112,9 @@
   ),
   'ilskillrootgui' => 
   array (
-    'cid' => 'zo',
+    'cid' => 'zu',
     'class_name' => 'ilSkillRootGUI',
-    'class_path' => './Services/Skill/Node/class.ilSkillRootGUI.php',
+    'class_path' => './components/ILIAS/Skill/Node/class.ilSkillRootGUI.php',
     'children' => 
     array (
     ),
@@ -11055,9 +11126,9 @@
   ),
   'ilskillselectorgui' => 
   array (
-    'cid' => 'zp',
+    'cid' => 'zv',
     'class_name' => 'ilSkillSelectorGUI',
-    'class_path' => './Services/Skill/Tree/class.ilSkillSelectorGUI.php',
+    'class_path' => './components/ILIAS/Skill/Tree/class.ilSkillSelectorGUI.php',
     'children' => 
     array (
     ),
@@ -11068,9 +11139,9 @@
   ),
   'ilskilltemplatecategorygui' => 
   array (
-    'cid' => 'zq',
+    'cid' => 'zw',
     'class_name' => 'ilSkillTemplateCategoryGUI',
-    'class_path' => './Services/Skill/Node/class.ilSkillTemplateCategoryGUI.php',
+    'class_path' => './components/ILIAS/Skill/Node/class.ilSkillTemplateCategoryGUI.php',
     'children' => 
     array (
     ),
@@ -11082,9 +11153,9 @@
   ),
   'ilskilltemplatereferencegui' => 
   array (
-    'cid' => 'zr',
+    'cid' => 'zx',
     'class_name' => 'ilSkillTemplateReferenceGUI',
-    'class_path' => './Services/Skill/Node/class.ilSkillTemplateReferenceGUI.php',
+    'class_path' => './components/ILIAS/Skill/Node/class.ilSkillTemplateReferenceGUI.php',
     'children' => 
     array (
     ),
@@ -11096,9 +11167,9 @@
   ),
   'ilstartupgui' => 
   array (
-    'cid' => 'zx',
+    'cid' => '103',
     'class_name' => 'ilStartUpGUI',
-    'class_path' => './Services/Init/classes/class.ilStartUpGUI.php',
+    'class_path' => './components/ILIAS/Init/classes/class.ilStartUpGUI.php',
     'children' => 
     array (
       0 => 'ilaccountregistrationgui',
@@ -11115,7 +11186,7 @@
   ),
   'ilstructureobjectgui' => 
   array (
-    'cid' => 'zy',
+    'cid' => '104',
     'class_name' => 'ilStructureObjectGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilStructureObjectGUI.php',
     'children' => 
@@ -11131,7 +11202,7 @@
   ),
   'ilstudyprogrammechangedeadlinegui' => 
   array (
-    'cid' => '102',
+    'cid' => '108',
     'class_name' => 'ilStudyProgrammeChangeDeadlineGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeChangeDeadlineGUI.php',
     'children' => 
@@ -11144,7 +11215,7 @@
   ),
   'ilstudyprogrammechangeexpiredategui' => 
   array (
-    'cid' => '103',
+    'cid' => '109',
     'class_name' => 'ilStudyProgrammeChangeExpireDateGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeChangeExpireDateGUI.php',
     'children' => 
@@ -11157,7 +11228,7 @@
   ),
   'ilstudyprogrammecommonsettingsgui' => 
   array (
-    'cid' => '104',
+    'cid' => '10a',
     'class_name' => 'ilStudyProgrammeCommonSettingsGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeCommonSettingsGUI.php',
     'children' => 
@@ -11170,7 +11241,7 @@
   ),
   'ilstudyprogrammedashboardviewgui' => 
   array (
-    'cid' => '106',
+    'cid' => '10c',
     'class_name' => 'ilStudyProgrammeDashboardViewGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeDashboardViewGUI.php',
     'children' => 
@@ -11183,7 +11254,7 @@
   ),
   'ilstudyprogrammemailmembersearchgui' => 
   array (
-    'cid' => '10a',
+    'cid' => '10g',
     'class_name' => 'ilStudyProgrammeMailMemberSearchGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeMailMemberSearchGUI.php',
     'children' => 
@@ -11196,7 +11267,7 @@
   ),
   'ilstudyprogrammerepositorysearchgui' => 
   array (
-    'cid' => '10e',
+    'cid' => '10k',
     'class_name' => 'ilStudyProgrammeRepositorySearchGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php',
     'children' => 
@@ -11210,7 +11281,7 @@
   ),
   'ilstudyprogrammetypegui' => 
   array (
-    'cid' => '10h',
+    'cid' => '10n',
     'class_name' => 'ilStudyProgrammeTypeGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php',
     'children' => 
@@ -11223,9 +11294,9 @@
   ),
   'ilstylecharacteristicgui' => 
   array (
-    'cid' => '10j',
+    'cid' => '10p',
     'class_name' => 'ilStyleCharacteristicGUI',
-    'class_path' => './Services/Style/Content/Characteristic/class.ilStyleCharacteristicGUI.php',
+    'class_path' => './components/ILIAS/Style/Content/Characteristic/class.ilStyleCharacteristicGUI.php',
     'children' => 
     array (
     ),
@@ -11236,7 +11307,7 @@
   ),
   'ilsurveyconstraintsgui' => 
   array (
-    'cid' => '10y',
+    'cid' => '114',
     'class_name' => 'ilSurveyConstraintsGUI',
     'class_path' => './components/ILIAS/Survey/Constraints/class.ilSurveyConstraintsGUI.php',
     'children' => 
@@ -11249,7 +11320,7 @@
   ),
   'ilsurveyeditorgui' => 
   array (
-    'cid' => '110',
+    'cid' => '116',
     'class_name' => 'ilSurveyEditorGUI',
     'class_path' => './components/ILIAS/Survey/Editing/class.ilSurveyEditorGUI.php',
     'children' => 
@@ -11267,7 +11338,7 @@
   ),
   'ilsurveyevaluationgui' => 
   array (
-    'cid' => '111',
+    'cid' => '117',
     'class_name' => 'ilSurveyEvaluationGUI',
     'class_path' => './components/ILIAS/Survey/Evaluation/class.ilSurveyEvaluationGUI.php',
     'children' => 
@@ -11280,7 +11351,7 @@
   ),
   'ilsurveyexecutiongui' => 
   array (
-    'cid' => '112',
+    'cid' => '118',
     'class_name' => 'ilSurveyExecutionGUI',
     'class_path' => './components/ILIAS/Survey/Execution/class.ilSurveyExecutionGUI.php',
     'children' => 
@@ -11293,7 +11364,7 @@
   ),
   'ilsurveyparticipantsgui' => 
   array (
-    'cid' => '114',
+    'cid' => '11a',
     'class_name' => 'ilSurveyParticipantsGUI',
     'class_path' => './components/ILIAS/Survey/Participants/class.ilSurveyParticipantsGUI.php',
     'children' => 
@@ -11308,7 +11379,7 @@
   ),
   'ilsurveyratergui' => 
   array (
-    'cid' => '11b',
+    'cid' => '11h',
     'class_name' => 'ilSurveyRaterGUI',
     'class_path' => './components/ILIAS/Survey/Participants/class.ilSurveyRaterGUI.php',
     'children' => 
@@ -11322,7 +11393,7 @@
   ),
   'ilsurveyskilldeterminationgui' => 
   array (
-    'cid' => '11g',
+    'cid' => '11m',
     'class_name' => 'ilSurveySkillDeterminationGUI',
     'class_path' => './components/ILIAS/Survey/Skills/class.ilSurveySkillDeterminationGUI.php',
     'children' => 
@@ -11335,7 +11406,7 @@
   ),
   'ilsurveyskillgui' => 
   array (
-    'cid' => '11h',
+    'cid' => '11n',
     'class_name' => 'ilSurveySkillGUI',
     'class_path' => './components/ILIAS/Survey/Skills/class.ilSurveySkillGUI.php',
     'children' => 
@@ -11349,7 +11420,7 @@
   ),
   'ilsurveyskillthresholdsgui' => 
   array (
-    'cid' => '11j',
+    'cid' => '11p',
     'class_name' => 'ilSurveySkillThresholdsGUI',
     'class_path' => './components/ILIAS/Survey/Skills/class.ilSurveySkillThresholdsGUI.php',
     'children' => 
@@ -11362,9 +11433,9 @@
   ),
   'ilsystemstyleconfiggui' => 
   array (
-    'cid' => '11n',
+    'cid' => '11t',
     'class_name' => 'ilSystemStyleConfigGUI',
-    'class_path' => './Services/Style/System/classes/Config/class.ilSystemStyleConfigGUI.php',
+    'class_path' => './components/ILIAS/Style/System/classes/Config/class.ilSystemStyleConfigGUI.php',
     'children' => 
     array (
     ),
@@ -11375,9 +11446,9 @@
   ),
   'ilsystemstyledocumentationgui' => 
   array (
-    'cid' => '11p',
+    'cid' => '11v',
     'class_name' => 'ilSystemStyleDocumentationGUI',
-    'class_path' => './Services/Style/System/classes/Documentation/class.ilSystemStyleDocumentationGUI.php',
+    'class_path' => './components/ILIAS/Style/System/classes/Documentation/class.ilSystemStyleDocumentationGUI.php',
     'children' => 
     array (
     ),
@@ -11388,9 +11459,9 @@
   ),
   'ilsystemstyleiconsgui' => 
   array (
-    'cid' => '11q',
+    'cid' => '11w',
     'class_name' => 'ilSystemStyleIconsGUI',
-    'class_path' => './Services/Style/System/classes/Icons/class.ilSystemStyleIconsGUI.php',
+    'class_path' => './components/ILIAS/Style/System/classes/Icons/class.ilSystemStyleIconsGUI.php',
     'children' => 
     array (
     ),
@@ -11401,9 +11472,9 @@
   ),
   'ilsystemstylemaingui' => 
   array (
-    'cid' => '11r',
+    'cid' => '11x',
     'class_name' => 'ilSystemStyleMainGUI',
-    'class_path' => './Services/Style/System/classes/class.ilSystemStyleMainGUI.php',
+    'class_path' => './components/ILIAS/Style/System/classes/class.ilSystemStyleMainGUI.php',
     'children' => 
     array (
       0 => 'ilsystemstyleoverviewgui',
@@ -11419,9 +11490,9 @@
   ),
   'ilsystemstyleoverviewgui' => 
   array (
-    'cid' => '11s',
+    'cid' => '11y',
     'class_name' => 'ilSystemStyleOverviewGUI',
-    'class_path' => './Services/Style/System/classes/Overview/class.ilSystemStyleOverviewGUI.php',
+    'class_path' => './components/ILIAS/Style/System/classes/Overview/class.ilSystemStyleOverviewGUI.php',
     'children' => 
     array (
     ),
@@ -11432,9 +11503,9 @@
   ),
   'ilsystemstylescssgui' => 
   array (
-    'cid' => '11t',
+    'cid' => '11z',
     'class_name' => 'ilSystemStyleScssGUI',
-    'class_path' => './Services/Style/System/classes/Scss/class.ilSystemStyleScssGUI.php',
+    'class_path' => './components/ILIAS/Style/System/classes/Scss/class.ilSystemStyleScssGUI.php',
     'children' => 
     array (
     ),
@@ -11445,7 +11516,7 @@
   ),
   'ilsystemsupportcontactsgui' => 
   array (
-    'cid' => '11v',
+    'cid' => '121',
     'class_name' => 'ilSystemSupportContactsGUI',
     'class_path' => './components/ILIAS/SystemFolder/classes/class.ilSystemSupportContactsGUI.php',
     'children' => 
@@ -11457,9 +11528,9 @@
   ),
   'iltablepropertiesstoragegui' => 
   array (
-    'cid' => '122',
+    'cid' => '128',
     'class_name' => 'ilTablePropertiesStorageGUI',
-    'class_path' => './Services/Table/classes/class.ilTablePropertiesStorageGUI.php',
+    'class_path' => './components/ILIAS/Table/classes/class.ilTablePropertiesStorageGUI.php',
     'children' => 
     array (
     ),
@@ -11469,9 +11540,9 @@
   ),
   'iltagginggui' => 
   array (
-    'cid' => '126',
+    'cid' => '12c',
     'class_name' => 'ilTaggingGUI',
-    'class_path' => './Services/Tagging/classes/class.ilTaggingGUI.php',
+    'class_path' => './components/ILIAS/Tagging/classes/class.ilTaggingGUI.php',
     'children' => 
     array (
     ),
@@ -11482,9 +11553,9 @@
   ),
   'iltaggingslatecontentgui' => 
   array (
-    'cid' => '127',
+    'cid' => '12d',
     'class_name' => 'ilTaggingSlateContentGUI',
-    'class_path' => './Services/Tagging/classes/class.ilTaggingSlateContentGUI.php',
+    'class_path' => './components/ILIAS/Tagging/classes/class.ilTaggingSlateContentGUI.php',
     'children' => 
     array (
     ),
@@ -11494,9 +11565,9 @@
   ),
   'iltaxmdgui' => 
   array (
-    'cid' => '12a',
+    'cid' => '12g',
     'class_name' => 'ilTaxMDGUI',
-    'class_path' => './Services/Taxonomy/classes/class.ilTaxMDGUI.php',
+    'class_path' => './components/ILIAS/Taxonomy/classes/class.ilTaxMDGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -11508,9 +11579,9 @@
   ),
   'iltaxselectinputgui' => 
   array (
-    'cid' => '12b',
+    'cid' => '12h',
     'class_name' => 'ilTaxSelectInputGUI',
-    'class_path' => './Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php',
+    'class_path' => './components/ILIAS/Taxonomy/classes/class.ilTaxSelectInputGUI.php',
     'children' => 
     array (
     ),
@@ -11521,9 +11592,9 @@
   ),
   'iltaxonomysettingsgui' => 
   array (
-    'cid' => '12f',
+    'cid' => '12l',
     'class_name' => 'ilTaxonomySettingsGUI',
-    'class_path' => './Services/Taxonomy/Settings/class.ilTaxonomySettingsGUI.php',
+    'class_path' => './components/ILIAS/Taxonomy/Settings/class.ilTaxonomySettingsGUI.php',
     'children' => 
     array (
       0 => 'ilobjtaxonomygui',
@@ -11537,7 +11608,7 @@
   ),
   'iltermdefinitionbulkcreationgui' => 
   array (
-    'cid' => '12h',
+    'cid' => '12n',
     'class_name' => 'ilTermDefinitionBulkCreationGUI',
     'class_path' => './components/ILIAS/Glossary/Term/class.ilTermDefinitionBulkCreationGUI.php',
     'children' => 
@@ -11550,7 +11621,7 @@
   ),
   'iltermdefinitioneditorgui' => 
   array (
-    'cid' => '12j',
+    'cid' => '12p',
     'class_name' => 'ilTermDefinitionEditorGUI',
     'class_path' => './components/ILIAS/Glossary/Term/class.ilTermDefinitionEditorGUI.php',
     'children' => 
@@ -11564,7 +11635,7 @@
   ),
   'iltestansweroptionalquestionsconfirmationgui' => 
   array (
-    'cid' => '12o',
+    'cid' => '12u',
     'class_name' => 'ilTestAnswerOptionalQuestionsConfirmationGUI',
     'class_path' => './components/ILIAS/Test/classes/confirmations/class.ilTestAnswerOptionalQuestionsConfirmationGUI.php',
     'children' => 
@@ -11578,7 +11649,7 @@
   ),
   'iltestcorrectionsgui' => 
   array (
-    'cid' => '12q',
+    'cid' => '12w',
     'class_name' => 'ilTestCorrectionsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestCorrectionsGUI.php',
     'children' => 
@@ -11591,7 +11662,7 @@
   ),
   'iltestdashboardgui' => 
   array (
-    'cid' => '12r',
+    'cid' => '12x',
     'class_name' => 'ilTestDashboardGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestDashboardGUI.php',
     'children' => 
@@ -11606,7 +11677,7 @@
   ),
   'iltestevalobjectiveorientedgui' => 
   array (
-    'cid' => '12t',
+    'cid' => '12z',
     'class_name' => 'ilTestEvalObjectiveOrientedGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php',
     'children' => 
@@ -11621,7 +11692,7 @@
   ),
   'iltestevaluationgui' => 
   array (
-    'cid' => '12u',
+    'cid' => '130',
     'class_name' => 'ilTestEvaluationGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestEvaluationGUI.php',
     'children' => 
@@ -11641,7 +11712,7 @@
   ),
   'iltestexportgui' => 
   array (
-    'cid' => '12v',
+    'cid' => '131',
     'class_name' => 'ilTestExportGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestExportGUI.php',
     'children' => 
@@ -11655,7 +11726,7 @@
   ),
   'iltestexpresspageobjectgui' => 
   array (
-    'cid' => '12x',
+    'cid' => '133',
     'class_name' => 'ilTestExpressPageObjectGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestExpressPageObjectGUI.php',
     'children' => 
@@ -11696,7 +11767,7 @@
   ),
   'iltestfixedquestionsetconfiggui' => 
   array (
-    'cid' => '12y',
+    'cid' => '134',
     'class_name' => 'ilTestFixedQuestionSetConfigGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestFixedQuestionSetConfigGUI.php',
     'children' => 
@@ -11712,7 +11783,7 @@
   ),
   'iltestinfoscreentoolbargui' => 
   array (
-    'cid' => '130',
+    'cid' => '136',
     'class_name' => 'ilTestInfoScreenToolbarGUI',
     'class_path' => './components/ILIAS/Test/classes/toolbars/class.ilTestInfoScreenToolbarGUI.php',
     'children' => 
@@ -11725,7 +11796,7 @@
   ),
   'iltestpagegui' => 
   array (
-    'cid' => '136',
+    'cid' => '13c',
     'class_name' => 'ilTestPageGUI',
     'class_path' => './components/ILIAS/Test/classes/PageEditor/class.ilTestPageGUI.php',
     'children' => 
@@ -11744,7 +11815,7 @@
   ),
   'iltestparticipantsgui' => 
   array (
-    'cid' => '137',
+    'cid' => '13d',
     'class_name' => 'ilTestParticipantsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestParticipantsGUI.php',
     'children' => 
@@ -11760,7 +11831,7 @@
   ),
   'iltestparticipantstablegui' => 
   array (
-    'cid' => '138',
+    'cid' => '13e',
     'class_name' => 'ilTestParticipantsTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestParticipantsTableGUI.php',
     'children' => 
@@ -11773,7 +11844,7 @@
   ),
   'iltestparticipantstimeextensiongui' => 
   array (
-    'cid' => '139',
+    'cid' => '13f',
     'class_name' => 'ilTestParticipantsTimeExtensionGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestParticipantsTimeExtensionGUI.php',
     'children' => 
@@ -11787,7 +11858,7 @@
   ),
   'iltestpassdeletionconfirmationgui' => 
   array (
-    'cid' => '13a',
+    'cid' => '13g',
     'class_name' => 'ilTestPassDeletionConfirmationGUI',
     'class_path' => './components/ILIAS/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php',
     'children' => 
@@ -11800,7 +11871,7 @@
   ),
   'iltestpassdetailsoverviewtablegui' => 
   array (
-    'cid' => '13b',
+    'cid' => '13h',
     'class_name' => 'ilTestPassDetailsOverviewTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php',
     'children' => 
@@ -11815,7 +11886,7 @@
   ),
   'iltestpasswordprotectiongui' => 
   array (
-    'cid' => '13e',
+    'cid' => '13k',
     'class_name' => 'ilTestPasswordProtectionGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestPasswordProtectionGUI.php',
     'children' => 
@@ -11830,7 +11901,7 @@
   ),
   'iltestpersonalskillsgui' => 
   array (
-    'cid' => '13g',
+    'cid' => '13m',
     'class_name' => 'ilTestPersonalSkillsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestPersonalSkillsGUI.php',
     'children' => 
@@ -11843,7 +11914,7 @@
   ),
   'iltestplayerfixedquestionsetgui' => 
   array (
-    'cid' => '13i',
+    'cid' => '13o',
     'class_name' => 'ilTestPlayerFixedQuestionSetGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php',
     'children' => 
@@ -11864,7 +11935,7 @@
   ),
   'iltestplayerrandomquestionsetgui' => 
   array (
-    'cid' => '13j',
+    'cid' => '13p',
     'class_name' => 'ilTestPlayerRandomQuestionSetGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php',
     'children' => 
@@ -11885,7 +11956,7 @@
   ),
   'iltestquestionbrowsertablegui' => 
   array (
-    'cid' => '13k',
+    'cid' => '13q',
     'class_name' => 'ilTestQuestionBrowserTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php',
     'children' => 
@@ -11899,7 +11970,7 @@
   ),
   'iltestrandomquestionsetconfiggui' => 
   array (
-    'cid' => '13n',
+    'cid' => '13t',
     'class_name' => 'ilTestRandomQuestionSetConfigGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestRandomQuestionSetConfigGUI.php',
     'children' => 
@@ -11918,7 +11989,7 @@
   ),
   'iltestrandomquestionsetgeneralconfigformgui' => 
   array (
-    'cid' => '13o',
+    'cid' => '13u',
     'class_name' => 'ilTestRandomQuestionSetGeneralConfigFormGUI',
     'class_path' => './components/ILIAS/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php',
     'children' => 
@@ -11932,7 +12003,7 @@
   ),
   'iltestrandomquestionsetnonavailablepoolstablegui' => 
   array (
-    'cid' => '13p',
+    'cid' => '13v',
     'class_name' => 'ilTestRandomQuestionSetNonAvailablePoolsTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestRandomQuestionSetNonAvailablePoolsTableGUI.php',
     'children' => 
@@ -11945,7 +12016,7 @@
   ),
   'iltestrandomquestionsetpooldefinitionformgui' => 
   array (
-    'cid' => '13q',
+    'cid' => '13w',
     'class_name' => 'ilTestRandomQuestionSetPoolDefinitionFormGUI',
     'class_path' => './components/ILIAS/Test/classes/forms/class.ilTestRandomQuestionSetPoolDefinitionFormGUI.php',
     'children' => 
@@ -11959,7 +12030,7 @@
   ),
   'iltestrandomquestionsetsourcepooldefinitionlisttablegui' => 
   array (
-    'cid' => '13r',
+    'cid' => '13x',
     'class_name' => 'ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI.php',
     'children' => 
@@ -11972,7 +12043,7 @@
   ),
   'iltestrandomquestionsetsourcepooldefinitionlisttoolbargui' => 
   array (
-    'cid' => '13s',
+    'cid' => '13y',
     'class_name' => 'ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI',
     'class_path' => './components/ILIAS/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI.php',
     'children' => 
@@ -11985,7 +12056,7 @@
   ),
   'iltestresultsgui' => 
   array (
-    'cid' => '13t',
+    'cid' => '13z',
     'class_name' => 'ilTestResultsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestResultsGUI.php',
     'children' => 
@@ -12004,7 +12075,7 @@
   ),
   'iltestresultstoolbargui' => 
   array (
-    'cid' => '13u',
+    'cid' => '140',
     'class_name' => 'ilTestResultsToolbarGUI',
     'class_path' => './components/ILIAS/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php',
     'children' => 
@@ -12019,7 +12090,7 @@
   ),
   'iltestscoringbyquestionsgui' => 
   array (
-    'cid' => '13v',
+    'cid' => '141',
     'class_name' => 'ilTestScoringByQuestionsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestScoringByQuestionsGUI.php',
     'children' => 
@@ -12032,7 +12103,7 @@
   ),
   'iltestscoringgui' => 
   array (
-    'cid' => '13w',
+    'cid' => '142',
     'class_name' => 'ilTestScoringGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestScoringGUI.php',
     'children' => 
@@ -12045,7 +12116,7 @@
   ),
   'iltestscreengui' => 
   array (
-    'cid' => '13x',
+    'cid' => '143',
     'class_name' => 'ilTestScreenGUI',
     'class_path' => './components/ILIAS/Test/classes/TestScreen/class.ilTestScreenGUI.php',
     'children' => 
@@ -12058,7 +12129,7 @@
   ),
   'iltestservicegui' => 
   array (
-    'cid' => '13y',
+    'cid' => '144',
     'class_name' => 'ilTestServiceGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestServiceGUI.php',
     'children' => 
@@ -12071,7 +12142,7 @@
   ),
   'iltestsettingschangeconfirmationgui' => 
   array (
-    'cid' => '13z',
+    'cid' => '145',
     'class_name' => 'ilTestSettingsChangeConfirmationGUI',
     'class_path' => './components/ILIAS/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php',
     'children' => 
@@ -12085,7 +12156,7 @@
   ),
   'iltestskilladministrationgui' => 
   array (
-    'cid' => '141',
+    'cid' => '147',
     'class_name' => 'ilTestSkillAdministrationGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestSkillAdministrationGUI.php',
     'children' => 
@@ -12100,7 +12171,7 @@
   ),
   'iltestskillevaluationgui' => 
   array (
-    'cid' => '142',
+    'cid' => '148',
     'class_name' => 'ilTestSkillEvaluationGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestSkillEvaluationGUI.php',
     'children' => 
@@ -12115,7 +12186,7 @@
   ),
   'iltestskillevaluationtoolbargui' => 
   array (
-    'cid' => '143',
+    'cid' => '149',
     'class_name' => 'ilTestSkillEvaluationToolbarGUI',
     'class_path' => './components/ILIAS/Test/classes/toolbars/class.ilTestSkillEvaluationToolbarGUI.php',
     'children' => 
@@ -12128,7 +12199,7 @@
   ),
   'iltestskilllevelthresholdsgui' => 
   array (
-    'cid' => '144',
+    'cid' => '14a',
     'class_name' => 'ilTestSkillLevelThresholdsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestSkillLevelThresholdsGUI.php',
     'children' => 
@@ -12142,7 +12213,7 @@
   ),
   'iltestskilllevelthresholdstablegui' => 
   array (
-    'cid' => '145',
+    'cid' => '14b',
     'class_name' => 'ilTestSkillLevelThresholdsTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php',
     'children' => 
@@ -12155,7 +12226,7 @@
   ),
   'iltestsubmissionreviewgui' => 
   array (
-    'cid' => '146',
+    'cid' => '14c',
     'class_name' => 'ilTestSubmissionReviewGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestSubmissionReviewGUI.php',
     'children' => 
@@ -12169,7 +12240,7 @@
   ),
   'iltesttoplistgui' => 
   array (
-    'cid' => '148',
+    'cid' => '14e',
     'class_name' => 'ilTestToplistGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestToplistGUI.php',
     'children' => 
@@ -12182,7 +12253,7 @@
   ),
   'iltimingoverviewtablegui' => 
   array (
-    'cid' => '14f',
+    'cid' => '14l',
     'class_name' => 'ilTimingOverviewTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTimingOverviewTableGUI.php',
     'children' => 
@@ -12195,9 +12266,9 @@
   ),
   'iltoolbargui' => 
   array (
-    'cid' => '14i',
+    'cid' => '14o',
     'class_name' => 'ilToolbarGUI',
-    'class_path' => './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php',
+    'class_path' => './components/ILIAS/UIComponent/Toolbar/classes/class.ilToolbarGUI.php',
     'children' => 
     array (
     ),
@@ -12210,9 +12281,9 @@
   ),
   'iltrmatrixtablegui' => 
   array (
-    'cid' => '14k',
+    'cid' => '14q',
     'class_name' => 'ilTrMatrixTableGUI',
-    'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrMatrixTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilTrMatrixTableGUI.php',
     'children' => 
     array (
     ),
@@ -12223,9 +12294,9 @@
   ),
   'iltrobjectuserspropstablegui' => 
   array (
-    'cid' => '14l',
+    'cid' => '14r',
     'class_name' => 'ilTrObjectUsersPropsTableGUI',
-    'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -12237,9 +12308,9 @@
   ),
   'iltrsummarytablegui' => 
   array (
-    'cid' => '14m',
+    'cid' => '14s',
     'class_name' => 'ilTrSummaryTableGUI',
-    'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -12251,9 +12322,9 @@
   ),
   'iltruserobjectspropstablegui' => 
   array (
-    'cid' => '14n',
+    'cid' => '14t',
     'class_name' => 'ilTrUserObjectsPropsTableGUI',
-    'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrUserObjectsPropsTableGUI.php',
+    'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilTrUserObjectsPropsTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -12265,7 +12336,7 @@
   ),
   'iltranslationgui' => 
   array (
-    'cid' => '14o',
+    'cid' => '14u',
     'class_name' => 'ilTranslationGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Translation/class.ilTranslationGUI.php',
     'children' => 
@@ -12278,9 +12349,9 @@
   ),
   'iluiasyncdemofileuploadhandlergui' => 
   array (
-    'cid' => '14r',
+    'cid' => '14x',
     'class_name' => 'ilUIAsyncDemoFileUploadHandlerGUI',
-    'class_path' => './Services/UI/classes/class.ilUIAsyncDemoFileUploadHandlerGUI.php',
+    'class_path' => './components/ILIAS/UI_/classes/class.ilUIAsyncDemoFileUploadHandlerGUI.php',
     'children' => 
     array (
     ),
@@ -12291,9 +12362,9 @@
   ),
   'iluidemofileuploadhandlergui' => 
   array (
-    'cid' => '14s',
+    'cid' => '14y',
     'class_name' => 'ilUIDemoFileUploadHandlerGUI',
-    'class_path' => './Services/UI/classes/class.ilUIDemoFileUploadHandlerGUI.php',
+    'class_path' => './components/ILIAS/UI_/classes/class.ilUIDemoFileUploadHandlerGUI.php',
     'children' => 
     array (
     ),
@@ -12304,9 +12375,9 @@
   ),
   'iluimarkdownpreviewgui' => 
   array (
-    'cid' => '14u',
+    'cid' => '150',
     'class_name' => 'ilUIMarkdownPreviewGUI',
-    'class_path' => './Services/UI/classes/class.ilUIMarkdownPreviewGUI.php',
+    'class_path' => './components/ILIAS/UI_/classes/class.ilUIMarkdownPreviewGUI.php',
     'children' => 
     array (
     ),
@@ -12316,9 +12387,9 @@
   ),
   'iluipluginroutergui' => 
   array (
-    'cid' => '14v',
+    'cid' => '151',
     'class_name' => 'ilUIPluginRouterGUI',
-    'class_path' => './Services/UIComponent/classes/class.ilUIPluginRouterGUI.php',
+    'class_path' => './components/ILIAS/UIComponent/classes/class.ilUIPluginRouterGUI.php',
     'children' => 
     array (
       0 => 'ilbuddysystemgui',
@@ -12331,9 +12402,9 @@
   ),
   'iluploadlimitsoverviewgui' => 
   array (
-    'cid' => '150',
+    'cid' => '156',
     'class_name' => 'ilUploadLimitsOverviewGUI',
-    'class_path' => './Services/FileServices/classes/UploadService/UploadLimits/class.ilUploadLimitsOverviewGUI.php',
+    'class_path' => './components/ILIAS/FileServices/classes/UploadService/UploadLimits/class.ilUploadLimitsOverviewGUI.php',
     'children' => 
     array (
     ),
@@ -12344,9 +12415,9 @@
   ),
   'iluseractionadmingui' => 
   array (
-    'cid' => '152',
+    'cid' => '158',
     'class_name' => 'ilUserActionAdminGUI',
-    'class_path' => './Services/User/classes/Actions/class.ilUserActionAdminGUI.php',
+    'class_path' => './components/ILIAS/User/classes/Actions/class.ilUserActionAdminGUI.php',
     'children' => 
     array (
     ),
@@ -12359,9 +12430,9 @@
   ),
   'ilusercertificateapigui' => 
   array (
-    'cid' => '155',
+    'cid' => '15b',
     'class_name' => 'ilUserCertificateApiGUI',
-    'class_path' => './Services/Certificate/classes/API/Download/class.ilUserCertificateApiGUI.php',
+    'class_path' => './components/ILIAS/Certificate/classes/API/Download/class.ilUserCertificateApiGUI.php',
     'children' => 
     array (
     ),
@@ -12372,9 +12443,9 @@
   ),
   'ilusercertificategui' => 
   array (
-    'cid' => '156',
+    'cid' => '15c',
     'class_name' => 'ilUserCertificateGUI',
-    'class_path' => './Services/Certificate/classes/User/class.ilUserCertificateGUI.php',
+    'class_path' => './components/ILIAS/Certificate/classes/User/class.ilUserCertificateGUI.php',
     'children' => 
     array (
     ),
@@ -12386,9 +12457,9 @@
   ),
   'iluserfiltergui' => 
   array (
-    'cid' => '15a',
+    'cid' => '15g',
     'class_name' => 'ilUserFilterGUI',
-    'class_path' => './Services/Search/classes/class.ilUserFilterGUI.php',
+    'class_path' => './components/ILIAS/Search/classes/class.ilUserFilterGUI.php',
     'children' => 
     array (
     ),
@@ -12399,9 +12470,9 @@
   ),
   'iluserprivacysettingsgui' => 
   array (
-    'cid' => '15e',
+    'cid' => '15k',
     'class_name' => 'ilUserPrivacySettingsGUI',
-    'class_path' => './Services/User/classes/Settings/class.ilUserPrivacySettingsGUI.php',
+    'class_path' => './components/ILIAS/User/classes/Settings/class.ilUserPrivacySettingsGUI.php',
     'children' => 
     array (
     ),
@@ -12412,9 +12483,9 @@
   ),
   'iluserprofileinfosettingsgui' => 
   array (
-    'cid' => '15g',
+    'cid' => '15m',
     'class_name' => 'ilUserProfileInfoSettingsGUI',
-    'class_path' => './Services/User/classes/ProfilePrompt/class.ilUserProfileInfoSettingsGUI.php',
+    'class_path' => './components/ILIAS/User/classes/ProfilePrompt/class.ilUserProfileInfoSettingsGUI.php',
     'children' => 
     array (
     ),
@@ -12425,9 +12496,9 @@
   ),
   'iluserstartingpointgui' => 
   array (
-    'cid' => '15i',
+    'cid' => '15o',
     'class_name' => 'ilUserStartingPointGUI',
-    'class_path' => './Services/User/classes/class.ilUserStartingPointGUI.php',
+    'class_path' => './components/ILIAS/User/classes/class.ilUserStartingPointGUI.php',
     'children' => 
     array (
     ),
@@ -12438,9 +12509,9 @@
   ),
   'ilusertablegui' => 
   array (
-    'cid' => '15j',
+    'cid' => '15p',
     'class_name' => 'ilUserTableGUI',
-    'class_path' => './Services/User/classes/class.ilUserTableGUI.php',
+    'class_path' => './components/ILIAS/User/classes/class.ilUserTableGUI.php',
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
@@ -12458,9 +12529,9 @@
   ),
   'ilusersgallerygui' => 
   array (
-    'cid' => '15k',
+    'cid' => '15q',
     'class_name' => 'ilUsersGalleryGUI',
-    'class_path' => './Services/User/classes/Gallery/class.ilUsersGalleryGUI.php',
+    'class_path' => './components/ILIAS/User/classes/Gallery/class.ilUsersGalleryGUI.php',
     'children' => 
     array (
       0 => 'ilpublicuserprofilegui',
@@ -12474,11 +12545,24 @@
       4 => 'ilsessionmembershipgui',
     ),
   ),
+  'ilvalidtestplugingui' => 
+  array (
+    'cid' => '15r',
+    'class_name' => 'ilValidTestPluginGUI',
+    'class_path' => './components/ILIAS/UICore/test/Data/Plugins/Valid/Services/UIComponent/UserInterfaceHook/ValidTestPlugin/classes/class.ilValidTestPluginGUI.php',
+    'children' => 
+    array (
+    ),
+    'parents' => 
+    array (
+      0 => 'ilctrlbaseclass1testgui',
+    ),
+  ),
   'ilwopiadministrationgui' => 
   array (
-    'cid' => '15m',
+    'cid' => '15t',
     'class_name' => 'ilWOPIAdministrationGUI',
-    'class_path' => './Services/WOPI/classes/Administration/class.ilWOPIAdministrationGUI.php',
+    'class_path' => './components/ILIAS/WOPI/classes/Administration/class.ilWOPIAdministrationGUI.php',
     'children' => 
     array (
     ),
@@ -12489,9 +12573,9 @@
   ),
   'ilwopiembeddedapplicationgui' => 
   array (
-    'cid' => '15n',
+    'cid' => '15u',
     'class_name' => 'ilWOPIEmbeddedApplicationGUI',
-    'class_path' => './Services/WOPI/classes/Embed/class.ilWOPIEmbeddedApplicationGUI.php',
+    'class_path' => './components/ILIAS/WOPI/classes/Embed/class.ilWOPIEmbeddedApplicationGUI.php',
     'children' => 
     array (
     ),
@@ -12503,9 +12587,9 @@
   ),
   'ilwebdavmountinstructionsuploadgui' => 
   array (
-    'cid' => '15t',
+    'cid' => '160',
     'class_name' => 'ilWebDAVMountInstructionsUploadGUI',
-    'class_path' => './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsUploadGUI.php',
+    'class_path' => './components/ILIAS/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsUploadGUI.php',
     'children' => 
     array (
     ),
@@ -12516,7 +12600,7 @@
   ),
   'ilwikihandlergui' => 
   array (
-    'cid' => '160',
+    'cid' => '167',
     'class_name' => 'ilWikiHandlerGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilWikiHandlerGUI.php',
     'children' => 
@@ -12529,7 +12613,7 @@
   ),
   'ilwikipagegui' => 
   array (
-    'cid' => '163',
+    'cid' => '16a',
     'class_name' => 'ilWikiPageGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilWikiPageGUI.php',
     'children' => 
@@ -12553,7 +12637,7 @@
   ),
   'ilwikipagetemplategui' => 
   array (
-    'cid' => '164',
+    'cid' => '16b',
     'class_name' => 'ilWikiPageTemplateGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilWikiPageTemplateGUI.php',
     'children' => 
@@ -12566,7 +12650,7 @@
   ),
   'ilwikistatgui' => 
   array (
-    'cid' => '169',
+    'cid' => '16g',
     'class_name' => 'ilWikiStatGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilWikiStatGUI.php',
     'children' => 
@@ -12580,9 +12664,9 @@
   ),
   'ilworkspaceaccessgui' => 
   array (
-    'cid' => '16a',
+    'cid' => '16h',
     'class_name' => 'ilWorkspaceAccessGUI',
-    'class_path' => './Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php',
+    'class_path' => './components/ILIAS/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php',
     'children' => 
     array (
       0 => 'ilmailsearchcoursesgui',

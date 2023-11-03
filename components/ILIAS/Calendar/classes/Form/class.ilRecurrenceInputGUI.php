@@ -47,7 +47,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     {
         global $DIC;
 
-        $DIC->ui()->mainTemplate()->addJavaScript("./Services/Calendar/js/recurrence_input.js");
+        $DIC->ui()->mainTemplate()->addJavaScript("./components/ILIAS/Calendar/js/recurrence_input.js");
         $this->user = $DIC->user();
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->recurrence = new ilCalendarRecurrence();
@@ -267,7 +267,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
      */
     public function insert(ilTemplate $a_tpl): void
     {
-        $tpl = new ilTemplate('tpl.recurrence_input.html', true, true, 'Services/Calendar');
+        $tpl = new ilTemplate('tpl.recurrence_input.html', true, true, 'components/ILIAS/Calendar');
 
         $options = array('NONE' => $this->lng->txt('cal_no_recurrence'));
         if (in_array(ilCalendarRecurrence::FREQ_DAILY, $this->getEnabledSubForms())) {

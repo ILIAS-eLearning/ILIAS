@@ -31,7 +31,7 @@ class ilServicesLocatorSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Locator/test/LocatorGUITest.php");
+        require_once("./components/ILIAS/Locator/test/LocatorGUITest.php");
         $suite->addTestSuite("LocatorGUITest");
 
         return $suite;

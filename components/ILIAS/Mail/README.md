@@ -71,7 +71,7 @@ Text emails sent to an **external** email address
 can be displayed in a HTML frame. The HTML template
 is part of the skin:
 
-    ./Services/Mail/templates/default/tpl.html_mail_template.html
+    ./components/ILIAS/Mail/templates/default/tpl.html_mail_template.html
 
 There are no advanced formatting options, except
 the global format given in the HTML file itself.
@@ -198,7 +198,7 @@ ILIAS is enabled to use standards compliant email addresses. `\ilMail`
 and the underlying address parsers support RFC 822 compliant address
 lists as specified in [RFC0822.txt](http://www.ietf.org/rfc/rfc0822.txt).
 
-The address parser below *./Services/Mail/classes/Address* could
+The address parser below *./components/ILIAS/Mail/classes/Address* could
 be considered as a separate service. To get an address parser you
 can simply use an instance of `ilMailRfc822AddressParserFactory`
 and pass a comma separated string of recipients.

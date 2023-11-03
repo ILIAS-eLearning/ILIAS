@@ -41,7 +41,7 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
 
     public function insert(ilTemplate $a_tpl): void
     {
-        $tpl = new ilTemplate('tpl.mail_new_attachments.html', true, true, 'Services/Mail');
+        $tpl = new ilTemplate('tpl.mail_new_attachments.html', true, true, 'components/ILIAS/Mail');
 
         foreach ($this->items as $item) {
             $tpl->setCurrentBlock('attachment_list_item');

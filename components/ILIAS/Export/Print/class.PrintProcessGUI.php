@@ -89,7 +89,7 @@ class PrintProcessGUI
         $ui = $this->ui;
         $lng = $this->lng;
 
-        $ui->mainTemplate()->addJavaScript("./Services/Form/js/Form.js");
+        $ui->mainTemplate()->addJavaScript("./components/ILIAS/Form/js/Form.js");
         $modal = $ui->factory()->modal()->roundtrip(
             $this->lng->txt("exp_print_pdf"),
             $ui->factory()->legacy('some modal')
@@ -113,7 +113,7 @@ class PrintProcessGUI
     {
         $form = $this->provider->getSelectionForm();
         $mb = $this->ui->factory()->messageBox()->info($this->lng->txt("exp_print_pdf_info"));
-        $tpl = new \ilTemplate("tpl.print_view_selection.html", true, true, "Services/Export/Print");
+        $tpl = new \ilTemplate("tpl.print_view_selection.html", true, true, "components/ILIAS/Export/Print");
         $form->setTarget("print_view");
         $tpl->setVariable("FORM", $form->getHTML());
         $tpl->setVariable("ON_SUBMIT_CODE", $this->provider->getOnSubmitCode());
@@ -136,7 +136,7 @@ class PrintProcessGUI
             "tpl.print_view.html",
             true,
             true,
-            "Services/Export/Print"
+            "components/ILIAS/Export/Print"
         );
 
         // get all current resources from globalscreen and add them to our template

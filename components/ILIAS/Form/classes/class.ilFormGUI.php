@@ -125,12 +125,12 @@ class ilFormGUI
 
     public function getHTML(): string
     {
-        $tpl = new ilTemplate("tpl.form.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.form.html", true, true, "components/ILIAS/Form");
 
         // this line also sets multipart, so it must be before the multipart check
         $content = $this->getContent();
         if ($this->getOpenTag()) {
-            $opentpl = new ilTemplate('tpl.form_open.html', true, true, "Services/Form");
+            $opentpl = new ilTemplate('tpl.form_open.html', true, true, "components/ILIAS/Form");
             if ($this->getTarget() != "") {
                 $opentpl->setCurrentBlock("form_target");
                 $opentpl->setVariable("FORM_TARGET", $this->getTarget());

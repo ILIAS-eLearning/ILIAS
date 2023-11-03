@@ -41,12 +41,12 @@ class ilCategoryImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ): void {
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $refs = ilObject::_getAllReferences((int) $new_id);
             $this->category = ilObjectFactory::getInstanceByRefId(end($refs), false);
         }
         // Mapping for containers without subitems
-        elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', '0')) {
+        elseif ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'refs', '0')) {
             $this->category = ilObjectFactory::getInstanceByRefId((int) $new_id, false);
         } elseif (!$this->category instanceof ilObjCategory) {
             $this->category = new ilObjCategory();
@@ -63,14 +63,14 @@ class ilCategoryImporter extends ilXmlImporter
             $GLOBALS['ilLog']->write(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
         }
 
-        foreach ($a_mapping->getMappingsOfEntity('Services/Container', 'objs') as $old => $new) {
+        foreach ($a_mapping->getMappingsOfEntity('components/ILIAS/Container', 'objs') as $old => $new) {
             $type = ilObject::_lookupType((int) $new);
 
             // see ilGlossaryImporter::importXmlRepresentation()
             // see ilTaxonomyDataSet::importRecord()
 
             $a_mapping->addMapping(
-                "Services/Taxonomy",
+                "components/ILIAS/Taxonomy",
                 "tax_item",
                 $type . ":obj:" . $old,
                 $new
@@ -78,7 +78,7 @@ class ilCategoryImporter extends ilXmlImporter
 
             // this is since 4.3 does not export these ids but 4.4 tax node assignment needs it
             $a_mapping->addMapping(
-                "Services/Taxonomy",
+                "components/ILIAS/Taxonomy",
                 "tax_item_obj_id",
                 $type . ":obj:" . $old,
                 $new
@@ -93,7 +93,7 @@ class ilCategoryImporter extends ilXmlImporter
         foreach ($maps as $old => $new) {
             if ($old !== "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
-                $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", (string) $old);
+                $new_tax_ids = $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_usage_of_obj", (string) $old);
                 $tax_ids = explode(":", (string) $new_tax_ids);
                 foreach ($tax_ids as $tid) {
                     ilObjTaxonomy::saveUsage((int) $tid, (int) $new);

@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\Mail;
+namespace ILIAS\components\Mail;
 
-use ILIAS\Services\User\UserFieldAttributesChangeListener;
+use ILIAS\components\User\UserFieldAttributesChangeListener;
 use ILIAS\DI\Container;
 
 /**
@@ -50,6 +50,6 @@ class ilMailUserFieldChangeListener extends UserFieldAttributesChangeListener
 
     public function getComponentName(): string
     {
-        return 'Services/Mail';
+        return 'components/ILIAS/Mail';
     }
 }

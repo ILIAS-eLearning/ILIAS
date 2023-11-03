@@ -304,7 +304,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 
     protected function getLegacyContent(): string
     {
-        $tpl = new ilTemplate("tpl.cal_selection_block_content.html", true, true, "Services/Calendar");
+        $tpl = new ilTemplate("tpl.cal_selection_block_content.html", true, true, "components/ILIAS/Calendar");
 
         foreach ($this->calendar_groups as $type => $txt) {
             foreach ($this->calendars[$type] as $c) {

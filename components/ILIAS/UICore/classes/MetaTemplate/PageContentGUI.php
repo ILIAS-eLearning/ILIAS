@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\UICore\MetaTemplate;
+namespace ILIAS\components\UICore\MetaTemplate;
 
 use ilGlobalTemplateInterface;
 use InvalidArgumentException;

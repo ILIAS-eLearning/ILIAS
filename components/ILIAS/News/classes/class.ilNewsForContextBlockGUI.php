@@ -104,7 +104,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         }
 
         $this->setTitle($lng->txt("news_internal_news"));
-        $this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
+        $this->setRowTemplate("tpl.block_row_news_for_context.html", "components/ILIAS/News");
         $this->setData($data);
         $this->allow_moving = false;
         $this->handleView();
@@ -488,7 +488,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
 
-        $tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
+        $tpl = new ilTemplate("tpl.show_news.html", true, true, "components/ILIAS/News");
 
         // get current item in data set
         $previous = "";
@@ -1215,7 +1215,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $title = ilObject::_lookupTitle((int) $this->block_id);
 
-        $tpl = new ilTemplate("tpl.show_feed_url.html", true, true, "Services/News");
+        $tpl = new ilTemplate("tpl.show_feed_url.html", true, true, "components/ILIAS/News");
         $tpl->setVariable(
             "TXT_TITLE",
             sprintf($lng->txt("news_feed_url_for"), $title)
@@ -1288,7 +1288,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             "block_" . $this->getBlockType() . "_" . $this->getBlockId()
         );
 
-        $rel_tpl = new ilTemplate("tpl.dynamic_reload.html", true, true, "Services/News");
+        $rel_tpl = new ilTemplate("tpl.dynamic_reload.html", true, true, "components/ILIAS/News");
         $rel_tpl->setVariable("TXT_LOADING", $lng->txt("news_loading_news"));
         $rel_tpl->setVariable("BLOCK_ID", "block_" . $this->getBlockType() . "_" . $this->getBlockId());
         $rel_tpl->setVariable(
@@ -1316,7 +1316,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             "block_" . $this->getBlockType() . "_" . $this->getBlockId()
         );
         //echo "hh";
-        $rel_tpl = new ilTemplate("tpl.js_enabler.html", true, true, "Services/News");
+        $rel_tpl = new ilTemplate("tpl.js_enabler.html", true, true, "components/ILIAS/News");
         $rel_tpl->setVariable("BLOCK_ID", "block_" . $this->getBlockType() . "_" . $this->getBlockId());
         $rel_tpl->setVariable(
             "TARGET",

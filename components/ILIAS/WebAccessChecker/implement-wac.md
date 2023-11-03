@@ -84,7 +84,7 @@ Delivering files is implemented using the ilFileDelivery-Service introduced in I
 
 ```php
 // File-Delivery example
-$ilFileDelivery = new ilFileDelivery('./Services/WebAccessChecker/templates/images/access_denied.png', 'file_name.png');
+$ilFileDelivery = new ilFileDelivery('./components/ILIAS/WebAccessChecker/templates/images/access_denied.png', 'file_name.png');
 $ilFileDelivery->setDisposition(ilFileDelivery::DISP_INLINE);
 $ilFileDelivery->deliver();
 ```

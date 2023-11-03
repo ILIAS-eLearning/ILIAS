@@ -58,11 +58,11 @@ class ilWikiExporter extends ilXmlExporter
 
         $deps = array(
             array(
-                "component" => "Services/COPage",
+                "component" => "components/ILIAS/COPage",
                 "entity" => "pg",
                 "ids" => $pg_ids),
             array(
-                "component" => "Services/Rating",
+                "component" => "components/ILIAS/Rating",
                 "entity" => "rating_category",
                 "ids" => $a_ids
                 )
@@ -83,7 +83,7 @@ class ilWikiExporter extends ilXmlExporter
 
         if (count($advmd_ids)) {
             $deps[] = array(
-                "component" => "Services/AdvancedMetaData",
+                "component" => "components/ILIAS/AdvancedMetaData",
                 "entity" => "advmd",
                 "ids" => $advmd_ids
             );
@@ -95,7 +95,7 @@ class ilWikiExporter extends ilXmlExporter
             ? $a_ids
             : array($a_ids);
         $deps[] = array(
-            "component" => "Services/Style",
+            "component" => "components/ILIAS/Style",
             "entity" => "object_style",
             "ids" => $obj_ids
         );*/
@@ -105,7 +105,7 @@ class ilWikiExporter extends ilXmlExporter
             $style_id = $this->content_style_domain->styleForObjId($id)->getStyleId();
             if ($style_id > 0) {
                 $deps[] = array(
-                    "component" => "Services/Style",
+                    "component" => "components/ILIAS/Style",
                     "entity" => "sty",
                     "ids" => $style_id
                 );
@@ -114,7 +114,7 @@ class ilWikiExporter extends ilXmlExporter
 
         // service settings
         $deps[] = array(
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "common",
             "ids" => $a_ids);
 

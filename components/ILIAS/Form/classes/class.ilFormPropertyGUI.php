@@ -365,7 +365,7 @@ class ilFormPropertyGUI
 
         $id = $this->getFieldId();
 
-        $tpl = new ilTemplate("tpl.multi_icons.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.multi_icons.html", true, true, "components/ILIAS/Form");
 
         $html = "";
         if ($this->multi_addremove) {

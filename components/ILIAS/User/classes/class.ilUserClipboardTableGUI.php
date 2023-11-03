@@ -45,7 +45,7 @@ class ilUserClipboardTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('login'), 'login', '30%');
 
         $this->setOrderColumn('name');
-        $this->setRowTemplate('tpl.usr_clipboard_table_row.html', 'Services/User');
+        $this->setRowTemplate('tpl.usr_clipboard_table_row.html', 'components/ILIAS/User');
 
         $this->setSelectAllCheckbox('uids');
 

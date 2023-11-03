@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\Database\Integrity;
+namespace ILIAS\components\Database\Integrity;
 
 class Association
 {

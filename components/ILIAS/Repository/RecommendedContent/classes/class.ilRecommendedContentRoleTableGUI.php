@@ -56,7 +56,7 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
 
         $this->setRowTemplate(
             "tpl.rec_content_list_role.html",
-            "Services/Repository/RecommendedContent"
+            "components/ILIAS/Repository/RecommendedContent"
         );
         $this->setDefaultOrderField('title');
 

@@ -105,7 +105,7 @@ class ilYuiUtil
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
         self::addContainerCss($tpl);
-        $tpl->addCss("./Services/Calendar/css/panel_min.css");
+        $tpl->addCss("./components/ILIAS/Calendar/css/panel_min.css");
 
         if ($a_resize) {
             $tpl->addCss(self::YUI_BASE . "/resize/assets/skins/sam/resize.css");

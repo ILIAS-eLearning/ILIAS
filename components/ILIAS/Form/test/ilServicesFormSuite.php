@@ -31,7 +31,7 @@ class ilServicesFormSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Form/test/FormGUITest.php");
+        require_once("./components/ILIAS/Form/test/FormGUITest.php");
         $suite->addTestSuite("FormGUITest");
 
         return $suite;

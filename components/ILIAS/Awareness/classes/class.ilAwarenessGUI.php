@@ -93,7 +93,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     {
         $ilUser = $this->user;
         // init js
-        $this->main_tpl->addJavaScript("./Services/Awareness/js/Awareness.js");
+        $this->main_tpl->addJavaScript("./components/ILIAS/Awareness/js/Awareness.js");
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
         $this->main_tpl->addOnLoadCode("il.Awareness.setBaseUrl('" . $this->ctrl->getLinkTarget(
             $this,
@@ -117,7 +117,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     {
         $filter = $this->request->getFilter();
 
-        $tpl = new ilTemplate("tpl.awareness_list.html", true, true, "Services/Awareness");
+        $tpl = new ilTemplate("tpl.awareness_list.html", true, true, "components/ILIAS/Awareness");
 
         $ad = $this->manager->getListData($filter);
 

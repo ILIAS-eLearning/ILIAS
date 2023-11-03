@@ -160,7 +160,7 @@ class ilRatingGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $ttpl = new ilTemplate("tpl.rating_details.html", true, true, "Services/Rating");
+        $ttpl = new ilTemplate("tpl.rating_details.html", true, true, "components/ILIAS/Rating");
 
         $rate_text = null;
         if ($this->getYourRatingText() != "#") {
@@ -466,7 +466,7 @@ class ilRatingGUI
             $has_overlay = true;
         }
 
-        $ttpl = new ilTemplate("tpl.rating_input.html", true, true, "Services/Rating");
+        $ttpl = new ilTemplate("tpl.rating_input.html", true, true, "components/ILIAS/Rating");
 
         // user rating
         $user_rating = 0;

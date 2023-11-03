@@ -28,7 +28,7 @@ class ilAdvancedMDFieldDefinitionGroupTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"), "");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.edit_complex_row.html", "Services/AdvancedMetaData");
+        $this->setRowTemplate("tpl.edit_complex_row.html", "components/ILIAS/AdvancedMetaData");
         $this->setDefaultOrderField("option");
         $this->initItems($a_def);
     }

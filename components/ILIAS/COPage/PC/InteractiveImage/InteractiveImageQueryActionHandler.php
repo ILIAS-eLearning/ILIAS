@@ -138,7 +138,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
     public function getMainHead(): string
     {
         $lng = $this->lng;
-        $tpl = new \ilTemplate("tpl.main_head.html", true, true, "Services/COPage/PC/InteractiveImage");
+        $tpl = new \ilTemplate("tpl.main_head.html", true, true, "components/ILIAS/COPage/PC/InteractiveImage");
         $tpl->setVariable("TITLE", $lng->txt("cont_iim_edit"));
         $tpl->setVariable("HEAD_TRIGGER", $lng->txt("cont_iim_trigger"));
         $tpl->setVariable(
@@ -189,7 +189,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
     {
         $lng = $this->lng;
 
-        $tpl = new \ilTemplate("tpl.main_slate.html", true, true, "Services/COPage/PC/InteractiveImage");
+        $tpl = new \ilTemplate("tpl.main_slate.html", true, true, "components/ILIAS/COPage/PC/InteractiveImage");
         $tpl->setVariable("HEAD_SETTINGS", $lng->txt("settings"));
         $tpl->setVariable("HEAD_OVERVIEW", $lng->txt("cont_iim_overview"));
 

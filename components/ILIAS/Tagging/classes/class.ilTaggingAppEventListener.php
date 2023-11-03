@@ -27,8 +27,8 @@ class ilTaggingAppEventListener
 {
     /**
     * Handle an event in a listener.
-     * @param string $a_component   component, e.g. "components/ILIAS/Forum" or "Services/User"
-     * @param string $a_event       component, e.g. "components/ILIAS/Forum" or "Services/User"
+     * @param string $a_component   component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
+     * @param string $a_event       component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
      * @param array  $a_parameter   parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
     public static function handleEvent(
@@ -38,7 +38,7 @@ class ilTaggingAppEventListener
     ): void {
         // PHP8 Review: 'switch' with single 'case'
         switch ($a_component) {
-            case "Services/Object":
+            case "components/ILIAS/Object":
                 switch ($a_event) {
                     case "toTrash":
                         if (!ilObject::_hasUntrashedReference($a_parameter["obj_id"])) {

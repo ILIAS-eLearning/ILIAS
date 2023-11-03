@@ -81,7 +81,7 @@ class ilSurveyImporter extends ilXmlImporter
     ): void {
         if ($a_entity === "svy") {
             // Container import => test object already created
-            if (!($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id))) {    // case ii, non container
+            if (!($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id))) {    // case ii, non container
                 $new_id = $a_mapping->getMapping("components/ILIAS/Survey", "svy", 0);
             }
             /** @var ilObjSurvey $newObj */

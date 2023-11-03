@@ -283,7 +283,7 @@ class ilRepositoryTrashGUI
 
             // render
 
-            $tpl = new ilTemplate("tpl.rep_multi_ref.html", true, true, "Services/Repository/Trash");
+            $tpl = new ilTemplate("tpl.rep_multi_ref.html", true, true, "components/ILIAS/Repository/Trash");
 
             $tpl->setVariable("TXT_INTRO", $lng->txt("rep_multiple_reference_deletion_intro"));
 

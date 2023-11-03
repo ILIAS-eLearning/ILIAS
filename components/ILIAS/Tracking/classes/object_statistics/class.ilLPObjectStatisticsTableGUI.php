@@ -87,7 +87,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         );
         $this->setRowTemplate(
             "tpl.lp_object_statistics_row.html",
-            "Services/Tracking"
+            "components/ILIAS/Tracking"
         );
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);

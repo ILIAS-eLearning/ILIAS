@@ -172,7 +172,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
         $logger = ilLoggerFactory::getLogger('ltis');
         $logger->debug('Handling event: ' . $a_event . ' from ' . $a_component);
 
-        if ($a_component == 'Services/Tracking') {
+        if ($a_component == 'components/ILIAS/Tracking') {
             if ($a_event == 'updateStatus') {
                 $listener = self::getInstance();
                 $listener->handleUpdateStatus(

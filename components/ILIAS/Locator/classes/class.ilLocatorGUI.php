@@ -296,9 +296,9 @@ class ilLocatorGUI
         $icon_path = "";
 
         if ($this->getTextOnly()) {
-            $loc_tpl = new ilTemplate("tpl.locator_text_only.html", true, true, "Services/Locator");
+            $loc_tpl = new ilTemplate("tpl.locator_text_only.html", true, true, "components/ILIAS/Locator");
         } else {
-            $loc_tpl = new ilTemplate("tpl.locator.html", true, true, "Services/Locator");
+            $loc_tpl = new ilTemplate("tpl.locator.html", true, true, "components/ILIAS/Locator");
         }
 
         $items = $this->getItems();

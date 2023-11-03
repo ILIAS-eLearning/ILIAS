@@ -66,7 +66,7 @@ class ilContentStylesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.content_style_row.html", "Services/Style/Content");
+        $this->setRowTemplate("tpl.content_style_row.html", "components/ILIAS/Style/Content");
         if ($this->parent_obj->checkPermission("sty_write_content", false)) {
             $this->addMultiCommand("deleteStyle", $lng->txt("delete"));
             $this->addCommandButton("saveActiveStyles", $lng->txt("sty_save_active_styles"));

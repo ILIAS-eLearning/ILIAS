@@ -28,11 +28,11 @@ class ilServicesMathSuite extends TestSuite
     public static function suite(): \ilServicesMathSuite
     {
         $suite = new self();
-        require_once 'Services/Math/test/ilMathTest.php';
+        require_once 'components/ILIAS/Math/test/ilMathTest.php';
         $suite->addTestSuite(ilMathTest::class);
-        require_once 'Services/Math/test/ilMathPhpAdapterTest.php';
+        require_once 'components/ILIAS/Math/test/ilMathPhpAdapterTest.php';
         $suite->addTestSuite(ilMathPhpAdapterTest::class);
-        require_once 'Services/Math/test/ilMathBCAdapterTest.php';
+        require_once 'components/ILIAS/Math/test/ilMathBCAdapterTest.php';
         $suite->addTestSuite(ilMathBCAdapterTest::class);
 
         return $suite;

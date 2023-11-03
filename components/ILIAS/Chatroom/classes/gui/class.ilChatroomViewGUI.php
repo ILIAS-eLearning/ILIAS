@@ -81,7 +81,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->mainTpl->addJavaScript('components/ILIAS/Chatroom/js/chat.js');
         $this->mainTpl->addJavaScript('components/ILIAS/Chatroom/js/iliaschat.jquery.js');
         $this->mainTpl->addJavaScript('node_modules/jquery-outside-events/jquery.ba-outside-events.js');
-        $this->mainTpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
+        $this->mainTpl->addJavaScript('./components/ILIAS/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
 
         $this->mainTpl->addCss('components/ILIAS/Chatroom/templates/default/style.css');
 

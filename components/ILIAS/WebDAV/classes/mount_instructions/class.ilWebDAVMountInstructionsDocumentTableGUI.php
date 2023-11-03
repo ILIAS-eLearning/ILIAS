@@ -84,7 +84,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setLimit(PHP_INT_MAX);
 
-        $this->setRowTemplate('tpl.webdav_documents_row.html', 'Services/WebDAV');
+        $this->setRowTemplate('tpl.webdav_documents_row.html', 'components/ILIAS/WebDAV');
 
         if ($this->is_editable) {
             $this->addCommandButton('saveDocumentSorting', $this->lng->txt('sorting_save'));

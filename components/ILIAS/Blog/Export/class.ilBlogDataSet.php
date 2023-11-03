@@ -284,7 +284,7 @@ class ilBlogDataSet extends ilDataSet
             case "blog":
 
                 // container copy
-                if ($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"])) {
+                if ($new_id = $a_mapping->getMapping("components/ILIAS/Container", "objs", $a_rec["Id"])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjBlog();
@@ -378,7 +378,7 @@ class ilBlogDataSet extends ilDataSet
                         $newObj->updateKeywords($keywords);
                     }
 
-                    $a_mapping->addMapping("Services/COPage", "pg", "blp:" . $a_rec["Id"], "blp:" . $newObj->getId());
+                    $a_mapping->addMapping("components/ILIAS/COPage", "pg", "blp:" . $a_rec["Id"], "blp:" . $newObj->getId());
                 }
                 break;
         }

@@ -445,7 +445,7 @@ class ilLearningProgressBaseGUI
                     "tpl.lp_edit_manual_info_page.html",
                     true,
                     true,
-                    "Services/Tracking"
+                    "components/ILIAS/Tracking"
                 );
                 $i_tpl->setVariable(
                     "INFO_EDITED",
@@ -568,7 +568,7 @@ class ilLearningProgressBaseGUI
             "tpl.lp_legend.html",
             true,
             true,
-            "Services/Tracking"
+            "components/ILIAS/Tracking"
         );
         $tpl->setVariable(
             "IMG_NOT_ATTEMPTED",

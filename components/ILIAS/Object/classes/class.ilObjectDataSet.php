@@ -372,12 +372,12 @@ class ilObjectDataSet extends ilDataSet
         /** @var ilObjectDefinition $objDefinition */
         $objDefinition = $DIC["objDefinition"];
 
-        $new_id = $mapping->getMapping('Services/Container', 'objs', $old_id);
+        $new_id = $mapping->getMapping('components/ILIAS/Container', 'objs', $old_id);
         if (!$new_id) {
-            $new_id = $mapping->getMapping('Services/Object', 'objs', $old_id);
+            $new_id = $mapping->getMapping('components/ILIAS/Object', 'objs', $old_id);
         }
         if (!$new_id) {
-            $new_id = $mapping->getMapping('Services/Object', 'obj', $old_id);
+            $new_id = $mapping->getMapping('components/ILIAS/Object', 'obj', $old_id);
         }
         if (!$new_id) {
             foreach ($mapping->getAllMappings() as $k => $m) {

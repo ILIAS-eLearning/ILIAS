@@ -58,7 +58,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('options'), 'obj_types', "30%");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.edit_fields_row.html", "Services/AdvancedMetaData");
+        $this->setRowTemplate("tpl.edit_fields_row.html", "components/ILIAS/AdvancedMetaData");
         $this->setDefaultOrderField("position");
         /*
          * BT 35830: disable pagination to prevent that and similar issues due to

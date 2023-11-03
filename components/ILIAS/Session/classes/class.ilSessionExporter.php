@@ -52,7 +52,7 @@ class ilSessionExporter extends ilXmlExporter
         }
         if (sizeof($advmd_ids)) {
             $deps[] = array(
-                "component" => "Services/AdvancedMetaData",
+                "component" => "components/ILIAS/AdvancedMetaData",
                 "entity" => "advmd",
                 "ids" => $advmd_ids
             );
@@ -65,7 +65,7 @@ class ilSessionExporter extends ilXmlExporter
         if ($md_ids) {
             $deps[] =
                 array(
-                    "component" => "Services/MetaData",
+                    "component" => "components/ILIAS/MetaData",
                     "entity" => "md",
                     "ids" => $md_ids
                 );
@@ -73,13 +73,13 @@ class ilSessionExporter extends ilXmlExporter
 
         // service settings
         $deps[] = array(
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "service_settings",
             "ids" => $a_ids);
 
         // tile image
         $deps[] = array(
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "tile",
             "ids" => $a_ids);
 

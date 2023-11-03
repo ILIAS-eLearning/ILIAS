@@ -52,7 +52,7 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
         $this->role_id = $a_role_id;
         $this->obj_ref_id = $a_obj_ref_id;
 
-        $this->setRowTemplate("tpl.obj_role_template_options_row.html", "Services/AccessControl");
+        $this->setRowTemplate("tpl.obj_role_template_options_row.html", "components/ILIAS/AccessControl");
         $this->setLimit(100);
         $this->setShowRowsSelector(false);
         $this->setDisableFilterHiding(true);

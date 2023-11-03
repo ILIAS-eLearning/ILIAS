@@ -56,7 +56,7 @@ class ilSecurePathDefinitionProcessor implements ilComponentDefinitionProcessor
         }
         $ilWACSecurePath->setCheckingClass($attributes["checking-class"]);
         $ilWACSecurePath->setInSecFolder((bool) ($attributes["in-sec-folder"] ?? null));
-        $ilWACSecurePath->setComponentDirectory(realpath(__DIR__ . "/../../../../" . $this->component));
+        $ilWACSecurePath->setComponentDirectory(realpath(__DIR__ . "/../../../../../" . $this->component));
         $ilWACSecurePath->update();
     }
 

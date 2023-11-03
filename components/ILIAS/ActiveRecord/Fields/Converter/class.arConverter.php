@@ -69,7 +69,7 @@ class arConverter
     public function downloadClassFile(): void
     {
         $header = "<?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
+require_once('./components/ILIAS/ActiveRecord/class.ActiveRecord.php');
 
 /**
  * Class {CLASS_NAME}

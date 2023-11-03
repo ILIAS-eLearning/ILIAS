@@ -106,7 +106,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     public function render(): string
     {
         $i = $this->getNewsItem();
-        $tpl = new ilTemplate("tpl.timeline_item.html", true, true, "Services/News");
+        $tpl = new ilTemplate("tpl.timeline_item.html", true, true, "components/ILIAS/News");
         $ui_factory = $this->gui->ui()->factory();
         $ui_renderer = $this->gui->ui()->renderer();
 
@@ -213,7 +213,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $title = basename($media_path);
             $image = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
 
-            $img_tpl = new ilTemplate("tpl.news_timeline_image_file.html", true, true, "Services/News");
+            $img_tpl = new ilTemplate("tpl.news_timeline_image_file.html", true, true, "components/ILIAS/News");
             $img_tpl->setVariable("ITEM_ID", $item_id);
             $img_tpl->setVariable("IMAGE", $image);
 

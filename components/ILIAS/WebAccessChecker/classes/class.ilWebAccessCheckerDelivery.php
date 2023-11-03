@@ -106,7 +106,7 @@ class ilWebAccessCheckerDelivery
 
     protected function deliverDummyImage(): void
     {
-        $ilFileDelivery = new Delivery('./Services/WebAccessChecker/templates/images/access_denied.png', $this->http);
+        $ilFileDelivery = new Delivery('./components/ILIAS/WebAccessChecker/templates/images/access_denied.png', $this->http);
         $ilFileDelivery->setDisposition($this->wac->getDisposition());
         $ilFileDelivery->deliver();
     }
@@ -114,7 +114,7 @@ class ilWebAccessCheckerDelivery
 
     protected function deliverDummyVideo(): void
     {
-        $ilFileDelivery = new Delivery('./Services/WebAccessChecker/templates/images/access_denied.mp4', $this->http);
+        $ilFileDelivery = new Delivery('./components/ILIAS/WebAccessChecker/templates/images/access_denied.mp4', $this->http);
         $ilFileDelivery->setDisposition($this->wac->getDisposition());
         $ilFileDelivery->stream();
     }

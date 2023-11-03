@@ -40,7 +40,7 @@ class NotesHtmlExport
     protected string $sub_dir;
     protected string $target_dir;
     protected \ILIAS\GlobalScreen\Services $global_screen;
-    protected \ILIAS\Services\Export\HTML\Util $export_util;
+    protected \ILIAS\components\Export\HTML\Util $export_util;
 
     public function __construct(
         int $type,
@@ -63,7 +63,7 @@ class NotesHtmlExport
         $this->target_dir = $exp_dir . "/" . $sub_dir;
 
         $this->global_screen = $DIC->globalScreen();
-        $this->export_util = new \ILIAS\Services\Export\HTML\Util($exp_dir, $sub_dir);
+        $this->export_util = new \ILIAS\components\Export\HTML\Util($exp_dir, $sub_dir);
         if (!self::$export_key_set) {
             self::$export_key_set = true;
             $this->global_screen->tool()->context()->current()->addAdditionalData(

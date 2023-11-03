@@ -54,7 +54,7 @@ class Table extends ilTable2GUI implements TableSelection
         parent::__construct($gui, $command);
         $config->flush();
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $command));
-        $this->setRowTemplate('legacy-table-row.html', 'Services/LegalDocuments');
+        $this->setRowTemplate('legacy-table-row.html', 'components/ILIAS/LegalDocuments');
         array_map($apply($this->addColumn(...)), $this->visibleColumns());
         $this->setShowRowsSelector(true);
         $this->setExternalSorting(true);
@@ -62,7 +62,7 @@ class Table extends ilTable2GUI implements TableSelection
         iljQueryUtil::initjQuery($DIC->ui()->mainTemplate());
         ilYuiUtil::initPanel(false, $DIC->ui()->mainTemplate());
         ilYuiUtil::initOverlay($DIC->ui()->mainTemplate());
-        $DIC->ui()->mainTemplate()->addJavaScript('./Services/Form/js/Form.js');
+        $DIC->ui()->mainTemplate()->addJavaScript('./components/ILIAS/Form/js/Form.js');
         $this->determineOffsetAndOrder();
         $this->setData($table->rows($this));
     }

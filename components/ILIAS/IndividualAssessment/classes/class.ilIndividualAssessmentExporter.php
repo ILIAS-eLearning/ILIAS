@@ -54,7 +54,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
         if ($a_entity == "iass") {
             // service settings
             $res[] = [
-                "component" => "Services/Object",
+                "component" => "components/ILIAS/Object",
                 "entity" => "common",
                 "ids" => $a_ids
             ];

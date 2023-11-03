@@ -64,7 +64,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('meta_copyright_sub_items'), 'subitems');
         $this->addColumn($this->lng->txt('owner'), 'owner');
 
-        $this->setRowTemplate("tpl.show_copyright_usages_row.html", "Services/MetaData");
+        $this->setRowTemplate("tpl.show_copyright_usages_row.html", "components/ILIAS/MetaData");
         $this->setFormAction($this->ctrl->getFormAction(
             $this->getParentObject(),
             $this->getParentCmd()

@@ -50,7 +50,7 @@ class ilPCGridCellTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.grid_cell_row.html",
-            "Services/COPage"
+            "components/ILIAS/COPage"
         );
 
         $this->grid = $a_grid;

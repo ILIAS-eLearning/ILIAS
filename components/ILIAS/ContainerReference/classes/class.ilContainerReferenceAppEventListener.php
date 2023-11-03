@@ -70,7 +70,7 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
                     $instance->delete();
                     $ilLog->write(__METHOD__ . ': Deleted reference object of type ' . $instance->getType() . ' with Id ' . $instance->getId());
                     $ilAppEventHandler->raise(
-                        'Services/ContainerReference',
+                        'components/ILIAS/ContainerReference',
                         'deleteReference',
                         [
                             'ref_id' => $ref_id,

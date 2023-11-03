@@ -65,7 +65,7 @@ class ilMailErrorFormatter
             'tpl.mail_new_submission_errors.html',
             true,
             true,
-            'Services/Mail'
+            'components/ILIAS/Mail'
         );
         if (1 === count($errorsToDisplay)) {
             $tpl->setCurrentBlock('single_error');

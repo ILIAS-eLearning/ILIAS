@@ -107,7 +107,7 @@ class ilNotesDataSet extends ilDataSet
     ): void {
         switch ($a_entity) {
             case "user_notes":
-                $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["Author"]);
+                $usr_id = $a_mapping->getMapping("components/ILIAS/User", "usr", $a_rec["Author"]);
                 if ($usr_id > 0) {
                     // only import real user (assigned to personal desktop) notes
                     // here.

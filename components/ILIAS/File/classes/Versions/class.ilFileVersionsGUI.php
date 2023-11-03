@@ -23,12 +23,12 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\Modal\Interruptive;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\ResourceStorage\Revision\RevisionStatus;
-use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
-use ILIAS\Services\WOPI\Discovery\ActionRepository;
-use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
+use ILIAS\components\WOPI\Discovery\ActionDBRepository;
+use ILIAS\components\WOPI\Discovery\ActionRepository;
+use ILIAS\components\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Modal\Modal;
-use ILIAS\Services\WOPI\Discovery\ActionTarget;
+use ILIAS\components\WOPI\Discovery\ActionTarget;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

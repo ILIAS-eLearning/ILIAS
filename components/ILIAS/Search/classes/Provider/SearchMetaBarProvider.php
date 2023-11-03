@@ -47,7 +47,7 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
 
             // user interface plugin slot + default rendering
             $uip = new ilUIHookProcessor(
-                "Services/MainMenu",
+                "components/ILIAS/MainMenu",
                 "main_menu_search",
                 array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search)
             );

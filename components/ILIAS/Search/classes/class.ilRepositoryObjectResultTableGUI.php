@@ -32,7 +32,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("members"), "member", "20%");
 
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
-        $this->setRowTemplate("tpl.rep_search_obj_result_row.html", "Services/Search");
+        $this->setRowTemplate("tpl.rep_search_obj_result_row.html", "components/ILIAS/Search");
         $this->setTitle($this->lng->txt('search_results'));
         $this->setEnableTitle(true);
         $this->setId("group_table");

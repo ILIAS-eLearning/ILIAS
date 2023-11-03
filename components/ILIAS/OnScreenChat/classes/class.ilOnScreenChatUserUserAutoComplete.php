@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once 'Services/User/classes/class.ilUserAutoComplete.php';
+require_once 'components/ILIAS/User/classes/class.ilUserAutoComplete.php';
 
 /**
  * Class ilOnScreenChatUserUserAutoComplete

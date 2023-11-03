@@ -93,7 +93,7 @@ class ilObjectPermissionStatusGUI
      */
     public function perminfo(): void
     {
-        $tpl = new ilTemplate("tpl.info_layout.html", false, false, "Services/AccessControl");
+        $tpl = new ilTemplate("tpl.info_layout.html", false, false, "components/ILIAS/AccessControl");
 
         $tpl->setVariable("INFO_SUMMARY", $this->accessStatusInfo());
         $tpl->setVariable("INFO_PERMISSIONS", $this->accessPermissionsTable());

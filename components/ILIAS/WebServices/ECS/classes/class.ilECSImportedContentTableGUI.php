@@ -43,7 +43,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('ecs_imported_from'), 'from', '15%');
         $this->addColumn($this->lng->txt('ecs_meta_data'), 'md', '25%');
         $this->addColumn($this->lng->txt('last_update'), 'last_update', '10%');
-        $this->setRowTemplate('tpl.content_row.html', 'Services/WebServices/ECS');
+        $this->setRowTemplate('tpl.content_row.html', 'components/ILIAS/WebServices/ECS');
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
         if ($a_parent_obj) {

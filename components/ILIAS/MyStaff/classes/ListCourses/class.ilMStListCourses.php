@@ -23,7 +23,7 @@ use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ilLPStatus;
 use ilOrgUnitOperation;
-use ILIAS\Services\MyStaff\Utils\ListFetcherResult;
+use ILIAS\components\MyStaff\Utils\ListFetcherResult;
 
 /**
  * Class ilMStListCourses

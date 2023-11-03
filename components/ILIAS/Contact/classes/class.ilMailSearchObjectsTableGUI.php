@@ -113,7 +113,7 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->ctrl->clearParameters($a_parent_obj);
 
         $this->setSelectAllCheckbox($mode["checkbox"] . '[]');
-        $this->setRowTemplate('tpl.mail_search_objects_row.html', 'Services/Contact');
+        $this->setRowTemplate('tpl.mail_search_objects_row.html', 'components/ILIAS/Contact');
 
         $this->setShowRowsSelector(true);
 

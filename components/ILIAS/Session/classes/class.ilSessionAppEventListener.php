@@ -87,7 +87,7 @@ class ilSessionAppEventListener implements ilAppEventListener
 
     public function handle(): void
     {
-        if ($this->component === 'Services/AccessControl') {
+        if ($this->component === 'components/ILIAS/AccessControl') {
             if ($this->event === 'deassignUser') {
                 $session = ilObjectFactory::getInstanceByObjId($this->parameters['obj_id'], false);
                 if ($session instanceof ilObjSession) {

@@ -308,7 +308,7 @@ class ilObjMediaObject extends ilObject
 
         $ilAppEventHandler = $this->app_event_handler;
         $ilAppEventHandler->raise(
-            'Services/MediaObjects',
+            'components/ILIAS/MediaObjects',
             'create',
             array('object' => $this,
             'obj_type' => 'mob',
@@ -347,7 +347,7 @@ class ilObjMediaObject extends ilObject
         self::handleQuotaUpdate($this);
         $ilAppEventHandler = $this->app_event_handler;
         $ilAppEventHandler->raise(
-            'Services/MediaObjects',
+            'components/ILIAS/MediaObjects',
             'update',
             array('object' => $this,
                     'obj_type' => 'mob',

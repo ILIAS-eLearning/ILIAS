@@ -29,10 +29,10 @@ class ilServicesActiveRecordSuite extends TestSuite
     {
         $self = new self();
         /** @noRector */
-        require_once("./Services/ActiveRecord/test/ilServicesActiveRecordConnectorTest.php");
+        require_once("./components/ILIAS/ActiveRecord/test/ilServicesActiveRecordConnectorTest.php");
         $self->addTestSuite("ilServicesActiveRecordConnectorTest");
         /** @noRector */
-        require_once("./Services/ActiveRecord/test/ilServicesActiveRecordFieldTest.php");
+        require_once("./components/ILIAS/ActiveRecord/test/ilServicesActiveRecordFieldTest.php");
         $self->addTestSuite("ilServicesActiveRecordFieldTest");
 
         return $self;

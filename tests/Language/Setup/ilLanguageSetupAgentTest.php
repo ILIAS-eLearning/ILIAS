@@ -62,7 +62,7 @@ class ilLanguageSetupAgentTest extends TestCase
     {
         $objective_collection = $this->obj->getInstallObjective();
 
-        $this->assertEquals('Complete objectives from Services/Language', $objective_collection->getLabel());
+        $this->assertEquals('Complete objectives from components/ILIAS/Language_', $objective_collection->getLabel());
         $this->assertFalse($objective_collection->isNotable());
         $this->assertCount(2, $objective_collection->getObjectives());
     }
@@ -71,7 +71,7 @@ class ilLanguageSetupAgentTest extends TestCase
     {
         $objective_collection = $this->obj->getUpdateObjective();
 
-        $this->assertEquals('Complete objectives from Services/Language', $objective_collection->getLabel());
+        $this->assertEquals('Complete objectives from components/ILIAS/Language_', $objective_collection->getLabel());
         $this->assertFalse($objective_collection->isNotable());
         $this->assertCount(1, $objective_collection->getObjectives());
     }

@@ -58,7 +58,7 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
             'tpl.common_desc.html',
             true,
             true,
-            'Services/Certificate'
+            'components/ILIAS/Certificate'
         );
 
         foreach ($this->getPlaceholderDescriptions() as $key => $field) {

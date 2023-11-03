@@ -134,7 +134,7 @@ class ilItemGroupDataSet extends ilDataSet
     ): void {
         switch ($a_entity) {
             case "itgr":
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     /** @var ilObjItemGroup $newObj */
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
@@ -154,7 +154,7 @@ class ilItemGroupDataSet extends ilDataSet
                 break;
 
             case "itgr_item":
-                if ($obj_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['ItemId'])) {
+                if ($obj_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['ItemId'])) {
                     $ref_id = current(ilObject::_getAllReferences($obj_id));
                     $itgri = new ilItemGroupItems();
                     $itgri->setItemGroupId($this->current_obj->getId());

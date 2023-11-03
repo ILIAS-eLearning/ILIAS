@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Services\User\ChangedUserFieldAttribute;
+use ILIAS\components\User\ChangedUserFieldAttribute;
 
 /**
  * Class ChangedUserFieldAttributeTest

@@ -809,7 +809,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $item = new ilMediaPoolItem($this->mep_item_id);
         $mob_id = $item->getForeignId();
 
-        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "components/ILIAS/COPage");
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
@@ -858,7 +858,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     public function showPage(): void
     {
         //$tpl = new \ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-        $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+        $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "components/ILIAS/COPage");
 
         $tpl->addCss(ilUtil::getStyleSheetLocation());
         $tpl->addCss(ilObjStyleSheet::getContentStylePath(0));

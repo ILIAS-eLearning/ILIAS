@@ -20,7 +20,7 @@ use ILIAS\StaticURL\Services;
 use ILIAS\Data\ReferenceId;
 
 /**
- * @deprecated Use ILIAS\Services\StaticURL instead
+ * @deprecated Use ILIAS\components\StaticURL instead
  */
 class ilLink
 {

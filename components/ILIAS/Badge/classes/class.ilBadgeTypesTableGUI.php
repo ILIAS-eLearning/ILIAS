@@ -58,7 +58,7 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
             $this->addMultiCommand("deactivateTypes", $lng->txt("deactivate"));
         }
 
-        $this->setRowTemplate("tpl.type_row.html", "Services/Badge");
+        $this->setRowTemplate("tpl.type_row.html", "components/ILIAS/Badge");
         $this->setDefaultOrderField("name");
         $this->setSelectAllCheckbox("id");
 

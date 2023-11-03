@@ -36,7 +36,7 @@ class ilLearningModuleExporter extends ilXmlExporter
         $this->ds->setDSPrefix("ds");
         $this->config = $this->getExport()->getConfig("components/ILIAS/LearningModule");
         if ($this->config->getMasterLanguageOnly()) {
-            $conf = $this->getExport()->getConfig("Services/COPage");
+            $conf = $this->getExport()->getConfig("components/ILIAS/COPage");
             $conf->setMasterLanguageOnly(true, $this->config->getIncludeMedia());
             $this->ds->setMasterLanguageOnly(true);
         }
@@ -81,32 +81,32 @@ class ilLearningModuleExporter extends ilXmlExporter
 
             $deps = array(
                 array(
-                    "component" => "Services/COPage",
+                    "component" => "components/ILIAS/COPage",
                     "entity" => "pg",
                     "ids" => $pg_ids),
                 array(
-                    "component" => "Services/MetaData",
+                    "component" => "components/ILIAS/MetaData",
                     "entity" => "md",
                     "ids" => $md_ids),
             );
 
             if (!$this->config->getMasterLanguageOnly()) {
                 $deps[] = array(
-                    "component" => "Services/Object",
+                    "component" => "components/ILIAS/Object",
                     "entity" => "transl",
                     "ids" => $md_ids);
                 $deps[] = array(
-                    "component" => "Services/Object",
+                    "component" => "components/ILIAS/Object",
                     "entity" => "transl_entry",
                     "ids" => $a_ids);
             }
             $deps[] = array(
-                "component" => "Services/Object",
+                "component" => "components/ILIAS/Object",
                 "entity" => "tile",
                 "ids" => $a_ids);
 
             $deps[] = array(
-                "component" => "Services/Object",
+                "component" => "components/ILIAS/Object",
                 "entity" => "service_settings",
                 "ids" => $a_ids);
 
@@ -114,7 +114,7 @@ class ilLearningModuleExporter extends ilXmlExporter
             foreach ($a_ids as $id) {
                 if (ilObjContentObject::isOnlineHelpModule($id, true)) {
                     $deps[] = array(
-                        "component" => "Services/Help",
+                        "component" => "components/ILIAS/Help",
                         "entity" => "help",
                         "ids" => array($id));
                 }
@@ -125,7 +125,7 @@ class ilLearningModuleExporter extends ilXmlExporter
                 $style_id = $this->content_style_domain->styleForObjId($id)->getStyleId();
                 if ($style_id > 0) {
                     $deps[] = array(
-                        "component" => "Services/Style",
+                        "component" => "components/ILIAS/Style",
                         "entity" => "sty",
                         "ids" => $style_id
                     );

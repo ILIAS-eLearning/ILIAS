@@ -66,7 +66,7 @@ class ilLikeGUI
 
     protected function initJavascript(): void
     {
-        $this->main_tpl->addJavaScript("./Services/Like/js/Like.js");
+        $this->main_tpl->addJavaScript("./components/ILIAS/Like/js/Like.js");
     }
 
     public function setObject(
@@ -109,7 +109,7 @@ class ilLikeGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.like.html", true, true, "Services/Like");
+        $tpl = new ilTemplate("tpl.like.html", true, true, "components/ILIAS/Like");
 
         // modal
         $modal_asyn_url = $ctrl->getLinkTarget($this, "renderModal", "", true, false);
@@ -146,7 +146,7 @@ class ilLikeGUI
     ): string {
         $ilCtrl = $this->ctrl;
 
-        $tpl = new ilTemplate("tpl.emo_counters.html", true, true, "Services/Like");
+        $tpl = new ilTemplate("tpl.emo_counters.html", true, true, "components/ILIAS/Like");
         $f = $this->ui->factory();
         $r = $this->ui->renderer();
 
@@ -223,7 +223,7 @@ class ilLikeGUI
 
         $ilCtrl->saveParameter($this, "modal_show_sig_id");
 
-        $tpl = new ilTemplate("tpl.emoticons.html", true, true, "Services/Like");
+        $tpl = new ilTemplate("tpl.emoticons.html", true, true, "components/ILIAS/Like");
         $tpl->setVariable("ID", $this->dom_id);
 
         $url = $ilCtrl->getLinkTarget($this, "", "", true);

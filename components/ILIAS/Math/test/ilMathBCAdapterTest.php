@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once 'Services/Math/test/ilMathBaseAdapterTest.php';
+require_once 'components/ILIAS/Math/test/ilMathBaseAdapterTest.php';
 
 class ilMathBCAdapterTest extends ilMathBaseAdapterTest
 {

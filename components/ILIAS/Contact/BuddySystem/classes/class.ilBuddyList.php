@@ -256,7 +256,7 @@ class ilBuddyList
         $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
 
         $this->eventHandler->raise(
-            'Services/Contact',
+            'components/ILIAS/Contact',
             'relationLinked',
             [
                 'relation' => $relation
@@ -284,7 +284,7 @@ class ilBuddyList
         }
 
         $this->eventHandler->raise(
-            'Services/Contact',
+            'components/ILIAS/Contact',
             'relationUnlinked',
             [
                 'relation' => $relation
@@ -327,7 +327,7 @@ class ilBuddyList
         }
 
         $this->eventHandler->raise(
-            'Services/Contact',
+            'components/ILIAS/Contact',
             'contactRequested',
             [
                 'usr_id' => $this->getRelationTargetUserId($relation),
@@ -365,7 +365,7 @@ class ilBuddyList
         }
 
         $this->eventHandler->raise(
-            'Services/Contact',
+            'components/ILIAS/Contact',
             'contactIgnored',
             [
                 'relation' => $relation

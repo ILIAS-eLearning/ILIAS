@@ -15,8 +15,8 @@ return static function (RectorConfig $rectorConfig): void {
         // there a several classes which make Rector break (multiple classes
         // in one file, wrong declarations in inheritance, ...)
         "components/ILIAS/LTIConsumer",
-        "Services/LTI",
-        "Services/SOAPAuth/include"
+        "components/ILIAS/LTI",
+        "components/ILIAS/SOAPAuth/include"
     ]);
     $rectorConfig->parameters()->set(Option::DEBUG, false);
 

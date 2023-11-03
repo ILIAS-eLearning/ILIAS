@@ -1188,7 +1188,7 @@ abstract class assQuestion
 
                 $component = '';
 
-                if ($levels[4] === 'components/ILIAS' || $levels[4] === 'Services') {
+                if ($levels[4] === 'components/ILIAS' || $levels[4] === 'components/ILIAS') {
                     $component = $levels[4] . DIRECTORY_SEPARATOR . $levels[5];
                 }
 

@@ -104,7 +104,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
      */
     protected function getLegacyContent(): string
     {
-        $tpl = new ilTemplate("tpl.search_search_block.html", true, true, 'Services/Search');
+        $tpl = new ilTemplate("tpl.search_search_block.html", true, true, 'components/ILIAS/Search');
 
         $this->lng->loadLanguageModule('search');
         $tpl->setVariable("TXT_SEARCH_INPUT_LABEL", $this->lng->txt('search_field'));

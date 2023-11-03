@@ -76,7 +76,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
     protected function isLearningAchievementEvent(): bool
     {
         return (
-            $this->component === 'Services/Tracking' &&
+            $this->component === 'components/ILIAS/Tracking' &&
             $this->event === 'updateStatus'
         );
     }
@@ -84,7 +84,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
     protected function isUserDeletedEvent(): bool
     {
         return (
-            $this->component === 'Services/User' &&
+            $this->component === 'components/ILIAS/User' &&
             $this->event === 'deleteUser'
         );
     }

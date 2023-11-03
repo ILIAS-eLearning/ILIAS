@@ -74,7 +74,7 @@ class ilUIHookPluginGUI
      *             by Global Screen and UI Components instead.
      *
      * In ILIAS 6.0 still working for working for:
-     * - $a_comp="Services/Ini" ; $a_part="init_style"
+     * - $a_comp="components/ILIAS/Ini" ; $a_part="init_style"
      * - $a_comp="" ; $a_part="tabs"
      * - $a_comp="" ; $a_part="sub_tabs"
      *

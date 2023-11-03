@@ -50,7 +50,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
 
         $this->setTitle($this->lng->txt('sysc_overview'));
 
-        $this->setRowTemplate('tpl.syscheck_groups_row.html', 'Services/SystemCheck');
+        $this->setRowTemplate('tpl.syscheck_groups_row.html', 'components/ILIAS/SystemCheck');
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 

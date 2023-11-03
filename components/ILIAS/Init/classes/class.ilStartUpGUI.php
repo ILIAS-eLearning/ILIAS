@@ -199,7 +199,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $auth_session->logout();
 
                 $ilAppEventHandler->raise(
-                    'Services/Authentication',
+                    'components/ILIAS/Authentication',
                     'afterLogout',
                     [
                         'username' => $this->user->getLogin(),
@@ -810,7 +810,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private function showCASLoginForm(string $page_editor_html): string
     {
         if ($this->setting->get('cas_active')) {
-            $tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'Services/Init');
+            $tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'components/ILIAS/Init');
             $tpl->setVariable('TXT_CAS_LOGIN', $this->lng->txt('login_to_ilias_via_cas'));
             $tpl->setVariable('TXT_CAS_LOGIN_BUTTON', ilUtil::getImagePath('auth/cas_login_button.png'));
             $tpl->setVariable('TXT_CAS_LOGIN_INSTRUCTIONS', $this->setting->get('cas_login_instructions'));
@@ -835,7 +835,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $target = $this->initTargetFromQuery();
 
         if ($this->setting->get('shib_active')) {
-            $tpl = new ilTemplate('tpl.login_form_shibboleth.html', true, true, 'Services/Init');
+            $tpl = new ilTemplate('tpl.login_form_shibboleth.html', true, true, 'components/ILIAS/Init');
 
             $tpl->setVariable(
                 'SHIB_FORMACTION',
@@ -962,7 +962,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         global $tpl;
 
-        $rtpl = new ilTemplate('tpl.login_registration_links.html', true, true, 'Services/Init');
+        $rtpl = new ilTemplate('tpl.login_registration_links.html', true, true, 'components/ILIAS/Init');
 
         // allow new registrations?
         if (ilRegistrationSettings::_lookupRegistrationType() !== ilRegistrationSettings::IL_REG_DISABLED) {
@@ -1275,7 +1275,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private function doLogout(): void
     {
         $this->eventHandler->raise(
-            'Services/Authentication',
+            'components/ILIAS/Authentication',
             'beforeLogout',
             [
                 'user_id' => $this->user->getId()
@@ -1289,7 +1289,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $this->authSession->logout();
         $this->eventHandler->raise(
-            'Services/Authentication',
+            'components/ILIAS/Authentication',
             'afterLogout',
             [
                 'username' => $this->user->getLogin(),
@@ -1315,7 +1315,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     protected function showLegalDocuments(): void
     {
         global $DIC;
-        $tpl = self::initStartUpTemplate(['agreement.html', 'Services/LegalDocuments'], true, false);
+        $tpl = self::initStartUpTemplate(['agreement.html', 'components/ILIAS/LegalDocuments'], true, false);
         $tpl->setVariable('CONTENT', $DIC['legalDocuments']->agreeContent(self::class, __FUNCTION__));
         self::printToGlobalTemplate($tpl);
     }
@@ -1597,7 +1597,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $tpl = new ilGlobalTemplate('tpl.main.html', true, true);
 
-        $tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
+        $tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'components/ILIAS/Init');
 
         $view_title = $DIC->language()->txt('login_to_ilias');
         if ($a_show_back) {
@@ -1628,7 +1628,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $template_dir = $a_tmpl[1];
         } else {
             $template_file = $a_tmpl;
-            $template_dir = 'Services/Init';
+            $template_dir = 'components/ILIAS/Init';
         }
 
         $tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
@@ -1649,7 +1649,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private function showSamlLoginForm(string $page_editor_html): string
     {
         if (count(ilSamlIdp::getActiveIdpList()) > 0 && ilSamlSettings::getInstance()->isDisplayedOnLoginPage()) {
-            $tpl = new ilTemplate('tpl.login_form_saml.html', true, true, 'Services/Saml');
+            $tpl = new ilTemplate('tpl.login_form_saml.html', true, true, 'components/ILIAS/Saml');
 
             $return = '';
             $target = $this->initTargetFromQuery();
@@ -1679,7 +1679,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         $oidc_settings = ilOpenIdConnectSettings::getInstance();
         if ($oidc_settings->getActive()) {
-            $tpl = new ilTemplate('tpl.login_element.html', true, true, 'Services/OpenIdConnect');
+            $tpl = new ilTemplate('tpl.login_element.html', true, true, 'components/ILIAS/OpenIdConnect');
 
             $this->lng->loadLanguageModule('auth');
             $tpl->setVariable('TXT_OIDCONNECT_HEADER', $this->lng->txt('auth_oidc_login_element_info'));
@@ -1901,7 +1901,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         $this->help->setSubScreenId('saml_idp_selection');
 
-        self::initStartUpTemplate(['tpl.saml_idp_selection.html', 'Services/Saml']);
+        self::initStartUpTemplate(['tpl.saml_idp_selection.html', 'components/ILIAS/Saml']);
 
         $this->ctrl->setTargetScript('saml.php');
         $items = [];

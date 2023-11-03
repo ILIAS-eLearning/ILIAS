@@ -28,10 +28,10 @@ class ilArtifactComponentRepositoryTest extends TestCase
         ]],
         "mod2" => ["components/ILIAS", "Module2", [
         ]],
-        "ser1" => ["Services", "Service1", [
+        "ser1" => ["components/ILIAS", "Service1", [
             ["slt3", "Slot3"]
         ]],
-        "ser2" => ["Services", "Service2", [
+        "ser2" => ["components/ILIAS", "Service2", [
             ["slt4", "Slot4"]
         ]]
     ];
@@ -52,7 +52,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             null
         ],
         "plg2" => [
-            "Services",
+            "components/ILIAS",
             "Service2",
             "Slot4",
             "Plugin2",
@@ -177,7 +177,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $slots3 = [];
         $this->ser1 = new ilComponentInfo(
             "ser1",
-            "Services",
+            "components/ILIAS",
             "Service1",
             $slots3
         );
@@ -194,7 +194,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $slots4 = [];
         $this->ser2 = new ilComponentInfo(
             "ser2",
-            "Services",
+            "components/ILIAS",
             "Service2",
             $slots4
         );
@@ -230,12 +230,12 @@ class ilArtifactComponentRepositoryTest extends TestCase
     {
         $this->assertTrue($this->db->hasComponent("components/ILIAS", "Module1"));
         $this->assertTrue($this->db->hasComponent("components/ILIAS", "Module2"));
-        $this->assertTrue($this->db->hasComponent("Services", "Service1"));
-        $this->assertTrue($this->db->hasComponent("Services", "Service2"));
+        $this->assertTrue($this->db->hasComponent("components/ILIAS", "Service1"));
+        $this->assertTrue($this->db->hasComponent("components/ILIAS", "Service2"));
         $this->assertFalse($this->db->hasComponent("components/ILIAS", "Module3"));
         $this->assertFalse($this->db->hasComponent("components/ILIAS", "Module4"));
-        $this->assertFalse($this->db->hasComponent("Services", "Service3"));
-        $this->assertFalse($this->db->hasComponent("Services", "Service4"));
+        $this->assertFalse($this->db->hasComponent("components/ILIAS", "Service3"));
+        $this->assertFalse($this->db->hasComponent("components/ILIAS", "Service4"));
     }
 
     public function testHasComponentThrowsOnUnknownType(): void
@@ -285,8 +285,8 @@ class ilArtifactComponentRepositoryTest extends TestCase
     {
         $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("components/ILIAS", "Module1"));
         $this->assertEquals($this->mod2, $this->db->getComponentByTypeAndName("components/ILIAS", "Module2"));
-        $this->assertEquals($this->ser1, $this->db->getComponentByTypeAndName("Services", "Service1"));
-        $this->assertEquals($this->ser2, $this->db->getComponentByTypeAndName("Services", "Service2"));
+        $this->assertEquals($this->ser1, $this->db->getComponentByTypeAndName("components/ILIAS", "Service1"));
+        $this->assertEquals($this->ser2, $this->db->getComponentByTypeAndName("components/ILIAS", "Service2"));
     }
 
     public function testGetComponentByTypeAndNameThrowsOnUnknownComponent1(): void

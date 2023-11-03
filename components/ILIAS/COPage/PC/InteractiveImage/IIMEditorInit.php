@@ -80,7 +80,7 @@ class IIMEditorInit
 EOT;
 
         $module_tag = <<<EOT
-<script type="module" src="./Services/COPage/PC/InteractiveImage/js/editor/src/editor.js"></script>
+<script type="module" src="./components/ILIAS/COPage/PC/InteractiveImage/js/editor/src/editor.js"></script>
 EOT;
         return $init_span . $module_tag;
     }

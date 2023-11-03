@@ -98,7 +98,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("desc");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.shared_row.html", "Services/PersonalWorkspace");
+        $this->setRowTemplate("tpl.shared_row.html", "components/ILIAS/PersonalWorkspace");
 
         $this->setDisableFilterHiding(true);
         $this->setResetCommand("resetsharefilter", $this->lng->txt("wsp_shared_filter_reset_button"));

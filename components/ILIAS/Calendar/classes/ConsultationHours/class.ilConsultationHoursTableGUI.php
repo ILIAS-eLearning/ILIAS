@@ -59,7 +59,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('cal_ch_target_object'), 'target');
         $this->addColumn('');
 
-        $this->setRowTemplate('tpl.ch_upcoming_row.html', 'Services/Calendar');
+        $this->setRowTemplate('tpl.ch_upcoming_row.html', 'components/ILIAS/Calendar');
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         $this->setTitle($this->lng->txt('cal_ch_ch'));
 

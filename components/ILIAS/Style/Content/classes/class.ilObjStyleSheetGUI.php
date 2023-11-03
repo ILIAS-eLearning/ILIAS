@@ -439,7 +439,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 ilObjStyleSheet::getBasicZipPath(),
                 "style.zip",
                 "sty",
-                "Services/Style",
+                "components/ILIAS/Style",
                 true
             );
 
@@ -698,7 +698,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $c = explode(":", $a_class);
         $a_class = $c[0];
 
-        $ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "Services/Style/Content");
+        $ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "components/ILIAS/Style/Content");
 
         if ($ex_tpl->blockExists("Example_" . $a_type)) {
             $ex_tpl->setCurrentBlock("Example_" . $a_type);
@@ -1460,7 +1460,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             "tpl.template_edit.html",
             true,
             true,
-            "Services/Style/Content"
+            "components/ILIAS/Style/Content"
         );
         $this->includeCSS();
         $a_tpl->setVariable("FORM", $this->form_gui->getHTML());

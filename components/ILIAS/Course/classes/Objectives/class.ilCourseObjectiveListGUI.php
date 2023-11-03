@@ -54,7 +54,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
             "tpl.container_list_item.html",
             true,
             true,
-            "Services/Container"
+            "components/ILIAS/Container"
         );
         $this->initItem($a_ref_id, $a_obj_id, ilObject::_lookupType($a_obj_id), $a_title, $a_description);
 

@@ -42,7 +42,7 @@ if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
     exit;
 }
 
-require_once("Services/Init/classes/class.ilInitialisation.php");
+require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 
 ilInitialisation::initILIAS();
 

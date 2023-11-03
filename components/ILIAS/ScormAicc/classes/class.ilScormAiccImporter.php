@@ -49,7 +49,7 @@ class ilScormAiccImporter extends ilXmlImporter
         //            return;
         //        }
         // case i container
-        if ($a_id !== "" && $a_mapping !== null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($a_id !== "" && $a_mapping !== null && $new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             //            $exportDir = ilExport::_getExportDirectory((int) $a_id);
             //            $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
@@ -95,7 +95,7 @@ class ilScormAiccImporter extends ilXmlImporter
                             $this->moduleProperties[$key] = $filteredValue;
                         }
 
-                        if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+                        if ($a_id != null && $new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
                             $this->dataset->writeData("sahs", "5.1.0", $newObj->getId(), $this->moduleProperties);
 
                             $newObj->createReference();
@@ -158,7 +158,7 @@ class ilScormAiccImporter extends ilXmlImporter
         //                        $this->moduleProperties["Title"] = $xmlRoot->Title;
         //                        $this->moduleProperties["Description"] = $xmlRoot->Description;
         //
-        //                        if ($a_id !== "" && $a_mapping !== null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        //                        if ($a_id !== "" && $a_mapping !== null && $new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
         //                            if ($newObj !== null) {
         //                                $this->dataset->writeData("sahs", "5.1.0", $newObj->getId(), $this->moduleProperties);
         //

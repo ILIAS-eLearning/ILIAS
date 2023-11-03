@@ -31,7 +31,7 @@ class ilServicesDataSetSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/DataSet/test/DataSetImportParserTest.php");
+        require_once("./components/ILIAS/DataSet/test/DataSetImportParserTest.php");
         $suite->addTestSuite("DataSetImportParserTest");
 
         return $suite;

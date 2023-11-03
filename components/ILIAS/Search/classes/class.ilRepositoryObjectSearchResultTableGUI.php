@@ -72,7 +72,7 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 
     protected function initRowTemplate(): void
     {
-        $this->setRowTemplate('tpl.repository_object_search_result_row.html', 'Services/Search');
+        $this->setRowTemplate('tpl.repository_object_search_result_row.html', 'components/ILIAS/Search');
     }
 
 
@@ -81,7 +81,7 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 
     public function getRelevanceHTML(float $a_rel): string
     {
-        $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'Services/Search');
+        $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'components/ILIAS/Search');
 
         $pbar = ilProgressBar::getInstance();
         $pbar->setCurrent($a_rel);

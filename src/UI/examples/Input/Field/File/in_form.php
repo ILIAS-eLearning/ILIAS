@@ -17,7 +17,7 @@ function in_form()
     $request = $DIC->http()->request();
 
     // Step 1: Define the input field.
-    // See the implementation of a UploadHandler in Services/UI/classes/class.ilUIDemoFileUploadHandlerGUI.php
+    // See the implementation of a UploadHandler in components/ILIAS/UI_/classes/class.ilUIDemoFileUploadHandlerGUI.php
     $file = $ui->input()->field()->file(new \ilUIDemoFileUploadHandlerGUI(), "File Upload", "You can drop your files here");
 
     // Step 2: Define the form and attach the field.

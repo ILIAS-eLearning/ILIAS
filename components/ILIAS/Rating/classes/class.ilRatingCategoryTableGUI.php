@@ -46,7 +46,7 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.rating_category_row.html", "Services/Rating");
+        $this->setRowTemplate("tpl.rating_category_row.html", "components/ILIAS/Rating");
 
         $this->addCommandButton("updateorder", $lng->txt("rating_update_positions"));
 

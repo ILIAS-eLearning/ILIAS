@@ -1,6 +1,6 @@
 <!-- BEGIN class -->
 <?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
+require_once('./components/ILIAS/ActiveRecord/class.ActiveRecord.php');
 
 /**
  * Class {CLASS_NAME}

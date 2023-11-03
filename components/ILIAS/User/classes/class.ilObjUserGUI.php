@@ -1670,7 +1670,7 @@ class ilObjUserGUI extends ilObjectGUI
             ilSession::set('filtered_roles', 0);
         }
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.usr_role_assignment.html', 'Services/User');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.usr_role_assignment.html', 'components/ILIAS/User');
 
         // init table
         $tab = new ilRoleAssignmentTableGUI($this, 'roleassignment');

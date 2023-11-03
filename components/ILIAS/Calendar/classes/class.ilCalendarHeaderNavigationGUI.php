@@ -64,7 +64,7 @@ class ilCalendarHeaderNavigationGUI
     public function getHTML(): string
     {
         $today = new ilDateTime(time(), IL_CAL_UNIX, $this->user->getTimeZone());
-        $tpl = new ilTemplate("tpl.navigation_header.html", true, true, "Services/Calendar");
+        $tpl = new ilTemplate("tpl.navigation_header.html", true, true, "components/ILIAS/Calendar");
 
         // previous button
         $contains_today = false;

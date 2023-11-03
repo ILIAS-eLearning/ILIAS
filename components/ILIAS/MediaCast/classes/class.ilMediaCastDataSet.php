@@ -183,7 +183,7 @@ class ilMediaCastDataSet extends ilDataSet
         switch ($a_entity) {
             case "mcst":
 
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjMediaCast();
@@ -231,7 +231,7 @@ class ilMediaCastDataSet extends ilDataSet
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("components/ILIAS/MediaCast", "mcst", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
-                    "Services/News",
+                    "components/ILIAS/News",
                     "news_context",
                     $a_rec["Id"] . ":mcst:0:",
                     $newObj->getId() . ":mcst:0:"

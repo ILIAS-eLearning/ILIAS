@@ -47,7 +47,7 @@ class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("tax_title");
         $this->setDefaultOrderDirection("asc");
 
-        $this->setRowTemplate("tpl.tax_admin_repo_row.html", "Services/Taxonomy");
+        $this->setRowTemplate("tpl.tax_admin_repo_row.html", "components/ILIAS/Taxonomy");
 
         $this->initItems();
     }

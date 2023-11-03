@@ -50,7 +50,7 @@ class ilConfirmationTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("title"));
 
         $this->setEnableHeader(true);
-        $this->setRowTemplate("tpl.confirmation_row.html", "Services/Utilities");
+        $this->setRowTemplate("tpl.confirmation_row.html", "components/ILIAS/Utilities");
         $this->disable("footer");
         $this->setEnableTitle(true);
     }

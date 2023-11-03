@@ -47,7 +47,7 @@ class ilMobSubtitleTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("mob_language"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.srt_files_row.html", "Services/MediaObjects");
+        $this->setRowTemplate("tpl.srt_files_row.html", "components/ILIAS/MediaObjects");
 
         $this->addMultiCommand("confirmSrtDeletion", $lng->txt("delete"));
     }

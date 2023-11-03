@@ -56,7 +56,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $this->setDefaultOrderField('dt');
         $this->setDefaultOrderDirection('desc');
 
-        $this->setRowTemplate('tpl.usr_export_file_row.html', 'Services/User');
+        $this->setRowTemplate('tpl.usr_export_file_row.html', 'components/ILIAS/User');
         $this->determineOffsetAndOrder();
 
         $this->addMultiCommand(

@@ -23,7 +23,7 @@
 			"@php libs/composer/rmdirs.php"
 		],
 		"test-php-all": [
-			"./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
+			"./libs/composer/vendor/bin/phpunit -c ./components/ILIAS/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
 		],
 		"test-php": [
 			"./CI/PHPUnit/run_tests.sh"
@@ -93,14 +93,13 @@
 		},
 		"classmap": [
 			"./Customizing/global/plugins",
-			"./Services/",
 			"./components/ILIAS",
 			"./libs/ilias",
 			"./components/ILIAS/soap",
 			"./setup/classes"
 		],
 		"exclude-from-classmap": [
-			"./Services/Migration",
+			"./components/ILIAS/Migration",
 			"./*/*/lib", "./*/*/test",
 			"./Customizing/**/vendor"
 		]
@@ -109,7 +108,7 @@
 		"ext-gd" : {
 			"source" : "https://www.php.net/manual/en/book.image.php",
 			"used_version" : "*",
-			"wrapped_by" : "Services/MediaObjects",
+			"wrapped_by" : "components/ILIAS/MediaObjects",
 			"added_by" : "Alexander Killing",
 			"last_update" : "",
 			"last_update_by" : "",
@@ -131,7 +130,7 @@
 		"ext-xsl" : {
 			"source" : "https://www.php.net/manual/en/book.xsl.php",
 			"used_version" : "*",
-			"wrapped_by" : "Services/COPage",
+			"wrapped_by" : "components/ILIAS/COPage",
 			"added_by" : "Alexander Killing",
 			"last_update" : "",
 			"last_update_by" : "",
@@ -193,7 +192,7 @@
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
 			"used_version" : "v2.6.0",
-			"wrapped_by" : "Services/Logging",
+			"wrapped_by" : "components/ILIAS/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"last_update" : "2022-05-11",
 			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
@@ -203,7 +202,7 @@
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
 			"used_version" : "v4.16.0",
-			"wrapped_by" : "Services/Html",
+			"wrapped_by" : "components/ILIAS/Html",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
 			"last_update" : "2022-11-08",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
@@ -213,7 +212,7 @@
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
 			"used_version" : "v6.8.1",
-			"wrapped_by" : "Services/Mail",
+			"wrapped_by" : "components/ILIAS/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
 			"last_update" : "2023-09-05",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
@@ -223,7 +222,7 @@
 		"james-heinrich/getid3" : {
 			"source" : "https://github.com/JamesHeinrich/getID3",
 			"used_version" : "v1.9.12",
-			"wrapped_by" : "Services/MediaObjects",
+			"wrapped_by" : "components/ILIAS/MediaObjects",
 			"added_by" : "Alexander Killing <killing@leifos.de>",
 			"last_update" : "2023-10-26",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
@@ -234,7 +233,7 @@
 		"geshi/geshi" : {
 			"source" : "https://github.com/GeSHi/geshi-1.0",
 			"used_version" : "v1.0.9.1",
-			"wrapped_by" : "Services/COPage",
+			"wrapped_by" : "components/ILIAS/COPage",
 			"added_by" : "Alexander Killing <killing@leifos.de>",
 			"last_update" : "2020-01-27",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
@@ -245,7 +244,7 @@
 		"tecnickcom/tcpdf" : {
 			"source" : "https://github.com/tecnickcom/TCPDF",
 			"used_version" : "v6.3.5",
-			"wrapped_by" : "Services/PDFGeneration",
+			"wrapped_by" : "components/ILIAS/PDFGeneration",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
 			"last_update" : "2020-10-15",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
@@ -385,7 +384,7 @@
 		"sabre/dav": {
 			"source" : "https://github.com/sabre-io/dav.git",
 			"used_version" : "v3.2.2",
-			"wrapped_by" : "Services/WebDAV",
+			"wrapped_by" : "components/ILIAS/WebDAV",
 			"added_by" : "Raphael Heer <raphael.heer@hslu.ch>",
 			"last_update" : "2018-03-12",
 			"last_update_by" : "Raphael Heer <raphael.heer@hslu.ch>",
@@ -395,7 +394,7 @@
 		"phpoffice/phpspreadsheet" : {
 			"source" : "https://github.com/PHPOffice/PhpSpreadsheet",
 			"used_version" : "v1.29.0",
-			"wrapped_by" : "Services/Excel",
+			"wrapped_by" : "components/ILIAS/Excel",
 			"added_by" : "Jesús López <lopez@leifos.com>",
 			"last_update" : "2023-10-26",
 			"last_update_by" : "Alex Killing <killing@leifos.com>",
@@ -416,7 +415,7 @@
 			"source": "https://github.com/slimphp/Slim",
 			"used_version": "v3.11",
 			"added_by": "Stefan Meyer <smeyer.ilias@gmx.de",
-			"wrapped_by": "Services/WebServices/Rest",
+			"wrapped_by": "components/ILIAS/WebServices/Rest",
 			"last_update": "2018-12-14",
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
@@ -464,7 +463,7 @@
 		"enshrined/svg-sanitize" : {
 			"source" : "https://github.com/darylldoyle/svg-sanitizer",
 			"used_version" : "v0.16.0",
-			"wrapped_by" : "Services/MediaObject",
+			"wrapped_by" : "components/ILIAS/MediaObject",
 			"added_by" : "Alex Killing <killing@leifos.de>",
 			"last_update" : "2023-10-26",
 			"last_update_by" : "Alex Killing <killing@leifos.de>",

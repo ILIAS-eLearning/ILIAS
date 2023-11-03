@@ -27,7 +27,7 @@ class ilServicesConditionsSuite extends TestSuite
     {
         $suite = new ilServicesConditionsSuite();
 
-        include_once("./Services/Conditions/test/ilConditionsTest.php");
+        include_once("./components/ILIAS/Conditions/test/ilConditionsTest.php");
         $suite->addTestSuite(ilConditionsTest::class);
         return $suite;
     }

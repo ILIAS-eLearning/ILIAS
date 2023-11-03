@@ -80,7 +80,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
     function initFilter()
     {
         ...
-        include_once("./Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
+        include_once("./components/ILIAS/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
         $tax = new ilTaxSelectInputGUI($this->tax_id, "tax_node", true);
         $this->addFilterItem($tax);
         $tax->readFromSession();

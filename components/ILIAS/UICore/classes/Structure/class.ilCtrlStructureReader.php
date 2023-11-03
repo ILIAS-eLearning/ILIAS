@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-require_once __DIR__ . '/../../../../libs/composer/vendor/autoload.php';
+require_once __DIR__ . '/../../../../../libs/composer/vendor/autoload.php';
 
 /**
  * Class ilCtrlStructureReader is responsible for reading
@@ -72,7 +72,7 @@ class ilCtrlStructureReader
     {
         $this->ilias_path = rtrim(
             (defined('ILIAS_ABSOLUTE_PATH')) ?
-                ILIAS_ABSOLUTE_PATH : dirname(__FILE__, 5),
+                ILIAS_ABSOLUTE_PATH : dirname(__FILE__, 6),
             '/'
         );
 

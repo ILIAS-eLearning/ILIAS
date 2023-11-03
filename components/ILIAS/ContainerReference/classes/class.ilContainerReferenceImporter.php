@@ -61,12 +61,12 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
         $objDefinition = $DIC["objDefinition"];
         $log = $DIC->logger()->root();
 
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $refs = ilObject::_getAllReferences((int) $new_id);
             $this->initReference(end($refs));
         }
         // Mapping for containers without subitems
-        elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', '0')) {
+        elseif ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'refs', '0')) {
             $this->initReference((int) $new_id);
         } elseif (!$this->getReference() instanceof ilContainerReference) {
             $this->initReference();

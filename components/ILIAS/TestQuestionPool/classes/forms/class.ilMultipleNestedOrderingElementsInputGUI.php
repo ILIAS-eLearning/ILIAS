@@ -448,7 +448,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     public function render(string $a_mode = ""): string
     {
         if ($this->isStylingEnabled()) {
-            $this->getGlobalTpl()->addCss('Services/Form/css/nested_ordering.css');
+            $this->getGlobalTpl()->addCss('components/ILIAS/Form/css/nested_ordering.css');
         }
 
         if ($this->isInteractionEnabled()) {

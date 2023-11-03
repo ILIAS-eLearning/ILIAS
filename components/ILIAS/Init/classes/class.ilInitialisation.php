@@ -102,7 +102,7 @@ class ilInitialisation
         /** @noRector */
         require_once "cli/inc.ilias_version.php";
 
-        self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
+        self::initGlobal("ilBench", "ilBenchmark", "./components/ILIAS/Utilities/classes/class.ilBenchmark.php");
     }
 
     /**
@@ -667,7 +667,7 @@ class ilInitialisation
         define('IL_COOKIE_EXPIRE', 0);
         define('IL_COOKIE_DOMAIN', '');
         if (!defined('IL_COOKIE_PATH')) {
-            // Might be already defined by ./cli/sso/index.php or other scripts (like those in ./Services/SAML/lib/*)
+            // Might be already defined by ./cli/sso/index.php or other scripts (like those in ./components/ILIAS/SAML/lib/*)
             define('IL_COOKIE_PATH', $cookie_path);
         }
     }
@@ -775,7 +775,7 @@ class ilInitialisation
         self::initGlobal(
             "ilSetting",
             "ilSetting",
-            "Services/Administration/classes/class.ilSetting.php"
+            "components/ILIAS/Administration/classes/class.ilSetting.php"
         );
 
         // check correct setup
@@ -817,13 +817,13 @@ class ilInitialisation
         self::initGlobal(
             "styleDefinition",
             "ilStyleDefinition",
-            "./Services/Style/System/classes/class.ilStyleDefinition.php"
+            "./components/ILIAS/Style/System/classes/class.ilStyleDefinition.php"
         );
 
         // add user interface hook for style initialisation
         foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
             $gui_class = $ui_plugin->getUIClassInstance();
-            $gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
+            $gui_class->modifyGUI("components/ILIAS/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
         }
     }
 
@@ -1021,7 +1021,7 @@ class ilInitialisation
         self::initGlobal(
             "rbacreview",
             "ilRbacReview",
-            "./Services/AccessControl/classes/class.ilRbacReview.php"
+            "./components/ILIAS/AccessControl/classes/class.ilRbacReview.php"
         );
 
         $rbacsystem = ilRbacSystem::getInstance();
@@ -1030,13 +1030,13 @@ class ilInitialisation
         self::initGlobal(
             "rbacadmin",
             "ilRbacAdmin",
-            "./Services/AccessControl/classes/class.ilRbacAdmin.php"
+            "./components/ILIAS/AccessControl/classes/class.ilRbacAdmin.php"
         );
 
         self::initGlobal(
             "ilAccess",
             "ilAccess",
-            "./Services/AccessControl/classes/class.ilAccess.php"
+            "./components/ILIAS/AccessControl/classes/class.ilAccess.php"
         );
     }
 
@@ -1194,7 +1194,7 @@ class ilInitialisation
         self::initGlobal(
             "ilErr",
             "ilErrorHandling",
-            "./Services/Init/classes/class.ilErrorHandling.php"
+            "./components/ILIAS/Init/classes/class.ilErrorHandling.php"
         );
 
         self::removeUnsafeCharacters();
@@ -1204,7 +1204,7 @@ class ilInitialisation
         define('IL_INITIAL_WD', getcwd());
 
         // deprecated
-        self::initGlobal("ilias", "ILIAS", "./Services/Init/classes/class.ilias.php");
+        self::initGlobal("ilias", "ILIAS", "./components/ILIAS/Init/classes/class.ilias.php");
     }
 
     /**
@@ -1249,7 +1249,7 @@ class ilInitialisation
         self::initGlobal(
             "ilAppEventHandler",
             "ilAppEventHandler",
-            "./Services/EventHandling/classes/class.ilAppEventHandler.php"
+            "./components/ILIAS/EventHandling/classes/class.ilAppEventHandler.php"
         );
 
         // there are rare cases where initILIAS is called twice for a request
@@ -1261,10 +1261,10 @@ class ilInitialisation
             self::initGlobal(
                 "ilPluginAdmin",
                 new ilPluginAdmin($DIC["component.repository"]),
-                "./Services/Component/classes/class.ilPluginAdmin.php"
+                "./components/ILIAS/Component/classes/class.ilPluginAdmin.php"
             );
         }
-        self::initGlobal("https", "ilHTTPS", "./Services/Http/classes/class.ilHTTPS.php");
+        self::initGlobal("https", "ilHTTPS", "./components/ILIAS/Http/classes/class.ilHTTPS.php");
         self::initSettings();
         self::setSessionHandler();
         self::initCron($GLOBALS['DIC']);
@@ -1287,13 +1287,13 @@ class ilInitialisation
         self::initGlobal(
             "ilObjDataCache",
             "ilObjectDataCache",
-            "./Services/Object/classes/class.ilObjectDataCache.php"
+            "./components/ILIAS/Object/classes/class.ilObjectDataCache.php"
         );
 
         self::initGlobal(
             "objDefinition",
             "ilObjectDefinition",
-            "./Services/Object/classes/class.ilObjectDefinition.php"
+            "./components/ILIAS/Object/classes/class.ilObjectDefinition.php"
         );
 
         // $tree
@@ -1321,7 +1321,7 @@ class ilInitialisation
         self::initGlobal(
             "ilUser",
             new ilObjUser(ANONYMOUS_USER_ID),
-            "./Services/User/classes/class.ilObjUser.php"
+            "./components/ILIAS/User/classes/class.ilObjUser.php"
         );
         $ilias->account = $ilUser;
 
@@ -1540,13 +1540,13 @@ class ilInitialisation
         self::initGlobal(
             "ilNavigationHistory",
             "ilNavigationHistory",
-            "Services/Navigation/classes/class.ilNavigationHistory.php"
+            "components/ILIAS/Navigation/classes/class.ilNavigationHistory.php"
         );
 
         self::initGlobal(
             "ilHelp",
             "ilHelpGUI",
-            "Services/Help/classes/class.ilHelpGUI.php"
+            "components/ILIAS/Help/classes/class.ilHelpGUI.php"
         );
 
         if (DEVMODE) {
@@ -1558,19 +1558,19 @@ class ilInitialisation
         self::initGlobal(
             "ilToolbar",
             "ilToolbarGUI",
-            "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php"
+            "./components/ILIAS/UIComponent/Toolbar/classes/class.ilToolbarGUI.php"
         );
 
         self::initGlobal(
             "ilLocator",
             "ilLocatorGUI",
-            "./Services/Locator/classes/class.ilLocatorGUI.php"
+            "./components/ILIAS/Locator/classes/class.ilLocatorGUI.php"
         );
 
         self::initGlobal(
             "ilTabs",
             "ilTabsGUI",
-            "./Services/UIComponent/Tabs/classes/class.ilTabsGUI.php"
+            "./components/ILIAS/UIComponent/Tabs/classes/class.ilTabsGUI.php"
         );
 
         if (ilContext::hasUser()) {
@@ -1590,7 +1590,7 @@ class ilInitialisation
                 $_GET['offset'] = (int) $_GET['offset'];        // old code
             }
 
-            self::initGlobal("lti", "ilLTIViewGUI", "./Services/LTI/classes/class.ilLTIViewGUI.php");
+            self::initGlobal("lti", "ilLTIViewGUI", "./components/ILIAS/LTI/classes/class.ilLTIViewGUI.php");
             $GLOBALS["DIC"]["lti"]->init();
             self::initKioskMode($GLOBALS["DIC"]);
         }

@@ -31,9 +31,9 @@ class ilFolderImporter extends ilXmlImporter
 
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $this->folder = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
-        } elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', '0')) {
+        } elseif ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'refs', '0')) {
             $this->folder = ilObjectFactory::getInstanceByRefId((int) $new_id, false);
         } elseif (!$this->folder instanceof ilObjFolder) {
             $this->folder = new ilObjFolder();

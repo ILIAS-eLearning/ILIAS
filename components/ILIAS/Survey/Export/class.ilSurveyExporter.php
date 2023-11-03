@@ -79,7 +79,7 @@ class ilSurveyExporter extends ilXmlExporter
                             "entity" => "svy_skill_threshold",
                             "ids" => $a_ids),
                     array(
-                            "component" => "Services/Object",
+                            "component" => "components/ILIAS/Object",
                             "entity" => "common",
                             "ids" => $a_ids)
             );

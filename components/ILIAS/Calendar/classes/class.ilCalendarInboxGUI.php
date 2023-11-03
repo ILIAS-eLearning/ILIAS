@@ -88,7 +88,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
 
     protected function inbox(): void
     {
-        $this->tpl = new ilTemplate('tpl.inbox.html', true, true, 'Services/Calendar');
+        $this->tpl = new ilTemplate('tpl.inbox.html', true, true, 'components/ILIAS/Calendar');
 
         // agenda list
         $cal_list = new ilCalendarAgendaListGUI($this->seed);

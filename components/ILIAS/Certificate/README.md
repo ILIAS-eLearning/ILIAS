@@ -187,7 +187,7 @@ The method MUST create a HTML string that can be displayed in the settings
 GUI.
 Templates SHOULD be used to create the HTML string.
 A default template can be used which is located in
-`./Services/Certificates/default/tpl.default_description.html` 
+`./components/ILIAS/Certificates/default/tpl.default_description.html` 
 
 ### Placeholder Values
 

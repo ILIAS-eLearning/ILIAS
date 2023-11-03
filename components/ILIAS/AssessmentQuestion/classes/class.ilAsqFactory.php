@@ -19,7 +19,7 @@
 /**
  * Class ilAsqQuestionAuthoringFactory
  * @author    Björn Heyser <info@bjoernheyser.de>
- * @package    Services/AssessmentQuestion
+ * @package components/ILIAS/AssessmentQuestion
  */
 class ilAsqFactory
 {

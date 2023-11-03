@@ -95,7 +95,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         );
         $this->setRowTemplate(
             "tpl.user_objects_props_row.html",
-            "Services/Tracking"
+            "components/ILIAS/Tracking"
         );
         $this->setEnableTitle(true);
         $this->setDefaultOrderField("title");

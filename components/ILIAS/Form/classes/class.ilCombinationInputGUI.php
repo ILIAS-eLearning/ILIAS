@@ -244,7 +244,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 
     public function render(): string
     {
-        $tpl = new ilTemplate("tpl.prop_combination.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_combination.html", true, true, "components/ILIAS/Form");
 
         if (sizeof($this->items)) {
             foreach ($this->items as $id => $obj) {

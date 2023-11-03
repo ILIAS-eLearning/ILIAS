@@ -120,7 +120,7 @@ class ilSurveyRaterGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+        include_once("components/ILIAS/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         //

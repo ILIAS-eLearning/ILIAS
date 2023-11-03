@@ -166,8 +166,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             );
         }
 
-        include_once 'Services/Tracking/classes/class.ilLPStatus.php';
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+        include_once 'components/ILIAS/Tracking/classes/class.ilLPStatus.php';
+        include_once 'components/ILIAS/Tracking/classes/class.ilObjUserTracking.php';
 
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return $this->raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');

@@ -50,20 +50,20 @@ class ilOpenLayersMapGUI extends ilMapGUI
             "tpl.openlayers_map.html",
             true,
             true,
-            "Services/Maps"
+            "components/ILIAS/Maps"
         );
 
         $js_tpl = new ilTemplate(
             "tpl.openlayers_map.js",
             true,
             true,
-            "Services/Maps"
+            "components/ILIAS/Maps"
         );
 
         $this->lng->loadLanguageModule("maps");
         $this->tpl->addCss("node_modules/ol/ol.css");
-        $this->tpl->addCss("Services/Maps/css/service_openlayers.css");
-        $this->tpl->addJavaScript("Services/Maps/js/dist/ServiceOpenLayers.js");
+        $this->tpl->addCss("components/ILIAS/Maps/css/service_openlayers.css");
+        $this->tpl->addJavaScript("components/ILIAS/Maps/js/dist/ServiceOpenLayers.js");
 
         // add user markers
         $cnt = 0;
@@ -166,7 +166,7 @@ class ilOpenLayersMapGUI extends ilMapGUI
             "tpl.openlayers_map_user_list.html",
             true,
             true,
-            "Services/Maps"
+            "components/ILIAS/Maps"
         );
 
         $cnt = 0;

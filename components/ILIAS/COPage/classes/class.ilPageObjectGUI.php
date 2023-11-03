@@ -1076,7 +1076,7 @@ class ilPageObjectGUI
         //		$this->initSelfAssessmentRendering();
         ilObjMediaObjectGUI::includePresentationJS($main_tpl);
 
-        $main_tpl->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
+        $main_tpl->addJavaScript("./components/ILIAS/COPage/js/ilCOPagePres.js");
 
         // needed for overlays in iim
         ilOverlayGUI::initJavascript();
@@ -1094,7 +1094,7 @@ class ilPageObjectGUI
 
             $this->log->debug("ilPageObjectGUI, showPage() in edit mode.");
 
-            $tpl = new ilTemplate("tpl.page_edit_wysiwyg.html", true, true, "Services/COPage");
+            $tpl = new ilTemplate("tpl.page_edit_wysiwyg.html", true, true, "components/ILIAS/COPage");
             // to do: status dependent class
             $tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
 
@@ -1141,7 +1141,7 @@ class ilPageObjectGUI
         } else {
             // presentation or preview here
 
-            $tpl = new ilTemplate("tpl.page.html", true, true, "Services/COPage");
+            $tpl = new ilTemplate("tpl.page.html", true, true, "components/ILIAS/COPage");
             if ($this->getEnabledPageFocus()) {
                 $tpl->touchBlock("page_focus");
             }
@@ -1943,7 +1943,7 @@ class ilPageObjectGUI
             $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_anchor"), "action" => "selection.anchor", "data" => []];
         }
 
-        $btpl = new ilTemplate("tpl.tiny_menu.html", true, true, "Services/COPage");
+        $btpl = new ilTemplate("tpl.tiny_menu.html", true, true, "components/ILIAS/COPage");
 
         foreach ($menu as $section_title => $section) {
             foreach ($section as $item) {
@@ -2204,7 +2204,7 @@ class ilPageObjectGUI
                 "tpl.page_toc.html",
                 true,
                 true,
-                "Services/COPage"
+                "components/ILIAS/COPage"
             );
             $tpl->setVariable("PAGE_TOC", $listing->autoNumbers(true)->render());
             $tpl->setVariable("TXT_PAGE_TOC", $this->lng->txt("cont_page_toc"));
@@ -2359,7 +2359,7 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_ed_delete_item");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
-        $this->tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+        $this->tpl->addJavaScript("./components/ILIAS/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
         ilModalGUI::initJS();
     }
@@ -2442,7 +2442,7 @@ class ilPageObjectGUI
      */
     public function showMediaFullscreen(int $a_style_id = 0): void
     {
-        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "components/ILIAS/COPage");
         $this->tpl->setCurrentBlock("ContentStyle");
         $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", 0);
         $this->tpl->parseCurrentBlock();
@@ -2521,7 +2521,7 @@ class ilPageObjectGUI
 
         $this->setBackToEditTabs();
 
-        $this->tpl->addJavaScript("./Services/COPage/js/page_history.js");
+        $this->tpl->addJavaScript("./components/ILIAS/COPage/js/page_history.js");
 
         $table_gui = new ilPageHistoryTableGUI($this, "history");
         $table_gui->setId("hist_table");
@@ -2678,7 +2678,7 @@ class ilPageObjectGUI
             return "";
         }
 
-        $tpl = new ilTemplate("tpl.page_compare.html", true, true, "Services/COPage");
+        $tpl = new ilTemplate("tpl.page_compare.html", true, true, "components/ILIAS/COPage");
 
         $pg = $this->obj;
         $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"));
@@ -2741,7 +2741,7 @@ class ilPageObjectGUI
     {
         $this->setBackToEditTabs();
 
-        $atpl = new ilTemplate("tpl.page_activation.php", true, true, "Services/COPage");
+        $atpl = new ilTemplate("tpl.page_activation.php", true, true, "components/ILIAS/COPage");
         $this->initActivationForm();
         $this->getActivationFormValues();
         $atpl->setVariable("FORM", $this->form->getHTML());

@@ -97,7 +97,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.prop_width_height.html", true, true, "Services/MediaObjects");
+        $tpl = new ilTemplate("tpl.prop_width_height.html", true, true, "components/ILIAS/MediaObjects");
 
         $tpl->setVariable("VAL_WIDTH", strtolower(trim((string) $this->getWidth())));
         $tpl->setVariable("VAL_HEIGHT", strtolower(trim((string) $this->getHeight())));
@@ -118,7 +118,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
 
         $this->main_tpl
-            ->addJavaScript("./Services/MediaObjects/js/ServiceMediaObjectPropWidthHeight.js");
+            ->addJavaScript("./components/ILIAS/MediaObjects/js/ServiceMediaObjectPropWidthHeight.js");
         $this->main_tpl->addOnLoadCode(
             'prop_width_height["prop_' . $this->getPostVar() . '"] = ' . $ratio . ';'
         );

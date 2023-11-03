@@ -31,7 +31,7 @@ class ilServicesBlockSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Block/test/BlockSessionRepositoryTest.php");
+        require_once("./components/ILIAS/Block/test/BlockSessionRepositoryTest.php");
         $suite->addTestSuite("BlockSessionRepositoryTest");
 
         return $suite;

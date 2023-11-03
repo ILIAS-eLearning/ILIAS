@@ -31,7 +31,7 @@ class ilServicesHistorySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/History/test/HistCompareTest.php");
+        require_once("./components/ILIAS/History/test/HistCompareTest.php");
         $suite->addTestSuite("HistCompareTest");
 
         return $suite;

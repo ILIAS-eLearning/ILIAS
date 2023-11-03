@@ -33,11 +33,11 @@ class ilGroupImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ): void {
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $refs = ilObject::_getAllReferences((int) $new_id);
             $ref_id = end($refs);
             $this->group = ilObjectFactory::getInstanceByRefId((int) $ref_id, false);
-        } elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', "0")) {
+        } elseif ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'refs', "0")) {
             $this->group = ilObjectFactory::getInstanceByRefId((int) $new_id, false);
         } elseif (!$this->group instanceof ilObjGroup) {
             $this->group = new ilObjGroup();
@@ -49,7 +49,7 @@ class ilGroupImporter extends ilXmlImporter
             $parser->startParsing();
             $a_mapping->addMapping('components/ILIAS/Group', 'grp', $a_id, (string) $this->group->getId());
             $a_mapping->addMapping(
-                'Services/MetaData',
+                'components/ILIAS/MetaData',
                 'md',
                 $a_id . ':0:grp',
                 $this->group->getId() . ':0:grp'

@@ -114,11 +114,11 @@ class ilHelpDataSet extends ilDataSet
             case "help_map":
 
                 // without module ID we do nothing
-                $module_id = $a_mapping->getMapping('Services/Help', 'help_module', 0);
+                $module_id = $a_mapping->getMapping('components/ILIAS/Help', 'help_module', 0);
                 $t = $a_mapping->getAllMappings();
                 if ($module_id) {
                     $new_chap = $a_mapping->getMapping(
-                        'Services/Help',
+                        'components/ILIAS/Help',
                         'help_chap',
                         $a_rec["Chap"]
                     );
@@ -148,7 +148,7 @@ class ilHelpDataSet extends ilDataSet
             case "help_tooltip":
 
                 // without module ID we do nothing
-                $module_id = $a_mapping->getMapping('Services/Help', 'help_module', 0);
+                $module_id = $a_mapping->getMapping('components/ILIAS/Help', 'help_module', 0);
                 if ($module_id) {
                     $this->help_tooltips->addTooltip($a_rec["TtId"], $a_rec["TtText"], $module_id);
                 }

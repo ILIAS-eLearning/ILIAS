@@ -94,7 +94,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         $morning_aggr = $this->getMorningAggr();
         $evening_aggr = $this->user_settings->getDayEnd() * 60;
 
-        $this->tpl = new ilTemplate('tpl.week_view.html', true, true, 'Services/Calendar');
+        $this->tpl = new ilTemplate('tpl.week_view.html', true, true, 'components/ILIAS/Calendar');
 
         ilYuiUtil::initDragDrop();
 
@@ -170,7 +170,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
     protected function showFulldayAppointment(array $a_app): void
     {
-        $event_tpl = new ilTemplate('tpl.day_event_view.html', true, true, 'Services/Calendar');
+        $event_tpl = new ilTemplate('tpl.day_event_view.html', true, true, 'components/ILIAS/Calendar');
         $event_tpl->setCurrentBlock('fullday_app');
 
         $title = $this->getAppointmentShyButton($a_app['event'], (string) $a_app['dstart'], "");
@@ -207,7 +207,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
     protected function showAppointment(array $a_app): void
     {
         $time = '';
-        $event_tpl = new ilTemplate('tpl.week_event_view.html', true, true, 'Services/Calendar');
+        $event_tpl = new ilTemplate('tpl.week_event_view.html', true, true, 'components/ILIAS/Calendar');
 
         $ilUser = $this->user;
 

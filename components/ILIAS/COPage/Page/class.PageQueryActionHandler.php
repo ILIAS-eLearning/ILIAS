@@ -128,7 +128,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $config->content_css =
             \ilObjStyleSheet::getContentStylePath($this->page_gui->getStyleId()) . ", " .
             \ilUtil::getStyleSheetLocation() . ", " .
-            "./Services/COPage/css/tiny_extra.css";
+            "./components/ILIAS/COPage/css/tiny_extra.css";
         $config->text_formats = \ilPCParagraphGUI::_getTextCharacteristics($this->page_gui->getStyleId());
         $config->text_block_formats = [];
         foreach (["text_block", "heading1", "heading2", "heading3"] as $type) {
@@ -178,7 +178,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("content");
-        $tpl = new \ilTemplate("tpl.page_edit_help.html", true, true, "Services/COPage/Editor");
+        $tpl = new \ilTemplate("tpl.page_edit_help.html", true, true, "components/ILIAS/COPage/Editor");
         $tpl->setCurrentBlock("help");
         $tpl->setVariable("TXT_ADD_EL", $lng->txt("cont_add_elements"));
         $tpl->setVariable("PLUS", $this->gui->symbol()->glyph("add")->render());
@@ -198,7 +198,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("content");
-        $tpl = new \ilTemplate("tpl.page_edit_help.html", true, true, "Services/COPage/Editor");
+        $tpl = new \ilTemplate("tpl.page_edit_help.html", true, true, "components/ILIAS/COPage/Editor");
         $tpl->setCurrentBlock("multi-help");
         $tpl->setVariable("TXT_SEL", $lng->txt("cont_click_multi_select"));
         $tpl->parseCurrentBlock();
@@ -212,7 +212,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $ctrl = $this->ctrl;
         $lng = $this->lng;
         $lng->loadLanguageModule("content");
-        $tpl = new \ilTemplate("tpl.top_actions.html", true, true, "Services/COPage/Editor");
+        $tpl = new \ilTemplate("tpl.top_actions.html", true, true, "components/ILIAS/COPage/Editor");
 
         $dd = $this->getActionsDropDown();
         $tpl->setVariable("DROPDOWN", $ui->renderer()->renderAsync($dd));
@@ -488,7 +488,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     {
         $lng = $this->lng;
         $ui = $this->ui;
-        $tpl = new \ilTemplate("tpl.format_selection.html", true, true, "Services/COPage/Editor");
+        $tpl = new \ilTemplate("tpl.format_selection.html", true, true, "components/ILIAS/COPage/Editor");
         $tpl->setVariable("TXT_PAR", $lng->txt("cont_choose_characteristic_text"));
         $tpl->setVariable("TXT_SECTION", $lng->txt("cont_choose_characteristic_section"));
         $tpl->setVariable("TXT_MEDIA", $lng->txt("cont_media"));

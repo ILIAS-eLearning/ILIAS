@@ -245,7 +245,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $setup_conf_mock = $this->createMock(\ilGlobalCacheSettingsAdapter::class);
         $objective_collection = $this->obj->getInstallObjective($setup_conf_mock);
 
-        $this->assertEquals('Store configuration of Services/GlobalCache', $objective_collection->getLabel());
+        $this->assertEquals('Store configuration of components/ILIAS/GlobalCache_', $objective_collection->getLabel());
         $this->assertFalse($objective_collection->isNotable());
     }
 
@@ -254,7 +254,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $setup_conf_mock = $this->createMock(\ilGlobalCacheSettingsAdapter::class);
         $objective_collection = $this->obj->getUpdateObjective($setup_conf_mock);
 
-        $this->assertEquals('Store configuration of Services/GlobalCache', $objective_collection->getLabel());
+        $this->assertEquals('Store configuration of components/ILIAS/GlobalCache_', $objective_collection->getLabel());
         $this->assertFalse($objective_collection->isNotable());
     }
 

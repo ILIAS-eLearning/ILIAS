@@ -17,7 +17,7 @@ class ilMetaDataImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ): void {
-        $new_id = $a_mapping->getMapping("Services/MetaData", "md", $a_id);
+        $new_id = $a_mapping->getMapping("components/ILIAS/MetaData", "md", $a_id);
 
         if (is_string($new_id) && $new_id !== "") {
             $id = explode(":", $new_id);

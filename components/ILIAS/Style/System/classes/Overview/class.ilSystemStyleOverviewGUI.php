@@ -461,7 +461,7 @@ class ilSystemStyleOverviewGUI
 
     protected function getCreationFormsHTML(array $a_forms): string
     {
-        include_once('./Services/Accordion/classes/class.ilAccordionGUI.php');
+        include_once('./components/ILIAS/Accordion/classes/class.ilAccordionGUI.php');
 
         $acc = new ilAccordionGUI();
         $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
@@ -470,7 +470,7 @@ class ilSystemStyleOverviewGUI
             /**
              * @var ilPropertyFormGUI $cf
              */
-            $htpl = new ilTemplate('tpl.creation_acc_head.html', true, true, 'Services/Object');
+            $htpl = new ilTemplate('tpl.creation_acc_head.html', true, true, 'components/ILIAS/Object');
 
             // using custom form titles (used for repository plugins)
             $form_title = '';

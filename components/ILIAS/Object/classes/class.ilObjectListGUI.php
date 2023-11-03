@@ -67,7 +67,7 @@ class ilObjectListGUI
     protected static bool $preload_done = false;
     protected static int $js_unique_id = 0;
     protected static string $tpl_file_name = 'tpl.container_list_item.html';
-    protected static string $tpl_component = 'Services/Container';
+    protected static string $tpl_component = 'components/ILIAS/Container';
     private \ILIAS\Notes\Service $notes_service;
     protected bool $force_rate_parent = false;
 
@@ -2318,7 +2318,7 @@ class ilObjectListGUI
             $main_tpl = $this->main_tpl;
         }
 
-        $htpl = new ilTemplate('tpl.header_action.html', true, true, 'Services/Repository');
+        $htpl = new ilTemplate('tpl.header_action.html', true, true, 'components/ILIAS/Repository');
 
         $redraw_js = 'il.Object.redrawActionHeader();';
 

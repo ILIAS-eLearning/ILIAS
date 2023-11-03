@@ -1,6 +1,6 @@
 <?php
 
-include_once("./Services/Component/classes/class.ilPlugin.php");
+include_once("./components/ILIAS/Component/classes/class.ilPlugin.php");
 
 /**
  * Class ilSoapHookPlugin

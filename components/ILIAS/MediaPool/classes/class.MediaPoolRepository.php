@@ -141,7 +141,7 @@ class MediaPoolRepository
 
         // Keyword filter
         if ($keyword_filter) {
-            include_once './Services/MetaData/classes/class.ilMDKeyword.php';
+            include_once './components/ILIAS/MetaData/classes/class.ilMDKeyword.php';
             $res = \ilMDKeyword::_searchKeywords($keyword_filter, 'mpg', $pool_id);
             foreach ($objs as $obj) {
                 if (in_array($obj['obj_id'], $res)) {

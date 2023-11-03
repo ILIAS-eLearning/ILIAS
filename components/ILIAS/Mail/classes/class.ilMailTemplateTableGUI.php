@@ -56,7 +56,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('mail_template_context'), 'context', '20%');
         $this->addColumn($this->lng->txt('action'), '', '10%');
 
-        $this->setRowTemplate('tpl.mail_template_row.html', 'Services/Mail');
+        $this->setRowTemplate('tpl.mail_template_row.html', 'components/ILIAS/Mail');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->contexts = ilMailTemplateContextService::getTemplateContexts();

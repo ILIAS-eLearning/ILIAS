@@ -69,7 +69,7 @@ class ilContProfileTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"), "", "1");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.cont_profile_row.html", "Services/Container/Skills");
+        $this->setRowTemplate("tpl.cont_profile_row.html", "components/ILIAS/Container/Skills");
         $this->setSelectAllCheckbox("id");
 
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {

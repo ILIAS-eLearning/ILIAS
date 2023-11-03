@@ -95,7 +95,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 
     public function show(): void
     {
-        $this->tpl = new ilTemplate('tpl.month_view.html', true, true, 'Services/Calendar');
+        $this->tpl = new ilTemplate('tpl.month_view.html', true, true, 'components/ILIAS/Calendar');
 
         ilYuiUtil::initDragDrop();
 
@@ -226,7 +226,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
             $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $item['event']->getEntryId());
 
-            $event_tpl = new ilTemplate('tpl.month_event_view.html', true, true, 'Services/Calendar');
+            $event_tpl = new ilTemplate('tpl.month_event_view.html', true, true, 'components/ILIAS/Calendar');
 
             if (!$item['event']->isFullDay()) {
                 switch ($this->user_settings->getTimeFormat()) {

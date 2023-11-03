@@ -655,7 +655,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             "tpl.container_link_help.html",
             true,
             true,
-            "Services/Container"
+            "components/ILIAS/Container"
         );
 
         $type_ordering = [

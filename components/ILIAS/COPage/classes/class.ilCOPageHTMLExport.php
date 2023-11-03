@@ -76,7 +76,7 @@ class ilCOPageHTMLExport
         $this->content_style_dir = $a_exp_dir . "/content_style";
         $this->content_style_img_dir = $a_exp_dir . "/content_style/images";
 
-        $this->services_dir = $a_exp_dir . "/Services";
+        $this->services_dir = $a_exp_dir . "/components/ILIAS";
         $this->media_service_dir = $this->services_dir . "/MediaObjects";
         $this->flv_dir = $a_exp_dir . "/" . ilPlayerUtil::getFlashVideoPlayerDirectory();
         $this->mp3_dir = $this->media_service_dir . "/flash_mp3_player";
@@ -131,8 +131,8 @@ class ilCOPageHTMLExport
                 ilObjStyleSheet::getBasicImageDir(),
                 $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir()
             );
-            ilFileUtils::makeDirParents($this->exp_dir . "/Services/COPage/css");
-            copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
+            ilFileUtils::makeDirParents($this->exp_dir . "/components/ILIAS/COPage/css");
+            copy("components/ILIAS/COPage/css/content.css", $this->exp_dir . "/components/ILIAS/COPage/css/content.css");
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
             $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());
@@ -458,7 +458,7 @@ class ilCOPageHTMLExport
         string $template_file
     ): ilGlobalTemplateInterface {
         $this->global_screen->layout()->meta()->reset();
-        $tpl = new ilGlobalTemplate($template_file, true, true, "Services/COPage");
+        $tpl = new ilGlobalTemplate($template_file, true, true, "components/ILIAS/COPage");
         $this->getPreparedMainTemplate($tpl);
         $tpl->addCss(\ilUtil::getStyleSheetLocation());
         $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getContentStyleId()));

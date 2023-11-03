@@ -67,7 +67,7 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.access_row.html", "Services/PersonalWorkspace");
+        $this->setRowTemplate("tpl.access_row.html", "components/ILIAS/PersonalWorkspace");
 
         $this->importData();
     }

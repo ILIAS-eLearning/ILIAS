@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Singleton class that stores all privacy settings
  * @author  Stefan Meyer <meyer@leifos.de>
- * @ingroup Services/PrivacySecurity
+ * @ingroup components/ILIAS/PrivacySecurity
  */
 class ilPrivacySettings
 {

@@ -39,7 +39,7 @@ class ilECSAppEventListener implements ilAppEventListener
 
     /**
     * Handle an event in a listener.
-    * @param	string $a_component component, e.g. "components/ILIAS/Forum" or "Services/User"
+    * @param	string $a_component component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
@@ -60,7 +60,7 @@ class ilECSAppEventListener implements ilAppEventListener
         $this->logger->debug('Listening to event from: ' . $a_component . ' ' . $a_event);
 
         switch ($a_component) {
-            case 'Services/Authentication':
+            case 'components/ILIAS/Authentication':
                 switch ($a_event) {
                     case 'afterLogin':
                         $this->handleNewAccountCreation((string) $a_parameter['username']);
@@ -68,7 +68,7 @@ class ilECSAppEventListener implements ilAppEventListener
                 }
                 break;
 
-            case 'Services/User':
+            case 'components/ILIAS/User':
                 if ($a_event === 'afterCreate') {
                     $user = $a_parameter['user_obj'];
                     $this->handleMembership($user);

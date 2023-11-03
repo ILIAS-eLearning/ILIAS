@@ -48,7 +48,7 @@ class ilNewsExporter extends ilXmlExporter
 
         return [
             [
-                "component" => "Services/MediaObjects",
+                "component" => "components/ILIAS/MediaObjects",
                 "entity" => "mob",
                 "ids" => $mob_ids
             ]

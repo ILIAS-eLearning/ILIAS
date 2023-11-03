@@ -26,7 +26,7 @@ class ilServicesStyleSystemSuite extends TestSuite
     {
         $suite = new ilServicesStyleSystemSuite();
 
-        $base_dir = './Services/Style/System/test/';
+        $base_dir = './components/ILIAS/Style/System/test/';
         $rec_it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir));
 
         foreach ($rec_it as $file) {

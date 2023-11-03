@@ -51,7 +51,7 @@ class ModuleManager
 
         try {
             $imp = new \ilImport();
-            $conf = $imp->getConfig("Services/Help");
+            $conf = $imp->getConfig("components/ILIAS/Help");
             $conf->setModuleId($id);
             $new_id = $imp->importObject(null, $file["tmp_name"], $file["name"], "lm", "components/ILIAS/LearningModule"); //
             $newObj = new \ilObjLearningModule($new_id, false);
@@ -62,7 +62,7 @@ class ModuleManager
         }
 
         $this->event->raise(
-            'Services/Help',
+            'components/ILIAS/Help',
             'create',
             array(
                 'obj_id' => $id,

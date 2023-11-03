@@ -75,7 +75,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         $this->setEnableTitle(true);
         $this->setSelectAllCheckbox('mail_id[]');
-        $this->setRowTemplate('tpl.mail_folder_row.html', 'Services/Mail');
+        $this->setRowTemplate('tpl.mail_folder_row.html', 'components/ILIAS/Mail');
 
         $this->setFilterCommand('applyFilter');
         $this->setResetCommand('resetFilter');
@@ -573,7 +573,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             'tpl.mail_folder_title.html',
             true,
             true,
-            'Services/Mail'
+            'components/ILIAS/Mail'
         );
         $titleTemplate->setVariable('TXT_FOLDER', $folderLabel);
         $titleTemplate->setVariable('MAIL_COUNT', $mailCount);

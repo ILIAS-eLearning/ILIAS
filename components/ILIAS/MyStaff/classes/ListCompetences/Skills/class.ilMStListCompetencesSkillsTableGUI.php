@@ -48,7 +48,7 @@ class ilMStListCompetencesSkillsTableGUI extends \ilTable2GUI
 
         parent::__construct($parent_obj, $parent_cmd, '');
 
-        $this->setRowTemplate('tpl.list_skills_row.html', "Services/MyStaff");
+        $this->setRowTemplate('tpl.list_skills_row.html', "components/ILIAS/MyStaff");
         $this->setFormAction($this->dic->ctrl()->getFormAction($parent_obj));
         $this->setDefaultOrderDirection('desc');
 

@@ -36,7 +36,7 @@ class DataService
         //        define('IL_COOKIE_EXPIRE', 0);
         //        define('IL_COOKIE_PATH', '/');
         //        define('IL_COOKIE_DOMAIN', '');
-        require_once("Services/Init/classes/class.ilInitialisation.php");
+        require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
         \ilContext::init(\ilContext::CONTEXT_SCORM);
         \ilInitialisation::initILIAS();
         // Remember original values
@@ -49,7 +49,7 @@ class DataService
         // $_SERVER['REQUEST_URI'] = '';
         // $_SERVER['PHP_SELF']    = '/index.php';
         // $_SERVER['HTTP_HOST']   = self::getIniHost();
-        // require_once "./Services/Utilities/classes/class.ilUtil.php";
+        // require_once "./components/ILIAS/Utilities/classes/class.ilUtil.php";
         // //ilInitialisation::initIliasIniFile();
         // ilInitialisation::initClientIniFile();
         // ilInitialisation::initDatabase();
@@ -86,7 +86,7 @@ class ilInitialisation extends \ilInitialisation
     public static function initDatabase(): void
     {
         if (!isset($GLOBALS['ilDB'])) {
-            parent::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
+            parent::initGlobal("ilBench", "ilBenchmark", "./components/ILIAS/Utilities/classes/class.ilBenchmark.php");
             parent::initDatabase();
         }
     }
@@ -122,7 +122,7 @@ class ilInitialisation extends \ilInitialisation
     {
         if (!isset($GLOBALS['ilLog'])) {
             parent::initLog();
-            parent::initGlobal("ilAppEventHandler", "ilAppEventHandler", "./Services/EventHandling/classes/class.ilAppEventHandler.php");
+            parent::initGlobal("ilAppEventHandler", "ilAppEventHandler", "./components/ILIAS/EventHandling/classes/class.ilAppEventHandler.php");
         }
     }
 }

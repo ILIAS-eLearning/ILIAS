@@ -238,10 +238,10 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      */
     protected function showSearchForm()
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_usr_search.html', 'Services/Search');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_usr_search.html', 'components/ILIAS/Search');
 
         ilOverlayGUI::initJavascript();
-        $this->tpl->addJavascript("./Services/Search/js/Search.js");
+        $this->tpl->addJavascript("./components/ILIAS/Search/js/Search.js");
 
         $this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'performSearch'));
         $this->tpl->setVariable("TERM", ilLegacyFormElementsUtil::prepareFormOutput($this->search_cache->getQuery()));

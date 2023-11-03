@@ -293,7 +293,7 @@ class ilAuthLoginPageEditorGUI
             "ADM_CONTENT",
             "adm_content",
             "tpl.auth_login_messages.html",
-            "Services/Authentication"
+            "components/ILIAS/Authentication"
         );
         $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         $this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));

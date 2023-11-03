@@ -225,10 +225,10 @@ final class Delivery
 //            $this->setDeliveryType(DeliveryMethod::XSENDFILE);
 //        }
 
-        if (is_file('./Services/FileDelivery/classes/override.php')) {
+        if (is_file('./components/ILIAS/FileDelivery/classes/override.php')) {
             $override_delivery_type = false;
             /** @noRector */
-            require_once('./Services/FileDelivery/classes/override.php');
+            require_once('./components/ILIAS/FileDelivery/classes/override.php');
             if ($override_delivery_type) {
                 $this->setDeliveryType($override_delivery_type);
             }

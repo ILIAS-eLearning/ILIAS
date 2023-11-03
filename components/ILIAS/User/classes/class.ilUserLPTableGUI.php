@@ -50,7 +50,7 @@ class ilUserLPTableGUI extends ilTable2GUI
 
         $this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
-        $this->setRowTemplate("tpl.user_list_lp_row.html", "Services/User");
+        $this->setRowTemplate("tpl.user_list_lp_row.html", "components/ILIAS/User");
 
         $this->setDefaultOrderField("login");
         $this->setDefaultOrderDirection("asc");

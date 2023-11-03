@@ -61,7 +61,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
         }
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.show_appointment_row.html", "Services/Calendar");
+        $this->setRowTemplate("tpl.show_appointment_row.html", "components/ILIAS/Calendar");
 
         $this->setShowRowsSelector(true);
         $this->enable('sort');

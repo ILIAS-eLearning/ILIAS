@@ -42,7 +42,7 @@ class exQuestionPoolImporter extends ilXmlImporter
 
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {
-                $newQstIds = $a_mapping->getMapping("Services/AssessmentQuestion", "qst", $old);
+                $newQstIds = $a_mapping->getMapping("components/ILIAS/AssessmentQuestion", "qst", $old);
 
                 if ($newQstIds !== false) {
                     $qstIds = explode(":", $newQstIds);
@@ -53,7 +53,7 @@ class exQuestionPoolImporter extends ilXmlImporter
                     }
                 }
 
-                $qstMappings = $a_mapping->getMappingsOfEntity('Services/AssessmentQuestion', 'qst');
+                $qstMappings = $a_mapping->getMappingsOfEntity('components/ILIAS/AssessmentQuestion', 'qst');
 
                 foreach ($qstMappings as $oldQstId => $newQstId) {
                     // process all question ids within the consumer component database,

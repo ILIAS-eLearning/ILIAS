@@ -259,7 +259,7 @@ class ilAdministrationSettingsFormHandler
                 $cmd = $fields[0];
                 $fields = $fields[1];
                 if (is_array($fields)) {
-                    $ftpl = new ilTemplate("tpl.external_settings.html", true, true, "Services/Administration");
+                    $ftpl = new ilTemplate("tpl.external_settings.html", true, true, "components/ILIAS/Administration");
 
 
                     $stack = array();

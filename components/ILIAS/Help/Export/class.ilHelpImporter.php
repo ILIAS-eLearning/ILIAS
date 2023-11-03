@@ -32,11 +32,11 @@ class ilHelpImporter extends ilXmlImporter
         $this->ds->setDSPrefix("ds");
 
         /** @var ilHelpImportConfig $config */
-        $config = $this->getImport()->getConfig("Services/Help");
+        $config = $this->getImport()->getConfig("components/ILIAS/Help");
         $this->config = $config;
         $module_id = $this->config->getModuleId();
         if ($module_id > 0) {
-            $this->getImport()->getMapping()->addMapping('Services/Help', 'help_module', 0, $module_id);
+            $this->getImport()->getMapping()->addMapping('components/ILIAS/Help', 'help_module', 0, $module_id);
         }
     }
 

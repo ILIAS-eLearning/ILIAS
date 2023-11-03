@@ -346,7 +346,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         $lng = $this->lng;
         $toggle_id = null;
 
-        $tpl = new ilTemplate("tpl.prop_datetime_duration.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_datetime_duration.html", true, true, "components/ILIAS/Form");
 
         if ($this->enabledToggleFullTime()) {
             $this->setShowTime(true);

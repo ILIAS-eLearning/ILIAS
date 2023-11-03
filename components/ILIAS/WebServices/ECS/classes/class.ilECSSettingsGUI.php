@@ -381,7 +381,7 @@ class ilECSSettingsGUI
         $imp = new ilCustomInputGUI($this->lng->txt('ecs_import_id'));
         $imp->setRequired(true);
 
-        $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'Services/WebServices/ECS');
+        $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'components/ILIAS/WebServices/ECS');
         $tpl->setVariable('SIZE', 5);
         $tpl->setVariable('MAXLENGTH', 11);
         $tpl->setVariable('POST_VAR', 'import_id');
@@ -574,7 +574,7 @@ class ilECSSettingsGUI
             'tpl.ecs_communities.html',
             true,
             true,
-            'Services/WebServices/ECS'
+            'components/ILIAS/WebServices/ECS'
         );
 
         // add toolbar to refresh communities
@@ -998,7 +998,7 @@ class ilECSSettingsGUI
     protected function categoryMapping(): void
     {
         $this->tabs_gui->setSubTabActive('ecs_category_mapping');
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.category_mapping.html', 'Services/WebServices/ECS');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.category_mapping.html', 'components/ILIAS/WebServices/ECS');
 
         $this->initRule();
         $this->initCategoryMappingForm();
@@ -1204,7 +1204,7 @@ class ilECSSettingsGUI
         $imp = new ilCustomInputGUI($this->lng->txt('ecs_import_id'), 'import_id');
         $imp->setRequired(true);
 
-        $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'Services/WebServices/ECS');
+        $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'components/ILIAS/WebServices/ECS');
         $tpl->setVariable('SIZE', 5);
         $tpl->setVariable('MAXLENGTH', 11);
         $tpl->setVariable('POST_VAR', 'import_id');

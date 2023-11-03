@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\WOPI\Handler;
+namespace ILIAS\components\WOPI\Handler;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

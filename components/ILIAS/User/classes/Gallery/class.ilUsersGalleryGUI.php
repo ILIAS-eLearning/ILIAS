@@ -109,7 +109,7 @@ class ilUsersGalleryGUI
      */
     protected function populateTemplate(array $gallery_groups): ilTemplate
     {
-        $tpl = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
+        $tpl = new ilTemplate('tpl.users_gallery.html', true, true, 'components/ILIAS/User');
 
         $panel = ilPanelGUI::getInstance();
         $panel->setBody($this->lng->txt('no_gallery_users_available'));

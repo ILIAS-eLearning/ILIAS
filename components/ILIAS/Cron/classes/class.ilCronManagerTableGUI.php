@@ -57,7 +57,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
             $this->addMultiCommand('reset', $this->lng->txt('cron_action_reset'));
         }
 
-        $this->setRowTemplate('tpl.cron_job_row.html', 'Services/Cron');
+        $this->setRowTemplate('tpl.cron_job_row.html', 'components/ILIAS/Cron');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
     }
 

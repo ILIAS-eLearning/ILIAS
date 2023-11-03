@@ -36,7 +36,7 @@ final class ilSamlIdpTableGUI extends ilTable2GUI
 
         $this->setTitle($this->lng->txt('auth_saml_idps'));
 
-        $federationMdUrl = rtrim(ILIAS_HTTP_PATH, '/') . '/Services/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
+        $federationMdUrl = rtrim(ILIAS_HTTP_PATH, '/') . '/components/ILIAS/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
 
         $this->setDescription(sprintf(
             $this->lng->txt('auth_saml_idps_info'),
@@ -48,7 +48,7 @@ final class ilSamlIdpTableGUI extends ilTable2GUI
             )),
             $this->ui_renderer->render($this->ui_factory->link()->standard($federationMdUrl, $federationMdUrl))
         ));
-        $this->setRowTemplate('tpl.saml_idp_row.html', 'Services/Saml');
+        $this->setRowTemplate('tpl.saml_idp_row.html', 'components/ILIAS/Saml');
 
         $this->addColumn($this->lng->txt('saml_tab_head_idp'), '', '80%');
         $this->addColumn($this->lng->txt('active'), '', '5%');

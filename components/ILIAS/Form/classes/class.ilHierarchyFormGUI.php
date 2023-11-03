@@ -79,7 +79,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         $this->help_items = array();
 
         ilYuiUtil::initDragDrop();
-        $this->main_tpl->addJavascript("./Services/Form/js/ServiceFormHierarchyForm.js");
+        $this->main_tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormHierarchyForm.js");
 
 
         $this->http = $DIC->http();
@@ -410,7 +410,7 @@ class ilHierarchyFormGUI extends ilFormGUI
             $this->updateExpanded();
         }
 
-        $ttpl = new ilTemplate("tpl.hierarchy_form.html", true, true, "Services/Form");
+        $ttpl = new ilTemplate("tpl.hierarchy_form.html", true, true, "components/ILIAS/Form");
         $ttpl->setVariable("TXT_SAVING", $lng->txt("saving"));
         $top_node_data = $this->getTree()->getNodeData($this->getCurrentTopNodeId());
         $top_node = array("node_id" => $top_node_data["child"] ?? 0,
@@ -557,7 +557,7 @@ class ilHierarchyFormGUI extends ilFormGUI
     {
         $lng = $this->lng;
 
-        $ttpl = new ilTemplate("tpl.hierarchy_form_legend.html", true, true, "Services/Form");
+        $ttpl = new ilTemplate("tpl.hierarchy_form_legend.html", true, true, "components/ILIAS/Form");
         if ($this->getDragIcon() != "") {
             $ttpl->setCurrentBlock("help_drag");
             $ttpl->setVariable("IMG_DRAG", $this->getDragIcon());
@@ -607,7 +607,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 
         $childs = $this->getChilds((int) $a_par_node["node_id"]);
         $a_childs = $childs;
-        $ttpl = new ilTemplate("tpl.hierarchy_form_nodes.html", true, true, "Services/Form");
+        $ttpl = new ilTemplate("tpl.hierarchy_form_nodes.html", true, true, "components/ILIAS/Form");
 
         // prepended drop area
         if ($this->nodeAllowsChilds($a_par_node) && (count($childs) > 0 || $a_depth == 0)) {

@@ -503,7 +503,7 @@ class ilMailFormGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.mail_new.html',
-            'Services/Mail'
+            'components/ILIAS/Mail'
         );
         $this->tpl->setTitle($this->lng->txt('mail'));
 
@@ -926,7 +926,7 @@ class ilMailFormGUI
 
         $this->tpl->setVariable('FORM', $form_gui->getHTML());
 
-        $this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
+        $this->tpl->addJavaScript('components/ILIAS/Mail/js/ilMailComposeFunctions.js');
         $this->tpl->printToStdout();
     }
 

@@ -185,7 +185,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $tree = $this->tree;
         $parent_gui = "";
 
-        $tpl = new ilTemplate("tpl.prop_rep_select.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_rep_select.html", true, true, "components/ILIAS/Form");
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("ID", $this->getFieldId());

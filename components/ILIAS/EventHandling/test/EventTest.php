@@ -48,7 +48,7 @@ class EventTest extends TestCase
             ->will(
                 $this->onConsecutiveCalls(
                     [
-                     "component" => "Services/EventHandling",
+                     "component" => "components/ILIAS/EventHandling",
                      "id" => "MyTestComponent"
                  ],
                     null
@@ -113,7 +113,7 @@ class EventTest extends TestCase
         $this->expectException(ilEventHandlingTestException::class);
 
         $handler->raise(
-            "Services/EventHandling",
+            "components/ILIAS/EventHandling",
             "myEvent",
             [
                 "par1" => "val1",

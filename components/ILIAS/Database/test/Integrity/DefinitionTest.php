@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\Services\Database\Integrity\Association;
-use ILIAS\Services\Database\Integrity\Definition;
-use ILIAS\Services\Database\Integrity\Field;
-use ILIAS\Services\Database\Integrity\Ignore;
+use ILIAS\components\Database\Integrity\Association;
+use ILIAS\components\Database\Integrity\Definition;
+use ILIAS\components\Database\Integrity\Field;
+use ILIAS\components\Database\Integrity\Ignore;
 use InvalidArgumentException;
 
 class DefinitionTest extends TestCase
@@ -129,7 +129,7 @@ class DefinitionTest extends TestCase
         $association_two = 'funny string';
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Associations must be of type ILIAS\Services\Database\Integrity\Association.');
+        $this->expectExceptionMessage('Associations must be of type ILIAS\components\Database\Integrity\Association.');
         $instance = new Definition([$association_one, $association_two]);
     }
 }

@@ -36,7 +36,7 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
             'tpl.prop_template_select_container.html',
             true,
             true,
-            'Services/Mail'
+            'components/ILIAS/Mail'
         );
         $tpl->setVariable('CONTENT', $html);
         $tpl->setVariable('FIELDS', json_encode($this->fields, JSON_THROW_ON_ERROR));

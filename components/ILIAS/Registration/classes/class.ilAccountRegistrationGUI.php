@@ -100,7 +100,7 @@ class ilAccountRegistrationGUI
 
     public function displayForm(): ilGlobalTemplateInterface
     {
-        $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registration.html', 'Services/Registration'], true);
+        $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registration.html', 'components/ILIAS/Registration'], true);
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
         if (!$this->form) {
@@ -601,7 +601,7 @@ class ilAccountRegistrationGUI
 
     public function login(): ilGlobalTemplateInterface
     {
-        $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registered.html', 'Services/Registration'], false);
+        $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registered.html', 'components/ILIAS/Registration'], false);
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
         $tpl->setVariable("TXT_WELCOME", $this->lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");

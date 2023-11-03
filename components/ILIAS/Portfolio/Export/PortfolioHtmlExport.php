@@ -34,7 +34,7 @@ class PortfolioHtmlExport
     protected string $sub_dir = "";
     protected string $target_dir = "";
     protected \ILIAS\GlobalScreen\Services $global_screen;
-    protected \ILIAS\Services\Export\HTML\Util $export_util;
+    protected \ILIAS\components\Export\HTML\Util $export_util;
     protected \ilCOPageHTMLExport $co_page_html_export;
     protected \ilLanguage $lng;
     protected array $tabs = [];
@@ -76,7 +76,7 @@ class PortfolioHtmlExport
             $this->sub_dir .= "print";
         }
         $this->target_dir = $this->export_dir . "/" . $this->sub_dir;
-        $this->export_util = new \ILIAS\Services\Export\HTML\Util($this->export_dir, $this->sub_dir);
+        $this->export_util = new \ILIAS\components\Export\HTML\Util($this->export_dir, $this->sub_dir);
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
     }
 

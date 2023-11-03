@@ -18,7 +18,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\Services\MyStaff\Utils\ListFetcherResult;
+use ILIAS\components\MyStaff\Utils\ListFetcherResult;
 
 /**
  * Class ilMStListCompetencesSkills

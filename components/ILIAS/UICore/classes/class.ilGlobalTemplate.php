@@ -36,7 +36,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
      * @var string[]
      */
     protected array $js_files = [
-        "./Services/JavaScript/js/Basic.js",
+        "./components/ILIAS/JavaScript/js/Basic.js",
     ];
 
     /**
@@ -44,7 +44,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
      * @var array<string, bool>
      */
     protected array $js_files_vp = [
-        "./Services/JavaScript/js/Basic.js" => true,
+        "./components/ILIAS/JavaScript/js/Basic.js" => true,
     ];
 
     /**
@@ -52,7 +52,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
      * @var array<string, int>
      */
     protected array $js_files_batch = [
-        "./Services/JavaScript/js/Basic.js" => 1,
+        "./components/ILIAS/JavaScript/js/Basic.js" => 1,
     ];
 
     /**
@@ -199,7 +199,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         // ensure jquery files being loaded first
-        if (is_int(strpos($a_js_file, "Services/jQuery")) ||
+        if (is_int(strpos($a_js_file, "components/ILIAS/jQuery")) ||
             is_int(strpos($a_js_file, "/jquery.js")) ||
             is_int(strpos($a_js_file, "/jquery/")) ||
             is_int(strpos($a_js_file, "/jquery-ui/")) ||
@@ -665,7 +665,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         $html = "";
 
         $uip = new ilUIHookProcessor(
-            "Services/Locator",
+            "components/ILIAS/Locator",
             "main_locator",
             ["locator_gui" => $ilLocator]
         );

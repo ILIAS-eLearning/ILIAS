@@ -42,7 +42,7 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("active"), "", "1");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.user_action_admin_row.html", "Services/User");
+        $this->setRowTemplate("tpl.user_action_admin_row.html", "components/ILIAS/User");
 
         //$this->addMultiCommand("", $this->lng->txt(""));
         if ($a_write_permission) {

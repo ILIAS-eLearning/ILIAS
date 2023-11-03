@@ -21,7 +21,7 @@ namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
 /**
  * Class JsCollection
- * @package ILIAS\Services\UICore\Page\Media
+ * @package ILIAS\components\UICore\Page\Media
  */
 class JsCollection extends AbstractCollection
 {

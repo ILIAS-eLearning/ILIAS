@@ -96,7 +96,7 @@ class ilGroupedListGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $tpl = new ilTemplate("tpl.grouped_list.html", true, true, "Services/UIComponent/GroupedList");
+        $tpl = new ilTemplate("tpl.grouped_list.html", true, true, "components/ILIAS/UIComponent/GroupedList");
         $tt_calls = "";
         foreach ($this->items as $i) {
             switch ($i["type"]) {

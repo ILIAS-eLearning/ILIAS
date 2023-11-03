@@ -31,115 +31,115 @@ class ilServicesCOPageSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/COPage/test/COPageTestBase.php");
+        require_once("./components/ILIAS/COPage/test/COPageTestBase.php");
 
-        require_once("./Services/COPage/test/EditorEditSessionRepositoryTest.php");
+        require_once("./components/ILIAS/COPage/test/EditorEditSessionRepositoryTest.php");
         $suite->addTestSuite("EditorEditSessionRepositoryTest");
 
-        require_once("./Services/COPage/test/PCMapEditorSessionRepositoryTest.php");
+        require_once("./components/ILIAS/COPage/test/PCMapEditorSessionRepositoryTest.php");
         $suite->addTestSuite("PCMapEditorSessionRepositoryTest");
 
-        require_once("./Services/COPage/test/PCParagraphTest.php");
+        require_once("./components/ILIAS/COPage/test/PCParagraphTest.php");
         $suite->addTestSuite("PCParagraphTest");
 
-        require_once("./Services/COPage/test/PCSectionTest.php");
+        require_once("./components/ILIAS/COPage/test/PCSectionTest.php");
         $suite->addTestSuite("PCSectionTest");
 
-        require_once("./Services/COPage/test/class.ilUnitTestPageConfig.php");
-        require_once("./Services/COPage/test/PageObjectTest.php");
-        require_once("./Services/COPage/test/class.ilUnitTestPageObject.php");
-        require_once("./Services/COPage/test/class.ilUnitTestPageManager.php");
-        require_once("./Services/COPage/test/class.ilUnitTestPCDefinition.php");
+        require_once("./components/ILIAS/COPage/test/class.ilUnitTestPageConfig.php");
+        require_once("./components/ILIAS/COPage/test/PageObjectTest.php");
+        require_once("./components/ILIAS/COPage/test/class.ilUnitTestPageObject.php");
+        require_once("./components/ILIAS/COPage/test/class.ilUnitTestPageManager.php");
+        require_once("./components/ILIAS/COPage/test/class.ilUnitTestPCDefinition.php");
         $suite->addTestSuite("PageObjectTest");
 
-        require_once("./Services/COPage/test/PCBlogTest.php");
+        require_once("./components/ILIAS/COPage/test/PCBlogTest.php");
         $suite->addTestSuite("PCBlogTest");
 
-        require_once("./Services/COPage/test/PCContentIncludeTest.php");
+        require_once("./components/ILIAS/COPage/test/PCContentIncludeTest.php");
         $suite->addTestSuite("PCContentIncludeTest");
 
-        require_once("./Services/COPage/test/PCDataTableTest.php");
+        require_once("./components/ILIAS/COPage/test/PCDataTableTest.php");
         $suite->addTestSuite("PCDataTableTest");
 
-        require_once("./Services/COPage/test/PCTableDataTest.php");
+        require_once("./components/ILIAS/COPage/test/PCTableDataTest.php");
         $suite->addTestSuite("PCTableDataTest");
 
-        require_once("./Services/COPage/test/PCContentTemplateTest.php");
+        require_once("./components/ILIAS/COPage/test/PCContentTemplateTest.php");
         $suite->addTestSuite("PCContentTemplateTest");
 
-        require_once("./Services/COPage/test/PCFileListTest.php");
+        require_once("./components/ILIAS/COPage/test/PCFileListTest.php");
         $suite->addTestSuite("PCFileListTest");
 
-        require_once("./Services/COPage/test/PCGridTest.php");
+        require_once("./components/ILIAS/COPage/test/PCGridTest.php");
         $suite->addTestSuite("PCGridTest");
 
-        require_once("./Services/COPage/test/PCInteractiveImageTest.php");
+        require_once("./components/ILIAS/COPage/test/PCInteractiveImageTest.php");
         $suite->addTestSuite("PCInteractiveImageTest");
 
-        require_once("./Services/COPage/test/PCListTest.php");
+        require_once("./components/ILIAS/COPage/test/PCListTest.php");
         $suite->addTestSuite("PCListTest");
 
-        require_once("./Services/COPage/test/PCLoginPageElementTest.php");
+        require_once("./components/ILIAS/COPage/test/PCLoginPageElementTest.php");
         $suite->addTestSuite("PCLoginPageElementTest");
 
-        require_once("./Services/COPage/test/PCMapTest.php");
+        require_once("./components/ILIAS/COPage/test/PCMapTest.php");
         $suite->addTestSuite("PCMapTest");
 
-        require_once("./Services/COPage/test/PCMediaObjectTest.php");
+        require_once("./components/ILIAS/COPage/test/PCMediaObjectTest.php");
         $suite->addTestSuite("PCMediaObjectTest");
 
-        require_once("./Services/COPage/test/PCPlaceholderTest.php");
+        require_once("./components/ILIAS/COPage/test/PCPlaceholderTest.php");
         $suite->addTestSuite("PCPlaceHolderTest");
 
-        require_once("./Services/COPage/test/PCPluggedTest.php");
+        require_once("./components/ILIAS/COPage/test/PCPluggedTest.php");
         $suite->addTestSuite("PCPluggedTest");
 
-        require_once("./Services/COPage/test/PCProfileTest.php");
+        require_once("./components/ILIAS/COPage/test/PCProfileTest.php");
         $suite->addTestSuite("PCProfileTest");
 
-        require_once("./Services/COPage/test/PCQuestionTest.php");
+        require_once("./components/ILIAS/COPage/test/PCQuestionTest.php");
         $suite->addTestSuite("PCQuestionTest");
 
-        require_once("./Services/COPage/test/PCResourcesTest.php");
+        require_once("./components/ILIAS/COPage/test/PCResourcesTest.php");
         $suite->addTestSuite("PCResourcesTest");
 
-        require_once("./Services/COPage/test/PCSkillsTest.php");
+        require_once("./components/ILIAS/COPage/test/PCSkillsTest.php");
         $suite->addTestSuite("PCSkillsTest");
 
-        require_once("./Services/COPage/test/PCSourceCodeTest.php");
+        require_once("./components/ILIAS/COPage/test/PCSourceCodeTest.php");
         $suite->addTestSuite("PCSourceCodeTest");
 
-        require_once("./Services/COPage/test/PCTabsTest.php");
+        require_once("./components/ILIAS/COPage/test/PCTabsTest.php");
         $suite->addTestSuite("PCTabsTest");
 
-        require_once("./Services/COPage/test/PCVerificationTest.php");
+        require_once("./components/ILIAS/COPage/test/PCVerificationTest.php");
         $suite->addTestSuite("PCVerificationTest");
 
-        require_once("./Services/COPage/test/ID/ContentIdManagerTest.php");
+        require_once("./components/ILIAS/COPage/test/ID/ContentIdManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\ID\ContentIdManagerTest::class);
 
-        require_once("./Services/COPage/test/Compare/PageCompareTest.php");
+        require_once("./components/ILIAS/COPage/test/Compare/PageCompareTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Compare\PageCompareTest::class);
 
-        require_once("./Services/COPage/test/Page/PageContentManagerTest.php");
+        require_once("./components/ILIAS/COPage/test/Page/PageContentManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Page\PageContentManagerTest::class);
 
-        require_once("./Services/COPage/test/PC/PCFactoryTest.php");
+        require_once("./components/ILIAS/COPage/test/PC/PCFactoryTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\PC\PCFactoryTest::class);
 
-        require_once("./Services/COPage/test/PC/PCDefinitionTest.php");
+        require_once("./components/ILIAS/COPage/test/PC/PCDefinitionTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\PC\PCDefinitionTest::class);
 
-        require_once("./Services/COPage/test/Link/LinkManagerTest.php");
+        require_once("./components/ILIAS/COPage/test/Link/LinkManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Link\LinkManagerTest::class);
 
-        require_once("./Services/COPage/test/PC/FileList/FileListManagerTest.php");
+        require_once("./components/ILIAS/COPage/test/PC/FileList/FileListManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\PC\FileList\FileListManagerTest::class);
 
-        require_once("./Services/COPage/test/Layout/PageLayoutTest.php");
+        require_once("./components/ILIAS/COPage/test/Layout/PageLayoutTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Layout\PageLayoutTest::class);
 
-        require_once("./Services/COPage/test/Html/TransformUtilTest.php");
+        require_once("./components/ILIAS/COPage/test/Html/TransformUtilTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Html\TransformUtilTest::class);
 
         return $suite;

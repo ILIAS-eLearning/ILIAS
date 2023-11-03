@@ -434,7 +434,7 @@ class ilLearningModuleDataSet extends ilDataSet
                     return;
                 }
 
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjLearningModule();
@@ -484,9 +484,9 @@ class ilLearningModuleDataSet extends ilDataSet
 
                 $a_mapping->addMapping("components/ILIAS/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("components/ILIAS/LearningModule", "lm_style", $newObj->getId(), $a_rec["StyleId"]);
-                $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Object", "obj", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
-                    "Services/MetaData",
+                    "components/ILIAS/MetaData",
                     "md",
                     $a_rec["Id"] . ":0:lm",
                     $newObj->getId() . ":0:lm"
@@ -513,7 +513,7 @@ class ilLearningModuleDataSet extends ilDataSet
                                 $st_obj->getId()
                             );
                             $a_mapping->addMapping(
-                                "Services/MetaData",
+                                "components/ILIAS/MetaData",
                                 "md",
                                 $a_rec["LmId"] . ":" . $a_rec["Child"] . ":st",
                                 $this->current_obj->getId() . ":" . $st_obj->getId() . ":st"
@@ -539,13 +539,13 @@ class ilLearningModuleDataSet extends ilDataSet
                             $a_mapping->addMapping("components/ILIAS/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());
                             $this->lm_log->debug("add pg map (1), old : " . $a_rec["Child"] . ", new: " . $pg_obj->getId());
                             $a_mapping->addMapping(
-                                "Services/COPage",
+                                "components/ILIAS/COPage",
                                 "pg",
                                 "lm:" . $a_rec["Child"],
                                 "lm:" . $pg_obj->getId()
                             );
                             $a_mapping->addMapping(
-                                "Services/MetaData",
+                                "components/ILIAS/MetaData",
                                 "md",
                                 $a_rec["LmId"] . ":" . $a_rec["Child"] . ":pg",
                                 $this->current_obj->getId() . ":" . $pg_obj->getId() . ":pg"
@@ -570,13 +570,13 @@ class ilLearningModuleDataSet extends ilDataSet
                             $a_mapping->addMapping("components/ILIAS/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());
                             $this->lm_log->debug("add pg map (2), old : " . $a_rec["Child"] . ", new: " . $pg_obj->getId());
                             $a_mapping->addMapping(
-                                "Services/COPage",
+                                "components/ILIAS/COPage",
                                 "pg",
                                 "lm:" . $a_rec["Child"],
                                 "lm:" . $pg_obj->getId()
                             );
                             $a_mapping->addMapping(
-                                "Services/MetaData",
+                                "components/ILIAS/MetaData",
                                 "md",
                                 $a_rec["LmId"] . ":" . $a_rec["Child"] . ":pg",
                                 $this->current_obj->getId() . ":" . $pg_obj->getId() . ":pg"
@@ -629,7 +629,7 @@ class ilLearningModuleDataSet extends ilDataSet
                                         $a_rec["ImportId"]
                                     );
                                     $a_mapping->addMapping(
-                                        "Services/COPage",
+                                        "components/ILIAS/COPage",
                                         "pg",
                                         "lm:" . $a_rec["Child"],
                                         "lm:" . $pg_id

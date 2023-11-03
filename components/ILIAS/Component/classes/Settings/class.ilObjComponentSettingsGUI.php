@@ -333,7 +333,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInt
 
         if (
             $this->request_wrapper->has(self::P_CTYPE) &&
-            $this->request_wrapper->retrieve(self::P_CTYPE, $this->refinery->kindlyTo()->string()) === "Services"
+            $this->request_wrapper->retrieve(self::P_CTYPE, $this->refinery->kindlyTo()->string()) === "components/ILIAS"
         ) {
             $this->tabs_gui->activateTab("services");
         }

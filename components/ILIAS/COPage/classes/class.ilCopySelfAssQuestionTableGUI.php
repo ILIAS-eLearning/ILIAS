@@ -55,7 +55,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"), '', '');
 
 
-        $this->setRowTemplate("tpl.copy_sa_quest_row.html", "Services/COPage");
+        $this->setRowTemplate("tpl.copy_sa_quest_row.html", "components/ILIAS/COPage");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");

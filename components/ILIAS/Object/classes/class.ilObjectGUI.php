@@ -674,7 +674,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
         $cnt = 1;
         foreach ($forms as $form_type => $cf) {
-            $htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
+            $htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "components/ILIAS/Object");
 
             // using custom form titles (used for repository plugins)
             $form_title = "";

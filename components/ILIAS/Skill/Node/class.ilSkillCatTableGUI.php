@@ -107,7 +107,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("title"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.skill_cat_row.html", "Services/Skill");
+        $this->setRowTemplate("tpl.skill_cat_row.html", "components/ILIAS/Skill");
 
         if ($this->tref_id == 0 && $this->manage_perm) {
             $this->addMultiCommand("cutItems", $lng->txt("cut"));

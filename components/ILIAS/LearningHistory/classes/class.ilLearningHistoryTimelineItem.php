@@ -51,7 +51,7 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
         $access = $this->access;
         $parent_ref_id = 0;
 
-        $tpl = new ilTemplate("tpl.timeline_item_inner.html", true, true, "Services/LearningHistory");
+        $tpl = new ilTemplate("tpl.timeline_item_inner.html", true, true, "components/ILIAS/LearningHistory");
 
         $f = $this->ui->factory();
         $r = $this->ui->renderer();
@@ -102,7 +102,7 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 
     protected function getEmphasizedTitle(string $title): string
     {
-        $tpl = new ilTemplate("tpl.emphasized_title.php", true, true, "Services/LearningHistory");
+        $tpl = new ilTemplate("tpl.emphasized_title.php", true, true, "components/ILIAS/LearningHistory");
         $tpl->setVariable("TITLE", $title);
         return $tpl->get();
     }

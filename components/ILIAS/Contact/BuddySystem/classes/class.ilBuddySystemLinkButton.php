@@ -77,7 +77,7 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
             'tpl.buddy_system_link_button.html',
             true,
             true,
-            'Services/Contact/BuddySystem'
+            'components/ILIAS/Contact/BuddySystem'
         );
         $buttonTemplate->setVariable(
             'BUTTON_HTML',

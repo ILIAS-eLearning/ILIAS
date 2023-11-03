@@ -118,7 +118,7 @@ class ilBadgeProfileGUI
 
     private function renderDeck(string $deck): string
     {
-        $template = new ilTemplate('tpl.badge_backpack.html', true, true, 'Services/Badge');
+        $template = new ilTemplate('tpl.badge_backpack.html', true, true, 'components/ILIAS/Badge');
         $template->setVariable('DECK', $deck);
         return $template->get();
     }
@@ -265,7 +265,7 @@ class ilBadgeProfileGUI
             return;
         }
 
-        $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
+        $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "components/ILIAS/Badge");
 
         $tmpl->setVariable("BACKPACK_TITLE", $lng->txt("badge_backpack_list"));
 

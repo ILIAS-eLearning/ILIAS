@@ -19,7 +19,7 @@ declare(strict_types=1);
  * Singleton class that stores all security settings
  * @author  Roland Küstermann <roland@kuestermann.com>
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup Services/PrivacySecurity
+ * @ingroup components/ILIAS/PrivacySecurity
  */
 class ilSecuritySettings
 {

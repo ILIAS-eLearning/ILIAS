@@ -195,7 +195,7 @@ class ilMathJaxSettingsGUI
         ],
             $this->lng->txt('mathjax_enable_server'),
             $this->lng->txt('mathjax_enable_server_info') . ' ' .
-            $this->renderLink('mathjax_server_installation', './Services/MathJax/docs/install-server.md')
+            $this->renderLink('mathjax_server_installation', './components/ILIAS/MathJax/docs/install-server.md')
         )->withAdditionalTransformation($checkbox_transformation);
 
 

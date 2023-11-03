@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-require_once __DIR__ . "/../../../../../libs/composer/vendor/autoload.php";
+require_once __DIR__ . "/../../../../../../libs/composer/vendor/autoload.php";
 
 use ILIAS\Setup\Artifact\BuildArtifactObjective;
 use ILIAS\Setup\ImplementationOfInterfaceFinder;
@@ -21,7 +21,7 @@ class ilCtrlSecurityArtifactObjective extends BuildArtifactObjective
     /**
      * @var string relative path to the php artifact file.
      */
-    public const ARTIFACT_PATH = "./Services/UICore/artifacts/ctrl_security.php";
+    public const ARTIFACT_PATH = "./components/ILIAS/UICore/artifacts/ctrl_security.php";
 
     /**
      * @inheritDoc

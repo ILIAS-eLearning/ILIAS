@@ -82,7 +82,7 @@ class ilContainerSelectionExplorer extends ilExplorer
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");// TODO PHP8-REVIEW Why is this overwritten? Are you sure this is correct?
+        $tpl = new ilTemplate("tpl.tree.html", true, true, "components/ILIAS/UIComponent/Explorer");// TODO PHP8-REVIEW Why is this overwritten? Are you sure this is correct?
 
         $tpl->setCurrentBlock("text");
         $tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));

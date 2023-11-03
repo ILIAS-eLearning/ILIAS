@@ -47,7 +47,7 @@ final class ModifyFooter
         private readonly Closure $render,
         ?Closure $create_template = null
     ) {
-        $this->create_template = $create_template ?? fn(string $name) => new ilTemplate($name, true, true, 'Services/LegalDocuments');
+        $this->create_template = $create_template ?? fn(string $name) => new ilTemplate($name, true, true, 'components/ILIAS/LegalDocuments');
     }
 
     public function __invoke(Footer $footer): Footer

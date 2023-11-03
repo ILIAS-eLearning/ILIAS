@@ -79,13 +79,13 @@ class ilGroupAppEventListener
     /**
     * Handle an event in a listener.
     *
-    * @param	string	$a_component	component, e.g. "components/ILIAS/Forum" or "Services/User"
+    * @param	string	$a_component	component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        if ($a_component == 'Services/AccessControl') {
+        if ($a_component == 'components/ILIAS/AccessControl') {
             $listener = new self();
             $listener->handleUserAssignments($a_event, $a_parameter);
         }

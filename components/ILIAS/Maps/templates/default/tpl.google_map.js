@@ -12,13 +12,13 @@ ilMapUserMarker["{UMAP_ID}"][{CNT}] = new Array({ULAT},{ULONG}, "<div style='wid
 if (google.maps)
 {
     var ilMarkerImage = new google.maps.MarkerImage(
-        "./Services/Maps/images/mm_20_blue.png",
+        "./components/ILIAS/Maps/images/mm_20_blue.png",
         new google.maps.Size(12, 20),
         new google.maps.Point(0,0),
         new google.maps.Point(6, 20));
 
     var ilMarkerShadow = new google.maps.MarkerImage(
-        "./Services/Maps/images/mm_20_shadow.png",
+        "./components/ILIAS/Maps/images/mm_20_shadow.png",
         new google.maps.Size(22, 20),
         new google.maps.Point(0,0),
         new google.maps.Point(0, 32));

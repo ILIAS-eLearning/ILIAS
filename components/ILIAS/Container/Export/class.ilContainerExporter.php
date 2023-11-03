@@ -65,7 +65,7 @@ class ilContainerExporter extends ilXmlExporter
 
         if (count($pg_ids)) {
             $res[] = [
-                "component" => "Services/COPage",
+                "component" => "components/ILIAS/COPage",
                 "entity" => "pg",
                 "ids" => $pg_ids
             ];
@@ -83,7 +83,7 @@ class ilContainerExporter extends ilXmlExporter
         }
         if (count($style_ids)) {
             $res[] = [
-                "component" => "Services/Style",
+                "component" => "components/ILIAS/Style",
                 "entity" => "sty",
                 "ids" => $style_ids
             ];
@@ -91,21 +91,21 @@ class ilContainerExporter extends ilXmlExporter
 
         // service settings
         $res[] = [
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "common",
             "ids" => $a_ids
         ];
 
         // skill profiles
         $res[] = [
-            "component" => "Services/Skill",
+            "component" => "components/ILIAS/Skill",
             "entity" => "skl_local_prof",
             "ids" => $a_ids
         ];
 
         // news settings
         $res[] = [
-            "component" => "Services/News",
+            "component" => "components/ILIAS/News",
             "entity" => "news_settings",
             "ids" => $a_ids
         ];

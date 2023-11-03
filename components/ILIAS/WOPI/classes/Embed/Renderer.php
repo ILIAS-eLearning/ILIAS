@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\WOPI\Embed;
+namespace ILIAS\components\WOPI\Embed;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -36,7 +36,7 @@ class Renderer
 
     public function getComponent(): \ILIAS\UI\Component\Component
     {
-        $tpl = new \ilTemplate('tpl.wopi_container.html', true, true, 'Services/WOPI');
+        $tpl = new \ilTemplate('tpl.wopi_container.html', true, true, 'components/ILIAS/WOPI');
         $tpl->setVariable('EDITOR_URL', (string) $this->embedded_application->getActionLauncherURL());
         $tpl->setVariable('TOKEN', (string) $this->embedded_application->getToken());
         $tpl->setVariable('TTL', (string) (time() + $this->embedded_application->getTTL()) * 1000); // in milliseconds

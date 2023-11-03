@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Services\Export\HTML;
+namespace ILIAS\components\Export\HTML;
 
 use ILIAS\GlobalScreen\Services;
 use ilFileUtils;

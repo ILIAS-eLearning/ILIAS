@@ -48,11 +48,11 @@ class ilHelpExporter extends ilXmlExporter
 
             return array(
                 array(
-                    "component" => "Services/Help",
+                    "component" => "components/ILIAS/Help",
                     "entity" => "help_map",
                     "ids" => $lm_node_ids),
                 array(
-                    "component" => "Services/Help",
+                    "component" => "components/ILIAS/Help",
                     "entity" => "help_tooltip",
                     "ids" => $a_ids)
                 );

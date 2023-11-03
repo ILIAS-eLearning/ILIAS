@@ -74,7 +74,7 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("title"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.tax_ass_items_row.html", "Services/Taxonomy");
+        $this->setRowTemplate("tpl.tax_ass_items_row.html", "components/ILIAS/Taxonomy");
         $this->addCommandButton("saveAssignedItemsSorting", $lng->txt("save"));
     }
 

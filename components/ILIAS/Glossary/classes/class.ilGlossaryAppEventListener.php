@@ -30,7 +30,7 @@ class ilGlossaryAppEventListener implements ilAppEventListener
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         switch ($a_component) {
-            case "Services/Object":
+            case "components/ILIAS/Object":
                 switch ($a_event) {
                     case "beforeDeletion":
                         $handler = new ilGlossaryObjDeletionHandler();

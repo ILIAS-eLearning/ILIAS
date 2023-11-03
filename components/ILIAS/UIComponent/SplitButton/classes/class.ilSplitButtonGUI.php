@@ -104,7 +104,7 @@ class ilSplitButtonGUI extends ilButtonBase
      */
     public function render(): string
     {
-        $tpl = new ilTemplate('tpl.split_button.html', true, true, 'Services/UIComponent/SplitButton');
+        $tpl = new ilTemplate('tpl.split_button.html', true, true, 'components/ILIAS/UIComponent/SplitButton');
 
         if (!$this->hasDefaultButton()) {
             throw new ilSplitButtonException(

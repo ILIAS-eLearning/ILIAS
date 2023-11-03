@@ -18,7 +18,7 @@ const IL_SOAPMODE_INTERNAL = 1;
 
 // php7 only SOAPMODE_INTERNAL
 const IL_SOAPMODE = IL_SOAPMODE_INTERNAL;
-include_once "Services/Context/classes/class.ilContext.php";
+include_once "components/ILIAS/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_SOAP);
 
 require_once("./Services/Init/classes/class.ilIniFile.php");

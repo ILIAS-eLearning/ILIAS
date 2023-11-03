@@ -108,7 +108,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 
     public function render(string $a_mode = ""): string
     {
-        $tpl = new ilTemplate("tpl.prop_textwizardinput.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_textwizardinput.html", true, true, "components/ILIAS/Form");
         $i = 0;
         foreach ($this->values as $value) {
             if (strlen($value)) {
@@ -150,8 +150,8 @@ class ilTextWizardInputGUI extends ilTextInputGUI
         $tpl->setVariable("ELEMENT_ID", $this->getFieldId());
 
         if (!$this->getDisabled()) {
-            $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-            $this->tpl->addJavascript("./Services/Form/templates/default/textwizard.js");
+            $this->tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormWizardInput.js");
+            $this->tpl->addJavascript("./components/ILIAS/Form/templates/default/textwizard.js");
         }
 
         return $tpl->get();

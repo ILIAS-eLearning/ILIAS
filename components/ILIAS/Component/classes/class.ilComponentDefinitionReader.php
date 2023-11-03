@@ -116,7 +116,7 @@ class ilComponentDefinitionReader
         foreach ($this->getComponentInfo("components/ILIAS", "module.xml") as $i) {
             yield $i;
         }
-        foreach ($this->getComponentInfo("Services", "service.xml") as $i) {
+        foreach ($this->getComponentInfo("components/ILIAS", "service.xml") as $i) {
             yield $i;
         }
     }
@@ -126,7 +126,7 @@ class ilComponentDefinitionReader
      */
     protected function getComponentInfo(string $type, string $name): \Iterator
     {
-        $dir = __DIR__ . "/../../../" . $type;
+        $dir = __DIR__ . "/../../../../" . $type;
         foreach ($this->getComponentPaths($dir, $name) as $c) {
             yield [
                 $type,

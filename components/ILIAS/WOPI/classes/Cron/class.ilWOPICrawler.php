@@ -19,11 +19,11 @@
 declare(strict_types=1);
 
 use ILIAS\Cron\Schedule\CronJobScheduleType;
-use ILIAS\Services\WOPI\Discovery\Crawler;
-use ILIAS\Services\WOPI\Discovery\AppDBRepository;
-use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
-use ILIAS\Services\WOPI\Discovery\AppRepository;
-use ILIAS\Services\WOPI\Discovery\ActionRepository;
+use ILIAS\components\WOPI\Discovery\Crawler;
+use ILIAS\components\WOPI\Discovery\AppDBRepository;
+use ILIAS\components\WOPI\Discovery\ActionDBRepository;
+use ILIAS\components\WOPI\Discovery\AppRepository;
+use ILIAS\components\WOPI\Discovery\ActionRepository;
 use ILIAS\Data\URI;
 
 /**

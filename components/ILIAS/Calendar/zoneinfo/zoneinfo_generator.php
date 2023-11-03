@@ -20,8 +20,8 @@ foreach (ilCalendarUtil::_getShortTimeZoneList() as $tz_name => $tmp) {
 
     exec(TZ_CONVERT . ' -o Services/Calendar/zoneinfo/' . $name_underscore . '.tmp' . ' ' . $name);
 
-    $reader = fopen('Services/Calendar/zoneinfo/' . $name_underscore . '.tmp', 'r');
-    $writer = fopen('Services/Calendar/zoneinfo/' . $name_underscore . '.ics', 'w');
+    $reader = fopen('components/ILIAS/Calendar/zoneinfo/' . $name_underscore . '.tmp', 'r');
+    $writer = fopen('components/ILIAS/Calendar/zoneinfo/' . $name_underscore . '.ics', 'w');
 
     $counter = 0;
     while ($line = fgets($reader)) {
@@ -40,7 +40,7 @@ foreach (ilCalendarUtil::_getShortTimeZoneList() as $tz_name => $tmp) {
 
     fclose($reader);
     fclose($writer);
-    unlink('Services/Calendar/zoneinfo/' . $name_underscore . '.tmp');
+    unlink('components/ILIAS/Calendar/zoneinfo/' . $name_underscore . '.tmp');
 
     #echo $name_underscore.' <br />';
 }

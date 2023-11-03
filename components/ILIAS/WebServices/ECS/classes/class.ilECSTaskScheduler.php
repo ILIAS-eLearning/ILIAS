@@ -162,7 +162,7 @@ class ilECSTaskScheduler
                     $event_ignored = true;
 
                     $this->eventHandler->raise(
-                        'Services/WebServices/ECS',
+                        'components/ILIAS/WebServices/ECS',
                         'newEcsEvent',
                         array('event' => $event)
                     );

@@ -49,7 +49,7 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
         if ($this->base_location === self::DATADIR) {
             $data_dir = $ini->readVariable('clients', 'datadir');
         } elseif ($this->base_location === self::WEBDIR) {
-            $data_dir = dirname(__DIR__, 4) . "/data";
+            $data_dir = dirname(__DIR__, 5) . "/data";
         }
         if (!isset($data_dir)) {
             throw new LogicException('cannot determine base directory');

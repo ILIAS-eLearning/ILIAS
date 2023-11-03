@@ -54,7 +54,7 @@ class ilHistoryTableGUI extends ilTable2GUI
 
     public function initTable(): void
     {
-        $this->setRowTemplate("tpl.history_row.html", "Services/History");
+        $this->setRowTemplate("tpl.history_row.html", "components/ILIAS/History");
         $this->setFormAction($this->ilCtrl->getFormAction($this->getParentObject()));
 
         $this->setTitle($this->lng->txt("history"));

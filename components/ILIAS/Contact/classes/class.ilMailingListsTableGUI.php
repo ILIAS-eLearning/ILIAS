@@ -33,7 +33,7 @@ class ilMailingListsTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, 'showForm'));
         $this->setTitle($this->lng->txt('mail_mailing_lists'));
-        $this->setRowTemplate('tpl.mail_mailing_lists_listrow.html', 'Services/Contact');
+        $this->setRowTemplate('tpl.mail_mailing_lists_listrow.html', 'components/ILIAS/Contact');
         $this->setDefaultOrderField('title');
         $this->setSelectAllCheckbox('ml_id');
         $this->setNoEntriesText($this->lng->txt('mail_search_no'));

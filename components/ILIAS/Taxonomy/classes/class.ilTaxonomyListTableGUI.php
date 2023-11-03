@@ -54,7 +54,7 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.taxonomy_list_row.html", "Services/Taxonomy");
+        $this->setRowTemplate("tpl.taxonomy_list_row.html", "components/ILIAS/Taxonomy");
 
         // @todo introduce request wrapper
         $params = $DIC->http()->request()->getQueryParams();

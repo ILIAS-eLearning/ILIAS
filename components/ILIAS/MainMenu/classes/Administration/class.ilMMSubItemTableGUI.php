@@ -65,7 +65,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
             $this->addCommandButton(ilMMSubItemGUI::CMD_SAVE_TABLE, $this->lng->txt('button_save'));
         }
         $this->initColumns();
-        $this->setRowTemplate('tpl.sub_items.html', 'Services/MainMenu');
+        $this->setRowTemplate('tpl.sub_items.html', 'components/ILIAS/MainMenu');
     }
 
     protected function addFilterItems(): void

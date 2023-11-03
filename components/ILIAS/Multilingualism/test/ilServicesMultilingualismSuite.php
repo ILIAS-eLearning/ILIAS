@@ -31,7 +31,7 @@ class ilServicesMultilingualismSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Multilingualism/test/MultilingualismStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/Multilingualism/test/MultilingualismStandardGUIRequestTest.php");
         $suite->addTestSuite("MultilingualismStandardGUIRequestTest");
 
         return $suite;

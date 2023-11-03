@@ -40,7 +40,7 @@ class ilDashObjectsTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(false);
         $this->setEnableHeader(false);
 
-        $this->setRowTemplate("tpl.dash_obj_row.html", "Services/Dashboard");
+        $this->setRowTemplate("tpl.dash_obj_row.html", "components/ILIAS/Dashboard");
 
         $this->setLimit(9999);
     }

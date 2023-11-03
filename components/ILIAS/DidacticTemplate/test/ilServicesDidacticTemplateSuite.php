@@ -12,7 +12,7 @@ class ilServicesDidacticTemplateSuite extends TestSuite
     {
         $suite = new ilServicesDidacticTemplateSuite();
 
-        include_once("./Services/DidacticTemplate/test/ilDidacticTemplatePatternTest.php");
+        include_once("./components/ILIAS/DidacticTemplate/test/ilDidacticTemplatePatternTest.php");
         $suite->addTestSuite(ilDidacticTemplatePatternTest::class);
         return $suite;
     }

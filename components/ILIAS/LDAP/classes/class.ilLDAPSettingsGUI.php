@@ -238,7 +238,7 @@ class ilLDAPSettingsGUI
         $this->setSubTabs();
         $this->tabs_gui->activateTab('role_assignments');
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_assignments.html', 'Services/LDAP');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_assignments.html', 'components/ILIAS/LDAP');
 
         $this->initFormRoleAssignments('create');
         $this->role_mapping_rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId(0);
@@ -325,7 +325,7 @@ class ilLDAPSettingsGUI
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt($roleErrorMessage));
             }
 
-            $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_assignments.html', 'Services/LDAP');
+            $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_assignments.html', 'components/ILIAS/LDAP');
 
             $this->form->setValuesByPost();
             $this->tpl->setVariable('NEW_ASSIGNMENT_TBL', $this->form->getHTML());
@@ -413,7 +413,7 @@ class ilLDAPSettingsGUI
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt($roleErrorMessage));
             }
 
-            $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_assignments.html', 'Services/LDAP');
+            $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_assignments.html', 'components/ILIAS/LDAP');
 
             // DONE: wrap this
             $this->form->setValuesByPost();
@@ -1373,7 +1373,7 @@ class ilLDAPSettingsGUI
 
         $propertie_form->addItem($binding);
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_mappings.html', 'Services/LDAP');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_mappings.html', 'components/ILIAS/LDAP');
         $this->tpl->setVariable("NEW_ASSIGNMENT_TBL", $propertie_form->getHTML());
 
         //Set Group Assignments Table if mappings exist

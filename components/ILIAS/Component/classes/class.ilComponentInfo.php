@@ -24,9 +24,9 @@ declare(strict_types=1);
 class ilComponentInfo
 {
     // TODO: to be replaced with an enum for PHP 8.1...
-    public const TYPES = ["components/ILIAS", "Services"];
+    public const TYPES = ["components/ILIAS"];
     public const TYPE_MODULES = "components/ILIAS";
-    public const TYPE_SERVICES = "Services";
+    public const TYPE_SERVICES = "components/ILIAS";
 
     protected string $id;
     protected string $type;

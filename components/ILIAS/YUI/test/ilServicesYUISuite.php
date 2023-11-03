@@ -30,7 +30,7 @@ class ilServicesYUISuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once("./Services/YUI/test/YUITest.php");
+        require_once("./components/ILIAS/YUI/test/YUITest.php");
         $suite->addTestSuite("YUITest");
 
         return $suite;

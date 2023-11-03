@@ -28,7 +28,7 @@ use ilFileUtils;
  */
 class LMHtmlExport
 {
-    protected \ILIAS\Services\Export\HTML\Util $export_util;
+    protected \ILIAS\components\Export\HTML\Util $export_util;
     protected \ilLogger $log;
     protected string $target_dir = "";
     protected string $sub_dir = "";
@@ -85,7 +85,7 @@ class LMHtmlExport
         $this->initial_current_user_language = $this->user->getCurrentLanguage();
 
         $this->global_screen = $DIC->globalScreen();
-        $this->export_util = new \ILIAS\Services\Export\HTML\Util($export_dir, $sub_dir);
+        $this->export_util = new \ILIAS\components\Export\HTML\Util($export_dir, $sub_dir);
 
         $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
     }
@@ -243,7 +243,7 @@ class LMHtmlExport
 
         // keep this for some time for reference...
         /*
-        $services_dir = $a_target_dir."/Services";
+        $services_dir = $a_target_dir."/components/ILIAS";
         ilUtil::makeDir($services_dir);
         $media_service_dir = $services_dir."/MediaObjects";
         ilUtil::makeDir($media_service_dir);
@@ -343,10 +343,10 @@ class LMHtmlExport
             array("source" => \ilYuiUtil::getLocalPath('animation/animation-min.js'),
                 "target" => $a_target_dir . '/js/yahoo/animation-min.js',
                 "type" => "js"),
-            array("source" => './Services/Accordion/js/accordion.js',
+            array("source" => './components/ILIAS/Accordion/js/accordion.js',
                 "target" => $a_target_dir . '/js/accordion.js',
                 "type" => "js"),
-            array("source" => './Services/Accordion/css/accordion.css',
+            array("source" => './components/ILIAS/Accordion/css/accordion.css',
                 "target" => $a_target_dir . '/css/accordion.css',
                 "type" => "css"),
             array("source" => './components/ILIAS/Scorm2004/scripts/questions/pure.js',

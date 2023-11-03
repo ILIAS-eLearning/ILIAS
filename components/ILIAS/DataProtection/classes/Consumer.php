@@ -112,7 +112,7 @@ final class Consumer implements ConsumerInterface
     private function userHasWithdrawn(): void
     {
         $this->container['ilAppEventHandler']->raise(
-            'Services/DataProtection',
+            'components/ILIAS/DataProtection',
             'withdraw',
             ['event' => $this->container->user()]
         );

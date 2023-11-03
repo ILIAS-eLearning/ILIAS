@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
-use ILIAS\Services\Help\ScreenId\HelpScreenIdObserver;
+use ILIAS\components\Help\ScreenId\HelpScreenIdObserver;
 
 /**
  * Class InitCtrlService wraps the initialization of ilCtrl.
@@ -40,7 +40,7 @@ final class InitCtrlService
     public function init(Container $dic): void
     {
         $this->abortIfMissingDependencies($dic);
-        $ilias_path = dirname(__FILE__, 5) . '/';
+        $ilias_path = dirname(__FILE__, 6) . '/';
 
         try {
             $ctrl_structure = new ilCtrlStructure(

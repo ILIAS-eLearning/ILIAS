@@ -44,7 +44,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->disable('numinfo');
         $this->setLimit(100);
-        $this->setRowTemplate("tpl.available_roles_status_row.html", "Services/AccessControl");
+        $this->setRowTemplate("tpl.available_roles_status_row.html", "components/ILIAS/AccessControl");
 
         $this->addColumn($this->lng->txt("status"), "status", "5%");
         $this->addColumn($this->lng->txt("role"), "role", "32%");

@@ -33,7 +33,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
         global $DIC;
         if (!$DIC) {
             try {
-                include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+                include_once("./components/ILIAS/PHPUnit/classes/class.ilUnitUtil.php");
                 ilUnitUtil::performInitialisation();
             } catch (Exception $e) {
             }

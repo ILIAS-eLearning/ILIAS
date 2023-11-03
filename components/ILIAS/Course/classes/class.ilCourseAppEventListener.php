@@ -134,7 +134,7 @@ class ilCourseAppEventListener
 
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        if ($a_component == 'Services/AccessControl') {
+        if ($a_component == 'components/ILIAS/AccessControl') {
             $listener = new self();
             $listener->handleUserAssignments($a_event, $a_parameter);
         }
@@ -155,7 +155,7 @@ class ilCourseAppEventListener
                 break;
         }
 
-        if ($a_component == "Services/Tracking" && $a_event == "updateStatus") {
+        if ($a_component == "components/ILIAS/Tracking" && $a_event == "updateStatus") {
             // see ilObjCourseGUI::updateLPFromStatus()
             if (self::$blocked_for_lp) {
                 return;

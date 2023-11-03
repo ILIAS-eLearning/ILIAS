@@ -44,7 +44,7 @@ class ilObjectSetupAgent extends NullAgent
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new ObjectiveCollection(
-            'Services/Object',
+            'components/ILIAS/Object',
             true,
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,

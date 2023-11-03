@@ -36,7 +36,7 @@ abstract class ilLPCollection
         int $a_obj_id,
         int $a_mode
     ): ?ilLPCollection {
-        $path = "Services/Tracking/classes/collection/";
+        $path = "components/ILIAS/Tracking/classes/collection/";
 
         switch ($a_mode) {
             case ilLPObjSettings::LP_MODE_COLLECTION:

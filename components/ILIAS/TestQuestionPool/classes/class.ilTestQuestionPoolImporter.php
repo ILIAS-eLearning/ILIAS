@@ -41,7 +41,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryContainer());
 
         // Container import => pool object already created
-        if (($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) !== null) {
+        if (($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) !== null) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             $newObj->getObjectProperties()->storePropertyIsOnline($newObj->getObjectProperties()->getPropertyIsOnline()->withOffline()); // sets Question pools to always online
 
@@ -106,14 +106,14 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
                 $newQuestionId = $v['pool']; // yes, this is the new question id ^^
 
                 $a_mapping->addMapping(
-                    "Services/Taxonomy",
+                    "components/ILIAS/Taxonomy",
                     "tax_item",
                     "qpl:quest:$oldQuestionId",
                     $newQuestionId
                 );
 
                 $a_mapping->addMapping(
-                    "Services/Taxonomy",
+                    "components/ILIAS/Taxonomy",
                     "tax_item_obj_id",
                     "qpl:quest:$oldQuestionId",
                     $newObj->getId()
@@ -148,7 +148,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
-                $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
+                $new_tax_ids = $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_usage_of_obj", $old);
                 if ($new_tax_ids !== null) {
                     $tax_ids = explode(":", $new_tax_ids);
                     foreach ($tax_ids as $tid) {

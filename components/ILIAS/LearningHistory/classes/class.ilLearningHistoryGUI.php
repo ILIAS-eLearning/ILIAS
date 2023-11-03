@@ -68,7 +68,7 @@ class ilLearningHistoryGUI
             ? $to
             : null;
 
-        $this->main_tpl->addJavaScript("./Services/LearningHistory/js/LearningHistory.js");
+        $this->main_tpl->addJavaScript("./components/ILIAS/LearningHistory/js/LearningHistory.js");
         $this->http = $DIC->http();
     }
 
@@ -161,7 +161,7 @@ class ilLearningHistoryGUI
         ?array $classes = null,
         ?string $mode = null
     ): string {
-        $tpl = new ilTemplate("tpl.timeline.html", true, true, "Services/LearningHistory");
+        $tpl = new ilTemplate("tpl.timeline.html", true, true, "components/ILIAS/LearningHistory");
 
         $tpl->setVariable("TIMELINE", $this->renderTimeline($from, $to, $classes, $mode));
 

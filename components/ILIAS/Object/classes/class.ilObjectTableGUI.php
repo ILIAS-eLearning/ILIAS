@@ -99,7 +99,7 @@ class ilObjectTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('title'), 'title');
 
         $this->setOrderColumn('title');
-        $this->setRowTemplate('tpl.object_table_row.html', 'Services/Object');
+        $this->setRowTemplate('tpl.object_table_row.html', 'components/ILIAS/Object');
     }
 
     protected function fillRow(array $set): void

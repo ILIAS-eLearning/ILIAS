@@ -142,7 +142,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     public function render($a_mode = ""): string
     {
         $sel_value = "";
-        $tpl = new ilTemplate("tpl.prop_select.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_select.html", true, true, "components/ILIAS/Form");
 
         foreach ($this->getCustomAttributes() as $attr) {
             $tpl->setCurrentBlock('cust_attr');

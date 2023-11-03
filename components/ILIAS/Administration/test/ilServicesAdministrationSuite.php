@@ -31,7 +31,7 @@ class ilServicesAdministrationSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Administration/test/AdminGUIRequestTest.php");
+        require_once("./components/ILIAS/Administration/test/AdminGUIRequestTest.php");
         $suite->addTestSuite("AdminGUIRequestTest");
 
         return $suite;

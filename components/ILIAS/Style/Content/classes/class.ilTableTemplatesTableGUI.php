@@ -64,7 +64,7 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("sty_commands"), "", "1");
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.style_template_row.html", "Services/Style/Content");
+        $this->setRowTemplate("tpl.style_template_row.html", "components/ILIAS/Style/Content");
         $this->getItems();
 
         // action commands

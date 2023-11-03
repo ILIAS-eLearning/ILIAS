@@ -581,7 +581,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 // For global roles set import id to parent of current ref_id (adm)
                 $imp = new ilImport($this->getCurrentObject()->getRefId());
                 $imp->getMapping()->addMapping(
-                    'Services/AccessControl',
+                    'components/ILIAS/AccessControl',
                     'rolf',
                     '0',
                     (string) $this->getCurrentObject()->getRefId()

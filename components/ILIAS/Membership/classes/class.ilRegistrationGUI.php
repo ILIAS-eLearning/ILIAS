@@ -171,7 +171,7 @@ abstract class ilRegistrationGUI
             return;
         }
         $mem = new ilCustomInputGUI($this->lng->txt('groupings'));
-        $tpl = new ilTemplate('tpl.membership_limitation_form.html', true, true, 'Services/Membership');
+        $tpl = new ilTemplate('tpl.membership_limitation_form.html', true, true, 'components/ILIAS/Membership');
         $tpl->setVariable('LIMIT_INTRO', $this->lng->txt($this->type . '_grp_info_reg'));
         foreach ($items as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);

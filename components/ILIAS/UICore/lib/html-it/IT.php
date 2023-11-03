@@ -32,9 +32,9 @@ declare(strict_types=1);
 // | Author: Ulf Wendel <ulf.wendel@phpdoc.de>                            |
 // |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
-use ILIAS\Services\UICore\Cache\BlockCache;
-use ILIAS\Services\UICore\Cache\VariableCache;
-use ILIAS\Services\UICore\Cache\TemplateCache;
+use ILIAS\components\UICore\Cache\BlockCache;
+use ILIAS\components\UICore\Cache\VariableCache;
+use ILIAS\components\UICore\Cache\TemplateCache;
 use ILIAS\Refinery\Custom\Transformation;
 use ILIAS\Refinery\To\Transformation\ListTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;

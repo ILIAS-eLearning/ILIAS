@@ -54,7 +54,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         $this->access = new ilObjAdministrativeNotificationAccess();
 
         $this->setId('msg_msg_table');
-        $this->setRowTemplate('Services/AdministrativeNotification/templates/default/tpl.row.html');
+        $this->setRowTemplate('components/ILIAS/AdministrativeNotification/templates/default/tpl.row.html');
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         //

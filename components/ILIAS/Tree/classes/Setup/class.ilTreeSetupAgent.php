@@ -67,7 +67,7 @@ class ilTreeSetupAgent implements Agent
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new Setup\ObjectiveCollection(
-            'Services/Tree',
+            'components/ILIAS/Tree',
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTreeDBUpdateSteps8()),
             new ilTreeMetricsCollectedObjective($storage)

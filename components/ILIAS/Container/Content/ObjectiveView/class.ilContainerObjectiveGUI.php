@@ -85,7 +85,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $ilCtrl = $this->ctrl;
         $has_results = false;
 
-        //$tpl = new ilTemplate("tpl.container_page.html", true, true, "Services/Container");
+        //$tpl = new ilTemplate("tpl.container_page.html", true, true, "components/ILIAS/Container");
 
         if ($ilAccess->checkAccess('write', '', $this->getContainerObject()->getRefId())) {
             // check for results
@@ -885,7 +885,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         $gui = $DIC->container()->internal()->gui();
 
-        $tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "Services/Container");
+        $tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "components/ILIAS/Container");
 
         if ($a_perc_result !== null) {
             $tpl->setCurrentBlock("statusbar_bl");
@@ -971,7 +971,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     ): string {
         global $DIC;
 
-        $tpl = new ilTemplate("tpl.objective_progressmeter.html", true, true, "Services/Container");
+        $tpl = new ilTemplate("tpl.objective_progressmeter.html", true, true, "components/ILIAS/Container");
 
         $lng = $DIC->language();
         $lng->loadLanguageModule('crs');
@@ -1199,7 +1199,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $renderer = $DIC->ui()->renderer();
         $ui_factory = $DIC->ui()->factory();
 
-        $tpl = new ilTemplate("tpl.objective_accordion_title.html", true, true, "Services/Container");
+        $tpl = new ilTemplate("tpl.objective_accordion_title.html", true, true, "components/ILIAS/Container");
 
         if ($a_lo_result) {
             $tpl->setVariable(
@@ -1323,7 +1323,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
     protected function buildAccordionContent(array $a_items): string
     {
-        $tpl = new ilTemplate("tpl.objective_accordion_content.html", true, true, "Services/Container");
+        $tpl = new ilTemplate("tpl.objective_accordion_content.html", true, true, "components/ILIAS/Container");
         foreach ($a_items as $item) {
             $tpl->setCurrentBlock("items_bl");
             $tpl->setVariable("ITEM", $item);

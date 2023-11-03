@@ -98,7 +98,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         ilYuiUtil::initConnection();
         ilOverlayGUI::initJavascript();
         // # see  https://mantis.ilias.de/view.php?id=26463
-        $this->tpl->addJavaScript("./Services/UIComponent/Modal/js/Modal.js");
+        $this->tpl->addJavaScript("./components/ILIAS/UIComponent/Modal/js/Modal.js");
         $this->tpl->addJavaScript("components/ILIAS/DataCollection/js/datacollection.js");
     }
 

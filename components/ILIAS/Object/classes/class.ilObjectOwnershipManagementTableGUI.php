@@ -54,7 +54,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('action'));
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
-        $this->setRowTemplate('tpl.obj_ownership_row.html', 'Services/Object');
+        $this->setRowTemplate('tpl.obj_ownership_row.html', 'components/ILIAS/Object');
         $this->setDisableFilterHiding();
 
         $this->setDefaultOrderField('title');

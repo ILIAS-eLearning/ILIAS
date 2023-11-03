@@ -28,11 +28,11 @@ class ilServicesUtilitiesSuite extends TestSuite
     {
         $suite = new self();
 
-        require 'Services/Utilities/test/ilMimeTypeTest.php';
+        require 'components/ILIAS/Utilities/test/ilMimeTypeTest.php';
         $suite->addTestSuite('ilMimeTypeTest');
-        require 'Services/Utilities/test/ilUtilsPreventTest.php';
+        require 'components/ILIAS/Utilities/test/ilUtilsPreventTest.php';
         $suite->addTestSuite('ilUtilsPreventTest');
-        require 'Services/Utilities/test/ilUtilTest.php';
+        require 'components/ILIAS/Utilities/test/ilUtilTest.php';
         $suite->addTestSuite(ilUtilTest::class);
 
         return $suite;

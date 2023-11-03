@@ -37,7 +37,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
 
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
         } else {
             $newObj = new ilObjForum();
@@ -59,7 +59,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
     {
         parent::finalProcessing($a_mapping);
 
-        $copaMap = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
+        $copaMap = $a_mapping->getMappingsOfEntity('components/ILIAS/COPage', 'pg');
         foreach ($copaMap as $newCopaId) {
             $newCopaId = (int) substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
 
@@ -68,7 +68,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
 
         $styleMapping = $a_mapping->getMappingsOfEntity('components/ILIAS/Forum', 'style');
         foreach ($styleMapping as $newForumId => $oldStyleId) {
-            $newStyleId = (int) $a_mapping->getMapping('Services/Style', 'sty', $oldStyleId);
+            $newStyleId = (int) $a_mapping->getMapping('components/ILIAS/Style', 'sty', $oldStyleId);
             if ($newForumId > 0 && $newStyleId > 0) {
                 $frm = ilObjectFactory::getInstanceByObjId((int) $newForumId, false);
                 if (!($frm instanceof ilObjForum)) {

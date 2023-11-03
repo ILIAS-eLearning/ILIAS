@@ -26,7 +26,7 @@ class ilServicesMapsSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Maps/test/ilMapGUITest.php");
+        require_once("./components/ILIAS/Maps/test/ilMapGUITest.php");
         $suite->addTestSuite(ilMapGUITest::class);
 
         return $suite;

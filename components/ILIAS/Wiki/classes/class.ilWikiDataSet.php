@@ -349,7 +349,7 @@ class ilWikiDataSet extends ilDataSet
         switch ($a_entity) {
             case "wiki":
 
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjWiki();
@@ -379,9 +379,9 @@ class ilWikiDataSet extends ilDataSet
                 $newObj->update(true);
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("components/ILIAS/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("Services/Rating", "rating_category_parent_id", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Object", "obj", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Rating", "rating_category_parent_id", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
                 break;
 
             case "wpg":
@@ -408,8 +408,8 @@ class ilWikiDataSet extends ilDataSet
                 }
 
                 $a_mapping->addMapping("components/ILIAS/Wiki", "wpg", $a_rec["Id"], $wpage->getId());
-                $a_mapping->addMapping("Services/COPage", "pg", "wpg:" . $a_rec["Id"], "wpg:" . $wpage->getId());
-                $a_mapping->addMapping("Services/AdvancedMetaData", "advmd_sub_item", "advmd:wpg:" . $a_rec["Id"], $wpage->getId());
+                $a_mapping->addMapping("components/ILIAS/COPage", "pg", "wpg:" . $a_rec["Id"], "wpg:" . $wpage->getId());
+                $a_mapping->addMapping("components/ILIAS/AdvancedMetaData", "advmd_sub_item", "advmd:wpg:" . $a_rec["Id"], $wpage->getId());
                 break;
 
             case "wiki_imp_page":

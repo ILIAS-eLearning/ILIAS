@@ -30,7 +30,7 @@ class ilEventHandlingAppEventListener implements ilAppEventListener
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        if ($a_component == "Services/EventHandling" &&
+        if ($a_component == "components/ILIAS/EventHandling" &&
             $a_event == "myEvent" &&
             isset($a_parameter["par1"]) &&
             $a_parameter["par1"] == "val1" &&

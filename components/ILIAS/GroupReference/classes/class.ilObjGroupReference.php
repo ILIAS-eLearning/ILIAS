@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
+include_once('./components/ILIAS/ContainerReference/classes/class.ilContainerReference.php');
 
 /**
  * @author Fabian Wolf <wolf@leifos.com>

@@ -351,7 +351,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->setSubTabs();
         $this->tabs_gui->setSubTabActive('search_adv_md');
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.advanced_adv_search.html', 'Services/Search');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.advanced_adv_search.html', 'components/ILIAS/Search');
 
         $this->initAdvancedMetaDataForm();
         $this->tpl->setVariable('SEARCH_FORM', $this->form->getHTML());
@@ -389,7 +389,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->setSubTabs();
         $this->tabs_gui->setSubTabActive('search_lom');
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.advanced_search.html', 'Services/Search');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.advanced_search.html', 'components/ILIAS/Search');
 
         $this->initFormSearch();
         $this->tpl->setVariable('SEARCH_FORM', $this->form->getHTML());

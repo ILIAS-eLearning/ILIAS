@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Services\Logging\NullLogger;
+use ILIAS\components\Logging\NullLogger;
 
 /**
  * Class ilTestVerificationTableGUITest

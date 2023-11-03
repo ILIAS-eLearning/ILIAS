@@ -638,7 +638,7 @@ class ilContainerRenderer
 
     protected function initBlockTemplate(): ilTemplate
     {
-        return new ilTemplate("tpl.container_list_block.html", true, true, "Services/Container");
+        return new ilTemplate("tpl.container_list_block.html", true, true, "components/ILIAS/Container");
     }
 
     /**

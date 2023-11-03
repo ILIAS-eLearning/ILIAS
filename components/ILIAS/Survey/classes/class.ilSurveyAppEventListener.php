@@ -34,7 +34,7 @@ class ilSurveyAppEventListener implements ilAppEventListener
         $survey_skill_deletion_manager = $DIC->skills()->internalSurvey()->manager()->getSkillDeletionManager();
 
         switch ($a_component) {
-            case "Services/Skill":
+            case "components/ILIAS/Skill":
                 switch ($a_event) {
                     case "deleteSkill":
                         $survey_skill_deletion_manager->removeSurveySkillsForSkill(

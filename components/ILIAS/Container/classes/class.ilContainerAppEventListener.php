@@ -34,7 +34,7 @@ class ilContainerAppEventListener implements ilAppEventListener
         $cont_skill_deletion_manager = $DIC->skills()->internalContainer()->manager()->getSkillDeletionManager();
 
         switch ($a_component) {
-            case "Services/Skill":
+            case "components/ILIAS/Skill":
                 switch ($a_event) {
                     case "deleteSkill":
                         $cont_skill_deletion_manager->removeContainerSkillsForSkill(

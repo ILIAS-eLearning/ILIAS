@@ -53,7 +53,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
         $this->addColumn($DIC->language()->txt("actions"), "");
 
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.lti_consumer_list_row.html", "Services/LTI");
+        $this->setRowTemplate("tpl.lti_consumer_list_row.html", "components/ILIAS/LTI");
         $this->setDefaultOrderField("title");
 
         $this->getItems();

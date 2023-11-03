@@ -51,7 +51,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate('tpl.rbac_log_row.html', 'Services/AccessControl');
+        $this->setRowTemplate('tpl.rbac_log_row.html', 'components/ILIAS/AccessControl');
         $this->setFilterCommand('applyLogFilter');
         $this->setResetCommand('resetLogFilter');
 

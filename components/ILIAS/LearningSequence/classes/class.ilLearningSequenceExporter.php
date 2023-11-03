@@ -81,7 +81,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
     {
         return array(
             array(
-                'component' => 'Services/Container',
+                'component' => 'components/ILIAS/Container',
                 'entity' => 'struct',
                 'ids' => $a_ids
             )
@@ -98,7 +98,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
         if ($a_entity == "lso") {
             // service settings
             $res[] = array(
-                "component" => "Services/Object",
+                "component" => "components/ILIAS/Object",
                 "entity" => "common",
                 "ids" => $a_ids
             );

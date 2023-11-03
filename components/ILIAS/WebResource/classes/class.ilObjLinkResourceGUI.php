@@ -1224,7 +1224,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $js = ilInternalLinkGUI::getInitHTML("");
 
         $this->tpl->addJavaScript("components/ILIAS/WebResource/js/intLink.js");
-        $this->tpl->addJavascript("Services/Form/js/Form.js");
+        $this->tpl->addJavascript("components/ILIAS/Form/js/Form.js");
 
         $this->tpl->setVariable('TABLE_LINKS', $table->getHTML() . $js);
     }

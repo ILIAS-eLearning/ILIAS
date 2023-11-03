@@ -55,7 +55,7 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
         $this->enable('numinfo');
         $this->enable('select_all');
 
-        $this->setRowTemplate('tpl.mem_cust_user_data_table_row.html', 'Services/Membership');
+        $this->setRowTemplate('tpl.mem_cust_user_data_table_row.html', 'components/ILIAS/Membership');
     }
 
     /**

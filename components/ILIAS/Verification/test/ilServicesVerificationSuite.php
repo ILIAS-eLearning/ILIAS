@@ -28,7 +28,7 @@ class ilServicesVerificationSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Verification/test/CertificateVerificationClassMapTest.php");
+        require_once("./components/ILIAS/Verification/test/CertificateVerificationClassMapTest.php");
         $suite->addTestSuite("CertificateVerificationClassMapTest");
 
         return $suite;

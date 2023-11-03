@@ -32,7 +32,7 @@ class ilServicesNotesSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Notes/test/NotesSessionRepositoryTest.php");
+        require_once("./components/ILIAS/Notes/test/NotesSessionRepositoryTest.php");
         $suite->addTestSuite("NotesSessionRepositoryTest");
 
         return $suite;

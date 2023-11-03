@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Services\WOPI\Discovery\Crawler;
+use ILIAS\components\WOPI\Discovery\Crawler;
 use ILIAS\Data\URI;
-use ILIAS\Services\WOPI\Discovery\AppDBRepository;
-use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
+use ILIAS\components\WOPI\Discovery\AppDBRepository;
+use ILIAS\components\WOPI\Discovery\ActionDBRepository;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solutions>

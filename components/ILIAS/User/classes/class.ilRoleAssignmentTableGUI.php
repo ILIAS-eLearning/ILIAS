@@ -58,7 +58,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('path'), 'path');
         $this->initFilter();
         $this->setEnableHeader(true);
-        $this->setRowTemplate("tpl.role_assignment_row.html", "Services/User");
+        $this->setRowTemplate("tpl.role_assignment_row.html", "components/ILIAS/User");
         $this->setEnableTitle(true);
 
         if ($rbacsystem->checkAccess("edit_roleassignment", USER_FOLDER_ID)) {

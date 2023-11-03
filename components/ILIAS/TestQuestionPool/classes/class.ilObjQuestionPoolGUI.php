@@ -124,8 +124,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->action_parameter_token = $action_parameter_token;
         $this->row_id_token = $row_id_token;
 
-        $this->tpl->addJavascript('Services/Notes/js/ilNotes.js');
-        $this->tpl->addJavascript('Services/UIComponent/Modal/js/Modal.js');
+        $this->tpl->addJavascript('components/ILIAS/Notes/js/ilNotes.js');
+        $this->tpl->addJavascript('components/ILIAS/UIComponent/Modal/js/Modal.js');
     }
 
     protected function getQueryParamString(string $param): ?string

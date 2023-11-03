@@ -47,7 +47,7 @@ class ilPCTabsTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.tabs_row.html",
-            "Services/COPage"
+            "components/ILIAS/COPage"
         );
 
         $this->tabs = $a_tabs;

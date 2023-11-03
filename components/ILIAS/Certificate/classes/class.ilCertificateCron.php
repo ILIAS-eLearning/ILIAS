@@ -299,7 +299,7 @@ class ilCertificateCron extends ilCronJob
         }
 
         $this->dic->event()->raise(
-            'Services/Certificate',
+            'components/ILIAS/Certificate',
             'certificateIssued',
             ['certificate' => $persistedUserCertificate]
         );

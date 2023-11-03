@@ -71,15 +71,15 @@ class ilColumnGUI
     //
 
     protected static array $locations = array(
-        "ilNewsForContextBlockGUI" => "Services/News/",
-        "ilCalendarBlockGUI" => "Services/Calendar/",
-        "ilPDCalendarBlockGUI" => "Services/Calendar/",
-        "ilPDTasksBlockGUI" => "Services/Tasks/",
-        "ilPDMailBlockGUI" => "Services/Mail/",
-        "ilSelectedItemsBlockGUI" => "Services/Dashboard/Block/",
-        "ilPDNewsBlockGUI" => "Services/News/",
+        "ilNewsForContextBlockGUI" => "components/ILIAS/News/",
+        "ilCalendarBlockGUI" => "components/ILIAS/Calendar/",
+        "ilPDCalendarBlockGUI" => "components/ILIAS/Calendar/",
+        "ilPDTasksBlockGUI" => "components/ILIAS/Tasks/",
+        "ilPDMailBlockGUI" => "components/ILIAS/Mail/",
+        "ilSelectedItemsBlockGUI" => "components/ILIAS/Dashboard/Block/",
+        "ilPDNewsBlockGUI" => "components/ILIAS/News/",
         'ilPollBlockGUI' => 'components/ILIAS/Poll/',
-        'ilClassificationBlockGUI' => 'Services/Classification/',
+        'ilClassificationBlockGUI' => 'components/ILIAS/Classification/',
         "ilPDStudyProgrammeSimpleListGUI" => "components/ILIAS/StudyProgramme/",
         "ilPDStudyProgrammeExpandableListGUI" => "components/ILIAS/StudyProgramme/",
     );
@@ -396,7 +396,7 @@ class ilColumnGUI
 
         $ilCtrl->setParameter($this, "col_side", $this->getSide());
 
-        $this->tpl = new ilTemplate("tpl.column.html", true, true, "Services/Block");
+        $this->tpl = new ilTemplate("tpl.column.html", true, true, "components/ILIAS/Block");
         $this->determineBlocks();
         $this->showBlocks();
         return $this->tpl->get();

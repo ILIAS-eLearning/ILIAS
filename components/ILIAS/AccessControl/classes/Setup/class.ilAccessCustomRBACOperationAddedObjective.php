@@ -180,7 +180,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
 
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
-            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
+            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 6));
         }
 
         return $DIC;

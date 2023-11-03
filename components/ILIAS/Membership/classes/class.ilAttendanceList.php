@@ -551,7 +551,7 @@ class ilAttendanceList
      */
     public function getHTML(): string
     {
-        $tpl = new ilTemplate('tpl.attendance_list_print.html', true, true, 'Services/Membership');
+        $tpl = new ilTemplate('tpl.attendance_list_print.html', true, true, 'components/ILIAS/Membership');
         ilDatePresentation::setUseRelativeDates(false);
         $time = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
 

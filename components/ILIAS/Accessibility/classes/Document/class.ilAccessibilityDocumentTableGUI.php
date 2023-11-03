@@ -61,7 +61,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         $this->setExternalSegmentation(true);
         $this->setLimit(PHP_INT_MAX);
 
-        $this->setRowTemplate('tpl.acc_documents_row.html', 'Services/Accessibility');
+        $this->setRowTemplate('tpl.acc_documents_row.html', 'components/ILIAS/Accessibility');
 
         if ($this->isEditable) {
             $this->setSelectAllCheckbox('acc_id[]');

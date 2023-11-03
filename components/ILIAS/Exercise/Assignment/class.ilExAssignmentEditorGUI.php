@@ -19,7 +19,7 @@
 use ILIAS\Exercise\Assignment\Mandatory;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\Services\ResourceStorage\Collections\View\Mode;
+use ILIAS\components\ResourceStorage_\Collections\View\Mode;
 
 /**
  * Class ilExAssignmentEditorGUI

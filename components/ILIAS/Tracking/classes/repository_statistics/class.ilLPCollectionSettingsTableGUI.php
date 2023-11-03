@@ -345,7 +345,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
             case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
                 $this->setRowTemplate(
                     'tpl.lp_collection_row.html',
-                    'Services/Tracking'
+                    'components/ILIAS/Tracking'
                 );
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
                 $this->setDescription(
@@ -356,7 +356,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
             case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:
                 $this->setRowTemplate(
                     'tpl.lp_collection_row.html',
-                    'Services/Tracking'
+                    'components/ILIAS/Tracking'
                 );
                 $this->setTitle($this->lng->txt('trac_lp_determination_tutor'));
                 $this->setDescription(
@@ -367,7 +367,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
             case ilLPObjSettings::LP_MODE_SCORM:
                 $this->setRowTemplate(
                     'tpl.lp_collection_scorm_row.html',
-                    'Services/Tracking'
+                    'components/ILIAS/Tracking'
                 );
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
                 $this->setDescription(
@@ -378,7 +378,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
             case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
                 $this->setRowTemplate(
                     'tpl.lp_collection_subitem_row.html',
-                    'Services/Tracking'
+                    'components/ILIAS/Tracking'
                 );
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
                 $this->setDescription(
@@ -392,7 +392,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
             case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
                 $this->setRowTemplate(
                     'tpl.lp_collection_subitem_row.html',
-                    'Services/Tracking'
+                    'components/ILIAS/Tracking'
                 );
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
                 $this->setDescription(

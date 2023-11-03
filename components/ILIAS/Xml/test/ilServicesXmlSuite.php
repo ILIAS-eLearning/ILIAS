@@ -26,7 +26,7 @@ class ilServicesXmlSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Xml/test/ilServicesXmlTest.php");
+        require_once("./components/ILIAS/Xml/test/ilServicesXmlTest.php");
         $suite->addTestSuite("ilServicesXmlTest");
 
         return $suite;

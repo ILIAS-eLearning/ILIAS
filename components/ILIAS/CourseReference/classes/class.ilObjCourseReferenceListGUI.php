@@ -128,7 +128,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         $this->reference_obj_id = $obj_id;
 
 
-        include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
+        include_once('./components/ILIAS/ContainerReference/classes/class.ilContainerReference.php');
         $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
 
         $target_ref_ids = ilObject::_getAllReferences($target_obj_id);

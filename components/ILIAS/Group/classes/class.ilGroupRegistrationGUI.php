@@ -97,7 +97,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 
         $warning = '';
         if (ilDateTime::_before($now, $start)) {
-            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'Services/Membership');
+            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'components/ILIAS/Membership');
             $tpl->setVariable('TXT_FIRST', $this->lng->txt('mem_start'));
             $tpl->setVariable('FIRST', ilDatePresentation::formatDate($start));
 
@@ -106,7 +106,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 
             $warning = $this->lng->txt('mem_reg_not_started');
         } elseif (ilDateTime::_after($now, $end)) {
-            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'Services/Membership');
+            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'components/ILIAS/Membership');
             $tpl->setVariable('TXT_FIRST', $this->lng->txt('mem_start'));
             $tpl->setVariable('FIRST', ilDatePresentation::formatDate($start));
 
@@ -115,7 +115,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 
             $warning = $this->lng->txt('mem_reg_expired');
         } else {
-            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'Services/Membership');
+            $tpl = new ilTemplate('tpl.registration_period_form.html', true, true, 'components/ILIAS/Membership');
             $tpl->setVariable('TXT_FIRST', $this->lng->txt('mem_end'));
             $tpl->setVariable('FIRST', ilDatePresentation::formatDate($end));
         }
@@ -143,7 +143,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             return;
         }
 
-        $tpl = new ilTemplate('tpl.max_members_form.html', true, true, 'Services/Membership');
+        $tpl = new ilTemplate('tpl.max_members_form.html', true, true, 'components/ILIAS/Membership');
 
         if ($this->container->getMinMembers()) {
             $tpl->setVariable('TXT_MIN', $this->lng->txt('mem_min_users'));

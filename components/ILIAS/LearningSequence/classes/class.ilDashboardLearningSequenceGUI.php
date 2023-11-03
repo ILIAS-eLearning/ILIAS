@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Symbol\Icon\Standard;
-use ILIAS\Services\Dashboard\Block\BlockDTO;
+use ILIAS\components\Dashboard\Block\BlockDTO;
 
 /**
  * @ilCtrl_IsCalledBy ilDashboardLearningSequenceGUI: ilColumnGUI

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\UICore\Cache;
+namespace ILIAS\components\UICore\Cache;
 
 use ILIAS\Cache\Container\Request;
 

@@ -33,7 +33,7 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
     public function build(): Setup\Artifact
     {
         $data = [];
-        foreach (["components/ILIAS", "Services"] as $type) {
+        foreach (["components/ILIAS"] as $type) {
             $components = $this->scanDir(static::BASE_PATH . $type);
             foreach ($components as $component) {
                 if ($this->isDotFile($component)

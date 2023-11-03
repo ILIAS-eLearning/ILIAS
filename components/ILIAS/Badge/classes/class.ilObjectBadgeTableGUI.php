@@ -72,7 +72,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         }
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.object_badge_row.html", "Services/Badge");
+        $this->setRowTemplate("tpl.object_badge_row.html", "components/ILIAS/Badge");
         $this->setDefaultOrderField("title");
 
         $this->setFilterCommand("applyObjectFilter");

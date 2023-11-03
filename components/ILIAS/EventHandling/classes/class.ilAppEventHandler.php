@@ -29,19 +29,19 @@ declare(strict_types=1);
  * handler through the global instance ilAppEventHandler:
  *
  * E.g. in ilObjUser->delete():
- * $ilAppEventHandler->raise("Services/User", "deleteUser", array("id" => ..., ...))
+ * $ilAppEventHandler->raise("components/ILIAS/User", "deleteUser", array("id" => ..., ...))
  *
  * A listener has to subscribe to the events of another component. This currently
  * is done here in the constructor, e.g. if the News service listens to the User
  * service, add a
- * $this->listener["Services/User"] = array("Services/News");
+ * $this->listener["components/ILIAS/User"] = array("components/ILIAS/News");
  * This information will go to xml files in the future.
  *
  * A component has to implement a listener class that implements
  * Services/EventHandling/interfaces/interface.ilAppEventListener.php
  *
  * The location must be <component>/classes/class.il<comp_name>AppEventListener.php,
- * e.g. ./Services/News/classes/class.ilNewsAppEventListener.php
+ * e.g. ./components/ILIAS/News/classes/class.ilNewsAppEventListener.php
  *
  * The class name must be il<comp_name>AppEventListener.
  *
@@ -79,7 +79,7 @@ class ilAppEventHandler
     /**
      * Raise an event. The event is passed to all interested listeners.
      *
-     * @param	string	$a_component	component, e.g. "components/ILIAS/Forum" or "Services/User"
+     * @param	string	$a_component	component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
      * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
      * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */

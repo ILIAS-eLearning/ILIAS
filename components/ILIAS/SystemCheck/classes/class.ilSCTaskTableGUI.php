@@ -59,7 +59,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
 
         $this->setTitle($this->lng->txt('sysc_task_overview'));
 
-        $this->setRowTemplate('tpl.syscheck_tasks_row.html', 'Services/SystemCheck');
+        $this->setRowTemplate('tpl.syscheck_tasks_row.html', 'components/ILIAS/SystemCheck');
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 

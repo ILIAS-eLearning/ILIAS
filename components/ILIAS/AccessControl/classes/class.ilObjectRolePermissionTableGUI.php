@@ -57,14 +57,14 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         $this->tree_path_ids = $this->tree->getPathId($this->ref_id);
 
         $tpl = $DIC->ui()->mainTemplate();
-        $tpl->addJavaScript('./Services/AccessControl/js/ilPermSelect.js');
+        $tpl->addJavaScript('./components/ILIAS/AccessControl/js/ilPermSelect.js');
 
         $this->setTitle($this->lng->txt('permission_settings'));
         $this->setEnableHeader(true);
         $this->disable('sort');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->disable('numinfo');
-        $this->setRowTemplate("tpl.obj_role_perm_row.html", "Services/AccessControl");
+        $this->setRowTemplate("tpl.obj_role_perm_row.html", "components/ILIAS/AccessControl");
         $this->setLimit(100);
         $this->setShowRowsSelector(false);
         $this->setDisableFilterHiding(true);

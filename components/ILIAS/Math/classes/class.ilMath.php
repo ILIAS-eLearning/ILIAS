@@ -143,7 +143,7 @@ class ilMath
         }
 
         $class_name = 'ilMath' . $adapter . 'Adapter';
-        $path_to_class = realpath('Services/Math/classes/class.' . $class_name . '.php');
+        $path_to_class = realpath('components/ILIAS/Math/classes/class.' . $class_name . '.php');
 
         if (!is_file($path_to_class) || !is_readable($path_to_class)) {
             throw new ilMathException(sprintf(

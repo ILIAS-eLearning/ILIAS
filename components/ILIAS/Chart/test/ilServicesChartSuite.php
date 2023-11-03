@@ -28,7 +28,7 @@ class ilServicesChartSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Chart/test/ChartDataLinesTest.php");
+        require_once("./components/ILIAS/Chart/test/ChartDataLinesTest.php");
         $suite->addTestSuite("ChartDataLinesTest");
 
         return $suite;

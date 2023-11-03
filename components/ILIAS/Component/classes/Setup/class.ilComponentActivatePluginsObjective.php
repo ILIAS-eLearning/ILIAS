@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\DI;
-use ILIAS\Services\Logging\NullLogger;
+use ILIAS\components\Logging\NullLogger;
 
 class ilComponentActivatePluginsObjective implements Setup\Objective
 {
@@ -176,7 +176,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         }
 
         if (!defined("ILIAS_WEB_DIR")) {
-            define('ILIAS_WEB_DIR', dirname(__DIR__, 4) . "/data/");
+            define('ILIAS_WEB_DIR', dirname(__DIR__, 5) . "/data/");
         }
 
         return $DIC;

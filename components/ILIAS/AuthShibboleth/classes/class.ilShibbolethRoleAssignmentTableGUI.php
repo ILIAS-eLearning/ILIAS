@@ -37,7 +37,7 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('shib_rule_condition'), 'condition', "20%");
         $this->addColumn($this->lng->txt('shib_add_remove'), 'add_remove', "30%");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.show_role_assignment_row.html", "Services/AuthShibboleth");
+        $this->setRowTemplate("tpl.show_role_assignment_row.html", "components/ILIAS/AuthShibboleth");
         $this->setDefaultOrderField('type');
         $this->setDefaultOrderDirection("desc");
     }

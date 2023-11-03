@@ -10,7 +10,7 @@ Disclaimer: This documentation does not warrant completeness or correctness. Ple
   - Typically this will be the User ID of the account whose actions initiated the creation of the background task.
 - The BackgroundTasks service employs the following services, please consult the respective privacy.mds:
   - [Filesystem](../../src/Filesystem/PRIVACY.md)
-  - [GlobalScreen](../../Services/GlobalScreen/PRIVACY.md)
+  - [GlobalScreen](../../components/ILIAS/GlobalScreen_/PRIVACY.md)
   - Setup
   - UI
 

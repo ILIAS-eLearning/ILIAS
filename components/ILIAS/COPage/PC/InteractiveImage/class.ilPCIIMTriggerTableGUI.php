@@ -68,7 +68,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
             $this->pop_options[$p["nr"]] = $p["title"];
         }
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_pc_media_object->getMediaObject());
-        $this->setRowTemplate("tpl.iim_trigger_row.html", "Services/COPage");
+        $this->setRowTemplate("tpl.iim_trigger_row.html", "components/ILIAS/COPage");
     }
 
     public function initColumns(): void

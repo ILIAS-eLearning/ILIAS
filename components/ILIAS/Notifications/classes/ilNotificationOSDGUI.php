@@ -52,7 +52,7 @@ class ilNotificationOSDGUI
 
         $notificationSettings = new ilSetting('notifications');
 
-        $osdTemplate = new ilTemplate('tpl.osd_notifications.js', true, true, 'Services/Notifications');
+        $osdTemplate = new ilTemplate('tpl.osd_notifications.js', true, true, 'components/ILIAS/Notifications');
 
         $osdTemplate->setVariable(
             'OSD_INTERVAL',
@@ -66,8 +66,8 @@ class ilNotificationOSDGUI
         iljQueryUtil::initjQuery($this->page);
         ilPlayerUtil::initMediaElementJs($this->page);
 
-        $this->page->addJavaScript('Services/Notifications/templates/default/notifications.js');
-        $this->page->addCSS('Services/Notifications/templates/default/osd.css');
+        $this->page->addJavaScript('components/ILIAS/Notifications/templates/default/notifications.js');
+        $this->page->addCSS('components/ILIAS/Notifications/templates/default/osd.css');
         $this->page->addOnLoadCode($osdTemplate->get());
     }
 }

@@ -34,7 +34,7 @@ class ILIASSuite extends TestSuite
         echo "\n";
 
         // scan Modules and Services directories
-        $basedirs = array("Services", "components/ILIAS");
+        $basedirs = array("components/ILIAS");
 
         foreach ($basedirs as $basedir) {
             // read current directory

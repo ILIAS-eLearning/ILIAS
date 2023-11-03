@@ -37,7 +37,7 @@ class ilFileImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ): void {
         // case i container
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             $newObj->setVersion(
                 0
@@ -61,7 +61,7 @@ class ilFileImporter extends ilXmlImporter
 
         $a_mapping->addMapping("components/ILIAS/File", "file", $a_id, $newObj->getId());
         $a_mapping->addMapping(
-            "Services/MetaData",
+            "components/ILIAS/MetaData",
             "md",
             $a_id . ":0:file",
             $newObj->getId() . ":0:file"

@@ -72,11 +72,11 @@ class ilGlossaryExporter extends ilXmlExporter
             // definition pages and their metadat
             $deps = array(
                 array(
-                    "component" => "Services/COPage",
+                    "component" => "components/ILIAS/COPage",
                     "entity" => "pg",
                     "ids" => $page_ids),
                 array(
-                    "component" => "Services/MetaData",
+                    "component" => "components/ILIAS/MetaData",
                     "entity" => "md",
                     "ids" => $md_ids),
             );
@@ -91,7 +91,7 @@ class ilGlossaryExporter extends ilXmlExporter
             }
             if (count($tax_ids)) {
                 $deps[] = array(
-                    "component" => "Services/Taxonomy",
+                    "component" => "components/ILIAS/Taxonomy",
                     "entity" => "tax",
                     "ids" => $tax_ids
                 );
@@ -109,7 +109,7 @@ class ilGlossaryExporter extends ilXmlExporter
             }
             if (count($advmd_ids)) {
                 $deps[] = array(
-                    "component" => "Services/AdvancedMetaData",
+                    "component" => "components/ILIAS/AdvancedMetaData",
                     "entity" => "advmd",
                     "ids" => $advmd_ids
                 );
@@ -120,14 +120,14 @@ class ilGlossaryExporter extends ilXmlExporter
                 ? $a_ids
                 : array($a_ids);
             $deps[] = array(
-                "component" => "Services/Style",
+                "component" => "components/ILIAS/Style",
                 "entity" => "object_style",
                 "ids" => $obj_ids
             );
 
             // service settings
             $deps[] = array(
-                "component" => "Services/Object",
+                "component" => "components/ILIAS/Object",
                 "entity" => "common",
                 "ids" => $a_ids);
 

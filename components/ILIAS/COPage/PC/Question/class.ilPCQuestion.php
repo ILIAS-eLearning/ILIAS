@@ -284,7 +284,7 @@ class ilPCQuestion extends ilPageContent
 
         if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != ilPageObjectGUI::PREVIEW
             && $a_mode != "offline") {
-            $js_files[] = "./Services/COPage/js/ilCOPageQuestionHandler.js";
+            $js_files[] = "./components/ILIAS/COPage/js/ilCOPageQuestionHandler.js";
         }
 
         return $js_files;

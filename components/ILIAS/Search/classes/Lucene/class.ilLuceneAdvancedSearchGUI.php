@@ -105,7 +105,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
             $searcher->highlight($filter->getResultObjIds());
         }
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_adv_search.html', 'Services/Search');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_adv_search.html', 'components/ILIAS/Search');
         $presentation = new ilSearchResultPresentation($this);
         $presentation->setResults($filter->getResultIds());
         $presentation->setSearcher($searcher);
@@ -236,7 +236,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         }
 
         // Show results
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_adv_search.html', 'Services/Search');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_adv_search.html', 'components/ILIAS/Search');
         $presentation = new ilSearchResultPresentation($this);
         $presentation->setResults($filter->getResultIds());
         $presentation->setSearcher($searcher);

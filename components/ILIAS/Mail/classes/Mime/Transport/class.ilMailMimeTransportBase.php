@@ -182,7 +182,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             ));
         }
 
-        $this->eventHandler->raise('Services/Mail', 'externalEmailDelegated', [
+        $this->eventHandler->raise('components/ILIAS/Mail', 'externalEmailDelegated', [
             'mail' => $mail,
             'result' => $result,
         ]);

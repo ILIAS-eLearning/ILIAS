@@ -141,7 +141,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         );
         $this->setRowTemplate(
             "tpl.lp_object_statistics_lp_row.html",
-            "Services/Tracking"
+            "components/ILIAS/Tracking"
         );
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);
@@ -716,6 +716,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         ilYuiUtil::initOverlay();
         iljQueryUtil::initjQuery();
 
-        $tpl->addJavascript("./Services/Tracking/js/ilObjStat.js");
+        $tpl->addJavascript("./components/ILIAS/Tracking/js/ilObjStat.js");
     }
 }

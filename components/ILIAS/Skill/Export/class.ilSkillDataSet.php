@@ -616,7 +616,7 @@ class ilSkillDataSet extends ilDataSet
                     $status = ilSkillTreeNode::STATUS_DRAFT;
                     $order = (int) $a_rec["OrderNr"] + $init_top_order_nr;
                 } else {
-                    $parent = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["Parent"]);
+                    $parent = (int) $a_mapping->getMapping("components/ILIAS/Skill", "skl_tree", $a_rec["Parent"]);
                     $status = (int) $a_rec["Status"];
                     $order = (int) $a_rec["OrderNr"];
                 }
@@ -631,7 +631,7 @@ class ilSkillDataSet extends ilDataSet
                         $scat->setStatus($status);
                         $scat->create();
                         $tree_node_manager->putIntoTree($scat, $parent);
-                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $scat->getId());
+                        $a_mapping->addMapping("components/ILIAS/Skill", "skl_tree", $a_rec["Child"], (string) $scat->getId());
                         break;
 
                     case "skll":
@@ -644,11 +644,11 @@ class ilSkillDataSet extends ilDataSet
                         $skll->setStatus($status);
                         $skll->create();
                         $tree_node_manager->putIntoTree($skll, $parent);
-                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $skll->getId());
+                        $a_mapping->addMapping("components/ILIAS/Skill", "skl_tree", $a_rec["Child"], (string) $skll->getId());
                         break;
 
                     case "sktr":
-                        $template_id = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["TemplateId"]);
+                        $template_id = (int) $a_mapping->getMapping("components/ILIAS/Skill", "skl_tree", $a_rec["TemplateId"]);
                         // only create template references, if referenced template is found (template trees are imported first)
                         if ($template_id > 0) {
                             $sktr = new ilSkillTemplateReference();
@@ -661,7 +661,7 @@ class ilSkillDataSet extends ilDataSet
                             $sktr->setStatus($status);
                             $sktr->create();
                             $tree_node_manager->putIntoTree($sktr, $parent);
-                            $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $sktr->getId());
+                            $a_mapping->addMapping("components/ILIAS/Skill", "skl_tree", $a_rec["Child"], (string) $sktr->getId());
                         }
                         break;
                 }
@@ -672,7 +672,7 @@ class ilSkillDataSet extends ilDataSet
                     $parent = $skill_tree_root_id;
                     $order = (int) $a_rec["OrderNr"] + $init_templ_top_order_nr;
                 } else {
-                    $parent = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["Parent"]);
+                    $parent = (int) $a_mapping->getMapping("components/ILIAS/Skill", "skl_tree", $a_rec["Parent"]);
                     $order = (int) $a_rec["OrderNr"];
                 }
                 switch ($a_rec["Type"]) {
@@ -684,7 +684,7 @@ class ilSkillDataSet extends ilDataSet
                         $sctp->setOrderNr($order);
                         $sctp->create();
                         $tree_node_manager->putIntoTree($sctp, $parent);
-                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $sctp->getId());
+                        $a_mapping->addMapping("components/ILIAS/Skill", "skl_tree", $a_rec["Child"], (string) $sctp->getId());
                         break;
 
                     case "sktp":
@@ -695,13 +695,13 @@ class ilSkillDataSet extends ilDataSet
                         $sktp->setOrderNr($order);
                         $sktp->create();
                         $tree_node_manager->putIntoTree($sktp, $parent);
-                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $sktp->getId());
+                        $a_mapping->addMapping("components/ILIAS/Skill", "skl_tree", $a_rec["Child"], (string) $sktp->getId());
                         break;
                 }
                 break;
 
             case "skl_level":
-                $skill_id = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["SkillId"]);
+                $skill_id = (int) $a_mapping->getMapping("components/ILIAS/Skill", "skl_tree", $a_rec["SkillId"]);
                 $type = ilSkillTreeNode::_lookupType($skill_id);
                 if (in_array($type, array("skll", "sktp"))) {
                     if ($type == "skll") {
@@ -723,7 +723,7 @@ class ilSkillDataSet extends ilDataSet
                 );
                 $new_profile = $this->skill_manager->getProfileManager()->createProfile($profile);
 
-                $a_mapping->addMapping("Services/Skill", "skl_prof", $a_rec["Id"], (string) $new_profile->getId());
+                $a_mapping->addMapping("components/ILIAS/Skill", "skl_prof", $a_rec["Id"], (string) $new_profile->getId());
                 break;
 
             case "skl_local_prof":
@@ -737,13 +737,13 @@ class ilSkillDataSet extends ilDataSet
                 );
                 $new_profile = $this->skill_manager->getProfileManager()->createProfile($profile);
 
-                $a_mapping->addMapping("Services/Skill", "skl_local_prof", $a_rec["Id"], (string) $new_profile->getId());
+                $a_mapping->addMapping("components/ILIAS/Skill", "skl_local_prof", $a_rec["Id"], (string) $new_profile->getId());
                 break;
 
             case "skl_prof_level":
-                $profile_id = (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"])
-                    ? (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"])
-                    : (int) $a_mapping->getMapping("Services/Skill", "skl_local_prof", $a_rec["ProfileId"]);
+                $profile_id = (int) $a_mapping->getMapping("components/ILIAS/Skill", "skl_prof", $a_rec["ProfileId"])
+                    ? (int) $a_mapping->getMapping("components/ILIAS/Skill", "skl_prof", $a_rec["ProfileId"])
+                    : (int) $a_mapping->getMapping("components/ILIAS/Skill", "skl_local_prof", $a_rec["ProfileId"]);
                 if ($profile_id > 0) {
                     $level_id_data = ilBasicSkill::getLevelIdForImportId((int) $this->getCurrentInstallationId(), (int) $a_rec["LevelId"]);
                     $skill_data = ilBasicSkill::getCommonSkillIdForImportId((int) $this->getCurrentInstallationId(), (int) $a_rec["BaseSkillId"], (int) $a_rec["TrefId"]);

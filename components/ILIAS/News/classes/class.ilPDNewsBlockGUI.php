@@ -78,7 +78,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         }
 
         $this->setTitle($lng->txt("news_internal_news"));
-        $this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
+        $this->setRowTemplate("tpl.block_row_news_for_context.html", "components/ILIAS/News");
 
         $this->setData($data);
 
@@ -208,7 +208,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         $news_set = new ilSetting("news");
 
         if ($news_set->get("enable_private_feed")) {
-            $tpl = new ilTemplate("tpl.show_priv_feed_url.html", true, true, "Services/News");
+            $tpl = new ilTemplate("tpl.show_priv_feed_url.html", true, true, "components/ILIAS/News");
 
             $tpl->setVariable("TXT_PRIV_TITLE", $lng->txt("news_get_priv_feed_title"));
 
@@ -232,7 +232,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                 $tpl->setVariable("EDIT_SETTINGS_TXT", $lng->txt("news_edit_news_settings"));
             }
         } else {
-            $tpl = new ilTemplate("tpl.show_feed_url.html", true, true, "Services/News");
+            $tpl = new ilTemplate("tpl.show_feed_url.html", true, true, "components/ILIAS/News");
         }
         $tpl->setVariable("TXT_TITLE", $lng->txt("news_get_feed_title"));
         $tpl->setVariable("TXT_INFO", $lng->txt("news_get_feed_info"));

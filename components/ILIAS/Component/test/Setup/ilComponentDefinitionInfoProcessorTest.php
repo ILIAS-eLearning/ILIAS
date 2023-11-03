@@ -48,7 +48,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $name2 = "NAME2";
         $id2 = "ID2";
 
-        $type2 = "Services";
+        $type2 = "components/ILIAS";
         $name3 = "NAME3";
         $id3 = "ID3";
         $name4 = "NAME4";
@@ -90,7 +90,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $type = "Services";
+        $type = "components/ILIAS";
         $name = "NAME";
         $id = "ID";
 
@@ -102,7 +102,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $type = "Services";
+        $type = "components/ILIAS";
         $name = "NAME";
 
         $this->processor->beginComponent($name, $type);

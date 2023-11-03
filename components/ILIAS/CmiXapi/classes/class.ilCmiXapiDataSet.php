@@ -414,7 +414,7 @@ class ilCmiXapiDataSet extends ilDataSet
         switch ($a_entity) {
             case "cmix":
 
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
                 } else {
                     $newObj = new ilObjCmiXapi();

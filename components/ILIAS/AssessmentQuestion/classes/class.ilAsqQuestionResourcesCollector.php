@@ -8,7 +8,7 @@
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Services/AssessmentQuestion
+ * @package components/ILIAS/AssessmentQuestion
  */
 class ilAsqQuestionResourcesCollector
 {

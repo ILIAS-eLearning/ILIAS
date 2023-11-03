@@ -127,7 +127,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
         $levels = [];
 
         $lng->loadLanguageModule("maps");
-        $tpl = new ilTemplate("tpl.prop_location.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_location.html", true, true, "components/ILIAS/Form");
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("TXT_ZOOM", $lng->txt("maps_zoom_level"));
         $tpl->setVariable("TXT_LATITUDE", $lng->txt("maps_latitude"));

@@ -181,7 +181,7 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 
     public function insert(ilTemplate $a_tpl): void
     {
-        $tpl = new ilTemplate('tpl.prop_color.html', true, true, 'Services/Form');
+        $tpl = new ilTemplate('tpl.prop_color.html', true, true, 'components/ILIAS/Form');
         $tpl->setVariable('COLOR_ID', $this->getFieldId());
         $ic = ilColorPickerInputGUI::determineHexcode($this->getHexcode());
         if ($ic == "") {

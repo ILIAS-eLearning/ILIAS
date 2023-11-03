@@ -36,7 +36,7 @@ class ilCOPageImporter extends ilXmlImporter
 
         $this->ds = new ilCOPageDataSet();
         $this->ds->setDSPrefix("ds");
-        $this->config = $this->getImport()->getConfig("Services/COPage");
+        $this->config = $this->getImport()->getConfig("components/ILIAS/COPage");
 
         $this->log = ilLoggerFactory::getLogger('copg');
 
@@ -71,7 +71,7 @@ class ilCOPageImporter extends ilXmlImporter
         }
 
         if ($a_entity == "pg") {
-            $pg_id = $a_mapping->getMapping("Services/COPage", "pg", $a_id);
+            $pg_id = $a_mapping->getMapping("components/ILIAS/COPage", "pg", $a_id);
 
             $this->log->debug("mapping id: " . $pg_id);
 
@@ -126,7 +126,7 @@ class ilCOPageImporter extends ilXmlImporter
                         if ($lstr == "") {
                             $lstr = "-";
                         }
-                        $a_mapping->addMapping("Services/COPage", "pgl", $a_id . ":" . $lstr, $pg_id . ":" . $lstr);
+                        $a_mapping->addMapping("components/ILIAS/COPage", "pgl", $a_id . ":" . $lstr, $pg_id . ":" . $lstr);
                     }
                 }
             }
@@ -138,11 +138,11 @@ class ilCOPageImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ): void {
         $this->log->debug("start");
-        $pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");
-        $media_objects = $a_mapping->getMappingsOfEntity("Services/MediaObjects", "mob");
+        $pages = $a_mapping->getMappingsOfEntity("components/ILIAS/COPage", "pgl");
+        $media_objects = $a_mapping->getMappingsOfEntity("components/ILIAS/MediaObjects", "mob");
         $file_objects = $a_mapping->getMappingsOfEntity("components/ILIAS/File", "file");
 
-        $ref_mapping = $a_mapping->getMappingsOfEntity('Services/Container', 'refs');
+        $ref_mapping = $a_mapping->getMappingsOfEntity('components/ILIAS/Container', 'refs');
 
         //if (count($media_objects) > 0 || count($file_objects) > 0)
         //{

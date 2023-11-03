@@ -72,7 +72,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("title");
 
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-        $this->setRowTemplate("tpl.personal_row.html", "Services/Badge");
+        $this->setRowTemplate("tpl.personal_row.html", "components/ILIAS/Badge");
 
         $this->addMultiCommand("activate", $lng->txt("badge_add_to_profile"));
         $this->addMultiCommand("deactivate", $lng->txt("badge_remove_from_profile"));

@@ -42,7 +42,7 @@ abstract class ilAbstractLearningHistoryProvider //TODO-PHP8-REVIEW please add t
                 'tpl.emphasized_title.php',
                 true,
                 true,
-                'Services/LearningHistory'
+                'components/ILIAS/LearningHistory'
             );
         }
         $this->template = $template;

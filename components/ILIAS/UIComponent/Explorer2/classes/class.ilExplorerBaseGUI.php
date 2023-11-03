@@ -35,7 +35,7 @@ abstract class ilExplorerBaseGUI
     protected static string $js_tree_path = "./node_modules/jstree/dist/jstree.js";
     protected static string $js_tree_path_css = "./node_modules/jstree/dist/themes/default/style.min.css";
 
-    protected static string $js_expl_path = "./Services/UIComponent/Explorer2/js/Explorer2.js";
+    protected static string $js_expl_path = "./components/ILIAS/UIComponent/Explorer2/js/Explorer2.js";
     protected bool $skip_root_node = false;
     protected bool $ajax = false;
     protected array $custom_open_nodes = array();
@@ -138,8 +138,8 @@ abstract class ilExplorerBaseGUI
 
     public static function createHTMLExportDirs(string $a_target_dir): void
     {
-        ilFileUtils::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/lib/jstree-v.pre1.0");
-        ilFileUtils::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/js");
+        ilFileUtils::makeDirParents($a_target_dir . "/components/ILIAS/UIComponent/Explorer2/lib/jstree-v.pre1.0");
+        ilFileUtils::makeDirParents($a_target_dir . "/components/ILIAS/UIComponent/Explorer2/js");
     }
 
 
@@ -480,7 +480,7 @@ abstract class ilExplorerBaseGUI
     {
         $this->beforeRendering();
 
-        $etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
+        $etpl = new ilTemplate("tpl.explorer2.html", true, true, "components/ILIAS/UIComponent/Explorer2");
 
         $root = $this->getNodeId($this->getRootNode());
         if (!in_array($root, $this->open_nodes)) {
@@ -629,7 +629,7 @@ abstract class ilExplorerBaseGUI
             $tpl->addOnLoadCode($this->getOnLoadCode());
         }
 
-        $etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
+        $etpl = new ilTemplate("tpl.explorer2.html", true, true, "components/ILIAS/UIComponent/Explorer2");
 
         if (!$this->ajax) {
             // render childs

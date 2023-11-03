@@ -451,7 +451,7 @@ As I said, if you are a consumer of the IRSS, you use the Consumers approach any
 
 - Migration will need at least the
   feature ["Migrate Command"](https://docu.ilias.de/goto_docu_wiki_wpage_6399_1357.html)
-- A documentation how you can migrate your component is [here](../../Services/ResourceStorage/MIGRATIONS.md).
+- A documentation how you can migrate your component is [here](../../components/ILIAS/ResourceStorage_/MIGRATIONS.md).
 
 # Roadmap
 

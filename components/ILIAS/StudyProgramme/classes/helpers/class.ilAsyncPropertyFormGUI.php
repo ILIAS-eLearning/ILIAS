@@ -148,7 +148,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $tpl = new ilTemplate("tpl.property_form.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.property_form.html", true, true, "components/ILIAS/Form");
 
         $tpl->setCurrentBlock("alert");
         // TODO: DW -> refactor getImagePath

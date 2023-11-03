@@ -32,7 +32,7 @@ class ilMediaObjectsImporter extends ilXmlImporter
         $this->ds->setDSPrefix("ds");
         $this->ds->setImportDirectory($this->getImportDirectory());
 
-        $this->config = $this->getImport()->getConfig("Services/MediaObjects");
+        $this->config = $this->getImport()->getConfig("components/ILIAS/MediaObjects");
         if ($this->config->getUsePreviousImportIds()) {
             $this->ds->setUsePreviousImportIds(true);
         }

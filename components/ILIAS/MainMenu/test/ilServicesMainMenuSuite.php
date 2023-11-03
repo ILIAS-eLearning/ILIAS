@@ -28,7 +28,7 @@ class ilServicesMainMenuSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/MainMenu/test/ilServicesMainMenuTest.php");
+        require_once("./components/ILIAS/MainMenu/test/ilServicesMainMenuTest.php");
         $suite->addTestSuite("ilServicesMainMenuTest");
 
         return $suite;

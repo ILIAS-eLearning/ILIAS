@@ -716,7 +716,7 @@ class ilInfoScreenGUI
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        $tpl = new ilTemplate("tpl.infoscreen.html", true, true, "Services/InfoScreen");
+        $tpl = new ilTemplate("tpl.infoscreen.html", true, true, "components/ILIAS/InfoScreen");
 
         // other class handles form action (@todo: this is not implemented/tested)
         if ($this->form_action == "") {
@@ -754,7 +754,7 @@ class ilInfoScreenGUI
 
         // add top formbuttons
         if ((count($this->top_formbuttons) > 0) && ($this->form_action !== '')) {
-            $tpl->addBlockFile("TOP_FORMBUTTONS", "top_submitbuttons", "tpl.submitbuttons.html", "Services/InfoScreen");
+            $tpl->addBlockFile("TOP_FORMBUTTONS", "top_submitbuttons", "tpl.submitbuttons.html", "components/ILIAS/InfoScreen");
 
             foreach ($this->top_formbuttons as $button) {
                 // view button

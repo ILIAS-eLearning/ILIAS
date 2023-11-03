@@ -649,7 +649,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
      */
     public function media(string $a_mode = "media"): string
     {
-        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "components/ILIAS/COPage");
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",

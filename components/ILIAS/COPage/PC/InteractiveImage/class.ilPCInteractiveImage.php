@@ -774,7 +774,7 @@ class ilPCInteractiveImage extends ilPageContent
             }
         }
         return $a_output .
-'<script type="module" src="./Services/COPage/PC/InteractiveImage/js/presentation/src/presentation.js"></script>';
+'<script type="module" src="./components/ILIAS/COPage/PC/InteractiveImage/js/presentation/src/presentation.js"></script>';
     }
 
     public function getPopupDummy(): string
@@ -802,7 +802,7 @@ EOT;
         $xml .= $mob->getXML(IL_MODE_ALIAS);
         $xml .= $mob->getXML(IL_MODE_OUTPUT);
         $xml .= "</dummy>";
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
+        $xsl = file_get_contents("./components/ILIAS/COPage/xsl/page.xsl");
         //echo htmlentities($xml); exit;
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();

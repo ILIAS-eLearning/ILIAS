@@ -532,13 +532,13 @@ class ilExplorer
         }
 
         ilYuiUtil::initConnection();
-        $tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
+        $tpl->addJavaScript("./components/ILIAS/UIComponent/Explorer/js/ilExplorer.js");
 
         //echo "hh";
         // set global body class
         //		$tpl->setBodyClass("il_Explorer");
 
-        $tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
+        $tpl_tree = new ilTemplate("tpl.tree.html", true, true, "components/ILIAS/UIComponent/Explorer");
 
         // updater
         if (($this->requestStr("ict") !== "" ||

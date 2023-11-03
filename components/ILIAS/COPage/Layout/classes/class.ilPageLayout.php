@@ -225,7 +225,7 @@ class ilPageLayout
 
     private function getXSLPath(): string
     {
-        return "./Services/COPage/Layout/xml/layout2html.xsl";
+        return "./components/ILIAS/COPage/Layout/xml/layout2html.xsl";
     }
 
     private function generatePreview(): string
@@ -346,7 +346,7 @@ class ilPageLayout
             $a_filepath,
             $a_filename,
             "pgtp",
-            "Services/COPage"
+            "components/ILIAS/COPage"
         );
     }
 

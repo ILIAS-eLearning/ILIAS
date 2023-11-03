@@ -49,7 +49,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->initColumns();
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.image_map_table_row.html", "Services/MediaObjects");
+        $this->setRowTemplate("tpl.image_map_table_row.html", "components/ILIAS/MediaObjects");
         $this->getItems();
 
         // action commands

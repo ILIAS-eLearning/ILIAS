@@ -75,7 +75,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('login'), 'login');
         $this->addColumn($this->lng->txt('buddy_tbl_state_actions_col_label'), '', '', false, 'ilRight');
 
-        $this->setRowTemplate('tpl.buddy_system_relation_table_row.html', 'Services/Contact/BuddySystem');
+        $this->setRowTemplate('tpl.buddy_system_relation_table_row.html', 'components/ILIAS/Contact/BuddySystem');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->setFilterCommand(self::APPLY_FILTER_CMD);
@@ -240,7 +240,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
             'tpl.buddy_system_relation_table_listener.html',
             true,
             true,
-            'Services/Contact/BuddySystem'
+            'components/ILIAS/Contact/BuddySystem'
         );
         $listener_tpl->setVariable('TABLE_ID', $this->getId());
         $listener_tpl->setVariable('FILTER_ELM_ID', self::STATE_FILTER_ELM_ID);

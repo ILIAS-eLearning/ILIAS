@@ -93,7 +93,7 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
 
     public function insert(ilTemplate $a_tpl): void
     {
-        $tpl = new ilTemplate("tpl.prop_style_numeric.html", true, true, "Services/Style/Content");
+        $tpl = new ilTemplate("tpl.prop_style_numeric.html", true, true, "components/ILIAS/Style/Content");
 
         $tpl->setVariable("POSTVAR", $this->getPostVar());
 

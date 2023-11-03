@@ -8,7 +8,7 @@
 // - Unlock
 
 // INIT ILIAS
-use ILIAS\Services\WOPI\Handler\RequestHandler;
+use ILIAS\components\WOPI\Handler\RequestHandler;
 
 chdir("../");
 require_once __DIR__ . "/../libs/composer/vendor/autoload.php";

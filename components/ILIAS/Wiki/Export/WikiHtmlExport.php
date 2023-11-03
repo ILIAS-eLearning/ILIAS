@@ -31,7 +31,7 @@ class WikiHtmlExport
     public const MODE_COMMENTS = "html_comments";
     public const MODE_USER = "user_html";
     public const MODE_USER_COMMENTS = "user_html_comments";
-    protected \ILIAS\Services\Export\HTML\Util $export_util;
+    protected \ILIAS\components\Export\HTML\Util $export_util;
 
     protected \ilDBInterface $db;
     protected \ilObjUser $user;
@@ -121,7 +121,7 @@ class WikiHtmlExport
 
         $this->export_dir = $exp_dir . "/" . $subdir;
 
-        $this->export_util = new \ILIAS\Services\Export\HTML\Util($exp_dir, $subdir);
+        $this->export_util = new \ILIAS\components\Export\HTML\Util($exp_dir, $subdir);
 
         // initialize temporary target directory
         ilFileUtils::delDir($this->export_dir);

@@ -285,7 +285,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
                     // user interface plugin slot + default rendering
                     $uip = new ilUIHookProcessor(
-                        "Services/Dashboard",
+                        "components/ILIAS/Dashboard",
                         "center_column",
                         array("personal_desktop_gui" => $this)
                     );
@@ -322,7 +322,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
                 // user interface plugin slot + default rendering
                 $uip = new ilUIHookProcessor(
-                    "Services/Dashboard",
+                    "components/ILIAS/Dashboard",
                     "right_column",
                     array("personal_desktop_gui" => $this)
                 );
@@ -477,7 +477,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     protected function getMainContent(): string
     {
         $html = "";
-        $tpl = new ilTemplate("tpl.dashboard.html", true, true, "Services/Dashboard");
+        $tpl = new ilTemplate("tpl.dashboard.html", true, true, "components/ILIAS/Dashboard");
         $settings = new ilPDSelectedItemsBlockViewSettings($this->user);
 
         foreach ($settings->getViewPositions() as $view_position) {

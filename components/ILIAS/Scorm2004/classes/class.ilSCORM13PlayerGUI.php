@@ -453,9 +453,9 @@ class ilSCORM13PlayerGUI
 
 
         $this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
-        // include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+        // include_once("./components/ILIAS/YUI/classes/class.ilYuiUtil.php");
         // $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
-        // $this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
+        // $this->tpl->setVariable('TREE_JS', "./components/ILIAS/UIComponent/NestedList/js/ilNestedList.js");
         $this->tpl->setVariable('TREE_JS', "./components/ILIAS/Scorm2004/scripts/ilNestedList.js");
         foreach ($langstrings as $key => $value) {
             $this->tpl->setVariable($key, $value);
@@ -1211,7 +1211,7 @@ class ilSCORM13PlayerGUI
     //     */
     //    public function getMimetype($filename)
     //    {
-    //        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+    //        include_once("./components/ILIAS/MediaObjects/classes/class.ilObjMediaObject.php");
     //        return ilObjMediaObject::getMimeType($filename);
     //    }
 

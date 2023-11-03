@@ -798,7 +798,7 @@ class ilLuceneAdvancedSearchFields
         string $txt_until,
         string $select_until
     ): string {
-        $tpl = new ilTemplate('tpl.range_search.html', true, true, 'Services/Search');
+        $tpl = new ilTemplate('tpl.range_search.html', true, true, 'components/ILIAS/Search');
         $tpl->setVariable('TXT_FROM', $txt_from);
         $tpl->setVariable('FROM', $select_from);
         $tpl->setVariable('TXT_UPTO', $txt_until);

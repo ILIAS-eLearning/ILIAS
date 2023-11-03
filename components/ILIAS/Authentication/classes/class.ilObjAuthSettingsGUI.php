@@ -68,7 +68,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->setSubTabs('authSettings');
         $this->tabs_gui->setSubTabActive("auth_settings");
 
-        $generalSettingsTpl = new ilTemplate('tpl.auth_general.html', true, true, 'Services/Authentication');
+        $generalSettingsTpl = new ilTemplate('tpl.auth_general.html', true, true, 'components/ILIAS/Authentication');
 
         $generalSettingsTpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         $generalSettingsTpl->setVariable("TXT_AUTH_TITLE", $this->lng->txt("auth_select"));
@@ -255,7 +255,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             "ADM_CONTENT",
             "adm_content",
             "tpl.auth_login_messages.html",
-            "Services/Authentication"
+            "components/ILIAS/Authentication"
         );
         $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         $this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
@@ -549,7 +549,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             "ADM_CONTENT",
             "adm_content",
             "tpl.auth_script.html",
-            "Services/Authentication"
+            "components/ILIAS/Authentication"
         );
 
         $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));

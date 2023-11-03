@@ -81,8 +81,8 @@ class ilImportContainer extends ilImport
         $new->putInTree($this->getMapping()->getTargetId());
         $new->setPermissions($this->getMapping()->getTargetId());
 
-        $this->getMapping()->addMapping('Services/Container', 'objs', '0', (string) $new->getId());
-        $this->getMapping()->addMapping('Services/Container', 'refs', '0', (string) $new->getRefId());
+        $this->getMapping()->addMapping('components/ILIAS/Container', 'objs', '0', (string) $new->getId());
+        $this->getMapping()->addMapping('components/ILIAS/Container', 'refs', '0', (string) $new->getRefId());
 
         return $new;
     }

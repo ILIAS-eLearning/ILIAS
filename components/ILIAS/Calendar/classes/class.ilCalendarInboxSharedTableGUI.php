@@ -44,7 +44,7 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->setRowTemplate('tpl.calendar_inbox_shared_row.html', 'Services/Calendar');
+        $this->setRowTemplate('tpl.calendar_inbox_shared_row.html', 'components/ILIAS/Calendar');
 
         $this->addColumn('', 'cal_ids', '1px');
         $this->addColumn($this->lng->txt('name'), 'title', '50%');

@@ -52,7 +52,7 @@ class ilCourseExporter extends ilXmlExporter
         // always trigger container because of co-page(s)
         return array(
             array(
-                'component' => 'Services/Container',
+                'component' => 'components/ILIAS/Container',
                 'entity' => 'struct',
                 'ids' => $a_ids
             )
@@ -108,7 +108,7 @@ class ilCourseExporter extends ilXmlExporter
 
         if ($page_ids !== []) {
             $dependencies[] = [
-                'component' => 'Services/COPage',
+                'component' => 'components/ILIAS/COPage',
                 'entity' => 'pg',
                 'ids' => $page_ids
             ];
@@ -124,7 +124,7 @@ class ilCourseExporter extends ilXmlExporter
 
         if ($advmd_ids !== []) {
             $dependencies[] = [
-                "component" => "Services/AdvancedMetaData",
+                "component" => "components/ILIAS/AdvancedMetaData",
                 "entity" => "advmd",
                 "ids" => $advmd_ids
             ];
@@ -136,7 +136,7 @@ class ilCourseExporter extends ilXmlExporter
         }
         if ($md_ids !== []) {
             $dependencies[] = [
-                    "component" => "Services/MetaData",
+                    "component" => "components/ILIAS/MetaData",
                     "entity" => "md",
                     "ids" => $md_ids
             ];

@@ -62,7 +62,7 @@ class Init
         }
 
         \ilYuiUtil::initConnection();
-        $main_tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
+        $main_tpl->addJavaScript("./components/ILIAS/UIComponent/Explorer/js/ilExplorer.js");
 
         // ensure that form.js is loaded which is needed for file input (js that shows file names)
         $dummy = new \ilPropertyFormGUI();
@@ -104,7 +104,7 @@ class Init
 EOT;
 
         $module_tag = <<<EOT
-<script type="module" src="./Services/COPage/Editor/js/src/editor.js"></script>
+<script type="module" src="./components/ILIAS/COPage/Editor/js/src/editor.js"></script>
 EOT;
         return $init_span . $module_tag;
     }

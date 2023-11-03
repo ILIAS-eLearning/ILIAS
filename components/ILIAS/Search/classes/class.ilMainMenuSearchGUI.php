@@ -56,7 +56,7 @@ class ilMainMenuSearchGUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $DIC->ui()->mainTemplate()->addJavascript('Services/Search/js/SearchMainMenu.js');
+        $DIC->ui()->mainTemplate()->addJavascript('components/ILIAS/Search/js/SearchMainMenu.js');
 
         $this->initRefIdFromQuery();
     }
@@ -77,7 +77,7 @@ class ilMainMenuSearchGUI
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
 
-        $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'Services/Search');
+        $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'components/ILIAS/Search');
         if ($this->user->getId() != ANONYMOUS_USER_ID) {
             $this->tpl->setVariable('LABEL_SEARCH_OPTIONS', $this->lng->txt("label_search_options"));
             if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled() || ($this->ref_id != ROOT_FOLDER_ID)) {

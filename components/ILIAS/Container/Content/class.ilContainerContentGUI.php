@@ -89,7 +89,7 @@ abstract class ilContainerContentGUI
         $obj = $this->container_gui->getObject();
         $this->container_obj = $obj;
 
-        $tpl->addJavaScript("./Services/Container/js/Container.js");
+        $tpl->addJavaScript("./components/ILIAS/Container/js/Container.js");
 
         $this->log = ilLoggerFactory::getLogger('cont');
 
@@ -223,7 +223,7 @@ abstract class ilContainerContentGUI
 
                 // user interface plugin slot + default rendering
                 $uip = new ilUIHookProcessor(
-                    "Services/Container",
+                    "components/ILIAS/Container",
                     "right_column",
                     ["container_content_gui" => $this]
                 );
@@ -285,7 +285,7 @@ abstract class ilContainerContentGUI
             "tpl.container_page.html",
             true,
             true,
-            "Services/Container"
+            "components/ILIAS/Container"
         );
         // Show introduction, if repository is empty
         if (!$this->item_presentation->hasItems() &&
@@ -784,7 +784,7 @@ abstract class ilContainerContentGUI
 
         $lng->loadLanguageModule("rep");
 
-        $tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
+        $tpl = new ilTemplate("tpl.rep_intro.html", true, true, "components/ILIAS/Repository");
         $tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon(0, "big", "root"));
         $tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
         $tpl->setVariable("TXT_INTRO_1", $lng->txt("rep_intro1"));

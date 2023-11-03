@@ -47,12 +47,12 @@ class ilFileExporter extends ilXmlExporter
 
         return [
             [
-                "component" => "Services/MetaData",
+                "component" => "components/ILIAS/MetaData",
                 "entity" => "md",
                 "ids" => $md_ids,
             ],
             [
-                "component" => "Services/Object",
+                "component" => "components/ILIAS/Object",
                 "entity" => "common",
                 "ids" => $a_ids
             ]

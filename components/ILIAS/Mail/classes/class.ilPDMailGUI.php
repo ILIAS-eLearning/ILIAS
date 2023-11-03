@@ -61,7 +61,7 @@ class ilPDMailGUI
         $umail->markRead([$a_mail_id]);
         $mail_data = $umail->getMail($a_mail_id);
 
-        $tpl = new ilTemplate('tpl.pd_mail.html', true, true, 'Services/Mail');
+        $tpl = new ilTemplate('tpl.pd_mail.html', true, true, 'components/ILIAS/Mail');
 
         if ($mail_data['attachments']) {
             $mailId = 0;

@@ -146,7 +146,7 @@ class ilCalendarAppointmentPresentationGUI
 
     public function getModalHTML(): string
     {
-        $tpl = new ilTemplate('tpl.appointment_presentation.html', true, true, 'Services/Calendar');
+        $tpl = new ilTemplate('tpl.appointment_presentation.html', true, true, 'components/ILIAS/Calendar');
 
         $info_screen = $this->info_screen;
         $info_screen->setFormAction($this->ctrl->getFormAction($this));

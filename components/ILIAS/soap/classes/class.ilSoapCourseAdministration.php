@@ -95,7 +95,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
+        include_once "./components/ILIAS/Utilities/classes/class.ilUtil.php";
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
@@ -194,7 +194,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
         switch ($type) {
             case 'Admin':
-                require_once("Services/Administration/classes/class.ilSetting.php");
+                require_once("components/ILIAS/Administration/classes/class.ilSetting.php");
                 $settings = new ilSetting();
                 $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_ADMIN);
                 $course_members->updateNotification(
@@ -383,7 +383,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         }
 
         // First delete old meta data
-        include_once 'Services/MetaData/classes/class.ilMD.php';
+        include_once 'components/ILIAS/MetaData/classes/class.ilMD.php';
 
         $md = new ilMD($tmp_course->getId(), 0, 'crs');
         $md->deleteAll();

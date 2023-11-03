@@ -226,7 +226,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
     {
         $lng = $this->lng;
 
-        $ptpl = new ilTemplate("tpl.prop_password.html", true, true, "Services/Form");
+        $ptpl = new ilTemplate("tpl.prop_password.html", true, true, "components/ILIAS/Form");
 
         if ($this->getRetype()) {
             $ptpl->setCurrentBlock("retype");

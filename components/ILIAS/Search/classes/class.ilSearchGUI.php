@@ -336,10 +336,10 @@ class ilSearchGUI extends ilSearchBaseGUI
     public function showSearch(): void
     {
         ilOverlayGUI::initJavascript();
-        $this->tpl->addJavascript("./Services/Search/js/Search.js");
+        $this->tpl->addJavascript("./components/ILIAS/Search/js/Search.js");
 
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'Services/Search');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'components/ILIAS/Search');
         $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, 'performSearch'));
         $this->tpl->setVariable("TERM", ilLegacyFormElementsUtil::prepareFormOutput($this->getString()));
         $this->tpl->setVariable("SEARCH_LABEL", $this->lng->txt("search"));

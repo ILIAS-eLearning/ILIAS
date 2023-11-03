@@ -273,13 +273,13 @@ class ilMimeMail
 
     protected function getHtmlEnvelope(string $skin): string
     {
-        $bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
+        $bracket_path = './components/ILIAS/Mail/templates/default/tpl.html_mail_template.html';
 
         if ($skin !== 'default') {
-            $tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
+            $tplpath = './Customizing/global/skin/' . $skin . '/components/ILIAS/Mail/tpl.html_mail_template.html';
 
             if (is_file($tplpath)) {
-                $bracket_path = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
+                $bracket_path = './Customizing/global/skin/' . $skin . '/components/ILIAS/Mail/tpl.html_mail_template.html';
             }
         }
 
@@ -288,10 +288,10 @@ class ilMimeMail
 
     protected function buildHtmlInlineImages(string $skin): void
     {
-        $this->gatherImagesFromDirectory('./Services/Mail/templates/default/img');
+        $this->gatherImagesFromDirectory('./components/ILIAS/Mail/templates/default/img');
 
         if ($skin !== 'default') {
-            $skinDirectory = './Customizing/global/skin/' . $skin . '/Services/Mail/img';
+            $skinDirectory = './Customizing/global/skin/' . $skin . '/components/ILIAS/Mail/img';
             if (is_dir($skinDirectory) && is_readable($skinDirectory)) {
                 $this->gatherImagesFromDirectory($skinDirectory, true);
             }

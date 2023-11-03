@@ -49,7 +49,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("user"), "", "33%");
         $this->addColumn($lng->txt("action"), "", "33%");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.page_history_row.html", "Services/COPage");
+        $this->setRowTemplate("tpl.page_history_row.html", "components/ILIAS/COPage");
         $this->setDefaultOrderField("sortkey");
         $this->setDefaultOrderDirection("desc");
         $this->addMultiCommand("compareVersion", $lng->txt("cont_page_compare"));

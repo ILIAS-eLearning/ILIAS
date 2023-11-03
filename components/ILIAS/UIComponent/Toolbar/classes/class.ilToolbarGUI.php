@@ -286,12 +286,12 @@ class ilToolbarGUI
         $this->applyAutoStickyToSingleElement();
 
         if (count($this->items) || count($this->sticky_items)) {
-            $tpl = new ilTemplate("tpl.toolbar.html", true, true, "Services/UIComponent/Toolbar");
+            $tpl = new ilTemplate("tpl.toolbar.html", true, true, "components/ILIAS/UIComponent/Toolbar");
             $tpl->setVariable('TOOLBAR_ID', $this->getId());
             $tpl->setVariable('MORE_LABEL', $this->lng->txt('toolbar_more_actions'));
 
             if (count($this->sticky_items)) {
-                $tpl_sticky = new ilTemplate("tpl.toolbar_sticky_items.html", true, true, "Services/UIComponent/Toolbar");
+                $tpl_sticky = new ilTemplate("tpl.toolbar_sticky_items.html", true, true, "components/ILIAS/UIComponent/Toolbar");
                 /** @var ilToolbarItem $sticky_item */
                 foreach ($this->sticky_items as $sticky_item) {
                     if ($sticky_item['label']) {
@@ -323,11 +323,11 @@ class ilToolbarGUI
 
             $markup_items = '';
             foreach ($this->getGroupedItems() as $i => $group) {
-                $tpl_items = new ilTemplate("tpl.toolbar_items.html", true, true, "Services/UIComponent/Toolbar");
+                $tpl_items = new ilTemplate("tpl.toolbar_items.html", true, true, "components/ILIAS/UIComponent/Toolbar");
                 if ($i > 0) {
                     static $tpl_separator;
                     if ($tpl_separator === null) {
-                        $tpl_separator = new ilTemplate('tpl.toolbar_separator.html', true, true, 'Services/UIComponent/Toolbar');
+                        $tpl_separator = new ilTemplate('tpl.toolbar_separator.html', true, true, 'components/ILIAS/UIComponent/Toolbar');
                     }
                     $tpl_separator->touchBlock('separator');
                     $markup_items .= $tpl_separator->get();
@@ -453,7 +453,7 @@ class ilToolbarGUI
             // form?
             if ($this->getFormAction() !== "") {
                 // #18947
-                $GLOBALS["tpl"]->addJavaScript("Services/Form/js/Form.js");
+                $GLOBALS["tpl"]->addJavaScript("components/ILIAS/Form/js/Form.js");
 
                 if ($this->getOpenFormTag()) {
                     $tpl->setCurrentBlock("form_open");

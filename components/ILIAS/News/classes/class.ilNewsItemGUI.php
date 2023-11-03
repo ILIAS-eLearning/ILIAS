@@ -513,7 +513,7 @@ class ilNewsItemGUI
         $data = $news_item->queryNewsForContext();
 
         $block_gui->setTitle($lng->txt("news_block_news_for_context"));
-        $block_gui->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
+        $block_gui->setRowTemplate("tpl.block_row_news_for_context.html", "components/ILIAS/News");
         $block_gui->setData($data);
 
         return $block_gui->getHTML();
@@ -560,7 +560,7 @@ class ilNewsItemGUI
         $table_gui = new ilNewsForContextTableGUI($this, "getNewsForContextTable", $perm_ref_id);
 
         $table_gui->setTitle($lng->txt("news_table_news_for_context"));
-        $table_gui->setRowTemplate("tpl.table_row_news_for_context.html", "Services/News");
+        $table_gui->setRowTemplate("tpl.table_row_news_for_context.html", "components/ILIAS/News");
         $table_gui->setData($data);
 
         $table_gui->setDefaultOrderField("creation_date");

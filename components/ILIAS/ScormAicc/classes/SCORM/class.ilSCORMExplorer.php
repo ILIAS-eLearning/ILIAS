@@ -59,7 +59,7 @@ class ilSCORMExplorer extends ilExplorer
         global $DIC;
         $lng = $DIC->language();
 
-        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
+        $tpl = new ilTemplate("tpl.tree.html", true, true, "components/ILIAS/UIComponent/Explorer");
 
         $tpl->setCurrentBlock("row");
         $tpl->setVariable("TITLE", $lng->txt("cont_manifest"));

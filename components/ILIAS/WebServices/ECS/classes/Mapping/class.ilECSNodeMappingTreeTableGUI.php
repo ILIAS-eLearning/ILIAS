@@ -47,7 +47,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('ecs_cms_directory_trees_tbl'));
         $this->addColumn($this->lng->txt('title'), '', "80%");
         $this->addColumn($this->lng->txt('actions'), '', "20%");
-        $this->setRowTemplate("tpl.ecs_node_mapping_tree_table_row.html", "Services/WebServices/ECS");
+        $this->setRowTemplate("tpl.ecs_node_mapping_tree_table_row.html", "components/ILIAS/WebServices/ECS");
 
         $this->setEnableHeader(true);
 

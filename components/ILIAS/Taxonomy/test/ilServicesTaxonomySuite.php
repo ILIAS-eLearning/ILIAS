@@ -31,7 +31,7 @@ class ilServicesTaxonomySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Taxonomy/test/Assignment/TaxAssignmentTest.php");
+        require_once("./components/ILIAS/Taxonomy/test/Assignment/TaxAssignmentTest.php");
         $suite->addTestSuite("TaxAssignmentTest");
 
         return $suite;

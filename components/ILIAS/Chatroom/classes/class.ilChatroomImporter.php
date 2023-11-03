@@ -25,7 +25,7 @@ class ilChatroomImporter extends ilXmlImporter
 {
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
         } else {
             $newObj = new ilObjChatroom();

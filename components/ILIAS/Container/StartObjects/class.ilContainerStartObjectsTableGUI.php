@@ -70,7 +70,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
         }
         $this->setDefaultOrderDirection('asc');
 
-        $this->setRowTemplate("tpl.start_objects_row.html", "Services/Container");
+        $this->setRowTemplate("tpl.start_objects_row.html", "components/ILIAS/Container");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setSelectAllCheckbox('starter');
 

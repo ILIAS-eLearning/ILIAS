@@ -275,7 +275,7 @@ class ilInternalLinkGUI
             }
         }
         if ($ilCtrl->isAsynch()) {
-            $tpl = new ilGlobalTemplate("tpl.link_help_asynch.html", true, true, "Services/Link");
+            $tpl = new ilGlobalTemplate("tpl.link_help_asynch.html", true, true, "components/ILIAS/Link");
             $tpl->setVariable("NEW_LINK_URL", $this->ctrl->getLinkTarget(
                 $this,
                 "",
@@ -284,7 +284,7 @@ class ilInternalLinkGUI
                 false
             ));
         } else {
-            $tpl = new ilGlobalTemplate("tpl.link_help.html", true, true, "Services/Link");
+            $tpl = new ilGlobalTemplate("tpl.link_help.html", true, true, "components/ILIAS/Link");
             $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         }
 
@@ -676,7 +676,7 @@ class ilInternalLinkGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $tpl = new ilTemplate("tpl.link_file.html", true, true, "Services/Link");
+        $tpl = new ilTemplate("tpl.link_file.html", true, true, "components/ILIAS/Link");
         if (!is_object($this->uploaded_file)) {
             $tpl->setCurrentBlock("form");
             $tpl->setVariable(
@@ -841,7 +841,7 @@ class ilInternalLinkGUI
 
         $ilCtrl->setParameter($this, "link_type", $this->link_type);
 
-        $tpl = new ilTemplate("tpl.link_help_explorer.html", true, true, "Services/Link");
+        $tpl = new ilTemplate("tpl.link_help_explorer.html", true, true, "components/ILIAS/Link");
 
         $output = $this->getTargetExplorer();
 
@@ -924,12 +924,12 @@ class ilInternalLinkGUI
 
         $lng->loadLanguageModule("link");
 
-        $tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
+        $tpl->addJavaScript("./components/ILIAS/UIComponent/Explorer/js/ilExplorer.js");
         ilExplorerBaseGUI::init();
 
-        $tpl->addJavascript("./Services/Link/js/ilIntLink.js");
+        $tpl->addJavascript("./components/ILIAS/Link/js/ilIntLink.js");
         // #18721
-        $tpl->addJavaScript("Services/Form/js/Form.js");
+        $tpl->addJavaScript("components/ILIAS/Form/js/Form.js");
 
         $modal = ilModalGUI::getInstance();
         $modal->setHeading($lng->txt("link_link"));

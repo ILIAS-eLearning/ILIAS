@@ -31,7 +31,7 @@ class ilObjectAppEventListener implements ilAppEventListener
     {
         global $DIC;
 
-        if ('Services/Object' === $component && 'beforeDeletion' === $event) {
+        if ('components/ILIAS/Object' === $component && 'beforeDeletion' === $event) {
             $customIconFactory = $DIC['object.customicons.factory'];
             $customIcon = $customIconFactory->getByObjId(
                 $parameter['object']->getId(),

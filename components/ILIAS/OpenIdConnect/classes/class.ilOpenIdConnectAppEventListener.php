@@ -38,7 +38,7 @@ class ilOpenIdConnectAppEventListener implements ilAppEventListener
     {
         global $DIC;
         $DIC->logger()->auth()->debug($a_component . ' : ' . $a_event);
-        if (($a_component === 'Services/Authentication') && $a_event === 'beforeLogout') {
+        if (($a_component === 'components/ILIAS/Authentication') && $a_event === 'beforeLogout') {
             $listener = new self();
             $listener->handleLogoutFor($a_parameter['user_id']);
         }

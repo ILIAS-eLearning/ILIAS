@@ -483,7 +483,7 @@ class ilSessionStatisticsGUI
 
         // build left column
 
-        $left = new ilTemplate("tpl.session_statistics_left.html", true, true, "Services/Authentication");
+        $left = new ilTemplate("tpl.session_statistics_left.html", true, true, "components/ILIAS/Authentication");
 
         $left->setVariable("CAPTION_CURRENT", $this->lng->txt("users_online"));
         $left->setVariable("VALUE_CURRENT", $active);
@@ -564,7 +564,7 @@ class ilSessionStatisticsGUI
 
     protected function render(array $a_data, int $a_scale, string $a_measure = null): string
     {
-        $center = new ilTemplate("tpl.session_statistics_center.html", true, true, "Services/Authentication");
+        $center = new ilTemplate("tpl.session_statistics_center.html", true, true, "components/ILIAS/Authentication");
 
         foreach ($a_data as $idx => $item) {
             switch ($idx) {

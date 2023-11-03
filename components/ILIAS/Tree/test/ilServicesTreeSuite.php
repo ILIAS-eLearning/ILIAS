@@ -28,7 +28,7 @@ class ilServicesTreeSuite extends TestSuite
     {
         $suite = new self();
 
-        include_once './Services/Tree/test/ilRepositoryTreeTest.php';
+        include_once './components/ILIAS/Tree/test/ilRepositoryTreeTest.php';
         $suite->addTestSuite(ilRepositoryTreeTest::class);
         return $suite;
     }

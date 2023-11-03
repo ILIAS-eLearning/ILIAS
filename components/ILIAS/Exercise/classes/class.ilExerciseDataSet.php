@@ -526,7 +526,7 @@ class ilExerciseDataSet extends ilDataSet
 
         switch ($a_entity) {
             case "exc":
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjExercise();
@@ -547,10 +547,10 @@ class ilExerciseDataSet extends ilDataSet
                 $this->current_exc = $newObj;
 
                 $a_mapping->addMapping("components/ILIAS/Exercise", "exc", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping('Services/Object', 'objs', $a_rec['Id'], $newObj->getId());
-                $a_mapping->addMapping('Services/AdvancedMetaData', 'parent', $a_rec['Id'], $newObj->getId());
+                $a_mapping->addMapping('components/ILIAS/Object', 'objs', $a_rec['Id'], $newObj->getId());
+                $a_mapping->addMapping('components/ILIAS/AdvancedMetaData', 'parent', $a_rec['Id'], $newObj->getId());
                 $a_mapping->addMapping(
-                    "Services/MetaData",
+                    "components/ILIAS/MetaData",
                     "md",
                     $a_rec["Id"] . ":0:exc",
                     $newObj->getId() . ":0:exc"

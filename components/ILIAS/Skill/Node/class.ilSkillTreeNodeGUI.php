@@ -615,7 +615,7 @@ class ilSkillTreeNodeGUI
         }
 
         $exp = new ilExport();
-        $conf = $exp->getConfig("Services/Skill");
+        $conf = $exp->getConfig("components/ILIAS/Skill");
         $conf->setSelectedNodes($this->requested_node_ids);
         $conf->setSkillTreeId($this->skill_tree_id);
         $exp->exportObject("skmg", ilObject::_lookupObjId($this->requested_ref_id));

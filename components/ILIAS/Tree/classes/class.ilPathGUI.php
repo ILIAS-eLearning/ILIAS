@@ -135,7 +135,7 @@ class ilPathGUI
     protected function getHTML(): string
     {
         if ($this->textOnly()) {
-            $tpl = new ilTemplate('tpl.locator_text_only.html', true, true, "Services/Locator");
+            $tpl = new ilTemplate('tpl.locator_text_only.html', true, true, "components/ILIAS/Locator");
 
             $first = true;
 
@@ -169,7 +169,7 @@ class ilPathGUI
         } else {
             // With images and links
 
-            $tpl = new ilTemplate('tpl.locator.html', true, true, 'Services/Locator');
+            $tpl = new ilTemplate('tpl.locator.html', true, true, 'components/ILIAS/Locator');
 
             $first = true;
 

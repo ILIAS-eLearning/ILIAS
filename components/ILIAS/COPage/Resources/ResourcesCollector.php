@@ -64,10 +64,10 @@ class ResourcesCollector
         if ($this->output_mode == \ilPageObjectGUI::OFFLINE) {
             $this->js_files[] = \iljQueryUtil::getLocaljQueryPath();
             $this->js_files[] = \iljQueryUtil::getLocaljQueryUIPath();
-            $this->js_files[] = './Services/JavaScript/js/Basic.js';
+            $this->js_files[] = './components/ILIAS/JavaScript/js/Basic.js';
         }
 
-        $this->js_files[] = "./Services/COPage/js/ilCOPagePres.js";
+        $this->js_files[] = "./components/ILIAS/COPage/js/ilCOPagePres.js";
 
         // for all page components...
         $defs = $this->pc_definition->getPCDefinitions();

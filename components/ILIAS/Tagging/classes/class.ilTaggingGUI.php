@@ -148,7 +148,7 @@ class ilTaggingGUI
     {
         $lng = $this->lng;
 
-        $ttpl = new ilTemplate("tpl.tags_input.html", true, true, "Services/Tagging");
+        $ttpl = new ilTemplate("tpl.tags_input.html", true, true, "components/ILIAS/Tagging");
         $tags = ilTagging::getTagsForUserAndObject(
             $this->obj_id,
             $this->obj_type,
@@ -224,7 +224,7 @@ class ilTaggingGUI
     // Get Input HTML for Tagging of an object (and a user)
     public function getAllUserTagsForObjectHTML(): string
     {
-        $ttpl = new ilTemplate("tpl.tag_cloud.html", true, true, "Services/Tagging");
+        $ttpl = new ilTemplate("tpl.tag_cloud.html", true, true, "components/ILIAS/Tagging");
         $tags = ilTagging::getTagsForObject(
             $this->obj_id,
             $this->obj_type,
@@ -276,7 +276,7 @@ class ilTaggingGUI
 
         ilYuiUtil::initConnection($tpl);
         iljQueryUtil::initjQuery($tpl);
-        $tpl->addJavaScript("./Services/Tagging/js/ilTagging.js");
+        $tpl->addJavaScript("./components/ILIAS/Tagging/js/ilTagging.js");
 
         $tpl->addOnLoadCode("ilTagging.setAjaxUrl('" . $a_ajax_url . "');");
     }
@@ -304,7 +304,7 @@ class ilTaggingGUI
         $ui = $this->ui;
 
         $lng->loadLanguageModule("tagging");
-        $tpl = new ilTemplate("tpl.edit_tags.html", true, true, "Services/Tagging");
+        $tpl = new ilTemplate("tpl.edit_tags.html", true, true, "components/ILIAS/Tagging");
         $tpl->setVariable("TXT_TAGS", $lng->txt("tagging_tags"));
 
         $mtxt = "";

@@ -40,7 +40,7 @@ class ilGlossaryImporter extends ilXmlImporter
     ): void {
         if ($a_entity == "glo") {
             // case i container
-            if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+            if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
                 $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             }
 
@@ -76,7 +76,7 @@ class ilGlossaryImporter extends ilXmlImporter
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
-                $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
+                $new_tax_ids = $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_usage_of_obj", $old);
                 if ($new_tax_ids !== false) {
                     $tax_ids = explode(":", $new_tax_ids);
                     foreach ($tax_ids as $tid) {
@@ -93,7 +93,7 @@ class ilGlossaryImporter extends ilXmlImporter
                         $field_id = $id[1];
                         if ($field_glo_id == $old) {
                             // #17454
-                            $new_local_id = $a_mapping->getMapping("Services/AdvancedMetaData", "lfld", $field_id);
+                            $new_local_id = $a_mapping->getMapping("components/ILIAS/AdvancedMetaData", "lfld", $field_id);
                             if ($new_local_id) {
                                 $field_id = $new_local_id;
                             }

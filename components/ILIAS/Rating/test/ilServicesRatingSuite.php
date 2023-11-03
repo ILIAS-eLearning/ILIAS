@@ -31,7 +31,7 @@ class ilServicesRatingSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Rating/test/RatingCategoryTest.php");
+        require_once("./components/ILIAS/Rating/test/RatingCategoryTest.php");
         $suite->addTestSuite("RatingCategoryTest");
 
         return $suite;

@@ -17,7 +17,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-require_once("Services/Init/classes/class.ilInitialisation.php");
+require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();
 

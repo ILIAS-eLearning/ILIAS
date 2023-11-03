@@ -124,7 +124,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
             return "";
         }
 
-        $tpl->addJavaScript("Services/Container/Classification/js/ilClassification.js");
+        $tpl->addJavaScript("components/ILIAS/Container/Classification/js/ilClassification.js");
 
         return parent::getHTML();
     }
@@ -171,7 +171,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
         $overall_html = "";
         if (sizeof($html)) {
-            $btpl = new ilTemplate("tpl.classification_block.html", true, true, "Services/Container/Classification");
+            $btpl = new ilTemplate("tpl.classification_block.html", true, true, "components/ILIAS/Container/Classification");
 
             foreach ($html as $item) {
                 $btpl->setCurrentBlock("provider_chunk_bl");
@@ -231,7 +231,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $has_content = false;
 
 
-        $ltpl = new ilTemplate("tpl.classification_object_list.html", true, true, "Services/Container/Classification");
+        $ltpl = new ilTemplate("tpl.classification_object_list.html", true, true, "components/ILIAS/Container/Classification");
 
         if (isset($all_matching_provider_object_ids) && sizeof($all_matching_provider_object_ids)) {
             $fields = array(

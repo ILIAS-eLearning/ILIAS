@@ -15,7 +15,7 @@ function base()
     $renderer = $DIC->ui()->renderer();
 
     // Step 1: Define the input field.
-    // See the implementation of a UploadHandler in Services/UI/classes/class.ilUIDemoFileUploadHandlerGUI.php
+    // See the implementation of a UploadHandler in components/ILIAS/UI_/classes/class.ilUIDemoFileUploadHandlerGUI.php
     $file_input = $ui->input()->field()->file(new \ilUIDemoFileUploadHandlerGUI(), "Upload File", "you can drop your files here");
 
     // Step 2: Define the form and attach the field.

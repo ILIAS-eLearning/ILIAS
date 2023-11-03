@@ -70,7 +70,7 @@ class ilWebResourceExporter extends ilXmlExporter
         $deps = [];
         // service settings
         $deps[] = [
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "common",
             "ids" => $a_ids
         ];

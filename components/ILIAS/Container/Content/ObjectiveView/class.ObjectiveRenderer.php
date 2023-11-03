@@ -668,7 +668,7 @@ class ObjectiveRenderer
     ): string {
         global $DIC;
 
-        $tpl = new \ilTemplate("tpl.objective_progressmeter.html", true, true, "Services/Container");
+        $tpl = new \ilTemplate("tpl.objective_progressmeter.html", true, true, "components/ILIAS/Container");
 
         $lng = $DIC->language();
         $lng->loadLanguageModule('crs');
@@ -899,7 +899,7 @@ class ObjectiveRenderer
         $renderer = $DIC->ui()->renderer();
         $ui_factory = $DIC->ui()->factory();
 
-        $tpl = new \ilTemplate("tpl.objective_accordion_title.html", true, true, "Services/Container");
+        $tpl = new \ilTemplate("tpl.objective_accordion_title.html", true, true, "components/ILIAS/Container");
 
         if ($a_lo_result) {
             $tpl->setVariable(
@@ -1023,7 +1023,7 @@ class ObjectiveRenderer
 
     protected function buildAccordionContent(array $a_items): string
     {
-        $tpl = new \ilTemplate("tpl.objective_accordion_content.html", true, true, "Services/Container");
+        $tpl = new \ilTemplate("tpl.objective_accordion_content.html", true, true, "components/ILIAS/Container");
         foreach ($a_items as $item) {
             $tpl->setCurrentBlock("items_bl");
             $tpl->setVariable("ITEM", $item);

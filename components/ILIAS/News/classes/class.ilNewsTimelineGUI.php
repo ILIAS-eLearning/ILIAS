@@ -236,7 +236,7 @@ class ilNewsTimelineGUI
         $this->tpl->addOnLoadCode("il.News.setAjaxUrl('" . $this->ctrl->getLinkTarget($this, "", "", true) . "');");
 
         if (count($this->news_data) > 0) {
-            $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "Services/News");
+            $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "components/ILIAS/News");
             $ttpl->setVariable("NEWS", $timeline->render());
             $ttpl->setVariable("EDIT_MODAL", $this->getEditModal($form));
             //$ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
@@ -262,7 +262,7 @@ class ilNewsTimelineGUI
         $this->lng->toJS("update");
         $this->lng->toJS("save");
 
-        $this->tpl->addJavaScript("./Services/News/js/News.js");
+        $this->tpl->addJavaScript("./components/ILIAS/News/js/News.js");
         return $html;
     }
 

@@ -21442,7 +21442,7 @@ class ServiceOpenLayers {
         marker.setPosition(pos);
         this.map.addOverlay(marker);
 
-        element.innerHTML = "<img src='./Services/Maps/images/mm_20_blue.png'>";
+        element.innerHTML = "<img src='./components/ILIAS/Maps/images/mm_20_blue.png'>";
     }
 
     /**

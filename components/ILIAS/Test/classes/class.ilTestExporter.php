@@ -79,14 +79,14 @@ class ilTestExporter extends ilXmlExporter
 
             if (count($tax_ids)) {
                 $deps[] = [
-                    'component' => 'Services/Taxonomy',
+                    'component' => 'components/ILIAS/Taxonomy',
                     'entity' => 'tax',
                     'ids' => $tax_ids
                 ];
             }
 
             $deps[] = [
-                'component' => 'Services/Object',
+                'component' => 'components/ILIAS/Object',
                 'entity' => 'common',
                 'ids' => $a_ids
             ];

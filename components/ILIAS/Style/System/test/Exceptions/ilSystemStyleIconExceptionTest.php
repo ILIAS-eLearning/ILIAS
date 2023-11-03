@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
-include_once('Services/Style/System/test/Exceptions/ilSystemStyleExceptionBaseUnit.php');
+include_once('components/ILIAS/Style/System/test/Exceptions/ilSystemStyleExceptionBaseUnit.php');
 
 class ilSystemStyleIconExceptionTest extends ilSystemStyleExceptionBaseUnit
 {

@@ -85,7 +85,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 
             if (count($taxIds)) {
                 $deps[] = array(
-                    'component' => 'Services/Taxonomy',
+                    'component' => 'components/ILIAS/Taxonomy',
                     'entity' => 'tax',
                     'ids' => $taxIds
                 );

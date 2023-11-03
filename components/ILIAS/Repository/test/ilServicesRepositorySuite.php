@@ -31,10 +31,10 @@ class ilServicesRepositorySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Repository/test/ClipboardSessionRepositoryTest.php");
+        require_once("./components/ILIAS/Repository/test/ClipboardSessionRepositoryTest.php");
         $suite->addTestSuite("ClipboardSessionRepositoryTest");
 
-        require_once("./Services/Repository/test/LastVisited/NavigationSessionRepositoryTest.php");
+        require_once("./components/ILIAS/Repository/test/LastVisited/NavigationSessionRepositoryTest.php");
         $suite->addTestSuite("NavigationSessionRepositoryTest");
 
         return $suite;

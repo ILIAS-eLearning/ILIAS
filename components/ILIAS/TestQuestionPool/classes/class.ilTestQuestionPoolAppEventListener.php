@@ -32,7 +32,7 @@ class ilTestQuestionPoolAppEventListener implements ilAppEventListener
     {
         $qpl_skill_repo = new TestQuestionPoolSkillDBRepository();
 
-        if ($a_component === "Services/Skill" && $a_event === "deleteSkill") {
+        if ($a_component === "components/ILIAS/Skill" && $a_event === "deleteSkill") {
             $qpl_skill_repo->removeForSkill($a_parameter["node_id"], $a_parameter["is_reference"]);
         }
     }

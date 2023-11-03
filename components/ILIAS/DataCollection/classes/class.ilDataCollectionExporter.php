@@ -76,7 +76,7 @@ class ilDataCollectionExporter extends ilXmlExporter
                 'ids' => [],
             ],
             ilDclDatatype::INPUTFORMAT_MOB => [
-                'component' => 'Services/MediaObjects',
+                'component' => 'components/ILIAS/MediaObjects',
                 'entity' => 'mob',
                 'ids' => [],
             ],
@@ -138,7 +138,7 @@ class ilDataCollectionExporter extends ilXmlExporter
         if (count($page_object_ids)) {
             return [
                 [
-                    'component' => 'Services/COPage',
+                    'component' => 'components/ILIAS/COPage',
                     'entity' => 'pg',
                     'ids' => $page_object_ids,
                 ],

@@ -33,7 +33,7 @@ class ilMediaPoolExporter extends ilXmlExporter
         $this->ds->setDSPrefix("ds");
         $this->config = $this->getExport()->getConfig("components/ILIAS/MediaPool");
         if ($this->config->getMasterLanguageOnly()) {
-            $conf = $this->getExport()->getConfig("Services/COPage");
+            $conf = $this->getExport()->getConfig("components/ILIAS/COPage");
             $conf->setMasterLanguageOnly(true, $this->config->getIncludeMedia());
             $this->ds->setMasterLanguageOnly(true);
         }
@@ -59,7 +59,7 @@ class ilMediaPoolExporter extends ilXmlExporter
 
         return array(
             array(
-                "component" => "Services/MediaObjects",
+                "component" => "components/ILIAS/MediaObjects",
                 "entity" => "mob",
                 "ids" => $mob_ids)
             );
@@ -81,24 +81,24 @@ class ilMediaPoolExporter extends ilXmlExporter
 
         $deps = array(
             array(
-                "component" => "Services/COPage",
+                "component" => "components/ILIAS/COPage",
                 "entity" => "pg",
                 "ids" => $pg_ids)
             );
 
         if (!$this->config->getMasterLanguageOnly()) {
             $deps[] = array(
-                "component" => "Services/Object",
+                "component" => "components/ILIAS/Object",
                 "entity" => "transl",
                 "ids" => $a_ids);
             $deps[] = array(
-                "component" => "Services/Object",
+                "component" => "components/ILIAS/Object",
                 "entity" => "transl_entry",
                 "ids" => $a_ids);
         }
 
         $deps[] = array(
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "tile",
             "ids" => $a_ids);
 

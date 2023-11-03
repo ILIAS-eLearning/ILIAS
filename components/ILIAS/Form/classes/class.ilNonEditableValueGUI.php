@@ -113,7 +113,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     {
         $postvar = "";
 
-        $tpl = new ilTemplate("tpl.non_editable_value.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.non_editable_value.html", true, true, "components/ILIAS/Form");
         if ($this->getPostVar() != "") {
             $postvar = $this->getPostVar();
             if ($this->getMulti() && substr($postvar, -2) != "[]") {

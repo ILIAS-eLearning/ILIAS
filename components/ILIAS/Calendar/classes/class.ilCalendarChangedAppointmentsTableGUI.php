@@ -52,7 +52,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('last_update'), 'last_update', "15%");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.show_changed_appointment_row.html", "Services/Calendar");
+        $this->setRowTemplate("tpl.show_changed_appointment_row.html", "components/ILIAS/Calendar");
 
         $this->setShowRowsSelector(true);
         $this->enable('sort');

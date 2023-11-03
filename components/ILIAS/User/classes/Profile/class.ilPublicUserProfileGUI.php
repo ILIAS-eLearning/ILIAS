@@ -292,7 +292,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             'tpl.usr_public_profile.html',
             true,
             true,
-            'Services/User'
+            'components/ILIAS/User'
         );
 
 

@@ -109,7 +109,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         if (!$this->import_mapping instanceof ilImportMapping) {
             return 0;
         }
-        $obj_mapping_id = $this->import_mapping->getMapping('Services/Container', 'objs', $attribute_target);
+        $obj_mapping_id = $this->import_mapping->getMapping('components/ILIAS/Container', 'objs', $attribute_target);
         if (!$obj_mapping_id) {
             $this->logger->debug('Cannot find object mapping for target_id: ' . $attribute_target);
             return 0;

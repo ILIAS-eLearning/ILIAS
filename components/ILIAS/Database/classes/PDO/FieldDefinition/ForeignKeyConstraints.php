@@ -15,7 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
 
-namespace ILIAS\Services\Database\PDO\FieldDefinition;
+namespace ILIAS\components\Database\PDO\FieldDefinition;
 
 enum ForeignKeyConstraints: string
 {

@@ -989,7 +989,7 @@ class ilSkillProfileGUI
         }
 
         $exp = new ilExport();
-        $conf = $exp->getConfig("Services/Skill");
+        $conf = $exp->getConfig("components/ILIAS/Skill");
         $conf->setMode(ilSkillExportConfig::MODE_PROFILES);
         $conf->setSelectedProfiles($profiles_to_export);
         $conf->setSkillTreeId($this->skill_tree_id);
@@ -997,7 +997,7 @@ class ilSkillProfileGUI
 
         //ilExport::_createExportDirectory(0, "xml", "");
         //$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
-        //$exp->exportEntity("skprof", $_POST["id"], "", "Services/Skill", $a_title, $a_export_dir, "skprof");
+        //$exp->exportEntity("skprof", $_POST["id"], "", "components/ILIAS/Skill", $a_title, $a_export_dir, "skprof");
 
         $ilCtrl->redirectByClass(array("ilobjskilltreegui", "ilexportgui"), "");
     }
@@ -1041,9 +1041,9 @@ class ilSkillProfileGUI
         $form = $this->initInputForm();
         if ($form->checkInput()) {
             $imp = new ilImport();
-            $conf = $imp->getConfig("Services/Skill");
+            $conf = $imp->getConfig("components/ILIAS/Skill");
             $conf->setSkillTreeId($this->skill_tree_id);
-            $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
+            $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "components/ILIAS/Skill");
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "");

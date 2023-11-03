@@ -193,9 +193,9 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $form = $this->initInputForm();
         if ($form->checkInput()) {
             $imp = new ilImport();
-            $conf = $imp->getConfig("Services/Skill");
+            $conf = $imp->getConfig("components/ILIAS/Skill");
             $conf->setSkillTreeId($this->skill_tree_id);
-            $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
+            $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "components/ILIAS/Skill");
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listSkills");

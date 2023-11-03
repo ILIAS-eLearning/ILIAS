@@ -30,7 +30,7 @@ class UserCertificateAPITest extends ilCertificateBaseTestCase
         $repository = $this->getMockBuilder(UserDataRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $logger = new \ILIAS\Services\Logging\NullLogger();
+        $logger = new \ILIAS\components\Logging\NullLogger();
         $database = $this->createMock(ilDBInterface::class);
 
         $userData = new \ILIAS\Certificate\API\Data\UserCertificateDto(

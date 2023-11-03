@@ -12,7 +12,7 @@ class ilServicesSystemCheckSuite extends TestSuite
     {
         $suite = new ilServicesSystemCheckSuite();
 
-        include_once("./Services/SystemCheck/test/ilSystemCheckTaskTest.php");
+        include_once("./components/ILIAS/SystemCheck/test/ilSystemCheckTaskTest.php");
         $suite->addTestSuite(ilSystemCheckTaskTest::class);
         return $suite;
     }

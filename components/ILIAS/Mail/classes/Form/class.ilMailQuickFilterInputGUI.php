@@ -71,7 +71,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             'tpl.prop_mail_quick_filter_input.html',
             true,
             true,
-            'Services/Mail'
+            'components/ILIAS/Mail'
         );
         if ($this->getValue() !== '') {
             $tpl->setCurrentBlock('prop_text_propval');

@@ -259,7 +259,7 @@ class ilSCORMPresentationGUI
     // ));
     // }
 
-    // include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+    // include_once("./components/ILIAS/Tracking/classes/class.ilLPStatusWrapper.php");
     // ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
 
     // }
@@ -346,7 +346,7 @@ class ilSCORMPresentationGUI
     // ));
     // }
 
-    // include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+    // include_once("./components/ILIAS/Tracking/classes/class.ilLPStatusWrapper.php");
     // ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
 
     // }

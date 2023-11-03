@@ -31,7 +31,7 @@ class ilServicesEventHandlingSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/EventHandling/test/EventTest.php");
+        require_once("./components/ILIAS/EventHandling/test/EventTest.php");
         $suite->addTestSuite("EventTest");
 
         return $suite;

@@ -74,7 +74,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.search_result_row.html", "Services/Search");
+        $this->setRowTemplate("tpl.search_result_row.html", "components/ILIAS/Search");
         //$this->disable("footer");
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(false);

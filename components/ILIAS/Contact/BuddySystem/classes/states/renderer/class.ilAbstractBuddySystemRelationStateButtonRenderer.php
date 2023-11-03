@@ -35,7 +35,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
             'tpl.buddy_system_state_' . ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName()) . '.html',
             true,
             true,
-            'Services/Contact/BuddySystem'
+            'components/ILIAS/Contact/BuddySystem'
         );
 
         $this->lng = $lng ?? $DIC['lng'];

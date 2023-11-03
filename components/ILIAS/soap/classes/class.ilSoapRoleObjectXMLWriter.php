@@ -48,7 +48,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 
         $this->buildHeader();
 
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
+        include_once './components/ILIAS/AccessControl/classes/class.ilObjRole.php';
         include_once './components/ILIAS/soap/classes/class.ilObjectXMLWriter.php';
 
         foreach ($this->roles as $role) {

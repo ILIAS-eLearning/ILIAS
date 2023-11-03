@@ -84,6 +84,6 @@ class ilStyleImporter extends ilXmlImporter
             }
         }
 
-        $a_mapping->addMapping("Services/Style", "sty", $a_id, $new_id);
+        $a_mapping->addMapping("components/ILIAS/Style", "sty", $a_id, $new_id);
     }
 }

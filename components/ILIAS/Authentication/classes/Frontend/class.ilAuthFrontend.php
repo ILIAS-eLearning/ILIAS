@@ -360,7 +360,7 @@ class ilAuthFrontend
 
         // finally raise event
         $this->ilAppEventHandler->raise(
-            'Services/Authentication',
+            'components/ILIAS/Authentication',
             'afterLogin',
             array(
                 'username' => $user->getLogin())

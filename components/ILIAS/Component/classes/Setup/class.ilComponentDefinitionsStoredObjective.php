@@ -135,7 +135,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             define("ILIAS_LOG_ENABLED", false);
         }
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
-            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
+            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 6));
         }
 
         $reader = new \ilComponentDefinitionReader(

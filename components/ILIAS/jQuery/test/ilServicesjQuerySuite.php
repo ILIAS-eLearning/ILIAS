@@ -31,7 +31,7 @@ class ilServicesjQuerySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/jQuery/test/PathTest.php");
+        require_once("./components/ILIAS/jQuery/test/PathTest.php");
         $suite->addTestSuite("PathTest");
 
         return $suite;

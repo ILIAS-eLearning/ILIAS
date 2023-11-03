@@ -40,7 +40,7 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
 
         parent::__construct($parent_obj, $parent_cmd);
 
-        $this->setRowTemplate('tpl.calendar_shared_role_list_row.html', 'Services/Calendar');
+        $this->setRowTemplate('tpl.calendar_shared_role_list_row.html', 'components/ILIAS/Calendar');
         $this->addColumn('', 'id', '1px');
         $this->addColumn($this->lng->txt('objs_role'), 'title', '75%');
         $this->addColumn($this->lng->txt('assigned_members'), 'num', '25%');

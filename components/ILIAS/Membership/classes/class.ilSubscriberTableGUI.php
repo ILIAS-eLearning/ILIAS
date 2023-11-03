@@ -90,7 +90,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
         $this->setPrefix('subscribers');
         $this->setSelectAllCheckbox('subscribers', true);
-        $this->setRowTemplate("tpl.show_subscribers_row.html", "Services/Membership");
+        $this->setRowTemplate("tpl.show_subscribers_row.html", "components/ILIAS/Membership");
 
         if ($show_content) {
             $this->enable('sort');

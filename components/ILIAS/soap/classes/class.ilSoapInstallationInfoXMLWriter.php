@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+include_once "./components/ILIAS/Xml/classes/class.ilXmlWriter.php";
 
 class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 {
@@ -64,7 +64,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         $ini_file = "./" . $client_directory . "/client.ini.php";
 
         // get settings from ini file
-        require_once("./Services/Init/classes/class.ilIniFile.php");
+        require_once("./components/ILIAS/Init/classes/class.ilIniFile.php");
 
         $ilClientIniFile = new ilIniFile($ini_file);
         $ilClientIniFile->read();
@@ -88,7 +88,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
             unset($DIC['ilDB']);
             $DIC['ilDB'] = $ilDB;
 
-            require_once("Services/Administration/classes/class.ilSetting.php");
+            require_once("components/ILIAS/Administration/classes/class.ilSetting.php");
 
             $settings = new ilSetting();
             unset($DIC["ilSetting"]);

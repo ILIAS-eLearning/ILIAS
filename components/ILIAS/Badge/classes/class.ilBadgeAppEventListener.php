@@ -26,7 +26,7 @@ class ilBadgeAppEventListener implements ilAppEventListener
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         switch ($a_component) {
-            case 'Services/User':
+            case 'components/ILIAS/User':
                 switch ($a_event) {
                     case 'afterUpdate':
                         $user_obj = $a_parameter['user_obj'];
@@ -38,7 +38,7 @@ class ilBadgeAppEventListener implements ilAppEventListener
                 }
                 break;
 
-            case 'Services/Tracking':
+            case 'components/ILIAS/Tracking':
                 switch ($a_event) {
                     case 'updateStatus':
                         if ((int) $a_parameter['status'] === ilLPStatus::LP_STATUS_COMPLETED_NUM) {

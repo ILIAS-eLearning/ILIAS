@@ -108,7 +108,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.prop_selectbuilder.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_selectbuilder.html", true, true, "components/ILIAS/Form");
         $i = 0;
         foreach ($this->values as $value) {
             if (!is_string($value)) {
@@ -167,7 +167,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         $a_tpl->parseCurrentBlock();
 
         $tpl = $this->tpl;
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavascript("./Services/Form/templates/default/textwizard.js");
+        $tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavascript("./components/ILIAS/Form/templates/default/textwizard.js");
     }
 }

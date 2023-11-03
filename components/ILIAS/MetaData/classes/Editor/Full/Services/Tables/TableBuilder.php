@@ -109,7 +109,7 @@ class TableBuilder
         $table = new Table();
         $table->setRowTemplate(
             'tpl.full_editor_row.html',
-            'Services/MetaData'
+            'components/ILIAS/MetaData'
         );
         $table->setTitle($this->presenter->elements()->nameWithParents(
             $this->template_element,

@@ -17,7 +17,7 @@
  */
 declare(strict_types=1);
 
-namespace ILIAS\Services\MyStaff\Utils;
+namespace ILIAS\components\MyStaff\Utils;
 
 final class ListFetcherResult
 {

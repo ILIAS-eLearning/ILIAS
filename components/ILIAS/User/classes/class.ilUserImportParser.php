@@ -2025,7 +2025,7 @@ class ilUserImportParser extends ilSaxParser
      */
     public function getProtocolAsHTML(string $a_log_title): string
     {
-        $block = new ilTemplate("tpl.usr_import_log_block.html", true, true, "Services/User");
+        $block = new ilTemplate("tpl.usr_import_log_block.html", true, true, "components/ILIAS/User");
         $block->setVariable("TXT_LOG_TITLE", $a_log_title);
         $block->setVariable("TXT_MESSAGE_ID", $this->lng->txt("login"));
         $block->setVariable("TXT_MESSAGE_TEXT", $this->lng->txt("message"));

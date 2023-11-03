@@ -12,7 +12,7 @@ class ilServicesADTSuite extends TestSuite
     {
         $suite = new ilServicesADTSuite();
 
-        include_once("./Services/ADT/test/ilADTFactoryTest.php");
+        include_once("./components/ILIAS/ADT/test/ilADTFactoryTest.php");
         $suite->addTestSuite(ilADTFactoryTest::class);
         return $suite;
     }

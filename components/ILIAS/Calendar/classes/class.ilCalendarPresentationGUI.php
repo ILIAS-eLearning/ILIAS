@@ -505,7 +505,7 @@ class ilCalendarPresentationGUI
 
     protected function showSideBlocks(): void
     {
-        $tpl = new ilTemplate('tpl.cal_side_block.html', true, true, 'Services/Calendar');
+        $tpl = new ilTemplate('tpl.cal_side_block.html', true, true, 'components/ILIAS/Calendar');
         if ($this->getRepositoryMode()) {
             $side_cal = new ilCalendarBlockGUI();
         } else {

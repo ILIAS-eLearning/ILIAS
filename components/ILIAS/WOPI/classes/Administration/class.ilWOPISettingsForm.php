@@ -22,7 +22,7 @@ use ILIAS\Administration\Setting;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Field\Section;
 use Psr\Http\Message\RequestInterface;
-use ILIAS\Services\WOPI\Discovery\Crawler;
+use ILIAS\components\WOPI\Discovery\Crawler;
 use ILIAS\Data\URI;
 
 /**

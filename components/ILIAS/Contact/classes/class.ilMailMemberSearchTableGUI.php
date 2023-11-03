@@ -37,7 +37,7 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->ctrl->clearParameters($a_parent_obj);
 
-        $this->setRowTemplate('tpl.mail_member_search_row.html', 'Services/Contact');
+        $this->setRowTemplate('tpl.mail_member_search_row.html', 'components/ILIAS/Contact');
 
         $this->addColumn('', '', '1%', true);
         $this->addColumn($this->lng->txt('login'), 'login', '22%');

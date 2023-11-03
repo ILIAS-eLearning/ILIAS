@@ -414,7 +414,7 @@ class ilImport
         }
 
         // write import ids before(!) final processing
-        $obj_map = $this->getMapping()->getMappingsOfEntity('Services/Container', 'objs');
+        $obj_map = $this->getMapping()->getMappingsOfEntity('components/ILIAS/Container', 'objs');
         if (is_array($obj_map)) {
             foreach ($obj_map as $obj_id_old => $obj_id_new) {
                 ilObject::_writeImportId(
@@ -458,7 +458,7 @@ class ilImport
         }
 
         if ($this->objDefinition->isRBACObject($a_entity) &&
-            $this->getMapping()->getMapping('Services/Container', 'imported', $a_id)) {
+            $this->getMapping()->getMapping('components/ILIAS/Container', 'imported', $a_id)) {
             $this->log->info('Ignoring referenced ' . $a_entity . ' with id ' . $a_id);
             return;
         }
@@ -470,7 +470,7 @@ class ilImport
 
         // Store information about imported obj_ids in mapping to avoid double imports of references
         if ($this->objDefinition->isRBACObject($a_entity)) {
-            $this->getMapping()->addMapping('Services/Container', 'imported', $a_id, '1');
+            $this->getMapping()->addMapping('components/ILIAS/Container', 'imported', $a_id, '1');
         }
     }
 }

@@ -35,19 +35,19 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
      * List of JS-Files that should be included.
      * @var array<int,string>
      */
-    protected array $js_files = [0 => './Services/JavaScript/js/Basic.js'];
+    protected array $js_files = [0 => './components/ILIAS/JavaScript/js/Basic.js'];
 
     /**
      * Stores if a version parameter should be appended to the js-file to force reloading.
      * @var array<string,bool>
      */
-    protected array $js_files_vp = ['./Services/JavaScript/js/Basic.js' => true];
+    protected array $js_files_vp = ['./components/ILIAS/JavaScript/js/Basic.js' => true];
 
     /**
      * Stores the order in which js-files should be included.
      * @var array<string,int>
      */
-    protected array $js_files_batch = ['./Services/JavaScript/js/Basic.js' => 1];
+    protected array $js_files_batch = ['./components/ILIAS/JavaScript/js/Basic.js' => 1];
 
     public function __construct(
         string $file,
@@ -84,7 +84,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
 
         // ensure jquery files being loaded first
         if (
-            is_int(strpos($a_js_file, 'Services/jQuery')) ||
+            is_int(strpos($a_js_file, 'components/ILIAS/jQuery')) ||
             is_int(strpos($a_js_file, '/jquery.js')) ||
             is_int(strpos($a_js_file, '/jquery-min.js'))
         ) {

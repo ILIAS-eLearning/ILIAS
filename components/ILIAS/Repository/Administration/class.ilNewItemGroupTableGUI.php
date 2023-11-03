@@ -65,7 +65,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.table_row_new_item_group.html", "Services/Repository/Administration");
+        $this->setRowTemplate("tpl.table_row_new_item_group.html", "components/ILIAS/Repository/Administration");
         $this->setLimit(10000);
 
         $this->setExternalSorting(true);

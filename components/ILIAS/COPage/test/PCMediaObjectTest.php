@@ -18,7 +18,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once("./Services/MediaObjects/ImageMap/class.ilMapArea.php");
+require_once("./components/ILIAS/MediaObjects/ImageMap/class.ilMapArea.php");
 
 /**
  * @author Alexander Killing <killing@leifos.de>

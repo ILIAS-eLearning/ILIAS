@@ -175,7 +175,7 @@ class ilDclDetailedViewGUI
         );
 
         $html = $pageObj->getHTML();
-        $rctpl->addCss("./Services/COPage/css/content.css");
+        $rctpl->addCss("./components/ILIAS/COPage/css/content.css");
         $rctpl->fillCssFiles();
         $table = ilDclCache::getTableCache($this->record_obj->getTableId());
         foreach ($table->getRecordFields() as $field) {

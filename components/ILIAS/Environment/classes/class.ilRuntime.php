@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilRuntime
  * @author  Michael Jansen <mjansen@databay.de>
- * @package Services/Environment
+ * @package components/ILIAS/Environment
  */
 final class ilRuntime
 {

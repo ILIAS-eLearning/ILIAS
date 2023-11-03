@@ -258,9 +258,9 @@ class ilErrorHandling
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             global $DIC;
 
-            require_once("Services/Logging/classes/error/class.ilLoggingErrorSettings.php");
-            require_once("Services/Logging/classes/error/class.ilLoggingErrorFileStorage.php");
-            require_once("Services/Utilities/classes/class.ilUtil.php");
+            require_once("components/ILIAS/Logging/classes/error/class.ilLoggingErrorSettings.php");
+            require_once("components/ILIAS/Logging/classes/error/class.ilLoggingErrorFileStorage.php");
+            require_once("components/ILIAS/Utilities/classes/class.ilUtil.php");
 
             $session_id = substr(session_id(), 0, 5);
             $random = new \ilRandom();

@@ -492,10 +492,10 @@ class ilPropertyFormGUI extends ilFormGUI
         ilYuiUtil::initEvent();
         ilYuiUtil::initDom();
 
-        $tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
-        $tpl->addJavaScript("Services/Form/js/Form.js");
+        $tpl->addJavaScript("./components/ILIAS/JavaScript/js/Basic.js");
+        $tpl->addJavaScript("components/ILIAS/Form/js/Form.js");
 
-        $this->tpl = new ilTemplate("tpl.property_form.html", true, true, "Services/Form");
+        $this->tpl = new ilTemplate("tpl.property_form.html", true, true, "components/ILIAS/Form");
 
         // check if form has not title and first item is a section header
         // -> use section header for title and remove section header
@@ -632,7 +632,7 @@ class ilPropertyFormGUI extends ilFormGUI
 
         //if(method_exists($item, "getMulti") && $item->getMulti())
         if ($item instanceof ilMultiValuesItem && $item->getMulti()) {
-            $tpl->addJavascript("./Services/Form/js/ServiceFormMulti.js");
+            $tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormMulti.js");
 
             $this->tpl->setCurrentBlock("multi_in");
             $this->tpl->setVariable("ID", $item->getFieldId());

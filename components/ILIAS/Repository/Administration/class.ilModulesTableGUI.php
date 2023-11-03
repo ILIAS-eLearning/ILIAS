@@ -65,7 +65,7 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.table_row_module.html",
-            "Services/Repository/Administration"
+            "components/ILIAS/Repository/Administration"
         );
         $this->setLimit(10000);
         $this->setExternalSorting(true);

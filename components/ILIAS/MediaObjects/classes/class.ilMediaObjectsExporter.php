@@ -43,7 +43,7 @@ class ilMediaObjectsExporter extends ilXmlExporter
 
         return array(
             array(
-                "component" => "Services/MetaData",
+                "component" => "components/ILIAS/MetaData",
                 "entity" => "md",
                 "ids" => $md_ids)
             );

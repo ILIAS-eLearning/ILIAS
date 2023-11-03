@@ -111,7 +111,7 @@ class ilImageMapEditorGUI
         );
         $this->handleMapParameters();
 
-        $this->tpl = new ilTemplate("tpl.map_edit.html", true, true, "Services/MediaObjects");
+        $this->tpl = new ilTemplate("tpl.map_edit.html", true, true, "components/ILIAS/MediaObjects");
         $this->tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 
         // create/update imagemap work copy
@@ -339,7 +339,7 @@ class ilImageMapEditorGUI
         $coords = $this->map->getCoords();
         $cnt_coords = ilMapArea::countCoords($coords);
 
-        $this->tpl = new ilTemplate("tpl.map_edit.html", true, true, "Services/MediaObjects");
+        $this->tpl = new ilTemplate("tpl.map_edit.html", true, true, "components/ILIAS/MediaObjects");
 
         $this->tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 

@@ -50,12 +50,12 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
 
     public function init(): void
     {
-        $this->main_tpl->addJavaScript('./Services/CopyWizard/js/ilCopyRedirection.js');
+        $this->main_tpl->addJavaScript('./components/ILIAS/CopyWizard/js/ilCopyRedirection.js');
         $this->main_tpl->addOnLoadCode('il.CopyRedirection.checkDone()');
         $this->setExternalSorting(true);
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 
-        $this->setRowTemplate('tpl.object_copy_progress_table_row.html', 'Services/Object');
+        $this->setRowTemplate('tpl.object_copy_progress_table_row.html', 'components/ILIAS/Object');
 
         $this->addColumn($this->lng->txt('obj_target_location'));
         $this->addColumn($this->lng->txt('obj_copy_progress'));

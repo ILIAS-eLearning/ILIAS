@@ -230,7 +230,7 @@ class ilMailFolderGUI
 
     protected function showFolder(bool $oneConfirmationDialogueRendered = false): void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'components/ILIAS/Mail');
         $this->tpl->setTitle($this->lng->txt('mail'));
 
         $isTrashFolder = $this->currentFolderId === $this->mbox->getTrashFolder();
@@ -883,7 +883,7 @@ class ilMailFolderGUI
 
     protected function printMail(): void
     {
-        $tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
+        $tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'components/ILIAS/Mail');
 
         $mailId = 0;
         if ($this->http->wrapper()->query()->has('mail_id')) {

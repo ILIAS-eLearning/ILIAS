@@ -85,7 +85,7 @@ class ilNestedList
 
     public function getHTML(): string
     {
-        $tpl = new ilTemplate("tpl.nested_list.html", true, true, "Services/UIComponent/NestedList");
+        $tpl = new ilTemplate("tpl.nested_list.html", true, true, "components/ILIAS/UIComponent/NestedList");
 
         $nr = array();
         $depth = 1;

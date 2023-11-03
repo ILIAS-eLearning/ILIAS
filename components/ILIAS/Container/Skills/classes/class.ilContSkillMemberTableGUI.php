@@ -65,7 +65,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox("usr_ids");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.cont_member_skill_row.html", "Services/Container/Skills");
+        $this->setRowTemplate("tpl.cont_member_skill_row.html", "components/ILIAS/Container/Skills");
 
         if (ilContainer::_lookupContainerSetting($this->cont_obj->getId(), "cont_skill_publish", '0')) {
             $this->addMultiCommand("publishAssignments", $this->lng->txt("cont_publish_assignment"));

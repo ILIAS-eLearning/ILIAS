@@ -48,7 +48,7 @@ class ilLDAPServerTableGUI extends ilTable2GUI
         $this->setId('ldap_server_list');
 
         $this->setTitle($this->lng->txt('ldap_servers'));
-        $this->setRowTemplate('tpl.ldap_server_row.html', 'Services/LDAP');
+        $this->setRowTemplate('tpl.ldap_server_row.html', 'components/ILIAS/LDAP');
 
         $this->addColumn($this->lng->txt('active'), '', '1%');
         $this->addColumn($this->lng->txt('title'), '', '80%');

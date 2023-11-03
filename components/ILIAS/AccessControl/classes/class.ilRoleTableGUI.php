@@ -176,7 +176,7 @@ class ilRoleTableGUI extends ilTable2GUI
                 break;
         }
 
-        $this->setRowTemplate('tpl.role_row.html', 'Services/AccessControl');
+        $this->setRowTemplate('tpl.role_row.html', 'components/ILIAS/AccessControl');
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setSelectAllCheckbox('roles');
 

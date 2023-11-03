@@ -195,16 +195,16 @@ abstract class ilChart
 
         iljQueryUtil::initjQuery();
 
-        $tpl->addJavaScript("Services/Chart/js/flot/excanvas.min.js");
-        $tpl->addJavaScript("Services/Chart/js/flot/jquery.flot.min.js");
+        $tpl->addJavaScript("components/ILIAS/Chart/js/flot/excanvas.min.js");
+        $tpl->addJavaScript("components/ILIAS/Chart/js/flot/jquery.flot.min.js");
 
         if ($this->auto_resize) {
             // #13108
-            $tpl->addJavaScript("Services/Chart/js/flot/jquery.flot.resize.min.js");
+            $tpl->addJavaScript("components/ILIAS/Chart/js/flot/jquery.flot.resize.min.js");
         }
 
         if ($this->stacked) {
-            $tpl->addJavaScript("Services/Chart/js/flot/jquery.flot.stack.min.js");
+            $tpl->addJavaScript("components/ILIAS/Chart/js/flot/jquery.flot.stack.min.js");
         }
 
         $this->addCustomJS();
@@ -235,7 +235,7 @@ abstract class ilChart
 
         $this->initJS();
 
-        $chart = new ilTemplate("tpl.grid.html", true, true, "Services/Chart");
+        $chart = new ilTemplate("tpl.grid.html", true, true, "components/ILIAS/Chart");
         $chart->setVariable("ID", $this->id);
 
         if ($this->width) {

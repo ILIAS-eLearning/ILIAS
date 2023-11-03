@@ -55,7 +55,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.std_fields_settings_row.html", "Services/User");
+        $this->setRowTemplate("tpl.std_fields_settings_row.html", "components/ILIAS/User");
         $this->disable("footer");
         $this->setEnableTitle(true);
 

@@ -28,7 +28,7 @@ class ilServicesNotificationSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Notification/test/NotificationTest.php");
+        require_once("./components/ILIAS/Notification/test/NotificationTest.php");
         $suite->addTestSuite("NotificationTest");
 
         return $suite;

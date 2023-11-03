@@ -199,7 +199,7 @@ class ilCalendarUtil
             "CALENDAR_LANG_JAVASCRIPT",
             "calendar_javascript",
             "tpl.calendar.html",
-            "Services/Calendar"
+            "components/ILIAS/Calendar"
         );
         $tpl->setCurrentBlock("calendar_javascript");
         $tpl->setVariable("FULL_SUNDAY", $lng->txt("l_su"));
@@ -261,8 +261,8 @@ class ilCalendarUtil
         $tpl->setVariable("TIME", $lng->txt("time"));
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("CalendarJS");
-        $tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Services/Calendar/js/calendar.js");
-        $tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Services/Calendar/js/calendar-setup.js");
+        $tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./components/ILIAS/Calendar/js/calendar.js");
+        $tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./components/ILIAS/Calendar/js/calendar-setup.js");
         $tpl->parseCurrentBlock();
 
         self::$init_done = "done";
@@ -275,7 +275,7 @@ class ilCalendarUtil
         }
         $timezone_filename = str_replace('/', '_', $a_tz);
         $timezone_filename .= '.ics';
-        return './Services/Calendar/zoneinfo/' . $timezone_filename;
+        return './components/ILIAS/Calendar/zoneinfo/' . $timezone_filename;
     }
 
     /**
@@ -512,7 +512,7 @@ class ilCalendarUtil
             // unminified version does not work with jQuery 3.0
             // https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1684
             $tpl->addJavaScript("./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
-            $tpl->addJavaScript("Services/Form/js/Form.js"); // see ilPropertyFormGUI
+            $tpl->addJavaScript("components/ILIAS/Form/js/Form.js"); // see ilPropertyFormGUI
             self::$init_datetimepicker = true;
         }
     }

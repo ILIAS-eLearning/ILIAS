@@ -23,7 +23,7 @@ class ilServicesExceptionsSuite extends TestSuite
     public static function suite(): self
     {
         $suite = new self();
-        include_once('./Services/Exceptions/test/ilExceptionTest.php');
+        include_once('./components/ILIAS/Exceptions/test/ilExceptionTest.php');
         $suite->addTestSuite(ilExceptionTest::class);
         return $suite;
     }

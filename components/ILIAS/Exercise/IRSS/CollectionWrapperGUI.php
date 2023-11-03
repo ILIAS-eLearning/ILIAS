@@ -21,8 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Exercise\IRSS;
 
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\Services\ResourceStorage\Collections\View\Configuration;
-use ILIAS\Services\ResourceStorage\Collections\View\Mode;
+use ILIAS\components\ResourceStorage_\Collections\View\Configuration;
+use ILIAS\components\ResourceStorage_\Collections\View\Mode;
 
 class CollectionWrapperGUI
 {

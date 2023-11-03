@@ -42,7 +42,7 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
         $this->addCommandButton('saveSettings', $this->lng->txt('save'));
         $this->setRowTemplate(
             'tpl.dashboard_sortation_row.html',
-            'Services/Dashboard'
+            'components/ILIAS/Dashboard'
         );
         $this->setEnableNumInfo(false);
         $this->initData();

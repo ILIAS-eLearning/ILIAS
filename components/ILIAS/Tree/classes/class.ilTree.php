@@ -686,7 +686,7 @@ class ilTree
         }
         if (isset($this->eventHandler) && ($this->eventHandler instanceof ilAppEventHandler) && $this->__isMainTree()) {
             $this->eventHandler->raise(
-                'Services/Tree',
+                'components/ILIAS/Tree',
                 'insertNode',
                 [
                     'tree' => $this->table_tree,
@@ -2063,7 +2063,7 @@ class ilTree
         $this->getTreeImplementation()->moveTree($a_source_id, $a_target_id, $a_location);
         if (isset($GLOBALS['DIC']["ilAppEventHandler"]) && $this->__isMainTree()) {
             $GLOBALS['DIC']['ilAppEventHandler']->raise(
-                "Services/Tree",
+                "components/ILIAS/Tree",
                 "moveTree",
                 array(
                     'tree' => $this->table_tree,
@@ -2159,7 +2159,7 @@ class ilTree
         $this->db->manipulate($query);
 
         $this->eventHandler->raise(
-            "Services/Tree",
+            "components/ILIAS/Tree",
             "deleteNode",
             [
                 'tree' => $this->table_tree,

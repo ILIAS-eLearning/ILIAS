@@ -32,7 +32,7 @@ class ilServicesNewsSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/News/test/NewsContextTest.php");
+        require_once("./components/ILIAS/News/test/NewsContextTest.php");
         $suite->addTestSuite("NewsContextTest");
 
         return $suite;

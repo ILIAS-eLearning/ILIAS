@@ -28,13 +28,13 @@ class ilServicesWebAccessCheckerSuite extends TestSuite
 {
     public static function suite(): \ilServicesWebAccessCheckerSuite
     {
-        //require_once('./Services/WebAccessChecker/test/Token/ilWACTokenTest.php');
+        //require_once('./components/ILIAS/WebAccessChecker/test/Token/ilWACTokenTest.php');
         //$suite->addTestSuite('ilWACTokenTest');
 
-        //require_once('./Services/WebAccessChecker/test/CheckingInstance/ilWACCheckingInstanceTest.php');
+        //require_once('./components/ILIAS/WebAccessChecker/test/CheckingInstance/ilWACCheckingInstanceTest.php');
         //$suite->addTestSuite('ilWACCheckingInstanceTest');
 
-        //require_once('./Services/WebAccessChecker/test/Path/ilWACPathTest.php');
+        //require_once('./components/ILIAS/WebAccessChecker/test/Path/ilWACPathTest.php');
         //$suite->addTestSuite('ilWACPathTest');
 
         return new self();

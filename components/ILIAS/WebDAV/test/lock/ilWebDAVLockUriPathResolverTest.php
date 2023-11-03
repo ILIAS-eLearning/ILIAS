@@ -22,7 +22,7 @@ use Sabre\DAV\Exception\NotFound;
  *
  *********************************************************************/
 
-require_once "./Services/WebDAV/test/ilWebDAVTestHelper.php";
+require_once "./components/ILIAS/WebDAV/test/ilWebDAVTestHelper.php";
 
 /**
  * @runTestsInSeparateProcesses

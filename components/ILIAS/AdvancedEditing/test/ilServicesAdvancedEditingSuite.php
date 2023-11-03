@@ -28,7 +28,7 @@ class ilServicesAdvancedEditingSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/AdvancedEditing/test/AdveStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/AdvancedEditing/test/AdveStandardGUIRequestTest.php");
         $suite->addTestSuite("AdveStandardGUIRequestTest");
 
         return $suite;

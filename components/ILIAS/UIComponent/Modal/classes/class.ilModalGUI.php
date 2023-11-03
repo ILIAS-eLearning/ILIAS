@@ -107,7 +107,7 @@ class ilModalGUI
 
     public function getHTML(): string
     {
-        $tpl = new ilTemplate("tpl.modal.html", true, true, "Services/UIComponent/Modal");
+        $tpl = new ilTemplate("tpl.modal.html", true, true, "components/ILIAS/UIComponent/Modal");
 
         if (count($this->getButtons()) > 0) {
             foreach ($this->getButtons() as $b) {
@@ -143,6 +143,6 @@ class ilModalGUI
 
         $tpl = $a_main_tpl ?? $DIC["tpl"];
 
-        $tpl->addJavaScript("./Services/UIComponent/Modal/js/Modal.js");
+        $tpl->addJavaScript("./components/ILIAS/UIComponent/Modal/js/Modal.js");
     }
 }

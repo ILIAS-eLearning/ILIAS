@@ -72,7 +72,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         }
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj));
-        $this->setRowTemplate("tpl.show_copyright_row.html", "Services/MetaData");
+        $this->setRowTemplate("tpl.show_copyright_row.html", "components/ILIAS/MetaData");
         $this->setDefaultOrderField("order");
         $this->setDefaultOrderDirection("asc");
     }

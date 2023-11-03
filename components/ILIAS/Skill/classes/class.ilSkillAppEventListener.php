@@ -38,7 +38,7 @@ class ilSkillAppEventListener implements ilAppEventListener
         $resource_manager = $DIC->skills()->internal()->manager()->getResourceManager();
 
         switch ($a_component) {
-            case 'Services/Tracking':
+            case 'components/ILIAS/Tracking':
                 switch ($a_event) {
                     case 'updateStatus':
                         if ($a_parameter["status"] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
@@ -67,7 +67,7 @@ class ilSkillAppEventListener implements ilAppEventListener
                 }
                 break;
 
-            case "Services/Object":
+            case "components/ILIAS/Object":
                 switch ($a_event) {
                     case "beforeDeletion":
                         $handler = new ilSkillObjDeletionHandler($a_parameter["object"]->getId(), $a_parameter["object"]->getType());

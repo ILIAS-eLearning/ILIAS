@@ -1000,7 +1000,7 @@ class ilCtrl implements ilCtrlInterface
             $html = $plugin_instance
                 ->getUIClassInstance()
                 ->getHTML(
-                    'Services/Utilities',
+                    'components/ILIAS/Utilities',
                     'redirect',
                     ["html" => $target_url]
                 );

@@ -52,7 +52,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         }
 
         $this->disable('form');
-        $this->setRowTemplate("tpl.participant_row.html", "Services/WebServices/ECS");
+        $this->setRowTemplate("tpl.participant_row.html", "components/ILIAS/WebServices/ECS");
         $this->setDefaultOrderField('participants');
         $this->setDefaultOrderDirection("desc");
 

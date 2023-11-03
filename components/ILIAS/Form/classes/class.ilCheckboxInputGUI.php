@@ -118,7 +118,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
 
     public function render($a_mode = ''): string
     {
-        $tpl = new ilTemplate("tpl.prop_checkbox.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_checkbox.html", true, true, "components/ILIAS/Form");
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("ID", $this->getFieldId());

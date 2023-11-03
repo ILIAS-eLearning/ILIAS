@@ -43,7 +43,7 @@ class ilAccessPermissionsStatusTableGUI extends ilTable2GUI
         $this->disable('sort');
         $this->disable('numinfo');
         $this->setLimit(100);
-        $this->setRowTemplate("tpl.access_permissions_status_row.html", "Services/AccessControl");
+        $this->setRowTemplate("tpl.access_permissions_status_row.html", "components/ILIAS/AccessControl");
 
         $this->addColumn($this->lng->txt("status"), "status", "5%");
         $this->addColumn($this->lng->txt("operation"), "operation", "45%");

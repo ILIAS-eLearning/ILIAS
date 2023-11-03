@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\Dashboard\Block;
+namespace ILIAS\components\Dashboard\Block;
 
 use ilDateTime;
 

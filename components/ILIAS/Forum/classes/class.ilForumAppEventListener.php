@@ -430,12 +430,12 @@ class ilForumAppEventListener implements ilAppEventListener
                 }
                 break;
 
-            case "Services/News":
+            case "components/ILIAS/News":
                 if ($a_event === "readNews") {
                 }
                 break;
 
-            case "Services/Tree":
+            case "components/ILIAS/Tree":
                 if ($a_event === "moveTree") {
                     ilForumNotification::_clearForcedForumNotifications($a_parameter);
                 }
@@ -465,7 +465,7 @@ class ilForumAppEventListener implements ilAppEventListener
                 }
                 break;
 
-            case 'Services/User':
+            case 'components/ILIAS/User':
                 if ($a_event === 'deleteUser') {
                     ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
                 }

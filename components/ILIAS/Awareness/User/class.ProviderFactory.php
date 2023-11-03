@@ -31,31 +31,31 @@ class ProviderFactory
      */
     protected static array $providers = array(
         array(
-            "component" => "Services/Contact/BuddySystem",
+            "component" => "components/ILIAS/Contact/BuddySystem",
             "class" => "ilAwarenessUserProviderContactRequests"
         ),
         array(
-            "component" => "Services/Awareness",
+            "component" => "components/ILIAS/Awareness",
             "class" => "\ILIAS\Awareness\User\ProviderSystemContacts"
         ),
         array(
-            "component" => "Services/Awareness",
+            "component" => "components/ILIAS/Awareness",
             "class" => "\ILIAS\Awareness\User\ProviderCourseContacts"
         ),
         array(
-            "component" => "Services/Awareness",
+            "component" => "components/ILIAS/Awareness",
             "class" => "\ILIAS\Awareness\User\ProviderCurrentCourse"
         ),
         array(
-            "component" => "Services/Contact/BuddySystem",
+            "component" => "components/ILIAS/Contact/BuddySystem",
             "class" => "ilAwarenessUserProviderApprovedContacts"
         ),
         array(
-            "component" => "Services/Awareness",
+            "component" => "components/ILIAS/Awareness",
             "class" => "\ILIAS\Awareness\User\ProviderMemberships"
         ),
         array(
-            "component" => "Services/Awareness",
+            "component" => "components/ILIAS/Awareness",
             "class" => "\ILIAS\Awareness\User\ProviderAllUsers"
         )
     );

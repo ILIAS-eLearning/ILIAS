@@ -1477,14 +1477,14 @@ class ilObjStudyProgramme extends ilContainer
      * Set all progresses to completed where the object with given id is a leaf
      * and that belong to the user.
      *
-     * This is exclusively called via event "Services/Tracking, updateStatus" (onServiceTrackingUpdateStatus)
+     * This is exclusively called via event "components/ILIAS/Tracking, updateStatus" (onServiceTrackingUpdateStatus)
      */
     public static function setProgressesCompletedFor(int $obj_id, int $user_id): void
     {
         // We only use courses via crs_refs
         $type = ilObject::_lookupType($obj_id);
         if ($type === "crsr") {
-            require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
+            require_once("components/ILIAS/ContainerReference/classes/class.ilContainerReference.php");
             $crs_reference_obj_ids = ilContainerReference::_lookupSourceIds($obj_id);
             foreach ($crs_reference_obj_ids as $crs_reference_obj_id) {
                 foreach (ilObject::_getAllReferences($crs_reference_obj_id) as $ref_id) {

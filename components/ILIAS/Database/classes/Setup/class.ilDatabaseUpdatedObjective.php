@@ -120,10 +120,10 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             define("CLIENT_DATA_DIR", $ini->readVariable("clients", "datadir") . "/" . $client_id);
         }
         if (!defined("CLIENT_WEB_DIR")) {
-            define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
+            define("CLIENT_WEB_DIR", dirname(__DIR__, 5) . "/data/" . $client_id);
         }
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
-            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
+            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 6));
         }
         if (!defined("ILIAS_LOG_ENABLED")) {
             define("ILIAS_LOG_ENABLED", false);

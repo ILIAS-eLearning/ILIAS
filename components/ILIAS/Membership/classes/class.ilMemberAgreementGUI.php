@@ -130,7 +130,7 @@ class ilMemberAgreementGUI
         $fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($a_obj_id));
 
         $fields = new ilCustomInputGUI($lng->txt($a_type . '_user_agreement'), '');
-        $tpl = new ilTemplate('tpl.agreement_form.html', true, true, 'Services/Membership');
+        $tpl = new ilTemplate('tpl.agreement_form.html', true, true, 'components/ILIAS/Membership');
         $tpl->setVariable('TXT_INFO_AGREEMENT', $lng->txt($a_type . '_info_agreement'));
         foreach ($fields_info->getExportableFields() as $field) {
             $tpl->setCurrentBlock('field_item');

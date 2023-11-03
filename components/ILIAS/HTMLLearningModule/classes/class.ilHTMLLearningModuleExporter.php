@@ -40,14 +40,14 @@ class ilHTMLLearningModuleExporter extends ilXmlExporter
         }
 
         $deps[] = [
-            "component" => "Services/MetaData",
+            "component" => "components/ILIAS/MetaData",
             "entity" => "md",
             "ids" => $md_ids
         ];
 
         // service settings
         $deps[] = [
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "common",
             "ids" => $a_ids
         ];

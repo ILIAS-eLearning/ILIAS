@@ -39,7 +39,7 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
         $this->addColumn('', 'id', '0px');
         $this->addColumn($this->lng->txt('title'), 'title', '60%');
         $this->addColumn($this->lng->txt('type'), 'type', '40%');
-        $this->setRowTemplate('tpl.lucene_activation_row.html', 'Services/Search');
+        $this->setRowTemplate('tpl.lucene_activation_row.html', 'components/ILIAS/Search');
         $this->disable('sort');
         $this->setLimit(100);
         $this->setSelectAllCheckbox('fid');

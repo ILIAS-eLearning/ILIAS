@@ -56,7 +56,7 @@ class exQuestionPoolExporter extends ilXmlExporter
 
             if (count($questionIds)) {
                 $deps[] = array(
-                    'component' => 'Services/AssessmentQuestion',
+                    'component' => 'components/ILIAS/AssessmentQuestion',
                     'entity' => 'qst',
                     'ids' => $questionIds
                 );

@@ -154,7 +154,7 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.prop_multi_select.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_multi_select.html", true, true, "components/ILIAS/Form");
         $values = $this->getValue();
 
         $options = $this->getOptions();

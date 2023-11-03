@@ -523,13 +523,13 @@
   ),
   87 => 
   array (
-    'component' => 'Services/AccessControl',
+    'component' => 'components/ILIAS/AccessControl',
     'type' => 'raise',
     'type_specification' => 'assignUser',
   ),
   88 => 
   array (
-    'component' => 'Services/AccessControl',
+    'component' => 'components/ILIAS/AccessControl',
     'type' => 'raise',
     'type_specification' => 'deassignUser',
   ),
@@ -559,421 +559,421 @@
   ),
   93 => 
   array (
-    'component' => 'Services/WebServices',
+    'component' => 'components/ILIAS/WebServices',
     'type' => 'raise',
     'type_specification' => 'newEcsEvent',
   ),
   94 => 
   array (
-    'component' => 'Services/ContainerReference',
+    'component' => 'components/ILIAS/ContainerReference',
     'type' => 'listen',
     'type_specification' => 'Modules/Course',
   ),
   95 => 
   array (
-    'component' => 'Services/ContainerReference',
+    'component' => 'components/ILIAS/ContainerReference',
     'type' => 'listen',
     'type_specification' => 'Modules/Category',
   ),
   96 => 
   array (
-    'component' => 'Services/ContainerReference',
+    'component' => 'components/ILIAS/ContainerReference',
     'type' => 'listen',
     'type_specification' => 'Modules/StudyProgramme',
   ),
   97 => 
   array (
-    'component' => 'Services/ContainerReference',
+    'component' => 'components/ILIAS/ContainerReference',
     'type' => 'raise',
     'type_specification' => 'deleteReference',
   ),
   98 => 
   array (
-    'component' => 'Services/Skill',
+    'component' => 'components/ILIAS/Skill',
     'type' => 'listen',
     'type_specification' => 'Services/Tracking',
   ),
   99 => 
   array (
-    'component' => 'Services/Skill',
+    'component' => 'components/ILIAS/Skill',
     'type' => 'listen',
     'type_specification' => 'Services/Object',
   ),
   100 => 
   array (
-    'component' => 'Services/Skill',
+    'component' => 'components/ILIAS/Skill',
     'type' => 'raise',
     'type_specification' => 'deleteSkill',
   ),
   101 => 
   array (
-    'component' => 'Services/Repository',
+    'component' => 'components/ILIAS/Repository',
     'type' => 'listen',
     'type_specification' => 'Services/Object',
   ),
   102 => 
   array (
-    'component' => 'Services/Badge',
+    'component' => 'components/ILIAS/Badge',
     'type' => 'listen',
     'type_specification' => 'Services/User',
   ),
   103 => 
   array (
-    'component' => 'Services/Badge',
+    'component' => 'components/ILIAS/Badge',
     'type' => 'listen',
     'type_specification' => 'Services/Tracking',
   ),
   104 => 
   array (
-    'component' => 'Services/LTI',
+    'component' => 'components/ILIAS/LTI',
     'type' => 'listen',
     'type_specification' => 'Services/Tracking',
   ),
   105 => 
   array (
-    'component' => 'Services/LTI',
+    'component' => 'components/ILIAS/LTI',
     'type' => 'listen',
     'type_specification' => 'Services/User',
   ),
   106 => 
   array (
-    'component' => 'Services/Notification',
+    'component' => 'components/ILIAS/Notification',
     'type' => 'listen',
     'type_specification' => 'Service/Object',
   ),
   107 => 
   array (
-    'component' => 'Services/User',
+    'component' => 'components/ILIAS/User',
     'type' => 'raise',
     'type_specification' => 'afterUpdate',
   ),
   108 => 
   array (
-    'component' => 'Services/User',
+    'component' => 'components/ILIAS/User',
     'type' => 'raise',
     'type_specification' => 'deleteUser',
   ),
   109 => 
   array (
-    'component' => 'Services/User',
+    'component' => 'components/ILIAS/User',
     'type' => 'raise',
     'type_specification' => 'afterCreate',
   ),
   110 => 
   array (
-    'component' => 'Services/User',
+    'component' => 'components/ILIAS/User',
     'type' => 'raise',
     'type_specification' => 'onUserFieldAttributesChanged',
   ),
   111 => 
   array (
-    'component' => 'Services/User',
+    'component' => 'components/ILIAS/User',
     'type' => 'listen',
     'type_specification' => 'Services/Object',
   ),
   112 => 
   array (
-    'component' => 'Services/User',
+    'component' => 'components/ILIAS/User',
     'type' => 'listen',
     'type_specification' => 'Services/TermsOfService',
   ),
   113 => 
   array (
-    'component' => 'Services/TermsOfService',
+    'component' => 'components/ILIAS/TermsOfService',
     'type' => 'listen',
     'type_specification' => 'Services/User',
   ),
   114 => 
   array (
-    'component' => 'Services/TermsOfService',
+    'component' => 'components/ILIAS/TermsOfService',
     'type' => 'raise',
     'type_specification' => 'ilTermsOfServiceEventWithdrawn',
   ),
   115 => 
   array (
-    'component' => 'Services/EventHandling',
+    'component' => 'components/ILIAS/EventHandling',
     'type' => 'listen',
     'type_specification' => 'Services/EventHandling',
   ),
   116 => 
   array (
-    'component' => 'Services/Mail',
+    'component' => 'components/ILIAS/Mail',
     'type' => 'raise',
     'type_specification' => 'externalEmailDelegated',
   ),
   117 => 
   array (
-    'component' => 'Services/Mail',
+    'component' => 'components/ILIAS/Mail',
     'type' => 'raise',
     'type_specification' => 'sentInternalMail',
   ),
   118 => 
   array (
-    'component' => 'Services/Mail',
+    'component' => 'components/ILIAS/Mail',
     'type' => 'listen',
     'type_specification' => 'Services/User',
   ),
   119 => 
   array (
-    'component' => 'Services/Saml',
+    'component' => 'components/ILIAS/Saml',
     'type' => 'listen',
     'type_specification' => 'Services/Authentication',
   ),
   120 => 
   array (
-    'component' => 'Services/OnScreenChat',
+    'component' => 'components/ILIAS/OnScreenChat',
     'type' => 'listen',
     'type_specification' => 'Modules/Chatroom',
   ),
   121 => 
   array (
-    'component' => 'Services/Certificate',
+    'component' => 'components/ILIAS/Certificate',
     'type' => 'listen',
     'type_specification' => 'Services/Tracking',
   ),
   122 => 
   array (
-    'component' => 'Services/Certificate',
+    'component' => 'components/ILIAS/Certificate',
     'type' => 'listen',
     'type_specification' => 'Services/Certificate',
   ),
   123 => 
   array (
-    'component' => 'Services/Certificate',
+    'component' => 'components/ILIAS/Certificate',
     'type' => 'listen',
     'type_specification' => 'Services/User',
   ),
   124 => 
   array (
-    'component' => 'Services/Certificate',
+    'component' => 'components/ILIAS/Certificate',
     'type' => 'raise',
     'type_specification' => 'certificateIssued',
   ),
   125 => 
   array (
-    'component' => 'Services/News',
+    'component' => 'components/ILIAS/News',
     'type' => 'raise',
     'type_specification' => 'readNews',
   ),
   126 => 
   array (
-    'component' => 'Services/News',
+    'component' => 'components/ILIAS/News',
     'type' => 'raise',
     'type_specification' => 'unreadNews',
   ),
   127 => 
   array (
-    'component' => 'Services/Authentication',
+    'component' => 'components/ILIAS/Authentication',
     'type' => 'raise',
     'type_specification' => 'afterLogin',
   ),
   128 => 
   array (
-    'component' => 'Services/Authentication',
+    'component' => 'components/ILIAS/Authentication',
     'type' => 'raise',
     'type_specification' => 'beforeLogout',
   ),
   129 => 
   array (
-    'component' => 'Services/Authentication',
+    'component' => 'components/ILIAS/Authentication',
     'type' => 'raise',
     'type_specification' => 'afterLogout',
   ),
   130 => 
   array (
-    'component' => 'Services/Authentication',
+    'component' => 'components/ILIAS/Authentication',
     'type' => 'raise',
     'type_specification' => 'expiredSessionDetected',
   ),
   131 => 
   array (
-    'component' => 'Services/Authentication',
+    'component' => 'components/ILIAS/Authentication',
     'type' => 'raise',
     'type_specification' => 'reachedSessionPoolLimit',
   ),
   132 => 
   array (
-    'component' => 'Services/Contact',
+    'component' => 'components/ILIAS/Contact',
     'type' => 'listen',
     'type_specification' => 'Services/User',
   ),
   133 => 
   array (
-    'component' => 'Services/Contact',
+    'component' => 'components/ILIAS/Contact',
     'type' => 'listen',
     'type_specification' => 'Services/Contact',
   ),
   134 => 
   array (
-    'component' => 'Services/Contact',
+    'component' => 'components/ILIAS/Contact',
     'type' => 'raise',
     'type_specification' => 'contactRequested',
   ),
   135 => 
   array (
-    'component' => 'Services/Contact',
+    'component' => 'components/ILIAS/Contact',
     'type' => 'raise',
     'type_specification' => 'contactIgnored',
   ),
   136 => 
   array (
-    'component' => 'Services/Contact',
+    'component' => 'components/ILIAS/Contact',
     'type' => 'raise',
     'type_specification' => 'relationLinked',
   ),
   137 => 
   array (
-    'component' => 'Services/Contact',
+    'component' => 'components/ILIAS/Contact',
     'type' => 'raise',
     'type_specification' => 'relationUnlinked',
   ),
   138 => 
   array (
-    'component' => 'Services/Calendar',
+    'component' => 'components/ILIAS/Calendar',
     'type' => 'listen',
     'type_specification' => 'Modules/Group',
   ),
   139 => 
   array (
-    'component' => 'Services/Calendar',
+    'component' => 'components/ILIAS/Calendar',
     'type' => 'listen',
     'type_specification' => 'Modules/Session',
   ),
   140 => 
   array (
-    'component' => 'Services/Calendar',
+    'component' => 'components/ILIAS/Calendar',
     'type' => 'listen',
     'type_specification' => 'Modules/Course',
   ),
   141 => 
   array (
-    'component' => 'Services/Calendar',
+    'component' => 'components/ILIAS/Calendar',
     'type' => 'listen',
     'type_specification' => 'Modules/Exercise',
   ),
   142 => 
   array (
-    'component' => 'Services/Calendar',
+    'component' => 'components/ILIAS/Calendar',
     'type' => 'listen',
     'type_specification' => 'Modules/EmployeeTalk',
   ),
   143 => 
   array (
-    'component' => 'Services/LegalDocuments',
+    'component' => 'components/ILIAS/LegalDocuments',
     'type' => 'listen',
     'type_specification' => 'Services/Authentication',
   ),
   144 => 
   array (
-    'component' => 'Services/Container',
+    'component' => 'components/ILIAS/Container',
     'type' => 'listen',
     'type_specification' => 'Services/Skill',
   ),
   145 => 
   array (
-    'component' => 'Services/Tree',
+    'component' => 'components/ILIAS/Tree',
     'type' => 'raise',
     'type_specification' => 'deleteNode',
   ),
   146 => 
   array (
-    'component' => 'Services/OpenIdConnect',
+    'component' => 'components/ILIAS/OpenIdConnect',
     'type' => 'listen',
     'type_specification' => 'Services/Authentication',
   ),
   147 => 
   array (
-    'component' => 'Services/Tracking',
+    'component' => 'components/ILIAS/Tracking',
     'type' => 'raise',
     'type_specification' => 'updateStatus',
   ),
   148 => 
   array (
-    'component' => 'Services/Tracking',
+    'component' => 'components/ILIAS/Tracking',
     'type' => 'listen',
     'type_specification' => 'Services/Object',
   ),
   149 => 
   array (
-    'component' => 'Services/Tracking',
+    'component' => 'components/ILIAS/Tracking',
     'type' => 'listen',
     'type_specification' => 'Services/Tree',
   ),
   150 => 
   array (
-    'component' => 'Services/Tracking',
+    'component' => 'components/ILIAS/Tracking',
     'type' => 'listen',
     'type_specification' => 'Modules/Course',
   ),
   151 => 
   array (
-    'component' => 'Services/Tracking',
+    'component' => 'components/ILIAS/Tracking',
     'type' => 'listen',
     'type_specification' => 'Modules/Group',
   ),
   152 => 
   array (
-    'component' => 'Services/Tracking',
+    'component' => 'components/ILIAS/Tracking',
     'type' => 'listen',
     'type_specification' => 'Modules/LearningSequence',
   ),
   153 => 
   array (
-    'component' => 'Services/Object',
+    'component' => 'components/ILIAS/Object',
     'type' => 'raise',
     'type_specification' => 'create',
   ),
   154 => 
   array (
-    'component' => 'Services/Object',
+    'component' => 'components/ILIAS/Object',
     'type' => 'raise',
     'type_specification' => 'update',
   ),
   155 => 
   array (
-    'component' => 'Services/Object',
+    'component' => 'components/ILIAS/Object',
     'type' => 'raise',
     'type_specification' => 'toTrash',
   ),
   156 => 
   array (
-    'component' => 'Services/Object',
+    'component' => 'components/ILIAS/Object',
     'type' => 'raise',
     'type_specification' => 'delete',
   ),
   157 => 
   array (
-    'component' => 'Services/Object',
+    'component' => 'components/ILIAS/Object',
     'type' => 'raise',
     'type_specification' => 'undelete',
   ),
   158 => 
   array (
-    'component' => 'Services/Object',
+    'component' => 'components/ILIAS/Object',
     'type' => 'listen',
     'type_specification' => 'Services/Object',
   ),
   159 => 
   array (
-    'component' => 'Services/Search',
+    'component' => 'components/ILIAS/Search',
     'type' => 'raise',
     'type_specification' => 'contentChanged',
   ),
   160 => 
   array (
-    'component' => 'Services/Search',
+    'component' => 'components/ILIAS/Search',
     'type' => 'listen',
     'type_specification' => 'Services/Search',
   ),
   161 => 
   array (
-    'component' => 'Services/Search',
+    'component' => 'components/ILIAS/Search',
     'type' => 'listen',
     'type_specification' => 'Services/Object',
   ),
   162 => 
   array (
-    'component' => 'Services/Tagging',
+    'component' => 'components/ILIAS/Tagging',
     'type' => 'listen',
     'type_specification' => 'Services/Object',
   ),

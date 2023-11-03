@@ -469,7 +469,7 @@ class ilObjRoleGUI extends ilObjectGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.rbac_template_permissions.html',
-            'Services/AccessControl'
+            'components/ILIAS/AccessControl'
         );
 
         $this->tpl->setVariable('PERM_ACTION', $this->ctrl->getFormAction($this));
@@ -929,7 +929,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $this->tabs_gui->setTabActive('user_assignment');
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rbac_ua.html', 'Services/AccessControl');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rbac_ua.html', 'components/ILIAS/AccessControl');
 
         $tb = new ilToolbarGUI();
 

@@ -54,7 +54,7 @@ class ilMediaCastImporter extends ilXmlImporter
             foreach ($order as $obj_id => $items) {
                 $map = array();
                 foreach ($items as $old_id) {
-                    $map[] = $a_mapping->getMapping("Services/News", "news", $old_id);
+                    $map[] = $a_mapping->getMapping("components/ILIAS/News", "news", $old_id);
                 }
 
                 $mcst = new ilObjMediaCast($obj_id, false);

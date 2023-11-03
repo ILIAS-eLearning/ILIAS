@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Services\User\InterestedUserFieldAttribute;
+use ILIAS\components\User\InterestedUserFieldAttribute;
 use ILIAS\DI\Container;
 
 /**

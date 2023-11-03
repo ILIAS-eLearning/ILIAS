@@ -198,7 +198,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
                 $acc->addItem(ilLMObject::_lookupTitle($st_id), $this->ui->renderer()->renderAsync($list));
             }
 
-            $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
+            $h_tpl = new ilTemplate("tpl.help.html", true, true, "components/ILIAS/Help");
             $h_tpl->setVariable("HEAD", $lng->txt("help"));
 
             $h_tpl->setCurrentBlock("search");
@@ -226,7 +226,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $page_id = $this->help_request->getHelpPage();
 
-        $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
+        $h_tpl = new ilTemplate("tpl.help.html", true, true, "components/ILIAS/Help");
 
         if (($t = ilSession::get("help_search_term")) != "") {
             $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) use ($t) {
@@ -310,10 +310,10 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $ilSetting = $DIC->settings();
         $ctrl = $DIC->ctrl();
 
-        $a_tpl->addJavaScript("./Services/Help/js/ilHelp.js");
-        $a_tpl->addJavaScript("./Services/Accordion/js/accordion.js");
+        $a_tpl->addJavaScript("./components/ILIAS/Help/js/ilHelp.js");
+        $a_tpl->addJavaScript("./components/ILIAS/Accordion/js/accordion.js");
         iljQueryUtil::initMaphilight();
-        $a_tpl->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
+        $a_tpl->addJavaScript("./components/ILIAS/COPage/js/ilCOPagePres.js");
 
         $this->setCtrlPar();
         $a_tpl->addOnLoadCode(
@@ -420,7 +420,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $this->resetCurrentPage();
 
-        $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
+        $h_tpl = new ilTemplate("tpl.help.html", true, true, "components/ILIAS/Help");
 
         $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) {
             return

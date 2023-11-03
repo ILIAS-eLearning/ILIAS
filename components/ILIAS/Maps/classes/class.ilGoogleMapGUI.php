@@ -38,14 +38,14 @@ class ilGoogleMapGUI extends ilMapGUI
             "tpl.google_map.html",
             true,
             true,
-            "Services/Maps"
+            "components/ILIAS/Maps"
         );
 
         $js_tpl = new ilTemplate(
             "tpl.google_map.js",
             true,
             true,
-            "Services/Maps"
+            "components/ILIAS/Maps"
         );
 
         $this->tpl->addJavaScript("//maps.google.com/maps/api/js?key=" . ilMapUtil::getApiKey(), false);
@@ -147,7 +147,7 @@ class ilGoogleMapGUI extends ilMapGUI
             "tpl.google_map_user_list.html",
             true,
             true,
-            "Services/Maps"
+            "components/ILIAS/Maps"
         );
 
         $cnt = 0;

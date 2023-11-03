@@ -21,7 +21,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Exception\Forbidden;
 
-require_once "./Services/WebDAV/test/ilWebDAVTestHelper.php";
+require_once "./components/ILIAS/WebDAV/test/ilWebDAVTestHelper.php";
 
 class ilDAVClientNodeTest extends TestCase
 {

@@ -152,7 +152,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 
         $lng->loadLanguageModule("form");
 
-        $tpl = new ilTemplate("tpl.prop_alphabet.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_alphabet.html", true, true, "components/ILIAS/Form");
         foreach ($this->getLetters() as $l) {
             if (is_null($l)) {
                 continue;

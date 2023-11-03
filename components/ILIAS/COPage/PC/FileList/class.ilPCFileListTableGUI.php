@@ -52,7 +52,7 @@ class ilPCFileListTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.file_list_row.html",
-            "Services/COPage"
+            "components/ILIAS/COPage"
         );
 
         $this->file_list = $a_file_list;

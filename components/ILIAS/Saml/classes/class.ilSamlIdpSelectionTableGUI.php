@@ -39,6 +39,6 @@ final class ilSamlIdpSelectionTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('auth_saml_idp_selection_table_title'));
         $this->setDescription($this->lng->txt('auth_saml_idp_selection_table_desc'));
 
-        $this->setRowTemplate('tpl.saml_idp_selection_row.html', 'Services/Saml');
+        $this->setRowTemplate('tpl.saml_idp_selection_row.html', 'components/ILIAS/Saml');
     }
 }

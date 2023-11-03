@@ -107,7 +107,7 @@ class ilTableGUI
         if ($this->global_tpl) {
             $this->tpl = $tpl;
         } else {
-            $this->tpl = new ilTemplate("tpl.table.html", true, true, "Services/Table");
+            $this->tpl = new ilTemplate("tpl.table.html", true, true, "components/ILIAS/Table");
         }
 
         $this->lng = $lng;

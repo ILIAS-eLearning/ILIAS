@@ -217,7 +217,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
         $ilUser = $this->user;
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.prop_datetime.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_datetime.html", true, true, "components/ILIAS/Form");
 
         // config picker
         if (!$this->getDisabled()) {

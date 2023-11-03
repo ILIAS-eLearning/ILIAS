@@ -130,7 +130,7 @@ class UIWrapper
         $ui = $this->ui;
         $r = $ui->renderer();
 
-        $tpl = new \ilTemplate("tpl.editor_button_group.html", true, true, "Services/COPage");
+        $tpl = new \ilTemplate("tpl.editor_button_group.html", true, true, "components/ILIAS/COPage");
 
         foreach ($groups as $buttons) {
             foreach ($buttons as $action => $lng_key) {
@@ -151,7 +151,7 @@ class UIWrapper
         $ui = $this->ui;
         $r = $ui->renderer();
 
-        $tpl = new \ilTemplate("tpl.form_footer.html", true, true, "Services/COPage");
+        $tpl = new \ilTemplate("tpl.form_footer.html", true, true, "components/ILIAS/COPage");
 
         $html = "";
         foreach ($buttons as $b) {

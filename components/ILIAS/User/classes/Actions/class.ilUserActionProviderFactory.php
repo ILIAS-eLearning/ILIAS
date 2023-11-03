@@ -20,23 +20,23 @@ class ilUserActionProviderFactory
 {
     private const PROVIDERS = [
         [
-            "component" => "Services/Contact/BuddySystem",
+            "component" => "components/ILIAS/Contact/BuddySystem",
             "class" => "ilContactUserActionProvider"
         ],
         [
-            "component" => "Services/User/Actions",
+            "component" => "components/ILIAS/User/Actions",
             "class" => "ilMailUserActionProvider"
         ],
         [
-            "component" => "Services/User/Actions",
+            "component" => "components/ILIAS/User/Actions",
             "class" => "ilUserUserActionProvider"
         ],
         [
-            "component" => "Services/User/Actions",
+            "component" => "components/ILIAS/User/Actions",
             "class" => "ilWorkspaceUserActionProvider"
         ],
         [
-            "component" => "Services/User/Actions",
+            "component" => "components/ILIAS/User/Actions",
             "class" => "ilChatUserActionProvider"
         ],
         [

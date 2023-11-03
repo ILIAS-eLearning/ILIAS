@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\Logging;
+namespace ILIAS\components\Logging;
 
 use ilLogger;
 use ilLogLevel;

@@ -499,7 +499,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 "tpl.lp_obj_settings_tree_info.html",
                 true,
                 true,
-                "Services/Tracking"
+                "components/ILIAS/Tracking"
             );
 
             $margin = 0;

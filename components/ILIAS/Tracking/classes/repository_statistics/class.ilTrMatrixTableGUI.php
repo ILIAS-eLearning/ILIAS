@@ -21,7 +21,7 @@ declare(strict_types=0);
  * name table
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
- * @ingroup Services
+ * @ingroup components/ILIAS
  */
 class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 {
@@ -89,7 +89,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         );
         $this->setRowTemplate(
             "tpl.user_object_matrix_row.html",
-            "Services/Tracking"
+            "components/ILIAS/Tracking"
         );
         $this->setDefaultOrderField("login");
         $this->setDefaultOrderDirection("asc");

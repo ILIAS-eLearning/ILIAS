@@ -53,8 +53,8 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
     {
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
         $data_dir = $this->config->getDataDir();
-        $web_dir = dirname(__DIR__, 4) . "/data";
-        $root = dirname(__DIR__, 4);
+        $web_dir = dirname(__DIR__, 5) . "/data";
+        $root = dirname(__DIR__, 5);
 
         $client_data_dir = $data_dir . '/' . $client_id;
         $client_web_dir = $web_dir . '/' . $client_id;

@@ -49,7 +49,7 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('ldap_info_text'), "info");
         $this->addColumn($this->lng->txt('action'));
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.ldap_role_mapping_row.html", "Services/LDAP");
+        $this->setRowTemplate("tpl.ldap_role_mapping_row.html", "components/ILIAS/LDAP");
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection("desc");
         $this->addMultiCommand('confirmDeleteRoleMapping', $this->lng->txt("delete"));

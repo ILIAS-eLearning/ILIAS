@@ -63,7 +63,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('crs_table_start_objects'));
         $this->setDescription($this->lng->txt('crs_info_start'));
 
-        $this->setRowTemplate("tpl.start_objects_content_row.html", "Services/Container");
+        $this->setRowTemplate("tpl.start_objects_content_row.html", "components/ILIAS/Container");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 
         $this->setDefaultOrderField('nr');

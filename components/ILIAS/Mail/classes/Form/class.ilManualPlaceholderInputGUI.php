@@ -49,7 +49,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 
         parent::__construct($label);
 
-        $this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
+        $this->tpl->addJavaScript('components/ILIAS/Mail/js/ilMailComposeFunctions.js');
     }
 
     public function getRerenderUrl(): ?string
@@ -109,7 +109,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
             'tpl.mail_manual_placeholders.html',
             true,
             true,
-            'Services/Mail'
+            'components/ILIAS/Mail'
         );
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
         $subtpl->setVariable('DEPENDENCY_ELM_ID_OUTER', $this->dependencyElementId);

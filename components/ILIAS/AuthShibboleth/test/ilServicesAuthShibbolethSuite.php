@@ -26,7 +26,7 @@ class ilServicesAuthShibbolethSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/AuthShibboleth/test/ilServicesAuthShibbolethTest.php");
+        require_once("./components/ILIAS/AuthShibboleth/test/ilServicesAuthShibbolethTest.php");
         $suite->addTestSuite("ilServicesAuthShibbolethTest");
 
         return $suite;

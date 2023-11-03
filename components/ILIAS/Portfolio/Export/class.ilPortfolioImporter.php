@@ -50,7 +50,7 @@ class ilPortfolioImporter extends ilXmlImporter
     public function finalProcessing(
         ilImportMapping $a_mapping
     ): void {
-        $prttpg_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
+        $prttpg_map = $a_mapping->getMappingsOfEntity("components/ILIAS/COPage", "pg");
         foreach ($prttpg_map as $prttpg_id) {
             $prttpg_id = substr($prttpg_id, 5);
             $prtt_id = ilPortfolioTemplatePage::findPortfolioForPage($prttpg_id);

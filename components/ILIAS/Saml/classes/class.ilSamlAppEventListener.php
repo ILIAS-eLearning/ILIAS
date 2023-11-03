@@ -24,7 +24,7 @@ class ilSamlAppEventListener implements ilAppEventListener
     {
         global $DIC;
 
-        if ($a_component === 'Services/Authentication' && $a_event === 'afterLogout' &&
+        if ($a_component === 'components/ILIAS/Authentication' && $a_event === 'afterLogout' &&
             isset($a_parameter['is_explicit_logout']) && $a_parameter['is_explicit_logout'] === true &&
             isset($a_parameter['used_external_auth_mode']) && $a_parameter['used_external_auth_mode']) {
             if ((int) $a_parameter['used_external_auth_mode'] === ilAuthUtils::AUTH_SAML) {

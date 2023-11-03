@@ -73,7 +73,7 @@ class ilUserSetupAgent implements Setup\Agent
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ObjectiveCollection(
-            'Services/User',
+            'components/ILIAS/User',
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,

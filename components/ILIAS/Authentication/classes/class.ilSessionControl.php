@@ -207,7 +207,7 @@ class ilSessionControl
                         // Trigger reachedSessionPoolLimit Event
                         $ilAppEventHandler = $DIC['ilAppEventHandler'];
                         $ilAppEventHandler->raise(
-                            'Services/Authentication',
+                            'components/ILIAS/Authentication',
                             'reachedSessionPoolLimit',
                             array()
                         );

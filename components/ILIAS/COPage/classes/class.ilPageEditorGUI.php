@@ -827,7 +827,7 @@ class ilPageEditorGUI
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
 
-        $stpl = new ilTemplate("tpl.snippet_info.html", true, true, "Services/COPage");
+        $stpl = new ilTemplate("tpl.snippet_info.html", true, true, "components/ILIAS/COPage");
 
         $mep_pools = ilMediaPoolItem::getPoolForItemId(
             $this->request->getString("ci_id")

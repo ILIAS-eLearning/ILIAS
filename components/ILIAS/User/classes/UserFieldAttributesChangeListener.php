@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\User;
+namespace ILIAS\components\User;
 
 use ILIAS\DI\Container;
 use ilLanguage;
@@ -30,7 +30,7 @@ abstract class UserFieldAttributesChangeListener
     /**
      * Should return the component name like it would be used to raise an event
      * @return string
-     * @example "Services/Mail"
+     * @example "components/ILIAS/Mail"
      */
     abstract public function getComponentName(): string;
 }

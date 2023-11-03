@@ -225,7 +225,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.rbac_template_permissions.html',
-            'Services/AccessControl'
+            'components/ILIAS/AccessControl'
         );
 
         $this->tpl->setVariable('PERM_ACTION', $this->ctrl->getFormAction($this));

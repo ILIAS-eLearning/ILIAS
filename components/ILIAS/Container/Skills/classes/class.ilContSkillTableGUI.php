@@ -60,7 +60,7 @@ class ilContSkillTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cont_skill_profile"), "", "1");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.cont_skill_row.html", "Services/Container/Skills");
+        $this->setRowTemplate("tpl.cont_skill_row.html", "components/ILIAS/Container/Skills");
         $this->setSelectAllCheckbox("id");
 
         $this->addMultiCommand("confirmRemoveSelectedSkill", $this->lng->txt("remove"));

@@ -278,7 +278,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "components/ILIAS/Form");
         if (strlen((string) $this->getValue())) {
             $tpl->setCurrentBlock("prop_text_propval");
             $tpl->setVariable(
@@ -353,7 +353,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
 
-            $jstpl = new ilTemplate("tpl.prop_text_autocomplete.js", true, true, "Services/Form");
+            $jstpl = new ilTemplate("tpl.prop_text_autocomplete.js", true, true, "components/ILIAS/Form");
 
             if ($this->getMulti()) {
                 $jstpl->setCurrentBlock("ac_multi");

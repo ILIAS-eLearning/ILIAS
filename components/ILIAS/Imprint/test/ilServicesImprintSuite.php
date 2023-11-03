@@ -26,7 +26,7 @@ class ilServicesImprintSuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once("./Services/Imprint/test/ImprintStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/Imprint/test/ImprintStandardGUIRequestTest.php");
         $suite->addTestSuite("ImprintStandardGUIRequestTest");
 
         return $suite;

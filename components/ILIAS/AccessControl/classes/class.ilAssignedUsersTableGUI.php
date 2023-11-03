@@ -52,7 +52,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
-        $this->setRowTemplate('tpl.user_assignment_row.html', 'Services/AccessControl');
+        $this->setRowTemplate('tpl.user_assignment_row.html', 'components/ILIAS/AccessControl');
 
         $this->setEnableTitle(true);
         $this->setDefaultOrderField('login');

@@ -323,7 +323,7 @@ class ilForumXMLParser extends ilSaxParser
                     $this->lastHandledForumId = $id;
 
                     $this->importMapping->addMapping(
-                        'Services/COPage',
+                        'components/ILIAS/COPage',
                         'pg',
                         'frm:' . $this->forumArray['ObjId'],
                         'frm:' . $this->forum->getId()

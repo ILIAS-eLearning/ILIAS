@@ -36,7 +36,7 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('obj_cat'), 'category', '40%');
         $this->addColumn($this->lng->txt('ecs_cat_mapping_type'), 'kind', '50%');
         $this->addColumn('', 'edit', '10%');
-        $this->setRowTemplate('tpl.rule_row.html', 'Services/WebServices/ECS');
+        $this->setRowTemplate('tpl.rule_row.html', 'components/ILIAS/WebServices/ECS');
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));

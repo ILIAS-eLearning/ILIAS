@@ -45,7 +45,7 @@ class ilUserForTagTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.user_for_tag_row.html", "Services/Tagging");
+        $this->setRowTemplate("tpl.user_for_tag_row.html", "components/ILIAS/Tagging");
         $this->setEnableTitle(true);
     }
 

@@ -207,14 +207,14 @@ class ilTaxonomyDataSet extends ilDataSet
                 $newObj->update();
 
                 $this->current_obj = $newObj;
-                $a_mapping->addMapping("Services/Taxonomy", "tax", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Taxonomy", "tax", $a_rec["Id"], $newObj->getId());
                 break;
 
             case "tax_tree":
                 switch ($a_rec["Type"]) {
                     case "taxn":
-                        $parent = (int) $a_mapping->getMapping("Services/Taxonomy", "tax_tree", $a_rec["Parent"]);
-                        $tax_id = $a_mapping->getMapping("Services/Taxonomy", "tax", $a_rec["TaxId"]);
+                        $parent = (int) $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_tree", $a_rec["Parent"]);
+                        $tax_id = $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax", $a_rec["TaxId"]);
                         if ($parent == 0) {
                             $parent = $this->current_obj->getTree()->readRootId();
                         }
@@ -225,7 +225,7 @@ class ilTaxonomyDataSet extends ilDataSet
                         $node->create();
                         ilTaxonomyNode::putInTree((int) $tax_id, $node, (int) $parent, 0, (int) $a_rec["OrderNr"]);
                         $a_mapping->addMapping(
-                            "Services/Taxonomy",
+                            "components/ILIAS/Taxonomy",
                             "tax_tree",
                             $a_rec["Child"],
                             $node->getId()
@@ -236,18 +236,18 @@ class ilTaxonomyDataSet extends ilDataSet
                 // no break
             case "tax_node_assignment":
                 $new_item_id = (int) $a_mapping->getMapping(
-                    "Services/Taxonomy",
+                    "components/ILIAS/Taxonomy",
                     "tax_item",
                     ($a_rec["Component"] ?? "") .
                     ":" . ($a_rec["ItemType"] ?? "") . ":" .
                     ($a_rec["ItemId"] ?? "")
                 );
-                $new_node_id = (int) $a_mapping->getMapping("Services/Taxonomy", "tax_tree", $a_rec["NodeId"] ?? "");
+                $new_node_id = (int) $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_tree", $a_rec["NodeId"] ?? "");
 
                 // this is needed since 4.4 (but not exported with 4.3)
                 // with 4.4 this should be part of export/import
                 $new_item_id_obj = (int) $a_mapping->getMapping(
-                    "Services/Taxonomy",
+                    "components/ILIAS/Taxonomy",
                     "tax_item_obj_id",
                     ($a_rec["Component"] ?? "") .
                     ":" . ($a_rec["ItemType"] ?? "") . ":" .
@@ -265,12 +265,12 @@ class ilTaxonomyDataSet extends ilDataSet
                 break;
 
             case "tax_usage":
-                $usage = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $a_rec["ObjId"]);
+                $usage = $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_usage_of_obj", $a_rec["ObjId"]);
                 if ($usage != "") {
                     $usage .= ":";
                 }
                 $a_mapping->addMapping(
-                    "Services/Taxonomy",
+                    "components/ILIAS/Taxonomy",
                     "tax_usage_of_obj",
                     $a_rec["ObjId"],
                     $usage . $this->current_obj->getId()

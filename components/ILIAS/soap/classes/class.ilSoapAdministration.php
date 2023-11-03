@@ -30,7 +30,7 @@ declare(strict_types=1);
  */
 
 include_once './components/ILIAS/soap/lib/nusoap.php';
-include_once("./Services/Authentication/classes/class.ilAuthUtils.php");        // to get auth mode constants
+include_once("./components/ILIAS/Authentication/classes/class.ilAuthUtils.php");        // to get auth mode constants
 
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
@@ -159,7 +159,7 @@ class ilSoapAdministration
     {
         if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
             try {
-                require_once("Services/Init/classes/class.ilInitialisation.php");
+                require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
                 ilInitialisation::reinitILIAS();
             } catch (Exception $e) {
             }
@@ -168,7 +168,7 @@ class ilSoapAdministration
 
     protected function initAuthenticationObject(): void
     {
-        include_once './Services/Authentication/classes/class.ilAuthFactory.php';
+        include_once './components/ILIAS/Authentication/classes/class.ilAuthFactory.php';
         ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SOAP);
     }
 
@@ -251,10 +251,10 @@ class ilSoapAdministration
 
     public function getInstallationInfoXML(): string
     {
-        include_once "Services/Context/classes/class.ilContext.php";
+        include_once "components/ILIAS/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
-        require_once("Services/Init/classes/class.ilInitialisation.php");
+        require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
         ilInitialisation::initILIAS();
 
         $clientdirs = glob(ILIAS_WEB_DIR . "/*", GLOB_ONLYDIR);
@@ -275,10 +275,10 @@ class ilSoapAdministration
      */
     public function getClientInfoXML(string $clientid)
     {
-        include_once "Services/Context/classes/class.ilContext.php";
+        include_once "components/ILIAS/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
-        require_once("Services/Init/classes/class.ilInitialisation.php");
+        require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
         ilInitialisation::initILIAS();
 
         $clientdir = ILIAS_WEB_DIR . "/" . $clientid;

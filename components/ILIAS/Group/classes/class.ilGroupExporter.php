@@ -40,7 +40,7 @@ class ilGroupExporter extends ilXmlExporter
         // always trigger container because of co-page(s)
         return array(
             array(
-                'component' => 'Services/Container',
+                'component' => 'components/ILIAS/Container',
                 'entity' => 'struct',
                 'ids' => $a_ids
             )
@@ -60,7 +60,7 @@ class ilGroupExporter extends ilXmlExporter
 
         if ($advmd_ids !== []) {
             $deps[] = [
-                "component" => "Services/AdvancedMetaData",
+                "component" => "components/ILIAS/AdvancedMetaData",
                 "entity" => "advmd",
                 "ids" => $advmd_ids
             ];
@@ -73,7 +73,7 @@ class ilGroupExporter extends ilXmlExporter
         if ($md_ids !== []) {
             $deps[] =
                 array(
-                    "component" => "Services/MetaData",
+                    "component" => "components/ILIAS/MetaData",
                     "entity" => "md",
                     "ids" => $md_ids
                 );

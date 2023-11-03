@@ -122,7 +122,7 @@ abstract class ilBlockGUI
         $this->ui = $DIC->ui();
 
         ilYuiUtil::initConnection();
-        $this->main_tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
+        $this->main_tpl->addJavaScript("./components/ILIAS/Block/js/ilblockcallback.js");
 
         $this->setLimit((int) $this->user->getPref("hits_per_page"));
 
@@ -383,7 +383,7 @@ abstract class ilBlockGUI
             }
         }
 
-        $this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
+        $this->tpl = new ilTemplate("tpl.block.html", true, true, "components/ILIAS/Block");
 
         //		$this->handleConfigStatus();
 

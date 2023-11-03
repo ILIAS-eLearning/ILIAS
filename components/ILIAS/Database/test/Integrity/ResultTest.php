@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\Services\Database\Integrity\Result;
+use ILIAS\components\Database\Integrity\Result;
 
 class ResultTest extends TestCase
 {

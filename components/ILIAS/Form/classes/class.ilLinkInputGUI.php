@@ -348,7 +348,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             $ti->setMaxLength($this->getExternalLinkMaxLength());
         }
 
-        $itpl = new ilTemplate('tpl.prop_link.html', true, true, 'Services/Form');
+        $itpl = new ilTemplate('tpl.prop_link.html', true, true, 'components/ILIAS/Form');
 
         // internal
         if ($has_int) {

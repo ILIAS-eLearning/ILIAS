@@ -59,7 +59,7 @@ class ilHelpModuleTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.help_module_row.html", "Services/Help/Administration");
+        $this->setRowTemplate("tpl.help_module_row.html", "components/ILIAS/Help/Administration");
         $this->addCommandButton("saveOrdering", $lng->txt("sorting_save"));
 
         if ($this->has_write_permission) {

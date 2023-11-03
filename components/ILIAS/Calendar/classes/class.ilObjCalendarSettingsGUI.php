@@ -101,7 +101,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initFormSettings();
         }
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.settings.html', 'Services/Calendar');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.settings.html', 'components/ILIAS/Calendar');
         $this->tpl->setVariable('CAL_SETTINGS', $form->getHTML());
     }
 

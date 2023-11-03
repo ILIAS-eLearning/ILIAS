@@ -51,7 +51,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('actions'));
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.show_records_row.html", "Services/AdvancedMetaData");
+        $this->setRowTemplate("tpl.show_records_row.html", "components/ILIAS/AdvancedMetaData");
         $this->setDefaultOrderField('position');
         $this->setDefaultOrderDirection('asc');
         $this->setShowRowsSelector(true);

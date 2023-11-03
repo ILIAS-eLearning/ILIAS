@@ -109,7 +109,7 @@ class ilPanelGUI
 
     public function getHTML(): string
     {
-        $tpl = new ilTemplate("tpl.panel.html", true, true, "Services/UIComponent/Panel");
+        $tpl = new ilTemplate("tpl.panel.html", true, true, "components/ILIAS/UIComponent/Panel");
 
         $head_outer_div_style = "";
         if ($this->getHeading() !== "") {

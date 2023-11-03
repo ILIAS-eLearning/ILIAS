@@ -152,7 +152,7 @@ class ilTable2GUI extends ilTableGUI
         $this->multi = array();
         $this->hidden_inputs = array();
         $this->formname = "table_" . $this->unique_id;
-        $this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
+        $this->tpl = new ilTemplate("tpl.table2.html", true, true, "components/ILIAS/Table");
 
         $lng->loadLanguageModule('tbl');
 
@@ -1515,7 +1515,7 @@ class ilTable2GUI extends ilTableGUI
         $filter = $this->getFilterItems();
         $opt_filter = $this->getFilterItems(true);
 
-        $main_tpl->addJavascript("./Services/Table/js/ServiceTable.js");
+        $main_tpl->addJavascript("./components/ILIAS/Table/js/ServiceTable.js");
 
         if (count($filter) == 0 && count($opt_filter) == 0) {
             return;

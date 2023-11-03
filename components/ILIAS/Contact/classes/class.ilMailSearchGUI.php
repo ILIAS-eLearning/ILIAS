@@ -259,7 +259,7 @@ class ilMailSearchGUI
     {
         $form = $this->initSearchForm();
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_search.html', 'Services/Contact');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_search.html', 'components/ILIAS/Contact');
         $this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this));
         $this->tpl->setTitle($this->lng->txt('mail'));
         $this->tpl->setVariable('SEARCHFORM', $form->getHtml());
@@ -309,7 +309,7 @@ class ilMailSearchGUI
 
             $tbl_contacts = new ilMailSearchResultsTableGUI($this, 'showResults', 'contacts');
             $tbl_contacts->setTitle($this->lng->txt('mail_addressbook'));
-            $tbl_contacts->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Contact');
+            $tbl_contacts->setRowTemplate('tpl.mail_search_addr_row.html', 'components/ILIAS/Contact');
 
             $has_mail_addr = false;
             $result = [];
@@ -405,7 +405,7 @@ class ilMailSearchGUI
         if ($users !== []) {
             $tbl_users = new ilMailSearchResultsTableGUI($this, 'showResults', 'usr');
             $tbl_users->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('persons'));
-            $tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'Services/Contact');
+            $tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'components/ILIAS/Contact');
 
             $result = [];
             $counter = 0;
@@ -489,7 +489,7 @@ class ilMailSearchGUI
         if ($group_results->getResults()) {
             $tbl_grp = new ilMailSearchResultsTableGUI($this, 'showResults', 'grp');
             $tbl_grp->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('groups'));
-            $tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html', 'Services/Contact');
+            $tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html', 'components/ILIAS/Contact');
 
             $result = [];
             $counter = 0;

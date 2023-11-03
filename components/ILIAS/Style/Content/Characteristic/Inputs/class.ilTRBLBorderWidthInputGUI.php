@@ -161,10 +161,10 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
         $lng = $this->lng;
         $value = "";
         $current_unit = "";
-        $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
+        $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "components/ILIAS/Style/Content");
 
         foreach ($this->dirs as $dir) {
-            $tpl = new ilTemplate("tpl.prop_trbl_border_width.html", true, true, "Services/Style/Content");
+            $tpl = new ilTemplate("tpl.prop_trbl_border_width.html", true, true, "components/ILIAS/Style/Content");
             $unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits();
             $pre_options = ilObjStyleSheet::_getStyleParameterValues("border-width");
 

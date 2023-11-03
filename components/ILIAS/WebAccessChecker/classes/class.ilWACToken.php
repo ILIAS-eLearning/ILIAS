@@ -102,7 +102,7 @@ class ilWACToken
         if (is_file(self::SALT_FILE_PATH)) {
             unlink(self::SALT_FILE_PATH);
         }
-        $template = file_get_contents('./Services/WebAccessChecker/wacsalt.php.template');
+        $template = file_get_contents('./components/ILIAS/WebAccessChecker/wacsalt.php.template');
         $random = new \ilRandom();
         $salt = md5(time() * $random->int(1000, 9999) . self::SALT_FILE_PATH);
         self::setSALT($salt);

@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
-use ILIAS\Services\User\ChangedUserFieldAttribute;
+use ILIAS\components\User\ChangedUserFieldAttribute;
 
 /**
  * Class ilMailAppEventListener
@@ -68,7 +68,7 @@ class ilMailAppEventListener implements ilAppEventListener
 
     private function isRelevantEvent(): bool
     {
-        return $this->component === 'Services/User'
+        return $this->component === 'components/ILIAS/User'
             && $this->event === 'onUserFieldAttributesChanged';
     }
 

@@ -12,7 +12,7 @@ class ilServicesCopyWizardSuite extends TestSuite
     {
         $suite = new ilServicesCopyWizardSuite();
 
-        include_once("./Services/CopyWizard/test/ilCopyWizardOptionsTest.php");
+        include_once("./components/ILIAS/CopyWizard/test/ilCopyWizardOptionsTest.php");
         $suite->addTestSuite(ilCopyWizardOptionsTest::class);
         return $suite;
     }

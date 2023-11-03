@@ -36,7 +36,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
 
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        if ($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_id)) {
+        if ($new_id = $a_mapping->getMapping("components/ILIAS/Container", "objs", $a_id)) {
             $this->obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
         } else {
             $this->obj = new ilObjLearningSequence();
@@ -72,7 +72,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
     protected function updateRefId(ilImportMapping $mapping): void
     {
         $old_ref_id = $this->data["object"]["ref_id"];
-        $new_ref_id = $mapping->getMapping("Services/Container", "refs", $old_ref_id);
+        $new_ref_id = $mapping->getMapping("components/ILIAS/Container", "refs", $old_ref_id);
 
         $this->obj->setRefId((int) $new_ref_id);
     }
@@ -82,7 +82,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $ls_items = array();
         foreach ($ls_data as $data) {
             $old_ref_id = $data["id"];
-            $new_ref_id = $mapping->getMapping("Services/Container", "refs", $old_ref_id);
+            $new_ref_id = $mapping->getMapping("components/ILIAS/Container", "refs", $old_ref_id);
 
             $post_condition = new ilLSPostCondition(
                 (int) $new_ref_id,
@@ -140,7 +140,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $collection = ilLPCollection::getInstanceByMode($this->obj->getId(), (int) $lp_settings["lp_mode"]);
 
         $new_ref_ids = array_map(function ($old_ref_id) use ($mapping) {
-            return $mapping->getMapping("Services/Container", "refs", $old_ref_id);
+            return $mapping->getMapping("components/ILIAS/Container", "refs", $old_ref_id);
         }, $lp_settings["lp_item_ref_ids"]);
 
         if (!is_null($collection)) {

@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Services\User\InterestedUserFieldChangeListener;
+use ILIAS\components\User\InterestedUserFieldChangeListener;
 use ILIAS\DI\Container;
 
 /**

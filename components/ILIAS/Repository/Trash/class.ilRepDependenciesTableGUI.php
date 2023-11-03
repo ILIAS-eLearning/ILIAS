@@ -50,7 +50,7 @@ class ilRepDependenciesTableGUI extends ilTable2GUI
         //$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.rep_dep_row.html",
-            "Services/Repository/Trash"
+            "components/ILIAS/Repository/Trash"
         );
         $this->disable("footer");
         $this->setEnableTitle(true);

@@ -44,7 +44,7 @@ class ilPageMultiLangTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cont_language"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.page_ml_row.html", "Services/COPage");
+        $this->setRowTemplate("tpl.page_ml_row.html", "components/ILIAS/COPage");
 
         //if (count($this->getData()) > 1)
         //{

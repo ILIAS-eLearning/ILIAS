@@ -87,7 +87,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
 
         if (count($pageObjectIds) > 0) {
             $deps[] = [
-                'component' => 'Services/COPage',
+                'component' => 'components/ILIAS/COPage',
                 'entity' => 'pg',
                 'ids' => $pageObjectIds,
             ];
@@ -95,7 +95,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
 
         if (count($metadataIds) > 0) {
             $deps[] = [
-                'component' => 'Services/MetaData',
+                'component' => 'components/ILIAS/MetaData',
                 'entity' => 'md',
                 'ids' => $metadataIds,
             ];
@@ -103,7 +103,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
 
         if (count($styleIds) > 0) {
             $deps[] = [
-                'component' => 'Services/Style',
+                'component' => 'components/ILIAS/Style',
                 'entity' => 'sty',
                 'ids' => array_values($styleIds),
             ];
@@ -111,7 +111,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
 
         if (self::OBJ_TYPE === $a_entity) {
             $deps[] = [
-                'component' => 'Services/Object',
+                'component' => 'components/ILIAS/Object',
                 'entity' => 'common',
                 'ids' => $a_ids
             ];

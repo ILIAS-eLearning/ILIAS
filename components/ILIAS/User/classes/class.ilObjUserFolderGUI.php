@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
 use ILIAS\DI\Container as DIContainer;
-use ILIAS\Services\User\UserFieldAttributesChangeListener;
-use ILIAS\Services\User\InterestedUserFieldChangeListener;
-use ILIAS\Services\User\ChangedUserFieldAttribute;
+use ILIAS\components\User\UserFieldAttributesChangeListener;
+use ILIAS\components\User\InterestedUserFieldChangeListener;
+use ILIAS\components\User\ChangedUserFieldAttribute;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory as UIFactory;
@@ -2668,7 +2668,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         if ($this->usrFieldChangeListenersAccepted && count($changedFields) > 0) {
             $this->event->raise(
-                'Services/User',
+                'components/ILIAS/User',
                 'onUserFieldAttributesChanged',
                 $changedFields
             );
@@ -2704,7 +2704,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'tpl.usr_field_change_listener_confirm.html',
             true,
             true,
-            'Services/User'
+            'components/ILIAS/User'
         );
 
         foreach ($interestedChangeListeners as $interestedChangeListener) {
@@ -3098,7 +3098,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'tpl.usrf_new_account_mail.html',
             true,
             true,
-            'Services/User'
+            'components/ILIAS/User'
         );
         $ftpl->setVariable(
             'FORM',

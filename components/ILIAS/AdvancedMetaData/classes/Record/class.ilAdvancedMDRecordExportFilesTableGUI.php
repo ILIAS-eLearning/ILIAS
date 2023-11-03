@@ -39,7 +39,7 @@ class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('filesize'), 'file_size', "33%");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.edit_files_row.html", "Services/AdvancedMetaData");
+        $this->setRowTemplate("tpl.edit_files_row.html", "components/ILIAS/AdvancedMetaData");
         $this->setDefaultOrderField("date");
         $this->setDefaultOrderDirection('desc');
     }

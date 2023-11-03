@@ -33,7 +33,7 @@ class ilChartPie extends ilChart
     {
         $tpl = $this->tpl;
 
-        $tpl->addJavaScript("Services/Chart/js/flot/jquery.flot.pie.js");
+        $tpl->addJavaScript("components/ILIAS/Chart/js/flot/jquery.flot.pie.js");
     }
 
     public function parseGlobalOptions(stdClass $a_options): void

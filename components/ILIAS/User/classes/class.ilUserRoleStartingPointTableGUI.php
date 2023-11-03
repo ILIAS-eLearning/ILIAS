@@ -51,7 +51,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('starting_page'));
         $this->addColumn($this->lng->txt('actions'));
         $this->setFormAction($this->ctrl->getFormAction($parent_obj));
-        $this->setRowTemplate('tpl.user_role_starting_point_row.html', 'Services/User');
+        $this->setRowTemplate('tpl.user_role_starting_point_row.html', 'components/ILIAS/User');
         $this->addCommandButton('saveOrder', $this->lng->txt('save_order'));
 
         $this->setExternalSorting(true);

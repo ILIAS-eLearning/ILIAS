@@ -31,7 +31,7 @@ class ilServicesLearningHistorySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/LearningHistory/test/LearningHistoryStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/LearningHistory/test/LearningHistoryStandardGUIRequestTest.php");
         $suite->addTestSuite("LearningHistoryStandardGUIRequestTest");
 
         return $suite;

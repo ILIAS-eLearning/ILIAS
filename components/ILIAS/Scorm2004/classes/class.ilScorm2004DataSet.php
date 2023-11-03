@@ -169,7 +169,7 @@ class ilScorm2004DataSet extends ilDataSet
     //    ) : void {
     //        switch ($a_entity) {
     //            case "sahs":
-    //                $new_obj_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]);
+    //                $new_obj_id = $a_mapping->getMapping("components/ILIAS/Container", "objs", $a_rec["Id"]);
     //                $lm = new ilObjSCORM2004LearningModule($new_obj_id, false);
     //
     ////                $lm->setEditable($a_rec["Editable"]);

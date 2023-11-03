@@ -56,7 +56,7 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
         if ($name === "module") {
             $type = "components/ILIAS";
         } elseif ($name === "service") {
-            $type = "Services";
+            $type = "components/ILIAS";
         } elseif ($name === "pluginslot") {
             $type = null;
         } else {

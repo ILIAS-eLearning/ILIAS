@@ -126,7 +126,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
         string $a_schema_version
     ): void {
         if ($a_entity == "iass") {
-            if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
+            if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['id'])) {
                 $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             } else {
                 $newObj = new ilObjIndividualAssessment();

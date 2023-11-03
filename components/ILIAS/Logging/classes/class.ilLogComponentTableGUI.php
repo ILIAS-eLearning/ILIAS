@@ -46,7 +46,7 @@ class ilLogComponentTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->settings = ilLoggingDBSettings::getInstance();
 
-        $this->setRowTemplate('tpl.log_component_row.html', 'Services/Logging');
+        $this->setRowTemplate('tpl.log_component_row.html', 'components/ILIAS/Logging');
         $this->addColumn($this->lng->txt('log_component_col_component'), 'component_sortable');
         $this->addColumn($this->lng->txt('log_component_col_level'), 'level');
 

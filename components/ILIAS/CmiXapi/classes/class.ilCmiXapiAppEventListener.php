@@ -33,12 +33,12 @@ class ilCmiXapiAppEventListener
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
         switch ($component) {
-            case "Services/User":
+            case "components/ILIAS/User":
                 if ($event == "deleteUser") {
                     self::onServiceUserDeleteUser($parameter);
                 }
                 break;
-            case "Services/Object":
+            case "components/ILIAS/Object":
                 switch ($event) {
                     case "delete":
                     case "toTrash":

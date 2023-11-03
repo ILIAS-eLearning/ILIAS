@@ -272,7 +272,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.prop_number.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_number.html", true, true, "components/ILIAS/Form");
 
         if (strlen((string) $this->getValue())) {
             $tpl->setCurrentBlock("prop_number_propval");

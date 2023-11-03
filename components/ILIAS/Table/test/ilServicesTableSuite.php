@@ -31,7 +31,7 @@ class ilServicesTableSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Table/test/TableGUIRequestTest.php");
+        require_once("./components/ILIAS/Table/test/TableGUIRequestTest.php");
         $suite->addTestSuite("TableGUIRequestTest");
 
         return $suite;

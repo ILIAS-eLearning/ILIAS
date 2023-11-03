@@ -28,7 +28,7 @@ class ilCalendarRecurrenceTableGUI extends ilTable2GUI
         $this->setFormName('appointments');
         $this->addColumn('', 'f', "1");
         $this->addColumn($this->lng->txt('title'));
-        $this->setRowTemplate("tpl.show_recurrence_row.html", 'Services/Calendar');
+        $this->setRowTemplate("tpl.show_recurrence_row.html", 'components/ILIAS/Calendar');
 
         $this->setSelectAllCheckbox('recurrence_ids');
         $this->addMultiCommand(

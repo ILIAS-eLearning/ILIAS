@@ -54,7 +54,7 @@ class ilCOPageExporter extends ilXmlExporter
         $this->ds = new ilCOPageDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
-        $this->config = $this->getExport()->getConfig("Services/COPage");
+        $this->config = $this->getExport()->getConfig("components/ILIAS/COPage");
         if ($this->config->getMasterLanguageOnly()) {
             $this->ds->setMasterLanguageOnly(true);
         }
@@ -112,7 +112,7 @@ class ilCOPageExporter extends ilXmlExporter
 
             return array(
                 array(
-                    "component" => "Services/MediaObjects",
+                    "component" => "components/ILIAS/MediaObjects",
                     "entity" => "mob",
                     "ids" => $mob_ids),
                 array(
@@ -138,7 +138,7 @@ class ilCOPageExporter extends ilXmlExporter
 
             return array(
                 array(
-                    "component" => "Services/COPage",
+                    "component" => "components/ILIAS/COPage",
                     "entity" => "pg",
                     "ids" => $pg_ids)
                 );

@@ -70,7 +70,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.admin_sub_items_row.html", "Services/Repository");
+        $this->setRowTemplate("tpl.admin_sub_items_row.html", "components/ILIAS/Repository");
         //$this->disable("footer");
         $this->setEnableTitle(true);
         $this->setDefaultOrderField("title");

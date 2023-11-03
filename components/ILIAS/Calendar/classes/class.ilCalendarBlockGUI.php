@@ -271,7 +271,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     public function fillDataSection(): void
     {
         if ($this->display_mode != "mmon") {
-            $this->setRowTemplate("tpl.pd_event_list.html", "Services/Calendar");
+            $this->setRowTemplate("tpl.pd_event_list.html", "components/ILIAS/Calendar");
 
             ilBlockGUI::fillDataSection();
         } else {
@@ -279,7 +279,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 "tpl.calendar_block.html",
                 true,
                 true,
-                "Services/Calendar"
+                "components/ILIAS/Calendar"
             );
 
             $this->addMiniMonth($tpl, true);
@@ -865,7 +865,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             "tpl.calendar_block.html",
             true,
             true,
-            "Services/Calendar"
+            "components/ILIAS/Calendar"
         );
 
         $this->addMiniMonth($tpl);
@@ -874,7 +874,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             'tpl.cal_block_panel.html',
             true,
             true,
-            'Services/Calendar'
+            'components/ILIAS/Calendar'
         );
 
         $this->addConsultationHourButtons($panel_tpl);

@@ -37,7 +37,7 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
      */
     protected function initTable(): void
     {
-        $this->setRowTemplate('tpl.ch_group_row.html', 'Services/Calendar');
+        $this->setRowTemplate('tpl.ch_group_row.html', 'components/ILIAS/Calendar');
 
         $this->setTitle($this->lng->txt('cal_ch_grps'));
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));

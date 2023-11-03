@@ -49,7 +49,7 @@ class ilSubItemSelectionTableGUI extends ilTable2GUI
         $this->addCommandButton($a_cmd, $a_cmd_txt);
         $this->setRowTemplate(
             "tpl.sub_item_selection_row.html",
-            "Services/Export"
+            "components/ILIAS/Export"
         );
         $this->setTitle($this->lng->txt("export_select_resources"));
         $this->setData(ilExport::_getValidExportSubItems($a_ref_id));

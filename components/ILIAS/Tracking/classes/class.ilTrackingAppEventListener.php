@@ -29,7 +29,7 @@ class ilTrackingAppEventListener implements ilAppEventListener
 {
     /**
      * Handle an event in a listener.
-     * @param string $a_component component, e.g. "components/ILIAS/Forum" or "Services/User"
+     * @param string $a_component component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
      * @param string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
      * @param array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
@@ -40,7 +40,7 @@ class ilTrackingAppEventListener implements ilAppEventListener
     ): void {
         $obj_id = $a_parameter['obj_id'] ?? null;
         switch ($a_component) {
-            case 'Services/Object':
+            case 'components/ILIAS/Object':
                 switch ($a_event) {
                     case 'toTrash':
                         $olp = ilObjectLP::getInstance($obj_id);
@@ -58,7 +58,7 @@ class ilTrackingAppEventListener implements ilAppEventListener
                 }
                 break;
 
-            case 'Services/Tree':
+            case 'components/ILIAS/Tree':
                 switch ($a_event) {
                     case 'moveTree':
                         if ($a_parameter['tree'] == 'tree') {

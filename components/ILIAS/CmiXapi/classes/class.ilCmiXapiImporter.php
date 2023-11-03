@@ -80,7 +80,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_import_objId = $a_id;
         $this->_mapping = $a_mapping;
 
-        if ($this->_newId = $a_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId)) {
+        if ($this->_newId = $a_mapping->getMapping('components/ILIAS/Container', 'objs', (string) $this->_import_objId)) {
             // container content
             $this->prepareContainerObject();
             $this->getImportDirectoryContainer();
@@ -123,7 +123,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     private function prepareContainerObject(): void
     {
-        $this->_newId = $this->_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId);
+        $this->_newId = $this->_mapping->getMapping('components/ILIAS/Container', 'objs', (string) $this->_import_objId);
         if (!is_null($this->_newId) && $this->_newId != "") {
             // container content
             $this->_cmixObj = ilObjectFactory::getInstanceByObjId((int) $this->_newId, false);

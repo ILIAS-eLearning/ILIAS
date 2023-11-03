@@ -45,7 +45,7 @@ class ilPortfolioExporter extends ilXmlExporter
 
         $deps[] =
             array(
-                "component" => "Services/COPage",
+                "component" => "components/ILIAS/COPage",
                 "entity" => "pg",
                 "ids" => $pg_ids);
 
@@ -54,14 +54,14 @@ class ilPortfolioExporter extends ilXmlExporter
             ? $a_ids
             : array($a_ids);
         $deps[] = array(
-            "component" => "Services/Style",
+            "component" => "components/ILIAS/Style",
             "entity" => "object_style",
             "ids" => $obj_ids
         );
 
         // common object properties
         $deps[] = array(
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "common",
             "ids" => $a_ids
         );

@@ -52,7 +52,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         parent::__construct($parent_obj, $parent_cmd, '');
 
-        $this->setRowTemplate('tpl.list_courses_row.html', "Services/MyStaff");
+        $this->setRowTemplate('tpl.list_courses_row.html', "components/ILIAS/MyStaff");
         $this->setFormAction($DIC->ctrl()->getFormAction($parent_obj));
         $this->setDefaultOrderDirection('desc');
 

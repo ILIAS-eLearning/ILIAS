@@ -78,7 +78,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
     public function createPlaceholderHtmlDescription(ilTemplate $template = null): string
     {
         if (null === $template) {
-            $template = new ilTemplate('tpl.scorm_description.html', true, true, 'Services/Certificate');
+            $template = new ilTemplate('tpl.scorm_description.html', true, true, 'components/ILIAS/Certificate');
         }
 
         $template->setCurrentBlock('items');

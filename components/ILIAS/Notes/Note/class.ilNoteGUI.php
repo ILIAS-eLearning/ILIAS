@@ -377,7 +377,7 @@ class ilNoteGUI
 
         $notes = $this->getNotes();
 
-        $tpl = new ilTemplate("tpl.notes_list.html", true, true, "Services/Notes");
+        $tpl = new ilTemplate("tpl.notes_list.html", true, true, "components/ILIAS/Notes");
 
         // show counter if notes are hidden
         $cnt_str = (count($notes) > 0)
@@ -1047,7 +1047,7 @@ class ilNoteGUI
             "tpl.notes_and_comments.html",
             true,
             true,
-            "Services/Notes"
+            "components/ILIAS/Notes"
         );
 
         if (!$ctrl->isAsynch()) {
@@ -1475,7 +1475,7 @@ class ilNoteGUI
         $cnt[$this->rep_obj_id][$this->note_type] = $this->manager->getNrOfNotesForContext($context, $this->note_type);
         $cnt = $cnt[$this->rep_obj_id][$this->note_type] ?? 0;
 
-        $tpl = new ilTemplate("tpl.note_widget_header.html", true, true, "Services/Notes");
+        $tpl = new ilTemplate("tpl.note_widget_header.html", true, true, "components/ILIAS/Notes");
         $widget_el_id = "notew_" . str_replace(";", "_", $hash);
         $ctrl->setParameter($this, "hash", $hash);
         $update_url = $ctrl->getLinkTarget($this, "updateWidget", "", true, false);

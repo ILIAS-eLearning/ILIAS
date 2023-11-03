@@ -383,7 +383,7 @@ class ilExportGUI
      */
     protected function showItemSelection(): void
     {
-        $this->tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
+        $this->tpl->addJavaScript('./components/ILIAS/CopyWizard/js/ilContainer.js');
         $this->tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
 
         $table = new ilExportSelectionTableGUI($this, 'listExportFiles');

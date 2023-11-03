@@ -141,11 +141,11 @@ the composer class-map.
 
 The main visuals of ILIAS are pieced together by parts from many different components.
 Entries in the main bar may be derived from various components, notifications arise
-from many sources and tools are provided by different features. The [GlobalScreen-service](../../Services/GlobalScreen)
+from many sources and tools are provided by different features. The [GlobalScreen-service](../../components/ILIAS/GlobalScreen_)
 collects providers from all components to build the screen from contributions from
 all of them. Providers are classes implementing a specific interface. These are
-collected in the [`ilGlobalScreenBuildProviderMapObjective`](../../Services/GlobalScreen/classes/Setup/class.ilGlobalScreenBuildProviderMapObjective.php)
-and stored in `Services/GlobalScreen/artifacts/global_screen_providers.php` as
+collected in the [`ilGlobalScreenBuildProviderMapObjective`](../../components/ILIAS/GlobalScreen_/classes/Setup/class.ilGlobalScreenBuildProviderMapObjective.php)
+and stored in `components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php` as
 serialized array like so:
 
 ```php

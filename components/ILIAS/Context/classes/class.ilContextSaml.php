@@ -72,8 +72,8 @@ class ilContextSaml implements ilContextTemplate
 
     public static function modifyHttpPath(string $httpPath): string
     {
-        if (strpos($httpPath, '/Services/Saml/lib/') !== false && strpos($httpPath, '/metadata.php') === false) {
-            return substr($httpPath, 0, strpos($httpPath, '/Services/Saml/lib/'));
+        if (strpos($httpPath, '/components/ILIAS/Saml/lib/') !== false && strpos($httpPath, '/metadata.php') === false) {
+            return substr($httpPath, 0, strpos($httpPath, '/components/ILIAS/Saml/lib/'));
         }
 
         return $httpPath;

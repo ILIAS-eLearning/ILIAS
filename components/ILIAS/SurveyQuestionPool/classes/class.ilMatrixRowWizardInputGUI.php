@@ -228,7 +228,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         $a_tpl->parseCurrentBlock();
 
         $tpl = $this->tpl;
-        $tpl->addJavaScript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavaScript("./components/ILIAS/Form/js/ServiceFormWizardInput.js");
         $tpl->addJavaScript("./components/ILIAS/SurveyQuestionPool/js/matrixrowwizard.js");
     }
 }

@@ -22,8 +22,8 @@ use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\Data\DataSize;
-use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
-use ILIAS\Services\WOPI\Discovery\ActionTarget;
+use ILIAS\components\WOPI\Discovery\ActionDBRepository;
+use ILIAS\components\WOPI\Discovery\ActionTarget;
 
 /**
  * Class ilObjFileListGUI

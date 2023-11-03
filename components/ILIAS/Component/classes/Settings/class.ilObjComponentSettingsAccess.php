@@ -16,7 +16,7 @@
  ********************************************************************
  */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+include_once("./components/ILIAS/Object/classes/class.ilObjectAccess.php");
 
 /**
 * Class ilObjComponentSettingsAccess

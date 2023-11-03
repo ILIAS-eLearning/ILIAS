@@ -31,7 +31,7 @@ class ilServicesUIComponentSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/UIComponent/test/UIHookPluginGUITest.php");
+        require_once("./components/ILIAS/UIComponent/test/UIHookPluginGUITest.php");
         $suite->addTestSuite("UIHookPluginGUITest");
 
         return $suite;

@@ -419,7 +419,7 @@ class ilStyleDataSet extends ilDataSet
         switch ($a_entity) {
             case "sty":
                 $this->log->debug("Entity: " . $a_entity);
-                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjStyleSheet();
@@ -431,8 +431,8 @@ class ilStyleDataSet extends ilDataSet
                 $newObj->update(true);
 
                 $this->current_obj = $newObj;
-                $a_mapping->addMapping("Services/Style", "sty", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Style", "sty", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Object", "obj", $a_rec["Id"], $newObj->getId());
                 $this->log->debug("Added mapping Services/Style sty  " . $a_rec["Id"] . " > " . $newObj->getId());
 
                 $dir = str_replace("..", "", $a_rec["ImagesDir"]);
@@ -452,7 +452,7 @@ class ilStyleDataSet extends ilDataSet
                 break;
 
             case "sty_parameter":
-                $mq_id = (int) $a_mapping->getMapping("Services/Style", "media_query", $a_rec["MqId"]);
+                $mq_id = (int) $a_mapping->getMapping("components/ILIAS/Style", "media_query", $a_rec["MqId"]);
                 $characteristic_manager->replaceParameter($a_rec["Tag"], $a_rec["Class"], $a_rec["Parameter"], $a_rec["Value"], $a_rec["Type"], $mq_id, $a_rec["Custom"]);
                 break;
 
@@ -462,22 +462,22 @@ class ilStyleDataSet extends ilDataSet
 
             case "sty_media_query":
                 $mq_id = $this->current_obj->addMediaQuery($a_rec["MQuery"], $a_rec["OrderNr"]);
-                $a_mapping->addMapping("Services/Style", "media_query", $a_rec["Id"], $mq_id);
+                $a_mapping->addMapping("components/ILIAS/Style", "media_query", $a_rec["Id"], $mq_id);
                 break;
 
             case "sty_template":
                 $tid = $this->current_obj->addTemplate($a_rec["TempType"], $a_rec["Name"], array());
-                $a_mapping->addMapping("Services/Style", "template", $a_rec["Id"], $tid);
+                $a_mapping->addMapping("components/ILIAS/Style", "template", $a_rec["Id"], $tid);
                 break;
 
             case "sty_template_class":
-                $tid = (int) $a_mapping->getMapping("Services/Style", "template", $a_rec["TemplateId"]);
+                $tid = (int) $a_mapping->getMapping("components/ILIAS/Style", "template", $a_rec["TemplateId"]);
                 $this->current_obj->addTemplateClass($tid, $a_rec["ClassType"], $a_rec["Class"]);
                 break;
 
             case "sty_usage":
-                $obj_id = (int) $a_mapping->getMapping("Services/Object", "obj", $a_rec["ObjId"]);
-                $style_id = (int) $a_mapping->getMapping("Services/Style", "sty", $a_rec["StyleId"]);
+                $obj_id = (int) $a_mapping->getMapping("components/ILIAS/Object", "obj", $a_rec["ObjId"]);
+                $style_id = (int) $a_mapping->getMapping("components/ILIAS/Style", "sty", $a_rec["StyleId"]);
                 if ($obj_id > 0 && $style_id > 0) {
                     ilObjStyleSheet::writeStyleUsage($obj_id, $style_id);
                     ilObjStyleSheet::writeOwner($obj_id, $style_id);

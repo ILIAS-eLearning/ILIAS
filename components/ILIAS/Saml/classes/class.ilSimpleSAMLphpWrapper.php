@@ -54,7 +54,7 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
         global $DIC;
 
         $templateHandler = new ilSimpleSAMLphpConfigTemplateHandler($DIC->filesystem()->storage());
-        $templateHandler->copy('./Services/Saml/lib/config.php.dist', 'auth/saml/config/config.php', [
+        $templateHandler->copy('./components/ILIAS/Saml/lib/config.php.dist', 'auth/saml/config/config.php', [
             'DB_PATH' => rtrim($configurationPath, '/') . '/ssphp.sq3',
             'SQL_INITIAL_PASSWORD' => static function (): string {
                 return substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(20))), 0, 10);
@@ -62,9 +62,9 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
             'COOKIE_PATH' => IL_COOKIE_PATH,
             'LOG_DIRECTORY' => ilLoggingDBSettings::getInstance()->getLogDir()
         ]);
-        $templateHandler->copy('./Services/Saml/lib/authsources.php.dist', 'auth/saml/config/authsources.php', [
+        $templateHandler->copy('./components/ILIAS/Saml/lib/authsources.php.dist', 'auth/saml/config/authsources.php', [
             'RELAY_STATE' => rtrim(ILIAS_HTTP_PATH, '/') . '/saml.php',
-            'SP_ENTITY_ID' => rtrim(ILIAS_HTTP_PATH, '/') . '/Services/Saml/lib/metadata.php'
+            'SP_ENTITY_ID' => rtrim(ILIAS_HTTP_PATH, '/') . '/components/ILIAS/Saml/lib/metadata.php'
         ]);
     }
 

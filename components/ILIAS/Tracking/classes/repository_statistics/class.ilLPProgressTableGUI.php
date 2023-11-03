@@ -149,7 +149,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         );
         $this->setRowTemplate(
             "tpl.lp_progress_list_row.html",
-            "Services/Tracking"
+            "components/ILIAS/Tracking"
         );
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(false);

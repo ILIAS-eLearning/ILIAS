@@ -125,7 +125,7 @@ class ilCheckboxListOverlayGUI
             "tpl.checkbox_list_overlay.html",
             true,
             true,
-            "Services/UIComponent/CheckboxListOverlay",
+            "components/ILIAS/UIComponent/CheckboxListOverlay",
             "DEFAULT",
             false,
             true

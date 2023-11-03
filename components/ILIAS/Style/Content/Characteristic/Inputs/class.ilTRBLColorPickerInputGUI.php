@@ -177,7 +177,7 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
     {
         $lng = $this->lng;
 
-        $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
+        $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "components/ILIAS/Style/Content");
 
         $funcs = array(
             "all" => "getAllValue", "top" => "getTopValue",
@@ -191,7 +191,7 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
                 $value = strtoupper($value);
             }
 
-            $tpl = new ilTemplate('tpl.prop_color.html', true, true, 'Services/Form');
+            $tpl = new ilTemplate('tpl.prop_color.html', true, true, 'components/ILIAS/Form');
             $tpl->setVariable('COLOR_ID', $this->getFieldId() . "_" . $dir);
             $ic = ilColorPickerInputGUI::determineHexcode($value);
             if ($ic == "") {

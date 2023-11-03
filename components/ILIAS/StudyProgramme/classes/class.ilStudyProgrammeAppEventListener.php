@@ -39,21 +39,21 @@ class ilStudyProgrammeAppEventListener
         global $DIC;
 
         switch ($component) {
-            case "Services/User":
+            case "components/ILIAS/User":
                 switch ($event) {
                     case "deleteUser":
                         self::onServiceUserDeleteUser($parameter);
                         break;
                 }
                 break;
-            case "Services/Tracking":
+            case "components/ILIAS/Tracking":
                 switch ($event) {
                     case "updateStatus":
                         self::onServiceTrackingUpdateStatus($parameter);
                         break;
                 }
                 break;
-            case "Services/Tree":
+            case "components/ILIAS/Tree":
                 switch ($event) {
                     case "insertNode":
                         self::onServiceTreeInsertNode($parameter);
@@ -63,7 +63,7 @@ class ilStudyProgrammeAppEventListener
                         break;
                 }
                 break;
-            case "Services/Object":
+            case "components/ILIAS/Object":
                 switch ($event) {
                     case "delete":
                     case "toTrash":
@@ -71,7 +71,7 @@ class ilStudyProgrammeAppEventListener
                         break;
                 }
                 break;
-            case "Services/ContainerReference":
+            case "components/ILIAS/ContainerReference":
                 switch ($event) {
                     case "deleteReference":
                         self::onServiceObjectDeleteOrToTrash($parameter);
@@ -111,7 +111,7 @@ class ilStudyProgrammeAppEventListener
                         break;
                 }
                 break;
-            case "Services/AccessControl":
+            case "components/ILIAS/AccessControl":
                 switch ($event) {
                     case "assignUser":
                         self::addMemberToProgrammes(

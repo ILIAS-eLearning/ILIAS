@@ -92,7 +92,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
             foreach ($fields as $import_id => $new_id) {
                 $import_ids = explode('_', $import_id);
                 $old_id = array_pop($import_ids);
-                $this->mapping->addMapping("Services/AdvancedMetaData", "lfld", $old_id, (string) $new_id);
+                $this->mapping->addMapping("components/ILIAS/AdvancedMetaData", "lfld", $old_id, (string) $new_id);
             }
         }
         $map_keys = array_keys($map);
@@ -166,7 +166,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->current_value = null;
 
         // get parent objects
-        $new_parent_id = (int) $this->mapping->getMapping("Services/AdvancedMetaData", "parent", (string) $this->obj_id);
+        $new_parent_id = (int) $this->mapping->getMapping("components/ILIAS/AdvancedMetaData", "parent", (string) $this->obj_id);
         $this->log->notice('Found new parent id:' . $new_parent_id);
         if (!$new_parent_id) {
             return;
@@ -174,7 +174,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $new_sub_id = '';
         if ($a_sub_type && strcmp($a_sub_type, '-') !== 0) {
             $new_sub_id = $this->mapping->getMapping(
-                "Services/AdvancedMetaData",
+                "components/ILIAS/AdvancedMetaData",
                 "advmd_sub_item",
                 "advmd:" . $a_sub_type . ":" . $a_sub_id
             );

@@ -63,14 +63,14 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
 
         if ($this->getType() == self::TYPE_STANDARD) {
-            $this->setRowTemplate("tpl.rep_search_usr_result_row.html", "Services/Search");
+            $this->setRowTemplate("tpl.rep_search_usr_result_row.html", "components/ILIAS/Search");
             $this->addColumn("", "", "1", true);
             $this->enable('select_all');
             $this->setSelectAllCheckbox("user[]");
             $this->setDefaultOrderField("login");
             $this->setDefaultOrderDirection("asc");
         } else {
-            $this->setRowTemplate("tpl.global_search_usr_result_row.html", "Services/Search");
+            $this->setRowTemplate("tpl.global_search_usr_result_row.html", "components/ILIAS/Search");
             $this->addColumn('', '', "110px");
         }
 
@@ -251,7 +251,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
             $this->tpl->setVariable('SEARCH_RELEVANCE', $this->getRelevanceHTML($a_set['relevance']));
             if (ilBuddySystem::getInstance()->isEnabled() && $a_set['usr_id'] != $this->user->getId()) {
-                require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
+                require_once 'components/ILIAS/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
                 $this->tpl->setVariable('CONTACT_ACTIONS', ilBuddySystemLinkButton::getInstanceByUserId((int) $a_set['usr_id'])->getHtml());
             } else {
                 $this->tpl->setVariable('CONTACT_ACTIONS', '');
@@ -359,7 +359,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
     public function getRelevanceHTML(float $a_rel): string
     {
-        $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'Services/Search');
+        $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'components/ILIAS/Search');
 
         $pbar = ilProgressBar::getInstance();
         $pbar->setCurrent($a_rel);

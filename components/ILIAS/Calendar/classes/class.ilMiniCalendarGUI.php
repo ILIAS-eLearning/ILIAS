@@ -74,14 +74,14 @@ class ilMiniCalendarGUI
             "tpl.calendar_block_frame.html",
             true,
             true,
-            "Services/Calendar"
+            "components/ILIAS/Calendar"
         );
 
         $tpl = new ilTemplate(
             "tpl.calendar_block.html",
             true,
             true,
-            "Services/Calendar"
+            "components/ILIAS/Calendar"
         );
         $this->addMiniMonth($tpl);
 

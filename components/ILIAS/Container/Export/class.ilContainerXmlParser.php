@@ -71,7 +71,7 @@ class ilContainerXmlParser
         $type = (string) $item['Type'];
 
 
-        $new_ref = $this->getMapping()->getMapping('Services/Container', 'refs', $ref_id);
+        $new_ref = $this->getMapping()->getMapping('components/ILIAS/Container', 'refs', $ref_id);
 
         if (
             !$new_ref &&
@@ -79,11 +79,11 @@ class ilContainerXmlParser
         ) {
             // if container without subitems a dummy container has already been created
             // see ilImportContainer::createDummy()
-            $new_ref = $this->mapping->getMapping('Services/Container', 'refs', '0');
+            $new_ref = $this->mapping->getMapping('components/ILIAS/Container', 'refs', '0');
 
             // see below and ilContainerImporter::finalProcessing()
-            $this->mapping->addMapping('Services/Container', 'objs', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
-            $this->mapping->addMapping('Services/Object', 'obj', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
+            $this->mapping->addMapping('components/ILIAS/Container', 'objs', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
+            $this->mapping->addMapping('components/ILIAS/Object', 'obj', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
         }
 
         if (!$new_ref) {
@@ -103,7 +103,7 @@ class ilContainerXmlParser
             $this->initItem($subitem, $new_ref);
         }
 
-        $new_obj_id = $this->mapping->getMapping('Services/Container', 'objs', $obj_id);
+        $new_obj_id = $this->mapping->getMapping('components/ILIAS/Container', 'objs', $obj_id);
 
         // style
         if ((int) $item['Style']) {
@@ -113,12 +113,12 @@ class ilContainerXmlParser
         // pages
         if ($ilSetting->get('enable_cat_page_edit', '0')) {
             if ($item['Page'] == "1") {
-                $this->mapping->addMapping('Services/COPage', 'pg', 'cont:' . $obj_id, 'cont:' . $new_obj_id);
+                $this->mapping->addMapping('components/ILIAS/COPage', 'pg', 'cont:' . $obj_id, 'cont:' . $new_obj_id);
                 $this->cont_log->debug("add pg cont mapping, old: " . $obj_id . ", new: " . $new_obj_id . ", Page: -" . $item['Page'] . "-");
             }
 
             if ($item['StartPage'] == "1") {
-                $this->mapping->addMapping('Services/COPage', 'pg', 'cstr:' . $obj_id, 'cstr:' . $new_obj_id);
+                $this->mapping->addMapping('components/ILIAS/COPage', 'pg', 'cstr:' . $obj_id, 'cstr:' . $new_obj_id);
             }
         }
     }
@@ -186,14 +186,14 @@ class ilContainerXmlParser
         $objDefinition = $this->obj_definition;
 
         // A mapping for this object already exists => create reference
-        $new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', (string) $obj_id);
+        $new_obj_id = $this->getMapping()->getMapping('components/ILIAS/Container', 'objs', (string) $obj_id);
         if ($new_obj_id) {
             $obj = ilObjectFactory::getInstanceByObjId((int) $new_obj_id, false);
             if ($obj instanceof  ilObject) {
                 $obj->createReference();
                 $obj->putInTree($parent_node);
                 $obj->setPermissions($parent_node);
-                $this->mapping->addMapping('Services/Container', 'refs', (string) $ref_id, (string) $obj->getRefId());
+                $this->mapping->addMapping('components/ILIAS/Container', 'refs', (string) $ref_id, (string) $obj->getRefId());
                 return $obj->getRefId();
             }
         }
@@ -214,9 +214,9 @@ class ilContainerXmlParser
         $new->putInTree($parent_node);
         $new->setPermissions($parent_node);
 
-        $this->mapping->addMapping('Services/Container', 'objs', (string) $obj_id, (string) $new->getId());
-        $this->mapping->addMapping('Services/Object', 'obj', (string) $obj_id, (string) $new->getId());
-        $this->mapping->addMapping('Services/Container', 'refs', (string) $ref_id, (string) $new->getRefId());
+        $this->mapping->addMapping('components/ILIAS/Container', 'objs', (string) $obj_id, (string) $new->getId());
+        $this->mapping->addMapping('components/ILIAS/Object', 'obj', (string) $obj_id, (string) $new->getId());
+        $this->mapping->addMapping('components/ILIAS/Container', 'refs', (string) $ref_id, (string) $new->getRefId());
 
         return $new->getRefId();
     }

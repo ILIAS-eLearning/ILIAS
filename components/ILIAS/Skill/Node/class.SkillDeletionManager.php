@@ -151,7 +151,7 @@ class SkillDeletionManager
         $this->material_manager->removeAssignedMaterialsForSkill($skll_id);
         $this->profile_manager->deleteProfileLevelsForSkill($skll_id);
         $this->resources_manager->removeResourcesForSkill($skll_id);
-        $this->event_handler->raise("Services/Skill", "deleteSkill", ["node_id" => $skll_id, "is_reference" => false]);
+        $this->event_handler->raise("components/ILIAS/Skill", "deleteSkill", ["node_id" => $skll_id, "is_reference" => false]);
     }
 
     protected function deleteSkillCategory(int $scat_id, \ilSkillTree $tree): void
@@ -175,7 +175,7 @@ class SkillDeletionManager
         $this->material_manager->removeAssignedMaterialsForSkill($sktr_id, true);
         $this->profile_manager->deleteProfileLevelsForSkill($sktr_id, true);
         $this->resources_manager->removeResourcesForSkill($sktr_id, true);
-        $this->event_handler->raise("Services/Skill", "deleteSkill", ["node_id" => $sktr_id, "is_reference" => true]);
+        $this->event_handler->raise("components/ILIAS/Skill", "deleteSkill", ["node_id" => $sktr_id, "is_reference" => true]);
     }
 
     protected function deleteSkillTemplate(int $sktp_id): void
@@ -186,7 +186,7 @@ class SkillDeletionManager
         $this->material_manager->removeAssignedMaterialsForSkill($sktp_id);
         $this->profile_manager->deleteProfileLevelsForSkill($sktp_id);
         $this->resources_manager->removeResourcesForSkill($sktp_id);
-        $this->event_handler->raise("Services/Skill", "deleteSkill", ["node_id" => $sktp_id, "is_reference" => false]);
+        $this->event_handler->raise("components/ILIAS/Skill", "deleteSkill", ["node_id" => $sktp_id, "is_reference" => false]);
 
         foreach (\ilSkillTemplateReference::_lookupTrefIdsForTemplateId($sktp_id) as $tref_id) {
             $this->deleteNode($tref_id);

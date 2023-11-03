@@ -46,4 +46,15 @@ class ilStudyProgrammePCStatusInfoUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->manipulate($query);
         }
     }
+
+    public function step_3(): void
+    {
+        if ($this->db->tableExists("copg_pc_def")) {
+            $query = "UPDATE " . self::TABLE_NAME . " SET " . PHP_EOL
+                . " component = REPLACE(component, 'Services', 'components/ILIAS') " . PHP_EOL
+                . " WHERE component LIKE ('Services/%')";
+
+            $this->db->manipulate($query);
+        }
+    }
 }

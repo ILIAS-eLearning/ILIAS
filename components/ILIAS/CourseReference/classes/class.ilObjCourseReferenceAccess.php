@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-include_once("./Services/ContainerReference/classes/class.ilContainerReferenceAccess.php");
+include_once("./components/ILIAS/ContainerReference/classes/class.ilContainerReferenceAccess.php");
 
 /**
 *

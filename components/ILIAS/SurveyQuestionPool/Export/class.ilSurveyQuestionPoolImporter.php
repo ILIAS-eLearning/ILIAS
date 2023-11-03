@@ -29,7 +29,7 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ): void {
         // Container import => test object already created
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {	// case ii, non container
             // Shouldn't happen

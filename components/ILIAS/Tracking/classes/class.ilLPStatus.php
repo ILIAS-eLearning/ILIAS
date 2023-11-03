@@ -337,7 +337,7 @@ class ilLPStatus
         );
 
         $ilAppEventHandler->raise(
-            "Services/Tracking",
+            "components/ILIAS/Tracking",
             "updateStatus",
             array(
             "obj_id" => $a_obj_id,

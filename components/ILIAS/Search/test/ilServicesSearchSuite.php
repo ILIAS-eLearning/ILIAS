@@ -26,8 +26,8 @@ class ilServicesSearchSuite extends TestSuite
     {
         $suite = new ilServicesSearchSuite();
 
-        include_once("./Services/Search/test/ilSearchLuceneQueryParserTest.php");
-        include_once("./Services/Search/test/ilObjSearchRpcClientCoordinatorTest.php");
+        include_once("./components/ILIAS/Search/test/ilSearchLuceneQueryParserTest.php");
+        include_once("./components/ILIAS/Search/test/ilObjSearchRpcClientCoordinatorTest.php");
         $suite->addTestSuite(ilSearchLuceneQueryParserTest::class);
         $suite->addTestSuite(ilObjSearchRpcClientCoordinatorTest::class);
         return $suite;

@@ -90,7 +90,7 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
     {
         $parts = explode(':', $a_id);
         $old_page_id = $parts[0] . ':' . $parts[1];
-        $new_page_id = $a_mapping->getMapping("Services/COPage", 'pg', $old_page_id);
+        $new_page_id = $a_mapping->getMapping("components/ILIAS/COPage", 'pg', $old_page_id);
 
         return $new_page_id . ':' . $parts[2] . ':' . $parts[3];
     }

@@ -37,13 +37,13 @@ class ilMediaPoolImporter extends ilXmlImporter
                 $this->config->getTranslationMep(),
                 $this->config->getTranslationLang()
             );
-            $cop_config = $this->getImport()->getConfig("Services/COPage");
+            $cop_config = $this->getImport()->getConfig("components/ILIAS/COPage");
             $cop_config->setUpdateIfExists(true);
             $cop_config->setForceLanguage($this->config->getTranslationLang());
             $cop_config->setReuseOriginallyExportedMedia(true);
             $cop_config->setSkipInternalLinkResolve(true);
 
-            $mob_config = $this->getImport()->getConfig("Services/MediaObjects");
+            $mob_config = $this->getImport()->getConfig("components/ILIAS/MediaObjects");
             $mob_config->setUsePreviousImportIds(true);
         }
     }

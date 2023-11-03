@@ -59,7 +59,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj, "listCodes"));
-        $this->setRowTemplate("tpl.code_list_row.html", "Services/Registration");
+        $this->setRowTemplate("tpl.code_list_row.html", "components/ILIAS/Registration");
         $this->setEnableTitle(true);
         $this->initFilter();
         $this->setFilterCommand("applyCodesFilter");

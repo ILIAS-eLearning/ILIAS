@@ -8,7 +8,7 @@ This service uses an adapter interface to map behaviour from the external class 
 ## Updates and changes
 
 (Oct 24, 2018) ILIAS 5.4 migrated from the deprecated PHPExcel to PhpSpreadsheet. To avoid any change in consumer classes of this service,
-all changes were done in the adapter class ./Services/Excel/classes/class.ilExcel.php
+all changes were done in the adapter class ./components/ILIAS/Excel/classes/class.ilExcel.php
 
 # Common issues
 

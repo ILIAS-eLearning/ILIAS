@@ -46,23 +46,23 @@ class ilUserExporter extends ilXmlExporter
 
             return [
                 [
-                    "component" => "Services/User",
+                    "component" => "components/ILIAS/User",
                     "entity" => "usr_profile",
                     "ids" => $a_ids],
                 [
-                    "component" => "Services/User",
+                    "component" => "components/ILIAS/User",
                     "entity" => "usr_multi",
                     "ids" => $a_ids],
                 [
-                    "component" => "Services/User",
+                    "component" => "components/ILIAS/User",
                     "entity" => "usr_setting",
                     "ids" => $a_ids],
                 [
-                    "component" => "Services/Notes",
+                    "component" => "components/ILIAS/Notes",
                     "entity" => "user_notes",
                     "ids" => $a_ids],
                 [
-                    "component" => "Services/Calendar",
+                    "component" => "components/ILIAS/Calendar",
                     "entity" => "calendar",
                     "ids" => $cal_ids]
                 ];

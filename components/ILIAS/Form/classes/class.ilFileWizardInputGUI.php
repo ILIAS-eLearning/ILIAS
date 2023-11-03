@@ -173,7 +173,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.prop_filewizardinput.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_filewizardinput.html", true, true, "components/ILIAS/Form");
 
         $i = 0;
         foreach ($this->filenames as $value) {
@@ -231,7 +231,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         $a_tpl->parseCurrentBlock();
 
         $main_tpl = $this->tpl;
-        $main_tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $main_tpl->addJavascript("./Services/Form/templates/default/filewizard.js");
+        $main_tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormWizardInput.js");
+        $main_tpl->addJavascript("./components/ILIAS/Form/templates/default/filewizard.js");
     }
 }

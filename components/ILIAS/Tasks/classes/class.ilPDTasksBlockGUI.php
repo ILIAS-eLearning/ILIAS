@@ -99,7 +99,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
         $this->tasks = $collector->getEntries($this->user->getId());
 
         if (count($this->tasks) > 0) {
-            $this->setRowTemplate("tpl.pd_tasks.html", "Services/Tasks");
+            $this->setRowTemplate("tpl.pd_tasks.html", "components/ILIAS/Tasks");
             $this->getListRowData();
             parent::fillDataSection();
         } else {

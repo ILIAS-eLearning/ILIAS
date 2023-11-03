@@ -80,7 +80,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.skill_profile_level_row.html", "Services/Skill");
+        $this->setRowTemplate("tpl.skill_profile_level_row.html", "components/ILIAS/Skill");
 
         if ($access_manager->hasManageProfilesPermission()) {
             $this->addMultiCommand("confirmLevelAssignmentRemoval", $this->lng->txt("skmg_remove_levels"));

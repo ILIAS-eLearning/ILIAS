@@ -116,7 +116,7 @@ class ilFeedWriter
 
     public function getFeed(): string
     {
-        $this->tpl = new ilTemplate("tpl.rss_2_0.xml", true, true, "Services/Feeds");
+        $this->tpl = new ilTemplate("tpl.rss_2_0.xml", true, true, "components/ILIAS/Feeds");
 
         $this->tpl->setVariable("XML", "xml");
         $this->tpl->setVariable("CONTENT_ENCODING", $this->getEncoding());

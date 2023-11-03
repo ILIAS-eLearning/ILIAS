@@ -23,7 +23,7 @@ class ilNotificationAppEventListener implements ilAppEventListener
         string $a_event,
         array $a_parameter
     ): void {
-        if ($a_component === 'Services/Object' && $a_event === 'delete') {
+        if ($a_component === 'components/ILIAS/Object' && $a_event === 'delete') {
             if ($a_parameter['obj_id'] > 0) {
                 $set = new ilObjNotificationSettings($a_parameter['obj_id']);
                 $set->delete();

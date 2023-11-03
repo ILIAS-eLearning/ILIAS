@@ -32,7 +32,7 @@ use ILIAS\FileUpload\Location;
  * GUI class to create PDF certificates
  * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @version       $Id$
- * @ingroup       Services
+ * @ingroup components/ILIAS
  * @ilCtrl_Calls  ilCertificateGUI: ilPropertyFormGUI
  */
 class ilCertificateGUI

@@ -291,7 +291,7 @@ class ilExport
         $a_tpl->setTitle(ilObject::_lookupTitle($a_obj_id));
         $a_tpl->setDescription($lng->txt("export_export_date") . ": " .
             date('Y-m-d H:i:s', time()) . " (" . date_default_timezone_get() . ")");
-        $f_tpl = new ilTemplate("tpl.export_list.html", true, true, "Services/Export");
+        $f_tpl = new ilTemplate("tpl.export_list.html", true, true, "components/ILIAS/Export");
         foreach ($a_files as $file) {
             $f_tpl->setCurrentBlock("file_row");
             $f_tpl->setVariable("TITLE", $file["title"]);
@@ -313,7 +313,7 @@ class ilExport
      *   e.g. Services/Mediapool/set_1.xml
      * - manifest.xml lists all files
      * <manifest>
-     * <xmlfile path="Services/Mediapool/set_1.xml"/>
+     * <xmlfile path="components/ILIAS/Mediapool/set_1.xml"/>
      * ...
      * </manifest
      */
@@ -403,7 +403,7 @@ class ilExport
      * @param string $a_entity         entity type, e.g. "sty"
      * @param mixed  $a_id             entity id
      * @param string $a_target_release target release
-     * @param string $a_component      component that exports (e.g. "Services/Style")
+     * @param string $a_component      component that exports (e.g. "components/ILIAS/Style")
      * @return array success and info array
      */
     public function exportEntity(

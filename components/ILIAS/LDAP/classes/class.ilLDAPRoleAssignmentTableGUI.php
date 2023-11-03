@@ -42,7 +42,7 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('ldap_add_remove'), '', '30%');
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.show_role_assignment_row.html", "Services/LDAP");
+        $this->setRowTemplate("tpl.show_role_assignment_row.html", "components/ILIAS/LDAP");
         $this->setDefaultOrderField('type');
         $this->setDefaultOrderDirection("desc");
     }

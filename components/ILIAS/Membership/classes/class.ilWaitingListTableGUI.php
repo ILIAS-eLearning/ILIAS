@@ -91,7 +91,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
         $this->setPrefix('waiting');
         $this->setSelectAllCheckbox('waiting', true);
 
-        $this->setRowTemplate("tpl.show_waiting_list_row.html", "Services/Membership");
+        $this->setRowTemplate("tpl.show_waiting_list_row.html", "components/ILIAS/Membership");
 
         $this->enable('sort');
         $this->enable('header');

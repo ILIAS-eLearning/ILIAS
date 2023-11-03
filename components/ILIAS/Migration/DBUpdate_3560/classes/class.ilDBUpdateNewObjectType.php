@@ -457,7 +457,7 @@ class ilDBUpdateNewObjectType
         $ilDB->insert("object_reference", $values);
 
         // put in tree
-        require_once("Services/Tree/classes/class.ilTree.php");
+        require_once("components/ILIAS/Tree/classes/class.ilTree.php");
         $tree = new ilTree(ROOT_FOLDER_ID);
         $tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
 

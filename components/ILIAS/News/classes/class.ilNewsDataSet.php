@@ -118,11 +118,11 @@ class ilNewsDataSet extends ilDataSet
             case "news":
                 $mob_id = null;
                 if ($a_rec["MobId"] > 0) {
-                    $mob_id = $a_mapping->getMapping("Services/MediaObjects", "mob", $a_rec["MobId"]);
+                    $mob_id = $a_mapping->getMapping("components/ILIAS/MediaObjects", "mob", $a_rec["MobId"]);
                 }
                 $c = (int) $a_rec["ContextObjId"] . ":" . $a_rec["ContextObjType"] . ":" . (int) $a_rec["ContextSubObjId"] .
                     ":" . $a_rec["ContextSubObjType"];
-                $context = $a_mapping->getMapping("Services/News", "news_context", $c);
+                $context = $a_mapping->getMapping("components/ILIAS/News", "news_context", $c);
                 $context = explode(":", $context);
 
                 $newObj = new ilNewsItem();
@@ -140,7 +140,7 @@ class ilNewsDataSet extends ilDataSet
                 $newObj->setMobId((int) $mob_id);
                 $newObj->setPlaytime($a_rec["Playtime"]);
                 $newObj->create();
-                $a_mapping->addMapping("Services/News", "news", $a_rec["Id"], (string) $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/News", "news", $a_rec["Id"], (string) $newObj->getId());
                 break;
 
             case "news_settings":

@@ -51,7 +51,7 @@ class ilLinkifyUtil
         return [
             "./node_modules/linkifyjs/dist/linkify.min.js",
             "./node_modules/linkifyjs/dist/linkify-jquery.min.js",
-            "./Services/Link/js/ilExtLink.js"
+            "./components/ILIAS/Link/js/ilExtLink.js"
         ];
     }
 }

@@ -290,7 +290,7 @@ class ilConditionHandlerGUI
         }
 
         $this->toolbar->addButton($this->lng->txt('add_condition'), $this->ctrl->getLinkTarget($this, 'selector'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.list_conditions.html', 'Services/AccessControl');
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.list_conditions.html', 'components/ILIAS/AccessControl');
 
         $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
             $this->getTargetRefId(),

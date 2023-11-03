@@ -47,7 +47,7 @@ class ilWebResourceImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ): void {
         if ($new_id = $a_mapping->getMapping(
-            'Services/Container',
+            'components/ILIAS/Container',
             'objs',
             $a_id
         )) {

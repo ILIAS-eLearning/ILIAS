@@ -96,7 +96,7 @@ class CharacteristicTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"));
         $this->setEnableHeader(true);
         $this->setFormAction($ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.style_row.html", "Services/Style/Content/Characteristic");
+        $this->setRowTemplate("tpl.style_row.html", "components/ILIAS/Style/Content/Characteristic");
         $this->disable("footer");
 
         if ($this->access_manager->checkWrite()) {

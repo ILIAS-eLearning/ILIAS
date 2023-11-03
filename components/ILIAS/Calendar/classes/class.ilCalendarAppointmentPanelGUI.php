@@ -77,7 +77,7 @@ class ilCalendarAppointmentPanelGUI
 
         self::$counter++;
 
-        $this->tpl = new ilTemplate('tpl.appointment_panel.html', true, true, 'Services/Calendar');
+        $this->tpl = new ilTemplate('tpl.appointment_panel.html', true, true, 'components/ILIAS/Calendar');
 
         // Panel variables
         $this->tpl->setVariable('PANEL_NUM', self::$counter);

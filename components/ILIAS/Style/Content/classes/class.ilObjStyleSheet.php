@@ -1603,23 +1603,23 @@ class ilObjStyleSheet extends ilObject
 
             return $path;
         } else {		// todo: work this out
-            return "./Services/COPage/css/content.css";
+            return "./components/ILIAS/COPage/css/content.css";
         }
     }
 
     public static function getContentPrintStyle(): string
     {
-        return "./Services/COPage/css/print_content.css";
+        return "./components/ILIAS/COPage/css/print_content.css";
     }
 
     public static function getSyntaxStylePath(): string
     {
-        return "./Services/COPage/css/syntaxhighlight.css";
+        return "./components/ILIAS/COPage/css/syntaxhighlight.css";
     }
 
     public static function getPlaceHolderStylePath(): string
     {
-        return "./Services/COPage/css/placeholder.css";
+        return "./components/ILIAS/COPage/css/placeholder.css";
     }
 
     public function update(): bool

@@ -31,7 +31,7 @@ class ilServicesAccessibilitySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Accessibility/test/AccessibilityCriterionConfigTest.php");
+        require_once("./components/ILIAS/Accessibility/test/AccessibilityCriterionConfigTest.php");
         $suite->addTestSuite("AccessibilityCriterionConfigTest");
 
         return $suite;

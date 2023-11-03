@@ -183,7 +183,7 @@ class ilPollDataSet extends ilDataSet
         switch ($a_entity) {
             case "poll":
                 // container copy
-                if ($new_id = $a_mapping->getMapping("Services/Container", "objs", (string) ($a_rec["Id"] ?? "0"))) {
+                if ($new_id = $a_mapping->getMapping("components/ILIAS/Container", "objs", (string) ($a_rec["Id"] ?? "0"))) {
                     $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
                 } else {
                     $newObj = new ilObjPoll();

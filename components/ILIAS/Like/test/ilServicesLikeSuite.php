@@ -31,7 +31,7 @@ class ilServicesLikeSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Awareness/test/AwarenessSessionRepositoryTest.php");
+        require_once("./components/ILIAS/Awareness/test/AwarenessSessionRepositoryTest.php");
         $suite->addTestSuite("AwarenessSessionRepositoryTest");
 
         return $suite;

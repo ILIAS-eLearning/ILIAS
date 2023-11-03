@@ -123,7 +123,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     public function fillDataSection(): void
     {
         if ($this->mails !== []) {
-            $this->setRowTemplate("tpl.pd_mail_row.html", "Services/Mail");
+            $this->setRowTemplate("tpl.pd_mail_row.html", "components/ILIAS/Mail");
             parent::fillDataSection();
         } else {
             $this->setEnableNumInfo(false);

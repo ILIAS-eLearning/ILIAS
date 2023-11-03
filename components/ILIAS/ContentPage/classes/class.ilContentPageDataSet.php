@@ -103,7 +103,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     ): void {
         switch ($a_entity) {
             case self::OBJ_TYPE:
-                if ($newObjId = $a_mapping->getMapping('Services/Container', 'objs', (string) $a_rec['id'])) {
+                if ($newObjId = $a_mapping->getMapping('components/ILIAS/Container', 'objs', (string) $a_rec['id'])) {
                     $newObject = ilObjectFactory::getInstanceByObjId((int) $newObjId, false);
                 } else {
                     $newObject = new ilObjContentPage();
@@ -129,13 +129,13 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     (string) $newObject->getId()
                 );
                 $a_mapping->addMapping(
-                    'Services/COPage',
+                    'components/ILIAS/COPage',
                     'pg',
                     self::OBJ_TYPE . ':' . $a_rec['id'],
                     self::OBJ_TYPE . ':' . $newObject->getId()
                 );
                 $a_mapping->addMapping(
-                    'Services/MetaData',
+                    'components/ILIAS/MetaData',
                     'md',
                     $a_rec['id'] . ':0:' . self::OBJ_TYPE,
                     $newObject->getId() . ':0:' . self::OBJ_TYPE

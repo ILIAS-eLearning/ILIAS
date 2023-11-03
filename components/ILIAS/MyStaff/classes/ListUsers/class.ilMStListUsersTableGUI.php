@@ -56,7 +56,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->language = $DIC->language();
 
-        $this->setRowTemplate('tpl.list_users_row.html', "Services/MyStaff");
+        $this->setRowTemplate('tpl.list_users_row.html', "components/ILIAS/MyStaff");
         $this->setFormAction($DIC->ctrl()->getFormAction($parent_obj));
         $this->setDefaultOrderDirection('desc');
 

@@ -37,7 +37,7 @@ class ilCategoryExporter extends ilXmlExporter
         // always trigger container because of co-page(s)
         return [
             [
-                'component' => 'Services/Container',
+                'component' => 'components/ILIAS/Container',
                 'entity' => 'struct',
                 'ids' => $a_ids
             ]
@@ -57,7 +57,7 @@ class ilCategoryExporter extends ilXmlExporter
 
             return [
                 [
-                    "component" => "Services/Taxonomy",
+                    "component" => "components/ILIAS/Taxonomy",
                     "entity" => "tax",
                     "ids" => $tax_ids
                 ]

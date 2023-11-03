@@ -32,7 +32,7 @@ class ilServicesPersonalWorkspaceSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/PersonalWorkspace/test/PWspStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/PersonalWorkspace/test/PWspStandardGUIRequestTest.php");
         $suite->addTestSuite("PWspStandardGUIRequestTest");
 
         return $suite;
