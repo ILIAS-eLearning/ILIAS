@@ -2210,6 +2210,8 @@ class ilAdvancedMDSettingsGUI
                         $assigned = true;
                         $optional = $item["optional"];
                         $tmp_arr['obj_types'][$idx]['context'] = true;
+                    } else {
+                        unset($tmp_arr['obj_types'][$idx]);
                     }
                 }
                 $tmp_arr['optional'] = $optional;
