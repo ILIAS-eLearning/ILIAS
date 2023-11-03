@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as I;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 class Factory implements I\Factory
 {
@@ -49,7 +50,7 @@ class Factory implements I\Factory
         return new StatusIcon($title);
     }
 
-    public function boolean(string $title, string $true, string $false): I\Boolean
+    public function boolean(string $title, string|Icon $true, string|Icon $false): I\Boolean
     {
         return new Boolean($title, $true, $false);
     }

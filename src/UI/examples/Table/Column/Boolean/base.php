@@ -21,9 +21,9 @@ function base()
         'b1' => $f->table()->column()->boolean('yes/no', 'yes', 'no'),
         'b2' => $f->table()->column()->boolean("0/1", "1", "0"),
         'b3' => $f->table()->column()->boolean(
-            "glyph",
-            $r->render($f->symbol()->glyph()->up()),
-            $r->render($f->symbol()->glyph()->down()->withHighlight())
+            "icon",
+            $f->symbol()->icon()->custom('templates/default/images/standard/icon_checked.svg', '', 'small'),
+            $f->symbol()->icon()->custom('templates/default/images/standard/icon_unchecked.svg', '', 'small')
         )
     ];
 

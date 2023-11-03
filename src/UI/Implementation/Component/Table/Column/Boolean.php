@@ -21,15 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as C;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 class Boolean extends Column implements C\Boolean
 {
-    public function __construct(string $title, protected string $true_option, protected string $false_option)
+    public function __construct(string $title, protected string|Icon $true_option, protected string|Icon $false_option)
     {
         parent::__construct($title);
     }
 
-    public function format($value): string
+    public function format($value): string|Icon
     {
         $this->checkBoolArg('value', $value);
         return $value ? $this->true_option : $this->false_option;
