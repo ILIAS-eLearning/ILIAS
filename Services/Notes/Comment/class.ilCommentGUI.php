@@ -79,8 +79,7 @@ class ilCommentGUI extends ilNoteGUI
 
     protected function getItemTitle(Note $note): string
     {
-        $avatar = ilObjUser::_getAvatar($note->getAuthor());
-        return ilUserUtil::getNamePresentation($note->getAuthor(), false, false);
+        return $this->gui->profile()->getNamePresentation($note->getAuthor());
     }
 
     protected function addItemProperties(Note $note, array &$properties): void
