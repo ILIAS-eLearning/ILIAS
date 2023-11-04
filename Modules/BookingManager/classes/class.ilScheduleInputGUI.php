@@ -73,7 +73,6 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     public function checkInput(): bool
     {
         $lng = $this->lng;
-
         $data = $this->getPostData($this->getPostVar(), false);
         if (count($data)) {
             // slots may not overlap
@@ -223,7 +222,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
             if ($row > 0) {
                 // inline needed because of JS
                 $tpl->setVariable("ADD_STYLE", " style=\"display:none\"");
-            // $tpl->setVariable("ADD_CLASS", "ilNoDisplay");
+                // $tpl->setVariable("ADD_CLASS", "ilNoDisplay");
             } else {
                 // inline needed because of JS
                 $tpl->setVariable("RMV_STYLE", " style=\"display:none\"");
@@ -260,8 +259,12 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     ): string {
         $hours = (int) $a_hours;
         $min = (int) $a_minutes;
-        if ($hours > 23 || $min > 59) {
-            return false;
+        if ($hours > 23) {
+            $hours = 23;
+            $min = 59;
+        }
+        if ($min > 59) {
+            $min = 59;
         }
         return str_pad($hours, 2, "0", STR_PAD_LEFT) . ":" .
             str_pad($min, 2, "0", STR_PAD_LEFT);
