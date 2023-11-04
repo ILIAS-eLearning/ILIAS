@@ -447,23 +447,20 @@ class ilObjectCopyGUI
 
     protected function saveTarget(): void
     {
-        // begin-patch mc
-        $target = $_REQUEST['target']; // TODO PHP8 Review: Remove/Replace SuperGlobals
-        if (is_array($target) && $target) {
-            $this->setTargets($target);
-            $this->ctrl->setParameter($this, 'target_ids', implode('_', $this->getTargets()));
-        }
-        // paste from clipboard
-        elseif ((int) $target) {
-            $this->setTarget((int) $target);
-            $this->ctrl->setParameter($this, 'target_ids', implode('_', $this->getTargets()));
-        }
-        // end-patch multi copy
-        else {
+        if (!$this->retriever->has('target')) {
             $this->ctrl->setParameter($this, 'selectMode', self::TARGET_SELECTION);
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showTargetSelectionTree();
             return;
+        }
+
+
+        if (($targets = $this->retriever->getArrayOfInt('target')) !== []) {
+            $this->setTargets($targets);
+            $this->ctrl->setParameter($this, 'target_ids', implode('_', $this->getTargets()));
+        } elseif (($target = $this->retriever->getMaybeInt('target')) !== null) {
+            $this->setTarget($target);
+            $this->ctrl->setParameter($this, 'target_ids', implode('_', $this->getTargets()));
         }
 
         // validate allowed subtypes
