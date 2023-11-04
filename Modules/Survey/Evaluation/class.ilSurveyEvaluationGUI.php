@@ -894,11 +894,11 @@ class ilSurveyEvaluationGUI
             if ($quoteAll) {
                 $surround = true;
             }
-            if (strpos($entry, "\"") !== false) {
+            if (strpos($entry ?? "", "\"") !== false) {
                 $entry = str_replace("\"", "\"\"", $entry);
                 $surround = true;
             }
-            if (strpos($entry, $separator) !== false) {
+            if (strpos($entry ?? "", $separator) !== false) {
                 $surround = true;
             }
             // replace all CR LF with LF (for Excel for Windows compatibility
@@ -1200,13 +1200,13 @@ class ilSurveyEvaluationGUI
         $pskills_gui = new ilPersonalSkillsGUI();
         $rater = $this->evaluation_manager->getCurrentRater();
         if ($rater !== "") {
-            if (strpos($rater, "u") === 0) {
+            if (strpos($rater ?? "", "u") === 0) {
                 $rater = substr($rater, 1);
             }
             $pskills_gui->setTriggerUserFilter([$rater]);
         }
 
-        if (strpos($comp_eval_mode, "gap_") === 0) {
+        if (strpos($comp_eval_mode ?? "", "gap_") === 0) {
             // gap analysis
             $profile_id = (int) substr($comp_eval_mode, 4);
 
