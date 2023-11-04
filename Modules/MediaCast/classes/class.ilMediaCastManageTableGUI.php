@@ -124,7 +124,12 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): \Generator {
+        $cnt = 0;
         foreach ($this->mediacast->getSortedItemsArray() as $item) {
+            $cnt++;
+            if ($cnt < $range->getStart() || $cnt > $range->getEnd()) {
+                continue;
+            }
 
             $row_id = (string) $item['id'];
             $mob = new ilObjMediaObject($item["mob_id"]);
@@ -173,7 +178,7 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): ?int {
-        return null;
+        return count($this->mediacast->getSortedItemsArray());
     }
 
     public function handleCommand(): void

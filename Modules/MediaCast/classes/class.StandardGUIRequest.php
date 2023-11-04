@@ -94,9 +94,9 @@ class StandardGUIRequest
     /** @return int[] */
     public function getItemIds(): array
     {
-        $id_str = $this->str("mcst_ids");
-        if ($id_str !== "") {
-            return explode(",", $id_str);           // from table multi action
+        $ids = $this->intArray("mcst_ids");
+        if (count($ids) > 0) {
+            return $ids;           // from table multi action
         }
         $ids = $this->intArray("interruptive_items");   // from confirmation
         if (count($ids) > 0) {
