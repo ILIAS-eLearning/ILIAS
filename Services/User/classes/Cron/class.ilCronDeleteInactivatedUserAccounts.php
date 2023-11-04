@@ -129,10 +129,6 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 
     public function run(): ilCronJobResult
     {
-        global $DIC;
-
-        $rbacreview = $DIC->rbac()->review();
-
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
         $usr_ids = ilObjUser::_getUserIdsByInactivationPeriod($this->period);
@@ -144,7 +140,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
             }
 
             foreach ($this->include_roles as $role_id) {
-                if ($rbacreview->isAssigned($usr_id, $role_id)) {
+                if ($this->rbac_review->isAssigned($usr_id, $role_id)) {
                     $user = ilObjectFactory::getInstanceByObjId($usr_id);
                     $user->delete();
                     $counter++;

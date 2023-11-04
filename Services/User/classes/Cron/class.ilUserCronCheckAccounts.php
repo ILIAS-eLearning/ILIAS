@@ -26,6 +26,28 @@ class ilUserCronCheckAccounts extends ilCronJob
 {
     protected int $counter = 0;
 
+    private ilDBInterface $db;
+    private ilLanguage $lng;
+    private ilComponentLogger $log;
+
+    public function __construct()
+    {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        if (isset($DIC['ilDB'])) {
+            $this->db = $DIC['ilDB'];
+        }
+
+        if (isset($DIC['lng'])) {
+            $this->lng = $DIC['lng'];
+        }
+
+        if (isset($DIC['ilDB'])) {
+            $this->log = $DIC['ilLog'];
+        }
+    }
+
     public function getId(): string
     {
         return "user_check_accounts";
@@ -33,20 +55,12 @@ class ilUserCronCheckAccounts extends ilCronJob
 
     public function getTitle(): string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
-        return $lng->txt("check_user_accounts");
+        return $this->lng->txt("check_user_accounts");
     }
 
     public function getDescription(): string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
-        return $lng->txt("check_user_accounts_desc");
+        return $this->lng->txt("check_user_accounts_desc");
     }
 
     public function getDefaultScheduleType(): CronJobScheduleType
@@ -71,12 +85,6 @@ class ilUserCronCheckAccounts extends ilCronJob
 
     public function run(): ilCronJobResult
     {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
         $now = time();
@@ -87,16 +95,13 @@ class ilUserCronCheckAccounts extends ilCronJob
             "FROM usr_data " .
             "WHERE time_limit_message = '0' " .
             "AND time_limit_unlimited = '0' " .
-            "AND time_limit_from < " . $ilDB->quote($now, "integer") . " " .
-            "AND time_limit_until > " . $ilDB->quote($now, "integer") . " " .
-            "AND time_limit_until < " . $ilDB->quote($two_weeks_in_seconds, "integer");
+            "AND time_limit_from < " . $this->db->quote($now, "integer") . " " .
+            "AND time_limit_until > " . $this->db->quote($now, "integer") . " " .
+            "AND time_limit_until < " . $this->db->quote($two_weeks_in_seconds, "integer");
 
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
 
-        $senderFactory = $DIC->mail()->mime()->senderFactory();
-        $sender = $senderFactory->system();
-
-        while ($row = $ilDB->fetchObject($res)) {
+        while ($row = $this->db->fetchObject($res)) {
             $expires = $row->time_limit_until;
             $login = $row->login;
             $usr_id = $row->usr_id;
@@ -129,10 +134,10 @@ class ilUserCronCheckAccounts extends ilCronJob
 
             // set status 'mail sent'
             $query = "UPDATE usr_data SET time_limit_message = '1' WHERE usr_id = '" . $usr_id . "'";
-            $ilDB->query($query);
+            $this->db->query($query);
 
             // Send log message
-            $ilLog->write('Cron: (checkUserAccounts()) sent message to ' . $login . '.');
+            $this->log->write('Cron: (checkUserAccounts()) sent message to ' . $login . '.');
 
             $this->counter++;
         }
@@ -158,26 +163,21 @@ class ilUserCronCheckAccounts extends ilCronJob
 
     protected function checkNotConfirmedUserAccounts(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-
-        $oRegSettigs = new ilRegistrationSettings();
+        $registration_settings = new ilRegistrationSettings();
 
         $query = 'SELECT usr_id FROM usr_data '
                . 'WHERE (reg_hash IS NOT NULL AND reg_hash != %s)'
                . 'AND active = %s '
                . 'AND create_date < %s';
-        $res = $ilDB->queryF(
+        $res = $this->db->queryF(
             $query,
             array('text', 'integer', 'timestamp'),
-            array('', 0, date('Y-m-d H:i:s', time() - $oRegSettigs->getRegistrationHashLifetime()))
+            array('', 0, date('Y-m-d H:i:s', time() - $registration_settings->getRegistrationHashLifetime()))
         );
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $oUser = ilObjectFactory::getInstanceByObjId((int) $row['usr_id']);
-            $oUser->delete();
-            $ilLog->write('Cron: Deleted ' . $oUser->getLogin() . ' [' . $oUser->getId() . '] ' . __METHOD__);
+        while ($row = $this->db->fetchAssoc($res)) {
+            $user = ilObjectFactory::getInstanceByObjId((int) $row['usr_id']);
+            $user->delete();
+            $this->log->write('Cron: Deleted ' . $user->getLogin() . ' [' . $user->getId() . '] ' . __METHOD__);
 
             $this->counter++;
         }
