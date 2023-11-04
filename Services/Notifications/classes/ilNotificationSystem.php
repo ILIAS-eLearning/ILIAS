@@ -103,7 +103,7 @@ class ilNotificationSystem
                 $handler = $this->handler[$handler];
                 foreach ($h_users as $userId) {
                     if (!isset($userCache[$userId]) || !$userCache[$userId]) {
-                        $user = ilObjectFactory::getInstanceByObjId($userId, false);
+                        $user = ilObjectFactory::getInstanceByObjId((int) $userId, false);
                         if (!($user instanceof ilObjUser)) {
                             continue;
                         }
