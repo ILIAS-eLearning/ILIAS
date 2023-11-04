@@ -157,8 +157,10 @@ class ilObjectTileImage
         $clone = clone $this;
         $clone->object_id = $new_object_id;
 
-        if ($this->rid !== null) {
-            $i = $this->storage_services->manage()->clone($this->rid);
+        if ($this->rid !== null
+            && $this->rid !== ''
+            && ($resource = $this->storage_services->manage()->find($this->rid)) !== null) {
+            $i = $this->storage_services->manage()->clone($resource);
             $clone->rid = $i->serialize();
         }
 
