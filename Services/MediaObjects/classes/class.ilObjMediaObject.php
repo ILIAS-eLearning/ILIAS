@@ -1660,6 +1660,9 @@ class ilObjMediaObject extends ilObject
             return;
         }
 
+        $logger->debug("Generate preview pic...");
+        $logger->debug("..." . $item->getFormat());
+
         if ($item->getLocationType() == "LocalFile") {
             if (is_int(strpos($item->getFormat(), "image/"))) {
                 $a_width = $a_height = self::DEFAULT_PREVIEW_SIZE;
@@ -1668,6 +1671,7 @@ class ilObjMediaObject extends ilObject
                 $file = $dir . "/" .
                     $item->getLocation();
                 if (is_file($file)) {
+                    $logger->debug("Calling image converter.");
                     $this->image_converter->resizeToFixedSize(
                         $file,
                         $dir . "/mob_vpreview.png",
@@ -1680,8 +1684,6 @@ class ilObjMediaObject extends ilObject
             }
         }
 
-        $logger->debug("Generate preview pic...");
-        $logger->debug("..." . $item->getFormat());
         if (in_array($item->getFormat(), ["video/mp4", "video/webm"])) {
             try {
                 if ($sec < 0) {
@@ -1700,6 +1702,7 @@ class ilObjMediaObject extends ilObject
                     "...extract " . $mob_file . " in " .
                     ilObjMediaObject::_getDirectory($this->getId())
                 );
+                $logger->debug("Call ffmpeg.");
                 ilFFmpeg::extractImage(
                     $mob_file,
                     "mob_vpreview.png",
