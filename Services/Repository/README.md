@@ -2,6 +2,12 @@
 
 This part of the documentation deals with concepts and business rules, for technical documentation see [README-technical.md](./README-technical.md).
 
+## Manage screen
+
+- To enter the manage screen write permission for a container is needed.
+- To stay in manage screen when navigating either write permission for a container or a non empty clipboard is necessary.
+- Being in the manage screen does not add any additional permissions. Actions can only be performed, if the necessary permission is given.
+
 ## Trash
 
 - To view the trash of a container class the "write" permission of the container is needed.

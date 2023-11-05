@@ -78,6 +78,7 @@ class ItemPresentationManager
         }
         $this->init();
         $this->can_manage = false;
+        /* this is time consuming and probably not necessary
         foreach ($this->item_set->getAllRefIds() as $ref_id) {
             if ($this->can_manage === true) {
                 break;
@@ -85,7 +86,7 @@ class ItemPresentationManager
             if ($rbacsystem->checkAccess("delete", $ref_id)) {
                 $this->can_manage = true;
             }
-        }
+        }*/
         return $this->can_manage;
     }
 
