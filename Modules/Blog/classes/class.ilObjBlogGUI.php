@@ -1790,6 +1790,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
                 $wtpl->parseCurrentBlock();
             }
+            $this->ctrl->setParameterByClass(self::class, "bmn", null);
+            $wtpl->setVariable(
+                "STARTING_PAGE",
+                $this->ui->renderer()->render(
+                    $this->ui->factory()->link()->standard(
+                        $this->lng->txt("blog_starting_page"),
+                        $this->ctrl->getLinkTargetByClass(self::class, "preview")
+                    )
+                )
+            );
         }
         // single month
         else {

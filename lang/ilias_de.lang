@@ -2469,6 +2469,7 @@ blog#:#blog_settings#:#Blog-Administration
 blog#:#blog_settings_navigation#:#Navigation
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
 blog#:#blog_show_print_view#:#Druckansicht
+blog#:#blog_starting_page#:#Startseite
 blog#:#blog_style#:#Blog-Style
 blog#:#blog_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
