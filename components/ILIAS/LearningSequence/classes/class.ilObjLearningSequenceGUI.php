@@ -106,6 +106,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     public const ACCESS_READ = 'read';
     public const ACCESS_VISIBLE = 'visible';
+    protected \ILIAS\Style\Content\Service $content_style;
 
     protected string $obj_type;
     protected ilNavigationHistory $navigation_history;
@@ -224,6 +225,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->refinery = $DIC->refinery();
+        $this->content_style = $DIC->contentStyle();
 
         $this->help->setScreenIdComponent($this->obj_type);
         $this->lng->loadLanguageModule($this->obj_type);
@@ -329,6 +331,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     $gui_class = 'ilObjLearningSequenceEditExtroGUI';
                 }
 
+                $this->addContentStyleCss();
                 $this->addSubTabsForContent($which_tab);
 
                 $page_id = $this->object->getContentPageId($which_page);
@@ -455,6 +458,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
+    public function addContentStyleCss(): void
+    {
+        $this->content_style->gui()->addCss(
+            $this->tpl,
+            $this->object->getRefId()
+        );
+    }
+
     public function addToNavigationHistory(): void
     {
         if (
@@ -539,6 +550,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     protected function learnerView(string $cmd = self::CMD_LEARNER_VIEW): void
     {
+        $this->addContentStyleCss();
         $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
         $this->addSubTabsForContent(self::TAB_VIEW_CONTENT);
 
