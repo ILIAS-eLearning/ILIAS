@@ -143,6 +143,7 @@ class ilExerciseManagementGUI
 
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
         $this->http = $DIC->http();
+        $this->ctrl->saveParameter($this, array("part_id"));
     }
 
     /**
