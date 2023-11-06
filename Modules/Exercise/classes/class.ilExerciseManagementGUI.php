@@ -122,6 +122,7 @@ class ilExerciseManagementGUI
         }
         
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
+        $this->ctrl->saveParameter($this, array("part_id"));
     }
     
     public function executeCommand()
