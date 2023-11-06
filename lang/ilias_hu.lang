@@ -3690,7 +3690,7 @@ common#:#day#:#Nap
 common#:#days#:#Nap
 common#:#db_host#:#Adatbázis-kiszolgáló
 common#:#db_name#:#Adatbázisnév
-common#:#db_need_hotfix#:#A javítások rendelkezésre állnak. Nyissa meg a <a href="./setup/setup.php">»setup</a> programot!
+common#:#db_need_hotfix#:#A javítások rendelkezésre állnak. Nyissa meg a <a href="./scripts/setup.php">»setup</a> programot!
 common#:#db_need_update#:#Az adatbázis frissítésre szorul.
 common#:#db_pass#:#Adatbázis-jelszó
 common#:#db_type#:#Adatbázis-típus
@@ -4007,7 +4007,7 @@ common#:#gender_m#:#Férfi
 common#:#gender_n#:#Nincs megszólítás
 common#:#general_settings#:#Általános beállítások
 common#:#generate#:#Generálás
-common#:#ghostscript_not_configured#:#GhostScript nincs konfigurálva. Nyissa meg a <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a>-ot a konfiguráláshoz.
+common#:#ghostscript_not_configured#:#GhostScript nincs konfigurálva. Nyissa meg a <a href="scripts/setup.php?cmd=mastersettings" target="_blank">Setup</a>-ot a konfiguráláshoz.
 common#:#glo#:#Fogalomtár
 common#:#glo_add#:#Fogalomtár létrehozása
 common#:#glo_added#:#Sikeresen létrehozott egy fogalomtárat.

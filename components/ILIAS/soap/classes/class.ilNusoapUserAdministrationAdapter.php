@@ -21,7 +21,7 @@
  * @version $Id$
  * @package ilias
  */
-require_once('./libs/composer/vendor/autoload.php');
+require_once('./vendor/composer/vendor/autoload.php');
 
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnit;

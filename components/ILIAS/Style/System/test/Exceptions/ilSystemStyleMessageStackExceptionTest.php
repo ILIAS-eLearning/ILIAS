@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once('libs/composer/vendor/autoload.php');
+require_once('vendor/composer/vendor/autoload.php');
 include_once('components/ILIAS/Style/System/test/Exceptions/ilSystemStyleExceptionBaseUnit.php');
 
 class ilSystemStyleMessageStackExceptionTest extends ilSystemStyleExceptionBaseUnit

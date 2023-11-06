@@ -501,9 +501,9 @@ class ilObjStyleSheet extends ilObject
         );
 
     // basic style xml file, image directory and dom
-    protected static string $basic_style_file = "./libs/ilias/Style/basic_style/style.xml";
-    protected static string $basic_style_zip = "./libs/ilias/Style/basic_style/style.zip";
-    protected static string $basic_style_image_dir = "./libs/ilias/Style/basic_style/images";
+    protected static string $basic_style_file = "./vendor/ilias/Style/basic_style/style.xml";
+    protected static string $basic_style_zip = "./vendor/ilias/Style/basic_style/style.zip";
+    protected static string $basic_style_image_dir = "./vendor/ilias/Style/basic_style/images";
     protected static ?DOMDocument $basic_style_dom = null;
 
     public function __construct(

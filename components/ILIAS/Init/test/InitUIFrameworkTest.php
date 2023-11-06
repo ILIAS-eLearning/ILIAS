@@ -1,6 +1,6 @@
 <?php
 
-require_once("libs/composer/vendor/autoload.php");
+require_once("vendor/composer/vendor/autoload.php");
 
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\TestCase;

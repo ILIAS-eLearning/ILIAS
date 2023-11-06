@@ -26,7 +26,7 @@ use ILIAS\Badge\test\TileViewTest;
 use ILIAS\Badge\test\TileTest;
 use ILIAS\Badge\test\SortingTest;
 
-require_once 'libs/composer/vendor/autoload.php';
+require_once 'vendor/composer/vendor/autoload.php';
 
 /**
  * @author Alexander Killing <killing@leifos.de>

@@ -17,7 +17,7 @@
  *********************************************************************/
 
 /** @noRector */
-require_once __DIR__ . "/../../../../libs/composer/vendor/autoload.php";
+require_once __DIR__ . "/../../../../vendor/composer/vendor/autoload.php";
 
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 use ILIAS\BackgroundTasks\Persistence;

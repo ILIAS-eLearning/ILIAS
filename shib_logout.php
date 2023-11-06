@@ -13,7 +13,7 @@
  *
  *****************************************************************************/
 /** @noRector */
-require_once("libs/composer/vendor/autoload.php");
+require_once("vendor/composer/vendor/autoload.php");
 global $DIC;
 $q = $DIC->http()->wrapper()->query();
 if (

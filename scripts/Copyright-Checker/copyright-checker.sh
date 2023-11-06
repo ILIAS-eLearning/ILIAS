@@ -92,7 +92,7 @@ function get_supported_files_of_dir() {
     exit 1
   fi
 
-  find "${directory}" \( -name "*.php" -or -name "*.js" \) ! -path "*/node_modules/*" ! -path "*/libs/*"
+  find "${directory}" \( -name "*.php" -or -name "*.js" \) ! -path "*/node_modules/*" ! -path "*/vendor/*"
 }
 
 # DESC: returns 0 if the given path is located in the examples
@@ -108,7 +108,7 @@ function is_ui_example() {
   fi
 
   file="$(realpath ${file})"
-  if [[ "${file}" == *"src/UI/examples"* ]]; then
+  if [[ "${file}" == *"components/ILIAS/UI/src/examples"* ]]; then
     return 0
   fi
 

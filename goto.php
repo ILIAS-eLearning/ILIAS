@@ -20,7 +20,7 @@
 
 use ILIAS\StaticURL\Services;
 
-require_once("libs/composer/vendor/autoload.php");
+require_once("vendor/composer/vendor/autoload.php");
 ilInitialisation::initILIAS();
 
 global $DIC;

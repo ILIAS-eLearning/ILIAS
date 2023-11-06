@@ -35,7 +35,7 @@ use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
 use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
 
-require_once("libs/composer/vendor/autoload.php");
+require_once("vendor/composer/vendor/autoload.php");
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -294,7 +294,7 @@ class ilInitialisation
              * @var FilesystemFactory $delegatingFactory
              */
             $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'libs');
+            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'vendor');
             return $delegatingFactory->getLocal($customizingConfiguration, true);
         };
 

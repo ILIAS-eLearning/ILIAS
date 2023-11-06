@@ -50,7 +50,7 @@ class ILIASSuite extends TestSuite
     public static function suite()
     {
         $suite = new ILIASSuite();
-        echo "ILIAS PHPUnit-Tests need installed dev-requirements, please install using 'composer install' in ./libs/composer \n";
+        echo "ILIAS PHPUnit-Tests need installed dev-requirements, please install using 'composer install' in ./vendor/composer \n";
         echo "\n";
 
         // scan Modules and Services directories
@@ -87,13 +87,13 @@ class ILIASSuite extends TestSuite
     }
 
     /**
-     * Find and add all testSuits beneath ILIAS_ROOL/tests - folder
+     * Find and add all testSuits beneath ILIAS_ROOL/test - folder
      */
     protected static function addTestFolderToSuite(ILIASSuite $suite): ILIASSuite
     {
         $test_directories = [];
         foreach (self::COMPONENTS as $component) {
-            $test_directories[] = "components/ILIAS/" . $component . "/tests";
+            $test_directories[] = "components/ILIAS/" . $component . "/test";
         }
 
         while ($aux_dir = current($test_directories)) {

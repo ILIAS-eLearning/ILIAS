@@ -4184,7 +4184,7 @@ common#:#gender_n#:#Keine Anrede
 common#:#general#:#Allgemein
 common#:#general_settings#:#Allgemeine Einstellungen
 common#:#generate#:#generieren
-common#:#ghostscript_not_configured#:#Ghostscript ist nicht konfiguriert. Bitte öffnen Sie das <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> um Ghostscript zu konfigurieren.
+common#:#ghostscript_not_configured#:#Ghostscript ist nicht konfiguriert. Bitte öffnen Sie das <a href="scripts/setup.php?cmd=mastersettings" target="_blank">Setup</a> um Ghostscript zu konfigurieren.
 common#:#glo#:#Glossar
 common#:#glo_add#:#Glossar anlegen
 common#:#glo_added#:#Glossar angelegt

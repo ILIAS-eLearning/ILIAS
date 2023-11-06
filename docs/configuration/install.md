@@ -460,12 +460,12 @@ Run the ILIAS command line setup from within your ILIAS folder with your configu
 file (located outside your doc-root!) as a parameter:
 
 ```
-php setup/setup.php install /foo/bar/my-configuration.json
+php scripts/setup.php install /foo/bar/my-configuration.json
 ```
 
 The installation will display what currently happens and might prompt you with
 questions. You might want to have a look into the [documentation of the command line setup](../../setup/README.md)
-or into the help of the program itself `php setup/setup.php help`. It is the tool
+or into the help of the program itself `php scripts/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 
 
@@ -694,22 +694,22 @@ available. Look into the section `database` of the output and check the fields
 fields is `true`, run in your ILIAS folder:
 
 ```
-php setup/setup.php update
+php scripts/setup.php update
 ```
 
 To check if there are migrations, run in your ILIAS folder:
 
 ```
-php setup/setup.php migrate
+php scripts/setup.php migrate
 ```
 
 The command will show you if there are migrations that need to be run for you
 installation. Run them by using the `--run` parameter and have a look into
-the help of the command for more details: `php setup/setup.php migrate --help`.
+the help of the command for more details: `php scripts/setup.php migrate --help`.
 
 Both commands will display what currently happens and might prompt you with
 questions. You might want to have a look into the [documentation of the command line setup](../../setup/README.md)
-or into the help of the program itself `php setup/setup.php help`. It is the tool
+or into the help of the program itself `php scripts/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 
 To check which update step gets currently executed run the following SQL-Statement

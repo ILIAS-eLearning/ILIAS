@@ -7,7 +7,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
-require_once 'libs/composer/vendor/autoload.php';
+require_once 'vendor/composer/vendor/autoload.php';
 
 /**
  * Class ilServicesRandomizationSuite

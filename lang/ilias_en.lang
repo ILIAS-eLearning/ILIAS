@@ -4178,7 +4178,7 @@ common#:#gender_n#:#Not stated
 common#:#general#:#General
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
-common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.
+common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="scripts/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.
 common#:#glo#:#Glossary
 common#:#glo_add#:#Add Glossary
 common#:#glo_added#:#Glossary added

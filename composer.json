@@ -5,7 +5,7 @@
 	"authors": [],
 	"config": {
 		"optimize-autoloader": true,
-		"vendor-dir": "./libs/composer/vendor",
+		"vendor-dir": "./vendor/composer/vendor",
 		"allow-plugins": {
 			"simplesamlphp/composer-module-installer": true,
 			"cweagans/composer-patches": true,
@@ -17,19 +17,19 @@
 			"@php setup/cli.php build-artifacts --yes"
 		],
 		"post-install-cmd": [
-			"@php libs/composer/rmdirs.php"
+			"@php vendor/composer/rmdirs.php"
 		],
 		"post-update-cmd": [
-			"@php libs/composer/rmdirs.php"
+			"@php vendor/composer/rmdirs.php"
 		],
 		"test-php-all": [
-			"./libs/composer/vendor/bin/phpunit -c ./components/ILIAS/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
+			"./vendor/composer/vendor/bin/phpunit -c ./components/ILIAS/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
 		],
 		"test-php": [
-			"./CI/PHPUnit/run_tests.sh"
+			"./scripts/PHPUnit/run_tests.sh"
 		],
 		"rector": [
-			"./libs/composer/vendor/bin/rector process --config ./CI/Rector/basic_rector.php --no-diffs"
+			"./vendor/composer/vendor/bin/rector process --config ./scripts/Rector/basic_rector.php --no-diffs"
 		]
 	},
 	"require": {
@@ -87,14 +87,12 @@
 	},
 	"autoload": {
 		"psr-4" : {
-			"ILIAS\\Tests\\" : "./tests",
-			"ILIAS\\" : "./src",
-			"ILIAS\\CI\\" : "./CI"
+			"ILIAS\\CI\\" : "./scripts"
 		},
 		"classmap": [
 			"./Customizing/global/plugins",
 			"./components/ILIAS",
-			"./libs/ilias",
+			"./vendor/ilias",
 			"./components/ILIAS/soap",
 			"./setup/classes"
 		],
@@ -532,13 +530,13 @@
 		},
 		"patches": {
 			"phpmailer/phpmailer": {
-				"ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
+				"ILIAS PhpMailer Patches": "./vendor/composer/patches/phpmailer.patch"
 			},
 			"simplesamlphp/simplesamlphp": {
-				"ILIAS SimpleSAMLphp Patches": "./libs/composer/patches/simplesamlphp.patch"
+				"ILIAS SimpleSAMLphp Patches": "./vendor/composer/patches/simplesamlphp.patch"
 			},
 			"imsglobal/lti": {
-				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
+				"ILIAS LTI Patches": "./vendor/composer/patches/lti.patch"
 			}
 		}
 	}

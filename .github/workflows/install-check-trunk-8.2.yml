@@ -24,7 +24,7 @@ jobs:
 
       - name: Copy config file to location outside webroot
         run: |
-           cp CI/install-check/ilias-ci-config.json ../ilias-ci-config.json
+           cp scripts/install-check/ilias-ci-config.json ../ilias-ci-config.json
 
       - name: Start MySQL Service
         run: |
@@ -46,4 +46,4 @@ jobs:
 
       - name: Perform setup
         run: |
-           php setup/setup.php install -y ../ilias-ci-config.json
+           php scripts/setup.php install -y ../ilias-ci-config.json

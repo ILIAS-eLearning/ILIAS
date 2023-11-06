@@ -399,23 +399,23 @@ class LMHtmlExport
 
         // check, why these do not come with the gs meta collector
         $scripts[] = [
-            "source" => "src/UI/templates/js/MainControls/dist/mainbar.js",
+            "source" => "components/ILIAS/UI/src/templates/js/MainControls/dist/mainbar.js",
             "type" => "js"
         ];
         $scripts[] = [
-            "source" => "src/UI/templates/js/MainControls/metabar.js",
+            "source" => "components/ILIAS/UI/src/templates/js/MainControls/metabar.js",
             "type" => "js"
         ];
         $scripts[] = [
-            "source" => "src/UI/templates/js/MainControls/slate.js",
+            "source" => "components/ILIAS/UI/src/templates/js/MainControls/slate.js",
             "type" => "js"
         ];
         $scripts[] = [
-            "source" => "src/UI/templates/js/Page/stdpage.js",
+            "source" => "components/ILIAS/UI/src/templates/js/Page/stdpage.js",
             "type" => "js"
         ];
         $scripts[] = [
-            "source" => "src/GlobalScreen/Client/dist/GS.js",
+            "source" => "components/ILIAS/GlobalScreen/src/Client/dist/GS.js",
             "type" => "js"
         ];
 

@@ -4009,7 +4009,7 @@ common#:#gender_m#:#Femër
 common#:#gender_n#:#No salutation desired###31 08 2017 new variable
 common#:#general_settings#:#Konfigurimet gjenerale
 common#:#generate#:#Gjenero
-common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.###24 10 2013 new variable
+common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="scripts/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.###24 10 2013 new variable
 common#:#glo#:#Fjalorthi
 common#:#glo_add#:#Shto Fjalorth
 common#:#glo_added#:#Fjalorthi u shtua

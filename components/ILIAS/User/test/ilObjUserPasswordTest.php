@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use org\bovigo\vfs;
 
-require_once 'libs/composer/vendor/autoload.php';
+require_once 'vendor/composer/vendor/autoload.php';
 require_once 'components/ILIAS/User/classes/class.ilUserPasswordManager.php';
 require_once 'components/ILIAS/User/classes/class.ilUserPasswordEncoderFactory.php';
 require_once 'components/ILIAS/Password/classes/class.ilBasePasswordEncoder.php';

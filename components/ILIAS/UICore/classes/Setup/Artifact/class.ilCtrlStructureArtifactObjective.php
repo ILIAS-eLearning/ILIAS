@@ -35,7 +35,7 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
     public function build(): Artifact
     {
         $ilias_path = dirname(__FILE__, 7);
-        $class_map = require $ilias_path . "/libs/composer/vendor/composer/autoload_classmap.php";
+        $class_map = require $ilias_path . "/vendor/composer/vendor/composer/autoload_classmap.php";
 
         return new ArrayArtifact(
             (new ilCtrlStructureReader(

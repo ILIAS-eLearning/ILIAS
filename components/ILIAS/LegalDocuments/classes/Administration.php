@@ -402,7 +402,7 @@ class Administration
 
     public function exitWithJsonResponse($value): void
     {
-        // ... The content type cannot be set to application/json, because the src/UI/templates/js/Input/Field/file.js:392
+        // ... The content type cannot be set to application/json, because the components/ILIAS/UI/src/templates/js/Input/Field/file.js:392
         //     does not expect that the content type is correct and parses it again ...
         $this->container->http()->saveResponse($this->container->http()->response()/* ->withHeader('Content-Type', 'application/json') */->withBody(
             Streams::ofString(json_encode($value))

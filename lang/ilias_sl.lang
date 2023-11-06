@@ -3725,7 +3725,7 @@ common#:#day#:#Dan
 common#:#days#:#Dnevi
 common#:#db_host#:#Gostitelj baze podatkov
 common#:#db_name#:#Ime baze podatkov
-common#:#db_need_hotfix#:#Popravek hotfix je na voljo. Odprite <a href="./setup/setup.php">»Setup</a>!
+common#:#db_need_hotfix#:#Popravek hotfix je na voljo. Odprite <a href="./scripts/setup.php">»Setup</a>!
 common#:#db_need_update#:#Bazo podatkov je treba posodobiti!
 common#:#db_pass#:#Geslo za bazo podatkov
 common#:#db_type#:#Tip baze podatkov
@@ -4042,7 +4042,7 @@ common#:#gender_m#:#Gospod
 common#:#gender_n#:#Naslavljanje ni zaželeno
 common#:#general_settings#:#Splošne nastavitve
 common#:#generate#:#Ustvari
-common#:#ghostscript_not_configured#:#Ghostscript ni konfiguriran. Odprite <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> za konfiguracijo Ghostscript.
+common#:#ghostscript_not_configured#:#Ghostscript ni konfiguriran. Odprite <a href="scripts/setup.php?cmd=mastersettings" target="_blank">Setup</a> za konfiguracijo Ghostscript.
 common#:#glo#:#Glosar
 common#:#glo_add#:#Ustvari glosar
 common#:#glo_added#:#Glosar je ustvarjen

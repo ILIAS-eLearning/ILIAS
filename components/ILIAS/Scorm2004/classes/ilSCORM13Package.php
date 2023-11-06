@@ -28,7 +28,7 @@ class ilSCORM13Package
     public const DB_ENCODE_XSL = './components/ILIAS/Scorm2004/templates/xsl/op/op-scorm13.xsl';
     public const CONVERT_XSL = './components/ILIAS/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
     public const DB_DECODE_XSL = './components/ILIAS/Scorm2004/templates/xsl/op/op-scorm13-revert.xsl';
-    public const VALIDATE_XSD = './libs/ilias/Scorm2004/xsd/op/op-scorm13.xsd';
+    public const VALIDATE_XSD = './vendor/ilias/Scorm2004/xsd/op/op-scorm13.xsd';
 
     public const WRAPPER_HTML = './components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
     public const WRAPPER_JS = './components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';

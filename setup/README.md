@@ -26,10 +26,10 @@ options of the available commands.
 
 ## Install ILIAS
 
-To install ILIAS with all plugins from the command line, call `php setup/setup.php install config.json`
+To install ILIAS with all plugins from the command line, call `php scripts/setup.php install config.json`
 from within the ILIAS folder you checked out from GitHub (or downloaded from elsewhere).
 `config.json` can be the path to some [configuration file](#about-the-config-file)
-which does not need to reside in the ILIAS folder. Also, `setup/setup.php` could be
+which does not need to reside in the ILIAS folder. Also, `scripts/setup.php` could be
 the path to the `setup.php` when the command is called from somewhere else.
 
 You most probably want to execute the setup with the user that also executes your
@@ -59,24 +59,24 @@ configs without secrets.
 
 The setup will also install plugins of the installation, unless the plugin explicitely
 defines that it cannot be installed via CLI setup. If you still want to skip a plugin
-for installation, use the skip-option: `php setup/setup.php install --skip <plugin name> config.json`.
+for installation, use the skip-option: `php scripts/setup.php install --skip <plugin name> config.json`.
 The option can be repeated to cover multiple plugins. If you want to skip plugins
 alltogether, use the `--no-plugins` option. If you only want to install a specific
-plugin, use `php setup/setup.php install config.json <plugin name>`.
+plugin, use `php scripts/setup.php install config.json <plugin name>`.
 
 The install command also offers the option to import a zip file during setup. The 
 zip file must have been previously exported from another instance via export
 (see [a name objective](#achieve-method)). 
-The command `php setup/setup.php install --import-file <path_to_zip_file> config.json`
+The command `php scripts/setup.php install --import-file <path_to_zip_file> config.json`
 will install the data from the export to this instance.
 
 ## Update ILIAS
 
-To update ILIAS from the command line, call `php setup/setup.php update`
+To update ILIAS from the command line, call `php scripts/setup.php update`
 from within your ILIAS folder. This will update ILIAS as well as update the
 database of the installation or do other necessary task for the update.
 This does not update the source code.
-If there are changes in your config.json file call `php setup/setup.php update config.json`
+If there are changes in your config.json file call `php scripts/setup.php update config.json`
 from within your ILIAS folder.  This will also update the configuration of ILIAS according
 to the provided configuration.
 
@@ -91,7 +91,7 @@ to silence the messages.
 
 ## Report Status of ILIAS
 
-Via `php setup/setup.php status` you can get a status of your ILIAS installation.
+Via `php scripts/setup.php status` you can get a status of your ILIAS installation.
 The command uses a best effort approach, so according to the status of your
 system the output might contain more or less fields. When calling this for a
 system where ILIAS was not installed, for example, the output only contains the
@@ -109,7 +109,7 @@ via options.
 ## Build ILIAS Artifacts
 
 Artifacts are source code files that are created based on the ILIAS source tree.
-You can refresh them by calling `php setup/setup.php build-artifacts` from your
+You can refresh them by calling `php scripts/setup.php build-artifacts` from your
 installation. Make sure you run the command with the webserver user or adjust
 filesystem permissions later on, because the webserver will need to access the
 generated files. Please do not invoke this function unless it is explicitly stated
@@ -125,14 +125,14 @@ Some components of ILIAS will publish named objectives to the setup via their
 agent. The most notorious example for this is the component `UICore` which provides
 the objective `buildIlCtrlArtifacts` that will generate routing information for the
 GUI. To achieve a single objective from an agent, e.g. for control structure reload,
-run `php setup/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g. 
-`php setup/setup.php achieve uicore.buildIlCtrlArtifacts` to generate the necessary
+run `php scripts/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g. 
+`php scripts/setup.php achieve uicore.buildIlCtrlArtifacts` to generate the necessary
 artifacts for the control structure. The agent might need to a config file to work,
 which may be added as last parameter: 
-`php setup/setup.php achieve uicore.buildIlCtrlArtifacts config.json`
+`php scripts/setup.php achieve uicore.buildIlCtrlArtifacts config.json`
 
 There is also a named objective for **export**. The command 
-`php setup/setup.php achieve common.buildExportZip config.json` creates a zip file 'ILIAS_EXPORT.zip' at the
+`php scripts/setup.php achieve common.buildExportZip config.json` creates a zip file 'ILIAS_EXPORT.zip' at the
 location of the call. The export also changes the name of the client directory to
 'default' so that the import can work with the files. The objective
 'ilFileSystemClientDirectoryRenamedObjective.php' takes care of the renaming.  
@@ -150,7 +150,7 @@ The path to the file can either be set permanently in config.json under the name
 ```
 Or you can specify it once when calling up the export command.
 ```bash
-php setup/setup.php achieve common.buildExportZip --config="common.export_hooks_path=/var/ilias/export.php" config.json -y
+php scripts/setup.php achieve common.buildExportZip --config="common.export_hooks_path=/var/ilias/export.php" config.json -y
 ```
 This [mysqldump](https://github.com/ifsnop/mysqldump-php#changing-values-when-exporting) hooks can be used in the export hooks file.
 An example file could look like this (the variable $dumper is indirectly available).
@@ -170,8 +170,8 @@ $dumper->setTransformTableRowHook(function ($tableName, array $row) {
 The zip file can then be imported using the install command.
 
 ## List available objectives
-Calling `php setup/setup.php achieve` without any arguments and options  
-or calling `php setup/setup.php achieve --list` will list all available objectives.
+Calling `php scripts/setup.php achieve` without any arguments and options  
+or calling `php scripts/setup.php achieve --list` will list all available objectives.
 
 
 # Migrations
@@ -184,7 +184,7 @@ For more information, see [https://docu.ilias.de/goto_docu_wiki_wpage_6399_1357.
 
 The command lists available migrations:
 
-`php setup/setup.php migrate`
+`php scripts/setup.php migrate`
 
 
 ```
@@ -195,7 +195,7 @@ ilFileObjectMigrationAgent.ilFileObjectToStorageMigration: Migration of File-Obj
 
 Individual migrations can then be started as follows, e.g.:
 
-`php setup/setup.php migrate --run ilFileObjectMigrationAgent.ilFileObjectToStorageMigration`
+`php scripts/setup.php migrate --run ilFileObjectMigrationAgent.ilFileObjectToStorageMigration`
 
 A migration must be confirmed in each case, e.g.:
 

@@ -53,7 +53,7 @@ class ilPluginDBUpdate extends ilDBUpdate
         $this->readDBUpdateFile();
         $this->readFileVersion();
 
-        $class_map = require ILIAS_ABSOLUTE_PATH . '/libs/composer/vendor/composer/autoload_classmap.php';
+        $class_map = require ILIAS_ABSOLUTE_PATH . '/vendor/composer/vendor/composer/autoload_classmap.php';
         $this->ctrl_structure_iterator = new ilCtrlArrayIterator($class_map);
     }
 

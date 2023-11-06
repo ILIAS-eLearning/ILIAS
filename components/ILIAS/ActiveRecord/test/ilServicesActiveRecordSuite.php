@@ -21,7 +21,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestSuite;
 
 /** @noRector */
-require_once 'libs/composer/vendor/autoload.php';
+require_once 'vendor/composer/vendor/autoload.php';
 
 class ilServicesActiveRecordSuite extends TestSuite
 {

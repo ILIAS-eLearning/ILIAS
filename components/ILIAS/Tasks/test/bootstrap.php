@@ -18,6 +18,6 @@
 /**
  * @author  <killing@leifos.de>
  */
-require_once 'libs/composer/vendor/autoload.php';
+require_once 'vendor/composer/vendor/autoload.php';
 
 require_once __DIR__ . '/class.ilTasksTestBase.php';

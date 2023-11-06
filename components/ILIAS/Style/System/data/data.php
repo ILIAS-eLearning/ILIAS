@@ -97,7 +97,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Factory',
+    'path' => 'components/ILIAS/UI/src/Factory',
     'namespace' => '\\ILIAS\\UI\\Factory',
   ),
   'CounterFactoryCounter' => 
@@ -163,7 +163,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Counter/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Counter/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Counter\\Factory',
   ),
   'ImageFactoryImage' => 
@@ -229,7 +229,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Image/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Image/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Image\\Factory',
   ),
   'PlayerFactoryPlayer' => 
@@ -296,7 +296,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Player/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Player/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Player\\Factory',
   ),
   'DividerFactoryDivider' => 
@@ -360,7 +360,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Divider/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Divider/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Divider\\Factory',
   ),
   'LinkFactoryLink' => 
@@ -433,7 +433,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Link/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Link/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Link\\Factory',
   ),
   'ButtonFactoryButton' => 
@@ -521,7 +521,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Factory',
   ),
   'DropdownFactoryDropdown' => 
@@ -602,7 +602,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Dropdown/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Dropdown/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Dropdown\\Factory',
   ),
   'BreadcrumbsBreadcrumbsBreadcrumbs' => 
@@ -669,7 +669,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Breadcrumbs/Breadcrumbs',
+    'path' => 'components/ILIAS/UI/src/Component/Breadcrumbs/Breadcrumbs',
     'namespace' => '\\ILIAS\\UI\\Component\\Breadcrumbs\\Breadcrumbs',
   ),
   'ViewControlFactoryViewControl' => 
@@ -708,7 +708,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/ViewControl/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/ViewControl/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\ViewControl\\Factory',
   ),
   'ChartFactoryChart' => 
@@ -775,7 +775,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Chart/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Chart/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Chart\\Factory',
   ),
   'InputFactoryInput' => 
@@ -813,7 +813,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Factory',
   ),
   'CardFactoryCard' => 
@@ -884,7 +884,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Card/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Card/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Card\\Factory',
   ),
   'DeckDeckDeck' => 
@@ -948,7 +948,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Deck/Deck',
+    'path' => 'components/ILIAS/UI/src/Component/Deck/Deck',
     'namespace' => '\\ILIAS\\UI\\Component\\Deck\\Deck',
   ),
   'ListingFactoryListing' => 
@@ -1017,7 +1017,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Factory',
   ),
   'PanelFactoryPanel' => 
@@ -1084,7 +1084,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Panel/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Panel/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Panel\\Factory',
   ),
   'ItemFactoryItem' => 
@@ -1154,7 +1154,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Item/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Item/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Item\\Factory',
   ),
   'ModalFactoryModal' => 
@@ -1229,7 +1229,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\Factory',
   ),
   'PopoverFactoryPopover' => 
@@ -1303,7 +1303,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Popover/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Popover/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Popover\\Factory',
   ),
   'DropzoneFactoryDropzone' => 
@@ -1366,7 +1366,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Dropzone/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Dropzone/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Dropzone\\Factory',
   ),
   'LegacyLegacyLegacy' => 
@@ -1428,7 +1428,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Legacy/Legacy',
+    'path' => 'components/ILIAS/UI/src/Component/Legacy/Legacy',
     'namespace' => '\\ILIAS\\UI\\Component\\Legacy\\Legacy',
   ),
   'TableFactoryTable' => 
@@ -1467,7 +1467,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Factory',
   ),
   'MessageBoxFactoryMessageBox' => 
@@ -1535,7 +1535,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MessageBox/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/MessageBox/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\MessageBox\\Factory',
   ),
   'LayoutFactoryLayout' => 
@@ -1572,7 +1572,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Layout/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Layout/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Layout\\Factory',
   ),
   'MainControlsFactoryMainControls' => 
@@ -1641,7 +1641,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\Factory',
   ),
   'TreeFactoryTree' => 
@@ -1713,7 +1713,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Tree/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Tree/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Tree\\Factory',
   ),
   'MenuFactoryMenu' => 
@@ -1750,7 +1750,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Menu/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Menu/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Menu\\Factory',
   ),
   'SymbolFactorySymbol' => 
@@ -1816,7 +1816,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Factory',
   ),
   'ToastFactoryToast' => 
@@ -1890,7 +1890,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Toast/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Toast/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Toast\\Factory',
   ),
   'LauncherFactoryLauncher' => 
@@ -1962,7 +1962,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Launcher/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Launcher/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Launcher\\Factory',
   ),
   'HelpTopicHelpTopics' => 
@@ -1997,7 +1997,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Help/Topic',
+    'path' => 'components/ILIAS/UI/src/Help/Topic',
     'namespace' => '\\ILIAS\\UI\\Help\\Topic',
   ),
   'EntityFactoryEntity' => 
@@ -2063,7 +2063,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Entity/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Entity/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Entity\\Factory',
   ),
   'CounterCounterStatus' => 
@@ -2127,7 +2127,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Counter/Counter',
+    'path' => 'components/ILIAS/UI/src/Component/Counter/Counter',
     'namespace' => '\\ILIAS\\UI\\Component\\Counter\\Counter',
   ),
   'CounterCounterNovelty' => 
@@ -2196,7 +2196,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Counter/Counter',
+    'path' => 'components/ILIAS/UI/src/Component/Counter/Counter',
     'namespace' => '\\ILIAS\\UI\\Component\\Counter\\Counter',
   ),
   'ImageImageStandard' => 
@@ -2231,7 +2231,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Image/Image',
+    'path' => 'components/ILIAS/UI/src/Component/Image/Image',
     'namespace' => '\\ILIAS\\UI\\Component\\Image\\Image',
   ),
   'ImageImageResponsive' => 
@@ -2266,7 +2266,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Image/Image',
+    'path' => 'components/ILIAS/UI/src/Component/Image/Image',
     'namespace' => '\\ILIAS\\UI\\Component\\Image\\Image',
   ),
   'PlayerAudioAudio' => 
@@ -2329,7 +2329,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Player/Audio',
+    'path' => 'components/ILIAS/UI/src/Component/Player/Audio',
     'namespace' => '\\ILIAS\\UI\\Component\\Player\\Audio',
   ),
   'PlayerVideoVideo' => 
@@ -2394,7 +2394,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Player/Video',
+    'path' => 'components/ILIAS/UI/src/Component/Player/Video',
     'namespace' => '\\ILIAS\\UI\\Component\\Player\\Video',
   ),
   'DividerHorizontalHorizontal' => 
@@ -2458,7 +2458,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Divider/Horizontal',
+    'path' => 'components/ILIAS/UI/src/Component/Divider/Horizontal',
     'namespace' => '\\ILIAS\\UI\\Component\\Divider\\Horizontal',
   ),
   'DividerVerticalVertical' => 
@@ -2521,7 +2521,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Divider/Vertical',
+    'path' => 'components/ILIAS/UI/src/Component/Divider/Vertical',
     'namespace' => '\\ILIAS\\UI\\Component\\Divider\\Vertical',
   ),
   'LinkStandardStandard' => 
@@ -2584,7 +2584,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Link/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Link/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Link\\Standard',
   ),
   'LinkBulkyBulky' => 
@@ -2653,7 +2653,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Link/Bulky',
+    'path' => 'components/ILIAS/UI/src/Component/Link/Bulky',
     'namespace' => '\\ILIAS\\UI\\Component\\Link\\Bulky',
   ),
   'ButtonStandardStandard' => 
@@ -2721,7 +2721,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Standard',
   ),
   'ButtonPrimaryPrimary' => 
@@ -2789,7 +2789,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Primary',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Primary',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Primary',
   ),
   'ButtonCloseClose' => 
@@ -2852,7 +2852,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Close',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Close',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Close',
   ),
   'ButtonMinimizeMinimize' => 
@@ -2916,7 +2916,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Minimize',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Minimize',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Minimize',
   ),
   'ButtonShyShy' => 
@@ -2978,7 +2978,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Shy',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Shy',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Shy',
   ),
   'ButtonMonthMonth' => 
@@ -3041,7 +3041,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Month',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Month',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Month',
   ),
   'ButtonTagTag' => 
@@ -3105,7 +3105,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Tag',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Tag',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Tag',
   ),
   'ButtonBulkyBulky' => 
@@ -3176,7 +3176,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Bulky',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Bulky',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Bulky',
   ),
   'ButtonToggleToggle' => 
@@ -3245,7 +3245,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Button/Toggle',
+    'path' => 'components/ILIAS/UI/src/Component/Button/Toggle',
     'namespace' => '\\ILIAS\\UI\\Component\\Button\\Toggle',
   ),
   'DropdownStandardStandard' => 
@@ -3307,7 +3307,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Dropdown/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Dropdown/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Dropdown\\Standard',
   ),
   'ViewControlModeMode' => 
@@ -3372,7 +3372,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/ViewControl/Mode',
+    'path' => 'components/ILIAS/UI/src/Component/ViewControl/Mode',
     'namespace' => '\\ILIAS\\UI\\Component\\ViewControl\\Mode',
   ),
   'ViewControlSectionSection' => 
@@ -3407,7 +3407,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/ViewControl/Section',
+    'path' => 'components/ILIAS/UI/src/Component/ViewControl/Section',
     'namespace' => '\\ILIAS\\UI\\Component\\ViewControl\\Section',
   ),
   'ViewControlSortationSortation' => 
@@ -3472,7 +3472,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/ViewControl/Sortation',
+    'path' => 'components/ILIAS/UI/src/Component/ViewControl/Sortation',
     'namespace' => '\\ILIAS\\UI\\Component\\ViewControl\\Sortation',
   ),
   'ViewControlPaginationPagination' => 
@@ -3539,7 +3539,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/ViewControl/Pagination',
+    'path' => 'components/ILIAS/UI/src/Component/ViewControl/Pagination',
     'namespace' => '\\ILIAS\\UI\\Component\\ViewControl\\Pagination',
   ),
   'ChartScaleBarScaleBar' => 
@@ -3603,7 +3603,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Chart/ScaleBar',
+    'path' => 'components/ILIAS/UI/src/Component/Chart/ScaleBar',
     'namespace' => '\\ILIAS\\UI\\Component\\Chart\\ScaleBar',
   ),
   'ChartProgressMeterFactoryProgressMeter' => 
@@ -3671,7 +3671,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Chart/ProgressMeter/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Chart/ProgressMeter/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Factory',
   ),
   'ChartBarFactoryBar' => 
@@ -3739,7 +3739,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Chart/Bar/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Chart/Bar/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Chart\\Bar\\Factory',
   ),
   'ChartProgressMeterStandardStandard' => 
@@ -3803,7 +3803,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Chart/ProgressMeter/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Chart/ProgressMeter/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Standard',
   ),
   'ChartProgressMeterFixedSizeFixedSize' => 
@@ -3865,7 +3865,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Chart/ProgressMeter/FixedSize',
+    'path' => 'components/ILIAS/UI/src/Component/Chart/ProgressMeter/FixedSize',
     'namespace' => '\\ILIAS\\UI\\Component\\Chart\\ProgressMeter\\FixedSize',
   ),
   'ChartProgressMeterMiniMini' => 
@@ -3927,7 +3927,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Chart/ProgressMeter/Mini',
+    'path' => 'components/ILIAS/UI/src/Component/Chart/ProgressMeter/Mini',
     'namespace' => '\\ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Mini',
   ),
   'ChartBarVerticalVertical' => 
@@ -3963,7 +3963,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Chart/Bar/Vertical',
+    'path' => 'components/ILIAS/UI/src/Component/Chart/Bar/Vertical',
     'namespace' => '\\ILIAS\\UI\\Component\\Chart\\Bar\\Vertical',
   ),
   'ChartBarHorizontalHorizontal' => 
@@ -3999,7 +3999,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Chart/Bar/Horizontal',
+    'path' => 'components/ILIAS/UI/src/Component/Chart/Bar/Horizontal',
     'namespace' => '\\ILIAS\\UI\\Component\\Chart\\Bar\\Horizontal',
   ),
   'InputFieldFactoryField' => 
@@ -4099,7 +4099,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Factory',
   ),
   'InputContainerFactoryContainer' => 
@@ -4139,7 +4139,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Container/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Container/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Container\\Factory',
   ),
   'InputViewControlFactoryViewControl' => 
@@ -4208,7 +4208,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/ViewControl/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Input/ViewControl/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\ViewControl\\Factory',
   ),
   'InputFieldTextText' => 
@@ -4275,7 +4275,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Text',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Text',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Text',
   ),
   'InputFieldNumericNumeric' => 
@@ -4339,7 +4339,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Numeric',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Numeric',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Numeric',
   ),
   'InputFieldGroupGroup' => 
@@ -4401,7 +4401,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Group',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Group',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Group',
   ),
   'InputFieldOptionalGroupOptionalGroup' => 
@@ -4463,7 +4463,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/OptionalGroup',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/OptionalGroup',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\OptionalGroup',
   ),
   'InputFieldSwitchableGroupSwitchableGroup' => 
@@ -4525,7 +4525,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/SwitchableGroup',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/SwitchableGroup',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\SwitchableGroup',
   ),
   'InputFieldSectionSection' => 
@@ -4594,7 +4594,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Section',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Section',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Section',
   ),
   'InputFieldCheckboxCheckbox' => 
@@ -4657,7 +4657,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Checkbox',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Checkbox',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Checkbox',
   ),
   'InputFieldTagTag' => 
@@ -4724,7 +4724,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Tag',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Tag',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Tag',
   ),
   'InputFieldPasswordPassword' => 
@@ -4792,7 +4792,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Password',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Password',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Password',
   ),
   'InputFieldSelectSelect' => 
@@ -4858,7 +4858,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Select',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Select',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Select',
   ),
   'InputFieldTextareaTextarea' => 
@@ -4928,7 +4928,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Textarea',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Textarea',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Textarea',
   ),
   'InputFieldRadioRadio' => 
@@ -4997,7 +4997,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Radio',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Radio',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Radio',
   ),
   'InputFieldMultiSelectMultiSelect' => 
@@ -5066,7 +5066,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/MultiSelect',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/MultiSelect',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\MultiSelect',
   ),
   'InputFieldDateTimeDateTime' => 
@@ -5130,7 +5130,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/DateTime',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/DateTime',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\DateTime',
   ),
   'InputFieldDurationDuration' => 
@@ -5193,7 +5193,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Duration',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Duration',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Duration',
   ),
   'InputFieldFileFile' => 
@@ -5256,7 +5256,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/File',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/File',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\File',
   ),
   'InputFieldUrlUrl' => 
@@ -5321,7 +5321,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Url',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Url',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Url',
   ),
   'InputFieldLinkLink' => 
@@ -5385,7 +5385,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Link',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Link',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Link',
   ),
   'InputFieldHiddenHidden' => 
@@ -5448,7 +5448,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Hidden',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Hidden',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Hidden',
   ),
   'InputFieldColorPickerColorPicker' => 
@@ -5511,7 +5511,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/ColorPicker',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/ColorPicker',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\ColorPicker',
   ),
   'InputFieldMarkdownMarkdown' => 
@@ -5582,7 +5582,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Field/Markdown',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Field/Markdown',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Field\\Markdown',
   ),
   'InputContainerFormFactoryForm' => 
@@ -5619,7 +5619,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Container/Form/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Container/Form/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Container\\Form\\Factory',
   ),
   'InputContainerFilterFactoryFilter' => 
@@ -5708,7 +5708,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Container/Filter/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Container/Filter/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Container\\Filter\\Factory',
   ),
   'InputContainerViewControlFactoryViewControl' => 
@@ -5774,7 +5774,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Container/ViewControl/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Container/ViewControl/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Container\\ViewControl\\Factory',
   ),
   'InputContainerFormStandardStandard' => 
@@ -5842,7 +5842,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Container/Form/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Container/Form/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Container\\Form\\Standard',
   ),
   'InputContainerFilterStandardStandard' => 
@@ -5904,7 +5904,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Container/Filter/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Container/Filter/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Container\\Filter\\Standard',
   ),
   'InputContainerViewControlStandardStandard' => 
@@ -5966,7 +5966,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/Container/ViewControl/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Input/Container/ViewControl/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\Container\\ViewControl\\Standard',
   ),
   'InputViewControlFieldSelectionFieldSelection' => 
@@ -6001,7 +6001,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/ViewControl/FieldSelection',
+    'path' => 'components/ILIAS/UI/src/Component/Input/ViewControl/FieldSelection',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\ViewControl\\FieldSelection',
   ),
   'InputViewControlSortationSortation' => 
@@ -6036,7 +6036,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/ViewControl/Sortation',
+    'path' => 'components/ILIAS/UI/src/Component/Input/ViewControl/Sortation',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\ViewControl\\Sortation',
   ),
   'InputViewControlPaginationPagination' => 
@@ -6071,7 +6071,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/ViewControl/Pagination',
+    'path' => 'components/ILIAS/UI/src/Component/Input/ViewControl/Pagination',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\ViewControl\\Pagination',
   ),
   'InputViewControlGroupGroup' => 
@@ -6106,7 +6106,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Input/ViewControl/Group',
+    'path' => 'components/ILIAS/UI/src/Component/Input/ViewControl/Group',
     'namespace' => '\\ILIAS\\UI\\Component\\Input\\ViewControl\\Group',
   ),
   'CardStandardStandard' => 
@@ -6169,7 +6169,7 @@
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Card/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Card/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Card\\Standard',
   ),
   'CardRepositoryObjectRepositoryObject' => 
@@ -6241,7 +6241,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Card/RepositoryObject',
+    'path' => 'components/ILIAS/UI/src/Component/Card/RepositoryObject',
     'namespace' => '\\ILIAS\\UI\\Component\\Card\\RepositoryObject',
   ),
   'ListingUnorderedUnordered' => 
@@ -6276,7 +6276,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Unordered',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Unordered',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Unordered',
   ),
   'ListingOrderedOrdered' => 
@@ -6311,7 +6311,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Ordered',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Ordered',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Ordered',
   ),
   'ListingDescriptiveDescriptive' => 
@@ -6347,7 +6347,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Descriptive',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Descriptive',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Descriptive',
   ),
   'ListingWorkflowFactoryWorkflow' => 
@@ -6385,7 +6385,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Workflow/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Workflow/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Workflow\\Factory',
   ),
   'ListingCharacteristicValueFactoryCharacteristicValue' => 
@@ -6422,7 +6422,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/CharacteristicValue/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/CharacteristicValue/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\CharacteristicValue\\Factory',
   ),
   'ListingEntityFactoryEntity' => 
@@ -6460,7 +6460,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Entity/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Entity/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Entity\\Factory',
   ),
   'ListingPropertyProperty' => 
@@ -6498,7 +6498,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Property',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Property',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Property',
   ),
   'ListingWorkflowStepStep' => 
@@ -6534,7 +6534,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Workflow/Step',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Workflow/Step',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Workflow\\Step',
   ),
   'ListingWorkflowLinearLinear' => 
@@ -6598,7 +6598,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Workflow/Linear',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Workflow/Linear',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Workflow\\Linear',
   ),
   'ListingCharacteristicValueTextText' => 
@@ -6633,7 +6633,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/CharacteristicValue/Text',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/CharacteristicValue/Text',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\CharacteristicValue\\Text',
   ),
   'ListingEntityStandardStandard' => 
@@ -6668,7 +6668,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Listing/Entity/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Listing/Entity/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Listing\\Entity\\Standard',
   ),
   'PanelStandardStandard' => 
@@ -6735,7 +6735,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Panel/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Panel/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Panel\\Standard',
   ),
   'PanelSubSub' => 
@@ -6801,7 +6801,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Panel/Sub',
+    'path' => 'components/ILIAS/UI/src/Component/Panel/Sub',
     'namespace' => '\\ILIAS\\UI\\Component\\Panel\\Sub',
   ),
   'PanelReportReport' => 
@@ -6867,7 +6867,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Panel/Report',
+    'path' => 'components/ILIAS/UI/src/Component/Panel/Report',
     'namespace' => '\\ILIAS\\UI\\Component\\Panel\\Report',
   ),
   'PanelListingFactoryListing' => 
@@ -6932,7 +6932,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Panel/Listing/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Panel/Listing/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Panel\\Listing\\Factory',
   ),
   'PanelSecondaryFactorySecondary' => 
@@ -7001,7 +7001,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Panel/Secondary/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Panel/Secondary/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Panel\\Secondary\\Factory',
   ),
   'PanelListingStandardStandard' => 
@@ -7036,7 +7036,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Panel/Listing/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Panel/Listing/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Panel\\Listing\\Standard',
   ),
   'PanelSecondaryListingListing' => 
@@ -7071,7 +7071,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Panel/Secondary/Listing',
+    'path' => 'components/ILIAS/UI/src/Component/Panel/Secondary/Listing',
     'namespace' => '\\ILIAS\\UI\\Component\\Panel\\Secondary\\Listing',
   ),
   'PanelSecondaryLegacyLegacy' => 
@@ -7109,7 +7109,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Panel/Secondary/Legacy',
+    'path' => 'components/ILIAS/UI/src/Component/Panel/Secondary/Legacy',
     'namespace' => '\\ILIAS\\UI\\Component\\Panel\\Secondary\\Legacy',
   ),
   'ItemStandardStandard' => 
@@ -7171,7 +7171,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Item/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Item/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Item\\Standard',
   ),
   'ItemShyShy' => 
@@ -7234,7 +7234,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Item/Shy',
+    'path' => 'components/ILIAS/UI/src/Component/Item/Shy',
     'namespace' => '\\ILIAS\\UI\\Component\\Item\\Shy',
   ),
   'ItemGroupGroup' => 
@@ -7269,7 +7269,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Item/Group',
+    'path' => 'components/ILIAS/UI/src/Component/Item/Group',
     'namespace' => '\\ILIAS\\UI\\Component\\Item\\Group',
   ),
   'ItemNotificationNotification' => 
@@ -7336,7 +7336,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Item/Notification',
+    'path' => 'components/ILIAS/UI/src/Component/Item/Notification',
     'namespace' => '\\ILIAS\\UI\\Component\\Item\\Notification',
   ),
   'ModalInterruptiveInterruptive' => 
@@ -7401,7 +7401,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/Interruptive',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/Interruptive',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\Interruptive',
   ),
   'ModalInterruptiveItemFactoryInterruptiveItem' => 
@@ -7465,7 +7465,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/InterruptiveItem/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/InterruptiveItem/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\InterruptiveItem\\Factory',
   ),
   'ModalRoundTripRoundtrip' => 
@@ -7532,7 +7532,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/RoundTrip',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/RoundTrip',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\RoundTrip',
   ),
   'ModalLightboxLightbox' => 
@@ -7596,7 +7596,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/Lightbox',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/Lightbox',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\Lightbox',
   ),
   'ModalLightboxImagePageLightboxImagePage' => 
@@ -7659,7 +7659,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/LightboxImagePage',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/LightboxImagePage',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\LightboxImagePage',
   ),
   'ModalLightboxTextPageLightboxTextPage' => 
@@ -7722,7 +7722,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/LightboxTextPage',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/LightboxTextPage',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\LightboxTextPage',
   ),
   'ModalLightboxCardPageLightboxCardPage' => 
@@ -7785,7 +7785,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/LightboxCardPage',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/LightboxCardPage',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\LightboxCardPage',
   ),
   'ModalInterruptiveItemStandardStandard' => 
@@ -7850,7 +7850,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/InterruptiveItem/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/InterruptiveItem/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\InterruptiveItem\\Standard',
   ),
   'ModalInterruptiveItemKeyValueKeyValue' => 
@@ -7915,7 +7915,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Modal/InterruptiveItem/KeyValue',
+    'path' => 'components/ILIAS/UI/src/Component/Modal/InterruptiveItem/KeyValue',
     'namespace' => '\\ILIAS\\UI\\Component\\Modal\\InterruptiveItem\\KeyValue',
   ),
   'PopoverStandardStandard' => 
@@ -7980,7 +7980,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Popover/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Popover/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Popover\\Standard',
   ),
   'PopoverListingListing' => 
@@ -8043,7 +8043,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Popover/Listing',
+    'path' => 'components/ILIAS/UI/src/Component/Popover/Listing',
     'namespace' => '\\ILIAS\\UI\\Component\\Popover\\Listing',
   ),
   'DropzoneFileFactoryFile' => 
@@ -8107,7 +8107,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Dropzone/File/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Dropzone/File/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Dropzone\\File\\Factory',
   ),
   'DropzoneFileStandardStandard' => 
@@ -8171,7 +8171,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Dropzone/File/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Dropzone/File/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Dropzone\\File\\Standard',
   ),
   'DropzoneFileWrapperWrapper' => 
@@ -8237,7 +8237,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Dropzone/File/Wrapper',
+    'path' => 'components/ILIAS/UI/src/Component/Dropzone/File/Wrapper',
     'namespace' => '\\ILIAS\\UI\\Component\\Dropzone\\File\\Wrapper',
   ),
   'TablePresentationPresentation' => 
@@ -8304,7 +8304,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Presentation',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Presentation',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Presentation',
   ),
   'TableDataData' => 
@@ -8379,7 +8379,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Data',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Data',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Data',
   ),
   'TableColumnFactoryColumn' => 
@@ -8457,7 +8457,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\Factory',
   ),
   'TableActionFactoryAction' => 
@@ -8523,7 +8523,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Action/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Action/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Action\\Factory',
   ),
   'TableColumnTextText' => 
@@ -8558,7 +8558,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/Text',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/Text',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\Text',
   ),
   'TableColumnNumberNumber' => 
@@ -8593,7 +8593,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/Number',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/Number',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\Number',
   ),
   'TableColumnDateDate' => 
@@ -8628,7 +8628,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/Date',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/Date',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\Date',
   ),
   'TableColumnStatusStatus' => 
@@ -8663,7 +8663,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/Status',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/Status',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\Status',
   ),
   'TableColumnStatusIconStatusIcon' => 
@@ -8698,7 +8698,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/StatusIcon',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/StatusIcon',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\StatusIcon',
   ),
   'TableColumnBooleanBoolean' => 
@@ -8733,7 +8733,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/Boolean',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/Boolean',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\Boolean',
   ),
   'TableColumnEMailEMail' => 
@@ -8768,7 +8768,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/EMail',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/EMail',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\EMail',
   ),
   'TableColumnTimeSpanTimeSpan' => 
@@ -8803,7 +8803,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/TimeSpan',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/TimeSpan',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\TimeSpan',
   ),
   'TableColumnLinkLink' => 
@@ -8838,7 +8838,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/Link',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/Link',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\Link',
   ),
   'TableColumnLinkListingLinkListing' => 
@@ -8873,7 +8873,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Column/LinkListing',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Column/LinkListing',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Column\\LinkListing',
   ),
   'TableActionStandardStandard' => 
@@ -8908,7 +8908,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Action/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Action/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Action\\Standard',
   ),
   'TableActionSingleSingle' => 
@@ -8943,7 +8943,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Action/Single',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Action/Single',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Action\\Single',
   ),
   'TableActionMultiMulti' => 
@@ -8978,7 +8978,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Table/Action/Multi',
+    'path' => 'components/ILIAS/UI/src/Component/Table/Action/Multi',
     'namespace' => '\\ILIAS\\UI\\Component\\Table\\Action\\Multi',
   ),
   'MessageBoxMessageBoxFailure' => 
@@ -9042,7 +9042,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MessageBox/MessageBox',
+    'path' => 'components/ILIAS/UI/src/Component/MessageBox/MessageBox',
     'namespace' => '\\ILIAS\\UI\\Component\\MessageBox\\MessageBox',
   ),
   'MessageBoxMessageBoxSuccess' => 
@@ -9105,7 +9105,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MessageBox/MessageBox',
+    'path' => 'components/ILIAS/UI/src/Component/MessageBox/MessageBox',
     'namespace' => '\\ILIAS\\UI\\Component\\MessageBox\\MessageBox',
   ),
   'MessageBoxMessageBoxInfo' => 
@@ -9168,7 +9168,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MessageBox/MessageBox',
+    'path' => 'components/ILIAS/UI/src/Component/MessageBox/MessageBox',
     'namespace' => '\\ILIAS\\UI\\Component\\MessageBox\\MessageBox',
   ),
   'MessageBoxMessageBoxConfirmation' => 
@@ -9230,7 +9230,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MessageBox/MessageBox',
+    'path' => 'components/ILIAS/UI/src/Component/MessageBox/MessageBox',
     'namespace' => '\\ILIAS\\UI\\Component\\MessageBox\\MessageBox',
   ),
   'LayoutPageFactoryPage' => 
@@ -9266,7 +9266,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Layout/Page/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Layout/Page/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Layout\\Page\\Factory',
   ),
   'LayoutAlignmentFactoryAlignment' => 
@@ -9332,7 +9332,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Layout/Alignment/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Layout/Alignment/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Layout\\Alignment\\Factory',
   ),
   'LayoutPageStandardStandard' => 
@@ -9414,7 +9414,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Layout/Page/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Layout/Page/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Layout\\Page\\Standard',
   ),
   'LayoutAlignmentHorizontalFactoryHorizontal' => 
@@ -9453,7 +9453,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Layout/Alignment/Horizontal/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Layout/Alignment/Horizontal/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Layout\\Alignment\\Horizontal\\Factory',
   ),
   'LayoutAlignmentVerticalVertical' => 
@@ -9490,7 +9490,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Layout/Alignment/Vertical',
+    'path' => 'components/ILIAS/UI/src/Component/Layout/Alignment/Vertical',
     'namespace' => '\\ILIAS\\UI\\Component\\Layout\\Alignment\\Vertical',
   ),
   'LayoutAlignmentHorizontalEvenlyDistributedEvenlyDistributed' => 
@@ -9526,7 +9526,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Layout/Alignment/Horizontal/EvenlyDistributed',
+    'path' => 'components/ILIAS/UI/src/Component/Layout/Alignment/Horizontal/EvenlyDistributed',
     'namespace' => '\\ILIAS\\UI\\Component\\Layout\\Alignment\\Horizontal\\EvenlyDistributed',
   ),
   'LayoutAlignmentHorizontalDynamicallyDistributedDynamicallyDistributed' => 
@@ -9562,7 +9562,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Layout/Alignment/Horizontal/DynamicallyDistributed',
+    'path' => 'components/ILIAS/UI/src/Component/Layout/Alignment/Horizontal/DynamicallyDistributed',
     'namespace' => '\\ILIAS\\UI\\Component\\Layout\\Alignment\\Horizontal\\DynamicallyDistributed',
   ),
   'MainControlsMetaBarMetaBar' => 
@@ -9635,7 +9635,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/MetaBar',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/MetaBar',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\MetaBar',
   ),
   'MainControlsMainBarMainBar' => 
@@ -9720,7 +9720,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/MainBar',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/MainBar',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\MainBar',
   ),
   'MainControlsSlateFactorySlate' => 
@@ -9802,7 +9802,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/Slate/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/Slate/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\Slate\\Factory',
   ),
   'MainControlsFooterFooter' => 
@@ -9867,7 +9867,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/Footer',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/Footer',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\Footer',
   ),
   'MainControlsModeInfoModeInfo' => 
@@ -9933,7 +9933,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/ModeInfo',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/ModeInfo',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\ModeInfo',
   ),
   'MainControlsSystemInfoSystemInfo' => 
@@ -10014,7 +10014,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/SystemInfo',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/SystemInfo',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\SystemInfo',
   ),
   'MainControlsSlateLegacyLegacy' => 
@@ -10076,7 +10076,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/Slate/Legacy',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/Slate/Legacy',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\Slate\\Legacy',
   ),
   'MainControlsSlateCombinedCombined' => 
@@ -10112,7 +10112,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/Slate/Combined',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/Slate/Combined',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\Slate\\Combined',
   ),
   'MainControlsSlateNotificationNotification' => 
@@ -10181,7 +10181,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/Slate/Notification',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/Slate/Notification',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\Slate\\Notification',
   ),
   'MainControlsSlateDrilldownDrilldown' => 
@@ -10245,7 +10245,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/MainControls/Slate/Drilldown',
+    'path' => 'components/ILIAS/UI/src/Component/MainControls/Slate/Drilldown',
     'namespace' => '\\ILIAS\\UI\\Component\\MainControls\\Slate\\Drilldown',
   ),
   'TreeNodeFactoryNode' => 
@@ -10313,7 +10313,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Tree/Node/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Tree/Node/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Tree\\Node\\Factory',
   ),
   'TreeExpandableExpandable' => 
@@ -10382,7 +10382,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Tree/Expandable',
+    'path' => 'components/ILIAS/UI/src/Component/Tree/Expandable',
     'namespace' => '\\ILIAS\\UI\\Component\\Tree\\Expandable',
   ),
   'TreeNodeSimpleSimple' => 
@@ -10444,7 +10444,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Tree/Node/Simple',
+    'path' => 'components/ILIAS/UI/src/Component/Tree/Node/Simple',
     'namespace' => '\\ILIAS\\UI\\Component\\Tree\\Node\\Simple',
   ),
   'TreeNodeBylinedBylined' => 
@@ -10506,7 +10506,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Tree/Node/Bylined',
+    'path' => 'components/ILIAS/UI/src/Component/Tree/Node/Bylined',
     'namespace' => '\\ILIAS\\UI\\Component\\Tree\\Node\\Bylined',
   ),
   'TreeNodeKeyValueKeyValue' => 
@@ -10569,7 +10569,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Tree/Node/KeyValue',
+    'path' => 'components/ILIAS/UI/src/Component/Tree/Node/KeyValue',
     'namespace' => '\\ILIAS\\UI\\Component\\Tree\\Node\\KeyValue',
   ),
   'MenuDrilldownDrilldown' => 
@@ -10633,7 +10633,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Menu/Drilldown',
+    'path' => 'components/ILIAS/UI/src/Component/Menu/Drilldown',
     'namespace' => '\\ILIAS\\UI\\Component\\Menu\\Drilldown',
   ),
   'MenuSubSub' => 
@@ -10698,7 +10698,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Menu/Sub',
+    'path' => 'components/ILIAS/UI/src/Component/Menu/Sub',
     'namespace' => '\\ILIAS\\UI\\Component\\Menu\\Sub',
   ),
   'SymbolIconFactoryIcon' => 
@@ -10771,7 +10771,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Icon/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Icon/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Icon\\Factory',
   ),
   'SymbolGlyphFactoryGlyph' => 
@@ -10890,7 +10890,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Factory',
   ),
   'SymbolAvatarFactoryAvatar' => 
@@ -10966,7 +10966,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Avatar/Factory',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Avatar/Factory',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Avatar\\Factory',
   ),
   'SymbolIconStandardStandard' => 
@@ -11029,7 +11029,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Icon/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Icon/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Icon\\Standard',
   ),
   'SymbolIconCustomCustom' => 
@@ -11095,7 +11095,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Icon/Custom',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Icon/Custom',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Icon\\Custom',
   ),
   'SymbolGlyphGlyphSettings' => 
@@ -11159,7 +11159,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphCollapse' => 
@@ -11224,7 +11224,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphExpand' => 
@@ -11289,7 +11289,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphAdd' => 
@@ -11357,7 +11357,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphRemove' => 
@@ -11424,7 +11424,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphUp' => 
@@ -11491,7 +11491,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphDown' => 
@@ -11558,7 +11558,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphBack' => 
@@ -11624,7 +11624,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphNext' => 
@@ -11690,7 +11690,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphSortAscending' => 
@@ -11752,7 +11752,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphSortDescending' => 
@@ -11814,7 +11814,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphBriefcase' => 
@@ -11876,7 +11876,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphUser' => 
@@ -11938,7 +11938,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphMail' => 
@@ -12001,7 +12001,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphNotification' => 
@@ -12063,7 +12063,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphTag' => 
@@ -12126,7 +12126,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphNote' => 
@@ -12189,7 +12189,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphComment' => 
@@ -12252,7 +12252,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphLike' => 
@@ -12316,7 +12316,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphLove' => 
@@ -12380,7 +12380,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphDislike' => 
@@ -12444,7 +12444,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphLaugh' => 
@@ -12508,7 +12508,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphAstounded' => 
@@ -12572,7 +12572,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphSad' => 
@@ -12636,7 +12636,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphAngry' => 
@@ -12700,7 +12700,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphEyeclosed' => 
@@ -12764,7 +12764,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphEyeopen' => 
@@ -12828,7 +12828,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphAttachment' => 
@@ -12892,7 +12892,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphReset' => 
@@ -12958,7 +12958,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphApply' => 
@@ -13024,7 +13024,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphSearch' => 
@@ -13087,7 +13087,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphHelp' => 
@@ -13150,7 +13150,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphCalendar' => 
@@ -13213,7 +13213,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphTime' => 
@@ -13276,7 +13276,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphClose' => 
@@ -13338,7 +13338,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphMore' => 
@@ -13407,7 +13407,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphDisclosure' => 
@@ -13476,7 +13476,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphLanguage' => 
@@ -13540,7 +13540,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphLogin' => 
@@ -13606,7 +13606,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphLogout' => 
@@ -13671,7 +13671,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphBulletlist' => 
@@ -13735,7 +13735,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphNumberedlist' => 
@@ -13800,7 +13800,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphListindent' => 
@@ -13864,7 +13864,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphListoutdent' => 
@@ -13928,7 +13928,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphFilter' => 
@@ -13992,7 +13992,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphCollapseHorizontal' => 
@@ -14059,7 +14059,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphHeader' => 
@@ -14125,7 +14125,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphItalic' => 
@@ -14191,7 +14191,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphBold' => 
@@ -14257,7 +14257,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphLink' => 
@@ -14323,7 +14323,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolGlyphGlyphLaunch' => 
@@ -14387,7 +14387,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Glyph/Glyph',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Glyph/Glyph',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph',
   ),
   'SymbolAvatarPicturePicture' => 
@@ -14450,7 +14450,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Avatar/Picture',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Avatar/Picture',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Avatar\\Picture',
   ),
   'SymbolAvatarLetterLetter' => 
@@ -14514,7 +14514,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Symbol/Avatar/Letter',
+    'path' => 'components/ILIAS/UI/src/Component/Symbol/Avatar/Letter',
     'namespace' => '\\ILIAS\\UI\\Component\\Symbol\\Avatar\\Letter',
   ),
   'ToastToastStandard' => 
@@ -14579,7 +14579,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Toast/Toast',
+    'path' => 'components/ILIAS/UI/src/Component/Toast/Toast',
     'namespace' => '\\ILIAS\\UI\\Component\\Toast\\Toast',
   ),
   'ToastContainerContainer' => 
@@ -14643,7 +14643,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Toast/Container',
+    'path' => 'components/ILIAS/UI/src/Component/Toast/Container',
     'namespace' => '\\ILIAS\\UI\\Component\\Toast\\Container',
   ),
   'LauncherInlineInline' => 
@@ -14678,7 +14678,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Launcher/Inline',
+    'path' => 'components/ILIAS/UI/src/Component/Launcher/Inline',
     'namespace' => '\\ILIAS\\UI\\Component\\Launcher\\Inline',
   ),
   'EntityStandardStandard' => 
@@ -14713,7 +14713,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
     'less_variables' => 
     array (
     ),
-    'path' => 'src/UI/Component/Entity/Standard',
+    'path' => 'components/ILIAS/UI/src/Component/Entity/Standard',
     'namespace' => '\\ILIAS\\UI\\Component\\Entity\\Standard',
   ),
 );

@@ -4007,7 +4007,7 @@ common#:#gender_m#:#Acesso ao ILIAS
 common#:#gender_n#:#Não requer forma de tratamento
 common#:#general_settings#:#Acesso ao ILIAS por Serviço de Autenticação Central
 common#:#generate#:#Acesso ao ILIAS por
-common#:#ghostscript_not_configured#:#Ghostscript não está configurado. Abra o <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> para configurá-lo.
+common#:#ghostscript_not_configured#:#Ghostscript não está configurado. Abra o <a href="scripts/setup.php?cmd=mastersettings" target="_blank">Setup</a> para configurá-lo.
 common#:#glo#:#Logout
 common#:#glo_add#:#Lixo
 common#:#glo_added#:#Erro durante a eliminação

@@ -100,7 +100,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
             case "add_to":
                 return array(
                     "./components/ILIAS/Group/UserActions/js/GroupUserActions.js",
-                    "./src/UI/templates/js/Modal/modal.js",
+                    "./components/ILIAS/UI/src/templates/js/Modal/modal.js",
                     ilExplorerBaseGUI::getLocalExplorerJsPath(),
                     ilExplorerBaseGUI::getLocalJsTreeJsPath()
                 );
