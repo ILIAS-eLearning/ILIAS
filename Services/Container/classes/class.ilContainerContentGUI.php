@@ -841,8 +841,9 @@ abstract class ilContainerContentGUI
                 }
 
                 if (!$this->renderer->hasItem($item_ref_id)) {
-                    $html = $this->renderItem($item_data, $position++);
+                    $html = $this->renderItem($item_data, $position);
                     if ($html != "") {
+                        $position++;
                         $this->renderer->addItemToBlock($type, $item_data["type"], $item_ref_id, $html);
                     }
                 }
