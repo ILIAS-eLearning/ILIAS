@@ -67,6 +67,9 @@ class ilCalendarExport
         return $this->user_settings;
     }
 
+    /**
+     * @param int[] $a_apps
+     */
     public function setAppointments(array $a_apps): void
     {
         $this->appointments = $a_apps;
