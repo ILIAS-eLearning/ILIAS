@@ -32,6 +32,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 *
 * @package ilias-search
 * @ilCtrl_Calls ilRepositorySearchGUI: ilFormPropertyDispatchGUI
+* @ilCtrl_Calls ilRepositorySearchGUI: ilPropertyFormGUI
 *
 */
 class ilRepositorySearchGUI
