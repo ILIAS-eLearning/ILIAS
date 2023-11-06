@@ -99,9 +99,6 @@ export default class PageUI {
     this.debug = false;
     this.droparea = "<div class='il_droparea'></div>";
     this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
-    this.first_add = `<span class='il-copg-add-text'> ${
-      il.Language.txt('cont_ed_click_to_add_pg')
-    }</span>`;
     this.model = {};
     this.uiModel = {};
 
@@ -114,6 +111,12 @@ export default class PageUI {
     this.toolSlate = toolSlate;
     this.pageModifier = pageModifier;
     this.util = new Util();
+  }
+
+  getFirstAddText() {
+    return `<span class='il-copg-add-text'> ${
+      il.Language.txt('cont_ed_click_to_add_pg')
+    }</span>`;
   }
 
   //
@@ -862,7 +865,7 @@ export default class PageUI {
     const addButtons = document.querySelectorAll('button.copg-add');
     document.querySelectorAll('button.copg-add').forEach((b) => {
       if (addButtons.length === 1) {
-        b.innerHTML = this.add + this.first_add;
+        b.innerHTML = this.add + this.getFirstAddText();
       } else {
         b.innerHTML = this.add;
       }
