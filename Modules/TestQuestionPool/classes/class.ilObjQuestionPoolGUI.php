@@ -1383,10 +1383,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $q_gui = assQuestionGUI::_getQuestionGUI('', $this->qplrequest->getQuestionId());
             if ($q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
-                $title = $q_gui->object->getTitle();
-                if (!$title) {
-                    $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionType($q_gui->object->getId());
-                }
                 $this->tpl->setTitle($this->object->getTitle());
                 $this->tpl->setDescription($q_gui->object->getComment());
                 $this->tpl->setTitleIcon(ilObject2::_getIcon($this->object->getId(), 'big', $this->object->getType()));
