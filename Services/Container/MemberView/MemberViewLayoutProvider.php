@@ -1,7 +1,5 @@
 <?php
 
-namespace ILIAS\Container\Screen;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ namespace ILIAS\Container\Screen;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+namespace ILIAS\Container\Screen;
 
 use ILIAS\Data\URI;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
@@ -53,11 +53,13 @@ class MemberViewLayoutProvider extends AbstractModificationProvider
             return null;
         }
         $ref_id = $mv->getCurrentRefId();
-        $url = new URI(ilLink::_getLink(
-            $ref_id,
-            ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
-            ['mv' => 0]
-        ));
+        $url = new URI(
+            ilLink::_getLink(
+                $ref_id,
+                ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
+            )
+        );
+        $url = $url->withParameter('mv', 0);
 
         $modeinfo = $dic->ui()->factory()->mainControls()->modeInfo(
             $dic->language()->txt('mem_view_long'),
