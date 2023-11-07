@@ -85,9 +85,9 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         switch ($next_class) {
             default:
                 $this->setPresentationTitle($title);
-
-
-                return parent::executeCommand();
+                $ret = parent::executeCommand();
+                $this->tabs_gui->activateTab("pg");
+                return $ret;
         }
     }
 
