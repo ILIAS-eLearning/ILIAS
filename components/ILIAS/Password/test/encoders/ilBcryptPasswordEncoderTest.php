@@ -76,8 +76,8 @@ final class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
             $this->markTestSkipped('Skipped test, vfsStream (https://github.com/bovigo/vfsStream) required');
         } else {
             vfs\vfsStream::setup();
-            $this->setTestDirectory(vfs\vfsStream::newDirectory('tests')->at(vfs\vfsStreamWrapper::getRoot()));
-            $this->setTestDirectoryUrl(vfs\vfsStream::url('root/tests'));
+            $this->setTestDirectory(vfs\vfsStream::newDirectory('test')->at(vfs\vfsStreamWrapper::getRoot()));
+            $this->setTestDirectoryUrl(vfs\vfsStream::url('root/test'));
         }
     }
 

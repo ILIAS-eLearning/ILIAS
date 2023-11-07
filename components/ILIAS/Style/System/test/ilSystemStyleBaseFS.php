@@ -44,7 +44,7 @@ abstract class ilSystemStyleBaseFS extends TestCase
         }
 
         /** @noRector */
-        include_once('./tests/UI/Base.php');
+        include_once('./components/ILIAS/UI/test/Base.php');
         $this->lng = new ilLanguageMock();
 
         $this->file_system = new ilFileSystemHelper($this->lng, $this->message_stack);

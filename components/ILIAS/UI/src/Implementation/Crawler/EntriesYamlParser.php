@@ -284,6 +284,10 @@ class EntriesYamlParser implements YamlParser
         $entry_data['abstract'] = preg_match("/Factory/", $entry_data['namespace']);
         $entry_data['path'] = str_replace("/ILIAS/UI", "components/ILIAS/UI/src", str_replace("\\", "/", $entry_data['namespace']));
 
+        if (str_contains($entry_data['path'], 'tests/UI/')) {
+            $entry_data['path'] = str_replace("tests/UI/", "components/ILIAS/UI/test/", $entry_data['path']);
+        }
+
         try {
             $entry = new Entry\ComponentEntry($entry_data);
         } catch (\Exception $e) {

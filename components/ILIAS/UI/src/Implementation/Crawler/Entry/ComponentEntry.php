@@ -345,8 +345,8 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
             )
                 . "/" . str_replace(" ", "", $this->getTitle());
             $path_array = self::array_iunique(explode("/", $path_components));
-            if ($path_array[2] !== "examples") {
-                array_splice($path_array, 2, 0, 'examples');
+            if ($path_array[4] !== "examples") {
+                array_splice($path_array, 4, 0, 'examples');
             }
             $this->examples_path = implode("/", $path_array);
         }
@@ -356,10 +356,11 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
     public function getExamplesNamespace(): string
     {
         if (!$this->examples_namespace) {
+            $path = str_replace("src/", "", $this->getExamplesPath());
             $this->examples_namespace = str_replace(
                 "/",
                 "\\",
-                str_replace("components/ILIAS/UI", "\ILIAS\UI", $this->getExamplesPath())
+                str_replace("components/ILIAS/UI", "\ILIAS\UI", $path)
             );
         }
         return $this->examples_namespace;

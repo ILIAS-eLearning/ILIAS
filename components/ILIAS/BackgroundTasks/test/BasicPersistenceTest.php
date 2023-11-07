@@ -38,8 +38,8 @@ use Mockery;
 use PHPUnit\Framework\TestCase;
 
 require_once("vendor/composer/vendor/autoload.php");
-require_once("./Services/ActiveRecord/Connector/class.arConnector.php");
-require_once("./Services/ActiveRecord/Connector/class.arConnectorMap.php");
+require_once("./components/ILIAS/ActiveRecord/Connector/class.arConnector.php");
+require_once("./components/ILIAS/ActiveRecord/Connector/class.arConnectorMap.php");
 
 /**
  * Class BackgroundTaskTest

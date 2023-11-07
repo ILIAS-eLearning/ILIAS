@@ -33,7 +33,7 @@ class ComponentEntryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->entry_data = include "tests/UI/Crawler/Fixture/EntryFixture.php";
+        $this->entry_data = include "components/ILIAS/UI/test/Crawler/Fixture/EntryFixture.php";
         $this->entry = new Entry($this->entry_data);
     }
 
@@ -176,7 +176,7 @@ class ComponentEntryTest extends TestCase
 
     public function testJsonSerialize(): void
     {
-        $this->assertEquals(include "tests/UI/Crawler/Fixture/EntryFixture.php", $this->entry->jsonSerialize());
+        $this->assertEquals(include "components/ILIAS/UI/test/Crawler/Fixture/EntryFixture.php", $this->entry->jsonSerialize());
     }
 
     public function testNamespace(): void

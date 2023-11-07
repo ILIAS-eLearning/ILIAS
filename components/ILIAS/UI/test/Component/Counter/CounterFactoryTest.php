@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once 'tests/UI/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/test/AbstractFactoryTest.php';
 
 class CounterFactoryTest extends AbstractFactoryTest
 {

@@ -18,7 +18,7 @@ class DataReadmeTest extends TestCase
     public function testReadme(): void
     {
         ob_start();
-        require_once(__DIR__ . "../../../../components/ILIAS/Data/docs/README.md");
+        require_once("./components/ILIAS/Data/README.md");
         ob_end_clean();
         $this->assertTrue(true);
     }

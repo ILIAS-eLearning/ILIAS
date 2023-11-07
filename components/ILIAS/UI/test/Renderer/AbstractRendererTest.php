@@ -146,7 +146,7 @@ namespace {
 
         public function getTemplate(string $path, bool $purge_unfilled_vars, bool $purge_unused_blocks): Template
         {
-            $file_name = realpath(__DIR__ . "/../../../" . $path);
+            $file_name = realpath(__DIR__ . "/../../../../../" . $path);
             $this->files[$file_name] = array($purge_unfilled_vars, $purge_unused_blocks);
 
             if (!file_exists($file_name)) {
@@ -213,7 +213,7 @@ namespace {
             );
             $r->_getTemplate("tpl.glyph.html", true, false);
 
-            $expected = array(realpath(__DIR__ . "/../../../components/ILIAS/UI/src/templates/default/Symbol/tpl.glyph.html")
+            $expected = array(realpath(__DIR__ . "/../../../../../components/ILIAS/UI/src/templates/default/Symbol/tpl.glyph.html")
                               => array(true, false)
             );
 

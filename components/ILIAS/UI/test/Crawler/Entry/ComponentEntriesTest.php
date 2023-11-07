@@ -38,9 +38,9 @@ class ComponentEntriesTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->entries_data = include "tests/UI/Crawler/Fixture/EntriesFixture.php";
+        $this->entries_data = include "components/ILIAS/UI/test/Crawler/Fixture/EntriesFixture.php";
         $this->entries = new Entries();
-        $this->entry_data = include "tests/UI/Crawler/Fixture/EntryFixture.php";
+        $this->entry_data = include "components/ILIAS/UI/test/Crawler/Fixture/EntryFixture.php";
         $this->entry = new Entry($this->entry_data);
         $this->entries->addEntriesFromArray($this->entries_data);
     }

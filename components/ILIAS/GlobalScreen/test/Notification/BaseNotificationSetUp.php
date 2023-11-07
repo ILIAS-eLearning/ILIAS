@@ -32,7 +32,7 @@ use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Counter\Factory;
 
 require_once('./vendor/composer/vendor/autoload.php');
-require_once(__DIR__ . "/../../UI/Base.php");
+require_once(__DIR__ . "/../../../UI/test/Base.php");
 
 /**
  * Class BaseNotificationSetUp

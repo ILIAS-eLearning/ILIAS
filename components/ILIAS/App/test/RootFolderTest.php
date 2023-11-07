@@ -96,7 +96,6 @@ final class RootFolderTest extends TestCase
         'setup',
         'templates',
         'test',
-        'tests',
         'vendor',
         '.settings'
     ];
@@ -134,14 +133,14 @@ final class RootFolderTest extends TestCase
     public function testAppRootFolderOnlyContainsDefinedFiles(): void
     {
         $found_files = [];
-        $iter = new CallbackFilterIterator(
-            new DirectoryIterator($this->getAppRootFolderOrFail()),
-            static function (DirectoryIterator $file): bool {
+        $iter = new \CallbackFilterIterator(
+            new \DirectoryIterator($this->getAppRootFolderOrFail()),
+            static function (\DirectoryIterator $file): bool {
                 return $file->isFile();
             }
         );
         foreach ($iter as $file) {
-            /** @var DirectoryIterator $file */
+            /** @var \DirectoryIterator $file */
             $found_files[] = $file->getBasename();
         }
         sort($found_files);
@@ -160,14 +159,14 @@ final class RootFolderTest extends TestCase
     public function testAppRootFolderOnlyContainsDefinedFolders(): void
     {
         $found_directories = [];
-        $iter = new CallbackFilterIterator(
-            new DirectoryIterator($this->getAppRootFolderOrFail()),
-            static function (DirectoryIterator $file): bool {
+        $iter = new \CallbackFilterIterator(
+            new \DirectoryIterator($this->getAppRootFolderOrFail()),
+            static function (\DirectoryIterator $file): bool {
                 return $file->isDir() && !$file->isDot();
             }
         );
         foreach ($iter as $file) {
-            /** @var DirectoryIterator $file */
+            /** @var \DirectoryIterator $file */
             $found_directories[] = $file->getBasename();
         }
 

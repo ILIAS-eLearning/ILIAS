@@ -27,7 +27,7 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastFactory;
 
 require_once('./vendor/composer/vendor/autoload.php');
-require_once(__DIR__ . "/../../UI/test/Base.php");
+require_once(__DIR__ . "/../../../UI/test/Base.php");
 
 abstract class BaseToastSetUp extends TestCase
 {

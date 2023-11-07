@@ -60,7 +60,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     protected function setUp(): void
     {
         vfs\vfsStream::setup();
-        $this->setTestDirectory(vfs\vfsStream::newDirectory('tests')->at(vfs\vfsStreamWrapper::getRoot()));
+        $this->setTestDirectory(vfs\vfsStream::newDirectory('test')->at(vfs\vfsStreamWrapper::getRoot()));
         $this->setTestDirectoryUrl(vfs\vfsStream::url('root/tests'));
 
         parent::setUp();

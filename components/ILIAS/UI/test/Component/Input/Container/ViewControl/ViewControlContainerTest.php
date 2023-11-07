@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once './vendor/composer/vendor/autoload.php';
-require_once './tests/UI/Base.php';
+require_once './components/ILIAS/UI/test/Base.php';
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;

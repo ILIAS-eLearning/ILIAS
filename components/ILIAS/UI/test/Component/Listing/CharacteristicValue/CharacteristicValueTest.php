@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once('tests/UI/Base.php');
+require_once('components/ILIAS/UI/test/Base.php');
 
 use ILIAS\UI\Implementation\Component\Listing\CharacteristicValue\Factory as CharacteristicValueFactory;
 

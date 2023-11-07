@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once("vendor/composer/vendor/autoload.php");
-include_once("tests/UI/Crawler/Fixture/Fixture.php");
+include_once("components/ILIAS/UI/test/Crawler/Fixture/Fixture.php");
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
@@ -171,7 +171,7 @@ class ComponentEntryDescriptionTest extends TestCase
 
     public function testParseProperEntryToArray(): void
     {
-        $entry = $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/ProperEntry.php")[0];
+        $entry = $this->parser->parseArrayFromFile("components/ILIAS/UI/test/Crawler/Fixture/ProperEntry.php")[0];
 
         $entry["description"]['composition'] = "";
         $entry["description"]['effect'] = "";

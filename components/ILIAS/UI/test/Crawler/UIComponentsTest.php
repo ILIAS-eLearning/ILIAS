@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once("vendor/composer/vendor/autoload.php");
-include_once("tests/UI/Crawler/Fixture/Fixture.php");
+include_once("components/ILIAS/UI/test/Crawler/Fixture/Fixture.php");
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
 use PHPUnit\Framework\TestCase;

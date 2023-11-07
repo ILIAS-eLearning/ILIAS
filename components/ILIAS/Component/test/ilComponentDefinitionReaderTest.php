@@ -101,7 +101,7 @@ class ilComponentDefinitionReaderTest extends TestCase
 
         $this->assertIsArray($components);
         $this->assertContains(["components/ILIAS", "Course", realpath(__DIR__ . "/../../../components/ILIAS/Course/module.xml")], $components);
-        $this->assertContains(["components/ILIAS", "Component", realpath(__DIR__ . "/../../../Services/Component/service.xml")], $components);
+        $this->assertContains(["components/ILIAS", "Component", realpath(__DIR__ . "/../../../components/ILIAS/Component/service.xml")], $components);
     }
 
     public function testReadComponentDefinitions(): void

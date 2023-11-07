@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once("vendor/composer/vendor/autoload.php");
-include_once("tests/UI/Crawler/Fixture/Fixture.php");
+include_once("components/ILIAS/UI/test/Crawler/Fixture/Fixture.php");
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +39,7 @@ class FactoriesCrawlerTest extends TestCase
     public function testAccessInvalidEntry(): void
     {
         try {
-            $entries = $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/ComponentsTreeFixture/RootFactory.php");
+            $entries = $this->crawler->crawlFactory(__DIR__ . "/Fixture/ComponentsTreeFixture/RootFactory.php");
             $entries->getEntryById("NonExistent")->getChildren();
             $entries->getParentsOfEntry("NonExistent");
             $this->assertFalse("This should not happen");
@@ -53,7 +53,7 @@ class FactoriesCrawlerTest extends TestCase
      */
     public function testParseValidFile(): void
     {
-        $entries = $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/ComponentsTreeFixture/RootFactory.php");
+        $entries = $this->crawler->crawlFactory(__DIR__ . "/../../../../../components/ILIAS/UI/test/Crawler/Fixture/ComponentsTreeFixture/RootFactory.php");
         $this->assertCount(6, $entries);
         $this->assertCount(
             2,
@@ -83,7 +83,7 @@ class FactoriesCrawlerTest extends TestCase
     public function testLoopFactory(): void
     {
         try {
-            $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/LoopFactory.php");
+            $this->crawler->crawlFactory("components/ILIAS/UI/test/Crawler/Fixture/LoopFactory.php");
 
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {
@@ -97,7 +97,7 @@ class FactoriesCrawlerTest extends TestCase
     public function testNoNamespaceFactory(): void
     {
         try {
-            $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/NoNamespaceFactory.php");
+            $this->crawler->crawlFactory("components/ILIAS/UI/test/Crawler/Fixture/NoNamespaceFactory.php");
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {
             $this->assertEquals(Crawler\Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT, $e->getCode());
@@ -110,7 +110,7 @@ class FactoriesCrawlerTest extends TestCase
     public function testNoClosingDescriptionFactory(): void
     {
         try {
-            $this->crawler->crawlFactory("tests/UI/Crawler/Fixture/NoClosingDescriptionFactory.php");
+            $this->crawler->crawlFactory("components/ILIAS/UI/test/Crawler/Fixture/NoClosingDescriptionFactory.php");
 
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {

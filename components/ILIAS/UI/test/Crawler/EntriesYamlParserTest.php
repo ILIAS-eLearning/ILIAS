@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once("vendor/composer/vendor/autoload.php");
-include_once("tests/UI/Crawler/Fixture/Fixture.php");
+include_once("components/ILIAS/UI/test/Crawler/Fixture/Fixture.php");
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
 use PHPUnit\Framework\TestCase;
@@ -53,7 +53,7 @@ class CrawlerTest extends TestCase
      */
     public function testParseProperEntryToYamlEntries(): void
     {
-        $yaml_entries = $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/ProperEntry.php");
+        $yaml_entries = $this->parser->parseYamlStringArrayFromFile("components/ILIAS/UI/test/Crawler/Fixture/ProperEntry.php");
 
         $this->assertEquals($this->proper_entry->properEntryYamlString, $yaml_entries[0]);
         $this->assertEquals($this->proper_entry->properEntryYamlString, $yaml_entries[0]);
@@ -61,7 +61,7 @@ class CrawlerTest extends TestCase
 
     public function testParseProperEntryToArray(): void
     {
-        $entries = $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/ProperEntry.php");
+        $entries = $this->parser->parseArrayFromFile("components/ILIAS/UI/test/Crawler/Fixture/ProperEntry.php");
         $this->assertEquals($this->proper_entry->properEntryYamlArray, $entries);
     }
 
@@ -71,7 +71,7 @@ class CrawlerTest extends TestCase
     public function testNoDescriptionEntry(): void
     {
         try {
-            $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/NoDescriptionEntry.php");
+            $this->parser->parseYamlStringArrayFromFile("components/ILIAS/UI/test/Crawler/Fixture/NoDescriptionEntry.php");
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {
             $this->assertEquals(Crawler\Exception\CrawlerException::ENTRY_WITH_NO_YAML_DESCRIPTION, $e->getCode());
@@ -83,7 +83,7 @@ class CrawlerTest extends TestCase
     public function testNoReturnValueEntry(): void
     {
         try {
-            $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/NoReturnValueEntry.php");
+            $this->parser->parseYamlStringArrayFromFile("components/ILIAS/UI/test/Crawler/Fixture/NoReturnValueEntry.php");
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {
             $this->assertEquals(Crawler\Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT, $e->getCode());
@@ -96,7 +96,7 @@ class CrawlerTest extends TestCase
     public function testInvalidYamlEntry(): void
     {
         try {
-            $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/InvalidYamlEntry.php");
+            $this->parser->parseArrayFromFile("components/ILIAS/UI/test/Crawler/Fixture/InvalidYamlEntry.php");
             $this->assertFalse("This should not happen");
         } catch (Crawler\Exception\CrawlerException $e) {
             $this->assertEquals(Crawler\Exception\CrawlerException::PARSING_YAML_ENTRY_FAILED, $e->getCode());
@@ -116,7 +116,7 @@ class CrawlerTest extends TestCase
      */
     public function testGenerateEntry(): void
     {
-        $entries = $this->parser->parseEntriesFromFile("tests/UI/Crawler/Fixture/ProperEntry.php");
+        $entries = $this->parser->parseEntriesFromFile("components/ILIAS/UI/test/Crawler/Fixture/ProperEntry.php");
 
         $this->assertCount(1, $entries);
         $this->assertEquals(
@@ -124,7 +124,7 @@ class CrawlerTest extends TestCase
             $entries->getEntryById("CrawlerFixtureProperEntryProperEntry")->getId()
         );
         $this->assertEquals(
-            "components/ILIAS/UI/Crawler/Fixture/ProperEntry",
+            "components/ILIAS/UI/src/Crawler/Fixture/ProperEntry",
             $entries->getEntryById("CrawlerFixtureProperEntryProperEntry")->getPath()
         );
     }
