@@ -104,6 +104,6 @@ class ClientIdReadObjectiveTest extends TestCase
     public function testGetDataDirectoryPath(): void
     {
         $base = dirname(__DIR__, 5);
-        $this->assertEquals($base . "/data", $this->o->_getDataDirectoryPath());
+        $this->assertEquals($base . "/cli/data", $this->o->_getDataDirectoryPath());
     }
 }
