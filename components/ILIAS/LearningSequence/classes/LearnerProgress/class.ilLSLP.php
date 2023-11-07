@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * lp connector
  */
@@ -25,7 +25,15 @@ class ilLSLP extends ilObjectLP
 {
     public static function getDefaultModes(bool $a_lp_active): array
     {
-        return [ilLPObjSettings::LP_MODE_DEACTIVATED];
+        if (!$a_lp_active) {
+            return [
+                ilLPObjSettings::LP_MODE_DEACTIVATED,
+            ];
+        }
+        return [
+            ilLPObjSettings::LP_MODE_DEACTIVATED,
+            ilLPObjSettings::LP_MODE_COLLECTION
+        ];
     }
 
     public function getDefaultMode(): int
