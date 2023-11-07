@@ -601,7 +601,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $this->lng->txt("download"),
             $this->ctrl->getLinkTarget($this, "downloadDeprecated")
         );
-        $this->toolbar->addButtonInstance($button);
+        $this->toolbar->addComponent($button);
 
         include_once "./Services/Language/classes/class.ilLangDeprecated.php";
 
