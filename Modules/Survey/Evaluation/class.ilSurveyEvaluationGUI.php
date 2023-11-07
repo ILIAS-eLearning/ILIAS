@@ -965,7 +965,6 @@ class ilSurveyEvaluationGUI
         $this->tpl->setContent($eval_tpl->get());
 
         if ($pdf) {
-
             $this->tpl->setTitle($this->object->getTitle());
             $this->tpl->setTitleIcon(
                 ilObject::_getIcon("", "big", $this->object->getType()),
@@ -1782,6 +1781,7 @@ class ilSurveyEvaluationGUI
         // :TODO: fixing css dummy parameters
         $html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
         $html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
+        $html = preg_replace("/\&version\=[0-9A-Za-z\-\._]+/", "", $html);
         $html = str_replace('.css$Id$', ".css", $html);
         $html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
         $html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
@@ -1791,7 +1791,7 @@ class ilSurveyEvaluationGUI
         if ($filename == "") {
             $filename = $this->object->getTitle() . ".pdf";
         }
-        $filename = str_replace('/','_', $filename);
+        $filename = str_replace('/', '_', $filename);
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
         $pdf_factory->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Survey", "Results");
     }
