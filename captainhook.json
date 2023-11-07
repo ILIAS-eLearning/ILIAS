@@ -1,7 +1,7 @@
 {
   "config": {
-    "vendor-directory": "libs/composer/vendor",
-    "bootstrap": "libs/composer/vendor/autoload.php"
+    "vendor-directory": "vendor/composer/vendor",
+    "bootstrap": "vendor/composer/vendor/autoload.php"
   },
   "commit-msg": {
     "enabled": false,
@@ -36,7 +36,7 @@
         "conditions": []
       },
       {
-        "action": "libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --config=./scripts/PHP-CS-Fixer/code-format.php_cs --using-cache=no --dry-run -vvv {$STAGED_FILES|of-type:php}",
+        "action": "vendor/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --config=./scripts/PHP-CS-Fixer/code-format.php_cs --using-cache=no --dry-run -vvv {$STAGED_FILES|of-type:php}",
         "options": [],
         "conditions": [
           {
