@@ -53,11 +53,10 @@ class FlySystemFileAccess implements FileAccess
     {
         try {
             $path = Util::normalizeRelativePath($path);
-            $adapter = $this->flysystem_operator->getAdapter();
-            if (!$adapter->has($path)) {
+            if (!$this->flysystem_operator->has($path)) {
                 throw new \League\Flysystem\FileNotFoundException($path);
             }
-            $result = $adapter->read($path);
+            $result = $this->flysystem_operator->read($path);
 
             if (empty($result)) {
                 throw new IOException("Could not access the file \"$path\".");
