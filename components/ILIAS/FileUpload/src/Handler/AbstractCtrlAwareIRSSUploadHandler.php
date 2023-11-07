@@ -34,6 +34,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploadHandler
 {
+    protected \ilLanguage $language;
     protected \ILIAS\ResourceStorage\Services $irss;
     protected ResourceStakeholder $stakeholder;
     protected \ILIAS\Filesystem\Filesystem $temp_filesystem;
@@ -47,6 +48,7 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
         $this->stakeholder = $this->getStakeholder();
         $this->temp_filesystem = $DIC->filesystem()->temp();
         $this->class_path = $this->getClassPath();
+        $this->language = $DIC->language();
 
         parent::__construct();
     }
@@ -73,7 +75,7 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
         } else {
             $identifier = '';
             $status = HandlerResult::STATUS_FAILED;
-            $message = 'No upload found';
+            $message = $this->language->txt('msg_info_blacklisted'); // this is the most common reason for a failed upload
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
