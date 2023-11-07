@@ -772,19 +772,16 @@ interface Factory
      *      five stars to select. A preceding text may be used to describe the issue to be rated.
      *   effect: >
      *      When clicking a star it is highlighted as well as all prior/lower stars.
-     *      If options are labeled, the according label is shown next to the input.
      *      The selection can be reset with a small "x" next to the input.
-     *      Values are fixed to 1-5; they will have to be translated by a transformation, e.g..
+     *      Values are fixed to 1-5 (and 0 for none) by the FiveStarRatingScale enum.
      * context:
      *   - The Rating Input is used in UI-Forms.
      *
      * rules:
-     *   usage:
+     *   wording:
      *      1: >
-     *        If you label the options, you MUST do so from "bad" to "good"; lower values
-     *        express less agreement/satisfaction, while higher values mean more
-     *        agreement/satisfaction.
-     *
+     *        Label and Text for the Rating Input MUST suggest a scale where more
+     *        stars express greater satisfaction/preference over less.
      * ---
      * @param string      $label
      * @param string|null $byline

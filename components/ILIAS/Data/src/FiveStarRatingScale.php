@@ -18,14 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Field;
-
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
+namespace ILIAS\Data;
 
 /**
- * This is what a Rating Input looks like.
+ * This is the scale for the Rating Input
  */
-interface Rating extends FormInput
+enum FiveStarRatingScale: int
 {
-    public function withQuestionText(string $text): self;
+    case NONE = 0;
+    case BAD = 1;
+    case LESS = 2;
+    case OK = 3;
+    case GOOD = 4;
+    case BEST = 5;
 }

@@ -42,16 +42,6 @@
 .il-input-rating .il-input-rating-scaleoption:checked ~ .il-input-rating-star {
   color: $il-link-hover-color;
 }
-.il-input-rating span.label {
-  font-size: 90%;
-  margin-left: 125px;
-  margin-top: 6px;
-  position: absolute;
-  display: none;
-  color: $il-text-color;
-  text-wrap: nowrap;
-}
-
 
 .il-input-rating.disabled {
   .il-input-rating-scaleoption:checked ~ .il-input-rating-star,
@@ -77,14 +67,6 @@
   .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
     color: $il-link-hover-color;
   }
-  .il-input-rating:hover span.label,
-  .il-input-rating .il-input-rating-star:hover + span.label .il-input-rating-reset {
-    display: none;
-  }
-  .il-input-rating .il-input-rating-star:hover + span.label,
-  .il-input-rating span.label:hover {
-    display: block;
-  }
   .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
     display: block !important;
   }
@@ -96,14 +78,6 @@
   .il-input-rating .il-input-rating-star:hover,
   .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
     color: $il-link-hover-color;
-  }
-  .il-input-rating:hover span.label,
-  .il-input-rating .il-input-rating-star:hover + span.label .il-input-rating-reset {
-    display: none;
-  }
-  .il-input-rating .il-input-rating-star:hover + span.label,
-  .il-input-rating span.label:hover {
-    display: block;
   }
   .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
     display: block !important;

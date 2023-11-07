@@ -23,6 +23,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Custom\Transformation;
+use ILIAS\Data\FiveStarRatingScale;
 
 /**
  * This implements the Rating Input
@@ -31,11 +33,6 @@ class Rating extends FormInput implements C\Input\Field\Rating
 {
     protected ?string $text = null;
 
-    /**
-     * @var string[]
-     */
-    protected array $option_labels = [];
-
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
@@ -43,6 +40,22 @@ class Rating extends FormInput implements C\Input\Field\Rating
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
+        $this->setAdditionalTransformation($this->getEnumTrafo());
+    }
+
+    protected function getEnumTrafo(): Transformation
+    {
+        return $this->refinery->custom()->transformation(
+            static function ($v): ?FiveStarRatingScale {
+                if(is_null($v) || $v instanceof FiveStarRatingScale) {
+                    return $v;
+                }
+                if(is_string($v)) {
+                    $v = (int) $v;
+                    return FiveStarRatingScale::from($v);
+                }
+            }
+        );
     }
 
     public function withQuestionText(?string $text): self
@@ -51,33 +64,29 @@ class Rating extends FormInput implements C\Input\Field\Rating
         $clone->text = $text;
         return $clone;
     }
+
     public function getQuestionText(): ?string
     {
         return $this->text;
     }
 
-    public function withOptionLabels(string ...$option_labels): self
-    {
-        $clone = clone $this;
-        $clone->option_labels = $option_labels;
-        return $clone;
-    }
-
     /**
-     * @return string[]
+     * @inheritdoc
      */
-    public function getOptionLabels(): array
+    public function withValue($value): self
     {
-        return $this->option_labels;
+        if(! $value instanceof FiveStarRatingScale) {
+            $value = $this->getEnumTrafo()->transform($value);
+        }
+        return parent::withValue($value);
     }
-
 
     /**
      * @inheritdoc
      */
     public function isClientSideValueOk($value): bool
     {
-        return is_numeric($value) || $value === "" || $value === null;
+        return is_null($value) || is_numeric($value) || $value instanceof FiveStarRatingScale;
     }
 
     /**
@@ -88,7 +97,10 @@ class Rating extends FormInput implements C\Input\Field\Rating
         if ($this->requirement_constraint !== null) {
             return $this->requirement_constraint;
         }
-        return $this->refinery->int()->isGreaterThan(0);
+        return $this->refinery->custom()->constraint(
+            static fn($v) => $v instanceof FiveStarRatingScale && $v->value > 0,
+            'no rating given'
+        );
     }
 
     /**

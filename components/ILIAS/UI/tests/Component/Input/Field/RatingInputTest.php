@@ -24,8 +24,9 @@ require_once(__DIR__ . "/../../../Base.php");
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Component\Input\Field;
-use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\FiveStarRatingScale;
 
 class RatingInputTest extends ILIAS_UI_TestBase
 {
@@ -38,7 +39,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
 
     protected function buildFactory(): I\Input\Field\Factory
     {
-        $df = new Data\Factory();
+        $df = new DataFactory();
         $language = $this->createMock(\ilLanguage::class);
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
@@ -81,27 +82,23 @@ class RatingInputTest extends ILIAS_UI_TestBase
                     <legend class="il-input-rating__text" id="id_1_desc"></legend>
                     <div class="il-input-rating__stars" role="radiogroup">
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5" ></label>
-                        <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5stars" ></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4" ></label>
-                        <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4stars" ></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3"></label>
-                        <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3stars"></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2"></label>
-                        <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2stars"></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1"></label>
-                        <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1stars"></label>
                     </div>
 
-                    <input type="radio" id="id_1-0" name="name_0" value="0" class="il-input-rating-scaleoption reset-option" />
+                    <input aria-describedby="id_1_desc" type="radio" id="id_1-0" name="name_0" value="0" class="il-input-rating-scaleoption reset-option" checked="checked"/>
+                    <label class="glyphicon-saltire il-input-rating-reset" for="id_1-0" aria-label="reset_stars"></label>
                 </fieldset>
 
                 <div class="help-block">byline</div>
@@ -116,9 +113,8 @@ class RatingInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $rating = $this->buildRating()
             ->withQuestionText('question text')
-            ->withOptionLabels('l1', 'l2', 'l3', 'l4', 'l5')
             ->withDisabled(true)
-            ->withValue(4);
+            ->withValue(FiveStarRatingScale::GOOD);
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
@@ -129,27 +125,23 @@ class RatingInputTest extends ILIAS_UI_TestBase
                     <legend class="il-input-rating__text" id="id_1_desc">question text</legend>
                     <div class="il-input-rating__stars" role="radiogroup">
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" disabled="disabled"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="l5"></label>
-                        <span class="label">l5<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5stars"></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" disabled="disabled" checked="checked"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="l4" ></label>
-                        <span class="label">l4<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4stars" ></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" disabled="disabled"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="l3"></label>
-                        <span class="label">l3<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3stars"></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" disabled="disabled"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="l2"></label>
-                        <span class="label">l2<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2stars"></label>
 
                         <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" disabled="disabled"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="l1"></label>
-                        <span class="label">l1<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1stars"></label>
                     </div>
 
-                    <input type="radio" id="id_1-0" name="name_0" value="0" class="il-input-rating-scaleoption reset-option" disabled="disabled" />
+                    <input aria-describedby="id_1_desc" type="radio" id="id_1-0" name="name_0" value="0" class="il-input-rating-scaleoption reset-option" />
+                    <label class="glyphicon-saltire il-input-rating-reset" for="id_1-0" aria-label="reset_stars"></label>
                 </fieldset>
 
                 <div class="help-block">byline</div>

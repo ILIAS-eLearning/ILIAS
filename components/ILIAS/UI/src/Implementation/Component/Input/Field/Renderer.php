@@ -35,6 +35,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\Data\DataSize;
 use ILIAS\UI\Implementation\Component\Input\Input;
+use ILIAS\Data\FiveStarRatingScale;
 
 /**
  * Class Renderer
@@ -1054,19 +1055,15 @@ class Renderer extends AbstractComponentRenderer
         $aria_description_id = $id . '_desc';
         $tpl->setVariable('DESCRIPTION_SRC_ID', $aria_description_id);
 
-        $option_labels = $component->getOptionLabels();
-
         foreach (range(5, 1, -1) as $option) {
             $tpl->setCurrentBlock('scaleoption');
-            $tpl->setVariable('OPTIONLABEL', $option_labels[$option - 1] ?? '');
-            $tpl->setVariable('ARIALABEL', $option_labels[$option - 1] ?? (string)$option);
+            $tpl->setVariable('ARIALABEL', $this->txt($option . 'stars'));
             $tpl->setVariable('OPT_VALUE', (string)$option);
             $tpl->setVariable('OPT_ID', $id . '-' . $option);
-            $tpl->setVariable('RESET_ID', $id . '-0');
             $tpl->setVariable('NAME', $component->getName());
             $tpl->setVariable('DESCRIPTION_ID', $aria_description_id);
 
-            if ((string)$component->getValue() === (string)$option) {
+            if ($component->getValue() === FiveStarRatingScale::from((int)$option)) {
                 $tpl->setVariable("SELECTED", ' checked="checked"');
             }
             if ($component->isDisabled()) {
@@ -1074,14 +1071,20 @@ class Renderer extends AbstractComponentRenderer
             }
             $tpl->parseCurrentBlock();
         }
+        $tpl->setVariable('RESET_ID', $id . '-0');
         $tpl->setVariable('RESET_NAME', $component->getName());
+        $tpl->setVariable('RESET_ARIALABEL', $this->txt('reset_stars'));
+        $tpl->setVariable('RESET_DESCRIPTION_ID', $aria_description_id);
+
+        if ($component->getValue() === FiveStarRatingScale::NONE || is_null($component->getValue())) {
+            $tpl->setVariable('RESET_SELECTED', ' checked="checked"');
+        }
 
         if ($txt = $component->getQuestionText()) {
             $tpl->setVariable('TEXT', $txt);
         }
 
         if ($component->isDisabled()) {
-            $this->maybeDisable($component, $tpl);
             $tpl->touchBlock('disabled');
         }
 

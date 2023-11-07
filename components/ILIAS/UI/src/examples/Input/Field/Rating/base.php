@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Rating;
 
+use ILIAS\Data\FiveStarRatingScale;
+
 function base()
 {
     global $DIC;
@@ -15,12 +17,11 @@ function base()
 
     $rating = $ui->input()->field()->rating("Rate with the Stars:", "change the rating")
         ->withQuestionText($txt)
-        ->withValue(3);
+        ->withValue(FiveStarRatingScale::OK);
     $rating_required = $ui->input()->field()->rating("Rate with the Stars:", 'this is required')
-        ->withRequired(true)
-        ->withOptionLabels('nah', 'ok', 'undecided', 'good', 'awsome');
+        ->withRequired(true);
     $rating_disabled = $ui->input()->field()->rating("Rate with the Stars:", "this is disabled")
-        ->withValue(2)
+        ->withValue(FiveStarRatingScale::LESS)
         ->withDisabled(true);
 
     $form = $ui->input()->container()->form()
@@ -37,7 +38,6 @@ function base()
         $result = "No result yet.";
     }
 
-    //Step 5: Render the radio with the enclosing form.
     return
         "<pre>" . print_r($result, true) . "</pre><br/>" .
         $renderer->render($form);

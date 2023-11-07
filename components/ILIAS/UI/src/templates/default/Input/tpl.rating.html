@@ -4,18 +4,12 @@
 		{TEXT}
 	</legend>
 	<!-- END txt -->
-
 	<div class="il-input-rating__stars" role="radiogroup">
 		<!-- BEGIN scaleoption -->
 		<input aria-describedby="{DESCRIPTION_ID}" type="radio" id="{OPT_ID}" name="{NAME}" value="{OPT_VALUE}" class="il-input-rating-scaleoption" {DISABLED}{SELECTED}/>
 		<label class="glyphicon-star il-input-rating-star" for="{OPT_ID}" aria-label="{ARIALABEL}"></label>
-		<span class="label">
-			{OPTIONLABEL}
-			<label class="glyphicon-saltire il-input-rating-reset" for="{RESET_ID}"></label>
-		</span>
 		<!-- END scaleoption -->
 	</div>
-
-	<input type="radio" id="{ID}-0" name="{RESET_NAME}" value="0" class="il-input-rating-scaleoption reset-option" {DISABLED}<!-- BEGIN selected_0 -->checked="checked" <!-- END selected_0 --> />
-
+	<input aria-describedby="{RESET_DESCRIPTION_ID}" type="radio" id="{RESET_ID}" name="{RESET_NAME}" value="0" class="il-input-rating-scaleoption reset-option" {DISABLED}{RESET_SELECTED}/>
+	<label class="glyphicon-saltire il-input-rating-reset" for="{RESET_ID}" aria-label="{RESET_ARIALABEL}"></label>
 </fieldset>
