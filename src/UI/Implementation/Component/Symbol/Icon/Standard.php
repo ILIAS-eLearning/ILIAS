@@ -103,6 +103,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::RTST,
         self::ECSS,
         self::TOS,
+        self::DPRO,
         self::IMPR,
         self::BIBL,
         self::SYSC,
