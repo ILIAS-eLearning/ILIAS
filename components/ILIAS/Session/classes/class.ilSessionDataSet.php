@@ -53,6 +53,9 @@ class ilSessionDataSet extends ilDataSet
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
+        if ($a_entity === 'sess_item') {
+            $a_entity = 'sess';
+        }
         return "http://www.ilias.de/xml/Modules/Session/" . $a_entity;
     }
 
@@ -254,7 +257,7 @@ class ilSessionDataSet extends ilDataSet
                         " location, tutor_name, tutor_email, tutor_phone, details, reg_type registration, " .
                         " reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, " .
                         " reg_limit_users limit_users, reg_min_users min_users, " .
-                        " e_start event_start, e_end event_end, starting_time, ending_time, fulltime, mail_members, show_members " .
+                        " e_start event_start, e_end event_end, starting_time, ending_time, fulltime, mail_members, show_members, " .
                         " show_cannot_part " .
                         " FROM event ev JOIN object_data od ON (ev.obj_id = od.obj_id) " .
                         " JOIN event_appointment ea ON (ev.obj_id = ea.event_id)  " .
