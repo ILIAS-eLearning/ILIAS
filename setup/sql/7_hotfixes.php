@@ -1813,3 +1813,12 @@ if ($ilDB->tableExists('adv_md_values_text') &&
         );
     }
 ?>
+<#107>
+<?php
+    if (!$this->db->indexExistsByFields('loc_settings', ['itest'])) {
+        $this->db->addIndex('loc_settings', ['itest'], 'i1');
+    }
+    if (!$this->db->indexExistsByFields('loc_settings', ['qtest'])) {
+        $this->db->addIndex('loc_settings', ['qtest'], 'i2');
+    }
+?>
