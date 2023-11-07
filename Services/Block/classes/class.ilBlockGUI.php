@@ -463,7 +463,7 @@ abstract class ilBlockGUI
         if ($ilCtrl->isAsynch()) {
             // return without div wrapper
             echo $this->tpl->get();
-        //echo $this->tpl->getAsynch();
+            //echo $this->tpl->getAsynch();
         } else {
             // return incl. wrapping div with id
             return '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
@@ -726,6 +726,10 @@ abstract class ilBlockGUI
 
         $ilCtrl = $this->ctrl;
 
+        if ($this->max_count <= $this->getLimit()) {
+            return null;
+        }
+
 
         //		$ilCtrl->setParameterByClass("ilcolumngui",
         //			$this->getNavParameter(), "::" . $prevoffset);
@@ -754,10 +758,6 @@ abstract class ilBlockGUI
 
         //$ilCtrl->setParameterByClass("ilcolumngui",
         //	$this->getNavParameter(), "");
-
-        if ($this->max_count <= $this->getLimit()) {
-            return null;
-        }
 
         return $factory->viewControl()->pagination()
             ->withTargetURL($href, $this->getNavParameter() . "page")
