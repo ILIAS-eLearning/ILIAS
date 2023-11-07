@@ -91,9 +91,9 @@ class FlySystemFileAccess implements FileAccess
     public function getTimestamp(string $path): \DateTimeImmutable
     {
         try {
-            $last_modified = $this->flysystem_operator->lastModified($path);
+            $last_modified = (int) $this->flysystem_operator->lastModified($path);
 
-            return new \DateTimeImmutable((string) $last_modified);
+            return new \DateTimeImmutable(date('Y-m-d H:i:s', $last_modified));
         } catch (UnableToRetrieveMetadata $ex) {
             throw new IOException("Could not lookup timestamp of the file \"$path\".");
         } catch (FilesystemException $ex) {
