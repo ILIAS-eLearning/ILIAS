@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -55,14 +56,14 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         }
         $exp->setTypeWhiteList($white);
         $subitems->setTitleModifier(function ($a_id): string {
-            $obj_id = ilObject::_lookupObjId($a_id);
-            $olp = ilObjectLP::getInstance($obj_id);
+            $obj_id = ilObject::_lookupObjId((int)$a_id);
+            $olp = ilObjectLP::getInstance((int)$obj_id);
             $invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
             $mode = $olp->getModeText($olp->getCurrentMode());
             if (in_array($olp->getCurrentMode(), $invalid_modes)) {
                 $mode = "<strong>$mode</strong>";
             }
-            return ilObject::_lookupTitle(ilObject::_lookupObjId($a_id)) . " (" . $mode . ")";
+            return ilObject::_lookupTitle(ilObject::_lookupObjId((int)$a_id)) . " (" . $mode . ")";
         });
 
         $subitems->setRequired(true);
@@ -146,10 +147,10 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         $invalid = array();
         $invalid_modes = self::getInvalidLPModes();
         foreach ($a_form->getInput("subitems") as $ref_id) {
-            $obj_id = ilObject::_lookupObjId($ref_id);
-            $olp = ilObjectLP::getInstance($obj_id);
+            $obj_id = ilObject::_lookupObjId((int)$ref_id);
+            $olp = ilObjectLP::getInstance((int)$obj_id);
             if (in_array($olp->getCurrentMode(), $invalid_modes)) {
-                $invalid[] = ilObject::_lookupTitle($obj_id);
+                $invalid[] = ilObject::_lookupTitle((int)$obj_id);
             }
         }
         if ($invalid !== []) {
