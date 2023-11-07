@@ -176,7 +176,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         }
 
         if (!defined("ILIAS_WEB_DIR")) {
-            define('ILIAS_WEB_DIR', dirname(__DIR__, 5) . "/data/");
+            define('ILIAS_WEB_DIR', dirname(__DIR__, 5) . "/cli/data/");
         }
 
         return $DIC;

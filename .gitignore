@@ -43,7 +43,7 @@
 /components/ILIAS/LegalDocuments/artifacts/*
 
 # Directories
-/data
+/cli/data
 /Customizing/global
 /Customizing/clients
 virtual-data
@@ -53,7 +53,7 @@ virtual-data
 /node_modules
 /components/ILIAS/Chatroom/chat/node_modules
 
-# CI
+# cli
 captainhook.config.json
 captainhook.local.json
 .phpunit.result.cache

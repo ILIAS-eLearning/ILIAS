@@ -92,7 +92,7 @@ class ilWACPath
 
         $result['path_without_query'] = strstr(
             parse_url($path)['path'],
-            '/data/',
+            '/cli/data/',
             false
         );
 

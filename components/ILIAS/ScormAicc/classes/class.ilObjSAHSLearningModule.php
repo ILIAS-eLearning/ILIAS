@@ -285,7 +285,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
     * creates data directory for package files
-    * ("./data/lm_data/lm_<id>")
+    * ("./cli/data/lm_data/lm_<id>")
     */
     public function createDataDirectory(): void
     {

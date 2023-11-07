@@ -201,7 +201,7 @@ class ilRTE
                         $mob_obj = new ilObjMediaObject((int) $mob);
                         $replace = 'il_' . $matches[1][$idx] . '_mob_' . $mob;
                         $path_to_file = ilWACSignedPath::signFile(
-                            ILIAS_HTTP_PATH . '/data/' . CLIENT_ID . '/mobs/mm_' . $mob . '/' . $mob_obj->getTitle()
+                            ILIAS_HTTP_PATH . '/cli/data/' . CLIENT_ID . '/mobs/mm_' . $mob . '/' . $mob_obj->getTitle()
                         );
                         $resulttext = str_replace("src=\"$replace\"", "src=\"" . $path_to_file . "\"", $resulttext);
                     }

@@ -96,7 +96,7 @@ class ilIniFilesPopulatedObjective implements Setup\Objective
 
     protected function getClientDir(string $client_id): string
     {
-        return dirname(__DIR__, 2) . "/data/" . $client_id;
+        return dirname(__DIR__, 2) . "/cli/data/" . $client_id;
     }
 
     protected function getClientIniPath(string $client_id): string

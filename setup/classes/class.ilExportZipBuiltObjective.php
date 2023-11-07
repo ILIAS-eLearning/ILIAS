@@ -75,7 +75,7 @@ class ilExportZipBuiltObjective extends ilSetupObjective
                 false,
                 new ObjectiveWithPreconditions(
                     new ilFileSystemClientDirectoryRenamedObjective(
-                        $this->tmp_dir . "/data/"
+                        $this->tmp_dir . "/cli/data/"
                     ),
                     new ilFileSystemDirectoryCopiedRecursivelyObjective("", $this->tmp_dir . "/data", true)
                 ),
