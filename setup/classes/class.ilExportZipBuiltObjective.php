@@ -25,7 +25,7 @@ class ilExportZipBuiltObjective extends ilSetupObjective
 {
     protected const FILENAME = "ILIAS_EXPORT.zip";
 
-    protected $cwd;
+    protected string $cwd;
 
     public function __construct(Setup\Config $config)
     {
@@ -33,6 +33,9 @@ class ilExportZipBuiltObjective extends ilSetupObjective
         $this->tmp_dir = $this->createTempDir();
         if (is_null($this->tmp_dir)) {
             throw new RuntimeException("Can't create temporary directory!");
+        }
+        if(! array_key_exists('PWD', $_SERVER)) {
+            throw new RuntimeException("Can't get to current directory. \nIf you ran the script using 'sudo', please try using 'sudo -s'");
         }
         $this->cwd = $_SERVER["PWD"];
     }
