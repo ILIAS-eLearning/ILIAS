@@ -9,26 +9,26 @@ chdir(__DIR__ . "/..");
 
 require_once(__DIR__ . "/../vendor/composer/vendor/autoload.php");
 
-require_once(__DIR__ . "/../cli/inc.ilias_version.php");
+require_once(__DIR__ . "/inc.ilias_version.php");
 
 // according to ./Services/Feeds/classes/class.ilExternalFeed.php:
 if (!defined("MAGPIE_DIR")) {
     define("MAGPIE_DIR", "./components/ILIAS/Feeds/magpierss/");
 }
 
-require_once(__DIR__ . "/classes/class.ilSetupObjective.php");
-require_once(__DIR__ . "/classes/class.ilSetupAgent.php");
-require_once(__DIR__ . "/classes/class.ilSetupConfig.php");
-require_once(__DIR__ . "/classes/class.ilMakeInstallationAccessibleObjective.php");
-require_once(__DIR__ . "/classes/class.ilUseRootConfirmed.php");
-require_once(__DIR__ . "/classes/class.ilOwnRiskConfirmedObjective.php");
-require_once(__DIR__ . "/classes/class.ilOverwritesExistingInstallationConfirmed.php");
-require_once(__DIR__ . "/classes/class.ilIniFilesPopulatedObjective.php");
-require_once(__DIR__ . "/classes/class.ilIniFilesLoadedObjective.php");
-require_once(__DIR__ . "/classes/class.ilNICKeyRegisteredObjective.php");
-require_once(__DIR__ . "/classes/class.ilNICKeyStoredObjective.php");
-require_once(__DIR__ . "/classes/class.ilSetupConfigStoredObjective.php");
-require_once(__DIR__ . "/classes/class.ilSetupMetricsCollectedObjective.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilSetupObjective.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilSetupAgent.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilSetupConfig.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilMakeInstallationAccessibleObjective.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilUseRootConfirmed.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilOwnRiskConfirmedObjective.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilOverwritesExistingInstallationConfirmed.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilIniFilesPopulatedObjective.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilIniFilesLoadedObjective.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilNICKeyRegisteredObjective.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilNICKeyStoredObjective.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilSetupConfigStoredObjective.php");
+require_once(__DIR__ . "/../components/ILIAS/setup_/classes/class.ilSetupMetricsCollectedObjective.php");
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;

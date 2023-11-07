@@ -79,7 +79,7 @@ class ilIniFilesLoadedObjective implements Setup\Objective
         }
 
         if ($environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI) == null) {
-            $path = dirname(__DIR__, 2) . "/ilias.ini.php";
+            $path = dirname(__DIR__, 4) . "/ilias.ini.php";
             $ini = new ilIniFile($path);
             $ini->read();
             $environment = $environment
@@ -110,6 +110,6 @@ class ilIniFilesLoadedObjective implements Setup\Objective
 
     protected function getClientDir($client_id): string
     {
-        return dirname(__DIR__, 2) . "/cli/data/$client_id";
+        return dirname(__DIR__, 4) . "/cli/data/$client_id";
     }
 }

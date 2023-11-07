@@ -250,7 +250,7 @@ class ilDBUpdate
         }
 
         $this->custom_updates_setting = new ilSetting();
-        $custom_updates_file = $this->PATH . 'setup/sql/dbupdate_custom.php';
+        $custom_updates_file = $this->PATH . './components/ILIAS/setup_/sql/dbupdate_custom.php';
         if (is_file($custom_updates_file)) {
             $this->custom_updates_content = @file($custom_updates_file);
             $this->custom_updates_current_version = (int) $this->custom_updates_setting->get('db_version_custom', '0');

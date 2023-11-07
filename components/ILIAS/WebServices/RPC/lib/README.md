@@ -119,7 +119,7 @@ The ```<CLIENT_INFO>``` is a combination of the client id and the installation i
 You find these values with the setup status command:
 ```shell
 > cd <ILIAS_ROOT_DIRECTORY>
-> php setup/cli.php status
+> php cli/setup.php status
 ...
 config:
     common:

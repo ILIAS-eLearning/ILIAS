@@ -14,7 +14,7 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"@php setup/cli.php build-artifacts --yes"
+			"@php cli/setup.php build-artifacts --yes"
 		],
 		"post-install-cmd": [
 			"@php vendor/composer/rmdirs.php"
@@ -94,12 +94,16 @@
 			"./components/ILIAS",
 			"./vendor/ilias",
 			"./components/ILIAS/soap",
-			"./setup/classes"
+			"./components/ILIAS/setup_/classes"
 		],
 		"exclude-from-classmap": [
 			"./components/ILIAS/Migration",
 			"./*/*/lib", "./*/*/test",
-			"./Customizing/**/vendor"
+			"./Customizing/**/vendor",
+			"./components/ILIAS/setup_/sql",
+			"./cli/setup.php",
+			"./components/ILIAS/setup_/client.master.ini.php",
+			"./components/ILIAS/setup_/ilias.master.ini.php"
 		]
 	},
 	"extra": {

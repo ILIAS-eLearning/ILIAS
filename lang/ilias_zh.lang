@@ -4006,7 +4006,7 @@ common#:#gender_m#:#男
 common#:#gender_n#:#No salutation desired###31 08 2017 new variable
 common#:#general_settings#:#一般设置
 common#:#generate#:#生成
-common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="scripts/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.###24 10 2013 new variable
+common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="cli/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.###24 10 2013 new variable
 common#:#glo#:#词汇表
 common#:#glo_add#:#增加词汇表
 common#:#glo_added#:#词汇表已增加

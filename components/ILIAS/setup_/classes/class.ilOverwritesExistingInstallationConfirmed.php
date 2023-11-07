@@ -94,7 +94,7 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
 
     public function iniExists(): bool
     {
-        return file_exists(dirname(__DIR__, 2) . "/ilias.ini.php");
+        return file_exists(dirname(__DIR__, 4) . "/ilias.ini.php");
     }
 
     public function clientIniExists(): bool
@@ -104,6 +104,6 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
 
     protected function getClientDir(): string
     {
-        return dirname(__DIR__, 2) . "/cli/data/" . ((string) $this->config->getClientId());
+        return dirname(__DIR__, 4) . "/cli/data/" . ((string) $this->config->getClientId());
     }
 }

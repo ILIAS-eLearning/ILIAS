@@ -46,4 +46,4 @@ jobs:
 
       - name: Perform setup
         run: |
-           php scripts/setup.php install -y ../ilias-ci-config.json
+           php cli/setup.php install -y ../ilias-ci-config.json

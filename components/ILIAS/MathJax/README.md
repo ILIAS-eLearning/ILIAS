@@ -2,7 +2,7 @@
 
 This service renders TeX expressions found at different places in ILIAS content to a display of the expressed formula. The rendering can be done either in the browser by an included JavaScript of MathJax or on the server. See [Server installation](docs/install-server.md) on how to install a mathjax server.
 
-Both rendering types are configured in *Administration > Extending ILIAS > Third Party Software > MathJax*. The same configuration can also be done by settings in the config file of the ILIAS seup, see the [Setup README](../../setup/README.md) for details. If some settings are configured in the setup, they will overwrite the manual settings with the next update. 
+Both rendering types are configured in *Administration > Extending ILIAS > Third Party Software > MathJax*. The same configuration can also be done by settings in the config file of the ILIAS seup, see the [Setup README](../../setup_/README.md) for details. If some settings are configured in the setup, they will overwrite the manual settings with the next update. 
 
 Please note that TeX content is currently only supported at specific places in ILIAS, e.g. page editor content or content produced by the TinyMCE rich text editor. If TeX is rendered in the browser and the included MathJax script finds TeX expressions with the supported delimiters at other places, these will be rendered, too. However, if TeX must be rendered on the server, e.g. for PDF generation, these places will be ignored. See https://docu.ilias.de/goto_docu_wiki_wpage_5614_1357.html for details.
 

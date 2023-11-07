@@ -3690,7 +3690,7 @@ common#:#day#:#Dzień
 common#:#days#:#Dni
 common#:#db_host#:#Serwer bazy danych
 common#:#db_name#:#Nazwa bazy danych
-common#:#db_need_hotfix#:#Hotfix jest dostępny. Otwórz <a href="scripts/setup.php">»Setup</a>!
+common#:#db_need_hotfix#:#Hotfix jest dostępny. Otwórz <a href="cli/setup.php">»Setup</a>!
 common#:#db_need_update#:#Baza danych wymaga uaktualnienia!
 common#:#db_pass#:#Hasło do bazy danych
 common#:#db_type#:#Typ bazy danych
@@ -4007,7 +4007,7 @@ common#:#gender_m#:#Mężczyzna
 common#:#gender_n#:#Bez tytułu
 common#:#general_settings#:#Ustawienia ogólne
 common#:#generate#:#Generuj
-common#:#ghostscript_not_configured#:#Ghostscript nie jest skonfigurowany. Otwórz <a href="scripts/setup.php?cmd=mastersettings" target=”_blank”>Setup</a>, aby skonfigurować Ghostscript.
+common#:#ghostscript_not_configured#:#Ghostscript nie jest skonfigurowany. Otwórz <a href="cli/setup.php?cmd=mastersettings" target=”_blank”>Setup</a>, aby skonfigurować Ghostscript.
 common#:#glo#:#Słownik
 common#:#glo_add#:#Dodaj słownik
 common#:#glo_added#:#Słownik został dodany

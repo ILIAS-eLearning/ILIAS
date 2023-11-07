@@ -24,7 +24,7 @@ use ILIAS\Data\Password;
 class ilDatabaseSetupConfig implements Setup\Config
 {
     public const DEFAULT_COLLATION = "utf8_general_ci";
-    public const DEFAULT_PATH_TO_DB_DUMP = "./setup/sql/ilias3.sql";
+    public const DEFAULT_PATH_TO_DB_DUMP = "./components/ILIAS/setup_/sql/ilias3.sql";
 
     protected string $type;
 

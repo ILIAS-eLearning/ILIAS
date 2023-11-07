@@ -38,7 +38,7 @@ abstract class AbstractOfFinder
         '.*/Customizing/.*/src/',
         '.*/vendor/',
         '.*/test/',
-        '.*/setup/',
+        '.*/components/ILIAS/setup_/',
         // Classes using removed Auth-class from PEAR
         '.*ilSOAPAuth.*',
         // Classes using unknown
@@ -53,7 +53,7 @@ abstract class AbstractOfFinder
     public function __construct()
     {
         $this->root = substr(__FILE__, 0, strpos(__FILE__, DIRECTORY_SEPARATOR . "src"));
-        $external_classmap = include "./vendor/composer/vendor/composer/autoload_classmap.php";
+        $external_classmap = include (__DIR__ . "/../../../../vendor/composer/vendor/composer/autoload_classmap.php");
         $this->classmap = $external_classmap ?: null;
     }
 

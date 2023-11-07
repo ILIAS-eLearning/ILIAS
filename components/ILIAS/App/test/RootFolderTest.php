@@ -92,7 +92,6 @@ final class RootFolderTest extends TestCase
         'node_modules',
         'public',
         'scripts',
-        'setup',
         'templates',
         'test',
         'vendor',

@@ -5,7 +5,7 @@
 With ILIAS 7 the possibility of migrations was introduced in the setup. Among other things, these are used to transfer
 files from old structures to the ILIAS Resource Storage Service (IRSS).
 
-Information about migrations in general can be found at [setup/README](../../setup/README.md).
+Information about migrations in general can be found at [setup_/README](../../setup_/README.md).
 
 ## General approach
 
@@ -67,7 +67,7 @@ public function step_3(): void
 }
 ```
 
-The actual migration consists is structured as described in [setup/README](../../setup/README.md). The following two
+The actual migration consists is structured as described in [setup_/README](../../setup_/README.md). The following two
 methods are the most relevant for the migration:
 
 - public function getPreconditions(Environment $environment): array

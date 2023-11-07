@@ -29,7 +29,7 @@
 /ilias.ini.php
 /ilias.log
 /db_template_writer.php
-/setup/sql/dbupdate_custom.php
+/components/ILIAS/setup_/sql/dbupdate_custom.php
 /install_client.php
 /components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php
 /components/ILIAS/Style/System/data/data.php
