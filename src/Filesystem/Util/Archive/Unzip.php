@@ -206,7 +206,16 @@ class Unzip
             $sufix = '.' . pathinfo($zip_path, PATHINFO_EXTENSION);
             $top_directory = basename($zip_path, $sufix);
 
-            $destination_path .= self::DIRECTORY_SEPARATOR . $top_directory;
+            // first we check if the ZIP contains the top directory
+            $has_top_directory = true;
+            foreach ($this->getPaths() as $path) {
+                $has_top_directory = str_starts_with($path, $top_directory) && $has_top_directory;
+            }
+
+            // if not, we prepend the top directory to the destination path
+            if(!$has_top_directory) {
+                $destination_path .= self::DIRECTORY_SEPARATOR . $top_directory;
+            }
         }
 
         if ($this->options->isFlat()) {
