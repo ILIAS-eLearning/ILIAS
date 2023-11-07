@@ -199,7 +199,8 @@ class FlySystemFileAccessTest extends TestCase
 
     public function testGetTimestampWhichShouldSucceed(): void
     {
-        $timestamp = strtotime('2012-02-06');
+        $datetime = '2012-02-06';
+        $timestamp = strtotime($datetime);
         $this->filesystemMock
             ->shouldReceive('lastModified')
             ->once()
@@ -218,7 +219,7 @@ class FlySystemFileAccessTest extends TestCase
          * Danger; this is only the observed behaviour and was not documented at least the part with the === operator.
          * Tested with DateTime objects (PHP 7.1.6)
          */
-        $this->assertEquals(new \DateTime($timestamp), $actualTimestamp);
+        $this->assertEquals(new \DateTime($datetime), $actualTimestamp);
     }
 
     public function testGetTimestampWithUnknownErrorWhichShouldFail(): void
