@@ -207,6 +207,7 @@ abstract class ilBlockGUI
 
     public function checkOffset(int $offset): bool
     {
+        $this->max_count = count($this->getData());
         return $offset <= $this->max_count && $offset >= 0;
     }
 
@@ -463,7 +464,7 @@ abstract class ilBlockGUI
         if ($ilCtrl->isAsynch()) {
             // return without div wrapper
             echo $this->tpl->get();
-        //echo $this->tpl->getAsynch();
+            //echo $this->tpl->getAsynch();
         } else {
             // return incl. wrapping div with id
             return '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
