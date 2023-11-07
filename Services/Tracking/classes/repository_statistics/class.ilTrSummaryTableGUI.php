@@ -66,7 +66,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $this->addColumn($labels[$c]["txt"], $c);
         }
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $this->ref_id)) {
+        if ($this->is_root) {
             $this->addColumn($this->lng->txt("path"));
             $this->addColumn($this->lng->txt("action"));
         }
