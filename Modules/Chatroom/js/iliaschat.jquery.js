@@ -547,7 +547,6 @@
                 const body = document.querySelector('#invite_users_container');
                 input.value = '';
                 const modal = window.il.Modal.dialogue({
-                    id: 'heja',
                     header: txt('invite_users'),
                     show: true,
                     body: body,

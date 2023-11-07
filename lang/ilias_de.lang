@@ -2920,6 +2920,7 @@ chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie den Grupp
 chatroom#:#chat_osc_user#:#Benutzer
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat den Gruppenchat verlassen.
 chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
+chatroom#:#chat_select_room#:#Chatraum auswählen
 chatroom#:#chat_settings#:#Chat-Einstellungen
 chatroom#:#chat_settings_functions_header#:#Funktionen des Chats
 chatroom#:#chat_show_auto_messages#:#Automatische Meldungen anzeigen
@@ -11166,10 +11167,14 @@ lti#:#user_provider_subtab#:#Von Benutzern definierte Provider
 ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner
+mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
+mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto und können nicht eingeladen werden:
+mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#forward#:#Weiterleiten
+mail#:#goto_invitation_chat#:#Chatraum öffnen
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#link_check_affected_links#:#Betroffene Links
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
@@ -11274,6 +11279,7 @@ mail#:#mail_incoming_mail#:#Maileingang
 mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
+mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
 mail#:#mail_is_read#:#gelesen
 mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#Mitglieder auflisten
