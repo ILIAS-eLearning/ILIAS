@@ -2179,6 +2179,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
                 $settings_gui = $DIC->contentStyle()->gui()
                     ->objectSettingsGUIForRefId(
                         null,
