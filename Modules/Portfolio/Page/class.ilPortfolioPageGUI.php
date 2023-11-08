@@ -1179,7 +1179,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         ilUserCertificateRepository $userCertificateRepository,
         string $url
     ): string {
-        $presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
+        try {
+            $presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
+        } catch (Exception $e) {
+            return "";
+        }
         $caption = $this->lng->txt('certificate') . ': ';
         $caption .= $this->lng->txt($presentation->getUserCertificate()->getObjType()) . ' ';
         $caption .= '"' . $presentation->getObjectTitle() . '"';
