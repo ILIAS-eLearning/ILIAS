@@ -131,7 +131,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
       following fields `usage`, `interaction`, `wording`, `style`, `ordering`, 
       `responsiveness`, `composition` and `accessibility`.
 * The parameters of every method MUST be type hinted if expressible in PHP.
-* The proposed interfaces MUST pass a phpunit test extending `tests/UI/AbstractFactoryTest`.
+* The proposed interfaces MUST pass a phpunit test extending `UI/test/AbstractFactoryTest`.
 
 ### Interfaces to UI components
 

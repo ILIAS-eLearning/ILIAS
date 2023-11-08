@@ -218,7 +218,7 @@ If you would like to implement a new component for the framework, you should per
     }
     ```
 5. Make sure all tests are passing by executing '''phpunit tests/UI'''. For the demo component
-  this means we have to add the following line to NoUIFactory in tests/UI/Base.php:
+  this means we have to add the following line to NoUIFactory in UI/test/Base.php:
     ``` php
     public function demo($demo){}
     ```
@@ -258,7 +258,7 @@ If you would like to implement a new component for the framework, you should per
 
 7. Next you should create the necessary tests for the new component. At least provide tests
   for all interface methods and the rendering.
-  For the demo component this looks as follows (located at tests/UI/Component/Demo/DemoTest.php):
+  For the demo component this looks as follows (located at UI/test/Component/Demo/DemoTest.php):
    ``` php
     <?php declare(strict_types=1)
 

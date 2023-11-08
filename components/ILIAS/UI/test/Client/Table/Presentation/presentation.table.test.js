@@ -12,17 +12,17 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import fs from 'fs';
-import PresentationTableFactory from '../../../../../../../components/ILIAS/UI/src/templates/js/Table/src/presentationtable.factory';
-import PresentationTable from '../../../../../../../components/ILIAS/UI/src/templates/js/Table/src/presentationtable.class';
+import PresentationTableFactory from '../../../../src/templates/js/Table/src/presentationtable.factory';
+import PresentationTable from '../../../../src/templates/js/Table/src/presentationtable.class';
 
 describe('Presentation Table', () => {
   beforeEach(() => {
-    const domString = fs.readFileSync('./tests/UI/Client/Table/Presentation/PresentationTest.html').toString();
+    const domString = fs.readFileSync('./components/ILIAS/UI/test/Client/Table/Presentation/PresentationTest.html').toString();
     const dom = new JSDOM(domString);
     /* eslint-env jquery */
     dom.window.document.getElementById = (id) => $(`#${id}`)[0];
