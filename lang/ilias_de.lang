@@ -16520,6 +16520,7 @@ survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung senden
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Spalten-Einstellungen summieren sich nicht auf 100%.
 survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
 survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
+survey#:#svy_no_appraisees_found#:#Es liegen keine Feedback-Nehmer mit abgegebenen Feedbacks vor.
 survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
 survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
 survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
