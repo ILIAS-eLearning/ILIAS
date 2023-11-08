@@ -751,7 +751,7 @@ class PageContentGUI
             if ($this->admin_panel_arrow) {
                 $toolb->setLeadingImage(\ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
             }
-
+            $toolb->setId($toolb->getId() . "2");
             $this->template_file->setVariable("ADM_PANEL2", $toolb->getHTML());
             $this->template_file->parseCurrentBlock();
         }
