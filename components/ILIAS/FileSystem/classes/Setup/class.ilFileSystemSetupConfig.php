@@ -38,6 +38,6 @@ class ilFileSystemSetupConfig implements Setup\Config
 
     public function getWebDir(): string
     {
-        return dirname(__DIR__, 5) . "/data";
+        return dirname(__DIR__, 5) . "/cli/data";
     }
 }

@@ -5,7 +5,7 @@ absolute_path = ""
 presetting = ""
 
 [clients]
-path = "data"
+path = "cli/data"
 inifile = "client.ini.php"
 datadir = ""
 default = ""

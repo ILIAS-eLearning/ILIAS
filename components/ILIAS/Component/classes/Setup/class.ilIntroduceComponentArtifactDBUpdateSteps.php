@@ -32,7 +32,9 @@ class ilIntroduceComponentArtifactDBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $this->db->dropTable("il_component");
+        if ($this->db->tableExists("il_compoment")) {
+            $this->db->dropTable("il_component");
+        }
     }
 
     public function step_2(): void

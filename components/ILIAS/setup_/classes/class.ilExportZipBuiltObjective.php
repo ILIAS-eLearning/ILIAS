@@ -77,13 +77,13 @@ class ilExportZipBuiltObjective extends ilSetupObjective
                     new ilFileSystemClientDirectoryRenamedObjective(
                         $this->tmp_dir . "/cli/data/"
                     ),
-                    new ilFileSystemDirectoryCopiedRecursivelyObjective("", $this->tmp_dir . "/data", true)
+                    new ilFileSystemDirectoryCopiedRecursivelyObjective("", $this->tmp_dir . "/cli/data", true)
                 ),
                 new ObjectiveWithPreconditions(
                     new ilFileSystemClientDirectoryRenamedObjective(
                         $this->tmp_dir . "/web_data/"
                     ),
-                    new ilFileSystemDirectoryCopiedRecursivelyObjective("data", $this->tmp_dir . "/web_data"),
+                    new ilFileSystemDirectoryCopiedRecursivelyObjective("cli/data", $this->tmp_dir . "/web_data"),
                 ),
             ),
             new ilFileSystemDirectoryCopiedRecursivelyObjective("Customizing", $this->tmp_dir . "/Customizing"),
@@ -104,12 +104,12 @@ class ilExportZipBuiltObjective extends ilSetupObjective
 
         $this->addFolderToZip($this->tmp_dir . "/web_data", $this->tmp_dir . "/web_data.zip");
         $this->addFolderToZip($this->tmp_dir . "/Customizing", $this->tmp_dir . "/Customizing.zip");
-        $this->addFolderToZip($this->tmp_dir . "/data", $this->tmp_dir . "/data.zip");
+        $this->addFolderToZip($this->tmp_dir . "/cli/data", $this->tmp_dir . "/data.zip");
         $this->addFolderToZip($this->tmp_dir . "/dump", $this->tmp_dir . "/dump.zip");
 
         $this->deleteDirRecursive($this->tmp_dir . "/web_data");
         $this->deleteDirRecursive($this->tmp_dir . "/Customizing");
-        $this->deleteDirRecursive($this->tmp_dir . "/data");
+        $this->deleteDirRecursive($this->tmp_dir . "/cli/data");
         $this->deleteDirRecursive($this->tmp_dir . "/dump");
 
         $this->addFolderToZip($this->tmp_dir, $this->cwd . "/" . self::FILENAME);
