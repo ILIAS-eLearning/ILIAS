@@ -14,6 +14,6 @@ chdir("../../");
 require_once __DIR__ . "/../../vendor/composer/vendor/autoload.php";
 ilInitialisation::initILIAS();
 
-// handle all requests behind /cli/wopi/index.php/
+// handle all requests behind /public/wopi/index.php/
 $handler = new RequestHandler();
 $handler->handleRequest();

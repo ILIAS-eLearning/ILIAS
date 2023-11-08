@@ -275,7 +275,7 @@ Move contents of `CI` to `scripts` directory and adjust references.
 
 ## 7. ./sso
 
-Move `sso` directory to `cli` directory and adjust references.
+Move `sso` directory to `public` directory and adjust references.
 
 -----------
 ### Testing
@@ -382,9 +382,9 @@ public function step_1(): void
 
 ## 12. ./data
 
-Move `data` contents to `cli` directory and adjust references.
+Move `data` contents to `public` directory and adjust references.
 
-Adjust ilias.ini.php, L. 8 =>
+Adjust ilias.master.ini.php =>
 ``` 
 [clients]
 path = "public/data"
@@ -454,7 +454,7 @@ Adjust references.
 
 ## 16. ./wopi
 
-Move `wopi` to `cli`.
+Move `wopi` to `public`.
 Adjust references.
 
 

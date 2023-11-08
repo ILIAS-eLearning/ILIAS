@@ -28,7 +28,7 @@ use ILIAS\FileDelivery\Token\DataSigner;
  */
 final class RequestHandler
 {
-    public const WOPI_BASE_URL = '/cli/wopi/index.php/';
+    public const WOPI_BASE_URL = '/public/wopi/index.php/';
     public const NAMESPACE_FILES = 'files';
 
     // WOPI Header
