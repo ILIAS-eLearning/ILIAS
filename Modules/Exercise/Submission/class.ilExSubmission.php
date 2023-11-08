@@ -1080,6 +1080,7 @@ class ilExSubmission
         global $DIC;
 
         $lng = $DIC->language();
+        $log = ilLoggerFactory::getLogger("exc");
 
         $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
         $storage->create();
@@ -1159,8 +1160,11 @@ class ilExSubmission
                     $targetdir = $team_dir . $targetdir;
                 }
             }
+
+            $log->debug("Creation target directory: " . $targetdir);
             ilFileUtils::makeDir($targetdir);
 
+            $log->debug("Scanning source directory: " . $sourcedir);
             $sourcefiles = scandir($sourcedir);
             $duplicates = array();
             foreach ($sourcefiles as $sourcefile) {
@@ -1208,6 +1212,8 @@ class ilExSubmission
                 $targetfile = $targetdir . DIRECTORY_SEPARATOR . $targetfile;
                 $sourcefile = $sourcedir . DIRECTORY_SEPARATOR . $sourcefile;
 
+                $log->debug("Copying: " . $sourcefile . " -> " . $targetfile);
+
                 if (!copy($sourcefile, $targetfile)) {
                     throw new ilExerciseException("Could not copy " . basename($sourcefile) . " to '" . $targetfile . "'.");
                 } else {
@@ -1217,6 +1223,9 @@ class ilExSubmission
                     // blogs and portfolios are stored as zip and have to be unzipped
                     if ($ass_type == ilExAssignment::TYPE_PORTFOLIO ||
                         $ass_type == ilExAssignment::TYPE_BLOG) {
+                        $log->debug("Unzipping: " . $targetfile);
+                        $log->debug("Current directory is: " . getcwd());
+
                         ilFileUtils::unzip($targetfile);
                         unlink($targetfile);
                     }
