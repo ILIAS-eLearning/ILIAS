@@ -6457,14 +6457,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withIntroductionSettings(
                 $main_settings->getIntroductionSettings()
                 ->withIntroductionEnabled((bool) $testsettings['IntroEnabled'])
-                ->withExamConditionsCheckboxEnabled((bool) $testsettings['ExamConditionsCheckboxEnabled'])
+                ->withExamConditionsCheckboxEnabled((bool) ($testsettings['ExamConditionsCheckboxEnabled'] ?? false))
             )
             ->withAccessSettings(
                 $main_settings->getAccessSettings()
                 ->withStartTimeEnabled((bool) $testsettings['StartingTimeEnabled'])
-                ->withStartTime($testsettings['StartingTime'])
+                ->withStartTime($this->convertTimeToDateTimeImmutableIfNecessary($testsettings['StartingTime']))
                 ->withEndTimeEnabled((bool) $testsettings['EndingTimeEnabled'])
-                ->withEndTime($testsettings['EndingTime'])
+                ->withEndTime($this->convertTimeToDateTimeImmutableIfNecessary($testsettings['EndingTime']))
                 ->withPasswordEnabled((bool) $testsettings['password_enabled'])
                 ->withPassword($testsettings['password'])
                 ->withFixedParticipants((bool) $testsettings['fixed_participants'])
@@ -6508,15 +6508,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 $main_settings->getFinishingSettings()
                 ->withShowAnswerOverview((bool) $testsettings['enable_examview'])
                 ->withConcludingRemarksEnabled((bool) $testsettings['ShowFinalStatement'])
-                ->withRedirectionMode($testsettings['redirection_mode'])
+                ->withRedirectionMode((int) $testsettings['redirection_mode'])
                 ->withRedirectionUrl($testsettings['redirection_url'])
-                ->withMailNotificationContentType($testsettings['mailnotification'])
+                ->withMailNotificationContentType((int) $testsettings['mailnotification'])
                 ->withAlwaysSendMailNotification((bool) $testsettings['mailnottype'])
             )
             ->withAdditionalSettings(
                 $main_settings->getAdditionalSettings()
                     ->withSkillsServiceEnabled((bool) $testsettings['skill_service'])
-                    ->withHideInfoTab((bool) $testsettings['HideInfoTab'])
+                    ->withHideInfoTab((bool) ($testsettings['HideInfoTab'] ?? false))
             );
 
         $this->getMainSettingsRepository()->store($main_settings);
@@ -6534,7 +6534,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withPassDeletionAllowed((bool) $testsettings['pass_deletion_allowed'])
                 ->withShowGradingStatusEnabled((bool) $testsettings['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $testsettings['show_grading_mark'])
-                ->withScoreReporting($testsettings['ScoreReporting'])
+                ->withScoreReporting((int) $testsettings['ScoreReporting'])
                 ->withReportingDate(
                     $testsettings['ReportingDate'] !== null ?
                         new DateTimeImmutable($testsettings['ReportingDate']) :
@@ -6543,7 +6543,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             )
             ->withResultDetailsSettings(
                 $score_settings->getResultDetailsSettings()
-                ->withResultsPresentation($testsettings['ResultsPresentation'])
+                ->withResultsPresentation((int) $testsettings['ResultsPresentation'])
                 ->withShowSolutionListComparison((bool) ($testsettings['show_solution_list_comparison'] ?? 0))
                 ->withShowExamIdInTestResults((bool) $testsettings['examid_in_test_res'])
             )
@@ -6565,6 +6565,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->saveToDb();
 
         return true;
+    }
+
+    private function convertTimeToDateTimeImmutableIfNecessary(
+        DateTimeImmutable|int|null $date_time
+    ): ?DateTimeImmutable {
+        if ($date_time === null || $date_time instanceof DateTimeImmutable) {
+            return $date_time;
+        }
+
+        return DateTimeImmutable::createFromFormat('U', (string) $date_time);
     }
 
     /**
