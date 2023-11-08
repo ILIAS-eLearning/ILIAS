@@ -100,7 +100,7 @@ class ilInitialisation
     protected static function requireCommonIncludes(): void
     {
         /** @noRector */
-        require_once "cli/inc.ilias_version.php";
+        require_once __DIR__."/../../../../inc.ilias_version.php";
 
         self::initGlobal("ilBench", "ilBenchmark", "./components/ILIAS/Utilities/classes/class.ilBenchmark.php");
     }

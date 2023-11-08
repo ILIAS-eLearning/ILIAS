@@ -9,7 +9,7 @@ chdir(__DIR__ . "/..");
 
 require_once(__DIR__ . "/../vendor/composer/vendor/autoload.php");
 
-require_once(__DIR__ . "/inc.ilias_version.php");
+require_once(__DIR__ . "/../ilias_version.php");
 
 // according to ./Services/Feeds/classes/class.ilExternalFeed.php:
 if (!defined("MAGPIE_DIR")) {
