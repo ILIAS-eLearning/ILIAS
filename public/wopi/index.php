@@ -11,7 +11,7 @@
 use ILIAS\components\WOPI\Handler\RequestHandler;
 
 chdir("../../");
-require_once __DIR__ . "/../../vendor/composer/vendor/autoload.php";
+require_once __DIR__ . "../../vendor/composer/vendor/autoload.php";
 ilInitialisation::initILIAS();
 
 // handle all requests behind /public/wopi/index.php/

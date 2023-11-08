@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 try {
-    require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
+    require_once("../vendor/composer/vendor/autoload.php");
     ilInitialisation::initILIAS();
     $DIC->globalScreen()->tool()->context()->claim()->external();
     $local_tpl = new ilGlobalTemplate("tpl.main.html", true, true);

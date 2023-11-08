@@ -35,8 +35,6 @@ use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
 use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
 
-require_once("vendor/composer/vendor/autoload.php");
-
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
     $GLOBALS['ilGlobalStartTime'] = microtime();
@@ -100,7 +98,7 @@ class ilInitialisation
     protected static function requireCommonIncludes(): void
     {
         /** @noRector */
-        require_once __DIR__."/../../../../inc.ilias_version.php";
+        require_once __DIR__."/../../../../ilias_version.php";
 
         self::initGlobal("ilBench", "ilBenchmark", "./components/ILIAS/Utilities/classes/class.ilBenchmark.php");
     }

@@ -2,7 +2,7 @@
 
 namespace ILIAS\GlobalScreen\Client;
 
-require_once('./vendor/composer/vendor/autoload.php');
+require_once('../vendor/composer/vendor/autoload.php');
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;

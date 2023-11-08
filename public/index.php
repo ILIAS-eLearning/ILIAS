@@ -12,7 +12,7 @@
 */
 
 // jump to setup if ILIAS3 is not installed
-if (!file_exists(getcwd() . "/ilias.ini.php")) {
+if (!file_exists(getcwd() . "/../ilias.ini.php")) {
     header("Location: ./cli/setup.php");
     exit();
 }

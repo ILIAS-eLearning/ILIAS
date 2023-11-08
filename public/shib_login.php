@@ -13,7 +13,7 @@
  *
  *****************************************************************************/
 /** @noRector */
-require_once("vendor/composer/vendor/autoload.php");
+require_once("../vendor/composer/vendor/autoload.php");
 ilContext::init(ilContext::CONTEXT_SHIBBOLETH);
 ilInitialisation::initILIAS();
 global $DIC;
