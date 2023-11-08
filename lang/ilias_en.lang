@@ -16058,6 +16058,7 @@ survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
 survey#:#svy_only_max_one_external_rater#:#Please select only one external rater.
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.
 survey#:#svy_page_add_question#:#Add new %s
 survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!
 survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!
