@@ -51,7 +51,7 @@ class LegacyPathHelperTest extends TestCase
 
         $iliasAbsolutePath = '/dummy/var/www/html/ilias';
         $dataDir = '/dummy/var/www/ildata';
-        $webDir = 'cli/data';
+        $webDir = 'public/data';
         $clientId = 'default';
 
         //constants needed for test subject

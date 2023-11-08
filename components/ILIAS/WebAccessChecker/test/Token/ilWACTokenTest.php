@@ -166,7 +166,7 @@ class ilWACTokenTest extends MockeryTestCase
 
         $this->assertEquals('dummy.jpg', $ilWACSignedPath->getPathObject()->getFileName());
         $this->assertEquals($query, $ilWACSignedPath->getPathObject()->getQuery());
-        $this->assertEquals('./cli/data/' . self::CLIENT_NAME
+        $this->assertEquals('./public/data/' . self::CLIENT_NAME
                             . '/sec/ilBlog/mm_124/', $ilWACSignedPath->getPathObject()
                                                                      ->getSecurePath());
         $this->assertEquals('ilBlog', $ilWACSignedPath->getPathObject()->getSecurePathId());

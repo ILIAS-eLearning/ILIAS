@@ -34,10 +34,10 @@ class UserHtmlExport
      */
     public function exportUserImages(string $dir, array $user_ids): void
     {
-        $base_dir = $dir . "/cli/data/" . CLIENT_ID . "/usr_images";
+        $base_dir = $dir . "/public/data/" . CLIENT_ID . "/usr_images";
         ilFileUtils::makeDirParents($base_dir);
         foreach ($user_ids as $id) {
-            $source = "./cli/data/" . CLIENT_ID . "/usr_images/usr_$id.jpg";
+            $source = "./public/data/" . CLIENT_ID . "/usr_images/usr_$id.jpg";
             if (is_file($source)) {
                 copy($source, $base_dir . "/usr_$id.jpg");
             }

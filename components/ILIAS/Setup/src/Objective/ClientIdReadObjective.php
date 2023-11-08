@@ -107,7 +107,7 @@ class ClientIdReadObjective implements Setup\Objective
 
     protected function getDataDirectoryPath(): string
     {
-        return dirname(__DIR__, 5) . "/cli/data";
+        return dirname(__DIR__, 5) . "/public/data";
     }
 
     protected function scanDirectory(string $path): array

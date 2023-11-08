@@ -387,7 +387,7 @@ Move `data` contents to `cli` directory and adjust references.
 Adjust ilias.ini.php, L. 8 =>
 ``` 
 [clients]
-path = "cli/data"
+path = "public/data"
 ```
 
 -----------

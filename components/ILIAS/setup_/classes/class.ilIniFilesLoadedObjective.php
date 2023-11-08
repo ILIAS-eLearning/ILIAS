@@ -110,6 +110,6 @@ class ilIniFilesLoadedObjective implements Setup\Objective
 
     protected function getClientDir($client_id): string
     {
-        return dirname(__DIR__, 4) . "/cli/data/$client_id";
+        return dirname(__DIR__, 4) . "/public/data/$client_id";
     }
 }

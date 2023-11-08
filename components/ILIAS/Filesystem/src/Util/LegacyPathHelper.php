@@ -72,7 +72,7 @@ final class LegacyPathHelper
      * Tries to fetch the filesystem responsible for the absolute path.
      * Please note that the function is case sensitive.
      *
-     * Relative paths are also detected for the ILIAS web storage like './cli/data/default'
+     * Relative paths are also detected for the ILIAS web storage like './public/data/default'
      *
      *
      * @param string $absolute_path The absolute used for the filesystem search.

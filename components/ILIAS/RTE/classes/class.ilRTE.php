@@ -144,7 +144,7 @@ class ilRTE
     public static function _cleanupMediaObjectUsage(string $a_text, string $a_usage_type, int $a_usage_id): void
     {
         $mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type, $a_usage_id);
-        while (preg_match("/data\/" . CLIENT_ID . "\/mobs\/mm_([0-9]+)/i", $a_text, $found)) {
+        while (preg_match("/public/data\/" . CLIENT_ID . "\/mobs\/mm_([0-9]+)/i", $a_text, $found)) {
             $a_text = str_replace($found[0], '', $a_text);
             $found_mob_id = (int) $found[1];
 
@@ -201,7 +201,7 @@ class ilRTE
                         $mob_obj = new ilObjMediaObject((int) $mob);
                         $replace = 'il_' . $matches[1][$idx] . '_mob_' . $mob;
                         $path_to_file = ilWACSignedPath::signFile(
-                            ILIAS_HTTP_PATH . '/cli/data/' . CLIENT_ID . '/mobs/mm_' . $mob . '/' . $mob_obj->getTitle()
+                            ILIAS_HTTP_PATH . '/public/data/' . CLIENT_ID . '/mobs/mm_' . $mob . '/' . $mob_obj->getTitle()
                         );
                         $resulttext = str_replace("src=\"$replace\"", "src=\"" . $path_to_file . "\"", $resulttext);
                     }

@@ -241,7 +241,7 @@ final class Delivery
         }
 
         if ($this->getDeliveryType() === DeliveryMethod::XACCEL
-            && strpos($this->getPathToFile(), './data') !== 0
+            && strpos($this->getPathToFile(), './public/data') !== 0
         ) {
             $this->setDeliveryType(DeliveryMethod::PHP);
         }

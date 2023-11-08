@@ -43,7 +43,7 @@
 /components/ILIAS/LegalDocuments/artifacts/*
 
 # Directories
-/cli/data
+/public/data
 /Customizing/global
 /Customizing/clients
 virtual-data

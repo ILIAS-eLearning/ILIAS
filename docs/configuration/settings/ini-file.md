@@ -16,7 +16,7 @@ to the webserver. These files are located here:
 | presetting                      | ""                                 |             |
 | timezone                        | "Europe/Berlin"                    |             |
 | **[clients]**                   |                                    |             |
-| path                            | "cli/data"                         |             |
+| path                            | "public/data"                         |             |
 | inifile                         | "client.ini.php"                   |             |
 | datadir                         | "/var/iliasdata"                   |             |
 | default                         | "trunk"                            |             |

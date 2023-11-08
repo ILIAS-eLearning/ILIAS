@@ -51,7 +51,7 @@ class ilIniFilesPopulatedObjective implements Setup\Objective
         // client.ini.php. Why does the client.ini reside in the webdir? If we
         // remove the client-feature, the client-ini will go away...
         return [
-            new Setup\Objective\DirectoryCreatedObjective(dirname(__DIR__, 4) . "/cli/data"),
+            new Setup\Objective\DirectoryCreatedObjective(dirname(__DIR__, 4) . "/public/data"),
             new Setup\Objective\DirectoryCreatedObjective($client_dir),
             new Setup\Condition\CanCreateFilesInDirectoryCondition($client_dir),
             new Setup\Condition\CanCreateFilesInDirectoryCondition(dirname(__DIR__, 4))
@@ -96,7 +96,7 @@ class ilIniFilesPopulatedObjective implements Setup\Objective
 
     protected function getClientDir(string $client_id): string
     {
-        return dirname(__DIR__, 4) . "/cli/data/" . $client_id;
+        return dirname(__DIR__, 4) . "/public/data/" . $client_id;
     }
 
     protected function getClientIniPath(string $client_id): string

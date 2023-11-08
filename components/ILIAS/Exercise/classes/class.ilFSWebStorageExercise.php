@@ -68,7 +68,7 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
     ): void {
         $internal_dir = $this->submissions_path . "/" . $user_id;
 
-        //remove first dot from (./cli/data/client/ilExercise/3/exc_318/subm_21/6)
+        //remove first dot from (./public/data/client/ilExercise/3/exc_318/subm_21/6)
         $internal_dir_without_dot = substr($internal_dir, 1);
 
         $absolute_path = ILIAS_ABSOLUTE_PATH . $internal_dir_without_dot;

@@ -120,7 +120,7 @@ class ilUtil
     /**
      * get url of path
      *
-     * @param $relative_path string: complete path to file, relative to web root (e.g.  /cli/data/pfplms103/mobs/mm_732/athena_standing.jpg)
+     * @param $relative_path string: complete path to file, relative to web root (e.g.  /public/data/pfplms103/mobs/mm_732/athena_standing.jpg)
      * @deprecated
      */
     public static function getHtmlPath(string $relative_path): string

@@ -130,7 +130,7 @@ class XAccelTest extends TestCase
     public function testDeliverWithDataPathWhichShouldSucceed(): void
     {
         $expectedHeader = 'X-Accel-Redirect';
-        $path = './cli/data/path/to/what/ever';
+        $path = './public/data/path/to/what/ever';
         $expectedPath = '/secured-data/path/to/what/ever';
 
         $response = $this->getMockBuilder(ResponseInterface::class)
