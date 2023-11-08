@@ -66,7 +66,7 @@ class ilSkillTemplateCategory extends ilSkillTreeNode
             }
         }
 
-        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTemplateId($sctp_id) as $tref_id) {
+        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTopTemplateId($sctp_id) as $tref_id) {
             $obj = ilSkillTreeNodeFactory::getInstance($tref_id);
             $skill_tree = $this->skill_service->internal()->repo()->getTreeRepo()->getTreeForNodeId($tref_id);
             $node_data = $skill_tree->getNodeData($tref_id);

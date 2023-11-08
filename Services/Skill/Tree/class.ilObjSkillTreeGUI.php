@@ -695,7 +695,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                         : $node_obj->getTitle() .
                         " (" .
                         $this->lng->txt("skmg_count_references") . " " .
-                        count(ilSkillTemplateReference::_lookupTrefIdsForTemplateId($node_obj->getId())) .
+                        count(ilSkillTemplateReference::_lookupTrefIdsForTopTemplateId($node_obj->getId())) .
                         ")";
                 }
                 $confirmation_gui->addItem(
