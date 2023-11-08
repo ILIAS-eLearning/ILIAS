@@ -156,7 +156,7 @@ Skills are organised in a hierarchical structure called the [Skill Tree](#skill-
 
 * **Code**: `class ilSkillRoot`
 
-The root node of a skill tree. There can be more than one.
+The root node of a skill tree. There can be more than one skill trees.
 
 ## Basic Skill
 
@@ -170,6 +170,13 @@ Represents a standard skill. A basic skill has a number of [Skill Levels](#skill
 
 A skill category is kind of a "folder" for skills. Skill Category nodes have either another [Skill Category](#skill-category) or the [Root](#root) as parent in the [Skill Tree](#skill-tree).
 
+**Business Rules**
+
+* When navigating in a Skill Category, an additional tab is shown in the first place. This tab always navigates the user 
+to the parent node, that means one [Skill Category](#skill-category) up or the [Root](#root), no matter from which
+context the user opened the current node. If the parent node is a [Skill Category](#skill-category), the tab is named
+after its title. If the parent node is the [Root](#root), the tab is called "Competences".
+
 ## Skill Template
 
 * **Code**: `class ilSkillTemplate`
@@ -181,6 +188,13 @@ A skill template is like a basic skill, but serves as a template for re-use. A s
 * **Code**: `class ilSkillTemplateCategory`
 
 A skill template category is kind of a "folder" for skill templates. Skill Template Category nodes have either another [Skill Template Category](#skill-template-category) or the [Root](#root) as parent in the [Skill Tree](#skill-tree).
+
+**Business Rules**
+
+* When navigating in a Skill Template Category, an additional tab is shown in the first place. This tab always navigates
+the user to the parent node, that means one [Skill Template Category](#skill-template-category) up or the [Root](#root),
+no matter from which context the user opened the current node. If the parent node is a [Skill Template Category](#skill-template-category),
+the tab is named after its title. If the parent node is the [Root](#root), the tab is called "Competence Templates".
 
 ## Skill Template Reference
 
