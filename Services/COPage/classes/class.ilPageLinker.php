@@ -121,8 +121,8 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                     case "GlossaryItem":
-                        if ($targetframe == "None") {
-                            $targetframe = "Glossary";
+                        if ($targetframe == "Glossary") {
+                            $ltarget = "";
                         }
                         $href = "./goto.php?target=git_" . $target_id;
                         break;
