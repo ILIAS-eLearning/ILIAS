@@ -25,8 +25,8 @@ use ILIAS\Data;
  */
 class ilArtifactComponentRepository implements ilComponentRepositoryWrite
 {
-    public const COMPONENT_DATA_PATH = "components/ILIAS/Component/artifacts/component_data.php";
-    public const PLUGIN_DATA_PATH = "components/ILIAS/Component/artifacts/plugin_data.php";
+    public const COMPONENT_DATA_PATH = "../components/ILIAS/Component/artifacts/component_data.php";
+    public const PLUGIN_DATA_PATH = "../components/ILIAS/Component/artifacts/plugin_data.php";
 
     protected Data\Factory $data_factory;
     protected ilPluginStateDB $plugin_state_db;

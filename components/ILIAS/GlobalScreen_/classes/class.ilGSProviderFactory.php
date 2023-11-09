@@ -59,7 +59,7 @@ class ilGSProviderFactory implements ProviderFactory
         $this->dic = $dic;
         $this->main_menu_item_information = new ilMMItemInformation();
         /** @noRector */
-        $this->class_loader = include "components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php";
+        $this->class_loader = include "../components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php";
         $this->component_repository = $dic["component.repository"];
         $this->component_factory = $dic["component.factory"];
     }

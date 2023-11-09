@@ -37,33 +37,33 @@ class ilSystemStyleConfig
     /**
      * Path to default template of ILIAS (skin default, style delos)
      */
-    protected string $default_template_path = './templates/default/template.xml';
+    protected string $default_template_path = '../templates/default/template.xml';
 
     /**
      * Path to delos css and scss files
      */
-    protected string $delos_path = './templates/default/delos';
+    protected string $delos_path = '../templates/default/delos';
 
     /**
      * Relative delos path from Customizing dir to delos css and Scss files
      */
-    protected string $rel_delos_path = '../../../../../templates/default/delos';
+    protected string $rel_delos_path = '../../../../../../templates/default/delos';
 
 
     /**
      * Path to variables Scss file of delos
      */
-    protected string $default_settings_path = './templates/default/010-settings';
+    protected string $default_settings_path = '../templates/default/010-settings';
 
     /**
      * Path to images directory of delos
      */
-    protected string $default_images_path = './templates/default/images/';
+    protected string $default_images_path = '../templates/default/images/';
 
     /**
      * Path to fonts directory of delos
      */
-    protected string $default_fonts_path = './templates/default/fonts/';
+    protected string $default_fonts_path = '../templates/default/fonts/';
 
     /**
      * SCSS Settings Folder Name
@@ -78,7 +78,7 @@ class ilSystemStyleConfig
     /**
      * Customizing skin path to place folders for custom skins into
      */
-    protected string $customizing_skin_path = './Customizing/global/skin/';
+    protected string $customizing_skin_path = '../../Customizing/global/skin/';
 
     public function getDefaultSkinId(): string
     {

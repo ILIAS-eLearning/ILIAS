@@ -501,9 +501,9 @@ class ilObjStyleSheet extends ilObject
         );
 
     // basic style xml file, image directory and dom
-    protected static string $basic_style_file = "./vendor/ilias/Style/basic_style/style.xml";
-    protected static string $basic_style_zip = "./vendor/ilias/Style/basic_style/style.zip";
-    protected static string $basic_style_image_dir = "./vendor/ilias/Style/basic_style/images";
+    protected static string $basic_style_file = "../vendor/ilias/Style/basic_style/style.xml";
+    protected static string $basic_style_zip = "../vendor/ilias/Style/basic_style/style.zip";
+    protected static string $basic_style_image_dir = "../vendor/ilias/Style/basic_style/images";
     protected static ?DOMDocument $basic_style_dom = null;
 
     public function __construct(
@@ -1603,23 +1603,23 @@ class ilObjStyleSheet extends ilObject
 
             return $path;
         } else {		// todo: work this out
-            return "./components/ILIAS/COPage/css/content.css";
+            return "../components/ILIAS/COPage/css/content.css";
         }
     }
 
     public static function getContentPrintStyle(): string
     {
-        return "./components/ILIAS/COPage/css/print_content.css";
+        return "../components/ILIAS/COPage/css/print_content.css";
     }
 
     public static function getSyntaxStylePath(): string
     {
-        return "./components/ILIAS/COPage/css/syntaxhighlight.css";
+        return "../components/ILIAS/COPage/css/syntaxhighlight.css";
     }
 
     public static function getPlaceHolderStylePath(): string
     {
-        return "./components/ILIAS/COPage/css/placeholder.css";
+        return "../components/ILIAS/COPage/css/placeholder.css";
     }
 
     public function update(): bool

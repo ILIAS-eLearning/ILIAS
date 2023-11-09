@@ -28,7 +28,7 @@ use ILIAS\Setup;
  */
 class ArtifactObjective extends Artifact\BuildArtifactObjective
 {
-    public const ARTIFACT = './components/ILIAS/StaticURL/src/artifacts/static_url_handlers.php';
+    public const ARTIFACT = '../components/ILIAS/StaticURL/src/artifacts/static_url_handlers.php';
 
     public function getArtifactPath(): string
     {

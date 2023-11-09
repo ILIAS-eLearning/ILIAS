@@ -97,6 +97,8 @@ class ilInitialisation
      */
     protected static function requireCommonIncludes(): void
     {
+        /** @noRector */
+        require_once("../ilias_version.php");
         self::initGlobal("ilBench", "ilBenchmark", "./components/ILIAS/Utilities/classes/class.ilBenchmark.php");
     }
 
@@ -108,7 +110,7 @@ class ilInitialisation
      */
     protected static function initIliasIniFile(): void
     {
-        $ilIliasIniFile = new ilIniFile("./ilias.ini.php");
+        $ilIliasIniFile = new ilIniFile("../ilias.ini.php");
         $ilIliasIniFile->read();
         self::initGlobal('ilIliasIniFile', $ilIliasIniFile);
 
@@ -487,7 +489,7 @@ class ilInitialisation
         if (defined('CLIENT_WEB_DIR')) {
             $ini_file = CLIENT_WEB_DIR . $ini_file;
         } else {
-            $ini_file = "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
+            $ini_file = "../" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
         }
 
         // get settings from ini file
@@ -1164,7 +1166,6 @@ class ilInitialisation
         // breaks CAS: must be included after CAS context isset in AuthUtils
 
         self::requireCommonIncludes();
-
         $GLOBALS["DIC"]["ilias.version"] = (new ILIAS\Data\Factory())->version(ILIAS_VERSION_NUMERIC);
 
         // error handler

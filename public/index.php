@@ -11,6 +11,7 @@
 * @package ilias
 */
 
+require_once '../vendor/composer/vendor/autoload.php';
 // jump to setup if ILIAS3 is not installed
 if (!file_exists(getcwd() . "/../ilias.ini.php")) {
     header("Location: ./cli/setup.php");
@@ -37,8 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND'
 }
 // END WebDAV: Block WebDAV Requests from Microsoft WebDAV MiniRedir client.
 
-
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 $ilCtrl->callBaseClass('ilStartUpGUI');

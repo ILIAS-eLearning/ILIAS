@@ -50,7 +50,7 @@ virtual-data
 /vendor/composer/vendor
 
 # Node Modules
-/node_modules
+/public/node_modules
 /components/ILIAS/Chatroom/chat/node_modules
 
 # cli

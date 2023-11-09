@@ -616,7 +616,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function buildQuestionPage(assQuestionGUI $questionGUI)
     {
-        $this->tpl->addCss('components/ILIAS/COPage/css/content.css');
+        $this->tpl->addCss('../components/ILIAS/COPage/css/content.css');
 
         $pageGUI = new ilAssQuestionPageGUI($questionGUI->object->getId());
 

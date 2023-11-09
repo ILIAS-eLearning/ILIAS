@@ -48,7 +48,7 @@ class ilFileServicesSettings
         $this->convert_to_ascii = $general_settings->isDownloadWithAsciiFileName();
         $this->settings = $settings;
         /** @noRector */
-        $this->white_list_default = include "./components/ILIAS/FileServices/defaults/default_whitelist.php";
+        $this->white_list_default = include "../components/ILIAS/FileServices/defaults/default_whitelist.php";
         $this->file_admin_ref_id = $this->determineFileAdminRefId();
         $this->read();
     }
