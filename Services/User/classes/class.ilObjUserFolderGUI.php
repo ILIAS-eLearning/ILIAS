@@ -3708,6 +3708,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
+        $ctrl = $DIC['ilCtrl'];
 
         $a_target = USER_FOLDER_ID;
 
@@ -3716,7 +3717,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             "",
             $a_target
         )) {
-            $this->ctrl->redirectToURL("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
+            $ctrl->redirectToURL("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
             exit;
         } else {
             if ($ilAccess->checkAccess(
