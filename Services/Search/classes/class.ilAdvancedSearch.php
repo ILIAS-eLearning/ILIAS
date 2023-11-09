@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilAdvancedSearch
@@ -97,6 +97,12 @@ class ilAdvancedSearch extends ilAbstractSearch
             case 'title_description':
                 return $this->__searchTitleDescription();
 
+            case 'title':
+                return $this->__searchTitle();
+
+            case 'description':
+                return $this->__searchDescription();
+
             case 'language':
                 return $this->__searchLanguage();
 
@@ -107,10 +113,26 @@ class ilAdvancedSearch extends ilAbstractSearch
 
     public function &__searchTitleDescription(): ilSearchResult
     {
-        $this->setFields(array('title','description'));
+        $this->searchObjectProperties('title', 'description');
+        return $this->search_result;
+    }
+
+    public function __searchTitle(): ilSearchResult
+    {
+        return $this->searchObjectProperties('title');
+    }
+
+    public function __searchDescription(): ilSearchResult
+    {
+        return $this->searchObjectProperties('description');
+    }
+
+    protected function searchObjectProperties(string ...$fields): ilSearchResult
+    {
+        $this->setFields($fields);
 
         $and = ("AND type " . $this->__getInStatement($this->getFilter()));
-        $where = $this->__createTitleDescriptionWhereCondition();
+        $where = $this->__createObjectPropertiesWhereCondition(...$fields);
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_id,type " .
