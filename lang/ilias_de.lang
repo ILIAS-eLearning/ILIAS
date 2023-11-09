@@ -5159,6 +5159,7 @@ common#:#objs_rtst#:#ECS-Tests
 common#:#objs_rwik#:#ECS-Wikis
 common#:#objs_sahs#:#SCORM-Lernmodule
 common#:#objs_sess#:#Sitzungen
+common#:#objs_skee#:#Kompetenzbäume
 common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Umfragen
@@ -14208,6 +14209,7 @@ rbac#:#rbac_create_role#:#Rolle anlegen
 rbac#:#rbac_create_rolt#:#Rollenvorlage anlegen
 rbac#:#rbac_create_sahs#:#SCORM-Lernmodul anlegen
 rbac#:#rbac_create_sess#:#Sitzung anlegen
+rbac#:#rbac_create_skee#:#Kompetenzbaum anlegen
 rbac#:#rbac_create_spl#:#Fragenpool für Umfragen anlegen
 rbac#:#rbac_create_svy#:#Umfrage anlegen
 rbac#:#rbac_create_tst#:#Test anlegen
@@ -14300,10 +14302,10 @@ rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcrs_read#:#Lesezugriff auf ECS-Kurs
 rbac#:#rcrs_visible#:#ECS-Kurs ist sichtbar
 rbac#:#rcrs_write#:#ECS-Kurs bearbeiten
-rbac#:#read_comp#:#Lesezugriff auf Kompetenzen und Kompetenzvorlagen
+rbac#:#read_comp#:#Lesezugriff Kompetenzen
 rbac#:#read_learning_progress#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#read_outcomes#:#Lernerfahrungen anderer Benutzer anzeigen
-rbac#:#read_profiles#:#Lesezugriff auf Kompetenzprofile
+rbac#:#read_profiles#:#Lesezugriff Kompetenzprofile
 rbac#:#read_results#:#Umfrageergebnisse
 rbac#:#read_users#:#Lokale Anmeldekonten einsehen
 rbac#:#recf_edit_permission#:#Rechteeinstellungen in der Verwaltung wiederhergestellter Objekte ändern
@@ -14383,6 +14385,17 @@ rbac#:#sess_read#:#Lesezugriff auf Sitzungen
 rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#sess_visible#:#Sitzungen sind sichtbar
 rbac#:#sess_write#:#Sitzungen bearbeiten
+rbac#:#skee_copy#:#Kompetenzbaum kopieren (derzeit nicht verfügbar)
+rbac#:#skee_delete#:#Kompetenzbaum löschen
+rbac#:#skee_edit_permission#:#Rechteeinstellungen der Kompetenzbaum-Administration ändern
+rbac#:#skee_manage_comp#:#Kompetenzen in Kompetenzbaum bearbeiten
+rbac#:#skee_manage_comp_temp#:#Kompetenzvorlagen in Kompetenzbaum bearbeiten
+rbac#:#skee_manage_profiles#:#Kompetenzprofile in Kompetenzbaum bearbeiten
+rbac#:#skee_read#:#Lesezugriff auf Administration für Kompetenzbaum
+rbac#:#skee_read_comp#:#Lesezugriff auf Kompetenzen und Kompetenzvorlagen in Kompetenzbaum
+rbac#:#skee_read_profiles#:#Lesezugriff auf Kompetenzprofile in Kompetenzbaum
+rbac#:#skee_visible#:#Kompetenzbaum ist sichtbar
+rbac#:#skee_write#:#Einstellungen für Kompetenzbaum bearbeiten
 rbac#:#skmg_edit_permission#:#Rechteeinstellungen für die Verwaltung des Kompetenzmanagements ändern
 rbac#:#skmg_read#:#Lesezugriff auf Kompetenzmanagement
 rbac#:#skmg_visible#:#Kompetenzmanagement ist sichtbar
