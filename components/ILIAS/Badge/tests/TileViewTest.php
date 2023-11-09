@@ -63,7 +63,6 @@ class TileViewTest extends TestCase
 
         $sortation = $this->getMockBuilder(Sortation::class)->disableOriginalConstructor()->getMock();
         $sortation->method('withTargetURL')->willReturn($sortation);
-        $sortation->method('withLabel')->willReturn($sortation);
 
         $view_control = $this->getMockBuilder(ViewControl::class)->disableOriginalConstructor()->getMock();
         $view_control->method('sortation')->willReturn($sortation);

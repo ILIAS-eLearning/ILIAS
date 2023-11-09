@@ -970,7 +970,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->ctrl->clearParameters($this);
         }
         $view_controls[] = $this->factory->viewControl()->sortation(
-            $translationKeys
+            $translationKeys,
+            current(array_keys($translationKeys))
         )->withTargetURL($base_url, 'thread_sortation');
         return $view_controls;
     }
@@ -3697,8 +3698,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $sortingDirectionViewControl = $this->uiFactory
             ->viewControl()
-            ->sortation($translatedSortationOptions)
-            ->withLabel($this->lng->txt($this->sortationOptions[$currentSorting]))
+            ->sortation($translatedSortationOptions, $currentSorting)
             ->withTargetURL($target, 'viewmode');
         $this->toolbar->addComponent($sortingDirectionViewControl);
     }

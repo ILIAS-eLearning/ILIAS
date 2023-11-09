@@ -145,14 +145,14 @@ class ResourceListingUI
             $sortations[$sort_id] = $this->language->txt('sorting_' . $sort_id);
         }
 
-        $view_controls[] = $this->ui_factory->viewControl()->sortation($sortations)
+        $view_controls[] = $this->ui_factory->viewControl()->sortation($sortations, (string)$this->determineSortation())
             ->withTargetURL(
                 $this->ctrl->getLinkTargetByClass(
                     $this->view_definition->getEmbeddingGui(),
                     $this->view_definition->getEmbeddingCmd()
                 ),
                 self::P_SORTATION
-            )->withLabel($this->language->txt('sorting_' . $this->determineSortation()));
+            );
 
         // Pagination
         $count = $this->data_source->getFilteredAmountOfItems();

@@ -139,7 +139,8 @@ class Sortation implements C\ViewControl\Sortation
 
     public function withSelected(string $selected_option): self
     {
-        $this->checkArgIsElement('selected_option', $selected_option, array_keys($this->options), 'one of [' . implode(', ', array_keys($options)) . ']');
+        $possible = array_keys($this->options);
+        $this->checkArgIsElement('selected_option', $selected_option, $possible, 'one of [' . implode(', ', $possible) . ']');
         $clone = clone $this;
         $clone->selected = $selected_option;
         return $clone;
