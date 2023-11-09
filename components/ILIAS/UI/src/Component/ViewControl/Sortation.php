@@ -31,19 +31,7 @@ use ILIAS\UI\Component\Triggerer;
 interface Sortation extends Component, JavaScriptBindable, Triggerer
 {
     /**
-     * Set the initial, non-functional entry
-     */
-    public function withLabel(string $label): Sortation;
-
-    /**
-     * Get the label (w/o the prefix).
-     */
-    public function getLabel(): string;
-
-    /**
-     * Set the prefix of the label.
-     *
-     * Defaults to: "Sorted By: " (or translations).
+     * Set the prefix of the label
      */
     public function withLabelPrefix(string $label_prefix): Sortation;
 
@@ -84,8 +72,7 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer
     public function getSelectSignal(): Signal;
 
     /**
-     * set the selected options value; used, when there is no label
-     * to be displayed.
+     * Set the selected option.
      */
-    public function withSelected(?string $selected_option): self;
+    public function withSelected(string $selected_option): self;
 }

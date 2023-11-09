@@ -71,7 +71,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 	}
 	li.selected .btn::before {
 		position: absolute;
-    	left: $il-margin-large-horizontal;
+		left: $il-margin-large-horizontal;
 		font-family: "Glyphicons Halflings";
 		color: $il-btn-ctrl-color;
 		content: "\e013";

@@ -46,9 +46,16 @@ class SortationTest extends ILIAS_UI_TestBase
     public function testConstruction(): void
     {
         $f = $this->getFactory();
-        $sortation = $f->sortation($this->options);
+        $sortation = $f->sortation($this->options, 'date_desc');
         $this->assertInstanceOf("ILIAS\\UI\\Component\\ViewControl\\Sortation", $sortation);
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $sortation->getSelectSignal());
+    }
+
+    public function testFaultyConstruction(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $f = $this->getFactory();
+        $sortation = $f->sortation($this->options, 'not_in_options');
     }
 
     public function testAttributes(): void

@@ -136,7 +136,6 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.sortation.html", true, true);
         $label_prefix = $component->getLabelPrefix() ?? $this->txt('vc_sort');
-        $init_label = $component->getLabel();
 
         $component = $component->withResetSignals();
         $triggeredSignals = $component->getTriggeredSignals();
@@ -145,7 +144,7 @@ class Renderer extends AbstractComponentRenderer
             $internal_signal->addOption('label_prefix', $label_prefix);
             $signal = $triggeredSignals[0]->getSignal();
             $component = $component->withAdditionalOnLoadCode(
-                fn ($id) => "$(document).on('$internal_signal', function(event, signalData) {
+                fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
                     il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '$signal', '$id');
                     return false;
                  })"
@@ -160,10 +159,6 @@ class Renderer extends AbstractComponentRenderer
         $items = array();
 
         $selected = $component->getSelected();
-        if ($init_label) {
-            $tpl->setVariable('LABEL', $label_prefix . ' ' . $init_label . ' ');
-            $selected = array_flip($options)[$init_label];
-        }
         foreach ($options as $val => $label) {
             $tpl->setCurrentBlock('option');
 
@@ -184,13 +179,8 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('OPTION', $default_renderer->render($shy));
             $tpl->parseCurrentBlock();
         }
-        $dd = $f->dropdown()->standard($items)
-            ->withAriaLabel($init_label);
-
-        $tpl->setVariable('SORTATION_DROPDOWN', $default_renderer->render($dd));
-
-//        $tpl->setVariable("ARIA_LABEL", $this->txt("sortation"));
-
+        $tpl->setVariable('LABEL', $label_prefix . ' ' . $options[$selected] . ' ');
+        $tpl->setVariable("ARIA_LABEL", $this->txt("sortation"));
         return $tpl->get();
     }
 
@@ -211,7 +201,7 @@ class Renderer extends AbstractComponentRenderer
             $internal_signal = $component->getInternalSignal();
             $signal = $triggeredSignals[0]->getSignal();
             $component = $component->withOnLoadCode(
-                fn ($id) => "$(document).on('$internal_signal', function(event, signalData) {
+                fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
                     il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
                     return false;
                 })"

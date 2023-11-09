@@ -34,20 +34,20 @@ class Sortation implements C\ViewControl\Sortation
     use Triggerer;
 
     protected Signal $select_signal;
-    protected string $label = '';
     protected ?string $label_prefix = null;
     protected ?string $target_url = null;
     protected string $parameter_name = "sortation";
     protected ?string $active = null;
-    protected ?string $selected = null;
 
     /**
      * @param array<string,string> $options
      */
     public function __construct(
         protected array $options,
+        protected string $selected,
         protected SignalGeneratorInterface $signal_generator
     ) {
+        $this->checkArgIsElement('selected', $selected, array_keys($options), 'one of [' . implode(', ', array_keys($options)) . ']');
         $this->initSignals();
     }
 
@@ -67,24 +67,6 @@ class Sortation implements C\ViewControl\Sortation
     protected function initSignals(): void
     {
         $this->select_signal = $this->signal_generator->create();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withLabel(string $label): C\ViewControl\Sortation
-    {
-        $clone = clone $this;
-        $clone->label = $label;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getLabel(): string
-    {
-        return $this->label;
     }
 
     /**
@@ -155,8 +137,9 @@ class Sortation implements C\ViewControl\Sortation
         return $this->select_signal;
     }
 
-    public function withSelected(?string $selected_option): self
+    public function withSelected(string $selected_option): self
     {
+        $this->checkArgIsElement('selected_option', $selected_option, array_keys($this->options), 'one of [' . implode(', ', array_keys($options)) . ']');
         $clone = clone $this;
         $clone->selected = $selected_option;
         return $clone;
