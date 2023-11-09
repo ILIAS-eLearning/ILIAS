@@ -384,7 +384,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         include_once("./Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php");
         $width_height = new ilWidthHeightInputGUI($lng->txt("cont_width") .
                 " / " . $lng->txt("cont_height"), "standard_width_height");
-        if (is_int(strpos($std_item->getFormat(), "image"))
+        if ($a_mode == "edit" && is_int(strpos($std_item->getFormat(), "image"))
             && $std_item->getLocationType() == "LocalFile") {
             $width_height->setSupportConstraintsProps(true);
             $width_height->setConstrainProportions(true);
