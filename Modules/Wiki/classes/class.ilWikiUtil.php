@@ -468,6 +468,10 @@ class ilWikiUtil
         $ilObjDataCache = $DIC["ilObjDataCache"];
         $ilAccess = $DIC->access();
 
+        if ($a_wiki_ref_id === 0) {
+            return;
+        }
+
         $wiki_id = $ilObjDataCache->lookupObjId($a_wiki_ref_id);
         $wiki = new ilObjWiki($a_wiki_ref_id, true);
         $page = new ilWikiPage($a_page_id);
