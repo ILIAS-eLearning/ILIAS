@@ -621,6 +621,10 @@ class ilWikiUtil
         $ilObjDataCache = $DIC["ilObjDataCache"];
         $ilAccess = $DIC->access();
 
+        if ((int) $a_wiki_ref_id === 0) {
+            return;
+        }
+
         include_once "./Services/Notification/classes/class.ilNotification.php";
         include_once "./Modules/Wiki/classes/class.ilObjWiki.php";
         include_once "./Modules/Wiki/classes/class.ilWikiPage.php";
@@ -654,7 +658,7 @@ class ilWikiUtil
                 return;
             }
         }
-        
+
         ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users, $a_page_id);
         
         // #15192 - should always be present
