@@ -23,6 +23,7 @@
  */
 class ilWidthHeightInputGUI extends ilFormPropertyGUI
 {
+    protected $support_constraint_props = false;
     protected bool $constrainproportions;
     protected ?int $height = null;
     protected ?int $width = null;
@@ -41,6 +42,16 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         parent::__construct($a_title, $a_postvar);
         $this->setType("width_height");
         $this->main_tpl = $DIC->ui()->mainTemplate();
+    }
+
+    public function setSupportConstraintsProps(bool $a_val): void
+    {
+        $this->support_constraint_props = $a_val;
+    }
+
+    public function getSupportConstraintsProps(): bool
+    {
+        return $this->support_constraint_props;
     }
 
     public function setWidth(?int $a_width): void
@@ -99,6 +110,24 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 
         $tpl = new ilTemplate("tpl.prop_width_height.html", true, true, "Services/MediaObjects");
 
+        $wh_ratio = 0;
+        if ((int) $this->getHeight() > 0) {
+            $wh_ratio = (int) $this->getWidth() / (int) $this->getHeight();
+        }
+        $ratio = str_replace(",", ".", round($wh_ratio, 6));
+        if ($this->getSupportConstraintsProps() && $wh_ratio > 0) {
+            $tpl->setCurrentBlock("cs_prop");
+            $tpl->setVariable("TXT_CONSTR_PROP", $lng->txt("cont_constrain_proportions"));
+            $tpl->setVariable("CS_POST_VAR", $this->getPostVar());
+            if ($this->getConstrainProportions()) {
+                $tpl->setVariable("CHECKED", 'checked="checked"');
+            }
+            $tpl->parseCurrentBlock();
+            $this->main_tpl->addOnLoadCode(
+                'prop_width_height["prop_' . $this->getPostVar() . '"] = ' . $ratio . ';'
+            );
+        }
+
         $tpl->setVariable("VAL_WIDTH", strtolower(trim((string) $this->getWidth())));
         $tpl->setVariable("VAL_HEIGHT", strtolower(trim((string) $this->getHeight())));
         if ($this->getConstrainProportions()) {
@@ -106,12 +135,6 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         }
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
-        $tpl->setVariable("TXT_CONSTR_PROP", $lng->txt("cont_constrain_proportions"));
-        $wh_ratio = 0;
-        if ((int) $this->getHeight() > 0) {
-            $wh_ratio = (int) $this->getWidth() / (int) $this->getHeight();
-        }
-        $ratio = str_replace(",", ".", round($wh_ratio, 6));
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
@@ -119,9 +142,6 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 
         $this->main_tpl
             ->addJavaScript("./Services/MediaObjects/js/ServiceMediaObjectPropWidthHeight.js");
-        $this->main_tpl->addOnLoadCode(
-            'prop_width_height["prop_' . $this->getPostVar() . '"] = ' . $ratio . ';'
-        );
     }
 
     public function setValueByArray(array $a_values): void
