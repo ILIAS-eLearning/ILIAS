@@ -249,8 +249,8 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 
     protected function buildScoredPassFinishedString(array $data): string
     {
-        if (isset($data['scored_pass_finished_timestamp'])) {
-            return ilDatePresentation::formatDate(new ilDateTime($data['scored_pass_finished_timestamp'], IL_CAL_UNIX));
+        if (isset($data['pass_finished'])) {
+            return ilDatePresentation::formatDate(new ilDateTime($data['pass_finished'], IL_CAL_UNIX));
         }
         return '';
     }
