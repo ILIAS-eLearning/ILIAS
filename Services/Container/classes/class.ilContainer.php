@@ -1105,19 +1105,7 @@ class ilContainer extends ilObject
                         }
                         $obj_ids = array_intersect($obj_ids, $result_obj_ids);
                     } elseif ((int) $field_id === ilContainerFilterField::STD_FIELD_COPYRIGHT) {
-                        $result = null;
-                        $set = $db->queryF(
-                            "SELECT DISTINCT(rbac_id) FROM il_meta_rights " .
-                            " WHERE  " . $db->in("rbac_id", $obj_ids, false, "integer") .
-                            " AND description = %s ",
-                            ["text"],
-                            ['il_copyright_entry__' . IL_INST_ID . '__' . $val]
-                        );
-                        $result_obj_ids = [];
-                        while ($rec = $db->fetchAssoc($set)) {
-                            $result_obj_ids[] = $rec["rbac_id"];
-                        }
-                        $obj_ids = array_intersect($obj_ids, $result_obj_ids);
+                        $obj_ids = $this->filterObjIdsByCopyright($obj_ids, $val);
                     } else {
                         #$query_parser->setCombination($this->options['title_ao']);
                         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
@@ -1200,6 +1188,55 @@ class ilContainer extends ilObject
         });
 
         return $objects;
+    }
+
+    protected function filterObjIdsByCopyright(array $obj_ids, string $copyright_id): array
+    {
+        $identifier = \ilMDCopyrightSelectionEntry::createIdentifier($copyright_id);
+        $default_identifier = \ilMDCopyrightSelectionEntry::createIdentifier(
+            \ilMDCopyrightSelectionEntry::getDefault()
+        );
+
+        if ($identifier === $default_identifier) {
+            return $this->filterObjIdsByDefaultCopyright($obj_ids, $default_identifier);
+        }
+
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT DISTINCT(rbac_id) FROM il_meta_rights " .
+            " WHERE  " . $db->in("rbac_id", $obj_ids, false, "integer") .
+            " AND description = %s ",
+            array("text"),
+            array($identifier)
+        );
+        $result_obj_ids = [];
+        while ($rec = $db->fetchAssoc($set)) {
+            $result_obj_ids[] = $rec["rbac_id"];
+        }
+        return array_intersect($obj_ids, $result_obj_ids);
+    }
+
+    protected function filterObjIdsByDefaultCopyright(
+        array $obj_ids,
+        string $default_identifier
+    ): array {
+        /*
+         * Objects with no entry in il_meta_rights need to be treated like they
+         * have the default copyright.
+         */
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT DISTINCT(rbac_id) FROM il_meta_rights " .
+            " WHERE  " . $db->in("rbac_id", $obj_ids, false, "integer") .
+            " AND NOT description = %s ",
+            array("text"),
+            array($default_identifier)
+        );
+        $filtered_out_obj_ids = [];
+        while ($rec = $db->fetchAssoc($set)) {
+            $filtered_out_obj_ids[] = $rec["rbac_id"];
+        }
+        return array_diff($obj_ids, $filtered_out_obj_ids);
     }
 
     /**
