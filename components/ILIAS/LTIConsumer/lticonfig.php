@@ -21,8 +21,6 @@ declare(strict_types=1);
 /** @noRector */
 chdir("../../../");
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
-
 ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();
 header('Content-Type: application/json; charset=utf-8');

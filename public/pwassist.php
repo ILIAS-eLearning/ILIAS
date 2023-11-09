@@ -12,7 +12,6 @@
 * @package ilias-core
 */
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 $ilCtrl->setCmd('jumpToPasswordAssistance');

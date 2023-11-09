@@ -73,7 +73,6 @@ if ($plugin) {
 } else {
     chdir("../../../");
 }
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 //instead of DataService
 \ilContext::init(\ilContext::CONTEXT_SCORM);
 \ilInitialisation::initILIAS();

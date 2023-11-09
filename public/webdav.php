@@ -18,7 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 
 $path_info_components = explode('/', $_SERVER['PATH_INFO']);
 $client_id = $path_info_components[1];

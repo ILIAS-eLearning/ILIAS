@@ -21,8 +21,6 @@ declare(strict_types=1);
 /** @noRector */
 chdir("../../../");
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
-
 ilInitialisation::initILIAS();
 global $DIC;
 

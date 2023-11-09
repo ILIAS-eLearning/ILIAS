@@ -12,6 +12,7 @@
 * @package ilias-layout
 */
 
+require_once '../vendor/composer/vendor/autoload.php';
 
 // jump to setup if ILIAS3 is not installed
 if (!file_exists(getcwd() . "/../ilias.ini.php")) {
@@ -19,7 +20,6 @@ if (!file_exists(getcwd() . "/../ilias.ini.php")) {
     exit();
 }
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 $ilCtrl->setCmd('showLoginPageOrStartupPage');

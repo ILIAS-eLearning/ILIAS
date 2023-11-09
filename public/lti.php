@@ -9,7 +9,6 @@ declare(strict_types=1);
  */
 ilContext::init(ilContext::CONTEXT_LTI_PROVIDER);
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 // authentication is done here ->

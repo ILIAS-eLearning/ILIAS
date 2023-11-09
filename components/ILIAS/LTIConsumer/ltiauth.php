@@ -42,8 +42,6 @@ if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
     exit;
 }
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
-
 ilInitialisation::initILIAS();
 
 global $DIC;

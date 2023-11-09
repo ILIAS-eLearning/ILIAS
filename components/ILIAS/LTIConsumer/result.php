@@ -25,7 +25,6 @@ if (!isset($_GET['client_id']) || !strlen($_GET['client_id'])) {
     exit;
 }
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 \ilContext::init(\ilContext::CONTEXT_SCORM);
 \ilInitialisation::initILIAS();
 
