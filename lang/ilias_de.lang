@@ -3980,6 +3980,7 @@ common#:#err_auth_mode_inactive#:#Zur Zeit ist leider keine Anmeldung möglich.
 common#:#err_auth_soap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die SOAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
 common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. Bitte überprüfen Sie Ihre Eingaben.
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
+common#:#err_double_entries#:#Grund: Doppelte Einträge
 common#:#err_in_line#:#Fehler in Zeile
 common#:#err_inactive#:#Dieses ILIAS-Konto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
 common#:#err_inactive_login_attempts#:#Ihr ILIAS-Konto wurde wegen falscher Login-Versuche deaktiviert. Klicken Sie auf „Technische Betreuung kontaktieren“ am Fuße dieser Seite, um die Administratoren zu informieren, dass diese Ihr ILIAS-Konto wieder aktivieren sollen.
