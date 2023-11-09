@@ -903,7 +903,8 @@ s     */
     public function copyXmlContent(
         bool $a_clone_mobs = false,
         int $a_new_parent_id = 0,
-        int $obj_copy_id = 0
+        int $obj_copy_id = 0,
+        bool $self_ass = true
     ): string {
         $xml = $this->getXMLContent();
         $temp_dom = domxml_open_mem(
@@ -912,7 +913,7 @@ s     */
             $error
         );
         if (empty($error)) {
-            $this->handleCopiedContent($temp_dom, true, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
+            $this->handleCopiedContent($temp_dom, $self_ass, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
         }
         $xml = $temp_dom->dump_mem(0, $this->encoding);
         $xml = preg_replace('/<\?xml[^>]*>/i', "", $xml);
@@ -4276,7 +4277,7 @@ s     */
         );
     }
 
-    protected function preparePageForCompare(ilPageObject $page) : void
+    protected function preparePageForCompare(ilPageObject $page): void
     {
     }
 

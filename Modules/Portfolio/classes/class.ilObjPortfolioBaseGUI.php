@@ -487,7 +487,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $layout_id = $form->getInput("tmpl");
             if ($layout_id) {
                 $layout_obj = new ilPageLayout($layout_id);
-                $page->setXMLContent($layout_obj->getXMLContent());
+                $page->setXMLContent($layout_obj->copyXmlContent(false));
             }
 
             $page->create();
