@@ -23,12 +23,13 @@ namespace ILIAS\Modules\Test;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
-use ILIAS\DI\Container;
 use ilObjTest;
 use ilObject;
 use ilSession;
 use ilTestSession;
 use ilTestAccess;
+use ilDBInterface;
+use ilObjUser;
 use Closure;
 
 class AccessFileUploadAnswer implements SimpleAccess
@@ -50,7 +51,8 @@ class AccessFileUploadAnswer implements SimpleAccess
      * @param callable(int, int, int): bool $checkResultsAccess
      */
     public function __construct(
-        private readonly Container $container,
+        private readonly ilObjUser $user,
+        private readonly ilDBInterface $database,
         private readonly Readable $readable,
         $object_id_of_test_id = [ilObjTest::class, '_getObjectIDFromTestID'],
         $references_of = [ilObject::class, '_getAllReferences'],
@@ -92,7 +94,7 @@ class AccessFileUploadAnswer implements SimpleAccess
 
     private function isAnonymous(): bool
     {
-        return $this->container->user()->isAnonymous() || !$this->container->user()->getId();
+        return $this->user->isAnonymous() || !$this->user->getId();
     }
 
     private function accessCodeOk(string $file, int $test_id): bool
@@ -112,13 +114,13 @@ class AccessFileUploadAnswer implements SimpleAccess
             'test_fi = %s',
         ];
 
-        $result = $this->container->database()->queryF(
+        $result = $this->database->queryF(
             'SELECT 1 FROM tst_solutions WHERE EXISTS (SELECT 1 FROM tst_active WHERE ' . implode(' AND ', $where) . ')',
             ['integer', 'text', 'text', 'integer'],
-            [$this->container->user()->getId(), $file, $code, $test_id]
+            [$this->user->getId(), $file, $code, $test_id]
         );
 
-        return (bool) $this->container->database()->numRows($result);
+        return (bool) $this->database->numRows($result);
     }
 
     private function activeIdOfFile(string $file, int $test): ?int
@@ -126,13 +128,13 @@ class AccessFileUploadAnswer implements SimpleAccess
         $is_upload_question = 'EXISTS (SELECT 1 FROM qpl_qst_type INNER JOIN qpl_questions ON question_type_id = question_type_fi WHERE type_tag = %s AND tst_solutions.question_fi = qpl_questions.question_id)';
         $is_in_test = 'EXISTS (SELECT 1 FROM tst_active WHERE test_fi = %s AND active_id = active_fi)';
 
-        $result = $this->container->database()->queryF(
+        $result = $this->database->queryF(
             "SELECT active_fi, value1 FROM tst_solutions WHERE $is_upload_question AND $is_in_test",
             ['text', 'integer'],
             ['assFileUpload', $test]
         );
 
-        while (($row = $this->container->database()->fetchAssoc($result))) {
+        while (($row = $this->database->fetchAssoc($result))) {
             if ($row['value1'] === $file) {
                 return (int) $row['active_fi'];
             }
