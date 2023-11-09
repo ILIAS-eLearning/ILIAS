@@ -1,6 +1,6 @@
 ILIAS Language Handling
 =======================
-ILIAS offers multi-language support for the user interface of ILIAS. Language handling in ILIAS is realised by the [Language](../../Services/Language/README.md) service.
+ILIAS offers multi-language support for the user interface of ILIAS. Language handling in ILIAS is realised by the [Language](../../components/ILIAS/Language_/README.md) service.
 
 # Guidelines
 1.  All language entries are text strings and stored in language files in the 

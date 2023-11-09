@@ -3690,7 +3690,7 @@ common#:#day#:#Dan
 common#:#days#:#Dani
 common#:#db_host#:#Domaćin baze podataka
 common#:#db_name#:#Naziv baze podataka
-common#:#db_need_hotfix#:#Dostupna je hotfix (hitna ispravka). Otvorite <a href="./setup/setup.php"> »Postavljanje </a>!
+common#:#db_need_hotfix#:#Dostupna je hotfix (hitna ispravka). Otvorite <a href="./cli/setup.php"> »Postavljanje </a>!
 common#:#db_need_update#:#Bazu podataka treba ažurirati!
 common#:#db_pass#:#Lozinka baze podataka
 common#:#db_type#:#Tip baze podataka
@@ -4007,7 +4007,7 @@ common#:#gender_m#:#Gosp.
 common#:#gender_n#:#Ne želi oslovljavanje
 common#:#general_settings#:#Opće postavke
 common#:#generate#:#Generiraj
-common#:#ghostscript_not_configured#:#Ghostscript nije konfiguriran. Otvorite <a href="setup/setup.php?cmd=mastersettings" target="_blank"> Setup</a> kao biste ga konfigurirali.
+common#:#ghostscript_not_configured#:#Ghostscript nije konfiguriran. Otvorite <a href="cli/setup.php?cmd=mastersettings" target="_blank"> Setup</a> kao biste ga konfigurirali.
 common#:#glo#:#Pojmovnik
 common#:#glo_add#:#Dodaj pojmovnik
 common#:#glo_added#:#Pojmovnik dodan

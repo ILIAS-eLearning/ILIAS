@@ -4163,7 +4163,7 @@ common#:#gender_n#:#Aucune salutation souhaitée
 common#:#general#:#General###31 10 2023 new variable
 common#:#general_settings#:#Paramètres généraux
 common#:#generate#:#Générer
-common#:#ghostscript_not_configured#:#Ghostscript n'est pas configuré. Veuillez ouvrir ce <a href="setup/setup.php?cmd=mastersettings" target="_blank">lien</a> pour le configurer.
+common#:#ghostscript_not_configured#:#Ghostscript n'est pas configuré. Veuillez ouvrir ce <a href="cli/setup.php?cmd=mastersettings" target="_blank">lien</a> pour le configurer.
 common#:#glo#:#Glossaire
 common#:#glo_add#:#Ajouter Glossaire
 common#:#glo_added#:#Glossaire ajouté

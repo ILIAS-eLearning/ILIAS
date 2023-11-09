@@ -4007,7 +4007,7 @@ common#:#gender_m#:#Maschile
 common#:#gender_n#:#Nessun saluto desiderato
 common#:#general_settings#:#Impostazioni generali
 common#:#generate#:#Generato
-common#:#ghostscript_not_configured#:#Ghostscript non è configurato. Si prega di aprire la <a href="setup/setup.php?cmd=mastersettings" target="_blank">procedura</a> per configurarlo.
+common#:#ghostscript_not_configured#:#Ghostscript non è configurato. Si prega di aprire la <a href="cli/setup.php?cmd=mastersettings" target="_blank">procedura</a> per configurarlo.
 common#:#glo#:#Glossario
 common#:#glo_add#:#Aggiungi glossario
 common#:#glo_added#:#Glossario aggiunto

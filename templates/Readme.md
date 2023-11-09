@@ -241,7 +241,7 @@ Note that this is only a good option for a local test environment in some protec
 Permission rights if there is possible access from the outsite.
 
 Activate System Styles in Ilias
-In a Browser go to localhost:8888/setup/setup.php and Login using the Master-Password. Under “Basic Settings” activate “Manage System Styles”.
+In a Browser go to localhost:8888/cli/setup.php and Login using the Master-Password. Under “Basic Settings” activate “Manage System Styles”.
 Set the lessc Path to /usr/local/bin/lessc
 
 

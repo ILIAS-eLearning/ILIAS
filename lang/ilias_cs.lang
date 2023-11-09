@@ -4007,7 +4007,7 @@ common#:#gender_m#:#muž
 common#:#gender_n#:#Není požadován pozdrav
 common#:#general_settings#:#Obecná nastavení
 common#:#generate#:#Generovat
-common#:#ghostscript_not_configured#:#Ghostscript je nyní konfigurován. Otevřete prosím <a href="setup/setup.php?cmd=mastersettings" target="_blank">Nastavení</a> k její konfiguraci.
+common#:#ghostscript_not_configured#:#Ghostscript je nyní konfigurován. Otevřete prosím <a href="cli/setup.php?cmd=mastersettings" target="_blank">Nastavení</a> k její konfiguraci.
 common#:#glo#:#Glosář
 common#:#glo_add#:#Přidat glosář
 common#:#glo_added#:#Glosář přidán

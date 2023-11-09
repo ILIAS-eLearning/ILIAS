@@ -1,0 +1,14 @@
+{
+  "maintenance_model": "Classic",
+  "first_maintainer": "rschenk(18065)",
+  "second_maintainer": "",
+  "implicit_maintainers": [],
+  "coordinator": [
+    ""
+  ],
+  "tester": "tloewen(41553)",
+  "testcase_writer": "tloewen(41553)",
+  "path": "components/ILIAS/VirusScanner_",
+  "belong_to_component": "VirusScanner",
+  "used_in_components": []
+}

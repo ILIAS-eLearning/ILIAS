@@ -4007,7 +4007,7 @@ common#:#gender_m#:#Mees
 common#:#gender_n#:#No salutation desired###31 08 2017 new variable
 common#:#general_settings#:#Üldised seaded
 common#:#generate#:#Genereerima
-common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.
+common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="cli/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.
 common#:#glo#:#Sõnastik
 common#:#glo_add#:#Lisa sõnastik
 common#:#glo_added#:#Sõnastik on lisatud

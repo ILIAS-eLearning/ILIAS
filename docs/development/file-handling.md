@@ -71,7 +71,7 @@ More information about ilCtrl: [Services/UICore/README.md](../../Services/UICore
         return new ilFileHandlingDemoStakeholder();
     }
 ```
-More information about stakeholders: [Services/ResourceStorage/README.md](../../src/ResourceStorage/README.md)
+More information about stakeholders: [components/ILIAS/ResourceStorage_/README.md](../../src/ResourceStorage/README.md)
 
 After submitting the form, we receive the processed resource IDs already stored in the IRSS as a string:
 

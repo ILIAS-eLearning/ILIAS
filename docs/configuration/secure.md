@@ -510,7 +510,7 @@ The suggested solution is to set 'expose\_php' to 'off' in your php.ini:
 
 ### ILIAS setup
 
-The access to the ILIAS Installation Wizard `(/setup/setup.php)` MAY be restricted:
+The access to the ILIAS Installation Wizard `(/cli/setup.php)` MAY be restricted:
 
 Apache2:
 
@@ -538,7 +538,7 @@ Nginx:
 
         # add location for PHP processing here
     }
-    location /setup/setup.php {
+    location /cli/setup.php {
         allow %IPADDRESS%;
         deny all;
     }

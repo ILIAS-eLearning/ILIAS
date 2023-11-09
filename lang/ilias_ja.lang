@@ -4045,7 +4045,7 @@ common#:#gender_m#:#Mr.
 common#:#gender_n#:#挨拶を希望しない
 common#:#general_settings#:#全般設定
 common#:#generate#:#生成
-common#:#ghostscript_not_configured#:#Ghostscriptが構成されていません。構成するには<a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a>を開いてください。
+common#:#ghostscript_not_configured#:#Ghostscriptが構成されていません。構成するには<a href="cli/setup.php?cmd=mastersettings" target="_blank">Setup</a>を開いてください。
 common#:#glo#:#用語集
 common#:#glo_add#:#用語集を追加
 common#:#glo_added#:#用語集の追加

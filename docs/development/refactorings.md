@@ -72,15 +72,15 @@ The current configuration applied rules and rulesets will help you to
 maintain your code and update it for PHP 8.1 and PHP 8.2.
 
 The rules will be applied to your code using the following command (the 
-example applies the ule so Services/GlobalCache): 
+example applies the ule so components/ILIAS/GlobalCache_): 
 
 ```bash
-./libs/composer/vendor/bin/rector process --config ./CI/Rector/basic_rector.php --no-diffs Services/GlobalCache
+./vendor/composer/vendor/bin/rector process --config ./CI/Rector/basic_rector.php --no-diffs components/ILIAS/GlobalCache_
 ```
 There also is a composer script for the same command:
 
 ```bash
-composer rector Services/GlobalCache
+composer rector components/ILIAS/GlobalCache_
 ```
 Please review and test your changes after applying the rules. There might be 
 some placey whwre you do not want to apply the rules. You can opt-out lines 
@@ -89,7 +89,7 @@ with the comment ``@noRector`, e.g.:
 ```php
 /** @noRector  */
 $this->class_loader = include 
-"Services/GlobalScreen/artifacts/global_screen_providers.php";
+"components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php";
 ```
 
 It's quite easy to write own rules for rector, currently done with the Rule 

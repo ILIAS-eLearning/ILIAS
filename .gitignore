@@ -9,7 +9,7 @@
 /.settings
 /errors
 /extern
-/Services/PHPUnit/config/cfg.phpunit.php
+/components/ILIAS/PHPUnit/config/cfg.phpunit.php
 /nbproject
 /templates/default/delos.css.map
 
@@ -29,35 +29,31 @@
 /ilias.ini.php
 /ilias.log
 /db_template_writer.php
-/setup/sql/dbupdate_custom.php
+/components/ILIAS/setup_/sql/dbupdate_custom.php
 /install_client.php
-/Services/GlobalScreen/artifacts/global_screen_providers.php
-/Services/Style/System/data/data.php
-/Services/UICore/artifacts/ctrl_structure.php
-/Services/UICore/artifacts/ctrl_plugin_structure.php
-/Services/UICore/artifacts/ctrl_base_classes.php
-/Services/UICore/artifacts/ctrl_security.php
-/Services/Component/artifacts/*
-/Services/EventHandling/artifacts/*
-/Services/Object/artifacts/*
-/Services/LegalDocuments/artifacts/*
+/components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php
+/components/ILIAS/Style/System/data/data.php
+/components/ILIAS/UICore/artifacts/ctrl_structure.php
+/components/ILIAS/UICore/artifacts/ctrl_plugin_structure.php
+/components/ILIAS/UICore/artifacts/ctrl_base_classes.php
+/components/ILIAS/UICore/artifacts/ctrl_security.php
+/components/ILIAS/Component/artifacts/*
+/components/ILIAS/EventHandling/artifacts/*
+/components/ILIAS/Object/artifacts/*
+/components/ILIAS/LegalDocuments/artifacts/*
 
 # Directories
-/data
+/public/data
 /Customizing/global
 /Customizing/clients
 virtual-data
-/libs/composer/vendor
+/vendor/composer/vendor
 
 # Node Modules
-/node_modules
-/Modules/Chatroom/chat/node_modules
+/public/node_modules
+/components/ILIAS/Chatroom/chat/node_modules
 
-# /dicto
-/dicto/results/*
-!/dicto/results/README.md
-
-# CI
+# cli
 captainhook.config.json
 captainhook.local.json
 .phpunit.result.cache
@@ -67,7 +63,7 @@ phpstan-baseline.neon
 
 # File Delivery
 override.php
-Services/ResourceStorage/artifacts/flavour_data.php
-Services/FileHandlingDemo
-src/FileDelivery/artifacts
-src/StaticURL/artifacts
+components/ILIAS/ResourceStorage_/artifacts/flavour_data.php
+components/ILIAS/FileHandlingDemo
+components/ILIAS/FileDelivery/artifacts
+components/ILIAS/StaticURL/artifacts

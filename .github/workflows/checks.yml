@@ -39,7 +39,7 @@ jobs:
         run: npm clean-install --ignore-scripts
 
       - name: PHP Unit Test
-        run: CI/PHPUnit/run_tests.sh
+        run: scripts/PHPUnit/run_tests.sh
         env:
           GHRUN: "yes"
 
@@ -49,28 +49,28 @@ jobs:
           GHRUN: "yes"
 
       - name: PHP CS Fixer
-        run: CI/PHP-CS-Fixer/run_check.sh
+        run: scripts/PHP-CS-Fixer/run_check.sh
         env:
           GHRUN: "yes"
           PR_NUMBER: ${{ github.event.number }}
           GH_SHA: ${{ github.sha }}
 
       - name: Language Sort Check
-        run: CI/sort_langfile_entries.sh check
+        run: scripts/sort_langfile_entries.sh check
         env:
           GHRUN: "yes"
           PR_NUMBER: ${{ github.event.number }}
           GH_SHA: ${{ github.sha }}
 
       - name: Special Char Checker
-        run: CI/Special-Char-Checker/special-char-checker.sh
+        run: scripts/Special-Char-Checker/special-char-checker.sh
         env:
           GHRUN: "yes"
           PR_NUMBER: ${{ github.event.number }}
           GH_SHA: ${{ github.sha }}
 
       - name: Copyright Check
-        run: CI/Copyright-Checker/copyright-checker.sh
+        run: scripts/Copyright-Checker/copyright-checker.sh
         env:
           GHRUN: "yes"
           PR_NUMBER: ${{ github.event.number }}

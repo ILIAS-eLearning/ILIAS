@@ -138,7 +138,7 @@ kindly,
 Please commit the following file as part of the review to the root of the component.
 To measure the statistics you can use:
 - Logical Lines of Code: [phploc](https://github.com/sebastianbergmann/phploc): `php phploc.phar <Path to Component>`
-- Nr of Tests: phpunit: `./libs/composer/vendor/phpunit/phpunit/phpunit --list-tests <Path to Component Test Suite File>`
+- Nr of Tests: phpunit: `./vendor/composer/vendor/phpunit/phpunit/phpunit --list-tests <Path to Component Test Suite File>`
 - Nr of LoCs changed in last 365 days: `git diff --shortstat HEAD $(git log --since=365.days --oneline Services/WebDAV/ | tail -1 | cut -f 1 -d " ")^ <Path to Component>`
 - Nr of Commits in last 365 days: `git log --since=365.days --oneline <Path to Component> | wc -l`
 - To check the general code quality: `./CI/PHPStan/run_checks.sh <Path to Component>`.

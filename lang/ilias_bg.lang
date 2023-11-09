@@ -4006,7 +4006,7 @@ common#:#gender_m#:#Мъж
 common#:#gender_n#:#No salutation desired###31 08 2017 new variable
 common#:#general_settings#:#Общи настройки
 common#:#generate#:#Генериране
-common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.###24 10 2013 new variable
+common#:#ghostscript_not_configured#:#Ghostscript is not configured. Please open the <a href="cli/setup.php?cmd=mastersettings" target="_blank">Setup</a> to configure it.###24 10 2013 new variable
 common#:#glo#:#Речници
 common#:#glo_add#:#Добавяне на речник
 common#:#glo_added#:#Речникът добавен

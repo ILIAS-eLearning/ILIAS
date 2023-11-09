@@ -48,10 +48,10 @@ to check or fix one or multiple files.
 ### Checking Code Style
 
 ```bash
-libs/composer/vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no --diff --config=./CI/PHP-CS-Fixer/code-format.php_cs [FILE]
+vendor/composer/vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no --diff --config=./CI/PHP-CS-Fixer/code-format.php_cs [FILE]
 ```
 ### Fixing Code Style
 
 ```bash
-libs/composer/vendor/bin/php-cs-fixer fix --stop-on-violation --using-cache=no --diff --config=./CI/PHP-CS-Fixer/code-format.php_cs [FILE]
+vendor/composer/vendor/bin/php-cs-fixer fix --stop-on-violation --using-cache=no --diff --config=./CI/PHP-CS-Fixer/code-format.php_cs [FILE]
 ```
