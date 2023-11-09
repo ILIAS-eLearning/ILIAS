@@ -5136,6 +5136,7 @@ common#:#objs_rtst#:#ECS Tests
 common#:#objs_rwik#:#ECS Wikis
 common#:#objs_sahs#:#SCORM Learning Modules
 common#:#objs_sess#:#Sessions
+common#:#objs_skee#:#Competence Trees
 common#:#objs_spl#:#Question Pools Survey
 common#:#objs_st#:#Chapters
 common#:#objs_svy#:#Surveys
@@ -13555,10 +13556,10 @@ rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
 rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
-rbac#:#manage_comp#:#User can edit Competences
-rbac#:#manage_comp_temp#:#User can edit Competence Templates
+rbac#:#manage_comp#:#Edit Competences
+rbac#:#manage_comp_temp#:#Edit Competence Templates
 rbac#:#manage_materials#:#Manage Materials
-rbac#:#manage_profiles#:#User can edit Competence Profiles
+rbac#:#manage_profiles#:#Edit Competence Profiles
 rbac#:#mcst_copy#:#User can copy mediacast
 rbac#:#mcst_delete#:#User can move or delete mediacast
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
@@ -13751,6 +13752,7 @@ rbac#:#rbac_create_role#:#Create new Role
 rbac#:#rbac_create_rolt#:#Create new Role Template
 rbac#:#rbac_create_sahs#:#Create SCORM Learning Module
 rbac#:#rbac_create_sess#:#Create Session
+rbac#:#rbac_create_skee#:#Create Competence Tree
 rbac#:#rbac_create_spl#:#Create Question Pool Survey
 rbac#:#rbac_create_svy#:#Create Survey
 rbac#:#rbac_create_tst#:#Create Test
@@ -13843,10 +13845,10 @@ rbac#:#rcrs_edit_permission#:#User can change permission settings
 rbac#:#rcrs_read#:#User can use ECS Course
 rbac#:#rcrs_visible#:#ECS Course is visible
 rbac#:#rcrs_write#:#User can edit settings of ECS Course
-rbac#:#read_comp#:#User has read access to Competences and Competence Templates
+rbac#:#read_comp#:#Read Competences
 rbac#:#read_learning_progress#:#View learning progress of other users
 rbac#:#read_outcomes#:#View learning experiences of other users
-rbac#:#read_profiles#:#User has read access to Competence Profiles
+rbac#:#read_profiles#:#Read Profiles
 rbac#:#read_results#:#Survey Results
 rbac#:#read_users#:#Read Access to User Accounts
 rbac#:#recf_edit_permission#:#User can change permission settings of Restored Objects administration
@@ -13926,6 +13928,17 @@ rbac#:#sess_read#:#User has read access to sessions
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
 rbac#:#sess_visible#:#Sessions are visible
 rbac#:#sess_write#:#User can edit session content and settings
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)
+rbac#:#skee_delete#:#User can delete Competence Tree
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree
+rbac#:#skee_read#:#User has read access to administration of Competence Tree
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree
+rbac#:#skee_visible#:#Competence Tree is visible
+rbac#:#skee_write#:#User can edit settings of Competence Tree
 rbac#:#skmg_edit_permission#:#User can change permission settings of Competence Management administration
 rbac#:#skmg_read#:#User has read access to administration of Competence Management
 rbac#:#skmg_visible#:#Competence Management administration is visible
