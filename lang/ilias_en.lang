@@ -10734,7 +10734,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings
 lm#:#lm_est_reading_time#:#Estimated Reading Time
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
+lm#:#lm_page_added#:#Page has been added.
 lm#:#lm_page_type_lm#:#LM Page
+lm#:#lm_pages_added#:#Pages have been added.
 lm#:#lm_save_titles#:#Titles saved.
 lng#:#language_detection#:#Language Detection
 lng#:#lng_disable_language_detection#:#Disable Language Detection
