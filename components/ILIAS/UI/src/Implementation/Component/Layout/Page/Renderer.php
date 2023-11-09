@@ -170,7 +170,7 @@ class Renderer extends AbstractComponentRenderer
                 iljQueryUtil::getLocaljQueryPath(),
                 './components/ILIAS/JavaScript/js/Basic.js',
                 ilUIFramework::BOOTSTRAP_JS,
-                './node_modules/jquery-migrate/jquery-migrate.min.js',
+                './public/node_modules/jquery-migrate/jquery-migrate.min.js',
             ];
 
             array_unshift($js_files, ...$additional_js_files);
