@@ -290,7 +290,6 @@ class ilLanguage
      */
     public static function _getInstalledLanguages(): array
     {
-        include_once "./components/ILIAS/Object/classes/class.ilObject.php";
         $langlist = ilObject::_getObjectsByType("lng");
 
         $languages = [];

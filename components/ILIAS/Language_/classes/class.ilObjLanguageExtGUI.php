@@ -147,7 +147,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     protected function getViewTable(): \ilLanguageExtTableGUI
     {
         // create and configure the table object
-        include_once "./components/ILIAS/Language_/classes/class.ilLanguageExtTableGUI.php";
         $table_gui = new ilLanguageExtTableGUI($this, "view", array(
             "langmode" => $this->langmode,
             "lang_key" => $this->object->key,
@@ -822,7 +821,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $data[] = $total;
 
         // create and configure the table object
-        include_once "components/ILIAS/Table/classes/class.ilTable2GUI.php";
         $table_gui = new ilTable2GUI($this, "statistics");
         $table_gui->setRowTemplate("tpl.lang_statistics_row.html", "components/ILIAS/Language_");
         $table_gui->setEnableTitle(false);
@@ -1004,7 +1002,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $ilCtrl->redirect($this, "view");
         }
 
-        include_once "components/ILIAS/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "saveNewEntry"));
         $form->setTitle($this->lng->txt("adm_missing_entry_add"));

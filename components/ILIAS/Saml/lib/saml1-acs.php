@@ -50,10 +50,8 @@ if (isset($_GET["client_id"])) {
 }
 define('IL_COOKIE_PATH', $cookie_path);
 
-require_once 'components/ILIAS/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SAML);
 
-require_once 'components/ILIAS/Init/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
 $factory = new ilSamlAuthFactory();

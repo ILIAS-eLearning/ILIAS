@@ -45,7 +45,6 @@ class ilSoapFunctions
      */
     public static function login(string $client, string $username, string $password)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->login($client, $username, $password);
     }
@@ -55,7 +54,6 @@ class ilSoapFunctions
      */
     public static function logout(string $sid)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->logout($sid);
     }
@@ -65,7 +63,6 @@ class ilSoapFunctions
      */
     public static function lookupUser(string $sid, string $user_name)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->lookupUser($sid, $user_name);
     }
@@ -75,7 +72,6 @@ class ilSoapFunctions
      */
     public static function addCourse(string $sid, int $target_id, string $crs_xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapCourseAdministration.php';
         $sca = new ilSoapCourseAdministration();
         return $sca->addCourse($sid, $target_id, $crs_xml);
     }
@@ -85,7 +81,6 @@ class ilSoapFunctions
      */
     public static function deleteCourse(string $sid, int $course_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapCourseAdministration.php';
         $sca = new ilSoapCourseAdministration();
         return $sca->deleteCourse($sid, $course_id);
     }
@@ -95,7 +90,6 @@ class ilSoapFunctions
      */
     public static function assignCourseMember(string $sid, int $course_id, int $user_id, string $type)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapCourseAdministration.php';
         $sca = new ilSoapCourseAdministration();
         return $sca->assignCourseMember($sid, $course_id, $user_id, $type);
     }
@@ -105,7 +99,6 @@ class ilSoapFunctions
      */
     public static function isAssignedToCourse(string $sid, int $course_id, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapCourseAdministration.php';
         $sca = new ilSoapCourseAdministration();
         return $sca->isAssignedToCourse($sid, $course_id, $user_id);
     }
@@ -115,7 +108,6 @@ class ilSoapFunctions
      */
     public static function excludeCourseMember(string $sid, int $course_id, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapCourseAdministration.php';
         $sca = new ilSoapCourseAdministration();
         return $sca->excludeCourseMember($sid, $course_id, $user_id);
     }
@@ -125,7 +117,6 @@ class ilSoapFunctions
      */
     public static function getCourseXML(string $sid, int $course_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapCourseAdministration.php';
         $sca = new ilSoapCourseAdministration();
         return $sca->getCourseXML($sid, $course_id);
     }
@@ -135,7 +126,6 @@ class ilSoapFunctions
      */
     public static function updateCourse(string $sid, int $course_id, string $xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapCourseAdministration.php';
         $sca = new ilSoapCourseAdministration();
         return $sca->updateCourse($sid, $course_id, $xml);
     }
@@ -145,7 +135,6 @@ class ilSoapFunctions
      */
     public static function getObjIdByImportId(string $sid, string $import_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->getObjIdByImportId($sid, $import_id);
     }
@@ -155,7 +144,6 @@ class ilSoapFunctions
      */
     public static function getRefIdsByImportId(string $sid, string $import_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->getRefIdsByImportId($sid, $import_id);
     }
@@ -165,7 +153,6 @@ class ilSoapFunctions
      */
     public static function getRefIdsByObjId(string $sid, int $object_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->getRefIdsByObjId($sid, $object_id);
     }
@@ -175,7 +162,6 @@ class ilSoapFunctions
      */
     public static function getObjectByReference(string $sid, int $a_ref_id, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->getObjectByReference($sid, $a_ref_id, $user_id);
     }
@@ -185,7 +171,6 @@ class ilSoapFunctions
      */
     public static function getObjectsByTitle(string $sid, string $a_title, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->getObjectsByTitle($sid, $a_title, $user_id);
     }
@@ -195,7 +180,6 @@ class ilSoapFunctions
      */
     public static function addObject(string $sid, int $a_target_id, string $a_xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->addObject($sid, $a_target_id, $a_xml);
     }
@@ -205,7 +189,6 @@ class ilSoapFunctions
      */
     public static function addReference(string $sid, int $a_source_id, int $a_target_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->addReference($sid, $a_source_id, $a_target_id);
     }
@@ -215,7 +198,6 @@ class ilSoapFunctions
      */
     public static function deleteObject(string $sid, int $reference_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->deleteObject($sid, $reference_id);
     }
@@ -225,7 +207,6 @@ class ilSoapFunctions
      */
     public static function removeFromSystemByImportId(string $sid, string $import_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->removeFromSystemByImportId($sid, $import_id);
     }
@@ -235,7 +216,6 @@ class ilSoapFunctions
      */
     public static function updateObjects(string $sid, string $obj_xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->updateObjects($sid, $obj_xml);
     }
@@ -245,7 +225,6 @@ class ilSoapFunctions
      */
     public static function searchObjects(string $sid, array $types, string $key, string $combination, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->searchObjects($sid, $types, $key, $combination, $user_id);
     }
@@ -255,7 +234,6 @@ class ilSoapFunctions
      */
     public static function getTreeChilds(string $sid, int $ref_id, array $types, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->getTreeChilds($sid, $ref_id, $types, $user_id);
     }
@@ -265,7 +243,6 @@ class ilSoapFunctions
      */
     public static function getXMLTree(string $sid, int $ref_id, array $types, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->getXMLTree($sid, $ref_id, $types, $user_id);
     }
@@ -275,7 +252,6 @@ class ilSoapFunctions
      */
     public static function getOperations(string $sid)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->getOperations($sid);
     }
@@ -285,7 +261,6 @@ class ilSoapFunctions
      */
     public static function addUserRoleEntry(string $sid, int $user_id, int $role_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->addUserRoleEntry($sid, $user_id, $role_id);
     }
@@ -295,7 +270,6 @@ class ilSoapFunctions
      */
     public static function deleteUserRoleEntry(string $sid, int $user_id, int $role_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->deleteUserRoleEntry($sid, $user_id, $role_id);
     }
@@ -305,7 +279,6 @@ class ilSoapFunctions
      */
     public static function revokePermissions(string $sid, int $ref_id, int $role_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->revokePermissions($sid, $ref_id, $role_id);
     }
@@ -315,7 +288,6 @@ class ilSoapFunctions
      */
     public static function grantPermissions(string $sid, int $ref_id, int $role_id, array $permissions)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->grantPermissions($sid, $ref_id, $role_id, $permissions);
     }
@@ -325,7 +297,6 @@ class ilSoapFunctions
      */
     public static function getLocalRoles(string $sid, int $ref_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->getLocalRoles($sid, $ref_id);
     }
@@ -335,7 +306,6 @@ class ilSoapFunctions
      */
     public static function getUserRoles(string $sid, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->getUserRoles($sid, $user_id);
     }
@@ -345,7 +315,6 @@ class ilSoapFunctions
      */
     public static function deleteRole(string $sid, int $role_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->deleteRole($sid, $role_id);
     }
@@ -355,7 +324,6 @@ class ilSoapFunctions
      */
     public static function addRole(string $sid, int $target_id, string $obj_xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->addRole($sid, $target_id, $obj_xml);
     }
@@ -365,7 +333,6 @@ class ilSoapFunctions
      */
     public static function addRoleFromTemplate(string $sid, int $target_id, string $obj_xml, int $template_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->addRoleFromTemplate($sid, $target_id, $obj_xml, $template_id);
     }
@@ -375,7 +342,6 @@ class ilSoapFunctions
      */
     public static function getObjectTreeOperations(string $sid, int $ref_id, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->getObjectTreeOperations($sid, $ref_id, $user_id);
     }
@@ -385,7 +351,6 @@ class ilSoapFunctions
      */
     public static function addGroup(string $sid, int $target_id, int $group_xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapGroupAdministration.php';
         $soa = new ilSoapGroupAdministration();
         return $soa->addGroup($sid, $target_id, $group_xml);
     }
@@ -395,7 +360,6 @@ class ilSoapFunctions
      */
     public static function groupExists(string $sid, string $title)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapGroupAdministration.php';
         $soa = new ilSoapGroupAdministration();
         return $soa->groupExists($sid, $title);
     }
@@ -405,7 +369,6 @@ class ilSoapFunctions
      */
     public static function getGroup(string $sid, int $ref_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapGroupAdministration.php';
         $soa = new ilSoapGroupAdministration();
         return $soa->getGroup($sid, $ref_id);
     }
@@ -415,7 +378,6 @@ class ilSoapFunctions
      */
     public static function assignGroupMember(string $sid, int $group_id, int $user_id, string $type)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapGroupAdministration.php';
         $sca = new ilSoapGroupAdministration();
         return $sca->assignGroupMember($sid, $group_id, $user_id, $type);
     }
@@ -425,7 +387,6 @@ class ilSoapFunctions
      */
     public static function isAssignedToGroup(string $sid, int $group_id, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapGroupAdministration.php';
         $sca = new ilSoapGroupAdministration();
         return $sca->isAssignedToGroup($sid, $group_id, $user_id);
     }
@@ -435,7 +396,6 @@ class ilSoapFunctions
      */
     public static function excludeGroupMember(string $sid, int $group_id, int $user_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapGroupAdministration.php';
         $sca = new ilSoapGroupAdministration();
         return $sca->excludeGroupMember($sid, $group_id, $user_id);
     }
@@ -445,8 +405,6 @@ class ilSoapFunctions
      */
     public static function ilClone(string $sid, int $copy_identifier)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUtils.php';
-
         $sou = new ilSoapUtils();
         $sou->disableSOAPCheck();
         $sou->ignoreUserAbort();
@@ -458,8 +416,6 @@ class ilSoapFunctions
      */
     public static function ilCloneDependencies(string $sid, int $copy_identifier)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUtils.php';
-
         $sou = new ilSoapUtils();
         $sou->disableSOAPCheck();
         $sou->ignoreUserAbort();
@@ -471,7 +427,6 @@ class ilSoapFunctions
      */
     public static function saveQuestion(string $sid, int $active_id, int $question_id, int $pass, array $solution)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapTestAdministration.php';
         $sass = new ilSoapTestAdministration();
         return $sass->saveQuestion($sid, $active_id, $question_id, $pass, $solution);
     }
@@ -481,7 +436,6 @@ class ilSoapFunctions
      */
     public static function saveQuestionSolution(string $sid, int $active_id, int $question_id, int $pass, int $solution)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapTestAdministration.php';
         $sass = new ilSoapTestAdministration();
         return $sass->saveQuestionSolution($sid, $active_id, $question_id, $pass, $solution);
     }
@@ -491,7 +445,6 @@ class ilSoapFunctions
      */
     public static function getQuestionSolution(string $sid, int $active_id, int $question_id, int $pass)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapTestAdministration.php';
         $sass = new ilSoapTestAdministration();
         return $sass->getQuestionSolution($sid, $active_id, $question_id, $pass);
     }
@@ -501,7 +454,6 @@ class ilSoapFunctions
      */
     public static function getTestUserData(string $sid, int $active_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapTestAdministration.php';
         $sass = new ilSoapTestAdministration();
         return $sass->getTestUserData($sid, $active_id);
     }
@@ -511,7 +463,6 @@ class ilSoapFunctions
      */
     public static function getNrOfQuestionsInPass(string $sid, int $active_id, int $pass)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapTestAdministration.php';
         $sass = new ilSoapTestAdministration();
         return $sass->getNrOfQuestionsInPass($sid, $active_id, $pass);
     }
@@ -521,7 +472,6 @@ class ilSoapFunctions
      */
     public static function getPositionOfQuestion(string $sid, int $active_id, int $question_id, int $pass)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapTestAdministration.php';
         $sass = new ilSoapTestAdministration();
         return $sass->getPositionOfQuestion($sid, $active_id, $question_id, $pass);
     }
@@ -531,7 +481,6 @@ class ilSoapFunctions
      */
     public static function getPreviousReachedPoints(string $sid, int $active_id, int $question_id, int $pass)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapTestAdministration.php';
         $sass = new ilSoapTestAdministration();
         return $sass->getPreviousReachedPoints($sid, $active_id, $question_id, $pass);
     }
@@ -541,8 +490,6 @@ class ilSoapFunctions
      */
     public static function saveTempFileAsMediaObject(string $sid, string $name, string $tmp_name)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUtils.php';
-
         $sou = new ilSoapUtils();
         $sou->disableSOAPCheck();
         return $sou->saveTempFileAsMediaObject($sid, $name, $tmp_name);
@@ -553,7 +500,6 @@ class ilSoapFunctions
      */
     public static function getMobsOfObject(string $sid, string $a_type, int $a_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUtils.php';
         $sou = new ilSoapUtils();
         $sou->disableSOAPCheck();
         return $sou->getMobsOfObject($sid, $a_type, $a_id);
@@ -564,7 +510,6 @@ class ilSoapFunctions
      */
     public static function getStructureObjects(string $sid, int $ref_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapStructureObjectAdministration.php';
         $sca = new ilSOAPStructureObjectAdministration();
         return $sca->getStructureObjects($sid, $ref_id);
     }
@@ -574,7 +519,6 @@ class ilSoapFunctions
      */
     public static function getRoles(string $sid, string $role_type, int $id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $soa = new ilSoapRBACAdministration();
         return $soa->getRoles($sid, $role_type, $id);
     }
@@ -584,7 +528,6 @@ class ilSoapFunctions
      */
     public static function importUsers(string $sid, int $folder_id, string $usr_xml, int $conflict_rule, bool $send_account_mail)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->importUsers($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail);
     }
@@ -594,7 +537,6 @@ class ilSoapFunctions
      */
     public static function getUsersForContainer(string $sid, int $ref_id, bool $attach_roles, int $active)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->getUsersForContainer($sid, $ref_id, $attach_roles, $active);
     }
@@ -604,7 +546,6 @@ class ilSoapFunctions
      */
     public static function getUsersForRole(string $sid, int $role_id, bool $attach_roles, int $active)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->getUserForRole($sid, $role_id, $attach_roles, $active);
     }
@@ -614,7 +555,6 @@ class ilSoapFunctions
      */
     public static function searchUser(string $sid, array $a_keyfields, string $query_operator, array $a_keyvalues, bool $attach_roles, int $active)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->searchUser($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active);
     }
@@ -624,7 +564,6 @@ class ilSoapFunctions
      */
     public static function hasNewMail(string $sid)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->hasNewMail($sid);
     }
@@ -634,7 +573,6 @@ class ilSoapFunctions
      */
     public static function getExerciseXML(string $sid, int $ref_id, int $attachFileContentsMode)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapExerciseAdministration.php';
         $sta = new ilSoapExerciseAdministration();
         return $sta->getExerciseXML($sid, $ref_id, $attachFileContentsMode);
     }
@@ -644,7 +582,6 @@ class ilSoapFunctions
      */
     public static function updateExercise(string $sid, int $ref_id, string $xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapExerciseAdministration.php';
         $sta = new ilSoapExerciseAdministration();
         return $sta->updateExercise($sid, $ref_id, $xml);
     }
@@ -654,7 +591,6 @@ class ilSoapFunctions
      */
     public static function addExercise(string $sid, int $ref_id, string $xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapExerciseAdministration.php';
         $sta = new ilSoapExerciseAdministration();
         return $sta->addExercise($sid, $ref_id, $xml);
     }
@@ -664,7 +600,6 @@ class ilSoapFunctions
      */
     public static function getFileXML(string $sid, int $ref_id, int $attachFileContentsMode)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapFileAdministration.php';
         $sta = new ilSoapFileAdministration();
         return $sta->getFileXML($sid, $ref_id, $attachFileContentsMode);
     }
@@ -674,7 +609,6 @@ class ilSoapFunctions
      */
     public static function updateFile(string $sid, int $ref_id, string $xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapFileAdministration.php';
         $sta = new ilSoapFileAdministration();
         return $sta->updateFile($sid, $ref_id, $xml);
     }
@@ -684,7 +618,6 @@ class ilSoapFunctions
      */
     public static function addFile(string $sid, int $ref_id, string $xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapFileAdministration.php';
         $sta = new ilSoapFileAdministration();
         return $sta->addFile($sid, $ref_id, $xml);
     }
@@ -694,7 +627,6 @@ class ilSoapFunctions
      */
     public static function getObjIdsByRefIds(string $sid, array $ref_ids)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->getObjIdsByRefIds($sid, $ref_ids);
     }
@@ -704,7 +636,6 @@ class ilSoapFunctions
      */
     public static function getUserXML(string $sid, array $user_ids, bool $attach_roles)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->getUserXML($sid, $user_ids, $attach_roles);
     }
@@ -714,7 +645,6 @@ class ilSoapFunctions
      */
     public static function updateGroup(string $sid, int $ref_id, string $grp_xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapGroupAdministration.php';
         $sua = new ilSoapGroupAdministration();
         return $sua->updateGroup($sid, $ref_id, $grp_xml);
     }
@@ -724,14 +654,12 @@ class ilSoapFunctions
      */
     public static function getIMSManifestXML(string $sid, int $ref_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapSCORMAdministration.php';
         $sua = new ilSoapSCORMAdministration();
         return $sua->getIMSManifestXML($sid, $ref_id);
     }
 
     public static function hasSCORMCertificate(string $sid, int $ref_id, int $usr_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapSCORMAdministration.php';
         $sua = new ilSoapSCORMAdministration();
         return $sua->hasSCORMCertificate($sid, $ref_id, $usr_id);
     }
@@ -741,7 +669,6 @@ class ilSoapFunctions
      */
     public static function copyObject(string $sid, string $copy_settings_xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->copyObject($sid, $copy_settings_xml);
     }
@@ -760,7 +687,6 @@ class ilSoapFunctions
      */
     public static function moveObject(string $sid, int $ref_id, int $target_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->moveObject($sid, $ref_id, $target_id);
     }
@@ -770,7 +696,6 @@ class ilSoapFunctions
      */
     public static function getTestResults(string $sid, int $ref_id, bool $sum_only)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapTestAdministration.php';
         $soa = new ilSoapTestAdministration();
         return $soa->getTestResults($sid, $ref_id, $sum_only);
     }
@@ -780,7 +705,6 @@ class ilSoapFunctions
      */
     public static function removeTestResults(string $sid, int $ref_id, array $a_user_ids)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapTestAdministration.php';
         $soa = new ilSoapTestAdministration();
         return $soa->removeTestResults($sid, $ref_id, $a_user_ids);
     }
@@ -790,7 +714,6 @@ class ilSoapFunctions
      */
     public static function getCoursesForUser(string $sid, string $parameters)
     {
-        include_once 'components/ILIAS/soap/classes/class.ilSoapCourseAdministration.php';
         $soc = new ilSoapCourseAdministration();
         return $soc->getCoursesForUser($sid, $parameters);
     }
@@ -800,7 +723,6 @@ class ilSoapFunctions
      */
     public static function getGroupsForUser(string $sid, string $parameters)
     {
-        include_once 'components/ILIAS/soap/classes/class.ilSoapGroupAdministration.php';
         $soc = new ilSoapGroupAdministration();
         return $soc->getGroupsForUser($sid, $parameters);
     }
@@ -810,7 +732,6 @@ class ilSoapFunctions
      */
     public static function getPathForRefId(string $sid, int $ref_id)
     {
-        include_once 'components/ILIAS/soap/classes/class.ilSoapObjectAdministration.php';
         $soa = new ilSoapObjectAdministration();
         return $soa->getPathForRefId($sid, $ref_id);
     }
@@ -820,14 +741,12 @@ class ilSoapFunctions
      */
     public static function searchRoles(string $sid, string $key, string $combination, string $role_type)
     {
-        include_once 'components/ILIAS/soap/classes/class.ilSoapRBACAdministration.php';
         $roa = new ilSoapRBACAdministration();
         return $roa->searchRoles($sid, $key, $combination, $role_type);
     }
 
     public static function getInstallationInfoXML(): string
     {
-        include_once 'components/ILIAS/soap/classes/class.ilSoapAdministration.php';
         $roa = new ilSoapAdministration();
         return $roa->getInstallationInfoXML();
     }
@@ -837,7 +756,6 @@ class ilSoapFunctions
      */
     public static function getClientInfoXML(string $clientid)
     {
-        include_once 'components/ILIAS/soap/classes/class.ilSoapAdministration.php';
         $roa = new ilSoapAdministration();
         return $roa->getClientInfoXML($clientid);
     }
@@ -857,7 +775,6 @@ class ilSoapFunctions
         $path = dirname($_SERVER['REQUEST_URI'] ?? '');
 
         //dirname cuts the last directory from a directory path e.g content/classes return content
-        include_once 'components/ILIAS/FileServices/classes/class.ilFileUtils.php';
         $module = ilFileUtils::removeTrailingPathSeparators(ILIAS_MODULE);
 
         $dirs = explode('/', $module);
@@ -873,7 +790,6 @@ class ilSoapFunctions
      */
     public static function getSCORMCompletionStatus(string $sid, int $usr_id, int $a_ref_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapSCORMAdministration.php';
         $sua = new ilSoapSCORMAdministration();
         return $sua->getSCORMCompletionStatus($sid, $usr_id, $a_ref_id);
     }
@@ -883,7 +799,6 @@ class ilSoapFunctions
      */
     public static function getUserIdBySid(string $sid)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUserAdministration.php';
         $sua = new ilSoapUserAdministration();
         return $sua->getUserIdBySid($sid);
     }
@@ -893,7 +808,6 @@ class ilSoapFunctions
      */
     public static function readWebLink(string $sid, int $ref_id)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapWebLinkAdministration.php';
         $swa = new ilSoapWebLinkAdministration();
         return $swa->readWebLink($sid, $ref_id);
     }
@@ -903,8 +817,6 @@ class ilSoapFunctions
      */
     public static function createWebLink(string $sid, int $ref_id, string $xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapWebLinkAdministration.php';
-
         $swa = new ilSoapWebLinkAdministration();
         return $swa->createWebLink($sid, $ref_id, $xml);
     }
@@ -914,15 +826,12 @@ class ilSoapFunctions
      */
     public static function updateWebLink(string $sid, int $ref_id, string $xml)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapWebLinkAdministration.php';
         $swa = new ilSoapWebLinkAdministration();
         return $swa->updateWebLink($sid, $ref_id, $xml);
     }
 
     public static function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id): bool
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapUtils.php';
-
         $sou = new ilSoapUtils();
         $sou->disableSOAPCheck();
         $sou->ignoreUserAbort();
@@ -934,7 +843,6 @@ class ilSoapFunctions
      */
     public static function deleteProgress(string $sid, array $ref_ids, array $usr_ids, array $type_filter, array $progress_filter)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapLearningProgressAdministration.php';
         $sla = new ilSoapLearningProgressAdministration();
         return $sla->deleteProgress($sid, $ref_ids, $usr_ids, $type_filter, $progress_filter);
     }
@@ -944,7 +852,6 @@ class ilSoapFunctions
      */
     public static function getLearningProgressChanges(string $sid, string $timestamp, bool $include_ref_ids, array $type_filter)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapLearningProgressAdministration.php';
         $s = new ilSoapLearningProgressAdministration();
         return $s->getLearningProgressChanges($sid, $timestamp, $include_ref_ids, $type_filter);
     }
@@ -954,7 +861,6 @@ class ilSoapFunctions
      */
     public static function getProgressInfo(string $sid, int $ref_id, array $progress_filter)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapLearningProgressAdministration.php';
         $sla = new ilSoapLearningProgressAdministration();
         return $sla->getProgressInfo($sid, $ref_id, $progress_filter);
     }
@@ -964,7 +870,6 @@ class ilSoapFunctions
      */
     public static function exportDataCollectionContent(string $sid, int $data_collection_id, ?int $table_id = null, string $format = "xls", ?string $filepath = null)
     {
-        include_once './components/ILIAS/soap/classes/class.ilSoapDataCollectionAdministration.php';
         $dcl = new ilSoapDataCollectionAdministration();
         return $dcl->exportDataCollectionContent($sid, $data_collection_id, $table_id, $format, $filepath);
     }

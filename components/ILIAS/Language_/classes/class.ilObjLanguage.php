@@ -19,8 +19,6 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-require_once "./components/ILIAS/Object/classes/class.ilObject.php";
-
 /**
  * Class ilObjLanguage
  *
@@ -673,7 +671,6 @@ class ilObjLanguage extends ilObject
      */
     public function check(string $scope = ""): bool
     {
-        include_once "./components/ILIAS/Utilities/classes/class.ilStr.php";
         $scopeExtension = "";
         if (!empty($scope)) {
             if ($scope === "global") {

@@ -19,9 +19,6 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-require_once "components/ILIAS/Language_/classes/class.ilLanguage.php";
-require_once "components/ILIAS/Language_/classes/class.ilLanguageDetectorFactory.php";
-
 /**
  * Class ilLanguageDetection
  * @author Michael Jansen <mjansen@databay.de>

@@ -21,7 +21,6 @@
  +-----------------------------------------------------------------------------+
 */
 
-include_once './components/ILIAS/soap/classes/class.ilSoapAdministration.php';
 
 /**
  * administration for structure objects
@@ -54,7 +53,6 @@ class ilSOAPStructureObjectAdministration extends ilSoapAdministration
 
         include_once $filename;
         $structureReader = new $structureReaderClassname($target_obj);
-        include_once './components/ILIAS/soap/classes/class.ilSoapStructureObjectXMLWriter.php';
         $xml_writer = new ilSoapStructureObjectXMLWriter();
         $structureObject = &$structureReader->getStructureObject();
         $xml_writer->setStructureObject($structureObject);

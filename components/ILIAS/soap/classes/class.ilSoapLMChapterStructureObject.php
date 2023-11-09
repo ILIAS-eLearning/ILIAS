@@ -29,7 +29,6 @@
  * @package ilias
  */
 
-include_once "./components/ILIAS/soap/classes/class.ilSoapStructureObject.php";
 
 class ilSoapLMChapterStructureObject extends ilSoapStructureObject
 {

@@ -24,10 +24,8 @@ if (!file_exists(getcwd() . '/ilias.ini.php')) {
     exit();
 }
 
-require_once 'components/ILIAS/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SESSION_REMINDER);
 
-require_once 'components/ILIAS/Init/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
 /** @var ILIAS\DI\Container $DIC */

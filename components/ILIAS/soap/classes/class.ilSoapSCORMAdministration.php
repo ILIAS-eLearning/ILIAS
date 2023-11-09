@@ -27,7 +27,6 @@
  * @version $Id: class.ilSoapExerciseAdministration.php 12992 2007-01-25 10:04:26Z rkuester $
  * @package ilias
  */
-include_once './components/ILIAS/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapSCORMAdministration extends ilSoapAdministration
 {
@@ -154,7 +153,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             return $this->raiseError('No ref_id given. Aborting!', 'Client');
         }
 
-        include_once 'cli/inc.header.php';
+        ilInitialisation::initILIAS();
 
         if (!$obj_id = ilObject::_lookupObjectId($a_ref_id)) {
             return $this->raiseError(
@@ -162,9 +161,6 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
                 'Client'
             );
         }
-
-        include_once 'components/ILIAS/Tracking/classes/class.ilLPStatus.php';
-        include_once 'components/ILIAS/Tracking/classes/class.ilObjUserTracking.php';
 
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return $this->raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');

@@ -4,15 +4,12 @@
 
 chdir('../../..');
 
-include_once 'components/ILIAS/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_REST);
 
 $_COOKIE['client_id'] = $_GET['client_id'] = $_REQUEST['client_id'];
 
-include_once './cli/inc.header.php';
+ilInitialisation::initILIAS();
 
-
-include_once './components/ILIAS/WebServices/Rest/classes/class.ilRestServer.php';
 $server = new ilRestServer(
     [
         'settings' => [

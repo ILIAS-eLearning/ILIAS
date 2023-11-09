@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/User/classes/class.ilUserAutoComplete.php';
-
 /**
  * Class ilOnScreenChatUserUserAutoComplete
  * @author  Michael Jansen <mjansen@databay.de>

@@ -40,7 +40,6 @@ final class RootFolderTest extends TestCase
         'phpstan-baseline.neon',
         '.php_cs.cache',
         '.php-cs-fixer.cache',
-        'calendar.php',
         'captainhook.json',
         'composer.json',
         'composer.lock',

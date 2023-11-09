@@ -1,6 +1,5 @@
 <?php
 
-include_once './components/ILIAS/soap/classes/class.ilSoapStructureObject.php';
 
 /**
  * Abstract classs for reading structure objects

@@ -32,9 +32,6 @@ use ILIAS\Refinery\Factory as Refinery;
  * @extends ilObject
  */
 
-require_once "./components/ILIAS/Language_/classes/class.ilObjLanguage.php";
-require_once "./components/ILIAS/Object/classes/class.ilObjectGUI.php";
-
 class ilObjLanguageFolderGUI extends ilObjectGUI
 {
     protected HTTPServices $http;
@@ -323,8 +320,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
 
-        require_once "./components/ILIAS/User/classes/class.ilObjUser.php";
-
         $post_id = $this->getPostId();
 
         if (count($post_id) !== 1) {
@@ -443,7 +438,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         switch ($next_class) {
             case "ilpermissiongui":
-                include_once "components/ILIAS/AccessControl/classes/class.ilPermissionGUI.php";
                 $perm_gui = new ilPermissionGUI($this);
                 $this->tabs_gui->activateTab("perm_settings");
                 $this->ctrl->forwardCommand($perm_gui);
@@ -603,8 +597,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         );
         $this->toolbar->addButtonInstance($button);
 
-        include_once "./components/ILIAS/Language_/classes/class.ilLangDeprecated.php";
-
         $d = new ilLangDeprecated();
         $res = "";
         foreach ($d->getDeprecatedLangVars() as $key => $mod) {
@@ -619,7 +611,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
      */
     public function downloadDeprecatedObject(): void
     {
-        include_once "./components/ILIAS/Language_/classes/class.ilLangDeprecated.php";
         $d = new ilLangDeprecated();
         $res = "";
         foreach ($d->getDeprecatedLangVars() as $key => $mod) {

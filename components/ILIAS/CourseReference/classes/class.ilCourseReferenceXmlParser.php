@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './components/ILIAS/ContainerReference/classes/class.ilContainerReferenceXmlParser.php';
 
 
 /**

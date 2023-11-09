@@ -9,10 +9,8 @@
 * @version $Id$
 */
 
-include_once "components/ILIAS/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_RSS_AUTH);
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 global $lng, $ilSetting;

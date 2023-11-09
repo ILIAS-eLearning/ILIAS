@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './components/ILIAS/Export/classes/class.ilXmlExporter.php';
-include_once './components/ILIAS/ContainerReference/classes/class.ilContainerReferenceExporter.php';
 
 /**
  * Class for category export
@@ -20,7 +18,6 @@ class ilCourseReferenceExporter extends ilContainerReferenceExporter
      */
     protected function initWriter(ilContainerReference $ref): ilContainerReferenceXmlWriter
     {
-        include_once './components/ILIAS/CourseReference/classes/class.ilCourseReferenceXmlWriter.php';
         return new ilCourseReferenceXmlWriter($ref);
     }
 }

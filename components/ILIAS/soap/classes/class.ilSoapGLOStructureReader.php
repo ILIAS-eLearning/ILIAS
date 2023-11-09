@@ -22,8 +22,6 @@
    +-----------------------------------------------------------------------------+
   */
 
-include_once "./components/ILIAS/soap/classes/class.ilSoapStructureReader.php";
-include_once "./components/ILIAS/soap/classes/class.ilSoapStructureObjectFactory.php";
 
 /**
  * class reading a glossary to transform it into a structure object

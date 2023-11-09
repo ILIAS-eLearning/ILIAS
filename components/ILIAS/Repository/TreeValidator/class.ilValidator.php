@@ -106,7 +106,7 @@ class ilValidator
         if ($a_log === true) {
             $this->logging = true;
 
-            // should be available thru inc.header.php
+            // should be available thru ilInitialisation::initILIAS();
             // TODO: move log functionality to new class ilScanLog
             // Delete old scan log
             $this->deleteScanLog();

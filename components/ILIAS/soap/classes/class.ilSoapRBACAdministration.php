@@ -21,7 +21,6 @@
  +-----------------------------------------------------------------------------+
  */
 
-include_once './components/ILIAS/soap/classes/class.ilSoapAdministration.php';
 
 /**
  * Soap rbac administration methods
@@ -321,7 +320,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             }
         }
         if (count($objs)) {
-            include_once './components/ILIAS/soap/classes/class.ilObjectXMLWriter.php';
 
             $xml_writer = new ilObjectXMLWriter();
             $xml_writer->setObjects($objs);
@@ -362,7 +360,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             }
         }
         if (count($objs)) {
-            include_once './components/ILIAS/soap/classes/class.ilObjectXMLWriter.php';
 
             $xml_writer = new ilObjectXMLWriter();
             $xml_writer->setObjects($objs);
@@ -407,7 +404,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to create roles', 'Server');
         }
 
-        include_once 'components/ILIAS/soap/classes/class.ilObjectXMLParser.php';
         $xml_parser = new ilObjectXMLParser($role_xml);
         $xml_parser->startParsing();
 
@@ -421,7 +417,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
                 );
             }
 
-            include_once './components/ILIAS/AccessControl/classes/class.ilObjRole.php';
             $role = new ilObjRole();
             $role->setTitle($object_data['title']);
             $role->setDescription($object_data['description']);
@@ -475,7 +470,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to create roles', 'Server');
         }
 
-        include_once 'components/ILIAS/soap/classes/class.ilObjectXMLParser.php';
         $xml_parser = new ilObjectXMLParser($role_xml);
         $xml_parser->startParsing();
 
@@ -489,7 +483,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
                 );
             }
 
-            include_once './components/ILIAS/AccessControl/classes/class.ilObjRole.php';
             $role = new ilObjRole();
             $role->setTitle($object_data['title']);
             $role->setDescription($object_data['description']);
@@ -678,8 +671,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             }
         }
 
-        include_once './components/ILIAS/soap/classes/class.ilSoapRoleObjectXMLWriter.php';
-
         $xml_writer = new ilSoapRoleObjectXMLWriter();
         $xml_writer->setObjects($roles);
         $xml_writer->setType($role_type);
@@ -727,8 +718,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './components/ILIAS/Search/classes/class.ilQueryParser.php';
-
         $query_parser = new ilQueryParser($key);
         $query_parser->setMinWordLength(3);
         $query_parser->setCombination($combination === 'and' ? ilQueryParser::QP_COMBINATION_AND : ilQueryParser::QP_COMBINATION_OR);
@@ -737,7 +726,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             return $this->raiseError($query_parser->getMessage(), 'Client');
         }
 
-        include_once './components/ILIAS/Search/classes/class.ilObjectSearchFactory.php';
 
         $object_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
         $object_search->setFilter(array("role", "rolt"));
@@ -755,7 +743,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             $roles = $rbacreview->getRolesForIDs($obj_ids, $role_type === "template");
         }
 
-        include_once './components/ILIAS/soap/classes/class.ilSoapRoleObjectXMLWriter.php';
         $xml_writer = new ilSoapRoleObjectXMLWriter();
         $xml_writer->setObjects($roles);
         $xml_writer->setType($role_type);

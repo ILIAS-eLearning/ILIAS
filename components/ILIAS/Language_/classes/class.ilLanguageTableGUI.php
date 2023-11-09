@@ -19,7 +19,6 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-include_once "./components/ILIAS/Table/classes/class.ilTable2GUI.php";
 
 /**
 * TableGUI class for

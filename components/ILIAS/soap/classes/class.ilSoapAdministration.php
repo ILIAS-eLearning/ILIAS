@@ -167,7 +167,6 @@ class ilSoapAdministration
 
     protected function initAuthenticationObject(): void
     {
-        include_once './components/ILIAS/Authentication/classes/class.ilAuthFactory.php';
         ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SOAP);
     }
 
@@ -250,7 +249,6 @@ class ilSoapAdministration
 
     public function getInstallationInfoXML(): string
     {
-        include_once "components/ILIAS/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
         ilInitialisation::initILIAS();
@@ -272,7 +270,6 @@ class ilSoapAdministration
      */
     public function getClientInfoXML(string $clientid)
     {
-        include_once "components/ILIAS/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
         ilInitialisation::initILIAS();

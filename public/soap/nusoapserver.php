@@ -40,6 +40,5 @@ if (!defined('ILIAS_MODULE') || (defined('ILIAS_MODULE') && ILIAS_MODULE !== "co
     define("IL_SOAPMODE", IL_SOAPMODE_NUSOAP);
 }
 
-include_once './components/ILIAS/soap/classes/class.ilNusoapUserAdministrationAdapter.php';
 $server = new ilNusoapUserAdministrationAdapter(true);
 $server->start();

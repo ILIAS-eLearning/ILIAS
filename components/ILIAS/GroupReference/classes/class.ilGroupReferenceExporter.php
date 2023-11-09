@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './components/ILIAS/Export/classes/class.ilXmlExporter.php';
-include_once './components/ILIAS/ContainerReference/classes/class.ilContainerReferenceExporter.php';
 
 /**
  * Class for group reference export
@@ -21,7 +19,6 @@ class ilGroupReferenceExporter extends ilContainerReferenceExporter
      */
     protected function initWriter(ilContainerReference $ref): ilContainerReferenceXmlWriter
     {
-        include_once './components/ILIAS/GroupReference/classes/class.ilGroupReferenceXmlWriter.php';
         return new ilGroupReferenceXmlWriter($ref);
     }
 }

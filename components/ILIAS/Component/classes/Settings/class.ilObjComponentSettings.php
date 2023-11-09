@@ -16,7 +16,6 @@
  ********************************************************************
  */
 
-require_once "./components/ILIAS/Object/classes/class.ilObject.php";
 
 /**
  * Settings for components (modules, services, plugins).

@@ -774,8 +774,6 @@ leads to the final question if test is ever executed.
 	 */
 	public function testMemberAgreement()
 	{
-		include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
-
 		global $ilDB;
 
 
