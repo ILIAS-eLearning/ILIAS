@@ -236,10 +236,10 @@ class ilWikiPage extends ilPageObject
         $rec = $ilDB->fetchAssoc($set);
 
         $this->setTitle($rec["title"]);
-        $this->setWikiId($rec["wiki_id"]);
-        $this->setBlocked($rec["blocked"]);
-        $this->setRating($rec["rating"]);
-        $this->hideAdvancedMetadata($rec["hide_adv_md"]);
+        $this->setWikiId((int) $rec["wiki_id"]);
+        $this->setBlocked((bool) $rec["blocked"]);
+        $this->setRating((bool) $rec["rating"]);
+        $this->hideAdvancedMetadata((bool) $rec["hide_adv_md"]);
 
         // get co page
         if (!$a_omit_page_read) {
