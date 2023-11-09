@@ -121,9 +121,13 @@ class FilterManager
                             $meta_search = \ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
                             switch ($field_id) {
                                 case \ilContainerFilterField::STD_FIELD_TITLE_DESCRIPTION:
-                                case \ilContainerFilterField::STD_FIELD_DESCRIPTION:
-                                case \ilContainerFilterField::STD_FIELD_TITLE:
                                     $meta_search->setMode('title_description');
+                                    break;
+                                case \ilContainerFilterField::STD_FIELD_DESCRIPTION:
+                                    $meta_search->setMode('description');
+                                    break;
+                                case \ilContainerFilterField::STD_FIELD_TITLE:
+                                    $meta_search->setMode('title');
                                     break;
                                 case \ilContainerFilterField::STD_FIELD_KEYWORD:
                                     $meta_search->setMode('keyword_all');
