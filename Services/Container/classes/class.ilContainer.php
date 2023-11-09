@@ -1115,9 +1115,13 @@ class ilContainer extends ilObject
                         //$meta_search->setFilter($this->filter);		// object types ['lm', ...]
                         switch ($field_id) {
                             case ilContainerFilterField::STD_FIELD_TITLE_DESCRIPTION:
-                            case ilContainerFilterField::STD_FIELD_DESCRIPTION:
-                            case ilContainerFilterField::STD_FIELD_TITLE:
                                 $meta_search->setMode('title_description');
+                                break;
+                            case ilContainerFilterField::STD_FIELD_DESCRIPTION:
+                                $meta_search->setMode('description');
+                                break;
+                            case ilContainerFilterField::STD_FIELD_TITLE:
+                                $meta_search->setMode('title');
                                 break;
                             case ilContainerFilterField::STD_FIELD_KEYWORD:
                                 $meta_search->setMode('keyword_all');
