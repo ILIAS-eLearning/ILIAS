@@ -552,7 +552,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $files = [];
 
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            $files[] = './public/node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
+            $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
 
         return $files;

@@ -675,7 +675,7 @@ class ilTinyMCE extends ilRTE
                 //do nothing
         }
 
-        if (is_file("./public/node_modules/tinymce/langs/$langtiny.js")) {
+        if (is_file("./node_modules/tinymce/langs/$langtiny.js")) {
             return $langtiny;
         }
 

@@ -561,7 +561,7 @@ to override `./CI/PHPStan/phpstan.neon`, however, level 9/max is the desired goa
 In order to validate your JS-files, run 
 
 ```
-./public/node_modules/.bin/eslint --parser-options ecmaVersion:13 src/UI/templates/js/...
+./node_modules/.bin/eslint --parser-options ecmaVersion:13 src/UI/templates/js/...
 ```
 or change/add `.eslintrc.json` in ILIAS' root directory:
 ```

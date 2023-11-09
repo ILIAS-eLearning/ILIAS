@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 class ilUIFramework
 {
-    public const BOOTSTRAP_JS = "./public/node_modules/bootstrap/dist/js/bootstrap.min.js";
+    public const BOOTSTRAP_JS = "./node_modules/bootstrap/dist/js/bootstrap.min.js";
 
     public static function init(ilGlobalTemplateInterface $template = null): void
     {

@@ -49,8 +49,8 @@ class ilLinkifyUtil
     public static function getLocalJsPaths(): array
     {
         return [
-            "./public/node_modules/linkifyjs/dist/linkify.min.js",
-            "./public/node_modules/linkifyjs/dist/linkify-jquery.min.js",
+            "./node_modules/linkifyjs/dist/linkify.min.js",
+            "./node_modules/linkifyjs/dist/linkify-jquery.min.js",
             "./components/ILIAS/Link/js/ilExtLink.js"
         ];
     }

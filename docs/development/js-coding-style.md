@@ -146,4 +146,4 @@ Therefore, the ILIAS code-style config can be used for JavaScript code as well.
 
 ESLint can be configured for PHPStorm as well by either using automatic-mode, or manually using the configuration file
 located at `./.eslintrc.json`. An instance of ESLint can be found in the node-modules folder
-at `./public/node_modules/.bin/eslint`.
+at `./node_modules/.bin/eslint`.
