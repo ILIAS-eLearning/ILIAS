@@ -795,14 +795,16 @@ s     */
     public function copyXmlContent(
         bool $a_clone_mobs = false,
         int $a_new_parent_id = 0,
-        int $obj_copy_id = 0
+        int $obj_copy_id = 0,
+        bool $self_ass = true
     ): string {
         $cm = $this->page_manager->contentFromXml($this->getXMLContent());
         return $cm->copyXmlContent(
             $this,
             $a_clone_mobs,
             $a_new_parent_id,
-            $obj_copy_id
+            $obj_copy_id,
+            $self_ass
         );
     }
 

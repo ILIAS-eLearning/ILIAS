@@ -435,12 +435,12 @@ class PageContentManager
 
     public function copyXmlContent(
         \ilPageObject $page,
-        string $xml,
         bool $a_clone_mobs = false,
         int $a_new_parent_id = 0,
-        int $obj_copy_id = 0
+        int $obj_copy_id = 0,
+        bool $self_ass = true
     ): string {
-        $this->handleCopiedContent($page, $this->dom, true, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
+        $this->handleCopiedContent($page, $this->dom, $self_ass, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
         $this->dom->documentElement;
         $xml = $this->dom_util->dump($this->dom->documentElement);
         $xml = preg_replace('/<\?xml[^>]*>/i', "", $xml);
