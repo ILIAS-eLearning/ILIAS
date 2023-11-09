@@ -31,7 +31,7 @@ il.AdvancedSelectionList =
 	    // hide all overlays on trigger
 	   	$("#ilAdvSelListAnchorText_" + id).click(function(e) {			
 			if (typeof il.Overlay != "undefined") {
-				il.Overlay.hideAllOverlays(e, true);
+				//il.Overlay.hideAllOverlays(e, true);
 			}
 		});
 	},

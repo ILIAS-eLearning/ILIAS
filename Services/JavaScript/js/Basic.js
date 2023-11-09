@@ -224,13 +224,12 @@ il.Util = {
 	fixPosition: function (el) {
 		var r = il.Util.getRegion(el),
 			vp = il.Util.getViewportRegion();
-
 		// we only fix absolute positioned items
 		if ($(el).css("position") != "absolute") {
 			return;
 		}
 
-		if (vp.right - 20 < r.right) {
+		if (vp.right - 15 < r.right) {
 			il.Util.setX(el, r.x - (r.right - vp.right + 20));
 		}
 
