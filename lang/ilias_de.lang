@@ -10346,7 +10346,9 @@ lm#:#lm_edit_chapters#:#Kapitel bearbeiten
 lm#:#lm_edit_lm_settings#:#Lernmoduleinstellungen bearbeiten
 lm#:#lm_est_reading_time#:#Geschätzte Lesedauer
 lm#:#lm_est_reading_time_info#:#In Lernmodulen kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
+lm#:#lm_page_added#:#Eine Seite wurde hinzugefügt.
 lm#:#lm_page_type_lm#:#Lernmodulseite
+lm#:#lm_pages_added#:#Die Seiten wurden hinzugefügt.
 lm#:#lm_save_titles#:#Titel wurden gespeichert.
 lng#:#language_detection#:#Automatische Spracherkennung
 lng#:#lng_disable_language_detection#:#Automatische Spracherkennung deaktivieren
