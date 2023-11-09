@@ -41,7 +41,9 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer
     public function getLabel(): string;
 
     /**
-     * Set the prefix of the label
+     * Set the prefix of the label.
+     *
+     * Defaults to: "Sorted By: " (or translations).
      */
     public function withLabelPrefix(string $label_prefix): Sortation;
 
