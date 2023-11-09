@@ -89,4 +89,54 @@ class ilPDFGenerationDB90 implements ilDatabaseUpdateSteps
             $this->db->dropTable('pdfgen_renderer_avail_seq');
         }
     }
+
+    public function step_11(): void
+    {
+        $this->db->manipulateF('DELETE FROM il_object_subobj WHERE subobj = %s',
+            array('text'),
+            array('pdfg')
+        );
+    }
+
+    public function step_12(): void
+    {
+        $this->db->manipulateF('DELETE FROM il_object_def WHERE id = %s',
+            array('text'),
+            array('pdfg')
+        );
+    }
+
+    public function step_13(): void
+    {
+        $res = $this->db->queryF(
+            'SELECT obj_id FROM object_data WHERE type = %s AND title = %s',
+            array('text', 'text'),
+            array('typ', 'pdfg')
+        );
+        $row = $this->db->fetchAssoc($res);
+
+        if (is_array($row) && isset($row['obj_id'])) {
+            $obj_id = $row['obj_id'];
+
+            $this->db->manipulateF(
+                'DELETE FROM rbac_ta WHERE typ_id = %s',
+                array('integer'),
+                array($obj_id)
+            );
+
+            $this->db->manipulateF(
+                'DELETE FROM object_data WHERE obj_id = %s',
+                array('integer'),
+                array($obj_id)
+            );
+        }
+    }
+
+    public function step_14(): void
+    {
+        $this->db->manipulateF('DELETE FROM object_data WHERE type = %s',
+            array('text'),
+            array('pdfg')
+        );
+    }
 }
