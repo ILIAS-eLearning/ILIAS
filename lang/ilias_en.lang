@@ -2237,10 +2237,10 @@ badge#:#criteria#:#Criteria
 badge#:#endless#:#Always
 badge#:#issued_on#:#Issued on
 badge#:#position_updated#:#Profil assignment updated.
-badge#:#sort_by_date_asc#:#Sort by Date Ascending
-badge#:#sort_by_date_desc#:#Sort by Date Descending
-badge#:#sort_by_title_asc#:#Sort by Title Ascending
-badge#:#sort_by_title_desc#:#Sort by Title Descending
+badge#:#sort_by_date_asc#:#Date Ascending
+badge#:#sort_by_date_desc#:#Date Descending
+badge#:#sort_by_title_asc#:#Title Ascending
+badge#:#sort_by_title_desc#:#Title Descending
 badge#:#table_view#:#Table View
 badge#:#tile_view#:#Tile View
 badge#:#valid_until#:#Valid until
@@ -8082,10 +8082,10 @@ dash#:#dash_presentation#:#Presentation
 dash#:#dash_recommended_content#:#Recommended Content
 dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
-dash#:#dash_sort_by_alphabet#:#Sort by Alphabet
-dash#:#dash_sort_by_location#:#Sort by Location
-dash#:#dash_sort_by_start_date#:#Sort by Period of Event
-dash#:#dash_sort_by_type#:#Sort by Type
+dash#:#dash_sort_by_alphabet#:#Alphabet
+dash#:#dash_sort_by_location#:#Location
+dash#:#dash_sort_by_start_date#:#Period of Event
+dash#:#dash_sort_by_type#:#Type
 dash#:#dash_sortation#:#Sortation
 dash#:#dash_study_programmes#:#My Study Programmes
 dash#:#dash_tile#:#Tile
