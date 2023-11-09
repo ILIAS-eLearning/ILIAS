@@ -431,8 +431,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     case self::CMD_REDRAW_HEADER:
                         $this->redrawHeaderActionObject();
                         break;
-                        
-                    // This is a temporary implementation (Mantis Ticket 36631)
+
+                        // This is a temporary implementation (Mantis Ticket 36631)
                     case self::CMD_ENABLE_ADMINISTRATION_PANEL:
                         $tpl->setOnScreenMessage("failure", $this->lng->txt('lso_multidownload_not_available'), false);
                         $this->manageContent();
@@ -837,17 +837,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $link .= ilLink::_getLink($this->object->getRefId());
 
         return rawurlencode(base64_encode($link));
-    }
-
-    public function getObject(): ilObjLearningSequence
-    {
-        if ($this->object === null) {
-            /** @var ilObjLearningSequence $obj */
-            $obj = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
-            $this->object = $obj;
-        }
-
-        return $this->object;
     }
 
     protected function getTrackingObject(): ilObjUserTracking
