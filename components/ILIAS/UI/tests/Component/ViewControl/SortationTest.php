@@ -61,11 +61,9 @@ class SortationTest extends ILIAS_UI_TestBase
     public function testAttributes(): void
     {
         $f = $this->getFactory();
-        $s = $f->sortation($this->options);
+        $s = $f->sortation($this->options, 'date_desc');
 
         $this->assertEquals($this->options, $s->getOptions());
-
-        $this->assertEquals('label', $s->withLabel('label')->getLabel());
 
         $s = $s->withTargetURL('#', 'param');
         $this->assertEquals('#', $s->getTargetURL());
@@ -75,29 +73,18 @@ class SortationTest extends ILIAS_UI_TestBase
         $generator = new SignalGenerator();
         $signal = $generator->create();
         $this->assertEquals($signal, $s->withOnSort($signal)->getTriggeredSignals()[0]->getSignal());
-        $this->assertEquals('opt', $s->withSelected('opt')->getSelected());
+        $this->assertEquals('internal_rating', $s->withSelected('internal_rating')->getSelected());
     }
 
     public function testRendering(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
-        $s = $f->sortation($this->options);
-
-        $html = $this->brutallyTrimHTML($r->render($s));
-        $this->assertEquals($this->getSortationExpectedHTML(false), $html);
-    }
-
-    public function testRenderingWithSelected(): void
-    {
-        $f = $this->getFactory();
-        $r = $this->getDefaultRenderer();
-        $s = $f->sortation($this->options)
-            ->withSelected('date_desc');
+        $s = $f->sortation($this->options, 'date_desc');
 
         $expected = <<<EOT
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl"><span class="caret"></span></button>
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">vc_sort Most Recent<span class="caret"></span></button>
     <ul id="_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1">Best</button></li>
         <li class="selected"><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
@@ -109,20 +96,20 @@ EOT;
         $this->assertEquals($this->brutallyTrimHTML($expected), $html);
     }
 
-    public function testRenderingWithSelectedByLabel(): void
+    public function testRenderingWithSelected(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
-        $s = $f->sortation($this->options)
-            ->withLabel('Oldest');
+        $s = $f->sortation($this->options, 'internal_rating')
+            ->withSelected('date_desc');
 
         $expected = <<<EOT
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">vc_sort Oldest<span class="caret"></span></button>
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">vc_sort Most Recent<span class="caret"></span></button>
     <ul id="_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1">Best</button></li>
-        <li><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
-        <li class="selected"><button class="btn btn-link" data-action="?sortation=date_asc" id="id_3">Oldest</button></li>
+        <li class="selected"><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
+        <li><button class="btn btn-link" data-action="?sortation=date_asc" id="id_3">Oldest</button></li>
     </ul>
 </div>
 EOT;
@@ -130,50 +117,37 @@ EOT;
         $this->assertEquals($this->brutallyTrimHTML($expected), $html);
     }
 
-
     public function testRenderingWithJsBinding(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
-        $s = $f->sortation($this->options)->withAdditionalOnLoadCode(function ($id) {
-            return "";
-        });
+        $s = $f->sortation($this->options, current(array_keys($this->options)))
+            ->withAdditionalOnLoadCode(
+                function ($id) {
+                    return "";
+                }
+            );
 
-        $html = $this->brutallyTrimHTML($r->render($s));
-        $this->assertEquals($this->getSortationExpectedHTML(true), $html);
-    }
-
-    protected function getSortationExpectedHTML(bool $with_id = false): string
-    {
-        $id = "";
-        $id_ctrl = "_ctrl";
-        $button1_id = "id_1";
-        $button2_id = "id_2";
-        $button3_id = "id_3";
-        $dropdown_id = "id_4";
-
-        if ($with_id) {
-            $id = ' id="id_1"';
-            $id_ctrl = "id_1_ctrl";
-            $button1_id = "id_2";
-            $button2_id = "id_3";
-            $button3_id = "id_4";
-            $dropdown_id = "id_5";
-        }
-
+        $id = ' id="id_1"';
+        $id_ctrl = "id_1_ctrl";
+        $button1_id = "id_2";
+        $button2_id = "id_3";
+        $button3_id = "id_4";
+        $dropdown_id = "id_5";
         $dropdown_menu_id = $dropdown_id . "_menu";
 
         $expected = <<<EOT
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element"$id>
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="{$id_ctrl}"><span class="caret"></span></button>
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="{$id_ctrl}">vc_sort Best<span class="caret"></span></button>
     <ul id="{$id_ctrl}" class="dropdown-menu">
-        <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="$button1_id">Best</button></li>
+        <li class="selected"><button class="btn btn-link" data-action="?sortation=internal_rating" id="$button1_id">Best</button></li>
         <li><button class="btn btn-link" data-action="?sortation=date_desc" id="$button2_id">Most Recent</button></li>
         <li><button class="btn btn-link" data-action="?sortation=date_asc" id="$button3_id">Oldest</button></li>
     </ul>
 </div>
 EOT;
-        return $this->brutallyTrimHTML($expected);
+        $html = $this->brutallyTrimHTML($r->render($s));
+        $this->assertEquals($this->brutallyTrimHTML($expected), $html);
     }
 
     public function getUIFactory(): NoUIFactory
