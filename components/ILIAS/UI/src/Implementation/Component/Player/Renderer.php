@@ -109,9 +109,9 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./node_modules/mediaelement/build/mediaelement-and-player.min.js');
-        $registry->register('./node_modules/mediaelement/build/renderers/vimeo.min.js');
-        $registry->register('./node_modules/mediaelement/build/mediaelementplayer.min.css');
+        $registry->register('./public/node_modules/mediaelement/build/mediaelement-and-player.min.js');
+        $registry->register('./public/node_modules/mediaelement/build/renderers/vimeo.min.js');
+        $registry->register('./public/node_modules/mediaelement/build/mediaelementplayer.min.css');
     }
 
     protected function getComponentInterfaceName(): array

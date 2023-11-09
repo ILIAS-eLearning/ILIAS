@@ -70,7 +70,7 @@ After upacking you will have a version specific subdirectory, e.g. batik-1.8, an
 
 Finally create a javascript file /opt/mathjax/mathjax.js with the following content:
 
-    var server = require('./node_modules/mathjax-server/index.js');
+    var server = require('./public/node_modules/mathjax-server/index.js');
     server.start(8003);
 
 Now start the server on its configured port (8003):

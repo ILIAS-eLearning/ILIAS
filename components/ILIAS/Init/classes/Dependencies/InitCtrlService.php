@@ -40,7 +40,7 @@ final class InitCtrlService
     public function init(Container $dic): void
     {
         $this->abortIfMissingDependencies($dic);
-        $ilias_path = dirname(__FILE__, 6) . '/';
+        $ilias_path = dirname(__FILE__, 6) . '/public/';
 
         try {
             $ctrl_structure = new ilCtrlStructure(

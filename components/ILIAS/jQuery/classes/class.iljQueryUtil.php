@@ -79,7 +79,7 @@ class iljQueryUtil
      */
     public static function getLocaljQueryUIPath(): string
     {
-        return "./node_modules/jquery-ui-dist/jquery-ui" . self::$min . ".js";
+        return "./public/node_modules/jquery-ui-dist/jquery-ui" . self::$min . ".js";
     }
 
     //
@@ -104,6 +104,6 @@ class iljQueryUtil
      */
     public static function getLocalMaphilightPath(): string
     {
-        return "./node_modules/maphilight/jquery.maphilight.min.js";
+        return "./public/node_modules/maphilight/jquery.maphilight.min.js";
     }
 }

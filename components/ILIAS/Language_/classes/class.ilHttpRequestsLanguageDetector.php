@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-require_once "components/ILIAS/Language_/interfaces/interface.ilLanguageDetector.php";
+require_once "../components/ILIAS/Language_/interfaces/interface.ilLanguageDetector.php";
 
 /**
  * Class ilHttpRequestsLanguageDetector

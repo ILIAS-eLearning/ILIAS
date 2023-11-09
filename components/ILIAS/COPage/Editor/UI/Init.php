@@ -56,9 +56,9 @@ class Init
         }
 
         if (DEVMODE == 1) {
-            $main_tpl->addJavaScript("./node_modules/tinymce/tinymce.js");
+            $main_tpl->addJavaScript("./public/node_modules/tinymce/tinymce.js");
         } else {
-            $main_tpl->addJavaScript("./node_modules/tinymce/tinymce.min.js");
+            $main_tpl->addJavaScript("./public/node_modules/tinymce/tinymce.min.js");
         }
 
         \ilYuiUtil::initConnection();

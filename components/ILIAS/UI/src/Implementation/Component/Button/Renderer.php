@@ -165,8 +165,8 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/Button/button.js');
-        $registry->register("./node_modules/moment/min/moment-with-locales.min.js");
-        $registry->register("./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
+        $registry->register("./public/node_modules/moment/min/moment-with-locales.min.js");
+        $registry->register("./public/node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
     }
 
     protected function renderClose(Component\Button\Close $component): string

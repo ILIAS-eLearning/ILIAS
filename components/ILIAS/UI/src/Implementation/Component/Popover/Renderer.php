@@ -106,7 +106,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./node_modules/webui-popover/dist/jquery.webui-popover.js');
+        $registry->register('./public/node_modules/webui-popover/dist/jquery.webui-popover.js');
         $registry->register('./components/ILIAS/UI/src/templates/js/Popover/popover.js');
     }
 

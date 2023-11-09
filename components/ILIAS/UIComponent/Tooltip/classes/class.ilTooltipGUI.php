@@ -94,8 +94,8 @@ class ilTooltipGUI
         $tpl = $GLOBALS["tpl"];
 
         if (!self::$initialized) {
-            $tpl->addCss("./node_modules/qtip2/dist/jquery.qtip.min.css");
-            $tpl->addJavascript("./node_modules/qtip2/dist/jquery.qtip.min.js");
+            $tpl->addCss("./public/node_modules/qtip2/dist/jquery.qtip.min.css");
+            $tpl->addJavascript("./public/node_modules/qtip2/dist/jquery.qtip.min.js");
             $tpl->addJavascript("./components/ILIAS/UIComponent/Tooltip/js/ilTooltip.js");
 
             // use setTimeout as a workaround, since the last parameter is ignored

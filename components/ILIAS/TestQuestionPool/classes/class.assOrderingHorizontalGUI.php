@@ -275,7 +275,7 @@ JS;
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+            $this->tpl->addJavaScript('./public/node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
         }
         $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/orderinghorizontal.js");
         return $questionoutput;
@@ -337,7 +337,7 @@ JS;
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+            $this->tpl->addJavaScript('./public/node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
         }
         $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/orderinghorizontal.js");
         $questionoutput = $template->get();
@@ -352,7 +352,7 @@ JS;
         $files = array();
 
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
+            $files[] = './public/node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
 
         return $files;

@@ -36,7 +36,7 @@ class YUITest extends TestCase
     {
         $path = ilYuiUtil::getLocalPath("test.js");
         $this->assertEquals(
-            "./node_modules/yui2/build/test.js",
+            "./public/node_modules/yui2/build/test.js",
             $path
         );
     }
