@@ -887,7 +887,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
      */
     protected function getMediaPoolPageGUI($mep_item_id, $old_nr = 0)
     {
-        include_once("./components/ILIAS/MediaPool/classes/class.ilMediaPoolPageGUI.php");
         $page_gui = new ilMediaPoolPageGUI($mep_item_id, $old_nr);
         $page_gui->setPoolGUI($this);
 

@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-include_once("./components/ILIAS/ContainerReference/classes/class.ilContainerReferenceAccess.php");
-
 /**
 *
 *
@@ -41,7 +39,6 @@ class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
             case 'visible':
             case 'read':
             case 'edit_learning_progress':
-                include_once './components/ILIAS/CourseReference/classes/class.ilObjCourseReference.php';
                 $target_ref_id = ilObjCourseReference::_lookupTargetRefId($obj_id);
 
                 if (!$target_ref_id || !$DIC->access()->checkAccessOfUser($user_id, $permission, $cmd, $target_ref_id)) {
@@ -81,7 +78,6 @@ class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
                 array("permission" => "write", "cmd" => "editReference", "lang_var" => "edit")
             );
         } else {
-            include_once('./components/ILIAS/Course/classes/class.ilObjCourseAccess.php');
             $commands = ilObjCourseAccess::_getCommands();
         }
         return $commands;

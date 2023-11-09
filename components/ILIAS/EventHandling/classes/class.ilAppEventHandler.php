@@ -139,7 +139,6 @@ class ilAppEventHandler
                     $file = "./" . $listener . "/classes/class." . $class . ".php";
                     // if file exists, call listener
                     if (is_file($file)) {
-                        include_once($file);
                         call_user_func(array($class, 'handleEvent'), $a_component, $a_event, $a_parameter);
                     }
                 }

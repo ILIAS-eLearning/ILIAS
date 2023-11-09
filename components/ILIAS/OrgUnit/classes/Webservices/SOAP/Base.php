@@ -18,9 +18,6 @@
 
 namespace ILIAS\OrgUnit\Webservices\SOAP;
 
-require_once('./components/ILIAS/soap/classes/class.ilSoapAdministration.php');
-require_once('./components/ILIAS/WebServices/SOAP/classes/class.ilSoapPluginException.php');
-
 use ilOrgUnitSOAPServicesPlugin;
 use ilSoapAdministration;
 use ilSoapMethod;

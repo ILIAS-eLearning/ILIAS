@@ -104,7 +104,6 @@ class ilLanguage
             $this->lang_key = $this->lang_default;
         }
 
-        require_once("./components/ILIAS/Language_/classes/class.ilCachedLanguage.php");
         $this->global_cache = ilCachedLanguage::getInstance($this->lang_key);
         if ($this->global_cache->isActive()) {
             $this->cached_modules = $this->global_cache->getTranslations();

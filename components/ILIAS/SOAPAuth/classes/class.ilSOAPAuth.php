@@ -17,8 +17,6 @@
 
 declare(strict_types=1);
 
-include_once("./components/ILIAS/soap/lib/nusoap.php");
-
 class ilSOAPAuth
 {
     public static function testConnection(string $a_ext_uid, string $a_soap_pw, bool $a_new_user): string

@@ -2,10 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./components/ILIAS/Export/classes/class.ilXmlImporter.php");
-include_once './components/ILIAS/ContainerReference/classes/class.ilContainerReferenceImporter.php';
-
-
 /**
 * folder xml importer
 *

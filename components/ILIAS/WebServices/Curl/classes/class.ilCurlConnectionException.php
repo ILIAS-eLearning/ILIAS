@@ -21,8 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('components/ILIAS/Exceptions/classes/class.ilException.php');
-
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>

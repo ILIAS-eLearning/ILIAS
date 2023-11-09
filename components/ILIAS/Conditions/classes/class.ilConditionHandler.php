@@ -427,7 +427,6 @@ class ilConditionHandler
         $class = $objDefinition->getClassName($a_type);
         $location = $objDefinition->getLocation($a_type);
         $full_class = "ilObj" . $class . "Access";
-        include_once($location . "/class." . $full_class . ".php");
         $reflection = new ReflectionClass($full_class);
         if ($reflection->implementsInterface('ilConditionHandling')) {
             $operators = call_user_func(
@@ -850,7 +849,6 @@ class ilConditionHandler
         $class = $objDefinition->getClassName($condition['trigger_type']);
         $location = $objDefinition->getLocation($condition['trigger_type']);
         $full_class = "ilObj" . $class . "Access";
-        include_once($location . "/class." . $full_class . ".php");
 
         if (!(is_a($full_class, "ilConditionHandling", true))) {
             return false;

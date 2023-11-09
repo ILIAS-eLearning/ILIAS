@@ -206,7 +206,6 @@ class ilContainerXmlParser
         $class_name = "ilObj" . $objDefinition->getClassName($type);
         $location = $objDefinition->getLocation($type);
 
-        include_once($location . "/class." . $class_name . ".php");
         $new = new $class_name();
         $new->setTitle($title);
         $new->create(true);

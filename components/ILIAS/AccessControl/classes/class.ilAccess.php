@@ -659,12 +659,6 @@ class ilAccess implements ilAccessHandler
         $location = $this->objDefinition->getLocation($a_type);
         $full_class = "ilObj" . $class . "Access";
 
-        // use autoloader for standard objects
-        if ($this->objDefinition->isPluginTypeName($a_type)) {
-            /** @noRector */
-            include_once($location . "/class." . $full_class . ".php");
-        }
-
         if ($class == "") {
             $this->ac_logger->error("Cannot find class for object type $a_type, obj id $a_obj_id, ref id $a_ref_id. Abort status check.");
             return false;

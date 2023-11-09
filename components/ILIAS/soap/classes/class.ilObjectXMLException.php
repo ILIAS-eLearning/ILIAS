@@ -21,8 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('components/ILIAS/Exceptions/classes/class.ilException.php');
-
 /**
  * Exception class for ObjectXMLWriter and ObjectXMLParser
  * @author  Stefan Meyer <meyer@leifos.com>

@@ -1,7 +1,5 @@
 <?php
 
-require_once('class.ilOrgUnitTypeException.php');
-
 /**
  * Class ilOrgUnitTypePluginException
  * This exception is thrown whenever one or multiple ilOrgUnitTypeHook plugin(s) did not allow an action on a ilOrgUnitType object,

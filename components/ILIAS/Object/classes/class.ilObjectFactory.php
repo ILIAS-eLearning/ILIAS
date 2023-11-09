@@ -125,8 +125,6 @@ class ilObjectFactory
             return null;
         }
 
-        (new self())->includeClassIfNotExists($class_name, $row["type"], $objDefinition);
-
         // create instance
         $obj = new $class_name(0, false);    // this avoids reading of data
         $obj->setId($obj_id);
@@ -187,8 +185,6 @@ class ilObjectFactory
             return null;
         }
 
-        (new self())->includeClassIfNotExists($class_name, $row["type"], $objDefinition);
-
         // create instance
         $obj = new $class_name(0, false);    // this avoids reading of data
         $obj->setId((int) $row["obj_id"]);
@@ -244,27 +240,6 @@ class ilObjectFactory
 
         $class_name = "ilObj" . $objDefinition->getClassName($obj_type);
 
-        (new self())->includeClassIfNotExists($class_name, $obj_type, $objDefinition);
-
         return $class_name;
-    }
-
-    /**
-     * Ensures a class is properly included. This is needed, since not
-     * all possible classes are yet part of the autoloader (e.g. repo-plugins).
-     * See: #27073
-     * @param string $class_name
-     * @param string $a_obj_type
-     * @param ilObjectDefinition $objDefinition
-     */
-    protected function includeClassIfNotExists(
-        string $class_name,
-        string $a_obj_type,
-        ilObjectDefinition $objDefinition
-    ): void {
-        if (!class_exists($class_name)) {
-            $location = $objDefinition->getLocation($a_obj_type);
-            include_once($location . "/class." . $class_name . ".php");
-        }
     }
 }

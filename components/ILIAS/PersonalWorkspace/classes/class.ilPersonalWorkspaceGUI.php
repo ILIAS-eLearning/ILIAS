@@ -127,7 +127,6 @@ class ilPersonalWorkspaceGUI
 
         // current node
         $class_path = $ilCtrl->lookupClassPath($next_class);
-        include_once($class_path);
         $class_name = $ilCtrl->getClassForClasspath($class_path);
         if ($this->std_request->getNewType()) {
             $gui = new $class_name(0, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);

@@ -159,7 +159,6 @@ class ilSoapAdministration
     {
         if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
             try {
-                require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
                 ilInitialisation::reinitILIAS();
             } catch (Exception $e) {
             }
@@ -254,11 +253,9 @@ class ilSoapAdministration
         include_once "components/ILIAS/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
-        require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
         ilInitialisation::initILIAS();
 
         $clientdirs = glob(ILIAS_WEB_DIR . "/*", GLOB_ONLYDIR);
-        require_once("components/ILIAS/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
         $writer = new ilSoapInstallationInfoXMLWriter();
         $writer->start();
         if (is_array($clientdirs)) {
@@ -278,11 +275,9 @@ class ilSoapAdministration
         include_once "components/ILIAS/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
-        require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
         ilInitialisation::initILIAS();
 
         $clientdir = ILIAS_WEB_DIR . "/" . $clientid;
-        require_once("components/ILIAS/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
         $writer = new ilSoapInstallationInfoXMLWriter();
         $writer->start();
         if (!$writer->addClient($clientdir)) {

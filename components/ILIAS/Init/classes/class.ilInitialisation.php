@@ -97,24 +97,7 @@ class ilInitialisation
      */
     protected static function requireCommonIncludes(): void
     {
-        /** @noRector */
-        require_once __DIR__."/../../../../ilias_version.php";
-
         self::initGlobal("ilBench", "ilBenchmark", "./components/ILIAS/Utilities/classes/class.ilBenchmark.php");
-    }
-
-    /**
-     * This is a hack for  authentication.
-     * Since the phpCAS lib ships with its own compliance functions.
-     */
-    protected static function includePhp5Compliance(): void
-    {
-        if (ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS) {
-            /** @noRector */
-            require_once("cli/inc.xml5compliance.php");
-        }
-        /** @noRector */
-        require_once("cli/inc.xsl5compliance.php");
     }
 
     /**
@@ -1124,9 +1107,6 @@ class ilInitialisation
                 }
             }
 
-            // init after Auth otherwise breaks CAS
-            self::includePhp5Compliance();
-
             // language may depend on user setting
             self::initLanguage(true);
             $GLOBALS['DIC']['tree']->initLangCode();
@@ -1182,7 +1162,6 @@ class ilInitialisation
         self::handleErrorReporting();
 
         // breaks CAS: must be included after CAS context isset in AuthUtils
-        //self::includePhp5Compliance();
 
         self::requireCommonIncludes();
 

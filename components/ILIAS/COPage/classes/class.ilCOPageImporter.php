@@ -44,9 +44,6 @@ class ilCOPageImporter extends ilXmlImporter
         foreach ($component_repository->getPluginSlotById("pgcp")->getActivePlugins() as $plugin) {
             $plugin_name = $plugin->getName();
             if ($plugin->supportsExport()) {
-                require_once('Customizing/global/plugins/Services/COPage/PageComponent/'
-                    . $plugin_name . '/classes/class.il' . $plugin_name . 'Importer.php');
-
                 $this->importer_plugins[] = $plugin_name;
             }
         }

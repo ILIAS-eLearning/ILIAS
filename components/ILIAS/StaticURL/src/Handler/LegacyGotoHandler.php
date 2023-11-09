@@ -237,7 +237,6 @@ class LegacyGotoHandler implements Handler
                     $class_name = "ilObj" . $objDefinition->getClassName($target_type) . "GUI";
                     $location = $objDefinition->getLocation($target_type);
                     if (is_file($location . "/class." . $class_name . ".php")) {
-                        include_once($location . "/class." . $class_name . ".php");
                         call_user_func([$class_name, "_goto"], $rest);
                     }
                 } else {

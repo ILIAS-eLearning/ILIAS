@@ -28,7 +28,6 @@
  * @version $Id$
  * @package ilias
  */
-include_once './components/ILIAS/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapObjectAdministration extends ilSoapAdministration
 {
@@ -174,7 +173,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         if (ilObject::_isInTrash($a_ref_id)) {
             return $this->raiseError("Object with ID $a_ref_id has been deleted.", 'Client');
         }
-        include_once './components/ILIAS/soap/classes/class.ilObjectXMLWriter.php';
 
         $xml_writer = new ilObjectXMLWriter();
         $xml_writer->enablePermissionCheck(true);
@@ -206,7 +204,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 'Client'
             );
         }
-        include_once './components/ILIAS/Search/classes/class.ilQueryParser.php';
         $query_parser = new ilQueryParser($a_title);
         $query_parser->setMinWordLength(0);
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
@@ -218,8 +215,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './components/ILIAS/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'components/ILIAS/Search/classes/Like/class.ilLikeObjectSearch.php';
         $object_search = new ilLikeObjectSearch($query_parser);
         $object_search->setFields(array('title'));
         $object_search->appendToFilter('role');
@@ -246,8 +241,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         if (!count($objs)) {
             return '';
         }
-
-        include_once './components/ILIAS/soap/classes/class.ilObjectXMLWriter.php';
 
         $xml_writer = new ilObjectXMLWriter();
         $xml_writer->enablePermissionCheck(true);
@@ -282,7 +275,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         }
 
         $highlighter = null;
-        include_once './components/ILIAS/Search/classes/class.ilSearchSettings.php';
         if (ilSearchSettings::getInstance()->enabledLucene()) {
             ilSearchSettings::getInstance()->setMaxHits(25);
 
@@ -299,16 +291,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 $typeFilterQuery .= ') ';
             }
 
-            include_once './components/ILIAS/Search/classes/Lucene/class.ilLuceneQueryParser.php';
             $query_parser = new ilLuceneQueryParser($typeFilterQuery . $key);
             $query_parser->parse();
 
-            include_once './components/ILIAS/Search/classes/Lucene/class.ilLuceneSearcher.php';
             $searcher = ilLuceneSearcher::getInstance($query_parser);
             $searcher->search();
 
-            include_once './components/ILIAS/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
-            include_once './components/ILIAS/Search/classes/Lucene/class.ilLucenePathFilter.php';
             $filter = ilLuceneSearchResultFilter::getInstance($user_id);
             $filter->setCandidates($searcher->getResult());
             $filter->filter();
@@ -322,13 +310,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                     $objs[] = $obj;
                 }
             }
-            include_once './components/ILIAS/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
             $highlighter = new ilLuceneHighlighterResultParser();
             if ($filter->getResultObjIds()) {
                 $highlighter = $searcher->highlight($filter->getResultObjIds());
             }
         } else {
-            include_once './components/ILIAS/Search/classes/class.ilQueryParser.php';
 
             $query_parser = new ilQueryParser($key);
             $query_parser->setCombination($combination === 'and' ? ilQueryParser::QP_COMBINATION_AND : ilQueryParser::QP_COMBINATION_OR);
@@ -340,7 +326,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 );
             }
 
-            include_once './components/ILIAS/Search/classes/Like/class.ilLikeObjectSearch.php';
             $object_search = new ilLikeObjectSearch($query_parser);
             $object_search->setFilter($types);
             $res = $object_search->performSearch();
@@ -363,7 +348,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return '';
         }
 
-        include_once './components/ILIAS/soap/classes/class.ilObjectXMLWriter.php';
         $xml_writer = new ilObjectXMLWriter();
         if (ilSearchSettings::getInstance()->enabledLucene()) {
             $xml_writer->enableReferences(false);
@@ -431,7 +415,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             }
         }
 
-        include_once './components/ILIAS/soap/classes/class.ilObjectXMLWriter.php';
         $xml_writer = new ilObjectXMLWriter();
         $xml_writer->enablePermissionCheck(true);
         $xml_writer->setObjects($objs);
@@ -483,7 +466,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             }
         }
 
-        include_once './components/ILIAS/soap/classes/class.ilObjectXMLWriter.php';
         $xml_writer = new ilObjectXMLWriter();
         $xml_writer->enablePermissionCheck(true);
         $xml_writer->setObjects($nodes);
@@ -553,7 +535,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             }
         }
 
-        include_once './components/ILIAS/soap/classes/class.ilObjectXMLParser.php';
 
         $xml_parser = new ilObjectXMLParser($a_xml, true);
         try {
@@ -599,7 +580,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $location = $objDefinition->getLocation($object_data['type']);
 
             $class_constr = "ilObj" . $class_name;
-            require_once($location . "/class.ilObj" . $class_name . ".php");
 
             $newObj = new $class_constr();
             if (isset($object_data['owner']) && $object_data['owner'] != '') {
@@ -756,16 +736,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $new_ref = null;
         switch ($source_obj->getType()) {
             case 'cat':
-                include_once('./components/ILIAS/CategoryReference/classes/class.ilObjCategoryReference.php');
                 $new_ref = new ilObjCategoryReference();
                 break;
 
             case 'crs':
-                include_once('./components/ILIAS/CourseReference/classes/class.ilObjCourseReference.php');
                 $new_ref = new ilObjCourseReference();
                 break;
             case 'grp':
-                include_once('./components/ILIAS/GroupReference/classes/class.ilObjGroupReference.php');
                 $new_ref = new ilObjGroupReference();
                 break;
         }
@@ -930,7 +907,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $ilAccess = $DIC['ilAccess'];
         $objDefinition = $DIC['objDefinition'];
 
-        include_once './components/ILIAS/soap/classes/class.ilObjectXMLParser.php';
         $xml_parser = new ilObjectXMLParser($a_xml, true);
         try {
             $xml_parser->startParsing();
@@ -1048,7 +1024,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once './components/ILIAS/soap/classes/class.ilSoapUtils.php';
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
@@ -1116,7 +1091,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once './components/ILIAS/soap/classes/class.ilSoapUtils.php';
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
@@ -1125,7 +1099,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
 
-        include_once './components/ILIAS/soap/classes/class.ilCopyWizardSettingsXMLParser.php';
         $xml_parser = new ilCopyWizardSettingsXMLParser($copy_settings_xml);
         try {
             $xml_parser->startParsing();
@@ -1230,10 +1203,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $tree = $DIC['tree'];
         $lng = $DIC['lng'];
         $items = $tree->getPathFull($ref_id);
-
-        include_once 'components/ILIAS/soap/classes/class.ilXMLResultSet.php';
-        include_once 'components/ILIAS/soap/classes/class.ilXMLResultSetWriter.php';
-        include_once 'components/ILIAS/Course/classes/class.ilCourseXMLWriter.php';
 
         $xmlResultSet = new ilXMLResultSet();
         $xmlResultSet->addColumn("ref_id");
@@ -1370,8 +1339,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         foreach ($a_object_data['references'] as $ref_data) {
             if (isset($ref_data['time_target'])) {
-                include_once('./components/ILIAS/soap/classes/class.ilObjectXMLWriter.php');
-                include_once('./components/ILIAS/Object/classes/class.ilObjectActivation.php');
                 $old = ilObjectActivation::getItem($ref_data['ref_id']);
 
                 $items = new ilObjectActivation();
@@ -1425,9 +1392,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 $source->setPermissions($ref_data['parent_id']);
             }
             if (isset($ref_data['time_target']) /* and ($crs_ref_id = $tree->checkForParentType($new_ref_id,'crs')) */) {
-                include_once('./components/ILIAS/soap/classes/class.ilObjectXMLWriter.php');
-                include_once('./components/ILIAS/Object/classes/class.ilObjectActivation.php');
-
                 if (!isset($ref_data['time_target']['starting_time'])) {
                     $ref_data['time_target']['starting_time'] = time();
                 }

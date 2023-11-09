@@ -20,7 +20,6 @@
  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
  +-----------------------------------------------------------------------------+
 */
-require_once('./components/ILIAS/soap/classes/class.ilSoapAdministration.php');
 
 /**
  * Soap data-collection administration methods
@@ -45,7 +44,6 @@ class ilSoapDataCollectionAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        require_once "components/ILIAS/DataCollection/classes/class.ilObjDataCollection.php";
         if (!$target_obj = new ilObjDataCollection($target_ref_id)) {
             return $this->raiseError('No valid target given.', 'CLIENT');
         }
@@ -65,7 +63,6 @@ class ilSoapDataCollectionAdministration extends ilSoapAdministration
         }
 
         try {
-            require_once "components/ILIAS/DataCollection/classes/Content/class.ilDclContentExporter.php";
             $exporter = new ilDclContentExporter($target_ref_id, $table_id);
             return $exporter->export($format, $filepath);
         } catch (ilException $exception) {

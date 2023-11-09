@@ -84,7 +84,6 @@ class ilObjectGUIFactory
 
         // create instance
         $location = $this->obj_definition->getLocation($row["type"]);
-        include_once($location . "/class." . $class_name . ".php");
         return new $class_name("", $ref_id, true, false);
     }
 }

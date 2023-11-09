@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-require_once('./components/ILIAS/Exceptions/classes/class.ilException.php');
 
 /**
  * Class ilSoapPluginException

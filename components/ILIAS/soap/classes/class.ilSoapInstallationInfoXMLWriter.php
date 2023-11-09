@@ -64,7 +64,6 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         $ini_file = "./" . $client_directory . "/client.ini.php";
 
         // get settings from ini file
-        require_once("./components/ILIAS/Init/classes/class.ilIniFile.php");
 
         $ilClientIniFile = new ilIniFile($ini_file);
         $ilClientIniFile->read();
@@ -88,7 +87,6 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
             unset($DIC['ilDB']);
             $DIC['ilDB'] = $ilDB;
 
-            require_once("components/ILIAS/Administration/classes/class.ilSetting.php");
 
             $settings = new ilSetting();
             unset($DIC["ilSetting"]);

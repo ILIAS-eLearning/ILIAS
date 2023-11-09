@@ -19,9 +19,6 @@
 
 declare(strict_types=1);
 
-include_once("./components/ILIAS/UICore/lib/html-it/IT.php");
-include_once("./components/ILIAS/UICore/lib/html-it/ITX.php");
-
 class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 {
     private ilLanguage$lng;

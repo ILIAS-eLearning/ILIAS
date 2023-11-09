@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./components/ILIAS/Xml/classes/class.ilXmlWriter.php";
-
 /**
  * XML writer class
  * Class to simplify manual writing of xml documents.
@@ -218,7 +216,6 @@ class ilObjectXMLWriter extends ilXmlWriter
         if (!$tree->checkForParentType($a_ref_id, 'crs')) {
             return;
         }
-        include_once('./components/ILIAS/Object/classes/class.ilObjectActivation.php');
         $time_targets = ilObjectActivation::getItem($a_ref_id);
 
         switch ($time_targets['timing_type']) {
@@ -350,8 +347,6 @@ class ilObjectXMLWriter extends ilXmlWriter
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];
-
-        include_once 'components/ILIAS/AccessControl/classes/class.ilAccess.php';
 
         $ilAccess->checkAccessOfUser($this->getUserId(), 'read', 'view', $ref_id, $object->getType(), $object->getId());
 

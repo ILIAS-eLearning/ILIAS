@@ -36,7 +36,6 @@ class DataService
         //        define('IL_COOKIE_EXPIRE', 0);
         //        define('IL_COOKIE_PATH', '/');
         //        define('IL_COOKIE_DOMAIN', '');
-        require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
         \ilContext::init(\ilContext::CONTEXT_SCORM);
         \ilInitialisation::initILIAS();
         // Remember original values

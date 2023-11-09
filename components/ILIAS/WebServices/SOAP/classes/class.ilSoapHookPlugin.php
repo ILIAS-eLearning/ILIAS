@@ -1,7 +1,5 @@
 <?php
 
-include_once("./components/ILIAS/Component/classes/class.ilPlugin.php");
-
 /**
  * Class ilSoapHookPlugin
  * @author Stefan Wanzenried <sw@studer-raimann.ch>

@@ -18,8 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-require_once("./components/ILIAS/Object/classes/class.ilObjectFactory.php");
-
 /**
  * Class ilObjectFactoryWrapper.
  *

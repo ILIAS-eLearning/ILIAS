@@ -1381,7 +1381,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $location = $DIC['objDefinition']->getLocation($type);
         $full_class = 'ilObj' . $class . 'Access';
-        include_once($location . '/class.' . $full_class . '.php');
 
         $ret = call_user_func([$full_class, '_checkGoto'], $a_target);
 

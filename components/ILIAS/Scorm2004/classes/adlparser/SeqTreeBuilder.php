@@ -46,22 +46,6 @@ declare(strict_types=1);
     DAMAGES.
 */
 
-require_once("SeqActivity.php");
-
-require_once("SeqRule.php");
-require_once("SeqRuleset.php");
-
-require_once("SeqCondition.php");
-require_once("SeqConditionSet.php");
-
-require_once("SeqObjective.php");
-require_once("SeqObjectiveMap.php");
-
-require_once("SeqRollupRule.php");
-require_once("SeqRollupRuleset.php");
-
-require_once("ADLAuxiliaryResource.php");
-
 class SeqTreeBuilder
 {
     public function buildNodeSeqTree(string $file): array

@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './components/ILIAS/soap/classes/class.ilSoapAdministration.php';
-
 /**
  * This class handles all DB changes necessary for fraunhofer
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -61,7 +59,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             return $this->raiseError('Invalid filter type given', 'Client');
         }
 
-        include_once 'components/ILIAS/User/classes/class.ilObjUser.php';
         if (!in_array(self::USER_FILTER_ALL, $usr_ids) && !ilObjUser::userExists($usr_ids)) {
             return $this->raiseError('Invalid user ids given', 'Client');
         }
@@ -109,7 +106,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
         // Delete tracking data
         foreach ($valid_refs as $ref_id) {
-            include_once './components/ILIAS/Object/classes/class.ilObjectFactory.php';
             $obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
 
             if (!$obj instanceof ilObject) {
@@ -121,7 +117,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
             switch ($obj->getType()) {
                 case 'sahs':
-                    include_once './components/ILIAS/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
                     $subtype = ilObjSAHSLearningModule::_lookupSubType($obj->getId());
 
                     switch ($subtype) {
@@ -143,7 +138,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             }
 
             // Refresh status
-            include_once './components/ILIAS/Tracking/classes/class.ilLPStatusWrapper.php';
             ilLPStatusWrapper::_resetInfoCaches($obj->getId());
             ilLPStatusWrapper::_refreshStatus($obj->getId(), $valid_users);
         }
@@ -179,7 +173,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             );
         }
         // Check LP enabled
-        include_once("components/ILIAS/Tracking/classes/class.ilObjUserTracking.php");
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return $this->raiseError(
                 'Error ' . self::SOAP_LP_ERROR_LP_NOT_ENABLED . ': Learning progress not enabled in ILIAS',
@@ -187,7 +180,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './components/ILIAS/Object/classes/class.ilObjectFactory.php';
         $obj = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
         if (!$obj instanceof ilObject) {
             return $this->raiseError(
@@ -197,7 +189,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         }
 
         // check lp available
-        include_once './components/ILIAS/Tracking/classes/class.ilLPObjSettings.php';
         $mode = ilLPObjSettings::_lookupDBMode($obj->getId());
         if ($mode === ilLPObjSettings::LP_MODE_UNDEFINED) {
             return $this->raiseError(
@@ -222,7 +213,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './components/ILIAS/Xml/classes/class.ilXmlWriter.php';
         $writer = new ilXmlWriter();
         $writer->xmlStartTag(
             'LearningProgressInfo',
@@ -234,7 +224,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
         $writer->xmlStartTag('LearningProgressSummary');
 
-        include_once './components/ILIAS/Tracking/classes/class.ilLPStatusWrapper.php';
         if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) || in_array(
             self::PROGRESS_FILTER_COMPLETED,
             $a_progress_filter
@@ -409,8 +398,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
      */
     protected function applyProgressFilter(int $obj_id, array $usr_ids, array $filter): array
     {
-        include_once './components/ILIAS/Tracking/classes/class.ilLPStatusWrapper.php';
-
         $all_users = array();
         if (in_array(self::USER_FILTER_ALL, $usr_ids)) {
             $all_users = array_unique(
@@ -514,7 +501,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
         // output lp changes as xml
         try {
-            include_once './components/ILIAS/Tracking/classes/class.ilLPXmlWriter.php';
             $writer = new ilLPXmlWriter(true);
             $writer->setTimestamp($timestamp);
             $writer->setIncludeRefIds($include_ref_ids);

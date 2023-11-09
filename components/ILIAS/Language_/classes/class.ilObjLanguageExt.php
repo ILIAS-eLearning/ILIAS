@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-require_once "./components/ILIAS/Language_/classes/class.ilObjLanguage.php";
-
 /**
 * Class ilObjLanguageExt
 *
@@ -36,7 +34,6 @@ class ilObjLanguageExt extends ilObjLanguage
     */
     public function getGlobalLanguageFile(): object
     {
-        require_once "./components/ILIAS/Language_/classes/class.ilLanguageFile.php";
         return ilLanguageFile::_getGlobalLanguageFile($this->key);
     }
 
@@ -245,7 +242,6 @@ class ilObjLanguageExt extends ilObjLanguage
         $ilErr = $DIC["ilErr"];
 
         // read the new language file
-        require_once "./components/ILIAS/Language_/classes/class.ilLanguageFile.php";
         $import_file_obj = new ilLanguageFile($a_file);
         if (!$import_file_obj->read()) {
             $ilErr->raiseError($import_file_obj->getErrorMessage(), $ilErr->MESSAGE);
@@ -415,7 +411,6 @@ class ilObjLanguageExt extends ilObjLanguage
         $save_date = date("Y-m-d H:i:s", time());
 
         // read and get the global values
-        require_once "./components/ILIAS/Language_/classes/class.ilLanguageFile.php";
         $global_file_obj = ilLanguageFile::_getGlobalLanguageFile($a_lang_key);
         $file_values = $global_file_obj->getAllValues();
         $file_comments = $global_file_obj->getAllComments();
@@ -466,7 +461,6 @@ class ilObjLanguageExt extends ilObjLanguage
             ilObjLanguage::replaceLangModule($a_lang_key, $module, $entries);
         }
 
-        require_once("class.ilCachedLanguage.php");
         ilCachedLanguage::getInstance($a_lang_key)->flush();
     }
 

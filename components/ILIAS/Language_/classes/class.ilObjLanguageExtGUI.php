@@ -24,10 +24,6 @@ use ILIAS\FileUpload\Location;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 
-require_once("./components/ILIAS/Object/classes/class.ilObjectGUI.php");
-require_once("components/ILIAS/Language_/classes/class.ilObjLanguageAccess.php");
-
-
 /**
 * Class ilObjLanguageExtGUI
 *
@@ -106,7 +102,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     protected function assignObject(): void
     {
-        require_once("components/ILIAS/Language_/classes/class.ilObjLanguageExt.php");
         $this->object = new ilObjLanguageExt($this->id);
     }
 
@@ -454,7 +449,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
     protected function initNewImportForm(): ilPropertyFormGUI
     {
-        require_once("./components/ILIAS/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_import_file"));
@@ -536,7 +530,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function exportObject(): void
     {
-        require_once("./components/ILIAS/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_export_file"));
@@ -628,7 +621,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function maintainObject(): void
     {
-        require_once("./components/ILIAS/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_maintenance"));
@@ -789,7 +781,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $translate_key = "lang_translate_" . $this->object->key;
         $translate = (bool) $ilSetting->get($translate_key, '0');
         
-        require_once("./components/ILIAS/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_settings"));

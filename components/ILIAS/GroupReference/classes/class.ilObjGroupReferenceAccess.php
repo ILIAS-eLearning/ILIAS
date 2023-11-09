@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./components/ILIAS/ContainerReference/classes/class.ilContainerReferenceAccess.php");
-
 /**
  * @author Fabian Wolf <wolf@leifos.com>
  * @extends ilContainerReferenceAccess
@@ -29,7 +27,6 @@ class ilObjGroupReferenceAccess extends ilContainerReferenceAccess
         switch ($permission) {
             case 'visible':
             case 'read':
-                include_once './components/ILIAS/GroupReference/classes/class.ilObjGroupReference.php';
                 $target_ref_id = ilObjGroupReference::_lookupTargetRefId($obj_id);
 
                 if (!$target_ref_id || !$ilAccess->checkAccessOfUser($user_id, $permission, $cmd, $target_ref_id)) {
@@ -72,7 +69,6 @@ class ilObjGroupReferenceAccess extends ilContainerReferenceAccess
                 array("permission" => "write", "cmd" => "editReference", "lang_var" => "edit")
             );
         } else {
-            include_once('./components/ILIAS/Group/classes/class.ilObjGroupAccess.php');
             $commands = ilObjGroupAccess::_getCommands();
         }
         return $commands;

@@ -21,8 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('./components/ILIAS/ContainerReference/classes/class.ilContainerReference.php');
-
 /**
 *
 *
