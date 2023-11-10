@@ -106,6 +106,7 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		flex: 1;
 
 		.btn-bulky {
+			min-height: 0px;
 			display: inline-flex;
 			width: $il-standard-filter-input-group-width;
 			background-color: initial;
