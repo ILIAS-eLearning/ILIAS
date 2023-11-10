@@ -37,6 +37,7 @@ class ilUserDefinedFields
     protected bool $field_changeable_lua = false;
     protected bool $field_changeable = false;
     protected bool $field_visib_lua = false;
+    protected bool $field_prg_export = false;
     protected array $field_values = []; // Missing array type.
     protected int $field_type = 0;
     protected string $field_name = "";
