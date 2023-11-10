@@ -34,6 +34,8 @@ class ilChatroomTabGUIFactory
     private readonly ilRbacSystem $rbacSystem;
     private readonly GlobalHttpState $http;
     private readonly Refinery $refinery;
+    private ?string $activated_tab = null;
+    private ?string $activated_sub_tab = null;
 
     public function __construct(private readonly ilObjectGUI $gui)
     {
@@ -123,7 +125,10 @@ class ilChatroomTabGUIFactory
         ];
         $DIC->ctrl()->clearParametersByClass(ilPermissionGUI::class);
 
-        $is_in_permission_gui = strtolower($DIC->ctrl()->getCmdClass()) === strtolower(ilPermissionGUI::class);
+        $is_in_permission_gui = (
+            strtolower($DIC->ctrl()->getCmdClass()) === strtolower(ilPermissionGUI::class) ||
+            strtolower($DIC->ctrl()->getCmdClass()) === strtolower(ilObjectPermissionStatusGUI::class)
+        );
 
         $commandParts = explode('_', $command, 2);
         if ($command === 'ban_show') {
@@ -246,14 +251,27 @@ class ilChatroomTabGUIFactory
         if (count($commandParts) > 1) {
             if (isset($config[$commandParts[0]])) {
                 $DIC->tabs()->activateTab($commandParts[0]);
+                $this->activated_tab = $commandParts[0];
 
                 if (isset($config[$commandParts[0]]['subtabs'][$commandParts[1]])) {
                     $DIC->tabs()->activateSubTab($commandParts[1]);
+                    $this->activated_sub_tab = $commandParts[1];
                 }
             }
         } elseif (count($commandParts) === 1) {
             $DIC->tabs()->activateTab($commandParts[0]);
+            $this->activated_tab = $commandParts[0];
         }
+    }
+
+    public function getActivatedTab(): ?string
+    {
+        return $this->activated_tab;
+    }
+
+    public function getActivatedSubTab(): ?string
+    {
+        return $this->activated_sub_tab;
     }
 
     /**

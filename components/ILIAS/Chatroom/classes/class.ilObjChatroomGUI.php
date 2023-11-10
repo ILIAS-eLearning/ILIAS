@@ -164,6 +164,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 
         $next_class = $this->ctrl->getNextClass();
 
+        $tabFactory = null;
         if (!$this->getCreationMode()) {
             $tabFactory = new ilChatroomTabGUIFactory($this);
 
@@ -256,7 +257,16 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
                 }
                 break;
         }
-        $this->addHeaderAction();
+
+        if ($this->object?->getType() !== 'chta') {
+            $this->addHeaderAction();
+        }
+
+        if ($tabFactory !== null &&
+            $tabFactory->getActivatedTab() !== null &&
+            $this->tabs_gui->getActiveTab() !== $tabFactory->getActivatedTab()) {
+            $this->tabs_gui->activateTab($tabFactory->getActivatedTab());
+        }
     }
 
     protected function createActionDispatcherGUI(): ilCommonActionDispatcherGUI
