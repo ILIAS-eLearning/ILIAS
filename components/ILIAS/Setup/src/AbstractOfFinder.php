@@ -37,7 +37,21 @@ abstract class AbstractOfFinder
         '.*/components/ILIAS/GlobalScreen/',
         '.*/Customizing/.*/src/',
         '.*/vendor/',
-        '.*/test/',
+        '.*/components/ILIAS/App/tests/',
+        '.*/components/ILIAS/BackgroundTasks/tests/',
+        '.*/components/ILIAS/Cache/tests/',
+        '.*/components/ILIAS/Data/tests/',
+        '.*/components/ILIAS/FileUpload/tests/',
+        '.*/components/ILIAS/Filesystem/tests/',
+        '.*/components/ILIAS/GlobalCache/tests/',
+        '.*/components/ILIAS/HTTP/tests/',
+        '.*/components/ILIAS/KioskMode/tests/',
+        '.*/components/ILIAS/Language/tests/',
+        '.*/components/ILIAS/Refinery/tests/',
+        '.*/components/ILIAS/ResourceStorage/tests/',
+        '.*/components/ILIAS/Types/tests/',
+        '.*/components/ILIAS/UI/tests/',
+        '.*/components/ILIAS/VirusScanner/tests/',
         '.*/components/ILIAS/setup_/',
         // Classes using removed Auth-class from PEAR
         '.*ilSOAPAuth.*',
@@ -53,7 +67,7 @@ abstract class AbstractOfFinder
     public function __construct()
     {
         $this->root = substr(__FILE__, 0, strpos(__FILE__, DIRECTORY_SEPARATOR . "src"));
-        $external_classmap = include (__DIR__ . "/../../../../vendor/composer/vendor/composer/autoload_classmap.php");
+        $external_classmap = include(__DIR__ . "/../../../../vendor/composer/vendor/composer/autoload_classmap.php");
         $this->classmap = $external_classmap ?: null;
     }
 
@@ -75,13 +89,13 @@ abstract class AbstractOfFinder
         array $additional_ignore = [],
         string $matching_path = null
     ): \Iterator {
-        foreach ($this->getAllClassNames($additional_ignore, $matching_path) as $class_name) {
+        foreach($this->getAllClassNames($additional_ignore, $matching_path) as $class_name) {
             try {
                 $reflection_class = new \ReflectionClass($class_name);
-                if ($is_matching($reflection_class)) {
+                if($is_matching($reflection_class)) {
                     yield $class_name;
                 }
-            } catch (\Throwable $e) {
+            } catch(\Throwable $e) {
                 // ignore
             }
         }
@@ -94,7 +108,7 @@ abstract class AbstractOfFinder
     {
         $ignore = array_merge($this->ignore, $additional_ignore);
 
-        if (!is_array($this->classmap)) {
+        if(!is_array($this->classmap)) {
             throw new \LogicException("Composer ClassMap not loaded");
         }
 
@@ -106,14 +120,14 @@ abstract class AbstractOfFinder
                 $ignore
             )
         );
-        if ($matching_path) {
+        if($matching_path) {
             $matching_path = str_replace('/', '(/|\\\\)', $matching_path);
         }
 
 
-        foreach ($this->classmap as $class_name => $file_path) {
+        foreach($this->classmap as $class_name => $file_path) {
             $real_path = realpath($file_path);
-            if ($real_path === false) {
+            if($real_path === false) {
                 throw new \RuntimeException(
                     "Could not find file for class $class_name (path: $file_path). " .
                     "Please check the composer classmap, maybe it is outdated. " .
@@ -123,10 +137,10 @@ abstract class AbstractOfFinder
             }
 
             $path = str_replace($this->root, "", $real_path);
-            if ($matching_path && !preg_match("#^" . $matching_path . "$#", $path)) {
+            if($matching_path && !preg_match("#^" . $matching_path . "$#", $path)) {
                 continue;
             }
-            if (!preg_match("#^" . $regexp . "$#", $path)) {
+            if(!preg_match("#^" . $regexp . "$#", $path)) {
                 yield $class_name;
             }
         }

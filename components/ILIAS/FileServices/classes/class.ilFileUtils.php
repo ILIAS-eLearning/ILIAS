@@ -406,8 +406,8 @@ class ilFileUtils
      * You may pass only the name of your new directory or with the entire path or relative path information.
      *
      * examples:
-     * a_dir = /tmp/test/your_dir
-     * a_dir = ../test/your_dir
+     * a_dir = /tmp/tests/your_dir
+     * a_dir = ../tests/your_dir
      * a_dir = your_dir (--> creates your_dir in current directory)
      *
      * @access     public

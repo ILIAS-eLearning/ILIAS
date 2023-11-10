@@ -98,7 +98,7 @@
 		],
 		"exclude-from-classmap": [
 			"./components/ILIAS/Migration",
-			"./*/*/lib", "./*/*/test",
+			"./*/*/lib", "./*/*/*/tests",
 			"./Customizing/**/vendor",
 			"./components/ILIAS/setup_/sql",
 			"./cli/setup.php",

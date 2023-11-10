@@ -2,8 +2,7 @@
 
 /**
  * This is the global ILIAS test suite. It searches automatically for
- * components test suites by scanning all Modules/.../test and
- * Services/.../test directories for test suite files.
+ * components test suites by scanning all Components/.../tests directories for test suite files.
  *
  * Test suite files are identified automatically, if they are named
  * "ilServices[ServiceName]Suite.php" or ilModules[ModuleName]Suite.php".
@@ -64,7 +63,7 @@ class ILIASSuite extends TestSuite
                     if ($file != "." && $file != ".." && is_dir($basedir . "/" . $file)) {
                         $file_name = str_replace("_", "", $file);
                         $suite_path =
-                            $basedir . "/" . $file . "/test/ilComponents" . $file_name . "Suite.php";
+                            $basedir . "/" . $file . "/tests/ilComponents" . $file_name . "Suite.php";
                         if (is_file($suite_path)) {
                             include_once($suite_path);
                             $file_name = str_replace("_", "", $file);
@@ -93,7 +92,7 @@ class ILIASSuite extends TestSuite
     {
         $test_directories = [];
         foreach (self::COMPONENTS as $component) {
-            $test_directories[] = "components/ILIAS/" . $component . "/test";
+            $test_directories[] = "components/ILIAS/" . $component . "/tests";
         }
 
         while ($aux_dir = current($test_directories)) {

@@ -31,7 +31,7 @@ class ilServicesStyleContentSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/Style/Content/test/ContentStyleStandardGUIRequestTest.php");
+        require_once("./components/ILIAS/Style/Content/tests/ContentStyleStandardGUIRequestTest.php");
         $suite->addTestSuite("ContentStyleStandardGUIRequestTest");
 
         return $suite;

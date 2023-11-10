@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once('vendor/composer/vendor/autoload.php');
-include_once('./components/ILIAS/UI/test/UITestHelper.php');
+include_once('./components/ILIAS/UI/tests/UITestHelper.php');
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
@@ -50,7 +50,7 @@ class ilSystemStyleDocumentationGUITest extends TestCase
 
     public function testShow(): void
     {
-        $entries_data = include './components/ILIAS/UI/test/Crawler/Fixture/EntriesFixture.php';
+        $entries_data = include './components/ILIAS/UI/tests/Crawler/Fixture/EntriesFixture.php';
         $entries = new Entries();
         $entries->addEntriesFromArray($entries_data);
         $this->tpl_observer->expects($this->once())
