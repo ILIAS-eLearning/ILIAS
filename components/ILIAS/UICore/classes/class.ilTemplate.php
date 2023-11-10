@@ -365,7 +365,7 @@ class ilTemplate extends HTML_Template_ITX
         } else {
             $fname = $a_tplname;
         }
-        return '../'. $fname;
+        return __DIR__ . '/../../../../' . $fname;
     }
 
     /**
