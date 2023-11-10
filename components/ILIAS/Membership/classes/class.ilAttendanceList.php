@@ -1,8 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Base class for attendance lists
@@ -641,7 +640,7 @@ class ilAttendanceList
                     if ($item[1]) {
                         switch ($id) {
                             case 'org_units':
-                                $value = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+                                $value = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $user_id);
                                 break;
 
                             case "name":
