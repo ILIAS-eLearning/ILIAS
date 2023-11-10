@@ -127,8 +127,8 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
     private function readDumpFile(ilDBInterface $db): void
     {
         $path_to_db_dump = $this->config->getPathToDBDump();
-        if (!is_file(realpath($path_to_db_dump)) ||
-            !is_readable(realpath($path_to_db_dump))) {
+        if (!is_file(realpath($path_to_db_dump) ?: '') ||
+            !is_readable(realpath($path_to_db_dump) ?: '')) {
             throw new Setup\UnachievableException(
                 "Cannot read database dump file: $path_to_db_dump"
             );
