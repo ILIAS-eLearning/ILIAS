@@ -93,7 +93,10 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->in_page_editor_style_context = $this->http->wrapper()->query()->has(
             self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT
         );
-        $this->ctrl->saveParameterByClass(ilObjectContentStyleSettingsGUI::class, self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT);
+        $this->ctrl->saveParameterByClass(
+            ilObjectContentStyleSettingsGUI::class,
+            self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT
+        );
     }
 
     public static function _goto(string $target): void
@@ -118,10 +121,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         } elseif ($DIC->access()->checkAccess('visible', '', $refId)) {
             ilObjectGUI::_gotoRepositoryNode($refId, 'infoScreen');
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            $main_tpl->setOnScreenMessage('info', sprintf(
-                $DIC->language()->txt('msg_no_perm_read_item'),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($refId))
-            ), true);
+            $main_tpl->setOnScreenMessage(
+                'info',
+                sprintf(
+                    $DIC->language()->txt('msg_no_perm_read_item'),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($refId))
+                ),
+                true
+            );
 
             $DIC->ctrl()->setTargetScript('ilias.php');
             $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
@@ -211,7 +218,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         if (
             !$this->in_page_editor_style_context &&
             strtolower($nextClass) !== strtolower(ilObjectContentStyleSettingsGUI::class) &&
-            (strtolower($cmd) !== strtolower(self::UI_CMD_EDIT) || strtolower($nextClass) !== strtolower(ilContentPagePageGUI::class))
+            (strtolower($cmd) !== strtolower(self::UI_CMD_EDIT) || strtolower($nextClass) !== strtolower(
+                ilContentPagePageGUI::class
+            ))
         ) {
             $this->renderHeaderActions();
         }
@@ -245,12 +254,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 break;
 
             case strtolower(ilContentPagePageGUI::class):
-                $isMediaRequest = in_array(strtolower($cmd), array_map('strtolower', [
+                $isMediaRequest = in_array(
+                    strtolower($cmd),
+                    array_map('strtolower', [
                     self::UI_CMD_COPAGE_DOWNLOAD_FILE,
                     self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN,
                     self::UI_CMD_COPAGE_DISPLAY_MEDIA,
                     self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH,
-                ]), true);
+                ]),
+                    true
+                );
                 if ($isMediaRequest) {
                     if (!$this->checkPermissionBool('read')) {
                         $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -324,7 +337,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab(self::UI_TAB_ID_MD);
 
-
                 $md_gui = new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
                 $md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
                 $this->ctrl->forwardCommand($md_gui);
@@ -346,11 +358,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     );
                 }
 
-                $this->ctrl->forwardCommand(new ilLearningProgressGUI(
-                    ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
-                    $this->object->getRefId(),
-                    $usr_id === 0 ? $this->user->getId() : $usr_id
-                ));
+                $this->ctrl->forwardCommand(
+                    new ilLearningProgressGUI(
+                        ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
+                        $this->object->getRefId(),
+                        $usr_id === 0 ? $this->user->getId() : $usr_id
+                    )
+                );
                 break;
 
             case strtolower(ilExportGUI::class):
@@ -580,6 +594,20 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
             ]
         );
+
+        if ($this->getCreationMode() !== true && count($this->object->getObjectTranslation()->getLanguages()) > 1) {
+            $languages = ilMDLanguageItem::_getLanguages();
+            $a_form->getItemByPostVar('title')
+                   ->setInfo(
+                       implode(
+                           ': ',
+                           [
+                               $this->lng->txt('language'),
+                               $languages[$this->object->getObjectTranslation()->getDefaultLanguage()]
+                           ]
+                       )
+                   );
+        }
     }
 
     private function addAvailabilitySection(ilPropertyFormGUI $form): void
@@ -595,6 +623,11 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     protected function getEditFormCustomValues(array &$a_values): void
     {
+        if (count($this->object->getObjectTranslation()->getLanguages()) > 1) {
+            $a_values['title'] = $this->object->getObjectTranslation()->getDefaultTitle();
+            $a_values['desc'] = $this->object->getObjectTranslation()->getDefaultDescription();
+        }
+
         $a_values['activation_online'] = $this->object->getOfflineStatus() === false;
         $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
     }
