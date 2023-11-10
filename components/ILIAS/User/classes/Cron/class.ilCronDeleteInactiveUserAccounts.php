@@ -41,7 +41,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     private ilSetting $settings;
     private ilLanguage $lng;
     private ilComponentLogger $log;
-    private ilRbacReview $rbacReview;
+    private ilRbacReview $rbac_review;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
@@ -81,7 +81,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         }
 
         if (isset($DIC['rbacreview'])) {
-            $this->rbacReview = $DIC['rbacreview'];
+            $this->rbac_review = $DIC['rbacreview'];
         }
 
         if (isset($DIC['cron.repository'])) {
@@ -216,7 +216,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             }
 
             foreach ($this->include_roles as $role_id) {
-                if ($this->rbacreview->isAssigned($usr_id, $role_id)) {
+                if ($this->rbac_review->isAssigned($usr_id, $role_id)) {
                     $action_taken = $this->deleteUserOrSendReminderMail($usr_id);
                     $counters[$action_taken]++;
                     break;
@@ -306,7 +306,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         );
         $sub_mlist->setInfo($this->lng->txt('delete_inactive_user_accounts_include_roles_desc'));
         $roles = [];
-        foreach ($this->rbacReview->getGlobalRoles() as $role_id) {
+        foreach ($this->rbac_review->getGlobalRoles() as $role_id) {
             if ($role_id !== ANONYMOUS_ROLE_ID) {
                 $roles[$role_id] = $this->objectDataCache->lookupTitle($role_id);
             }
