@@ -71,62 +71,61 @@ class FlySystemFileAccessTest extends TestCase
 
     public function testReadWhichShouldSucceed(): void
     {
-        $fileContent = 'Test file content.';
+        $file_content = 'Test file content.';
+        $path = '/path/to/your/file';
 
-        $this->adapterMock->shouldReceive('read')
-                          ->once()
-                          ->andReturn($fileContent);
-
-        $this->adapterMock->shouldReceive('has')
-                          ->once()
-                          ->andReturn(true);
-
-        $this->filesystemMock->shouldReceive('getAdapter')
+        $this->filesystemMock->shouldReceive('has')
                              ->once()
-                             ->andReturn($this->adapterMock);
+                             ->with(ltrim($path, '/'))
+                             ->andReturn(true);
 
-        $actualContent = $this->subject->read('/path/to/your/file');
-        $this->assertSame($fileContent, $actualContent);
+        $this->filesystemMock->shouldReceive('read')
+                             ->with(ltrim($path, '/'))
+                             ->once()
+                             ->andReturn($file_content);
+
+
+        $actualContent = $this->subject->read($path);
+        $this->assertSame($file_content, $actualContent);
     }
 
     public function testReadWithGeneralFileAccessErrorWhichShouldFail(): void
     {
-        $path = 'path/to/your/file';
+        $path = '/path/to/your/file';
 
-        $this->adapterMock->shouldReceive('has')
-                          ->once()
-                          ->andReturn(true);
-
-        $this->adapterMock->shouldReceive('read')
-                          ->once()
-                          ->andReturn(['contents' => false]);
-
-        $this->filesystemMock->shouldReceive('getAdapter')
+        $this->filesystemMock->shouldReceive('has')
                              ->once()
-                             ->andReturn($this->adapterMock);
+                             ->with(ltrim($path, '/'))
+                             ->andReturn(true);
+
+        $this->filesystemMock->shouldReceive('read')
+                             ->with(ltrim($path, '/'))
+                             ->once()
+                             ->andReturn(false);
+
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage("File \"$path\" not found.");
-
-        $this->subject->read($path);
+        $this->expectExceptionMessage('File "' . ltrim($path, '/') . '" not found.');
+        $actualContent = $this->subject->read($path);
     }
 
     public function testReadWithMissingFileWhichShouldFail(): void
     {
-        $path = 'path/to/your/file';
 
-        $this->adapterMock->shouldReceive('has')
-                          ->once()
-                          ->andReturn(false);
+        $path = '/path/to/your/file';
 
-        $this->filesystemMock->shouldReceive('getAdapter')
+        $this->filesystemMock->shouldReceive('has')
                              ->once()
-                             ->andReturn($this->adapterMock);
+                             ->with(ltrim($path, '/'))
+                             ->andReturn(false);
 
-        $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
-        $this->expectExceptionMessage("File \"$path\" not found.");
+        $this->filesystemMock->shouldReceive('read')
+                             ->never();
 
-        $this->subject->read('/' . $path);
+
+        $this->expectException(IOException::class);
+        $this->expectExceptionMessage('File "' . ltrim($path, '/') . '" not found.');
+        $actualContent = $this->subject->read($path);
     }
 
     public function testGetMimeTypeWhichShouldSucceed(): void
@@ -139,6 +138,36 @@ class FlySystemFileAccessTest extends TestCase
         $actualMimeType = $this->subject->getMimeType('/path/to/your/file');
         $this->assertSame($mimeType, $actualMimeType);
     }
+
+    public function testPutContentExistingFile(): void
+    {
+        $content = 'Test file content.';
+        $this->filesystemMock->shouldReceive('has')
+                             ->once()
+                             ->andReturn(true);
+        $this->filesystemMock->shouldReceive('write')
+                             ->with('/path/to/your/file', $content)
+                             ->once()
+                             ->andReturn(true);
+
+        $this->subject->put('/path/to/your/file', $content);
+    }
+
+    public function testPutContentNonExistingFile(): void
+    {
+        $content = 'Test file content.';
+        $this->filesystemMock->shouldReceive('has')
+                             ->twice()
+                             ->andReturn(false);
+
+        $this->filesystemMock->shouldReceive('write')
+                             ->with('/path/to/your/file', $content)
+                             ->once()
+                             ->andReturn(true);
+
+        $this->subject->put('/path/to/your/file', $content);
+    }
+
 
     public function testGetMimeTypeWithUnknownMimeTypeWhichShouldFail(): void
     {
@@ -170,7 +199,8 @@ class FlySystemFileAccessTest extends TestCase
 
     public function testGetTimestampWhichShouldSucceed(): void
     {
-        $timestamp = strtotime('2012-02-06');
+        $datetime = '2012-02-06';
+        $timestamp = strtotime($datetime);
         $this->filesystemMock
             ->shouldReceive('lastModified')
             ->once()
@@ -189,7 +219,7 @@ class FlySystemFileAccessTest extends TestCase
          * Danger; this is only the observed behaviour and was not documented at least the part with the === operator.
          * Tested with DateTime objects (PHP 7.1.6)
          */
-        $this->assertEquals(new \DateTime($timestamp), $actualTimestamp);
+        $this->assertEquals(new \DateTime($datetime), $actualTimestamp);
     }
 
     public function testGetTimestampWithUnknownErrorWhichShouldFail(): void
@@ -544,45 +574,6 @@ class FlySystemFileAccessTest extends TestCase
         );
 
         $this->subject->update($path, $content);
-    }
-
-    /**
-     * @Test
-     * @small
-     */
-    public function testPutWhichShouldSucceed(): void
-    {
-        $path = '/path/to/your/file';
-        $content = "some awesome content";
-
-        $this->filesystemMock->shouldReceive('put')
-                             ->once()
-                             ->withArgs([$path, $content])
-                             ->andReturn(true);
-
-        $this->subject->put($path, $content);
-    }
-
-    /**
-     * @Test
-     * @small
-     */
-    public function testPutWithAdapterErrorWhichShouldFail(): void
-    {
-        $path = '/path/to/your/file';
-        $content = "some awesome content";
-
-        $this->filesystemMock->shouldReceive('put')
-                             ->once()
-                             ->withArgs([$path, $content])
-                             ->andReturn(false);
-
-        $this->expectException(IOException::class);
-        $this->expectExceptionMessage(
-            "Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable."
-        );
-
-        $this->subject->put($path, $content);
     }
 
     /**

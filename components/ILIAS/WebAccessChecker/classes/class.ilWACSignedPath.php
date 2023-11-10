@@ -168,8 +168,8 @@ class ilWACSignedPath
                 $cookie->getName(),
                 $cookie->getValue(),
                 $cookie->getExpires(),
-                $cookie->getPath(),
-                $cookie->getDomain(),
+                $cookie->getPath() ?? '/',
+                $cookie->getDomain() ?? $_SERVER['REQUEST_URI'],
                 $cookie->getSecure(),
                 $cookie->getHttpOnly()
             );

@@ -53,11 +53,10 @@ class FlySystemFileAccess implements FileAccess
     {
         try {
             $path = Util::normalizeRelativePath($path);
-            $adapter = $this->flysystem_operator->getAdapter();
-            if (!$adapter->has($path)) {
+            if (!$this->flysystem_operator->has($path)) {
                 throw new \League\Flysystem\FileNotFoundException($path);
             }
-            $result = $adapter->read($path);
+            $result = $this->flysystem_operator->read($path);
 
             if (empty($result)) {
                 throw new IOException("Could not access the file \"$path\".");
@@ -91,9 +90,9 @@ class FlySystemFileAccess implements FileAccess
     public function getTimestamp(string $path): \DateTimeImmutable
     {
         try {
-            $last_modified = $this->flysystem_operator->lastModified($path);
+            $last_modified = (int) $this->flysystem_operator->lastModified($path);
 
-            return new \DateTimeImmutable((string) $last_modified);
+            return new \DateTimeImmutable(date('Y-m-d H:i:s', $last_modified));
         } catch (UnableToRetrieveMetadata $ex) {
             throw new IOException("Could not lookup timestamp of the file \"$path\".");
         } catch (FilesystemException $ex) {
@@ -247,11 +246,11 @@ class FlySystemFileAccess implements FileAccess
      */
     public function put(string $path, string $content): void
     {
-        if ($this->flysystem_operator->put($path, $content) === false) {
-            throw new IOException(
-                "Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable."
-            );
+        if ($this->flysystem_operator->has($path)) {
+            $this->update($path, $content);
+            return;
         }
+        $this->write($path, $content);
     }
 
     /**

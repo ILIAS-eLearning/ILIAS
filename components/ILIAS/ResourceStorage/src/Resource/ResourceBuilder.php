@@ -251,7 +251,13 @@ class ResourceBuilder
         if ($resource->getCurrentRevisionIncludingDraft()->getStatus() === RevisionStatus::DRAFT) {
             throw new \LogicException('You can not replace a draft revision, you must publish it first');
         }
-        $revision = $this->revision_repository->blankFromStream($info_resolver, $resource, $stream, $keep_original);
+        $revision = $this->revision_repository->blankFromStream(
+            $info_resolver,
+            $resource,
+            $stream,
+            RevisionStatus::PUBLISHED,
+            $keep_original
+        );
         $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
         foreach ($resource->getAllRevisionsIncludingDraft() as $existing_revision) {

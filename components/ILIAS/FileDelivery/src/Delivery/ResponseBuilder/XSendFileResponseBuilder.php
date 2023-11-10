@@ -42,7 +42,7 @@ class XSendFileResponseBuilder implements ResponseBuilder
     ): ResponseInterface {
         return $response->withHeader(
             self::X_SENDFILE_HEADER,
-            $stream->getStream()->getMetadata('uri')
+            $stream->getMetadata('uri')
         );
     }
 

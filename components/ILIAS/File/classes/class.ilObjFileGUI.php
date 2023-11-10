@@ -486,8 +486,8 @@ class ilObjFileGUI extends ilObject2GUI
                     $processor->process(
                         $rid,
                         $file_data[self::PARAM_TITLE] ?? null,
-                        $file_data[0] ?? null,
-                        $data[1] ?? null
+                        $file_data[self::PARAM_DESCRIPTION] ?? null,
+                        $data[self::PARAM_COPYRIGHT_ID] ?? null
                     );
                 } catch (Throwable $t) {
                     $errors = true;
