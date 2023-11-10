@@ -29,6 +29,7 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
+    protected string $rendered_content = "";
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
@@ -587,6 +588,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         switch ($next_class) {
             case 'ilblogpostinggui':
+                $this->ctrl->saveParameter($this, "user_page");
                 if (!$this->prtf_embed) {
                     $tpl->loadStandardTemplate();
                 }
@@ -692,7 +694,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $this->addHeaderActionForCommand($cmd);
                             $this->filterInactivePostings();
                             $nav = $this->renderNavigation("gethtml", $cmd);
-                            $this->buildEmbedded($ret, $nav);
+                            // this is important for embedded blog pages!
+                            $this->rendered_content = $this->buildEmbedded($ret, $nav);
                             return;
 
                         // ilias/editor
@@ -854,8 +857,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 if (!$cmd) {
                     $cmd = "render";
                 }
-                $this->$cmd();
+                $this->rendered_content = (string) $this->$cmd();
         }
+    }
+
+    public function getRenderedContent(): string
+    {
+        return $this->rendered_content;
     }
 
     protected function triggerAssignmentTool(): void
@@ -2070,9 +2078,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
-                if ($this->prtf_embed) {
+                /*if ($this->prtf_embed) {
                     $this->ctrl->setParameterByClass("ilobjportfoliogui", "ppage", $this->user_page);
-                }
+                }*/
                 $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                 $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit_posting"), $link));
             }
