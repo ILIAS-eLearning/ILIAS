@@ -25,8 +25,8 @@ use ILIAS\Data;
  */
 class ilArtifactComponentRepository implements ilComponentRepositoryWrite
 {
-    public const COMPONENT_DATA_PATH = __DIR__ . "/../artifacts/component_data.php";
-    public const PLUGIN_DATA_PATH = __DIR__ . "/../artifacts/plugin_data.php";
+    public const COMPONENT_DATA_PATH = "../components/ILIAS/Component/artifacts/component_data.php";
+    public const PLUGIN_DATA_PATH = "../components/ILIAS/Component/artifacts/plugin_data.php";
 
     protected Data\Factory $data_factory;
     protected ilPluginStateDB $plugin_state_db;
@@ -130,12 +130,12 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
 
     protected function readComponentData(): array
     {
-        return require self::COMPONENT_DATA_PATH;
+        return require __DIR__ . "/../../../" . self::COMPONENT_DATA_PATH;
     }
 
     protected function readPluginData(): array
     {
-        return require self::PLUGIN_DATA_PATH;
+        return require __DIR__ . "/../../../" . self::PLUGIN_DATA_PATH;
     }
 
     /**
