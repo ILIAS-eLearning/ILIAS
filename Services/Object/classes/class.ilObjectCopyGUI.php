@@ -382,6 +382,7 @@ class ilObjectCopyGUI
         $exp->setTargetGet('ref_id');
         $exp->setPostVar('source');
         $exp->setCheckedItems($this->getSources());
+        $exp->highlightNode((string) $this->getFirstTarget());
 
         // Filter to container
         foreach (['cat', 'root', 'fold'] as $container) {
