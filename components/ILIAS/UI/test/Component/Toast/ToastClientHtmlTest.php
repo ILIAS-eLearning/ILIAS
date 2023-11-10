@@ -53,7 +53,7 @@ class ToastClientHtmlTest extends ILIAS_UI_TestBase
 
         $rendered_html = '<head>
           <title>Toast Test HTML</title>
-          <script src="../../../../../../components/ILIAS/UI/src/templates/js/Toast/toast.js"></script>
+          <script src="../../../../../../public/components/ILIAS/UI/src/templates/js/Toast/toast.js"></script>
           <script>document.il = il</script>
         </head>
         <body>

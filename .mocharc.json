@@ -3,6 +3,6 @@
     "@babel/register"
   ],
   "spec": [
-    "components/ILIAS/**/test/**/*.test.js"
+    "components/ILIAS/**/test/**/*.js"
   ]
 }
