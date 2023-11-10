@@ -751,7 +751,6 @@ class ilSurveyEvaluationGUI
                 ilUtil::sendFailure($this->lng->txt("permission_denied"));
                 return;
             }
-                
             switch ($this->object->getEvaluationAccess()) {
                 case ilObjSurvey::EVALUATION_ACCESS_OFF:
                     ilUtil::sendFailure($this->lng->txt("permission_denied"));
@@ -858,7 +857,14 @@ class ilSurveyEvaluationGUI
                     $finished_ids = array(-1);
                 }
             }
-            
+
+            // filter own self evaluation, if option set and no write permission
+            if (!$this->access->checkAccess('write', '', $this->object->getRefId())
+                && $this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL
+                && $this->object->getSelfEvaluationResults() == ilObjSurvey::RESULTS_SELF_EVAL_OWN) {
+                $finished_ids = $this->object->getFinishedIdsForSelfEval($this->user->getId());
+            }
+
             $details_figure = $_POST["cp"]
                 ? $_POST["cp"]
                 : "ap";
