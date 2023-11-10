@@ -7,10 +7,13 @@ $progress-bg: #bbb;
 .progress {
 	height: 15px;
 	min-width: 100px;
+	background-color: lighten($il-neutral-color, 55%);
 }
 
 .progress-bar {
 	font-size: $il-font-size-small;
 	line-height: 15px;
-	min-width: 30px;
+	min-width: 50px;
+	text-align: center;
+	color: $il-main-darker-bg;
 }
