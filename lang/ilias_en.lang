@@ -12716,7 +12716,7 @@ obj#:#obj_show_header_actions#:#Show Header Actions
 obj#:#obj_show_title_and_icon#:#Show Title and Icon
 obj#:#obj_target_location#:#Target Location
 obj#:#obj_tile_image#:#Tile Image
-obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (or 'Content Display Options' - see above) to ‘Tiles’ (rather than ‘List’). To avoid performance issues, only upload files with a resolution of 72dpi and a width of less than 1000 px.
+obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (or 'Content Display Options' - see above) to ‘Tiles’ (rather than ‘List’).
 obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
