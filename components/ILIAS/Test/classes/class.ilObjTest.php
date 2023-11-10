@@ -6432,7 +6432,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function applyDefaults($test_defaults): bool
     {
         $testsettings = unserialize($test_defaults['defaults']);
-        $this->mark_schema->setMarkSteps(unserialize($test_defaults['marks']));
+        $unserialized_marks = unserialize($test_defaults['marks']);
+
+        if ($unserialized_marks instanceof ASS_MarkSchema) {
+            $unserialized_marks = $unserialized_marks->getMarkSteps();
+        }
+
+        $this->mark_schema->setMarkSteps($unserialized_marks);
 
         $this->storeActivationSettings([
             'is_activation_limited' => $testsettings['activation_limited'],
