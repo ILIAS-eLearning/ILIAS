@@ -235,23 +235,13 @@ class ilLearningProgressBaseGUI
                         );
                     }
 
-                    if ($has_read) {
+                    // START PATCH JKN GRADEBOOK
+                    // Do Not show matrix for gradebook
+                    if ($has_read && $olp->getCurrentMode() !== 93) {
+                    // END PATCH GRADEBOOK CPKN
                         if (!$this->isAnonymized() &&
                             !($olp instanceof ilPluginLP) &&
                             ilObjectLP::supportsMatrixView($this->obj_type)) {
-                            $this->tabs_gui->addSubTabTarget(
-                                "trac_matrix",
-                                $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
-                                "",
-                                "",
-                                "",
-                                $a_active == self::LP_ACTIVE_MATRIX
-                            );
-                        }
-
-                        // START PATCH JKN GRADEBOOK
-                        if ($olp->getCurrentMode() != 93) {
-                            //Only Show Matrix if Not Gradebook. (EJ)
                             $this->tabs_gui->addSubTabTarget(
                                 "trac_matrix",
                                 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
