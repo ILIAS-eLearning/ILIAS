@@ -18,7 +18,7 @@
 		</object>
 	</objects>
 	<events>		
-		<event type="listen" id="Services/Object" />
+		<event type="listen" id="components/ILIAS/Object" />
 	</events>
 	<copage>
 		<pageobject parent_type="mep" class_name="ilMediaPoolPage" directory="classes"/>

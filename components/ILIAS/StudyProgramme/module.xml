@@ -27,16 +27,16 @@
 		</copage>
 	</objects>
 	<events>
-		<event type="listen" id="Services/User" />
-		<event type="listen" id="Services/Tracking" />
-		<event type="listen" id="Services/Tree" />
-		<event type="listen" id="Services/Object" />
-		<event type="listen" id="Services/ContainerReference" />
-		<event type="listen" id="Services/AccessControl" />
-		<event type="listen" id="Modules/StudyProgramme" />
-		<event type="listen" id="Modules/Course" />
-		<event type="listen" id="Modules/Group" />
-		<event type="listen" id="Modules/OrgUnit" />
+		<event type="listen" id="components/ILIAS/User" />
+		<event type="listen" id="components/ILIAS/Tracking" />
+		<event type="listen" id="components/ILIAS/Tree" />
+		<event type="listen" id="components/ILIAS/Object" />
+		<event type="listen" id="components/ILIAS/ContainerReference" />
+		<event type="listen" id="components/ILIAS/AccessControl" />
+		<event type="listen" id="components/ILIAS/StudyProgramme" />
+		<event type="listen" id="components/ILIAS/Course" />
+		<event type="listen" id="components/ILIAS/Group" />
+		<event type="listen" id="components/ILIAS/OrgUnit" />
 
 		<event type="raise" id="userAssigned" />
 		<event type="raise" id="userDeassigned" />

@@ -20,8 +20,8 @@
 		<event type="raise" id="addSubscriber" />
 		<event type="raise" id="enter" />
 		<event type="raise" id="register" />
-		<event type="listen" id="Modules/Session" />
-		<event type="listen" id="Services/AccessControl" />
+		<event type="listen" id="components/ILIAS/Session" />
+		<event type="listen" id="components/ILIAS/AccessControl" />
 	</events>
 	<mailtemplates>
 		<context id="sess_context_participant_manual" class="ilSessionMailTemplateParticipantContext" />

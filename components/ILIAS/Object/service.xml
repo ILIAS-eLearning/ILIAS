@@ -15,7 +15,7 @@
 		<event type="raise" id="toTrash" />
 		<event type="raise" id="delete" />
 		<event type="raise" id="undelete" />
-		<event type="listen" id="Services/Object" />
+		<event type="listen" id="components/ILIAS/Object" />
 	</events>
 	<logging />
 	<web_access_checker>

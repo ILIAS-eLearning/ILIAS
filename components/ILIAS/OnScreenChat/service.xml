@@ -4,7 +4,7 @@
 		<baseclass name="ilOnScreenChatGUI" dir="classes" />
 	</baseclasses>
 	<events>
-		<event type="listen" id="Modules/Chatroom" />
+		<event type="listen" id="components/ILIAS/Chatroom" />
 	</events>
 	<logging />
 </service>

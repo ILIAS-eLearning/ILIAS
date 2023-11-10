@@ -6,9 +6,9 @@
 	<objects>
 	</objects>
 	<events>		
-		<event type="listen" id="Modules/Course" />
-		<event type="listen" id="Modules/Category" />
-		<event type="listen" id="Modules/StudyProgramme" />
+		<event type="listen" id="components/ILIAS/Course" />
+		<event type="listen" id="components/ILIAS/Category" />
+		<event type="listen" id="components/ILIAS/StudyProgramme" />
 		<event type="raise" id="deleteReference" />
 	</events>
 </service>

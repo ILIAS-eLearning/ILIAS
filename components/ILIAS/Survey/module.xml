@@ -30,6 +30,6 @@
 	</mailtemplates>
 	<logging />
 	<events>
-		<event type="listen" id="Services/Skill" />
+		<event type="listen" id="components/ILIAS/Skill" />
 	</events>
 </module>

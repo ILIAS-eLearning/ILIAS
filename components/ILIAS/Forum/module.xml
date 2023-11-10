@@ -19,10 +19,10 @@
 		</object>
 	</objects>
 	<events>		
-		<event type="listen" id="Services/News" />
-		<event type="listen" id="Modules/Course" />
-		<event type="listen" id="Modules/Group" />
-		<event type="listen" id="Modules/Forum" />
+		<event type="listen" id="components/ILIAS/News" />
+		<event type="listen" id="components/ILIAS/Course" />
+		<event type="listen" id="components/ILIAS/Group" />
+		<event type="listen" id="components/ILIAS/Forum" />
 		<event type="raise" id="createdPost" />
 		<event type="raise" id="updatedPost" />
 		<event type="raise" id="censoredPost" />

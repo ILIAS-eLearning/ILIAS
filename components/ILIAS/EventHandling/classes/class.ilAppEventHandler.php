@@ -121,7 +121,6 @@ class ilAppEventHandler
                 // Allow listeners like Services/WebServices/ECS
                 $last_slash = strripos($listener, '/');
                 $comp = substr($listener, 0, $last_slash);
-
                 // any kind of plugins with events in their plugin.xml
                 if ($comp == 'Plugins') {
                     $name = substr($listener, $last_slash + 1);
@@ -136,9 +135,8 @@ class ilAppEventHandler
                     }
                 } else {
                     $class = 'il' . substr($listener, $last_slash + 1) . 'AppEventListener';
-                    $file = "./" . $listener . "/classes/class." . $class . ".php";
-                    // if file exists, call listener
-                    if (is_file($file)) {
+
+                    if (class_exists($class)) {
                         call_user_func(array($class, 'handleEvent'), $a_component, $a_event, $a_parameter);
                     }
                 }
