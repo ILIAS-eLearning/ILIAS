@@ -41,6 +41,7 @@
 /components/ILIAS/EventHandling/artifacts/*
 /components/ILIAS/Object/artifacts/*
 /components/ILIAS/LegalDocuments/artifacts/*
+/components/ILIAS/FileDelivery/src/artifacts/*
 
 # Directories
 /public/data
