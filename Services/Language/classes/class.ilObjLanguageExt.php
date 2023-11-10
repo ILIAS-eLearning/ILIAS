@@ -433,7 +433,7 @@ class ilObjLanguageExt extends ilObjLanguage
                 $are_comments_set = isset($global_comments[$key]) && isset($a_remarks[$key]);
                 $are_changes_made = (isset($global_values[$key]) ? $global_values[$key] != $value : true) || (isset($db_values[$key]) ? $db_values[$key] != $value : true);
                 if ($are_changes_made || ($are_comments_set ? $global_comments[$key] != $a_remarks[$key] : $are_comments_set)) {
-                    $local_change = $are_changes_made ? $save_date : null;
+                    $local_change = (isset($db_values[$key]) ? $db_values[$key] == $value : true) || (isset($global_values[$key]) ? $global_values[$key] != $value : true) ? $save_date : null;
                     ilObjLanguage::replaceLangEntry(
                         $module,
                         $topic,
