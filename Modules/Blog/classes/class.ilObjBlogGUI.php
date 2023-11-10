@@ -3099,4 +3099,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     {
         $this->export(true);
     }
+
+    protected function forwardExport() : void
+    {
+        $this->ctrl->redirectByClass(ilExportGUI::class);
+    }
 }
