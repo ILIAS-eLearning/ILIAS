@@ -102,19 +102,12 @@ class ilUserStartingPointGUI
      */
     public function startingPoints(): void
     {
-        $roles_without_point = $this->starting_point_repository->getGlobalRolesWithoutStartingPoint();
-
-        if (!empty($roles_without_point)) {
-            $this->toolbar->addComponent(
-                $this->ui_factory->link()->standard(
-                    $this->lng->txt('create_starting_point'),
-                    $this->ctrl->getLinkTarget($this, "roleStartingPointform")
-                )
-            );
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('all_roles_has_starting_point'));
-        }
-
+        $this->toolbar->addComponent(
+            $this->ui_factory->link()->standard(
+                $this->lng->txt('create_starting_point'),
+                $this->ctrl->getLinkTarget($this, "roleStartingPointform")
+            )
+        );
 
         $tbl = new ilUserRoleStartingPointTableGUI(
             $this,
@@ -421,11 +414,10 @@ class ilUserStartingPointGUI
         );
 
 
-        $role_id = $this->user_request->getRoleId() ??
-            $form->getInput('role');
+        $role_id = $this->user_request->getRoleId();
 
-        if ($form->getInput('role_type') === '1' &&
-            $role_id === null || $role_id < 1) {
+        if ($form->getInput('role_type') === '1'
+            && ($role_id === null || $role_id < 1)) {
             $parser = new ilQueryParser($form->getInput('role_search'));
 
             // TODO: Handle minWordLength
@@ -439,7 +431,7 @@ class ilUserStartingPointGUI
 
             $entries = $res->getEntries();
 
-            if (count($entries) === 0) {
+            if ($entries === []) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_ref_id_not_exist'), true);
                 $form->setValuesByPost();
                 $this->tpl->setContent($form->getHTML());
@@ -460,6 +452,10 @@ class ilUserStartingPointGUI
                 $role = current($entries);
                 $role_id = $role['obj_id'];
             }
+        }
+
+        if ($role_id === 0) {
+            $role_id = $form->getInput('role');
         }
 
         if ($role_id !== 0) {
@@ -523,7 +519,7 @@ class ilUserStartingPointGUI
         $table->addHiddenInput('start_point', $start_point);
         $table->addHiddenInput('start_object', $start_object);
         $table->addHiddenInput('role', $role);
-        $table->addHiddenInput('role_type', 1);
+        $table->addHiddenInput('role_type', '1');
         $table->setTitle($this->lng->txt('user_role_selection'));
         $table->addMultiCommand('saveStartingPoint', $this->lng->txt('user_choose_role'));
         $table->parse($entries);
