@@ -9,8 +9,8 @@
         </object>
     </objects>
     <events>
-		<event type="listen" id="Services/Tracking" />
-		<event type="listen" id="Services/User" />
+		<event type="listen" id="components/ILIAS/Tracking" />
+		<event type="listen" id="components/ILIAS/User" />
 
     </events>
     <crons>

@@ -11,8 +11,8 @@
 	</objects>
 	<events>
 		<event type="raise" id="contentChanged" />
-		<event type="listen" id="Services/Search" />
-		<event type="listen" id="Services/Object" />
+		<event type="listen" id="components/ILIAS/Search" />
+		<event type="listen" id="components/ILIAS/Object" />
 	</events>
 	<crons>
 		<cron id="src_lucene_indexer" class="ilLuceneIndexer" path="Services/Search/classes/Lucene/" />

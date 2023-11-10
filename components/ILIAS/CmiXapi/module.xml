@@ -26,10 +26,10 @@
 		</object>
 	</objects>
 	<events>
-		<event type="listen" id="Services/User" />
-		<event type="listen" id="Services/Object" />
-		<event type="listen" id="Modules/Course" />
-		<event type="listen" id="Modules/Group" />
+		<event type="listen" id="components/ILIAS/User" />
+		<event type="listen" id="components/ILIAS/Object" />
+		<event type="listen" id="components/ILIAS/Course" />
+		<event type="listen" id="components/ILIAS/Group" />
 	</events>
 	<crons>
 		<cron id="xapi_results_evaluation" class="ilXapiResultsCronjob" />

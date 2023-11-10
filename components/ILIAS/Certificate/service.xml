@@ -9,9 +9,9 @@
 		</object>
 	</objects>
 	<events>
-		<event type="listen" id="Services/Tracking" />
-		<event type="listen" id="Services/Certificate" />
-		<event type="listen" id="Services/User" />
+		<event type="listen" id="components/ILIAS/Tracking" />
+		<event type="listen" id="components/ILIAS/Certificate" />
+		<event type="listen" id="components/ILIAS/User" />
 		<event type="raise" id="certificateIssued" />
 	</events>
 	<crons>

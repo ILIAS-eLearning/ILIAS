@@ -16,6 +16,6 @@
 	</pluginslots>
 	<logging />
 	<events>
-		<event type="listen" id="Services/Object" />
+		<event type="listen" id="components/ILIAS/Object" />
 	</events>
 </service>

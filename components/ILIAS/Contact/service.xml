@@ -7,8 +7,8 @@
 		</object>
 	</objects>
 	<events>
-		<event type="listen" id="Services/User" />
-		<event type="listen" id="Services/Contact" />
+		<event type="listen" id="components/ILIAS/User" />
+		<event type="listen" id="components/ILIAS/Contact" />
 		<event type="raise" id="contactRequested" />
 		<event type="raise" id="contactIgnored" />
 		<event type="raise" id="relationLinked" />

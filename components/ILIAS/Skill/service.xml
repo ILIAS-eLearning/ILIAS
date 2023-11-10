@@ -15,8 +15,8 @@
 	</objects>
 	<logging />
 	<events>
-		<event type="listen" id="Services/Tracking" />
-		<event type="listen" id="Services/Object" />
+		<event type="listen" id="components/ILIAS/Tracking" />
+		<event type="listen" id="components/ILIAS/Object" />
 		<event type="raise" id="deleteSkill" />
 	</events>
 	<crons>

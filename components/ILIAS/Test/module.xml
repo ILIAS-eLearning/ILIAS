@@ -44,6 +44,6 @@
 		<pageobject parent_type="tst" class_name="ilTestPage" directory="classes/PageEditor"/>
 	</copage>
 	<events>
-		<event type="listen" id="Services/Skill" />
+		<event type="listen" id="components/ILIAS/Skill" />
 	</events>
 </module>

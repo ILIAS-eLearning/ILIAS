@@ -15,7 +15,7 @@
     </objects>
     <events>
         <event type="raise" id="delete"/>
-        <event type="listen" id="Services/Tree"/>
+        <event type="listen" id="components/ILIAS/Tree"/>
     </events>
     <pluginslots>
         <pluginslot id="orgutypehk" name="OrgUnitTypeHook"/>

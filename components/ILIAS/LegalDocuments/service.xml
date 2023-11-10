@@ -8,7 +8,7 @@
     </object>
   </objects>
   <events>
-    <event type="listen" id="Services/Authentication" />
+    <event type="listen" id="components/ILIAS/Authentication" />
   </events>
   <logging />
 </service>

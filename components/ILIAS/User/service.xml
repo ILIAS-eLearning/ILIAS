@@ -19,8 +19,8 @@
 		<event type="raise" id="deleteUser" />
 		<event type="raise" id="afterCreate" />
 		<event type="raise" id="onUserFieldAttributesChanged" />
-		<event type="listen" id="Services/Object" />
-		<event type="listen" id="Services/TermsOfService" />
+		<event type="listen" id="components/ILIAS/Object" />
+		<event type="listen" id="components/ILIAS/TermsOfService" />
 	</events>
 	<crons>
 		<cron id="user_inactive" class="ilCronDeleteInactiveUserAccounts" />
