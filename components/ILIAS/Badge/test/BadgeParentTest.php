@@ -61,7 +61,7 @@ class BadgeParentTest extends TestCase
         $standard_link = $this->getMockBuilder(StandardLink::class)->disableOriginalConstructor()->getMock();
         $ui = $this->getMockBuilder(UIServices::class)->disableOriginalConstructor()->getMock();
 
-        $language->method('txt')->willReturnCallback(static fn (string $name): string => $name . ' translated');
+        $language->method('txt')->willReturnCallback(static fn(string $name): string => $name . ' translated');
 
         $listing->expects(self::once())->method('descriptive')->with([
             'object translated' => $legacy,
@@ -97,7 +97,7 @@ class BadgeParentTest extends TestCase
             return 'Some image path.';
         };
 
-        $references_of = static fn (): array => [89];
+        $references_of = static fn(): array => [89];
 
         $link_to = function (int $ref_id): string {
             $this->assertSame(89, $ref_id);
@@ -124,7 +124,7 @@ class BadgeParentTest extends TestCase
         $renderer = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
         $ui = $this->getMockBuilder(UIServices::class)->disableOriginalConstructor()->getMock();
 
-        $language->method('txt')->willReturnCallback(static fn (string $name): string => $name . ' translated');
+        $language->method('txt')->willReturnCallback(static fn(string $name): string => $name . ' translated');
 
         $listing->expects(self::once())->method('descriptive')->with([
             'object translated' => $legacy,
@@ -157,7 +157,7 @@ class BadgeParentTest extends TestCase
             return 'Some image path.';
         };
 
-        $references_of = static fn (): array => [89];
+        $references_of = static fn(): array => [89];
 
         $link_to = function (int $ref_id): string {
             $this->assertSame(89, $ref_id);

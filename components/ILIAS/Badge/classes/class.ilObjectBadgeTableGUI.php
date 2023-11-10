@@ -118,7 +118,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 
         $data = [];
 
-        $types = ilBadgeHandler::getInstance()->getAvailableTypes();
+        $types = ilBadgeHandler::getInstance()->getAvailableTypes(false);
 
         foreach (ilBadge::getObjectInstances($this->filter) as $badge_item) {
             // :TODO: container presentation
@@ -149,7 +149,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
                 "container_meta" => $container,
                 "container_url" => $container_url,
                 "container_id" => $badge_item["parent_id"],
-                "renderer" => fn () => $this->tile->asTitle(
+                "renderer" => fn() => $this->tile->asTitle(
                     $this->tile->modalContent(new ilBadge($badge_item["id"]))
                 )
             );

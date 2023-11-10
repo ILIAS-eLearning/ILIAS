@@ -100,6 +100,6 @@ class Sorting
 
     private function minus(): Closure
     {
-        return static fn (int $x, int $y): int => $x - $y;
+        return static fn(int $x, int $y): int => $x - $y;
     }
 }

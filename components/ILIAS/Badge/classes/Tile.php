@@ -56,7 +56,7 @@ class Tile
         $this->sign_file = Closure::fromCallable($sign_file);
         if (!$format_date) {
             class_exists(ilDateTime::class); // Ensure ilDateTime is loaded as IL_CAL_UNIX is defined in ilDateTime.php.
-            $format_date = static fn ($date, int $format = IL_CAL_UNIX): string => (
+            $format_date = static fn($date, int $format = IL_CAL_UNIX): string => (
                 ilDatePresentation::formatDate(new ilDateTime($date, $format))
             );
         }
@@ -150,7 +150,7 @@ class Tile
         $awarded_by = $this->parent->asProperty($badge);
         return new ModalContent($badge, [
             $this->txt('criteria') => $badge->getCriteria(),
-            ...(null !== $awarded_by ? [$this->txt('awarded_by') =>  $awarded_by] : []),
+            ...(null !== $awarded_by ? [$this->txt('awarded_by') => $awarded_by] : []),
             $this->txt('valid_until') => $this->tryFormating($badge->getValid()),
         ]);
     }
