@@ -220,7 +220,6 @@ class ilObjectTranslationGUI
             $this,
             self::CMD_LIST_TRANSLATIONS,
             !$this->hide_description,
-            'Translation',
             $this->obj_trans->getMasterLanguage(),
             $this->fallback_lang_mode,
             $this->obj_trans->getFallbackLanguage()

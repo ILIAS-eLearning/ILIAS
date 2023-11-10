@@ -25,38 +25,24 @@ declare(strict_types=1);
  */
 class ilObjectTranslation2TableGUI extends ilTable2GUI
 {
+    private const BASE_CMD = 'Translation';
     protected ilAccessHandler $access;
 
-    protected bool $incl_desc;
-    protected string $base_cmd;
-    protected string $master_lang;
-    protected bool $fallback_mode;
-    protected string $fallback_lang;
     protected int $nr;
 
     public function __construct(
         ?object $parent_obj,
         string $parent_cmd,
-        bool $incl_desc = true,
-        string $base_cmd = "HeaderTitle",
-        string $master_lang = "",
-        bool $fallback_mode = false,
-        string $fallback_lang = ""
+        readonly protected bool $incl_desc = true,
+        readonly protected string $master_lang = "",
+        readonly protected bool $fallback_mode = false,
+        readonly protected string $fallback_lang = ""
     ) {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
 
         parent::__construct($parent_obj, $parent_cmd);
-
-        $this->incl_desc = $incl_desc;
-        $this->base_cmd = $base_cmd;
-        $this->master_lang = $master_lang;
-        $this->fallback_mode = $fallback_mode;
-        $this->fallback_lang = $fallback_lang;
 
         $this->setLimit(9999);
 
@@ -69,7 +55,7 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
         }
 
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj));
         $this->setRowTemplate("tpl.obj_translation2_row.html", "components/ILIAS/Object");
         $this->disable("footer");
         $this->setEnableTitle(true);
@@ -79,12 +65,12 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
 
     protected function prepareOutput(): void
     {
-        $this->addMultiCommand("confirmDelete" . $this->base_cmd . "s", $this->lng->txt("remove"));
+        $this->addMultiCommand("confirmDelete" . self::BASE_CMD . "s", $this->lng->txt("remove"));
         if ($this->fallback_mode) {
             $this->addMultiCommand("setFallback", $this->lng->txt("obj_set_fallback_lang"));
         }
         if ($this->dataExists()) {
-            $this->addCommandButton("save" . $this->base_cmd . "s", $this->lng->txt("save"));
+            $this->addCommandButton("save" . self::BASE_CMD . "s", $this->lng->txt("save"));
         }
     }
 
