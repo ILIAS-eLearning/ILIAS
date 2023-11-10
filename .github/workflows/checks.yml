@@ -36,7 +36,7 @@ jobs:
         run: composer install --no-interaction --no-progress
 
       - name: Install Node.js packages
-        run: npm clean-install --ignore-scripts
+        run: cd public; npm clean-install --ignore-scripts
 
       - name: PHP Unit Test
         run: scripts/PHPUnit/run_tests.sh
