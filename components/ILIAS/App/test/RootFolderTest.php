@@ -43,36 +43,12 @@ final class RootFolderTest extends TestCase
         'captainhook.json',
         'composer.json',
         'composer.lock',
-        'confirmReg.php',
-        'error.php',
-        'favicon.ico',
-        'feed.php',
-        'goto.php',
-        'gs_content.php',
         'ilias.ini.php',
-        'ilias.php',
-        'index.php',
         'LICENSE',
-        'login.php',
-        'logout.php',
-        'lti.php',
-        'openidconnect.php',
         'package-lock.json',
         'package.json',
-        'privfeed.php',
-        'pwassist.php',
         'README.md',
-        'register.php',
-        'rootindex.php',
-        'saml.php',
-        'sessioncheck.php',
-        'shib_login.php',
-        'shib_logout.php',
-        'storeScorm.php',
-        'storeScorm2004.php',
-        'studip_referrer.php',
         'unzip_test_file.zip',
-        'webdav.php',
         '.DS_Store',
         '.buildpath',
         '.project'
@@ -92,7 +68,6 @@ final class RootFolderTest extends TestCase
         'public',
         'scripts',
         'templates',
-        'test',
         'vendor',
         '.settings'
     ];
@@ -114,13 +89,9 @@ final class RootFolderTest extends TestCase
 
     private function getAppRootFolderOrFail(): string
     {
-        $app_root_folder = getcwd();
+        $app_root_folder = __DIR__ . "/../../../../";
 
-        for ($i = 0; $i < 20 && !is_file($app_root_folder . '/index.php'); $i++) {
-            $app_root_folder .= '/..';
-        }
-
-        if (!is_file($app_root_folder . '/index.php')) {
+        if (!is_file($app_root_folder . '/ilias_version.php')) {
             $this->fail('Could not determine ILIAS root folder');
         }
 
