@@ -30,7 +30,7 @@ use ILIAS\UI\Component\Symbol\Icon\Custom;
  */
 class IconTest extends ILIAS_UI_TestBase
 {
-    public const ICON_PATH = __DIR__ . '/../../../../../../../templates/default/images/standard/';
+    public const ICON_PATH = __DIR__ . '/../../../../../../../public/templates/default/images/standard/';
     public const ICON_PATH_REL = './templates/default/images/';
 
     private function getIconFactory(): I\Component\Symbol\Icon\Factory
