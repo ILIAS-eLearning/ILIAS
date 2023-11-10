@@ -179,7 +179,7 @@ class ilUserAvatarResolver
     {
         if ($this->hasProfilePicture()) {
             // IRSS
-            if ($this->rid !== null) {
+            if ($this->rid !== null && $this->rid !== '-') {
                 return $this->resolveProfilePicturePath();
             }
 
