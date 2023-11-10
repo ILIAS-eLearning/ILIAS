@@ -3346,6 +3346,9 @@ class ilObjSurvey extends ilObject
                     $tgt_skills->addQuestionSkillAssignment($tgt_qst_id, $qst_skill["base_skill_id"], $qst_skill["tref_id"]);
                 }
             }
+
+            $thresholds = new ilSurveySkillThresholds($this);
+            $thresholds->cloneTo($newObj, $mapping);
         }
 
         // clone the questionblocks
