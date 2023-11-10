@@ -60,9 +60,13 @@ class ilObjTestListGUI extends ilObjectListGUI
         string $title = '',
         string $description = ''
     ): void {
-        if (ilTestDIC::dic()['main_settings_repository']->getForObjFi($obj_id)
-            ->getAdditionalSettings()->getHideInfoTab()) {
-            $this->enableInfoScreen(false);
+        try {
+            if (ilTestDIC::dic()['main_settings_repository']->getForObjFi($obj_id)
+                ->getAdditionalSettings()->getHideInfoTab()) {
+                $this->enableInfoScreen(false);
+            }
+        } catch (Exception $e) {
+
         }
         parent::initItem($ref_id, $obj_id, $type, $title, $description);
     }

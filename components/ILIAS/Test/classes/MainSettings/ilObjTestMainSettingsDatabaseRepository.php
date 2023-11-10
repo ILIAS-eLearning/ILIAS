@@ -104,7 +104,7 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
         $res = $this->db->query($query);
 
         if ($this->db->numRows($res) == 0) {
-            throw new \Exception('no general settings: ' . $where_part);
+            throw new \Exception('Mo main settings for: ' . $where_part);
         }
 
         $row = $this->db->fetchAssoc($res);
