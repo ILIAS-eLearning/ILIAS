@@ -489,7 +489,7 @@ class ilInitialisation
         if (defined('CLIENT_WEB_DIR')) {
             $ini_file = CLIENT_WEB_DIR . $ini_file;
         } else {
-            $ini_file = "../" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
+            $ini_file = "../public/" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
         }
 
         // get settings from ini file
