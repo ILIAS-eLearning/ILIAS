@@ -619,6 +619,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         
         switch ($next_class) {
             case 'ilblogpostinggui':
+                // see 32264
+                $this->ctrl->saveParameter($this, "user_page");
                 if (!$this->prtf_embed) {
                     $tpl->loadStandardTemplate();
                 }
