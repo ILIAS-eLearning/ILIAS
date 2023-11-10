@@ -149,14 +149,12 @@ class ilLocatorGUI
                     $row["title"] = $this->lng->txt("repository");
                 }
                 
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $row["child"]);
                 $this->addItem(
                     $row["title"],
-                    $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"),
+                    ilLink::_getLink($row["child"]),
                     ilFrameTargetInfo::_getFrame("MainContent"),
                     $row["child"]
                 );
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
             }
         }
     }
