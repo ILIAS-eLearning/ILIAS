@@ -7,7 +7,7 @@ global.setTimeout = (callback, time) => {
 };
 
 beforeEach((done) => {
-  JSDOM.fromFile('./UI/test/Client/Toast/ToastTest.html', { runScripts: 'dangerously', resources: 'usable' })
+  JSDOM.fromFile('./components/ILIAS/UI/test/Client/Toast/ToastTest.html', { runScripts: 'dangerously', resources: 'usable' })
     .then((dom) => {
       global.window = dom.window;
       window.XMLHttpRequest = class {
