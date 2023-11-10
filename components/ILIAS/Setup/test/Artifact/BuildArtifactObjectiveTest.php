@@ -94,7 +94,7 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertTrue($this->o->isNotable());
     }
 
-    public const TEST_PATH = "BuildArtifactObjectiveTest_testAchive";
+    public const TEST_PATH = "../BuildArtifactObjectiveTest_testAchive";
 
     public function testAchieve(): void
     {
@@ -120,13 +120,13 @@ class BuildArtifactObjectiveTest extends TestCase
 
         $this->o->achieve($this->env);
 
-        $this->assertEquals($artifact, file_get_contents($path));
+        $this->assertEquals($artifact, file_get_contents("./components/" . $path));
     }
 
     public function tearDown(): void
     {
-        if (file_exists(getcwd() . "/" . self::TEST_PATH)) {
-            unlink(getcwd() . "/" . self::TEST_PATH);
+        if (file_exists("./components/" . self::TEST_PATH)) {
+            unlink("./components/" . self::TEST_PATH);
         }
     }
 }

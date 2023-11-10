@@ -103,8 +103,8 @@ abstract class BuildArtifactObjective implements Setup\Objective
         $artifact = $this->buildIn($environment);
 
         // TODO: Do we want to configure this?
-        $base_path = getcwd();
-        $path = $base_path . "/public/" . $this->getArtifactPath();
+        $base_path = __DIR__ . "/../../../..";
+        $path = $base_path . "/" . $this->getArtifactPath();
 
         $this->makeDirectoryFor($path);
 
