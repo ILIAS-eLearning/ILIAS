@@ -68,6 +68,16 @@ class ilObjectRequestRetriever
         return $this->getFromRequest($key, $this->refinery->kindlyTo()->string()) ?? $fallback;
     }
 
+    public function getArrayOfInt(string $key): array
+    {
+        return $this->getFromRequest(
+            $key,
+            $this->refinery->kindlyTo()->dictOf(
+                $this->refinery->kindlyTo()->int()
+            )
+        ) ?? [];
+    }
+
     public function getBool(string $key): bool
     {
         return $this->getFromRequest($key, $this->refinery->kindlyTo()->bool()) ?? false;
