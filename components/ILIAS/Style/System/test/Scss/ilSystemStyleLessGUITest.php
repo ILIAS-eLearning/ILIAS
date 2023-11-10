@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once('vendor/composer/vendor/autoload.php');
-include_once('./components/ILIAS/UI/test/UITestHelper.php');
+include_once('./components/ILIAS/UI/tests/UITestHelper.php');
 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\Factory as DataFactory;

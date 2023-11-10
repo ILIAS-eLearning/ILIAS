@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once('vendor/composer/vendor/autoload.php');
-include_once('components/ILIAS/Style/System/test/Exceptions/ilSystemStyleExceptionBaseUnit.php');
+include_once('components/ILIAS/Style/System/tests/Exceptions/ilSystemStyleExceptionBaseUnit.php');
 
 class ilSystemStyleColorExceptionTest extends ilSystemStyleExceptionBaseUnit
 {

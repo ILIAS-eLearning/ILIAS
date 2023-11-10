@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once('vendor/composer/vendor/autoload.php');
-include_once('./components/ILIAS/UI/test/UITestHelper.php');
+include_once('./components/ILIAS/UI/tests/UITestHelper.php');
 
 use PHPUnit\Framework\TestCase;
 
@@ -41,7 +41,7 @@ class KSDocumentationTreeRecursionTest extends TestCase
     {
         $this->ui_helper = new UITestHelper();
 
-        $this->entries_data = include './components/ILIAS/UI/test/Crawler/Fixture/EntriesFixture.php';
+        $this->entries_data = include './components/ILIAS/UI/tests/Crawler/Fixture/EntriesFixture.php';
         $this->entries = new Entries();
         $this->entries->addEntriesFromArray($this->entries_data);
         $this->test_uri = new URI('http://ilias.de');
