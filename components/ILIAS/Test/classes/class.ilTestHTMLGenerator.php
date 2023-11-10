@@ -78,27 +78,7 @@ class ilTestHTMLGenerator
 
         $dom->encoding = 'UTF-8';
 
-        $content_to_replace = null;
-        foreach ($dom->getElementsByTagName('img') as $elm) {
-            /** @var $elm DOMElement $uid */
-            $src = $elm->getAttribute('src');
-
-            $src_uri = new ILIAS\Data\URI($src);
-            $path_to_file = $_SERVER['DOCUMENT_ROOT'] . $src_uri->getPath();
-
-            try {
-                $image_content = base64_encode(file_get_contents($path_to_file));
-                $file_info = finfo_open(FILEINFO_MIME_TYPE);
-                $mime_type = finfo_file($file_info, $path_to_file);
-                $image_data = "data:{$mime_type};base64,{$image_content}";
-
-                $original_content = $dom->saveHTML($elm);
-                $replacement_content = preg_replace('/src=[^\s]*/', "src='{$image_data}'", $original_content);
-                $content_to_replace[$original_content] = $replacement_content;
-            } catch (Exception $e) {
-
-            }
-        }
+        $content_to_replace = $this->generateImageDataSrces($dom);
 
         $cleaned_html = $dom->saveHTML();
 
@@ -111,6 +91,45 @@ class ilTestHTMLGenerator
         }
 
         return str_replace(array_keys($content_to_replace), array_values($content_to_replace), $cleaned_html);
+    }
+
+    private function generateImageDataSrces(DOMDocument $dom): ?array
+    {
+        $content_to_replace = null;
+        $sources = [];
+        $image_file_names = [];
+        foreach ($dom->getElementsByTagName('img') as $elm) {
+            /** @var $elm DOMElement $uid */
+            $src = $elm->getAttribute('src');
+            $original_content = $dom->saveHTML($elm);
+
+            if (array_key_exists($src, $sources)) {
+                $replacement_content = preg_replace('/src=[^\s]*/', "src='{$sources[$src]}'", $original_content);
+                $content_to_replace[$original_content] = $replacement_content;
+                continue;
+            }
+
+            try {
+                $image_raw_content = file_get_contents($src);
+                $image_file_names[$src] = ilFileUtils::ilTempnam();
+                file_put_contents($image_file_names[$src], $image_raw_content);
+                $image_content = base64_encode($image_raw_content);
+                $file_info = finfo_open(FILEINFO_MIME_TYPE);
+                $mime_type = finfo_file($file_info, $image_file_names[$src]);
+                $image_data = "data:{$mime_type};base64,{$image_content}";
+                $sources[$src] = $image_data;
+                $replacement_content = preg_replace('/src=[^\s]*/', "src='{$image_data}'", $original_content);
+                $content_to_replace[$original_content] = $replacement_content;
+            } catch (Exception $e) {
+
+            }
+        }
+
+        foreach ($image_file_names as $image_file_name) {
+            unlink($image_file_name);
+        }
+
+        return $content_to_replace;
     }
 
     public function generateHTML(string $content, string $filename)
