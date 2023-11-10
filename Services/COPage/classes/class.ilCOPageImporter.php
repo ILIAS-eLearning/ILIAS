@@ -112,6 +112,9 @@ class ilCOPageImporter extends ilXmlImporter
                             $page->updateFromXML();
                             $this->extractPluginProperties($page);
                         } else {
+                            if (ilPageObject::_exists($id[0], (int) $id[1], "-", true)) {
+                                return;
+                            }
                             $new_page = ilPageObjectFactory::getInstance($id[0]);
                             $new_page->setImportMode(true);
                             $new_page->setId($id[1]);
