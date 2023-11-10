@@ -510,7 +510,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 
     public function preview(
         bool $a_return = false,
-        bool $a_content = false,
+        $a_content = false,
         bool $a_show_notes = true
     ): string {
         if (!$this->checkPermissionBool("write") &&
