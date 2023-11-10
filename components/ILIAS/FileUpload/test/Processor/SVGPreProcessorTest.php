@@ -111,12 +111,12 @@ xmlns="http://www.w3.org/2000/svg">
     private function provideSomeComplexSaneSVG(): array
     {
         return [
-            ['./templates/default/images/media/bigplay.svg'],
-            ['./templates/default/images/nav/jstree.svg'],
-            ['./templates/default/images/media/loader.svg'],
-            ['./templates/default/images/object/col.svg'],
-            ['./templates/default/images/logo/HeaderIcon.svg'],
-            ['./templates/default/images/object/answered_not.svg'],
+            [__DIR__ . '/../../../../../public/templates/default/images/media/bigplay.svg'],
+            [__DIR__ . '/../../../../../public/templates/default/images/nav/jstree.svg'],
+            [__DIR__ . '/../../../../../public/templates/default/images/media/loader.svg'],
+            [__DIR__ . '/../../../../../public/templates/default/images/object/col.svg'],
+            [__DIR__ . '/../../../../../public/templates/default/images/logo/HeaderIcon.svg'],
+            [__DIR__ . '/../../../../../public/templates/default/images/object/answered_not.svg'],
         ];
     }
 
