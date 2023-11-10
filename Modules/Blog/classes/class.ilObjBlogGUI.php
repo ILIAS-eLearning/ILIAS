@@ -3007,4 +3007,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $print_view = $this->getPrintView();
         $print_view->sendPrintView();
     }
+
+    protected function forwardExport() : void
+    {
+        $this->ctrl->redirectByClass(ilExportGUI::class);
+    }
 }
