@@ -1200,19 +1200,18 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param string $a_original The original (correct) text
     * @param string $a_entered The text entered by the user
-    * @param integer $max_points The maximum number of points for the solution
+    * @param float $max_points The maximum number of points for the solution
     * @access public
     */
-    public function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound): int
+    public function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound): float
     {
         $eval = new EvalMath();
         $eval->suppress_errors = true;
-        $result = 0;
+        $result = 0.0;
 
         if ($eval->e($a_entered) === false) {
-            return 0;
+            return 0.0;
         } elseif (($eval->e($lowerBound) !== false) && ($eval->e($upperBound) !== false)) {
-            // fau.
             if (($eval->e($a_entered) >= $eval->e($lowerBound)) && ($eval->e($a_entered) <= $eval->e($upperBound))) {
                 $result = $max_points;
             }
@@ -1224,10 +1223,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             if (($eval->e($a_entered) >= $eval->e($a_original)) && ($eval->e($a_entered) <= $eval->e($upperBound))) {
                 $result = $max_points;
             }
-        } else {
-            if ($eval->e($a_entered) == $eval->e($a_original)) {
-                $result = $max_points;
-            }
+        } elseif ($eval->e($a_entered) == $eval->e($a_original)) {
+            $result = $max_points;
         }
         return $result;
     }
