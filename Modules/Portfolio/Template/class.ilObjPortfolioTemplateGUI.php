@@ -21,7 +21,7 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilNoteGUI
+ * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilCommentGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectMetaDataGUI
@@ -73,7 +73,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $this->handlePageCall($cmd);
                 break;
 
-            case "ilnotegui":
+            case "ilcommentgui":
                 $this->preview();
                 break;
 
