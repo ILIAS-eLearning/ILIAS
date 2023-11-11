@@ -782,7 +782,7 @@ class ilNoteGUI
 
     protected function getItemTitle(Note $note): string
     {
-        $creation_date = ilDatePresentation::formatDate(new ilDate($note->getCreationDate()));
+        $creation_date = ilDatePresentation::formatDate(new ilDate($note->getCreationDate(), IL_CAL_DATETIME));
         if ($note->getType() === Note::PUBLIC) {
             $title = ilUserUtil::getNamePresentation($note->getAuthor(), false, false);
         } else {
