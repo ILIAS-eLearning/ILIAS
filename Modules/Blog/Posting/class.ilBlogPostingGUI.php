@@ -24,7 +24,7 @@ use ILIAS\Blog\StandardGUIRequest;
  * Class ilBlogPosting GUI class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilBlogPostingGUI: ilPageEditorGUI, ilEditClipboardGUI
- * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
+ * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilCommentGUI
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
@@ -121,7 +121,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $ilCtrl->setParameter($this, "blpg", $posting->getId());
 
         switch ($next_class) {
-            case "ilnotegui":
+            case "ilcommentgui":
                 // $this->getTabs();
                 // $ilTabs->setTabActive("pg");
                 return $this->previewFullscreen();
