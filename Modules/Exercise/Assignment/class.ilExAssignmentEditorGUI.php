@@ -126,11 +126,19 @@ class ilExAssignmentEditorGUI
             case strtolower(ilResourceCollectionGUI::class):
                 $this->setAssignmentHeader();
                 $ilTabs->activateTab("ass_files");
-                $gui = $this->gui->assignment()->getInstructionFileResourceCollectionGUI(
-                    (int) $this->ref_id,
-                    $this->assignment->getId()
-                );
-                $this->ctrl->forwardCommand($gui);
+                $irss = $this->domain->assignment()->instructionFiles($this->assignment->getId());
+                if ($irss->getCollectionIdString() === "") {
+                    $this->tpl->setOnScreenMessage(
+                        "info",
+                        $this->lng->txt("exc_instruction_migration_not_run")
+                    );
+                } else {
+                    $gui = $this->gui->assignment()->getInstructionFileResourceCollectionGUI(
+                        (int) $this->ref_id,
+                        $this->assignment->getId()
+                    );
+                    $this->ctrl->forwardCommand($gui);
+                }
                 break;
 
                 // instruction files
@@ -1329,6 +1337,7 @@ class ilExAssignmentEditorGUI
                 $ilCtrl->getLinkTarget($this, "editPeerReview")
             );
         }
+        $ilCtrl->setParameterByClass(ilObjExerciseGUI::class, "mode", null);
         $ilTabs->addTab(
             "ass_files",
             $lng->txt("exc_instruction_files"),

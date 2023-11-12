@@ -9244,6 +9244,7 @@ exc#:#exc_individual_deadline#:#Individual Deadline
 exc#:#exc_individual_deadline_action#:#Set Individual Deadline
 exc#:#exc_individual_deadline_before_global#:#The date has to be after the (last) deadline: %s.
 exc#:#exc_instruction_files#:#Instruction Files
+exc#:#exc_instruction_migration_not_run#:#The instruction file migration has not been finished yet. Please contact your system administrator.
 exc#:#exc_late_submission#:#Late Submission
 exc#:#exc_late_submission_warning#:#Submissions after %s are marked as late.
 exc#:#exc_lead_request_idl#:#Request Deadline

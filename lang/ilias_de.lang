@@ -9255,6 +9255,7 @@ exc#:#exc_individual_deadline#:#Individueller Abgabetermin
 exc#:#exc_individual_deadline_action#:#Individuellen Abgabetermin setzen
 exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
 exc#:#exc_instruction_files#:#Dateien zur Arbeitsanweisung
+exc#:#exc_instruction_migration_not_run#:#Die Migration der Dateien zur Arbeitsanweisung ist noch nicht abgeschlossen. Kontaktieren Sie ihren Systemadministrator.
 exc#:#exc_late_submission#:#Verspätete Abgabe
 exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekennzeichnet.
 exc#:#exc_lead_request_idl#:#Abgabefrist anfragen
