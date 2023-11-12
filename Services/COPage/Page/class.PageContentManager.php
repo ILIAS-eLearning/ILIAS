@@ -329,7 +329,7 @@ class PageContentManager
 
                     // changed due to bug 6685
                     $ref_id = $id_arr[1];
-                    $obj_id = \ilObject::_lookupObjId($id_arr[1]);
+                    $obj_id = \ilObject::_lookupObjId((int) $id_arr[1]);
 
                     $otype = \ilObject::_lookupType($obj_id);
                     if ($obj_id > 0) {
