@@ -274,7 +274,6 @@ class ilPageEditorGUI
                 $ctype = $cont_obj->getType();
             }
         }
-
         // Step NC (handle empty next class)
         if ($this->requested_ctype != "" || $this->requested_cname != "") {
             $ctype = $this->requested_ctype;
