@@ -79,7 +79,7 @@ class ilPCConsultationHours extends ilPageContent
     {
         $res = array();
         if (is_object($this->getChildNode())) {
-            foreach ($this->getChildNode() as $child) {
+            foreach ($this->getChildNode()->childNodes as $child) {
                 $res[] = $child->getAttribute("Id");
             }
         }
