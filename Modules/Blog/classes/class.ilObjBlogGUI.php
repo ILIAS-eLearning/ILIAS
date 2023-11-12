@@ -164,11 +164,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->reading_time_gui = new \ILIAS\Blog\ReadingTime\BlogSettingsGUI($blog_id);
         $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
         $this->notes = $DIC->notes();
+        $owner = $this?->object->getOwner() ?? 0;
         $this->blog_access = $domain->blogAccess(
             $this->getAccessHandler(),
             $this->node_id,
             $this->id_type,
-            $this->user->getId()
+            $this->user->getId(),
+            $owner
         );
     }
 
