@@ -68,11 +68,6 @@ class ilMathJaxImage
         global $DIC;
 
         $this->fs = $DIC->filesystem()->web();
-
-        if (!$this->fs->hasDir($this->basepath)) {
-            $this->fs->createDir($this->basepath, Visibility::PUBLIC_ACCESS);
-        }
-
         $this->tex = $a_tex;
 
         switch ($a_type) {
@@ -139,8 +134,20 @@ class ilMathJaxImage
      */
     public function write(string $a_content): void
     {
-        if (!$this->fs->hasDir($this->filedir())) {
-            $this->fs->createDir($this->filedir(), Visibility::PUBLIC_ACCESS);
+        // set the directory access of the whole relative file to visible
+        // this is needed if TeX is used in certificates
+        // the ILIAS java server must have read access to the files for the PDF generation
+        // it may run with a different user account
+        $dir = '';
+        foreach (explode('/', $this->filedir()) as $part) {
+            if (!empty($part)) {
+                $dir = $dir . '/' . $part;
+            }
+            if (!$this->fs->hasDir($dir)) {
+                $this->fs->createDir($dir, Visibility::PUBLIC_ACCESS);
+            } else {
+                $this->fs->setVisibility($dir, Visibility::PUBLIC_ACCESS);
+            }
         }
         $this->fs->put($this->filepath(), $a_content);
     }
