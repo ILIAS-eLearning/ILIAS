@@ -30,7 +30,6 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 
     public function __construct(
         private readonly ilCertificateTemplateRepository $templateRepository,
-        private readonly Filesystem $file_system,
         private readonly string $rootDirectory = CLIENT_WEB_DIR,
         private readonly string $iliasVersion = ILIAS_VERSION_NUMERIC,
         ?ilCertificateUtilHelper $utilHelper = null,
