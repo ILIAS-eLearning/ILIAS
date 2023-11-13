@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjBlogAccess
@@ -63,8 +63,8 @@ class ilObjBlogAccess extends ilObjectAccess
         }
 
         // #12648
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("read", "", (int) $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", (int) $t_arr[1])) {
             return true;
         }
         return false;
