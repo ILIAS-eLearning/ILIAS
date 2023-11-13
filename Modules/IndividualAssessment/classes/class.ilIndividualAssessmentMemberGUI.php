@@ -224,6 +224,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             $this->getPossibleLPStates(),
             $may_be_edited,
             $this->getObject()->getSettings()->isEventTimePlaceRequired(),
+            $this->getObject()->getSettings()->isFileRequired(),
             $amend
         );
 
