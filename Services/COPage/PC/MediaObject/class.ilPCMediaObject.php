@@ -122,7 +122,6 @@ class ilPCMediaObject extends ilPageContent
             $cap_node = $this->dom_doc->createElement("Caption");
             $cap_node = $item_node->appendChild($cap_node);
             $cap_node->setAttribute("Align", "bottom");
-            $cap_node->set_content($media_item->getCaption());
             $this->dom_util->setContent($cap_node, $media_item->getCaption());
         }
 
