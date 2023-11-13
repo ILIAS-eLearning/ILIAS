@@ -225,7 +225,7 @@ class ilCalendarExport
 
     protected function createAppointment(ilCalendarEntry $appointment): ilICalWriter
     {
-        $this->createVEVENT($appointment);
+        return $this->createVEVENT($appointment);
     }
 
     protected function createVTODO(ilCalendarEntry $app): ilICalWriter
