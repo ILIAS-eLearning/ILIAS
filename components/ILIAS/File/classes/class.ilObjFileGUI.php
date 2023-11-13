@@ -856,7 +856,15 @@ class ilObjFileGUI extends ilObject2GUI
                 }
             }
 
-            $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'file', $this->object->getId());
+            $obj_id = $this->object->getId();
+            $record_gui = new ilAdvancedMDRecordGUI(
+                ilAdvancedMDRecordGUI::MODE_INFO,
+                'file',
+                $obj_id,
+                '',
+                0,
+                $this->call_by_reference
+            );
             $record_gui->setInfoObject($info);
             $record_gui->parse();
         }
@@ -878,7 +886,10 @@ class ilObjFileGUI extends ilObject2GUI
             if ($this->id_type === self::REPOSITORY_NODE_ID) {
                 $download_target = ilObjFileAccess::_getPermanentDownloadLink($this->node_id);
             } else {
-                $download_target = $this->ctrl->getLinkTarget($this, self::CMD_SEND_FILE);
+                $download_target = rtrim(ILIAS_HTTP_PATH, '/') . '/' . $this->ctrl->getLinkTarget(
+                    $this,
+                    self::CMD_SEND_FILE
+                );
             }
             $url = $this->data_factory->uri($download_target);
             $link = $this->data_factory->link($this->lng->txt('file_download'), $url);
