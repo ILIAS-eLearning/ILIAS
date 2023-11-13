@@ -90,12 +90,6 @@ class ilObjChatroom extends ilObject
             $activation->setTimingStart($this->getAccessBegin());
             $activation->setTimingEnd($this->getAccessEnd());
             $activation->toggleVisible((bool) $this->getAccessVisibility());
-            $activation->setSuggestionStart(0);
-            $activation->setSuggestionStartRelative(0);
-            $activation->setSuggestionEnd(0);
-            $activation->setSuggestionEndRelative(0);
-            $activation->setEarliestStart(0);
-            $activation->setEarliestStartRelative(0);
             $activation->toggleChangeable(true);
             $activation->update($this->ref_id);
         }
