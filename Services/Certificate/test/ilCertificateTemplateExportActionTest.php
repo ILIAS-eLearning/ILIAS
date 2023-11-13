@@ -73,7 +73,7 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
 
         $utilHelper
             ->expects($this->once())
-            ->method('zip');
+            ->method('zipAndDeliver');
 
         $utilHelper
             ->expects($this->once())
