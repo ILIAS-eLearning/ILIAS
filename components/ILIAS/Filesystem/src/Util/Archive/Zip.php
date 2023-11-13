@@ -89,7 +89,13 @@ class Zip
             if (is_int($path_inside_zip)) {
                 $path_inside_zip = basename($path);
             }
-            $this->zip->addFile($path, $path_inside_zip);
+
+            if ($path === 'php://memory') {
+                $this->zip->addFromString($path_inside_zip, (string) $stream);
+            } else {
+                $this->zip->addFile($path, $path_inside_zip);
+            }
+
             if ($this->store_counter === $this->store_iteration) {
                 $this->zip->close();
                 $this->store_counter = 0;
@@ -145,6 +151,7 @@ class Zip
      */
     public function addDirectory(string $directory_to_zip): void
     {
+        $directory_to_zip = $this->normalizePath(rtrim($directory_to_zip, '/'));
         // find all files in the directory recursively
         $files = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($directory_to_zip),
