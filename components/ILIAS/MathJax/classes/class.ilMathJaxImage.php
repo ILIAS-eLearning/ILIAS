@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\Filesystem\Visibility;
+use ILIAS\Filesystem\Filesystem;
 
 /**
  * Rendered MathJax image
@@ -32,9 +34,9 @@ class ilMathJaxImage
 
     /**
      * Webspace filesystem where the cached images are stored
-     * @var \ILIAS\Filesystem\Filesystem
+     * @var Filesystem
      */
-    protected \ILIAS\Filesystem\Filesystem $fs;
+    protected Filesystem $fs;
 
     /**
      * @var string Relative path from the ilias web directory
@@ -66,6 +68,11 @@ class ilMathJaxImage
         global $DIC;
 
         $this->fs = $DIC->filesystem()->web();
+
+        if (!$this->fs->hasDir($this->basepath)) {
+            $this->fs->createDir($this->basepath, Visibility::PUBLIC_ACCESS);
+        }
+
         $this->tex = $a_tex;
 
         switch ($a_type) {
@@ -83,15 +90,23 @@ class ilMathJaxImage
     }
 
     /**
-     * Create the relative file path of the image
+     * Get the relative directory path of the image
+     */
+    protected function filedir(): string
+    {
+        $hash = md5($this->tex . $this->salt);
+        return $this->basepath
+        . '/' . substr($hash, 0, 4)
+        . '/' . substr($hash, 4, 4);
+    }
+
+    /**
+     * Get the relative file path of the image
      */
     protected function filepath(): string
     {
         $hash = md5($this->tex . $this->salt);
-        return $this->basepath
-            . '/' . substr($hash, 0, 4)
-            . '/' . substr($hash, 4, 4)
-            . '/' . $hash . $this->suffix;
+        return $this->filedir() . '/' . $hash . $this->suffix;
     }
 
     /**
@@ -124,6 +139,9 @@ class ilMathJaxImage
      */
     public function write(string $a_content): void
     {
+        if (!$this->fs->hasDir($this->filedir())) {
+            $this->fs->createDir($this->filedir(), Visibility::PUBLIC_ACCESS);
+        }
         $this->fs->put($this->filepath(), $a_content);
     }
 
