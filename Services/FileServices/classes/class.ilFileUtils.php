@@ -846,8 +846,7 @@ class ilFileUtils
         $dir = opendir($a_dir);
 
         while ($file = readdir($dir)) {
-            if ($file != "." and
-                $file != "..") {
+            if ($file !== "." && $file !== "..") {
                 // triple dot is not allowed in filenames
                 if ($file === '...') {
                     unlink($a_dir . "/" . $file);
@@ -874,8 +873,7 @@ class ilFileUtils
 
                     $path_info = pathinfo($a_dir . "/" . $file);
 
-                    if (strtolower($path_info["extension"]) ==
-                        strtolower($a_old_suffix)) {
+                    if (strtolower($path_info["extension"] ?? '') === strtolower($a_old_suffix)) {
                         $pos = strrpos($a_dir . "/" . $file, ".");
                         $new_name = substr($a_dir . "/" . $file, 0, $pos) . "." . $a_new_suffix;
                         // check if file exists
