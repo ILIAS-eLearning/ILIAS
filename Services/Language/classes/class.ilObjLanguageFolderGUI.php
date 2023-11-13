@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
@@ -32,10 +31,6 @@ use ILIAS\Refinery\Factory as Refinery;
  *
  * @extends ilObject
  */
-
-require_once "./Services/Language/classes/class.ilObjLanguage.php";
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-
 class ilObjLanguageFolderGUI extends ilObjectGUI
 {
     protected HTTPServices $http;
@@ -252,6 +247,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         $this->data = $this->lng->txt("selected_languages_updated");
         $this->lng->loadLanguageModule("meta");
+        $refreshed = [];
 
         foreach ($this->getPostId() as $id) {
             $langObj = new ilObjLanguage((int) $id, false);
@@ -263,13 +259,14 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
                     $langObj->setTitle($langObj->getKey());
                     $langObj->setDescription("installed");
                     $langObj->update();
+                    $refreshed[] = $langObj->getKey();
                 }
                 $this->data .= "<br />" . $this->lng->txt("meta_l_" . $langObj->getKey());
             }
 
             unset($langObj);
         }
-
+        ilObjLanguage::refreshPlugins($refreshed);
         $this->out();
     }
 

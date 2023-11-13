@@ -3980,6 +3980,7 @@ common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_check_input#:#The settings could not be saved. Please check your input.
 common#:#err_count_param#:#Reason: Wrong parameter count
+common#:#err_double_entries#:#Reason: Duplicate Entries
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
 common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account.
