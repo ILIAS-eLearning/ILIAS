@@ -410,10 +410,15 @@ class ilMDEditorGUI
 
     protected function checkAccess(): void
     {
+        // if there is no fixed parent (e.g. mob), then skip
         if ($this->obj_id === 0) {
             return;
         }
         $ref_ids = ilObject::_getAllReferences($this->obj_id);
+        // if there are no references (e.g. in workspace), then skip
+        if (empty($ref_ids)) {
+            return;
+        }
         foreach ($ref_ids as $ref_id) {
             if ($this->access->checkAccess(
                 'write',
