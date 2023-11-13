@@ -563,6 +563,29 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
         ));
     }
 
+    public function isBackgroundImageUsed(string $relative_image_path): bool
+    {
+        $this->logger->debug(sprintf(
+            'START - Checking if any certificate template uses background image path "%s"',
+            $relative_image_path
+        ));
+
+        $result = $this->database->queryF(
+            'SELECT EXISTS(SELECT 1 FROM il_cert_user_cert WHERE background_image_path = %s AND currently_active = 1) AS does_exist',
+            ['text'],
+            [$relative_image_path]
+        );
+
+        $exists = (bool) ($this->database->fetchAssoc($result)['does_exist'] ?? false);
+
+        $this->logger->debug(sprintf(
+            'END - Image path "%s" is ' . $exists ? "in use" : "unused",
+            $relative_image_path
+        ));
+
+        return $exists;
+    }
+
     /**
      * @param array<string, mixed> $row
      */

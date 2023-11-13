@@ -46,18 +46,11 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 'samples/background.jpg'
             ));
 
+        $templateRepositoryMock->expects($this->once())->method("deleteTemplate");
+        $templateRepositoryMock->expects($this->once())->method("save");
+
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
-
-        $utilHelper
-            ->expects($this->once())
-            ->method('convertImage');
-
-        $fs_mock = $this->createMock(\ILIAS\Filesystem\Filesystem::class);
-        $fs_mock->expects($this->once())
-                ->method('has')
-                ->with($this->isType('string'))
-                ->willReturn(true);
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
@@ -67,7 +60,6 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
-            $fs_mock,
             __DIR__,
             'v5.4.0',
             $utilHelper,
@@ -102,16 +94,6 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
-        $utilHelper
-            ->expects($this->once())
-            ->method('convertImage');
-
-        $fs_mock = $this->createMock(\ILIAS\Filesystem\Filesystem::class);
-        $fs_mock->expects($this->once())
-                ->method('has')
-                ->with($this->isType('string'))
-                ->willReturn(true);
-
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
@@ -120,7 +102,6 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
-            $fs_mock,
             __DIR__,
             'v5.4.0',
             $utilHelper,

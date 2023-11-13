@@ -40,6 +40,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private readonly ilCertificateBackgroundImageFileService $backGroundImageFileService;
     private readonly WrapperFactory $httpWrapper;
     private readonly Refinery $refinery;
+    private readonly ilObjCertificateSettings $global_certificate_settings;
 
     public function __construct(
         private readonly int $objectId,
@@ -83,6 +84,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $certificatePath,
             ($filesystem ?? $DIC->filesystem()->web())
         );
+
+        $this->global_certificate_settings = new ilObjCertificateSettings();
     }
 
     /**
@@ -171,22 +174,31 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $bgimage->setAllowDeletion(true);
         if (!$this->backGroundImageFileService->hasBackgroundImage($certificateTemplate)) {
-            if (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
+            if ($this->global_certificate_settings->hasBackgroundImage()) {
                 ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
-                $imagePath = ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb());
+                $imagePath = ilWACSignedPath::signFile($this->global_certificate_settings->getBackgroundImageThumbPathWeb());
                 $bgimage->setImage($imagePath);
                 $bgimage->setAllowDeletion(false);
             }
         } else {
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
 
-            $thumbnailPath = $this->backGroundImageFileService->getBackgroundImageThumbPath();
+            $thumbnail_path = $this->backGroundImageFileService->getBackgroundImageThumbPath();
 
-            if (!is_file($thumbnailPath)) {
-                $thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
-                $bgimage->setAllowDeletion(false);
+            if (!is_file($thumbnail_path)) {
+                //Trying if it uses default image path
+                $thumbnail_path = CLIENT_WEB_DIR . $certificateTemplate->getBackgroundImagePath() . '.thumb.jpg';
+                if (!is_file($thumbnail_path)) {
+                    //Trying to use global default image
+                    $thumbnail_path = $this->global_certificate_settings->getDefaultBackgroundImageThumbPath();
+                    if (!is_file($thumbnail_path)) {
+                        //No image global default configured
+                        $thumbnail_path = '';
+                    }
+                }
+                $bgimage->setALlowDeletion(false);
             }
-            $imagePath = ilWACSignedPath::signFile($thumbnailPath);
+            $imagePath = ilWACSignedPath::signFile($thumbnail_path);
             $bgimage->setImage($imagePath);
         }
 
