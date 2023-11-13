@@ -256,18 +256,19 @@ class ilObjLanguageFolder extends ilObject
                 $content = file($entry);
                 $lines_full = count($content);
                 $found = true;
-                $error = false;
+                $error_param = false;
+                $error_double = false;
+                $double_checker = [];
 
                 if ($content = ilObjLanguage::cut_header($content)) {
                     $lines_cut = count($content);
                     foreach ($content as $key => $val) {
                         $separated = explode($this->separator, trim($val));
                         $num = count($separated);
+                        $line = $key + $lines_full - $lines_cut + 1;
 
                         if ($num !== 3) {
-                            $error = true;
-                            $line = $key + $lines_full - $lines_cut + 1;
-
+                            $error_param = true;
                             $output .= "<br/><b/>" . $this->lng->txt("err_in_line") . " " . $line . " !</b>&nbsp;&nbsp;";
                             
                             switch ($num) {
@@ -293,11 +294,27 @@ class ilObjLanguageFolder extends ilObject
                                     $output .= "<br/>" . $this->lng->txt("err_over_3_param") . " " . $this->lng->txt("check_langfile");
                                     break;
                             }
+                            continue;
                         }
+                        if ($double_checker[strtolower($separated[0])][strtolower($separated[1])] ?? false) {
+                            $error_double = true;
+                            
+                            $output .= "<br/><b/>" . $this->lng->txt("err_in_line") . " " . $double_checker[strtolower($separated[0])][strtolower($separated[1])] . " " . $this->lng->txt("and") . " " . $line . " !</b>&nbsp;&nbsp;";
+                            $output .= $this->lng->txt("module") . ": " . $separated[0];
+                            $output .= ", " . $this->lng->txt("identifier") . ": " . $separated[1];
+                            $output .= ", " . $this->lng->txt("value") . ": " . $separated[2];
+                        }
+                        $double_checker[strtolower($separated[0])][strtolower($separated[1])] = $line;
                     }
-
-                    if ($error) {
-                        $output .= "<br/>" . $this->lng->txt("file_not_valid") . " " . $this->lng->txt("err_count_param");
+                    if ($error_param || $error_double) {
+                        $reason = "";
+                        if ($error_param) {
+                            $reason .= " " . $this->lng->txt("err_count_param");
+                        }
+                        if ($error_double) {
+                            $reason .= " " . $this->lng->txt("err_double_entries");
+                        }
+                        $output .= "<br/>" . $this->lng->txt("file_not_valid") . $reason;
                     } else {
                         $output .= "<br/>" . $this->lng->txt("file_valid");
                     }
