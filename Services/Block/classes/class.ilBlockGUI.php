@@ -193,6 +193,8 @@ abstract class ilBlockGUI
 
     public function setOffset(int $a_offset): void
     {
+        // see https://github.com/ILIAS-eLearning/ILIAS/pull/6551/files
+        $this->max_count = count($this->getData());
         if ($this->checkOffset($a_offset)) {
             $this->offset = $a_offset;
         } else {
@@ -463,7 +465,7 @@ abstract class ilBlockGUI
         if ($ilCtrl->isAsynch()) {
             // return without div wrapper
             echo $this->tpl->get();
-        //echo $this->tpl->getAsynch();
+            //echo $this->tpl->getAsynch();
         } else {
             // return incl. wrapping div with id
             return '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
