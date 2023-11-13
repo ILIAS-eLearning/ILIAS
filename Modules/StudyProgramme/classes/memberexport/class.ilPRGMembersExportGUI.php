@@ -29,13 +29,13 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
     public const EXPORT_FILENAME = '%s_PRGAssignment_export_%s_%s'; //keep underscores/params!
 
     protected ilUserFormSettings $exportSettings;
+    protected int $obj_id;
 
     public function __construct(
-        int $ref_id,
+        protected int $ref_id,
         protected ilStudyProgrammeUserTable $prg_user_table,
         protected DataFactory $data_factory
     ) {
-        $this->ref_id = $ref_id;
         $this->obj_id = ilObject::_lookupObjId($ref_id);
         parent::__construct($ref_id);
     }
