@@ -170,7 +170,7 @@ class ilObjFileGUI extends ilObject2GUI
 
                 $ilTabs->activateTab("id_meta");
 
-                $md_gui = new ilObjectMetaDataGUI($this->object);
+                $md_gui = new ilObjectMetaDataGUI($this->object, null, null, $this->call_by_reference);
 
                 // todo: make this work
                 // $md_gui->addMDObserver($this->object,'MDUpdateListener','Technical');
@@ -976,7 +976,7 @@ class ilObjFileGUI extends ilObject2GUI
 
         // meta data
         if ($this->checkPermissionBool("write")) {
-            $mdgui = new ilObjectMetaDataGUI($this->object);
+            $mdgui = new ilObjectMetaDataGUI($this->object, null, null, $this->call_by_reference);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
                 $ilTabs->addTab(
