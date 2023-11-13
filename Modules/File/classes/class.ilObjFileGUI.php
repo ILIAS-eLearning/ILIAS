@@ -561,13 +561,15 @@ class ilObjFileGUI extends ilObject2GUI
         $this->object->getObjectProperties()->storePropertyTitleAndDescription($updated_title_and_description);
 
         $this->object->setImportantInfo($inputs['file_info']['important_info']);
-        $this->object->setRating($inputs['file_info']['rating']);
+        $this->object->setRating($inputs['file_info']['rating'] ?? false);
         $this->object->setOnclickMode((int) $inputs['file_info']['on_click_action']);
         $this->object->update();
 
         $this->object->getObjectProperties()->storePropertyIsOnline($inputs['availability']['online_status']);
 
-        $this->object->getObjectProperties()->storePropertyTileImage($inputs['presentation']['tile_image']);
+        if (($inputs['presentation']['tile_image'] ?? null) !== null) {
+            $this->object->getObjectProperties()->storePropertyTileImage($inputs['presentation']['tile_image']);
+        }
 
         // BEGIN ChangeEvent: Record update event.
         if (!empty($data["name"])) {
@@ -645,13 +647,15 @@ class ilObjFileGUI extends ilObject2GUI
             (string) $this->object->getOnClickMode()
         );
 
+        $input_groups = array_filter([
+            "title_and_description" => $title_and_description,
+            "important_info" => $important_info,
+            "rating" => $enable_rating,
+            "on_click_action" => $on_click_action
+        ], static fn($input) => null !== $input);
+
         $file_info_section = $this->inputs->field()->section(
-            [
-                "title_and_description" => $title_and_description,
-                "important_info" => $important_info,
-                "rating" => $enable_rating,
-                "on_click_action" => $on_click_action
-            ],
+            $input_groups,
             $this->lng->txt('file_info')
         );
 
@@ -666,24 +670,28 @@ class ilObjFileGUI extends ilObject2GUI
             $this->lng->txt('rep_activation_availability')
         );
 
+        $presentation_section = null;
+        if ($this->id_type === self::REPOSITORY_NODE_ID) {
+            $tile_image = $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
+                $this->lng,
+                $this->ui->factory()->input()->field(),
+                $this->refinery
+            );
+            $presentation_section = $this->inputs->field()->section(
+                ["tile_image" => $tile_image],
+                $this->lng->txt('settings_presentation_header')
+            );
+        }
 
-        $tile_image = $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
-            $this->lng,
-            $this->ui->factory()->input()->field(),
-            $this->refinery
-        );
-        $presentation_section = $this->inputs->field()->section(
-            ["tile_image" => $tile_image],
-            $this->lng->txt('settings_presentation_header')
-        );
+        $inputs = array_filter([
+            "file_info" => $file_info_section,
+            "availability" => $availability_section,
+            "presentation" => $presentation_section
+        ], static fn($input) => null !== $input);
 
         return $this->inputs->container()->form()->standard(
             $this->ctrl->getLinkTargetByClass(self::class, 'update'),
-            [
-                "file_info" => $file_info_section,
-                "availability" => $availability_section,
-                "presentation" => $presentation_section
-            ]
+            $inputs
         );
     }
 
