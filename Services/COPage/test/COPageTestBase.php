@@ -70,6 +70,11 @@ class COPageTestBase extends TestCase
             $def_mock
         );
 
+        $this->setGlobalVariable(
+            "ilLoggerFactory",
+            $this->createMock(ilLoggerFactory::class)
+        );
+
         $db_mock = $this->createMock(ilDBInterface::class);
         $this->setGlobalVariable(
             "ilDB",
