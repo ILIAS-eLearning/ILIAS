@@ -38,7 +38,7 @@
 
     <xs:simpleType name="lowercaseNameString">
         <xs:restriction base="xs:string">
-            <xs:pattern value="[a-z]+"/>
+            <xs:pattern value="[a-z_]+"/>
         </xs:restriction>
     </xs:simpleType>
 
