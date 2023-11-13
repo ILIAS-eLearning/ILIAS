@@ -63,7 +63,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 if (strcmp($c, 'email') == 0) {
                     $this->addColumn($this->lng->txt("email"), 'email', '');
                 }
-                if (strcmp($c, 'exam_id') == 0 && $this->parent_obj->getTestObject()->isShowExamIdInTestResultsEnabled()) {
+                if (strcmp($c, 'exam_id') == 0 && $this->parent_obj->getObject()->isShowExamIdInTestResultsEnabled()) {
                     $this->addColumn($this->lng->txt("exam_id_label"), 'exam_id', '');
                 }
                 if (strcmp($c, 'institution') == 0) {
