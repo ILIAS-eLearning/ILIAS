@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\Setup;
 
+require_once(__DIR__ . "/Helper.php");
+
 use ILIAS\Setup;
 use PHPUnit\Framework\TestCase;
 
