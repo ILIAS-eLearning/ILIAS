@@ -68,7 +68,7 @@ class Renderer extends AbstractComponentRenderer
             $abbreviation_tpl->setVariable("ABBREVIATION", $ab);
             $abbreviation = $abbreviation_tpl->get() . '</svg>';
 
-            $image = file_get_contents("./public/" . $imagepath);
+            $image = file_get_contents(__DIR__ . "/../../../../../../../../public/" . $imagepath);
             $image = substr($image, strpos($image, '<svg '));
             $image = trim(str_replace('</svg>', $abbreviation, $image));
             $imagepath = "data:image/svg+xml;base64," . base64_encode($image);
