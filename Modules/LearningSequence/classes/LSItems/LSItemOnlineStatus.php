@@ -70,7 +70,7 @@ class LSItemOnlineStatus
         return \ilObject::_lookupType($ref_id, true);
     }
 
-    protected function getObject(int $ref_id): string
+    protected function getObject(int $ref_id): \ilObject
     {
         return \ilObjectFactory::getInstanceByRefId($ref_id);
     }
