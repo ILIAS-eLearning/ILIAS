@@ -1,6 +1,10 @@
 @use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
 @use "../../../050-layout/basics" as *;
 
+//== InfoScreen
+//
+//##
+
 .ilInfoScreenSec:not(:first-child) .ilFormHeader {
 	margin: $il-standard-form-header-margin;
 	border-top: $il-standard-form-header-border;
