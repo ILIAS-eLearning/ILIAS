@@ -666,14 +666,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         foreach ($user_ids as $user_id) {
             $ufield = new ilHiddenInputGUI('id[]');
-            $ufield->setValue($user_id);
+            $ufield->setValue((string) $user_id);
             $form->addItem($ufield);
         }
 
         // return to search?
         if ($a_from_search || $this->user_request->getFrSearch()) {
             $field = new ilHiddenInputGUI('frsrch');
-            $field->setValue(1);
+            $field->setValue('1');
             $form->addItem($field);
         }
 
@@ -711,7 +711,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 false
             );
             if ($obj instanceof \ilObjUser) {
-                $obj->setTimeLimitUnlimited(0);
+                $obj->setTimeLimitUnlimited(false);
                 $obj->setTimeLimitFrom((int) $timefrom);
                 $obj->setTimeLimitUntil((int) $timeuntil);
                 $obj->setTimeLimitMessage('');
@@ -904,7 +904,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         if ($a_from_search) {
             $cgui->addHiddenItem(
                 'frsrch',
-                1
+                '1'
             );
         }
 
@@ -1970,7 +1970,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     if (
                         $this->settings->get(
                             'session_allow_client_maintenance',
-                            ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
+                            (string) ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
                         )
                     ) {
                         // has to be done BEFORE updating the setting!
@@ -2724,7 +2724,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $tpl->parseCurrentBlock('field');
         }
 
-        $confirmDialog->addItem('', 0, $tpl->get());
+        $confirmDialog->addItem('', '0', $tpl->get());
 
         foreach ($post['chb'] as $postVar => $value) {
             $confirmDialog->addHiddenItem('chb[$postVar]', $value);
@@ -3455,20 +3455,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this->lng->txt('allow_change_loginname'),
             'allow_change_loginname'
         );
-        $chbChangeLogin->setValue(1);
+        $chbChangeLogin->setValue('1');
         $this->loginSettingsForm->addItem($chbChangeLogin);
         $chbCreateHistory = new ilCheckboxInputGUI(
             $this->lng->txt('history_loginname'),
             'create_history_loginname'
         );
         $chbCreateHistory->setInfo($this->lng->txt('loginname_history_info'));
-        $chbCreateHistory->setValue(1);
+        $chbCreateHistory->setValue('1');
         $chbChangeLogin->addSubItem($chbCreateHistory);
         $chbReuseLoginnames = new ilCheckboxInputGUI(
             $this->lng->txt('reuse_of_loginnames_contained_in_history'),
             'reuse_of_loginnames'
         );
-        $chbReuseLoginnames->setValue(1);
+        $chbReuseLoginnames->setValue('1');
         $chbReuseLoginnames->setInfo($this->lng->txt('reuse_of_loginnames_contained_in_history_info'));
         $chbChangeLogin->addSubItem($chbReuseLoginnames);
         $chbChangeBlockingTime = new ilNumberInputGUI(
@@ -3507,19 +3507,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
                 $this->settings->set(
                     'allow_change_loginname',
-                    (int) $this->loginSettingsForm->getInput('allow_change_loginname')
+                    (string) $this->loginSettingsForm->getInput('allow_change_loginname')
                 );
                 $this->settings->set(
                     'create_history_loginname',
-                    (int) $this->loginSettingsForm->getInput('create_history_loginname')
+                    (string) $this->loginSettingsForm->getInput('create_history_loginname')
                 );
                 $this->settings->set(
                     'reuse_of_loginnames',
-                    (int) $this->loginSettingsForm->getInput('reuse_of_loginnames')
+                    (string) $this->loginSettingsForm->getInput('reuse_of_loginnames')
                 );
                 $this->settings->set(
                     'loginname_change_blocking_time',
-                    (int) $save_blocking_time_in_seconds
+                    (string) $save_blocking_time_in_seconds
                 );
 
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
@@ -3565,14 +3565,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 ROOT_FOLDER_ID
             )) {
                 $main_tpl->setOnScreenMessage('failure', sprintf(
-                    $this->lng->txt('msg_no_perm_read_item'),
+                    $lng->txt('msg_no_perm_read_item'),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
                 ), true);
                 ilObjectGUI::_gotoRepositoryRoot();
             }
         }
         $ilErr->raiseError(
-            $this->lng->txt('msg_no_perm_read'),
+            $lng->txt('msg_no_perm_read'),
             $ilErr->FATAL
         );
     }
