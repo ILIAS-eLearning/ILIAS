@@ -664,7 +664,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     */
     public function deliverVCard(): void
     {
-        $type = '';
         // get user object
         if (!ilObject::_exists($this->getUserId())) {
             return;
@@ -685,19 +684,9 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $vcard->setName($user->getLastname(), $user->getFirstname(), '', $user->getUTitle());
         $vcard->setNickname($user->getLogin());
 
-        $webspace_dir = ilFileUtils::getWebspaceDir('output');
-        $imagefile = $webspace_dir . '/usr_images/' . $user->getPref('profile_image');
-        if ($user->getPref('public_upload') == 'y' && is_file($imagefile)) {
-            $fh = fopen($imagefile, 'rb');
-            if ($fh) {
-                $image = fread($fh, filesize($imagefile));
-                fclose($fh);
-                $mimetype = ilObjMediaObject::getMimeType($imagefile);
-                if (0 === strpos($mimetype, 'image')) {
-                    $type = $mimetype;
-                }
-                $vcard->setPhoto($image, $type);
-            }
+        list($image, $type) = (new ilUserAvatarResolver($this->getUserId()))->getUserPictureForVCard();
+        if ($image !== null) {
+            $vcard->setPhoto($image, $type);
         }
 
         $val_arr = [
