@@ -127,7 +127,13 @@ trait ilObjFileInfoProvider
     public function getAllFileInfoForCurrentUser(): array
     {
         $file_info = [];
-        if ($this->getAccessHandler()->checkAccessOfUser(
+        $access_handler = $this->getAccessHandler();
+
+        if ($access_handler instanceof ilWorkspaceAccessHandler) {
+            return []; // ilWorkspaceAccessHandler has a different checkAccessOfUser method
+        }
+
+        if ($access_handler->checkAccessOfUser(
             $this->getUser()->getId(),
             "read",
             "",
@@ -136,7 +142,7 @@ trait ilObjFileInfoProvider
             $file_info['for_users'] = $this->getFileInfoForUsers();
             $file_info['for_all'] = $this->getFileInfoForAll();
         }
-        if ($this->getAccessHandler()->checkAccessOfUser(
+        if ($access_handler->checkAccessOfUser(
             $this->getUser()->getId(),
             "write",
             "",
