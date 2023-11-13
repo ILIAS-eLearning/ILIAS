@@ -264,7 +264,7 @@ class ilVirtualSkillTree
         $result = [];
 
         $node = $this->getNode($id);
-        if (!$a_only_basic || in_array($node["type"], array("skll", "sktp")) ||
+        if (!$a_only_basic || isset($node["type"]) && in_array($node["type"], array("skll", "sktp")) ||
             ($node["type"] == "sktr" && ilSkillTreeNode::_lookupType((int) $node["skill_id"]) == "sktp")) {
             $result[] = $node;
         }
