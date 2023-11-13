@@ -772,7 +772,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->tabs_gui->activateTab("id_info");
 
         if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool("read")) {
-            $GLOBALS['DIC']['ilErr']->raiseError($this->lng->txt("msg_no_perm_read"));
+            $GLOBALS['DIC']['ilErr']->raiseError($this->lng->txt("msg_no_perm_read"), 2); // TODO remove magic number and old ilErr call
         }
 
         // add set completed button, if LP mode is active
