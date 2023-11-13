@@ -18,12 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Data\Order;
-use ILIAS\Data\Range;
 use ILIAS\Data\URI;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Implementation\Component\Table\Data;
-use ILIAS\UI\Implementation\Component\ViewControl\Pagination;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\DATA\Factory as DataFactory;
 use ILIAS\UI\URLBuilder;
@@ -48,7 +45,6 @@ class ilDidacticTemplateSettingsTableGUI
     protected ilDidacticTemplateSettingsGUI $didactic_template_settings_gui;
     protected RefineryFactory $refinery;
     protected int $ref_id;
-    protected int $page_size;
 
     public function __construct(
         ilDidacticTemplateSettingsGUI $didactic_template_settings_gui,
@@ -65,7 +61,6 @@ class ilDidacticTemplateSettingsTableGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->data_factory = new DataFactory();
-        $this->page_size = 20;
     }
 
     protected function createTable(
@@ -147,44 +142,14 @@ class ilDidacticTemplateSettingsTableGUI
             $data_retrieval
         )
             ->withActions($actions)
-            ->withRequest($this->http->request())
-            ->withRange($this->createRange());
-    }
-
-    protected function createRange(): Range
-    {
-        $parameter_name = 'page';
-        $current_page = 0;
-        if ($this->http->wrapper()->query()->has($parameter_name)) {
-            $current_page = $this->http->wrapper()->query()->retrieve(
-                $parameter_name,
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        return new Range($current_page, $this->page_size);
-    }
-
-    protected function createPagination(
-        ilDidacticTemplateSettingsTableDataRetrieval $data_retrieval
-    ): Pagination {
-        $range = $this->createRange();
-        $parameter_name = 'page';
-        return $this->ui_factory->viewControl()->pagination()
-            ->withTargetURL($this->http->request()->getRequestTarget(), $parameter_name)
-            ->withTotalEntries($data_retrieval->getTotalRowCount(null, null))
-            ->withPageSize($range->getLength())
-            ->withMaxPaginationButtons(10)
-            ->withCurrentPage($range->getStart());
+            ->withRequest($this->http->request());
     }
 
     public function getHTML(
         ilDidacticTemplateSettingsTableDataRetrieval $data_retrieval
     ): string {
         return $this->renderer->render(
-            [
-                $this->createPagination($data_retrieval),
-                $this->createTable($data_retrieval)
-            ]
+            $this->createTable($data_retrieval)
         );
     }
 }
