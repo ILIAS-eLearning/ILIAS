@@ -54,6 +54,7 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             ->willReturn(100);
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper

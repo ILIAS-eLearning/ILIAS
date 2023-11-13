@@ -76,6 +76,7 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             ->method('delete');
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper->expects($this->exactly(2))
@@ -158,6 +159,7 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             ->method('writeStream');
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper->expects($this->exactly(2))
