@@ -52,10 +52,6 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
-        $utilHelper
-            ->expects($this->once())
-            ->method('convertImage');
-
         $fs_mock = $this->createMock(\ILIAS\Filesystem\Filesystem::class);
         $fs_mock->expects($this->once())
                 ->method('has')
@@ -104,10 +100,6 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
-
-        $utilHelper
-            ->expects($this->once())
-            ->method('convertImage');
 
         $fs_mock = $this->createMock(\ILIAS\Filesystem\Filesystem::class);
         $fs_mock->expects($this->once())
