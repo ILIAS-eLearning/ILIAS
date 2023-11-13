@@ -252,6 +252,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         $this->data = $this->lng->txt("selected_languages_updated");
         $this->lng->loadLanguageModule("meta");
+        $refreshed = [];
 
         foreach ($this->getPostId() as $id) {
             $langObj = new ilObjLanguage((int) $id, false);
@@ -263,13 +264,14 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
                     $langObj->setTitle($langObj->getKey());
                     $langObj->setDescription("installed");
                     $langObj->update();
+                    $refreshed[] = $langObj->getKey();
                 }
                 $this->data .= "<br />" . $this->lng->txt("meta_l_" . $langObj->getKey());
             }
 
             unset($langObj);
         }
-
+        ilObjLanguage::refreshPlugins($refreshed);
         $this->out();
     }
 
