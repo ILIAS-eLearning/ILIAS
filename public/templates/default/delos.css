@@ -4191,6 +4191,9 @@ hr.il-divider-with-label {
   padding-top: 15px;
   padding-bottom: 15px;
 }
+.ui-dropzone .btn {
+  margin-left: 12px;
+}
 
 .ui-dropzone-wrapper {
   background: none;
