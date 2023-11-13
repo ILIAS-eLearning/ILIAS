@@ -1,6 +1,6 @@
 # Third-Party-Libraries and Frameworks
 
-Two mechanisams to integrate external libraries/dependencies are used in ILIAS:
+Three mechanisams to integrate external libraries/dependencies are used in ILIAS:
 * External dependencies of the PHP code are managed through [composer](https://getcomposer.org/),
 stored under `./libs/composer/vendor`, and defined in the file `composer.json`
 in the webroot of ILIAS. For more details on composer see [composer-readme](composer/README.md).
