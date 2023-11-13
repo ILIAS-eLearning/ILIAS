@@ -151,14 +151,15 @@ class ilAssQuestionType
 
     /**
      * @param array $questionTypeData
-     * @return array
      */
-    public static function completeMissingPluginName($questionTypeData): array
+    public static function completeMissingPluginName($question_type_data): array
     {
-        if ($questionTypeData['plugin'] && !strlen($questionTypeData['plugin_name'])) {
-            $questionTypeData['plugin_name'] = $questionTypeData['type_tag'];
+        if ($question_type_data['plugin']
+            && $question_type_data['plugin_name'] !== null
+            && $question_type_data['plugin_name'] !== '') {
+            $question_type_data['plugin_name'] = $question_type_data['type_tag'];
         }
 
-        return $questionTypeData;
+        return $question_type_data;
     }
 }
