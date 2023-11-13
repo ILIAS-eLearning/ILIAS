@@ -218,10 +218,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->setContentSubTabs();
                 $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
                 $this->tabs_gui->activateSubTab(self::SUBTAB_VIEW_TREE);
-
-                // disable admin panel
-                $this->container_view_manager->setContentView();
-
                 $this->tree_gui->setRefId($this->id);
                 $this->ctrl->forwardCommand($this->tree_gui);
                 break;
