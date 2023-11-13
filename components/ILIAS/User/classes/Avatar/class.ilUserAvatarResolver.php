@@ -103,20 +103,11 @@ class ilUserAvatarResolver
             }
         }
 
-        // IRSS
         if ($this->rid !== null && $this->irss->manage()->find($this->rid) !== null) {
             return true;
         }
-        // LEGACY
-        return is_file($this->resolveLegacyPicturePath());
-    }
 
-    private function resolveLegacyPicturePath(): string
-    {
-        // Legacy Uploaded file - can be removed in ILIAS 10
-        $webspace_dir = ('./' . ltrim(ilFileUtils::getWebspaceDir(), "./"));
-        $image_dir = $webspace_dir . '/usr_images';
-        return $image_dir . '/usr_' . $this->user_id . '.jpg';
+        return false;
     }
 
     private function resolveProfilePicturePath(): string
@@ -168,6 +159,29 @@ class ilUserAvatarResolver
         return $this->ui->symbol()->avatar()->letter($this->abbreviation)->withLabel($alternative_text);
     }
 
+    public function getUserPictureForVCard(): array
+    {
+        if (!$this->hasProfilePicture()) {
+            return [null, null];
+        }
+
+        if ($this->rid !== null
+            && $this->rid !== '-'
+            && ($identification = $this->irss->manage()->find($this->rid)) !== null) {
+            $flavour_streams = $this->irss->flavours()
+                ->get($identification, $this->flavour_definition)
+                ->getStreamResolvers();
+            $available_sizes = array_flip(array_keys($this->flavour_definition->getSizes()));
+            $size_index = $available_sizes[$this->size];
+            if (!isset($flavour_streams[$size_index])) {
+                return [null, null];
+            }
+            return [$flavour_streams[$size_index]->getStream()->__toString(), 'image/jpeg'];
+        }
+
+        return [null, null];
+    }
+
     /**
      * This method returns the URL to the Profile Picture of a User.
      * Depending on Settings and the Availability of a Prodile Picture,
@@ -177,14 +191,9 @@ class ilUserAvatarResolver
      */
     public function getLegacyPictureURL(): string
     {
-        if ($this->hasProfilePicture()) {
-            // IRSS
-            if ($this->rid !== null && $this->rid !== '-') {
-                return $this->resolveProfilePicturePath();
-            }
-
-            // LEGACY
-            return $this->resolveLegacyPicturePath();
+        if ($this->hasProfilePicture()
+            && $this->rid !== null && $this->rid !== '-') {
+            return $this->resolveProfilePicturePath();
         }
 
         // LETTER AVATAR
