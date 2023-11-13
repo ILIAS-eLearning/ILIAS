@@ -16,10 +16,10 @@ No other external dependencies are allowed in ILIAS. Should you find an older
 dependency in the folder of your [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md)
 you MUST remove it immediately and either replace it by the corresponding version
 from one of the officially allowed dependeny managers (subject to approval by
-the Jour Fix, see below) or provide the corresponding functionality yourself.
+the Jour Fixe, see below) or provide the corresponding functionality yourself.
 
 ## Adding a New Dependency to ILIAS
-Adding new dependencies to ILIAS depends on the approval of the Jour Fix and
+Adding new dependencies to ILIAS depends on the approval of the Jour Fixe and
 all dependencies MUST be reaproved for every new ILIAS version.
 If you want to add a new dependency to ILIAS:
 * Provide a PR against the corresponding file (`composer.json`, `package.json`) in
