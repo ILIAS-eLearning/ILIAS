@@ -21,13 +21,16 @@ declare(strict_types=1);
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
-use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\URI;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Object\ImplementsCreationCallback;
 use ILIAS\Object\CreationCallbackTrait;
 use ILIAS\Object\ilObjectDIC;
 use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
+use ILIAS\ILIASObject\Creation\AddNewItemElement;
+use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
 
 /**
  * Class ilObjectGUI
@@ -80,7 +83,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected ILIAS $ilias;
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected RequestWrapper $request_wrapper;
-    protected Factory $refinery;
+    protected Refinery $refinery;
     protected ilFavouritesManager $favourites;
     protected ilObjectCustomIconFactory $custom_icon_factory;
     protected UIFactory $ui_factory;
@@ -665,8 +668,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected function initCreationForms(string $new_type): array
     {
         $forms = [
-            self::CFORM_NEW => $this->initCreateForm($new_type),
-            self::CFORM_IMPORT => $this->initImportForm($new_type)
+            self::CFORM_NEW => $this->initCreateForm($new_type)
         ];
 
         return $forms;
@@ -928,8 +930,30 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->afterSave($newObj);
         }
 
-        $form->setValuesByPost();
-        $this->tpl->setContent($form->getHTML());
+        $this->ctrl->setParameter($this, 'new_type', '');
+
+        $class_name = 'ilObj' . $this->obj_definition->getClassName($this->requested_new_type);
+
+        $new_obj = new $class_name();
+        $new_obj->setType($this->requested_new_type);
+        $new_obj->processAutoRating();
+        $new_obj->create();
+
+        $new_obj->getObjectProperties()->storePropertyTitleAndDescription(
+            $data['title_and_description']
+        );
+        $new_obj->setTitle($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getTitle());
+        $new_obj->setDescription($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getDescription());
+
+        $this->putObjectInTree($new_obj);
+
+        $dtpl = $data['didactic_templates'] ?? null;
+        if ($dtpl !== null) {
+            $dtpl_id = $this->parseDidacticTemplateVar($dtpl, 'dtpl');
+            $new_obj->applyDidacticTemplate($dtpl_id);
+        }
+
+        $this->afterSave($new_obj);
     }
 
     /**
@@ -1711,5 +1735,152 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->favourites->remove($this->user->getId(), $item_ref_id);
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_removed_from_favourites"), true);
         $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
+    }
+
+    protected function buildAddNewItemElements(
+        int $mode,
+        array $disabled_object_types = [],
+        string $create_target_class = ilRepositoryGUI::class,
+        ?int $redirect_target_ref_id = null,
+    ): array {
+        if ($redirect_target_ref_id !== null) {
+            $this->ctrl->setParameterByClass(self::class, 'crtcb', (string) $redirect_target_ref_id);
+        }
+        $subtypes = $this->obj_definition->getCreatableSubObjects(
+            $this->object->getType(),
+            $mode,
+            $this->object->getRefId()
+        );
+        foreach ($disabled_object_types as $type) {
+            unset($subtypes[$type]);
+        }
+
+        $elements = $this->initAddNewItemElementsFromNewItemGroups(
+            $create_target_class,
+            \ilObjRepositorySettings::getNewItemGroups(),
+            \ilObjRepositorySettings::getNewItemGroupSubItems(),
+            $subtypes
+        );
+        if ($elements === []) {
+            $elements = $this->initAddnewItemElementsFromDefaultGroups(
+                $create_target_class,
+                \ilObjRepositorySettings::getDefaultNewItemGrouping(),
+                $subtypes
+            );
+        }
+
+        $this->ctrl->clearParameterByClass(self::class, 'crtcb');
+        return $elements;
+    }
+
+    private function initAddNewItemElementsFromNewItemGroups(
+        string $create_target_class,
+        array $new_item_groups,
+        array $new_item_groups_subitems,
+        array $subitems
+    ): array {
+        if ($new_item_groups === []) {
+            return [];
+        }
+
+        $new_item_groups[0] = $this->lng->txt('rep_new_item_group_other');
+        $add_new_item_elements = [];
+        foreach ($new_item_groups as $group_id => $group) {
+            $group_element = $this->buildGroup(
+                $create_target_class,
+                $new_item_groups_subitems[$group_id],
+                $group['title'] ?? $group,
+                $subitems
+            );
+
+            if ($group_element !== null) {
+                $add_new_item_elements[] = $group_element;
+            }
+        }
+
+        return $add_new_item_elements;
+    }
+
+    private function initAddnewItemElementsFromDefaultGroups(
+        string $create_target_class,
+        array $default_groups,
+        array $subitems
+    ): array {
+        $add_new_item_elements = [];
+        foreach ($default_groups['groups'] as $group_id => $group) {
+            $obj_types_in_group = array_keys(
+                array_filter(
+                    $default_groups['items'],
+                    fn($item_group_id) => $item_group_id === $group_id
+                )
+            );
+
+            $group_element = $this->buildGroup(
+                $create_target_class,
+                $obj_types_in_group,
+                $group['title'],
+                $subitems
+            );
+
+            if ($group_element !== null) {
+                $add_new_item_elements[$group['pos']] = $group_element;
+            }
+        }
+
+        return $add_new_item_elements;
+    }
+
+    private function buildGroup(
+        string $create_target_class,
+        array $obj_types_in_group,
+        string $title,
+        array $subitems
+    ): ?AddNewItemElement {
+        $add_new_items_content_array = $this->buildSubItemsForGroup(
+            $create_target_class,
+            $obj_types_in_group,
+            $subitems
+        );
+        if ($add_new_items_content_array === []) {
+            return null;
+        }
+        return new AddNewItemElement(
+            AddNewItemElementTypes::Group,
+            $title,
+            null,
+            null,
+            $add_new_items_content_array
+        );
+    }
+
+    private function buildSubItemsForGroup(
+        string $create_target_class,
+        array $obj_types_in_group,
+        array $subitems
+    ): array {
+        $add_new_items_content_array = [];
+        foreach($obj_types_in_group as $type) {
+            if (!array_key_exists($type, $subitems)) {
+                continue;
+            }
+            $subitem = $subitems[$type];
+            $this->ctrl->setParameterByClass($create_target_class, 'new_type', $type);
+            $add_new_items_content_array[$subitem['pos']] = new AddNewItemElement(
+                AddNewItemElementTypes::Object,
+                $this->lng->txt('obj_' . $type),
+                $this->ui_factory->symbol()->icon()->standard($type, ''),
+                new URI(
+                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass($create_target_class, 'create')
+                )
+            );
+            $this->ctrl->clearParameterByClass($create_target_class, 'new_type', $type);
+        }
+        ksort($add_new_items_content_array);
+        return $add_new_items_content_array;
+    }
+
+    private function maskTemplateMarkers(string $string): string
+    {
+        return str_replace(['{', '}'], ['&#123;', '&#125;'], $string);
     }
 }
