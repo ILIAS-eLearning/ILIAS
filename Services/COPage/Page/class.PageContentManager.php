@@ -534,7 +534,7 @@ class PageContentManager
             case IL_INSERT_BEFORE:
                 //$new_node = $a_cont_obj->getNode();
                 $succ_node = $this->getContentDomNode($a_pos);
-                $a_cont_node = $succ_node->parentNod->insertBefore($a_cont_node, $succ_node);
+                $a_cont_node = $succ_node->parentNode->insertBefore($a_cont_node, $succ_node);
                 //$a_cont_obj->setNode($new_node);
                 break;
 
@@ -544,7 +544,7 @@ class PageContentManager
                 if ($cnt_parent_childs == 0) {
                     $a_cont_node = $parent_node->appendChild($a_cont_node);
                 } else {
-                    $a_cont_node = $parent_childs->item(0)->parent->insertBefore($a_cont_node, $parent_childs->item(0));
+                    $a_cont_node = $parent_childs->item(0)->parentNode->insertBefore($a_cont_node, $parent_childs->item(0));
                 }
                 //$a_cont_obj->setNode($new_node);
                 break;
