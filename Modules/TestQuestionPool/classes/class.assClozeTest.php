@@ -593,7 +593,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getClozeTextForHTMLOutput(): string
     {
         $gaps = [];
-        preg_match_all('/\[gap\].*\[\/gap\]/', $this->getClozeText(), $gaps);
+        preg_match_all('/\[gap\].*?\[\/gap\]/', $this->getClozeText(), $gaps);
         $string_with_replaced_gaps = str_replace($gaps[0], '######GAP######', $this->getClozeText());
         $cleaned_text = $this->getHtmlQuestionContentPurifier()->purify(
             $string_with_replaced_gaps
