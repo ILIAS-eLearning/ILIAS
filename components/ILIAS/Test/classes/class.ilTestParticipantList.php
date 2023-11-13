@@ -184,10 +184,10 @@ class ilTestParticipantList implements Iterator
 
             $participant->setUsrId((int) $row_data['usr_id']);
 
-            $participant->setLogin($row_data['login']);
+            $participant->setLogin($row_data['login'] ?? '');
             $participant->setLastname($row_data['lastname']);
-            $participant->setFirstname($row_data['firstname']);
-            $participant->setMatriculation($row_data['matriculation']);
+            $participant->setFirstname($row_data['firstname'] ?? '');
+            $participant->setMatriculation($row_data['matriculation'] ?? '');
 
             $participant->setActiveStatus((bool) ($row_data['active'] ?? false));
 
