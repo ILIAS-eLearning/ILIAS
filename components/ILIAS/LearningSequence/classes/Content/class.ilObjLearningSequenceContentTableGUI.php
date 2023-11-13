@@ -41,7 +41,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('trac');
 
         $this->setTitle($this->lng->txt("table_sequence_content"));
-        $this->setRowTemplate("tpl.content_table.html", "components/ILIAS/LearningSequence");
+        $this->setRowTemplate("tpl.content_table.html", "Modules/LearningSequence");
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setExternalSorting(true);
         $this->setEnableAllCommand(true);
@@ -75,15 +75,12 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $ni->setSize(3);
         $ni->setValue((string) (($ls_item->getOrderNumber() + 1) * 10));
 
-        if ($this->ls_item_online_status->hasOnlineStatus($ls_item->getRefId())) {
-            $cb = new ilCheckboxInputGUI(
-                "",
-                $this->parent_gui->getFieldName($this->parent_gui::FIELD_ONLINE, $ls_item->getRefId())
-            );
-            $cb->setChecked($ls_item->isOnline());
-        } else {
-            $cb = new ilCheckboxInputGUI("", "");
-            $cb->setChecked(true);
+        $cb = new ilCheckboxInputGUI(
+            "",
+            $this->parent_gui->getFieldName($this->parent_gui::FIELD_ONLINE, $ls_item->getRefId())
+        );
+        $cb->setChecked($ls_item->isOnline());
+        if (!$this->ls_item_online_status->hasChangeableOnlineStatus($ls_item->getRefId())) {
             $cb->setDisabled(true);
         }
         $this->tpl->setVariable("ONLINE", $cb->render());
@@ -207,7 +204,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 
         $props = array_filter(
             $action_items,
-            fn ($action_item) => $action_item['cmd'] === $prop_for_type
+            fn($action_item) => $action_item['cmd'] === $prop_for_type
         );
 
         if ($props !== []) {
