@@ -105,12 +105,10 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $this->insertAssignmentRowDB($row);
         $this->progresses = [];
 
-        //add user_colums : ilPRGUserInformation::COLNAMES
-        $query = 'SELECT ' . implode(' ,', ilPRGUserInformation::COLNAMES) . PHP_EOL
+        $query = 'SELECT firstname, lastname, login, active, email, gender, title' . PHP_EOL
             . 'FROM usr_data WHERE usr_id = ' . $this->db->quote($usr_id, 'integer');
         $res = $this->db->query($query);
         $row = array_merge($row, $this->db->fetchAssoc($res));
-
 
         $ass = $this->assignmentByRow($row);
         return $ass;
