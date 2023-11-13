@@ -74,7 +74,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
         switch ($permission) {
             case 'visible':
             case 'read':
-                if (!self::isOnline($obj_id)) {
+                if (self::_isOffline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_pool_offline"));
                     return false;
                 }
