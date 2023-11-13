@@ -31,7 +31,7 @@ use ILIAS\Data\URI;
  */
 class Services
 {
-    public const DELIVERY_ENDPOINT = '/components/ILIAS/FileDelivery/src/deliver.php/';
+    public const DELIVERY_ENDPOINT = '/deliver.php/';
 
     public function __construct(
         private \ILIAS\FileDelivery\Delivery\StreamDelivery $delivery,
