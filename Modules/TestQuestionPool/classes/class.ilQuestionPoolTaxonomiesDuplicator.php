@@ -120,8 +120,6 @@ class ilQuestionPoolTaxonomiesDuplicator
         $testTaxonomy->setDescription($poolTaxonomy->getDescription());
         $testTaxonomy->setSortingMode($poolTaxonomy->getSortingMode());
 
-        $this->node_mapping = array();
-
         $poolTaxonomy->cloneNodes(
             $testTaxonomy,
             $testTaxonomy->getTree()->readRootId(),
