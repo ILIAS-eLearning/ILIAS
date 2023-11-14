@@ -239,7 +239,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             default:
                 $date_format = $df->standard();
         }
-        $environment['user_date_format'] = $date_format->toString() . 'H:i';
+        $environment['user_date_format'] = $date_format;
         $environment['user_time_zone'] = $this->active_user->getTimeZone();
 
         $disabled_flag = ($this->areScoringSettingsWritable() === false);
