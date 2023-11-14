@@ -1103,7 +1103,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function getRedirectionUrl(): string
     {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
+        return $this->getMainSettings()->getFinishingSettings()->getRedirectionUrl() ?? '';
     }
 
     public function isPasswordEnabled(): bool
