@@ -266,28 +266,29 @@ class DataRendererTest extends TableTestBase
         $expected = <<<EOT
 <div class="c-table-data" id="{ID}">
     <div class="viewcontrols">{VIEW_CONTROLS}</div>
-    <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
-        <thead>
-            <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="ascending">
-                    <div class="c-table-data__header__resize-wrapper">
-                        <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
-                        <button class="btn btn-link" id="id_1">Field 1</button>
-                    </div>
-                </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
-                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
-                </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" tabindex="-1" aria-colindex="2">
-                    <div class="c-table-data__header__resize-wrapper">
-                        <button class="btn btn-link" id="id_3">Field 3</button>
-                    </div>
-                </th>
-            </tr>
-        </thead>
-        <tbody class="c-table-data__body" role="rowgroup"></tbody>
-    </table>
-
+    <div class="c-table-data__table-wrapper">
+        <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+            <thead>
+                <tr class="c-table-data__header c-table-data__row" role="rowgroup">
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="ascending">
+                        <div class="c-table-data__header__resize-wrapper">
+                            <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
+                            <button class="btn btn-link" id="id_1">Field 1</button>
+                        </div>
+                    </th>
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
+                        <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                    </th>
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" tabindex="-1" aria-colindex="2">
+                        <div class="c-table-data__header__resize-wrapper">
+                            <button class="btn btn-link" id="id_3">Field 3</button>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="c-table-data__body" role="rowgroup"></tbody>
+        </table>
+    </div>
     <div class="c-table-data__async_modal_container"></div>
 
     <div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
@@ -346,19 +347,21 @@ EOT;
         $expected = <<<EOT
 <div class="c-table-data" id="{ID}">
     <div class="viewcontrols">{VIEW_CONTROLS}</div>
-    <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
-        <thead>
-            <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0">
-                    <div class="c-table-data__header__resize-wrapper">Field 1</div>
-                </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
-                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
-                </th>
-            </tr>
-        </thead>
-        <tbody class="c-table-data__body" role="rowgroup"></tbody>
-    </table>
+    <div class="c-table-data__table-wrapper">
+        <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+            <thead>
+                <tr class="c-table-data__header c-table-data__row" role="rowgroup">
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0">
+                        <div class="c-table-data__header__resize-wrapper">Field 1</div>
+                    </th>
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
+                        <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="c-table-data__body" role="rowgroup"></tbody>
+        </table>
+    </div>
 
     <div class="c-table-data__async_modal_container"></div>
 

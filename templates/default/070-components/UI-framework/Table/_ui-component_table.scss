@@ -166,8 +166,18 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 // Basic Table Design
 //
 
+.c-table-data {
+    .viewcontrols {
+        margin-bottom: $il-margin-large-vertical;
+    }
+}
+
 .c-table-data__table {
     background-color: $il-main-bg;
+    &-wrapper {
+        box-shadow: inset 0 0 1px 1px $il-main-border-color;
+        background-color: $il-main-darker-bg;
+    }
 }
 
 .c-table-data__cell {
