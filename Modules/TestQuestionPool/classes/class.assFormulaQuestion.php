@@ -386,7 +386,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                     $resunit = null;
                     $user_value = '';
                     if (is_array($userdata) && is_array($userdata[$result])) {
-                        if ($userdata[$result]["unit"] > 0) {
+                        if (isset($userdata[$result]["unit"]) && $userdata[$result]["unit"] > 0) {
                             $resunit = $this->getUnitrepository()->getUnit($userdata[$result]["unit"]);
                         }
 
