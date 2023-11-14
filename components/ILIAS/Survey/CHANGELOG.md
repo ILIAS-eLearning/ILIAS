@@ -11,4 +11,7 @@
 - Internal Service: Data, Repository, Domain and GUI layer
 - Value objects for codes, run and access settings
 - Request wrappers for editing, evaluation and execution
-- Repository and manager for editing/cliboard hangling
+- Repository and manager for editing/cliboard handling
+- Survey Mode Abstraction
+- Survey Run Repository and Domain classes
+- Access manager

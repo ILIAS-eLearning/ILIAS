@@ -1,16 +1,20 @@
 # Roadmap
 
+## Ongoing
+
+### Improve Architecture
+
+- Move all DB/Session access to repository pattern
+- Service/Factory structure, improve DI handling
+- Factor business logic out of UI classes
+
 ## Short Term
 
 The survey module is using a larger number of HTML templates, sometimes even inputs are rendered via HTML templates. This should be removed and transferred to KS presentations, as a part of this https://mantis.ilias.de/view.php?id=25211 should be fixed.
 
-## Mid Term
+## Improve Usability of question table
 
-### Improve Architecture
-
-- Introduce repository pattern
-- Improve DI handling
-- Factor business logic out of UI classes
+The legacy question table contains some obsucur and unique features. When migrating to the KS data table these things (e.g. indentation) must go.
 
 ### Refactoring of Constraint Handling
 

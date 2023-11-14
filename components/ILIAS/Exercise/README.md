@@ -20,6 +20,7 @@ This part of the documentation deals with concepts and business rules, for techn
 ### Submission and Grades
 
 - The presented columns are specified in this feature wiki entry: https://docu.ilias.de/goto_docu_wiki_wpage_4250_1357.html
+- Time and date of submissions are only reliable presented in the submission and grades overview and the downloadable excel sheet (download all submissions). Timestamps of submission files do NOT reflect submission time (only by coincidence).
 
 
 ## Assignment
