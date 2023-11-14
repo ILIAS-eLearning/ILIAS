@@ -652,7 +652,7 @@ class ilObjBlog extends ilObject2
 
         $feed = new ilFeedWriter();
 
-        $url = ilLink::_getStaticLink($a_wsp_id, "blog", true, (string) $is_wsp);
+        $url = ilLink::_getStaticLink((int) $a_wsp_id, "blog", true, (string) $is_wsp);
         $url = str_replace("&", "&amp;", $url);
 
         // #11870
@@ -677,7 +677,7 @@ class ilObjBlog extends ilObject2
             $snippet = str_replace("&", "&amp;", $snippet);
             $snippet = "<![CDATA[" . $snippet . "]]>";
 
-            $url = ilLink::_getStaticLink($a_wsp_id, "blog", true, "_" . $id . $is_wsp);
+            $url = ilLink::_getStaticLink((int) $a_wsp_id, "blog", true, "_" . $id . $is_wsp);
             $url = str_replace("&", "&amp;", $url);
 
             $feed_item = new ilFeedItem();

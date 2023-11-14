@@ -95,7 +95,7 @@ class ilExcTutorFeedbackFileStakeholder extends AbstractResourceStakeholder
         return null;
     }
 
-    private function isRecipient(ResourceIdentification $identification): ?int
+    private function isRecipient(ResourceIdentification $identification): bool
     {
         $this->initDB();
         $r = $this->database->queryF(
