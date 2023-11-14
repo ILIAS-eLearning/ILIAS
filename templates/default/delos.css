@@ -4440,7 +4440,6 @@ hr.il-divider-with-label {
 }
 
 .il-filter-controls {
-  position: absolute;
   bottom: 0px;
   padding-left: 15px;
   padding-bottom: 6px;
@@ -4475,7 +4474,6 @@ hr.il-divider-with-label {
 .il-filter-input-section {
   border-top: 1px solid #dddddd;
   position: relative;
-  padding-bottom: 40px;
   padding-right: 12px;
   margin: 0;
   background: #f9f9f9;
