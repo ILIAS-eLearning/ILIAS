@@ -93,9 +93,9 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 
     public function numericOrdering(string $a_field): bool
     {
-        return in_array($a_field, array(
+        return in_array($a_field, [
             'scored_pass', 'answered_questions', 'points', 'percent_result'
-        ));
+        ]);
     }
 
     public function init(): void
