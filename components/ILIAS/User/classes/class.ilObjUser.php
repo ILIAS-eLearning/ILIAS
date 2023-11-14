@@ -3672,17 +3672,17 @@ class ilObjUser extends ilObject
         $where = 'WHERE ' . implode(' AND ', $where);
 
         $r = $ilDB->queryF(
-            $q = '
+            $q = "
 			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime, context, agree_date
 			FROM usr_session
 			LEFT JOIN usr_data u
 				ON user_id = u.usr_id
 			LEFT JOIN usr_pref p
 				ON (p.usr_id = u.usr_id AND p.keyword = %s)
-			$where
+            {$where}
 			GROUP BY user_id, firstname, lastname, title, login, last_login, context, agree_date
 			ORDER BY lastname, firstname
-			',
+			",
             ['text'],
             ['hide_own_online_status']
         );
