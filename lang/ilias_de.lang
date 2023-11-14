@@ -4304,7 +4304,7 @@ common#:#icon_settings#:#Icon
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
-common#:#ignore_on_conflict#:#Ignoriere bei Konflikt
+common#:#ignore_on_conflict#:#Insert/Update Aktion wird strikt befolgt
 common#:#ignore_required_fields#:#Benutzerpflichtfelder ignorieren
 common#:#ignore_required_fields_info#:#Falls aktiviert, werden Pflichtangaben beim Absenden dieses Formulars nicht mehr überprüft (sofern möglich). Auswirkung dessen ist, dass der Benutzer nach der nächsten Anmeldung sein Profil vervollständigen muss.
 common#:#il_astpl_loc_initial#:#Einstiegstest
@@ -5807,7 +5807,7 @@ common#:#up#:#Hoch
 common#:#update#:#Übernehmen
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache aktualisieren
-common#:#update_on_conflict#:#Aktualisiere bei Konflikt
+common#:#update_on_conflict#:#Insert/Update Aktion wird automatisch ermittelt
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
 common#:#upload#:#Hochladen
@@ -5894,7 +5894,7 @@ common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
 common#:#usrimport_cant_delete#:#Kann „Delete“ Aktion nicht ausführen. Kein passendes ILIAS-Konto in der Datenbank vorhanden.
 common#:#usrimport_cant_insert#:#Kann „Insert“ Aktion nicht ausführen. ILIAS-Konto ist bereits in der Datenbank vorhanden.
 common#:#usrimport_cant_update#:#Kann „Update“ Aktion nicht ausführen. Kein passendes ILIAS-Konto in der Datenbank vorhanden.
-common#:#usrimport_conflict_handling_info#:#Bei „Ignoriere bei Konflikt“ überspringt ILIAS alle Daten, die nicht problemlos importiert werden können. In diesem Fall würde zum Beispiel eine „Insert“-Aktion nicht ausgeführt, wenn bereits ein Konto mit dem gleichen Anmeldenamen in der Datenbank vorhanden ist. Sie erhalten einen Fehlerbericht, um Ihre Importdatei zu korrigieren. <br>Bei „Aktualisieren bei Konflikt“ überschreibt ILIAS bei Problemen die Inhalte auf der Datenbank. Hierbei kann es zu einem Datenverlust kommen. Nutzen Sie diese Option nur, wenn Sie sicher sind, dass Ihre Importdatei fehlerfrei ist.
+common#:#usrimport_conflict_handling_info#:#Bei der Option „Aktualisieren bei Konflikt“ überschreibt ILIAS bei Problemen die Inhalte auf der Datenbank. Hierbei kann es zu einem Datenverlust kommen. Nutzen Sie diese Option nur, wenn Sie sicher sind, dass Ihre Importdatei fehlerfrei ist.
 common#:#usrimport_form_not_evaluabe#:#Das Formular konnte nicht ausgelesen werden.
 common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
 common#:#usrimport_ignore_role#:#Rolle ignorieren
