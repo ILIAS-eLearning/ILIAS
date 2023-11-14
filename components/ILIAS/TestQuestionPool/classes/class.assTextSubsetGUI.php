@@ -161,23 +161,23 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $show_question_text = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
-        $solutions = array();
+        $solutions = [];
         if (($active_id > 0) && (!$show_correct_solution)) {
             $solutions = $this->object->getSolutionValues($active_id, $pass);
         } else {
-            $rank = array();
+            $rank = [];
             foreach ($this->object->answers as $answer) {
                 $points_string_for_key = (string) $answer->getPoints();
                 if ($answer->getPoints() > 0) {
                     if (!array_key_exists($points_string_for_key, $rank)) {
-                        $rank[$points_string_for_key] = array();
+                        $rank[$points_string_for_key] = [];
                     }
                     array_push($rank[$points_string_for_key], $answer->getAnswertext());
                 }
             }
             krsort($rank, SORT_NUMERIC);
             foreach ($rank as $index => $bestsolutions) {
-                array_push($solutions, array("value1" => join(",", $bestsolutions), "points" => $index));
+                array_push($solutions, ["value1" => join(",", $bestsolutions), "points" => $index]);
             }
         }
 
@@ -243,7 +243,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
-        $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
+        $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
         $template = new ilTemplate("tpl.il_as_qpl_textsubset_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $width = $this->object->getMaxTextboxWidth();
         for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++) {
@@ -344,10 +344,10 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         // text rating
         $textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
-        $text_options = array(
+        $text_options = [
             "ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
             "cs" => $this->lng->txt("cloze_textgap_case_sensitive")
-        );
+        ];
         if (!$this->object->getSelfAssessmentEditingMode()) {
             $text_options["l1"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1");
             $text_options["l2"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2");
@@ -395,7 +395,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -409,7 +409,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -427,7 +427,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
     public function aggregateAnswers($relevant_answers_chosen): array
     {
-        $aggregate = array();
+        $aggregate = [];
 
         foreach ($relevant_answers_chosen as $relevant_answer) {
             if (array_key_exists($relevant_answer['value1'], $aggregate)) {
@@ -459,13 +459,13 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $answers = array();
+        $answers = [];
 
         foreach ($relevantAnswers as $ans) {
             if (!isset($answers[$ans['value1']])) {
-                $answers[$ans['value1']] = array(
+                $answers[$ans['value1']] = [
                     'answer' => $ans['value1'], 'frequency' => 0
-                );
+                ];
             }
 
             $answers[$ans['value1']]['frequency']++;
