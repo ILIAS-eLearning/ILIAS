@@ -26,14 +26,13 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
     public const ELEMENT_DEFAULT_MOVE_UP_CMD = 'moveUpElement';
     public const ELEMENT_DEFAULT_MOVE_DOWN_CMD = 'moveDownElement';
 
-    protected $elementAddCmd = self::ELEMENT_DEFAULT_ADD_CMD;
-    protected $elementRemoveCmd = self::ELEMENT_DEFAULT_REMOVE_CMD;
-    protected $elementMoveUpCommand = self::ELEMENT_DEFAULT_MOVE_UP_CMD;
-    protected $elementMoveDownCommand = self::ELEMENT_DEFAULT_MOVE_DOWN_CMD;
+    protected string $element_add_cmd = self::ELEMENT_DEFAULT_ADD_CMD;
+    protected string $element_remove_cmd = self::ELEMENT_DEFAULT_REMOVE_CMD;
+    protected string $element_move_up_cmd = self::ELEMENT_DEFAULT_MOVE_UP_CMD;
+    protected string $element_move_down_cmd = self::ELEMENT_DEFAULT_MOVE_DOWN_CMD;
 
-    protected $identified_multi_values = array();
-
-    protected $formValuesManipulationChain = array();
+    protected $identified_multi_values = [];
+    protected $formValuesManipulationChain = [];
 
     public function __construct($a_title = "", $a_postvar = "")
     {
@@ -45,45 +44,42 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 
     public function getElementAddCmd(): string
     {
-        return $this->elementAddCmd;
+        return $this->element_add_cmd;
     }
 
-    /**
-     * @param string $elementAddCmd
-     */
-    public function setElementAddCmd($elementAddCmd): void
+    public function setElementAddCmd(string $element_add_cmd): void
     {
-        $this->elementAddCmd = $elementAddCmd;
+        $this->element_add_cmd = $element_add_cmd;
     }
 
     public function getElementRemoveCmd(): string
     {
-        return $this->elementRemoveCmd;
+        return $this->element_remove_cmd;
     }
 
-    public function setElementRemoveCmd($elementRemoveCmd): void
+    public function setElementRemoveCmd(string $element_remove_cmd): void
     {
-        $this->elementRemoveCmd = $elementRemoveCmd;
+        $this->element_remove_cmd = $element_remove_cmd;
     }
 
     public function getElementMoveUpCommand(): string
     {
-        return $this->elementMoveUpCommand;
+        return $this->element_move_up_cmd;
     }
 
-    public function setElementMoveUpCommand($elementMoveUpCommand): void
+    public function setElementMoveUpCommand(string $element_move_up_cmd): void
     {
-        $this->elementMoveUpCommand = $elementMoveUpCommand;
+        $this->element_move_up_cmd = $element_move_up_cmd;
     }
 
     public function getElementMoveDownCommand(): string
     {
-        return $this->elementMoveDownCommand;
+        return $this->element_move_down_cmd;
     }
 
-    public function setElementMoveDownCommand($elementMoveDownCommand): void
+    public function setElementMoveDownCommand(string $element_move_down_cmd): void
     {
-        $this->elementMoveDownCommand = $elementMoveDownCommand;
+        $this->element_move_down_cmd = $element_move_down_cmd;
     }
 
     public function setValues($values): void
@@ -130,85 +126,75 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         return $this->identified_multi_values;
     }
 
-    protected function getMultiValueSubFieldId($identifier, $subFieldIndex): string
+    protected function getMultiValueSubFieldId($identifier, $sub_field_index): string
     {
-        $tempPostVar = $this->getMultiValuePostVarSubField($identifier, $subFieldIndex);
-        $multiValueFieldId = $this->getFieldIdFromPostVar($tempPostVar);
-
-        return $multiValueFieldId;
+        $temp_post_var = $this->getMultiValuePostVarSubField($identifier, $sub_field_index);
+        return $this->getFieldIdFromPostVar($temp_post_var);
     }
 
-    protected function getMultiValuePosIndexedFieldId($identifier, $positionIndex): string
+    protected function getMultiValuePosIndexedFieldId($identifier, $position_index): string
     {
-        $tempPostVar = $this->getMultiValuePostVarPosIndexed($identifier, $positionIndex);
-        $multiValueFieldId = $this->getFieldIdFromPostVar($tempPostVar);
-
-        return $multiValueFieldId;
+        $temp_post_var = $this->getMultiValuePostVarPosIndexed($identifier, $position_index);
+        return $this->getFieldIdFromPostVar($temp_post_var);
     }
 
-    protected function getMultiValuePosIndexedSubFieldId($identifier, $subFieldIndex, $positionIndex): string
+    protected function getMultiValuePosIndexedSubFieldId($identifier, $sub_field_index, $position_index): string
     {
-        $tempPostVar = $this->getMultiValuePostVarSubFieldPosIndexed($identifier, $subFieldIndex, $positionIndex);
-        $multiValueFieldId = $this->getFieldIdFromPostVar($tempPostVar);
-
-        return $multiValueFieldId;
+        $temp_post_var = $this->getMultiValuePostVarSubFieldPosIndexed($identifier, $sub_field_index, $position_index);
+        return $this->getFieldIdFromPostVar($temp_post_var);
     }
 
-    protected function getFieldIdFromPostVar($tempPostVar): string
+    protected function getFieldIdFromPostVar($temp_post_var): string
     {
-        $basicPostVar = $this->getPostVar();
-        $this->setPostVar($tempPostVar);
+        $basic_post_var = $this->getPostVar();
+        $this->setPostVar($temp_post_var);
 
         // uses getPostVar() internally, our postvar does not have the counter included
-        $multiValueFieldId = $this->getFieldId();
+        $multi_value_field_id = $this->getFieldId();
         // now ALL brackets ("[", "]") are escaped, even the ones for the counter
 
-        $this->setPostVar($basicPostVar);
-        return $multiValueFieldId;
+        $this->setPostVar($basic_post_var);
+        return $multi_value_field_id;
     }
 
-    protected function getPostVarSubField($subFieldIndex)
+    protected function getPostVarSubField($sub_field_index)
     {
-        return $this->getSubFieldCompletedPostVar($subFieldIndex, $this->getPostVar());
+        return $this->getSubFieldCompletedPostVar($sub_field_index, $this->getPostVar());
     }
 
-    protected function getMultiValuePostVarSubField($identifier, $subFieldIndex)
+    protected function getMultiValuePostVarSubField($identifier, $sub_field_index)
     {
-        $elemPostVar = $this->getMultiValuePostVar($identifier);
-        $elemPostVar = $this->getSubFieldCompletedPostVar($subFieldIndex, $elemPostVar);
-
-        return $elemPostVar;
+        $elem_post_var = $this->getMultiValuePostVar($identifier);
+        return $this->getSubFieldCompletedPostVar($sub_field_index, $elem_post_var);
     }
 
-    protected function getMultiValuePostVarSubFieldPosIndexed($identifier, $subFieldIndex, $positionIndex)
+    protected function getMultiValuePostVarSubFieldPosIndexed($identifier, $sub_field_index, $position_index)
     {
-        $elemPostVar = $this->getMultiValuePostVarPosIndexed($identifier, $positionIndex);
-        $elemPostVar = $this->getSubFieldCompletedPostVar($subFieldIndex, $elemPostVar);
-
-        return $elemPostVar;
+        $elem_post_var = $this->getMultiValuePostVarPosIndexed($identifier, $position_index);
+        return $this->getSubFieldCompletedPostVar($sub_field_index, $elem_post_var);
     }
 
     protected function getMultiValuePostVarPosIndexed($identifier, $positionIndex): string
     {
-        $elemPostVar = $this->getMultiValuePostVar($identifier);
-        $elemPostVar .= "[$positionIndex]";
+        $elem_post_var = $this->getMultiValuePostVar($identifier);
+        $elem_post_var .= "[$positionIndex]";
 
-        return $elemPostVar;
+        return $elem_post_var;
     }
 
     protected function getMultiValuePostVar($identifier): string
     {
-        $elemPostVar = $this->getPostVar();
-        $elemPostVar .= "[$identifier]";
-        return $elemPostVar;
+        $elem_post_var = $this->getPostVar();
+        $elem_post_var .= "[$identifier]";
+        return $elem_post_var;
     }
 
-    protected function buildMultiValueSubmitVar($identifier, $positionIndex, $submitCommand): string
+    protected function buildMultiValueSubmitVar($identifier, $position_index, $submit_cmd): string
     {
-        $elemSubmitVar = "cmd[{$submitCommand}][{$this->getFieldId()}]";
-        $elemSubmitVar .= "[$identifier][$positionIndex]";
+        $elem_submit_var = "cmd[{$submit_cmd}][{$this->getFieldId()}]";
+        $elem_submit_var .= "[$identifier][$position_index]";
 
-        return $elemSubmitVar;
+        return $elem_submit_var;
     }
 
     final public function setValueByArray(array $a_values): void
@@ -277,14 +263,13 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 
     /**
      * @param $subFieldIndex
-     * @param $elemPostVar
+     * @param $elem_post_var
      * @return mixed
      */
-    protected function getSubFieldCompletedPostVar($subFieldIndex, $elemPostVar)
+    protected function getSubFieldCompletedPostVar($subFieldIndex, $elem_post_var)
     {
-        $fieldPostVar = "{$this->getPostVar()}[$subFieldIndex]";
-        $elemPostVar = str_replace($this->getPostVar(), $fieldPostVar, $elemPostVar);
-        return $elemPostVar;
+        $field_post_var = "{$this->getPostVar()}[$subFieldIndex]";
+        return str_replace($this->getPostVar(), $field_post_var, $elem_post_var);
     }
 
     public function prepareReprintable(assQuestion $question): void
