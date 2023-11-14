@@ -397,7 +397,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $info = $this->object->getTestOutputSolutions($active_id, $pass);
 
         if (count($info)) {
-            if (strcmp($info[0]["value1"], "") != 0) {
+            if ($info[0]["value1"] !== "") {
                 $formAction .= "&selImage=" . $info[0]["value1"];
             }
         }
@@ -464,7 +464,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             foreach ($solutions as $idx => $solution_value) {
                 $value1 = $solution_value["value1"];
                 if (
-                    strcmp($value1, '') === 0 ||
+                    $value1 === '' ||
                     !isset($this->object->answers[$value1])
                 ) {
                     continue;
@@ -568,7 +568,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
             $preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->getImageFilename());
             foreach ($user_solution as $idx => $solution_value) {
-                if (strcmp($solution_value, "") != 0) {
+                if ($solution_value !== '') {
                     $preview->addArea($solution_value, $this->object->answers[$solution_value]->getArea(), $this->object->answers[$solution_value]->getCoords(), $this->object->answers[$solution_value]->getAnswertext(), "", "", true, $this->linecolor);
                 }
             }

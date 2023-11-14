@@ -114,11 +114,14 @@ class InternalDomainService
         return new StyleManager();
     }
 
-    public function log(): \ilLogger
+    public function log(): ?\ilLogger
     {
-        if (is_null($this->copg_log)) {
-            $this->copg_log = $this->logger()->copg();
+        if (isset($this->DIC["ilLoggerFactory"])) {
+            if (is_null($this->copg_log)) {
+                $this->copg_log = $this->logger()->copg();
+            }
+            return $this->copg_log;
         }
-        return $this->copg_log;
+        return null;
     }
 }

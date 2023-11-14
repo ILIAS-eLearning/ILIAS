@@ -272,7 +272,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
             }
 
             $unit = (is_object($varObj->getUnit())) ? $varObj->getUnit()->getUnit() : "";
-            $val = (strlen($varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
+
+            $val = '';
+            if ($varObj->getValue() !== null) {
+                $val = (strlen($varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
+            }
 
             $text = preg_replace("/\\$" . substr($varObj->getVariable(), 1) . "(?![0-9]+)/", $val . " " . $unit . "\\1", $text);
         }
@@ -382,7 +386,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                     $resunit = null;
                     $user_value = '';
                     if (is_array($userdata) && is_array($userdata[$result])) {
-                        if ($userdata[$result]["unit"] > 0) {
+                        if (isset($userdata[$result]["unit"]) && $userdata[$result]["unit"] > 0) {
                             $resunit = $this->getUnitrepository()->getUnit($userdata[$result]["unit"]);
                         }
 

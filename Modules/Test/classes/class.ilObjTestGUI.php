@@ -2190,8 +2190,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             && count(ilSession::get('tst_qst_move_' . $this->object->getTestId()))
         );
 
-        $table_gui->setQuestionPositioningEnabled($has_started_test_runs);
-        $table_gui->setQuestionManagingEnabled($has_started_test_runs);
+        $table_gui->setQuestionPositioningEnabled(!$has_started_test_runs);
+        $table_gui->setQuestionManagingEnabled(!$has_started_test_runs);
         $table_gui->setObligatoryQuestionsHandlingEnabled($this->object->areObligationsEnabled());
 
         $table_gui->setTotalPoints($this->object->getFixedQuestionSetTotalPoints());

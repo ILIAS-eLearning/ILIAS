@@ -520,7 +520,7 @@ class ilColumnGUI
 
         if ($this->request->getBlock() != "") {
             $block = explode("_", $this->request->getBlock());
-            ilBlockSetting::_writeDetailLevel($block[0], 2, $ilUser->getId(), $block[1]);
+            ilBlockSetting::_writeDetailLevel($block[0], "2", $ilUser->getId(), (int) $block[1]);
         }
 
         $ilCtrl->returnToParent($this);

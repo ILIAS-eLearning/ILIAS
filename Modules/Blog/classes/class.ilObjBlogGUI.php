@@ -164,7 +164,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->reading_time_gui = new \ILIAS\Blog\ReadingTime\BlogSettingsGUI($blog_id);
         $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
         $this->notes = $DIC->notes();
-        $owner = $this?->object->getOwner() ?? 0;
+        $owner = $this->object?->getOwner() ?? 0;
         $this->blog_access = $domain->blogAccess(
             $this->getAccessHandler(),
             $this->node_id,
@@ -2701,10 +2701,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->setParameterByClass("ilRepositoryGUI", "edt", $id[2]);
                 }
             }
-            if ($access->checkAccess("read", "", $id[0])) {
+            if ($access->checkAccess("read", "", (int) $id[0])) {
                 $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
             }
-            if ($access->checkAccess("visible", "", $id[0])) {
+            if ($access->checkAccess("visible", "", (int) $id[0])) {
                 $ilCtrl->redirectByClass("ilRepositoryGUI", "infoScreen");
             }
         }

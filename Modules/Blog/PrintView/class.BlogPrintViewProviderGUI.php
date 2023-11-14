@@ -124,7 +124,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             $nl->addListNode(
                 $p["id"],
                 $p["title"],
-                0,
+                "0",
                 false,
                 false,
                 \ilUtil::getImagePath("standard/icon_pg.svg"),

@@ -124,7 +124,6 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 }
 
 .il-filter-controls {
-	position: absolute;
 	bottom: $il-standard-filter-controls-bottom;
 	padding-left: $il-standard-filter-controls-padding-left;
 	padding-bottom: $il-standard-filter-controls-padding-bottom;
@@ -164,7 +163,6 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 .il-filter-input-section {
 	border-top: $il-standard-filter-input-section-border-top;
 	position: relative;
-	padding-bottom: $il-standard-filter-input-section-padding-bottom;
 	padding-right: $il-padding-large-horizontal;
 	margin: $il-standard-filter-input-section-margin;
 	background: $il-main-dark-bg;
