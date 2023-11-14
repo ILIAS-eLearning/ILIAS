@@ -453,8 +453,8 @@ class ilObjectActivation
             $new_item->toggleChangeable((bool) $item['changeable']);
             $new_item->toggleVisible((bool) $item['visible']);
             $new_item->update($new_item_id, $new_parent);
-            $new_item->setSuggestionStartRelative($item['suggestion_start_rel'] ?? 0);
-            $new_item->setSuggestionEndRelative($item['suggestion_end_rel'] ?? 0);
+            $new_item->setSuggestionStartRelative((int) ($item['suggestion_start_rel'] ?? 0));
+            $new_item->setSuggestionEndRelative((int) ($item['suggestion_end_rel'] ?? 0));
             $new_item->createDefaultEntry($new_item_id);
             $new_item->update($new_item_id);
         }
