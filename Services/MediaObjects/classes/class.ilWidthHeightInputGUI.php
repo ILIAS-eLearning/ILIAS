@@ -24,7 +24,7 @@
 class ilWidthHeightInputGUI extends ilFormPropertyGUI
 {
     protected $support_constraint_props = false;
-    protected bool $constrainproportions;
+    protected bool $constrainproportions = false;
     protected ?int $height = null;
     protected ?int $width = null;
     protected array $dirs = [];
