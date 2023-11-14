@@ -4344,7 +4344,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
             if (ilObjMediaObject::_exists((int) $mob_id)) {
                 $media_obj = new ilObjMediaObject((int) $mob_id);
-                $media_obj->exportXML($a_xml_writer, $a_inst);
+                $media_obj->exportXML($a_xml_writer, (int) $a_inst);
                 $media_obj->exportFiles($a_target_dir);
                 unset($media_obj);
             }
