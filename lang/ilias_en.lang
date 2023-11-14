@@ -4283,7 +4283,7 @@ common#:#icon_settings#:#Custom Icons
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to use file name as title.
-common#:#ignore_on_conflict#:#Ignore on conflict
+common#:#ignore_on_conflict#:#Insert/Update action will be followed strictly
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
 common#:#il_astpl_loc_initial#:#Initial Test
@@ -5777,7 +5777,7 @@ common#:#up#:#Up
 common#:#update#:#Edit
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
-common#:#update_on_conflict#:#Update on conflict
+common#:#update_on_conflict#:#Insert/Update action will be detected automatically
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#upload#:#Upload
@@ -5867,7 +5867,7 @@ common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
 common#:#usrimport_cant_delete#:#Can't perform ‘Delete’ action. No such user in database.
 common#:#usrimport_cant_insert#:#Can't perform ‘Insert’ action. User is already in database.
 common#:#usrimport_cant_update#:#Can't perform ‘Update’ action. No such user in database.
-common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there is already a user with the same login in the database.) When ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
+common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there already is a user with the same login in the database.) When ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
 common#:#usrimport_form_not_evaluabe#:#The form data couldn't be read.
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
