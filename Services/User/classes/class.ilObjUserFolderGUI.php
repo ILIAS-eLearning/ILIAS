@@ -4030,15 +4030,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $umail->savePostData(
             $mail_data['user_id'],
-            $mail_data['attachments'],
+            $mail_data['attachments'] ?? [],
             '#il_ml_' . $list_id,
-            $mail_data['rcp_cc'],
-            $mail_data['rcp_bcc'],
-            $mail_data['m_subject'],
-            $mail_data['m_message'],
-            $mail_data['use_placeholders'],
-            $mail_data['tpl_ctx_id'],
-            $mail_data['tpl_ctx_params']
+            $mail_data['rcp_cc'] ?? '',
+            $mail_data['rcp_bcc'] ?? '',
+            $mail_data['m_subject'] ?? '',
+            $mail_data['m_message'] ?? '',
+            $mail_data['use_placeholders'] ?? false,
+            $mail_data['tpl_ctx_id'] ?? null,
+            $mail_data['tpl_ctx_params'] ?? null
         );
 
         ilUtil::redirect(
