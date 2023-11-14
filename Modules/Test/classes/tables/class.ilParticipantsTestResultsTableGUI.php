@@ -117,7 +117,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("login"), 'login');
 
         $this->addColumn($this->lng->txt("tst_tbl_col_scored_pass"), 'scored_pass');
-        $this->addColumn($this->lng->txt("tst_tbl_col_pass_finished"), 'pass_finished');
+        $this->addColumn($this->lng->txt("tst_tbl_col_pass_finished"), 'scored_pass_finished_timestamp');
 
         $this->addColumn($this->lng->txt("tst_tbl_col_answered_questions"), 'answered_questions');
         $this->addColumn($this->lng->txt("tst_tbl_col_reached_points"), 'reached_points');
