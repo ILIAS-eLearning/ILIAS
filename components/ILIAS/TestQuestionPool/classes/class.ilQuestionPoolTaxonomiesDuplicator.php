@@ -142,17 +142,17 @@ class ilQuestionPoolTaxonomiesDuplicator
 
     private function transferAssignmentsFromOriginalToDuplicatedTaxonomy(int $original_taxonomy_id, int $mapped_taxonomy_id): void
     {
-        $originalTaxAssignment = new ilTaxNodeAssignment($this->getSourceObjType(), $this->getSourceObjId(), 'quest', $original_taxonomy_id);
+        $original_tax_assignment = new ilTaxNodeAssignment($this->getSourceObjType(), $this->getSourceObjId(), 'quest', $original_taxonomy_id);
 
-        $duplicatedTaxAssignment = new ilTaxNodeAssignment($this->getTargetObjType(), $this->getTargetObjId(), 'quest', $mapped_taxonomy_id);
+        $duplicate_tax_assignment = new ilTaxNodeAssignment($this->getTargetObjType(), $this->getTargetObjId(), 'quest', $mapped_taxonomy_id);
 
-        foreach ($this->getQuestionIdMapping() as $originalQuestionId => $duplicatedQuestionId) {
-            $assignments = $originalTaxAssignment->getAssignmentsOfItem($originalQuestionId);
+        foreach ($this->getQuestionIdMapping() as $original_question_id => $duplicated_question_id) {
+            $assignments = $original_tax_assignment->getAssignmentsOfItem($original_question_id);
 
-            foreach ($assignments as $assData) {
-                $mappedNodeId = $this->duplicated_taxonomies_keys_map->getMappedTaxNodeId($assData['node_id']);
+            foreach ($assignments as $ass_data) {
+                $mapped_node_id = $this->duplicated_taxonomies_keys_map->getMappedTaxNodeId($ass_data['node_id']);
 
-                $duplicatedTaxAssignment->addAssignment($mappedNodeId, $duplicatedQuestionId);
+                $duplicate_tax_assignment->addAssignment($mapped_node_id, $duplicated_question_id);
             }
         }
     }
