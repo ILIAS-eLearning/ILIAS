@@ -2905,7 +2905,7 @@ class ilObjSurvey extends ilObject
                     $questions_array[$key] = "$counter. $value";
                     $counter++;
                 }
-                if (strlen($surveytitles[$row["obj_fi"]])) { // only questionpools which are not in trash
+                if (strlen($surveytitles[$row["obj_fi"]] ?? "")) { // only questionpools which are not in trash
                     $rows[$row["questionblock_id"]] = array(
                         "questionblock_id" => $row["questionblock_id"],
                         "title" => $row["title"],
