@@ -122,7 +122,7 @@ class ilCertificateGUI
             $DIC->database(),
             $this->logger
         );
-        $this->deleteAction = $deleteAction ?? new ilCertificateTemplateDeleteAction($this->templateRepository,);
+        $this->deleteAction = $deleteAction ?? new ilCertificateTemplateDeleteAction($this->templateRepository);
         $this->pageFormats = $pageFormats ?? new ilPageFormats($DIC->language());
         $this->xlsFoParser = $xlsFoParser ?? new ilXlsFoParser($DIC->settings(), $this->pageFormats);
         $this->backgroundImageUpload = $upload ?? new ilCertificateBackgroundImageUpload(
