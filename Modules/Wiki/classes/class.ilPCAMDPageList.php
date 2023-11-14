@@ -268,14 +268,14 @@ class ilPCAMDPageList extends ilPageContent
     }
 
     /**
-     * Migrate search/filter values on advmd change
+     * Migrate search/filter values on advmd change. In the mapping, keys are
+     * indices of old options, and values indices of associated new options.
+     * @param int   $a_field_id
+     * @param string[] $mapping
      */
     public static function migrateField(
-        int $a_obj_id,
         int $a_field_id,
-        string $old_option,
-        string $new_option,
-        bool $a_is_multi = false
+        array $mapping
     ): void {
         global $DIC;
 
@@ -287,24 +287,29 @@ class ilPCAMDPageList extends ilPageContent
             " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
             $data = unserialize(unserialize($row["sdata"], ["allowed_classes" => false]), ["allowed_classes" => false]);
-            if (is_array($data) &&
-                in_array($old_option, $data)) {
-                $idx = array_search($old_option, $data);
-                if ($new_option) {
-                    $data[$idx] = $new_option;
-                } else {
-                    unset($data[$idx]);
-                }
-
-                $fields = array(
-                    "sdata" => array("text", serialize(serialize($data)))
-                );
-                $primary = array(
-                    "id" => array("integer", $row["id"]),
-                    "field_id" => array("integer", $row["field_id"])
-                );
-                $ilDB->update("pg_amd_page_list", $fields, $primary);
+            if (!is_array($data)) {
+                continue;
             }
+            $updated_data = $data;
+            foreach ($mapping as $old_option => $new_option) {
+                if (!in_array($old_option, $data)) {
+                    continue;
+                }
+                $idx = array_search($old_option, $data);
+                if ($new_option !== '') {
+                    $updated_data[$idx] = $new_option;
+                } else {
+                    unset($updated_data[$idx]);
+                }
+            }
+            $fields = array(
+                "sdata" => array("text", serialize(serialize($updated_data)))
+            );
+            $primary = array(
+                "id" => array("integer", $row["id"]),
+                "field_id" => array("integer", $row["field_id"])
+            );
+            $ilDB->update("pg_amd_page_list", $fields, $primary);
         }
     }
 }
