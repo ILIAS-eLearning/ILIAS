@@ -249,7 +249,7 @@ abstract class ilMailSearchObjectGUI
     protected function mailObjects(): void
     {
         $members = [];
-        $mail_data = $this->umail->getSavedData();
+        $mail_data = $this->umail->retrieveFromStage();
 
         $obj_ids = [];
         if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
@@ -290,9 +290,9 @@ abstract class ilMailSearchObjectGUI
             }
         }
 
-        $mail_data = $members !== [] ? $this->umail->appendSearchResult(array_unique($members), 'to') : $this->umail->getSavedData();
+        $mail_data = $members !== [] ? $this->umail->appendSearchResult(array_unique($members), 'to') : $this->umail->retrieveFromStage();
 
-        $this->umail->savePostData(
+        $this->umail->persistToStage(
             (int) $mail_data['user_id'],
             $mail_data['attachments'],
             $mail_data['rcp_to'],
@@ -326,7 +326,7 @@ abstract class ilMailSearchObjectGUI
             );
         }
 
-        $mail_data = $this->umail->getSavedData();
+        $mail_data = $this->umail->retrieveFromStage();
         foreach ($usr_ids as $usr_id) {
             $login = ilObjUser::_lookupLogin($usr_id);
             if (!$this->umail->existsRecipient($login, (string) $mail_data['rcp_to'])) {
@@ -335,7 +335,7 @@ abstract class ilMailSearchObjectGUI
         }
         $mail_data = $this->umail->appendSearchResult(array_unique($members), 'to');
 
-        $this->umail->savePostData(
+        $this->umail->persistToStage(
             (int) $mail_data['user_id'],
             $mail_data['attachments'],
             $mail_data['rcp_to'],

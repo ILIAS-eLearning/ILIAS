@@ -164,7 +164,7 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
             if (is_string($value)) {
                 return $this->refinery
                     ->custom()
-                    ->transformation(fn (string $value): string => ilUtil::stripSlashes($value))
+                    ->transformation(fn(string $value): string => ilUtil::stripSlashes($value))
                     ->transform($value);
             }
 

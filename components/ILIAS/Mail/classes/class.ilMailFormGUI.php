@@ -213,7 +213,7 @@ class ilMailFormGUI
         } else {
             $mailer->autoresponder()->disableAutoresponder();
 
-            $mailer->savePostData(
+            $mailer->persistToStage(
                 $this->user->getId(),
                 [],
                 '',
@@ -316,7 +316,7 @@ class ilMailFormGUI
             );
 
             // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-            $this->umail->savePostData(
+            $this->umail->persistToStage(
                 $this->user->getId(),
                 $files,
                 ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
@@ -418,7 +418,7 @@ class ilMailFormGUI
         );
 
         // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-        $this->umail->savePostData(
+        $this->umail->persistToStage(
             $this->user->getId(),
             $files,
             ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
@@ -542,7 +542,7 @@ class ilMailFormGUI
                 break;
 
             case self::MAIL_FORM_TYPE_SEARCH_RESULT:
-                $mailData = $this->umail->getSavedData();
+                $mailData = $this->umail->retrieveFromStage();
 
                 if (ilSession::get('mail_search_results_to')) {
                     $mailData = $this->umail->appendSearchResult(
@@ -575,7 +575,7 @@ class ilMailFormGUI
                 break;
 
             case self::MAIL_FORM_TYPE_ATTACH:
-                $mailData = $this->umail->getSavedData();
+                $mailData = $this->umail->retrieveFromStage();
                 break;
 
             case self::MAIL_FORM_TYPE_DRAFT:
@@ -994,7 +994,7 @@ class ilMailFormGUI
             []
         );
 
-        $this->umail->savePostData(
+        $this->umail->persistToStage(
             $this->user->getId(),
             $files,
             ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
