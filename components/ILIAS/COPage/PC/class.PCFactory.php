@@ -116,7 +116,7 @@ class PCFactory
         $pc = new ("\\" . $pc_class)($page_object);
         if (!in_array(
             $node->nodeName,
-            ["PageContent", "TableData", "FileItem"]
+            ["PageContent", "TableData", "FileItem", "ListItem"]
         )) {
             $this->log->debug("returning null.");
             return null;
