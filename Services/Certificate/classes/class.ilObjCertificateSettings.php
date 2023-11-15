@@ -153,11 +153,22 @@ class ilObjCertificateSettings extends ilObject
             }
 
             if (file_exists($newImagePath) && (filesize($newImagePath) > 0)) {
+                $oldPath = $this->getDefaultBackgroundImagePath();
+                $oldPathThumb = $this->getDefaultBackgroundImageThumbPath();
+
                 $oldRelativePath = $this->getDefaultBackgroundImagePath(true);
                 $this->certificateSettings->set('defaultImageFileName', $newImageFileName);
                 $newRelativePath = $this->getDefaultBackgroundImagePath(true);
 
                 $this->certificateRepo->updateDefaultBackgroundImagePaths($oldRelativePath, $newRelativePath);
+
+                if (is_file($oldPath) && file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+
+                if (is_file($oldPathThumb) && file_exists($oldPathThumb)) {
+                    unlink($oldPathThumb);
+                }
                 return true;
             }
 
