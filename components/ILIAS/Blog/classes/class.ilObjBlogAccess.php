@@ -55,7 +55,7 @@ class ilObjBlogAccess extends ilObjectAccess
         $t_arr = explode("_", $target);
 
         if (substr($target, -3) === "wsp") {
-            return ilSharedResourceGUI::hasAccess($t_arr[1]);
+            return ilSharedResourceGUI::hasAccess((int) $t_arr[1]);
         }
 
         if ($t_arr[0] !== "blog" || ((int) $t_arr[1]) <= 0) {
