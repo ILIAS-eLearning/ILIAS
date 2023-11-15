@@ -51,12 +51,15 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
         if ($rec = $this->db->fetchAssoc($set)) {
             return (int) $rec["id"];
         }
-        throw new \ilExerciseException("Team not found for user $user_id in assignment $ass_id");
+        return 0;
     }
 
     public function createCollection(int $ass_id, int $user_id): void
     {
         $team_id = $this->getTeamId($ass_id, $user_id);
+        if ($team_id === 0) {
+            return;
+        }
         $new_id = $this->wrapper->createEmptyCollection();
         $this->db->update(
             "exc_team_data",
@@ -72,6 +75,9 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
     public function getIdStringForAssIdAndUserId(int $ass_id, int $user_id): string
     {
         $team_id = $this->getTeamId($ass_id, $user_id);
+        if ($team_id === 0) {
+            return "";
+        }
         $set = $this->db->queryF(
             "SELECT feedback_rcid FROM exc_team_data " .
             " WHERE id = %s",
