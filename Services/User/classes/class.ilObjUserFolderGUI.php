@@ -3838,10 +3838,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $umail = new ilFormatMail($this->user->getId());
         $mail_data = $umail->getSavedData();
 
-        if (!is_array($mail_data)) {
-            $mail_data = ['user_id' => $this->user->getId()];
-        }
-
         $umail->savePostData(
             $mail_data['user_id'],
             $mail_data['attachments'],
