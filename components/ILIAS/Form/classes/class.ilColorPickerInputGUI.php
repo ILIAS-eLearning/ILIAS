@@ -158,9 +158,9 @@ class ilColorPickerInputGUI extends ilTextInputGUI
             $pos1 = strpos($a_value, "(");
             $pos2 = strpos($a_value, ")");
             $rgb = explode(",", substr($a_value, $pos1 + 1, $pos2 - $pos1 - 1));
-            $r = str_pad(dechex($rgb[0]), 2, "0", STR_PAD_LEFT);
-            $g = str_pad(dechex($rgb[1]), 2, "0", STR_PAD_LEFT);
-            $b = str_pad(dechex($rgb[2]), 2, "0", STR_PAD_LEFT);
+            $r = str_pad(dechex((int) $rgb[0]), 2, "0", STR_PAD_LEFT);
+            $g = str_pad(dechex((int) $rgb[1]), 2, "0", STR_PAD_LEFT);
+            $b = str_pad(dechex((int) $rgb[2]), 2, "0", STR_PAD_LEFT);
             $a_value = $r . $g . $b;
         }
 

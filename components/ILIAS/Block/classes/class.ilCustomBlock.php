@@ -246,7 +246,7 @@ class ilCustomBlock
         $query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title " .
             "FROM il_custom_block " .
             "WHERE " .
-                $ilDB->in("context_obj_id", $a_context_obj_ids, "", "integer") .
+                $ilDB->in("context_obj_id", $a_context_obj_ids, false, "integer") .
                 " AND context_obj_type = " . $ilDB->quote($a_context_obj_type, "text") .
             " ORDER BY title";
         $set = $ilDB->query($query);

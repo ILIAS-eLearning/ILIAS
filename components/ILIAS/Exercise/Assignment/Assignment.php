@@ -92,7 +92,7 @@ class Assignment
     {
         return $this->instructions;
     }
-    public function getMandatory(): int
+    public function getMandatory(): bool
     {
         return $this->mandatory;
     }

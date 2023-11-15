@@ -285,7 +285,7 @@ class ilBlogDataSet extends ilDataSet
 
                 // container copy
                 if ($new_id = $a_mapping->getMapping("components/ILIAS/Container", "objs", $a_rec["Id"])) {
-                    $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+                    $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
                 } else {
                     $newObj = new ilObjBlog();
                     $newObj->create();
@@ -303,7 +303,7 @@ class ilBlogDataSet extends ilDataSet
 
                 $newObj->setAbstractShorten((bool) ($a_rec["AbsShorten"] ?? false));
                 $newObj->setAbstractShortenLength((int) ($a_rec["AbsShortenLen"] ?? 0));
-                $newObj->setAbstractImage((int) ($a_rec["AbsImage"] ?? 0));
+                $newObj->setAbstractImage((bool) ($a_rec["AbsImage"] ?? 0));
                 $newObj->setAbstractImageWidth((int) ($a_rec["AbsImgWidth"] ?? 0));
                 $newObj->setAbstractImageHeight((int) ($a_rec["AbsImgHeight"] ?? 0));
                 $newObj->setNavMode((int) ($a_rec["NavMode"] ?? 0));
@@ -344,7 +344,7 @@ class ilBlogDataSet extends ilDataSet
                 if ($a_rec["Style"] ?? false) {
                     self::$style_map[$a_rec["Style"]][] = $newObj->getId();
                 }
-                $a_mapping->addMapping("components/ILIAS/Blog", "blog", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/Blog", "blog", $a_rec["Id"], (string) $newObj->getId());
                 break;
 
             case "blog_posting":
@@ -358,7 +358,7 @@ class ilBlogDataSet extends ilDataSet
                     $newObj->setWithdrawn(new ilDateTime($a_rec["LastWithdrawn"] ?? null, IL_CAL_DATETIME));
 
                     // parse export id into local id (if possible)
-                    $author = $this->parseObjectExportId($a_rec["Author"] ?? "", -1);
+                    $author = $this->parseObjectExportId($a_rec["Author"] ?? "", "-1");
                     $newObj->setAuthor((int) $author["id"]);
 
                     $newObj->create(true);

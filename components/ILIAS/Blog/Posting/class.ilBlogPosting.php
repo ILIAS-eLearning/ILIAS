@@ -539,7 +539,7 @@ class ilBlogPosting extends ilPageObject
      */
     protected static function lookup(
         string $a_field,
-        string $a_posting_id
+        int $a_posting_id
     ): ?string {
         global $DIC;
 

@@ -71,7 +71,7 @@ class MediaObjectManager
                 if (($id_arr[1] == IL_INST_ID) ||
                     (substr($target, 0, 4) == "il__")) {
                     $mob_id = $id_arr[count($id_arr) - 1];
-                    if (\ilObject::_exists($mob_id)) {
+                    if (\ilObject::_exists((int) $mob_id)) {
                         $mob_ids[$mob_id] = $mob_id;
                     }
                 }
