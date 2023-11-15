@@ -179,8 +179,7 @@ class SelfEvaluationTable
                 );
 
                 $skill = \ilSkillTreeNodeFactory::getInstance($this->basic_skill_id);
-                $records[0] = ["id" => 0, "title" => "", "description" => $this->lng->txt("skmg_no_skills")];
-                $i = 1;
+                $i = 0;
                 foreach ($skill->getLevelData() as $level) {
                     $records[$i]["id"] = $level["id"];
                     $records[$i]["title"] = $level["title"];
