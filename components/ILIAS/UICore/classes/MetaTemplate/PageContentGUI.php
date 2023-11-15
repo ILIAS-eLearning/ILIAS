@@ -560,6 +560,7 @@ class PageContentGUI
                 $current_toolbar->setLeadingImage(\ilUtil::getImagePath("nav/arrow_downright.svg"), $lng->txt("actions"));
             }
 
+            $current_toolbar->setId($current_toolbar->getId() . "2");
             $this->template->setVariable("ADM_PANEL2", $current_toolbar->getHTML());
             $this->template->parseCurrentBlock();
         }

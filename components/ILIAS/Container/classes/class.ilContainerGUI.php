@@ -503,6 +503,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
             $toolbar = new ilToolbarGUI();
+            $toolbar->setId("admclip");
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
 
@@ -521,6 +522,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
             $toolbar = new ilToolbarGUI();
+            $toolbar->setId("adm");
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
 
