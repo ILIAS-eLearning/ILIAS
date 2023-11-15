@@ -428,6 +428,13 @@ class ilMail
             $row['use_placeholders'] = (bool) $row['use_placeholders'];
         }
 
+        $null_to_string_properties = ['m_subject', 'm_message', 'rcp_to', 'rcp_cc', 'rcp_bcc'];
+        foreach ($null_to_string_properties as $null_to_string_property) {
+            if (!isset($row[$null_to_string_property])) {
+                $row[$null_to_string_property] = '';
+            }
+        }
+
         return $row;
     }
 
