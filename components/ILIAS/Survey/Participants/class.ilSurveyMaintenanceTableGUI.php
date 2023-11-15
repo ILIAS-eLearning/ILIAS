@@ -137,7 +137,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
             return $this->lng->txt('not_available');
         }
 
-        return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
+        return sprintf("%02d:%02d:%02d", (int) ($timeinseconds / 3600), (int) ($timeinseconds / 60) % 60, (int) $timeinseconds % 60);
     }
 
     public function numericOrdering(string $a_field): bool
