@@ -91,7 +91,7 @@ class MediaObjectManager
         // get xml of corresponding media objects
         $mobs_xml = "";
         foreach ($mob_ids as $mob_id => $dummy) {
-            if (\ilObject::_lookupType($mob_id) == "mob") {
+            if (\ilObject::_lookupType((int) $mob_id) === "mob") {
                 $mob_obj = new \ilObjMediaObject($mob_id);
                 $mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT, $a_inst = 0, true);
             }
