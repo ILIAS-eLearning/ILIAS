@@ -810,7 +810,6 @@ class ilContainerRenderer
         $valid = false;
 
         $page_html = $this->renderContainerPage();
-
         $block_tpl = $this->initBlockTemplate();
 
         $embedded_block_ids = $this->item_presentation->getPageEmbeddedBlockIds();
@@ -968,7 +967,7 @@ class ilContainerRenderer
             $this->renderDetails($block_tpl);
             return $page_html . $block_tpl->get();
         }
-        return "";
+        return $page_html;
     }
 
     /**
