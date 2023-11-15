@@ -154,6 +154,7 @@ class ilExerciseManagementGUI
         if ($this->ass_id > 0) {
             $this->tutor_feedback_file = $domain->assignment()->tutorFeedbackFile($this->ass_id);
         }
+        $this->ctrl->saveParameter($this, array("part_id"));
     }
 
     /**
