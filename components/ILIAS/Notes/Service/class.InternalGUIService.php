@@ -93,17 +93,22 @@ class InternalGUIService
     }
 
     public function getCommentsGUI(
-        int $rep_obj_id,
+        $rep_obj_id,
         int $obj_id,
         string $obj_type,
-        int $news_id = 0
+        int $news_id = 0,
+        bool $include_subs = false,
+        bool $ajax = true,
+        string $search_text
     ): \ilCommentGUI {
         return new \ilCommentGUI(
             $rep_obj_id,
             $obj_id,
             $obj_type,
-            false,
-            $news_id
+            $include_subs,
+            $news_id,
+            $ajax,
+            $search_text
         );
     }
 

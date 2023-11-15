@@ -24,7 +24,7 @@ use ILIAS\Repository\Filter\FilterAdapterGUI;
 /**
  * Private Notes on PD
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI
+ * @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI, ilCommentGUI
  */
 class ilPDNotesGUI
 {
@@ -132,6 +132,11 @@ class ilPDNotesGUI
                 $this->view();		// forwardCommand is invoked in view() method
                 break;
 
+            case "ilcommentgui":
+                $this->displayHeader();
+                $this->view();		// forwardCommand is invoked in view() method
+                break;
+
             default:
                 $cmd = $this->ctrl->getCmd("view");
                 $this->displayHeader();
@@ -198,38 +203,7 @@ class ilPDNotesGUI
             $this->tpl->setOnScreenMessage('info', $lng->txt("msg_no_search_result"));
             return;
         }
-        if ($this->current_rel_obj === null) {
-            $notes_gui = new ilNoteGUI(
-                $rel_objs,
-                0,
-                "",
-                true,
-                0,
-                false,
-                $this->search_text
-            );
-        } elseif ($this->current_rel_obj > 0) {
-            $notes_gui = new ilNoteGUI(
-                $this->current_rel_obj,
-                0,
-                \ilObject::_lookupType($this->current_rel_obj),
-                true,
-                0,
-                false,
-                $this->search_text
-            );
-        } else {
-            $notes_gui = new ilNoteGUI(
-                0,
-                $ilUser->getId(),
-                "pd",
-                false,
-                0,
-                false,
-                $this->search_text
-            );
-        }
-        //$notes_gui->setHideNewForm(true);
+        $notes_gui = $this->getGui();
 
         if ($this->note_type === Note::PRIVATE) {
             $notes_gui->enablePrivateNotes(true);
@@ -252,17 +226,60 @@ class ilPDNotesGUI
 
         $next_class = $this->ctrl->getNextClass($this);
 
-        if ($next_class === "ilnotegui") {
+        if (in_array($next_class, ["ilnotegui", "ilcommentgui"])) {
             $html = $this->ctrl->forwardCommand($notes_gui);
         } elseif ($this->note_type === Note::PRIVATE) {
             $html = $notes_gui->getNotesHTML();
         } else {
-            $html = $notes_gui->getCommentsHTML();
+            $html = $notes_gui->getListHTML();
         }
 
         $filter_html = $this->getFilter()->render();
 
         $this->tpl->setContent($filter_html . $html);
+    }
+
+    protected function getGui(): ilNoteGUI
+    {
+        $rel_objs = $this->getRelatedObjects();
+        if ($this->current_rel_obj === null) {
+            $rep_objs = $rel_objs;
+            $type = "";
+            $include_subs = true;
+            $obj_id = 0;
+        } elseif ($this->current_rel_obj > 0) {
+            $rep_objs = $this->current_rel_obj;
+            $type = \ilObject::_lookupType($this->current_rel_obj);
+            $include_subs = true;
+            $obj_id = 0;
+        } else {
+            $rep_objs = 0;
+            $type = "pd";
+            $include_subs = false;
+            $obj_id = $ilUser->getId();
+        }
+        if ($this->note_type === Note::PRIVATE) {
+            $gui = new ilNoteGUI(
+                $rep_objs,
+                $obj_id,
+                $type,
+                $include_subs,
+                0,
+                false,
+                $this->search_text
+            );
+        } else {
+            $gui = $this->gui->getCommentsGUI(
+                $rep_objs,
+                $obj_id,
+                $type,
+                0,
+                $include_subs,
+                false,
+                $this->search_text
+            );
+        }
+        return $gui;
     }
 
     public function changeRelatedObject(): void
@@ -294,7 +311,7 @@ class ilPDNotesGUI
             $ilCtrl->redirect($this, "showPrivateNotes");
         }
 
-        $ilCtrl->redirectByClass(ilNoteGUI::class, "getCommentsHTML");
+        $ilCtrl->redirectByClass(ilCommentGUI::class, "getListHTML");
     }
 
     protected function setSortation(): void
