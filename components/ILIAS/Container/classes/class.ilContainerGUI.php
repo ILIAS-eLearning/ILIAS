@@ -416,6 +416,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->setContentSubTabs();
         if ($this->isActiveAdministrationPanel()) {
+            if (!$this->item_presentation->canManageItems()) {
+                $this->ctrl->redirect($this, "disableAdministrationPanel");
+            }
             $ilTabs->activateSubTab("manage");
         } else {
             $ilTabs->activateSubTab("view_content");
