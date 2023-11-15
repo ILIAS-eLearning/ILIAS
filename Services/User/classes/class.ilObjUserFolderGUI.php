@@ -4021,13 +4021,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $umail = new ilFormatMail($ilUser->getId());
         $mail_data = $umail->getSavedData();
 
-        if (!is_array($mail_data)) {
-            $mail_data = array("user_id" => $ilUser->getId());
-        }
-
-        // ???
-        // $mail_data = $umail->appendSearchResult(array('#il_ml_'.$list_id), 'to');
-
         $umail->savePostData(
             $mail_data['user_id'],
             $mail_data['attachments'],
