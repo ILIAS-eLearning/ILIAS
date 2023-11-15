@@ -1192,7 +1192,7 @@ class ilExAssignment
         if (!$this->ass_type->usesTeams()) {
             foreach ($idl as $user_id => $v) {
                 if (!isset($mem[$user_id])) {
-                    if (ilObjUser::_exists($user_id)) {
+                    if (ilObjUser::_exists((int) $user_id)) {
                         $name = ilObjUser::_lookupName($user_id);
                         $mem[$user_id] =
                             array(
