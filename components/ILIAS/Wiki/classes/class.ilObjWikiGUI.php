@@ -571,10 +571,16 @@ class ilObjWikiGUI extends ilObjectGUI
             'ilobjecttranslationgui'
             ), true) || $ilCtrl->getNextClass() === "ilpermissiongui") {
             if ($this->requested_page !== "") {
+                $page_id = ($this->edit_request->getWikiPageId() > 0)
+                    ? $this->edit_request->getWikiPageId()
+                    : $this->pm->getPageIdForTitle(
+                        $this->requested_page,
+                        $this->edit_request->getTranslation()
+                    );
                 $this->tabs_gui->setBackTarget(
                     $lng->txt("wiki_last_visited_page"),
                     $this->pm->getPermaLink(
-                        $this->edit_request->getWikiPageId(),
+                        $page_id,
                         $this->edit_request->getTranslation()
                     )
                 );
