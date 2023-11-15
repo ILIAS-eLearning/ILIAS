@@ -92,7 +92,7 @@ export default class PageUIActionHandler {
         // legacy
         console.log(model.getCurrentPCName());
 
-        if (!['Paragraph', 'LayoutTemplate', 'Grid', 'MediaObject', 'Section', 'Tabs', 'Resources', 'DataTable', 'SourceCode', 'InteractiveImage'].includes(model.getCurrentPCName())) {
+        if (!['Paragraph', 'LayoutTemplate', 'PlaceHolder', 'Grid', 'MediaObject', 'Section', 'Tabs', 'Resources', 'DataTable', 'SourceCode', 'InteractiveImage'].includes(model.getCurrentPCName())) {
           const ctype = this.ui.getPCTypeForName(params.cname);
           client.sendForm(actionFactory.page().command().createLegacy(
             ctype,
@@ -103,7 +103,7 @@ export default class PageUIActionHandler {
           form_sent = true;
         }
         // generic
-        if (['LayoutTemplate', 'Grid', 'MediaObject', 'Section', 'Tabs', 'Resources', 'DataTable', 'SourceCode', 'InteractiveImage'].includes(model.getCurrentPCName())) {
+        if (['LayoutTemplate', 'PlaceHolder', 'Grid', 'MediaObject', 'Section', 'Tabs', 'Resources', 'DataTable', 'SourceCode', 'InteractiveImage'].includes(model.getCurrentPCName())) {
           this.ui.showGenericCreationForm();
         }
         break;
