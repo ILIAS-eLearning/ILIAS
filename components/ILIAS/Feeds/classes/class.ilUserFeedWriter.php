@@ -84,9 +84,9 @@ class ilUserFeedWriter extends ilFeedWriter
                 $title = ilNewsItem::determineNewsTitle(
                     $item["context_obj_type"],
                     $item["title"],
-                    $item["content_is_lang_var"],
-                    $item["agg_ref_id"],
-                    $item["aggregation"]
+                    (bool) $item["content_is_lang_var"],
+                    (int) ($item["agg_ref_id"] ?? 0),
+                    $item["aggregation"] ?? []
                 );
 
                 // path
