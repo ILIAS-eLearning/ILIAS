@@ -54,7 +54,8 @@ class PageManager implements PageManagerInterface
 
     public function contentFromXml($xml): PageContentManager
     {
-        $dom = $this->dom_util->docFromString($xml);
+        $error = "";
+        $dom = $this->dom_util->docFromString($xml, $error);
         return new PageContentManager($dom);
     }
 }

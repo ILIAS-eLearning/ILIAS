@@ -380,7 +380,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $container_view->setOutput();
 
-        $this->adminCommands = $container_view->adminCommands;
 
         // it is important not to show the subobjects/admin panel here, since
         // we will create nested forms in case, e.g. a news/calendar item is added
