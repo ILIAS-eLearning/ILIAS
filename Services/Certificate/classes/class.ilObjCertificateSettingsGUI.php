@@ -112,6 +112,16 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $bgimage = new ilImageFileInputGUI($this->lng->txt('certificate_background_image'), 'background');
         $bgimage->setRequired(false);
 
+        if (strcmp($this->ctrl->getCmd(), 'save') === 0) {
+            $backgroundDelete = $this->httpState->wrapper()->post()->has('background_delete') && $this->httpState->wrapper()->post()->retrieve(
+                    'background_delete',
+                    $this->refinery->kindlyTo()->bool()
+                );
+            if ($backgroundDelete) {
+                $this->object->deleteBackgroundImage();
+            }
+        }
+
         if (
             $this->upload->hasUploads() &&
             $this->httpState->request()->getMethod() === 'POST' &&
@@ -194,16 +204,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $form->addItem($persistentCertificateMode);
 
         $this->tpl->setContent($form->getHTML());
-
-        if (strcmp($this->ctrl->getCmd(), 'save') === 0) {
-            $backgroundDelete = $this->httpState->wrapper()->post()->has('background_delete') && $this->httpState->wrapper()->post()->retrieve(
-                'background_delete',
-                $this->refinery->kindlyTo()->bool()
-            );
-            if ($backgroundDelete) {
-                $this->object->deleteBackgroundImage();
-            }
-        }
     }
 
     public function save(): void
