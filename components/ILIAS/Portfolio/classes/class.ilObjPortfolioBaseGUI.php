@@ -159,7 +159,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
         $ret = $this->ctrl->forwardCommand($page_gui);
-
         if ($ret != "" && $ret !== true) {
             // preview (fullscreen)
             if ($this->page_mode === "preview") {
@@ -616,9 +615,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->ctrl->redirect($this, "view");
     }
 
+    /**
+     * @param string|bool $a_content (may be content from embedded blog)
+     */
     public function preview(
         bool $a_return = false,
-        bool $a_content = false,
+        $a_content = false,
         bool $a_show_notes = true
     ): string {
         $ilSetting = $this->settings;

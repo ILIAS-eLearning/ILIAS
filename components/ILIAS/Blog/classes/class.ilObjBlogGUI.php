@@ -34,6 +34,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected \ILIAS\Blog\Access\BlogAccess $blog_access;
     protected \ILIAS\Blog\InternalDomainService $domain;
     protected \ILIAS\Blog\InternalGUIService $gui;
+    protected string $rendered_content = "";
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
@@ -603,6 +604,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         switch ($next_class) {
             case 'ilblogpostinggui':
+                $this->ctrl->saveParameter($this, "user_page");
                 if (!$this->prtf_embed) {
                     $tpl->loadStandardTemplate();
                 }
@@ -707,7 +709,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $this->addHeaderActionForCommand($cmd);
                             $this->filterInactivePostings();
                             $nav = $this->renderNavigation("gethtml", $cmd);
-                            $this->buildEmbedded($ret, $nav);
+                            // this is important for embedded blog pages!
+                            $this->rendered_content = $this->buildEmbedded($ret, $nav);
                             return;
 
                             // ilias/editor
@@ -869,8 +872,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 if (!$cmd) {
                     $cmd = "render";
                 }
-                $this->$cmd();
+                $this->rendered_content = (string) $this->$cmd();
         }
+    }
+
+    public function getRenderedContent(): string
+    {
+        return $this->rendered_content;
     }
 
     protected function triggerAssignmentTool(): void
