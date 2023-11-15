@@ -19,6 +19,7 @@
 namespace ILIAS\COPage\Editor\Server;
 
 use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\COPage\PC\PCDefinition;
 
 /**
  *
@@ -26,6 +27,7 @@ use ILIAS\Repository\Form\FormAdapterGUI;
  */
 class UIWrapper
 {
+    protected \ILIAS\COPage\PC\DomainService $pc_def;
     protected \ILIAS\DI\UIServices $ui;
     protected \ilLanguage $lng;
 
@@ -33,6 +35,9 @@ class UIWrapper
         \ILIAS\DI\UIServices $ui,
         \ilLanguage $lng
     ) {
+        global $DIC;
+
+        $this->pc_def = $DIC->copage()->internal()->domain()->pc();
         $this->ui = $ui;
         $this->lng = $lng;
         $this->lng->loadLanguageModule("copg");
@@ -261,7 +266,7 @@ class UIWrapper
     protected function getOnloadCode(\ilPageObjectGUI $page_gui): string
     {
         $page = $page_gui->getPageObject();
-        $defs = \ilCOPagePCDef::getPCDefinitions();
+        $defs = $this->pc_def->definition()->getPCDefinitions();
         $all_onload_code = [];
         foreach ($defs as $def) {
             $pc_class = $def["pc_class"];

@@ -218,6 +218,12 @@ class ilPageLayout
         return $layout_page->getXMLContent();
     }
 
+    public function copyXmlContent(bool $self_ass = true): string
+    {
+        $layout_page = new ilPageLayoutPage($this->layout_id);
+        return $layout_page->copyXmlContent(true, 0, 0, $self_ass);
+    }
+
     public function getPreview(): string
     {
         return $this->generatePreview();
