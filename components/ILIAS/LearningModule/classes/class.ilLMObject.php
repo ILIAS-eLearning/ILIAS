@@ -703,7 +703,7 @@ class ilLMObject
         $obj_set = $ilDB->query($query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-        return (int) $obj_rec["lm_id"];
+        return (int) ($obj_rec["lm_id"] ?? 0);
     }
 
     /**
