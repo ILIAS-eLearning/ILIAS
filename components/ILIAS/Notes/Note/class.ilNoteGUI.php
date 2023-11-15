@@ -21,9 +21,7 @@ use ILIAS\Notes\StandardGUIRequest;
 use ILIAS\Notes\Note;
 
 /**
- * Notes GUI class. An instance of this class handles all notes
- * (and their lists) of an object.
- * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilNoteGUI: ilCommentGUI
  */
 class ilNoteGUI
 {
@@ -225,6 +223,20 @@ class ilNoteGUI
         $cmd = $this->ctrl->getCmd($this->getDefaultCommand());
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
+            case strtolower(ilCommentGUI::class):
+                $gui = $this->gui->getCommentsGUI(
+                    $this->rep_obj_id,
+                    $this->obj_id,
+                    $this->obj_type,
+                    $this->news_id,
+                    $this->inc_sub,
+                    $this->ajax,
+                    $this->search_text
+                );
+                $gui->enableCommentsSettings($this->comments_settings);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
                 return $this->$cmd();
         }
@@ -287,6 +299,13 @@ class ilNoteGUI
         return $this->ui->renderer()->render($components);
     }
 
+    // temporary forward to commentGUI
+    protected function getCommentsHTML(): string
+    {
+        $this->ctrl->redirectByClass(ilCommentGUI::class, "getListHTML", "", $this->ajax);
+        return "";
+    }
+
     public function activateComments(): void
     {
         $ilCtrl = $this->ctrl;
@@ -295,7 +314,7 @@ class ilNoteGUI
             $this->manager->activateComments($this->rep_obj_id, true);
         }
 
-        $ilCtrl->redirectByClass(static::class, "getCommentsHTML", "", $this->ajax);
+        $ilCtrl->redirectByClass(static::class, "getListHTML", "", $this->ajax);
     }
 
     public function deactivateComments(): void
@@ -306,7 +325,7 @@ class ilNoteGUI
             $this->manager->activateComments($this->rep_obj_id, false);
         }
 
-        $ilCtrl->redirectByClass(static::class, "getCommentsHTML", "", $this->ajax);
+        $ilCtrl->redirectByClass(static::class, "getListHTML", "", $this->ajax);
     }
 
     /**
@@ -733,7 +752,7 @@ class ilNoteGUI
         $avatar = null;
         $title = $this->getItemTitle($note);
         if ($note->getType() === Note::PUBLIC) {
-            $avatar = ilObjUser::_getAvatar($note->getAuthor());
+            $avatar = $this->gui->profile()->getAvatar($note->getAuthor());
         }
         $this->addItemProperties($note, $properties);
 

@@ -1017,8 +1017,7 @@ class ilInfoScreenGUI
         /* moved to action menu
         $notes_gui->enablePrivateNotes();
         */
-
-        if ($next_class === ilCommentGUI::class) {
+        if ($next_class === strtolower(ilCommentGUI::class)) {
             $html = $this->ctrl->forwardCommand($comments_gui);
         } else {
             $html = $comments_gui->getListHTML();
