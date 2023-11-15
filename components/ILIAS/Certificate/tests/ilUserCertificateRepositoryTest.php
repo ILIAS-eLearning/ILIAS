@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\ValueObject\CertificateId;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -48,6 +50,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'currently_active' => ['integer', true],
                 'background_image_path' => ['text', '/some/where/background.jpg'],
                 'thumbnail_image_path' => ['text', '/some/where/thumbnail.svg'],
+                'certificate_id' => ['text', '11111111-2222-3333-4444-555555555555'],
             ]
         );
 
@@ -77,8 +80,10 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             1,
             'v5.4.0',
             true,
+            new CertificateId('11111111-2222-3333-4444-555555555555'),
             '/some/where/background.jpg',
-            '/some/where/thumbnail.svg'
+            '/some/where/thumbnail.svg',
+            null
         );
 
         $repository->save($userCertificate);
@@ -108,7 +113,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg',
-                'title' => 'Some Title'
+                'title' => 'Some Title',
+                'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ],
             [
                 'id' => 142,
@@ -126,7 +132,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'currently_active' => true,
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg',
-                'title' => 'Someother Title'
+                'title' => 'Someother Title',
+                'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ]
         );
 
@@ -173,6 +180,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg',
+                'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ],
             [
                 'id' => 142,
@@ -190,6 +198,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'currently_active' => true,
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg',
+                'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ]
         );
 
@@ -264,7 +273,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => '/some/where/else/thumbnail.svg',
                 'title' => 'SomeTitle',
-                'someDescription' => 'SomeDescription'
+                'someDescription' => 'SomeDescription',
+                'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ],
             [
                 'id' => 142,
@@ -283,7 +293,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => '/some/where/else/thumbnail.svg',
                 'title' => 'SomeTitle',
-                'someDescription' => 'SomeDescription'
+                'someDescription' => 'SomeDescription',
+                'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ]
         );
 
@@ -327,7 +338,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => '/some/where/else/thumbnail.svg',
                 'title' => 'SomeTitle',
-                'someDescription' => 'SomeDescription'
+                'someDescription' => 'SomeDescription',
+                'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ]
         );
 

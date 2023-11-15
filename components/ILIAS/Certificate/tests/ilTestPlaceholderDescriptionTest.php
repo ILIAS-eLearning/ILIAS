@@ -61,7 +61,7 @@ class ilTestPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
-        $languageMock->expects($this->exactly(25))
+        $languageMock->expects($this->exactly(26))
             ->method('txt')
             ->willReturn('Something translated');
 
@@ -81,6 +81,7 @@ class ilTestPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $this->assertSame(
             [
+                'CERTIFICATE_ID' => 'Something translated',
                 'USER_LOGIN' => 'Something translated',
                 'USER_FULLNAME' => 'Something translated',
                 'USER_FIRSTNAME' => 'Something translated',

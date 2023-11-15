@@ -2754,6 +2754,8 @@ certificate#:#certificate_error_upload_bgimage#:#An error occurred during the up
 certificate#:#certificate_export#:#Export
 certificate#:#certificate_failed#:#failed
 certificate#:#certificate_file_basename#:#Certificate
+certificate#:#certificate_id#:#Certificate ID
+certificate#:#certificate_issue_date#:#Issue Date
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
@@ -2765,6 +2767,7 @@ certificate#:#certificate_pageheight#:#Page Height
 certificate#:#certificate_pagewidth#:#Page Width
 certificate#:#certificate_passed#:#passed
 certificate#:#certificate_ph_birthday#:#Birthday of the user
+certificate#:#certificate_ph_cert_id#:#Unique Certificate ID
 certificate#:#certificate_ph_city#:#City of the user's address
 certificate#:#certificate_ph_country#:#Country of the user's address
 certificate#:#certificate_ph_date#:#Actual date

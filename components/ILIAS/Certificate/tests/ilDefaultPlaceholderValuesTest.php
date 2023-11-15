@@ -148,6 +148,10 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
             ->willReturn([]);
 
+        $uuid_factory_mock = $this->getMockBuilder(ILIAS\Data\UUID\Factory::class)
+            ->getMock();
+        $uuid_factory_mock->method('uuid4AsString')->willReturn('randomUniqueString');
+
         $placeHolderObject = new ilDefaultPlaceholderValues(
             $objectHelper,
             $dateHelper,
@@ -155,6 +159,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             $language,
             $utilHelper,
             $userDefinePlaceholderMock,
+            $uuid_factory_mock,
             1
         );
         $placeHolderObject->setUserLanguage($language);
@@ -163,6 +168,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $this->assertEquals(
             [
+                'CERTIFICATE_ID' => '',
                 'USER_LOGIN' => 'a_login',
                 'USER_FULLNAME' => 'Niels Theen',
                 'USER_FIRSTNAME' => 'Niels',
@@ -226,6 +232,10 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
             ->willReturn([]);
 
+        $uuid_factory_mock = $this->getMockBuilder(ILIAS\Data\UUID\Factory::class)
+            ->getMock();
+        $uuid_factory_mock->method('uuid4AsString')->willReturn('randomUniqueString');
+
         $placeHolderObject = new ilDefaultPlaceholderValues(
             $objectHelper,
             $dateHelper,
@@ -233,6 +243,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             $language,
             $utilHelper,
             $userDefinePlaceholderMock,
+            $uuid_factory_mock,
             1
         );
 
@@ -243,6 +254,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $this->assertSame(
             [
+                'CERTIFICATE_ID' => 'randomUniqueString',
                 'USER_LOGIN' => 'Something',
                 'USER_FULLNAME' => 'Something',
                 'USER_FIRSTNAME' => 'Something',

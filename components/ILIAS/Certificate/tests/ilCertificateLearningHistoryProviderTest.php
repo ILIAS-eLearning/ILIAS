@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\ValueObject\CertificateId;
+
 class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 {
     public function testIsActive(): void
@@ -134,6 +136,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                             1,
                             'v5.4.0',
                             true,
+                            new CertificateId('11111111-2222-3333-4444-555555555555'),
                             '/some/where/background_1.jpg',
                             '/some/where/else/thumbnail_1.jpg',
                             40
@@ -157,6 +160,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                             1,
                             'v5.4.0',
                             true,
+                            new CertificateId('11111111-2222-3333-4444-555555555555'),
                             '/some/where/background_1.jpg',
                             '/some/where/else/thumbnail_1.jpg',
                             50
