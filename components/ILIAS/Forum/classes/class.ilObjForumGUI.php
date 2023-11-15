@@ -846,7 +846,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $default_html = $this->renderer->render($vc_container);
         $modals = $this->renderer->render($this->modal_collection);
-        $this->tpl->setContent($default_html . $modals);
+        $forwarder = new ilForumPageCommandForwarder(
+            $GLOBALS['DIC']['http'],
+            $this->ctrl,
+            $this->tabs_gui,
+            $this->lng,
+            $this->object,
+            $this->user,
+            $this->content_style_domain
+        );
+        $forwarder->setPresentationMode(ilForumPageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
+        $this->tpl->setContent($forwarder->forward() . $default_html . $modals);
     }
 
     protected function getThreadSortation(): int
