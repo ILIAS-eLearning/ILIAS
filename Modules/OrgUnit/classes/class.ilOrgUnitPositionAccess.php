@@ -64,7 +64,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         $assignment_of_user = $this->assignmentRepo->getByUsers([$for_user_id]);
         $other_users_in_same_org_units = [];
         foreach ($assignment_of_user as $assignment) {
-            $other_users_in_same_org_units += $this->assignmentRepo->getUsersByOrgUnits($assignment->getOrguId());
+            $other_users_in_same_org_units += $this->assignmentRepo->getUsersByOrgUnits([$assignment->getOrguId()]);
         }
 
         return array_intersect($user_ids, $other_users_in_same_org_units);
