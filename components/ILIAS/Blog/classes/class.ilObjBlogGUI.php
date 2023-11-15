@@ -2701,10 +2701,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->setParameterByClass("ilRepositoryGUI", "edt", $id[2]);
                 }
             }
-            if ($access->checkAccess("read", "", $id[0])) {
+            if ($access->checkAccess("read", "", (int) $id[0])) {
                 $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
             }
-            if ($access->checkAccess("visible", "", $id[0])) {
+            if ($access->checkAccess("visible", "", (int) $id[0])) {
                 $ilCtrl->redirectByClass("ilRepositoryGUI", "infoScreen");
             }
         }
