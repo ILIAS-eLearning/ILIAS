@@ -440,7 +440,7 @@ class ilMailTest extends ilMailBaseTest
             'rcp_to' => 'phpunit'
         ]);
 
-        $instance->savePostData(
+        $instance->persistToStage(
             78_979_078,
             $attachments,
             $rcpTo,
@@ -464,7 +464,7 @@ class ilMailTest extends ilMailBaseTest
             'rcp_to' => 'phpunit'
         ]);
 
-        $mail_data = $instance->getSavedData();
+        $mail_data = $instance->retrieveFromStage();
 
         $this->assertIsArray($mail_data);
         $this->assertEquals('phpunit', $mail_data['rcp_to']);
