@@ -659,7 +659,7 @@ class ilUserTableGUI extends ilTable2GUI
         }
 
         if ($a_set["usr_id"] != 6
-            && $this->getMode() == self::MODE_USER_FOLDER || $a_set['time_limit_owner'] == $this->getUserFolderId()) {
+            && ($this->getMode() == self::MODE_USER_FOLDER || $a_set['time_limit_owner'] == $this->getUserFolderId())) {
             $this->tpl->setCurrentBlock("checkb");
             $this->tpl->setVariable("ID", $a_set["usr_id"]);
             $this->tpl->parseCurrentBlock();
