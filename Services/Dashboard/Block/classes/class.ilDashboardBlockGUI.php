@@ -562,6 +562,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function manage(ReplaceSignal $replace_signal = null): string
     {
+        $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/ReplaceModalContent.js');
         $page = '';
         if ($this->http->wrapper()->query()->has('page')) {
             $page = $this->http->wrapper()->query()->retrieve('page', $this->refinery->kindlyTo()->string());
@@ -616,7 +617,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $bot_tb->setOpenFormTag(false);
 
         $tpl = new ilTemplate('tpl.remove_multiple_modal_id_wrapper.html', true, true, 'Services/Dashboard');
-        $tpl->setVariable('CONTENT', $top_tb->getHTML() . $this->renderManageList($grouped_items) . $bot_tb->getHTML());
+        $manageListHTML = $this->renderManageList($grouped_items);
+        if ($manageListHTML) {
+            $tpl->setVariable('CONTENT', $top_tb->getHTML() . $this->renderManageList($grouped_items) . $bot_tb->getHTML());
+        } else {
+            $tpl->setVariable('CONTENT', $this->ui->renderer()->render($this->ui->factory()->messageBox()->info($this->lng->txt('pd_no_items_to_manage'))));
+        }
         $tpl->setVariable('VIEW', $this->viewSettings->getCurrentView());
 
         return $tpl->get();

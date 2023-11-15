@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 class ilFavouritesListGUI
 {
+    private ilGlobalTemplateInterface $main_tpl;
     protected \ILIAS\DI\UIServices $ui;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -63,20 +64,34 @@ class ilFavouritesListGUI
             }
         }
         if (count($item_groups) > 0) {
+            $tpl = new ilTemplate("tpl.favourites.html", true, true, "Services/Repository/Favourites");
             $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "view", "0");
             $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "col_side", "center");
             $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "block_type", "pditems");
-
             // see PR discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/5247/files
+            $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
+                $this->lng->txt('rep_configure'),
+                $this->ui->factory()->legacy('PH')
+            )->withAdditionalOnLoadCode(function ($id) {
+                return "document.getElementById('$id').setAttribute('data-depth-level', null)";
+            });
+            $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
+                $this->ctrl->getLinkTargetByClass(
+                    [ilDashboardGUI::class, ilColumnGUI::class, ilSelectedItemsBlockGUI::class],
+                    'removeFromDeskRoundtrip'
+                ) . '&page=manage&replaceSignal=' . $roundtrip_modal->getReplaceSignal()->getId()
+            );
+
             $config_item = $f->item()->standard(
-                $f->link()->standard(
+                $f->button()->shy(
                     $this->lng->txt("rep_configure"),
-                    $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilSelectedItemsBlockGUI"], "manage")
+                    $roundtrip_modal->getShowSignal()
                 )
             );
             array_unshift($item_groups, $f->item()->group($this->lng->txt(""), [$config_item]));
             $panel = $f->panel()->secondary()->listing("", $item_groups);
-            return $this->ui->renderer()->render([$panel]);
+            $tpl->setVariable("FAV_CONTENT", $this->ui->renderer()->render([$panel, $roundtrip_modal]));
+            return $tpl->get();
         }
 
         return $favoritesManager->getNoItemFoundContent();
