@@ -162,13 +162,20 @@ class ilObjCertificateSettings extends ilObject
 
                 $this->certificateRepo->updateDefaultBackgroundImagePaths($oldRelativePath, $newRelativePath);
 
-                if (is_file($oldPath) && file_exists($oldPath)) {
-                    unlink($oldPath);
+                if (
+                    !$this->certificateRepo->isBackgroundImageUsed($oldRelativePath)
+                    && !$this->userCertificateRepo->isBackgroundImageUsed($oldRelativePath)
+                ) {
+                    if (is_file($oldPath) && file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+
+                    if (is_file($oldPathThumb) && file_exists($oldPathThumb)) {
+                        unlink($oldPathThumb);
+                    }
                 }
 
-                if (is_file($oldPathThumb) && file_exists($oldPathThumb)) {
-                    unlink($oldPathThumb);
-                }
+
                 return true;
             }
 
