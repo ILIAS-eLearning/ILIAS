@@ -21,3 +21,7 @@
 ## Video
 
 - ILIAS renders the video tag with the attribute `preload="auto"` to tell the browser to load the basic video data like the duration into the player. In almost all browsers this enables a preview image of the video, but not in all, e.g. Safari decides to save bandwidth instead.
+
+## Constraint Proportions
+
+This checkbox in the advanced editing form synchronises the width and height input field while editing to keep the original proportion. It only works on images with a given width/height. This is not a property being saved, it only acts during modification of the input fields.

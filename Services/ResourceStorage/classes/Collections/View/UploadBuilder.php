@@ -52,6 +52,11 @@ final class UploadBuilder
                     $this->upload_handler,
                     $this->language->txt('upload_field_title')
                 )->withMaxFiles(100)
+            )->withUploadButton(
+                $this->ui_factory->button()->shy(
+                    $this->language->txt('select_files_from_computer'),
+                    '#'
+                )
             )->withBulky(true);
         }
     }

@@ -98,55 +98,30 @@ class ilChatroom
     /**
      * @param string[] $permissions
      */
-    protected static function checkPermissions(int $usrId, int $refId, array $permissions): bool
+    protected static function checkPermissions(int $usr_id, int $ref_id, array $permissions): bool
     {
         global $DIC;
 
         $pub_ref_id = ilObjChatroom::_getPublicRefId();
 
-        foreach ($permissions as $permission) {
-            if ($pub_ref_id === $refId) {
-                $hasAccess = $DIC->rbac()->system()->checkAccessOfUser($usrId, $permission, $refId);
-                if ($hasAccess) {
-                    $hasWritePermission = $DIC->rbac()->system()->checkAccessOfUser($usrId, 'write', $refId);
-                    if ($hasWritePermission) {
-                        continue;
-                    }
+        if ($pub_ref_id === $ref_id) {
+            $obj_id = ilObject::_lookupObjId($ref_id);
+            foreach ($permissions as $permission) {
+                $no_access = !$DIC->rbac()->system()->checkAccessOfUser($usr_id, $permission, $ref_id) || (
+                    !$DIC->rbac()->system()->checkAccessOfUser($usr_id, 'write', $ref_id) &&
+                    ilObjChatroomAccess::_isOffline($obj_id) &&
+                    in_array($permission, ['read', 'visible'], true)
+                );
 
-                    $visible = null;
-                    $a_obj_id = ilObject::_lookupObjId($refId);
-
-                    switch ($permission) {
-                        case 'visible':
-                            if (!$active) {
-                                $DIC->access()->addInfoItem(
-                                    ilAccessInfo::IL_NO_OBJECT_ACCESS,
-                                    $DIC->language()->txt('offline')
-                                );
-                            }
-
-                            if (!$active && !$visible) {
-                                return false;
-                            }
-                            break;
-
-                        case 'read':
-                            if (!$active) {
-                                $DIC->access()->addInfoItem(
-                                    ilAccessInfo::IL_NO_OBJECT_ACCESS,
-                                    $DIC->language()->txt('offline')
-                                );
-                                return false;
-                            }
-                            break;
-                    }
+                if ($no_access) {
+                    return false;
                 }
-            } else {
-                $hasAccess = $DIC->access()->checkAccessOfUser($usrId, $permission, '', $refId);
             }
-
-            if (!$hasAccess) {
-                return false;
+        } else {
+            foreach ($permissions as $permission) {
+                if (!$DIC->access()->checkAccessOfUser($usr_id, $permission, '', $ref_id)) {
+                    return false;
+                }
             }
         }
 
@@ -693,7 +668,7 @@ class ilChatroom
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
             $notification->setIdentification(new NotificationIdentification(
                 ChatInvitationNotificationProvider::NOTIFICATION_TYPE,
-                self::ROOM_INVITATION . '_' . $this->getRefIdByRoomId($this->getRoomId()) . '_' . $subScope,
+                self::ROOM_INVITATION . '_' . $this->getRefIdByRoomId($this->getRoomId()),
             ));
             $notification->setHandlerParam('mail.sender', (string) $sender_id);
 

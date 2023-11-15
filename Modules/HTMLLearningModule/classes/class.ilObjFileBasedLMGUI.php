@@ -519,9 +519,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     protected function setTabs(): void
     {
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
         $this->getTabs();
-        $this->tpl->setTitle($this->object->getTitle());
+        $this->setTitleAndDescription();
     }
 
     protected function getTabs(): void

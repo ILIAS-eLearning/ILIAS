@@ -26,6 +26,7 @@ use ILIAS\Portfolio\PortfolioPrintViewProviderGUI;
  */
 abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 {
+    protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Portfolio\InternalGUIService $gui;
     protected StandardGUIRequest $port_request;
     protected ilHelpGUI $help;
@@ -93,6 +94,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->content_style_domain = $cs->domain()->styleForObjId($this->object->getId());
         }
         $this->gui = $DIC->portfolio()->internal()->gui();
+        $this->notes = $DIC->notes();
     }
 
     protected function addLocatorItems(): void
@@ -159,7 +161,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
         $ret = $this->ctrl->forwardCommand($page_gui);
-
         if ($ret != "" && $ret !== true) {
             // preview (fullscreen)
             if ($this->page_mode === "preview") {
@@ -490,7 +491,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $layout_id = $form->getInput("tmpl");
             if ($layout_id) {
                 $layout_obj = new ilPageLayout($layout_id);
-                $page->setXMLContent($layout_obj->getXMLContent());
+                $page->setXMLContent($layout_obj->copyXmlContent(false));
             }
 
             $page->create();
@@ -616,9 +617,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->ctrl->redirect($this, "view");
     }
 
+    /**
+     * @param string|bool $a_content (may be content from embedded blog)
+     */
     public function preview(
         bool $a_return = false,
-        bool $a_content = false,
+        $a_content = false,
         bool $a_show_notes = true
     ): string {
         $ilSetting = $this->settings;
@@ -631,28 +635,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->tabs_gui->clearTargets();
 
         $pages = ilPortfolioPage::getAllPortfolioPages($portfolio_id);
-        $current_page = $this->requested_user_page;
-
-        // validate current page
-        if ($pages && $current_page) {
-            $found = false;
-            foreach ($pages as $page) {
-                if ($page["id"] == $current_page) {
-                    $found = true;
-                    break;
-                }
-            }
-            if (!$found) {
-                $current_page = null;
-            }
-        }
-
-        // display first page of portfolio if none given
-        if (!$current_page && $pages) {
-            $current_page = $pages;
-            $current_page = array_shift($current_page);
-            $current_page = $current_page["id"];
-        }
+        $current_page = $this->getCurrentPage();
 
         // #13788 - keep page after login
         if ($this->user_id === ANONYMOUS_USER_ID &&
@@ -726,20 +709,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         // this messes up the path since ILIAS 8
         $notes = "";
         if ($a_show_notes && $this->object->hasPublicComments() && !$current_blog && $current_page) {
-            $note_gui = new ilNoteGUI($portfolio_id, $current_page, "pfpg");
-
-            $note_gui->setRepositoryMode(false);
-            $note_gui->enablePublicNotes(true);
-            $note_gui->enablePrivateNotes(false);
-
-            $note_gui->enablePublicNotesDeletion(($this->user_id === $user_id) &&
-                $ilSetting->get("comments_del_tutor", '1'));
-
+            $comment_gui = $this->getCommentGUI();
             $next_class = $this->ctrl->getNextClass($this);
-            if ($next_class === "ilnotegui") {
-                $notes = $this->ctrl->forwardCommand($note_gui);
+            if ($next_class === "ilcommentgui") {
+                $notes = $this->ctrl->forwardCommand($comment_gui);
             } else {
-                $notes = $note_gui->getCommentsHTML();
+                $notes = $comment_gui->getListHTML();
             }
         }
 
@@ -801,6 +776,47 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->tpl->setContent($content .
             '<div class="ilClearFloat">' . $notes . '</div>');
         return "";
+    }
+
+    protected function getCurrentPage(): ?int
+    {
+        $pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
+        $current_page = (int) $this->requested_user_page;
+
+        // validate current page
+        if ($pages && $current_page) {
+            $found = false;
+            foreach ($pages as $page) {
+                if ((int) $page["id"] === $current_page) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $current_page = null;
+            }
+        }
+
+        // display first page of portfolio if none given
+        if (!$current_page && $pages) {
+            $current_page = $pages;
+            $current_page = array_shift($current_page);
+            $current_page = (int) $current_page["id"];
+        }
+        return $current_page;
+    }
+
+    protected function getCommentGUI(): ilCommentGUI
+    {
+        $gui = $this->notes->gui()->getCommentsGUI(
+            $this->object->getId(),
+            $this->getCurrentPage(),
+            "pfpg"
+        );
+        $gui->setRepositoryMode(false);
+        $gui->enablePublicNotesDeletion(($this->user_id === $this->object->getOwner()) &&
+            $this->settings->get("comments_del_tutor", '1'));
+        return $gui;
     }
 
     protected function showEditButton(

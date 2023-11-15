@@ -44,7 +44,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
         $this->log = $DIC["ilLog"];
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         parent::__construct($a_content_obj);
         $this->tree = $a_tree;
     }
@@ -749,6 +749,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             ilLMObject::putInTree($page, $parent_id, $target);
         }
 
+        if ($num == 1) {
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("lm_page_added"), true);
+        } else {
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("lm_pages_added"), true);
+        }
+
         $ilCtrl->redirect($this, "showHierarchy");
     }
 
@@ -964,6 +970,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $layout_id,
             $data["sec"]["title"]
         );
+
+        if ($this->request->getMulti() <= 1) {
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("lm_page_added"), true);
+        } else {
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("lm_pages_added"), true);
+        }
 
         //$ilCtrl->setParameter($this, "highlight", $page_ids);
         $ilCtrl->redirect($this, "showHierarchy", "node_" . $node_id);

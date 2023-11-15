@@ -213,7 +213,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 
     final public function setValueByArray(array $a_values): void
     {
-        if (!is_array($a_values[$this->getPostVar()])) {
+        if (!isset($a_values[$this->getPostVar()]) || !is_array($a_values[$this->getPostVar()])) {
             $a_values[$this->getPostVar()] = [];
         }
 

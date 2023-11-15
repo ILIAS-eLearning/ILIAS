@@ -188,7 +188,7 @@ class SkillDeletionManager
         $this->resources_manager->removeResourcesForSkill($sktp_id);
         $this->event_handler->raise("Services/Skill", "deleteSkill", ["node_id" => $sktp_id, "is_reference" => false]);
 
-        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTemplateId($sktp_id) as $tref_id) {
+        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTopTemplateId($sktp_id) as $tref_id) {
             $this->deleteNode($tref_id);
         }
     }
@@ -203,7 +203,7 @@ class SkillDeletionManager
             $this->deleteNode((int) $node["obj_id"], $tree);
         }
 
-        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTemplateId($sctp_id) as $tref_id) {
+        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTopTemplateId($sctp_id) as $tref_id) {
             $this->deleteNode($tref_id);
         }
     }

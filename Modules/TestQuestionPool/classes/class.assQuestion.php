@@ -105,7 +105,7 @@ abstract class assQuestion
      */
     protected array $suggested_solutions;
 
-    protected ?int $original_id;
+    protected ?int $original_id = null;
 
     /**
      * Page object

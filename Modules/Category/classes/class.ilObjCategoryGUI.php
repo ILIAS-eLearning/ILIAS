@@ -201,7 +201,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
             case "ilobjectcontentstylesettingsgui":
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
-                //$this->showContainerPageTabs();
+                $this->showContainerPageTabs();
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForRefId(
                         null,

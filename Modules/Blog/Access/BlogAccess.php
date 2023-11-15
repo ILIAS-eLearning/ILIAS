@@ -22,21 +22,24 @@ namespace ILIAS\Blog\Access;
 
 class BlogAccess
 {
+    protected int $owner;
     protected int $id_type;
     protected $access;
-    protected int $node_id;
+    protected ?int $node_id;
     protected int $user_id;
 
     public function __construct(
         $access_handler,
-        int $node_id,
+        ?int $node_id,
         int $id_type,
-        int $user_id
+        int $user_id,
+        int $owner
     ) {
         $this->access = $access_handler;
         $this->node_id = $node_id;
         $this->id_type = $id_type;
         $this->user_id = $user_id;
+        $this->owner = $owner;
     }
 
     public function canWrite(): bool
@@ -84,7 +87,13 @@ class BlogAccess
 
     protected function checkPermissionBool(string $perm): bool
     {
-        return $this->access->checkAccess($perm, "", $this->node_id);
+        if (!is_null($this->node_id)) {
+            return $this->access->checkAccess($perm, "", $this->node_id);
+        }
+        if ($this->owner === $this->user_id) {
+            return true;
+        }
+        return false;
     }
 
 }

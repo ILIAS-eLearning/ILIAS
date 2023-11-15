@@ -71,6 +71,13 @@ class ilObjBlogListGUI extends ilObjectListGUI
     ): void {
         $ctrl = $this->ctrl;
 
+        if ($cmd === "export"
+            && ilObjBlogAccess::isCommentsExportPossible($this->obj_id)
+            && (bool) $this->settings->get('item_cmd_asynch')) {
+            $href = $this->getCommandLink("forwardExport");
+            $cmd = "forwardExport";
+            $onclick = "";
+        }
         if ($cmd !== "export" || !ilObjBlogAccess::isCommentsExportPossible($this->obj_id)) {
             parent::insertCommand($href, $text, $frame, $img, $cmd, $onclick);
             return;
@@ -92,8 +99,8 @@ class ilObjBlogListGUI extends ilObjectListGUI
                 $this->comment_modal = $comment_export_helper->getCommentIncludeModalDialog(
                     'HTML Export',
                     $this->lng->txt("note_html_export_include_comments"),
-                    $ctrl->getLinkTargetByClass("ilobjbloggui", "export"),
-                    $ctrl->getLinkTargetByClass("ilobjbloggui", "exportWithComments")
+                    $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "export"),
+                    $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "exportWithComments")
                 );
                 $signal = $this->comment_modal->getShowSignal()->getId();
                 $this->current_selection_list->addItem(

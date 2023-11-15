@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\Filesystem\Visibility;
+use ILIAS\Filesystem\Filesystem;
 
 /**
  * Rendered MathJax image
@@ -32,9 +34,9 @@ class ilMathJaxImage
 
     /**
      * Webspace filesystem where the cached images are stored
-     * @var \ILIAS\Filesystem\Filesystem
+     * @var Filesystem
      */
-    protected \ILIAS\Filesystem\Filesystem $fs;
+    protected Filesystem $fs;
 
     /**
      * @var string Relative path from the ilias web directory
@@ -83,15 +85,23 @@ class ilMathJaxImage
     }
 
     /**
-     * Create the relative file path of the image
+     * Get the relative directory path of the image
+     */
+    protected function filedir(): string
+    {
+        $hash = md5($this->tex . $this->salt);
+        return $this->basepath
+        . '/' . substr($hash, 0, 4)
+        . '/' . substr($hash, 4, 4);
+    }
+
+    /**
+     * Get the relative file path of the image
      */
     protected function filepath(): string
     {
         $hash = md5($this->tex . $this->salt);
-        return $this->basepath
-            . '/' . substr($hash, 0, 4)
-            . '/' . substr($hash, 4, 4)
-            . '/' . $hash . $this->suffix;
+        return $this->filedir() . '/' . $hash . $this->suffix;
     }
 
     /**
@@ -115,10 +125,6 @@ class ilMathJaxImage
      */
     public function read(): string
     {
-        // todo: temporary workaround for #38445
-        // this allows a further testing of the MathJax but should be removed when the underlying problem is solved
-        return file_get_contents($this->absolutePath());
-        
         return $this->fs->read($this->filepath());
     }
 
@@ -128,6 +134,21 @@ class ilMathJaxImage
      */
     public function write(string $a_content): void
     {
+        // set the directory access of the whole relative file to visible
+        // this is needed if TeX is used in certificates
+        // the ILIAS java server must have read access to the files for the PDF generation
+        // it may run with a different user account
+        $dir = '';
+        foreach (explode('/', $this->filedir()) as $part) {
+            if (!empty($part)) {
+                $dir = $dir . '/' . $part;
+            }
+            if (!$this->fs->hasDir($dir)) {
+                $this->fs->createDir($dir, Visibility::PUBLIC_ACCESS);
+            } else {
+                $this->fs->setVisibility($dir, Visibility::PUBLIC_ACCESS);
+            }
+        }
         $this->fs->put($this->filepath(), $a_content);
     }
 

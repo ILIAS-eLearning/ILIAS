@@ -43,6 +43,10 @@ class ilFileStaticURLHandler extends BaseHandler implements Handler
         $additional_params = $request->getAdditionalParameters()[0] ?? null;
         $context->ctrl()->setParameterByClass(ilObjFileGUI::class, 'ref_id', $ref_id);
 
+        if ($additional_params === "_wsp") {
+            ilObjectGUI::_gotoSharedWorkspaceNode((int) $ref_id);
+        }
+
         $uri = match ($additional_params) {
             self::DOWNLOAD => $context->ctrl()->getLinkTargetByClass(
                 [ilRepositoryGUI::class, ilObjFileGUI::class],

@@ -34,6 +34,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected \ILIAS\Blog\Access\BlogAccess $blog_access;
     protected \ILIAS\Blog\InternalDomainService $domain;
     protected \ILIAS\Blog\InternalGUIService $gui;
+    protected string $rendered_content = "";
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
@@ -163,11 +164,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->reading_time_gui = new \ILIAS\Blog\ReadingTime\BlogSettingsGUI($blog_id);
         $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
         $this->notes = $DIC->notes();
+        $owner = $this->object?->getOwner() ?? 0;
         $this->blog_access = $domain->blogAccess(
             $this->getAccessHandler(),
             $this->node_id,
             $this->id_type,
-            $this->user->getId()
+            $this->user->getId(),
+            $owner
         );
     }
 
@@ -505,6 +508,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilHelp->setScreenIdComponent("blog");
 
         if ($this->checkPermissionBool("read")) {
+            $this->ctrl->setParameterByClass(self::class, "bmn", null);
             $this->tabs_gui->addTab(
                 "content",
                 $lng->txt("content"),
@@ -602,6 +606,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         switch ($next_class) {
             case 'ilblogpostinggui':
+                $this->ctrl->saveParameter($this, "user_page");
                 if (!$this->prtf_embed) {
                     $tpl->loadStandardTemplate();
                 }
@@ -706,7 +711,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $this->addHeaderActionForCommand($cmd);
                             $this->filterInactivePostings();
                             $nav = $this->renderNavigation("gethtml", $cmd);
-                            $this->buildEmbedded($ret, $nav);
+                            // this is important for embedded blog pages!
+                            $this->rendered_content = $this->buildEmbedded($ret, $nav);
                             return;
 
                             // ilias/editor
@@ -733,7 +739,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             if ($public_action) {
                                 $this->tpl->setOnScreenMessage('success', implode("<br />", $info));
                             } else {
-                                $this->tpl->setOnScreenMessage('info', implode("<br />", $info));
+                                if (count($info) > 0) {
+                                    $this->tpl->setOnScreenMessage('info', implode("<br />", $info));
+                                }
                             }
 
                             // revert to edit cmd to avoid confusion
@@ -866,8 +874,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 if (!$cmd) {
                     $cmd = "render";
                 }
-                $this->$cmd();
+                $this->rendered_content = (string) $this->$cmd();
         }
+    }
+
+    public function getRenderedContent(): string
+    {
+        return $this->rendered_content;
     }
 
     protected function triggerAssignmentTool(): void
@@ -1035,7 +1048,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $list = $nav = "";
         if ($list_items) {
             $list = $this->renderList($list_items, "preview", "", $is_owner);
-            $nav = $this->renderNavigation("render", "preview", "", $is_owner);
+            $nav = $this->renderNavigation("render", "edit", "", $is_owner);
         }
 
         $this->setContentStyleSheet();
@@ -1796,7 +1809,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->ui->renderer()->render(
                     $this->ui->factory()->link()->standard(
                         $this->lng->txt("blog_starting_page"),
-                        $this->ctrl->getLinkTargetByClass(self::class, "preview")
+                        $this->ctrl->getLinkTargetByClass(self::class, $a_list_cmd)
                     )
                 )
             );
@@ -2688,10 +2701,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->setParameterByClass("ilRepositoryGUI", "edt", $id[2]);
                 }
             }
-            if ($access->checkAccess("read", "", $id[0])) {
+            if ($access->checkAccess("read", "", (int) $id[0])) {
                 $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
             }
-            if ($access->checkAccess("visible", "", $id[0])) {
+            if ($access->checkAccess("visible", "", (int) $id[0])) {
                 $ilCtrl->redirectByClass("ilRepositoryGUI", "infoScreen");
             }
         }
@@ -2743,5 +2756,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     {
         $print_view = $this->getPrintView();
         $print_view->sendPrintView();
+    }
+
+    protected function forwardExport(): void
+    {
+        $this->ctrl->redirectByClass(ilExportGUI::class);
     }
 }

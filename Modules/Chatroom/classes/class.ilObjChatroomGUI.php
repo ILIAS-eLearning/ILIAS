@@ -258,7 +258,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
                 break;
         }
 
-        if ($this->object->getType() !== 'chta') {
+        if ($this->object?->getType() !== 'chta') {
             $this->addHeaderAction();
         }
 

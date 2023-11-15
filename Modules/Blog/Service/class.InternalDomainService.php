@@ -56,15 +56,17 @@ class InternalDomainService
 
     public function blogAccess(
         $access_handler,
-        int $node_id,
+        ?int $node_id,
         int $id_type,
-        int $user_id
+        int $user_id,
+        int $owner
     ): BlogAccess {
         return new BlogAccess(
             $access_handler,
             $node_id,
             $id_type,
             $user_id,
+            $owner
         );
     }
 }

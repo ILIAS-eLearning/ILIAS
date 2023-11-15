@@ -486,8 +486,8 @@ class ilObjFileGUI extends ilObject2GUI
                     $processor->process(
                         $rid,
                         $file_data[self::PARAM_TITLE] ?? null,
-                        $file_data[0] ?? null,
-                        $data[1] ?? null
+                        $file_data[self::PARAM_DESCRIPTION] ?? null,
+                        $data[self::PARAM_COPYRIGHT_ID] ?? null
                     );
                 } catch (Throwable $t) {
                     $errors = true;
@@ -561,13 +561,15 @@ class ilObjFileGUI extends ilObject2GUI
         $this->object->getObjectProperties()->storePropertyTitleAndDescription($updated_title_and_description);
 
         $this->object->setImportantInfo($inputs['file_info']['important_info']);
-        $this->object->setRating($inputs['file_info']['rating']);
+        $this->object->setRating($inputs['file_info']['rating'] ?? false);
         $this->object->setOnclickMode((int) $inputs['file_info']['on_click_action']);
         $this->object->update();
 
         $this->object->getObjectProperties()->storePropertyIsOnline($inputs['availability']['online_status']);
 
-        $this->object->getObjectProperties()->storePropertyTileImage($inputs['presentation']['tile_image']);
+        if (($inputs['presentation']['tile_image'] ?? null) !== null) {
+            $this->object->getObjectProperties()->storePropertyTileImage($inputs['presentation']['tile_image']);
+        }
 
         // BEGIN ChangeEvent: Record update event.
         if (!empty($data["name"])) {
@@ -645,13 +647,15 @@ class ilObjFileGUI extends ilObject2GUI
             (string) $this->object->getOnClickMode()
         );
 
+        $input_groups = array_filter([
+            "title_and_description" => $title_and_description,
+            "important_info" => $important_info,
+            "rating" => $enable_rating,
+            "on_click_action" => $on_click_action
+        ], static fn($input) => null !== $input);
+
         $file_info_section = $this->inputs->field()->section(
-            [
-                "title_and_description" => $title_and_description,
-                "important_info" => $important_info,
-                "rating" => $enable_rating,
-                "on_click_action" => $on_click_action
-            ],
+            $input_groups,
             $this->lng->txt('file_info')
         );
 
@@ -666,24 +670,28 @@ class ilObjFileGUI extends ilObject2GUI
             $this->lng->txt('rep_activation_availability')
         );
 
+        $presentation_section = null;
+        if ($this->id_type === self::REPOSITORY_NODE_ID) {
+            $tile_image = $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
+                $this->lng,
+                $this->ui->factory()->input()->field(),
+                $this->refinery
+            );
+            $presentation_section = $this->inputs->field()->section(
+                ["tile_image" => $tile_image],
+                $this->lng->txt('settings_presentation_header')
+            );
+        }
 
-        $tile_image = $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
-            $this->lng,
-            $this->ui->factory()->input()->field(),
-            $this->refinery
-        );
-        $presentation_section = $this->inputs->field()->section(
-            ["tile_image" => $tile_image],
-            $this->lng->txt('settings_presentation_header')
-        );
+        $inputs = array_filter([
+            "file_info" => $file_info_section,
+            "availability" => $availability_section,
+            "presentation" => $presentation_section
+        ], static fn($input) => null !== $input);
 
         return $this->inputs->container()->form()->standard(
             $this->ctrl->getLinkTargetByClass(self::class, 'update'),
-            [
-                "file_info" => $file_info_section,
-                "availability" => $availability_section,
-                "presentation" => $presentation_section
-            ]
+            $inputs
         );
     }
 
@@ -764,7 +772,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->tabs_gui->activateTab("id_info");
 
         if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool("read")) {
-            $GLOBALS['DIC']['ilErr']->raiseError($this->lng->txt("msg_no_perm_read"));
+            $GLOBALS['DIC']['ilErr']->raiseError($this->lng->txt("msg_no_perm_read"), 2); // TODO remove magic number and old ilErr call
         }
 
         // add set completed button, if LP mode is active
@@ -848,7 +856,15 @@ class ilObjFileGUI extends ilObject2GUI
                 }
             }
 
-            $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'file', $this->object->getId());
+            $obj_id = $this->object->getId();
+            $record_gui = new ilAdvancedMDRecordGUI(
+                ilAdvancedMDRecordGUI::MODE_INFO,
+                'file',
+                $obj_id,
+                '',
+                0,
+                $this->call_by_reference
+            );
             $record_gui->setInfoObject($info);
             $record_gui->parse();
         }
@@ -870,7 +886,10 @@ class ilObjFileGUI extends ilObject2GUI
             if ($this->id_type === self::REPOSITORY_NODE_ID) {
                 $download_target = ilObjFileAccess::_getPermanentDownloadLink($this->node_id);
             } else {
-                $download_target = $this->ctrl->getLinkTarget($this, self::CMD_SEND_FILE);
+                $download_target = rtrim(ILIAS_HTTP_PATH, '/') . '/' . $this->ctrl->getLinkTarget(
+                    $this,
+                    self::CMD_SEND_FILE
+                );
             }
             $url = $this->data_factory->uri($download_target);
             $link = $this->data_factory->link($this->lng->txt('file_download'), $url);

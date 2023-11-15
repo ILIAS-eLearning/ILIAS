@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
 * @author Jens Conze
 * @ingroup ServicesMail
@@ -41,7 +43,7 @@ class ilContactGUI
     protected ilErrorHandling $error;
     protected ilRbacSystem $rbacsystem;
     protected bool $has_sub_tabs = false;
-    protected ILIAS\Refinery\Factory $refinery;
+    protected Refinery $refinery;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $ui_renderer;
     /** @var array<string, string> */
@@ -80,7 +82,7 @@ class ilContactGUI
 
         $forward_class = $this->ctrl->getNextClass($this);
 
-        $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
+        $this->umail->persistToStage($this->user->getId(), [], '', '', '', '', '', false);
 
         switch (strtolower($forward_class)) {
             case strtolower(ilMailSearchCoursesGUI::class):
@@ -335,22 +337,18 @@ class ilContactGUI
         $this->activateTab('my_contacts');
 
         if ($this->http->wrapper()->query()->has('inv_room_ref_id') &&
-            $this->http->wrapper()->query()->has('inv_room_scope') &&
             $this->http->wrapper()->query()->has('inv_usr_ids')) {
             $inv_room_ref_id = $this->http->wrapper()->query()->retrieve(
                 'inv_room_ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-            $inv_room_scope = $this->http->wrapper()->query()->retrieve(
-                'inv_room_scope',
                 $this->refinery->kindlyTo()->int()
             );
             $inv_usr_ids = $this->http->wrapper()->query()->retrieve(
                 'inv_usr_ids',
                 $this->refinery->in()->series([
                     $this->refinery->kindlyTo()->string(),
-                    $this->refinery->custom()->transformation(fn (string $value): array => explode(',', $value)),
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+                    $this->refinery->custom()->transformation(fn(string $s): array => explode(',', $s)),
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->custom()->constraint(fn(array $a) => $a !== [], fn() => 'Empty array.'),
                 ])
             );
 
@@ -361,8 +359,7 @@ class ilContactGUI
             }
 
             if ($userlist !== []) {
-                $url = $inv_room_scope !== 0 ? ilLink::_getStaticLink($inv_room_ref_id, 'chtr', true, '_' . $inv_room_scope) : ilLink::_getStaticLink($inv_room_ref_id, 'chtr');
-
+                $url = ilLink::_getStaticLink($inv_room_ref_id, 'chtr');
                 $content[] = $this->ui_factory->messageBox()->success(
                     $this->lng->txt('chat_users_have_been_invited') . $this->ui_renderer->render(
                         $this->ui_factory->listing()->unordered($userlist)
@@ -408,7 +405,7 @@ class ilContactGUI
 
         try {
             $usr_ids = $this->http->wrapper()->post()->retrieve(
-                'usr_id',
+                'usr_ids',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
 
@@ -423,7 +420,7 @@ class ilContactGUI
         }
 
         $logins = [];
-        $mail_data = $this->umail->getSavedData();
+        $mail_data = $this->umail->retrieveFromStage();
         foreach ($usr_ids as $usr_id) {
             $login = ilObjUser::_lookupLogin($usr_id);
             if (!$this->umail->existsRecipient($login, (string) $mail_data['rcp_to'])) {
@@ -434,7 +431,7 @@ class ilContactGUI
 
         if ($logins !== []) {
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
-            $this->umail->savePostData(
+            $this->umail->persistToStage(
                 (int) $mail_data['user_id'],
                 $mail_data['attachments'],
                 $mail_data['rcp_to'],
@@ -449,5 +446,153 @@ class ilContactGUI
         }
 
         $this->ctrl->redirectToURL('ilias.php?baseClass=ilMailGUI&type=search_res');
+    }
+
+    public function submitInvitation(): void
+    {
+        try {
+            $usr_ids = $this->http->wrapper()->post()->retrieve('usr_ids', $this->refinery->in()->series([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->custom()->transformation(fn(string $s) => explode(',', $s)),
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->custom()->constraint(fn(array $a) => $a !== [], fn() => 'Empty array.'),
+            ]));
+        } catch (Exception) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'), true);
+            $this->ctrl->redirect($this);
+        }
+
+        try {
+            $room_id = $this->http->wrapper()->post()->retrieve('room_id', $this->refinery->kindlyTo()->int());
+        } catch (Exception) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'));
+            $this->inviteToChat($usr_ids);
+            return;
+        }
+
+        $room = ilChatroom::byRoomId($room_id, true);
+
+        $no_access = [];
+        $no_login = [];
+        $valid_users = [];
+        $ref_id = $room->getRefIdByRoomId($room_id);
+
+        foreach ($usr_ids as $usr_id) {
+            $login = ilObjUser::_lookupLogin($usr_id);
+            if ($login === '') {
+                $no_login[] = $usr_id;
+            } elseif (
+                !ilChatroom::checkPermissionsOfUser($usr_id, 'read', $ref_id) ||
+                $room->isUserBanned($usr_id)
+            ) {
+                $no_access[] = $login;
+            } else {
+                $valid_users[] = $usr_id;
+            }
+        }
+
+        $message = join('', [
+            $this->asErrorMessage($no_access, $this->lng->txt('chat_users_without_permission')),
+            $this->asErrorMessage($no_login, $this->lng->txt('chat_users_without_login')),
+        ]);
+
+        if ($message !== '') {
+            $this->tpl->setOnScreenMessage('failure', $message);
+            $this->inviteToChat($usr_ids);
+            return;
+        }
+
+        foreach ($valid_users as $id) {
+            $room->sendInvitationNotification(
+                null,
+                $this->user->getId(),
+                $id,
+                ilLink::_getStaticLink($ref_id, 'chtr')
+            );
+        }
+
+        $this->ctrl->setParameter($this, 'inv_room_ref_id', $ref_id);
+        $this->ctrl->setParameter($this, 'inv_usr_ids', implode(',', $valid_users));
+
+        $this->ctrl->redirect($this);
+    }
+
+    /**
+     * @param null|list<int> $usr_ids
+     */
+    protected function inviteToChat(?array $usr_ids = null): void
+    {
+        $this->tabs_gui->activateSubTab('buddy_view_table');
+        $this->activateTab('my_contacts');
+
+        $this->lng->loadLanguageModule('chatroom');
+
+        $usr_ids ??= $this->http->wrapper()->post()->retrieve('usr_ids', $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+            $this->refinery->always([])
+        ]));
+
+        if ([] === $usr_ids) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'), true);
+            $this->ctrl->redirect($this);
+        }
+
+        $chat_rooms = (new ilChatroom())->getAccessibleRoomIdByTitleMap($this->user->getId());
+
+        $options = array_filter(
+            $chat_rooms,
+            fn(int $room_id) => !(ilChatroom::byRoomId($room_id))->isUserBanned($this->user->getId()),
+            ARRAY_FILTER_USE_KEY
+        );
+
+        asort($options);
+
+        $this->tpl->setTitle($this->lng->txt('mail_invite_users_to_chat'));
+        $this->tpl->setContent($this->inviteToChatForm($options, $usr_ids)->getHTML());
+        $this->tpl->printToStdout();
+    }
+
+    /**
+     * @param list<string|int> $array
+     */
+    private function asErrorMessage(array $array, string $title): string
+    {
+        if ($array === []) {
+            return '';
+        }
+
+        $items = array_map(
+            fn($s) => '<li>' . htmlspecialchars((string) $s) . '</li>',
+            $array
+        );
+
+        return sprintf(
+            '%s<br><ul>%s</ul>',
+            $title,
+            join('', $items)
+        );
+    }
+
+    /**
+     * @param array<string, string> $options
+     * @param list<int> $usr_ids
+     */
+    private function inviteToChatForm(array $options, array $usr_ids): ilPropertyFormGUI
+    {
+        $form = new ilPropertyFormGUI();
+        $form->setTitle($this->lng->txt('mail_invite_users_to_chat'));
+        $form->addCommandButton('submitInvitation', $this->lng->txt('submit'));
+        $form->addCommandButton('showContacts', $this->lng->txt('cancel'));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'showContacts'));
+
+        $sel = new ilSelectInputGUI($this->lng->txt('chat_select_room'), 'room_id');
+        $sel->setOptions($options);
+        $form->addItem($sel);
+
+        $hidden = new ilHiddenInputGUI('usr_ids');
+        $hidden->setValue(implode(',', $usr_ids));
+        $form->addItem($hidden);
+
+        return $form;
     }
 }

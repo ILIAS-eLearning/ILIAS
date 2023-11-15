@@ -132,6 +132,7 @@ class ilExportFieldsInfo
             $fields['consultation_hour']['default'] = 0;
         }
 
+        $udf = [];
         switch ($this->getType()) {
             case 'crs':
                 $udf = ilUserDefinedFields::_getInstance()->getCourseExportableFields();
@@ -144,7 +145,7 @@ class ilExportFieldsInfo
                 break;
         }
 
-        if ($udf) {
+        if ($udf !== []) {
             foreach ($udf as $field_id => $field) {
                 $fields['udf_' . $field_id]['txt'] = $field['field_name'];
                 $fields['udf_' . $field_id]['default'] = 0;

@@ -126,6 +126,9 @@ class ilCourseObjectiveQuestion
 
         // Copy tests
         foreach ($this->getTests() as $test) {
+            if (!isset($mappings["$test[ref_id]"])) {
+                continue;
+            }
             $new_test_id = $mappings["$test[ref_id]"];
 
             $query = "UPDATE crs_objective_tst " .

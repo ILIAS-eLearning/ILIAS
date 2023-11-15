@@ -27,30 +27,34 @@ use ILIAS\COPage\InternalDomainService;
  */
 class PCFactory
 {
-    /**
-     * @var PCDefinition
-     */
-    protected $pc_definition;
+    protected ?\ilLogger $log;
+    protected PCDefinition $pc_definition;
 
     public function __construct(PCDefinition $pc_definition)
     {
         global $DIC;
 
         $this->pc_definition = $pc_definition;
+        $this->log = $DIC->copage()->internal()->domain()->log();
     }
 
     public function getByNode(
         ?\DOMNode $node,
         \ilPageObject $page_object
     ): ?\ilPageContent {
+        if (is_null($node)) {
+            return null;
+        }
         $a_hier_id = $node->getAttribute("HierId");
         $a_pc_id = $node->getAttribute("PCID");
         $child_node = null;
         if (!is_object($node)) {
+            $this->log->debug("No node passed.");
             return null;
         }
         $node_name = $node->nodeName;
         if (in_array($node_name, ["PageObject", "TableRow"])) {
+            $this->log->debug("$node_name -> return.");
             return null;
         }
         if ($node_name == "PageContent") {
@@ -68,6 +72,7 @@ class PCFactory
             $tab->setDomNode($node);
             $tab->setHierId($a_hier_id);
             $tab->setPcId($a_pc_id);
+            $this->log->debug("return table.");
             return $tab;
         }
 
@@ -91,6 +96,7 @@ class PCFactory
             $mob->setDomNode($node);
             $mob->setHierId($a_hier_id);
             $mob->setPcId($a_pc_id);
+            $this->log->debug("return media.");
             return $mob;
         }
 
@@ -110,13 +116,15 @@ class PCFactory
         $pc = new ("\\" . $pc_class)($page_object);
         if (!in_array(
             $node->nodeName,
-            ["PageContent", "TableData"]
+            ["PageContent", "TableData", "FileItem", "ListItem"]
         )) {
+            $this->log->debug("returning null.");
             return null;
         }
         $pc->setDomNode($node);
         $pc->setHierId($a_hier_id);
         $pc->setPcId($a_pc_id);
+        //$this->log->debug("returning $pc_class.");
         return $pc;
     }
 }

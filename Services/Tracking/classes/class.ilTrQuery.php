@@ -251,11 +251,11 @@ class ilTrQuery
             }
 
             if (in_array($a_user_id, ($status_info["completed"][$item_id] ?? []))) {
-                $status = ilLPStatus::LP_STATUS_COMPLETED;
+                $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } elseif (in_array($a_user_id, ($status_info["in_progress"][$item_id] ?? []))) {
-                $status = ilLPStatus::LP_STATUS_IN_PROGRESS;
+                $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             } else {
-                $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED;
+                $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
             }
 
             $items[$item_id] = array(
@@ -984,9 +984,9 @@ class ilTrQuery
                 $members = $member_obj->getMembers();
                 break;
 
-            /* Mantis 19296: Individual Assessment can be subtype of crs.
-              * But for LP view only his own members should be displayed.
-              * We need to return the members without checking the parent path. */
+                /* Mantis 19296: Individual Assessment can be subtype of crs.
+                  * But for LP view only his own members should be displayed.
+                  * We need to return the members without checking the parent path. */
             case "iass":
                 $members_read = true;
                 $iass = new ilObjIndividualAssessment($obj_id, false);
@@ -1174,9 +1174,9 @@ class ilTrQuery
                                 " OR ut_lp_marks.status IS NULL)";
                             break;
                         }
-                    // fallthrough
+                        // fallthrough
 
-                    // no break
+                        // no break
                     case "mark":
                         $where[] = "ut_lp_marks." . $id . " = " . $ilDB->quote(
                             $value,
@@ -1222,7 +1222,7 @@ class ilTrQuery
                         );
                         break;
 
-                    // timestamp
+                        // timestamp
                     case "last_access":
                         if (isset($value["from"])) {
                             $value["from"] = substr(
@@ -1250,9 +1250,9 @@ class ilTrQuery
                             );
                             $value["to"] = $value["to"]->get(IL_CAL_UNIX);
                         }
-                    // fallthrough
+                        // fallthrough
 
-                    // no break
+                        // no break
                     case 'status_changed':
                         // fallthrough
 
@@ -1260,9 +1260,9 @@ class ilTrQuery
                         if ($id == "registration") {
                             $id = "create_date";
                         }
-                    // fallthrough
+                        // fallthrough
 
-                    // no break
+                        // no break
                     case "create_date":
                     case "first_access":
                     case "birthday":
@@ -1938,7 +1938,7 @@ class ilTrQuery
         // repository
         $tree = new ilTree(1);
         $sql = "SELECT " . $tree->getObjectDataTable(
-            ) . ".obj_id," . $tree->getObjectDataTable() . ".type," .
+        ) . ".obj_id," . $tree->getObjectDataTable() . ".type," .
             $tree->getTreeTable() . "." . $tree->getTreePk(
             ) . "," . $tree->getTableReference() . ".ref_id" .
             " FROM " . $tree->getTreeTable() .

@@ -156,4 +156,25 @@ class ilPCPlaceHolder extends ilPageContent
     {
         return [ilObjStyleSheet::getPlaceHolderStylePath()];
     }
+
+    public static function handleCopiedContent(
+        DOMDocument $a_domdoc,
+        bool $a_self_ass = true,
+        bool $a_clone_mobs = false,
+        int $new_parent_id = 0,
+        int $obj_copy_id = 0
+    ): void {
+        // remove question placholders
+        if (!$a_self_ass) {
+            // Get question IDs
+            $path = "//PlaceHolder[@ContentClass = 'Question']";
+            $xpath = new DOMXPath($a_domdoc);
+            $nodes = $xpath->query($path);
+
+            foreach ($nodes as $node) {
+                $parent = $node->parentNode;
+                $parent->parentNode->removeChild($parent);
+            }
+        }
+    }
 }

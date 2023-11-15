@@ -74,7 +74,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
         switch ($permission) {
             case 'visible':
             case 'read':
-                if (!self::isOnline($obj_id)) {
+                if (self::_isOffline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_pool_offline"));
                     return false;
                 }
@@ -82,29 +82,5 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
         }
 
         return true;
-    }
-
-    /**
-     * returns the objects's ONline status
-     *
-     * @param integer $a_obj_id
-     * @return boolean $online
-     */
-    public static function isOnline($a_obj_id): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $query = "
-			SELECT		COUNT(id_questionpool) cnt
-			FROM		qpl_questionpool
-			WHERE		obj_fi = %s
-			AND			isonline = 1
-		";
-
-        $res = $ilDB->queryF($query, array('integer'), array($a_obj_id));
-        $row = $ilDB->fetchAssoc($res);
-
-        return $row['cnt'] > 0;
     }
 }

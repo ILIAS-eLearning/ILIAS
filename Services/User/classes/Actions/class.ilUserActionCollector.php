@@ -22,19 +22,17 @@
  */
 class ilUserActionCollector
 {
-    private ilUserActionCollection $collection;
-
     public function __construct(
         private int $user_id,
         private ilUserActionContext $action_context,
         private ilUserActionProviderFactory $user_action_provider_factory,
         private ilUserActionAdmin $user_action_admin
     ) {
-        $this->collection = new ilUserActionCollection();
     }
 
     public function getActionsForTargetUser(int $target_user): ilUserActionCollection
     {
+        $collection = new ilUserActionCollection();
         foreach ($this->user_action_provider_factory->getProviders() as $provider) {
             if (!$this->hasProviderActiveActions($provider)) {
                 continue;
@@ -48,12 +46,12 @@ class ilUserActionCollector
                     $provider->getComponentId(),
                     $action->getType()
                 )) {
-                    $this->collection->addAction($action);
+                    $collection->addAction($action);
                 }
             }
         }
 
-        return $this->collection;
+        return $collection;
     }
 
     protected function hasProviderActiveActions(ilUserActionProvider $provider): bool

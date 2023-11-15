@@ -103,22 +103,42 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         // usage
         $this->addUsageTab($ilTabs);
 
-        // back link
-        $ilCtrl->setParameterByClass(
-            "ilskillrootgui",
-            "node_id",
-            $this->skill_tree_node_manager->getRootId()
-        );
-        $ilTabs->setBackTarget(
-            $lng->txt("skmg_skills"),
-            $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills")
-        );
-        $ilCtrl->setParameterByClass(
-            "ilskillrootgui",
-            "node_id",
-            $this->requested_node_id
-        );
+        $parent_node_id = $this->tree_repo->getParentNodeIdForNodeId($this->requested_node_id);
+        $parent_title = ilSkillTreeNode::_lookupTitle($parent_node_id);
+        $parent_type = ilSkillTreeNode::_lookupType($parent_node_id);
 
+        // back link
+        if ($parent_type === "scat") {
+            $ilCtrl->setParameter(
+                $this,
+                "node_id",
+                $parent_node_id
+            );
+            $ilTabs->setBackTarget(
+                $parent_title,
+                $ilCtrl->getLinkTarget($this, "listItems")
+            );
+            $ilCtrl->setParameter(
+                $this,
+                "node_id",
+                $this->requested_node_id
+            );
+        } else {
+            $ilCtrl->setParameterByClass(
+                "ilskillrootgui",
+                "node_id",
+                $this->skill_tree_node_manager->getRootId()
+            );
+            $ilTabs->setBackTarget(
+                $lng->txt("skmg_skills"),
+                $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills")
+            );
+            $ilCtrl->setParameterByClass(
+                "ilskillrootgui",
+                "node_id",
+                $this->requested_node_id
+            );
+        }
 
         parent::setTitleIcon();
         $tpl->setTitle(

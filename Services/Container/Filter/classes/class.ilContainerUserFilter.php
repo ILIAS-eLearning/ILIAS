@@ -43,7 +43,7 @@ class ilContainerUserFilter
         $empty = true;
         if (is_array($this->data)) {
             foreach ($this->data as $d) {
-                if (trim($d) !== "") {
+                if (trim((string) $d) !== "") {
                     $empty = false;
                 }
             }

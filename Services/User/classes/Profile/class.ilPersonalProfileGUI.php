@@ -1206,10 +1206,10 @@ class ilPersonalProfileGUI
         if ($this->form->checkInput()) {
             $this->user->importPersonalData(
                 $_FILES['file'],
-                (int) $this->form->getInput('profile_data'),
-                (int) $this->form->getInput('settings'),
-                (int) $this->form->getInput('notes'),
-                (int) $this->form->getInput('calendar')
+                (bool) $this->form->getInput('profile_data'),
+                (bool) $this->form->getInput('settings'),
+                (bool) $this->form->getInput('notes'),
+                (bool) $this->form->getInput('calendar')
             );
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, '');

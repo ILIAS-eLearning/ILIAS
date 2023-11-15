@@ -329,7 +329,7 @@ class PageContentManager
 
                     // changed due to bug 6685
                     $ref_id = $id_arr[1];
-                    $obj_id = \ilObject::_lookupObjId($id_arr[1]);
+                    $obj_id = \ilObject::_lookupObjId((int) $id_arr[1]);
 
                     $otype = \ilObject::_lookupType($obj_id);
                     if ($obj_id > 0) {
@@ -419,7 +419,7 @@ class PageContentManager
                 foreach ($nodes as $node) {
                     $new_pc_node = $node;
                     $cloned_pc_node = $new_pc_node->cloneNode(true);
-                    $this->dom->importNode($cloned_pc_node, true);
+                    $cloned_pc_node = $this->dom->importNode($cloned_pc_node, true);
                     $this->insertContentNode(
                         $cloned_pc_node,
                         $a_hid[0],
@@ -435,12 +435,12 @@ class PageContentManager
 
     public function copyXmlContent(
         \ilPageObject $page,
-        string $xml,
         bool $a_clone_mobs = false,
         int $a_new_parent_id = 0,
-        int $obj_copy_id = 0
+        int $obj_copy_id = 0,
+        bool $self_ass = true
     ): string {
-        $this->handleCopiedContent($page, $this->dom, true, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
+        $this->handleCopiedContent($page, $this->dom, $self_ass, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
         $this->dom->documentElement;
         $xml = $this->dom_util->dump($this->dom->documentElement);
         $xml = preg_replace('/<\?xml[^>]*>/i', "", $xml);
@@ -534,7 +534,7 @@ class PageContentManager
             case IL_INSERT_BEFORE:
                 //$new_node = $a_cont_obj->getNode();
                 $succ_node = $this->getContentDomNode($a_pos);
-                $a_cont_node = $succ_node->parentNod->insertBefore($a_cont_node, $succ_node);
+                $a_cont_node = $succ_node->parentNode->insertBefore($a_cont_node, $succ_node);
                 //$a_cont_obj->setNode($new_node);
                 break;
 
@@ -544,7 +544,7 @@ class PageContentManager
                 if ($cnt_parent_childs == 0) {
                     $a_cont_node = $parent_node->appendChild($a_cont_node);
                 } else {
-                    $a_cont_node = $parent_childs->item(0)->parent->insertBefore($a_cont_node, $parent_childs->item(0));
+                    $a_cont_node = $parent_childs->item(0)->parentNode->insertBefore($a_cont_node, $parent_childs->item(0));
                 }
                 //$a_cont_obj->setNode($new_node);
                 break;

@@ -1103,7 +1103,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function getRedirectionUrl(): string
     {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
+        return $this->getMainSettings()->getFinishingSettings()->getRedirectionUrl() ?? '';
     }
 
     public function isPasswordEnabled(): bool
@@ -4342,9 +4342,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         foreach ($this->mob_ids as $mob_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
-            if (ilObjMediaObject::_exists($mob_id)) {
-                $media_obj = new ilObjMediaObject($mob_id);
-                $media_obj->exportXML($a_xml_writer, $a_inst);
+            if (ilObjMediaObject::_exists((int) $mob_id)) {
+                $media_obj = new ilObjMediaObject((int) $mob_id);
+                $media_obj->exportXML($a_xml_writer, (int) $a_inst);
                 $media_obj->exportFiles($a_target_dir);
                 unset($media_obj);
             }
@@ -4361,7 +4361,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
             $file_dir = $target_dir . '/objects/il_' . IL_INST_ID . '_file_' . $file_id;
             ilFileUtils::makeDir($file_dir);
-            $file_obj = new ilObjFile($file_id, false);
+            $file_obj = new ilObjFile((int) $file_id, false);
             $source_file = $file_obj->getFile($file_obj->getVersion());
             if (!is_file($source_file)) {
                 $source_file = $file_obj->getFile();
@@ -6432,7 +6432,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function applyDefaults($test_defaults): bool
     {
         $testsettings = unserialize($test_defaults['defaults']);
-        $this->mark_schema->setMarkSteps(unserialize($test_defaults['marks']));
+        $unserialized_marks = unserialize($test_defaults['marks']);
+
+        if ($unserialized_marks instanceof ASS_MarkSchema) {
+            $unserialized_marks = $unserialized_marks->getMarkSteps();
+        }
+
+        $this->mark_schema->setMarkSteps($unserialized_marks);
 
         $this->storeActivationSettings([
             'is_activation_limited' => $testsettings['activation_limited'],
@@ -6451,14 +6457,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withIntroductionSettings(
                 $main_settings->getIntroductionSettings()
                 ->withIntroductionEnabled((bool) $testsettings['IntroEnabled'])
-                ->withExamConditionsCheckboxEnabled((bool) $testsettings['ExamConditionsCheckboxEnabled'])
+                ->withExamConditionsCheckboxEnabled((bool) ($testsettings['ExamConditionsCheckboxEnabled'] ?? false))
             )
             ->withAccessSettings(
                 $main_settings->getAccessSettings()
                 ->withStartTimeEnabled((bool) $testsettings['StartingTimeEnabled'])
-                ->withStartTime($testsettings['StartingTime'])
+                ->withStartTime($this->convertTimeToDateTimeImmutableIfNecessary($testsettings['StartingTime']))
                 ->withEndTimeEnabled((bool) $testsettings['EndingTimeEnabled'])
-                ->withEndTime($testsettings['EndingTime'])
+                ->withEndTime($this->convertTimeToDateTimeImmutableIfNecessary($testsettings['EndingTime']))
                 ->withPasswordEnabled((bool) $testsettings['password_enabled'])
                 ->withPassword($testsettings['password'])
                 ->withFixedParticipants((bool) $testsettings['fixed_participants'])
@@ -6502,15 +6508,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 $main_settings->getFinishingSettings()
                 ->withShowAnswerOverview((bool) $testsettings['enable_examview'])
                 ->withConcludingRemarksEnabled((bool) $testsettings['ShowFinalStatement'])
-                ->withRedirectionMode($testsettings['redirection_mode'])
+                ->withRedirectionMode((int) $testsettings['redirection_mode'])
                 ->withRedirectionUrl($testsettings['redirection_url'])
-                ->withMailNotificationContentType($testsettings['mailnotification'])
+                ->withMailNotificationContentType((int) $testsettings['mailnotification'])
                 ->withAlwaysSendMailNotification((bool) $testsettings['mailnottype'])
             )
             ->withAdditionalSettings(
                 $main_settings->getAdditionalSettings()
                     ->withSkillsServiceEnabled((bool) $testsettings['skill_service'])
-                    ->withHideInfoTab((bool) $testsettings['HideInfoTab'])
+                    ->withHideInfoTab((bool) ($testsettings['HideInfoTab'] ?? false))
             );
 
         $this->getMainSettingsRepository()->store($main_settings);
@@ -6528,7 +6534,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withPassDeletionAllowed((bool) $testsettings['pass_deletion_allowed'])
                 ->withShowGradingStatusEnabled((bool) $testsettings['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $testsettings['show_grading_mark'])
-                ->withScoreReporting($testsettings['ScoreReporting'])
+                ->withScoreReporting((int) $testsettings['ScoreReporting'])
                 ->withReportingDate(
                     $testsettings['ReportingDate'] !== null ?
                         new DateTimeImmutable($testsettings['ReportingDate']) :
@@ -6537,7 +6543,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             )
             ->withResultDetailsSettings(
                 $score_settings->getResultDetailsSettings()
-                ->withResultsPresentation($testsettings['ResultsPresentation'])
+                ->withResultsPresentation((int) $testsettings['ResultsPresentation'])
                 ->withShowSolutionListComparison((bool) ($testsettings['show_solution_list_comparison'] ?? 0))
                 ->withShowExamIdInTestResults((bool) $testsettings['examid_in_test_res'])
             )
@@ -6559,6 +6565,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->saveToDb();
 
         return true;
+    }
+
+    private function convertTimeToDateTimeImmutableIfNecessary(
+        DateTimeImmutable|int|null $date_time
+    ): ?DateTimeImmutable {
+        if ($date_time === null || $date_time instanceof DateTimeImmutable) {
+            return $date_time;
+        }
+
+        return DateTimeImmutable::createFromFormat('U', (string) $date_time);
     }
 
     /**

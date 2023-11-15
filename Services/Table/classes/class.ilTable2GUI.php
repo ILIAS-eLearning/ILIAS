@@ -2472,7 +2472,7 @@ class ilTable2GUI extends ilTableGUI
         } elseif (method_exists($a_item, "getValue")) {
             return $a_item->getValue() ?: "";
         } elseif (method_exists($a_item, "getDate")) {
-            return $a_item->getDate()->get(IL_CAL_DATE);
+            return $a_item->getDate()?->get(IL_CAL_DATE) ?? "";
         }
         return "";
     }
