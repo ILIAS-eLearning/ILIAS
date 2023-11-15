@@ -698,7 +698,11 @@ abstract class ilPageObject
             $a_hier_id,
             $a_pc_id
         );
-        $this->log->debug("getContentObject: " . " $a_hier_id, $a_pc_id, " . $node->nodeName);
+        if ($node) {
+            $this->log->debug("getContentObject: " . " $a_hier_id, $a_pc_id, " . $node->nodeName);
+        } else {
+            $this->log->debug("no node found: " . " $a_hier_id, $a_pc_id ");
+        }
         return $this->pc_service->getByNode($node, $this);
     }
 

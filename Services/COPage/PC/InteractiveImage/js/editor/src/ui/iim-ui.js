@@ -268,16 +268,20 @@ export default class UI {
     this.shapeEditor.repaint();*/
   }
 
+  formInput(nr) {
+    return 'form/input_' + nr;
+  }
+
   showTriggerProperties() {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
     const tr = this.iimModel.getCurrentTrigger();
     this.toolSlate.setContent(this.uiModel.triggerProperties);
-    this.setInputValueByName('#copg-iim-trigger-prop-form', 'form_input_1', tr.title);
+    this.setInputValueByName('#copg-iim-trigger-prop-form', this.formInput(0), tr.title);
     if (tr.getShape()) {
-      this.setInputValueByName('#copg-iim-trigger-prop-form', 'form_input_2', tr.area.shapeType);
+      this.setInputValueByName('#copg-iim-trigger-prop-form', this.formInput(1), tr.area.shapeType);
     } else {
-      this.setInputValueByName('#copg-iim-trigger-prop-form', 'form_input_2', "Marker");
+      this.setInputValueByName('#copg-iim-trigger-prop-form', this.formInput(1), "Marker");
     }
     this.initTriggerViewControl();
     this.initBackButton();
@@ -296,8 +300,8 @@ export default class UI {
             }
             dispatch.dispatch(action.interactiveImage().editor().saveTriggerProperties(
               model.getCurrentTrigger().nr,
-              this.getInputValueByName('form_input_1'),
-              this.getInputValueByName('form_input_2'),
+              this.getInputValueByName(this.formInput(0)),
+              this.getInputValueByName(this.formInput(1)),
               coords
             ));
             break;
@@ -359,10 +363,10 @@ export default class UI {
     this.initBackButton();
     this.initTriggerOverlay();
     this.showCurrentShape(false, true);
-    document.querySelectorAll("form [name='form_input_1']").forEach(select => {
+    document.querySelectorAll("form [name='" + this.formInput(0) + "']").forEach(select => {
       select.addEventListener("change", (event) => {
         dispatch.dispatch(action.interactiveImage().editor().changeTriggerOverlay(
-          this.getInputValueByName('form_input_1')
+          this.getInputValueByName(this.formInput(0))
         ));
       });
     });
@@ -392,7 +396,7 @@ export default class UI {
     this.shapeEditor.removeAllMarkers();
     this.removeDummyPopup();
     if (showOverlay && overlay) {
-      this.setInputValueByName('#copg-iim-trigger-overlay-form', 'form_input_1', overlay.getSrc());
+      this.setInputValueByName('#copg-iim-trigger-overlay-form', this.formInput(0), overlay.getSrc());
       this.shapeEditor.addOverlay(overlay, true);
     }
     this.shapeEditor.removeAllShapes();
@@ -428,7 +432,7 @@ export default class UI {
             event.preventDefault();
             dispatch.dispatch(action.interactiveImage().editor().saveTriggerOverlay(
               model.getCurrentTrigger().nr,
-              this.getInputValueByName('form_input_1'),
+              this.getInputValueByName(this.formInput(0)),
               model.getCurrentTrigger().getOverlay().getCoordsString()
             ));
             break;
@@ -440,7 +444,7 @@ export default class UI {
     this.iimModel.getOverlays().forEach((ov) => {
       options.set(ov.name, ov.name);
     });
-    this.setSelectOptions("#copg-editor-slate-content", "form_input_1", options);
+    this.setSelectOptions("#copg-editor-slate-content", this.formInput(0), options);
   }
 
   showTriggerPopup() {
@@ -455,8 +459,8 @@ export default class UI {
       if (size == '') {
         size = 'md';
       }
-      this.setInputValueByName('#copg-iim-trigger-overlay-form', 'form_input_1', tr.getPopupNr());
-      this.setInputValueByName('#copg-iim-trigger-overlay-form', 'form_input_2', size);
+      this.setInputValueByName('#copg-iim-trigger-overlay-form', this.formInput(0), tr.getPopupNr());
+      this.setInputValueByName('#copg-iim-trigger-overlay-form', this.formInput(1), size);
     }
     this.showCurrentShape();
     if (tr.getPopupNr() !== "") {
@@ -509,9 +513,9 @@ export default class UI {
             event.preventDefault();
             dispatch.dispatch(action.interactiveImage().editor().saveTriggerPopup(
               model.getCurrentTrigger().nr,
-              this.getInputValueByName('form_input_1'),
+              this.getInputValueByName(this.formInput(0)),
               'Horizontal',
-              this.getInputValueByName('form_input_2')
+              this.getInputValueByName(this.formInput(1))
             ));
             break;
         }
@@ -522,7 +526,7 @@ export default class UI {
     this.iimModel.getPopups().forEach((pop) => {
       options.set('' + pop.nr, pop.title);
     });
-    this.setSelectOptions("#copg-editor-slate-content", "form_input_1", options);
+    this.setSelectOptions("#copg-editor-slate-content", this.formInput(0), options);
   }
 
   initBackButton() {
@@ -791,7 +795,7 @@ export default class UI {
         ));
       });
     if (params) {
-      this.setInputValueByName('.modal-content', 'form_input_1', model.getPopupTitle(params.nr));
+      this.setInputValueByName('.modal-content', this.formInput(0), model.getPopupTitle(params.nr));
     }
   }
 
