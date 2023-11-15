@@ -401,7 +401,7 @@ abstract class AbstractUIModifier implements UIModifier
                         }
 
                         $a_tpl->setCurrentBlock("grid_col_bl");
-                        $a_tpl->setVariable("COL_CAPTION", trim((string) $col));
+                        $a_tpl->setVariable("COL_CAPTION", trim((string) ($col ?? "")));
                         $a_tpl->parseCurrentBlock();
                     }
 
