@@ -12570,7 +12570,7 @@ news#:#news_period_x_days#:#Last %s Days
 news#:#news_period_x_months#:#Last %s Months
 news#:#news_period_x_weeks#:#Last %s Weeks
 news#:#news_public_feed#:#Extra RSS Feed
-news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed is provided for this Mediacast.
+news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed button will be provided.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?
 news#:#news_rss#:#RSS
 news#:#news_rss_period#:#RSS Period
