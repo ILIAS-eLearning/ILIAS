@@ -989,7 +989,7 @@ EOT;
             $mc_item = new ilNewsItem($item_id);
             $mc_item->delete();
         }
-
+        $this->object->saveOrder($this->object->readItems());
         $ilCtrl->redirect($this, "listItems");
     }
 

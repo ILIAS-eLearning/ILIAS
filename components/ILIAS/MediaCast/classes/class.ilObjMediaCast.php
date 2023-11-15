@@ -405,6 +405,9 @@ class ilObjMediaCast extends ilObject
     ): void {
         $items = [];
         foreach ($this->readOrder() as $i) {
+            if(!array_key_exists($i, $mapping)) {
+                continue;
+            }
             $items[] = $mapping[$i];
         }
         $newObj->saveOrder($items);
