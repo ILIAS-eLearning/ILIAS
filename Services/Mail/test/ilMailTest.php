@@ -262,7 +262,15 @@ class ilMailTest extends ilMailBaseTest
     {
         $filter = ['status' => 'yes'];
         $rowData = ['mail_id' => 8908];
-        $one = $rowData + ['attachments' => [], 'tpl_ctx_params' => []];
+        $one = $rowData + [
+            'attachments' => [],
+            'tpl_ctx_params' => [],
+            'm_subject' => '',
+            'm_message' => '',
+            'rcp_to' => '',
+            'rcp_cc' => '',
+            'rcp_bcc' => '',
+        ];
         $expected = [$one, $one];
         $folderId = 89;
         $userId = 901;
