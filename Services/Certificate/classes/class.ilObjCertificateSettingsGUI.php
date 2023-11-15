@@ -167,6 +167,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
         $bgimage->setRequired(false);
 
+        if (strcmp($this->ctrl->getCmd(), "save") == 0) {
+            if ($_POST["background_delete"]) {
+                $this->object->deleteBackgroundImage();
+            }
+        }
+
         if (
             $this->upload->hasUploads() &&
             $this->httpState->request()->getMethod() === 'POST' &&
@@ -238,12 +244,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $form->addItem($persistentCertificateMode);
 
         $this->tpl->setContent($form->getHTML());
-
-        if (strcmp($this->ctrl->getCmd(), "save") == 0) {
-            if ($_POST["background_delete"]) {
-                $this->object->deleteBackgroundImage();
-            }
-        }
     }
 
     public function save()
