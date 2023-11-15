@@ -14,8 +14,8 @@
  *
  ******************************************************************** */
 
-import ACTIONS from "../actions/page-action-types.js";
-import Util from "../../../ui/util.js";
+import ACTIONS from '../actions/page-action-types.js';
+import Util from '../../../ui/util.js';
 
 /**
  * page ui
@@ -99,9 +99,6 @@ export default class PageUI {
     this.debug = false;
     this.droparea = "<div class='il_droparea'></div>";
     this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
-    this.first_add = `<span class='il-copg-add-text'> ${
-      il.Language.txt('cont_ed_click_to_add_pg')
-    }</span>`;
     this.model = {};
     this.uiModel = {};
 
@@ -114,6 +111,12 @@ export default class PageUI {
     this.toolSlate = toolSlate;
     this.pageModifier = pageModifier;
     this.util = new Util();
+  }
+
+  getFirstAddText() {
+    return `<span class='il-copg-add-text'> ${
+      il.Language.txt('cont_ed_click_to_add_pg')
+    }</span>`;
   }
 
   //
@@ -862,7 +865,7 @@ export default class PageUI {
     const addButtons = document.querySelectorAll('button.copg-add');
     document.querySelectorAll('button.copg-add').forEach((b) => {
       if (addButtons.length === 1) {
-        b.innerHTML = this.add + this.first_add;
+        b.innerHTML = this.add + this.getFirstAddText();
       } else {
         b.innerHTML = this.add;
       }
@@ -995,7 +998,7 @@ export default class PageUI {
 
     this.util.showModal(
       this.uiModel.modal,
-      il.Language.txt("cont_delete_content"),
+      il.Language.txt('cont_delete_content'),
       content,
       il.Language.txt('delete'),
       () => {
@@ -1030,7 +1033,7 @@ export default class PageUI {
       content,
       this.model.getCurrentPCName(),
     );
-    this.toolSlate.setContentFromComponent(this.model.getCurrentPCName(), "creation_form");
+    this.toolSlate.setContentFromComponent(this.model.getCurrentPCName(), 'creation_form');
     this.initFormButtonsAndSettingsLink();
   }
 
@@ -1047,8 +1050,8 @@ export default class PageUI {
   /// /
 
   loadGenericEditingForm(cname, pcid, hierid) {
-    const dispatcher = this.dispatcher;
-    const actionFactory = this.actionFactory;
+    const { dispatcher } = this;
+    const { actionFactory } = this;
 
     const loadEditingFormAction = this.actionFactory.page().query().loadEditingForm(cname, pcid, hierid);
     this.client.sendQuery(loadEditingFormAction).then((result) => {
