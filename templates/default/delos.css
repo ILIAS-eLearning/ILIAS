@@ -9077,27 +9077,6 @@ nav,
 section {
   display: block;
 }
-/*
-*********************
-grid-based layout
-*********************
-*/
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  body {
-    background-image: url("../../templates/default/images/HeaderIcon.svg");
-    background-position: center 43%;
-    background-repeat: no-repeat;
-    display: -ms-flexbox;
-    align-items: center;
-    justify-content: center;
-  }
-  body:after {
-    content: "Microsoft Internet Explorer is no longer supported!";
-  }
-  body .il-layout-page {
-    display: none;
-  }
-}
 .il-layout-page {
   background: #f0f0f0;
   display: -ms-grid;
