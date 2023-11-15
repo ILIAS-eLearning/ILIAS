@@ -29,11 +29,6 @@ class ilUserTableGUI extends ilTable2GUI
     protected $filter = array();
 
     /**
-     * @var null | \ilLoggerFactory
-     */
-    private $logger = null;
-
-    /**
     * Constructor
     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_mode = self::MODE_USER_FOLDER, $a_load_items = true)
@@ -43,13 +38,12 @@ class ilUserTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        $this->logger = $DIC->logger()->usr();
+        $this->user_folder_id = $a_parent_obj->object->getRefId();
 
-        if ($DIC->access()->checkAccess('write', '', $a_parent_obj->object->getRefId())) {
+        if ($DIC['rbacsystem']->checkAccess('write', $this->user_folder_id)
+            || $DIC['rbacsystem']->checkAccess('cat_administrate_users', $this->user_folder_id)) {
             $this->with_write_access = true;
         }
-
-        $this->user_folder_id = $a_parent_obj->object->getRefId();
 
         $this->setMode($a_mode);
         $this->setId("user" . $this->getUserFolderId());
@@ -82,7 +76,6 @@ class ilUserTableGUI extends ilTable2GUI
 
         $this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
         $this->setRowTemplate("tpl.user_list_row.html", "Services/User");
-        //$this->disable("footer");
         $this->setEnableTitle(true);
         $this->initFilter();
         $this->setFilterCommand("applyFilter");
@@ -504,17 +497,6 @@ class ilUserTableGUI extends ilTable2GUI
         $ul->readFromSession();
         $this->filter["query"] = $ul->getValue();
 
-        /*
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-        $ti = new ilTextInputGUI($lng->txt("login")."/".$lng->txt("email")."/".$lng->txt("name"), "query");
-        $ti->setMaxLength(64);
-        $ti->setSize(20);
-        $ti->setSubmitFormOnEnter(true);
-        $this->addFilterItem($ti);
-        $ti->readFromSession();
-        $this->filter["query"] = $ti->getValue();
-        */
-
         // activation
         include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $options = array(
@@ -720,12 +702,11 @@ class ilUserTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($user["usr_id"] != 6) {
-            if ($this->getMode() == self::MODE_USER_FOLDER or $user['time_limit_owner'] == $this->getUserFolderId()) {
-                $this->tpl->setCurrentBlock("checkb");
-                $this->tpl->setVariable("ID", $user["usr_id"]);
-                $this->tpl->parseCurrentBlock();
-            }
+        if ($user["usr_id"] != 6
+            && ($this->getMode() == self::MODE_USER_FOLDER || $user['time_limit_owner'] == $this->getUserFolderId())) {
+            $this->tpl->setCurrentBlock("checkb");
+            $this->tpl->setVariable("ID", $user["usr_id"]);
+            $this->tpl->parseCurrentBlock();
         }
 
         if ($this->with_write_access
