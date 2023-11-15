@@ -25,7 +25,9 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
     public function testDeleteTemplateAndUseOldThumbnail(): void
     {
-        $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+        $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $templateRepositoryMock
             ->method('deleteTemplate')
