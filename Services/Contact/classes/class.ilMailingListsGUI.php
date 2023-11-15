@@ -195,7 +195,7 @@ class ilMailingListsGUI
             return true;
         }
 
-        $mail_data = $this->umail->getSavedData();
+        $mail_data = $this->umail->retrieveFromStage();
         $lists = [];
         foreach ($ml_ids as $id) {
             if ($this->mlists->isOwner($id, $this->user->getId()) &&
@@ -206,7 +206,7 @@ class ilMailingListsGUI
 
         if (count($lists)) {
             $mail_data = $this->umail->appendSearchResult(array_values($lists), 'to');
-            $this->umail->savePostData(
+            $this->umail->persistToStage(
                 (int) $mail_data['user_id'],
                 $mail_data['attachments'],
                 $mail_data['rcp_to'],

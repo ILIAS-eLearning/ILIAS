@@ -4019,9 +4019,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         $umail = new ilFormatMail($ilUser->getId());
-        $mail_data = $umail->getSavedData();
+        $mail_data = $umail->retrieveFromStage();
 
-        $umail->savePostData(
+        $umail->persistToStage(
             $mail_data['user_id'],
             $mail_data['attachments'],
             '#il_ml_' . $list_id,

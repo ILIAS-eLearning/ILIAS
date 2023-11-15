@@ -969,7 +969,7 @@ class ilMail
      * @param array|null $a_tpl_ctx_params
      * @return bool
      */
-    public function savePostData(
+    public function persistToStage(
         int $a_user_id,
         array $a_attachments,
         string $a_rcp_to,
@@ -999,12 +999,12 @@ class ilMail
             ]
         );
 
-        $this->getSavedData();
+        $this->retrieveFromStage();
 
         return true;
     }
 
-    public function getSavedData(): array
+    public function retrieveFromStage(): array
     {
         $res = $this->db->queryF(
             "SELECT * FROM $this->table_mail_saved WHERE user_id = %s",
@@ -1014,7 +1014,7 @@ class ilMail
 
         $this->mail_data = $this->fetchMailData($this->db->fetchAssoc($res));
         if (!is_array($this->mail_data)) {
-            $this->savePostData($this->user_id, [], '', '', '', '', '', false);
+            $this->persistToStage($this->user_id, [], '', '', '', '', '', false);
         }
 
         return $this->mail_data;
