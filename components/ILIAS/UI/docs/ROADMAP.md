@@ -232,6 +232,15 @@ however, this cannot be (or currently is not) PHP-typehinted.
 The Column Factory should give information as to which types are to be used with
 the respective Column.
 
+### Remove toast vanish- and delay-time from public interface (beginner, ~4h)
+
+The vanish- and delay-time of toasts are currently configurable via the public
+interface with methods like `withDelayTime()` and `withVanishTime()`. However, we
+should avoid this and introduce (prefferably) a new data-type for this purpose and
+inject this settings in the initialisation of the UI framework, so we can globally
+manage these settings. There is already a
+[viable approach](https://github.com/ILIAS-eLearning/ILIAS/pull/6534) which needs
+to be refined once more.
 
 ## Long Term
 
