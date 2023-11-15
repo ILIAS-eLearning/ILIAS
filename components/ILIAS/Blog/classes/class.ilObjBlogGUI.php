@@ -505,6 +505,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilHelp->setScreenIdComponent("blog");
 
         if ($this->checkPermissionBool("read")) {
+            $this->ctrl->setParameterByClass(self::class, "bmn", null);
             $this->tabs_gui->addTab(
                 "content",
                 $lng->txt("content"),
@@ -733,7 +734,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             if ($public_action) {
                                 $this->tpl->setOnScreenMessage('success', implode("<br />", $info));
                             } else {
-                                $this->tpl->setOnScreenMessage('info', implode("<br />", $info));
+                                if (count($info) > 0) {
+                                    $this->tpl->setOnScreenMessage('info', implode("<br />", $info));
+                                }
                             }
 
                             // revert to edit cmd to avoid confusion
@@ -1035,7 +1038,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $list = $nav = "";
         if ($list_items) {
             $list = $this->renderList($list_items, "preview", "", $is_owner);
-            $nav = $this->renderNavigation("render", "preview", "", $is_owner);
+            $nav = $this->renderNavigation("render", "edit", "", $is_owner);
         }
 
         $this->setContentStyleSheet();
@@ -1796,7 +1799,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->ui->renderer()->render(
                     $this->ui->factory()->link()->standard(
                         $this->lng->txt("blog_starting_page"),
-                        $this->ctrl->getLinkTargetByClass(self::class, "preview")
+                        $this->ctrl->getLinkTargetByClass(self::class, $a_list_cmd)
                     )
                 )
             );

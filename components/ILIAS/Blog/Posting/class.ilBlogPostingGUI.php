@@ -212,7 +212,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $callback
             ));
         }
-
         // permanent link
         if ($a_mode !== "embedded") {
             $append = ($this->blpg > 0)
