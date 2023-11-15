@@ -144,14 +144,12 @@ class ilLocatorGUI
                     $row["title"] = $this->lng->txt("repository");
                 }
 
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $row["child"]);
                 $this->addItem(
                     $row["title"],
-                    $ilCtrl->getLinkTargetByClass("ilrepositorygui", ""),
+                    ilLink::_getLink((int) $row["child"]),
                     ilFrameTargetInfo::_getFrame("MainContent"),
                     $row["child"]
                 );
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
             }
         }
     }
@@ -346,8 +344,8 @@ class ilLocatorGUI
                 $first = false;
             }
         } else {
-//            $loc_tpl->setVariable("NOITEM", "&nbsp;");
-//            $loc_tpl->touchBlock("locator");
+            //            $loc_tpl->setVariable("NOITEM", "&nbsp;");
+            //            $loc_tpl->touchBlock("locator");
         }
 
         return trim($loc_tpl->get());
