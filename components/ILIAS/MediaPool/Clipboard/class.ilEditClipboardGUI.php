@@ -159,10 +159,10 @@ class ilEditClipboardGUI
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
 
-        $this->gui->link(
+        $this->gui->button(
             $this->lng->txt("cont_create_mob"),
             $ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create")
-        )->emphasised()->toToolbar();
+        )->toToolbar();
 
         $table_gui = new ilClipboardTableGUI($this, "view");
         $tpl->setContent($table_gui->getHTML());

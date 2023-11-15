@@ -32,7 +32,7 @@ define("IL_MODE_FULL", 3);
  */
 class ilObjMediaObject extends ilObject
 {
-    private const DEFAULT_PREVIEW_SIZE = 400;
+    private const DEFAULT_PREVIEW_SIZE = 80;
     protected ilObjUser $user;
     public bool $is_alias;
     public string $origin_id;
