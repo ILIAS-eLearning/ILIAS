@@ -25,7 +25,6 @@ declare(strict_types=1);
  */
 class ilFavouritesListGUI
 {
-    private ilGlobalTemplateInterface $main_tpl;
     protected \ILIAS\DI\UIServices $ui;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -73,7 +72,7 @@ class ilFavouritesListGUI
                 $this->lng->txt('rep_configure'),
                 $this->ui->factory()->legacy('PH')
             )->withAdditionalOnLoadCode(function ($id) {
-                return "document.getElementById('$id').setAttribute('data-depth-level', null)";
+                return "document.body.appendChild(document.getElementById('$id'));";
             });
             $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
                 $this->ctrl->getLinkTargetByClass(

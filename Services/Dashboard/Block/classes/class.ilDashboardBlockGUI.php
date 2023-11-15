@@ -562,7 +562,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function manage(ReplaceSignal $replace_signal = null): string
     {
-        $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/ReplaceModalContent.js');
         $page = '';
         if ($this->http->wrapper()->query()->has('page')) {
             $page = $this->http->wrapper()->query()->retrieve('page', $this->refinery->kindlyTo()->string());
