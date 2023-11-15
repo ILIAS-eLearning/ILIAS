@@ -97,7 +97,7 @@ class ModuleManager
         if ($this->isAuthoringMode()) {
             return true;
         }
-        return (count($this->getActiveModules() > 0));
+        return (count($this->getActiveModules()) > 0);
     }
 
     public function isAuthoringMode(): bool

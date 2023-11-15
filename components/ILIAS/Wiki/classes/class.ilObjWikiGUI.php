@@ -577,13 +577,21 @@ class ilObjWikiGUI extends ilObjectGUI
                         $this->requested_page,
                         $this->edit_request->getTranslation()
                     );
-                $this->tabs_gui->setBackTarget(
-                    $lng->txt("wiki_last_visited_page"),
-                    $this->pm->getPermaLink(
-                        $page_id,
+                if (is_null($page_id) && $this->edit_request->getFromPage() !== "") {
+                    $page_id = $this->pm->getPageIdForTitle(
+                        $this->edit_request->getFromPage(),
                         $this->edit_request->getTranslation()
-                    )
-                );
+                    );
+                }
+                if (!is_null($page_id)) {
+                    $this->tabs_gui->setBackTarget(
+                        $lng->txt("wiki_last_visited_page"),
+                        $this->pm->getPermaLink(
+                            $page_id,
+                            $this->edit_request->getTranslation()
+                        )
+                    );
+                }
             }
 
             // pages
