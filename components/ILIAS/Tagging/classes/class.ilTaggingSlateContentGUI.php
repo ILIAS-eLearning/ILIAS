@@ -165,8 +165,9 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                 "document.getElementById('$id').addEventListener('click', function() {
                 const el = document.getElementById('il-tag-slate-container');
                 if (el) {
-                    il.repository.core.fetchReplaceInner(el, '$tag_cmd'); return false;});
-                }";
+                    il.repository.core.fetchReplaceInner(el, '$tag_cmd');
+                    return false;
+                }});";
         });
 
         // resource list
