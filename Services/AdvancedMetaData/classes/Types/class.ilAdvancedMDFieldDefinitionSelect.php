@@ -547,6 +547,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($def, false, true);
             ilADTFactory::initActiveRecordByType();
 
+            $page_list_mappings = [];
+
             foreach ($this->confirmed_objects as $old_option => $item_ids) {
                 // get complete old values
                 $old_values = array();
@@ -603,15 +605,16 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
                     if ($sub_type == "wpg") {
                         // #15763 - adapt advmd page lists
-                        ilPCAMDPageList::migrateField(
-                            (int) $obj_id,
-                            $this->getFieldId(),
-                            (string) $old_option,
-                            (string) $new_option,
-                            true
-                        );
+                        $page_list_mappings[(string) $old_option] = (string) $new_option;
                     }
                 }
+            }
+
+            if (!empty($page_list_mappings)) {
+                ilPCAMDPageList::migrateField(
+                    $this->getFieldId(),
+                    $page_list_mappings
+                );
             }
 
             $this->confirmed_objects = array();
