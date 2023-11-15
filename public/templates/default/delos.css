@@ -14684,6 +14684,7 @@ div.ilTinyMenuSection p, .il-copg-button-group p {
 }
 
 div.ilTinyMenuSection button.btn {
+  display: inline-block;
   background: white;
   border: 0;
   color: black;
