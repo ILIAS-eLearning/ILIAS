@@ -395,7 +395,8 @@ class ilMail
         }
 
         if (isset($row['attachments'])) {
-            $row['attachments'] = unserialize(stripslashes($row['attachments']), ['allowed_classes' => false]);
+            $unserialized = unserialize(stripslashes($row['attachments']), ['allowed_classes' => false]);
+            $row['attachments'] = is_array($unserialized) ? $unserialized : [];
         } else {
             $row['attachments'] = [];
         }
