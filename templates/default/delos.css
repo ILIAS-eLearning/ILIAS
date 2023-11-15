@@ -4427,6 +4427,7 @@ hr.il-divider-with-label {
   flex: 1;
 }
 .il-filter-bar .il-filter-bar-opener .btn-bulky {
+  min-height: 0px;
   display: inline-flex;
   width: 100%;
   background-color: initial;
