@@ -4105,6 +4105,7 @@ button .minimize, button .close {
 
 .il-counter {
   position: relative;
+  font-size: 0.875rem;
 }
 
 .il-counter-novelty {
@@ -5856,13 +5857,8 @@ footer {
 .il-maincontrols-metabar .btn, .il-maincontrols-metabar .il-link {
   position: relative;
 }
-.il-maincontrols-metabar .il-counter-novelty {
-  margin-top: 0;
-  top: 17px;
-}
-.il-maincontrols-metabar .il-counter-status {
-  margin-top: 0;
-  top: 32px;
+.il-maincontrols-metabar .il-counter {
+  font-size: 1.4375rem;
 }
 .il-maincontrols-metabar > li > .btn-bulky, .il-maincontrols-metabar > li > .link-bulky {
   border: 1px solid transparent;
