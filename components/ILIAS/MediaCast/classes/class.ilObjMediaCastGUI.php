@@ -920,7 +920,6 @@ EOT;
         $items = [];
         $f = $this->gui->ui()->factory();
         $r = $this->gui->ui()->renderer();
-
         $ids = $this->mc_request->getItemIds();
         if (current($ids) === 'ALL_OBJECTS') {
             $arr = $this->object->getSortedItemsArray();
