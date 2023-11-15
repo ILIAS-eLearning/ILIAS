@@ -895,14 +895,14 @@ class ilSurveyEvaluationGUI
                 $surround = true;
             }
             if (strpos($entry ?? "", "\"") !== false) {
-                $entry = str_replace("\"", "\"\"", $entry);
+                $entry = str_replace("\"", "\"\"", (string) $entry);
                 $surround = true;
             }
             if (strpos($entry ?? "", $separator) !== false) {
                 $surround = true;
             }
             // replace all CR LF with LF (for Excel for Windows compatibility
-            $entry = str_replace(chr(13) . chr(10), chr(10), $entry);
+            $entry = str_replace(chr(13) . chr(10), chr(10), (string) $entry);
             if ($surround) {
                 //$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
                 $resultarray[$rowindex] = "\"" . $entry . "\"";
