@@ -16517,6 +16517,7 @@ survey#:#svy_mail_send_confirmation#:#Send Participation Confirmation
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 survey#:#svy_neutral_answer#:#Text for a Neutral Answer (‘Not Specified’, ‘I don't know’ etc.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
