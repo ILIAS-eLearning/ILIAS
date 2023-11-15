@@ -3796,6 +3796,9 @@ button .minimize, button .close {
   background: #2c2c2c;
   border: 1px solid #2c2c2c;
 }
+.il-toggle-button[disabled] {
+  cursor: not-allowed;
+}
 
 .ilToolbar .il-toggle-button {
   bottom: 3px;
@@ -14684,6 +14687,7 @@ div.ilTinyMenuSection p, .il-copg-button-group p {
 }
 
 div.ilTinyMenuSection button.btn {
+  display: inline-block;
   background: white;
   border: 0;
   color: black;
