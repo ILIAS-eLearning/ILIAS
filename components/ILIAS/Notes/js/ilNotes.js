@@ -188,7 +188,6 @@ const ilNotes = {
   handleAjaxSuccess(o) {
     let t;
     const modal = document.getElementById('il_notes_modal');
-
     // perform page modification
     if (o.responseText !== undefined) {
       t = ilNotes;
@@ -208,21 +207,6 @@ const ilNotes = {
       if (headButton) {
         headButton.focus();
       }
-    }
-
-    // default action: replace html
-    if (t.old) {
-      il.UICore.setRightPanelContent(o.responseText);
-    } else {
-      if (t.inModal()) {
-        $('#il_notes_modal').data('status', '');
-        $('#il_notes_modal .modal-body').html(o.responseText);
-        ilNotes.init(document.getElementById('il_notes_modal'));
-      } else {
-        $('#notes_embedded_outer').html(o.responseText);
-        ilNotes.init(document.getElementById('notes_embedded_outer'));
-      }
-      $('#il_notes_modal .modal-header button').focus();
     }
 
     //				ilNotes.insertPanelHTML(o.responseText);
@@ -259,7 +243,6 @@ const ilNotes = {
     if (node == null) {
       node = document;
     }
-
     // focus textarea if requested
     const focus_element = node.querySelector("[data-note-focus='1'] form textarea");
     if (focus_element) {
