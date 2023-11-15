@@ -21,6 +21,7 @@ declare(strict_types=1);
 class ilSystemStyleHTMLExport
 {
     private array $images = [];
+    protected array $img_sub_dirs;
     protected string $style_dir;
     protected string $style_img_dir;
     protected string $img_dir;
