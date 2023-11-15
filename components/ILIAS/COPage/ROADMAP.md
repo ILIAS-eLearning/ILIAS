@@ -14,6 +14,10 @@ The following issues are mostly usability issues, that could be tackled as part 
 - Migrate from jQueryUI draggable to a non jQuery lib, e.g. https://shopify.github.io/draggable/ 
 - Migrate from Owl.Carousel to a better maintained lib. Suggested is https://github.com/ganlanyuan/tiny-slider, but there might be a better alternative.
 
+### Improve/avoid error messages
+
+- If tags are incorrectly nested in text editing (see e.g. https://mantis.ilias.de/view.php?id=37044), XML errors are presented to the user which are hard to interpret ("Opening and ending tag mismatch..."). We either implement a mechanism that fixes simple XML errors (e.g. adding missing closing tags) or transform these messages to something more readable (e.g. by removing the technical parts and focus on the faulty tag type, e.g. kw, iln, ...)
+
 ### Continue Page Editor Refactoring (started with ILIAS 7)
 
 https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html
