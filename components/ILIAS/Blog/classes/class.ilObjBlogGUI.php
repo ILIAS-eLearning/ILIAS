@@ -2562,7 +2562,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         foreach ($ids as $user_id) {
             $confirm->addItem(
                 'id[]',
-                $user_id,
+                (string) $user_id,
                 ilUserUtil::getNamePresentation($user_id, false, false, "", true)
             );
         }
