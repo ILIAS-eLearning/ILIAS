@@ -200,7 +200,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 
         $a_xml_writer->xmlElement("description", null, $this->getDescription());
         $a_xml_writer->xmlElement("author", null, $this->getAuthor());
-        if (strlen($this->label)) {
+        if (strlen($this->label ?? "")) {
             $attrs = array(
                 "label" => $this->label,
             );
@@ -217,16 +217,16 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             $attrs = array(
                 "id" => $i
             );
-            if (strlen($this->categories->getCategory($i)->other)) {
+            if (strlen($this->categories->getCategory($i)->other ?? "")) {
                 $attrs['other'] = $this->categories->getCategory($i)->other;
             }
-            if (strlen($this->categories->getCategory($i)->neutral)) {
+            if (strlen($this->categories->getCategory($i)->neutral ?? "")) {
                 $attrs['neutral'] = $this->categories->getCategory($i)->neutral;
             }
-            if (strlen($this->categories->getCategory($i)->label)) {
+            if (strlen($this->categories->getCategory($i)->label ?? "")) {
                 $attrs['label'] = $this->categories->getCategory($i)->label;
             }
-            if (strlen($this->categories->getCategory($i)->scale)) {
+            if (strlen($this->categories->getCategory($i)->scale ?? "")) {
                 $attrs['scale'] = $this->categories->getCategory($i)->scale;
             }
             $a_xml_writer->xmlStartTag("response_single", $attrs);
@@ -299,7 +299,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     ): array {
         $entered_value = $post_data[$this->getId() . "_value"] ?? "";
         $data = array();
-        if (strlen($entered_value)) {
+        if (strlen($entered_value ?? "")) {
             $data[] = array("value" => $entered_value,
                             "textanswer" => $post_data[$this->getId() . '_' . $entered_value . '_other'] ?? ""
             );
@@ -332,11 +332,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 
         $this->log->debug("Entered value = " . $entered_value);
 
-        if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) {
+        if ((!$this->getObligatory()) && (strlen($entered_value ?? "") == 0)) {
             return "";
         }
 
-        if (strlen($entered_value) == 0) {
+        if (strlen($entered_value ?? "") == 0) {
             return $this->lng->txt("question_not_checked");
         }
 
@@ -344,7 +344,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             $cat = $this->categories->getCategory($i);
             if ($cat->other) {
                 if ($i == $entered_value) {
-                    if (array_key_exists($this->getId() . "_" . $entered_value . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $entered_value . "_other"])) {
+                    if (array_key_exists($this->getId() . "_" . $entered_value . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $entered_value . "_other"] ?? "")) {
                         return $this->lng->txt("question_mr_no_other_answer");
                     }
                 } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"] ?? "")) {
@@ -369,7 +369,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             return array(array("value" => $entered_value,
                 "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? ""));
         }
-        if (strlen($entered_value) == 0) {
+        if (strlen($entered_value ?? "") == 0) {
             return null;
         }
 
@@ -379,14 +379,14 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $fields['answer_id'] = array("integer", $next_id);
         $fields['question_fi'] = array("integer", $this->getId());
         $fields['active_fi'] = array("integer", $active_id);
-        $fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : null);
+        $fields['value'] = array("float", (strlen($entered_value ?? "")) ? $entered_value : null);
         $fields['textanswer'] = array("clob", isset($post_data[$this->getId() . "_" . $entered_value . "_other"]) ?
             $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
         $fields['tstamp'] = array("integer", time());
 
         $affectedRows = $ilDB->insert("svy_answer", $fields);
 
-        $debug_value = (strlen($entered_value)) ? $entered_value : "NULL";
+        $debug_value = (strlen($entered_value ?? "")) ? $entered_value : "NULL";
         $debug_answer = $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? "NULL";
         $this->log->debug("INSERT svy_answer answer_id=" . $next_id . " question_fi=" . $this->getId() . " active_fi=" . $active_id . " value=" . $debug_value . " textanswer=" . $debug_answer);
         return null;
@@ -401,10 +401,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             }
             $this->categories->addCategory(
                 $categorytext,
-                strlen($data['other']) ? $data['other'] : 0,
-                strlen($data['neutral']) ? $data['neutral'] : 0,
-                strlen($data['label']) ? $data['label'] : null,
-                strlen($data['scale']) ? $data['scale'] : null
+                strlen($data['other'] ?? "") ? $data['other'] : 0,
+                strlen($data['neutral'] ?? "") ? $data['neutral'] : 0,
+                strlen($data['label'] ?? "") ? $data['label'] : null,
+                strlen($data['scale'] ?? "") ? $data['scale'] : null
             );
         }
     }
@@ -450,7 +450,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         // #17895 - see getPreconditionOptions()
         return $category->scale .
             " - " .
-            ((strlen($category->title)) ? $category->title : $this->lng->txt('other_answer'));
+            ((strlen($category->title ?? "")) ? $category->title : $this->lng->txt('other_answer'));
     }
 
     public function getCategories(): SurveyCategories

@@ -78,7 +78,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
         $this->object->categories->flushCategories();
         $answers = $this->request->getAnswers();
         foreach ($answers['answer'] as $key => $value) {
-            if (strlen($value)) {
+            if (strlen($value ?? "")) {
                 $this->object->getCategories()->addCategory(
                     $value,
                     $answers['other'][$key] ?? 0,
@@ -258,16 +258,16 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 
                     if ($cat->other) {
                         $template->setCurrentBlock("other_row");
-                        if (strlen($cat->title)) {
+                        if (strlen($cat->title ?? "")) {
                             $template->setVariable("OTHER_LABEL", $cat->title);
                         }
                         $template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
                         $template->setVariable("QUESTION_ID", $this->object->getId());
                         if (is_array($working_data)) {
                             foreach ($working_data as $value) {
-                                if (strlen($value["value"])) {
+                                if (strlen($value["value"] ?? "")) {
                                     if ($value["value"] == $cat->scale - 1) {
-                                        if (strlen($value['textanswer'])) {
+                                        if (strlen($value['textanswer'] ?? "")) {
                                             $template->setVariable("OTHER_VALUE", ' value="' . ilLegacyFormElementsUtil::prepareFormOutput(
                                                 $value['textanswer']
                                             ) . '"');
@@ -340,13 +340,13 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                         $template->setCurrentBlock("text_other_col");
                         $template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
                         $template->setVariable("QUESTION_ID", $this->object->getId());
-                        if (strlen($cat->title)) {
+                        if (strlen($cat->title ?? "")) {
                             $template->setVariable("OTHER_LABEL", $cat->title);
                         }
                         if (is_array($working_data)) {
                             foreach ($working_data as $value) {
-                                if (strlen($value["value"])) {
-                                    if ($value["value"] == $cat->scale - 1 && strlen($value['textanswer'])) {
+                                if (strlen($value["value"] ?? "")) {
+                                    if ($value["value"] == $cat->scale - 1 && strlen($value['textanswer'] ?? "")) {
                                         $template->setVariable("OTHER_VALUE", ' value="' . ilLegacyFormElementsUtil::prepareFormOutput(
                                             $value['textanswer']
                                         ) . '"');
@@ -408,7 +408,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                         if (is_array($working_data)) {
                             foreach ($working_data as $value) {
                                 if (strlen($value["value"])) {
-                                    if ($value["value"] == $cat->scale - 1 && strlen($value['textanswer'])) {
+                                    if ($value["value"] == $cat->scale - 1 && strlen($value['textanswer'] ?? "")) {
                                         $template->setVariable("OTHER_VALUE", ' value="' . ilLegacyFormElementsUtil::prepareFormOutput(
                                             $value['textanswer']
                                         ) . '"');

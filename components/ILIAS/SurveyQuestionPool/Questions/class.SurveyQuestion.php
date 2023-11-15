@@ -468,7 +468,7 @@ class SurveyQuestion
                 "obj_fi" => array("integer", $this->getObjId()),
                 "owner_fi" => array("integer", $this->getOwner()),
                 "title" => array("text", $this->getTitle()),
-                "label" => array("text", (strlen($this->label)) ? $this->label : null),
+                "label" => array("text", (strlen($this->label ?? "")) ? $this->label : null),
                 "description" => array("text", $this->getDescription()),
                 "author" => array("text", $this->getAuthor()),
                 "questiontext" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0)),
@@ -486,7 +486,7 @@ class SurveyQuestion
             // update existing dataset
             $affectedRows = $ilDB->update("svy_question", array(
                 "title" => array("text", $this->getTitle()),
-                "label" => array("text", (strlen($this->label)) ? $this->label : null),
+                "label" => array("text", (strlen($this->label ?? "")) ? $this->label : null),
                 "description" => array("text", $this->getDescription()),
                 "author" => array("text", $this->getAuthor()),
                 "questiontext" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0)),
@@ -852,7 +852,7 @@ class SurveyQuestion
                 array($this->getOriginalId())
             );
             ilInternalLink::_deleteAllLinksOfSource("sqst", $this->original_id);
-            if (strlen($this->material["internal_link"])) {
+            if (strlen($this->material["internal_link"] ?? "")) {
                 $next_id = $ilDB->nextId('svy_material');
                 $affectedRows = $ilDB->manipulateF(
                     "INSERT INTO svy_material (material_id, question_fi, internal_link, import_id, material_title, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",

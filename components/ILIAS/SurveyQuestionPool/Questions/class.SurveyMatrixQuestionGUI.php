@@ -170,7 +170,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
         $columns = $this->request->getColumns();
         foreach ($columns['answer'] as $key => $value) {
-            if (strlen($value)) {
+            if (strlen($value ?? "")) {
                 $this->object->getColumns()->addCategory($value, $columns['other'][$key] ?? 0, 0, null, $columns['scale'][$key]);
             }
         }
@@ -188,7 +188,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $this->object->flushRows();
         $rows = $this->request->getRows();
         foreach ($rows['answer'] as $key => $value) {
-            if (strlen($value)) {
+            if (strlen($value ?? "")) {
                 $this->object->getRows()->addCategory($value, $rows['other'][$key] ?? 0, 0, $rows['label'][$key] ?? null);
             }
         }

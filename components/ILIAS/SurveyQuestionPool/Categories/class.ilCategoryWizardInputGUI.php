@@ -197,7 +197,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && ($this->getRequired() && (!isset($foundvalues['other'][$idx])))) {
+                    if (((strlen($answervalue ?? "")) == 0) && ($this->getRequired() && (!isset($foundvalues['other'][$idx])))) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -215,7 +215,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             if (isset($foundvalues['scale'])) {
                 foreach ($foundvalues['scale'] as $scale) {
                     //scales required
-                    if ((strlen($scale)) == 0) {
+                    if ((strlen($scale ?? "")) == 0) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -336,7 +336,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
 
         if ($this->getShowNeutralCategory()) {
-            if (is_object($neutral_category) && strlen($neutral_category->title)) {
+            if (is_object($neutral_category) && strlen($neutral_category->title ?? "")) {
                 $tpl->setCurrentBlock("prop_text_neutral_propval");
                 $tpl->setVariable(
                     "PROPERTY_VALUE",
