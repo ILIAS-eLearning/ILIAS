@@ -64,8 +64,12 @@ class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
 
     protected function show(): void
     {
-        $this->lng->loadLanguageModule('pd');
+        $main_tpl = $this->main_tpl;
+        $lng = $this->lng;
+
+        $main_tpl->setTitle($lng->txt("my_courses_groups"));
+
         $block = new ilMembershipBlockGUI();
-        $this->main_tpl->setContent($block->getHTML());
+        $main_tpl->setContent($block->getHTML());
     }
 }

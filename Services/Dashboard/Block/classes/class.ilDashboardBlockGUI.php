@@ -190,7 +190,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
         if ($this->parent === ilDashboardGUI::class) {
             $this->returnToContext();
-            return '';
         }
 
         return $this->getHTML();
