@@ -1,5 +1,5 @@
-@use "../../../010-settings/"as *;
-@use "../../../050-layout/basics"as *;
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
 
 //== Toggle Buttons
 //
@@ -113,6 +113,9 @@ $il-btn-toggle-switch-border-color-unavailable: $il-neutral-color;
       background: $il-btn-toggle-switch-bg-color-unavailable;
       border: $il-btn-toggle-border $il-btn-toggle-switch-border-color-unavailable;
     }
+  }
+  &[disabled] {
+    cursor: not-allowed;
   }
 }
 
