@@ -85,7 +85,7 @@ class SelfEvaluationTable
     {
         $columns = [
             "title" => $this->ui_fac->table()->column()->text($this->lng->txt("skmg_skill_level"))
-                                    ->withIsSortable(true), // change to false when bug 38399 is fixed
+                                    ->withIsSortable(false),
             "description" => $this->ui_fac->table()->column()->text($this->lng->txt("description"))
                                           ->withIsSortable(false),
             "status" => $this->ui_fac->table()->column()->status($this->lng->txt("status"))
@@ -134,6 +134,8 @@ class SelfEvaluationTable
             $this->user,
             $this->self_evaluation_manager
         ) implements UI\Component\Table\DataRetrieval {
+            use TableRecords;
+
             public function __construct(
                 protected int $top_skill_id,
                 protected int $tref_id,
@@ -152,7 +154,7 @@ class SelfEvaluationTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
-                $records = $this->getRecords($range, $order);
+                $records = $this->getRecords($range);
                 foreach ($records as $idx => $record) {
                     $row_id = $record["id"];
 
@@ -167,7 +169,7 @@ class SelfEvaluationTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(Data\Range $range = null): array
             {
                 $current_level_id = $this->self_evaluation_manager->getSelfEvaluation(
                     $this->user->getId(),
@@ -190,16 +192,8 @@ class SelfEvaluationTable
                     $i++;
                 }
 
-                if ($order) { // remove order when bug 38399 is fixed
-                    list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                    usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
-                    if ($order_direction === "DESC") {
-                        $records = array_reverse($records);
-                    }
-                }
-
                 if ($range) {
-                    $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
+                    $records = $this->limitRecords($records, $range);
                 }
 
                 return $records;
