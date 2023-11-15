@@ -420,7 +420,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             'ADM_CONTENT',
             'adm_content',
             'tpl.paste_into_multiple_objects.html',
-            "components/ILIAS/Object"
+            "components/ILIAS/WorkspaceFolder"
         );
 
         // move/copy in personal workspace
