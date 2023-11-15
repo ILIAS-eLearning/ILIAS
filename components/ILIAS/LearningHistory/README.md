@@ -1,4 +1,4 @@
-#Learning History Service
+# Learning History Service
 
 Welcome to the history of learning.
 
@@ -26,9 +26,10 @@ trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 
 If you additionally want to emphasize certain words (mostly titles) in your text, please use the method `$this->getEmphasizedTitle($string)`.
 
-# JF Decisions
+## Deletion Behaviour
 
-8 Oct 2018
+The service will keep entries even if the referenced objects ($ref_id, $obj_id) are deleted in the meantime. However the consuming components must take care of their own deletion processes and historise data that is necessary to provide older entries for the learning history. [^2]
 
-- General introduction of the service
-- https://github.com/ILIAS-eLearning/ILIAS/pull/1210
+[^1] 8 Oct 2018, General introduction of the service: https://github.com/ILIAS-eLearning/ILIAS/pull/1210
+
+[^2] 18 Sep 2023, Clarification Deletion Behaviour, 4.5: https://docu.ilias.de/goto_docu_wiki_wpage_8022_1357.html
