@@ -405,7 +405,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertSame($draftId, $instance->updateDraft($folderId, [], $to, $cc, $bcc, $subject, $message, $draftId, $usePlaceholders, $contextId, $params));
     }
 
-    public function testSavePostData(): void
+    public function testPersistingToStage(): void
     {
         $userId = 897;
         $attachments = [];
@@ -454,7 +454,7 @@ class ilMailTest extends ilMailBaseTest
         );
     }
 
-    public function testGetSavedData(): void
+    public function testRetrievalFromStage(): void
     {
         $userId = 789;
         $instance = $this->create(67, $userId);
