@@ -34,6 +34,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 {
     private string $content;
     private ilRbacSystem $rbacsystem;
+    private string $parent;
     protected ilFavouritesManager $favourites_manager;
     protected int $requested_item_ref_id;
     private mixed $object_cache;
@@ -61,6 +62,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->new_rendering = true;
         $this->rbacsystem = $DIC->rbac()->system();
         $this->favourites_manager = new ilFavouritesManager();
+        $this->parent = $this->ctrl->getCurrentClassPath()[0] ?? '';
         $this->init();
     }
 
@@ -161,6 +163,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     {
         $this->lng->loadLanguageModule('dash');
         $this->lng->loadLanguageModule('rep');
+        $this->lng->loadLanguageModule('pd');
         $this->initViewSettings();
         $this->main_tpl->addJavaScript('components/ILIAS/Dashboard/Block/js/ReplaceModalContent.js');
         $this->viewSettings->parse();
@@ -175,8 +178,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
     }
 
-    #[NoReturn]
-    protected function initAndShow(): void
+    protected function initAndShow(): string
     {
         $this->init();
         if ($this->ctrl->isAsynch()) {
@@ -186,7 +188,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             $this->http->sendResponse();
             $this->http->close();
         }
-        $this->returnToContext();
+        if ($this->parent === ilDashboardGUI::class) {
+            $this->returnToContext();
+        }
+
+        return $this->getHTML();
     }
 
     public function getHTML(): string
@@ -436,29 +442,26 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return "";
     }
 
-    #[NoReturn]
     public function viewDashboardObject(): void
     {
         $this->initAndShow();
     }
 
-    #[NoReturn]
-    public function changePDItemSortingObject(): void
+    public function changePDItemSortingObject(): string
     {
         $this->viewSettings->storeActorSortingMode(
             ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['sorting'] ?? ''))
         );
 
-        $this->initAndShow();
+        return $this->initAndShow();
     }
 
-    #[NoReturn]
-    public function changePDItemPresentationObject(): void
+    public function changePDItemPresentationObject(): string
     {
         $this->viewSettings->storeActorPresentationMode(
             ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['presentation'] ?? ''))
         );
-        $this->initAndShow();
+        return $this->initAndShow();
     }
 
     protected function cancel(): void
