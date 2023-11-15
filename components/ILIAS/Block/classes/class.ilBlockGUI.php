@@ -193,6 +193,8 @@ abstract class ilBlockGUI
 
     public function setOffset(int $a_offset): void
     {
+        // see https://github.com/ILIAS-eLearning/ILIAS/pull/6551/files
+        $this->max_count = count($this->getData());
         if ($this->checkOffset($a_offset)) {
             $this->offset = $a_offset;
         } else {
