@@ -73,6 +73,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
     public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate(): void
     {
+        $this->expectNotToPerformAssertions();
         $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $templateRepositoryMock
