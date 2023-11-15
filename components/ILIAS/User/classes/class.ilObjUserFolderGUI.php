@@ -3818,8 +3818,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         // remove existing (temporary) lists
-        $list = new ilMailingLists($this->user);
-        $list->deleteTemporaryLists();
+        $old_lists = new ilMailingLists($this->user);
+        $old_lists->deleteTemporaryLists();
 
         // create (temporary) mailing list
         $list = new ilMailingList($this->user);
@@ -3837,10 +3837,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $umail = new ilFormatMail($this->user->getId());
         $mail_data = $umail->getSavedData();
-
-        if (!is_array($mail_data)) {
-            $mail_data = ['user_id' => $this->user->getId()];
-        }
 
         $umail->savePostData(
             $mail_data['user_id'],
