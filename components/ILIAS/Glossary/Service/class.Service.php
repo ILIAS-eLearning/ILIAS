@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,16 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Glossary;
 
 use ILIAS\DI\Container;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class Service
 {
     protected Container $DIC;
+    protected static array $instance = [];
 
     public function __construct(Container $DIC)
     {
@@ -39,6 +37,7 @@ class Service
      */
     public function internal(): InternalService
     {
-        return new InternalService($this->DIC);
+        return self::$instance["internal"] ??
+            self::$instance["internal"] = new InternalService($this->DIC);
     }
 }
