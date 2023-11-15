@@ -419,7 +419,7 @@ class PageContentManager
                 foreach ($nodes as $node) {
                     $new_pc_node = $node;
                     $cloned_pc_node = $new_pc_node->cloneNode(true);
-                    $this->dom->importNode($cloned_pc_node, true);
+                    $cloned_pc_node = $this->dom->importNode($cloned_pc_node, true);
                     $this->insertContentNode(
                         $cloned_pc_node,
                         $a_hid[0],
