@@ -74,7 +74,7 @@ class ProfileLevelAssignmentTable
     {
         $columns = [
             "title" => $this->ui_fac->table()->column()->text($this->lng->txt("title"))
-                                    ->withIsSortable(true) // change to false when bug 38399 is fixed
+                                    ->withIsSortable(false)
         ];
 
         return $columns;
@@ -114,6 +114,8 @@ class ProfileLevelAssignmentTable
         $data_retrieval = new class (
             $this->skill
         ) implements UI\Component\Table\DataRetrieval {
+            use TableRecords;
+
             public function __construct(
                 protected \ilBasicSkill $skill
             ) {
@@ -127,7 +129,7 @@ class ProfileLevelAssignmentTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
-                $records = $this->getRecords($range, $order);
+                $records = $this->getRecords($range);
                 foreach ($records as $idx => $record) {
                     $row_id = $record["id"];
 
@@ -142,7 +144,7 @@ class ProfileLevelAssignmentTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(Data\Range $range = null): array
             {
                 $level_data = $this->skill->getLevelData();
 
@@ -155,16 +157,8 @@ class ProfileLevelAssignmentTable
                     $i++;
                 }
 
-                if ($order) { // remove order when bug 38399 is fixed
-                    list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                    usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
-                    if ($order_direction === "DESC") {
-                        $records = array_reverse($records);
-                    }
-                }
-
                 if ($range) {
-                    $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
+                    $records = $this->limitRecords($records, $range);
                 }
 
                 return $records;

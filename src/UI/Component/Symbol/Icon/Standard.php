@@ -108,6 +108,7 @@ interface Standard extends Icon
     public const RTST = 'rtst';	//Remote Test Object
     public const ECSS = 'ecss';	//ECS Administration
     public const TOS = 'tos';	//Terms of Service
+    public const DPRO = 'dpro';	//Data Protection
     public const IMPR = 'impr'; // Legal Notice
     public const BIBL = 'bibl';	//Bibliographic Object
     public const SYSC = 'sysc';	//System Check

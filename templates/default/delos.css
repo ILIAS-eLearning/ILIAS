@@ -3796,6 +3796,9 @@ button .minimize, button .close {
   background: #2c2c2c;
   border: 1px solid #2c2c2c;
 }
+.il-toggle-button[disabled] {
+  cursor: not-allowed;
+}
 
 .ilToolbar .il-toggle-button {
   bottom: 3px;
@@ -4105,6 +4108,7 @@ button .minimize, button .close {
 
 .il-counter {
   position: relative;
+  font-size: 0.875rem;
 }
 
 .il-counter-novelty {
@@ -4190,6 +4194,9 @@ hr.il-divider-with-label {
   background-color: #f9f9f9;
   padding-top: 15px;
   padding-bottom: 15px;
+}
+.ui-dropzone .btn {
+  margin-left: 12px;
 }
 
 .ui-dropzone-wrapper {
@@ -4423,6 +4430,7 @@ hr.il-divider-with-label {
   flex: 1;
 }
 .il-filter-bar .il-filter-bar-opener .btn-bulky {
+  min-height: 0px;
   display: inline-flex;
   width: 100%;
   background-color: initial;
@@ -4437,7 +4445,6 @@ hr.il-divider-with-label {
 }
 
 .il-filter-controls {
-  position: absolute;
   bottom: 0px;
   padding-left: 15px;
   padding-bottom: 6px;
@@ -4472,7 +4479,6 @@ hr.il-divider-with-label {
 .il-filter-input-section {
   border-top: 1px solid #dddddd;
   position: relative;
-  padding-bottom: 40px;
   padding-right: 12px;
   margin: 0;
   background: #f9f9f9;
@@ -5855,13 +5861,8 @@ footer {
 .il-maincontrols-metabar .btn, .il-maincontrols-metabar .il-link {
   position: relative;
 }
-.il-maincontrols-metabar .il-counter-novelty {
-  margin-top: 0;
-  top: 17px;
-}
-.il-maincontrols-metabar .il-counter-status {
-  margin-top: 0;
-  top: 32px;
+.il-maincontrols-metabar .il-counter {
+  font-size: 1.4375rem;
 }
 .il-maincontrols-metabar > li > .btn-bulky, .il-maincontrols-metabar > li > .link-bulky {
   border: 1px solid transparent;
@@ -9237,6 +9238,7 @@ th.c-table-data__cell {
 }
 
 .c-table-data__cell--link .c-table-data__header__resize-wrapper,
+.c-table-data__cell--linklisting .c-table-data__header__resize-wrapper,
 .c-table-data__cell--text .c-table-data__header__resize-wrapper {
   min-width: 140px;
   resize: horizontal;
@@ -14685,6 +14687,7 @@ div.ilTinyMenuSection p, .il-copg-button-group p {
 }
 
 div.ilTinyMenuSection button.btn {
+  display: inline-block;
   background: white;
   border: 0;
   color: black;

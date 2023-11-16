@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 class ilAdvSelectInputGUI extends ilFormPropertyGUI
 {
+    protected bool $right = true;
     protected array $options = array();
     protected string $value = "";
 
@@ -86,6 +87,17 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
         return $this->str($this->getPostVar());
     }
 
+    public function setPullRight(bool $right): void
+    {
+        $this->right = $right;
+    }
+
+    public function getPullRight(): bool
+    {
+        return $this->right;
+    }
+
+
     protected function getAdvSelection(): ilAdvancedSelectionListGUI
     {
         $selection = new ilAdvancedSelectionListGUI();
@@ -102,6 +114,7 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
         $selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
         $selection->setSelectedValue($this->getValue());
         $selection->setUseImages(false);
+        $selection->setPullRight($this->right);
         $selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT);
 
         foreach ($this->getOptions() as $option) {

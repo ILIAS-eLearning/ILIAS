@@ -74,7 +74,7 @@ class ilObjLearningSequenceContentGUI
 
         $data = $this->parent_gui->getObject()->getLSItems();
         // Sadly, ilTable2 only wants an array for fillRow, so we need to wrap this...
-        $data = array_map(fn ($s) => [$s], $data);
+        $data = array_map(fn($s) => [$s], $data);
         $this->renderTable($data);
     }
 
@@ -179,7 +179,14 @@ class ilObjLearningSequenceContentGUI
 
             $condition_type = $this->post_wrapper->retrieve($condition_type, $r->kindlyTo()->string());
             $online = $this->post_wrapper->retrieve($online, $r->byTrying([$r->kindlyTo()->bool(), $r->always(false)]));
-            $order = $this->post_wrapper->retrieve($order, $r->kindlyTo()->int());
+            $order = $this->post_wrapper->retrieve(
+                $order,
+                $r->in()->series([
+                    $r->kindlyTo()->string(),
+                    $r->custom()->transformation(fn($v) => ltrim($v, '0')),
+                    $r->kindlyTo()->int()
+                ])
+            );
 
             $condition = $lsitem->getPostCondition()
                 ->withConditionOperator($condition_type);

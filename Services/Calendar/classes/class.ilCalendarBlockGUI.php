@@ -845,15 +845,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     protected bool $new_rendering = true;
 
-    /**
-     * @inheritdoc
-     */
-    protected function getViewControls(): array
+    public function getViewControlsForPanel(): array
     {
         if ($this->getPresentation() == self::PRES_SEC_LEG) {
             return [$this->getViewControl()];
         }
-        return parent::getViewControls();
+        return parent::getViewControlsForPanel();
     }
 
     /**

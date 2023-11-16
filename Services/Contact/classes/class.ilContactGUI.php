@@ -82,7 +82,7 @@ class ilContactGUI
 
         $forward_class = $this->ctrl->getNextClass($this);
 
-        $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
+        $this->umail->persistToStage($this->user->getId(), [], '', '', '', '', '', false);
 
         switch (strtolower($forward_class)) {
             case strtolower(ilMailSearchCoursesGUI::class):
@@ -420,7 +420,7 @@ class ilContactGUI
         }
 
         $logins = [];
-        $mail_data = $this->umail->getSavedData();
+        $mail_data = $this->umail->retrieveFromStage();
         foreach ($usr_ids as $usr_id) {
             $login = ilObjUser::_lookupLogin($usr_id);
             if (!$this->umail->existsRecipient($login, (string) $mail_data['rcp_to'])) {
@@ -431,7 +431,7 @@ class ilContactGUI
 
         if ($logins !== []) {
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
-            $this->umail->savePostData(
+            $this->umail->persistToStage(
                 (int) $mail_data['user_id'],
                 $mail_data['attachments'],
                 $mail_data['rcp_to'],

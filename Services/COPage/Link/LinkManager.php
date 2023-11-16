@@ -261,7 +261,7 @@ class LinkManager
                     $id_arr = explode("_", $oid);
                     $id = $id_arr[count($id_arr) - 1];
 
-                    $mob = new \ilObjMediaObject($id);
+                    $mob = new \ilObjMediaObject((int) $id);
                     $med_item = $mob->getMediaItem("Standard");
                     $med_areas = $med_item->getMapAreas();
 
@@ -361,7 +361,7 @@ class LinkManager
                         "Target",
                         "il__obj_" . $a_mapping[$t[3]]
                     );
-                } elseif ($tree->isGrandChild($a_source_ref_id, $t[3])) {
+                } elseif ($tree->isGrandChild($a_source_ref_id, (int) $t[3])) {
                     // we have no mapping, but the linked object is child of the original node -> remove link
                     //$this->log->debug("... remove links.");
                     if ($node->parentNode->nodeName === "MapArea") {    // simply remove map areas

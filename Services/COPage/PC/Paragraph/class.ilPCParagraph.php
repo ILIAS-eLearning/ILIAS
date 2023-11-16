@@ -1111,18 +1111,18 @@ class ilPCParagraph extends ilPageContent
         // anchor
         while (preg_match('~<Anchor(' . $any . '/)>~i', $a_text, $found)) {
             $attribs = self::attribsToArray($found[1]);
-            $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . $attribs["Name"] . "\"][/anc]", $a_text);
+            $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . ($attribs["Name"] ?? "") . "\"][/anc]", $a_text);
         }
         while (preg_match('~<Anchor(' . $any . ')>~i', $a_text, $found)) {
             $attribs = self::attribsToArray($found[1]);
-            $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . $attribs["Name"] . "\"]", $a_text);
+            $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . ($attribs["Name"] ?? "") . "\"]", $a_text);
         }
         $a_text = str_replace("</Anchor>", "[/anc]", $a_text);
 
         // marked text
         while (preg_match('~<Marked(' . $any . ')>~i', $a_text, $found)) {
             $attribs = self::attribsToArray($found[1]);
-            $a_text = str_replace("<Marked" . $found[1] . ">", "[marked class=\"" . $attribs["Class"] . "\"]", $a_text);
+            $a_text = str_replace("<Marked" . $found[1] . ">", "[marked class=\"" . ($attribs["Class"] ?? "") . "\"]", $a_text);
         }
         $a_text = str_replace("</Marked>", "[/marked]", $a_text);
 

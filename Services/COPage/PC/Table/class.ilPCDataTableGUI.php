@@ -502,6 +502,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
             $this->lng->txt("cont_style"),
             "style"
         );
+        $style->setPullRight(false);
         $this->setBasicTableCellStyles();
         $this->getCharacteristicsOfCurrentStyle(["table_cell"]);	// scorm-2004
         $chars = $this->getCharacteristics();	// scorm-2004

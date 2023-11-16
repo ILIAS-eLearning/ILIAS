@@ -225,7 +225,7 @@ class ilCalendarExport
 
     protected function createAppointment(ilCalendarEntry $appointment): ilICalWriter
     {
-        $this->createVEVENT($appointment);
+        return $this->createVEVENT($appointment);
     }
 
     protected function createVTODO(ilCalendarEntry $app): ilICalWriter
@@ -329,7 +329,6 @@ class ilCalendarExport
             $str_writer->addLine('URL;VALUE=URI:' . ILIAS_HTTP_PATH);
         } else {
             $refs = ilObject::_getAllReferences($cat->getObjId());
-            include_once './Services/Link/classes/class.ilLink.php';
             $str_writer->addLine('URL;VALUE=URI:' . ilLink::_getLink(current($refs)));
         }
         return $str_writer;

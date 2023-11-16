@@ -272,7 +272,15 @@ class ilMailTest extends ilMailBaseTest
     {
         $filter = ['status' => 'yes'];
         $rowData = ['mail_id' => 8908];
-        $one = $rowData + ['attachments' => [], 'tpl_ctx_params' => []];
+        $one = $rowData + [
+            'attachments' => [],
+            'tpl_ctx_params' => [],
+            'm_subject' => '',
+            'm_message' => '',
+            'rcp_to' => '',
+            'rcp_cc' => '',
+            'rcp_bcc' => '',
+        ];
         $expected = [$one, $one];
         $folderId = 89;
         $userId = 901;
@@ -405,7 +413,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertSame($draftId, $instance->updateDraft($folderId, [], $to, $cc, $bcc, $subject, $message, $draftId, $usePlaceholders, $contextId, $params));
     }
 
-    public function testSavePostData(): void
+    public function testPersistingToStage(): void
     {
         $userId = 897;
         $attachments = [];
@@ -440,7 +448,7 @@ class ilMailTest extends ilMailBaseTest
             'rcp_to' => 'phpunit'
         ]);
 
-        $instance->savePostData(
+        $instance->persistToStage(
             78_979_078,
             $attachments,
             $rcpTo,
@@ -454,7 +462,7 @@ class ilMailTest extends ilMailBaseTest
         );
     }
 
-    public function testGetSavedData(): void
+    public function testRetrievalFromStage(): void
     {
         $userId = 789;
         $instance = $this->create(67, $userId);
@@ -464,7 +472,7 @@ class ilMailTest extends ilMailBaseTest
             'rcp_to' => 'phpunit'
         ]);
 
-        $mail_data = $instance->getSavedData();
+        $mail_data = $instance->retrieveFromStage();
 
         $this->assertIsArray($mail_data);
         $this->assertEquals('phpunit', $mail_data['rcp_to']);

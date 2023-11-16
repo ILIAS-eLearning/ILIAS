@@ -27,7 +27,7 @@ use ILIAS\COPage\InternalDomainService;
  */
 class PCFactory
 {
-    protected \ilLogger $log;
+    protected ?\ilLogger $log;
     protected PCDefinition $pc_definition;
 
     public function __construct(PCDefinition $pc_definition)
@@ -116,7 +116,7 @@ class PCFactory
         $pc = new ("\\" . $pc_class)($page_object);
         if (!in_array(
             $node->nodeName,
-            ["PageContent", "TableData", "FileItem"]
+            ["PageContent", "TableData", "FileItem", "ListItem"]
         )) {
             $this->log->debug("returning null.");
             return null;
@@ -124,7 +124,7 @@ class PCFactory
         $pc->setDomNode($node);
         $pc->setHierId($a_hier_id);
         $pc->setPcId($a_pc_id);
-        $this->log->debug("returning $pc_class.");
+        //$this->log->debug("returning $pc_class.");
         return $pc;
     }
 }

@@ -148,10 +148,10 @@ class ilPCList extends ilPageContent
     public function setItemStyleClass(string $a_val): void
     {
         if (!in_array($a_val, array("", "StandardListItem"))) {
-            $this->list_node->set_attribute("ItemClass", $a_val);
+            $this->getChildNode()->setAttribute("ItemClass", $a_val);
         } else {
-            if ($this->list_node->has_attribute("ItemClass")) {
-                $this->list_node->remove_attribute("ItemClass");
+            if ($this->getChildNode()->hasAttribute("ItemClass")) {
+                $this->getChildNode()->removeAttribute("ItemClass");
             }
         }
     }
@@ -163,6 +163,6 @@ class ilPCList extends ilPageContent
 
     public function getItemStyleClass(): string
     {
-        return $this->list_node->get_attribute("ItemClass");
+        return $this->getChildNode()->getAttribute("ItemClass");
     }
 }
