@@ -1484,8 +1484,8 @@ abstract class assQuestion
                 if (!file_exists($filepath)) {
                     ilFileUtils::makeDirParents($filepath);
                 }
-                $filename = $solution["value"]["name"];
-                if (strlen($filename)) {
+                $filename = $solution->getFilename();
+                if ($filename !== '') {
                     if (!copy($filepath_original . $filename, $filepath . $filename)) {
                         $this->ilLog->root()->error("File could not be copied!!!!");
                         $this->ilLog->root()->error("object: " . print_r($this, true));
