@@ -22,6 +22,7 @@
  */
 class ilPCTabsGUI extends ilPageContentGUI
 {
+    protected \ILIAS\COPage\PC\PCDefinition $pc_def;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ilPropertyFormGUI $form;
     protected ilDBInterface $db;
@@ -44,6 +45,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $this->toolbar = $DIC->toolbar();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         $this->xsl = $DIC->copage()->internal()->domain()->xsl();
+        $this->pc_def = $DIC->copage()->internal()->domain()->pc()->definition();
     }
 
     public function executeCommand(): void
@@ -640,6 +642,16 @@ class ilPCTabsGUI extends ilPageContentGUI
                         'fullscreen_link' => "#",
                         'pg_frame' => "", 'webspace_path' => $wb_path);
         $output = $this->xsl->process($xml, $params);
+
+        $defs = $this->pc_def->getPCDefinitions();
+        foreach ($defs as $def) {
+            $pc_class = $def["pc_class"];
+            $pc_obj = new $pc_class($this->getPage());
+
+            // post xsl page content modification by pc elements
+            $output = $pc_obj->modifyPageContentPostXsl($output, "presentation", false);
+        }
+
         return $output;
     }
 
