@@ -66,7 +66,7 @@ class BadgeParent
         );
 
         $parent_ref_id = current(($this->references_of)($meta_data['id']));
-        if ($this->container->access()->checkAccess('read', '', $parent_ref_id)) {
+        if ($parent_ref_id && $this->container->access()->checkAccess('read', '', $parent_ref_id)) {
             $parent_link = $this->container->ui()
                                            ->factory()
                                            ->link()
