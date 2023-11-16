@@ -132,6 +132,8 @@ class ZipTest extends TestCase
         $this->assertEquals([], iterator_to_array($unzip->getFiles()));
     }
 
+    /*
+     * Stephan Kergomard - 2023-11-16: See https://mantis.ilias.de/view.php?id=38787
     public function testLargeZIPs(): void
     {
         // get ulimit
@@ -155,6 +157,8 @@ class ZipTest extends TestCase
         sort($file_names_in_zip);
         $this->assertEquals($file_names, $file_names_in_zip);
     }
+     *
+     */
 
     /**
      * @dataProvider getZips
