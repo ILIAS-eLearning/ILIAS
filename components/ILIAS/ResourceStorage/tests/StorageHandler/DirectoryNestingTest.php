@@ -18,6 +18,8 @@
 
 namespace ILIAS\ResourceStorage\Revision;
 
+require_once(__DIR__ . "/../AbstractBaseTest.php");
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\ResourceStorage\AbstractBaseTest;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;

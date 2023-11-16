@@ -20,14 +20,8 @@ declare(strict_types=1);
 
 use org\bovigo\vfs;
 
-require_once 'vendor/composer/vendor/autoload.php';
-require_once 'components/ILIAS/User/classes/class.ilUserPasswordManager.php';
-require_once 'components/ILIAS/User/classes/class.ilUserPasswordEncoderFactory.php';
-require_once 'components/ILIAS/Password/classes/class.ilBasePasswordEncoder.php';
-require_once 'components/ILIAS/Utilities/classes/class.ilUtil.php';
-require_once 'components/ILIAS/User/classes/class.ilObjUser.php';
-require_once 'components/ILIAS/User/exceptions/class.ilUserException.php';
-require_once 'components/ILIAS/User/tests/ilUserBaseTest.php';
+require_once __DIR__ . '/../../../../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/ilUserBaseTest.php';
 
 class ilObjUserPasswordTest extends ilUserBaseTest
 {
@@ -60,7 +54,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     protected function setUp(): void
     {
         vfs\vfsStream::setup();
-        $this->setTestDirectory(vfs\vfsStream::newDirectory('test')->at(vfs\vfsStreamWrapper::getRoot()));
+        $this->setTestDirectory(vfs\vfsStream::newDirectory('tests')->at(vfs\vfsStreamWrapper::getRoot()));
         $this->setTestDirectoryUrl(vfs\vfsStream::url('root/tests'));
 
         parent::setUp();

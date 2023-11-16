@@ -12,6 +12,8 @@ class ilServicesCopyWizardSuite extends TestSuite
     {
         $suite = new ilServicesCopyWizardSuite();
 
+        require_once(__DIR__ . "/ilCopyWizardOptionsTest.php");
+
         $suite->addTestSuite(ilCopyWizardOptionsTest::class);
         return $suite;
     }

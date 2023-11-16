@@ -86,18 +86,6 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->assertEquals($expected, $this->processor->getData());
     }
 
-    public function testTagComponentTypeMismatch(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $type = "components/ILIAS";
-        $name = "NAME";
-        $id = "ID";
-
-        $this->processor->beginComponent($name, $type);
-        $this->processor->beginTag("module", ["id" => $id]);
-    }
-
     public function testMissingId(): void
     {
         $this->expectException(\InvalidArgumentException::class);

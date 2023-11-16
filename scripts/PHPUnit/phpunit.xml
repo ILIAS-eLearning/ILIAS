@@ -14,7 +14,7 @@
         >
     <testsuites>
         <testsuite name="unit">
-            <file>../../scripts/ILIASSuite.php</file>
+            <file>ILIASSuite.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

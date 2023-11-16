@@ -18,6 +18,8 @@
 
 namespace ILIAS\ResourceStorage\Policy;
 
+require_once(__DIR__ . "/../AbstractBaseResourceBuilderTest.php");
+
 use ILIAS\MainMenu\Tests\DummyIDGenerator;
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;

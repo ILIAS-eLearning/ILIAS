@@ -18,6 +18,8 @@
 
 namespace ILIAS\ResourceStorage\Resource;
 
+require_once(__DIR__ . "/../AbstractBaseResourceBuilderTest.php");
+
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
@@ -300,7 +302,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
     private function getFlatOrder(ResourceCollection $collection): array
     {
         return array_map(
-            fn (ResourceIdentification $rid): string => $rid->serialize(),
+            fn(ResourceIdentification $rid): string => $rid->serialize(),
             $collection->getResourceIdentifications()
         );
     }

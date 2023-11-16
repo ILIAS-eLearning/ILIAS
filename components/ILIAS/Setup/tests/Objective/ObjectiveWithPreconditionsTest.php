@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\Setup\Objective;
 
+require_once(__DIR__ . "/../Helper.php");
+
 use ILIAS\Setup;
 use ILIAS\Setup\Objective;
 use ILIAS\Tests\Setup as Test;
@@ -27,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 
 class ObjectiveWithPreconditionsTest extends TestCase
 {
-    use Test\Helper;
+    use \ILIAS\Tests\Setup\Helper;
 
     protected Setup\Objective $objective;
     protected Setup\Objective $precondition;

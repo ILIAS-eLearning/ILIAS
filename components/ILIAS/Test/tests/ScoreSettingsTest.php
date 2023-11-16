@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+require_once(__DIR__ . "/../../UI/tests/Base.php");
+
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\SignalGenerator;

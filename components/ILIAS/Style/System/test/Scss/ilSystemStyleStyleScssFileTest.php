@@ -18,10 +18,12 @@
 
 declare(strict_types=1);
 
-require_once('vendor/composer/vendor/autoload.php');
+require_once(__DIR__ . '/../../../../../../vendor/composer/vendor/autoload.php');
 
 class ilSystemStyleStyleScssFileTest extends ilSystemStyleBaseFS
 {
+    protected ilSystemStyleScssSettingsFile $file;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -126,7 +128,7 @@ class ilSystemStyleStyleScssFileTest extends ilSystemStyleBaseFS
 
     public function testGetContent(): void
     {
-        $expected_content = file_get_contents($this->file->getScssVariablesSettingsPath()."/variables1.scss");
+        $expected_content = file_get_contents($this->file->getScssVariablesSettingsPath() . "/variables1.scss");
         $this->assertEquals($expected_content, $this->file->getContent());
     }
 

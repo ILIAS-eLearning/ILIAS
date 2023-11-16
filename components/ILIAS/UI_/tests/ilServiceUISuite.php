@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
-require_once 'vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../../../../vendor/composer/vendor/autoload.php';
 
 /**
  * UI Service test suite
@@ -33,7 +33,7 @@ class ilServiceUISuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/Skill/tests/ilUIFilterTest.php");
+        require_once(__DIR__ . "/UIFilterServiceSessionGatewayTest.php");
         $suite->addTestSuite(UIFilterServiceSessionGatewayTest::class);
 
         return $suite;
