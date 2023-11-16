@@ -540,11 +540,6 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         }
 
         $this->test_object->storeActivationSettings($timebased_availability);
-
-        if ($this->test_object->participantDataExist()) {
-            return;
-        }
-
         $this->object_properties->storePropertyIsOnline($section['is_online']);
     }
 
