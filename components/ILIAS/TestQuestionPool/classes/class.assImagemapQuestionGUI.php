@@ -271,7 +271,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $editorTpl = new ilTemplate('tpl.il_as_qpl_imagemap_question.html', true, true, 'components/ILIAS/TestQuestionPool');
 
-        $coords = array();
+        $coords = [];
         $mapcoords = $this->request->raw('image');
         if ($mapcoords != null && isset($mapcoords['mapcoords']) && is_array($mapcoords['mapcoords'])) {
             foreach ($mapcoords['mapcoords'] as $value) {
@@ -431,7 +431,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $show_question_text = true
     ): string {
         $imagepath = $this->object->getImagePathWeb() . $this->object->getImageFilename();
-        $solutions = array();
+        $solutions = [];
         if (($active_id > 0) && (!$show_correct_solution)) {
             $solutions = $this->object->getSolutionValues($active_id, $pass);
         } else {
@@ -444,7 +444,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                         $found_index = $index;
                     }
                 }
-                array_push($solutions, array("value1" => $found_index));
+                array_push($solutions, ["value1" => $found_index]);
             } else {
                 // take the correct solution instead of the user solution
                 foreach ($this->object->answers as $index => $answer) {
@@ -452,7 +452,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     $points_unchecked = $answer->getPointsUnchecked();
                     if ($points_checked > $points_unchecked) {
                         if ($points_checked > 0) {
-                            array_push($solutions, array("value1" => $index));
+                            array_push($solutions, ["value1" => $index]);
                         }
                     }
                 }
@@ -560,7 +560,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
         if (is_object($this->getPreviewSession())) {
-            $user_solution = array();
+            $user_solution = [];
 
             if (is_array($this->getPreviewSession()->getParticipantsSolution())) {
                 $user_solution = array_values($this->getPreviewSession()->getParticipantsSolution());
@@ -575,7 +575,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $preview->createPreview();
             $imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->getImageFilename());
         } else {
-            $user_solution = array();
+            $user_solution = [];
             $imagepath = $this->object->getImagePathWeb() . $this->object->getImageFilename();
         }
 
@@ -627,7 +627,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
 
-            $userSelection = array();
+            $userSelection = [];
             $selectionIndex = 0;
 
             $preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->getImageFilename());
@@ -702,7 +702,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     protected function buildSelectionParameter($currentSelection, $areaIndex = null): string
     {
         if ($this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {
-            $reuseSelection = array();
+            $reuseSelection = [];
 
             if ($areaIndex === null) {
                 $reuseSelection = $currentSelection;
@@ -711,7 +711,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     $reuseSelection[] = $areaIndex;
                 }
 
-                foreach (array_diff($currentSelection, array($areaIndex)) as $otherSelectedArea) {
+                foreach (array_diff($currentSelection, [$areaIndex]) as $otherSelectedArea) {
                     $reuseSelection[] = $otherSelectedArea;
                 }
             } else {
@@ -770,7 +770,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -784,7 +784,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     protected function renderAggregateView($answeringFequencies): string
@@ -811,7 +811,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     protected function aggregateAnswers($givenSolutionRows, $existingAnswerOptions): array
     {
-        $answeringFequencies = array();
+        $answeringFequencies = [];
 
         foreach ($existingAnswerOptions as $answerIndex => $answerOption) {
             $answeringFequencies[$answerIndex] = 0;
@@ -862,13 +862,13 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
 
-        $answers = array();
+        $answers = [];
 
         foreach ($this->object->getAnswers() as $answerIndex => $ans) {
-            $answers[] = array(
+            $answers[] = [
                 'answer' => $ans->getAnswerText(),
                 'frequency' => $agg[$answerIndex]
-            );
+            ];
         }
 
         return $answers;

@@ -36,7 +36,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     private \ILIAS\TestQuestionPool\InternalRequestService $request; // Hate it.
 
     // hey: prevPassSolutions - wtf is imagemap ^^
-    public $currentSolution = array();
+    public $currentSolution = [];
     // hey.
 
     public const MODE_SINGLE_CHOICE = 0;
@@ -85,8 +85,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->image_filename = $image_filename;
-        $this->answers = array();
-        $this->coords = array();
+        $this->answers = [];
+        $this->coords = [];
 
         global $DIC;
         $this->request = $DIC->testQuestionPool()->internal()->request();
@@ -159,8 +159,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $ilDB = $DIC['ilDB'];
         $ilDB->manipulateF(
             "DELETE FROM qpl_a_imagemap WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            [ "integer" ],
+            [ $this->getId() ]
         );
 
         // Anworten wegschreiben
@@ -170,11 +170,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $next_id = $ilDB->nextId('qpl_a_imagemap');
             $ilDB->manipulateF(
                 "INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                array( "integer", "integer", "text", "float", "integer", "text", "text", "float" ),
-                array( $next_id, $this->id, $answer_obj->getAnswertext(
+                [ "integer", "integer", "text", "float", "integer", "text", "text", "float" ],
+                [ $next_id, $this->id, $answer_obj->getAnswertext(
                 ), $answer_obj->getPoints(), $answer_obj->getOrder(
                 ), $answer_obj->getCoords(), $answer_obj->getArea(
-                ), $answer_obj->getPointsUnchecked() )
+                ), $answer_obj->getPointsUnchecked() ]
             );
         }
     }
@@ -186,19 +186,19 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $ilDB->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            [ "integer" ],
+            [ $this->getId() ]
         );
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
             ) . " (question_fi, image_file, is_multiple_choice) VALUES (%s, %s, %s)",
-            array( "integer", "text", 'integer' ),
-            array(
+            [ "integer", "text", 'integer' ],
+            [
                                 $this->getId(),
                                 $this->image_filename,
                                 (int) $this->is_multiple_choice
-                            )
+                            ]
         );
     }
 
@@ -379,8 +379,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $result = $ilDB->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-            array("integer"),
-            array($question_id)
+            ["integer"],
+            [$question_id]
         );
         if ($result->numRows() == 1) {
             $data = $ilDB->fetchAssoc($result);
@@ -410,8 +410,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
             $result = $ilDB->queryF(
                 "SELECT * FROM qpl_a_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
-                array("integer"),
-                array($question_id)
+                ["integer"],
+                [$question_id]
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
@@ -637,7 +637,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function flushAnswers(): void
     {
-        $this->answers = array();
+        $this->answers = [];
     }
 
     /**
@@ -686,7 +686,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $found_values = array();
+        $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
@@ -706,7 +706,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $solutionData = $previewSession->getParticipantsSolution();
 
-        $reachedPoints = $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
+        $reachedPoints = $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : []);
         $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
 
         return $this->ensureNonNegativePoints($reachedPoints);
@@ -758,18 +758,18 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 } elseif ($this->isRemoveSolutionSelectionRequest()) {
                     $selection = $this->getRemoveSolutionSelectionParameter();
 
-                    $this->deleteSolutionRecordByValues($active_id, $pass, $authorized, array(
+                    $this->deleteSolutionRecordByValues($active_id, $pass, $authorized, [
                         'value1' => (int) $selection
-                    ));
+                    ]);
 
                     $solutionSelectionChanged = true;
                 } elseif ($this->isAddSolutionSelectionRequest()) {
                     $selection = $this->getAddSolutionSelectionParameter();
 
                     if ($this->is_multiple_choice) {
-                        $this->deleteSolutionRecordByValues($active_id, $pass, $authorized, array(
+                        $this->deleteSolutionRecordByValues($active_id, $pass, $authorized, [
                             'value1' => (int) $this->request->raw('selImage')
-                        ));
+                        ]);
                     } else {
                         $this->removeCurrentSolution($active_id, $pass, $authorized);
                     }
@@ -811,7 +811,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         if ($this->request->isset('selImage')) {
             if (!$this->is_multiple_choice) {
-                $solution = array();
+                $solution = [];
             }
 
             $solution[$this->request->int('selImage')] = $this->request->int('selImage');
@@ -925,7 +925,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function toJSON(): string
     {
-        $result = array();
+        $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = $this->getTitle();
@@ -933,16 +933,16 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->getShuffle();
         $result['is_multiple'] = $this->getIsMultipleChoice();
-        $result['feedback'] = array(
+        $result['feedback'] = [
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
-        );
+        ];
         $result['image'] = $this->getImagePathWeb() . $this->getImageFilename();
 
-        $answers = array();
+        $answers = [];
         $order = 0;
         foreach ($this->getAnswers() as $key => $answer_obj) {
-            array_push($answers, array(
+            array_push($answers, [
                 "answertext" => (string) $answer_obj->getAnswertext(),
                 "points" => (float) $answer_obj->getPoints(),
                 "points_unchecked" => (float) $answer_obj->getPointsUnchecked(),
@@ -953,7 +953,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 "feedback" => $this->formatSAQuestion(
                     $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
                 )
-            ));
+            ]);
             $order++;
         }
         $result['answers'] = $answers;
@@ -1006,12 +1006,12 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function getExpressionTypes(): array
     {
-        return array(
+        return [
             iQuestionCondition::PercentageResultExpression,
             iQuestionCondition::NumberOfResultExpression,
             iQuestionCondition::EmptyAnswerExpression,
             iQuestionCondition::ExclusiveResultExpression
-        );
+        ];
     }
 
     /**
@@ -1034,14 +1034,14 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($maxStep !== null) {
             $data = $ilDB->queryF(
                 "SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
-                array("integer", "integer", "integer", "integer"),
-                array($active_id, $pass, $this->getId(), $maxStep)
+                ["integer", "integer", "integer", "integer"],
+                [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
             $data = $ilDB->queryF(
                 "SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step IS NULL",
-                array("integer", "integer", "integer"),
-                array($active_id, $pass, $this->getId())
+                ["integer", "integer", "integer"],
+                [$active_id, $pass, $this->getId()]
             );
         }
 
@@ -1078,7 +1078,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $solution = parent::getTestOutputSolutions($activeId, $pass);
 
-        $this->currentSolution = array();
+        $this->currentSolution = [];
         foreach ($solution as $record) {
             $this->currentSolution[] = $record['value1'];
         }
