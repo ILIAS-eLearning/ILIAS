@@ -1472,9 +1472,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if (@file_exists(ilSession::get("tst_import_results_file"))) {
                     $results = new ilTestResultsImportParser(
                         ilSession::get("tst_import_results_file"),
+                        $newObj,
                         $this->db,
-                        $this->logging_services->root(),
-                        $newObj
+                        $this->logging_services->root()
                     );
                     $results->setQuestionIdMapping($qtiParser->getQuestionIdMapping());
                     $results->startParsing();
