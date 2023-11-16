@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -64,6 +65,20 @@ class ilArtifactComponentRepositoryTest extends TestCase
             null,
             true,
             false
+        ],
+        "plg3" => [
+            "Services",
+            "Service2",
+            "Slot4",
+            "Plugin3",
+            "2.9.2",
+            "8.1",
+            "8.999",
+            "Richard Klees",
+            "richard.klees@concepts-and-training.de",
+            null,
+            true,
+            false
         ]
     ];
 
@@ -74,6 +89,10 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->plugin_state_db = new class () implements ilPluginStateDB {
             public function isPluginActivated(string $id): bool
             {
+                if ($id == 'plg3') {
+                    return true;
+                }
+
                 return false;
             }
             public function setActivation(string $id, bool $activated): void
@@ -191,6 +210,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             $plugins4
         );
         $slots4 = ["slt4" => $this->slt4];
+
         $this->plg2 = new ilPluginInfo(
             $this->ilias_version,
             $this->slt4,
@@ -209,6 +229,25 @@ class ilArtifactComponentRepositoryTest extends TestCase
             false
         );
         $plugins4["plg2"] = $this->plg2;
+
+        $this->plg3 = new ilPluginInfo(
+            $this->ilias_version,
+            $this->slt4,
+            "plg3",
+            "Plugin3",
+            true,
+            $this->data_factory->version("0.9.1"),
+            13,
+            $this->data_factory->version("2.9.2"),
+            $this->data_factory->version("8.1"),
+            $this->data_factory->version("8.999"),
+            "Richard Klees",
+            "richard.klees@concepts-and-training.de",
+            false,
+            true,
+            false
+        );
+        $plugins4["plg3"] = $this->plg3;
     }
 
     public function testHasComponent(): void
@@ -339,7 +378,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $plugins = iterator_to_array($this->db->getPlugins());
 
         $ids = array_keys($plugins);
-        $expected_ids = ["plg1", "plg2"];
+        $expected_ids = ["plg1", "plg2", "plg3"];
         sort($ids);
         sort($expected_ids);
 
@@ -691,5 +730,18 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $db->removeStateInformationOf("plg1");
 
         $this->assertEquals(2, $db->build_called);
+    }
+
+    public function testHasPluginId(): void
+    {
+        $this->assertTrue($this->db->hasPluginId("plg1"));
+        $this->assertFalse($this->db->hasPluginId("plg666"));
+    }
+
+    public function testHasActivatedPlugin(): void
+    {
+        $this->assertFalse($this->db->hasActivatedPlugin("plg1")); // exists, but is not activated
+        $this->assertFalse($this->db->hasActivatedPlugin("plg666")); // does not exist
+        $this->assertTrue($this->db->hasActivatedPlugin("plg3")); // exists and is activated
     }
 }
