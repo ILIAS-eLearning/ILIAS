@@ -56,10 +56,10 @@ class assLongMenuImport extends assQuestionImport
                 case "material":
 
                     $material = $presentation->material[$entry["index"]];
-                    if (preg_match('/\[Longmenu \d\]/', $this->object->QTIMaterialToString($material))) {
-                        $this->object->setLongMenuTextValue($this->object->QTIMaterialToString($material));
+                    if (preg_match('/\[Longmenu \d\]/', $this->QTIMaterialToString($material))) {
+                        $this->object->setLongMenuTextValue($this->QTIMaterialToString($material));
                     } else {
-                        $this->object->setQuestion($this->object->QTIMaterialToString($material));
+                        $this->object->setQuestion($this->QTIMaterialToString($material));
                     }
 
 
@@ -186,13 +186,13 @@ class assLongMenuImport extends assQuestionImport
         // handle the import of media objects in XHTML code
         if (isset($feedbacks) && count($feedbacks) > 0) {
             foreach ($feedbacks as $ident => $material) {
-                $m = $this->object->QTIMaterialToString($material);
+                $m = $this->QTIMaterialToString($material);
                 $feedbacks[$ident] = $m;
             }
         }
         if (isset($feedbacksgeneric) && is_array($feedbacksgeneric) && count($feedbacksgeneric) > 0) {
             foreach ($feedbacksgeneric as $correctness => $material) {
-                $m = $this->object->QTIMaterialToString($material);
+                $m = $this->QTIMaterialToString($material);
                 $feedbacksgeneric[$correctness] = $m;
             }
         }
