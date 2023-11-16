@@ -115,7 +115,7 @@ class ilCalendarEntry implements ilDatePeriod
         return $this->start;
     }
 
-    public function setStart(ilDateTime $a_start): void
+    public function setStart(?ilDateTime $a_start): void
     {
         $this->start = $a_start;
     }
@@ -125,7 +125,7 @@ class ilCalendarEntry implements ilDatePeriod
         return $this->end;
     }
 
-    public function setEnd(ilDateTime $a_end): void
+    public function setEnd(?ilDateTime $a_end): void
     {
         $this->end = $a_end;
     }
