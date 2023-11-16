@@ -606,9 +606,6 @@ assessment#:#cloze_text#:#Sąlygos tekstas
 assessment#:#cloze_textgap_case_insensitive#:#ABC/abc nesvarbu
 assessment#:#cloze_textgap_case_sensitive#:#ABC/abc svarbu
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein atstumas iš %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#Kodas
 assessment#:#codebase#:#Kodo bazė
 assessment#:#concatenation#:#Tarpusavio ryšis

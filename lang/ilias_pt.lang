@@ -606,9 +606,6 @@ assessment#:#cloze_text#:#Fechar texto
 assessment#:#cloze_textgap_case_insensitive#:#Caso insensível
 assessment#:#cloze_textgap_case_sensitive#:#Caso sensível
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distância de %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Múltiplos espaços em branco
-assessment#:#cloze_textgap_whitespace_after#:#Espaço branco depois do valor
-assessment#:#cloze_textgap_whitespace_before#:#Espaço branco antes do valor
 assessment#:#code#:#Código
 assessment#:#codebase#:#Base do código
 assessment#:#concatenation#:#Concatenação

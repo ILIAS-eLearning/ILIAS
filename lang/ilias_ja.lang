@@ -58,7 +58,7 @@ acc#:#acc_tree_off#:#ツリー表示しない
 acc#:#acc_tree_on#:#ツリー表示する
 adm#:#adm_acc_ctrl_cpt_desc#:#有効にするとアクセッシビリティコントロールコンセプト用のリンクはフッタ－内に表示されます。
 adm#:#adm_acc_ctrl_cpt_enable#:#アクセッシビリティコントロールコンセプトを有効にする
-adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point 
+adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point
 adm#:#adm_accessibility_contacts_info#:#フッターリンクのaccessibility issue報告用コンタクト。ログインアカウントのコンマ区切りリスト
 adm#:#adm_awrn_support_contacts_info#:#全てのテクニカルサポートコンタクトが表示されます。ユーザは"全般設定" > "コンタクト情報" セクションのテクニカルサポートコンタクトとして定義されます。
 adm#:#adm_support_contacts#:#テクニカルサポート
@@ -606,9 +606,6 @@ assessment#:#cloze_text#:#穴埋め問題のテキスト
 assessment#:#cloze_textgap_case_insensitive#:#大文字・小文字を非区分
 assessment#:#cloze_textgap_case_sensitive#:#大文字・小文字を区分
 assessment#:#cloze_textgap_levenshtein_of#:#%sのレーベンシュタイン距離
-assessment#:#cloze_textgap_multiple_whitespace#:#複数の白スペース
-assessment#:#cloze_textgap_whitespace_after#:#値の後の白スペース
-assessment#:#cloze_textgap_whitespace_before#:#値の前の白スペース
 assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
@@ -2042,7 +2039,7 @@ auth#:#auth_oidc_settings_discovery_error#:#ディスカバリーURLの読込み
 auth#:#auth_oidc_settings_discovery_url#:#プロバイダーのDiscovery URL
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#ログインページに表示する写真をアップロードします。画像は自動的にOpenId コンテンツログインスクリプトにリンクします。
-auth#:#auth_oidc_settings_invalid_scopes#:#次の値には有効な範囲がありません: %s 
+auth#:#auth_oidc_settings_invalid_scopes#:#次の値には有効な範囲がありません: %s
 auth#:#auth_oidc_settings_le#:#プレゼンテーションログインページ
 auth#:#auth_oidc_settings_login_option_default#:#強制的にログオンしない
 auth#:#auth_oidc_settings_login_option_default_info#:#有効なセッションがすでに存在する場合は、OpenIdコンテンツサーバーにログインする必要はありません。
@@ -5507,7 +5504,7 @@ common#:#session_config#:#セッション設定
 common#:#session_config_maintenance_disabled#:#クライアントによるメンテナンスを禁止する
 common#:#session_mail_subject_deletion#:# セッション "%s"からユーザ "%s"の登録解除
 common#:#session_mail_subject_entered#:#セッション "%s"内ユーザ"%s" の参加
-common#:#session_mail_subject_registered#:#セッション "%s"のユーザ"%s"の登録 
+common#:#session_mail_subject_registered#:#セッション "%s"のユーザ"%s"の登録
 common#:#session_max_count#:#Maxアクティブセッション
 common#:#session_max_count_info#:#同時に確立可能な最大セッション数を定義します。"0"の場合この機能はOFFとなります。
 common#:#session_max_idle#:#Maxセッションアイドル(分単位)
@@ -5949,7 +5946,7 @@ common#:#withdrawal_complete_redirect#:#完全に承諾を取り下げます。 
 common#:#withdrawal_mail_info#:#取り下げ確認後に以下のメールが管理者へ送られます。:[BR][BR]
 common#:#withdrawal_mail_subject#:#利用規約承諾の取り下げ
 common#:#withdrawal_mail_text#:#担当の方へ,[BR][BR]ILIASシステムの利用規約をここに取り下げます。適時アカウントの更新または削除をお願いします。[BR][BR]名前: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]早々[BR]%1$s
-common#:#withdrawal_sure_account#:#承諾を本当に取り下げますか? 
+common#:#withdrawal_sure_account#:#承諾を本当に取り下げますか?
 common#:#withdrawal_sure_account_deletion#:#承諾を本当に取り下げますか? アカウントは取り消し不可能で削除されます。
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#本当に使用許諾を承認しませんか? ユーザアカウントは取消不可で削除されます。
 common#:#withdrawal_sure_account_no_consent_yet#:#本当に使用許諾を承認しませんか?
@@ -6210,7 +6207,7 @@ content#:#cont_citation_selection_not_valid#:#選択は無効です
 content#:#cont_click_br_corner#:#希望範囲の右下の角をクリックしてください。
 content#:#cont_click_center#:#希望範囲の中央をクリックしてください。
 content#:#cont_click_circle#:#希望範囲の円のポイントをクリックしてください。
-content#:#cont_click_edit#:#プロパティを<b>編集</b>するには要素を<b>クリック</b> 
+content#:#cont_click_edit#:#プロパティを<b>編集</b>するには要素を<b>クリック</b>
 content#:#cont_click_multi_select#:#<b>要素を</b> 選択<b>クリック</b> または解除する。
 content#:#cont_click_next_or_save#:#多角形あるいは保存範囲の次のポイントをクリックしてください。(この多角形の開始点を再度クリックする必要はありません !)
 content#:#cont_click_next_point#:#多角形の次のポイントをクリックしてください。
@@ -6295,7 +6292,7 @@ content#:#cont_download_title#:#ダウンロード タイトル
 content#:#cont_downloads#:#ダウンロード
 content#:#cont_downloads_desc#:#ダウンロード用(オフライン利用やインポート等)に全ての公開エクスポートファイルを提供します。
 content#:#cont_downloads_public_desc#:#匿名ユーザに対してもダウンロードを許可する。(共用範囲に限る)
-content#:#cont_drag_and_drop_elements#:#<b>Drag and drop</b>でプレースフォルダのコンテンツ要素へ<b>移動</b> 
+content#:#cont_drag_and_drop_elements#:#<b>Drag and drop</b>でプレースフォルダのコンテンツ要素へ<b>移動</b>
 content#:#cont_drag_element_click_save#:#希望する位置に要素をドラッグアナドドロップする。その後"保存"する。
 content#:#cont_ed_align_center#:#整列：中央
 content#:#cont_ed_align_left#:#整列：左
@@ -10665,7 +10662,7 @@ lti#:#lti_consumer_set_active#:#Consumerを有効にしました
 lti#:#lti_consumer_set_inactive#:#Consumerを解除しました
 lti#:#lti_consumer_updated#:#Consumerを更新しました
 lti#:#lti_consuming_tab#:#LTI ConsumerとしてのILIAS
-lti#:#lti_copy#:#ConsumerをCopy 
+lti#:#lti_copy#:#ConsumerをCopy
 lti#:#lti_create_consumer#:#Consumerを作成
 lti#:#lti_create_lti_user_role#:#LTI ユーザ用の推奨グローバル役割を作成
 lti#:#lti_cron_title#:#LTI Outcome Service
@@ -16183,7 +16180,7 @@ sysc#:#sysc_tree_list_failures#:#リポジトリツリーのダンプが作成�
 sysc#:#sysc_tree_missing_failures#:#ツリー構造内の欠損エントリーが見つかりました欠損エントリー数
 sysc#:#sysc_tree_structure_failures#:#ツリー構造(親-関係)内の不良数:
 tagging#:#no_tag_text_1#:#まだタグは未利用です。実行するには2つのステップを実行する必要があります。
-tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択 
+tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択
 tagging#:#no_tag_text_3#:#オブジェクトへタグを添付するには、アクションメニューから'タグ設定'を選択します。
 tagging#:#tag_remove_tags_of_obj_without_access#:#タグを削除
 tagging#:#tag_some_obj_tagged_without_access#:#タグされたオブジェクトにはアクセス権のないものがあります。これらのオブジェクト用のタグを削除しますか?
