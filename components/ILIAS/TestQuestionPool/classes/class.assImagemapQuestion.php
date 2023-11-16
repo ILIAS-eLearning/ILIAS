@@ -804,16 +804,17 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $solution = $previewSession->getParticipantsSolution();
 
-        if ($this->is_multiple_choice && strlen($this->request->raw('remImage'))) {
-            unset($solution[(int) $this->request->raw('remImage')]);
+        if ($this->is_multiple_choice
+            && $this->request->isset('remImage')) {
+            unset($solution[$this->request->int('remImage')]);
         }
 
-        if (strlen($this->request->raw('selImage'))) {
+        if ($this->request->isset('selImage')) {
             if (!$this->is_multiple_choice) {
                 $solution = array();
             }
 
-            $solution[(int) $this->request->raw('selImage')] = (int) $this->request->raw('selImage');
+            $solution[$this->request->int('selImage')] = $this->request->int('selImage');
         }
 
         $previewSession->setParticipantsSolution($solution);

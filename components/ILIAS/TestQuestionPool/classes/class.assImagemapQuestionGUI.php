@@ -633,7 +633,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->getImageFilename());
 
             foreach ($solutions as $idx => $solution_value) {
-                if (strlen($solution_value["value1"])) {
+                if ($solution_value["value1"] !== null) {
                     $preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true, $this->linecolor);
                     $userSelection[$selectionIndex] = $solution_value["value1"];
 
@@ -651,7 +651,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $this->ctrl->setParameterByClass($this->getTargetGuiClass(), "formtimestamp", time());
-        $hrefArea = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd());
         foreach ($this->object->answers as $answer_id => $answer) {
             $template->setCurrentBlock("imagemap_area");
             $template->setVariable("HREF_AREA", $this->buildAreaLinkTarget($userSelection, $answer_id));
@@ -667,7 +666,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                         0,
                         $answer_id
                     );
-                    if (strlen($feedback)) {
+                    if ($feedback !== '') {
                         $template->setCurrentBlock("feedback");
                         $template->setVariable("FEEDBACK", $feedback);
                         $template->parseCurrentBlock();
