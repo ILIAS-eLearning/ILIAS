@@ -93,7 +93,7 @@ class ilTestRandomQuestionsQuantitiesDistribution
             $this->questRelatedSrcPoolDefRegister[$question_id] = $this->buildSourcePoolDefinitionListInstance();
         }
 
-        $this->questRelatedSrcPoolDefRegister[$question_id]->addDefinition($question_id);
+        $this->questRelatedSrcPoolDefRegister[$question_id]->addDefinition($definition);
     }
 
     /**
