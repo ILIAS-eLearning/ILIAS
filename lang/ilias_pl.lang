@@ -570,9 +570,6 @@ assessment#:#cloze_text#:#Uzupełnij tekst
 assessment#:#cloze_textgap_case_insensitive#:#Nie uwzględniaj wielkości liter
 assessment#:#cloze_textgap_case_sensitive#:#Uwzględniaj wielkość liter
 assessment#:#cloze_textgap_levenshtein_of#:#Odległość Levenshtein %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Kilka znaków pustych jeden po drugim
-assessment#:#cloze_textgap_whitespace_after#:#Znak pusty po pojęciu
-assessment#:#cloze_textgap_whitespace_before#:#Znak pusty przed pojęciem
 assessment#:#code#:#Kod
 assessment#:#codebase#:#Baza kodu
 assessment#:#concatenation#:#Złączenie

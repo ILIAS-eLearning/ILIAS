@@ -570,9 +570,6 @@ assessment#:#cloze_text#:#Kiegészítendő szöveg
 assessment#:#cloze_textgap_case_insensitive#:#Kis-/nagybetűre nem érzékeny
 assessment#:#cloze_textgap_case_sensitive#:#Kis-/nagybetűre érzékeny
 assessment#:#cloze_textgap_levenshtein_of#:#'%s' Levenshtein-távolsága
-assessment#:#cloze_textgap_multiple_whitespace#:#Több nem látható karakter
-assessment#:#cloze_textgap_whitespace_after#:#Nem látható karakter az érték után
-assessment#:#cloze_textgap_whitespace_before#:#Nem látható karakter az érték előtt
 assessment#:#code#:#Kód
 assessment#:#codebase#:#Kódbázis
 assessment#:#concatenation#:#Szavak összekapcsolása

@@ -570,9 +570,6 @@ assessment#:#cloze_text#:#Luk tekst
 assessment#:#cloze_textgap_case_insensitive#:#Ingen forskel på store og små bogstaver
 assessment#:#cloze_textgap_case_sensitive#:#Forskel på store og små bogstaver
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein afstand på %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#Kode
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Konkatnering

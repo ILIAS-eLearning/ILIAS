@@ -573,9 +573,6 @@ assessment#:#cloze_text#:#穴埋め問題のテキスト
 assessment#:#cloze_textgap_case_insensitive#:#大文字・小文字を非区分
 assessment#:#cloze_textgap_case_sensitive#:#大文字・小文字を区分
 assessment#:#cloze_textgap_levenshtein_of#:#%sのレーベンシュタイン距離
-assessment#:#cloze_textgap_multiple_whitespace#:#複数の白スペース
-assessment#:#cloze_textgap_whitespace_after#:#値の後の白スペース
-assessment#:#cloze_textgap_whitespace_before#:#値の前の白スペース
 assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け

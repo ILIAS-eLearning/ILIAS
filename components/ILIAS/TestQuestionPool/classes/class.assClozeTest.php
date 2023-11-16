@@ -770,7 +770,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 // only allow notation with "." for real numbers
                 $answer = str_replace(",", ".", $answer);
             }
-            $this->gaps[$gap_index]->addItem(new assAnswerCloze($answer, 0, $order));
+            $this->gaps[$gap_index]->addItem(new assAnswerCloze(trim($answer), 0, $order));
         }
     }
 
@@ -1315,11 +1315,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             if (!$post_wrapper->has("gap_$index")) {
                 continue;
             }
-            $value = $post_wrapper->retrieve(
+            $value = trim($post_wrapper->retrieve(
                 "gap_$index",
                 $this->dic->refinery()->kindlyTo()->string()
-            );
-            if ($value === "") {
+            ));
+            if ($value === '') {
                 continue;
             }
 
@@ -1387,13 +1387,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
             $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-            foreach ($this->getSolutionSubmit() as $val1 => $val2) {
-                $value = trim($val2);
+            foreach ($this->getSolutionSubmit() as $key => $value) {
                 if ($value !== null && $value !== '') {
-                    $gap = $this->getGap(trim(ilUtil::stripSlashes($val1)));
+                    $gap = $this->getGap(trim(ilUtil::stripSlashes($key)));
                     if (is_object($gap)) {
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
-                            $this->saveCurrentSolution($active_id, $pass, $val1, $value, $authorized);
+                            $this->saveCurrentSolution($active_id, $pass, $key, $value, $authorized);
                             $entered_values++;
                         }
                     }

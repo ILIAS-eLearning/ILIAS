@@ -571,9 +571,6 @@ assessment#:#cloze_text#:#Κείμενο με κενά
 assessment#:#cloze_textgap_case_insensitive#:#Χωρίς ταίριασμα πεζών-κεφαλαίων
 assessment#:#cloze_textgap_case_sensitive#:#Με ταίριασμα πεζών-κεφαλαίων
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein απόσταση του %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#Κώδικας
 assessment#:#codebase#:#Κωδικοσελίδα
 assessment#:#concatenation#:#Συγχώνευση

@@ -572,9 +572,6 @@ assessment#:#cloze_text#:#Texto relleno
 assessment#:#cloze_textgap_case_insensitive#:#No sensible a mayúscula
 assessment#:#cloze_textgap_case_sensitive#:#Sensible a mayúscula
 assessment#:#cloze_textgap_levenshtein_of#:#Distancia Levenshtein de %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Varios espacios en blanco
-assessment#:#cloze_textgap_whitespace_after#:#Espacio en blanco después del valor
-assessment#:#cloze_textgap_whitespace_before#:#Espacio en blanco antes del valor
 assessment#:#code#:#Código
 assessment#:#codebase#:#URL Base (Localización en Internet)
 assessment#:#concatenation#:#Concatenación

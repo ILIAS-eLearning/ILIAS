@@ -570,9 +570,6 @@ assessment#:#cloze_text#:#متن
 assessment#:#cloze_textgap_case_insensitive#:#غیر حساس به کوچک و بزرگی حروف
 assessment#:#cloze_textgap_case_sensitive#:#حساس به کوچک و بزرگی حروف
 assessment#:#cloze_textgap_levenshtein_of#:#فاصله Levenshtein %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#کد
 assessment#:#codebase#:#پایگاه کد
 assessment#:#concatenation#:#Concatenation

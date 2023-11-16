@@ -570,9 +570,6 @@ assessment#:#cloze_text#:#Pitanje s prazninom u tekstu
 assessment#:#cloze_textgap_case_insensitive#:#Neosjetljivo na velika i mala slova
 assessment#:#cloze_textgap_case_sensitive#:#Osjetljivo na velika i mala slova
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein razmak od%s
-assessment#:#cloze_textgap_multiple_whitespace#:#Višestruki razmaci
-assessment#:#cloze_textgap_whitespace_after#:#Razmak iza vrijednosti
-assessment#:#cloze_textgap_whitespace_before#:#Razmak ispred vrijednosti
 assessment#:#code#:#Kod
 assessment#:#codebase#:#Kodna osnova
 assessment#:#concatenation#:#Povezivanje
