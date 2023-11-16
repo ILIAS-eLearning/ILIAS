@@ -572,9 +572,6 @@ assessment#:#cloze_text#:#Lünktekst
 assessment#:#cloze_textgap_case_insensitive#:#Mittetundlik variant
 assessment#:#cloze_textgap_case_sensitive#:#Tundlik variant
 assessment#:#cloze_textgap_levenshtein_of#:#Levenšteini kaugus of %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#code#:#Kood
 assessment#:#codebase#:#Koodibaas
 assessment#:#concatenation#:#Jätkamine

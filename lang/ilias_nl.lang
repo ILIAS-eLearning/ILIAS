@@ -572,9 +572,6 @@ assessment#:#cloze_text#:#Verhaspelde zin
 assessment#:#cloze_textgap_case_insensitive#:#Hoofdletter ongevoelig
 assessment#:#cloze_textgap_case_sensitive#:#Hoofdletter gevoelig
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein afstand van %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Meerdere Whitespaces
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace na de waarde
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace voor de waarde
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Aaneenschakeling

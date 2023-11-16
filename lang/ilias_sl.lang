@@ -575,9 +575,6 @@ assessment#:#cloze_text#:#Vprašanje s praznino v besedilu
 assessment#:#cloze_textgap_case_insensitive#:#Ni razlikovanja med velikimi in malimi črkami
 assessment#:#cloze_textgap_case_sensitive#:#Upoštevaj razlikovanje velikih in malih črk
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshteinov razmik v %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Več zaporednih presledkov
-assessment#:#cloze_textgap_whitespace_after#:#Presledek za pojmom
-assessment#:#cloze_textgap_whitespace_before#:#Presledek pred pojmom
 assessment#:#code#:#Koda
 assessment#:#codebase#:#Osnova kode
 assessment#:#concatenation#:#Povezava

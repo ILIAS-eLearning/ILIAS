@@ -572,9 +572,6 @@ assessment#:#cloze_text#:#ტექსტის დახურვა
 assessment#:#cloze_textgap_case_insensitive#:#შემთხვევა აუთვისებადია
 assessment#:#cloze_textgap_case_sensitive#:#შემთხვევა ათვისებულია
 assessment#:#cloze_textgap_levenshtein_of#:#
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#კოდი
 assessment#:#codebase#:#კოდების ბაზა
 assessment#:#concatenation#:#ურთიერთაკვშირი, დამთხვევა

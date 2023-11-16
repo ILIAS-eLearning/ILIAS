@@ -297,6 +297,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $custom_template->setVariable('GAP_SIZE', $lng->txt('cloze_fixed_textlength'));
         $custom_template->setVariable('GAP_SIZE_INFO', $lng->txt('cloze_gap_size_info'));
         $custom_template->setVariable('ANSWER_TEXT', $lng->txt('answer_text'));
+        $custom_template->setVariable('ANSWER_BYLINE', $lng->txt('cloze_answer_text_info'));
         $custom_template->setVariable('POINTS', $lng->txt('points'));
         $custom_template->setVariable('VALUE', $lng->txt('value'));
         $custom_template->setVariable('UPPER_BOUND', $lng->txt('range_upper_limit'));
@@ -318,9 +319,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $custom_template->setVariable('VALUES', $lng->txt('values'));
         $custom_template->setVariable('GAP_COMBINATION', $lng->txt('gap_combination'));
         $custom_template->setVariable('COPY', $lng->txt('copy_of'));
-        $custom_template->setVariable('WHITESPACE_FRONT', $lng->txt('cloze_textgap_whitespace_before'));
-        $custom_template->setVariable('WHITESPACE_BACK', $lng->txt('cloze_textgap_whitespace_after'));
-        $custom_template->setVariable('WHITESPACE_MULTIPLE', $lng->txt('cloze_textgap_multiple_whitespace'));
         $custom_template->setVariable('ADD_BUTTON', $renderer->render(
             $glyph_factory->add()->withAction('#')
         ));
