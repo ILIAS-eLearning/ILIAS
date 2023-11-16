@@ -18,7 +18,7 @@
 
 class ilArtifactEventHandlingData
 {
-    public const EVENT_HANDLING_DATA_PATH = "../components/ILIAS/EventHandling/artifacts/event_handling_data.php";
+    public const EVENT_HANDLING_DATA_PATH = __DIR__ . "/../artifacts/event_handling_data.php";
 
     protected array $event_handling_data;
 
@@ -43,9 +43,9 @@ class ilArtifactEventHandlingData
     {
         return in_array(
             [
-                "component"             => $component,
-                "type"                  => $type,
-                "type_specification"    => $type_specification
+                "component" => $component,
+                "type" => $type,
+                "type_specification" => $type_specification
             ],
             $this->event_handling_data,
             true
@@ -60,9 +60,9 @@ class ilArtifactEventHandlingData
     {
         if ($this->hasEvent($component, $type, $type_specification)) {
             return [
-                "component"             => $component,
-                "type"                  => $type,
-                "type_specification"    => $type_specification
+                "component" => $component,
+                "type" => $type,
+                "type_specification" => $type_specification
             ];
         }
 
