@@ -1461,7 +1461,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_import_non_ilias_zip#:#Fehler: Der Dateiname der hochgeladenen Importdatei entspricht nicht dem erwarteten Format.
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Nur Fragenpools mit Fragen gleicher Punktzahl
-assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#Wenn aktiviert, werden nur Fragenpools zur Auswahl angeboten, deren Fragen die gleiche Punktzahl haben. Dieser Test wird dann die gleiche maximale Punktezahl für alle Teilnehmer haben, wodurch die Testergebnisse besser miteinander vergleichbar sind. Diese Vorgehensweise wird empfohlen.
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#Wenn aktiviert, werden nur Fragenpools zur Auswahl angeboten, deren Fragen die gleiche Punktzahl haben. Dieser Test wird dann die gleiche maximale Punktezahl für alle Teilnehmer haben, wodurch die Testergebnisse besser miteinander vergleichbar sind. Diese Vorgehensweise wird empfohlen. Bitte beachten Sie, dass keine nachträgliche Überprüfung bestehender Regeln erfolgt, wenn Sie diese Option aktivieren.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#Die Reihenfolge der Fragen orientiert sich an den Zuweisungen der Fragen in einer Taxonomie.
 assessment#:#tst_inp_no_available_tax_hint#:#Für den ausgewählten Fragenpool stehen keine Taxonomien zur Verfügung

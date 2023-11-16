@@ -1461,7 +1461,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_import_non_ilias_zip#:#Error: The filename of the uploaded import file does not match the expected format.
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Use Only Pools with Equal Scored Questions
-assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools in which all questions have the same points are offered. Participants of such a test can all have the same number of maximum points, thus the test results will be better comparable. It is recommended to choose this option.
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools in which all questions have the same points are offered. Participants of such a test can all have the same number of maximum points, thus the test results will be better comparable. It is recommended to choose this option. Please take note that preexisting rules are not reevaluated upon activation of this setting.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#The presentation order for the questions bases upon the question's last editing date.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#The presentation order for the questions bases upon the question's assignments in a taxonomy.
 assessment#:#tst_inp_no_available_tax_hint#:#No Available Taxonomies for Selected Question Pool
