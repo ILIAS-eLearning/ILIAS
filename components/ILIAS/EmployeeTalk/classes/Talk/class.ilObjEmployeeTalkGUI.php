@@ -465,14 +465,17 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     public function updateMetadataObject(): void
     {
         /**
-         * @var ilObjEmployeeTalkSeries $series
+         * @var ilObjEmployeeTalk $talk_object
          */
-        $series = $this->object->getParent();
+        $talk_object = $this->object;
+        $series = $talk_object->getParent();
 
         $form = $this->getMetadataForm();
 
         if ($form->importFromPostAndValidate()) {
             $form->updateMetadata();
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+            $this->sendUpdateNotification($talk_object);
             $this->ctrl->redirect($this, ControlFlowCommand::INDEX);
         }
 
