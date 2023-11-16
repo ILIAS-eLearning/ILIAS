@@ -145,6 +145,8 @@ class ilObjectCorePropertiesCachedRepository implements ilObjectCorePropertiesRe
 
         $this->storeLongDescription($properties->getPropertyTitleAndDescription()->getLongDescription(), $where);
 
+        unset($this->data_cache[$properties->getObjectId()]);
+
         return $properties;
     }
 
