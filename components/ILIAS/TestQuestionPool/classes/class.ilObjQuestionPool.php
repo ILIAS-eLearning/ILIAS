@@ -666,7 +666,7 @@ class ilObjQuestionPool extends ilObject
         }
         $xml = preg_replace(
             '/(<\?xml[^>]*?>)/',
-            '\\1' . '<!DOCTYPE questestinterop SYSTEM \"ims_qtiasiv1p2p1.dtd\">',
+            '\\1' . '<!DOCTYPE questestinterop SYSTEM "ims_qtiasiv1p2p1.dtd">',
             $xml
         );
         return $xml;
