@@ -66,13 +66,13 @@ class assOrderingQuestionImport extends assQuestionImport
                     $response = $presentation->response[$entry["index"]];
                     $type = $response->getIdent();
                     if ($response->getIdent() == 'OQP') {
-                        $type = OQ_PICTURES;
+                        $type = assOrderingQuestion::OQ_PICTURES;
                     } elseif ($response->getIdent() == 'OQNP') {
-                        $type = OQ_NESTED_PICTURES;
+                        $type = assOrderingQuestion::OQ_NESTED_PICTURES;
                     } elseif ($response->getIdent() == 'OQNT') {
-                        $type = OQ_NESTED_TERMS;
+                        $type = assOrderingQuestion::OQ_NESTED_TERMS;
                     } elseif ($response->getIdent() == 'OQT') {
-                        $type = OQ_TERMS;
+                        $type = assOrderingQuestion::OQ_TERMS;
                     }
 
                     $rendertype = $response->getRenderType();

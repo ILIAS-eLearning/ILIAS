@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * The assErrorTextGUI class encapsulates the GUI representation for error text questions.
  *

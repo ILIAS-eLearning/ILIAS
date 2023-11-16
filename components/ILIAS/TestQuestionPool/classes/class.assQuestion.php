@@ -22,8 +22,6 @@ use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 use ILIAS\DI\Container;
 use ILIAS\Skill\Service\SkillUsageService;
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Abstract basic class which is to be extended by the concrete assessment question type classes
  *

@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class for multiple choice tests.
  *
@@ -35,24 +33,22 @@ require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
  */
 class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
+    public const OUTPUT_ORDER = 0;
+    public const OUTPUT_RANDOM = 1;
+
     /**
      * The given answers of the multiple choice question
-     *
      * $answers is an array of the given answers of the multiple choice question
-     *
-     * @var array
      */
-    public $answers;
+    public array $answers;
 
     /**
      * Output type
      *
      * This is the output type for the answers of the multiple choice question. You can select
      * OUTPUT_ORDER(=0) or OUTPUT_RANDOM (=1). The default output type is OUTPUT_ORDER
-     *
-     * @var integer
      */
-    public $output_type;
+    public int $output_type;
 
     public $isSingleline;
     public $lastChange;
@@ -99,7 +95,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $author = "",
         $owner = -1,
         $question = "",
-        $output_type = OUTPUT_ORDER
+        $output_type = self::OUTPUT_ORDER
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->output_type = $output_type;

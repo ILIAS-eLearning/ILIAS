@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-require_once "./components/ILIAS/Test/classes/inc.AssessmentConstants.php";
-
 /**
 * Scoring class for tests
 *
@@ -100,7 +98,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
             return $pass_from_request;
         }
 
-        if ($this->object->getPassScoring() == SCORE_LAST_PASS) {
+        if ($this->object->getPassScoring() == ilObjTest::SCORE_LAST_PASS) {
             return $max_pass;
         }
 
