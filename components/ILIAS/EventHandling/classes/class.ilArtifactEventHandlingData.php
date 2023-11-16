@@ -18,7 +18,7 @@
 
 class ilArtifactEventHandlingData
 {
-    public const EVENT_HANDLING_DATA_PATH = __DIR__ . "/../artifacts/event_handling_data.php";
+    public const EVENT_HANDLING_DATA_PATH = "../components/ILIAS/EventHandling/artifacts/event_handling_data.php";
 
     protected array $event_handling_data;
 
@@ -33,7 +33,7 @@ class ilArtifactEventHandlingData
      */
     protected function readEventHandlingData(): array
     {
-        return require self::EVENT_HANDLING_DATA_PATH;
+        return require __DIR__ . "/../../../" . self::EVENT_HANDLING_DATA_PATH;
     }
 
     /**
