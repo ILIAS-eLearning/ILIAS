@@ -8203,6 +8203,7 @@ dateplaner#:#cal_edit_category#:#Kalender bearbeiten
 dateplaner#:#cal_edit_milestone#:#Meilenstein bearbeiten
 dateplaner#:#cal_edit_recurrences#:#Alle Termine bearbeiten
 dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
+dateplaner#:#cal_edit_single_or_all_info#:#Wollen Sie nur diesen Termin bearbeiten, oder alle Termine der Serie?
 dateplaner#:#cal_enable_group_milestones#:#Meilensteine aktivieren
 dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Kurse und Gruppen).
 dateplaner#:#cal_err_invalid_notification_rcps#:#Bitte korrigieren Sie Ihre Eingabe. Geben Sie ausschließlich ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.
