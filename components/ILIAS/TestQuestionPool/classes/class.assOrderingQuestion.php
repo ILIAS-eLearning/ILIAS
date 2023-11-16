@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 use ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository as OQRepository;
 
 /**
@@ -373,7 +371,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
-        if ($this->getOrderingType() == OQ_PICTURES) {
+        if ($this->getOrderingType() == self::OQ_PICTURES) {
             $imagepath = $this->getImagePath();
             $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
             $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);

@@ -27,8 +27,6 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class ilObjTestGUI
  *
@@ -2685,9 +2683,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         );
 
         $info->addSection($this->lng->txt("tst_heading_scoring"));
-        $info->addProperty($this->lng->txt("tst_text_count_system"), $this->lng->txt(($this->object->getCountSystem() == COUNT_PARTIAL_SOLUTIONS) ? "tst_count_partial_solutions" : "tst_count_correct_solutions"));
+        $info->addProperty(
+            $this->lng->txt("tst_text_count_system"),
+            $this->lng->txt(
+                ($this->object->getCountSystem() == ilObjTestSettingsScoring::COUNT_PARTIAL_SOLUTIONS) ? "tst_count_partial_solutions" : "tst_count_correct_solutions"
+            )
+        );
         if ($this->object->isRandomTest()) {
-            $info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == SCORE_BEST_PASS) ? "tst_pass_best_pass" : "tst_pass_last_pass"));
+            $info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == ilObjTest::SCORE_BEST_PASS) ? "tst_pass_best_pass" : "tst_pass_last_pass"));
         }
 
         $info->addSection($this->lng->txt("tst_score_reporting"));

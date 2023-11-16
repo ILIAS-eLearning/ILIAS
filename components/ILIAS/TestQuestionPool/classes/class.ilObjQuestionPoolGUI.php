@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;

@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * The assOrderingHorizontalGUI class encapsulates the GUI representation for horizontal ordering questions.
  *

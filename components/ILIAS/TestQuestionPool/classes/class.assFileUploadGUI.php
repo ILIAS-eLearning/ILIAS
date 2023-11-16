@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * The assFileUploadGUI class encapsulates the GUI representation for file upload questions.
  *

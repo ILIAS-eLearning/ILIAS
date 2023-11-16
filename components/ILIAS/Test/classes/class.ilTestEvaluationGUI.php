@@ -416,7 +416,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $form->addItem($nrPasses);
 
         $scoredPass = new ilNonEditableValueGUI($this->lng->txt('scored_pass'));
-        if ($this->object->getPassScoring() == SCORE_BEST_PASS) {
+        if ($this->object->getPassScoring() == ilObjTest::SCORE_BEST_PASS) {
             $scoredPass->setValue($data->getParticipant($active_id)->getBestPass() + 1);
         } else {
             $scoredPass->setValue($data->getParticipant($active_id)->getLastPass() + 1);

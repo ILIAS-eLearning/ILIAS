@@ -18,8 +18,6 @@
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class for cloze tests
  *

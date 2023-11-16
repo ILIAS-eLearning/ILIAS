@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
-
 /**
  * Image map question GUI representation
  *

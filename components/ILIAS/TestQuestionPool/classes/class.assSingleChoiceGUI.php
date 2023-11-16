@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Single choice question GUI representation
  *

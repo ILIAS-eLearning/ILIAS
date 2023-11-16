@@ -24,8 +24,6 @@ use ILIAS\Test\MainSettingsRepository;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
 
-require_once 'components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class ilObjTest
  *
@@ -40,7 +38,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 {
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
-
+    public const INVITATION_OFF = 0;
+    public const INVITATION_ON = 1;
+    public const SCORE_LAST_PASS = 0;
+    public const SCORE_BEST_PASS = 1;
 
     public const REDIRECT_NONE = 0;
     public const REDIRECT_ALWAYS = 1;
@@ -54,7 +55,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     private InternalRequestService $testrequest;
     private ASS_MarkSchema $mark_schema;
     public int $test_id = -1;
-    public int $invitation = INVITATION_OFF;
+    public int $invitation = self::INVITATION_OFF;
     public string $author;
 
     /**
@@ -5486,7 +5487,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public static function _getResultPass($active_id): ?int
     {
         $counted_pass = null;
-        if (ilObjTest::_getPassScoring($active_id) == SCORE_BEST_PASS) {
+        if (ilObjTest::_getPassScoring($active_id) == self::SCORE_BEST_PASS) {
             $counted_pass = ilObjTest::_getBestPass($active_id);
         } else {
             $counted_pass = ilObjTest::_getMaxPass($active_id);

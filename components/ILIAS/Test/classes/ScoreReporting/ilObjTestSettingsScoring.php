@@ -24,7 +24,10 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsScoring extends TestSettings
 {
-    protected int $count_system = 0;
+    public const COUNT_PARTIAL_SOLUTIONS = 0;
+    public const COUNT_CORRECT_SOLUTIONS = 1;
+
+    protected int $count_system = self::COUNT_PARTIAL_SOLUTIONS;
     protected int $score_cutting = 0;
     protected int $pass_scoring = 0;
 

@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Output class for assessment test execution
  *
