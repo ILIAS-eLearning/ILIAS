@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -320,5 +321,10 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         }
         $this->plugin_state_db->remove($plugin_id);
         $this->buildDatabase();
+    }
+
+    public function hasActivatedPlugin(string $id): bool
+    {
+        return ($this->hasPluginId($id) && $this->getPluginById($id)->isActivated());
     }
 }
