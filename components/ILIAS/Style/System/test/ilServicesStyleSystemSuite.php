@@ -26,12 +26,12 @@ class ilServicesStyleSystemSuite extends TestSuite
     {
         $suite = new ilServicesStyleSystemSuite();
 
-        $base_dir = './components/ILIAS/Style/System/tests/';
+        $base_dir = __DIR__;
         $rec_it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir));
 
         foreach ($rec_it as $file) {
-            if (strpos($file->getFilename(), 'Test.php') !== false) {
-                include_once($file->getPathname());
+            if (preg_match("#^[^.]+Test\.php$#", $file->getFilename())) {
+                require_once($file->getPathname());
                 $test_class = str_replace('.php', '', $file->getFilename());
                 $suite->addTestSuite($test_class);
             }

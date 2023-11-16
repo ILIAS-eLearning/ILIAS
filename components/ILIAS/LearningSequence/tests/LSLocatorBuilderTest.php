@@ -9,7 +9,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Implementation\Component\BreadCrumbs\Breadcrumbs;
 
 require_once('IliasMocks.php');
-require_once(__DIR__ . "/../../../components/ILIAS/UI/tests/Base.php");
+require_once(__DIR__ . "/../../../../components/ILIAS/UI/tests/Base.php");
 
 /**
  * This file is part of ILIAS, a powerful learning management system

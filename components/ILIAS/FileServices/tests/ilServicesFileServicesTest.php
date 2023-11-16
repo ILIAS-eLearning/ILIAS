@@ -144,7 +144,7 @@ class ilServicesFileServicesTest extends TestCase
                 ->method('fetchAssoc')
                 ->willReturn([]);
 
-        $default_whitelist = include __DIR__ . "/../../../components/ILIAS/FileServices/defaults/default_whitelist.php";
+        $default_whitelist = include __DIR__ . "/../defaults/default_whitelist.php";
 
         // Blacklist
         $settings_mock->expects($this->exactly(3))

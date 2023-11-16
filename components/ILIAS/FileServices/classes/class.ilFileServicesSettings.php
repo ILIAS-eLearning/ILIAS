@@ -48,7 +48,7 @@ class ilFileServicesSettings
         $this->convert_to_ascii = $general_settings->isDownloadWithAsciiFileName();
         $this->settings = $settings;
         /** @noRector */
-        $this->white_list_default = include "../components/ILIAS/FileServices/defaults/default_whitelist.php";
+        $this->white_list_default = include __DIR__ . "/../defaults/default_whitelist.php";
         $this->file_admin_ref_id = $this->determineFileAdminRefId();
         $this->read();
     }
@@ -122,7 +122,7 @@ class ilFileServicesSettings
             explode(",", $this->settings->get("suffix_custom_expl_black") ?? '')
         );
 
-        $this->black_list_prohibited = array_filter($this->black_list_prohibited, fn ($item): bool => $item !== '');
+        $this->black_list_prohibited = array_filter($this->black_list_prohibited, fn($item): bool => $item !== '');
         $this->black_list_overall = $this->black_list_prohibited;
     }
 

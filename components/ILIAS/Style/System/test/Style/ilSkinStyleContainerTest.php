@@ -26,6 +26,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFS
     protected ilSkinStyle $style1;
     protected ilSkinStyle $style2;
     protected ilSkinFactory $factory;
+    protected string $skin_directory;
 
     protected function setUp(): void
     {
@@ -101,7 +102,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFS
 
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
-        $this->assertTrue(is_dir($this->skin_directory. '/style1/style1image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1image'));
         $this->assertTrue(is_dir($this->skin_directory . '/style1/style1sound'));
         $this->assertTrue(is_dir($this->skin_directory . '/style1/style1font'));
         $this->assertTrue(is_file($this->skin_directory . '/style1/style1.css'));
@@ -238,7 +239,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFS
 
         $new_sub_style->setSubstyleOf("style1");
 
-        $this->assertTrue(is_dir($this->skin_directory. '/style1/style1image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1image'));
         $this->assertTrue(is_dir($this->skin_directory . '/style1/style1sound'));
         $this->assertTrue(is_dir($this->skin_directory . '/style1/style1font'));
         $this->assertTrue(is_file($this->skin_directory . '/style1/style1.css'));
@@ -259,7 +260,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFS
         $this->assertCount(1, $container->getSkin()->getSubstylesOfStyle('style1'));
 
 
-        $this->assertTrue(is_dir($this->skin_directory. '/style1/style1image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1image'));
         $this->assertTrue(is_dir($this->skin_directory . '/style1/style1sound'));
         $this->assertTrue(is_dir($this->skin_directory . '/style1/style1font'));
         $this->assertTrue(is_file($this->skin_directory . '/style1/style1.css'));

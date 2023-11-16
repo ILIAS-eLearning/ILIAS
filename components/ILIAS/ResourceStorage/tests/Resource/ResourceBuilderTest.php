@@ -18,6 +18,8 @@
 
 namespace ILIAS\ResourceStorage\Resource;
 
+require_once(__DIR__ . "/../AbstractBaseResourceBuilderTest.php");
+
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 
 /**
