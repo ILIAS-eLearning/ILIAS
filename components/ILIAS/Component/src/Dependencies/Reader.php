@@ -69,31 +69,15 @@ class Reader
         return $this->compileResult($component);
     }
 
-    protected function addDefine(string $name, $value)
+    protected function addDefine($_, $name)
     {
-        if (is_callable($value)) {
-            $mm = $value();
-            if (!($mm instanceof $name)) {
-                throw new \LogicException(
-                    "Minimal implementation should implement defined interface."
-                );
-            }
-            $has_minimal_implementation = true;
-        } elseif (is_null($value)) {
-            $has_minimal_implementation = false;
-        } else {
+        if (!is_string($name) || !interface_exists($name)) {
             throw new \LogicException(
-                "Expected callable or null for \$define."
+                "Only push interface-names into \$define."
             );
         }
-
-        $d = new Define(new Name($name), $has_minimal_implementation);
-        $this->defines[$name] = $d;
-    }
-
-    protected function cacheDefine(string $name, $value)
-    {
-        $this->defines[$name] = [$name, $value];
+        $d = new Define(new Name($name));
+        $this->defines[] = $d;
     }
 
     protected function addImplement(int $i, string $name, $value)

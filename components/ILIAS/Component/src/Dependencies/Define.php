@@ -24,17 +24,11 @@ class Define implements Dependency
 {
     public function __construct(
         protected Name $name,
-        protected bool $has_minimal_implementation
     ) {
     }
 
     public function __toString(): string
     {
         return "DEFINE: " . $this->name;
-    }
-
-    public function hasMinimalImplementation(): bool
-    {
-        return $this->has_minimal_implementation;
     }
 }

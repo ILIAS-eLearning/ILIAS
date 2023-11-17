@@ -84,7 +84,7 @@ class ReaderTest extends TestCase
                 array | \ArrayAccess &$pull,
                 array | \ArrayAccess &$internal,
             ): void {
-                $define[TestInterface::class] = null;
+                $define[] = TestInterface::class;
             }
         };
         $result = $this->reader->read($component);
@@ -93,32 +93,6 @@ class ReaderTest extends TestCase
         $define = new D\Define($name, false);
 
         $this->assertEquals(new D\OfComponent($component, $define), $result);
-        $this->assertFalse($result[(string) $define][0]->hasMinimalImplementation());
-    }
-
-    public function testDefineWithMinimalImplementation(): void
-    {
-        $component = new class () implements Component {
-            public function init(
-                array | \ArrayAccess &$define,
-                array | \ArrayAccess &$implement,
-                array | \ArrayAccess &$use,
-                array | \ArrayAccess &$contribute,
-                array | \ArrayAccess &$seek,
-                array | \ArrayAccess &$provide,
-                array | \ArrayAccess &$pull,
-                array | \ArrayAccess &$internal,
-            ): void {
-                $define[TestInterface::class] = fn() => new class () implements TestInterface {};
-            }
-        };
-        $result = $this->reader->read($component);
-
-        $name = new D\Name(TestInterface::class);
-        $define = new D\Define($name, true);
-
-        $this->assertEquals(new D\OfComponent($component, $define), $result);
-        $this->assertTrue($result[(string) $define][0]->hasMinimalImplementation());
     }
 
     public function testDefineWithNonMinimalImplementation(): void
