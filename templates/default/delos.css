@@ -3521,6 +3521,8 @@ input.btn, input.il-link.link-bulky,
   font-size: inherit;
   font-weight: 400;
   color: #4c6586;
+  border: 0;
+  min-height: 0;
 }
 .btn-link, .btn-link:active, .btn-link.active, .btn-link[disabled], fieldset[disabled] .btn-link {
   background-color: transparent;
