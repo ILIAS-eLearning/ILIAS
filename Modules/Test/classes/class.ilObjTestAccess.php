@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Modules\Test\AccessFileUploadAnswer;
+use ILIAS\Modules\Test\AccessFileUploadPreview;
 use ILIAS\Modules\Test\AccessQuestionImage;
 use ILIAS\Modules\Test\SimpleAccess;
 use ILIAS\Modules\Test\Readable;
@@ -39,10 +40,6 @@ use ILIAS\Data\Result\Error;
 */
 class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 {
-    /**
-     * 2023-08-09, sk: We need the whole DIC here see the function `canBeDelivered()`
-     */
-    private ILIAS\DI\Container $DIC;
     private ilDBInterface $db;
     private ilObjUser $user;
     private ilLanguage $lng;
@@ -53,7 +50,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->DIC = $DIC;
         $this->db = $DIC['ilDB'];
         $this->user = $DIC['ilUser'];
         $this->lng = $DIC['lng'];
@@ -63,11 +59,12 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
     public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
-        $readable = new Readable($this->DIC);
+        $readable = new Readable($this->access);
 
         $can_it = $this->findMatch($ilWACPath->getPath(), [
-            new AccessFileUploadAnswer($this->DIC, $readable),
+            new AccessFileUploadAnswer($this->user, $this->db, $readable),
             new AccessQuestionImage($readable),
+            new AccessFileUploadPreview($this->db, $this->access),
         ]);
 
 

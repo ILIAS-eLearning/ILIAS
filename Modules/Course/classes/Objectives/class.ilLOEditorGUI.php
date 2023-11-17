@@ -294,10 +294,10 @@ class ilLOEditorGUI
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
-            $settings->setInitialTestType($form->getInput('ittype'));
+            $settings->setInitialTestType((int) $form->getInput('ittype'));
             switch ($settings->getInitialTestType()) {
                 case ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL:
-                    $settings->setInitialTestAsStart($form->getInput('start_ip'));
+                    $settings->setInitialTestAsStart((bool) $form->getInput('start_ip'));
                     break;
 
                 case ilLOSettings::TYPE_INITIAL_PLACEMENT_SELECTED:
@@ -305,7 +305,7 @@ class ilLOEditorGUI
                     break;
 
                 case ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL:
-                    $settings->setInitialTestAsStart($form->getInput('start_iq'));
+                    $settings->setInitialTestAsStart((bool) $form->getInput('start_iq'));
                     break;
 
                 case ilLOSettings::TYPE_INITIAL_QUALIFYING_SELECTED:
@@ -317,10 +317,10 @@ class ilLOEditorGUI
                     break;
             }
 
-            $settings->setQualifyingTestType($form->getInput('qttype'));
+            $settings->setQualifyingTestType((int) $form->getInput('qttype'));
             switch ($settings->getQualifyingTestType()) {
                 case ilLOSettings::TYPE_QUALIFYING_ALL:
-                    $settings->setQualifyingTestAsStart($form->getInput('start_q'));
+                    $settings->setQualifyingTestAsStart((bool) $form->getInput('start_q'));
                     break;
 
                 case ilLOSettings::TYPE_QUALIFYING_SELECTED:
@@ -328,8 +328,8 @@ class ilLOEditorGUI
                     break;
             }
 
-            $settings->resetResults($form->getInput('reset'));
-            $settings->setPassedObjectiveMode($form->getInput('passed_mode'));
+            $settings->resetResults((bool) $form->getInput('reset'));
+            $settings->setPassedObjectiveMode((int) $form->getInput('passed_mode'));
 
             if (
                 ($settings->getInitialTestType() != ilLOSettings::TYPE_INITIAL_NONE) &&
@@ -900,18 +900,18 @@ class ilLOEditorGUI
                 $assignment = new ilLOTestAssignment();
                 $assignment->setContainerId($this->getParentObject()->getId());
                 $assignment->setAssignmentType($this->getTestType());
-                $assignment->setObjectiveId($form->getInput('objective'));
+                $assignment->setObjectiveId((int) $form->getInput('objective'));
                 $assignment->setTestRefId($tst->getRefId());
                 $assignment->save();
             } else {
                 $assignment = new ilLOTestAssignment();
                 $assignment->setContainerId($this->getParentObject()->getId());
                 $assignment->setAssignmentType($this->getTestType());
-                $assignment->setObjectiveId($form->getInput('objective'));
-                $assignment->setTestRefId($form->getInput('tst'));
+                $assignment->setObjectiveId((int) $form->getInput('objective'));
+                $assignment->setTestRefId((int) $form->getInput('tst'));
                 $assignment->save();
 
-                $tst = new ilObjTest($form->getInput('tst'), true);
+                $tst = new ilObjTest((int) $form->getInput('tst'), true);
                 $tst->saveToDb();
             }
 
@@ -978,9 +978,9 @@ class ilLOEditorGUI
                 $this->getSettings()->update();
             } else {
                 if ($this->getTestType() == self::TEST_TYPE_IT) {
-                    $this->getSettings()->setInitialTest($form->getInput('tst'));
+                    $this->getSettings()->setInitialTest((int) $form->getInput('tst'));
                 } else {
-                    $this->getSettings()->setQualifiedTest($form->getInput('tst'));
+                    $this->getSettings()->setQualifiedTest((int) $form->getInput('tst'));
                 }
 
                 $this->getSettings()->update();

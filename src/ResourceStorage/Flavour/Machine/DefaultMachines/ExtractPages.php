@@ -36,7 +36,7 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
 {
     public const ID = 'extract_pages';
     public const PREVIEW_IMAGE_FORMAT = 'jpg';
-    private bool $use_thumbnail_implementation = true;
+    private bool $high_quality = false;
 
     public function getId(): string
     {
@@ -67,7 +67,14 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
             return;
         }
 
+        $this->high_quality = $for_definition->useMaxQuality();
+        $quality = $for_definition->getQuality();
+
         $img = new \Imagick();
+        if ($this->high_quality) {
+            $quality = 100;
+            $img->setResolution(300, 300); // way better previews for PDFs. Must be set before reading the file
+        }
 
         try {
             $resource = $stream->detach();
@@ -83,7 +90,6 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
 
 
         $img->setBackgroundColor('white');
-        $img->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
         $img->resetIterator();
 
         $max_size = $for_definition->getMaxSize();
@@ -92,19 +98,32 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
             $img->setIteratorIndex($x);
             $img->setImageAlphaChannel(\Imagick::ALPHACHANNEL_REMOVE);
             $img->setImageFormat(self::PREVIEW_IMAGE_FORMAT);
-            if ($this->use_thumbnail_implementation) {
+            if (!$this->high_quality) {
                 $yield = $img->thumbnailImage($max_size, $max_size, true, $for_definition->isFill());
             } else {
                 $img->setImageCompression(\Imagick::COMPRESSION_JPEG);
-                $img->setImageCompressionQuality($for_definition->getQuality());
+                $img->setImageCompressionQuality($quality);
                 $img->stripImage();
 
                 if ($original_with > $original_height) {
-                    $img->scaleImage($max_size, 0);
+                    $columns = $max_size;
+                    $rows = (int) ($max_size * $original_height / $original_with);
+                    $yield = $yield = $img->resizeImage(
+                        $columns,
+                        $rows,
+                        \Imagick::FILTER_MITCHELL,
+                        1
+                    );
                 } else {
-                    $img->scaleImage(0, $max_size);
+                    $columns = (int) ($max_size * $original_with / $original_height);
+                    $rows = $max_size;
+                    $yield = $yield = $img->resizeImage(
+                        $columns,
+                        $rows,
+                        \Imagick::FILTER_MITCHELL,
+                        1
+                    );
                 }
-                $yield = true;
             }
 
             if ($yield) {

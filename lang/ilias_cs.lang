@@ -572,9 +572,6 @@ assessment#:#cloze_text#:#Doplňovaný text
 assessment#:#cloze_textgap_case_insensitive#:#Nerozlišuje velká/malá písmena
 assessment#:#cloze_textgap_case_sensitive#:#Rozlišuje velká/malá písmena
 assessment#:#cloze_textgap_levenshtein_of#:#Vzdálenost Levenshtein %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Více prázdných míst
-assessment#:#cloze_textgap_whitespace_after#:#Prázdné místo za hodnotou
-assessment#:#cloze_textgap_whitespace_before#:#Prázdné místo před hodnotou
 assessment#:#code#:#Kód
 assessment#:#codebase#:#Databáze kódu
 assessment#:#concatenation#:#Sřetězení

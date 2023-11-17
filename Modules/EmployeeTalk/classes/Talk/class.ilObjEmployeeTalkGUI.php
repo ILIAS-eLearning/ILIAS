@@ -215,21 +215,20 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $ru = new ilRepositoryTrashGUI($this);
-        $refIds = ilSession::get("saved_post");
+        $ref_ids = ilSession::get("saved_post");
         $talks = [];
 
-        foreach ($refIds as $refId) {
+        foreach ($ref_ids as $refId) {
             $talks[] = new ilObjEmployeeTalk(intval($refId), true);
         }
 
-        $ru->deleteObjects($this->requested_ref_id, $refIds);
+        $this->sendNotification(...$talks);
+
+        $ru->deleteObjects($this->requested_ref_id, $ref_ids);
         $trashEnabled = boolval($this->settings->get('enable_trash'));
 
-        $this->sendNotification(...$talks);
         if ($trashEnabled) {
-            foreach ($talks as $talk) {
-                $talk->delete();
-            }
+            ilRepUtil::removeObjectsFromSystem($ref_ids);
         }
 
         ilSession::clear("saved_post");
@@ -466,14 +465,17 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     public function updateMetadataObject(): void
     {
         /**
-         * @var ilObjEmployeeTalkSeries $series
+         * @var ilObjEmployeeTalk $talk_object
          */
-        $series = $this->object->getParent();
+        $talk_object = $this->object;
+        $series = $talk_object->getParent();
 
         $form = $this->getMetadataForm();
 
         if ($form->importFromPostAndValidate()) {
             $form->updateMetadata();
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+            $this->sendUpdateNotification($talk_object);
             $this->ctrl->redirect($this, ControlFlowCommand::INDEX);
         }
 

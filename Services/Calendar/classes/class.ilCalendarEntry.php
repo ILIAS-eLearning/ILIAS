@@ -115,7 +115,7 @@ class ilCalendarEntry implements ilDatePeriod
         return $this->start;
     }
 
-    public function setStart(ilDateTime $a_start): void
+    public function setStart(?ilDateTime $a_start): void
     {
         $this->start = $a_start;
     }
@@ -125,7 +125,7 @@ class ilCalendarEntry implements ilDatePeriod
         return $this->end;
     }
 
-    public function setEnd(ilDateTime $a_end): void
+    public function setEnd(?ilDateTime $a_end): void
     {
         $this->end = $a_end;
     }
@@ -329,7 +329,11 @@ class ilCalendarEntry implements ilDatePeriod
         $now = new ilDateTime(time(), IL_CAL_UNIX);
         $utc_timestamp = $now->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
         $query = "UPDATE cal_entries " .
-            "SET title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
+            /*
+             * The title needs to be truncated to fit into the table column. This is a pretty
+             * brute force method for doing so, but right now I can't find a better place for it.
+             */
+            "SET title = " . $this->db->quote(substr($this->getTitle(), 0, 128), 'text') . ", " .
             "last_update = " . $this->db->quote($utc_timestamp, 'timestamp') . ", " .
             "subtitle = " . $this->db->quote($this->getSubtitle(), 'text') . ", " .
             "description = " . $this->db->quote($this->getDescription(), 'text') . ", " .
@@ -357,7 +361,11 @@ class ilCalendarEntry implements ilDatePeriod
             "informations,auto_generated,context_id,context_info,translation_type, notification) " .
             "VALUES( " .
             $this->db->quote($next_id, 'integer') . ", " .
-            $this->db->quote($this->getTitle(), 'text') . ", " .
+            /*
+             * The title needs to be truncated to fit into the table column. This is a pretty
+             * brute force method for doing so, but right now I can't find a better place for it.
+             */
+            $this->db->quote(substr($this->getTitle(), 0, 128), 'text') . ", " .
             $this->db->quote($utc_timestamp, 'timestamp') . ", " .
             $this->db->quote($this->getSubtitle(), 'text') . ", " .
             $this->db->quote($this->getDescription(), 'text') . ", " .

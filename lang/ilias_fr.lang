@@ -568,9 +568,6 @@ assessment#:#cloze_text#:#Texte à  trous
 assessment#:#cloze_textgap_case_insensitive#:#Ne pas distinguer majuscules et minuscules
 assessment#:#cloze_textgap_case_sensitive#:#Distinguer majuscules et minuscules
 assessment#:#cloze_textgap_levenshtein_of#:#Distance Levenshtein de %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Espaces multiples
-assessment#:#cloze_textgap_whitespace_after#:#Espace derrière la valeur
-assessment#:#cloze_textgap_whitespace_before#:#Espace avant la valeur
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concaténation

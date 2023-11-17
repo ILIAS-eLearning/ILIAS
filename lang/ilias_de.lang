@@ -576,6 +576,7 @@ assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gew
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und nutzen Sie die Schaltfläche "Textlücke". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
+assessment#:#cloze_answer_text_info#:#Vorangestellte oder nachfolgende Leerzeichen werden beim Speichern aus der Antwort gelöscht.
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
 assessment#:#cloze_fixed_textlength_description#:#Wenn Sie hier einen Wert eintragen, werden Textlücken, welche keinen eigenen Wert für eine maximale Länge definieren, sowie numerische Lücken mit dieser Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Für numerische Lücken ist darüber hinaus zu beachten, dass das Dezimaltrennzeichen dabei mit gezählt wird.
 assessment#:#cloze_gap_size_info#:#Ist ein Wert größer 0 eingetragen, wird diese Lücke mit der hier angegebenen Länge erzeugt. Ist kein Wert angegeben, wird diese Lücke mit der global angegebenen Textfeldlänge erzeugt.
@@ -583,9 +584,6 @@ assessment#:#cloze_text#:#Lückentextfrage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein-Abstand von %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Mehrere Leerzeichen hintereinander
-assessment#:#cloze_textgap_whitespace_after#:#Leerzeichen nach dem Begriff
-assessment#:#cloze_textgap_whitespace_before#:#Leerzeichen vor dem Begriff
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
@@ -1465,7 +1463,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_import_non_ilias_zip#:#Fehler: Der Dateiname der hochgeladenen Importdatei entspricht nicht dem erwarteten Format.
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Nur Fragenpools mit Fragen gleicher Punktzahl
-assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#Wenn aktiviert, werden nur Fragenpools zur Auswahl angeboten, deren Fragen die gleiche Punktzahl haben. Dieser Test wird dann die gleiche maximale Punktezahl für alle Teilnehmer haben, wodurch die Testergebnisse besser miteinander vergleichbar sind. Diese Vorgehensweise wird empfohlen.
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#Wenn aktiviert, werden nur Fragenpools zur Auswahl angeboten, deren Fragen die gleiche Punktzahl haben. Dieser Test wird dann die gleiche maximale Punktezahl für alle Teilnehmer haben, wodurch die Testergebnisse besser miteinander vergleichbar sind. Diese Vorgehensweise wird empfohlen. Bitte beachten Sie, dass keine nachträgliche Überprüfung bestehender Regeln erfolgt, wenn Sie diese Option aktivieren.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#Die Reihenfolge der Fragen orientiert sich an den Zuweisungen der Fragen in einer Taxonomie.
 assessment#:#tst_inp_no_available_tax_hint#:#Für den ausgewählten Fragenpool stehen keine Taxonomien zur Verfügung
@@ -8298,6 +8296,7 @@ dateplaner#:#cal_edit_category#:#Kalender bearbeiten
 dateplaner#:#cal_edit_milestone#:#Meilenstein bearbeiten
 dateplaner#:#cal_edit_recurrences#:#Alle Termine bearbeiten
 dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
+dateplaner#:#cal_edit_single_or_all_info#:#Wollen Sie nur diesen Termin bearbeiten, oder alle Termine der Serie?
 dateplaner#:#cal_enable_group_milestones#:#Meilensteine aktivieren
 dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Kurse und Gruppen).
 dateplaner#:#cal_err_invalid_notification_rcps#:#Bitte korrigieren Sie Ihre Eingabe. Geben Sie ausschließlich ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.

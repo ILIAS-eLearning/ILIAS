@@ -576,6 +576,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and use the dropdown ‘Text Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value, the gap text field will be created with the value of the global fixed length.
@@ -583,9 +584,6 @@ assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
 assessment#:#cloze_textgap_case_sensitive#:#Case Sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
@@ -1465,7 +1463,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_import_non_ilias_zip#:#Error: The filename of the uploaded import file does not match the expected format.
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Use Only Pools with Equal Scored Questions
-assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools in which all questions have the same points are offered. Participants of such a test can all have the same number of maximum points, thus the test results will be better comparable. It is recommended to choose this option.
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools in which all questions have the same points are offered. Participants of such a test can all have the same number of maximum points, thus the test results will be better comparable. It is recommended to choose this option. Please take note that preexisting rules are not reevaluated upon activation of this setting.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#The presentation order for the questions bases upon the question's last editing date.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#The presentation order for the questions bases upon the question's assignments in a taxonomy.
 assessment#:#tst_inp_no_available_tax_hint#:#No Available Taxonomies for Selected Question Pool
@@ -8287,6 +8285,7 @@ dateplaner#:#cal_edit_category#:#Edit Calendar
 dateplaner#:#cal_edit_milestone#:#Edit Milestone
 dateplaner#:#cal_edit_recurrences#:#Edit all Appointments
 dateplaner#:#cal_edit_single#:#Edit this Appointment
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?
 dateplaner#:#cal_enable_group_milestones#:#Enable Milestones
 dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.
 dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid e-mail addresses.
