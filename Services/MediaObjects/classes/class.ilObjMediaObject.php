@@ -800,7 +800,7 @@ class ilObjMediaObject extends ilObject
     public static function _deleteAllUsages(
         string $a_type,
         int $a_id,
-        int $a_usage_hist_nr = 0,
+        ?int $a_usage_hist_nr = 0,
         string $a_lang = "-"
     ): void {
         global $DIC;
@@ -808,7 +808,7 @@ class ilObjMediaObject extends ilObject
         $ilDB = $DIC->database();
 
         $and_hist = "";
-        if ($a_usage_hist_nr > 0) {
+        if (!is_null($a_usage_hist_nr)) {
             $and_hist = " AND usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         }
 
@@ -885,7 +885,8 @@ class ilObjMediaObject extends ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-
+        $log = ilLoggerFactory::getLogger('mob');
+        $log->debug("save usage mob: " . $a_mob_id . ", type " . $a_type . " id: " . $a_id . ", hist: " . $a_usage_hist_nr . ", lang: " . $a_lang);
         $ilDB->replace(
             "mob_usage",
             array(
@@ -952,7 +953,6 @@ class ilObjMediaObject extends ilObject
         if ($a_include_history) {
             $hist_str = ", usage_hist_nr";
         }
-
         // get usages in pages
         $q = "SELECT DISTINCT usage_type, usage_id, usage_lang" . $hist_str . " FROM mob_usage WHERE id = " .
             $ilDB->quote($a_id, "integer");

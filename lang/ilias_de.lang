@@ -7263,6 +7263,7 @@ copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
 copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
+copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_reload_page#:#Seite neu laden
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!

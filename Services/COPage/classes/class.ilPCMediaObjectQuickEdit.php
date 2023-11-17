@@ -24,7 +24,7 @@
 class ilPCMediaObjectQuickEdit
 {
     protected ilPCMediaObject $pcmedia;
-    protected ilObjMediaObject $mob;
+    protected ?ilObjMediaObject $mob;
     protected int $usage_cnt;
 
     public function __construct(
@@ -32,7 +32,9 @@ class ilPCMediaObjectQuickEdit
     ) {
         $this->pcmedia = $pcmedia;
         $this->mob = $pcmedia->getMediaObject();
-        $this->usage_cnt = count($this->mob->getUsages());
+        if (!is_null($this->mob)) {
+            $this->usage_cnt = count($this->mob->getUsages());
+        }
     }
 
     // TITLE
