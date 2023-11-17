@@ -812,7 +812,7 @@ class ilObjMediaObject extends ilObject
     public static function _deleteAllUsages(
         string $a_type,
         int $a_id,
-        int $a_usage_hist_nr = 0,
+        ?int $a_usage_hist_nr = 0,
         string $a_lang = "-"
     ): void {
         global $DIC;
@@ -820,7 +820,7 @@ class ilObjMediaObject extends ilObject
         $ilDB = $DIC->database();
 
         $and_hist = "";
-        if ($a_usage_hist_nr > 0) {
+        if (!is_null($a_usage_hist_nr)) {
             $and_hist = " AND usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         }
 

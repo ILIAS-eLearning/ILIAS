@@ -285,7 +285,7 @@ class ilPCMediaObject extends ilPageContent
         ilObjMediaObject::_deleteAllUsages(
             $a_page->getParentType() . ":pg",
             $a_page->getId(),
-            false,
+            null,
             $a_page->getLanguage()
         );
 
