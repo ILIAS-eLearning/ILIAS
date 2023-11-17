@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Copyright;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Legacy\Legacy;
-use ILIAS\UI\Implementation\Component\Image\Image as IImage;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon as IIcon;
 use ILIAS\UI\Implementation\Component\Link\Link as ILink;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy as ILegacy;
 use ILIAS\Filesystem\Filesystem as WebFiles;
@@ -37,14 +37,14 @@ use ILIAS\UI\Component\Link\Relationship;
 class RendererTest extends TestCase
 {
     protected function getMockRenderer(
-        Image $image,
+        Icon $icon,
         Link $link,
         Legacy $legacy,
         string $src_from_irss
     ): Renderer {
-        return new class ($image, $link, $legacy, $src_from_irss) extends Renderer {
+        return new class ($icon, $link, $legacy, $src_from_irss) extends Renderer {
             public function __construct(
-                protected Image $image,
+                protected Icon $icon,
                 protected Link $link,
                 protected Legacy $legacy,
                 protected string $src_from_irss
@@ -56,11 +56,11 @@ class RendererTest extends TestCase
                 return 'fallback src';
             }
 
-            protected function standardImage(string $src, string $alt): Image
+            protected function customIcon(string $src, string $alt): Icon
             {
                 /** @noinspection PhpUndefinedMethodInspection */
-                $this->image->checkParams($src, $alt);
-                return $this->image;
+                $this->icon->checkParams($src, $alt);
+                return $this->icon;
             }
 
             protected function standardLink(string $label, string $action): Link
@@ -84,11 +84,10 @@ class RendererTest extends TestCase
         };
     }
 
-    protected function getMockImage(): MockObject|Image
+    protected function getMockIcon(): MockObject|Icon
     {
-        return $this->getMockBuilder(IImage::class)
+        return $this->getMockBuilder(IIcon::class)
                     ->disableOriginalConstructor()
-                    ->onlyMethods(['withAction'])
                     ->addMethods(['checkParams'])
                     ->getMock();
     }
@@ -121,13 +120,10 @@ class RendererTest extends TestCase
 
     public function testToUIComponentsWithLinkAndImage(): void
     {
-        $image = $this->getMockImage();
-        $image->expects($this->once())
+        $icon = $this->getMockIcon();
+        $icon->expects($this->once())
               ->method('checkParams')
               ->with('image link', 'alt text');
-        $image->expects($this->once())
-              ->method('withAction')
-              ->with('link');
         $link = $this->getMockLink();
         $link->expects($this->once())
              ->method('checkParams')
@@ -139,7 +135,7 @@ class RendererTest extends TestCase
         $img_uri = $this->getMockURI('image link');
 
         $renderer = $this->getMockRenderer(
-            $image,
+            $icon,
             $link,
             $this->getMockLegacy(),
             ''
@@ -184,7 +180,7 @@ class RendererTest extends TestCase
 
         $result = $renderer->toUIComponents($data);
         $this->assertSame(2, count($result));
-        $this->assertInstanceOf(Image::class, $result[0]);
+        $this->assertInstanceOf(Icon::class, $result[0]);
         $this->assertInstanceOf(Link::class, $result[1]);
     }
 
@@ -193,7 +189,7 @@ class RendererTest extends TestCase
         $legacy = $this->getMockLegacy();
 
         $renderer = $this->getMockRenderer(
-            $this->getMockImage(),
+            $this->getMockIcon(),
             $this->getMockLink(),
             $legacy,
             ''
@@ -210,15 +206,14 @@ class RendererTest extends TestCase
                ->method('checkParams')
                ->with('full name');
 
-        $image = $this->getMockImage();
-        $image->expects($this->once())
+        $icon = $this->getMockIcon();
+        $icon->expects($this->once())
               ->method('checkParams')
               ->with('image link', 'alt text');
-        $image->expects($this->never())->method('withAction');
         $uri = $this->getMockURI('image link');
 
         $renderer = $this->getMockRenderer(
-            $image,
+            $icon,
             $this->getMockLink(),
             $legacy,
             ''
@@ -256,7 +251,7 @@ class RendererTest extends TestCase
 
         $result = $renderer->toUIComponents($data);
         $this->assertSame(2, count($result));
-        $this->assertInstanceOf(Image::class, $result[0]);
+        $this->assertInstanceOf(Icon::class, $result[0]);
         $this->assertInstanceOf(Legacy::class, $result[1]);
     }
 
@@ -272,7 +267,7 @@ class RendererTest extends TestCase
         $uri = $this->getMockURI('link');
 
         $renderer = $this->getMockRenderer(
-            $this->getMockImage(),
+            $this->getMockIcon(),
             $link,
             $this->getMockLegacy(),
             ''
@@ -310,7 +305,7 @@ class RendererTest extends TestCase
         $uri = $this->getMockURI('link');
 
         $renderer = $this->getMockRenderer(
-            $this->getMockImage(),
+            $this->getMockIcon(),
             $link,
             $this->getMockLegacy(),
             ''
@@ -333,15 +328,14 @@ class RendererTest extends TestCase
 
     public function testToUIComponentsWithImageFromLink(): void
     {
-        $image = $this->getMockImage();
-        $image->expects($this->once())
+        $icon = $this->getMockIcon();
+        $icon->expects($this->once())
               ->method('checkParams')
               ->with('image link', 'alt text');
-        $image->expects($this->never())->method('withAction');
         $uri = $this->getMockURI('image link');
 
         $renderer = $this->getMockRenderer(
-            $image,
+            $icon,
             $this->getMockLink(),
             $this->getMockLegacy(),
             ''
@@ -374,20 +368,19 @@ class RendererTest extends TestCase
 
         $result = $renderer->toUIComponents($data);
         $this->assertSame(1, count($result));
-        $this->assertInstanceOf(Image::class, $result[0]);
+        $this->assertInstanceOf(Icon::class, $result[0]);
     }
 
     public function testToUIComponentsWithImageFromIRSS(): void
     {
-        $image = $this->getMockImage();
-        $image->expects($this->once())
+        $icon = $this->getMockIcon();
+        $icon->expects($this->once())
               ->method('checkParams')
               ->with('image link', 'alt text');
-        $image->expects($this->never())->method('withAction');
         $uri = $this->getMockURI('image link');
 
         $renderer = $this->getMockRenderer(
-            $image,
+            $icon,
             $this->getMockLink(),
             $this->getMockLegacy(),
             'image link'
@@ -415,18 +408,18 @@ class RendererTest extends TestCase
 
         $result = $renderer->toUIComponents($data);
         $this->assertSame(1, count($result));
-        $this->assertInstanceOf(Image::class, $result[0]);
+        $this->assertInstanceOf(Icon::class, $result[0]);
     }
 
     public function testToUIComponentsWithFallbackImage(): void
     {
-        $image = $this->getMockImage();
-        $image->expects($this->once())
+        $icon = $this->getMockIcon();
+        $icon->expects($this->once())
               ->method('checkParams')
               ->with('fallback src');
 
         $renderer = $this->getMockRenderer(
-            $image,
+            $icon,
             $this->getMockLink(),
             $this->getMockLegacy(),
             ''
@@ -440,6 +433,6 @@ class RendererTest extends TestCase
 
         $result = $renderer->toUIComponents($data);
         $this->assertSame(1, count($result));
-        $this->assertInstanceOf(Image::class, $result[0]);
+        $this->assertInstanceOf(Icon::class, $result[0]);
     }
 }

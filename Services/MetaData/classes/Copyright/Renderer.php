@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Copyright;
 
 use ILIAS\UI\Factory;
-use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\UI\Component\Link\Relationship;
@@ -43,13 +43,13 @@ class Renderer implements RendererInterface
     }
 
     /**
-     * @return Image[]|Link[]|Legacy[]
+     * @return Icon[]|Link[]|Legacy[]
      */
     public function toUIComponents(CopyrightDataInterface $copyright): array
     {
         $res = [];
         $has_link = false;
-        if (!is_null($image = $this->buildImage($copyright))) {
+        if (!is_null($image = $this->buildIcon($copyright))) {
             $res[] = $image;
         }
         if (!is_null($link = $this->buildLink($copyright))) {
@@ -62,31 +62,30 @@ class Renderer implements RendererInterface
         return $res;
     }
 
-    protected function buildImage(CopyrightDataInterface $copyright): ?Image
+    protected function buildIcon(CopyrightDataInterface $copyright): ?Icon
     {
         if (!$copyright->hasImage()) {
             if ($copyright->fallBackToDefaultImage()) {
-                return $this->buildFallBackImage($copyright);
+                return $this->buildFallBackIcon($copyright);
             }
             return null;
         }
         if ($copyright->isImageLink()) {
-            return $this->buildImageFromLink($copyright);
+            return $this->buildIconFromLink($copyright);
         } else {
-            return $this->buildImageFromFile($copyright);
+            return $this->buildIconFromFile($copyright);
         }
     }
 
-    protected function buildImageFromLink(CopyrightDataInterface $copyright): Image
+    protected function buildIconFromLink(CopyrightDataInterface $copyright): Icon
     {
-        return $this->getImage(
+        return $this->customIcon(
             (string) $copyright->imageLink(),
-            $copyright->altText(),
-            (string) $copyright->link()
+            $copyright->altText()
         );
     }
 
-    protected function buildImageFromFile(CopyrightDataInterface $copyright): ?Image
+    protected function buildIconFromFile(CopyrightDataInterface $copyright): ?Icon
     {
         if ($from_irss = $this->getSourceFromIRSS($copyright->imageFile())) {
             $src = $from_irss;
@@ -94,34 +93,23 @@ class Renderer implements RendererInterface
             return null;
         }
 
-        return $this->getImage(
+        return $this->customIcon(
             $src,
-            $copyright->altText(),
-            (string) $copyright->link()
+            $copyright->altText()
         );
     }
 
-    protected function buildFallBackImage(CopyrightDataInterface $copyright): ?Image
+    protected function buildFallBackIcon(CopyrightDataInterface $copyright): ?Icon
     {
-        return $this->getImage(
+        return $this->customIcon(
             $this->getFallBackSrc(),
-            $copyright->altText(),
-            (string) $copyright->link()
+            $copyright->altText()
         );
     }
 
     protected function getFallBackSrc(): string
     {
         return \ilUtil::getImagePath(self::FALLBACK_IMG);
-    }
-
-    protected function getImage(string $src, string $alt, string $link): Image
-    {
-        $image = $this->standardImage($src, $alt);
-        if ($link !== '') {
-            $image = $image->withAction($link);
-        }
-        return $image;
     }
 
     protected function buildLink(CopyrightDataInterface $copyright): ?Link
@@ -135,9 +123,9 @@ class Renderer implements RendererInterface
         )->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE);
     }
 
-    protected function standardImage(string $src, string $alt): Image
+    protected function customIcon(string $src, string $alt): Icon
     {
-        return $this->factory->image()->standard($src, $alt);
+        return $this->factory->symbol()->icon()->custom($src, $alt, Icon::MEDIUM);
     }
 
     protected function standardLink(string $label, string $action): Link
