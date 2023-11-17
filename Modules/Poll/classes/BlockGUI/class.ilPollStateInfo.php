@@ -85,7 +85,12 @@ class ilPollStateInfo
 
     public function mayUserVote(int $user_id): bool
     {
-        return !($user_id === ANONYMOUS_USER_ID);
+        return !$this->isUserAnonymous($user_id);
+    }
+
+    public function isUserAnonymous(int $user_id): bool
+    {
+        return $user_id === ANONYMOUS_USER_ID;
     }
 
     public function areResultsVisible(int $user_id, ilObjPoll $poll): bool

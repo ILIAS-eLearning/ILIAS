@@ -64,9 +64,11 @@ class ilPollAnswersRenderer
             );
         }
 
-        $tpl->setVariable("URL_FORM", $answers->getVoteURL());
-        $tpl->setVariable("CMD_FORM", $answers->getVoteCommand());
-        $tpl->setVariable("TXT_SUBMIT", $this->lng->txt("poll_vote"));
+        if (!$disable_input) {
+            $tpl->setVariable("URL_FORM", $answers->getVoteURL());
+            $tpl->setVariable("CMD_FORM", $answers->getVoteCommand());
+            $tpl->setVariable("TXT_SUBMIT", $this->lng->txt("poll_vote"));
+        }
     }
 
     protected function renderAnswer(
