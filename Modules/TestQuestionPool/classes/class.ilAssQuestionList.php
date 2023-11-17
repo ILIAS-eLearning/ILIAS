@@ -705,7 +705,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function isActiveQuestionType(array $questionData): bool
     {
-        if (!isset($questionData['plugin']) || $questionData['plugin'] === 0) {
+        if (!isset($questionData['plugin'])) {
             return false;
         }
 
