@@ -29,32 +29,27 @@ class ReadableTest extends TestCase
 {
     public function testConstruct(): void
     {
-        $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
+        $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
 
-        $this->assertInstanceOf(Readable::class, new Readable($container));
+        $this->assertInstanceOf(Readable::class, new Readable($access));
     }
 
     public function testReferences(): void
     {
-        $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
         $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
-
-        $container->method('access')->willReturn($access);
         $access->method('checkAccess')->with('read', '', 123)->willReturn(true);
 
-        $this->assertTrue((new Readable($container))->references([123]));
+        $this->assertTrue((new Readable($access))->references([123]));
     }
 
     public function testObjectId(): void
     {
-        $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
         $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
 
-        $container->method('access')->willReturn($access);
         $access->method('checkAccess')->with('read', '', 456)->willReturn(true);
 
         $references_of = fn(int $object_id) => $this->assertSame(123, $object_id) ?: [456];
 
-        $this->assertTrue((new Readable($container, $references_of))->objectId(123));
+        $this->assertTrue((new Readable($access, $references_of))->objectId(123));
     }
 }

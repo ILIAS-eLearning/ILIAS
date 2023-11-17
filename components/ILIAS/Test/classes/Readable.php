@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\components\Test;
 
 use Closure;
-use ILIAS\DI\Container;
+use ilAccessHandler;
 use ilObject;
 
 class Readable
@@ -31,7 +31,7 @@ class Readable
     private readonly Incident $incident;
 
     public function __construct(
-        private readonly Container $container,
+        private readonly ilAccessHandler $access,
         $references_of = [ilObject::class, '_getAllReferences'],
         Incident $incident = null
     ) {
@@ -45,7 +45,7 @@ class Readable
     public function references(array $references): bool
     {
         return $this->incident->any(fn(int $ref_id): bool => (
-            $this->container->access()->checkAccess('read', '', $ref_id)
+            $this->access->checkAccess('read', '', $ref_id)
         ), $references);
     }
 
