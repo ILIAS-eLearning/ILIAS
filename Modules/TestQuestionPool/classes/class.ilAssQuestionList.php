@@ -716,7 +716,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         if (!$this->component_repository->getComponentByTypeAndName(
             ilComponentInfo::TYPE_MODULES,
             'TestQuestionPool'
-        )->getPluginSlotById('qst')->hasPluginName($questionData['plugin_name'])) {
+        )->getPluginSlotById('qst')->hasPluginName((string) $questionData['plugin_name'])) {
             return false;
         }
 
@@ -729,7 +729,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
                 'qst'
             )
             ->getPluginByName(
-                $questionData['plugin_name']
+                (string) $questionData['plugin_name']
             )->isActive();
     }
 
