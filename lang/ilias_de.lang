@@ -81,8 +81,8 @@ adm#:#adm_support_contacts_info#:#Bitte tragen Sie hier komma-separiert die Anme
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
-administration#:#adm_adm_role_protect#:#Administratorrolle schützen
-administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen.
+administration#:#adm_adm_role_protect#:#Rolle „Administration“ schützen
+administration#:#adm_adm_role_protect_info#:#Nur Personen, welche selbst die Rolle „Administration“ inne haben, können weitere ILIAS-Konten in diese Rolle eintragen.
 administration#:#adm_auth_login#:#Authentifizierung Login
 administration#:#adm_auth_reg#:#Authentifizierung Registrierung
 administration#:#adm_communication#:#Kommunikation
@@ -134,7 +134,7 @@ administration#:#adm_user_administration#:#Konten und Rollen
 administration#:#adm_user_starting_point#:#Persönliche Startseite
 administration#:#adm_user_starting_point_info#:#Wählen Sie die Seite oder Objekt, welche nach dem Login gezeigt wird.
 administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übernehmen
-administration#:#adm_user_starting_point_inherit_info#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.
+administration#:#adm_user_starting_point_inherit_info#:#Die globalen Einstellungen der Plattform werden übernommen.
 administration#:#adm_user_starting_point_invalid_info#:#Dieses Feature ist aktuell nicht aktiviert.
 administration#:#adm_user_starting_point_object#:#Magazin-Objekt
 administration#:#adm_user_starting_point_personal#:#Persönliche Einstellung
@@ -993,7 +993,7 @@ assessment#:#qpl_export_excel#:#Microsoft Excel-Datei
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
 assessment#:#qpl_export_xml#:#QTI XML Datei
 assessment#:#qpl_form_general_settings#:#Allgemeine Einstellungen
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine temporäre Vorschaudatei mit den Imagemap-Regionen erzeugen. Statt dessen wird das Original-Bild angezeigt. Das bedeutet, dass entweder das ImageMagick-Werkzeug auf dem Webserver nicht korrekt konfiguriert ist oder dass Sie im temporären Verzeichnis nicht über Schreibrechte verfügen! Bitte kontaktieren Sie den Systemadministrator.
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine Vorschaudatei mit den Imagemap-Regionen erzeugen. Stattdessen wird das Original-Bild angezeigt. Entweder ist ImageMagick auf dem Webserver nicht korrekt konfiguriert oder Sie haben im temporären Verzeichnis keine Schreibrechte. Bitte kontaktieren Sie Ihre technische Betreuung.
 assessment#:#qpl_import_create_new_qpl#:#In einen neuen Fragenpool importieren
 assessment#:#qpl_import_no_items#:#Fehler: die Importdatei enthält keine Fragen!
 assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-Dateien, die nicht von einem ILIAS-System erstellt wurden. Bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
@@ -2109,9 +2109,9 @@ auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand 
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Anmeldekonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über kein ILIAS-Konto verfügen, werden automatisch angelegt.
-auth#:#err_auth_ldap_failed#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren ILIAS-Administrator.
-auth#:#err_auth_saml_failed#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.
-auth#:#err_auth_saml_no_ilias_user#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.
+auth#:#err_auth_ldap_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
+auth#:#err_auth_saml_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
+auth#:#err_auth_saml_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#login_page_activate#:#Editor für ausgewählte Sprachen aktivieren
 auth#:#login_page_editor_switched#:#Der aktive Seiteneditor wurde geändert
 auth#:#login_page_switch_ipe#:#ILIAS Seiteneditor verwenden
@@ -2186,7 +2186,7 @@ badge#:#badge_lhist_badge_completed#:#Badge $3$ wurde erworben.
 badge#:#badge_lhist_badge_completed_in#:#Badge $3$ wurde erworben in $1$.
 badge#:#badge_manual#:#Manuelle Vergabe
 badge#:#badge_new_badges#:#Sie haben %1 Badge(s) erhalten.
-badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Es können keine neuen Badges erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
+badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Deshalb können keine neuen Badges erstellt werden. Bitte kontaktieren Sie Ihre technische Betreuung.
 badge#:#badge_notification_badges#:#Neue Badges
 badge#:#badge_notification_badges_goto#:#Zu den Badges
 badge#:#badge_notification_body#:#Sie haben gerade neue Badges erhalten.
@@ -2313,7 +2313,7 @@ bibl#:#identifier#:#Bezeichner
 bibl#:#msg_confirm_delete_filter#:#Möchten Sie den folgenden Filter wirklich löschen?
 bibl#:#news_title_created#:#Neue Literaturliste hinzugefügt
 bibl#:#news_title_updated#:#Literaturliste aktualisiert
-bibl#:#not_yet_migrated#:#Dieses Objekt wurde noch nicht migriert. Wenden Sie sich an die Administratoren der Plattform.
+bibl#:#not_yet_migrated#:#Dieses Objekt wurde noch nicht migriert. Bitte kontaktieren Sie Ihre technische Betreuung.
 bibl#:#obj_bibl_duplicate#:#Literaturliste duplizieren
 bibl#:#order#:#Sortierung
 bibl#:#override_entries#:#Einträge überschreiben
@@ -2709,7 +2709,7 @@ cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist 
 cert#:#certificate_no_object_desc#:#Keine Beschreibung vorhanden
 cert#:#certificate_no_object_title#:#Kein Titel vorhanden
 cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
-cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
+cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte kontaktieren Sie Ihre technische Betreuung und bitten um die Prüfung des Zertifikatsservers.
 cert#:#user_certificates#:#Zertifikate
 certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
 certificate#:#cert_cron_task_title#:#Zertifikate
@@ -3447,7 +3447,7 @@ common#:#admin_force_noti#:#Benachrichtigung aktiv
 common#:#administrate_users#:#Lokale Konten
 common#:#administrate_users_headline#:#Lokale ILIAS-Konten dieser Kategorie
 common#:#administration#:#Administration
-common#:#administrator#:#Administrator
+common#:#administrator#:#Administration
 common#:#adopt#:#Übernehmen
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test und Assessment-Werkzeug
