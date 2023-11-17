@@ -33,6 +33,3 @@ no copyright is explicitely chosen are shown as being under the default
 license. This license is always listed first in the 'Available Copyrights' table in
 the Metadata Administration and cannot be deleted, but it can be edited. If 
 not configured otherwise, 'All rights reserved' is the default.
-
-When no other image is added to the default license, it will be
-displayed along with an ©-icon.

@@ -60,16 +60,10 @@ class Renderer implements RendererInterface
         if (!$copyright->imageLink()) {
             return null;
         }
-        return $this->getIcon(
+        return $this->customIcon(
             (string) $copyright->imageLink(),
             $copyright->altText()
         );
-    }
-
-    protected function getIcon(string $src, string $alt): Icon
-    {
-        $image = $this->customIcon($src, $alt);
-        return $image;
     }
 
     protected function buildLink(CopyrightDataInterface $copyright): ?Link

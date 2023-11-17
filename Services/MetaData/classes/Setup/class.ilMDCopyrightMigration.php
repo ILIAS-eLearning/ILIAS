@@ -129,8 +129,6 @@ class ilMDCopyrightMigration implements Setup\Migration
             'https://i.creativecommons.org/l/by-nd/4.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nd.svg',
             'https://i.creativecommons.org/l/by-sa/4.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg',
             'https://i.creativecommons.org/l/by/4.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by.svg',
-            // CC0
-            'https://licensebuttons.net/p/zero/1.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg',
             // 3.0
             'http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-nd.svg',
             'http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg',
