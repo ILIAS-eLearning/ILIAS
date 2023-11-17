@@ -27,7 +27,6 @@ class ilPageQuestionProcessor
     {
     }
 
-
     public static function saveQuestionAnswer(
         string $a_type,
         int $a_id,
@@ -175,7 +174,7 @@ class ilPageQuestionProcessor
                 foreach ($q->getGaps() as $id => $gap) {
                     $choice = $a_choice[$id];
                     switch ($gap->getType()) {
-                        case CLOZE_TEXT:
+                        case assClozeGap::TYPE_TEXT:
                             $gappoints = 0;
                             for ($order = 0; $order < $gap->getItemCount(); $order++) {
                                 $answer = $gap->getItem($order);
@@ -192,7 +191,7 @@ class ilPageQuestionProcessor
                             //$ilLog->write("ct: ".$gappoints);
                             break;
 
-                        case CLOZE_NUMERIC:
+                        case assClozeGap::TYPE_NUMERIC:
                             $gappoints = 0;
                             for ($order = 0; $order < $gap->getItemCount(); $order++) {
                                 $answer = $gap->getItem($order);
@@ -211,7 +210,7 @@ class ilPageQuestionProcessor
                             //$ilLog->write("cn: ".$gappoints);
                             break;
 
-                        case CLOZE_SELECT:
+                        case assClozeGap::TYPE_SELECT:
                             for ($order = 0; $order < $gap->getItemCount(); $order++) {
                                 $answer = $gap->getItem($order);
                                 if ($choice == $answer->getOrder()) {

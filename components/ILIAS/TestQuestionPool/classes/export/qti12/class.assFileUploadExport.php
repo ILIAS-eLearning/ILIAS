@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\QuestionIdentifiers;
+
 /**
 * Class for file upload question exports
 *

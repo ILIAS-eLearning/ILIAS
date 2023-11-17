@@ -35,6 +35,15 @@ class assClozeGap
     public const TYPE_TEXT = 0;
     public const TYPE_SELECT = 1;
     public const TYPE_NUMERIC = 2;
+
+    public const TEXTGAP_RATING_CASEINSENSITIVE = "ci";
+    public const TEXTGAP_RATING_CASESENSITIVE = "cs";
+    public const TEXTGAP_RATING_LEVENSHTEIN1 = "l1";
+    public const TEXTGAP_RATING_LEVENSHTEIN2 = "l2";
+    public const TEXTGAP_RATING_LEVENSHTEIN3 = "l3";
+    public const TEXTGAP_RATING_LEVENSHTEIN4 = "l4";
+    public const TEXTGAP_RATING_LEVENSHTEIN5 = "l5";
+
     private ?Transformation $shuffler = null;
 
     public int $type;
@@ -375,8 +384,8 @@ class assClozeGap
         global $DIC;
         $lng = $DIC['lng'];
         switch ($this->getType()) {
-            case CLOZE_TEXT:
-            case CLOZE_SELECT:
+            case self::TYPE_TEXT:
+            case self::TYPE_SELECT:
                 $best_solutions = [];
                 if ($combinations !== null && $combinations['best_solution'] == 1) {
                     $best_solutions[$combinations['points']] = [];
@@ -398,7 +407,7 @@ class assClozeGap
                 $found = current($best_solutions);
                 return join(" " . $lng->txt("or") . " ", $found);
                 break;
-            case CLOZE_NUMERIC:
+            case self::TYPE_NUMERIC:
                 $maxpoints = 0;
                 $foundvalue = "";
                 foreach ($this->getItems($shuffler) as $answer) {
@@ -429,7 +438,7 @@ class assClozeGap
 
     public function numericRangeExists(): bool
     {
-        if ($this->getType() != CLOZE_NUMERIC) {
+        if ($this->getType() != self::TYPE_NUMERIC) {
             return false;
         }
 
