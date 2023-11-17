@@ -308,7 +308,7 @@ class ilObjMediaObject extends ilObject
 
         $ilAppEventHandler = $this->app_event_handler;
         $ilAppEventHandler->raise(
-            'components/ILIAS/MediaObjects',
+            'Services/MediaObjects',
             'create',
             array('object' => $this,
             'obj_type' => 'mob',
@@ -347,7 +347,7 @@ class ilObjMediaObject extends ilObject
         self::handleQuotaUpdate($this);
         $ilAppEventHandler = $this->app_event_handler;
         $ilAppEventHandler->raise(
-            'components/ILIAS/MediaObjects',
+            'Services/MediaObjects',
             'update',
             array('object' => $this,
                     'obj_type' => 'mob',
@@ -463,7 +463,7 @@ class ilObjMediaObject extends ilObject
             ? ILIAS_HTTP_PATH
             : ".";
 
-        return $path . "/public/data/" . CLIENT_ID . "/mobs/mm_" . $a_mob_id . "/" . $location;
+        return $path . "/data/" . CLIENT_ID . "/mobs/mm_" . $a_mob_id . "/" . $location;
     }
 
     /**

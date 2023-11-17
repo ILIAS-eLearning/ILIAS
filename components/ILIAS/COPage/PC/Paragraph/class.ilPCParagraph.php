@@ -1064,7 +1064,7 @@ class ilPCParagraph extends ilPageContent
                         $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "media=\"" . $target_id . "\"/]", $a_text);
                     } else {
                         $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln media=\"" . $target_id . "\"" .
-                            " target=\"" . $attribs["TargetFrame"] . "\"]", $a_text);
+                            " target=\"" . ($attribs["TargetFrame"] ?? "") . "\"]", $a_text);
                     }
                     break;
 
@@ -1102,9 +1102,9 @@ class ilPCParagraph extends ilPageContent
             //$found[1] = str_replace("?", "\?", $found[1]);
             $tstr = "";
             if (in_array(($attribs["TargetFrame"] ?? ""), array("FAQ", "Glossary", "Media"))) {
-                $tstr = ' target="' . $attribs["TargetFrame"] . '"';
+                $tstr = ' target="' . ($attribs["TargetFrame"] ?? "") . '"';
             }
-            $a_text = str_replace("<ExtLink" . $found[1] . ">", "[xln url=\"" . $attribs["Href"] . "\"$tstr]", $a_text);
+            $a_text = str_replace("<ExtLink" . $found[1] . ">", "[xln url=\"" . ($attribs["Href"] ?? "") . "\"$tstr]", $a_text);
         }
         $a_text = str_replace("</ExtLink>", "[/xln]", $a_text);
 
