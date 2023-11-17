@@ -83,6 +83,10 @@ class ilPollContentRenderer
             $this->renderAnswersAndResults($tpl, $poll, $user_id);
         }
 
+        if ($this->state->isUserAnonymous($user_id)) {
+            $this->renderAlertForAnonymousUser($tpl);
+        }
+
         if ($poll->getShowComments()) {
             $this->renderComments($tpl, $ref_id);
         }
@@ -302,6 +306,11 @@ class ilPollContentRenderer
         if ($this->state->isOfflineOrUnavailable($poll)) {
             $tpl->setVariable("TXT_OFFLINE", $this->lng->txt('offline'));
         }
+    }
+
+    protected function renderAlertForAnonymousUser(ilTemplate $tpl): void
+    {
+        $tpl->setVariable("TXT_ANON", $this->lng->txt('no_access_item_public'));
     }
 
     protected function renderComments(ilTemplate $tpl, int $ref_id): void
