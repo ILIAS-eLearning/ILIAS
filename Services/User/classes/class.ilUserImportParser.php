@@ -1494,7 +1494,7 @@ class ilUserImportParser extends ilSaxParser
             case "TimeLimitUntil":
                 if (is_numeric($this->cdata)) {
                     // Treat cdata as a unix timestamp
-                    $this->userObj->setTimeLimitUntil($this->cdata);
+                    $this->userObj->setTimeLimitUntil((int)$this->cdata);
                 } else {
                     // Try to convert cdata into unix timestamp, or ignore it
                     $timestamp = strtotime($this->cdata);
