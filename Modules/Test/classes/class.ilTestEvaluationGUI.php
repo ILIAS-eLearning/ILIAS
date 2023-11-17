@@ -328,12 +328,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $ilToolbar->addComponent($select);
         }
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-
-        if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
-        }
-
+        $this->setCss();
         $this->tpl->setContent($table_gui->getHTML());
     }
 
@@ -867,16 +862,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ilSession::clear('tst_results_show_best_solutions');
         }
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-        if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
-        }
-
         $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
-
         $this->populateExamId($template, $active_id, (int) $pass);
         $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
-
 
         $toolbar = $this->buildUserTestResultsToolbarGUI();
         if (ilSession::get('tst_results_show_best_solutions')) {
@@ -919,14 +907,97 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $title
         );
 
+        $this->setCss();
+        $this->tpl->setVariable(
+            "ADM_CONTENT",
+            $template->get() .
+            $table->render()
+        );
+    }
+
+    protected function setCss(): void
+    {
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+        if ($this->object->getShowSolutionAnswersOnly()) {
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+        }
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+    }
+
+    public function multiParticipantsPassDetails()
+    {
+        $show_user_results = ilSession::get("show_user_results");
+
+        $toolbar = $this->buildUserTestResultsToolbarGUI();
+        if ($this->testrequest->isset('show_best_solutions')) {
+            ilSession::set('tst_results_show_best_solutions', true);
+        } elseif ($this->testrequest->isset('hide_best_solutions')) {
+            ilSession::set('tst_results_show_best_solutions', false);
+        } elseif (ilSession::get('tst_results_show_best_solutions') !== null) {
+            ilSession::clear('tst_results_show_best_solutions');
+        }
+        if (ilSession::get('tst_results_show_best_solutions')) {
+            $this->ctrl->setParameter($this, 'hide_best_solutions', '1');
+            $toolbar->setHideBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'multiParticipantsPassDetails'));
+            $this->ctrl->setParameter($this, 'hide_best_solutions', '');
+        } else {
+            $this->ctrl->setParameter($this, 'show_best_solutions', '1');
+            $toolbar->setShowBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'multiParticipantsPassDetails'));
+            $this->ctrl->setParameter($this, 'show_best_solutions', '');
+        }
+
+        $content = [];
+        $anchors = [];
+
+        foreach($show_user_results as $selected_user) {
+            $active_id = (int)$selected_user;
+            $pass = ilObjTest::_getResultPass($active_id);
+
+            $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
+            $this->populateExamId($template, $active_id, (int) $pass);
+            $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
+
+            $title = sprintf(
+                $this->lng->txt("tst_result_user_name_pass"),
+                $pass + 1,
+                ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
+            );
+
+            $pass_results = $this->results_factory->getPassResultsFor(
+                $this->object,
+                $active_id,
+                $pass,
+                false
+            );
+
+            $table = $this->results_presentation_factory->getPassResultsPresentationTable(
+                $pass_results,
+                $title
+            );
+
+            $anchor = '<a name="participant_active_' . $active_id . '"></a>';
+            $anchors[$active_id] = ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id));
+            $content[] = $anchor . $template->get() . $table->render();
+        }
+
+        $toolbar->setParticipantSelectorOptions($anchors);
+        $toolbar->build();
+        $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
+        $template->setVariable('RESULTS_TOOLBAR', $toolbar->getHTML());
+        array_unshift($content, $template->get());
 
         $this->tpl->setVariable(
             "ADM_CONTENT",
-            $template->get()
-            . $table->render()
+            implode('', $content)
         );
+
+        $this->tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTargetByClass(['ilObjTestGUI', 'ilTestResultsGUI', 'ilParticipantsTestResultsGUI'])
+        );
+
     }
+
 
     public function outParticipantsResultsOverview()
     {
@@ -1009,12 +1080,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $template->parseCurrentBlock();
 
-
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-        if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
-        }
-
+        $this->setCss();
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
 
@@ -1120,10 +1186,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->populateExamId($tpl, $active_id, (int) $pass);
         $this->populatePassFinishDate($tpl, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-        if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
-        }
+        $this->setCss();
 
         $title = sprintf(
             $this->lng->txt("tst_result_user_name_pass"),
@@ -1233,12 +1296,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             }
         }
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-        if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
-        }
+        $this->setCss();
         $templatehead->setVariable("RESULTS_PARTICIPANT", $template->get());
-
         $this->tpl->setContent($templatehead->get());
     }
 
@@ -1333,12 +1392,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
             $template->parseCurrentBlock();
         }
-        $this->tpl->setVariable("ADM_CONTENT", $template->get());
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-        if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
-        }
+        $this->setCss();
+        $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
 
     public function passDetails()

@@ -112,12 +112,7 @@ class ilParticipantsTestResultsGUI
     {
         switch ($this->ctrl->getNextClass($this)) {
             case "iltestevaluationgui":
-                $gui = new ilTestEvaluationGUI($this->getTestObj());
-                $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
-                $gui->setTestAccess($this->getTestAccess());
-                $this->tabs->clearTargets();
-                $this->tabs->clearSubTabs();
-                $this->ctrl->forwardCommand($gui);
+                $this->forwardToEvaluationGUI();
                 break;
 
             case 'ilassquestionpagegui':
@@ -131,6 +126,16 @@ class ilParticipantsTestResultsGUI
                 $command = $this->ctrl->getCmd(self::CMD_SHOW_PARTICIPANTS) . 'Cmd';
                 $this->{$command}();
         }
+    }
+
+    protected function forwardToEvaluationGUI(): void
+    {
+        $gui = new ilTestEvaluationGUI($this->getTestObj());
+        $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
+        $gui->setTestAccess($this->getTestAccess());
+        $this->tabs->clearTargets();
+        $this->tabs->clearSubTabs();
+        $this->ctrl->forwardCommand($gui);
     }
 
     protected function buildTableGUI(): ilParticipantsTestResultsTableGUI
@@ -322,7 +327,11 @@ class ilParticipantsTestResultsGUI
         if (is_array($users) && count($users) > 0) {
             ilSession::set('show_user_results', $users);
         }
-        $this->showUserResults(true, true, true);
+        $resultsHref = $this->ctrl->getLinkTargetByClass(
+            [ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class, ilTestEvaluationGUI::class],
+            'multiParticipantsPassDetails'
+        );
+        $this->ctrl->redirectToURL($resultsHref);
     }
 
     /**
