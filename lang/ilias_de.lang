@@ -11433,7 +11433,7 @@ mail#:#show_mail_settings_info#:#Aktiviert die Anzeige der Mail-Einstellungen im
 mail#:#system_notification_installation_changed_by#:#Geändert durch
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut "%s" im Feld "%s" verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Anmeldekonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
 maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „Software von Drittanbietern“ ab.
-maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: https://nominatim.example.com/search?q=[QUERY]&format=json
 maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist "%s".
 maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_enable_maps_info#:#Karten können systemweit in Profilen, Kursen und Gruppen angezeigt werden.###Modified as part of gender mainstreaming activities for ILIAS 8
