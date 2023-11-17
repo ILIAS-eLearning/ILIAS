@@ -22,7 +22,7 @@ namespace ILIAS\Modules\Test\test;
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\Modules\Test\AccessFileUploadPreview;
-use ILIAS\Modules\Test\Incident;
+use ILIAS\components\Test\Incident;
 use ilDBInterface;
 use ilDBStatement;
 use ilDBConstants;

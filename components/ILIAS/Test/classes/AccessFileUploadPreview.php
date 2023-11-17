@@ -28,6 +28,7 @@ use ilAccessHandler;
 use ilDBInterface;
 use Closure;
 use ilObject;
+use ILIAS\components\Test\Incident;
 
 class AccessFileUploadPreview implements SimpleAccess
 {
