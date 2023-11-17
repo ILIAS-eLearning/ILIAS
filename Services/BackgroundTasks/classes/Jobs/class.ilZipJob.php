@@ -30,7 +30,7 @@ use ILIAS\BackgroundTasks\Value;
 class ilZipJob extends AbstractJob
 {
     private ?ilLogger $logger;
-
+    private \ILIAS\Filesystem\Util\Archive\Archives $archives;
 
     /**
      * Construct
@@ -39,6 +39,7 @@ class ilZipJob extends AbstractJob
     {
         global $DIC;
         $this->logger = $DIC->logger()->cal();
+        $this->archives = $DIC->archives();
     }
 
 
@@ -80,10 +81,15 @@ class ilZipJob extends AbstractJob
     {
         $this->logger->debug('Start zipping input dir!');
         $this->logger->dump($input);
-        $tmpdir = rtrim($input[0]->getValue(), "/");
+        $string = $input[0]->getValue();
+        $tmpdir = rtrim($string, "/");
         $this->logger->debug('Zipping directory:' . $tmpdir);
         $zip_name = $tmpdir . '.zip';
-        ilFileUtils::zip($tmpdir, $zip_name);
+
+        $zip = $this->archives->zip([]);
+        $zip->addDirectory($tmpdir);
+        $zip_stream = $zip->get();
+        stream_copy_to_stream($zip_stream->detach(), fopen($zip_name, 'wb')); // we currently have to write to disk
 
         // delete temp directory
         ilFileUtils::delDir($tmpdir);
