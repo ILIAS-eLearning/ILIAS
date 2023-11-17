@@ -29,11 +29,12 @@ class PagesToExtract implements FlavourDefinition
 {
     public const FOREVER_ID = 'cbcb933538e2dfe9460d7a225f7b543b556ee580f41bd4f06cf16a4ca8dd8c8c';
     private const QUALITY = 75;
-    private int $quality = self::QUALITY;
+    private int $quality;
     protected bool $persist;
     protected int $max_size = 500;
     protected int $max_pages = 5;
     protected bool $fill = false;
+    protected bool $use_max_quality = false;
 
     public function __construct(
         bool $persist,
@@ -78,6 +79,12 @@ class PagesToExtract implements FlavourDefinition
     {
         return $this->quality;
     }
+
+    public function useMaxQuality(): bool
+    {
+        return $this->use_max_quality;
+    }
+
 
     public function getInternalName(): string
     {
