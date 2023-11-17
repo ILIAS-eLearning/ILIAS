@@ -171,7 +171,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                 $json[0][$key]['text_field_length'] = $gapsize > 0 ? $gapsize : '';
 
                 $select_at_least_on_positive = false;
-                if ($getType == CLOZE_TEXT || $getType == CLOZE_SELECT) {
+                if ($getType == assClozeGap::TYPE_TEXT || $getType == assClozeGap::TYPE_SELECT) {
                     $gapText = self::stripSlashesRecursive($this->raw('gap_' . $key), false);
                     foreach ($gapText['answer'] as $row => $answer) {
                         if (!isset($answer) || $answer == '') {
@@ -202,7 +202,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                         $error = true;
                     }
                 }
-                if ($getType == CLOZE_NUMERIC) {
+                if ($getType == assClozeGap::TYPE_NUMERIC) {
                     $eval = new EvalMath();
                     $eval->suppress_errors = true;
 

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test;
 
-class AssessmentConstants
+class QuestionIdentifiers
 {
     //Question identifier constants
     public const CLOZE_TEST_IDENTIFIER = "CLOZE QUESTION";
@@ -38,18 +38,4 @@ class AssessmentConstants
     public const TEXTSUBSET_QUESTION_IDENTIFIER = "TEXTSUBSET QUESTION";
     public const KPRIM_CHOICE_QUESTION_IDENTIFIER = 'KPRIM CHOICE QUESTION';
     public const LONG_MENU_QUESTION_IDENTIFIER = 'LONG MENU QUESTION';
-    /**
-    * Cloze question constants
-    const CLOZE_TEXT = "0";
-    const CLOZE_SELECT = "1";
-    const CLOZE_NUMERIC = "2";
-
-    const TEXTGAP_RATING_CASEINSENSITIVE = "ci";
-    const TEXTGAP_RATING_CASESENSITIVE = "cs";
-    const TEXTGAP_RATING_LEVENSHTEIN1 = "l1";
-    const TEXTGAP_RATING_LEVENSHTEIN2 = "l2";
-    const TEXTGAP_RATING_LEVENSHTEIN3 = "l3";
-    const TEXTGAP_RATING_LEVENSHTEIN4 = "l4";
-    const TEXTGAP_RATING_LEVENSHTEIN5 = "l5";
-    */
 }

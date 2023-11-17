@@ -174,7 +174,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->setShuffle(false);
             $this->setWordCounterEnabled((bool) $data['word_cnt_enabled']);
             $this->setMaxNumOfChars($data["maxnumofchars"] ?? 0);
-            $this->setTextRating($this->isValidTextRating($data["textgap_rating"]) ? $data["textgap_rating"] : TEXTGAP_RATING_CASEINSENSITIVE);
+            $this->setTextRating($this->isValidTextRating($data["textgap_rating"]) ? $data["textgap_rating"] : assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE);
             $this->matchcondition = (isset($data['matchcondition'])) ? (int) $data['matchcondition'] : 0;
             $this->setKeywordRelation(($data['keyword_relation']));
 
@@ -404,13 +404,13 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     private function isValidTextRating($textRating): bool
     {
         switch ($textRating) {
-            case TEXTGAP_RATING_CASEINSENSITIVE:
-            case TEXTGAP_RATING_CASESENSITIVE:
-            case TEXTGAP_RATING_LEVENSHTEIN1:
-            case TEXTGAP_RATING_LEVENSHTEIN2:
-            case TEXTGAP_RATING_LEVENSHTEIN3:
-            case TEXTGAP_RATING_LEVENSHTEIN4:
-            case TEXTGAP_RATING_LEVENSHTEIN5:
+            case assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE:
+            case assClozeGap::TEXTGAP_RATING_CASESENSITIVE:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5:
                 return true;
         }
 
@@ -433,12 +433,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $textrating = $this->getTextRating();
 
         switch ($textrating) {
-            case TEXTGAP_RATING_CASEINSENSITIVE:
+            case assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE:
                 if (ilStr::strPos(ilStr::strToLower($answertext), ilStr::strToLower($a_keyword), 0) !== false) {
                     return true;
                 }
                 break;
-            case TEXTGAP_RATING_CASESENSITIVE:
+            case assClozeGap::TEXTGAP_RATING_CASESENSITIVE:
                 if (ilStr::strPos($answertext, $a_keyword) !== false) {
                     return true;
                 }
@@ -456,19 +456,19 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
         // create correct transformation
         switch ($textrating) {
-            case TEXTGAP_RATING_LEVENSHTEIN1:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1:
                 $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 1);
                 break;
-            case TEXTGAP_RATING_LEVENSHTEIN2:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2:
                 $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 2);
                 break;
-            case TEXTGAP_RATING_LEVENSHTEIN3:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3:
                 $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 3);
                 break;
-            case TEXTGAP_RATING_LEVENSHTEIN4:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4:
                 $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 4);
                 break;
-            case TEXTGAP_RATING_LEVENSHTEIN5:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5:
                 $transformation = $refinery->string()->levenshtein()->standard($a_keyword, 5);
                 break;
         }
@@ -731,17 +731,17 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     public function setTextRating($a_text_rating): void
     {
         switch ($a_text_rating) {
-            case TEXTGAP_RATING_CASEINSENSITIVE:
-            case TEXTGAP_RATING_CASESENSITIVE:
-            case TEXTGAP_RATING_LEVENSHTEIN1:
-            case TEXTGAP_RATING_LEVENSHTEIN2:
-            case TEXTGAP_RATING_LEVENSHTEIN3:
-            case TEXTGAP_RATING_LEVENSHTEIN4:
-            case TEXTGAP_RATING_LEVENSHTEIN5:
+            case assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE:
+            case assClozeGap::TEXTGAP_RATING_CASESENSITIVE:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5:
                 $this->text_rating = $a_text_rating;
                 break;
             default:
-                $this->text_rating = TEXTGAP_RATING_CASEINSENSITIVE;
+                $this->text_rating = assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE;
                 break;
         }
     }

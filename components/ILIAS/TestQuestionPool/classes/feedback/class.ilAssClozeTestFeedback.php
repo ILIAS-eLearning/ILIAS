@@ -799,7 +799,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     public function determineAnswerIndexForAnswerValue(assClozeGap $gap, string $answerValue): int
     {
         switch ($gap->getType()) {
-            case CLOZE_TEXT:
+            case assClozeGap::TYPE_TEXT:
 
                 if (!strlen($answerValue)) {
                     return self::FB_TEXT_GAP_EMPTY_INDEX;
@@ -817,7 +817,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 
                 return self::FB_TEXT_GAP_NOMATCH_INDEX;
 
-            case CLOZE_SELECT:
+            case assClozeGap::TYPE_SELECT:
 
                 if (strlen($answerValue)) {
                     return $answerValue;
@@ -826,7 +826,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 return self::FB_SELECT_GAP_EMPTY_INDEX;
 
             default:
-            case CLOZE_NUMERIC:
+            case assClozeGap::TYPE_NUMERIC:
 
                 if (!strlen($answerValue)) {
                     return self::FB_NUMERIC_GAP_EMPTY_INDEX;

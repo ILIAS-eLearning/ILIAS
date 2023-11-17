@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\QuestionIdentifiers;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -53,7 +55,7 @@ class assKprimChoiceExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, KPRIM_CHOICE_QUESTION_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::KPRIM_CHOICE_QUESTION_IDENTIFIER);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");

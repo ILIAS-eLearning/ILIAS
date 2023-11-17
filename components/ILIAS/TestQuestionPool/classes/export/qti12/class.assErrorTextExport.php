@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\QuestionIdentifiers;
+
 /**
 * Class for error text question exports
 *

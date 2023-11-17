@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\QuestionIdentifiers;
+
 /**
 * Class for numeric question exports
 *
@@ -57,7 +59,7 @@ class assNumericExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, NUMERIC_QUESTION_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::NUMERIC_QUESTION_IDENTIFIER);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
