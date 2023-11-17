@@ -92,9 +92,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             default:
                 if (in_array($cmd, ['excel_scored_test_run', 'excel_all_test_runs', 'csv'])) {
                     $ret = $this->exportEvaluation($cmd);
-                } else if (in_array($cmd, ['excel_all_test_runs_a', 'csv_a'])) {
+                } elseif (in_array($cmd, ['excel_all_test_runs_a', 'csv_a'])) {
                     $ret = $this->exportAggregatedResults($cmd);
-                } else if ($cmd === 'certificate') {
+                } elseif ($cmd === 'certificate') {
                     $ret = $this->exportCertificate();
                 } else {
                     $ret = $this->$cmd();
@@ -303,7 +303,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
             if ($this->getObject() && $this->getObject()->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_RANDOM) {
                 $options = array(
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this,'excel_scored_test_run')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this, 'excel_scored_test_run')),
                     $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
                     $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
                 );
@@ -1872,11 +1872,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function confirmFinishTestPassForAllUser()
     {
-        $accessFilter = $this->participant_access_filter->getManageParticipantsUserFilter($this->ref_id);
+        $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->ref_id);
 
         $participant_list = new ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
         $participant_list->initializeFromDbRows($this->object->getTestParticipants());
-        $filtered_participant_list = $participant_list->getAccessFilteredList($accessFilter);
+        $filtered_participant_list = $participant_list->getAccessFilteredList($access_filter);
 
         foreach ($filtered_participant_list as $participant) {
             if (!$participant->hasUnfinishedPasses()) {
@@ -1901,11 +1901,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->redirectBackToParticipantsScreen();
     }
 
-    protected function finishTestPass($active_id, $obj_id)
+    protected function finishTestPass(int $active_id, int $obj_id)
     {
-        $process_locker = $this->processLockerFactory->withContextId((int) $active_id)->getLocker();
+        $process_locker = $this->processLockerFactory->withContextId($active_id)->getLocker();
 
-        $test_pass_finisher = new ilTestPassFinishTasks($this->testSessionFactory->getSession(), $obj_id);
+        $test_pass_finisher = new ilTestPassFinishTasks($this->testSessionFactory->getSession($active_id), $obj_id);
         $test_pass_finisher->performFinishTasks($process_locker);
     }
 
