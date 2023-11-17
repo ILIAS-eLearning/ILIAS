@@ -97,11 +97,11 @@ class ilCollectFilesJob extends AbstractJob
             $object_name = $object->getTitle();
             $object_temp_dir = ""; // empty as content will be added in recurseFolder and getFileDirs
 
-            if ($object_type == "fold") {
+            if ($object_type === "fold" || $object_type === "crs") {
                 $num_recursions = 0;
                 $files_from_folder = self::recurseFolder($object_ref_id, $object_name, $object_temp_dir, $num_recursions, $initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
-            } elseif (($object_type == "file") && (($file_dirs = self::getFileDirs(
+            } elseif (($object_type === "file") && (($file_dirs = self::getFileDirs(
                 $object_ref_id,
                 $object_name,
                 $object_temp_dir
@@ -145,10 +145,15 @@ class ilCollectFilesJob extends AbstractJob
         if ($ilAccess->checkAccessOfUser($user->getId(), "read", "", $a_ref_id)) {
             $file = new ilObjFile($a_ref_id);
             $source_dir = $file->getFile();
+
             if (@!is_file($source_dir)) {
                 return false;
             }
-            $target_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_file_name);
+            $filname_with_suffix = ilFileUtils::getASCIIFilename(
+                rtrim($a_file_name, '.') . '.' . $file->getFileExtension()
+            );
+
+            $target_dir = $a_temp_dir . '/' . $filname_with_suffix;
 
             // #25025: allow duplicate filenames by appending an incrementing
             // number per duplicate in brackets to the name.
@@ -207,7 +212,7 @@ class ilCollectFilesJob extends AbstractJob
                 $files_from_folder = self::recurseFolder($child["ref_id"], $child['title'], $temp_dir, $num_recursions, $a_initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
             } else {
-                if (($child["type"] == "file") && (($dirs = self::getFileDirs($child["ref_id"], $child['title'], $temp_dir)) !== false)) {
+                if (($child["type"] === "file") && (($dirs = self::getFileDirs($child["ref_id"], $child['title'], $temp_dir)) !== false)) {
                     $files[] = $dirs;
                 }
             }
