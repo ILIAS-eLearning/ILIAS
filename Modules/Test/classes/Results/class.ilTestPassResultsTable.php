@@ -52,9 +52,11 @@ class ilTestPassResultsTable
         protected HTTPService $http,
         DataFactory $data_factory,
         ilLanguage $lng,
-        ilTestPassResult $test_results,
+        protected ilTestPassResult $test_results,
         string $title
     ) {
+
+
         list($mode, $sortation) = $this->getViewControlsParameter();
         $results = $this->applyControls($mode, $sortation, $test_results->getQuestionResults());
         $target = new URLBuilder($data_factory->uri($http->request()->getUri()->__toString()));
@@ -107,10 +109,18 @@ class ilTestPassResultsTable
         return $question_results;
     }
 
+    protected function getViewControlNamespace(): array
+    {
+        $namespace = self::URL_NAMESPACE;
+        $namespace[] = (string)$this->test_results->getActiveId();
+        $namespace[] = (string)$this->test_results->getPass();
+        return $namespace;
+    }
+
     protected function getViewControlsParameter(): array
     {
         $request = $this->http->wrapper()->query();
-        $pre = implode(URLBuilder::SEPARATOR, self::URL_NAMESPACE) . URLBuilder::SEPARATOR;
+        $pre = implode(URLBuilder::SEPARATOR, $this->getViewControlNamespace()) . URLBuilder::SEPARATOR;
 
         $mode = $request->has($pre . self::PARAM_MODE) ?
             $request->retrieve($pre . self::PARAM_MODE, $this->refinery->kindlyTo()->string()) : self::MODE_OPT_ALL;
@@ -131,7 +141,7 @@ class ilTestPassResultsTable
         string $mode,
         string $sortation
     ): array {
-        $builder = $target->acquireParameter(self::URL_NAMESPACE, self::PARAM_MODE);
+        $builder = $target->acquireParameter($this->getViewControlNamespace(), self::PARAM_MODE);
         [$target, $token] = $builder;
 
         $modes = [
@@ -150,7 +160,7 @@ class ilTestPassResultsTable
             self::SORT_OPT_POSSIBLESCORE => $lng->txt('resulttable_vc_sort_posscore')
         ];
 
-        $pre = implode(URLBuilder::SEPARATOR, self::URL_NAMESPACE) . URLBuilder::SEPARATOR;
+        $pre = implode(URLBuilder::SEPARATOR, $this->getViewControlNamespace()) . URLBuilder::SEPARATOR;
         $vc_sort = $ui_factory->viewControl()->sortation($options)->withTargetURL(
             $target->buildURI()->__toString(),
             $pre . self::PARAM_SORT
