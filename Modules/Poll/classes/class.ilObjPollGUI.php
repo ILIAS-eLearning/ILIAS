@@ -592,7 +592,7 @@ class ilObjPollGUI extends ilObject2GUI
             }
         }
         
-        if ($valid) {
+        if ($valid && $ilUser->getId() != ANONYMOUS_USER_ID) {
             unset($_SESSION["last_poll_vote"][$this->object->getId()]);
             $this->object->saveVote($ilUser->getId(), $_POST["aw"]);
             
