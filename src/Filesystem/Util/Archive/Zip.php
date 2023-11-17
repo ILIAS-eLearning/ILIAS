@@ -61,6 +61,11 @@ class Zip
             ) . $options->getZipOutputName();
         } else {
             $this->zip_output_file = is_writable('php://temp') ? 'php://temp' : $this->buildTempPath();
+            $this->registerShutdownFunction(function (): void {
+                if (file_exists($this->zip_output_file)) {
+                    unlink($this->zip_output_file);
+                }
+            });
         }
         $system_limit = (int) shell_exec('ulimit -n') ?: 0;
 
@@ -85,6 +90,11 @@ class Zip
     private function buildTempPath(): string
     {
         return tempnam(sys_get_temp_dir(), 'zip');
+    }
+
+    private function registerShutdownFunction(\Closure $c): void
+    {
+        register_shutdown_function($c);
     }
 
     private function storeZIPtoFilesystem(): void
