@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Handle events.
@@ -111,6 +111,10 @@ class ilLSEventHandler
      */
     protected function getParentLSOInfo(int $child_ref_id): ?array
     {
+        if($child_ref_id === 0) {
+            return null;
+        }
+
         foreach ($this->tree->getPathFull($child_ref_id) as $hop) {
             if ($hop['type'] === 'lso') {
                 return $hop;
