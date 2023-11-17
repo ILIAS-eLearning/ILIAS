@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,6 +28,7 @@ class ilBookingBulkCreationTableGUI extends ilTable2GUI
     ) {
         global $DIC;
 
+        $this->rows_selector_off = true;
         $this->setId("bulk_creation");
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $objects_manager = $DIC->bookingManager()
@@ -52,7 +55,7 @@ class ilBookingBulkCreationTableGUI extends ilTable2GUI
         $this->addHiddenInput("data", $raw_data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("DESCRIPTION", $a_set["description"]);
