@@ -698,14 +698,19 @@ class ilWikiPage extends ilPageObject
         if ($pg_id == 0 || $pg_id == $this->getId()) {
             $sources = ilInternalLink::_getSourcesOfTarget("wpg", $this->getId(), 0);
 
+            $this->log->debug("nr of pages linking to renamed page: " . count($sources));
             foreach ($sources as $s) {
                 if ($s["type"] === "wpg:pg" && ilPageObject::_exists("wpg", $s["id"])) {
                     $wpage = new ilWikiPage($s["id"], 0, $s["lang"]);
 
+                    $wiki_id = ilWikiPage::lookupWikiId($s["id"]);
                     $col = ilWikiUtil::collectInternalLinks(
                         $wpage->getXMLContent(),
-                        0
+                        $wiki_id,
+                        false,
+                        IL_WIKI_MODE_EXT_COLLECT
                     );
+                    $this->log->debug("nr internal links: " . count($col));
                     $new_content = $wpage->getXMLContent();
                     foreach ($col as $c) {
                         // this complicated procedure is needed due to the fact
