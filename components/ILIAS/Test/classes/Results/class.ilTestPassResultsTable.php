@@ -55,8 +55,6 @@ class ilTestPassResultsTable
         protected ilTestPassResult $test_results,
         string $title
     ) {
-
-
         list($mode, $sortation) = $this->getViewControlsParameter();
         $results = $this->applyControls($mode, $sortation, $test_results->getQuestionResults());
         $target = new URLBuilder($data_factory->uri($http->request()->getUri()->__toString()));
