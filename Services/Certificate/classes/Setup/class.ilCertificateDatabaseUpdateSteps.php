@@ -65,14 +65,14 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     {
         if (
             $this->db->tableExists('il_cert_template')
-            && !$this->db->indexExistsByFields('il_cert_template', ['obj_id', 'background_image_path'])
+            && !$this->db->indexExistsByFields('il_cert_template', ['background_image_path', 'currently_active'])
         ) {
             $this->db->addIndex('il_cert_template', ['background_image_path', 'currently_active'], 'i5');
         }
 
         if (
             $this->db->tableExists('il_cert_user_cert')
-            && !$this->db->indexExistsByFields('il_cert_user_cert', ['obj_id', 'background_image_path'])
+            && !$this->db->indexExistsByFields('il_cert_user_cert', ['background_image_path', 'currently_active'])
         ) {
             $this->db->addIndex('il_cert_user_cert', ['background_image_path', 'currently_active'], 'i7');
         }
