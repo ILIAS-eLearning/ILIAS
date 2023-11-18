@@ -538,6 +538,7 @@ class ilObjUserGUI extends ilObjectGUI
      */
     public function editObject(): void
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $rbacsystem = $DIC->rbac()->system();
@@ -545,23 +546,20 @@ class ilObjUserGUI extends ilObjectGUI
 
         // User folder
         // User folder && access granted by rbac or by org unit positions
-        if ($this->usrf_ref_id == USER_FOLDER_ID &&
-            (
-                !$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id) ||
-                !$access->checkRbacOrPositionPermissionAccess(
-                    'write',
-                    \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                    $this->usrf_ref_id
-                ) ||
-                !in_array(
-                    $this->object->getId(),
-                    $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                        'write',
-                        \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                        USER_FOLDER_ID,
-                        [$this->object->getId()]
+        if ($this->usrf_ref_id == USER_FOLDER_ID
+            && (
+                !$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id)
+                || !$rbacsystem->checkAccess('write', $this->usrf_ref_id)
+                    && !$access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                || $access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                    && !in_array(
+                        $this->object->getId(),
+                        $access->filterUserIdsByPositionOfCurrentUser(
+                            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+                            USER_FOLDER_ID,
+                            [$this->object->getId()]
+                        )
                     )
-                )
             )
         ) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"), $this->ilias->error_obj->MESSAGE);

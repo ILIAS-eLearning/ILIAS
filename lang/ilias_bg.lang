@@ -606,9 +606,6 @@ assessment#:#cloze_text#:#Затваряне на текста
 assessment#:#cloze_textgap_case_insensitive#:#Нечувствителност към големи букви
 assessment#:#cloze_textgap_case_sensitive#:#чувствителност към големи букви
 assessment#:#cloze_textgap_levenshtein_of#:#Разстояние на Левенщайн от %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Многобройни бели полета
-assessment#:#cloze_textgap_whitespace_after#:#Белият интервал зад стойността
-assessment#:#cloze_textgap_whitespace_before#:#Белият интервал преди стойността
 assessment#:#code#:#Код###22 06 2022 new variable
 assessment#:#codebase#:#Програмен код
 assessment#:#concatenation#:#Свързване

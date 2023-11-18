@@ -77,7 +77,7 @@ adm#:#adm_accessibility_contacts#:#Contact Point for Accessibility Issues
 adm#:#adm_accessibility_contacts_info#:#Contacts for the ‘Report Accessibility Issue’ link in your installation’s footer. Comma-separated list of account usernames (logins).
 adm#:#adm_awrn_support_contacts_info#:#All users assigned as contacts for technical support are listed. Users can be assigned to the list of technical support contacts in the administration section 'System Settings and Maintenance » General Settings', tab 'Contact Information'.
 adm#:#adm_support_contacts#:#Technical Support
-adm#:#adm_support_contacts_info#:#Technical support contacts accessible via link in footer and (if activated) in the ‘Who is online?’ Tool. Comma-separated list of account usernames (logins).
+adm#:#adm_support_contacts_info#:#Please enter the login names of the people who can be contacted with questions and technical problems here, separated by commas. They can be contacted by e-mail via the "Contact technical support" link in the ILIAS footer. If the "Who is online?" display is active, these people will also be displayed there as technical support.
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_activate_db_benchmark#:#Activate Benchmarking
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
@@ -614,6 +614,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and use the dropdown ‘Text Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value, the gap text field will be created with the value of the global fixed length.
@@ -621,9 +622,6 @@ assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
 assessment#:#cloze_textgap_case_sensitive#:#Case Sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
@@ -7265,6 +7263,7 @@ copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
@@ -8205,6 +8204,7 @@ dateplaner#:#cal_edit_category#:#Edit Calendar
 dateplaner#:#cal_edit_milestone#:#Edit Milestone
 dateplaner#:#cal_edit_recurrences#:#Edit all Appointments
 dateplaner#:#cal_edit_single#:#Edit this Appointment
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?
 dateplaner#:#cal_enable_group_milestones#:#Enable Milestones
 dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.
 dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid e-mail addresses.

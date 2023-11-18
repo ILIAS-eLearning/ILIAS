@@ -64,6 +64,11 @@ class Renderer extends AbstractComponentRenderer
         }
         if ($component->hasMainbar()) {
             $tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
+            // There is a roadmap entry for this.
+            $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
+            if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
+                $tpl->touchBlock('slates_engaged');
+            }
         }
         if ($component->hasModeInfo()) {
             $tpl->setVariable('MODEINFO', $default_renderer->render($component->getModeInfo()));
@@ -86,12 +91,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getResponsiveLogo()));
         } elseif ($component->hasLogo()) {
             $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getLogo()));
-        }
-
-        // There is a roadmap entry for this.
-        $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
-        if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
-            $tpl->touchBlock('slates_engaged');
         }
 
         $tpl->setVariable("TITLE", $component->getTitle());

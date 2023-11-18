@@ -620,9 +620,6 @@ assessment#:#cloze_text#:#Vprašanje s praznino v besedilu
 assessment#:#cloze_textgap_case_insensitive#:#Ni razlikovanja med velikimi in malimi črkami
 assessment#:#cloze_textgap_case_sensitive#:#Upoštevaj razlikovanje velikih in malih črk
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshteinov razmik v %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Več zaporednih presledkov
-assessment#:#cloze_textgap_whitespace_after#:#Presledek za pojmom
-assessment#:#cloze_textgap_whitespace_before#:#Presledek pred pojmom
 assessment#:#code#:#Koda
 assessment#:#codebase#:#Osnova kode
 assessment#:#concatenation#:#Povezava
@@ -3031,7 +3028,7 @@ classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_content_no_match#:#No objects match your selected criteria.
 classification#:#clsfct_content_title#:#Objects matching your selection
-classification#:#clsfct_selected_objects#:#Selected Objects
+classification#:#clsfct_selected_objects#:#Selected Objectsd
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
 cmix#:#achieved_label#:#Statements with the verb 'achieved'
 cmix#:#activity_id#:#Activity-ID

@@ -123,7 +123,7 @@ class ilPollBlockGUI extends ilBlockGUI
         if (!$this->container_view_manager->isAdminView()) {
             // vote
 
-            if ($this->poll_block->mayVote($this->user->getId())) {
+            if ($this->poll_block->maySeeQuestion($this->user->getId())) {
                 $this->tpl->setCurrentBlock("mode_info_bl");
                 if ($this->poll_block->getPoll()->getNonAnonymous()) {
                     $mode_info = $this->lng->txt("poll_non_anonymous_warning");
@@ -157,6 +157,7 @@ class ilPollBlockGUI extends ilBlockGUI
 
                 $this->tpl->setCurrentBlock("answer");
                 foreach ($a_set->getAnswers() as $item) {
+                    $status = [];
                     $id = (int) ($item['id'] ?? 0);
                     $answer = (string) ($item['answer'] ?? 0);
                     if (!$is_multi_answer) {
@@ -167,30 +168,41 @@ class ilPollBlockGUI extends ilBlockGUI
                         $this->tpl->setVariable("ANSWER_NAME", "aw[]");
 
                         if (!empty($last_vote) && is_array($last_vote) && in_array($id, $last_vote)) {
-                            $this->tpl->setVariable("ANSWER_STATUS", 'checked="checked"');
+                            $status[] = 'checked="checked"';
                         }
                     }
+
+                    if (!$this->poll_block->mayVote($this->user->getId())) {
+                        $status[] = 'disabled';
+                    }
+
+                    if (!empty($status)) {
+                        $this->tpl->setVariable("ANSWER_STATUS", implode(' ', $status));
+                    }
+
                     $this->tpl->setVariable("VALUE_ANSWER", $id);
                     $this->tpl->setVariable("TXT_ANSWER_VOTE", nl2br($answer));
                     $this->tpl->parseCurrentBlock();
                 }
 
-                $this->ctrl->setParameterByClass(
-                    $this->getRepositoryObjectGUIName(),
-                    "ref_id",
-                    $this->getRefId()
-                );
-                $url = $this->ctrl->getLinkTargetByClass(
-                    array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
-                    "vote"
-                );
-                $this->ctrl->clearParametersByClass($this->getRepositoryObjectGUIName());
+                if ($this->poll_block->mayVote($this->user->getId())) {
+                    $this->ctrl->setParameterByClass(
+                        $this->getRepositoryObjectGUIName(),
+                        "ref_id",
+                        $this->getRefId()
+                    );
+                    $url = $this->ctrl->getLinkTargetByClass(
+                        array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
+                        "vote"
+                    );
+                    $this->ctrl->clearParametersByClass($this->getRepositoryObjectGUIName());
 
-                $url .= "#poll" . $a_set->getID();
+                    $url .= "#poll" . $a_set->getID();
 
-                $this->tpl->setVariable("URL_FORM", $url);
-                $this->tpl->setVariable("CMD_FORM", "vote");
-                $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("poll_vote"));
+                    $this->tpl->setVariable("URL_FORM", $url);
+                    $this->tpl->setVariable("CMD_FORM", "vote");
+                    $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("poll_vote"));
+                }
 
                 if ($this->poll_block->getPoll()->getVotingPeriod()) {
                     $this->tpl->setVariable(
@@ -293,7 +305,7 @@ class ilPollBlockGUI extends ilBlockGUI
             }
         }
 
-        if (!$this->poll_block->mayVote($this->user->getId()) && !$this->poll_block->getPoll()->hasUserVoted($this->user->getId())) {
+        if (!$this->poll_block->maySeeQuestion($this->user->getId()) && !$this->poll_block->getPoll()->hasUserVoted($this->user->getId())) {
             if ($this->poll_block->getPoll()->getVotingPeriod()) {
                 $this->tpl->setVariable(
                     "TXT_VOTING_PERIOD",
@@ -320,6 +332,13 @@ class ilPollBlockGUI extends ilBlockGUI
         $desc = trim($a_set->getDescription());
         if ($desc) {
             $this->tpl->setVariable("TXT_DESC", nl2br($desc));
+        }
+
+
+        if ($this->user->getId() == ANONYMOUS_USER_ID) {
+            $this->tpl->setCurrentBlock("anon_warning");
+            $this->tpl->setVariable("ANON_WARNING", $this->lng->txt('no_access_item_public'));
+            $this->tpl->parseCurrentBlock();
         }
 
 

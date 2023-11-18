@@ -2606,7 +2606,6 @@ s     */
                                   $old_rec["lang"]
                             )
                         );
-
                         // the following lines are a workaround for
                         // bug 6741
                         $last_c = $old_rec["last_change"];
@@ -2625,14 +2624,13 @@ s     */
                             "ilias_version" => array("text", ILIAS_VERSION_NUMERIC),
                             "nr" => array("integer", (int) $last_nr["mnr"] + 1)
                         ));
-
                         $old_content = $old_rec["content"];
                         $old_domdoc = new DOMDocument();
                         $old_nr = $last_nr["mnr"] + 1;
                         $old_domdoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>' . $old_content);
 
                         // after history entry creation event
-                        $this->log->debug("calling __afterHistoryEntry");
+                        $this->log->debug("calling __afterHistoryEntry $old_nr");
                         $this->__afterHistoryEntry($old_domdoc, $old_content, $old_nr);
 
                         // only save one time

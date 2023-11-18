@@ -77,7 +77,7 @@ adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
 adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von ILIAS-Konten.
 adm#:#adm_awrn_support_contacts_info#:#Alle Benutzer für die technische Betreuung werden aufgelistet. Der technischen Betreuung zugeordnet werden Benutzer im Administrationsbereich „Systemeinstellungen und Wartung » Allgemeine Einstellungen“, Reiter „Kontaktinformationen”.
 adm#:#adm_support_contacts#:#Technische Betreuung
-adm#:#adm_support_contacts_info#:#Komma-separierte Liste von Anmeldenamen. Die hier eingetragenen Personen werden in der Fußzeile als Betreuung verlinkt. Falls die „Wer ist online?“-Anzeige genutzt wird, werden die Personen auch dort als technische Betreuung angezeigt.
+adm#:#adm_support_contacts_info#:#Bitte tragen Sie hier komma-separiert die Anmeldenamen der Personen ein, die bei Fragen und technischen Problemen kontaktiert werden können. Die Kontaktaufnahme erfolgt per Mail über den Link „Technische Betreuung kontaktieren“ im Footer von ILIAS. Ist die „Wer ist online?“-Anzeige aktiv, werden diese Personen auch dort als technische Betreuung angezeigt.
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
@@ -614,6 +614,7 @@ assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gew
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und nutzen Sie die Schaltfläche "Textlücke". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
+assessment#:#cloze_answer_text_info#:#Vorangestellte oder nachfolgende Leerzeichen werden beim Speichern aus der Antwort gelöscht.
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
 assessment#:#cloze_fixed_textlength_description#:#Wenn Sie hier einen Wert eintragen, werden Textlücken, welche keinen eigenen Wert für eine maximale Länge definieren, sowie numerische Lücken mit dieser Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Für numerische Lücken ist darüber hinaus zu beachten, dass das Dezimaltrennzeichen dabei mit gezählt wird.
 assessment#:#cloze_gap_size_info#:#Ist ein Wert größer 0 eingetragen, wird diese Lücke mit der hier angegebenen Länge erzeugt. Ist kein Wert angegeben, wird diese Lücke mit der global angegebenen Textfeldlänge erzeugt.
@@ -621,9 +622,6 @@ assessment#:#cloze_text#:#Lückentextfrage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein-Abstand von %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Mehrere Leerzeichen hintereinander
-assessment#:#cloze_textgap_whitespace_after#:#Leerzeichen nach dem Begriff
-assessment#:#cloze_textgap_whitespace_before#:#Leerzeichen vor dem Begriff
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
@@ -7265,6 +7263,7 @@ copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
 copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
+copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_reload_page#:#Seite neu laden
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
@@ -8205,6 +8204,7 @@ dateplaner#:#cal_edit_category#:#Kalender bearbeiten
 dateplaner#:#cal_edit_milestone#:#Meilenstein bearbeiten
 dateplaner#:#cal_edit_recurrences#:#Alle Termine bearbeiten
 dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
+dateplaner#:#cal_edit_single_or_all_info#:#Wollen Sie nur diesen Termin bearbeiten, oder alle Termine der Serie?
 dateplaner#:#cal_enable_group_milestones#:#Meilensteine aktivieren
 dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Kurse und Gruppen).
 dateplaner#:#cal_err_invalid_notification_rcps#:#Bitte korrigieren Sie Ihre Eingabe. Geben Sie ausschließlich ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.

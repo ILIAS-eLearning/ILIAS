@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Copyright;
 
 use ILIAS\UI\Factory;
-use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Legacy\Legacy;
 
@@ -36,13 +36,13 @@ class Renderer implements RendererInterface
     }
 
     /**
-     * @return Image[]|Link[]|Legacy[]
+     * @return Icon[]|Link[]|Legacy[]
      */
     public function toUIComponents(CopyrightDataInterface $copyright): array
     {
         $res = [];
         $has_link = false;
-        if (!is_null($image = $this->buildImage($copyright))) {
+        if (!is_null($image = $this->buildIcon($copyright))) {
             $res[] = $image;
         }
         if (!is_null($link = $this->buildLink($copyright))) {
@@ -55,25 +55,15 @@ class Renderer implements RendererInterface
         return $res;
     }
 
-    protected function buildImage(CopyrightDataInterface $copyright): ?Image
+    protected function buildIcon(CopyrightDataInterface $copyright): ?Icon
     {
         if (!$copyright->imageLink()) {
             return null;
         }
-        return $this->getImage(
+        return $this->customIcon(
             (string) $copyright->imageLink(),
-            $copyright->altText(),
-            (string) $copyright->link()
+            $copyright->altText()
         );
-    }
-
-    protected function getImage(string $src, string $alt, string $link): Image
-    {
-        $image = $this->standardImage($src, $alt);
-        if ($link !== '') {
-            $image = $image->withAction($link);
-        }
-        return $image;
     }
 
     protected function buildLink(CopyrightDataInterface $copyright): ?Link
@@ -87,9 +77,9 @@ class Renderer implements RendererInterface
         );
     }
 
-    protected function standardImage(string $src, string $alt): Image
+    protected function customIcon(string $src, string $alt): Icon
     {
-        return $this->factory->image()->standard($src, $alt);
+        return $this->factory->symbol()->icon()->custom($src, $alt, Icon::MEDIUM);
     }
 
     protected function standardLink(string $label, string $action): Link
