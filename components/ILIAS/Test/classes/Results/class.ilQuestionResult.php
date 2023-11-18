@@ -73,6 +73,10 @@ class ilQuestionResult
     }
     public function getUserScorePercent(): float
     {
+        if ($this->getQuestionScore() === 0.0) {
+            return 100;
+        }
+
         return 100 / $this->getQuestionScore() * $this->getUserScore();
     }
     public function getCorrect(): int
