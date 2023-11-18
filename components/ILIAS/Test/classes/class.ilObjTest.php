@@ -3310,9 +3310,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $result_details_settings = $score_settings->getResultDetailsSettings();
         foreach ($assessment->qtimetadata as $metadata) {
             switch ($metadata["label"]) {
-                case "solution_details":
-                    $result_details_settings = $result_details_settings->withShowSolutionDetails((bool) $metadata["entry"]);
-                    break;
                 case "show_solution_list_comparison":
                     $result_details_settings = $result_details_settings->withShowSolutionListComparison((bool) $metadata["entry"]);
                     break;
