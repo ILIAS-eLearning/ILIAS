@@ -327,11 +327,11 @@ class ilParticipantsTestResultsGUI
         if (is_array($users) && count($users) > 0) {
             ilSession::set('show_user_results', $users);
         }
-        $resultsHref = $this->ctrl->getLinkTargetByClass(
+        $results_href = $this->ctrl->getLinkTargetByClass(
             [ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class, ilTestEvaluationGUI::class],
             'multiParticipantsPassDetails'
         );
-        $this->ctrl->redirectToURL($resultsHref);
+        $this->ctrl->redirectToURL($results_href);
     }
 
     /**
