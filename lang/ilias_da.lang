@@ -1722,7 +1722,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Pass
 assessment#:#tst_results_overview#:#Overblik over testresultater
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results###18 01 2012 new variable
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.###18 01 2012 new variable
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection###16 09 2013 new variable
 assessment#:#tst_resume_test#:#Genoptag testen
 assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
 assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config###16 09 2013 new variable

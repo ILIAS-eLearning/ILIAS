@@ -1800,7 +1800,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Pa
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
 assessment#:#tst_results_print_best_solution#:#Best Solution
 assessment#:#tst_results_print_best_solution_info#:#Additionally for each question the best possible solution will be displayed.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection
 assessment#:#tst_resume_test#:#Resume the Test
 assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Configuration

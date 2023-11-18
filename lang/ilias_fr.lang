@@ -1784,7 +1784,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Les informations sur le 
 assessment#:#tst_results_overview#:#Résultats du Test
 assessment#:#tst_results_print_best_solution#:#Meilleure Réponse dans les Résultats du Test
 assessment#:#tst_results_print_best_solution_info#:#Lorsque activé, la meilleure réponse apparaît dans la synthèse du test.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Reprendre le Test avec la Question Courante
 assessment#:#tst_resume_test#:#Reprendre le Test
 assessment#:#tst_revert_changes#:#Annuler les modifications
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Configuration Générale

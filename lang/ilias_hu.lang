@@ -1720,7 +1720,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Sikeres/Sikertelen álla
 assessment#:#tst_results_overview#:#Teszteredmények áttekintése
 assessment#:#tst_results_print_best_solution#:#Legjobb megoldás
 assessment#:#tst_results_print_best_solution_info#:#Kérdésenként a lehetséges legjobb megoldás megjelenik.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Teszt folytatása a jelenlegi kérdéskiválasztással
 assessment#:#tst_resume_test#:#Teszt folytatása
 assessment#:#tst_revert_changes#:#Módosítás visszavonása
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Beállítások
