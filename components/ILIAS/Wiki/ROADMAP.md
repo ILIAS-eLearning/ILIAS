@@ -1,10 +1,10 @@
-# Roadmap
+# Wiki Roadmap
 
 ## Short Term
 
-### Privacy.md
+### Hiding/Showing Custom Metadata
 
-A PRIVACY.md file should be added.
+Hiding and showing custom metadata suffers from bad usability. Hiding is done on single side blocks, even if all custom metadata will be affected. Showing is done in the wiki functions block. These processes should get a common starting point or place.
 
 ### Mediawiki code
 
