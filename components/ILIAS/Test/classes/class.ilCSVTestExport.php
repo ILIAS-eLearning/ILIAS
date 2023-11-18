@@ -73,7 +73,7 @@ class ilCSVTestExport extends ilTestExportAbstract
         $csv = "";
         $separator = ";";
         foreach ($rows as $evalrow) {
-            $csvrow = &$this->test_obj->processCSVRow($evalrow, true, $separator);
+            $csvrow = $this->test_obj->processCSVRow($evalrow, true, $separator);
             $csv .= implode($separator, $csvrow) . "\n";
         }
         $this->content = $csv;
