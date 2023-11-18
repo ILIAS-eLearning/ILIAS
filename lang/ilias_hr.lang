@@ -1718,7 +1718,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Status ‘prošao’ / �
 assessment#:#tst_results_overview#:#Pregled prolaza testa
 assessment#:#tst_results_print_best_solution#:#Najbolje moguće rješenje
 assessment#:#tst_results_print_best_solution_info#:#Dodatno će se za svako pitanje pokazati najbolje moguće rješenje.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Nastavi test s trenutačnim izborom pitanja
 assessment#:#tst_resume_test#:#Nastavi test
 assessment#:#tst_revert_changes#:#Poništi uređivanje
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguracija odabira pitanja

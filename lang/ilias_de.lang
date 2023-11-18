@@ -1800,7 +1800,6 @@ assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
 assessment#:#tst_results_print_best_solution_info#:#Den eigenen Antworten werden die bestmöglichen Lösungen gegenübergestellt.
 assessment#:#tst_results_print_best_solution_singlepage#:#Bestmögliche Lösung
 assessment#:#tst_results_print_best_solution_singlepage_info#:#Zusätzlich wird für jede Frage die bestmögliche Lösung angezeigt.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl fortsetzen
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguration Fragenauswahl

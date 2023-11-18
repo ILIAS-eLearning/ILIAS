@@ -1717,7 +1717,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Pass
 assessment#:#tst_results_overview#:#通过的测试成绩概况
 assessment#:#tst_results_print_best_solution#:#最佳方案在测试结果中
 assessment#:#tst_results_print_best_solution_info#:#如果激活，并通过参与者可访问，则最佳方案出现在测试结果摘要中。
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection###24 10 2013 new variable
 assessment#:#tst_resume_test#:#恢复此测试
 assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
 assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config###24 10 2013 new variable

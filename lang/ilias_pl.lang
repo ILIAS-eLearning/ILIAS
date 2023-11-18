@@ -1718,7 +1718,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Status „Zaliczone" / "
 assessment#:#tst_results_overview#:#Wykonaj podgląd wyników testu
 assessment#:#tst_results_print_best_solution#:#Najlepsze rozwiązanie
 assessment#:#tst_results_print_best_solution_info#:#Dodatkowo dla każdego pytania wyświetlane jest również najlepsze rozwiązanie.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Kontynuuj test z aktualnie wybranymi pytaniami
 assessment#:#tst_resume_test#:#Wykonywanie testu
 assessment#:#tst_revert_changes#:#Cofnij edycję
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguracja wyboru pytań

@@ -1718,7 +1718,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Pass
 assessment#:#tst_results_overview#:#Supervisione dei test
 assessment#:#tst_results_print_best_solution#:#Soluzione migliore nei risultati del test
 assessment#:#tst_results_print_best_solution_info#:#Se attivato e accessibile dal partecipante, la soluzione migliore appare nel riepilogo dei risultati del test.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Riprendi il test con la selezione delle attuali domande
 assessment#:#tst_resume_test#:#Riprendi il test
 assessment#:#tst_revert_changes#:#Annulla modifica
 assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config

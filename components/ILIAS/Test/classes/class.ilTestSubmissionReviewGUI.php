@@ -94,7 +94,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         );
 
         $toolbar->addComponent(
-            $this->ui_factory->button()->standard($this->lng->txt('btn_previous'), $back_url)
+            $this->ui_factory->button()->standard($this->lng->txt('tst_resume_test'), $back_url)
         );
 
         $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 1);
@@ -102,7 +102,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 0);
 
         $toolbar->addComponent(
-            $this->ui_factory->button()->primary($this->lng->txt('btn_next'), $next_url)
+            $this->ui_factory->button()->primary($this->lng->txt('finish_test'), $next_url)
         );
 
         return $toolbar;
