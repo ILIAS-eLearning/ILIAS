@@ -1118,7 +1118,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
-
+        $this->ctrl->setParameterByClass(self::class, "wpg_id", $this->getId());
         self::initEditingJS($tpl);
 
         return parent::edit();
