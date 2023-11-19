@@ -1463,10 +1463,10 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s###28 08 2012 
 assessment#:#tst_manscoring_user_notification#:#Send Notification###28 08 2012 new variable
 assessment#:#tst_mark#:#Оцінка
 assessment#:#tst_mark_create_new_mark_step#:#Створити новий шаг оцінки
-assessment#:#tst_mark_create_simple_mark_schema#:#Створити просту схему оцінок
 assessment#:#tst_mark_minimum_level#:#Мінімальний рівень (в %)
 assessment#:#tst_mark_official_form#:#Офіціальна форма
 assessment#:#tst_mark_passed#:#Пройдений
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Створити просту схему оцінок
 assessment#:#tst_mark_short_form#:#Коротка форма
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#Максимум балів

@@ -1461,10 +1461,10 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_mark#:#ნიშანი
 assessment#:#tst_mark_create_new_mark_step#:#ახალი სანიშნე ნაბიჯის შექმნა
-assessment#:#tst_mark_create_simple_mark_schema#:#საკუთარი სანიშნე სქემის შექმნა
 assessment#:#tst_mark_minimum_level#:#მინიმალური დონე %s  ებში
 assessment#:#tst_mark_official_form#:#ოფიციალური ფორმა
 assessment#:#tst_mark_passed#:#ჩაბარებული
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#საკუთარი სანიშნე სქემის შექმნა
 assessment#:#tst_mark_short_form#:#მოკლე ფორმა
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#მაქსიმალური ქულა
