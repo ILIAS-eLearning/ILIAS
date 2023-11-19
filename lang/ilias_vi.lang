@@ -1534,10 +1534,10 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s###28 08 2012 
 assessment#:#tst_manscoring_user_notification#:#Send Notification###28 08 2012 new variable
 assessment#:#tst_mark#:#Điểm
 assessment#:#tst_mark_create_new_mark_step#:#Tạo thang điểm mới
-assessment#:#tst_mark_create_simple_mark_schema#:#Tạo giản đồ điểm
 assessment#:#tst_mark_minimum_level#:#Mức tối thiểu (dạng %)
 assessment#:#tst_mark_official_form#:#Mẫu chính thức
 assessment#:#tst_mark_passed#:#Đạt
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Tạo giản đồ điểm
 assessment#:#tst_mark_short_form#:#Mẫu ngắn
 assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached###25 02 2007 new variable
 assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.###25 02 2007 new variable

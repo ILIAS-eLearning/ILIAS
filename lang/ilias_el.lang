@@ -1533,10 +1533,10 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s###28 08 2012 
 assessment#:#tst_manscoring_user_notification#:#Send Notification###28 08 2012 new variable
 assessment#:#tst_mark#:#Βαθμός
 assessment#:#tst_mark_create_new_mark_step#:#Δημιουργία νέου βαθμολογικού βήματος
-assessment#:#tst_mark_create_simple_mark_schema#:#Δημιουργία απλού βαθμολογικού σχήματος
 assessment#:#tst_mark_minimum_level#:#Ελάχιστο επίπεδο (σε %)
 assessment#:#tst_mark_official_form#:#Επίσημη μορφή
 assessment#:#tst_mark_passed#:#Πέρασε
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Δημιουργία απλού βαθμολογικού σχήματος
 assessment#:#tst_mark_short_form#:#Σύντομη μορφή
 assessment#:#tst_max_allowed_users_heading#:#Έχετε φθάσει το μέγιστο αριθμό ταυτόχρονων χρηστών γι' αυτό το διαγώνισμα
 assessment#:#tst_max_allowed_users_message#:#Έχετε φθάσει το μέγιστο αριθμό ταυτόχρονων χρηστών γι' αυτό το διαγώνισμα. Παρακαλώ ξαναπροσπαθήστε αργότερα να ξεκινήσετε ή να συνεχίσετε το διαγώνισμα. Αν κάποιος από τους ενεργούς χρήστες μείνει ανενεργός για περισσότερα από %s δευτερόλεπτα, ίσως να έχετε τη δυνατότητα να δώσετε το διαγώνισμα. Σας ευχαριστούμε για την κατανόηση.

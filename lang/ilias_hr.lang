@@ -1532,10 +1532,10 @@ assessment#:#tst_manscoring_question_section_header#:#Pitanje: %s
 assessment#:#tst_manscoring_user_notification#:#Pošalji obavijest
 assessment#:#tst_mark#:#Ocjena
 assessment#:#tst_mark_create_new_mark_step#:#Kreiraj novu ocjenu
-assessment#:#tst_mark_create_simple_mark_schema#:#Vrati na jednostavnu shemu ocjena
 assessment#:#tst_mark_minimum_level#:#Minimalna razina (u %)
 assessment#:#tst_mark_official_form#:#Službeni naziv
 assessment#:#tst_mark_passed#:#Položeno
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Vrati na jednostavnu shemu ocjena
 assessment#:#tst_mark_short_form#:#Skraćeni naziv
 assessment#:#tst_max_allowed_users_heading#:#Dosegnut je maksimalan broj istovremenih korisnika za ovaj test
 assessment#:#tst_max_allowed_users_message#:#Dosegnut je maksimalan broj istovremenih aktivnih korisnika za ovaj test Pokušajte ponovno kasnije započeti ili nastaviti test. Ako je neki aktivan korisnik više od %s sekundi neaktivan, možda ćete biti u mogućnosti sudjelovati u ovom testu. Zahvaljujemo na razumijevanju.

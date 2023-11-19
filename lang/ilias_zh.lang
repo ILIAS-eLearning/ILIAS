@@ -1531,10 +1531,10 @@ assessment#:#tst_manscoring_question_section_header#:#题目：%s
 assessment#:#tst_manscoring_user_notification#:#发送通知
 assessment#:#tst_mark#:#标记
 assessment#:#tst_mark_create_new_mark_step#:#创建新的标记步骤
-assessment#:#tst_mark_create_simple_mark_schema#:#创建简单标记模式
 assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
 assessment#:#tst_mark_official_form#:#Official form官方形式
 assessment#:#tst_mark_passed#:#已通过
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#创建简单标记模式
 assessment#:#tst_mark_short_form#:#Short form
 assessment#:#tst_max_allowed_users_heading#:#已经达到此次测试中同时允许的用户人数上限
 assessment#:#tst_max_allowed_users_message#:#已经达到此次测试中同翻搅时允许的活跃用户人数上限。请稍后再尝试启动或恢复测试。如果其中某位活跃用户超过 %s 秒未活动，您将有可能进入此次测试。感谢您的理解。

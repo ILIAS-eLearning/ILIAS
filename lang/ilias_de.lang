@@ -1548,10 +1548,11 @@ assessment#:#tst_manscoring_question_section_header#:#Frage: %s
 assessment#:#tst_manscoring_user_notification#:#Benachrichtigung senden
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
-assessment#:#tst_mark_create_simple_mark_schema#:#Auf Einfaches Notenschema zurücksetzen
 assessment#:#tst_mark_minimum_level#:#Mindestprozentsatz
 assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Auf Einfaches Notenschema zurücksetzen
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#Das aktuelle Schema wird durch ein einfaches Notenschema ersetzt. Es werden alle in diesem Test am Notenschema vorgenommenen Änderungen verworfen.
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
 assessment#:#tst_max_allowed_users_heading#:#Die maximale Anzahl von gleichzeitiger Teilnehmern für diesen Test wurde erreicht
 assessment#:#tst_max_allowed_users_message#:#Die maximale Anzahl gleichzeitiger Teilnehmer für diesen Test wurde erreicht. Bitte versuchen Sie etwas später wieder den Test zu starten oder fortzusetzen. Wenn aktive Teilnehmer für mehr als %s Sekunden inaktiv sind, besteht für Sie die Möglichkeit, an diesem Test teilzunehmen. Wir danken Ihnen für Ihr Verständnis.

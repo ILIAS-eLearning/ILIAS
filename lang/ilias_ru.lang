@@ -1532,10 +1532,10 @@ assessment#:#tst_manscoring_question_section_header#:#Вопрос: %s
 assessment#:#tst_manscoring_user_notification#:#Отправить уведомление
 assessment#:#tst_mark#:#Отметка
 assessment#:#tst_mark_create_new_mark_step#:#Создать новый пункт оценки
-assessment#:#tst_mark_create_simple_mark_schema#:#Создать простую схему оценки
 assessment#:#tst_mark_minimum_level#:#Минимальный уровень (в %)
 assessment#:#tst_mark_official_form#:#Официальная форма
 assessment#:#tst_mark_passed#:#Сдан
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Создать простую схему оценки
 assessment#:#tst_mark_short_form#:#Короткая форма
 assessment#:#tst_max_allowed_users_heading#:#Максимальное число пользователей, которые могут одновременно проходить этот тест
 assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.

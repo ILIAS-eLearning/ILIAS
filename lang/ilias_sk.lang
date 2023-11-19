@@ -1532,10 +1532,10 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s###28 08 2012 
 assessment#:#tst_manscoring_user_notification#:#Send Notification###28 08 2012 new variable
 assessment#:#tst_mark#:#Známka
 assessment#:#tst_mark_create_new_mark_step#:#Vytvořit nový známkovací stupeň
-assessment#:#tst_mark_create_simple_mark_schema#:#Vytvořit jednoduché schéma známkování
 assessment#:#tst_mark_minimum_level#:#Minimální hladina (v %)
 assessment#:#tst_mark_official_form#:#Oficiální tvar
 assessment#:#tst_mark_passed#:#Prošel
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Vytvořit jednoduché schéma známkování
 assessment#:#tst_mark_short_form#:#Zkrácený tvar
 assessment#:#tst_max_allowed_users_heading#:#Dosažen maximální počet simultánních účastníků v tomto testu
 assessment#:#tst_max_allowed_users_message#:#Maximální počet simultánních účastníků v tomto testu byl dosažen. Zkuste začít nebo pokračovat znovu později. Pokud bude některý z aktivních účastníků nenaktivní déle než %s s., můžete namísto něj do testu vstoupit. Děkujeme za pochopení.
