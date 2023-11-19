@@ -172,7 +172,7 @@
 			"approved-date": "YYYY-MM-DD"
 		},
 		"technosophos/libris" : {
-			"source" : "github.com/filp/whoops",
+			"source" : "github.com/technosophos/LibRIS",
 			"used_version" : "v2.0.2",
 			"wrapped_by" : "components/ILIAS/Bibliographic/classes/Types/Ris/class.ilRisWrapper.php",
 			"added_by" : "Fabian Schmid <fs@studer-raimann.ch>",
