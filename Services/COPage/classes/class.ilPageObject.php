@@ -1404,6 +1404,7 @@ s     */
 
         // test validating
         if ($a_validate) {
+            $this->log->debug($this->dom_util->dump($this->getDomDoc()->documentElement));
             $errors = $this->validateDom();
         }
         //var_dump($errors); exit;

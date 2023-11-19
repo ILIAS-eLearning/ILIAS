@@ -52,19 +52,21 @@ class ilPCLayoutTemplate extends ilPageContent
         foreach ($copy_ids as $copy_id) {
             $source_content = $source_page->getContentObject($copy_id);
 
-            $source_node = $source_content->getNode();
-            $clone_node = $source_node->clone_node(true);
-            $clone_node->unlink_node($clone_node);
+            $source_node = $source_content->getDomNode();
+            $clone_node = $source_node->cloneNode(true);
+            $this->log->debug($this->dom_util->dump($clone_node));
+            //$clone_node->unlink_node($clone_node);
+            $clone_node = $this->getPage()->getDomDoc()->importNode($clone_node, true);
 
             // insert cloned node at target
-            $source_content->setNode($clone_node);
+            $source_content->setDomNode($clone_node);
             $this->getPage()->insertContent($source_content, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
 
             $xpath = new DOMXpath($this->getPage()->getDomDoc());
-            if ($clone_node->get_attribute("PCID") != "") {
-                $clone_node->set_attribute("PCID", "");
+            if ($clone_node->getAttribute("PCID") != "") {
+                $clone_node->setAttribute("PCID", "");
             }
-            $els = $xpath->query(".//*[@PCID]", $clone_node->myDOMNode);
+            $els = $xpath->query(".//*[@PCID]", $clone_node);
             foreach ($els as $el) {
                 $el->setAttribute("PCID", "");
             }
