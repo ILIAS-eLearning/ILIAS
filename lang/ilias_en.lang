@@ -1531,10 +1531,11 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create New Mark Step
-assessment#:#tst_mark_create_simple_mark_schema#:#Reset to Simple Mark Schema
 assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Reset to Simple Mark Schema
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.
 assessment#:#tst_mark_short_form#:#Short Form
 assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_maximum_points#:#Maximum Points

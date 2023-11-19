@@ -1459,10 +1459,10 @@ assessment#:#tst_manscoring_question_section_header#:#Kérdés: <i>%s</i>
 assessment#:#tst_manscoring_user_notification#:#Értesítés küldése
 assessment#:#tst_mark#:#Jegy
 assessment#:#tst_mark_create_new_mark_step#:#Új értékelésséma létrehozása
-assessment#:#tst_mark_create_simple_mark_schema#:#Egyszerű értékelésséma visszaállítása
 assessment#:#tst_mark_minimum_level#:#Minimumszint (%-ban)
 assessment#:#tst_mark_official_form#:#Hivatalos forma
 assessment#:#tst_mark_passed#:#Sikeres teljesítés-e
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Egyszerű értékelésséma visszaállítása
 assessment#:#tst_mark_short_form#:#Rövid forma
 assessment#:#tst_max_comp_points#:#Max. kompetencia-pontszámok
 assessment#:#tst_maximum_points#:#Maximális pontszám

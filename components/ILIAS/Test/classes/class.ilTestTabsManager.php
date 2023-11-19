@@ -506,7 +506,7 @@ class ilTestTabsManager
         if ($this->isWriteAccessGranted()) {
             $settingsCommands = [
                 'marks', 'showMarkSchema','addMarkStep', 'deleteMarkSteps',
-                'addSimpleMarkSchema', 'saveMarks', 'certificate',
+                'resetToSimpleMarkSchema', 'saveMarks', 'certificate',
                 'certificateEditor', 'certificateRemoveBackground', 'certificateSave',
                 'certificatePreview', 'certificateDelete', 'certificateUpload', 'certificateImport',
                 'scoring', 'defaults', 'addDefaults', 'deleteDefaults', 'applyDefaults',

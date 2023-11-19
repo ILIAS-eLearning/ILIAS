@@ -1459,10 +1459,10 @@ assessment#:#tst_manscoring_question_section_header#:#Pytanie: %s
 assessment#:#tst_manscoring_user_notification#:#Wyślij powiadomienie
 assessment#:#tst_mark#:#Wybór
 assessment#:#tst_mark_create_new_mark_step#:#Twórz nową pozycję wyboru
-assessment#:#tst_mark_create_simple_mark_schema#:#Twórz prosty schemat wyboru
 assessment#:#tst_mark_minimum_level#:#Minimalny poziom (w %)
 assessment#:#tst_mark_official_form#:#Oficjalna forma
 assessment#:#tst_mark_passed#:#Wykonany
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Twórz prosty schemat wyboru
 assessment#:#tst_mark_short_form#:#Krótka forma
 assessment#:#tst_max_comp_points#:#Maks. liczba punktów kompetencyjnych
 assessment#:#tst_maximum_points#:#Maksimum punktów

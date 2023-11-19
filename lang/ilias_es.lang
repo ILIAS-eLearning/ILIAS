@@ -1461,10 +1461,10 @@ assessment#:#tst_manscoring_question_section_header#:#Pregunta: %s
 assessment#:#tst_manscoring_user_notification#:#Enviar notificación
 assessment#:#tst_mark#:#Nota
 assessment#:#tst_mark_create_new_mark_step#:#Crear nuevo rango de calificación
-assessment#:#tst_mark_create_simple_mark_schema#:#Crear un esquema simple de calificación
 assessment#:#tst_mark_minimum_level#:#Nivel Mínimo (en %)
 assessment#:#tst_mark_official_form#:#Forma oficial
 assessment#:#tst_mark_passed#:#Superado
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Crear un esquema simple de calificación
 assessment#:#tst_mark_short_form#:#Forma abreviada
 assessment#:#tst_max_comp_points#:#Máx. puntuación de competencia
 assessment#:#tst_maximum_points#:#Máxima puntuación

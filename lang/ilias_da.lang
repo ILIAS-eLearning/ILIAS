@@ -1461,10 +1461,10 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s###28 08 2012 
 assessment#:#tst_manscoring_user_notification#:#Send Notification###28 08 2012 new variable
 assessment#:#tst_mark#:#Karakter
 assessment#:#tst_mark_create_new_mark_step#:#Opret ny karakter
-assessment#:#tst_mark_create_simple_mark_schema#:#Opret simpel karakterskala
 assessment#:#tst_mark_minimum_level#:#Min. niveau (i %)
 assessment#:#tst_mark_official_form#:#Officiel form
 assessment#:#tst_mark_passed#:#Bestået
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Opret simpel karakterskala
 assessment#:#tst_mark_short_form#:#Kort form
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#Maksimum point

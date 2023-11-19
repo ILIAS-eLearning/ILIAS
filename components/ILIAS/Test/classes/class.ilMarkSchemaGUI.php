@@ -22,6 +22,9 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
 use GuzzleHttp\Psr7\Request;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Button\Standard as StandardButton;
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
  * Class ilMarkSchemaGUI
@@ -41,6 +44,7 @@ class ilMarkSchemaGUI
     protected ilToolbarGUI $toolbar;
     protected ilTabsGUI $tabs;
     protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     public function __construct($object)
     {
@@ -57,6 +61,7 @@ class ilMarkSchemaGUI
         $this->request = $DIC->http()->request();
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
     }
 
     public function executeCommand(): void
@@ -115,7 +120,7 @@ class ilMarkSchemaGUI
         return $no_save_error;
     }
 
-    protected function addSimpleMarkSchema(): void
+    protected function resetToSimpleMarkSchema(): void
     {
         $this->ensureMarkSchemaCanBeEdited();
 
@@ -212,39 +217,52 @@ class ilMarkSchemaGUI
         $mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', $this->object);
         $mark_schema_table->setShowRowsSelector(false);
 
+        $rendered_modal = '';
         if ($this->object->canEditMarks()) {
-            $create_simple_schema_button = $this->ui_factory->button()->standard(
-                $this->lng->txt('tst_mark_create_simple_mark_schema'),
-                $this->ctrl->getFormAction($this, 'addSimpleMarkSchema')
-            );
-            $this->toolbar->addComponent($create_simple_schema_button);
-
-            $mark_schema_id = $mark_schema_table->getId();
-
-            $create_new_step_button = $this->ui_factory->button()->standard(
-                $this->lng->txt('tst_mark_create_new_mark_step'),
-                ''
-            )->withAdditionalOnLoadCode(
-                fn(string $id): string =>
-                "{$id}.addEventListener('click', "
-                . ' (e) => {'
-                . '     e.preventDefault();'
-                . '     e.target.name = "cmd[addMarkStep]";'
-                . "     let form = document.getElementById('form_{$mark_schema_id}');"
-                . '     let submitter = e.target.cloneNode();'
-                . '     submitter.style.visibility = "hidden";'
-                . '     form.appendChild(submitter);'
-                . '     form.requestSubmit(submitter);'
-                . ' }'
-                . ');'
-            );
-            $this->toolbar->addComponent($create_new_step_button);
-
+            $confirmation_modal = $this->ui_factory->modal()->interruptive(
+                $this->lng->txt('tst_mark_reset_to_simple_mark_schema'),
+                $this->lng->txt('tst_mark_reset_to_simple_mark_schema_confirmation'),
+                $this->ctrl->getFormAction($this, 'resetToSimpleMarkSchema')
+            )->withActionButtonLabel($this->lng->txt('tst_mark_reset_to_simple_mark_schema'));
+            $this->populateToolbar($confirmation_modal, $mark_schema_table->getId());
+            $rendered_modal = $this->ui_renderer->render($confirmation_modal);
         }
 
+        $this->tpl->setContent(
+            $mark_schema_table->getHTML() . $rendered_modal
+        );
+    }
 
-        $content_parts = [$mark_schema_table->getHTML()];
+    private function populateToolbar(InterruptiveModal $confirmation_modal, string $mark_schema_id): void
+    {
+        $create_simple_schema_button = $this->ui_factory->button()->standard(
+            $this->lng->txt('tst_mark_reset_to_simple_mark_schema'),
+            $confirmation_modal->getShowSignal()
+        );
+        $this->toolbar->addComponent($create_simple_schema_button);
 
-        $this->tpl->setContent(implode('<br />', $content_parts));
+        $create_step_button = $this->buildCreateStepButton($mark_schema_id);
+        $this->toolbar->addComponent($create_step_button);
+    }
+
+    private function buildCreateStepButton(string $mark_schema_id): StandardButton
+    {
+        return $this->ui_factory->button()->standard(
+            $this->lng->txt('tst_mark_create_new_mark_step'),
+            ''
+        )->withAdditionalOnLoadCode(
+            fn(string $id): string =>
+            "{$id}.addEventListener('click', "
+            . ' (e) => {'
+            . '     e.preventDefault();'
+            . '     e.target.name = "cmd[addMarkStep]";'
+            . "     let form = document.getElementById('form_{$mark_schema_id}');"
+            . '     let submitter = e.target.cloneNode();'
+            . '     submitter.style.visibility = "hidden";'
+            . '     form.appendChild(submitter);'
+            . '     form.requestSubmit(submitter);'
+            . ' }'
+            . ');'
+        );
     }
 }
