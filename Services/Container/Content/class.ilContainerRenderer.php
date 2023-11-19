@@ -1013,9 +1013,10 @@ class ilContainerRenderer
         $item_list_gui->enableTags(false);
         $item_list_gui->enableComments(false);
         $item_list_gui->enableTimings(false);
-        $item_list_gui->getListItemHTML(
-            $item_data["ref_id"],
-            $item_data["obj_id"],
+        $item_list_gui->initItem(
+            (int) $item_data["ref_id"],
+            (int) $item_data["obj_id"],
+            "itgr",
             $item_data["title"],
             $item_data["description"]
         );
