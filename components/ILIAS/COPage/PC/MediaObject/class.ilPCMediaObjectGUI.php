@@ -1047,7 +1047,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             } else {				// parameters
                 $std_alias_item->setParameters(
                     ilUtil::extractParameterString(
-                        utf8_decode($form->getInput("st_parameters"))
+                        $form->getInput("st_parameters")
                     )
                 );
             }
@@ -1094,7 +1094,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                     )) {	// autostart
                         //
                     } else {
-                        $full_alias_item->setParameters(ilUtil::extractParameterString(utf8_decode($form->getInput("full_parameters"))));
+                        $full_alias_item->setParameters(ilUtil::extractParameterString($form->getInput("full_parameters")));
                     }
                 }
             } else {
