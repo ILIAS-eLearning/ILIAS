@@ -6834,7 +6834,7 @@ content#:#cont_page_lock_released#:#Die Bearbeitung wurde beendet. Die Seite wur
 content#:#cont_page_notification_activated#:#Benachrichtigung aktiviert (Einzelne Seite)
 content#:#cont_page_template#:#Vorlage
 content#:#cont_page_toc#:#Seitenübersicht
-content#:#cont_page_translation_does_not_exist#:#Die Seite existiert noch nicht in dieser Sprache. Sie wird nun als Kopie der Standardsprache erstellt. Sprache der neuen Seite
+content#:#cont_page_translation_does_not_exist#:#Die Seite existiert noch nicht in dieser Sprache. Sie wird nun als Kopie der Basissprache erstellt. Sprache der neuen Seite
 content#:#cont_pages#:#Seiten
 content#:#cont_pages_and_subchapters#:#Unterkapitel und Seiten
 content#:#cont_par_format#:#Absatzformat
@@ -12736,7 +12736,7 @@ obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
 obj#:#obj_permission_settings#:#Rechteeinstellungen
 obj#:#obj_presentation#:#Darstellung
-obj#:#obj_select_master_lang#:#Bitte wählen Sie die Standardsprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Standardsprache kann anschließend nicht geändert werden.
+obj#:#obj_select_master_lang#:#Bitte wählen Sie die Basissprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Basissprache kann anschließend nicht geändert werden.
 obj#:#obj_select_one_language#:#Bitte genau eine Sprache auswählen
 obj#:#obj_set_fallback_lang#:#Standardsprache setzen
 obj#:#obj_settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
