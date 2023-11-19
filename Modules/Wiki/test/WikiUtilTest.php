@@ -1,6 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 
 /**
  * Wiki util test. Tests mostly mediawiki code.
@@ -9,6 +28,35 @@ use PHPUnit\Framework\TestCase;
  */
 class WikiUtilTest extends TestCase
 {
+    protected function setGlobalVariable(string $name, $value): void
+    {
+        global $DIC;
+
+        $GLOBALS[$name] = $value;
+
+        unset($DIC[$name]);
+        $DIC[$name] = static function (Container $c) use ($value) {
+            return $value;
+        };
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (!defined("ILIAS_LOG_ENABLED")) {
+            define("ILIAS_LOG_ENABLED", false);
+        }
+        $dic = new ILIAS\DI\Container();
+        $GLOBALS['DIC'] = $dic;
+
+        $db_mock = $this->createMock(ilDBInterface::class);
+        $this->setGlobalVariable(
+            "ilDB",
+            $db_mock
+        );
+    }
+
     protected function tearDown(): void
     {
     }
@@ -85,9 +133,10 @@ class WikiUtilTest extends TestCase
 
     protected function processInternalLinksExtCollect(string $xml):array
     {
-        return ilWikiUtil::processInternalLinks(
+        return ilWikiUtil::collectInternalLinks(
             $xml,
             0,
+            true,
             IL_WIKI_MODE_EXT_COLLECT
         );
     }
@@ -196,11 +245,11 @@ class WikiUtilTest extends TestCase
 
     protected function processInternalLinksCollect(string $xml):array
     {
-        return ilWikiUtil::processInternalLinks(
+        return ilWikiUtil::collectInternalLinks(
             $xml,
             0,
-            IL_WIKI_MODE_COLLECT,
-            true
+            true,
+            IL_WIKI_MODE_COLLECT
         );
     }
 
@@ -236,10 +285,10 @@ class WikiUtilTest extends TestCase
 
     protected function processInternalLinksReplace(string $xml):string
     {
-        return ilWikiUtil::processInternalLinks(
+        return ilWikiUtil::replaceInternalLinks(
             $xml,
             0,
-            IL_WIKI_MODE_REPLACE
+            false
         );
     }
 
