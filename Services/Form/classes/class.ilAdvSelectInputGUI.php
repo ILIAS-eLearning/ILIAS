@@ -27,7 +27,7 @@ declare(strict_types=1);
  */
 class ilAdvSelectInputGUI extends ilFormPropertyGUI
 {
-    protected bool $right = true;
+    protected bool $right = false;
     protected array $options = array();
     protected string $value = "";
 
