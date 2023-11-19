@@ -272,8 +272,7 @@ class ilWikiUtil
             } else {
                 $db_title = self::makeDbTitle($nt->mTextform);
 
-                if (($page_repo->existsByTitle($a_wiki_id, $db_title, $lang) ||
-                    $a_collect_non_ex)
+                if (($a_collect_non_ex || $page_repo->existsByTitle($a_wiki_id, $db_title, $lang))
                 &&
                     !in_array($db_title, $collect)) {
                     $collect[] = $db_title;
