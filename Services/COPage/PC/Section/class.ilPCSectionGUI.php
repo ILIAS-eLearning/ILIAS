@@ -312,6 +312,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             $rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id", false, $form);
             //$rs->setParent($this);
             $rs->setParentForm($form);
+            $rs->setRequired(true);
             $perm_cb->addSubItem($rs);
 
             // permission
