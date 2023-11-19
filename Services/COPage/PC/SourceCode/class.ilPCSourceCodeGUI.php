@@ -99,8 +99,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             */
             $par_content = $this->content_obj->xml2output($this->content_obj->getText());
 
-            $par_content = str_replace("&#123;", "{curlybegin ", $par_content);
-            $par_content = str_replace("&#125;", " curlyend}", $par_content);
+            $par_content = str_replace("&#123;", "[curlybegin ", $par_content);
+            $par_content = str_replace("&#125;", " curlyend]", $par_content);
 
             $form->getItemByPostVar("par_content")->setValue($par_content);
         }
@@ -113,8 +113,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
                                 )->withValue($par_content);
         $t = $this->gui->ui()->renderer()->render($f);
         $t = str_replace("<textarea", "<textarea name='code' rows='20' form='copg-src-form' ", $t);
-        $t = str_replace("{curlybegin ", "&#123;", $t);
-        $t = str_replace(" curlyend}", "&#125;", $t);
+        $t = str_replace("[curlybegin ", "&#123;", $t);
+        $t = str_replace(" curlyend]", "&#125;", $t);
         $this->tpl->setContent($t . $this->getEditorScriptTag($this->pc_id, "SourceCode"));
     }
 
