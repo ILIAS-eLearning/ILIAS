@@ -58,12 +58,14 @@ class ilWikiUtil
     */
     public static function collectInternalLinks($s, $a_wiki_id, $a_collect_non_ex = false)
     {
-        return ilWikiUtil::processInternalLinks(
+        $result = ilWikiUtil::processInternalLinks(
             $s,
             $a_wiki_id,
             IL_WIKI_MODE_COLLECT,
             $a_collect_non_ex
         );
+
+        return $result;
     }
     
     /**
@@ -388,8 +390,7 @@ class ilWikiUtil
 
                 //$s .= ilWikiUtil::makeLink($nt, $a_wiki_id, $text, '', $trail, $prefix);
                 include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-                if ((ilWikiPage::_wikiPageExists($a_wiki_id, $db_title) ||
-                    $a_collect_non_ex)
+                if (($a_collect_non_ex || ilWikiPage::_wikiPageExists($a_wiki_id, $db_title))
                 &&
                     !in_array($db_title, $collect)) {
                     $collect[] = $db_title;
