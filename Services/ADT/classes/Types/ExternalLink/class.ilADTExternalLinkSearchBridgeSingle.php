@@ -147,8 +147,8 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
             return
-                strcasecmp(trim($this->getADT()->getUrl()), trim($a_adt->getUrl())) === 0 ||
-                strcasecmp(trim($this->getADT()->getUrl()), trim($a_adt->getTitle())) === 0;
+                strcasecmp(trim($this->getADT()->getUrl()), trim((string) $a_adt->getUrl())) === 0 ||
+                strcasecmp(trim($this->getADT()->getUrl()), trim((string) $a_adt->getTitle())) === 0;
         }
         return false;
     }
