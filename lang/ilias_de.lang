@@ -12633,6 +12633,7 @@ note#:#note_enable_notes#:#Notizen aktivieren
 note#:#note_html_export_include_comments#:#Sollen die Kommentare mit exportiert werden?
 notes#:#comments_feature_currently_not_activated_for_object#:#Die öffentliche Kommentarfunktion ist für dieses Objekt zur Zeit nicht aktiviert.
 notes#:#note_add_comment#:#Kommentar hinzufügen
+notes#:#note_add_message#:#Mitteilung hinzufügen
 notes#:#note_add_note#:#Notiz hinzufügen
 notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
 notes#:#note_text#:#Text
