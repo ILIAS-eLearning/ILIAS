@@ -27,7 +27,7 @@ class ilObjGroupReferenceAccess extends ilContainerReferenceAccess
         switch ($permission) {
             case 'visible':
             case 'read':
-                $target_ref_id = ilObjGroupReference::_lookupTargetRefId($obj_id);
+                $target_ref_id = (int) ilObjGroupReference::_lookupTargetRefId($obj_id);
 
                 if (!$target_ref_id || !$ilAccess->checkAccessOfUser($user_id, $permission, $cmd, $target_ref_id)) {
                     return false;
