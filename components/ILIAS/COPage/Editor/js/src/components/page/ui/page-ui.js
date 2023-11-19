@@ -1034,6 +1034,9 @@ export default class PageUI {
       this.model.getCurrentPCName(),
     );
     this.toolSlate.setContentFromComponent(this.model.getCurrentPCName(), 'creation_form');
+    document.querySelectorAll('#copg-editor-slate-content form .dropdown-menu').forEach((dd) => {
+      dd.style.right = 'auto';
+    });
     this.initFormButtonsAndSettingsLink();
   }
 
