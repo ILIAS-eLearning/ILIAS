@@ -267,8 +267,7 @@ class ilWikiUtil
             } else {
                 $db_title = self::makeDbTitle($nt->mTextform);
 
-                if ((ilWikiPage::_wikiPageExists($a_wiki_id, $db_title) ||
-                    $a_collect_non_ex)
+                if (($a_collect_non_ex || ilWikiPage::_wikiPageExists($a_wiki_id, $db_title))
                 &&
                     !in_array($db_title, $collect)) {
                     $collect[] = $db_title;
