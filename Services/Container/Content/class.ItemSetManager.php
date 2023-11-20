@@ -289,7 +289,7 @@ class ItemSetManager
                         }
                         if ($short_desc && $short_desc_max_length) {
                             $long_desc[$object["obj_id"]] = \ilStr::shortenTextExtended(
-                                (string) $long_desc[$object["obj_id"]],
+                                (string) ($long_desc[$object["obj_id"]] ?? ""),
                                 $short_desc_max_length,
                                 true
                             );
