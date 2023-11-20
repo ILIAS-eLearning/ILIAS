@@ -393,7 +393,7 @@ class ilPCTableGUI extends ilPageContentGUI
             $this->form->addCommandButton("cancelCreate", $lng->txt("cancel"));
         } else {
             $this->form->addCommandButton("saveProperties", $lng->txt("save"));
-            $this->form->addCommandButton("editData", $lng->txt("cancel"));
+            $this->form->addCommandButton("editData", $lng->txt("close"));
         }
     }
 
@@ -848,8 +848,8 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->setProperties();
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
-            $this->ctrl->redirect($this, "editData");
-            //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+            $this->ctrl->redirect($this, "editProperties");
         } else {
             $this->pg_obj->addHierIDs();
             $this->edit();
