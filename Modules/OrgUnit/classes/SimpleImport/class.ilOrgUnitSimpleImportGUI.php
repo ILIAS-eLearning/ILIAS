@@ -36,6 +36,8 @@ class ilOrgUnitSimpleImportGUI
     protected \ILIAS\DI\LoggingServices $ilLog;
     protected \ILIAS\UI\Factory $ui_factory;
 
+    protected bool $may_create_orgus = false;
+    protected bool $is_top_level_orgu = false;
 
     public function __construct(ilObjectGUI $parent_gui)
     {
