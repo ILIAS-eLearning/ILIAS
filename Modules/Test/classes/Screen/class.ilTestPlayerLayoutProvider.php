@@ -54,7 +54,13 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
 
     public function isInterestedInContexts(): ContextCollection
     {
-        return $this->context_collection->repository();
+        return $this->context_collection->main();
+    }
+
+    protected function isKioskModeEnabled(CalledContexts $called_contexts): bool
+    {
+        $additional_data = $called_contexts->current()->getAdditionalData();
+        return $additional_data->is(self::TEST_PLAYER_KIOSK_MODE_ENABLED, true);
     }
 
     public function getMainBarModification(CalledContexts $called_contexts): ?MainBarModification
@@ -137,14 +143,6 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         }
 
         return null;
-    }
-
-    protected function isKioskModeEnabled(CalledContexts $called_contexts): bool
-    {
-        $additionalData = $called_contexts->current()->getAdditionalData();
-        $isKioskModeEnabled = $additionalData->is(self::TEST_PLAYER_KIOSK_MODE_ENABLED, true);
-
-        return $isKioskModeEnabled;
     }
 
     public function getShortTitleModification(CalledContexts $called_contexts): ?ShortTitleModification
