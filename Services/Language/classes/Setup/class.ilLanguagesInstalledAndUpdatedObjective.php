@@ -60,7 +60,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     public function getLabel(): string
     {
-        return "Install/Update languages " . implode(", ", $this->getInstallLanguages());
+        return "Install/Update languages";
     }
 
     /**
