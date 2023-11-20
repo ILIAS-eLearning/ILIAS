@@ -10001,7 +10001,7 @@ forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
 forum#:#post_activation_desc#:#Alle Beiträge müssen durch die Moderation freigeschaltet werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#post_censored_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" zensiert:
-forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert! Bemerkung des Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert! Bemerkung der Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#post_deleted_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" gelöscht:
 forum#:#post_draft_info#:#Der Inhalt dieses Beitrags ist als Entwurf nur für Sie sichtbar.
 forum#:#post_reply#:#Re:
