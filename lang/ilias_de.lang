@@ -3652,7 +3652,7 @@ common#:#catr_new#:#Neuen Kategorielink anlegen
 common#:#catr_settings#:#Einstellungen des Kategorielinks
 common#:#certificate#:#Zertifikat
 common#:#certificate_file_already_exists_error#:#Die Zertikatsdatei exisitiert bereits im Dateisystem.
-common#:#certificate_file_input_output_error#:#Die Zertikatsdatei wurde im Dateisystem gefunden konnte aber aufgrund von Fehlern nicht gelöscht werden. Bitte kontaktieren Sie Ihren Administrator.
+common#:#certificate_file_input_output_error#:#Die Zertifikatsdatei wurde im Dateisystem gefunden, konnte aber nicht gelöscht werden. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#certificate_file_not_found_error#:#Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
 common#:#certificate_persistent_option#:#Zertifikate aus den Lernerfolgen
 common#:#certificate_selection#:#Ursprung der Zertifikate
@@ -3698,7 +3698,7 @@ common#:#chta_write#:#Chatraum-Administration bearbeiten
 common#:#chtr_copy#:#Chatraum kopieren
 common#:#chtr_import#:#Chatraum importieren
 common#:#city#:#Ort
-common#:#cld_abandoned#:#Das Cloud-Objekt steht mit ILIAS 8 leider nicht mehr im Kern zur Verfügung. Kontaktieren Sie ihre/n System Administrator/In. Es wurden keine Daten gelöscht.
+common#:#cld_abandoned#:#Das Cloud-Objekt steht seit ILIAS 8 nicht mehr zur Verfügung. Es wurden keine Daten gelöscht. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#cleaned_file#:#Datei wurde bereinigt.
 common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
 common#:#clear#:#Abbrechen
@@ -3987,8 +3987,8 @@ common#:#entry_status#:#Eintragsstatus
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
 common#:#err_auth_apache_failed#:#Die Authentifikation ist fehlgeschlagen.
-common#:#err_auth_cas_no_ilias_user#:#Anmeldung fehlgeschlagen! Die CAS-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
-common#:#err_auth_ldap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die LDAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
+common#:#err_auth_cas_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Die CAS-Authentifizierung war erfolgreich, aber es existiert kein entsprechendes ILIAS-Konto. Bitte kontaktieren Sie Ihre technische Betreuung.
+common#:#err_auth_ldap_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Die LDAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechendes ILIAS-Konto. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#err_auth_mode_inactive#:#Zur Zeit ist leider keine Anmeldung möglich.
 common#:#err_auth_soap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die SOAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
 common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. Bitte überprüfen Sie Ihre Eingaben.
@@ -3996,7 +3996,7 @@ common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_double_entries#:#Grund: Doppelte Einträge
 common#:#err_in_line#:#Fehler in Zeile
 common#:#err_inactive#:#Dieses ILIAS-Konto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
-common#:#err_inactive_login_attempts#:#Ihr ILIAS-Konto wurde wegen falscher Login-Versuche deaktiviert. Klicken Sie auf „Technische Betreuung kontaktieren“ am Fuße dieser Seite, um die Administratoren zu informieren, dass diese Ihr ILIAS-Konto wieder aktivieren sollen.
+common#:#err_inactive_login_attempts#:#Ihr ILIAS-Konto ist deaktiviert. Es gab zu viele Login-Versuche mit falschen Eingaben. Bitte kontaktieren Sie Ihre technische Betreuung, um Ihr ILIAS-Konto wieder aktivieren zu lassen.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_no_cookies#:#Bitte aktivieren Sie Session-Cookies in Ihrem Browser!
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
@@ -4004,7 +4004,7 @@ common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
 common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Benutzer zugeordnet werden
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
-common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich, jedoch ist die Erstellung neuer Anmeldekonten nicht aktiviert. Bitte wenden Sie Sich an Ihren Systemadministrator.
+common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich. Jedoch ist die Erstellung neuer Anmeldekonten in ILIAS nicht aktiviert. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Der Anmeldename oder das Passwort sind ungültig.
 common#:#err_wrong_password#:#Falsches Passwort
@@ -4230,7 +4230,7 @@ common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sie möchten folgende Mitglieder aus der Gruppe austragen?
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie die Mitgliedschaft in dieser Gruppe beenden möchten?
 common#:#grp_edit#:#Einstellungen der Gruppe
-common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
+common#:#grp_err_administrator_required#:#Das Gruppenmitglied wurde nicht entfernt. Pro Gruppe wird mindestens eine Person als Gruppenadministration benötigt.
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
 common#:#grp_list_members#:#Teilnehmer auflisten
 common#:#grp_list_reg#:#Beitritt
@@ -4321,7 +4321,7 @@ common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
 common#:#il_iass_member#:#Teilnehmer einer Individuellen Bewertung
-common#:#il_lso_admin#:#Lernsequenzadministrator
+common#:#il_lso_admin#:#Lernsequenzadministration
 common#:#il_lso_member#:#Lernsequenzmitglied
 common#:#il_lti_instructor#:#LTI Instructor
 common#:#il_lti_learner#:#LTI Learner
@@ -4583,7 +4583,7 @@ common#:#mcst_new#:#Neuen Mediacast anlegen
 common#:#mem_add_to_wl#:#In Warteliste eintragen
 common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
 common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
-common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.
+common#:#mem_cron_min_members_info#:#Die Kurs- bzw. Gruppenadministration wird benachrichtigt, sofern die minimale Anzahl nicht erreicht wird.
 common#:#mem_end#:#Anmeldungsende:
 common#:#mem_free_places#:#Freie Plätze
 common#:#mem_max_users#:#Maximale Teilnehmeranzahl:
@@ -4793,7 +4793,7 @@ common#:#no#:#Nein
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#no_access_item_public#:#Um dieses Objekt zu nutzen, müssen Sie angemeldet sein und entsprechende Zugriffsrechte besitzen.
 common#:#no_accessibility_control_concept_description#:#Aktuell wird in dieser Installation keine Info zur Barrierefreiheit angeboten. Bitte kontaktieren Sie die <a href="%1$s">Anlaufstelle für Barrierefreiheit</a> für weitere Informationen.
-common#:#no_agreement_description#:#Aktuell wird in dieser Installation keine Benutzervereinbarung angeboten. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
+common#:#no_agreement_description#:#Aktuell wird in dieser Installation keine Nutzungsvereinbarung angeboten. Bitte kontaktieren Sie die <a href="%1$s">ILIAS-Administration</a>.
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen.
 common#:#no_condition_selected#:#Sie haben keine Vorbedingung ausgewählt.
 common#:#no_date#:#Kein Datum
@@ -5425,7 +5425,7 @@ common#:#role_new#:#Neue Rolle anlegen
 common#:#role_new_search#:#Neue Suche
 common#:#role_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 common#:#role_protect_permissions#:#Rechte schützen
-common#:#role_protect_permissions_desc#:#Die eingestellten Objektrechte für diese Rolle werden durch Systemoperationen nicht mehr verändert. Ausserdem können nur höherstehende Administratoren die Rechte anpassen.
+common#:#role_protect_permissions_desc#:#Die für diese Rolle eingestellten Objektrechte werden durch Systemoperationen nicht mehr verändert. Werden in einem Magazinobjekt die Rechte für eine Rolle geschützt, können auch Personen mit einer lokalen Administrationsrolle, die unterhalb dieses Objekts angelegt wurde, nicht die geschützten Rechte ändern.
 common#:#role_select_one_item#:#Bitte wählen Sie mindestens ein Objekt aus.
 common#:#role_sure_delete_desk_items#:#Sind Sie sicher, dass diese Zuordnung entfernt werden soll?
 common#:#role_templates_only#:#Nur Rollenvorlagen
@@ -6000,7 +6000,7 @@ common#:#yes#:#Ja
 common#:#yesterday#:#Gestern
 common#:#zip#:#PLZ
 common#:#zip_structure_error#:#Archiv enthält gleiche Dateinamen. Upload abgebrochen
-common#:#zip_test_failed#:#Der ZIP-Test ist fehlgeschlagen. Bitte kontaktieren Sie Ihren ILIAS-Administrator.
+common#:#zip_test_failed#:#Der ZIP-Test ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#zipcode#:#Postleitzahl
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 cont#:#cont_add_global_profile#:#Globales Profil hinzufügen
