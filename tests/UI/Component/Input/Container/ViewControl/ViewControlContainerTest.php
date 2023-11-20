@@ -185,15 +185,14 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
         ];
 
         $vc = $this->buildContainerFactory()->standard($controls);
-        $data = $vc->extractCurrentValues();
+        $data = $vc->getComponentInternalValues();
 
-        $this->assertInstanceOf(ArrayInputData::class, $data);
         $this->assertEquals(
-            new ArrayInputData([
+            [
                 'view_control/input_0' => ['a1', 'a3'],
                 'view_control/input_1/input_2' => 'a2',
                 'view_control/input_1/input_3' => 'DESC'
-            ]),
+            ],
             $data
         );
     }

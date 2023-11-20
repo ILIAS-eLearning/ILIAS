@@ -121,6 +121,11 @@ class DynamicInputDataIteratorTest extends TestCase
             {
                 return $this->data[$name] ?? $default;
             }
+
+            public function has($name): bool
+            {
+                return array_key_exists($name, $this->data);
+            }
         };
     }
 }

@@ -31,6 +31,11 @@ class StackedInputData implements InputData
 {
     protected array $stack;
 
+    /**
+     * Construct with any number of InputData.
+     * The stack will be searched in the order of the provided arguments,
+     * returning the value of the first found match.
+     **/
     public function __construct(InputData ...$stack)
     {
         $this->stack = $stack;
@@ -39,13 +44,11 @@ class StackedInputData implements InputData
     public function get(string $name)
     {
         foreach($this->stack as $input) {
-            try {
+            if($input->has($name)) {
                 return $input->get($name);
-            } catch (\LogicException $e) {
             }
         }
         throw new LogicException("'$name' is not contained in stack of input.");
-
     }
 
     public function getOr(string $name, $default)
@@ -55,5 +58,15 @@ class StackedInputData implements InputData
         } catch (\LogicException $e) {
         }
         return $default;
+    }
+
+    public function has($name): bool
+    {
+        foreach($this->stack as $input) {
+            if($input->has($name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -59,4 +59,12 @@ class QueryParamsFromServerRequest implements InputData
 
         return $this->query_params[$name];
     }
+
+    /**
+     * @inheritdocs
+     */
+    public function has($name): bool
+    {
+        return array_key_exists($name, $this->query_params);
+    }
 }

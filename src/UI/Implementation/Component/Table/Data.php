@@ -33,6 +33,7 @@ use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\UI\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
 class Data extends Table implements T\Data, JSBindable
 {
@@ -398,15 +399,15 @@ class Data extends Table implements T\Data, JSBindable
 
     protected function getViewControlPagination(?int $total_count = null): ?ViewControl\Pagination
     {
-        $smallest_option = current(\ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination::DEFAULT_LIMITS);
+        $smallest_option = current(Pagination::DEFAULT_LIMITS);
         if (is_null($total_count) || $total_count >= $smallest_option) {
             $range = $this->getRange();
             return
                 $this->view_control_factory->pagination()
                     ->withTotalCount($total_count)
                     ->withValue([
-                        "offset" => $range->getStart(),
-                        "limit" => $range->getLength()
+                        Pagination::FNAME_OFFSET => $range->getStart(),
+                        Pagination::FNAME_LIMIT => $range->getLength()
                     ]);
         }
         return null;

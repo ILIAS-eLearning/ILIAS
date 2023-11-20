@@ -252,7 +252,7 @@ class Renderer extends AbstractComponentRenderer
         $limit_options = $component->getLimitOptions();
         $total_count = $component->getTotalCount();
 
-        list("offset" => $offset, "limit" => $limit) = array_map('intval', $component->getValue());
+        list(Pagination::FNAME_OFFSET => $offset, Pagination::FNAME_LIMIT => $limit) = array_map('intval', $component->getValue());
         $limit = $limit > 0 ? $limit : reset($limit_options);
 
         if (! $total_count) {

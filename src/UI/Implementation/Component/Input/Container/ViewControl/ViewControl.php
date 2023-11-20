@@ -84,37 +84,35 @@ abstract class ViewControl extends Container implements I\ViewControl
      */
     protected function extractRequestData(ServerRequestInterface $request): InputData
     {
+        $internal_input_data = new Input\ArrayInputData($this->getComponentInternalValues());
         return new StackedInputData(
             new QueryParamsFromServerRequest($request),
-            $this->extractCurrentValues()
+            $internal_input_data
         );
     }
 
     /**
-     * Gets the current values of the inputs in the container.
-     */
-    public function extractCurrentValues(): InputData
-    {
-        return new Input\ArrayInputData($this->getComponentInternalValues());
-    }
-
-    public function getComponentInternalValues(C\Input\Group $component = null, array $names = []): array
-    {
+    * @return array     with key input name and its current value
+    */
+    public function getComponentInternalValues(
+        C\Input\Group $component = null,
+        array $input_values = []
+    ): array {
         if(is_null($component)) {
             $component = $this->getInputGroup();
         }
         foreach ($component->getInputs() as $input) {
             if ($input instanceof C\Input\Group) {
-                $names = $this->getComponentInternalValues($input, $names);
+                $input_values = $this->getComponentInternalValues($input, $input_values);
             }
             if ($input instanceof HasInputGroup) {
-                $names = $this->getComponentInternalValues($input->getInputGroup(), $names);
+                $input_values = $this->getComponentInternalValues($input->getInputGroup(), $input_values);
             }
             if($name = $input->getName()) {
-                $names[$input->getName()] = $input->getValue();
+                $input_values[$input->getName()] = $input->getValue();
             }
         }
 
-        return $names;
+        return $input_values;
     }
 }
