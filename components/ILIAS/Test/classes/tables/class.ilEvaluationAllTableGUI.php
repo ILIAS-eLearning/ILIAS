@@ -291,7 +291,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("MATRICULATION", strlen($a_set['matriculation']) ? $a_set['matriculation'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
-                if (strcmp($c, 'exam_id') == 0 && $this->parent_obj->object->isShowExamIdInTestResultsEnabled()) {
+                if (strcmp($c, 'exam_id') == 0 && $this->parent_obj->getObject()->isShowExamIdInTestResultsEnabled()) {
                     $this->tpl->setCurrentBlock('exam_id');
                     $examId = is_string($a_set['exam_id']) && strlen($a_set['exam_id']) ? $a_set['exam_id'] : '&nbsp;';
                     $this->tpl->setVariable('EXAM_ID', $examId);
