@@ -33,9 +33,13 @@ class ImplementationOfInterfaceFinder
      * @var string[]
      */
     protected array $ignore = [
+        '.*/data/',
+        '.*/docs/',
+        '.*/lang/',
+        '.*/templates/',
+        '.*/node_modules/',
         '.*/src/',
         '.*/libs/',
-        '.*/test/',
         '.*/tests/',
         '.*/setup/',
         // Classes using removed Auth-class from PEAR
