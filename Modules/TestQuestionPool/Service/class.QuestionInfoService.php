@@ -21,8 +21,8 @@ class QuestionInfoService
 
         $result = $this->database->queryF(
             "SELECT title FROM qpl_questions WHERE qpl_questions.question_id = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         if ($result->numRows() === 1) {
             $data = $this->database->fetchAssoc($result);
@@ -39,8 +39,8 @@ class QuestionInfoService
 
         $result = $this->database->queryF(
             "SELECT type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
         if ($result->numRows() === 1) {
@@ -75,8 +75,8 @@ class QuestionInfoService
     {
         $result = $this->database->queryF(
             "SELECT question_text FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($a_q_id)
+            ['integer'],
+            [$a_q_id]
         );
 
         if ($result->numRows() === 1) {
@@ -87,28 +87,28 @@ class QuestionInfoService
         return "";
     }
 
-    public function getTotalRightAnswers(int $a_q_id): int
+    public function getFractionOfReachedToReachablePointsTotal(int $a_q_id): float
     {
         $result = $this->database->queryF(
             "SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
-            array('integer','integer'),
-            array($a_q_id, $a_q_id)
+            ['integer','integer'],
+            [$a_q_id, $a_q_id]
         );
         if ($result->numRows() === 0) {
-            return 0;
+            return 0.0;
         }
 
-        $found_id = array();
+        $found_id = [];
         while ($row = $this->database->fetchAssoc($result)) {
             $found_id[] = $row["question_id"];
         }
 
-        $result = $this->database->query("SELECT * FROM tst_test_result WHERE " . $this->database->in('question_fi', $found_id, false, 'integer'));
-        $answers = array();
+        $result = $this->database->query("SELECT question_fi, points FROM tst_test_result WHERE " . $this->database->in('question_fi', $found_id, false, 'integer'));
+        $answers = [];
         while ($row = $this->database->fetchAssoc($result)) {
             $reached = $row["points"];
             $max = $this->getMaximumPoints($row["question_fi"]);
-            $answers[] = array("reached" => $reached, "max" => $max);
+            $answers[] = ["reached" => $reached, "max" => $max];
         }
 
         $max = 0.0;
@@ -128,8 +128,8 @@ class QuestionInfoService
         $points = 0.0;
         $result = $this->database->queryF(
             "SELECT points FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         if ($this->database->numRows($result) === 1) {
             $row = $this->database->fetchAssoc($result);
@@ -142,14 +142,14 @@ class QuestionInfoService
     {
         $result = $this->database->queryF(
             "SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_qst_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
         if ($this->database->numRows($result)) {
             return $this->database->fetchAssoc($result);
         }
-        return array();
+        return [];
     }
 
     /**
@@ -165,8 +165,8 @@ class QuestionInfoService
             "ON (active_id = active_fi) " .
             "WHERE " . $this->database->in('question_fi', $a_question_ids, false, 'integer') .
             " AND user_fi = %s",
-            array('integer'),
-            array($a_user_id)
+            ['integer'],
+            [$a_user_id]
         );
         return $res->numRows() === count($a_question_ids);
     }
@@ -181,7 +181,7 @@ class QuestionInfoService
 			AND pass = %s
 		";
 
-        $row = $this->database->fetchAssoc($this->database->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $questionId, $pass)));
+        $row = $this->database->fetchAssoc($this->database->queryF($query, ['integer', 'integer', 'integer'], [$activeId, $questionId, $pass]));
 
         return $row['cnt'] > 0;
     }
@@ -193,8 +193,8 @@ class QuestionInfoService
     {
         $result = $this->database->queryF(
             "SELECT COUNT(original_id) cnt FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         $row = $this->database->fetchAssoc($result);
         return ((int) $row["cnt"]) > 0;
@@ -215,8 +215,8 @@ class QuestionInfoService
     {
         $result = $this->database->queryF(
             "SELECT COUNT(qpl_questions.question_id) question_count FROM qpl_questions, tst_test_question WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_question.question_fi",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         $row = $this->database->fetchAssoc($result);
         $count = (int) $row["question_count"];
@@ -229,8 +229,8 @@ class QuestionInfoService
 			INNER JOIN tst_active ON tst_active.active_id = tst_test_rnd_qst.active_fi
 			WHERE qpl_questions.original_id = %s
 			GROUP BY tst_active.test_fi",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         $count += $this->database->numRows($result);
 
@@ -245,8 +245,8 @@ class QuestionInfoService
 
         $result = $this->database->queryF(
             "SELECT question_id FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         return $result->numRows() === 1;
     }
@@ -259,8 +259,8 @@ class QuestionInfoService
 
         $result = $this->database->queryF(
             "SELECT question_id FROM qpl_questions INNER JOIN object_data ON obj_fi = obj_id WHERE question_id = %s AND type = 'qpl'",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         return $this->database->numRows($result) === 1;
     }
@@ -269,8 +269,8 @@ class QuestionInfoService
     {
         $result = $this->database->queryF(
             "SELECT test_random_question_id FROM tst_test_rnd_qst WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         return $this->database->numRows($result) > 0;
     }
@@ -285,7 +285,7 @@ class QuestionInfoService
 			WHERE dupl.question_id = %s
 		";
 
-        $res = $this->database->queryF($query, array('integer'), array($questionId));
+        $res = $this->database->queryF($query, ['integer'], [$questionId]);
         $row = $this->database->fetchAssoc($res);
 
         return $row['cnt'] > 0;
@@ -295,8 +295,8 @@ class QuestionInfoService
     {
         $result = $this->database->queryF(
             "SELECT * FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         if ($this->database->numRows($result) > 0) {
             $row = $this->database->fetchAssoc($result);
@@ -324,11 +324,11 @@ class QuestionInfoService
 
         $res = $this->database->queryF(
             $query,
-            array('integer', 'integer'),
-            array($activeId, $pass)
+            ['integer', 'integer'],
+            [$activeId, $pass]
         );
 
-        $questionsHavingResultRecord = array();
+        $questionsHavingResultRecord = [];
 
         while ($row = $this->database->fetchAssoc($res)) {
             $questionsHavingResultRecord[] = $row['question_fi'];
@@ -356,8 +356,8 @@ class QuestionInfoService
 
         $row = $this->database->fetchAssoc($this->database->queryF(
             $query,
-            array('integer', 'integer'),
-            array($activeId, $pass)
+            ['integer', 'integer'],
+            [$activeId, $pass]
         ));
 
         return $row['cnt'] < count($questionIds);
@@ -378,8 +378,8 @@ class QuestionInfoService
     {
         $result = $this->database->queryF(
             "SELECT * FROM qpl_questions WHERE obj_fi = %s AND title = %s",
-            array('integer','text'),
-            array($questionpool_id, $title)
+            ['integer','text'],
+            [$questionpool_id, $title]
         );
         return $result->numRows() > 0;
     }
