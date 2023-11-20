@@ -268,10 +268,15 @@ class ilPCFileListGUI extends ilPageContentGUI
         $this->ctrl->redirect($this, "editFiles");
     }
 
+    public function edit(): void
+    {
+        $this->editFiles();
+    }
+
     /**
      * edit properties form
      */
-    public function edit(): void
+    public function editProperties(): void
     {
         $this->setTabs(false);
 
@@ -397,7 +402,8 @@ class ilPCFileListGUI extends ilPageContentGUI
         );
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
-            $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+            $this->ctrl->redirect($this, "editProperties");
         } else {
             $this->pg_obj->addHierIDs();
             $this->edit();
@@ -415,6 +421,7 @@ class ilPCFileListGUI extends ilPageContentGUI
         $lng = $this->lng;
 
         $this->setTabs(false);
+        $this->tabs->activateTab("cont_ed_edit_files");
 
         $ilToolbar->addButton(
             $lng->txt("cont_add_file"),
@@ -480,8 +487,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 
             $ilTabs->addTarget(
                 "cont_ed_edit_prop",
-                $ilCtrl->getLinkTarget($this, "edit"),
-                "edit",
+                $ilCtrl->getLinkTarget($this, "editProperties"),
+                "editProperties",
                 get_class($this)
             );
         }

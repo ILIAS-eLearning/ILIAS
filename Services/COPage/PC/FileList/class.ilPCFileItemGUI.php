@@ -250,7 +250,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
             );
             $this->updated = $this->pg_obj->update();
             if ($this->updated === true) {
-                $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+                $this->redirectToFileList();
             }
         }
 
@@ -328,7 +328,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
             );
             $this->updated = $this->pg_obj->update();
             if ($this->updated === true) {
-                $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+                $this->redirectToFileList();
             }
         }
 
@@ -353,11 +353,9 @@ class ilPCFileItemGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
 
-        $ilTabs->addTarget(
-            "cont_back",
-            $this->ctrl->getParentReturn($this),
-            "",
-            ""
+        $ilTabs->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "redirectToFileList")
         );
 
         if ($a_cmd != "") {
@@ -414,4 +412,13 @@ class ilPCFileItemGUI extends ilPageContentGUI
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
+
+    public function redirectToFileList(): void
+    {
+        $this->pg_obj->stripHierIDs();
+        $this->pg_obj->addHierIDs();
+        $this->ctrl->setParameterByClass(ilPCFileListGUI::class, "pc_id", $this->content_obj->getListPCId());
+        $this->ctrl->redirectByClass(ilPCFileListGUI::class, "editFiles");
+    }
+
 }
