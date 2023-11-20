@@ -10126,7 +10126,7 @@ grp#:#grp_add_to_group#:#Zur Gruppe hinzufügen
 grp#:#grp_add_user#:#Benutzer hinzufügen
 grp#:#grp_add_user_to_group#:#Benutzer zur Gruppe hinzufügen
 grp#:#grp_added_to_list#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
-grp#:#grp_admins#:#Administratoren
+grp#:#grp_admins#:#Gruppenadministration
 grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
 grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmledung zur Gruppe liegt ausserhalb des Beitrittszeitraumes.
@@ -10135,9 +10135,9 @@ grp#:#grp_agree#:#Zustimmung
 grp#:#grp_agreement_header#:#Nutzungsvereinbarung
 grp#:#grp_agreement_required#:#Sie können nur auf die Gruppeninhalte zugreifen, wenn Sie der Nutzungsvereinbarung zustimmen.
 grp#:#grp_already_assigned#:#Sie haben bereits einen Aufnahmeantrag für diese Gruppe gestellt.
-grp#:#grp_at_least_one_admin#:#Dieser Gruppe muss mindestens ein Administrator zugeordnet sein.
+grp#:#grp_at_least_one_admin#:#Dieser Gruppe muss mindestens eine Person mit der Rolle „Gruppenadministration“ zugeordnet bleiben.
 grp#:#grp_auto_notification#:#Begrüßungsmail für neue Mitglieder
-grp#:#grp_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Administrator in die Gruppe aufgenommen wurden.
+grp#:#grp_auto_notification_info#:#Werden Mitglieder manuell in die Gruppe aufgenommen, erhalten sie eine Benachrichtigung per Mail.
 grp#:#grp_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Gruppenmitgliedschaft beenden.
@@ -10176,7 +10176,7 @@ grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
 grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" aufgenommen worden.
 grp#:#grp_mail_admission_new_sub#:#Mitgliedschaft in Gruppe "%s"
 grp#:#grp_mail_all#:#Für alle Mitglieder
-grp#:#grp_mail_all_info#:#Mitglieder und Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
+grp#:#grp_mail_all_info#:#Alle aus der Gruppe können die Funktion „Mail an Mitglieder” im Reiter „Mitglieder” nutzen.
 grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
 grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
 grp#:#grp_mail_notification_reg_bod#:#%s ist der Gruppe "%s" beigetreten.
@@ -10196,8 +10196,8 @@ grp#:#grp_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Gruppe "%s" ist abgeleh
 grp#:#grp_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Gruppe "%s"
 grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Gruppe "%s" erfolgt ist.
 grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
-grp#:#grp_mail_tutors_only#:#Nur für Administratoren
-grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion „Mail an Mitglieder“ im Reiter Mitglieder nutzen.
+grp#:#grp_mail_tutors_only#:#Nur für die Gruppenadministration
+grp#:#grp_mail_tutors_only_info#:#Nur die Gruppenadministration kann die Funktion „Mail an Mitglieder“ im Reiter „Mitglieder“ nutzen.
 grp#:#grp_mail_type#:#Mail an Mitglieder
 grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
 grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
@@ -10806,7 +10806,7 @@ lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#learner_view#:#Übersicht
 lso#:#lp_not_relevant_post_cond#:#für Fortfahren aktuell nicht maßgeblich
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Personen beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
-lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens ein Administrator zugeordnet sein.
+lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens eine Person mit der Rolle „Lernsequenzadministration“ zugeordnet sein.
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lernsequenz austragen?
 lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
@@ -11237,8 +11237,8 @@ mail#:#mail_enable_grp_admin_notification#:#Gruppenadministration benachrichtige
 mail#:#mail_enable_grp_admin_notification_info#:#Die Gruppenadministration erhält in neuen Gruppen Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmerinnen und Teilnehmern zur Durchführung der Gruppe nicht erreicht wird. Diese Einstellung kann für einzelne Gruppe lokal im Reiter „Mitglieder“ geändert werden.
 mail#:#mail_enable_grp_member_notification#:#Mitglieder benachrichtigen
 mail#:#mail_enable_grp_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Gruppen der Plattform.
-mail#:#mail_enable_lso_admin_notification#:#Administratoren der Lernsequenz benachrichtigen
-mail#:#mail_enable_lso_admin_notification_info#:#In neuen Lernsequenzen ist im Reiter "Mitglieder" für Administratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt oder die Sequenz verlässt.
+mail#:#mail_enable_lso_admin_notification#:#Administration der Lernsequenz benachrichtigen
+mail#:#mail_enable_lso_admin_notification_info#:#In neuen Lernsequenzen ist im Reiter „Mitglieder“ für die Lernsequenzadministration die Einstellung „Benachrichtigungen“ standardmäßig aktiviert: Sie erhalten Mails, wenn ein Mitglied beitritt oder die Lernsequenz verlässt.
 mail#:#mail_enable_lso_member_notification#:#Mitglieder benachrichtigen
 mail#:#mail_enable_lso_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Lernsequenzen der Plattform.
 mail#:#mail_entry_of_contacts#:#Eintrag aus den Kontakten
@@ -14536,7 +14536,7 @@ registration#:#reg_allow_codes_info#:#Benutzer können sich zusätzlich mit Code
 registration#:#reg_allowed_domains#:#Erlaubte E-Mail-Adressdomänen
 registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen. Zum Beispiel "*@ilias.de".  Registrierungscodes heben diese Prüfung auf.
 registration#:#reg_approve#:#Neuanmeldung mit Überprüfung
-registration#:#reg_approve_info#:#Alle neu angemeldeten Benutzer müssen vom einem Administrator freigeschaltet werden.
+registration#:#reg_approve_info#:#Alle neuen ILIAS-Konten müssen von der ILIAS-Administration freigeschaltet werden.
 registration#:#reg_approve_needs_recipient#:#Für die Registrierungsart "Anmeldung mit Überprüfung" sollte mindestens ein Benutzer festgelegt werden, der bei Neuanmeldungen benachrichtigt wird.
 registration#:#reg_available_roles#:#Verfügbare Rollen:
 registration#:#reg_confirmation_hash_life_time#:#Gültigkeitsdauer
@@ -17189,7 +17189,7 @@ user#:#usr_id#:#Systeminterne ID
 user#:#usr_letter_avatars#:#Letter-Avatare
 user#:#usr_letter_avatars_info#:#Wenn kein öffentliches Profilbild vorliegt, zeigt ILIAS als Avatar die Initialen des Vor- und Nachnamens bzw. Anmeldenamens an.
 user#:#usr_public_profile_disabled#:#Profil deaktiviert
-user#:#usr_public_profile_disabled_info#:#Ihre Angaben sind nur für Systemadministratoren einsehbar.
+user#:#usr_public_profile_disabled_info#:#Ihre Angaben sind nur für die ILIAS-Administration einsehbar.
 user#:#usr_public_profile_global#:#WWW / Für alle Benutzer des Internets sichtbar
 user#:#usr_public_profile_logged_in#:#Für angemeldete Benutzer sichtbar
 usr#:#user_action#:#Benutzeraktion
