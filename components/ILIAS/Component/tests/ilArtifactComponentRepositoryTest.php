@@ -67,7 +67,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             false
         ],
         "plg3" => [
-            "Services",
+            "components/ILIAS",
             "Service2",
             "Slot4",
             "Plugin3",
