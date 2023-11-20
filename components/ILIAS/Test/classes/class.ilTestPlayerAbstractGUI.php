@@ -652,7 +652,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
-    public function finishTestCmd($requires_confirmation = true)
+    public function finishTestCmd()
     {
         $this->handleCheckTestPassValid();
         ilSession::clear("tst_next");
@@ -674,20 +674,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
          *      If passes are limited, on the last pass, an additional confirmation is to be displayed.
          */
 
-
         if ($this->object->areObligationsEnabled() && !$allObligationsAnswered) {
             if ($this->object->getListOfQuestions()) {
-                $this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY_INC_OBLIGATIONS);
+                $this->ctrl->redirectByClass(self::class, ilTestPlayerCommands::QUESTION_SUMMARY_INC_OBLIGATIONS);
             } else {
-                $this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY_OBLIGATIONS_ONLY);
+                $this->ctrl->redirectByClass(self::class, ilTestPlayerCommands::QUESTION_SUMMARY_OBLIGATIONS_ONLY);
             }
 
-            return;
-        }
-
-        // Examview enabled & !reviewed & requires_confirmation? test_submission_overview (review gui)
-        if ($this->object->getEnableExamview() && !$this->testrequest->isset('reviewed') && $requires_confirmation) {
-            $this->ctrl->redirectByClass('ilTestSubmissionReviewGUI', "show");
             return;
         }
 

@@ -128,6 +128,15 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
     private function addFinishTestButton(): void
     {
+
+        // Examview enabled & !reviewed & requires_confirmation? test_submission_overview (review gui)
+        if ($this->parent_obj->getObject()->getMainSettings()->getFinishingSettings()->getShowAnswerOverview()) {
+            $this->command_buttons[] = $this->ui_factory->button()->standard(
+                $this->lng->txt('finish_test'),
+                $this->ctrl->getLinkTargetByClass('ilTestSubmissionReviewGUI', 'show')
+            );
+            return;
+        }
         if ($this->userHasAttemptsLeft()) {
             $message = $this->lng->txt('tst_finish_confirmation_question');
         } else {
