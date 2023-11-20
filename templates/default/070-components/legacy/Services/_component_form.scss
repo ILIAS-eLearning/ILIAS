@@ -347,7 +347,7 @@ input[type="checkbox"] {
 
 	&.alert-danger {
 		margin: $il-margin-small-vertical 0 0;
-		padding: 0 $il-padding-small-vertical 0 $il-padding-small-vertical;
+		padding: $il-padding-small-vertical;
 
 		color: $il-alert-danger-text;
 		background-color: $il-alert-danger-bg;

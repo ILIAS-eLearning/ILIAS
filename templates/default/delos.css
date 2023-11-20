@@ -15540,7 +15540,7 @@ fieldset[disabled] .checkbox label {
 }
 .help-block.alert-danger {
   margin: 3px 0 0;
-  padding: 0 3px 0 3px;
+  padding: 3px;
   color: #d00;
   background-color: #fff7f7;
   border-color: #ffc4c4;
