@@ -12242,6 +12242,7 @@ obj#:#obj_activation#:#Aktivierung
 obj#:#obj_activation_list_gui#:#Verfügbarkeit
 obj#:#obj_add_languages#:#Sprachen hinzufügen
 obj#:#obj_additional_langs#:#Zusätzliche Sprachen
+obj#:#obj_conf_delete_lang#:#Wollen Sie die Anzeige von Titel und Beschreibung für diese Sprachen wirklich beenden?
 obj#:#obj_cont_transl_deactivated#:#Die Unterstützung für mehrsprachige Inhalte im Seiteneditor wurde deaktiviert.
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
 obj#:#obj_deactivate_content_lang#:#Mehrsprachigkeit für Seiteneditor deaktivieren.
