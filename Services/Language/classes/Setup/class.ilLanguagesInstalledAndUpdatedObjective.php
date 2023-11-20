@@ -44,7 +44,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     protected function getInstallLanguages(): array
     {
-        return $this->il_setup_language->getInstalledLanguages() ?: ['en'];
+        return $this->il_setup_language->getInstalledLanguages() ?? ['en'];
     }
 
     /**
@@ -60,7 +60,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     public function getLabel(): string
     {
-        return "Install/Update languages";
+        return "Install/Update languages " . implode(", ", $this->getInstallLanguages());
     }
 
     /**
