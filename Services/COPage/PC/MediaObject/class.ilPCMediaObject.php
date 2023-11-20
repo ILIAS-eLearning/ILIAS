@@ -526,7 +526,9 @@ class ilPCMediaObject extends ilPageContent
                 return true;
             }
         }
-        return false;
+        // see https://mantis.ilias.de/view.php?id=38582
+        // we allow instance editing regardless of number of usages
+        return true;
     }
 
     public static function deleteHistoryLowerEqualThan(
