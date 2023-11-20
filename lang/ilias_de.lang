@@ -9934,7 +9934,7 @@ forum#:#frm_moderators_detached_role_successfully#:#Das Recht zu moderieren, wur
 forum#:#frm_moderators_not_exist_yet#:#Bitte fügen Sie eine Person für die Moderation hinzu.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens eine Person aus.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer für die Moderation.###Modified as part of gender mainstreaming activities for ILIAS 8
-forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
+forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema „%s“ enthält einen Dateianhang mit nicht erlaubtem Dateityp. Entfernen Sie diese Datei oder kontaktieren Sie die technische Betreuung, um den Dateitypen zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services.
 forum#:#frm_noti_message#:#Nachricht:
 forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
 forum#:#frm_noti_obj_crs#:#Kurs
@@ -11299,7 +11299,7 @@ mail#:#mail_multiple_role_recipients_found#:#Die Angabe %1$s im „An”-Feld is
 mail#:#mail_my_courses#:#Meine Kurse
 mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
-mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse des Administrators
+mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse der ILIAS-Administration
 mail#:#mail_nacc_if_timelimit#:#Dieser Textblock wird nur eingefügt, wenn der Benutzer einen begrenzten Zugangszeitraum hat.
 mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
 mail#:#mail_nacc_installation_desc#:#Beschreibung der Installation
@@ -12480,7 +12480,7 @@ mob#:#mob_preview_picture#:#Vorschaubild
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
 mob#:#mob_second#:#Sekunde
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
-mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Um die Funktion zu aktivieren, muss diese durch einen Systemadministrator entsprechend konfiguriert werden (Administration > Datei-Services).
+mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Kontaktieren Sie die technische Betreuung, um .srt-Dateien zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services.
 mob#:#mob_subtitle_file#:#Datei für Untertitel
 mob#:#mob_subtitle_files#:#Dateien für Untertitel
 mob#:#mob_subtitles#:#Untertitel
@@ -12910,8 +12910,6 @@ pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil,
 pd#:#pd_ended#:#Beendet
 pd#:#pd_export_profile#:#Persönliche Daten exportieren
 pd#:#pd_import_personal_data#:#Persönliche Daten importieren
-pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
-pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen, in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Kurse oder Gruppen automatisch in dieser Übersicht.
 pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
 pd#:#pd_not_dated#:#Nicht datiert
 pd#:#pd_ongoing#:#Aktuell
@@ -12958,7 +12956,7 @@ poll#:#poll_mode_anonymous_info#:#Im Tab "Abstimmungsergebnisse" werden Namen de
 poll#:#poll_mode_personal#:#Mit Namen
 poll#:#poll_mode_personal_info#:#Im Tab "Abstimmungsergebnisse" werden die Namen der Teilnehmenden mit ihren Antworten aufgeführt. Wer Zugriff auf diesen Tab hat, kann prüfen, wer welche Antwort gegeben hat.
 poll#:#poll_new#:#Neue Abstimmung anlegen
-poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum ist in den Abstimmungsergebnissen für Administratoren sichtbar.
+poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum sind für die Administration in den Ergebnissen sichtbar.
 poll#:#poll_notification_activated#:#Änderungs-Benachrichtigung aktiviert
 poll#:#poll_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
@@ -13552,7 +13550,7 @@ ps#:#rbac_log_info#:#Logging aller Änderungen an Rechteeinstellungen aktivieren
 ps#:#show_privacy#:#Datenschutz
 ps#:#show_security#:#Sicherheit
 pwassist#:#password_assistance#:#Passwort-Unterstützung
-pwassist#:#pwassist_disabled_no_access#:#Die Passwort-Unterstützung ist nicht aktiviert.  Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
+pwassist#:#pwassist_disabled_no_access#:#Die Passwort-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie die technische Betreuung: %s
 pwassist#:#pwassist_enter_email#:#Geben Sie hier Ihre E-Mail-Adresse ein. ILIAS sendet eine Liste aller zugehörigen Anmeldenamen an diese Adresse und informiert darin über die Passwortunterstützung. Falls Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.###Modified as part of gender mainstreaming activities for ILIAS 8
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Anmeldenamen und die dazugehörige E-Mail-Adresse ein. ILIAS sendet an diese Adresse eine Anleitung, um ein neues Passwort festzulegen. Falls Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.###Modified as part of gender mainstreaming activities for ILIAS 8
 pwassist#:#pwassist_enter_username_and_new_password#:#Tragen Sie den Anmeldenamen ein, und vergeben Sie ein neues Passwort.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -13564,7 +13562,7 @@ pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_password_assigned#:#Das Passwort für den Anmeldenamen %1$s wurde erfolgreich gespeichert.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus. Die Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
 pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Anmeldenamen, die in ILIAS dieser E-Mail-Adresse zugeordnet sind: %s  <br><br>Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s<br><br>Sie (oder jemand mit der Adresse %s) hat die Anmeldenamenauflistung für die E-Mail-Adresse '%s' angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Anmeldenamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.<br><br>• Sie sind sicher, dass Sie nie Anmeldenamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.<br><br>• Sie haben um Anmeldenamen-Unterstützung angefragt: Bitte gehen Sie wie folgt vor:<br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  <br>Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Anmeldenamen und E-Mail ein neues Passwort schicken zu lassen.
-pwassist#:#unassist_disabled_no_access#:#Die Anmeldenamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
+pwassist#:#unassist_disabled_no_access#:#Die Unterstützung für vergessene Anmeldenamen ist nicht aktiviert. Bitte kontaktieren Sie die technische Betreuung: %s
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
@@ -14467,7 +14465,7 @@ rbac#:#usrf_edit_permission#:#Rechteeinstellungen für die Anmeldekontenverwaltu
 rbac#:#usrf_edit_roleassignment#:#Rollenzuweisung von Anmeldekonten ändern
 rbac#:#usrf_push_desktop_items#:#Erlaube ILIAS-Objekte anderen Benutzern als empfohlene Inhalte vorzulegen.
 rbac#:#usrf_read#:#Lesezugriff auf Anmeldekontenverwaltung
-rbac#:#usrf_read_users#:#Lesezugriff auf Anmeldekonten für lokale Administratoren
+rbac#:#usrf_read_users#:#Lesezugriff auf Anmeldekonten für lokale Administration
 rbac#:#usrf_visible#:#Anmeldekontenverwaltung ist sichtbar
 rbac#:#usrf_write#:#Einstellungen in Anmeldekontenverwaltung bearbeiten
 rbac#:#wbdv_edit_permissions#:#Rechteeinstellungen der Administration für WebDAV ändern
@@ -14547,11 +14545,11 @@ registration#:#reg_email_role_assignment#:#Rollenzuweisung über E-Mail-Adresse
 registration#:#reg_fixed#:#Auswahl aus vorgegebener Liste
 registration#:#reg_info_pwd#:#Wenn eingeschaltet, wird neu angemeldeten Benutzern ein automatisch generiertes Passwort vergeben und zugesandt.
 registration#:#reg_mail_body_activation#:#um Ihr Konto freizuschalten, klicken Sie bitte den folgenden Link an:###Modified as part of gender mainstreaming activities for ILIAS 8
-registration#:#reg_mail_body_approve#:#Sie haben sich bereits bei der eLearning-Plattform angemeldet und eine Mail mit Ihren Zugangsdaten erhalten. Jetzt ist Ihr Zugang von Ihrem/Ihrer AdministratorIn freigeschaltet worden. Bei Fragen und Problemen, wenden Sie sich am besten per Mail an ihn/sie.
+registration#:#reg_mail_body_approve#:#Sie haben sich bereits bei der Lernplattform angemeldet und eine E-Mail mit Ihren Zugangsdaten erhalten. Jetzt ist Ihr ILIAS-Konto freigeschaltet worden. Bei Fragen und Problemen wenden Sie sich an die technische Betreuung.
 registration#:#reg_mail_body_confirmation#:#Um das ILIAS-Konto zu aktivieren, müssen Sie es freischalten in: „Administration » Konten und Rollen » ILIAS-Konten“
 registration#:#reg_mail_body_profile#:#Profildaten:
 registration#:#reg_mail_body_profile_changed#:#Ihre Profildaten wurden geändert.
-registration#:#reg_mail_body_pwd_generation#:#Allerdings muss Ihr Zugang noch von dem/der AdministratorIn freigeschaltet werden. Wenn dies erfolgt ist, erhalten Sie noch eine Bestätigungsmail.
+registration#:#reg_mail_body_pwd_generation#:#Allerdings muss Ihr ILIAS-Konto noch freigeschaltet werden. Sie erhalten eine Bestätigung per E-Mail, sobald dies erfolgt ist.
 registration#:#reg_mail_body_reason#:#Sie erhalten diese Mail, da die Benachrichtigung über neue Anmeldekonten für Sie in der Administration aktiviert ist.
 registration#:#reg_mail_body_timelimit#:#Ihr Zugang ist zeitlich limitiert: %s.
 registration#:#reg_mail_new_user#:#Anmeldung eines neuen Benutzers
@@ -14593,11 +14591,11 @@ registration#:#registration_codes_type_ext#:#Verlängerung zeitlich begrenzter A
 registration#:#registration_codes_type_ext_info#:#Der Code kann für die Verlängerung zeitlich befristeter Anmeldekonten verwendet werden.
 registration#:#registration_codes_type_reg#:#Registrierungscode
 registration#:#registration_codes_type_reg_info#:#Der Code kann für die Registrierung neuer Anmeldekonten verwendet werden.
-registration#:#registration_disabled_no_access#:#Die Selbstregistrierung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
+registration#:#registration_disabled_no_access#:#Die Selbstregistrierung ist nicht aktiviert. Bitte kontaktieren Sie die technische Betreuung für weitere Unterstützung: %s
 registration#:#registration_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
 registration#:#registration_generated#:#Erzeugt am
 registration#:#registration_generated_all#:#Alle Daten
-registration#:#registration_no_valid_role#:#Es ist momentan keine Rolle für Registrierungen definiert. Bitte kontaktieren Sie den System-Administrator.
+registration#:#registration_no_valid_role#:#Es ist momentan keine Rolle für Registrierungen definiert. Bitte kontaktieren Sie die technische Betreuung.
 registration#:#registration_reg_type_codes#:#Registrieren mit Codes
 registration#:#registration_reg_type_codes_info#:#Bei dieser Registrierungsmethode benötigt der neue Benutzer einen gültigen Code.
 registration#:#registration_roles_all#:#Alle Rollen
@@ -15152,8 +15150,8 @@ sess#:#sess_is_assigned#:#Zugeordnet
 sess#:#sess_list_reg_limit_places#:#Freie Plätze
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
 sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Sitzungstermine aktivieren.
-sess#:#sess_mail_admins_only#:#Nur für Administratoren
-sess#:#sess_mail_admins_only_info#:#Nur Administratoren können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
+sess#:#sess_mail_admins_only#:#Nur für Administration
+sess#:#sess_mail_admins_only_info#:#Nur Personen mit dem Recht „Einstellungen bearbeiten“ können die Funktion „Mail an Teilnehmer” nutzen.
 sess#:#sess_mail_all#:#Für alle Teilnehmer
 sess#:#sess_mail_all_info#:#Alle Teilnehmer können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
 sess#:#sess_mail_context_participant_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten einer Sitzung
@@ -15201,9 +15199,9 @@ sess#:#sess_reg_max_members_short#:#Begrenzte Teilnehmeranzahl
 sess#:#sess_reg_max_users_exceeded#:#Eine Anmeldung ist nicht möglich, da die maximale Teilnehmeranzahl für diesen Termin überschritten wurde.
 sess#:#sess_reg_max_users_exceeded_wl#:#Die maximale Teilnehmeranzahl für diesen Sitzungstermin ist überschritten. Sie können sich jedoch in die Warteliste eintragen.
 sess#:#sess_reg_request#:#Teilnahme beantragen
-sess#:#sess_reg_request_info#:#Eine Teilnahme an der Sitzung erfordert die Zustimmung durch einen Administrator.
-sess#:#sess_reg_tutor#:#Keine Anmeldung möglich
-sess#:#sess_reg_tutor_info#:#Die Anmeldung durch Benutzer ist inaktiv. Lediglich Administratoren können Benutzer anmelden.
+sess#:#sess_reg_request_info#:#Eine Teilnahme an der Sitzung erfordert die Zustimmung durch eine Person mit dem Recht „Mitglieder verwalten“.
+sess#:#sess_reg_tutor#:#Keine Selbstanmeldung möglich
+sess#:#sess_reg_tutor_info#:#Nur Personen mit dem Recht „Mitglieder verwalten“ können Personen zur Sitzung anmelden.
 sess#:#sess_reg_type#:#Anmeldeverfahren
 sess#:#sess_reg_waiting_list#:#Warteliste
 sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
@@ -15211,7 +15209,7 @@ sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei 
 sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 sess#:#sess_reg_waiting_list_none#:#Keine
-sess#:#sess_registered_confirm#:#Sie wurden für den Sitzungstermin angemeldet. Allerdings muss Ihr Antrag noch von einem Administrator bestätigt werden. Sie werden benachrichtigt sobald dies erfolgt ist.
+sess#:#sess_registered_confirm#:#Sie wurden für die Sitzung angemeldet. Ihre Anmeldung muss allerdings noch bestätigt werden. Sie werden benachrichtigt, sobald dies erfolgt ist.
 sess#:#sess_registration_notification#:#Benachrichtigung
 sess#:#sess_registration_notification_info#:#Zeigt im Tab 'Sitzungsteilnehmer verwalten' eine Spalte an, um Benutzer auszuwählen, die über neue oder ausscheidende Teilnehmer benachrichtigt werden.
 sess#:#sess_section_reg#:#Anmeldung durch Benutzer
@@ -16732,7 +16730,7 @@ tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 tbl#:#tbl_templates#:#Ansicht
-tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
+tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da keine Nutzungsvereinbarung angeboten wird. Bitte kontaktieren Sie Ihre <a href="%1$s">ILIAS-Administration</a> für weitere Informationen.
 tos#:#tos_agree_date#:#Nutzungsvereinbarungen zugestimmt am
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
 tos#:#tos_disabled_no_docs_left#:#Die Nutzungsvereinbarungen wurden deaktiviert, da alle Dokumente gelöscht wurden. Erstellen Sie mindestens ein Dokument, bevor Sie die Nutzungsvereinbarungen wieder aktivieren.
@@ -17441,7 +17439,7 @@ wopi#:#wopi_url#:#WOPI Discovery URL
 wopi#:#wopi_url_byline#:#Vollständige URL des WOPI-Discovery, diese muss über den ILIAS-Server erreichbar sein. Die XML-Daten des Discover werden von ILIAS eingelesen und gespeichert, die Informationen werden regelmäßig durch den Cronjob "Update WOPI Discovery" aktualisiert.
 wsp#:#element_already_shared#:#Die Ressource ist für diese Person bereits freigegeben.###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
-wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
+wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte kontaktieren Sie Ihre technische Betreuung und bitten um die Prüfung des Zertifikatsservers.
 wsp#:#search_no_match#:#Ihre Suche ergab keine Treffer.
 wsp#:#share#:#Freigeben
 wsp#:#share_content#:#Ressource freigeben
