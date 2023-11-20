@@ -55,13 +55,14 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
     ) {
         parent::__construct($data_factory, $refinery);
 
-        $this->setInputGroup($field_factory->group([
-
-            self::FNAME_OFFSET => $field_factory->hidden(),
-            self::FNAME_LIMIT => $field_factory->hidden(),
-        ])
-        ->withAdditionalTransformation($this->getRangeTransform())
-        ->withAdditionalTransformation($this->getCorrectOffsetForPageSize());
+        $this->setInputGroup(
+            $field_factory->group([
+                self::FNAME_OFFSET => $field_factory->hidden(),
+                self::FNAME_LIMIT => $field_factory->hidden(),
+            ])
+            ->withAdditionalTransformation($this->getRangeTransform())
+            ->withAdditionalTransformation($this->getCorrectOffsetForPageSize())
+        );
 
         $this->internal_selection_signal = $signal_generator->create();
         $this->number_of_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
@@ -72,10 +73,9 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
         return $this->refinery->custom()->transformation(
             function ($v): Range {
                 if (is_null($v)) {
-                    $options = $this->getLimitOptions();
-                    $limit = array_shift($options);
+                    $limit = current($this->getLimitOptions());
                 } else {
-                    list("offset" => $offset, "limit" => $limit) = array_map('intval', $v);
+                    list(self::FNAME_OFFSET => $offset, self::FNAME_LIMIT => $limit) = array_map('intval', $v);
                 };
                 return $this->data_factory->range($offset, $limit);
             }
@@ -88,7 +88,7 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
             function ($v): Range {
                 list($offset, $limit) = $v->unpack();
                 if($limit === 0) {
-                    return $v;
+                    $limit = current($this->getLimitOptions());
                 }
                 $current_page = floor($offset / $limit);
                 $offset = $current_page * $limit;

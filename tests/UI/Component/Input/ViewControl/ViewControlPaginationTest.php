@@ -71,13 +71,6 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $this->assertEquals($o, $vc->withLimitOptions($o)->getLimitOptions($o));
     }
 
-<<<<<<< HEAD
-=======
-    public function testViewControlPaginationWithInput(): void
-    {
-        $v = ["offset" => 5, "limit" => 25];
->>>>>>> 0f43621a40 (UI/ViewControls: Fix initial values of Field Selection.)
-
     public static function providePaginationInput(): array
     {
         return [
@@ -138,15 +131,15 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         int $page_size,
         array $expected
     ): void {
+        $v = [
+            'offset' => $offset,
+            'limit' => $page_size
+        ];
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
             ->will(
-<<<<<<< HEAD
-                $this->onConsecutiveCalls($offset, $page_size)
-=======
                 $this->onConsecutiveCalls($v["offset"], $v["limit"])
->>>>>>> 0f43621a40 (UI/ViewControls: Fix initial values of Field Selection.)
             );
 
         $vc = $this->buildVCFactory()->pagination()
@@ -158,7 +151,11 @@ class ViewControlPaginationTest extends ViewControlBaseTest
             $df->ok($df->range(...$expected)),
             $vc->getContent()
         );
-        $this->assertEquals([$offset, $page_size], $vc->getValue());
+
+        $this->assertEquals(
+            ['offset' => $offset, 'limit' => $page_size],
+            $vc->getValue()
+        );
     }
 
     public function testViewControlPaginationRendering(): void
