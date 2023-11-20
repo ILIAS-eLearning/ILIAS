@@ -29,7 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-Nur wenn der Kurs online geschaltet ist, können Personen dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Andernfalls ist der Kurs nur für die Kursadministration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
 acc#:#acc_crit_type_usr_language#:#Benutzersprache
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
@@ -7418,6 +7417,7 @@ crs#:#crs_access#:#Zugang
 crs#:#crs_activate_notification#:#Benachrichtigung aktivieren
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
+crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Personen dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Andernfalls ist der Kurs nur für die Kursadministration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
 crs#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
