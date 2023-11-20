@@ -91,8 +91,8 @@ class Renderer extends AbstractComponentRenderer
                 fn($id) => "$(document).on('{$internal_signal}', 
                     function(event, signal_data) {
                         var container = event.target.closest('.il-viewcontrol-fieldselection'),
-                            checked = container.querySelectorAll('input[type=checkbox]:checked'),
-                            value = Object.values(checked).map(o => o.value),
+                            checkbox = container.querySelectorAll('input[type=checkbox]'),
+                            value = Object.values(checkbox).map(o => o.checked ? o.value : ''),
                             value_container = container.querySelector('.il-viewcontrol-value');
 
                         value_container.innerHTML = '';
