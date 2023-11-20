@@ -7185,7 +7185,6 @@ content#:#cont_update_section#:#Block bearbeiten
 content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
-content#:#cont_upload_dir_info#:#Server-Verzeichnis, von dem große SCORM- und HTML-Pakete kopiert werden können, statt sie direkt hochzuladen. Nur ILIAS-Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Serverpfad ohne Slash am Ende ein.
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 content#:#cont_uploaded_file#:#Vorhandene Datei
@@ -7269,7 +7268,6 @@ content#:#lm_rate_page#:#Seite bewerten
 content#:#lm_rating#:#Lernmodul bewerten
 content#:#mep_folder_created#:#Ordner wurde angelegt.
 content#:#mob_upload_dir#:#Upload-Verzeichnis
-content#:#mob_upload_dir_info#:#Server-Verzeichnis, von dem mehrere Dateien gleichzeitig in einen Medienpool eingefügt werden können. Nur ILIAS-Administratoren sehen die Dateien in diesem Verzeichnis. Bitte geben Sie einen vollständigen Pfad ohne abschließenden Slash an.
 content#:#msg_entry_added#:#Menüeintrag gespeichert
 content#:#msg_entry_removed#:#Menüeintrag entfernt
 content#:#msg_entry_updated#:#Menüeintrag aktualisiert
@@ -7360,9 +7358,9 @@ cpad#:#cpad_reading_time_status#:#Lesezeit
 cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt.
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
 cptch#:#cptch_wrong_input#:#Falsche Eingabe
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Der Cron-Job wurde deaktiviert, da er länger als 3 Stunden inaktiv war
-cron#:#cro_job_rc_job_manual_reset#:#Der Cron-Job wurde von einem Administrator reaktiviert
-cron#:#cro_job_rc_job_no_result#:#Vom Cron-Job wurde kein sauberes Resultat übermittelt
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Der Cron-Job wurde deaktiviert, da er länger als 3 Stunden inaktiv war.
+cron#:#cro_job_rc_job_manual_reset#:#Der Cron-Job wurde von der ILIAS-Administration zurückgesetzt.
+cron#:#cro_job_rc_job_no_result#:#Vom Cron-Job wurde kein sauberes Resultat übermittelt.
 cron#:#cron_action_activate#:#Aktivieren
 cron#:#cron_action_activate_success#:#Cron-Job aktiviert.
 cron#:#cron_action_activate_sure#:#Wollen Sie wirklich den Cron-Job "%s" aktivieren?
@@ -7419,8 +7417,7 @@ crs#:#crs_access#:#Zugang
 crs#:#crs_activate_notification#:#Benachrichtigung aktivieren
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
-crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
-crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
+Nur wenn der Kurs online geschaltet ist, können Personen dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Andernfalls ist der Kurs nur für die Kursadministration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
 crs#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
@@ -7436,8 +7433,8 @@ crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
 crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
 crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
 crs#:#crs_added_to_list#:#Sie sind in die Warteliste aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
-crs#:#crs_admin#:#Administrator
-crs#:#crs_administrators#:#Administratoren
+crs#:#crs_admin#:#Kursadministration
+crs#:#crs_administrators#:#Kursadministration
 crs#:#crs_admission_link_failure_availability#:#Kein Beitritt möglich. Der Kurs ist online.
 crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
@@ -7447,7 +7444,7 @@ crs#:#crs_admission_link_success_registration#:#Erfolgreich dem Kurs "%s" beiget
 crs#:#crs_agree#:#Zustimmung
 crs#:#crs_agreement_header#:#Nutzungsvereinbarung
 crs#:#crs_agreement_required#:#Sie können diesem Kurs nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
-crs#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
+crs#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens eine Person mit der Rolle „Kursadministration“ zugeordnet bleiben.
 crs#:#crs_auto_notification#:#Begrüßungsmail für neue Mitglieder
 crs#:#crs_auto_notification_info#:#Werden Mitglieder manuell in den Kurs aufgenommen, erhalten sie eine Benachrichtigung per Mail.
 crs#:#crs_awrn_current_course#:#Aktueller Kurs
@@ -7981,8 +7978,8 @@ crs#:#event_registered#:#Sie haben sich für diese Sitzung angemeldet.
 crs#:#event_section_information#:#Informationen zur Sitzung
 crs#:#event_table_create#:#Neue Sitzung
 crs#:#event_table_update#:#Sitzung bearbeiten
-crs#:#event_tbl_admin#:#Administrator
-crs#:#event_tbl_admins#:#Administratoren
+crs#:#event_tbl_admin#:#Administration
+crs#:#event_tbl_admins#:#Administration
 crs#:#event_tbl_member#:#Mitglied
 crs#:#event_tbl_members#:#Mitglieder
 crs#:#event_tbl_participated#:#Teilgenommen
@@ -9676,7 +9673,7 @@ file#:#file_publish#:#Entwurf veröffentlichen
 file#:#file_rollback_rollback_first#:#Die Version konnte nicht zurückgesetzt werden, weil ein unveröffentlichter Entwurf existiert.
 file#:#file_rollback_same_version#:#Dies ist bereits die aktuelle Version
 file#:#file_unpublish#:#Als Entwurf markieren
-file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator. Dateiname(n): %s
+file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Bitte kontaktieren Sie gegebenenfalls Ihre technische Betreuung. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
 file#:#file_version_draft#:#Entwurf
 file#:#file_version_draft_info#:#Die aktuellste Version ist im Status "Entwurf". Solange die Version nicht veröffentlicht wurde, können keine neuen Versionen angelegt werden. Personen mit Leserecht auf die Datei erhalten die aktuellste veröffentlichte Version.
@@ -9908,7 +9905,7 @@ forum#:#forums_your_reply#:#Ihr Beitrag
 forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgeführt werden, der Referenzbeitrag wurde gelöscht.
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
-forum#:#frm_activation_online_info#:#Nur wenn das Forum online geschaltet ist, können Benutzer auf das Forum zugreifen. Wenn nicht, ist das Forum nur für Administratoren verfügbar.
+forum#:#frm_activation_online_info#:#Forum ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 forum#:#frm_all_threads#:#Alle Themen
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Beiträge können unter beliebigem Namen geschrieben werden. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
