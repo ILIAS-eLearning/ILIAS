@@ -643,7 +643,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         // width height
         $width_height = new ilWidthHeightInputGUI($lng->txt("cont_width") .
                 " / " . $lng->txt("cont_height"), "st_width_height");
-        $width_height->setConstrainProportions(true);
+        if (is_int(strpos($std_item->getFormat(), "image"))
+            && $std_item->getLocationType() === "LocalFile") {
+            $width_height->setSupportConstraintsProps(true);
+            $width_height->setConstrainProportions(true);
+        }
         $op2->addSubItem($width_height);
 
         $radio_size->addOption($op2);
@@ -762,7 +766,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             // width height
             $width_height = new ilWidthHeightInputGUI($lng->txt("cont_width") .
                     " / " . $lng->txt("cont_height"), "full_width_height");
-            $width_height->setConstrainProportions(true);
+            if (is_int(strpos($full_item->getFormat(), "image"))
+                && $full_item->getLocationType() === "LocalFile") {
+                $width_height->setSupportConstraintsProps(true);
+                $width_height->setConstrainProportions(true);
+            }
             $op2->addSubItem($width_height);
 
             $radio_size->addOption($op2);
@@ -870,9 +878,24 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $values["st_format"] = $std_item->getFormat();
 
         // size
-        $values["st_width_height"]["width"] = $std_alias_item->getWidth();
-        $values["st_width_height"]["height"] = $std_alias_item->getHeight();
-        $values["st_width_height"]["constr_prop"] = true;
+        if ($std_alias_item->definesSize()) {
+            $values["st_width_height"]["width"] = $std_alias_item->getWidth();
+            $values["st_width_height"]["height"] = $std_alias_item->getHeight();
+            $values["st_width_height"]["constr_prop"] = true;
+        } else {
+            if ($std_item->getWidth() !== "" || $std_item->getHeight() !== "") {
+                $values["st_width_height"]["width"] = $std_item->getWidth();
+                $values["st_width_height"]["height"] = $std_item->getHeight();
+                $values["st_width_height"]["constr_prop"] = true;
+            } else {
+                $orig_size = $std_item->getOriginalSize();
+                if (!is_null($orig_size)) {
+                    $values["st_width_height"]["width"] = $orig_size["width"];
+                    $values["st_width_height"]["height"] = $orig_size["height"];
+                    $values["st_width_height"]["constr_prop"] = true;
+                }
+            }
+        }
 
         // caption
         $values["st_caption"] = $std_alias_item->getCaption();
@@ -908,10 +931,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $values["st_derive_size"] = $std_alias_item->definesSize()
             ? "n"
             : "y";
-        if ($values["st_derive_size"] == "y") {
-            $values["st_width_height"]["width"] = $std_item->getWidth();
-            $values["st_width_height"]["height"] = $std_item->getHeight();
-        }
         $values["st_derive_caption"] = $std_alias_item->definesCaption()
             ? "n"
             : "y";
@@ -939,9 +958,25 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
             $values["full_location"] = $full_item->getLocation();
             $values["full_format"] = $full_item->getFormat();
-            $values["full_width_height"]["width"] = $full_alias_item->getWidth();
-            $values["full_width_height"]["height"] = $full_alias_item->getHeight();
-            $values["full_width_height"]["constr_prop"] = true;
+
+            if ($full_alias_item->definesSize()) {
+                $values["full_width_height"]["width"] = $full_alias_item->getWidth();
+                $values["full_width_height"]["height"] = $full_alias_item->getHeight();
+                $values["full_width_height"]["constr_prop"] = true;
+            } else {
+                if ($full_item->getWidth() !== "" || $full_item->getHeight() !== "") {
+                    $values["full_width_height"]["width"] = $full_item->getWidth();
+                    $values["full_width_height"]["height"] = $full_item->getHeight();
+                    $values["full_width_height"]["constr_prop"] = true;
+                } else {
+                    $orig_full_size = $full_item->getOriginalSize();
+                    if (!is_null($orig_full_size)) {
+                        $values["full_width_height"]["width"] = $orig_full_size["width"];
+                        $values["full_width_height"]["height"] = $orig_full_size["height"];
+                        $values["full_width_height"]["constr_prop"] = true;
+                    }
+                }
+            }
             $values["full_caption"] = $full_alias_item->getCaption();
             if (trim($full_item->getCaption()) == "") {
                 $values["full_def_caption"] = $lng->txt("cont_no_caption");
@@ -958,10 +993,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             $values["full_derive_size"] = $full_alias_item->definesSize()
                 ? "n"
                 : "y";
-            if ($values["full_derive_size"] == "y") {
-                $values["full_width_height"]["width"] = $full_item->getWidth();
-                $values["full_width_height"]["height"] = $full_item->getHeight();
-            }
             $values["full_derive_caption"] = $full_alias_item->definesCaption()
                 ? "n"
                 : "y";
@@ -992,8 +1023,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $values["full_def_parameters"] = $full_item->getParameterString();
             }
         }
-
-        $this->form_gui->setValuesByArray($values);
+        $this->form_gui->setValuesByArray($values, true);
     }
 
     /**
