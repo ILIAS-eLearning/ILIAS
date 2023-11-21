@@ -24790,11 +24790,7 @@ ilDBUpdate3136::addStyleClass(
 ?>
 <#5430>
 <?php
-$ilDB->update("style_data", array(
-    "uptodate" => array("integer", 0)
-), array(
-    "1" => array("integer", 1)
-));
+$ilDB->manipulate("UPDATE style_data SET uptodate = 0 WHERE 1 = 1");
 ?>
 <#5431>
 <?php
