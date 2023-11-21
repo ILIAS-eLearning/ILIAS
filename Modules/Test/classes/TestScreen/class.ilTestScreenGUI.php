@@ -307,7 +307,8 @@ class ilTestScreenGUI
             $modal_inputs['exam_access_code'] = $access_code_input;
         }
 
-        if ($this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()) {
+        if ($this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
+            && $this->test_passes_selector->hasTestPassedOnce($this->test_session->getActiveId())) {
             $modal_inputs['exam_use_previous_answers'] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_exam_use_previous_answers'),
                 $this->lng->txt('tst_exam_use_previous_answers_label')
@@ -434,6 +435,7 @@ class ilTestScreenGUI
             $this->main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled()
             || $this->main_settings->getAccessSettings()->getPasswordEnabled()
             || $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
+                && $this->test_passes_selector->hasTestPassedOnce($this->test_session->getActiveId())
             || $this->user->isAnonymous()
         );
     }
