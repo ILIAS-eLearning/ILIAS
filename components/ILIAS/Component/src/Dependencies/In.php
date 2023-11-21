@@ -39,14 +39,14 @@ class In implements Dependency
         $this->name = $name;
     }
 
+    public function getName(): string
+    {
+        return (string) $this->name;
+    }
+
     public function __toString(): string
     {
         return $this->type->value . ": " . $this->name;
-    }
-
-    public function getName(): Name
-    {
-        return $this->name;
     }
 
     public function getType(): InType
@@ -69,5 +69,10 @@ class In implements Dependency
         }
         $this->resolved_by[] = $other;
         $other->addResolves($this);
+    }
+
+    public function getResolvedBy(): array
+    {
+        return $this->resolved_by;
     }
 }

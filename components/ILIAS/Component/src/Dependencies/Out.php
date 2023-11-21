@@ -51,6 +51,11 @@ class Out implements Dependency
         return $this->type->value . ": " . $this->name;
     }
 
+    public function getName(): string
+    {
+        return (string) $this->name;
+    }
+
     public function setComponent(OfComponent $component): void
     {
         if (!is_null($this->component)) {
