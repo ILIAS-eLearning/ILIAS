@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
- * Handles the file upload and folder creation for files uploaded in grading form
+ * @deprecated in favor of ResourceStorage. This class is only used for migration.
  */
 class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage implements IndividualAssessmentFileStorage
 {
