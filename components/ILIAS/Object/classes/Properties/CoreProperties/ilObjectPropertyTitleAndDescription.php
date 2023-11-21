@@ -50,7 +50,7 @@ class ilObjectPropertyTitleAndDescription implements ilObjectProperty
 
     public function getDescription(): string
     {
-        return substr($this->getLongDescription(), 0, ilObject::DESC_LENGTH);
+        return mb_substr($this->getLongDescription(), 0, ilObject::DESC_LENGTH);
     }
 
     public function getLongDescription(): ?string
