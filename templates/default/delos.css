@@ -15213,6 +15213,7 @@ p#copg-auto-save {
 #il_EditPage [data-copg-ed-type=add-area] > .dropdown {
   overflow: hidden;
   position: static;
+  display: block;
 }
 #il_EditPage [data-copg-ed-type=add-area] > .dropdown > ul {
   position: absolute;
