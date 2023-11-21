@@ -28,7 +28,7 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
 {
     private $responsibleSourcePoolDefinitionByQuestion = [];
 
-    public function loadQuestions()
+    public function loadQuestions(): void
     {
         $this->questions = [];
 
