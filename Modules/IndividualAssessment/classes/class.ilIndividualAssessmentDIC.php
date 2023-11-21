@@ -74,6 +74,9 @@ trait ilIndividualAssessmentDIC
         };
 
         $container['ilIndividualAssessmentMemberGUI'] = function ($c) use ($object, $dic) {
+            $stakeholder = new ilIndividualAssessmentGradingStakeholder(
+                $dic['ilUser']->getId()
+            );
             return new ilIndividualAssessmentMemberGUI(
                 $dic['ilCtrl'],
                 $dic['lng'],
@@ -93,7 +96,9 @@ trait ilIndividualAssessmentDIC
                 $dic['ilErr'],
                 $dic->refinery(),
                 $dic->http()->wrapper()->query(),
-                $c['helper.dateformat']
+                $c['helper.dateformat'],
+                $dic['resource_storage'],
+                $stakeholder
             );
         };
 

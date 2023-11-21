@@ -32,6 +32,7 @@ use ILIAS\UI\Component\Link;
 use ILIAS\UI\Renderer;
 use ILIAS\Data;
 use ILIAS\Refinery;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 {
@@ -65,7 +66,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         protected ilErrorHandling $error_object,
         protected ILIAS\Refinery\Factory $refinery,
         protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
-        protected ilIndividualAssessmentDateFormatter $date_formatter
+        protected ilIndividualAssessmentDateFormatter $date_formatter,
+        protected IRSS $irss,
+        protected ilIndividualAssessmentGradingStakeholder $stakeholder,
     ) {
         parent::__construct();
     }
@@ -131,9 +134,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             return;
         }
 
-        $storage = $this->getUserFileStorage();
-        $storage->deleteAllFilesBut($grading->getFile());
-
         if ($grading->isFinalized()) {
             $not_finalized_grading = $grading->withFinalized(false);
             $this->saveMember($not_finalized_grading);
@@ -175,9 +175,11 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     protected function downloadFile(): void
     {
-        $path = $this->getUserFileStorage()->getAbsolutePath();
-        $file_name = $this->getMember()->fileName();
-        ilFileDelivery::deliverFileLegacy($path . "/" . $file_name, $file_name);
+        $identifier = $this->getMember()->getGrading()->getFile();
+        $resource_id = $this->irss->manage()->find($identifier);
+        if($resource_id) {
+            $this->irss->consume()->download($resource_id)->run();
+        }
     }
 
     protected function saveAmend(): void
@@ -196,9 +198,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
         if (!is_null($grading)) {
             $this->saveMember($grading, true, true);
-
-            $storage = $this->getUserFileStorage();
-            $storage->deleteAllFilesBut($grading->getFile());
 
             if ($this->getObject()->isActiveLP()) {
                 ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->getMember());
@@ -336,11 +335,12 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $array = $this->upload->getResults();
         $result = end($array);
 
-        $storage = $this->getUserFileStorage();
-        $storage->create();
-
         if ($result instanceof UploadResult && $result->isOK()) {
-            $identifier = $storage->uploadFile($result);
+
+            $resource_id = $this->irss->manage()->upload($result, $this->stakeholder);
+            $this->irss->manage()->publish($resource_id);
+
+            $identifier = $resource_id->serialize();
             $status = HandlerResult::STATUS_OK;
             $message = 'Upload ok';
         } else {
@@ -354,36 +354,53 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     protected function getRemoveResult(string $identifier): HandlerResult
     {
-        $status = HandlerResult::STATUS_OK;
-        $message = $this->lng->txt('iass_file_deleted');
-
+        $resource_id = $this->irss->manage()->find($identifier);
+        if($resource_id) {
+            $this->irss->manage()->remove($resource_id, $this->stakeholder);
+            $status = HandlerResult::STATUS_OK;
+            $message = $this->lng->txt('iass_file_deleted');
+        } else {
+            $status = HandlerResult::STATUS_FAILED;
+            $identifier = '';
+            $message = 'no resource to delete';
+        }
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
-    public function getInfoResult(string $identifier): FileInfoResult
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
-        $storage = $this->getUserFileStorage();
-        $path = $storage->getAbsolutePath() . "/" . $identifier;
+        $resource_id = $this->irss->manage()->find($identifier);
+        if(! $resource_id) {
+            return null;
+        }
+        $resource = $this->irss->manage()->getResource($resource_id);
+        $info = $resource->getCurrentRevision()->getInformation();
+
         return new BasicFileInfoResult(
             $this->getFileIdentifierParameterName(),
             $identifier,
-            $identifier,
-            filesize($path),
-            pathinfo($path, PATHINFO_EXTENSION)
+            $info->getTitle(),
+            $info->getSize(),
+            $info->getMimeType()
         );
     }
 
     public function getInfoForExistingFiles(array $file_ids): array
     {
         $file_ids = array_filter($file_ids, fn($id) => $id !== "");
-        $path = $this->getUserFileStorage()->getAbsolutePath();
-        return array_map(function ($id) use ($path) {
+        return array_map(function ($id) {
+            $resource_id = $this->irss->manage()->find($identifier);
+            if(! $resource_id) {
+                return null;
+            }
+            $resource = $this->irss->manage()->getResource($resource_id);
+            $info = $resource->getCurrentRevision()->getInformation();
             return new BasicFileInfoResult(
                 $this->getFileIdentifierParameterName(),
                 $id,
-                $id,
-                filesize($path . "/" . $id),
-                pathinfo($path . "/" . $id, PATHINFO_EXTENSION)
+                $info->getTitle(),
+                $info->getSize(),
+                $info->getMimeType()
             );
         }, $file_ids);
     }
@@ -448,13 +465,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function getExaminee(): ilObjUser
     {
         return new ilObjUser($this->request_wrapper->retrieve('usr_id', $this->refinery->kindlyTo()->int()));
-    }
-
-    protected function getUserFileStorage(): ilIndividualAssessmentFileStorage
-    {
-        $storage = $this->getObject()->getFileStorage();
-        $storage->setUserId($this->getExaminee()->getId());
-        return $storage;
     }
 
     protected function getMember(): ilIndividualAssessmentMember
