@@ -474,7 +474,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         return $found;
     }
 
-    private function ensureQuestionNotInSequence(array $sequence, int $question_id): int
+    private function ensureQuestionNotInSequence(array $sequence, int $question_id): array
     {
         $question_key = array_search($question_id, $this->questions);
 
