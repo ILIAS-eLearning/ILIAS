@@ -76,7 +76,10 @@ class URI
     const DOMAIN_LABEL = self::ALPHA_DIGIT . '((' . self::UNRESERVED_NO_DOT . '|' . self::PCTENCODED . '|' . self::BASEURI_SUBDELIMS . ')*' . self::ALPHA_DIGIT . ')*';
     const HOST_REG_NAME = '^' . self::DOMAIN_LABEL . '(\\.' . self::DOMAIN_LABEL . ')*$';
     const HOST_IPV4 = '^(' . self::DIGIT . '{1,3})(\\.' . self::DIGIT . '{1,3}){3}$';
-    const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '#';
+    const HOST_IPV6_LONG = '^\\[(' . self::HEXDIG . '{1,4}:){7}' . self::HEXDIG . '{1,4}\\]$';
+    const HOST_IPV6_SHORTENED = '^\\[(?=(' . self::HEXDIG . '{0,4}:' . self::HEXDIG . '{0,4}){2,7}\\]$)(' . self::HEXDIG . '{1,4}|' . self::HEXDIG . '{1,4}(:' . self::HEXDIG . '{1,4})*)?::(' . self::HEXDIG . '{1,4}|(' . self::HEXDIG . '{1,4}:)*' . self::HEXDIG . '{1,4})?\\]$';
+    const HOST_IPV6 = self::HOST_IPV6_LONG . '|' . self::HOST_IPV6_SHORTENED;
+    const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '|' . self::HOST_IPV6 . '#';
     const PORT = '#^' . self::DIGIT . '+$#';
     const PATH = '#^(?!//)(?!:)(' . self::PCHAR . '|' . self::PATH_DELIM . ')+$#';
     const QUERY = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?)+$#';

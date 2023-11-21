@@ -87,6 +87,36 @@ class URITest extends TestCase
         $this->assertEquals($uri->getFragment(), 'fragment');
     }
 
+    /**
+     * @depends test_init
+     * @dataProvider provideIPv6addresses
+     */
+    public function testIPv6(string $host): void
+    {
+        $uri = new ILIAS\Data\URI('http://' . $host);
+        $this->assertEquals('http', $uri->getSchema());
+        $this->assertEquals($host, $uri->getAuthority());
+        $this->assertEquals($host, $uri->getHost());
+        $this->assertEquals(null, $uri->getPort());
+        $this->assertEquals(null, $uri->getPath());
+        $this->assertEquals(null, $uri->getQuery());
+        $this->assertEquals(null, $uri->getFragment());
+    }
+
+    public function provideIPv6addresses(): array
+    {
+        return [
+            ['[::1]'],
+            ['[::Ff00]'],
+            ['[1::]'],
+            ['[1234:5678:9ABC:DEF0:1234:5678:9ABC:DEF0]'],
+            ['[1:2:3:4:5:6:7:8]'],
+            ['[::3:4:5:6:7:8]'],
+            ['[3:4:5:6:7:8::]'],
+            ['[12::34]'],
+        ];
+    }
+
 
     /**
      * @depends test_init
