@@ -3420,6 +3420,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $question_behaviour_settings = $question_behaviour_settings->withLockAnswerOnInstantFeedbackEnabled((bool) $metadata["entry"]);
                     break;
                 case "show_cancel":
+                case "suspend_test_allowed":
                     $participant_functionality_settings = $participant_functionality_settings->withSuspendTestAllowed((bool) $metadata["entry"]);
                     break;
                 case "sequence_settings":
@@ -3940,7 +3941,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         // show cancel
         $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "show_cancel");
+        $a_xml_writer->xmlElement("fieldlabel", null, "suspend_test_allowed");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 

@@ -276,4 +276,40 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('tst_tests', 'result_tax_filters');
         }
     }
+
+    public function step_16(): void
+    {
+        $this->db->modifyTableColumn(
+            'tst_tests',
+            'show_cancel',
+            [
+                'type' => 'text',
+                'length' => 1,
+                'default' => '0'
+            ]
+        );
+    }
+
+    public function step_17(): void
+    {
+        $this->db->modifyTableColumn(
+            'tst_tests',
+            'use_previous_answers',
+            [
+                'type' => 'text',
+                'length' => 1,
+                'default' => '0'
+            ]
+        );
+    }
+
+
+    public function step_18(): void
+    {
+        $this->db->renameTableColumn(
+            'tst_tests',
+            'show_cancel',
+            'suspend_test_allowed'
+        );
+    }
 }
