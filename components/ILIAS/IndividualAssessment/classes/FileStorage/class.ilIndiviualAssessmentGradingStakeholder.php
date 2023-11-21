@@ -18,15 +18,24 @@
 
 declare(strict_types=1);
 
-use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
-/**
- * @deprecated in favor of ResourceStorage. This class is only used for migration.
- */
-interface IndividualAssessmentFileStorage
+class ilIndividualAssessmentGradingStakeholder extends AbstractResourceStakeholder
 {
-    public function deleteAllFilesBut(string $file): void;
-    public function uploadFile(UploadResult $file): string;
-    public function create(): void;
-    public function setUserId(int $user_id): void;
+    private const ID = 'IASSGrading';
+
+    public function __construct(
+        protected int $owner = 6
+    ) {
+    }
+
+    public function getId(): string
+    {
+        return self::ID;
+    }
+
+    public function getOwnerOfNewResources(): int
+    {
+        return $this->owner;
+    }
 }
