@@ -71,12 +71,6 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isPdfGenerationRequest());
     }
 
-    public function testSingleAnswerScreenCmd(): void
-    {
-        $this->tableGui->setSingleAnswerScreenCmd("testString");
-        $this->assertEquals("testString", $this->tableGui->getSingleAnswerScreenCmd());
-    }
-
     public function testAnswerListAnchorEnabled(): void
     {
         $this->assertIsBool($this->tableGui->getAnswerListAnchorEnabled());

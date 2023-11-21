@@ -31,7 +31,6 @@ use ILIAS\UI\Renderer as UIRenderer;
  */
 class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 {
-    private ?string $singleAnswerScreenCmd = null;
     private bool $answerListAnchorEnabled = false;
     private bool $showHintCount = false;
     private bool $showSuggestedSolution = false;
@@ -205,20 +204,12 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
             return $this->getAnswerListAnchor($questionId);
         }
 
-        if (strlen($this->getSingleAnswerScreenCmd())) {
-            return $this->ctrl->getLinkTarget($this->parent_obj, $this->getSingleAnswerScreenCmd());
-        }
-
         return '';
     }
 
     private function isQuestionTitleLinkPossible(): bool
     {
         if ($this->getAnswerListAnchorEnabled()) {
-            return true;
-        }
-
-        if (strlen($this->getSingleAnswerScreenCmd())) {
             return true;
         }
 
@@ -235,10 +226,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
             return false;
         }
 
-        if (!strlen($this->getSingleAnswerScreenCmd())) {
-            return false;
-        }
-
         return true;
     }
 
@@ -249,22 +236,8 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
             $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_list_answer_details'), $this->getAnswerListAnchor($questionId));
         }
 
-        if (strlen($this->getSingleAnswerScreenCmd())) {
-            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_single_answer_details'), $this->ctrl->getLinkTarget($this->parent_obj, $this->getSingleAnswerScreenCmd()));
-        }
-
         $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('tst_answer_details'));
         return $this->ui_renderer->render($dropdown);
-    }
-
-    public function setSingleAnswerScreenCmd($singleAnswerScreenCmd): void
-    {
-        $this->singleAnswerScreenCmd = $singleAnswerScreenCmd;
-    }
-
-    public function getSingleAnswerScreenCmd(): ?string
-    {
-        return $this->singleAnswerScreenCmd;
     }
 
     public function setAnswerListAnchorEnabled($answerListAnchorEnabled): void

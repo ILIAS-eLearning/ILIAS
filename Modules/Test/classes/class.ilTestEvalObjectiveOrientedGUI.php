@@ -64,10 +64,10 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 
     private function showVirtualPassCmd()
     {
-        $testSession = $this->testSessionFactory->getSession();
+        $test_session = $this->testSessionFactory->getSession();
 
         if (!$this->object->getShowPassDetails()) {
-            $executable = $this->object->isExecutable($testSession, $testSession->getUserId());
+            $executable = $this->object->isExecutable($test_session, $test_session->getUserId());
 
             if ($executable["executable"]) {
                 $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
@@ -77,75 +77,50 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
         $toolbar = $this->buildUserTestResultsToolbarGUI();
         $toolbar->build();
 
-        $virtualSequence = $this->service->buildVirtualSequence($testSession);
-        $userResults = $this->service->getVirtualSequenceUserResults($virtualSequence);
+        $virtual_sequence = $this->service->buildVirtualSequence($test_session);
+        $user_results = $this->service->getVirtualSequenceUserResults($virtual_sequence);
 
-        $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
+        $objectives_adapter = ilLOTestQuestionAdapter::getInstance($test_session);
 
-        $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $virtualSequence);
-        $objectivesList->loadObjectivesTitles();
+        $objectives_list = $this->buildQuestionRelatedObjectivesList($objectives_adapter, $virtual_sequence);
+        $objectives_list->loadObjectivesTitles();
 
-        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->objCache);
+        $test_result_header_label_builder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
 
-        $testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
-        $testResultHeaderLabelBuilder->setUserId($testSession->getUserId());
-        $testResultHeaderLabelBuilder->setTestObjId($this->object->getId());
-        $testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
-        $testResultHeaderLabelBuilder->initObjectiveOrientedMode();
+        $test_result_header_label_builder->setObjectiveOrientedContainerId($test_session->getObjectiveOrientedContainerId());
+        $test_result_header_label_builder->setUserId($test_session->getUserId());
+        $test_result_header_label_builder->setTestObjId($this->object->getId());
+        $test_result_header_label_builder->setTestRefId($this->object->getRefId());
+        $test_result_header_label_builder->initObjectiveOrientedMode();
 
         $tpl = new ilTemplate('tpl.il_as_tst_virtual_pass_details.html', false, false, 'Modules/Test');
 
-        $command_solution_details = "";
-        if ($this->object->getShowSolutionDetails()) {
-            $command_solution_details = "outCorrectSolution";
-        }
+        foreach (array_keys($objectives_list->getObjectives()) as $lo_id) {
+            $user_results_for_lo = $objectives_list->filterResultsByObjective($user_results, $lo_id);
 
-        $questionAnchorNav = $listOfAnswers = $this->object->canShowSolutionPrintview();
-
-        if ($listOfAnswers) {
-            $list_of_answers = $this->getPassListOfAnswers(
-                $userResults,
-                $testSession->getActiveId(),
-                null,
-                $this->object->getShowSolutionListComparison(),
-                false,
-                false,
-                false,
-                true,
-                $objectivesList,
-                $testResultHeaderLabelBuilder
-            );
-            $tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
-        }
-
-        foreach ($objectivesList->getObjectives() as $loId => $loTitle) {
-            $userResultsForLO = $objectivesList->filterResultsByObjective($userResults, $loId);
-
-            $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
-                $userResultsForLO,
-                $testSession->getActiveId(),
-                null,
+            $overview_table_gui = $this->getPassDetailsOverviewTableGUI(
+                $user_results_for_lo,
+                $test_session->getActiveId(),
+                $test_session->getPass(),
                 $this,
                 "showVirtualPass",
-                $command_solution_details,
-                $questionAnchorNav,
-                $objectivesList,
+                $objectives_list,
                 false
             );
-            $overviewTableGUI->setTitle(
-                $testResultHeaderLabelBuilder->getVirtualPassDetailsHeaderLabel(
-                    $objectivesList->getObjectiveTitleById($loId)
+            $overview_table_gui->setTitle(
+                $test_result_header_label_builder->getVirtualPassDetailsHeaderLabel(
+                    $objectives_list->getObjectiveTitleById($lo_id)
                 )
             );
 
-            $loStatus = new ilTestLearningObjectivesStatusGUI($this->lng, $this->ctrl, $this->testrequest);
-            $loStatus->setCrsObjId($this->getObjectiveOrientedContainer()->getObjId());
-            $loStatus->setUsrId($testSession->getUserId());
-            $lostatus = $loStatus->getHTML($loId);
+            $lo_status = new ilTestLearningObjectivesStatusGUI($this->lng, $this->ctrl, $this->testrequest);
+            $lo_status->setCrsObjId($this->getObjectiveOrientedContainer()->getObjId());
+            $lo_status->setUsrId($test_session->getUserId());
+            $lo_status_html = $lo_status->getHTML($lo_id);
 
             $tpl->setCurrentBlock('pass_details');
-            $tpl->setVariable("PASS_DETAILS", $overviewTableGUI->getHTML());
-            $tpl->setVariable("LO_STATUS", $lostatus);
+            $tpl->setVariable("PASS_DETAILS", $overview_table_gui->getHTML());
+            $tpl->setVariable("LO_STATUS", $lo_status_html);
             $tpl->parseCurrentBlock();
         }
 
