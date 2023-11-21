@@ -34,7 +34,7 @@ class XslManager
         array $params
     ): string {
         $xslt = new \XSLTProcessor();
-        $xsl = file_get_contents("./components/ILIAS/COPage/xsl/page.xsl");
+        $xsl = file_get_contents(ILIAS_ABSOLUTE_PATH . "/components/ILIAS/COPage/xsl/page.xsl");
         $xslt_domdoc = new \DomDocument();
         $xslt_domdoc->loadXML($xsl);
         $xslt->importStylesheet($xslt_domdoc);

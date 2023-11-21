@@ -127,6 +127,8 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
     {
         switch ($this->content_obj->getContentClass()) {
             case self::TYPE_MEDIA:
+                var_dump("1");
+                exit;
                 $this->ctrl->setCmdClass("ilpcmediaobjectgui");
                 $this->ctrl->setCmd("insert");
                 $media_gui = new ilPCMediaObjectGUI($this->pg_obj, null, "");

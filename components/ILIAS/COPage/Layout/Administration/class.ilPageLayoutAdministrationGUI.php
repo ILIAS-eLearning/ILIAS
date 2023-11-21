@@ -341,8 +341,7 @@ class ilPageLayoutAdministrationGUI
     {
         $this->checkPermission("sty_write_page_layout");
 
-        $this->ctrl->setCmdClass("ilpagelayoutgui");
-        $this->ctrl->setCmd("edit");
+        $this->ctrl->redirectByClass(ilPageLayoutGUI::class, "edit");
         $this->executeCommand();
     }
 
