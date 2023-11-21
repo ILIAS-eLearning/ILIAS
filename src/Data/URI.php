@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Data;
@@ -51,7 +67,10 @@ class URI
     private const DOMAIN_LABEL = self::ALPHA_DIGIT . '((' . self::UNRESERVED_NO_DOT . '|' . self::PCTENCODED . '|' . self::BASEURI_SUBDELIMS . ')*' . self::ALPHA_DIGIT . ')*';
     private const HOST_REG_NAME = '^' . self::DOMAIN_LABEL . '(\\.' . self::DOMAIN_LABEL . ')*$';
     private const HOST_IPV4 = '^(' . self::DIGIT . '{1,3})(\\.' . self::DIGIT . '{1,3}){3}$';
-    private const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '#';
+    private const HOST_IPV6_LONG = '^\\[(' . self::HEXDIG . '{1,4}:){7}' . self::HEXDIG . '{1,4}\\]$';
+    private const HOST_IPV6_SHORTENED = '^\\[(?=(' . self::HEXDIG . '{0,4}:' . self::HEXDIG . '{0,4}){2,7}\\]$)(' . self::HEXDIG . '{1,4}|' . self::HEXDIG . '{1,4}(:' . self::HEXDIG . '{1,4})*)?::(' . self::HEXDIG . '{1,4}|(' . self::HEXDIG . '{1,4}:)*' . self::HEXDIG . '{1,4})?\\]$';
+    private const HOST_IPV6 = self::HOST_IPV6_LONG . '|' . self::HOST_IPV6_SHORTENED;
+    private const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '|' . self::HOST_IPV6 . '#';
     private const PORT = '#^' . self::DIGIT . '+$#';
     private const PATH = '#^(?!//)(?!:)(' . self::PCHAR . '|' . self::PATH_DELIM . ')+$#';
     private const QUERY = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?)+$#';
