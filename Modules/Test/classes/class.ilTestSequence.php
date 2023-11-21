@@ -137,10 +137,20 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         if ($result->numRows()) {
             $row = $this->db->fetchAssoc($result);
             $this->sequencedata = [
-                "sequence" => unserialize($row["sequence"] ?? [], ['allowed_classes' => false]),
-                "postponed" => unserialize($row["postponed"] ?? [], ['allowed_classes' => false]),
-                "hidden" => unserialize($row["hidden"] ?? [], ['allowed_classes' => false])
+                "sequence" => unserialize($row["sequence"] ?? '', ['allowed_classes' => false]),
+                "postponed" => unserialize($row["postponed"] ?? '', ['allowed_classes' => false]),
+                "hidden" => unserialize($row["hidden"] ?? '', ['allowed_classes' => false])
             ];
+
+            if (!is_array($this->sequencedata["sequence"])) {
+                $this->sequencedata["sequence"] = [];
+            }
+            if (!is_array($this->sequencedata["postponed"])) {
+                $this->sequencedata["postponed"] = [];
+            }
+            if (!is_array($this->sequencedata["hidden"])) {
+                $this->sequencedata["hidden"] = [];
+            }
 
             $this->setAnsweringOptionalQuestionsConfirmed((bool) $row['ans_opt_confirmed']);
         }
