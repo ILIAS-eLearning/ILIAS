@@ -568,7 +568,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             exit;
         }
 
-        if ($source_is_copy) {
+        if (isset($source_is_copy)) {
             unlink($source);
         }
 
