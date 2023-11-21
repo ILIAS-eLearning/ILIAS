@@ -12694,7 +12694,7 @@ obj#:#obj_activation#:#Activation
 obj#:#obj_activation_list_gui#:#Availability
 obj#:#obj_add_languages#:#Add Languages
 obj#:#obj_additional_langs#:#Additional Languages
-obj#:#obj_conf_delete_lang#:#obj#:#Do you really want to stop the presentation of title and description in these languages?
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 obj#:#obj_copy_progress#:#Copy Progress
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing

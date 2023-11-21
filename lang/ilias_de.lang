@@ -7417,7 +7417,8 @@ crs#:#crs_access#:#Zugang
 crs#:#crs_activate_notification#:#Benachrichtigung aktivieren
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
-crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Personen dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Andernfalls ist der Kurs nur für die Kursadministration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
+crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Personen dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Andernfalls ist der Kurs nur für die Kursadministration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
+crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
 crs#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
@@ -12703,7 +12704,7 @@ obj#:#obj_activate_multilang#:#Mehrsprachigkeit aktivieren
 obj#:#obj_activation#:#Aktivierung
 obj#:#obj_activation_list_gui#:#Verfügbarkeit
 obj#:#obj_add_languages#:#Sprachen hinzufügen
-obj#:#obj_additional_langs#:#Zusätzliche Sprachenobj#:#
+obj#:#obj_additional_langs#:#Zusätzliche Sprachen
 obj#:#obj_conf_delete_lang#:#Wollen Sie die Anzeige von Titel und Beschreibung für diese Sprachen wirklich beenden?
 obj#:#obj_cont_transl_deactivated#:#Die Unterstützung für mehrsprachige Inhalte im Seiteneditor wurde deaktiviert.
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
