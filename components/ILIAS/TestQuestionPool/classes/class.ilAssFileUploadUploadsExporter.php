@@ -34,16 +34,6 @@ class ilAssFileUploadUploadsExporter
     private \ILIAS\FileDelivery\Services $file_delivery;
 
     /**
-     * @var integer
-     */
-    protected $refId;
-
-    /**
-     * @var integer
-     */
-    private $testId;
-
-    /**
      * @var string
      */
     private $test_title;
@@ -135,11 +125,11 @@ class ilAssFileUploadUploadsExporter
 
     public function buildAndDownload(): void
     {
-        $solutionData = $this->getFileUploadSolutionData();
+        $solution_data = $this->getFileUploadSolutionData();
 
-        $participantData = $this->getParticipantData($solutionData);
+        $participant_data = $this->getParticipantData($solution_data);
 
-        $this->collectUploadedFiles($solutionData, $participantData);
+        $this->collectUploadedFiles($solution_data, $participant_data);
     }
 
     private function initFilenames(): void
@@ -208,7 +198,6 @@ class ilAssFileUploadUploadsExporter
     private function collectUploadedFiles(array $solution_data, ilTestParticipantData $participant_data): void
     {
         $streams = [];
-        $zip = $this->archive->zip([]);
 
         foreach ($solution_data as $activeId => $passes) {
             if (!in_array($activeId, $participant_data->getActiveIds(), true)) {
@@ -227,10 +216,7 @@ class ilAssFileUploadUploadsExporter
                         $revision = $this->irss->manage()->getCurrentRevision(
                             $rid = $this->irss->manage()->find($file['value1'])
                         );
-                        $zip->addStream(
-                            $this->irss->consume()->stream($rid)->getStream(),
-                            $dir . '/' . $revision->getTitle()
-                        );
+                        $streams[$revision->getTitle()] = $this->irss->consume()->stream($rid)->getStream();
                         continue;
                     }
 
@@ -246,13 +232,12 @@ class ilAssFileUploadUploadsExporter
                         continue;
                     }
 
-                    $zip->addStream(
-                        Streams::ofResource(fopen($legacy_file_path, 'rb')),
-                        $dir . $file['value2']
-                    );
+                    $streams[$file['value1']] = Streams::ofResource(fopen($legacy_file_path, 'rb'));
                 }
             }
         }
+
+        $zip = $this->archive->zip($streams);
 
         $this->file_delivery->delivery()->attached(
             $zip->get(),
@@ -280,11 +265,6 @@ class ilAssFileUploadUploadsExporter
         }
     }
 
-    private function removeFileUploadCollection(): void
-    {
-        ilFileUtils::delDir($this->tempDirPath);
-    }
-
     public function getFinalZipFilePath(): string
     {
         return $this->finalZipFilePath;
@@ -293,7 +273,7 @@ class ilAssFileUploadUploadsExporter
     public function getDispoZipFileName(): string
     {
         return ilFileUtils::getASCIIFilename(
-            $this->mainFolderName . self::ZIP_FILE_EXTENSION
+            $this->test_title . '_' . $this->question->getTitle() . '.' . self::ZIP_FILE_EXTENSION
         );
     }
 
