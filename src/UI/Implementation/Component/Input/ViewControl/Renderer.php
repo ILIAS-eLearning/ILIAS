@@ -210,7 +210,7 @@ class Renderer extends AbstractComponentRenderer
     protected function findCurrentPage(array $ranges, int $offset): int
     {
         foreach ($ranges as $idx => $range) {
-            if ($offset >= $range->getStart() && $offset <= $range->getEnd()) {
+            if ($offset >= $range->getStart() && $offset < $range->getEnd()) {
                 return $idx;
             }
         }
