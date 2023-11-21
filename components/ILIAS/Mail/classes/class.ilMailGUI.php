@@ -99,7 +99,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
 
     public function executeCommand(): void
     {
-        $type = "";
+        $type = '';
         if ($this->http->wrapper()->query()->has('type')) {
             $type = $this->http->wrapper()->query()->retrieve('type', $this->refinery->kindlyTo()->string());
         }
@@ -146,7 +146,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mail_id', $mailId);
             $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'showMail');
         } elseif ('deliverFile' === $type) {
-            $fileName = "";
+            $fileName = '';
             if ($this->http->wrapper()->post()->has('filename')) {
                 $fileName = $this->http->wrapper()->post()->retrieve(
                     'filename',
@@ -184,12 +184,12 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailRole');
         }
 
-        $view = "";
+        $view = '';
         if ($this->http->wrapper()->query()->has('view')) {
             $view = $this->http->wrapper()->query()->retrieve('view', $this->refinery->kindlyTo()->string());
         }
         if ('my_courses' === $view) {
-            $search_crs = "";
+            $search_crs = '';
             if ($this->http->wrapper()->query()->has('search_crs')) {
                 $search_crs = ilUtil::stripSlashes(
                     $this->http->wrapper()->query()->retrieve('search_crs', $this->refinery->kindlyTo()->string())
@@ -197,10 +197,6 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             }
             $this->ctrl->setParameter($this, 'search_crs', $search_crs);
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'searchCoursesTo');
-        }
-
-        if ($this->http->wrapper()->query()->has('viewmode')) {
-            $this->ctrl->setCmd('setViewMode');
         }
 
         $this->forwardClass = (string) $this->ctrl->getNextClass($this);
@@ -244,7 +240,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
                 $this->refinery->kindlyTo()->string()
             );
         }
-        $type = "";
+        $type = '';
         if ($this->http->wrapper()->query()->has('type')) {
             $type = $this->http->wrapper()->query()->retrieve('type', $this->refinery->kindlyTo()->string());
         }
@@ -282,10 +278,10 @@ class ilMailGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
 
-        $DIC['ilHelp']->setScreenIdComponent("mail");
+        $DIC['ilHelp']->setScreenIdComponent('mail');
 
         $this->tpl->loadStandardTemplate();
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_mail.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_mail.svg'));
 
         $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
         $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass(ilMailFolderGUI::class));
