@@ -798,6 +798,7 @@ p#copg-auto-save {
 	> .dropdown {
 		overflow: hidden;
 		position: static;
+		display: block;
 		> ul {
 			position: absolute;
 			z-index: 10;
