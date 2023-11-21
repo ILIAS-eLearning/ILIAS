@@ -212,7 +212,6 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         $data = $this->postOrder($this->getQuestionDataArray(), $order);
         [$offset, $length] = $range->unpack();
         $length = $length > 0 ? $length : null;
-        $offset = max($offset - 1, 0);
         return array_slice($data, $offset, $length);
     }
 
