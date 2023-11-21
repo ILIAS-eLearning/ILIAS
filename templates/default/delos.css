@@ -10402,6 +10402,36 @@ div.il_info {
   text-align: left;
 }
 
+.well {
+  min-height: auto;
+  padding: 18px;
+  margin-bottom: 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #dddddd;
+  border-radius: 0px;
+  text-color: white;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.well blockquote {
+  border-color: #dddddd;
+}
+
+.php {
+  min-height: auto;
+  padding: 18px;
+  margin-bottom: 12px;
+  background-color: #f9f9f9;
+  border: 1px solid #dddddd;
+  border-radius: 0px;
+  text-color: white;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.php blockquote {
+  border-color: #dddddd;
+}
+
 /* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
