@@ -584,6 +584,10 @@ class ilECSConnector
             $this->curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
             $this->curl->setOpt(CURLOPT_TIMEOUT_MS, 2000);
 
+            if ($this->logger->isHandling(ilLogLevel::DEBUG)) {
+                $this->curl->setOpt(CURLOPT_VERBOSE, 1);
+            }
+
             switch ($this->getServer()->getAuthType()) {
                 case ilECSSetting::AUTH_APACHE:
                     $this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, 0);
