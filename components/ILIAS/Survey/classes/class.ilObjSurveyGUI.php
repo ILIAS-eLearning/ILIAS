@@ -136,10 +136,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $cmd = $this->ctrl->getCmd("properties");
 
-        // workaround for bug #6288, needs better solution
-        if ($cmd === "saveTags") {
-            $this->ctrl->setCmdClass("ilinfoscreengui");
-        }
 
         // deep link from repository - "redirect" to page view
         if (!$this->ctrl->getCmdClass() && $cmd === "questionsrepo") {
@@ -694,9 +690,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     */
     public function infoScreenObject(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     /**

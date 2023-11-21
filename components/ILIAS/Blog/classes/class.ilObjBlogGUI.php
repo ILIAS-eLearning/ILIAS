@@ -581,7 +581,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $page_id = $this->gtp;
             if (ilBlogPosting::exists($this->object_id, $page_id)) {
                 // #12312
-                $ilCtrl->setCmdClass("ilblogpostinggui");
                 $ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $page_id);
                 if ($this->edt === "edit") {
                     $ilCtrl->redirectByClass("ilblogpostinggui", "edit");
@@ -906,9 +905,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
      */
     public function infoScreen(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreenForward();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     public function infoScreenForward(): void

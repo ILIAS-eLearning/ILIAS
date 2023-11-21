@@ -1181,9 +1181,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
     public function infoScreenObject(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     public function infoScreen(): void

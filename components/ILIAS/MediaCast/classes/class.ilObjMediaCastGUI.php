@@ -1050,9 +1050,7 @@ EOT;
         if (!$this->checkPermissionBool("read")) {
             $this->checkPermission("visible");
         }
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     public function infoScreen(): void

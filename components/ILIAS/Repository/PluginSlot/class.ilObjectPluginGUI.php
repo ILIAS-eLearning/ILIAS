@@ -167,9 +167,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                     $cmd = $this->getStandardCmd();
                 }
                 if ($cmd === "infoScreen") {
-                    $ilCtrl->setCmd("showSummary");
-                    $ilCtrl->setCmdClass("ilinfoscreengui");
-                    $this->infoScreen();
+                    $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
                 } else {
                     $this->performCommand($cmd);
                 }

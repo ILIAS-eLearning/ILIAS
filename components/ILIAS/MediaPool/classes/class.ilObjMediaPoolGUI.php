@@ -1469,9 +1469,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
      */
     public function infoScreenObject(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     /**
@@ -1491,8 +1489,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         }
 
         if ($this->ctrl->getCmd() === "infoScreen") {
-            $this->ctrl->setCmd("showSummary");
-            $this->ctrl->setCmdClass("ilinfoscreengui");
+            $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
         }
 
         $info = new ilInfoScreenGUI($this);

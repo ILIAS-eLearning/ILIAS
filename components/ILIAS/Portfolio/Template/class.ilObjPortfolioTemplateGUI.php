@@ -203,9 +203,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
      */
     public function infoScreen(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreenForward();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     public function infoScreenForward(): void

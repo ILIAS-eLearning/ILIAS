@@ -1138,9 +1138,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
      */
     public function infoScreen(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->outputInfoScreen();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     public function outputInfoScreen(): string

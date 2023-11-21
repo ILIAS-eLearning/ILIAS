@@ -338,9 +338,7 @@ class ilObjFolderGUI extends ilContainerGUI
      */
     public function showSummaryObject(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     protected function afterSave(ilObject $new_object): void
@@ -362,9 +360,7 @@ class ilObjFolderGUI extends ilContainerGUI
     */
     public function infoScreenObject(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     /**

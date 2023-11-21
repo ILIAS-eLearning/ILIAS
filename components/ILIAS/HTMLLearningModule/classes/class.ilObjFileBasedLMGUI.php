@@ -470,9 +470,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
      */
     public function infoScreen(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->showInfoScreen();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     public function showInfoScreen(): void
