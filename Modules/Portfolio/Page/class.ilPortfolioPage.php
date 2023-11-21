@@ -344,7 +344,7 @@ class ilPortfolioPage extends ilPageObject
             // outgoing links to be fixed
             if (count($fix) > 0) {
                 $t = ilObject::_lookupType($pid);
-                if (is_array($all_fixes[$t . ":" . $copied_id])) {
+                if (is_array($all_fixes[$t . ":" . $copied_id] ?? false)) {
                     $all_fixes[$t . ":" . $copied_id] += $fix;
                 } else {
                     $all_fixes[$t . ":" . $copied_id] = $fix;
