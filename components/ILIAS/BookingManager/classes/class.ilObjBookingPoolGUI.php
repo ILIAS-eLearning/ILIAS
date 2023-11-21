@@ -272,13 +272,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         if ($new_tpl_id !== $current_tpl_id) {
             // redirect to didactic template confirmation
             $this->ctrl->redirect(ilDidacticTemplateGUI::class, "confirmTemplateSwitch");
-
-            /*
-            $this->ctrl->setReturn($this, 'edit');
-            $this->ctrl->setCmdClass('ildidactictemplategui');
-            $this->ctrl->setCmd('confirmTemplateSwitch');
-            $dtpl_gui = new ilDidacticTemplateGUI($this, $new_tpl_id);
-            $this->ctrl->forwardCommand($dtpl_gui);*/
             return;
         }
         parent::afterUpdate();

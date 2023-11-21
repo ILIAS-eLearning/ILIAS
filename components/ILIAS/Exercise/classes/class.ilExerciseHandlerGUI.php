@@ -57,8 +57,8 @@ class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
 
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
-            $this->ctrl->setCmdClass("ilobjexercisegui");
-            $next_class = $this->ctrl->getNextClass($this);
+            $this->ctrl->saveParameterByClass(ilObjExerciseGUI::class, "ref_id");
+            $this->ctrl->redirectByClass(ilObjExerciseGUI::class, $this->ctrl->getCmd());
         }
 
         // add entry to navigation history

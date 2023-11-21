@@ -306,7 +306,7 @@ class ilPageEditorGUI
         if ($next_class == "") {
             $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
             if (is_array($pc_def)) {
-                $this->ctrl->setCmdClass($pc_def["pc_gui_class"]);
+                $this->ctrl->redirectByClass($pc_def["pc_gui_class"], $this->ctrl->getCmd());
             }
             $next_class = $this->ctrl->getNextClass($this);
         }

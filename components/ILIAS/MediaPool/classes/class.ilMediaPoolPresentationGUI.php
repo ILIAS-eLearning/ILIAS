@@ -82,8 +82,8 @@ class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
                 break;
 
             default:
-                $this->ctrl->setCmdClass("ilobjmediapoolgui");
-                $this->executeCommand();
+                $this->ctrl->saveParameterByClass(ilObjMediaPoolGUI::class, "ref_id");
+                $this->ctrl->redirectByClass(ilObjMediaPoolGUI::class, $this->ctrl->getCmd());
         }
     }
 }

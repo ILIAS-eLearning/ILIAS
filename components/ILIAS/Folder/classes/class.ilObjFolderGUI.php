@@ -546,10 +546,7 @@ class ilObjFolderGUI extends ilContainerGUI
             }
 
             if (ilSession::get('crs_timings')) {
-                $course_content_obj = new ilCourseContentGUI($this);
-                $this->ctrl->setCmdClass(get_class($course_content_obj));
-                $this->ctrl->setCmd('editUserTimings');
-                $this->ctrl->forwardCommand($course_content_obj);
+                $this->ctrl->redirectByClass(ilCourseContentGUI::class, 'editUserTimings');
                 return;
             }
         }

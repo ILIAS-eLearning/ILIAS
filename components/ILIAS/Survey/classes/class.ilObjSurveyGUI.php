@@ -319,7 +319,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function evaluationObject(): void
     {
         $eval_gui = new ilSurveyEvaluationGUI($this->survey);
-        $this->ctrl->setCmdClass(get_class($eval_gui));
         $this->ctrl->redirect($eval_gui, "openEvaluation");
     }
 

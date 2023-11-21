@@ -67,8 +67,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         switch ($next_class) {
             case "illmpagegui":
 
-                $lm_set = new ilSetting("lm");
-
                 $this->ctrl->setReturn($this, "edit");
                 if (!ilPageObject::_exists("lm", $this->obj->getId(), $this->requested_transl) &&
                     ilPageObject::_exists("lm", $this->obj->getId(), "-")) {
@@ -77,7 +75,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                         $ilCtrl->setParameterByClass("illmpagegui", "totransl", $this->requested_transl);
                         $ilCtrl->redirectByClass("illmpagegui", "switchToLanguage");
                     }
-                    $ilCtrl->setCmdClass("illmpagegui");
                     $page_gui = new ilLMPageGUI($this->obj->getId(), 0, false, "-");
                 } else {
                     $page_gui = new ilLMPageGUI($this->obj->getId());
@@ -154,9 +151,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
      */
     public function edit(): void
     {
-        $this->ctrl->setCmdClass("ilLMPageGUI");
-        $this->ctrl->setCmd("edit");
-        $this->executeCommand();
+        $this->ctrl->redirectByClass(ilLMPageGUI::class, "edit");
     }
 
     /**
@@ -164,9 +159,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
      */
     public function preview(): void
     {
-        $this->ctrl->setCmdClass("ilLMPageGUI");
-        $this->ctrl->setCmd("preview");
-        $this->executeCommand();
+        $this->ctrl->redirectByClass(ilLMPageGUI::class, "preview");
     }
 
 

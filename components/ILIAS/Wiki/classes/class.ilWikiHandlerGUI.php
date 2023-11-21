@@ -70,8 +70,8 @@ class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
-            $this->ctrl->setCmdClass("ilobjwikigui");
-            $next_class = $this->ctrl->getNextClass($this);
+            $this->ctrl->saveParameterByClass(ilObjWikiGUI::class, "ref_id");
+            $this->ctrl->redirectByClass(ilObjWikiGUI::class, $this->ctrl->getCmd());
         }
 
         // add entry to navigation history

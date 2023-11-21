@@ -1210,24 +1210,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->setContentStyleSheet();
 
         //$wpage_gui->setSideBlock();
-        $ilCtrl->setCmdClass("ilwikipagegui");
-        $ilCtrl->setCmd("preview");
-        if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-            (
-                !$ilAccess->checkAccess("edit_content", "", $this->object->getRefId()) ||
-                $wpage_gui->getPageObject()->getBlocked()
-            )) {
-            $wpage_gui->setEnableEditing(false);
-        }
-
-        // alter title and description
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $wpage_gui->activateMetaDataEditor($this->object, "wpg", $wpage_gui->getId());
-        }
-
-        $html = $ilCtrl->forwardCommand($wpage_gui);
-
-        $tpl->setContent($html);
+        $ilCtrl->redirectByClass(ilWikiPageGUI::class, "preview");
     }
 
     public function allPagesObject(): void

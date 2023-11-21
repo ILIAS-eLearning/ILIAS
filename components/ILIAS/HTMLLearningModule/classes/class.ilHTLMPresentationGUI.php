@@ -94,9 +94,8 @@ class ilHTLMPresentationGUI implements ilCtrlBaseClassInterface
                 break;
 
             default:
-                $this->ctrl->setCmdClass("ilobjfilebasedlmgui");
-                $this->ctrl->setCmd("showLearningModule");
-                $this->executeCommand();
+                $this->ctrl->saveParameterByClass(ilObjFileBasedLMGUI::class, "ref_id");
+                $this->ctrl->redirectByClass(ilObjFileBasedLMGUI::class, "showLearningModule");
                 break;
         }
     }

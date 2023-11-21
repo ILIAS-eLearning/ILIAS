@@ -437,15 +437,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     !in_array($new_type, array("lm"))) {
                     switch ($new_type) {
                         case "pg":
-                            $this->setTabs();
-                            $this->ctrl->setCmdClass("ilLMPageObjectGUI");
-                            $this->executeCommand();
+                            $this->ctrl->redirectByClass(ilLMPageObjectGUI::class, $this->ctrl->getCmd());
                             break;
 
                         case "st":
-                            $this->setTabs();
-                            $this->ctrl->setCmdClass("ilStructureObjectGUI");
-                            $this->executeCommand();
+                            $this->ctrl->redirectByClass(ilStructureObjectGUI::class, $this->ctrl->getCmd());
                             break;
                     }
                 } else {

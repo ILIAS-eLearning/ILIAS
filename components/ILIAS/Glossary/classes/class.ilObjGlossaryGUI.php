@@ -277,10 +277,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 $cmd = $this->ctrl->getCmd("listTerms");
 
                 if (($cmd == "create") && ($this->edit_request->getNewType() == "term")) {
-                    $this->ctrl->setCmd("create");
-                    $this->ctrl->setCmdClass("ilGlossaryTermGUI");
-                    $this->executeCommand();
-                    return;
+                    $this->ctrl->redirectByClass(ilGlossaryTermGUI::class, "create");
                 } else {
                     if ($cmd != "quickList") {
                         if ($this->in_administration ||

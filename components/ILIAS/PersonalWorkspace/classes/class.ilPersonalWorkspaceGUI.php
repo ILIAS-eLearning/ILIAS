@@ -110,7 +110,7 @@ class ilPersonalWorkspaceGUI
             // when creating a link resource)
             // Without this fix, the cmdClass ilObjectCopyGUI would never be reached
             if (strtolower($ilCtrl->getNextClass($this)) !== strtolower("ilObj" . $class_name . "GUI")) {
-                $ilCtrl->setCmdClass("ilObj" . $class_name . "GUI");
+                $ilCtrl->redirectByClass("ilObj" . $class_name . "GUI", $ilCtrl->getCmd());
             }
         }
 
@@ -119,7 +119,7 @@ class ilPersonalWorkspaceGUI
         if (!$next_class) {
             $node = $this->tree->getNodeData($this->node_id);
             $next_class = "ilObj" . $objDefinition->getClassName($node["type"]) . "GUI";
-            $ilCtrl->setCmdClass($next_class);
+            $ilCtrl->redirectByClass($next_class, $ilCtrl->getCmd());
         }
 
         //  if we do this here the object can still change the breadcrumb
