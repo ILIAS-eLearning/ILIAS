@@ -402,7 +402,6 @@ class PageContentManager
     ) {
         $a_hid = explode(":", $a_hier_id);
         $content = $user->getPCClipboardContent();
-
         // we insert from last to first, because we insert all at the
         // same hier_id
         for ($i = count($content) - 1; $i >= 0; $i--) {
@@ -414,7 +413,7 @@ class PageContentManager
             );
             if (empty($error)) {
                 $this->handleCopiedContent($page, $temp_dom, $a_self_ass);
-                $path = "//PageContent";
+                $path = "/PageContent";
                 $nodes = $this->dom_util->path($temp_dom, $path);
                 foreach ($nodes as $node) {
                     $new_pc_node = $node;
