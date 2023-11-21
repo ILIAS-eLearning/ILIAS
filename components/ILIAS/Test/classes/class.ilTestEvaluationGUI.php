@@ -318,7 +318,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 try {
                     $globalCertificatePrerequisites = new ilCertificateActiveValidator();
                     if ($globalCertificatePrerequisites->validate()) {
-                        $options[] = $this->ui_factory->button()->shy($this->lng->txt('exp_type_certificate'), 'certificate');
+                        $options[] = $this->ui_factory->button()->shy($this->lng->txt('exp_type_certificate'), $this->ctrl->getLinkTarget($this, 'certificate'));
                     }
                 } catch (ilException $e) {
                 }
