@@ -21,7 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Data;
 
 /**
- * A simple class to express a naive range of whole positive numbers.
+ * A simple class to express a range of whole positive numbers.
+ * Range is a half-open interval (right-open): [a,b) = {x ∈ ℕ: a ≤ x < b}.
+ * Since the endpoint is excluded, a Range of 0,3 means: records 0,1,2, but not 3.
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
@@ -67,6 +69,10 @@ class Range
         return $this->length;
     }
 
+    /**
+     * getEnd will return the (excluded) endpoint.
+     * For a Range of (4,2), e.g.: getEnd is 4 + 2 = 6, so valid records are 4 and 5, but not 6.
+     */
     public function getEnd(): int
     {
         if ($this->length === PHP_INT_MAX) {
