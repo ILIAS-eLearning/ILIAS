@@ -381,12 +381,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                         break;
                 }
 
-                if (in_array(strtolower($cmd), array_map('strtolower', ['addToDesk', 'removeFromDesk']), true)) {
-                    $this->ctrl->setCmd($cmd . 'Object');
-                }
-
                 parent::executeCommand();
         }
+    }
+
+    protected function addToDesk(): void
+    {
+        $this->addToDeskObject();
+    }
+
+    protected function removeFromDesk(): void
+    {
+        $this->removeFromDeskObject();
     }
 
     public function addToNavigationHistory(): void
