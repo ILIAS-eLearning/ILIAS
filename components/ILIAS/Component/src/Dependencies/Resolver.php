@@ -56,7 +56,7 @@ class Resolver
             foreach ($component->getInDependencies() as $d) {
                 switch ($d->getType()) {
                     case InType::PULL:
-                        $this->resolvePull($d, $components);
+                        $this->resolvePull($component, $d, $components);
                         break;
                     case InType::SEEK:
                         $this->resolveSeek($d, $components);
@@ -71,7 +71,7 @@ class Resolver
         return $components;
     }
 
-    protected function resolvePull(In $in, array &$others): void
+    protected function resolvePull(OfComponent $component, In $in, array &$others): void
     {
         $candidate = null;
 
@@ -88,7 +88,7 @@ class Resolver
         }
 
         if (is_null($candidate)) {
-            throw new \LogicException("Could not resolve dependency for: " . (string) $in);
+            throw new \LogicException("Could not resolve dependency for {$component->getComponentName()}: " . (string) $in);
         }
 
         $in->addResolution($candidate);
@@ -120,7 +120,9 @@ class Resolver
         $candidates = array_merge(...$candidates);
 
         if (empty($candidates)) {
-            throw new \LogicException("Could not resolve dependency for: " . (string) $in);
+            throw new \LogicException(
+                "Could not resolve dependency for {$component->getComponentName()}: " . (string) $in
+            );
         }
 
         if (count($candidates) === 1) {

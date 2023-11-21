@@ -20,20 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS\Component\Dependencies;
 
-class Define implements Dependency
+/**
+ * An object that looks like a Dependency Injection Container but actually
+ * does nothing.
+ */
+class NullDIC implements \ArrayAccess
 {
-    public function __construct(
-        protected Name $name,
-    ) {
+    public function offsetSet($id, $value): void
+    {
     }
 
-    public function __toString(): string
+    public function offsetGet($id): null
     {
-        return "DEFINE: " . $this->name;
+        return null;
     }
 
-    public function getName(): string
+    public function offsetExists($id): false
     {
-        return (string) $this->name;
+        return false;
+    }
+
+    public function offsetUnset($id): void
+    {
     }
 }

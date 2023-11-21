@@ -48,7 +48,7 @@ class ResolverTest extends TestCase
         $name = TestInterface::class;
 
         $pull = new D\In(D\InType::PULL, $name);
-        $provide = new D\Out(D\OutType::PROVIDE, $name, "Some\\Class", []);
+        $provide = new D\Out(D\OutType::PROVIDE, $name, null, []);
 
         $c1 = new D\OfComponent($component, $pull);
         $c2 = new D\OfComponent($component, $provide);
@@ -56,7 +56,7 @@ class ResolverTest extends TestCase
         $result = $this->resolver->resolveDependencies([], $c1, $c2);
 
         $pull = new D\In(D\InType::PULL, $name);
-        $provide = new D\Out(D\OutType::PROVIDE, $name, "Some\\Class", []);
+        $provide = new D\Out(D\OutType::PROVIDE, $name, null, []);
         $pull->addResolution($provide);
 
         $c1 = new D\OfComponent($component, $pull);
@@ -89,8 +89,8 @@ class ResolverTest extends TestCase
         $name = TestInterface::class;
 
         $pull = new D\In(D\InType::PULL, $name);
-        $provide1 = new D\Out(D\OutType::PROVIDE, $name, "Some\\Class", []);
-        $provide2 = new D\Out(D\OutType::PROVIDE, $name, "Some\\Class", []);
+        $provide1 = new D\Out(D\OutType::PROVIDE, $name, null, []);
+        $provide2 = new D\Out(D\OutType::PROVIDE, $name, null, []);
 
         $c1 = new D\OfComponent($component, $pull);
         $c2 = new D\OfComponent($component, $provide1);
@@ -121,8 +121,8 @@ class ResolverTest extends TestCase
         $name = TestInterface::class;
 
         $seek = new D\In(D\InType::SEEK, $name);
-        $contribute1 = new D\Out(D\OutType::CONTRIBUTE, $name, "Some\\Class", []);
-        $contribute2 = new D\Out(D\OutType::CONTRIBUTE, $name, "Some\\Class", []);
+        $contribute1 = new D\Out(D\OutType::CONTRIBUTE, $name, null, []);
+        $contribute2 = new D\Out(D\OutType::CONTRIBUTE, $name, null, []);
 
         $c1 = new D\OfComponent($component, $seek);
         $c2 = new D\OfComponent($component, $contribute1);
@@ -132,8 +132,8 @@ class ResolverTest extends TestCase
 
 
         $seek = new D\In(D\InType::SEEK, $name);
-        $contribute1 = new D\Out(D\OutType::CONTRIBUTE, $name, "Some\\Class", []);
-        $contribute2 = new D\Out(D\OutType::CONTRIBUTE, $name, "Some\\Class", []);
+        $contribute1 = new D\Out(D\OutType::CONTRIBUTE, $name, null, []);
+        $contribute2 = new D\Out(D\OutType::CONTRIBUTE, $name, null, []);
         $seek->addResolution($contribute1);
         $seek->addResolution($contribute2);
 
@@ -151,7 +151,7 @@ class ResolverTest extends TestCase
         $name = TestInterface::class;
 
         $use = new D\In(D\InType::USE, $name);
-        $implement = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\Class", []);
+        $implement = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\Class"], []);
 
         $c1 = new D\OfComponent($component, $use);
         $c2 = new D\OfComponent($component, $implement);
@@ -159,7 +159,7 @@ class ResolverTest extends TestCase
         $result = $this->resolver->resolveDependencies([], $c1, $c2);
 
         $use = new D\In(D\InType::USE, $name);
-        $implement = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\Class", []);
+        $implement = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\Class"], []);
         $use->addResolution($implement);
 
         $c1 = new D\OfComponent($component, $use);
@@ -192,8 +192,8 @@ class ResolverTest extends TestCase
         $name = TestInterface::class;
 
         $use = new D\In(D\InType::USE, $name);
-        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\Class", []);
-        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\Class", []);
+        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\Class"], []);
+        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\Class"], []);
 
         $c1 = new D\OfComponent($component, $use);
         $c2 = new D\OfComponent($component, $implement1);
@@ -209,8 +209,8 @@ class ResolverTest extends TestCase
         $name = TestInterface::class;
 
         $use = new D\In(D\InType::USE, $name);
-        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\Class", []);
-        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\OtherClass", []);
+        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\Class"], []);
+        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\OtherClass"], []);
 
         $c1 = new D\OfComponent($component, $use);
         $c2 = new D\OfComponent($component, $implement1);
@@ -225,8 +225,8 @@ class ResolverTest extends TestCase
         $result = $this->resolver->resolveDependencies($disambiguation, $c1, $c2, $c3);
 
         $use = new D\In(D\InType::USE, $name);
-        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\Class", []);
-        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\OtherClass", []);
+        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\Class"], []);
+        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\OtherClass"], []);
         $use->addResolution($implement2);
 
         $c1 = new D\OfComponent($component, $use);
@@ -243,8 +243,8 @@ class ResolverTest extends TestCase
         $name = TestInterface::class;
 
         $use = new D\In(D\InType::USE, $name);
-        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\Class", []);
-        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\OtherClass", []);
+        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\Class"], []);
+        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\OtherClass"], []);
 
         $c1 = new D\OfComponent($component, $use);
         $c2 = new D\OfComponent($component, $implement1);
@@ -259,8 +259,8 @@ class ResolverTest extends TestCase
         $result = $this->resolver->resolveDependencies($disambiguation, $c1, $c2, $c3);
 
         $use = new D\In(D\InType::USE, $name);
-        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\Class", []);
-        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, "Some\\OtherClass", []);
+        $implement1 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\Class"], []);
+        $implement2 = new D\Out(D\OutType::IMPLEMENT, $name, ["class" => "Some\\OtherClass"], []);
         $use->addResolution($implement2);
 
 

@@ -16,24 +16,21 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+namespace ILIAS\Component\Tests\Dependencies\Scenario1;
 
-namespace ILIAS\Component\Dependencies;
+use ILIAS\Component\Component;
 
-class Define implements Dependency
+class ComponentA implements Component
 {
-    public function __construct(
-        protected Name $name,
-    ) {
-    }
-
-    public function __toString(): string
-    {
-        return "DEFINE: " . $this->name;
-    }
-
-    public function getName(): string
-    {
-        return (string) $this->name;
+    public function init(
+        array | \ArrayAccess &$define,
+        array | \ArrayAccess &$implement,
+        array | \ArrayAccess &$use,
+        array | \ArrayAccess &$contribute,
+        array | \ArrayAccess &$seek,
+        array | \ArrayAccess &$provide,
+        array | \ArrayAccess &$pull,
+        array | \ArrayAccess &$internal,
+    ): void {
     }
 }

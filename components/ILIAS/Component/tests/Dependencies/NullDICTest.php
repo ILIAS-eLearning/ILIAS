@@ -18,22 +18,16 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Component\Dependencies;
+namespace ILIAS\Component\Tests\Dependencies;
 
-class Define implements Dependency
+use PHPUnit\Framework\TestCase;
+use ILIAS\Component\Dependencies\Name;
+
+class NullDICTest extends TestCase
 {
-    public function __construct(
-        protected Name $name,
-    ) {
-    }
-
-    public function __toString(): string
+    public function testExistence()
     {
-        return "DEFINE: " . $this->name;
-    }
-
-    public function getName(): string
-    {
-        return (string) $this->name;
+        $dic = new \ILIAS\Component\Dependencies\NullDIC();
+        $this->assertInstanceOf(\ArrayAccess::class, $dic);
     }
 }
