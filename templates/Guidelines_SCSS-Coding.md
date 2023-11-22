@@ -5,7 +5,7 @@ will then review the PR and give you feedback and/or merge your changes.*
 
 This section of the codebase defines the design and layout of ILIAS. All CSS code is build here. HTML templates can be found elsewhere (see section "HTML").
 
-The following guidelines will help you to
+The following guidelines will help you to:
 * find your way through the folder structure,
 * understand the different layers that keep our style code organized,
 * and learn what standards and best practices are expected.
