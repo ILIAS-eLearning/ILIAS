@@ -14254,17 +14254,20 @@ div.ilContainerListItemOuter .subitem {
 
 div.tblfooter.ilContainerListFooter {
   font-size: 0.875rem;
-  padding: 3px 0 0 10px;
+  padding: 9px 15px;
   text-align: left;
+  margin: 0;
 }
 div.tblfooter.ilContainerListFooter > input {
   padding: 0;
   margin: 0;
+  width: auto;
 }
 div.tblfooter.ilContainerListFooter > label {
   margin: 0;
   padding: 0 0 0 8px;
   vertical-align: top;
+  width: auto;
 }
 
 input[name^="position[blocks]"] {
@@ -18067,12 +18070,15 @@ a.ilMediaLightboxClose:hover {
 .progress {
   height: 15px;
   min-width: 100px;
+  background-color: #b8b8b8;
 }
 
 .progress-bar {
   font-size: 0.75rem;
   line-height: 15px;
-  min-width: 30px;
+  min-width: 50px;
+  text-align: center;
+  color: #f0f0f0;
 }
 
 /* Services/UIComponent/Tabs */
