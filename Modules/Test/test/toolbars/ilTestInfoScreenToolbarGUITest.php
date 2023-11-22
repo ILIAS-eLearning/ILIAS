@@ -52,7 +52,6 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
             $DIC['lng'],
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
-            $DIC['ilUser'],
             $DIC['tpl'],
             $DIC['ilToolbar']
         );
