@@ -77,6 +77,11 @@ input.btn {
     $engaged_border-width: 1px);
 }
 
+.navbar-form > a {
+  @extend .btn;
+  @extend .btn-default;
+}
+
 .btn-primary {
   @include make-button($set-basics: false, $set-design: true,
     $button-color: s.$il-btn-primary-bg,
@@ -165,13 +170,8 @@ input.btn {
 //
 
 // base styling for all
-.il-link.link-bulky,
-.il-drilldown .menulevel {
-  @extend .btn;
-}
-.btn-bulky,
-.il-link.link-bulky,
-.il-drilldown .menulevel {
+
+.btn-bulky {
 	@include make-button($set-basics: false, $set-design: true,
     $button-color: s.$il-bulky-bg-color,
     $text-color: s.$il-bulky-text-color,
@@ -197,6 +197,12 @@ input.btn {
     $engaged_bg-color: s.$il-bulky-bg-color-engaged,
     $engaged_border-width: 1px);
   @include f.il-focus-border-only();
+}
+
+.il-link.link-bulky,
+.il-drilldown .menulevel {
+  @extend .btn;
+  @extend .btn-bulky;
 }
 
 // same visual design for bulky buttons and links in slate and drilldown
