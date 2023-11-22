@@ -34,9 +34,11 @@ Link formattings lead to subtle issues (e.g. #30906) sometimes, since they are n
 
 In general the old string manipulations should be replaced by DOM manipulations whenever possible when transforming the client side data.
 
-### Remove remaining hardcoded styles from code
+### Clarify dependency/relation with Style/Content component
 
-E.g. style_selector_reset and similar places.
+See roadmap in [Content Style](../../Services/Style/Content/ROADMAP.md).
+
+Similar to the system style concepts the small less dependency (css/content.less) should be migrated to sass.
 
 ### Page Content Integration
 
