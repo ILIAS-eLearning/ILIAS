@@ -1388,7 +1388,7 @@ assessment#:#tst_exam_ending_time_message#:#Der Test kann nicht nach %s gestarte
 assessment#:#tst_exam_modal_message_conditions#:#Bitte bestätigen Sie die Bedingungen, um den Test zu starten.
 assessment#:#tst_exam_modal_message_conditions_and_password#:#Bitte bestätigen Sie die Bedingungen und geben Sie das Passwort ein, um den Test zu starten.
 assessment#:#tst_exam_modal_message_password#:#Bitte geben Sie das Passwort ein, um den Test zu starten.
-assessment#:#tst_exam_not_assigned_participant_disclaimer#:#Du kannst den Test nicht starten, da du kein zugewiesener Teilnehmer bist.
+assessment#:#tst_exam_not_assigned_participant_disclaimer#:#Sie können den Test nicht starten, da Sie kein zugewiesener Teilnehmer sind.
 assessment#:#tst_exam_password#:#Testpasswort
 assessment#:#tst_exam_password_invalid_message#:#Das angegebene Passwort ist ungültig!
 assessment#:#tst_exam_password_label#:#Passwort
