@@ -77,7 +77,7 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
     protected function getUITree(): Tree
     {
         $entries = new Entries();
-        $entries->addEntriesFromArray(require ilKitchenSinkDataCollectedObjective::DATA_PATH);
+        $entries->addEntriesFromArray(require __DIR__ . '/../../data/data.php');
 
         $parent_class_hierarchy = ['ilAdministrationGUI',
                                    'ilObjStyleSettingsGUI',
