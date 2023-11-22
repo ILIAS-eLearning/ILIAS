@@ -31,10 +31,25 @@ code also assume the responsibility for the corresponding functions.
 
 For the context of ILIAS, we define **four** different authorities:
 
-1. **Authority to Sign off Code Changes**
-2. **Authority to Sign off Conceptual Changes**
-3. **Authority to Sign off Testcase Changes**
-4. **Authority to (De-)Assign Authorities**
+1. **Authority to Sign off Code Changes**The people listed here are
+authorised to decide on the future course of the component. Depending on the
+social organisation, this decision is taken collectively or individually. In any
+case a close coordination with the people holding *the Authority to Sign off
+Conceptual Changes* will be necessary. The people listed here are authorized to
+set the checked and attendance flag for features to be discussed at the Jour Fixe.
+They should be contacted first for changes to the functionality of a component.
+2. **Authority to Sign off Conceptual Changes**: The people listed here are
+authorised to contribute directly to the code base of the ILIAS core. They are
+authorised to commit directly to the codebase of the ILIAS core and to merge
+Pull Requests. They are the ones deciding on the structure and quality of the
+code of a component.
+3. **Authority to Curate Test Cases**: The people listed here are
+authorised to modify and delete existing test cases. They also have the final
+say on new test cases and can ask for modifications. They will be the ones
+contacted if there are questions concerning the test cases for a component.
+4. **Authority to (De-)Assign Authorities**: The people listed here are
+authorised to assign and deassign other people to the authorities of a component
+They are the only ones allowed to modify the `maintanance.json` of a component.
 
 Each of these authorities can be held by a different set of people. This means
 that the social organisation of different groups working on different parts of
@@ -59,8 +74,8 @@ Independently of the social organisation, for each [component](https://github.co
 responsibilites need to be assumed:
 
 * All people holding an authority must agree to coordinate the development
-of their [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md) with the Product Manager and with the people maintaining
-other units of code.
+of their [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md)
+with the Product Manager and with the people maintaining other units of code.
 * One of the people holding either the **Authority to Sign off Code Changes** or
 the **Authority to Sign off Conceptual Changes** gets assigned related bugs
 automatically by the [Issue-Tracker](https://mantis.ilias.de). S/he is responsible
@@ -137,7 +152,8 @@ of ILIAS. The file contains the following fields:
 * **Administration**
 	* Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
         , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off Conceptual Changes: [[fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
