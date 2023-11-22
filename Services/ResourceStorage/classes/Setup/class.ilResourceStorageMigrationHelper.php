@@ -81,6 +81,10 @@ class ilResourceStorageMigrationHelper
         $this->client_data_dir = $client_data_dir;
         $this->database = $db;
 
+        if (!is_writable("{$data_dir}/{$client_id}/storage/fsv2")) {
+            throw new Exception('storage directory is not writable, abort...');
+        }
+
         // Build Container
         $init = new InitResourceStorage();
         $container = new Container();
