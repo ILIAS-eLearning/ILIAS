@@ -214,7 +214,7 @@ class ilTestScreenGUI
             ;
         }
 
-        if (ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $this->user->getId())) {
+        if (ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $this->user->getId()) !== true) {
             return $launcher
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
                 ->withButtonLabel($this->lng->txt('user_wrong_clientip'), false)
