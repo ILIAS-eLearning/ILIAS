@@ -33,6 +33,8 @@ class ilTestLearningObjectivesStatusGUITest extends ilTestBaseTestCase
         $this->testObj = new ilTestLearningObjectivesStatusGUI(
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrl::class),
+            $this->createMock(ILIAS\UI\Factory::class),
+            $this->createMock(ILIAS\UI\Renderer::class),
             $this->createMock(ILIAS\Test\InternalRequestService::class)
         );
     }

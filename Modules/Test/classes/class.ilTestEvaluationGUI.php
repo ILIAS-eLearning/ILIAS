@@ -1271,10 +1271,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $passOverViewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassOverviewHeaderLabel());
         $overview = $passOverViewTableGUI->getHTML();
         if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            $loStatus = new ilTestLearningObjectivesStatusGUI($this->lng, $this->ctrl, $this->testrequest);
-            $loStatus->setCrsObjId($this->getObjectiveOrientedContainer()->getObjId());
-            $loStatus->setUsrId($testSession->getUserId());
-            $overview .= "<br />" . $loStatus->getHTML();
+            $lo_status = new ilTestLearningObjectivesStatusGUI(
+                $this->lng,
+                $this->ctrl,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $this->testrequest
+            );
+            $lo_status->setCrsObjId($this->getObjectiveOrientedContainer()->getObjId());
+            $lo_status->setUsrId($testSession->getUserId());
+            $overview .= "<br />" . $lo_status->getHTML();
         }
         $template->setVariable("PASS_OVERVIEW", $overview);
         $template->parseCurrentBlock();
