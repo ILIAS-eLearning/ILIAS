@@ -86,6 +86,9 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
      */
     public function withValue($value): self
     {
+        if ($value === '') {
+            $value = null;
+        }
         // TODO: It would be a lot nicer if the value would be held as DateTimeImmutable
         // internally, but currently this is just to much. Added to the roadmap.
         if ($value instanceof \DateTimeImmutable) {
