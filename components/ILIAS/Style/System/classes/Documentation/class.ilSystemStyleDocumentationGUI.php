@@ -31,8 +31,6 @@ class ilSystemStyleDocumentationGUI
     protected ILIAS\UI\Renderer $r;
 
     public const SHOW_TREE = 'system_styles_show_tree';
-    public const DATA_PATH = __DIR__ . '/../../data/data.php';
-    public const ROOT_FACTORY_PATH = __DIR__ . '/../../../../../../components/ILIAS/Style/System/data/abstractDataFactory.php';
 
     public function __construct(
         ilGlobalTemplateInterface $tpl,

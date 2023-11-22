@@ -206,7 +206,7 @@ class ilSystemStyleMainGUI
                     );
                     $this->tpl->setPermanentLink('stys', (int) $this->ref_id, $goto_link);
                     $entries = new Entries();
-                    $entries->addEntriesFromArray(require __DIR__ . "/../../../../../" . ilSystemStyleDocumentationGUI::DATA_PATH);
+                    $entries->addEntriesFromArray(require ilKitchenSinkDataCollectedObjective::DATA_PATH);
                     $documentation_gui = new ilSystemStyleDocumentationGUI(
                         $this->tpl,
                         $this->ctrl,
