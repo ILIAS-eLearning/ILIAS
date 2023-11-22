@@ -56,10 +56,6 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
                 return $this->renderPageElement("BlogTemplate", $this->renderBlogTemplate());
 
             default:
-
-                // needed for placeholders
-                $this->tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
-
                 return parent::showPage();
         }
     }

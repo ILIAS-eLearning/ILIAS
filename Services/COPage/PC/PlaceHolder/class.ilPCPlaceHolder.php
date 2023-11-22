@@ -154,7 +154,7 @@ class ilPCPlaceHolder extends ilPageContent
 
     public function getCssFiles(string $a_mode): array
     {
-        return [ilObjStyleSheet::getPlaceHolderStylePath()];
+        return [];
     }
 
     public static function handleCopiedContent(

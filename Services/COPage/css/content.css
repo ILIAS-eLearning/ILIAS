@@ -1,20 +1,9 @@
-/**
-This file contains all less Variables set by ILIAS. Please do not overwrite bootstrap standard variables here.
-Set an ILIAS variable here with an il- prefix and overwrite the bootstrap variable in the bootstrap variables file
-with the il- variable set here.
- */
-/** headline text transform **/
-/** inline shadow of a message container **/
-/** border configuration, the color is automatically computed from the three color variants **/
-/** nagtive or positive contrast color for text and glyph **/
-/** contrast threshold for contrast color **/
-/** three color variants for neutral, important, breaking Head Infos **/
 a.ilc_qetitem_ErrorTextItem {
   padding: 2px;
   text-decoration: none;
 }
 a.ilc_qetitem_ErrorTextItem:hover {
-  color: #000000;
+  color: #141414;
   text-decoration: none;
   background-color: #D0D0D0;
 }
@@ -61,10 +50,10 @@ a.ilc_marker_Marker {
   display: block;
   cursor: pointer;
   background-repeat: no-repeat;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/standard/icon_pin.svg");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/icon_pin.svg");
 }
 a.ilc_marker_Marker:hover {
-  background-image: url("../../../libs/ilias/Style/basic_style/images/standard/icon_pin_on.svg");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/icon_pin_on.svg");
   background-repeat: no-repeat;
 }
 a.ilc_page_rnavlink_RightNavigationLink {
@@ -370,7 +359,7 @@ div.ilc_ha_ihead_HAccordIHead {
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_exp.svg");
   min-height: 300px;
   /*height: auto !important;
-  height: 300px;*/
+	height: 300px;*/
   background-position: center 10px;
   color: #161616;
   cursor: pointer;
@@ -382,7 +371,7 @@ div.ilc_ha_ihead_HAccordIHead {
   background-repeat: no-repeat;
 }
 div.ilc_ha_ihead_HAccordIHead:hover {
-  color: #000000;
+  color: #141414;
   background-color: #FFFFD0;
 }
 div.ilc_ha_ihcap_HAccordIHeadCap {
@@ -775,8 +764,6 @@ img.ilc_page_rnavimage_RightNavigationImage {
   width: 20px;
   background-position: 0px center;
 }
-input.ilc_qsubmit_Submit {
-}
 input.ilc_qinput_TextInput {
   padding-left: 4px;
 }
@@ -790,14 +777,14 @@ li.ilc_qordli_OrderListItem {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 0px;
-  background-color: #e2e8ef;
+  background-color: #a6b2c3;
   margin-right: 0px;
   cursor: move;
   padding: 10px;
 }
 li.ilc_qordli_OrderListItemHorizontal {
   cursor: move;
-  background-color: #e2e8ef;
+  background-color: #a6b2c3;
   padding: 10px;
   margin-right: 10px;
   margin-bottom: 5px;
@@ -818,7 +805,7 @@ span.ilc_text_inline_Emph {
 }
 span.ilc_qetcorr_ErrorTextCorrected {
   text-decoration: line-through;
-  color: #7c7c7c;
+  color: #737373;
 }
 span.ilc_text_inline_Important {
   text-decoration: underline;
@@ -1068,7 +1055,7 @@ div.ilc_ha_iheada_HAccordIHeadActive {
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_col.svg");
 }
 div.ilc_ha_iheada_HAccordIHeadActive:hover {
-  color: #000000;
+  color: #141414;
 }
 div.ilc_va_iheada_VAccordIHeadActive {
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_exp.svg");
@@ -1082,5 +1069,5 @@ div.ilc_va_iheada_VAccordIHeadActive {
   padding-right: 3px;
 }
 div.ilc_va_iheada_VAccordIHeadActive:hover {
-  color: #000000;
+  color: #141414;
 }

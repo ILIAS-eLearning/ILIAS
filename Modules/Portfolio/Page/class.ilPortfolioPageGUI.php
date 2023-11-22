@@ -80,10 +80,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             "LOCATION_CONTENT_STYLESHEET",
             ilObjStyleSheet::getContentStylePath(0)
         );
-        $tpl->setVariable(
-            "LOCATION_ADDITIONAL_STYLESHEET",
-            ilObjStyleSheet::getPlaceHolderStylePath()
-        );
         $tpl->parseCurrentBlock();
 
         $this->requested_ppage = $this->port_request->getPortfolioPageId();

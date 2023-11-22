@@ -1440,7 +1440,7 @@ class ilPageObjectGUI
         }
 
         // needed for placeholders
-        $this->tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
+        $this->tpl->addCss(ilObjStyleSheet::getBaseContentStylePath());
 
         $file_download_link = $this->determineFileDownloadLink();
         $fullscreen_link = $this->determineFullscreenLink();
