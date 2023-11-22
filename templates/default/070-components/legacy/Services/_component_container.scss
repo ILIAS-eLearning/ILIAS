@@ -32,16 +32,19 @@ div.ilContainerListItemOuter {
 div.tblfooter {
 	&.ilContainerListFooter {
 		font-size: $il-font-size-base;
-		padding: 3px 0 0 10px;
+		padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 		text-align: left;
+		margin: 0;
 		> input {
 			padding: 0;
 			margin: 0;
+			width: auto;
 		}
 		> label {
 			margin: 0;
 			padding: 0 0 0 8px;
 			vertical-align: top;
+			width: auto;
 		}
 	}
 }
