@@ -170,12 +170,12 @@ class ilUserAvatarResolver
 
     public function getUserPictureForVCard(): array
     {
-        if (!$this->hasProfilePicture()) {
+        if (!$this->hasProfilePicture()
+            || $this->rid === '-') {
             return [null, null];
         }
 
         if ($this->rid !== null
-            && $this->rid !== '-'
             && ($identification = $this->irss->manage()->find($this->rid)) !== null) {
             $flavour_streams = $this->irss->flavours()
                 ->get($identification, $this->flavour_definition)
@@ -214,9 +214,8 @@ class ilUserAvatarResolver
      */
     public function getLegacyPictureURL(): string
     {
-        if ($this->hasProfilePicture()) {
-            // IRSS
-            if ($this->rid !== null && $this->rid !== '-') {
+        if ($this->hasProfilePicture() && $this->rid !== '-') {
+            if ($this->rid !== null) {
                 return $this->resolveProfilePicturePath();
             }
 
