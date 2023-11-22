@@ -57,9 +57,9 @@ class ilContentStyleImageGUI
         $this->gui = $gui_service;
 
         $images = $this->request->getFiles();
-
         if (count($images) == 1 && $manager->filenameExists(current($images))) {
             $this->current_image = current($images);
+            $this->current_images = $images;
         } else {
             $this->current_images = array_filter($images, function ($i) use ($manager) {
                 return $manager->filenameExists($i);
@@ -166,7 +166,6 @@ class ilContentStyleImageGUI
     public function deleteImage(): void
     {
         $ilCtrl = $this->gui->ctrl();
-
         foreach ($this->current_images as $i) {
             $this->manager->deleteByFilename($i);
         }
