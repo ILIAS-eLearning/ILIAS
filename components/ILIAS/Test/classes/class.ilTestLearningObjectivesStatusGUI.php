@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Chart\ProgressMeter\Standard as StandardProgressMeter;
 use ILIAS\Test\InternalRequestService;
 
 /**
@@ -132,7 +131,8 @@ class ilTestLearningObjectivesStatusGUI
                         $this->lng->txt("crs_objectives")
                     )
                 )->withProgress(
-                    $this->buildProgressMeter(
+                    $this->ui_factory->chart()->progressMeter()->standard(
+                        100,
                         $objtv['result_perc'],
                         $objtv['limit_perc'],
                         $compare_value
@@ -146,19 +146,6 @@ class ilTestLearningObjectivesStatusGUI
         }
 
         return $items;
-    }
-
-    private function buildProgressMeter(
-        int $result_percent,
-        int $limit_percent,
-        ?int $compare_value
-    ): StandardProgressMeter {
-        return $this->ui_factory->chart()->progressMeter()->standard(
-            100,
-            $result_percent,
-            $limit_percent,
-            $compare_value
-        );
     }
 
     private function getUsersObjectivesStatus($crs_obj_id, $usr_id): array
