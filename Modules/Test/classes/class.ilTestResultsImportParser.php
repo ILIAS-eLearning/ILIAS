@@ -302,11 +302,11 @@ class ilTestResultsImportParser extends ilSaxParser
     private function fetchLastStartedPass($attribs): ?int
     {
         if (isset($attribs['last_started_pass'])) {
-            return $attribs['last_started_pass'];
+            return (int) $attribs['last_started_pass'];
         }
 
         if ($attribs['tries'] > 0) {
-            return $attribs['tries'] - 1;
+            return (int) $attribs['tries'] - 1;
         }
 
         return null;

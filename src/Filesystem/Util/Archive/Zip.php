@@ -38,11 +38,9 @@ class Zip
 
     private string $zip_output_file = '';
     protected \ZipArchive $zip;
-    private const STORE_ITERATION = 1000;
+    private int $iteration_limit;
     private int $store_counter = 1;
-    private const PATH_ITERATION = 1000;
     private int $path_counter = 1;
-    private int $store_iteration;
 
     /**
      * @var FileStream[]
@@ -63,20 +61,40 @@ class Zip
             ) . $options->getZipOutputName();
         } else {
             $this->zip_output_file = is_writable('php://temp') ? 'php://temp' : $this->buildTempPath();
+            $this->registerShutdownFunction(function (): void {
+                if (file_exists($this->zip_output_file)) {
+                    unlink($this->zip_output_file);
+                }
+            });
         }
-        $this->store_iteration = (int) (shell_exec('ulimit -n') ?: self::PATH_ITERATION);
+        $system_limit = (int) shell_exec('ulimit -n') ?: 0;
+
+        if ($system_limit < 10) { //  aka we cannot determine the system limit properly
+            $this->iteration_limit = 100;
+        } else {
+            $this->iteration_limit = min(
+                $system_limit / 2,
+                5000
+            );
+        }
 
         $this->zip = new \ZipArchive();
-        if ($this->zip->open($this->zip_output_file, \ZipArchive::CREATE) !== true) {
+        if (!file_exists($this->zip_output_file)) {
+            touch($this->zip_output_file);
+        }
+        if ($this->zip->open($this->zip_output_file, \ZipArchive::OVERWRITE) !== true) {
             throw new \Exception("cannot open <$this->zip_output_file>\n");
         }
     }
 
     private function buildTempPath(): string
     {
-        $tmpfname = tempnam(sys_get_temp_dir(), 'zip');
-        unlink($tmpfname);
-        return $tmpfname;
+        return tempnam(sys_get_temp_dir(), 'zip');
+    }
+
+    private function registerShutdownFunction(\Closure $c): void
+    {
+        register_shutdown_function($c);
     }
 
     private function storeZIPtoFilesystem(): void
@@ -92,11 +110,16 @@ class Zip
 
             if ($path === 'php://memory') {
                 $this->zip->addFromString($path_inside_zip, (string) $stream);
+                $stream->close();
             } else {
                 $this->zip->addFile($path, $path_inside_zip);
+                $stream->close();
             }
 
-            if ($this->store_counter === $this->store_iteration) {
+            if (
+                $this->store_counter === $this->iteration_limit
+                || count(get_resources('stream')) > ($this->iteration_limit * 0.9)
+            ) {
                 $this->zip->close();
                 $this->store_counter = 0;
             } else {
@@ -134,7 +157,10 @@ class Zip
         // we must store the ZIP to e temporary files every 1000 files, otherwise we will get a Too Many Open Files error
         $this->streams[$path_inside_zip] = $stream;
 
-        if ($this->path_counter === self::PATH_ITERATION) {
+        if (
+            $this->path_counter === $this->iteration_limit
+            || count(get_resources('stream')) > ($this->iteration_limit * 0.9)
+        ) {
             $this->storeZIPtoFilesystem();
             $this->streams = [];
             $this->path_counter = 0;

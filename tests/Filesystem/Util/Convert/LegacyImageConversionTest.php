@@ -66,7 +66,7 @@ class LegacyImageConversionTest extends TestCase
         $img = __DIR__ . '/img/robot.jpg';
         $this->assertFileExists($img);
 
-        $temp_file = tempnam(sys_get_temp_dir(), 'test');
+        $temp_file = tempnam(sys_get_temp_dir(), 'img');
 
         $thumbnail = $this->images->thumbnail(
             $img,
@@ -88,6 +88,7 @@ class LegacyImageConversionTest extends TestCase
         $this->assertEquals($expected_quality, $test_image->getImageCompressionQuality());
         $this->assertEquals($expected_height, $test_image->getImageHeight());
         $this->assertEquals((int)round($expected_height * 0.75), $test_image->getImageWidth());
+        unlink($temp_file);
     }
 
     protected function checkImagick(): void

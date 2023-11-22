@@ -25,49 +25,4 @@ declare(strict_types=1);
  */
 class ilObjCertificateSettingsAccess extends ilObjectAccess
 {
-    public static function hasBackgroundImage(): bool
-    {
-        return is_file(self::getBackgroundImagePath()) && filesize(self::getBackgroundImagePath()) > 0;
-    }
-
-    public static function getBackgroundImageDefaultFolder(): string
-    {
-        return CLIENT_WEB_DIR . "/certificates/default/";
-    }
-
-    public static function getBackgroundImagePath(bool $asRelative = false): string
-    {
-        $imagePath = self::getBackgroundImageDefaultFolder() . self::getBackgroundImageName();
-
-        if ($asRelative) {
-            return str_replace(
-                [CLIENT_WEB_DIR, '//'],
-                ['[CLIENT_WEB_DIR]', '/'],
-                $imagePath
-            );
-        }
-
-        return $imagePath;
-    }
-
-    public static function getBackgroundImageName(): string
-    {
-        return "background.jpg";
-    }
-
-    public static function getBackgroundImageThumbPath(): string
-    {
-        return self::getBackgroundImageDefaultFolder() . self::getBackgroundImageName() . ".thumb.jpg";
-    }
-
-    public static function getBackgroundImageThumbPathWeb(): string
-    {
-        return str_replace(
-            ilFileUtils::removeTrailingPathSeparators(
-                ILIAS_ABSOLUTE_PATH
-            ),
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
-            self::getBackgroundImageThumbPath()
-        );
-    }
 }

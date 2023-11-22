@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
+
 /**
  * Class ilTestSubmissionReviewGUI
  *
@@ -28,6 +30,8 @@ declare(strict_types=1);
  */
 class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 {
+    private ?InterruptiveModal $finish_test_modal = null;
+
     public function __construct(
         protected ilTestOutputGUI $testOutputGUI,
         ilObjTest $testOBJ,
@@ -94,18 +98,36 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         );
 
         $toolbar->addComponent(
-            $this->ui_factory->button()->standard($this->lng->txt('btn_previous'), $back_url)
+            $this->ui_factory->button()->standard($this->lng->txt('tst_resume_test'), $back_url)
         );
 
+        if ($this->finish_test_modal === null) {
+            $this->finish_test_modal = $this->buildFinishTestModal();
+        }
+
+        $toolbar->addComponent(
+            $this->ui_factory->button()->primary($this->lng->txt('finish_test'), $this->finish_test_modal->getShowSignal())
+        );
+
+        return $toolbar;
+    }
+
+    private function buildFinishTestModal(): InterruptiveModal
+    {
         $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 1);
         $next_url = $this->ctrl->getLinkTarget($this->testOutputGUI, ilTestPlayerCommands::FINISH_TEST);
         $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 0);
 
-        $toolbar->addComponent(
-            $this->ui_factory->button()->primary($this->lng->txt('btn_next'), $next_url)
-        );
-
-        return $toolbar;
+        if (($this->object->getNrOfTries() - 1) === $this->testSession->getPass()) {
+            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
+        } else {
+            $message = $this->lng->txt('tst_finish_confirmation_question');
+        }
+        return $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('finish_test'),
+            $message,
+            $next_url
+        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
     }
 
     protected function buildUserReviewOutput(): string
@@ -173,6 +195,8 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
             $examIdTpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
             $html .= $examIdTpl->get();
         }
+
+        $html .= $this->ui_renderer->render($this->finish_test_modal);
 
         $this->tpl->setVariable(
             $this->getContentBlockName(),

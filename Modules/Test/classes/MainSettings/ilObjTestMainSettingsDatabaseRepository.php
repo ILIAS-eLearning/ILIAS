@@ -84,7 +84,7 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
             . 'follow_qst_answer_fixation,' . PHP_EOL
             . 'obligations_enabled,' . PHP_EOL
             . 'use_previous_answers,' . PHP_EOL
-            . 'show_cancel,' . PHP_EOL
+            . 'suspend_test_allowed,' . PHP_EOL
             . 'sequence_settings,' . PHP_EOL
             . 'usr_pass_overview_mode,' . PHP_EOL
             . 'show_marker,' . PHP_EOL
@@ -169,7 +169,7 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
             new ilObjTestSettingsParticipantFunctionality(
                 $test_id,
                 (bool) $row['use_previous_answers'],
-                (bool) $row['show_cancel'],
+                (bool) $row['suspend_test_allowed'],
                 (bool) $row['sequence_settings'],
                 $row['usr_pass_overview_mode'],
                 (bool) $row['show_marker'],

@@ -572,9 +572,6 @@ assessment#:#cloze_text#:#Doplňovaný text
 assessment#:#cloze_textgap_case_insensitive#:#Nerozlišuje velká/malá písmena
 assessment#:#cloze_textgap_case_sensitive#:#Rozlišuje velká/malá písmena
 assessment#:#cloze_textgap_levenshtein_of#:#Vzdálenost Levenshtein %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Více prázdných míst
-assessment#:#cloze_textgap_whitespace_after#:#Prázdné místo za hodnotou
-assessment#:#cloze_textgap_whitespace_before#:#Prázdné místo před hodnotou
 assessment#:#code#:#Kód
 assessment#:#codebase#:#Databáze kódu
 assessment#:#concatenation#:#Sřetězení
@@ -1464,10 +1461,10 @@ assessment#:#tst_manscoring_question_section_header#:#Otázka: %s
 assessment#:#tst_manscoring_user_notification#:#Zaslat upozornění
 assessment#:#tst_mark#:#Známka
 assessment#:#tst_mark_create_new_mark_step#:#Vytvořit nový známkovací stupeň
-assessment#:#tst_mark_create_simple_mark_schema#:#Vytvořit jednoduché schéma známkování
 assessment#:#tst_mark_minimum_level#:#Minimální hladina (v %)
 assessment#:#tst_mark_official_form#:#Oficiální tvar
 assessment#:#tst_mark_passed#:#Prošel
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Vytvořit jednoduché schéma známkování
 assessment#:#tst_mark_short_form#:#Zkrácený tvar
 assessment#:#tst_max_comp_points#:#Max. Body způsobilosti
 assessment#:#tst_maximum_points#:#Maximum bodů
@@ -1723,7 +1720,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Informace o stavu „Usp
 assessment#:#tst_results_overview#:#Přehled průchodů výsledky testu
 assessment#:#tst_results_print_best_solution#:#Nejlepší řešení z výsledků testu
 assessment#:#tst_results_print_best_solution_info#:#Je-li aktivováno a dostupné uživatelům, nejlepší řešení se objeví v souhrnných výsledcích testu.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Pokračování testu s aktuálním výběrem otázek
 assessment#:#tst_resume_test#:#Pokračování testu
 assessment#:#tst_revert_changes#:#Vrátit úpravy
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Obecná nastavení

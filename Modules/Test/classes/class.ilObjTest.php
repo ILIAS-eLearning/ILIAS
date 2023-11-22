@@ -1103,7 +1103,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function getRedirectionUrl(): string
     {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
+        return $this->getMainSettings()->getFinishingSettings()->getRedirectionUrl() ?? '';
     }
 
     public function isPasswordEnabled(): bool
@@ -3311,7 +3311,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         foreach ($assessment->qtimetadata as $metadata) {
             switch ($metadata["label"]) {
                 case "solution_details":
-                    $result_details_settings = $result_details_settings->withShowSolutionDetails((bool) $metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withShowPassDetails((bool) $metadata["entry"]);
                     break;
                 case "show_solution_list_comparison":
                     $result_details_settings = $result_details_settings->withShowSolutionListComparison((bool) $metadata["entry"]);
@@ -3420,6 +3420,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $question_behaviour_settings = $question_behaviour_settings->withLockAnswerOnInstantFeedbackEnabled((bool) $metadata["entry"]);
                     break;
                 case "show_cancel":
+                case "suspend_test_allowed":
                     $participant_functionality_settings = $participant_functionality_settings->withSuspendTestAllowed((bool) $metadata["entry"]);
                     break;
                 case "sequence_settings":
@@ -3432,7 +3433,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $access_settings = $access_settings->withFixedParticipants((bool) $metadata["entry"]);
                     break;
                 case "score_reporting":
-                    $result_summary_settings->withScoreReporting((int) $metadata["entry"]);
+                    $result_summary_settings = $result_summary_settings->withScoreReporting((int) $metadata["entry"]);
                     break;
                 case "shuffle_questions":
                     $question_behaviour_settings = $question_behaviour_settings->withShuffleQuestions((bool) $metadata["entry"]);
@@ -3471,11 +3472,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     break;
 
                 case "reporting_date":
-                    $result_summary_settings = $result_summary_settings->withReportingDate(
-                        $metadata['ReportingDate'] !== null ?
-                            new DateTimeImmutable($metadata["entry"]) :
-                            null
-                    );
+                    $reporting_date = $this->buildDateTimeImmutableFromPeriod($metadata['entry']);
+                    if ($reporting_date !== null) {
+                        $result_summary_settings = $result_summary_settings->withReportingDate($reporting_date);
+                    }
                     break;
                 case 'enable_processing_time':
                     $test_behaviour_settings = $test_behaviour_settings->withProcessingTimeEnabled((bool) $metadata['entry']);
@@ -3484,39 +3484,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $test_behaviour_settings = $test_behaviour_settings->withProcessingTime($metadata['entry']);
                     break;
                 case "starting_time":
-                    if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $metadata["entry"], $matches)) {
-                        $date_time = DateTimeImmutable::createFromFormat(
-                            'Y-m-d G:m:s',
-                            sprintf(
-                                "%02d-%02d-%02d %02d:%02d:%02d",
-                                $matches[1],
-                                $matches[2],
-                                $matches[3],
-                                $matches[4],
-                                $matches[5],
-                                $matches[6]
-                            )
-                        );
-                        $access_settings = $access_settings->withStartTime($date_time)
+                    $starting_time = $this->buildDateTimeImmutableFromPeriod($metadata['entry']);
+                    if ($starting_time !== null) {
+                        $access_settings = $access_settings->withStartTime($starting_time)
                             ->withStartTimeEnabled(true);
                     }
                     break;
                 case "ending_time":
-                    if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $metadata["entry"], $matches)) {
-                        $date_time = DateTimeImmutable::createFromFormat(
-                            'Y-m-d G:m:s',
-                            sprintf(
-                                "%02d-%02d-%02d %02d:%02d:%02d",
-                                $matches[1],
-                                $matches[2],
-                                $matches[3],
-                                $matches[4],
-                                $matches[5],
-                                $matches[6]
-                            )
-                        );
-                        $access_settings = $access_settings->withEndTime($date_time)
-                            ->withEndTimeEnabled(true);
+                    $ending_time = $this->buildDateTimeImmutableFromPeriod($metadata['entry']);
+                    if ($ending_time !== null) {
+                        $access_settings = $access_settings->withEndTime($ending_time)
+                            ->withStartTimeEnabled(true);
                     }
                     break;
                 case "enable_examview":
@@ -3896,7 +3874,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // solution details
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "score_reporting");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreReporting()));
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreSettings()->getResultSummarySettings()->getScoreReporting()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -3963,7 +3941,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         // show cancel
         $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "show_cancel");
+        $a_xml_writer->xmlElement("fieldlabel", null, "suspend_test_allowed");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
@@ -4211,10 +4189,31 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $this->buildPeriodFromFormatedDateString($date_time);
     }
 
-    protected function buildPeriodFromFormatedDateString(string $date_time)
+    protected function buildPeriodFromFormatedDateString(string $date_time): string
     {
         preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $date_time, $matches);
         return sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]);
+    }
+
+    protected function buildDateTimeImmutableFromPeriod(?string $period): ?DateTimeImmutable
+    {
+        if ($period === null) {
+            return null;
+        }
+        if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $period, $matches)) {
+            return new DateTimeImmutable(
+                sprintf(
+                    "%02d-%02d-%02d %02d:%02d:%02d",
+                    $matches[1],
+                    $matches[2],
+                    $matches[3],
+                    $matches[4],
+                    $matches[5],
+                    $matches[6]
+                )
+            );
+        }
+        return null;
     }
 
     /**
@@ -4342,9 +4341,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         foreach ($this->mob_ids as $mob_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
-            if (ilObjMediaObject::_exists($mob_id)) {
-                $media_obj = new ilObjMediaObject($mob_id);
-                $media_obj->exportXML($a_xml_writer, $a_inst);
+            if (ilObjMediaObject::_exists((int) $mob_id)) {
+                $media_obj = new ilObjMediaObject((int) $mob_id);
+                $media_obj->exportXML($a_xml_writer, (int) $a_inst);
                 $media_obj->exportFiles($a_target_dir);
                 unset($media_obj);
             }
@@ -4361,7 +4360,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
             $file_dir = $target_dir . '/objects/il_' . IL_INST_ID . '_file_' . $file_id;
             ilFileUtils::makeDir($file_dir);
-            $file_obj = new ilObjFile($file_id, false);
+            $file_obj = new ilObjFile((int) $file_id, false);
             $source_file = $file_obj->getFile($file_obj->getVersion());
             if (!is_file($source_file)) {
                 $source_file = $file_obj->getFile();

@@ -71,14 +71,22 @@ class ilWikiUtil
     public static function collectInternalLinks(
         string $s,
         int $a_wiki_id,
-        bool $a_collect_non_ex = false
+        bool $a_collect_non_ex = false,
+        string $mode = IL_WIKI_MODE_COLLECT
     ): array {
-        return self::processInternalLinks(
+        $log = ilLoggerFactory::getLogger("wiki");
+
+        $log->debug("collect interna links wiki id: " . $a_wiki_id . ", collect nonex: " . $a_collect_non_ex);
+
+        $result = self::processInternalLinks(
             $s,
             $a_wiki_id,
-            IL_WIKI_MODE_COLLECT,
+            $mode,
             $a_collect_non_ex
         );
+        $log->debug("content: " . $s);
+        $log->debug("found: " . print_r($result, true));
+        return $result;
     }
 
     /**
@@ -265,8 +273,7 @@ class ilWikiUtil
             } else {
                 $db_title = self::makeDbTitle($nt->mTextform);
 
-                if (($page_repo->existsByTitle($a_wiki_id, $db_title, $lang) ||
-                    $a_collect_non_ex)
+                if (($a_collect_non_ex || $page_repo->existsByTitle($a_wiki_id, $db_title, $lang))
                 &&
                     !in_array($db_title, $collect)) {
                     $collect[] = $db_title;

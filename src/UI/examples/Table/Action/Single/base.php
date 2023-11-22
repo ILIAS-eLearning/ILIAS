@@ -103,7 +103,7 @@ function getExampleTable($f)
             ?array $filter_data,
             ?array $additional_parameters
         ): ?int {
-            return null;
+            return 6;
         }
     };
     return $f->table()->data('a data table with actions', $columns, $data_retrieval);

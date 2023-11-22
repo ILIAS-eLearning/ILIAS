@@ -85,7 +85,7 @@ class ilTestVirtualSequence implements ilTestQuestionSequence
 
     protected function getTestSequence(int $active_id, int $pass): ilTestSequence
     {
-        $test_sequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
+        $test_sequence = $this->test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
 
         $test_sequence->loadFromDb();
         $test_sequence->loadQuestions();

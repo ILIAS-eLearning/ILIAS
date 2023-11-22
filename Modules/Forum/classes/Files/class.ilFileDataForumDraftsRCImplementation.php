@@ -46,14 +46,14 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
         $this->draft_id = $this->pos_id;
     }
 
-    private function getCurrentDraft(): ilForumPostDraft
+    private function getCurrentDraft(bool $use_cache = true): ilForumPostDraft
     {
-        return $this->getDraftById($this->draft_id);
+        return $this->getDraftById($this->draft_id, $use_cache);
     }
 
-    private function getDraftById(int $draft_id): ilForumPostDraft
+    private function getDraftById(int $draft_id, bool $use_cache = true): ilForumPostDraft
     {
-        if (isset($this->posting_cache[$draft_id])) {
+        if ($use_cache && isset($this->posting_cache[$draft_id])) {
             return $this->posting_cache[$draft_id];
         }
         return $this->posting_cache[$draft_id] = ilForumPostDraft::newInstanceByDraftId($draft_id);
@@ -180,7 +180,7 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
             $collection->add($rid);
         }
         $this->irss->collection()->store($collection);
-        $posting = $this->getCurrentDraft();
+        $posting = $this->getCurrentDraft(false);
         $posting->setRCID($collection->getIdentification()->serialize());
         $posting->update();
 

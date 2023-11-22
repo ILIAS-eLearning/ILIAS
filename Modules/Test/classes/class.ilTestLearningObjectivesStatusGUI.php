@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
 
 /**
@@ -28,12 +30,14 @@ use ILIAS\Test\InternalRequestService;
  */
 class ilTestLearningObjectivesStatusGUI
 {
-    private ?int $crsObjId = null;
-    private ?int $usrId = null;
+    private ?int $crs_obj_id = null;
+    private ?int $usr_id = null;
 
     public function __construct(
         private ilLanguage $lng,
         private ilCtrl $ctrl,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer,
         private InternalRequestService $testrequest
     ) {
     }
@@ -43,15 +47,15 @@ class ilTestLearningObjectivesStatusGUI
      */
     public function getCrsObjId(): ?int
     {
-        return $this->crsObjId;
+        return $this->crs_obj_id;
     }
 
     /**
-     * @param integer $crsObjId
+     * @param integer $crs_obj_id
      */
-    public function setCrsObjId($crsObjId)
+    public function setCrsObjId($crs_obj_id)
     {
-        $this->crsObjId = $crsObjId;
+        $this->crs_obj_id = $crs_obj_id;
     }
 
     /**
@@ -59,134 +63,142 @@ class ilTestLearningObjectivesStatusGUI
      */
     public function getUsrId(): ?int
     {
-        return $this->usrId;
+        return $this->usr_id;
     }
 
     /**
-     * @param integer $usrId
+     * @param integer $usr_id
      */
-    public function setUsrId($usrId)
+    public function setUsrId($usr_id)
     {
-        $this->usrId = $usrId;
+        $this->usr_id = $usr_id;
     }
 
-    public function getHTML($objectiveId = null): string
+    public function getHTML(int $objective_id = null): string
     {
         $this->lng->loadLanguageModule('crs');
 
-        $tpl = new ilTemplate('tpl.tst_lo_status.html', true, true, 'Modules/Test');
+        $items = $this->buildStatusItems(
+            $objective_id,
+            $this->getUsersObjectivesStatus(
+                $this->getCrsObjId(),
+                $this->getUsrId()
+            )
+        );
 
-        $tpl->setCurrentBlock('objectives_progress_header');
-        $tpl->setVariable('OBJECTIVES_PROGRESS_HEADER', $this->lng->txt($this->getHeaderLangVar($objectiveId)));
-        $tpl->parseCurrentBlock();
+        $panel = $this->ui_factory->panel()->standard(
+            $this->lng->txt($this->getHeaderLangVar($objective_id)),
+            $items
+        );
 
-        $this->renderStatus($tpl, $objectiveId, $this->getUsersObjectivesStatus(
-            $this->getCrsObjId(),
-            $this->getUsrId()
-        ));
-
-        return $tpl->get();
+        return $this->ui_renderer->render($panel);
     }
 
-    private function getHeaderLangVar($objectiveId): string
+    private function getHeaderLangVar(?int $objective_id): string
     {
-        if ($objectiveId) {
+        if ($objective_id !== null) {
             return 'tst_objective_progress_header';
         }
 
         return 'tst_objectives_progress_header';
     }
 
-    private function renderStatus($tpl, $objectiveId, $loStatusData)
+    /**
+     * @param type $lo_status_data
+     * @return array
+     */
+    private function buildStatusItems(?int $objective_id, array $lo_status_data): array
     {
-        $loc_settings = ilLOSettings::getInstanceByObjId($this->getCrsObjId());
-        $has_initial_test = (bool) $loc_settings->getInitialTest();
+        $items = [];
 
-        foreach ($loStatusData as $objtv) {
-            if ($objectiveId && $objtv['id'] != $objectiveId) {
+        foreach ($lo_status_data as $objtv) {
+            if ($objective_id !== null && $objtv['id'] !== $objective_id) {
                 continue;
             }
 
-            $tpl->setCurrentBlock("objective_nolink_bl");
-            $tpl->setVariable("OBJECTIVE_NOLINK_TITLE", $objtv["title"]);
-            $tpl->parseCurrentBlock();
-
-            $objtv_icon = ilObject::_getIcon($objtv["id"], "small", "lobj");
-
-            $tpl->setCurrentBlock("objective_bl");
-            $tpl->setVariable("OBJTV_ICON_URL", $objtv_icon);
-            $tpl->setVariable("OBJTV_ICON_ALT", $this->lng->txt("crs_objectives"));
-
-            if ($objtv["type"]) {
-                $tpl->setVariable(
-                    "LP_OBJTV_PROGRESS",
-                    ilContainerObjectiveGUI::buildObjectiveProgressBar($has_initial_test, $objtv["id"], $objtv, true)
-                );
-
-                // since ilContainerObjectiveGUI::buildObjectiveProgressBar() "sets an empty ref_id" for ilObjTestGUI,
-                // after creating links for different test refs, the "saved ref_id param" for ilObjTestGUI gets overwritten.
-                // (!) we need to set an explicit ref_id param for ilObjTestGUI again to keep the things running (!)
-                $this->ctrl->setParameterByClass('ilObjTestGUI', 'ref_id', $this->testrequest->getRefId());
+            $loc_settings = ilLOSettings::getInstanceByObjId($this->getCrsObjId());
+            $compare_value = null;
+            if ($objtv["type"] === ilLOUserResults::TYPE_QUALIFIED
+                && $loc_settings->getInitialTest() === 1
+                && isset($objtv['initial']['result_perc'])) {
+                $compare_value = $objtv['initial']['result_perc'];
             }
 
-            $tpl->parseCurrentBlock();
+            $items[] = $this->ui_factory->item()->standard($objtv["title"])
+                ->withLeadIcon(
+                    $this->ui_factory->symbol()->icon()->custom(
+                        ilObject::_getIcon($objtv["id"], "small", "lobj"),
+                        $this->lng->txt("crs_objectives")
+                    )
+                )->withProgress(
+                    $this->ui_factory->chart()->progressMeter()->standard(
+                        100,
+                        $objtv['result_perc'],
+                        $objtv['limit_perc'],
+                        $compare_value
+                    )
+                );
+
+            // since ilContainerObjectiveGUI::buildObjectiveProgressBar() "sets an empty ref_id" for ilObjTestGUI,
+            // after creating links for different test refs, the "saved ref_id param" for ilObjTestGUI gets overwritten.
+            // (!) we need to set an explicit ref_id param for ilObjTestGUI again to keep the things running (!)
+            $this->ctrl->setParameterByClass('ilObjTestGUI', 'ref_id', $this->testrequest->getRefId());
         }
 
-        $tpl->setCurrentBlock("objectives_bl");
-        $tpl->setVariable("OBJTV_LIST_CRS_ID", $this->getCrsObjId());
-        $tpl->parseCurrentBlock();
+        return $items;
     }
 
-    private function getUsersObjectivesStatus($crsObjId, $usrId): array
+    private function getUsersObjectivesStatus($crs_obj_id, $usr_id): array
     {
-        $res = array();
+        $collection_of_objectives = new ilLPCollectionOfObjectives($crs_obj_id, ilLPObjSettings::LP_MODE_OBJECTIVES);
+        $objective_items = $collection_of_objectives->getItems();
 
-        $coll_objtv = new ilLPCollectionOfObjectives($crsObjId, ilLPObjSettings::LP_MODE_OBJECTIVES);
-        $coll_objtv = $coll_objtv->getItems();
-        if ($coll_objtv) {
-            // #13373
-            $lo_results = $this->getUsersObjectivesResults($crsObjId, $usrId);
-            $lo_ass = ilLOTestAssignments::getInstance($crsObjId);
+        if ($objective_items === []) {
+            return [];
+        }
 
-            $tmp = array();
-            foreach ($coll_objtv as $objective_id) {
-                $title = ilCourseObjective::lookupObjectiveTitle($objective_id, true);
+        $lo_results = $this->getUsersObjectivesResults($crs_obj_id, $usr_id);
+        $lo_ass = ilLOTestAssignments::getInstance($crs_obj_id);
 
-                $tmp[$objective_id] = array(
-                    "id" => $objective_id,
-                    "title" => $title["title"],
-                    "desc" => $title["description"],
-                    "itest" => $lo_ass->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL),
-                    "qtest" => $lo_ass->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED)
-                );
+        $res = [];
+        $tmp = [];
+        foreach ($objective_items as $objective_id) {
+            $title = ilCourseObjective::lookupObjectiveTitle($objective_id, true);
 
-                // patch optes end
+            $tmp[$objective_id] = [
+                "id" => $objective_id,
+                "title" => $title["title"],
+                "desc" => $title["description"],
+                "itest" => $lo_ass->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL),
+                "qtest" => $lo_ass->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED)
+            ];
 
-                if (array_key_exists($objective_id, $lo_results)) {
-                    $lo_result = $lo_results[$objective_id];
-                    $tmp[$objective_id]["user_id"] = $lo_result["user_id"];
-                    $tmp[$objective_id]["result_perc"] = $lo_result["result_perc"];
-                    $tmp[$objective_id]["limit_perc"] = $lo_result["limit_perc"];
-                    $tmp[$objective_id]["status"] = $lo_result["status"];
-                    $tmp[$objective_id]["type"] = $lo_result["type"];
-                    $tmp[$objective_id]["initial"] = $lo_result["initial"] ?? null;
-                }
+            // patch optes end
+
+            if (array_key_exists($objective_id, $lo_results)) {
+                $lo_result = $lo_results[$objective_id];
+                $tmp[$objective_id]["user_id"] = $lo_result["user_id"];
+                $tmp[$objective_id]["result_perc"] = $lo_result["result_perc"];
+                $tmp[$objective_id]["limit_perc"] = $lo_result["limit_perc"];
+                $tmp[$objective_id]["status"] = $lo_result["status"];
+                $tmp[$objective_id]["type"] = $lo_result["type"];
+                $tmp[$objective_id]["initial"] = $lo_result["initial"] ?? null;
             }
+        }
 
-            // order
-            foreach ($coll_objtv as $objtv_id) {
-                $res[] = $tmp[$objtv_id];
-            }
+        // order
+        foreach ($objective_items as $objtv_id) {
+            $res[] = $tmp[$objtv_id];
         }
 
         return $res;
     }
 
-    private function getUsersObjectivesResults($crsObjId, $usrId): array
+    private function getUsersObjectivesResults(int $crs_obj_id, int $usr_id): array
     {
-        $res = array();
+        $res = [];
         $initial_status = null;
-        $lur = new ilLOUserResults($crsObjId, $usrId);
+        $lur = new ilLOUserResults($crs_obj_id, $usr_id);
 
         foreach ($lur->getCourseResultsForUserPresentation() as $objective_id => $types) {
             // show either initial or qualified for objective

@@ -47,14 +47,14 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
         $this->stakeholder = new ilForumPostingFileStakeholder();
     }
 
-    private function getCurrentPosting(): ilForumPost
+    private function getCurrentPosting(bool $use_cache = true): ilForumPost
     {
-        return $this->getPostingById($this->pos_id);
+        return $this->getPostingById($this->pos_id, $use_cache);
     }
 
-    private function getPostingById(int $posting_id): ilForumPost
+    private function getPostingById(int $posting_id, bool $use_cache = true): ilForumPost
     {
-        if (isset($this->posting_cache[$posting_id])) {
+        if ($use_cache && isset($this->posting_cache[$posting_id])) {
             return $this->posting_cache[$posting_id];
         }
         return $this->posting_cache[$posting_id] = new ilForumPost($posting_id);
@@ -178,7 +178,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
             $collection->add($rid);
         }
         $this->irss->collection()->store($collection);
-        $posting = $this->getCurrentPosting();
+        $posting = $this->getCurrentPosting(false);
         $posting->setRCID($collection->getIdentification()->serialize());
         $posting->update();
 

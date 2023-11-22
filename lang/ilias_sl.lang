@@ -575,9 +575,6 @@ assessment#:#cloze_text#:#Vprašanje s praznino v besedilu
 assessment#:#cloze_textgap_case_insensitive#:#Ni razlikovanja med velikimi in malimi črkami
 assessment#:#cloze_textgap_case_sensitive#:#Upoštevaj razlikovanje velikih in malih črk
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshteinov razmik v %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Več zaporednih presledkov
-assessment#:#cloze_textgap_whitespace_after#:#Presledek za pojmom
-assessment#:#cloze_textgap_whitespace_before#:#Presledek pred pojmom
 assessment#:#code#:#Koda
 assessment#:#codebase#:#Osnova kode
 assessment#:#concatenation#:#Povezava
@@ -1470,10 +1467,10 @@ assessment#:#tst_manscoring_question_section_header#:#Vprašanje: %s
 assessment#:#tst_manscoring_user_notification#:#Pošlji obvestilo
 assessment#:#tst_mark#:#Ocena
 assessment#:#tst_mark_create_new_mark_step#:#Ustvarite novo stopnjo ocene
-assessment#:#tst_mark_create_simple_mark_schema#:#Vrnite se na preprosto ocenjevalno shemo
 assessment#:#tst_mark_minimum_level#:#Najnižji odstotek (v %)
 assessment#:#tst_mark_official_form#:#Uradno ime
 assessment#:#tst_mark_passed#:#Opravljeno
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Vrnite se na preprosto ocenjevalno shemo
 assessment#:#tst_mark_short_form#:#Kratko ime
 assessment#:#tst_max_comp_points#:#maks. Kompetenčne točke
 assessment#:#tst_maximum_points#:#Maksimalno število točk
@@ -1727,7 +1724,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Status "opravljeno" / "n
 assessment#:#tst_results_overview#:#Pregled opravljanj testa
 assessment#:#tst_results_print_best_solution#:#Najboljša možna rešitev
 assessment#:#tst_results_print_best_solution_info#:#Poleg tega bo za vsako vprašanje prikazana najboljša možna rešitev.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test nadaljuj z aktualno izbiro vprašanj
 assessment#:#tst_resume_test#:#Nadaljuj s testom
 assessment#:#tst_revert_changes#:#Razveljavi obdelavo
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguracija izbire vprašanja

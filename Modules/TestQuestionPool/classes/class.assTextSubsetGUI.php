@@ -169,7 +169,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             foreach ($this->object->answers as $answer) {
                 $points_string_for_key = (string) $answer->getPoints();
                 if ($answer->getPoints() > 0) {
-                    if (!array_key_exists($answer->getPoints(), $rank)) {
+                    if (!array_key_exists($points_string_for_key, $rank)) {
                         $rank[$points_string_for_key] = array();
                     }
                     array_push($rank[$points_string_for_key], $answer->getAnswertext());

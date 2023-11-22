@@ -109,6 +109,11 @@ class ilTestHTMLGenerator
                 continue;
             }
 
+            if (stripos($src, ILIAS_HTTP_PATH) !== false
+                && stripos($src, 'templates') === false) {
+                $src = ILIAS_HTTP_PATH . substr(ilWACSignedPath::signFile($src), 1);
+            }
+
             try {
                 $image_raw_content = file_get_contents($src);
                 $image_file_names[$src] = ilFileUtils::ilTempnam();

@@ -84,6 +84,8 @@ class AssignedObjectsTable
             $this->tree,
             $this->objects
         ) implements UI\Component\Table\DataRetrieval {
+            use TableRecords;
+
             public function __construct(
                 protected \ilLanguage $lng,
                 protected UI\Factory $ui_fac,
@@ -144,15 +146,11 @@ class AssignedObjectsTable
                 }
 
                 if ($order) {
-                    list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                    usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
-                    if ($order_direction === "DESC") {
-                        $records = array_reverse($records);
-                    }
+                    $records = $this->orderRecords($records, $order);
                 }
 
                 if ($range) {
-                    $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
+                    $records = $this->limitRecords($records, $range);
                 }
 
                 return $records;

@@ -75,6 +75,7 @@ class SurveyImportParser extends ilSaxParser
     public array $questionblock = [];
     public array $questionblocks = [];
     public string $questionblocktitle = "";
+    protected array $material = [];
 
     public function __construct(
         int $a_spl_id,

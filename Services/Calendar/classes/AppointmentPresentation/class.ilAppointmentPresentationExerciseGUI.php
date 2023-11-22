@@ -34,7 +34,6 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 
         //var_dump($a_app); exit;
         $ass_id = $a_app["event"]->getContextId() / 10;            // see ilExAssignment->handleCalendarEntries $dl parameter
-
         $assignment = new ilExAssignment($ass_id);
         $state = ilExcAssMemberState::getInstanceByIds($assignment->getId(), $this->user->getId());
         if ($state->areInstructionsVisible()) {
@@ -57,7 +56,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
                     $this->ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", $ass_id);
                     $url = $this->ctrl->getLinkTargetByClass(array("ilExerciseHandlerGUI",
                                                                    "ilobjexercisegui",
-                                                                   "ilexsubmissiongui"
+                                                                   ilAssignmentPresentationGUI::class, ilExSubmissionGUI::class
                     ), "downloadFile");
                     $this->ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
                     $this->ctrl->setParameterByClass("ilexsubmissiongui", "file", "");

@@ -77,7 +77,7 @@ adm#:#adm_accessibility_contacts#:#Contact Point for Accessibility Issues
 adm#:#adm_accessibility_contacts_info#:#Contacts for the ‘Report Accessibility Issue’ link in your installation’s footer. Comma-separated list of account usernames (logins).
 adm#:#adm_awrn_support_contacts_info#:#All users assigned as contacts for technical support are listed. Users can be assigned to the list of technical support contacts in the administration section 'System Settings and Maintenance » General Settings', tab 'Contact Information'.
 adm#:#adm_support_contacts#:#Technical Support
-adm#:#adm_support_contacts_info#:#Technical support contacts accessible via link in footer and (if activated) in the ‘Who is online?’ Tool. Comma-separated list of account usernames (logins).
+adm#:#adm_support_contacts_info#:#Please enter the login names of the people who can be contacted with questions and technical problems here, separated by commas. They can be contacted by e-mail via the "Contact technical support" link in the ILIAS footer. If the "Who is online?" display is active, these people will also be displayed there as technical support.
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_activate_db_benchmark#:#Activate Benchmarking
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
@@ -576,6 +576,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and use the dropdown ‘Text Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value, the gap text field will be created with the value of the global fixed length.
@@ -583,9 +584,6 @@ assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
 assessment#:#cloze_textgap_case_sensitive#:#Case Sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
@@ -1193,7 +1191,7 @@ assessment#:#show_all_test_properties_on_info_page_byline#:#Users will be presen
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
-assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
+assessment#:#show_old_concluding_remarks#:#Show old concluding remarks
 assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User’s Marked Answers
@@ -1465,7 +1463,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_import_non_ilias_zip#:#Error: The filename of the uploaded import file does not match the expected format.
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Use Only Pools with Equal Scored Questions
-assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools in which all questions have the same points are offered. Participants of such a test can all have the same number of maximum points, thus the test results will be better comparable. It is recommended to choose this option.
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools in which all questions have the same points are offered. Participants of such a test can all have the same number of maximum points, thus the test results will be better comparable. It is recommended to choose this option. Please take note that preexisting rules are not reevaluated upon activation of this setting.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#The presentation order for the questions bases upon the question's last editing date.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#The presentation order for the questions bases upon the question's assignments in a taxonomy.
 assessment#:#tst_inp_no_available_tax_hint#:#No Available Taxonomies for Selected Question Pool
@@ -1535,10 +1533,11 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create New Mark Step
-assessment#:#tst_mark_create_simple_mark_schema#:#Reset to Simple Mark Schema
 assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Reset to Simple Mark Schema
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.
 assessment#:#tst_mark_short_form#:#Short Form
 assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_maximum_points#:#Maximum Points
@@ -1802,7 +1801,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Pa
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
 assessment#:#tst_results_print_best_solution#:#Best Solution
 assessment#:#tst_results_print_best_solution_info#:#Additionally for each question the best possible solution will be displayed.
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection
 assessment#:#tst_resume_test#:#Resume the Test
 assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Configuration
@@ -3910,8 +3908,8 @@ common#:#download_all_returned_files#:#Download all Submissions
 common#:#download_link#:#Download Link
 common#:#download_multiple_objects#:#Download Multiple Objects
 common#:#download_selected_items#:#Download
-common#:#download_with_uploaded_filename#:#Download with uploaded filename
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
+common#:#download_with_uploaded_filename#:#Download With Uploaded Filename
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file will be the same as the original filename that was used when the file was uploaded to ILIAS. If this option is not selected, the filename of a downloaded file will be the same as the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV, the filename of a downloaded file is always the same as the title of the file object.
 common#:#downloading_settings#:#Download Settings
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?
 common#:#dpro_accept_usr_agreement_intro#:#There is a new data protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
@@ -4378,7 +4376,7 @@ common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
 common#:#info_view_of_user#:#User
 common#:#inform_user_mail#:#Send mail to inform user about changes
-common#:#inline_file_extensions#:#Web-enabled files
+common#:#inline_file_extensions#:#Web-Enabled Files
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.
 common#:#insert#:#Insert
 common#:#insert_object_here#:#Insert at Current Position
@@ -4701,7 +4699,7 @@ common#:#msg_deleted_role#:#Role deleted
 common#:#msg_deleted_roles_rolts#:#Roles and Role Templates deleted
 common#:#msg_failed#:#Sorry, action failed
 common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.
-common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.
+common#:#msg_info_blacklisted#:#This file cannot be uploaded for security reasons.
 common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
 common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
@@ -7344,6 +7342,7 @@ copg#:#copg_list_style#:#List
 copg#:#copg_list_styles#:#List Formats
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
@@ -8287,6 +8286,7 @@ dateplaner#:#cal_edit_category#:#Edit Calendar
 dateplaner#:#cal_edit_milestone#:#Edit Milestone
 dateplaner#:#cal_edit_recurrences#:#Edit all Appointments
 dateplaner#:#cal_edit_single#:#Edit this Appointment
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?
 dateplaner#:#cal_enable_group_milestones#:#Enable Milestones
 dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.
 dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid e-mail addresses.
@@ -9646,8 +9646,8 @@ export#:#export_resource#:#Resource
 export#:#export_save_selection#:#Start Export
 export#:#export_select_resources#:#Select Resources
 export#:#no_file#:#No file
-file#:#action_download#:#Enable Direct Download
-file#:#action_show#:#Redirect User to the Info Page
+file#:#action_download#:#Download file
+file#:#action_show#:#Redirect user to the file’s ‘Info’ tab
 file#:#add_icon#:#Add Icon
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d times since %s
@@ -9656,9 +9656,9 @@ file#:#copyright_custom_info#:#Choose a custom copyright which will be applied t
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
 file#:#could_not_create_file_objs#:#An error occurred while creating the file objects, contact the administrators of the platform.
-file#:#de_activate_icon#:#(De-)Activate
-file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
-file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
+file#:#de_activate_icon#:#Activate / Deactivate
+file#:#download_ascii_filename#:#Allow Only ASCII Characters in Downloaded Filenames
+file#:#download_ascii_filename_info#:#Only allow ASCII characters in the names of downloaded files. Non-ASCII-characters in the names of downloaded files will be replaced with a “_”. Deactivate to allow the use of all characters.
 file#:#file_btn_lp_toggle_state_completed#:#Set Not Completed
 file#:#file_btn_lp_toggle_state_not_completed#:#Set Completed
 file#:#file_copy#:#Copy File
@@ -9670,30 +9670,30 @@ file#:#file_publish#:#Publish Draft
 file#:#file_rollback_rollback_first#:#The version could not be reset because an unpublished draft exists.
 file#:#file_rollback_same_version#:#This is already the current version
 file#:#file_unpublish#:#Mark as Draft
-file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator. Filename(s): %s
-file#:#file_uploaded_by#:#Version uploaded by
+file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. Whenever the file is downloaded, its ending will be changed to ‘.sec’. If necessary, contact your administrator. Filename(s): %s
+file#:#file_uploaded_by#:#Version Uploaded By
 file#:#file_version_draft#:#Draft Version
 file#:#file_version_draft_info#:#The latest version is in "Draft" status. As long as the version has not been published, no new versions can be created. People with read permission on the file get the latest published version.
 file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
-file#:#general_upload_error_occured#:#An unexpected error occured during upload.
+file#:#general_upload_error_occured#:#An unexpected error occurred during upload.
 file#:#important_info#:#Important Information
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
-file#:#input_desc_icon#:#Image which shall be shown as an icon for files with the specified suffixes.
-file#:#input_desc_suffixes#:#List of comma-separated suffixes (characters and numbers only without preceding period).
+file#:#input_desc_icon#:#Image to be used as the icon for files with the specified suffixes.
+file#:#input_desc_suffixes#:#List of comma-separated suffixes (characters and numbers only, without preceding full stop).
 file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
 file#:#mime_type#:#MIME Type
 file#:#msg_cant_unpublish#:#Action could not be executed
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
-file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot be used at the moment.
-file#:#msg_error_active_suffixes_conflict#:#Error: there must not be multiple activated icons for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with the suffixes of this icon.
-file#:#msg_error_active_suffixes_not_whitelisted#:#The selected file extension is not on the global whitelist, the files are renamed to .sec. during download.
+file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot therefore be currently used.
+file#:#msg_error_active_suffixes_conflict#:#Error: It is not possible to have multiple icons activated for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with those of this icon.
+file#:#msg_error_active_suffixes_not_whitelisted#:#The selected file extension is not on the global whitelist. The file suffixes will be changed to ‘.sec’ when downloaded.
 file#:#msg_error_duplicate_suffix_entries#:#Error: the comma separated list of suffixes contains duplicate entries.
 file#:#msg_error_icon_deletion#:#Error: icon deletion failed.
-file#:#msg_error_suffixes_with_forbidden_characters#:#Error: forbidden characters. Only alphabetic characters, numbers, whitespaces and commas are allowed.
+file#:#msg_error_suffixes_with_forbidden_characters#:#Error: forbidden characters. Only letters, numbers, spaces and commas are allowed.
 file#:#msg_icon_missing_from_db#:#Icon missing from database.
 file#:#msg_icon_missing_from_irss#:#Icon missing from resource storage.
 file#:#msg_success_icon_activated#:#Icon successfully activated.
@@ -9701,27 +9701,27 @@ file#:#msg_success_icon_created#:#Icon successfully created.
 file#:#msg_success_icon_deactivated#:#Icon successfully deactivated.
 file#:#msg_success_icon_deletion#:#Icon successfully deleted.
 file#:#msg_success_icon_updated#:#Icon successfully updated.
-file#:#msg_unzip_success#:#Archive has been successfully unziped.
-file#:#on_click_action#:#Action on Click on Title
+file#:#msg_unzip_success#:#Archive successfully unzipped.
+file#:#on_click_action#:#Action When Title Clicked
 file#:#preview_caption#:#Preview %sof %s
-file#:#preview_image_size_info#:#Maximum length of the preview images in px.
-file#:#preview_persisting#:#Persist Preview Images
-file#:#preview_persisting_info#:#Generated previews will be stored, otherwise the previews will be generated on the fly
+file#:#preview_image_size_info#:#The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here.
+file#:#preview_persisting#:#Persistent Preview Images
+file#:#preview_persisting_info#:#Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time.
 file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
-file#:#set_license_for_all_files#:#Set License for all Files
-file#:#show_amount_of_downloads#:#Show number of downloads
-file#:#show_amount_of_downloads_info#:#When active, the number of downloads will be visible on the info-page of a file object.
+file#:#set_license_for_all_files#:#Set License for All Files
+file#:#show_amount_of_downloads#:#Show Number of Downloads
+file#:#show_amount_of_downloads_info#:#Display the number of times a file object has been downloaded on its 'Info' page.
 file#:#storage_id#:#Storage ID
-file#:#suffix_specific_icons#:#Suffix-specific Icons
+file#:#suffix_specific_icons#:#Suffix-Specific Icons
 file#:#suffixes#:#Suffixes
-file#:#upload_files#:#Upload files
+file#:#upload_files#:#Upload Files
 file#:#upload_files_limit#:#The maximum size of a file is %s.
-file#:#upload_files_title#:#Upload files
+file#:#upload_files_title#:#Upload Files
 file#:#upload_info#:#File
-file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
-file#:#version_uploaded#:#Version uploaded
+file#:#upload_info_desc#:#Uploads and versions can be managed in the ‘Versions’ tab.
+file#:#version_uploaded#:#Version Uploaded
 file#:#versionname#:#Title
 fils#:#add_upload_policy#:#Add Policy
 fils#:#edit_upload_policy#:#Edit Policy
@@ -9729,9 +9729,9 @@ fils#:#file_services#:#File Services
 fils#:#file_services_description#:#Configuration of File Service Settings.
 fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes
 fils#:#file_suffix_custom_expl_negative_info#:#Files with these suffixes won't be accepted for upload.
-fils#:#file_suffix_custom_negative#:#File Suffixes: Negative List (Adaptations)
+fils#:#file_suffix_custom_negative#:#File Suffixes: Negative List (Removals)
 fils#:#file_suffix_custom_negative_info#:#These file suffixes will be removed from the positive list.
-fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Adaptations)
+fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Additions)
 fils#:#file_suffix_custom_positive_info#:#These file suffixes will be added to the positive list.
 fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List)
 fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
@@ -11435,7 +11435,7 @@ mail#:#show_mail_settings_info#:#'Mail Settings' are visible via the 'Personal S
 mail#:#system_notification_installation_changed_by#:#Changed By
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search?q=[QUERY]&format=json
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
@@ -12704,6 +12704,7 @@ obj#:#obj_activation#:#Activation
 obj#:#obj_activation_list_gui#:#Availability
 obj#:#obj_add_languages#:#Add Languages
 obj#:#obj_additional_langs#:#Additional Languages
+obj#:#obj_conf_delete_lang#:#obj#:#Do you really want to stop the presentation of title and description in these languages?
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 obj#:#obj_copy_progress#:#Copy Progress
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
@@ -15357,7 +15358,6 @@ skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
 skmg#:#skmg_no_skill_entries#:#You do not have any entries for this competence yet.
-skmg#:#skmg_no_skills#:#No Competences
 skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_nr#:#Nr

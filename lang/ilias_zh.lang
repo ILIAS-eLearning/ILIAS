@@ -571,9 +571,6 @@ assessment#:#cloze_text#:#填充测验文本
 assessment#:#cloze_textgap_case_insensitive#:#不区分大小写
 assessment#:#cloze_textgap_case_sensitive#:#区分大小定
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#代码
 assessment#:#codebase#:#代码库
 assessment#:#concatenation#:#级联
@@ -1463,10 +1460,10 @@ assessment#:#tst_manscoring_question_section_header#:#题目：%s
 assessment#:#tst_manscoring_user_notification#:#发送通知
 assessment#:#tst_mark#:#标记
 assessment#:#tst_mark_create_new_mark_step#:#创建新的标记步骤
-assessment#:#tst_mark_create_simple_mark_schema#:#创建简单标记模式
 assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
 assessment#:#tst_mark_official_form#:#Official form官方形式
 assessment#:#tst_mark_passed#:#已通过
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#创建简单标记模式
 assessment#:#tst_mark_short_form#:#Short form
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#最大分值
@@ -1722,7 +1719,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Pass
 assessment#:#tst_results_overview#:#通过的测试成绩概况
 assessment#:#tst_results_print_best_solution#:#最佳方案在测试结果中
 assessment#:#tst_results_print_best_solution_info#:#如果激活，并通过参与者可访问，则最佳方案出现在测试结果摘要中。
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection###24 10 2013 new variable
 assessment#:#tst_resume_test#:#恢复此测试
 assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
 assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config###24 10 2013 new variable

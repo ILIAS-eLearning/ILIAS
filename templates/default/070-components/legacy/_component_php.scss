@@ -1,0 +1,13 @@
+@use "../../030-tools/tool_highlighted-box" as *;
+@use "../../010-settings/" as *;
+
+// section based on bootstrap 3
+//
+// Phps
+// --------------------------------------------------
+
+
+// Base class
+.php {
+  @include highlighted-box($background-color: $il-main-dark-bg);
+}

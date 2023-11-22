@@ -75,5 +75,5 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
      */
     abstract public function toolbarReplaceContent(): ?ilToolbarGUI;
 
-    abstract public function editModalTitle($current_title): string;
+    abstract public function editModalTitle(string $current_title): string;
 }

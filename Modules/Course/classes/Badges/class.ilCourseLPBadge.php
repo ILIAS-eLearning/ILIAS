@@ -76,7 +76,7 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
             // check if all subitems are completed now
             if ($a_config !== null && isset($a_config['subitems'])) {
                 foreach ($a_config['subitems'] as $subitem_id) {
-                    $subitem_obj_id = $subitem_obj_ids[$subitem_id];
+                    $subitem_obj_id = (int) $subitem_obj_ids[$subitem_id];
                     if (ilLPStatus::_lookupStatus($subitem_obj_id, $a_user_id) !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                         $completed = false;
                         break;

@@ -238,25 +238,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function checkAccess(string $a_permission): void
-    {
-        if (!$this->checkAccessBool($a_permission)) {
-            $this->error->raiseError(
-                $this->lng->txt('msg_no_perm_read'),
-                $this->error->WARNING
-            );
-        }
-    }
-
-    protected function checkAccessBool(string $a_permission): bool
-    {
-        return $this->access->checkAccess(
-            $a_permission,
-            '',
-            $this->ref_id
-        );
-    }
-
     public function resetFilterObject(): void
     {
         $utab = new ilUserTableGUI(
@@ -3640,7 +3621,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $cmds = [];
         // see searchResultHandler()
         if ($a_search_form) {
-            if ($this->checkAccessBool('write')) {
+            if ($this->rbac_system->checkAccess('write', $this->object->getRefId())) {
                 $cmds = [
                     'activate' => $this->lng->txt('activate'),
                     'deactivate' => $this->lng->txt('deactivate'),
@@ -3649,11 +3630,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 ];
             }
 
-            if ($this->checkAccessBool('delete')) {
+            if ($this->rbac_system->checkAccess('delete', $this->object->getRefId())) {
                 $cmds['delete'] = $this->lng->txt('delete');
             }
         } else {
-            if ($this->checkAccessBool('write')) {
+            if ($this->rbac_system->checkAccess('write', $this->object->getRefId())) {
                 $cmds = [
                     'activateUsers' => $this->lng->txt('activate'),
                     'deactivateUsers' => $this->lng->txt('deactivate'),
@@ -3662,12 +3643,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 ];
             }
 
-            if ($this->checkAccessBool('delete')) {
+            if ($this->rbac_system->checkAccess('delete', $this->object->getRefId())) {
                 $cmds['deleteUsers'] = $this->lng->txt('delete');
             }
         }
 
-        if ($this->checkAccessBool('write')) {
+        if ($this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $export_types = [
                 'userfolder_export_excel_x86',
                 'userfolder_export_csv',
@@ -3836,13 +3817,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         $umail = new ilFormatMail($this->user->getId());
-        $mail_data = $umail->getSavedData();
+        $mail_data = $umail->retrieveFromStage();
 
-        if (!is_array($mail_data)) {
-            $mail_data = ['user_id' => $this->user->getId()];
-        }
-
-        $umail->savePostData(
+        $umail->persistToStage(
             $mail_data['user_id'],
             $mail_data['attachments'],
             '#il_ml_' . $list_id,

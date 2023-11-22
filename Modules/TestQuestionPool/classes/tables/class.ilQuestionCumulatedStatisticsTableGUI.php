@@ -84,7 +84,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
 
             $rows[] = array(
                 'result' => $this->lng->txt('qpl_assessment_total_of_right_answers'),
-                'value' => $this->questioninfo->getTotalRightAnswers($this->question->getId()) * 100.0,
+                'value' => $this->questioninfo->getFractionOfReachedToReachablePointsTotal($this->question->getId()) * 100.0,
                 'is_percent' => true
             );
         } else {

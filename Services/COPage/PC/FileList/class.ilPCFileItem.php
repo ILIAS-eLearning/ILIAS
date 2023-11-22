@@ -124,4 +124,10 @@ class ilPCFileItem extends ilPageContent
         $li_copy = $prev->parentNode->insertBefore($li_copy, $prev);
         $li->parentNode->removeChild($li);
     }
+
+    public function getListPCId(): string
+    {
+        $list = $this->getDomNode()->parentNode->parentNode;
+        return $list->getAttribute("PCID");
+    }
 }

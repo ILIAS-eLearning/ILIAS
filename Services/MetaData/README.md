@@ -1,5 +1,9 @@
 # MetaData
 
+## Business Rules
+
+* [Copyright Administration](docs/copyrights.md)
+
 ## Technical Documentation
 
 * [LOM Standard in ILIAS](docs/lom_structure.md)

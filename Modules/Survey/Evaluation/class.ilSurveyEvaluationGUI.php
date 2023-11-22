@@ -895,14 +895,14 @@ class ilSurveyEvaluationGUI
                 $surround = true;
             }
             if (strpos($entry ?? "", "\"") !== false) {
-                $entry = str_replace("\"", "\"\"", $entry);
+                $entry = str_replace("\"", "\"\"", (string) $entry);
                 $surround = true;
             }
             if (strpos($entry ?? "", $separator) !== false) {
                 $surround = true;
             }
             // replace all CR LF with LF (for Excel for Windows compatibility
-            $entry = str_replace(chr(13) . chr(10), chr(10), $entry);
+            $entry = str_replace(chr(13) . chr(10), chr(10), (string) $entry);
             if ($surround) {
                 //$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
                 $resultarray[$rowindex] = "\"" . $entry . "\"";
@@ -1216,17 +1216,13 @@ class ilSurveyEvaluationGUI
                 $sskill = new ilSurveySkill($survey);
                 $self_levels = array();
                 foreach ($sskill->determineSkillLevelsForAppraisee($appr_id, true) as $sl) {
-                    $self_levels[$sl["base_skill_id"]][$sl["tref_id"]] = $sl["new_level_id"];
+                    $self_levels[$sl["base_skill_id"]][$sl["tref_id"]] = $sl["new_level_id"] ?? 0;
                 }
                 $pskills_gui->setGapAnalysisSelfEvalLevels($self_levels);
             }
             $html = $pskills_gui->getGapAnalysisHTML($appr_id);
         } else { // must be all survey competences
-            #23743
-            if ($survey->getMode() !== ilObjSurvey::MODE_SELF_EVAL &&
-                $survey->getMode() !== ilObjSurvey::MODE_IND_FEEDB) {
-                $pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
-            }
+            $pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
             if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0) {
                 $sskill = new ilSurveySkill($survey);
                 $self_levels = array();

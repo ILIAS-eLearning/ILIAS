@@ -575,9 +575,6 @@ assessment#:#cloze_text#:#穴埋め問題のテキスト
 assessment#:#cloze_textgap_case_insensitive#:#大文字・小文字を非区分
 assessment#:#cloze_textgap_case_sensitive#:#大文字・小文字を区分
 assessment#:#cloze_textgap_levenshtein_of#:#%sのレーベンシュタイン距離
-assessment#:#cloze_textgap_multiple_whitespace#:#複数の白スペース
-assessment#:#cloze_textgap_whitespace_after#:#値の後の白スペース
-assessment#:#cloze_textgap_whitespace_before#:#値の前の白スペース
 assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
@@ -1472,10 +1469,10 @@ assessment#:#tst_manscoring_question_section_header#:#問題:%s
 assessment#:#tst_manscoring_user_notification#:#通知送付
 assessment#:#tst_mark#:#マーク
 assessment#:#tst_mark_create_new_mark_step#:#新規評価尺度を作成
-assessment#:#tst_mark_create_simple_mark_schema#:#シンプル評価尺度を作成
 assessment#:#tst_mark_minimum_level#:#最低レベル (%中)
 assessment#:#tst_mark_official_form#:#正式書式
 assessment#:#tst_mark_passed#:#合格
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#シンプル評価尺度を作成
 assessment#:#tst_mark_short_form#:#略式書式
 assessment#:#tst_max_comp_points#:#最大能力ポイント
 assessment#:#tst_maximum_points#:#最高点
@@ -1729,7 +1726,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#合格/"不合格"ステ
 assessment#:#tst_results_overview#:#テスト結果全般
 assessment#:#tst_results_print_best_solution#:#模範解答
 assessment#:#tst_results_print_best_solution_info#:#各問題用に加えて考えられるベスト解答が表示されます。
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#現在の問題選択でテストを再開
 assessment#:#tst_resume_test#:#テストを再開
 assessment#:#tst_revert_changes#:#編集をUndo
 assessment#:#tst_rnd_quest_cfg_tab_general#:#全般構成

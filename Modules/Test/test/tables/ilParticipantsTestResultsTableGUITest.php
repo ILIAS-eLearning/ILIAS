@@ -90,7 +90,7 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
     {
         $this->assertTrue($this->tableGui->numericOrdering("scored_pass"));
         $this->assertTrue($this->tableGui->numericOrdering("answered_questions"));
-        $this->assertTrue($this->tableGui->numericOrdering("points"));
+        $this->assertTrue($this->tableGui->numericOrdering("reached_points"));
         $this->assertTrue($this->tableGui->numericOrdering("percent_result"));
         $this->assertFalse($this->tableGui->numericOrdering("randomText"));
     }

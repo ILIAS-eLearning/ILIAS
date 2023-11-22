@@ -572,9 +572,6 @@ assessment#:#cloze_text#:#Luk tekst
 assessment#:#cloze_textgap_case_insensitive#:#Ingen forskel på store og små bogstaver
 assessment#:#cloze_textgap_case_sensitive#:#Forskel på store og små bogstaver
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein afstand på %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#Kode
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Konkatnering
@@ -1466,10 +1463,10 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s###28 08 2012 
 assessment#:#tst_manscoring_user_notification#:#Send Notification###28 08 2012 new variable
 assessment#:#tst_mark#:#Karakter
 assessment#:#tst_mark_create_new_mark_step#:#Opret ny karakter
-assessment#:#tst_mark_create_simple_mark_schema#:#Opret simpel karakterskala
 assessment#:#tst_mark_minimum_level#:#Min. niveau (i %)
 assessment#:#tst_mark_official_form#:#Officiel form
 assessment#:#tst_mark_passed#:#Bestået
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Opret simpel karakterskala
 assessment#:#tst_mark_short_form#:#Kort form
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#Maksimum point
@@ -1725,7 +1722,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Pass
 assessment#:#tst_results_overview#:#Overblik over testresultater
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results###18 01 2012 new variable
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.###18 01 2012 new variable
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection###16 09 2013 new variable
 assessment#:#tst_resume_test#:#Genoptag testen
 assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
 assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config###16 09 2013 new variable

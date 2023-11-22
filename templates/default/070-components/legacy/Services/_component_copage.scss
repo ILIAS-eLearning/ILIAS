@@ -289,6 +289,7 @@ div.ilTinyMenuSection, .il-copg-button-group {
 }
 
 div.ilTinyMenuSection button.btn {
+	display: inline-block;
 	background: $il-main-bg;
 	border: 0;
 	color: black;
@@ -768,6 +769,7 @@ div.ilCOPGMediaPrint {
 	}
 }
 
+#copg-table-top-actions,
 #copg-top-actions {
 	padding: 0 $il-padding-xlarge-horizontal;
 }
@@ -796,6 +798,7 @@ p#copg-auto-save {
 	> .dropdown {
 		overflow: hidden;
 		position: static;
+		display: block;
 		> ul {
 			position: absolute;
 			z-index: 10;

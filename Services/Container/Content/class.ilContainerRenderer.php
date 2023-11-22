@@ -810,7 +810,6 @@ class ilContainerRenderer
         $valid = false;
 
         $page_html = $this->renderContainerPage();
-
         $block_tpl = $this->initBlockTemplate();
 
         $embedded_block_ids = $this->item_presentation->getPageEmbeddedBlockIds();
@@ -968,7 +967,7 @@ class ilContainerRenderer
             $this->renderDetails($block_tpl);
             return $page_html . $block_tpl->get();
         }
-        return "";
+        return $page_html;
     }
 
     /**
@@ -1014,9 +1013,10 @@ class ilContainerRenderer
         $item_list_gui->enableTags(false);
         $item_list_gui->enableComments(false);
         $item_list_gui->enableTimings(false);
-        $item_list_gui->getListItemHTML(
-            $item_data["ref_id"],
-            $item_data["obj_id"],
+        $item_list_gui->initItem(
+            (int) $item_data["ref_id"],
+            (int) $item_data["obj_id"],
+            "itgr",
             $item_data["title"],
             $item_data["description"]
         );
