@@ -216,7 +216,7 @@ class ilAssFileUploadUploadsExporter
                         $revision = $this->irss->manage()->getCurrentRevision(
                             $rid = $this->irss->manage()->find($file['value1'])
                         );
-                        $streams[$revision->getTitle()] = $this->irss->consume()->stream($rid)->getStream();
+                        $streams[$dir . $revision->getTitle()] = $this->irss->consume()->stream($rid)->getStream();
                         continue;
                     }
 
@@ -232,7 +232,7 @@ class ilAssFileUploadUploadsExporter
                         continue;
                     }
 
-                    $streams[$file['value1']] = Streams::ofResource(fopen($legacy_file_path, 'rb'));
+                    $streams[$dir . $file['value2']] = Streams::ofResource(fopen($legacy_file_path, 'rb'));
                 }
             }
         }
@@ -273,7 +273,7 @@ class ilAssFileUploadUploadsExporter
     public function getDispoZipFileName(): string
     {
         return ilFileUtils::getASCIIFilename(
-            $this->test_title . '_' . $this->question->getTitle() . '.' . self::ZIP_FILE_EXTENSION
+            $this->test_title . '_' . $this->question->getTitle() . self::ZIP_FILE_EXTENSION
         );
     }
 
