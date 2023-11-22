@@ -1054,39 +1054,45 @@ class ilObjQuestionPool extends ilObject
      *
      * @access public
      */
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false): ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
-        $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
-        $newObj->update();
+        //copy online status if object is not the root copy object
+        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
+        if ($cp_options->isRootNode($this->getRefId())) {
+            $new_obj->setOfflineStatus(true);
+        }
 
-        $newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
-        $newObj->setShowTaxonomies($this->getShowTaxonomies());
-        $newObj->saveToDb();
+        $new_obj->update();
+
+        $new_obj->setSkillServiceEnabled($this->isSkillServiceEnabled());
+        $new_obj->setShowTaxonomies($this->getShowTaxonomies());
+        $new_obj->saveToDb();
 
         // clone the questions in the question pool
         $questions = $this->getQplQuestions();
         $questionIdsMap = [];
         foreach ($questions as $question_id) {
-            $newQuestionId = $newObj->copyQuestion($question_id, $newObj->getId());
+            $newQuestionId = $new_obj->copyQuestion($question_id, $new_obj->getId());
             $questionIdsMap[$question_id] = $newQuestionId;
         }
 
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $md->cloneMD($newObj->getId(), 0, $newObj->getType());
-        $newObj->updateMetaData();
+        $md->cloneMD($new_obj->getId(), 0, $new_obj->getType());
+        $new_obj->updateMetaData();
 
         $duplicator = new ilQuestionPoolTaxonomiesDuplicator();
         $duplicator->setSourceObjId($this->getId());
         $duplicator->setSourceObjType($this->getType());
-        $duplicator->setTargetObjId($newObj->getId());
-        $duplicator->setTargetObjType($newObj->getType());
+        $duplicator->setTargetObjId($new_obj->getId());
+        $duplicator->setTargetObjType($new_obj->getType());
         $duplicator->setQuestionIdMapping($questionIdsMap);
         $duplicator->duplicate($duplicator->getAllTaxonomiesForSourceObject());
 
-        $newObj->saveToDb();
+        $new_obj->saveToDb();
 
-        return $newObj;
+        return $new_obj;
     }
 
     public function getQuestionTypes($all_tags = false, $fixOrder = false, $withDeprecatedTypes = true): array
