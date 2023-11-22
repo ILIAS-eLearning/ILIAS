@@ -86,6 +86,10 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
      */
     public function withValue($value): self
     {
+        // This is necessary, otherwise DateTimeImmutable will replace
+        // the empty string with the current date during rendering.
+        // The empty string is the default value posted by the input, if
+        // it is left empty.
         if ($value === '') {
             $value = null;
         }
