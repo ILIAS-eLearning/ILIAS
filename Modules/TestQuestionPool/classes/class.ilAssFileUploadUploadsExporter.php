@@ -207,7 +207,7 @@ class ilAssFileUploadUploadsExporter
             foreach ($passes as $pass => $files) {
                 foreach ($files as $file) {
                     // path inside zip
-                    $dir = $this->mainFolderName . '/';
+                    $dir = $this->mainFolderName;
                     $dir .= $participant_data->getFileSystemCompliantFullnameByActiveId($activeId) . '/';
                     $dir .= $this->getPassSubDirName($file['pass']) . '/';
 
