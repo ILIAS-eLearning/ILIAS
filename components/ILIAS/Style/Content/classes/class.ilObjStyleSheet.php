@@ -1617,9 +1617,9 @@ class ilObjStyleSheet extends ilObject
         return "../components/ILIAS/COPage/css/syntaxhighlight.css";
     }
 
-    public static function getPlaceHolderStylePath(): string
+    public static function getBaseContentStylePath(): string
     {
-        return "../components/ILIAS/COPage/css/placeholder.css";
+        return "../components/ILIAS/COPage/css/content_base.css";
     }
 
     public function update(): bool
