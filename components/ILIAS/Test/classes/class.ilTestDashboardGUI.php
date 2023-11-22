@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILiAS\UI\Renderer as UIRenderer;
 
+use ILIAS\Test\InternalRequestService;
+
 /**
  * Class ilTestDashboardGUI
  *
@@ -50,7 +52,8 @@ class ilTestDashboardGUI
         protected ilCtrl $ctrl,
         protected ilTabsGUI $tabs,
         protected ilToolbarGUI $toolbar,
-        protected ilTestQuestionSetConfig $question_set_config
+        protected ilTestQuestionSetConfig $question_set_config,
+        protected InternalRequestService $testrequest
     ) {
     }
 
@@ -128,7 +131,8 @@ class ilTestDashboardGUI
                     $this->ctrl,
                     $this->db,
                     $this->tabs,
-                    $this->toolbar
+                    $this->toolbar,
+                    $this->testrequest
                 );
                 $gui->setTestAccess($this->getTestAccess());
                 $gui->setObjectiveParent($this->getObjectiveParent());

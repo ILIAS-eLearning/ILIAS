@@ -54,7 +54,8 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
             $DIC['ilCtrl'],
             $DIC['ilDB'],
             $DIC['ilTabs'],
-            $DIC['ilToolbar']
+            $DIC['ilToolbar'],
+            $this->createMock(\ILIAS\Test\InternalRequestService::class)
         );
     }
 

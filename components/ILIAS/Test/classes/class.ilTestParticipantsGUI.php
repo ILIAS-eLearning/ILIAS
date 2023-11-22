@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILiAS\UI\Renderer as UIRenderer;
 
+use ILIAS\Test\InternalRequestService;
+
 /**
  * Class ilTestParticipantsGUI
  *
@@ -58,7 +60,8 @@ class ilTestParticipantsGUI
         protected ilCtrl $ctrl,
         protected ilDBInterface $db,
         protected ilTabsGUI $tabs,
-        protected ilToolbarGUI $toolbar
+        protected ilToolbarGUI $toolbar,
+        protected InternalRequestService $testrequest
     ) {
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($access);
     }
@@ -328,15 +331,16 @@ class ilTestParticipantsGUI
     protected function saveClientIpCmd(): void
     {
         $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $a_user_ids = $filter_closure((array) $_POST["chbUser"]);
+        $selected_users = $filter_closure($this->testrequest->raw('chbUser') ?? []);
 
-        if (is_array($a_user_ids)) {
-            foreach ($a_user_ids as $user_id) {
-                $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
-            }
-        } else {
+        if ($selected_users === []) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
         }
+
+        foreach ($selected_users as $user_id) {
+            $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
+        }
+
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 

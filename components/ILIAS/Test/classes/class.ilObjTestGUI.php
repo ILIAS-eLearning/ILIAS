@@ -326,7 +326,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ctrl,
                     $this->tabs_gui,
                     $this->toolbar,
-                    $this->test_question_set_config_factory->getQuestionSetConfig()
+                    $this->test_question_set_config_factory->getQuestionSetConfig(),
+                    $this->testrequest
                 );
 
                 $gui->setTestAccess($this->getTestAccess());
