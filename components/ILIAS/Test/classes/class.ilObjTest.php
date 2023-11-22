@@ -4592,9 +4592,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
         if ($cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOfflineStatus(true);
-        } else {
-            $new_obj->setOfflineStatus($this->getOfflineStatus());
         }
+
         $new_obj->update();
 
         $new_obj->mark_schema = clone $this->mark_schema;
