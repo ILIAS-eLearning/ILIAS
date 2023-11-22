@@ -82,6 +82,11 @@ class Out implements Dependency
         $this->dependencies[(string) $in] = $in;
     }
 
+    public function getDependencies(): array
+    {
+        return $this->dependencies;
+    }
+
     public function addResolves(In $in): void
     {
         $this->resolves[] = $in;

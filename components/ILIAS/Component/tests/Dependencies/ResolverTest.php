@@ -270,4 +270,51 @@ class ResolverTest extends TestCase
 
         $this->assertEquals([$c1, $c2, $c3], $result);
     }
+
+    public function testFindSimpleCycle(): void
+    {
+        $this->expectException(\LogicException::class);
+
+        $component = $this->createMock(Component::class);
+
+        $name = TestInterface::class;
+        $name2 = TestInterface2::class;
+
+        $pull = new D\In(D\InType::PULL, $name);
+        $provide = new D\Out(D\OutType::PROVIDE, $name2, "Some\\Class", [$pull], []);
+        $c1 = new D\OfComponent($component, $pull, $provide);
+
+        $pull = new D\In(D\InType::PULL, $name2);
+        $provide = new D\Out(D\OutType::PROVIDE, $name, "Some\\OtherClass", [$pull], []);
+        $c2 = new D\OfComponent($component, $pull, $provide);
+
+
+        $result = $this->resolver->resolveDependencies([], $c1, $c2);
+    }
+
+    public function testFindLongerCycle(): void
+    {
+        $this->expectException(\LogicException::class);
+
+        $component = $this->createMock(Component::class);
+
+        $name = TestInterface::class;
+        $name2 = TestInterface2::class;
+        $name3 = TestInterface3::class;
+
+        $pull = new D\In(D\InType::PULL, $name);
+        $provide = new D\Out(D\OutType::PROVIDE, $name2, "Some\\Class", [$pull], []);
+        $c1 = new D\OfComponent($component, $pull, $provide);
+
+        $pull = new D\In(D\InType::PULL, $name2);
+        $provide = new D\Out(D\OutType::PROVIDE, $name3, "Some\\OtherClass", [$pull], []);
+        $c2 = new D\OfComponent($component, $pull, $provide);
+
+        $pull = new D\In(D\InType::PULL, $name3);
+        $provide = new D\Out(D\OutType::PROVIDE, $name, "Some\\OtherOtherClass", [$pull], []);
+        $c3 = new D\OfComponent($component, $pull, $provide);
+
+
+        $result = $this->resolver->resolveDependencies([], $c1, $c2, $c3);
+    }
 }

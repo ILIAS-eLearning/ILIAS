@@ -68,6 +68,23 @@ class Resolver
             }
         }
 
+        $cycles = iterator_to_array($this->findCycles(...$components));
+        if (!empty($cycles)) {
+            throw new \LogicException(
+                "Detected Cycles in Dependency Tree: " .
+                join("\n", array_map(
+                    fn($cycle) => join(
+                        " <- ",
+                        array_map(
+                            fn($v) => "{$v[0]->getComponentName()} ({$v[1]})",
+                            $cycle
+                        )
+                    ),
+                    $cycles
+                ))
+            );
+        }
+
         return $components;
     }
 
@@ -158,5 +175,38 @@ class Resolver
             }
         }
         return null;
+    }
+
+    /**
+     * @var Generator<array<OfComponent, Dependency>>
+     */
+    protected function findCycles(OfComponent ...$components): \Generator
+    {
+        foreach ($components as $component) {
+            foreach ($component->getInDependencies() as $in) {
+                foreach ($this->findCyclesWith([], $component, $in) as $cycle) {
+                    yield $cycle;
+                }
+            }
+        }
+    }
+
+    protected function findCyclesWith(array $visited, OfComponent $component, In $in): \Generator
+    {
+        if (!empty($visited) && $visited[0][0] === $component && $visited[0][1] == $in) {
+            yield $visited;
+            return;
+        }
+
+        array_push($visited, [$component, $in]);
+        foreach ($in->getResolvedBy() as $out) {
+            $other = $out->getComponent();
+            array_push($visited, [$component, $out]);
+            foreach ($out->getDependencies() as $next) {
+                yield from $this->findCyclesWith($visited, $out->getComponent(), $next);
+            }
+            array_pop($visited);
+        }
+        array_pop($visited);
     }
 }
