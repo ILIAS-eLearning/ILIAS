@@ -9141,8 +9141,16 @@ div.alert ul > li:before {
   color: #6f6f6f;
 }
 
+.c-table-data .viewcontrols {
+  margin-bottom: 6px;
+}
+
 .c-table-data__table {
   background-color: white;
+}
+.c-table-data__table-wrapper {
+  box-shadow: inset 0 0 1px 1px #dddddd;
+  background-color: #f0f0f0;
 }
 
 .c-table-data__cell {
