@@ -2655,7 +2655,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->lng,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->user,
             $this->tpl,
             $this->toolbar
         );
@@ -2973,10 +2972,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $online_access = false;
         if ($this->object->getFixedParticipants()) {
-            $online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $this->user->getId());
-            if ($online_access_result === true) {
-                $online_access = true;
-            }
+            $online_access = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $this->user->getId()) === true;
         }
 
         if (!$this->object->getOfflineStatus() && $this->object->isComplete($this->test_question_set_config_factory->getQuestionSetConfig())) {

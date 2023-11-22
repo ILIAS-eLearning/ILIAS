@@ -214,6 +214,13 @@ class ilTestScreenGUI
             ;
         }
 
+        if (ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $this->user->getId())) {
+            return $launcher
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel($this->lng->txt('user_wrong_clientip'), false)
+            ;
+        }
+
         $next_pass_allowed_timestamp = 0;
         if (!$this->object->isNextPassAllowed($this->test_passes_selector, $next_pass_allowed_timestamp)) {
             return $launcher

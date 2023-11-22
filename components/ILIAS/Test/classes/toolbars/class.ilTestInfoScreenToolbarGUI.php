@@ -29,7 +29,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  */
 class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 {
-    private static array $TARGET_CLASS_PATH_BASE = array('ilRepositoryGUI', 'ilObjTestGUI');
+    private static array $TARGET_CLASS_PATH_BASE = ['ilRepositoryGUI', 'ilObjTestGUI'];
 
     protected ?ilTestQuestionSetConfig $testQuestionSetConfig = null;
     protected ?ilTestSession $testSession = null;
@@ -40,8 +40,8 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     protected $testSequence;
 
     private string $sessionLockString = '';
-    private array $infoMessages = array();
-    private array $failureMessages = array();
+    private array $infoMessages = [];
+    private array $failureMessages = [];
 
     public function __construct(
         private ilObjTest $test_obj,
@@ -54,7 +54,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         protected ilLanguage $lng,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
-        private ilObjUser $user,
         private ilGlobalTemplateInterface $main_tpl,
         private ilToolbarGUI $global_toolbar
     ) {
@@ -164,9 +163,9 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     public function clearItems(): void
     {
         if ($this->global_toolbar instanceof parent) {
-            $this->global_toolbar->setItems(array());
+            $this->global_toolbar->setItems([]);
         } else {
-            $this->setItems(array());
+            $this->setItems([]);
         }
     }
 
@@ -185,7 +184,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             return $target;
         }
 
-        return array($this->getClassName($target));
+        return [$this->getClassName($target)];
     }
 
     private function getClassPath($target): array
@@ -263,7 +262,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             $link_target
         );
 
-        $msg_box = $this->ui_factory->messageBox()->failure($message)->withLinks(array($link));
+        $msg_box = $this->ui_factory->messageBox()->failure($message)->withLinks([$link]);
 
         return $this->ui_renderer->render($msg_box);
     }
@@ -299,22 +298,12 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
         $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
 
-        $online_access = false;
-        if ($this->getTestOBJ()->getFixedParticipants()) {
-            $online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->getTestOBJ()->getId(), $this->getTestSession()->getUserId());
-            if ($online_access_result === true) {
-                $online_access = true;
-            } else {
-                $this->addInfoMessage($online_access_result);
-            }
-        }
-
         if (!$this->getTestOBJ()->getOfflineStatus() && $this->getTestOBJ()->isComplete($this->getTestQuestionSetConfig())) {
-            if ((!$this->getTestOBJ()->getFixedParticipants() || $online_access) && $this->access->checkAccess("read", "", $this->getTestOBJ()->getRefId())) {
+            if ($this->access->checkAccess("read", "", $this->getTestOBJ()->getRefId())) {
                 $executable = $this->getTestOBJ()->isExecutable(
                     $this->getTestSession(),
                     $this->getTestSession()->getUserId(),
-                    $allowPassIncrease = true
+                    true
                 );
 
                 if ($executable['executable'] && $this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations($this->getTestOBJ()->getTestId())) {
@@ -325,7 +314,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         if ($this->getTestOBJ()->getOfflineStatus() && !$this->getTestQuestionSetConfig()->areDepenciesBroken()) {
             $message = $this->lng->txt("test_is_offline");
 
-            $links = array();
+            $links = [];
 
             if ($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId())) {
                 $links[] = $this->ui_factory->link()->standard(
@@ -361,7 +350,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                     $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'removeImportFails')
                 );
 
-                $msgBox = $this->ui_factory->messageBox()->failure($message)->withButtons(array($button));
+                $msgBox = $this->ui_factory->messageBox()->failure($message)->withButtons([$button]);
 
                 $this->populateMessage($this->ui_renderer->render($msgBox));
             } elseif ($this->getTestOBJ()->isSkillServiceToBeConsidered()) {
@@ -394,12 +383,12 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     public function sendMessages(): void
     {
         $info_messages = $this->getInfoMessages();
-        if ($info_messages !== array()) {
+        if ($info_messages !== []) {
             $this->main_tpl->setOnScreenMessage('info', array_pop($info_messages));
         }
 
         $failure_messages = $this->getFailureMessages();
-        if ($failure_messages !== array()) {
+        if ($failure_messages !== []) {
             $this->main_tpl->setOnScreenMessage('failure', array_pop($failure_messages));
         }
     }
