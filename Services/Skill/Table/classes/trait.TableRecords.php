@@ -41,9 +41,7 @@ trait TableRecords
 
     protected function limitRecords(array $records, Data\Range $range): array
     {
-        $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
-        //replace with line below when PR 6527 is merged
-        //$records = array_slice($records, $range->getStart(), $range->getLength());
+        $records = array_slice($records, $range->getStart(), $range->getLength());
 
         return $records;
     }
