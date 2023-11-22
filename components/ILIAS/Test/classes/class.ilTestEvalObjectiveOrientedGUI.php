@@ -113,7 +113,13 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
                 )
             );
 
-            $lo_status = new ilTestLearningObjectivesStatusGUI($this->lng, $this->ctrl, $this->testrequest);
+            $lo_status = new ilTestLearningObjectivesStatusGUI(
+                $this->lng,
+                $this->ctrl,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $this->testrequest
+            );
             $lo_status->setCrsObjId($this->getObjectiveOrientedContainer()->getObjId());
             $lo_status->setUsrId($test_session->getUserId());
             $lo_status_html = $lo_status->getHTML($lo_id);
