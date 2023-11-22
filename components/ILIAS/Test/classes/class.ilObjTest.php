@@ -645,7 +645,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 }
             }
             foreach ($oldquestions as $index => $question_id) {
-                if ($newquestions[$index] !== $question_id) {
+                if (!isset($newquestions[$index]) || $newquestions[$index] !== $question_id) {
                     $pos = array_search($question_id, $newquestions);
                     if ($pos === false) {
                         $this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
