@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -50,6 +52,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected ?ilTestSession $test_session = null;
     protected ?ilSetting $assSettings = null;
     protected ?ilTestSequence $testSequence = null;
+
+    protected ?InterruptiveModal $finish_test_modal = null;
 
     public function __construct(ilObjTest $object)
     {
@@ -192,8 +196,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setCurrentBlock('test_nav_toolbar');
         $this->tpl->setVariable('TEST_NAV_TOOLBAR', $toolbar_gui->getHTML());
         $this->tpl->parseCurrentBlock();
+
+        if ($this->finish_test_modal === null) {
+            return;
+        }
+
         $this->tpl->setCurrentBlock('finish_test_modal');
-        $this->tpl->setVariable('FINISH_TEST_MODAL', $toolbar_gui->getFinishTestModalHTML());
+        $this->tpl->setVariable(
+            'FINISH_TEST_MODAL',
+            $this->ui_renderer->render(
+                $this->finish_test_modal->withOnLoad($this->finish_test_modal->getShowSignal())
+            )
+        );
         $this->tpl->parseCurrentBlock();
     }
 
@@ -540,33 +554,36 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      * Automatically save a user answer while working on the test
      * (called repeatedly by asynchronous posts in configured autosave interval)
      */
-    public function autosaveCmd()
+    public function autosaveCmd(): void
     {
-        $result = "";
-        if (is_countable($_POST) && count($_POST) > 0) {
-            if (!$this->canSaveResult() || $this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
-                $result = '-IGNORE-';
-            } else {
-                // answer is changed from authorized solution, so save the change as intermediate solution
-                if ($this->getAnswerChangedParameter()) {
-                    $res = $this->saveQuestionSolution(false, true);
-                }
-                // answer is not changed from authorized solution, so delete an intermediate solution
-                else {
-                    // @PHP8-CR: This looks like (yet) another issue in the dreaded autosaving.
-                    // Any advice how to deal with it?
-                    $db_res = $this->removeIntermediateSolution();
-                    $res = is_int($db_res);
-                }
-                if ($res) {
-                    $result = $this->lng->txt("autosave_success");
-                } else {
-                    $result = $this->lng->txt("autosave_failed");
-                }
-            }
+        if (!is_countable($_POST) || count($_POST) === 0) {
+            echo '';
+            return;
         }
-        echo $result;
-        exit;
+
+        if (!$this->canSaveResult() || $this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
+            echo '-IGNORE-';
+            return;
+        }
+
+        // answer is changed from authorized solution, so save the change as intermediate solution
+        if ($this->getAnswerChangedParameter()) {
+            $res = $this->saveQuestionSolution(false, true);
+        }
+        // answer is not changed from authorized solution, so delete an intermediate solution
+        else {
+            // @PHP8-CR: This looks like (yet) another issue in the dreaded autosaving.
+            // Any advice how to deal with it?
+            $db_res = $this->removeIntermediateSolution();
+            $res = is_int($db_res);
+        }
+
+        if ($res) {
+            echo $this->lng->txt("autosave_success");
+            return;
+        }
+
+        echo $this->lng->txt("autosave_failed");
     }
 
     /**
@@ -661,10 +678,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->handleCheckTestPassValid();
         ilSession::clear("tst_next");
 
-        $active_id = $this->test_session->getActiveId();
-        $actualpass = ilObjTest::_getPass($active_id);
-
-        $allObligationsAnswered = ilObjTest::allObligationsAnswered($this->test_session->getTestId(), $active_id, $actualpass);
+        $all_obligations_answered = $this->object->allObligationsAnswered();
 
         /*
          * The following "endgames" are possible prior to actually finishing the test:
@@ -678,21 +692,26 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
          *      If passes are limited, on the last pass, an additional confirmation is to be displayed.
          */
 
-        if ($this->object->areObligationsEnabled() && !$allObligationsAnswered) {
+        if ($this->object->areObligationsEnabled() && !$all_obligations_answered) {
             if ($this->object->getListOfQuestions()) {
-                $this->ctrl->redirectByClass(self::class, ilTestPlayerCommands::QUESTION_SUMMARY_INC_OBLIGATIONS);
-            } else {
-                $this->ctrl->redirectByClass(self::class, ilTestPlayerCommands::QUESTION_SUMMARY_OBLIGATIONS_ONLY);
+                $this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY_INC_OBLIGATIONS);
+                return;
             }
 
+            $this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY_OBLIGATIONS_ONLY);
             return;
         }
 
+        if ($this->testrequest->strVal('finalization_confirmed') !== 'confirmed') {
+            $this->finish_test_modal = $this->buildFinishTestModal();
+            $this->showQuestionCmd();
+            return;
+        }
+
+        $active_id = $this->test_session->getActiveId();
+        $actualpass = $this->test_session->getPass();
         // Last try in limited tries & confirmed?
-        if ($actualpass == $this->object->getNrOfTries() - 1) {
-            // @todo: php7 ask mister test
-            #$ilAuth->setIdle(ilSession::getIdleValue(), false);
-            #$ilAuth->setExpire(0);
+        if ($actualpass === $this->object->getNrOfTries() - 1) {
             switch ($this->object->getMailNotification()) {
                 case 1:
                     $this->object->sendSimpleNotification($active_id);
@@ -704,7 +723,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         // Non-last try finish
-        if (ilSession::get('tst_pass_finish') == null) {
+        if (ilSession::get('tst_pass_finish') === null) {
             ilSession::set('tst_pass_finish', 1);
             if ($this->object->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification()) {
                 switch ($this->object->getMailNotification()) {
@@ -736,10 +755,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function afterTestPassFinishedCmd()
     {
-        $activeId = $this->test_session->getActiveId();
-        $lastFinishedPass = $this->test_session->getLastFinishedPass();
-
-
         // show final statement
         if (!$this->testrequest->isset('skipfinalstatement')) {
             if ($this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()) {
@@ -764,6 +779,24 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->redirectBackCmd();
     }
 
+    public function buildFinishTestModal(): InterruptiveModal
+    {
+        $class = get_class($this);
+        $this->ctrl->setParameterByClass($class, 'finalization_confirmed', 'confirmed');
+        $next_url = $this->ctrl->getLinkTargetByClass($class, ilTestPlayerCommands::FINISH_TEST);
+        $this->ctrl->clearParameterByClass($class, 'finalization_confirmed');
+
+        $message = $this->lng->txt('tst_finish_confirmation_question');
+        if (($this->object->getNrOfTries() - 1) === $this->test_session->getPass()) {
+            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
+        }
+
+        return $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('finish_test'),
+            $message,
+            $next_url
+        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
+    }
 
     public function redirectBackCmd(): void
     {
@@ -1223,11 +1256,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function showSideList($current_sequence_element): void
     {
-        $questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, false);
+        $question_summary_data = $this->service->getQuestionSummaryData($this->testSequence, false);
         $questions = [];
         $active = 0;
 
-        foreach ($questionSummaryData as $idx => $row) {
+        foreach ($question_summary_data as $idx => $row) {
             $title = ilLegacyFormElementsUtil::prepareFormOutput($row['title']);
             if (strlen($row['description'])) {
                 $description = " title=\"" . htmlspecialchars($row['description']) . "\" ";
@@ -1273,81 +1306,72 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      * Output of a summary of all test questions for test participants
      */
     public function outQuestionSummaryCmd(
-        bool $fullpage = true,
-        bool $obligationsInfo = false,
-        bool $obligationsFilter = false
+        bool $obligations_info = false,
+        bool $obligations_filter = false
     ) {
         $this->help->setScreenIdComponent("tst");
         $this->help->setScreenId("assessment");
         $this->help->setSubScreenId("question_summary");
 
-        if ($fullpage) {
-            $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
-        }
+        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
 
-        $obligationsFulfilled = \ilObjTest::allObligationsAnswered(
-            $this->object->getId(),
-            $this->test_session->getActiveId(),
-            $this->test_session->getPass()
-        );
-
-        if ($obligationsInfo && $this->object->areObligationsEnabled() && !$obligationsFulfilled) {
+        if ($obligations_info
+            && $this->object->areObligationsEnabled()
+            && !$this->object->allObligationsAnswered()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('not_all_obligations_answered'));
         }
 
         $active_id = $this->test_session->getActiveId();
-        $questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, $obligationsFilter);
+        $question_summary_data = $this->service->getQuestionSummaryData($this->testSequence, $obligations_filter);
 
         $this->ctrl->setParameter($this, "sequence", $this->testrequest->raw("sequence"));
 
-        if ($fullpage) {
-            $table_gui = new ilListOfQuestionsTableGUI(
-                $this,
-                'showQuestion',
-                $this->ui_factory,
-                $this->ui_renderer
-            );
-            if (($this->object->getNrOfTries() - 1) === $this->test_session->getPass()) {
-                $table_gui->setUserHasAttemptsLeft(false);
-            }
-            $table_gui->setShowPointsEnabled(!$this->object->getTitleOutput());
-            $table_gui->setShowMarkerEnabled($this->object->getShowMarker());
-            $table_gui->setObligationsNotAnswered(!$obligationsFulfilled);
-            $table_gui->setShowObligationsEnabled($this->object->areObligationsEnabled());
-            $table_gui->setObligationsFilterEnabled($obligationsFilter);
-            $table_gui->setFinishTestButtonEnabled($this->isQuestionSummaryFinishTestButtonRequired());
+        $table_gui = new ilListOfQuestionsTableGUI(
+            $this,
+            'showQuestion',
+            $this->ui_factory,
+            $this->ui_renderer
+        );
+        if (($this->object->getNrOfTries() - 1) === $this->test_session->getPass()) {
+            $table_gui->setUserHasAttemptsLeft(false);
+        }
+        $table_gui->setShowPointsEnabled(!$this->object->getTitleOutput());
+        $table_gui->setShowMarkerEnabled($this->object->getShowMarker());
+        $table_gui->setObligationsNotAnswered(!$this->object->allObligationsAnswered());
+        $table_gui->setShowObligationsEnabled($this->object->areObligationsEnabled());
+        $table_gui->setObligationsFilterEnabled($obligations_filter);
+        $table_gui->setFinishTestButtonEnabled($this->isQuestionSummaryFinishTestButtonRequired());
 
-            $table_gui->init();
+        $table_gui->init();
 
-            $table_gui->setData($questionSummaryData);
+        $table_gui->setData($question_summary_data);
 
-            $this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());
+        $this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());
 
-            if ($this->object->getEnableProcessingTime()) {
-                $this->outProcessingTime($active_id);
-            }
+        if ($this->object->getEnableProcessingTime()) {
+            $this->outProcessingTime($active_id);
+        }
 
-            if ($this->object->isShowExamIdInTestPassEnabled()) {
-                $this->tpl->setCurrentBlock('exam_id_footer');
-                $this->tpl->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
-                    $this->test_session->getActiveId(),
-                    $this->test_session->getPass(),
-                    $this->object->getId()
-                ));
-                $this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
-                $this->tpl->parseCurrentBlock();
-            }
+        if ($this->object->isShowExamIdInTestPassEnabled()) {
+            $this->tpl->setCurrentBlock('exam_id_footer');
+            $this->tpl->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
+                $this->test_session->getActiveId(),
+                $this->test_session->getPass(),
+                $this->object->getId()
+            ));
+            $this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+            $this->tpl->parseCurrentBlock();
         }
     }
 
     public function outQuestionSummaryWithObligationsInfoCmd()
     {
-        $this->outQuestionSummaryCmd(true, true, false);
+        $this->outQuestionSummaryCmd(true, false);
     }
 
     public function outObligationsOnlySummaryCmd()
     {
-        $this->outQuestionSummaryCmd(true, true, true);
+        $this->outQuestionSummaryCmd(true, true);
     }
 
     public function backFromFinishingCmd()
@@ -1835,22 +1859,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function getFinishTestCommand(): string
     {
         if (!$this->object->getListOfQuestionsEnd()) {
-            return 'finishTest';
+            return ilTestPlayerCommands::FINISH_TEST;
         }
 
-        if ($this->object->areObligationsEnabled()) {
-            $allObligationsAnswered = ilObjTest::allObligationsAnswered(
-                $this->test_session->getTestId(),
-                $this->test_session->getActiveId(),
-                $this->test_session->getPass()
-            );
-
-            if (!$allObligationsAnswered) {
-                return 'outQuestionSummaryWithObligationsInfo';
-            }
+        if ($this->object->areObligationsEnabled()
+            && !$this->object->allObligationsAnswered()) {
+            return ilTestPlayerCommands::QUESTION_SUMMARY_INC_OBLIGATIONS;
         }
 
-        return 'outQuestionSummary';
+        return ilTestPlayerCommands::QUESTION_SUMMARY;
     }
 
     protected function populateInstantResponseModal(assQuestionGUI $questionGui, $navUrl)

@@ -306,7 +306,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                     true
                 );
 
-                if ($executable['executable'] && $this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations($this->getTestOBJ()->getTestId())) {
+                if ($executable['executable'] && $this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations()) {
                     $this->addInfoMessage($this->lng->txt('tst_test_contains_obligatory_questions'));
                 }
             }

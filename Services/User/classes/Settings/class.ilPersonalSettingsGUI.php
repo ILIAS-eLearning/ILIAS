@@ -759,7 +759,7 @@ class ilPersonalSettingsGUI
             )
         );
 
-        $message = $ntf->composeAndGetMessage($ilUser->getId(), null, 'read', true);
+        $message = $ntf->composeAndGetMessage($this->user->getId(), null, 'read', true);
         $subject = $this->lng->txt('user_delete_own_account_email_subject');
 
 
