@@ -27,7 +27,7 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
+require_once __DIR__ . '/../classes/inc.AssessmentConstants.php';
 
 /**
  * Class ilObjTestGUI

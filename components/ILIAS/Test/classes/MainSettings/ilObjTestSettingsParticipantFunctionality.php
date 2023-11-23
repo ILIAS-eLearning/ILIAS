@@ -32,33 +32,30 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         protected bool $postponed_questions_move_to_end = false,
         protected int $usrpass_overview_mode = 0,
         protected bool $question_marking_enabled = false,
-        protected bool $question_list_enabled = false
+        protected bool $question_list_enabled = false,
     ) {
         parent::__construct($test_id);
     }
 
-    /**
-     *
-     * @return array<ILIAS\UI\Component\Input\Field\Input>
-     */
     public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): FormInput {
+    ): FormInput
+    {
         $inputs['use_previous_answers'] = $f->checkbox(
             $lng->txt('tst_use_previous_answers'),
-            $lng->txt('tst_use_previous_answers_description')
+            $lng->txt('tst_use_previous_answers_description'),
         )->withValue($this->getUsePreviousAnswerAllowed());
 
         $inputs['allow_suspend_test'] = $f->checkbox(
             $lng->txt('tst_show_cancel'),
-            $lng->txt('tst_show_cancel_description')
+            $lng->txt('tst_show_cancel_description'),
         )->withValue($this->getSuspendTestAllowed());
 
         $inputs['postponed_questions_behaviour'] = $f->radio(
-            $lng->txt('tst_postpone')
+            $lng->txt('tst_postpone'),
         )->withOption(
             '0',
             $lng->txt('tst_postpone_off'),
@@ -72,18 +69,14 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
 
         $inputs['enable_question_list'] = $f->checkbox(
             $lng->txt('tst_enable_questionlist'),
-            $lng->txt('tst_enable_questionlist_description')
+            $lng->txt('tst_enable_questionlist_description'),
         )->withValue($this->getQuestionListEnabled());
 
-        $inputs['usr_pass_overview'] = $this->getInputUsrPassOverview(
-            $lng,
-            $f,
-            $refinery
-        );
+        $inputs['usr_pass_overview'] = $this->getInputUsrPassOverview($lng, $f, $refinery);
 
         $inputs['enable_question_marking'] = $f->checkbox(
             $lng->txt('question_marking'),
-            $lng->txt('question_marking_description')
+            $lng->txt('question_marking_description'),
         )->withValue($this->getQuestionMarkingEnabled());
 
         return $f->section($inputs, $lng->txt('tst_sequence_properties'));
@@ -93,7 +86,8 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery
-    ): OptionalGroup {
+    ): OptionalGroup
+    {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): int {
                 if ($vs === null) {
@@ -118,20 +112,14 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
             }
         );
 
-        $sub_inputs_usrpass_questionlist['show_at_beginning'] = $f->checkbox(
-            $lng->txt('tst_list_of_questions_start')
-        );
-        $sub_inputs_usrpass_questionlist['show_at_end'] = $f->checkbox(
-            $lng->txt('tst_list_of_questions_end')
-        );
-        $sub_inputs_usrpass_questionlist['show_description'] = $f->checkbox(
-            $lng->txt('tst_list_of_questions_with_description')
-        );
+        $sub_inputs_usrpass_questionlist['show_at_beginning'] = $f->checkbox($lng->txt('tst_list_of_questions_start'));
+        $sub_inputs_usrpass_questionlist['show_at_end'] = $f->checkbox($lng->txt('tst_list_of_questions_end'));
+        $sub_inputs_usrpass_questionlist['show_description'] = $f->checkbox($lng->txt('tst_list_of_questions_with_description'));
 
         $enable_usrpass_questionlist = $f->optionalGroup(
             $sub_inputs_usrpass_questionlist,
             $lng->txt('tst_show_summary'),
-            $lng->txt('tst_show_summary_description')
+            $lng->txt('tst_show_summary_description'),
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
@@ -143,7 +131,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
             [
                 'show_at_beginning' => $this->getShownQuestionListAtBeginning(),
                 'show_at_end' => $this->getShownQuestionListAtEnd(),
-                'show_description' => $this->getShowDescriptionInQuestionList()
+                'show_description' => $this->getShowDescriptionInQuestionList(),
             ]
         );
     }
@@ -156,7 +144,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
             'sequence_settings' => ['integer', (int) $this->getPostponedQuestionsMoveToEnd()],
             'usr_pass_overview_mode' => ['integer', $this->getUsrPassOverviewMode()],
             'show_marker' => ['integer', (int) $this->getQuestionMarkingEnabled()],
-            'show_questionlist' => ['integer', $this->getQuestionListEnabled()]
+            'show_questionlist' => ['integer', $this->getQuestionListEnabled()],
         ];
     }
 
@@ -208,38 +196,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
     {
         return $this->usrpass_overview_mode;
     }
-    public function getUsrPassOverviewEnabled(): bool
-    {
-        if (($this->usrpass_overview_mode & 1) > 0) {
-            return true;
-        }
 
-        return false;
-    }
-    public function getShownQuestionListAtBeginning(): bool
-    {
-        if (($this->usrpass_overview_mode & 2) > 0) {
-            return true;
-        }
-
-        return false;
-    }
-    public function getShownQuestionListAtEnd(): bool
-    {
-        if (($this->usrpass_overview_mode & 4) > 0) {
-            return true;
-        }
-
-        return false;
-    }
-    public function getShowDescriptionInQuestionList(): bool
-    {
-        if (($this->usrpass_overview_mode & 8) > 0) {
-            return true;
-        }
-
-        return false;
-    }
     public function withUsrPassOverviewMode(int $usrpass_overview_mode): self
     {
         $clone = clone $this;
@@ -247,10 +204,29 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         return $clone;
     }
 
+    public function getUsrPassOverviewEnabled(): bool
+    {
+        return ($this->usrpass_overview_mode & 1) > 0;
+    }
+    public function getShownQuestionListAtBeginning(): bool
+    {
+        return ($this->usrpass_overview_mode & 2) > 0;
+    }
+    public function getShownQuestionListAtEnd(): bool
+    {
+        return ($this->usrpass_overview_mode & 4) > 0;
+    }
+
+    public function getShowDescriptionInQuestionList(): bool
+    {
+        return ($this->usrpass_overview_mode & 8) > 0;
+    }
+
     public function getQuestionMarkingEnabled(): bool
     {
         return $this->question_marking_enabled;
     }
+
     public function withQuestionMarkingEnabled(bool $question_marking_enabled): self
     {
         $clone = clone $this;

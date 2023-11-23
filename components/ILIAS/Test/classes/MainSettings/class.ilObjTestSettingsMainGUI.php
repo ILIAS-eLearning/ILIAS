@@ -62,8 +62,6 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private const ECS_FUNCTIONALITY_SETTINGS_LABEL = 'ecs_settings';
     private const ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL = 'additional_functionality_settings';
 
-
-    protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
     protected UIServices $ui;
     protected ilGlobalTemplateInterface $tpl;
@@ -78,6 +76,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
 
     public function __construct(
+        protected ilTabsGUI $tabs,
         protected ilCtrlInterface $ctrl,
         protected ilAccessHandler $access,
         protected ilLanguage $lng,
@@ -92,7 +91,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         global $DIC;
 
         $this->tabs = $DIC->tabs();
-        $this->toolbar = $DIC['ilToolbar'];
+        $this->toolbar = $DIC->toolbar();
         $this->ui = $DIC->ui();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->refinery = $DIC->refinery();

@@ -40,9 +40,9 @@ class ilTestAccess
     ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->db = $DIC['ilDB'];
-        $this->lng = $DIC['lng'];
-        $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC->access());
         $this->setAccess($DIC->access());
 
         $this->setRefId($ref_id);

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
+require_once 'inc.AssessmentConstants.php';
 
 /**
  * A class defining marks for assessment test objects

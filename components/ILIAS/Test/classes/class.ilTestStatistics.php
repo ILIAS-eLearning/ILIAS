@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
+require_once __DIR__ . '/inc.AssessmentConstants.php';
 
 /**
 * This class calculates statistical data for a test which has to be
