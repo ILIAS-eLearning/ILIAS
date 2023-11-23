@@ -102,11 +102,11 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
             $txtPoints = $this->language->txt('certificate_points_notavailable');
         } else {
             $txtPoints = number_format(
-                    $points,
-                    1,
-                    $this->language->txt('lang_sep_decimal'),
-                    $this->language->txt('lang_sep_thousand')
-                ) . ' %';
+                $points,
+                1,
+                $this->language->txt('lang_sep_decimal'),
+                $this->language->txt('lang_sep_thousand')
+            ) . ' %';
         }
 
         $max_points = $object->getMaxPoints();

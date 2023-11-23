@@ -146,7 +146,7 @@ class ilCertificateTemplatePreviewAction
 
         $certificate_text = str_replace(
             '[CLIENT_WEB_DIR]',
-            'file://' .  $this->rootDirectory,
+            'file://' . $this->rootDirectory,
             $certificate_text
         );
 
