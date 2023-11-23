@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"phpmailer/phpmailer": "^6.8",
 	},
 	"require-dev": {
 	},
