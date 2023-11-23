@@ -1,0 +1,71 @@
+{
+	"name": "ilias/ilias",
+	"description": "ILIAS",
+	"license": "GPL v3",
+	"authors": [],
+	"config": {
+		"optimize-autoloader": true,
+		"vendor-dir": "./vendor/composer/vendor",
+		"allow-plugins": {
+			"simplesamlphp/composer-module-installer": true,
+			"cweagans/composer-patches": true,
+			"captainhook/plugin-composer": true
+		}
+	},
+	"scripts": {
+		"post-autoload-dump": [
+			"@php cli/setup.php build-artifacts --yes"
+		],
+		"post-install-cmd": [
+			"@php vendor/composer/rmdirs.php"
+		],
+		"post-update-cmd": [
+			"@php vendor/composer/rmdirs.php"
+		],
+		"test-php-all": [
+			"./vendor/composer/vendor/bin/phpunit -c ./components/ILIAS/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
+		],
+		"test-php": [
+			"./scripts/PHPUnit/run_tests.sh"
+		],
+		"rector": [
+			"./vendor/composer/vendor/bin/rector process --config ./scripts/Rector/basic_rector.php --no-diffs"
+		]
+	},
+	"require": {
+		"php": ">=8.2 <=8.3",
+		"ext-gd": "*",
+		"ext-dom": "*",
+		"ext-xsl": "*",
+		"ext-curl": "*",
+		"ext-json": "*",
+		"ext-simplexml": "*",
+		"ext-libxml": "*",
+		"ext-xml": "*",
+		"ext-zip": "*",
+		"ext-imagick": "*",
+	},
+	"require-dev": {
+	},
+	"autoload": {
+		"psr-4" : {
+			"ILIAS\\CI\\" : "./scripts"
+		},
+		"classmap": [
+			"./Customizing/global/plugins",
+			"./components/ILIAS",
+			"./vendor/ilias",
+			"./components/ILIAS/soap",
+			"./components/ILIAS/setup_/classes"
+		],
+		"exclude-from-classmap": [
+			"./components/ILIAS/Migration",
+			"./*/*/lib", "./*/*/*/tests",
+			"./Customizing/**/vendor",
+			"./components/ILIAS/setup_/sql",
+			"./cli/setup.php",
+			"./components/ILIAS/setup_/client.master.ini.php",
+			"./components/ILIAS/setup_/ilias.master.ini.php"
+		]
+	}
+}
