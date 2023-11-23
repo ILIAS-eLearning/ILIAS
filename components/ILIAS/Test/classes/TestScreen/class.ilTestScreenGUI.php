@@ -221,6 +221,13 @@ class ilTestScreenGUI
             ;
         }
 
+        if (!$this->hasUserPassedAlreadyAndCanRetake()) {
+            return $launcher
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel($this->lng->txt('tst_already_passed_cannot_retake'), false)
+            ;
+        }
+
         $next_pass_allowed_timestamp = 0;
         if (!$this->object->isNextPassAllowed($this->test_passes_selector, $next_pass_allowed_timestamp)) {
             return $launcher
@@ -415,6 +422,15 @@ class ilTestScreenGUI
         $active_id = $this->test_passes_selector->getActiveId();
         $last_started_pass = $this->test_session->getLastStartedPass();
         return $last_started_pass !== null && $this->object->isMaxProcessingTimeReached($this->object->getStartingTimeOfUser($active_id, $last_started_pass), $active_id);
+    }
+
+    private function hasUserPassedAlreadyAndCanRetake(): bool
+    {
+        if ($this->main_settings->getTestBehaviourSettings()->getBlockAfterPassedEnabled()) {
+            return !$this->test_passes_selector->hasTestPassedOnce($this->test_session->getActiveId());
+        }
+
+        return true;
     }
 
     private function hasAvailablePasses(): bool
