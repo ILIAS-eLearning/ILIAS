@@ -53,10 +53,7 @@ public class FO2PDF {
     public FO2PDF() {
         try {
             fopFactory = FopFactory.newInstance(getClass().getResource("/de/ilias/config/fopConfig.xml").toURI());
-            fopFactory.getFontManager().deleteCache();
-            fopFactory.getFontManager().saveCache();
-
-        } catch (SAXException | URISyntaxException | NullPointerException ex) {
+        } catch (URISyntaxException | NullPointerException ex) {
             logger.error("Cannot load fop configuration:" + ex);
         }
 
