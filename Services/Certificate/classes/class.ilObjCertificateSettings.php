@@ -86,7 +86,7 @@ class ilObjCertificateSettings extends ilObject
      * @throws ilException
      * @throws Exception
      */
-    public function uploadBackgroundImage(string $imageTempFileName): bool
+    public function uploadBackgroundImage(string $imageTempFileName) : bool
     {
         if (!empty($imageTempFileName)) {
             $imagePath = $this->getBackgroundImageDefaultFolder();
@@ -221,7 +221,7 @@ class ilObjCertificateSettings extends ilObject
         return $result;
     }
 
-    public function getBackgroundImageDefaultFolder(bool $relativePath = false): string
+    public function getBackgroundImageDefaultFolder(bool $relativePath = false) : string
     {
         return ($relativePath ? '' : CLIENT_WEB_DIR) . '/certificates/default/';
     }
@@ -231,7 +231,7 @@ class ilObjCertificateSettings extends ilObject
      *
      * @return string The filesystem path of the background image
      */
-    public function getDefaultBackgroundImagePath(bool $relativePath = false): string
+    public function getDefaultBackgroundImagePath(bool $relativePath = false) : string
     {
         return $this->getBackgroundImageDefaultFolder($relativePath)
             . $this->certificateSettings->get('defaultImageFileName', '');
@@ -242,7 +242,7 @@ class ilObjCertificateSettings extends ilObject
      *
      * @return string The filesystem path of the background image thumbnail
      */
-    public function getDefaultBackgroundImageThumbPath(bool $relativePath = false): string
+    public function getDefaultBackgroundImageThumbPath(bool $relativePath = false) : string
     {
         return $this->getDefaultBackgroundImagePath($relativePath) . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
@@ -252,7 +252,7 @@ class ilObjCertificateSettings extends ilObject
      *
      * @return string The filesystem path of the background image temp file
      */
-    private function getDefaultBackgroundImageTempFilePath(): string
+    private function getDefaultBackgroundImageTempFilePath() : string
     {
         return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME;
     }

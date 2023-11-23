@@ -147,7 +147,8 @@ class ilCertificateCloneAction
                 ) {
                     $newBackgroundImage = $certificatePath . $backgroundImageFile;
                     $newBackgroundImageThumbnail = str_replace(
-                        $webDir, '',
+                        $webDir,
+                        '',
                         $this->getBackgroundImageThumbPath($certificatePath)
                     );
                     if ($this->fileSystem->has($newBackgroundImage) &&

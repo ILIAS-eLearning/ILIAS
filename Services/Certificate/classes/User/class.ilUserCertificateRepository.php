@@ -551,7 +551,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
         $this->logger->info(sprintf('END - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
     }
 
-    public function isBackgroundImageUsed(string $relativeImagePath): bool
+    public function isBackgroundImageUsed(string $relativeImagePath) : bool
     {
         $this->logger->debug(sprintf(
             'START - Checking if any certificate template uses background image path "%s"',

@@ -370,7 +370,7 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
         $this->logger->info(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
     }
 
-    public function updateDefaultBackgroundImagePaths(string $oldRelativePath, string $newRelativePath): void
+    public function updateDefaultBackgroundImagePaths(string $oldRelativePath, string $newRelativePath) : void
     {
         $this->logger->debug(sprintf(
             'START - Update all default background image paths from "%s" to "%s"',
@@ -397,7 +397,7 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
         ));
     }
 
-    public function isBackgroundImageUsed(string $relativeImagePath): bool
+    public function isBackgroundImageUsed(string $relativeImagePath) : bool
     {
         $this->logger->debug(sprintf(
             'START - Checking if any certificate template uses background image path "%s"',
