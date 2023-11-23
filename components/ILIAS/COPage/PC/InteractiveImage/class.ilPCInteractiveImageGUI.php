@@ -144,37 +144,6 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                 $lng->txt("pg"),
                 (string) $ilCtrl->getParentReturn($this)
             );
-
-            /*
-            $ilTabs->addTab(
-                "editor",
-                $lng->txt("edit"),
-                $ilCtrl->getLinkTarget($this, "editor")
-            );
-
-            $ilTabs->addTab(
-                "triggers",
-                $lng->txt("cont_active_areas"),
-                $ilCtrl->getLinkTargetByClass("ilpciimtriggereditorgui", "editMapAreas")
-            );
-
-            $ilTabs->addTab(
-                "list_overlays",
-                $lng->txt("cont_overlay_images"),
-                $ilCtrl->getLinkTarget($this, "listOverlayImages")
-            );
-
-            $ilTabs->addTab(
-                "content_popups",
-                $lng->txt("cont_content_popups"),
-                $ilCtrl->getLinkTarget($this, "listContentPopups")
-            );
-
-            $ilTabs->addTab(
-                "edit_base_image",
-                $lng->txt("cont_base_image") . " & " . $lng->txt("cont_caption"),
-                $ilCtrl->getLinkTarget($this, "editBaseImage")
-            );*/
         }
     }
 
@@ -733,7 +702,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                               [],
                               [self::class],
                               "copg"
-                          );
+                          )->required();
         return $form;
     }
 
@@ -748,6 +717,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     {
         $ilTabs = $this->tabs;
         $ilTabs->activateTab("editor");
+        $this->tpl->addCss(ilObjStyleSheet::getBaseContentStylePath());
         $this->tpl->setContent($this->iim_gui->editorInit()->getInitHtml());
         $this->initInteractiveImageEditor();
     }

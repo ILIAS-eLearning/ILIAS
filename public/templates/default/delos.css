@@ -3417,12 +3417,6 @@ input.btn, input.il-link.link-bulky,
   text-align: left;
 }
 
-.il-drilldown .menulevel {
-  justify-content: space-between;
-  text-align: left;
-  margin-bottom: 2px;
-}
-
 .btn-lg, .btn-group-lg > .btn {
   min-height: 50.4px;
   min-width: 50.4px;
@@ -6541,12 +6535,13 @@ footer {
   align-items: center;
   min-height: 80px;
   margin-bottom: 2px;
-  padding: 9px 15px;
+  padding: 9px 15px 9px 38px;
   z-index: initial;
 }
 .il-drilldown header h2 {
   font-size: 1.115rem;
   margin: 0;
+  padding: 0;
 }
 .il-drilldown header .backnav {
   display: none;
@@ -6562,7 +6557,7 @@ footer {
   border: none;
 }
 .il-drilldown header.show-backnav {
-  padding-left: 39px;
+  padding-left: 38px;
 }
 .il-drilldown header.show-backnav .backnav {
   display: block;
@@ -6585,18 +6580,27 @@ footer {
   margin: 6px 0;
 }
 .il-drilldown .btn-bulky,
-.il-drilldown .link-bulky {
+.il-drilldown .link-bulky,
+.il-drilldown .menulevel {
   background-color: transparent;
   border-color: transparent;
 }
 .il-drilldown .btn-bulky:hover,
-.il-drilldown .link-bulky:hover {
+.il-drilldown .link-bulky:hover,
+.il-drilldown .menulevel:hover {
   background-color: #e2e8ef;
   color: inherit;
 }
 .il-drilldown .btn-bulky .icon,
-.il-drilldown .link-bulky .icon {
+.il-drilldown .link-bulky .icon,
+.il-drilldown .menulevel .icon {
   filter: invert(50%);
+}
+.il-drilldown .menulevel {
+  justify-content: space-between;
+  text-align: left;
+  padding-left: 38px;
+  margin-bottom: 2px;
 }
 
 div.alert div {

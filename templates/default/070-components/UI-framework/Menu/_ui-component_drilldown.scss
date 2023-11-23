@@ -1,21 +1,23 @@
+@use "sass:math";
 @use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_symbol" as s-symbol;
 @use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
-@use "../../../050-layout/basics" as *;
-@use "../../../050-layout/standardpage/" as *;
-
+@use "../../../050-layout/basics" as l;
+@use "../../../050-layout/standardpage/" as l-spage;
 
 //== Drilldown Menu
 //
 //##
 $il-drilldown-header-height: 80px;
-$il-drilldown-spacing-vertical: $il-padding-large-vertical;
-$il-drilldown-spacing-horizontal: $il-padding-large-horizontal;
+$il-drilldown-spacing-vertical: l.$il-padding-large-vertical;
+$il-drilldown-spacing-horizontal: l.$il-padding-large-horizontal;
 $il-drilldown-menulevel-bg: $il-bulky-bg-color;
 $il-drilldown-bulky-bg: transparent;
 $il-drilldown-item-hover-bg: $il-bulky-bg-color-engaged;
 $il-drilldown-item-font-size: $il-bulky-label-size;
-$il-drilldown-item-spacing: $il-slate-content-spacing;
+$il-drilldown-item-spacing: l-spage.$il-slate-content-spacing;
 $il-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; // line-height of slate bulky btn/link
+$il-drilldown-left-indent: l.$il-padding-large-horizontal + s-symbol.$il-icon-size-small + math.div(l.$il-padding-large-horizontal, 2);
 
 .il-drilldown {
 	// reset user agent CSS for lists
@@ -31,11 +33,12 @@ $il-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; /
 		align-items: center;
 		min-height: $il-drilldown-header-height; // content is centered by flex-box, not through padding
 		margin-bottom: $il-drilldown-item-spacing;
-		padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
+		padding: l.$il-padding-xlarge-vertical l.$il-padding-xlarge-horizontal l.$il-padding-xlarge-vertical $il-drilldown-left-indent;
 		z-index: initial; // so slate can cover up this specific header
 		h2 {
 			font-size: $il-font-size-xlarge;
 			margin: 0;
+			padding: 0;
 		}
 		.backnav {
 			display: none;
@@ -53,7 +56,7 @@ $il-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; /
 		}
 	}
 	header.show-backnav {
-		padding-left: $il-drilldown-spacing-horizontal * 3.25; // make room for back arrow icon
+		padding-left: $il-drilldown-left-indent;
 		.backnav {
 			display: block;
 		}
@@ -79,7 +82,8 @@ $il-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; /
 		margin: $il-drilldown-spacing-vertical 0;
 	}
 	.btn-bulky,
-	.link-bulky {
+	.link-bulky,
+	.menulevel {
 		background-color: $il-drilldown-bulky-bg;
 		border-color: $il-drilldown-bulky-bg;
 		&:hover {
@@ -89,5 +93,11 @@ $il-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; /
 		.icon {
 			filter: invert(50%);
 		}
+	}
+	.menulevel {
+		justify-content: space-between;
+		text-align: left;
+		padding-left: $il-drilldown-left-indent; // bulky-btn left padding + space for small icon + gap 
+		margin-bottom: l-spage.$il-slate-content-spacing;
 	}
 }

@@ -108,10 +108,17 @@ class InteractiveImageCommandActionHandler implements Server\CommandActionHandle
             if (($body["pcid"] ?? "") !== "") {
                 $iim->writePCId($body["pcid"]);
             }
+            $updated = $page->update();
+            return $this->ui_wrapper->sendPage($this->page_gui, $updated);
+        } else {
+            $html = $this->ui_wrapper->getRenderedAdapterForm(
+                $form,
+                [["Page", "component.save", $this->lng->txt("insert")],
+                 ["Page", "component.cancel", $this->lng->txt("cancel")]
+                ]
+            );
+            return $this->ui_wrapper->sendFormError($html);
         }
-        $updated = $page->update();
-
-        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
     protected function saveTriggerProperties(string $pc_id, array $body): Server\Response
     {
