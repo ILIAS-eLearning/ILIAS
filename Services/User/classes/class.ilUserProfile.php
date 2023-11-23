@@ -562,7 +562,7 @@ class ilUserProfile
                     if (self::userSettingVisible($f)) {
                         $ti = new ilTextInputGUI($lng->txt($lv), "usr_" . $f);
                         if ($a_user) {
-                            $ti->setValue($a_user->$m());
+                            $ti->setValue($a_user->$m() ?? '');
                         }
                         $ti->setMaxLength($p["maxlength"]);
                         $ti->setSize($p["size"]);
@@ -733,7 +733,7 @@ class ilUserProfile
                             $ta->setUseStripSlashes(false);
                             $ta->setRequired(true);
                             $ta->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
-                        // $ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+                            // $ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
                         } else {
                             $ta = new ilNonEditableValueGUI($lng->txt($lv));
                             $ta->setValue($lng->txt("reg_passwd_via_mail"));
