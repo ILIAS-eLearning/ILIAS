@@ -87,7 +87,7 @@ public class MimeTypeExtractor implements ContentTransformer {
 	);
 	
 	
-	private static final List<String> MIME_PDF_LIST = List.of(
+	private static final List<String> MIME_PDF_LIST = Arrays.asList(
             "pdf"
     );
 		

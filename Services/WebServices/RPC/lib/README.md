@@ -26,7 +26,7 @@ that requires full-text search, especially cross-platform.
 <a name="requirements"></a>
 ## Requirements
 
-This Java server has been tested with Open JDK Java Runtime 11.
+This Java server has been tested with Open JDK Java Runtime 17.
 To be able to index and search for non-ASCII characters your system should
 support UTF-8 encodings.
 
@@ -35,7 +35,7 @@ PHP curl and xmlrpc are required for using the Java server features.
 On Debian based systems try:
 
 ````shell
-> apt-get install php-curl php-xmlrpc
+> apt-get install php-curl php-xmlrpc openjdk-17-jdk-headless
 ````
 Dependencies and the build process is managed via maven
 ```shell
@@ -49,9 +49,21 @@ Dependencies and the build process is managed via maven
 ## Build the Java RPC Server
 ```shell
 > cd Services/WebServervices/RPC/lib
-> mvn install
+> mvn clean install
 ```
+To build/compile the jar file for older LTS release than v17, start the maven build process with the following parameters:
+```shell
+# java 11
+> mvn clean install -Dmaven.compiler.release=11
+# java 8
+> mvn clean install -Dmaven.compiler.source=8 -Dmaven.compiler.target=8
+```
+
 The newly generated ilServer.jar has been created in the target-directory.
+Now move the target directory to the external data directory or any other location.
+```shell
+> mv target {PATH_TO_EXTERNAL_DATA}
+```
 
 ## Configure the Java RPC Server
 Create a config file readable by the webserver user/group with following contents. E.g in the external data directory
@@ -82,8 +94,8 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
-ExecStart=/usr/bin/java -jar /var/www/html/ilias/Services/WebServices/RPC/lib/ilServer.jar /var/www/html/ilias/ilias.ini.php start
-ExecStop=/usr/bin/java -jar /var/www/html/ilias/Services/WebServices/RPC/lib/ilServer.jar /var/www/html/ilias/ilias.ini.php stop
+ExecStart=/usr/bin/java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini start
+ExecStop=/usr/bin/java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini stop
 TimeoutStopSec=10
 
 [Install]
@@ -98,7 +110,7 @@ WantedBy=multi-user.target
 ```
 ## Show Additional Status Info
 ```shell
-> java -jar <PATH_TO_SERVER>/ilServer.jar <PATH_TO_SERVER_INI> status
+> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini status
 ```
 
 Possible return values are:
@@ -112,7 +124,7 @@ Indexing
 ## Creating a new Lucene index:
 
 ```shell
-> java -jar <PATH_TO_SERVER>/ilServer.jar <PATH_TO_SERVER_INI> createIndex <CLIENT_INFO>
+> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini createIndex <CLIENT_INFO>
 ```
 
 The ```<CLIENT_INFO>``` is a combination of the client id and the installation id.
@@ -130,11 +142,11 @@ config:
 
 Example:
 ```shell
-> java -jar <PATH_TO_SERVER>/ilServer.jar <PATH_TO_SERVER_INI> createIndex default_12345678
+> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini createIndex default_12345678
 ```
 or
 ```shell
-> java -jar <PATH_TO_SERVER>/ilServer.jar <PATH_TO_SERVER_INI> createIndex default_0
+> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini createIndex default_0
 ```
 if no installation id is given.
 
@@ -142,12 +154,12 @@ if no installation id is given.
 ## Updating an existing index:
 
 ```shell
-> java -jar ilServer.jar <PATH_TO_SERVER_INI> updateIndex <CLIENT_INFO>
+> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini updateIndex <CLIENT_INFO>
 ```
 
 <a name="performing-a-query"></a>
 ## Performing a query
 
 ```shell
-> java -jar <PATH_TO_SERVER>/ilServer.jar <PATH_TO_SERVER_INI> search <CLIENT> "ilias"
+> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini search <CLIENT_INFO> "ilias"
 ```
