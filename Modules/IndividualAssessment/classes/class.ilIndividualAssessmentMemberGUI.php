@@ -338,8 +338,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         if ($result instanceof UploadResult && $result->isOK()) {
 
             $resource_id = $this->irss->manage()->upload($result, $this->stakeholder);
-            $this->irss->manage()->publish($resource_id);
-
             $identifier = $resource_id->serialize();
             $status = HandlerResult::STATUS_OK;
             $message = 'Upload ok';

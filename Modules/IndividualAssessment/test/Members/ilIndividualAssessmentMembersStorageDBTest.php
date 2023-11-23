@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 class ilIndividualAssessmentMembersStorageDBWrapper extends ilIndividualAssessmentMembersStorageDB
 {
@@ -53,10 +54,26 @@ class ilIndividualAssessmentMembersStorageDBWrapper extends ilIndividualAssessme
 
 class ilIndividualAssessmentMembersStorageDBTest extends TestCase
 {
+    public function getWrapperObj(ilDBInterface $db): ilIndividualAssessmentMembersStorageDBWrapper
+    {
+        $irss = $this->createMock(IRSS::class);
+        $stakeholder = new ilIndividualAssessmentGradingStakeholder();
+        return new ilIndividualAssessmentMembersStorageDBWrapper(
+            $db,
+            $irss,
+            $stakeholder
+        );
+    }
+
     public function testCreateObject(): void
     {
         $db = $this->createMock(ilDBInterface::class);
-        $obj = new ilIndividualAssessmentMembersStorageDB($db);
+        $irss = $this->createMock(IRSS::class);
+        $obj = new ilIndividualAssessmentMembersStorageDB(
+            $db,
+            $irss,
+            new ilIndividualAssessmentGradingStakeholder()
+        );
         $this->assertInstanceOf(ilIndividualAssessmentMembersStorageDB::class, $obj);
     }
 
@@ -109,7 +126,12 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             ->willReturn(null)
         ;
 
-        $obj = new ilIndividualAssessmentMembersStorageDB($db);
+        $obj = new ilIndividualAssessmentMembersStorageDB(
+            $db,
+            $this->createMock(IRSS::class),
+            new ilIndividualAssessmentGradingStakeholder()
+        );
+
         $result = $obj->loadMembers($iass);
         $this->assertInstanceOf(ilIndividualAssessmentMembers::class, $result);
     }
@@ -169,7 +191,9 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             ->willReturn(null)
         ;
 
-        $obj = new ilIndividualAssessmentMembersStorageDB($db);
+        $irss = $this->createMock(IRSS::class);
+        $stakeholder = new ilIndividualAssessmentGradingStakeholder();
+        $obj = new ilIndividualAssessmentMembersStorageDB($db, $irss, $stakeholder);
         $result = $obj->loadMembersAsSingleObjects($iass);
 
         $this->assertIsArray($result);
@@ -239,7 +263,9 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             ->willReturn(null)
         ;
 
-        $obj = new ilIndividualAssessmentMembersStorageDB($db);
+        $irss = $this->createMock(IRSS::class);
+        $stakeholder = new ilIndividualAssessmentGradingStakeholder();
+        $obj = new ilIndividualAssessmentMembersStorageDB($db, $irss, $stakeholder);
 
         $this->expectException(ilIndividualAssessmentException::class);
         $this->expectExceptionMessage("invalid usr-obj combination");
@@ -309,7 +335,9 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             ->willReturn(null)
         ;
 
-        $obj = new ilIndividualAssessmentMembersStorageDB($db);
+        $irss = $this->createMock(IRSS::class);
+        $stakeholder = new ilIndividualAssessmentGradingStakeholder();
+        $obj = new ilIndividualAssessmentMembersStorageDB($db, $irss, $stakeholder);
 
         $this->expectException(ilIndividualAssessmentException::class);
         $this->expectExceptionMessage("invalid usr-obj combination");
@@ -345,7 +373,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         ];
 
         $db = $this->createMock(ilDBInterface::class);
-        $obj = new ilIndividualAssessmentMembersStorageDBWrapper($db);
+        $obj = $this->getWrapperObj($db);
 
         $member = $obj->createAssessmentMemberWrapper($iass, $usr, $record);
 
@@ -442,7 +470,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         ;
 
         $db = $this->createMock(ilDBInterface::class);
-        $obj = new ilIndividualAssessmentMembersStorageDBWrapper($db);
+        $obj = $this->getWrapperObj($db);
 
         $where = [
             "obj_id" => ["integer", 11],
@@ -479,7 +507,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
     {
         $iass = $this->createMock(ilObjIndividualAssessment::class);
         $iass
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method("getId")
             ->willReturn(22)
         ;
@@ -488,7 +516,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
 
         $db = $this->createMock(ilDBInterface::class);
         $db
-            ->expects($this->once())
+            ->expects($this->any())
             ->method("quote")
             ->with(22, "integer")
             ->willReturn("22")
@@ -499,7 +527,9 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             ->with($sql)
         ;
 
-        $obj = new ilIndividualAssessmentMembersStorageDB($db);
+        $irss = $this->createMock(IRSS::class);
+        $stakeholder = new ilIndividualAssessmentGradingStakeholder();
+        $obj = new ilIndividualAssessmentMembersStorageDB($db, $irss, $stakeholder);
         $obj->deleteMembers($iass);
     }
 
@@ -515,7 +545,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         ;
 
         $db = $this->createMock(ilDBInterface::class);
-        $obj = new ilIndividualAssessmentMembersStorageDBWrapper($db);
+        $obj = $this->getWrapperObj($db);
 
         $record = [
             ilIndividualAssessmentMembers::FIELD_USR_ID => 22,
@@ -591,7 +621,9 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             ->with($sql)
         ;
 
-        $obj = new ilIndividualAssessmentMembersStorageDB($db);
+        $irss = $this->createMock(IRSS::class);
+        $stakeholder = new ilIndividualAssessmentGradingStakeholder();
+        $obj = new ilIndividualAssessmentMembersStorageDB($db, $irss, $stakeholder);
         $obj->removeMembersRecord($iass, $record);
     }
 
@@ -627,7 +659,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
     public function test_getWhereFromFilter($filter, $result): void
     {
         $db = $this->createMock(ilDBInterface::class);
-        $obj = new ilIndividualAssessmentMembersStorageDBWrapper($db);
+        $obj = $this->getWrapperObj($db);
         $res = $obj->getWhereFromFilterWrapper($filter);
 
         $this->assertEquals($result, $res);
@@ -636,7 +668,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
     public function test_getOrderByFromSort(): void
     {
         $db = $this->createMock(ilDBInterface::class);
-        $obj = new ilIndividualAssessmentMembersStorageDBWrapper($db);
+        $obj = $this->getWrapperObj($db);
 
         $sort = "test:foo";
 

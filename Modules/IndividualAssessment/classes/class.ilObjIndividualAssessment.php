@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
+
 /**
  * For the purpose of streamlining the grading and learning-process status definition
  * outside of tests, SCORM courses e.t.c. the IndividualAssessment is used.
@@ -38,6 +41,8 @@ class ilObjIndividualAssessment extends ilObject
     protected ?ilIndividualAssessmentInfoSettings $info_settings = null;
     protected ?ilIndividualAssessmentFileStorage $file_storage = null;
 
+
+
     public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         global $DIC;
@@ -47,14 +52,11 @@ class ilObjIndividualAssessment extends ilObject
         parent::__construct($id, $call_by_reference);
 
         $this->settings_storage = new ilIndividualAssessmentSettingsStorageDB($DIC['ilDB']);
-        $this->members_storage = new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
-        $this->access_handler = new ilIndividualAssessmentAccessHandler(
-            $this,
-            $DIC['ilAccess'],
-            $DIC['rbacadmin'],
-            $DIC['rbacreview'],
-            $DIC['ilUser']
-        );
+
+        $dic = $this->getDic();
+
+        $this->members_storage = $dic['iass.member.storage'];
+        $this->access_handler = $dic['iass.accesshandler'];
     }
 
     /**

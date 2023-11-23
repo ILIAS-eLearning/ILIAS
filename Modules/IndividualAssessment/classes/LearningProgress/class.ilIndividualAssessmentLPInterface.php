@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilIndividualAssessmentLPInterface
 {
@@ -37,7 +37,7 @@ class ilIndividualAssessmentLPInterface
     public static function determineStatusOfMember(int $iass_id, int $usr_id): int
     {
         if (self::$members_storage === null) {
-            self::$members_storage = self::getMembersStorage();
+            self::$members_storage = self::getMembersStorage($iass_id);
         }
 
         $iass = new ilObjIndividualAssessment($iass_id, false);
@@ -62,16 +62,18 @@ class ilIndividualAssessmentLPInterface
         return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
-    protected static function getMembersStorage(): ilIndividualAssessmentMembersStorageDB
+    protected static function getMembersStorage(int $iass_id): ilIndividualAssessmentMembersStorageDB
     {
         global $DIC;
-        return new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
+        $iass = new ilObjIndividualAssessment($iass_id, false);
+        $dic = $iass->getObjectDIC($iass, $DIC);
+        return $dic['iass.member.storage'];
     }
 
     public static function getMembersHavingStatusIn(int $iass_id, int $status): array
     {
         if (self::$members_storage === null) {
-            self::$members_storage = self::getMembersStorage();
+            self::$members_storage = self::getMembersStorage($iass_id);
         }
         $members = self::$members_storage->loadMembers(new ilObjIndividualAssessment($iass_id, false));
         $return = array();
