@@ -360,7 +360,7 @@ class ilUserProfile
     ): ilFormPropertyGUI {
         $text_input = new ilTextInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
         if ($user !== null) {
-            $text_input->setValue($user->$method());
+            $text_input->setValue($user->$method() ?? '');
         }
         $text_input->setMaxLength($field_definition['maxlength']);
         $text_input->setSize($field_definition['size']);
@@ -381,7 +381,7 @@ class ilUserProfile
     ): ilFormPropertyGUI {
         $text_area = new ilTextAreaInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
         if ($user !== null) {
-            $text_area->setValue($user->$method());
+            $text_area->setValue($user->$method() ?? '');
         }
         $text_area->setRows($field_definition['rows']);
         $text_area->setCols($field_definition['cols']);
