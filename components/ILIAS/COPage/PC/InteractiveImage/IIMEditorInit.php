@@ -44,7 +44,7 @@ class IIMEditorInit
 
         \ILIAS\Repository\Form\FormAdapterGUI::initJavascript();
 
-        $lang_vars = ["delete", "rename", "save", "cont_add_popup"];
+        $lang_vars = ["delete", "rename", "save", "cont_add_popup", "add", "cont_iim_add_overlay"];
         foreach ($lang_vars as $l) {
             $lng->toJS($l);
         }
