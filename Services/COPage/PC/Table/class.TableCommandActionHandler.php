@@ -220,7 +220,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
                         // determine cell content
                         $text = \ilPCParagraph::handleAjaxContent($text);
                         $data[$i][$j] = $text;
-                        $updated = ($text !== false);
+                        $updated = (!is_null($text));
                         $text = $text["text"];
                     }
 

@@ -1541,7 +1541,7 @@ s     */
                 "...ending, updated and returning true, content: " . substr(
                     $this->getXMLContent(),
                     0,
-                    100
+                    1000
                 )
             );
 
