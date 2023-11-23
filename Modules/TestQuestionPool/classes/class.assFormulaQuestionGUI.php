@@ -807,11 +807,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                     $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
                 }
-                if (ilSession::get('info') != null) {
-                    $this->tpl->setOnScreenMessage('success', ilSession::get('info') . "<br />" . $this->lng->txt("msg_obj_modified"), true);
-                } else {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                }
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirectByClass("ilAssQuestionPreviewGUI", ilAssQuestionPreviewGUI::CMD_SHOW);
             }
         } else {
