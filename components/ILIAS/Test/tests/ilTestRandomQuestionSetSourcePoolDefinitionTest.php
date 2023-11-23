@@ -32,7 +32,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
         );
     }
 
@@ -43,39 +43,44 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
 
     public function testId(): void
     {
-        $this->testObj->setId(125);
-        $this->assertEquals(125, $this->testObj->getId());
+        $id = 125;
+        $this->testObj->setId($id);
+        $this->assertEquals($id, $this->testObj->getId());
     }
 
     public function testPoolId(): void
     {
-        $this->testObj->setPoolId(125);
-        $this->assertEquals(125, $this->testObj->getPoolId());
+        $poolId = 125;
+        $this->testObj->setPoolId($poolId);
+        $this->assertEquals($poolId, $this->testObj->getPoolId());
     }
 
     public function testPoolTitle(): void
     {
-        $this->testObj->setPoolTitle("test");
-        $this->assertEquals("test", $this->testObj->getPoolTitle());
+        $poolTitle = 'test';
+        $this->testObj->setPoolTitle($poolTitle);
+        $this->assertEquals($poolTitle, $this->testObj->getPoolTitle());
     }
 
     public function testPoolPath(): void
     {
-        $this->testObj->setPoolPath("test");
-        $this->assertEquals("test", $this->testObj->getPoolPath());
+        $poolPath = 'test';
+        $this->testObj->setPoolPath($poolPath);
+        $this->assertEquals($poolPath, $this->testObj->getPoolPath());
     }
 
     public function testPoolQuestionCount(): void
     {
-        $this->testObj->setPoolQuestionCount(5);
-        $this->assertEquals(5, $this->testObj->getPoolQuestionCount());
+        $poolQuestionCount = 5;
+        $this->testObj->setPoolQuestionCount($poolQuestionCount);
+        $this->assertEquals($poolQuestionCount, $this->testObj->getPoolQuestionCount());
     }
 
     public function testOriginalTaxonomyFilter(): void
     {
         $expected = [
-            125 => ["nodeId" => 20],
-            17 => ["nodeId" => 3],
+            125 => ['nodeId' => 20],
+            17 => ['nodeId' => 3],
         ];
         $this->testObj->setOriginalTaxonomyFilter($expected);
         $this->assertEquals($expected, $this->testObj->getOriginalTaxonomyFilter());
@@ -84,8 +89,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
     public function testMappedTaxonomyFilter(): void
     {
         $expected = [
-            125 => ["nodeId" => 20],
-            17 => ["nodeId" => 3],
+            125 => ['nodeId' => 20],
+            17 => ['nodeId' => 3],
         ];
         $this->testObj->setMappedTaxonomyFilter($expected);
         $this->assertEquals($expected, $this->testObj->getMappedTaxonomyFilter());
@@ -94,9 +99,9 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
     public function testTypeFilter(): void
     {
         $expected = [
-            "test",
-            "hello",
-            "world"
+            'test',
+            'hello',
+            'world',
         ];
         $this->testObj->setTypeFilter($expected);
         $this->assertEquals($expected, $this->testObj->getTypeFilter());
@@ -105,9 +110,9 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
     public function testLifecycleFilter(): void
     {
         $expected = [
-            "test",
-            "hello",
-            "world"
+            'test',
+            'hello',
+            'world',
         ];
         $this->testObj->setLifecycleFilter($expected);
         $this->assertEquals($expected, $this->testObj->getLifecycleFilter());
@@ -115,13 +120,15 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
 
     public function testQuestionAmount(): void
     {
-        $this->testObj->setQuestionAmount(5);
-        $this->assertEquals(5, $this->testObj->getQuestionAmount());
+        $questionAmount = 5;
+        $this->testObj->setQuestionAmount($questionAmount);
+        $this->assertEquals($questionAmount, $this->testObj->getQuestionAmount());
     }
 
     public function testSequencePosition(): void
     {
-        $this->testObj->setSequencePosition(5);
-        $this->assertEquals(5, $this->testObj->getSequencePosition());
+        $sequencePosition = 5;
+        $this->testObj->setSequencePosition($sequencePosition);
+        $this->assertEquals($sequencePosition, $this->testObj->getSequencePosition());
     }
 }

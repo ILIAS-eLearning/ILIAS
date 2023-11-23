@@ -33,7 +33,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinitionList(
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilObjTest::class),
-            $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionFactory::class)
+            $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionFactory::class),
         );
     }
 
@@ -44,14 +44,15 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
 
     public function testAddDefinition(): void
     {
+        $id = 20;
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
         );
-        $expected->setId(20);
+        $expected->setId($id);
         $this->testObj->addDefinition($expected);
 
-        $this->assertEquals($expected, $this->testObj->getDefinition(20));
+        $this->assertEquals($expected, $this->testObj->getDefinition($id));
     }
 
     public function testSetTrashedPools(): void
@@ -86,57 +87,63 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
         );
-        $expected->setId(20);
+        $id = 20;
+        $expected->setId($id);
         $this->testObj->addDefinition($expected);
 
-        $this->assertTrue($this->testObj->hasDefinition(20));
+        $this->assertTrue($this->testObj->hasDefinition($id));
     }
 
     public function testGetDefinition(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
         );
-        $expected->setId(20);
+        $id = 20;
+        $expected->setId($id);
         $this->testObj->addDefinition($expected);
 
-        $this->assertEquals($expected, $this->testObj->getDefinition(20));
+        $this->assertEquals($expected, $this->testObj->getDefinition($id));
     }
 
     public function testGetDefinitionBySourcePoolId(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
         );
-        $expected->setId(20);
-        $expected->setPoolId(11);
+        $id = 20;
+        $poolId = 11;
+        $expected->setId($id);
+        $expected->setPoolId($poolId);
         $this->testObj->addDefinition($expected);
 
-        $this->assertEquals($expected, $this->testObj->getDefinitionBySourcePoolId(11));
+        $this->assertEquals($expected, $this->testObj->getDefinitionBySourcePoolId($poolId));
     }
 
     public function testGetDefinitionIds(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
         );
-        $expected->setId(20);
-        $expected->setPoolId(11);
+        $id = 20;
+        $poolId = 11;
+        $expected->setId($id);
+        $expected->setPoolId($poolId);
         $this->testObj->addDefinition($expected);
 
-        $this->assertEquals([20], $this->testObj->getDefinitionIds());
+        $this->assertEquals([$id], $this->testObj->getDefinitionIds());
     }
 
     public function testGetDefinitionCount(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
         );
         $expected->setId(20);
         $expected->setPoolId(11);

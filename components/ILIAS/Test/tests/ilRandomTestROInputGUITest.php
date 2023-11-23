@@ -44,8 +44,8 @@ class ilRandomTestROInputGUITest extends ilTestBaseTestCase
     public function testSetValues(): void
     {
         $expected = [
-            "test" => "test2",
-            "hello" => "world"
+            'test' => 'test2',
+            'hello' => 'world',
         ];
         $this->testObj->setValues($expected);
         $this->assertEquals($this->testObj->getValues(), $expected);

@@ -33,7 +33,7 @@ class ilTestGradingMessageBuilderTest extends ilTestBaseTestCase
         $this->testObj = new ilTestGradingMessageBuilder(
             $this->createMock(ilLanguage::class),
             $this->createMock(ilGlobalTemplate::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
         );
     }
 
@@ -44,7 +44,8 @@ class ilTestGradingMessageBuilderTest extends ilTestBaseTestCase
 
     public function testActiveId(): void
     {
-        $this->testObj->setActiveId(2120);
-        $this->assertEquals(2120, $this->testObj->getActiveId());
+        $activeId = 2120;
+        $this->testObj->setActiveId($activeId);
+        $this->assertEquals($activeId, $this->testObj->getActiveId());
     }
 }

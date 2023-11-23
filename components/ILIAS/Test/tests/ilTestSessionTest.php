@@ -32,7 +32,7 @@ class ilTestSessionTest extends ilTestBaseTestCase
         parent::setUp();
         $this->addGlobal_ilUser();
 
-        $this->testObj = new ilTestSession($DIC['ilDB'], $DIC['ilUser']);
+        $this->testObj = new ilTestSession($DIC->database(), $DIC->user());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -42,53 +42,61 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     public function testRefId(): void
     {
-        $this->testObj->setRefId(20);
-        $this->assertEquals(20, $this->testObj->getRefId());
+        $ref_id = 20;
+        $this->testObj->setRefId($ref_id);
+        $this->assertEquals($ref_id, $this->testObj->getRefId());
     }
 
     public function testActiveId(): void
     {
-        $this->testObj->active_id = 20;
-        $this->assertEquals(20, $this->testObj->getActiveId());
+        $active_id = 20;
+        $this->testObj->active_id = $active_id;
+        $this->assertEquals($active_id, $this->testObj->getActiveId());
     }
 
     public function testUserId(): void
     {
-        $this->testObj->setUserId(20);
-        $this->assertEquals(20, $this->testObj->getUserId());
+        $user_id = 20;
+        $this->testObj->setUserId($user_id);
+        $this->assertEquals($user_id, $this->testObj->getUserId());
     }
 
     public function testTestId(): void
     {
-        $this->testObj->setTestId(20);
-        $this->assertEquals(20, $this->testObj->getTestId());
+        $test_id = 20;
+        $this->testObj->setTestId($test_id);
+        $this->assertEquals($test_id, $this->testObj->getTestId());
     }
 
     public function testAnonymousId(): void
     {
-        $this->testObj->setAnonymousId('20');
-        $this->assertEquals('20', $this->testObj->getAnonymousId());
+        $anonymous_id = '20';
+        $this->testObj->setAnonymousId($anonymous_id);
+        $this->assertEquals($anonymous_id, $this->testObj->getAnonymousId());
     }
 
     public function testLastSequence(): void
     {
-        $this->testObj->setLastSequence(20);
-        $this->assertEquals(20, $this->testObj->getLastSequence());
+        $lastsequence = 20;
+        $this->testObj->setLastSequence($lastsequence);
+        $this->assertEquals($lastsequence, $this->testObj->getLastSequence());
     }
 
     public function testPass(): void
     {
-        $this->testObj->setPass(20);
-        $this->assertEquals(20, $this->testObj->getPass());
+        $pass = 20;
+        $this->testObj->setPass($pass);
+        $this->assertEquals($pass, $this->testObj->getPass());
     }
 
     public function testIncreasePass(): void
     {
-        $this->testObj->setPass(20);
-        $this->assertEquals(20, $this->testObj->getPass());
+        $pass = 20;
+        $this->testObj->setPass($pass);
+        $this->assertEquals($pass, $this->testObj->getPass());
 
         $this->testObj->increasePass();
-        $this->assertEquals(21, $this->testObj->getPass());
+        $this->assertEquals(++$pass, $this->testObj->getPass());
     }
 
     public function testSubmitted(): void
@@ -109,20 +117,23 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     public function testLastFinishedPass(): void
     {
-        $this->testObj->setLastFinishedPass(20);
-        $this->assertEquals(20, $this->testObj->getLastFinishedPass());
+        $lastFinishedPass = 20;
+        $this->testObj->setLastFinishedPass($lastFinishedPass);
+        $this->assertEquals($lastFinishedPass, $this->testObj->getLastFinishedPass());
     }
 
     public function testObjectiveOrientedContainerId(): void
     {
-        $this->testObj->setObjectiveOrientedContainerId(20);
-        $this->assertEquals(20, $this->testObj->getObjectiveOrientedContainerId());
+        $objectiveOriented = 20;
+        $this->testObj->setObjectiveOrientedContainerId($objectiveOriented);
+        $this->assertEquals($objectiveOriented, $this->testObj->getObjectiveOrientedContainerId());
     }
 
     public function testLastStartedPass(): void
     {
-        $this->testObj->setLastStartedPass(20);
-        $this->assertEquals(20, $this->testObj->getLastStartedPass());
+        $lastStartedPass = 20;
+        $this->testObj->setLastStartedPass($lastStartedPass);
+        $this->assertEquals($lastStartedPass, $this->testObj->getLastStartedPass());
     }
 
     public function testIsObjectiveOriented(): void
@@ -136,15 +147,17 @@ class ilTestSessionTest extends ilTestBaseTestCase
     public function testSetAccessCodeToSession(): void
     {
         ilSession::set(ilTestSession::ACCESS_CODE_SESSION_INDEX, "");
-        $this->testObj->setAccessCodeToSession('17');
-        $this->assertEquals([17], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
+        $access_code = '17';
+        $this->testObj->setAccessCodeToSession($access_code);
+        $this->assertEquals([(int) $access_code], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
     }
 
     public function testUnsetAccessCodeInSession(): void
     {
         ilSession::set(ilTestSession::ACCESS_CODE_SESSION_INDEX, "");
-        $this->testObj->setAccessCodeToSession('17');
-        $this->assertEquals([17], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
+        $access_code = '17';
+        $this->testObj->setAccessCodeToSession($access_code);
+        $this->assertEquals([(int) $access_code], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
 
         $this->testObj->unsetAccessCodeInSession();
         $this->assertEmpty(ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
@@ -160,9 +173,10 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     public function testPasswordChecked(): void
     {
-        $this->testObj->active_id = 20;
+        $active_id = 20;
+        $this->testObj->active_id = $active_id;
         $this->testObj->setPasswordChecked(true);
-        $this->assertTrue(ilSession::get('pw_checked_20'));
+        $this->assertTrue(ilSession::get("pw_checked_$active_id"));
         $this->assertTrue($this->testObj->isPasswordChecked());
     }
 }

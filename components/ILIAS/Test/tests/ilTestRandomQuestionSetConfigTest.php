@@ -37,7 +37,7 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
             $this->createMock(ilLogger::class),
             $this->createMock(ilComponentRepository::class),
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(\ILIAS\TestQuestionPool\QuestionInfoService::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(\ILIAS\TestQuestionPool\QuestionInfoService::class)->disableOriginalConstructor()->getMock(),
         );
     }
 
@@ -57,8 +57,9 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
 
     public function testQuestionAmountConfigurationMode(): void
     {
-        $this->testObj->setQuestionAmountConfigurationMode("test");
-        $this->assertEquals("test", $this->testObj->getQuestionAmountConfigurationMode());
+        $questionAmountConfigurationMode = 'test';
+        $this->testObj->setQuestionAmountConfigurationMode($questionAmountConfigurationMode);
+        $this->assertEquals($questionAmountConfigurationMode, $this->testObj->getQuestionAmountConfigurationMode());
     }
 
     public function testQuestionAmountConfigurationModePerPool(): void
@@ -88,13 +89,15 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
 
     public function testQuestionAmountPerTest(): void
     {
-        $this->testObj->setQuestionAmountPerTest(222);
-        $this->assertEquals(222, $this->testObj->getQuestionAmountPerTest());
+        $questionAmountPerTest = 222;
+        $this->testObj->setQuestionAmountPerTest($questionAmountPerTest);
+        $this->assertEquals($questionAmountPerTest, $this->testObj->getQuestionAmountPerTest());
     }
 
     public function testLastQuestionSyncTimestamp(): void
     {
-        $this->testObj->setLastQuestionSyncTimestamp(222);
-        $this->assertEquals(222, $this->testObj->getLastQuestionSyncTimestamp());
+        $lastQuestionSyncTimestamp = 222;
+        $this->testObj->setLastQuestionSyncTimestamp($lastQuestionSyncTimestamp);
+        $this->assertEquals($lastQuestionSyncTimestamp, $this->testObj->getLastQuestionSyncTimestamp());
     }
 }

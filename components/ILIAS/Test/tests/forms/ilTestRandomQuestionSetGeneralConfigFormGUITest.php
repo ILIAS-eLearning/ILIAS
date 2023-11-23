@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\MockObject\MockObject;
-
 /**
  * Class ilTestRandomQuestionSetGeneralConfigFormGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -27,33 +25,30 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
 {
     private ilTestRandomQuestionSetGeneralConfigFormGUI $formGui;
-    /**
-     * @var ilTestRandomQuestionSetConfig|mixed|MockObject
-     */
-    private $questionSetConfig_mock;
 
     protected function setUp(): void
     {
         parent::setUp();
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $lng_mock = $this->createMock(ilLanguage::class);
-        $lng_mock->expects($this->any())
-                 ->method("txt")
-                 ->willReturnCallback([self::class, "lngTxtCallback"]);
+        $lng_mock
+            ->expects($this->any())
+            ->method('txt')
+            ->willReturnCallback([self::class, 'lngTxtCallback'])
+        ;
 
-        $this->setGlobalVariable("lng", $lng_mock);
-        $this->setGlobalVariable("ilCtrl", $ctrl_mock);
+        $this->setGlobalVariable('lng', $lng_mock);
+        $this->setGlobalVariable('ilCtrl', $ctrl_mock);
 
         $testObject_mock = $this->createMock(ilObjTest::class);
         $questionSetConfigGui_mock = $this->createMock(ilTestRandomQuestionSetConfigGUI::class);
-        $this->questionSetConfig_mock = $this->createMock(ilTestRandomQuestionSetConfig::class);
 
         $this->formGui = new ilTestRandomQuestionSetGeneralConfigFormGUI(
             $ctrl_mock,
             $lng_mock,
             $testObject_mock,
             $questionSetConfigGui_mock,
-            $this->questionSetConfig_mock
+            $this->createMock(ilTestRandomQuestionSetConfig::class),
         );
     }
 
@@ -73,12 +68,9 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
 
     public static function lngTxtCallback(): string
     {
-        $args = func_get_args();
-        switch ($args[0]) {
-            case "tst_rnd_quest_set_cfg_general_form":
-                return "testTitle";
-            default:
-                return "testValue";
-        }
+        return match (func_get_args()[0]) {
+            'tst_rnd_quest_set_cfg_general_form' => 'testTitle',
+            default => 'testValue',
+        };
     }
 }

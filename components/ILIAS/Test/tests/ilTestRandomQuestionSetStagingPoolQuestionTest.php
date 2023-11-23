@@ -40,19 +40,22 @@ class ilTestRandomQuestionSetStagingPoolQuestionTest extends ilTestBaseTestCase
 
     public function testTestId(): void
     {
-        $this->testObj->setTestId(5);
-        $this->assertEquals(5, $this->testObj->getTestId());
+        $testId = 5;
+        $this->testObj->setTestId($testId);
+        $this->assertEquals($testId, $this->testObj->getTestId());
     }
 
     public function testPoolId(): void
     {
-        $this->testObj->setPoolId(5);
-        $this->assertEquals(5, $this->testObj->getPoolId());
+        $poolId = 5;
+        $this->testObj->setPoolId($poolId);
+        $this->assertEquals($poolId, $this->testObj->getPoolId());
     }
 
     public function testQuestionId(): void
     {
-        $this->testObj->setQuestionId(5);
-        $this->assertEquals(5, $this->testObj->getQuestionId());
+        $questionId = 5;
+        $this->testObj->setQuestionId($questionId);
+        $this->assertEquals($questionId, $this->testObj->getQuestionId());
     }
 }

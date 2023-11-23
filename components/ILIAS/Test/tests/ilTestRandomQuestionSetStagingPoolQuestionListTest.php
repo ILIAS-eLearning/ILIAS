@@ -32,7 +32,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionListTest extends ilTestBaseTestC
 
         $this->testObj = new ilTestRandomQuestionSetStagingPoolQuestionList(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilComponentRepository::class)
+            $this->createMock(ilComponentRepository::class),
         );
     }
 
@@ -43,39 +43,45 @@ class ilTestRandomQuestionSetStagingPoolQuestionListTest extends ilTestBaseTestC
 
     public function testTestObjId(): void
     {
-        $this->testObj->setTestObjId(5);
-        $this->assertEquals(5, $this->testObj->getTestObjId());
+        $testObjId = 5;
+        $this->testObj->setTestObjId($testObjId);
+        $this->assertEquals($testObjId, $this->testObj->getTestObjId());
     }
 
     public function testTestId(): void
     {
-        $this->testObj->setTestId(5);
-        $this->assertEquals(5, $this->testObj->getTestId());
+        $testId = 5;
+        $this->testObj->setTestId($testId);
+        $this->assertEquals($testId, $this->testObj->getTestId());
     }
 
     public function testPoolId(): void
     {
-        $this->testObj->setPoolId(5);
-        $this->assertEquals(5, $this->testObj->getPoolId());
+        $poolId = 5;
+        $this->testObj->setPoolId($poolId);
+        $this->assertEquals($poolId, $this->testObj->getPoolId());
     }
 
     public function testAddTaxonomyFilter(): void
     {
-        $this->testObj->addTaxonomyFilter(20, "test");
-        $this->assertEquals([20 => "test"], $this->testObj->getTaxonomyFilters());
+        $taxId = 20;
+        $taxNodes = 'test';
+        $this->testObj->addTaxonomyFilter($taxId, $taxNodes);
+        $this->assertEquals([$taxId => $taxNodes], $this->testObj->getTaxonomyFilters());
     }
 
     public function testTypeFilter(): void
     {
-        $this->testObj->setTypeFilter(5);
-        $this->assertEquals(5, $this->testObj->getTypeFilter());
+        $typeFilter = 5;
+        $this->testObj->setTypeFilter($typeFilter);
+        $this->assertEquals($typeFilter, $this->testObj->getTypeFilter());
     }
 
     public function testLifecycleFilter(): void
     {
         $expected = [
             "Hello",
-            "World"
+            "World",
         ];
 
         $this->testObj->setLifecycleFilter($expected);

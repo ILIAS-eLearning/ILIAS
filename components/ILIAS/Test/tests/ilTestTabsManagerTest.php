@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilTestTabsManagerTest
@@ -29,7 +30,7 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
 {
     private ilTestTabsManager $testObj;
 
-    private $tabs_mock;
+    private MockObject $tabs_mock;
 
     protected function setUp(): void
     {
@@ -49,7 +50,7 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
             $this->createMock(Refinery::class),
             $this->createMock(ilAccess::class),
             $this->createMock(ilTestAccess::class),
-            $this->createMock(ilTestObjectiveOrientedContainer::class)
+            $this->createMock(ilTestObjectiveOrientedContainer::class),
         );
     }
 
@@ -107,24 +108,27 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
 
     public function testParentBackLabel(): void
     {
-        $this->testObj->setParentBackLabel("Test");
-        $this->assertEquals("Test", $this->testObj->getParentBackLabel());
+        $parent_back_label = "Test";
+        $this->testObj->setParentBackLabel($parent_back_label);
+        $this->assertEquals($parent_back_label, $this->testObj->getParentBackLabel());
     }
 
     public function testParentBackHref(): void
     {
-        $this->testObj->setParentBackHref("Test");
-        $this->assertEquals("Test", $this->testObj->getParentBackHref());
+        $parent_back_href = "Test";
+        $this->testObj->setParentBackHref($parent_back_href);
+        $this->assertEquals($parent_back_href, $this->testObj->getParentBackHref());
     }
 
     public function testHasParentBackLink(): void
     {
         $this->assertFalse($this->testObj->hasParentBackLink());
+        $parent_back_x = "Test";
 
-        $this->testObj->setParentBackHref("Test");
+        $this->testObj->setParentBackHref($parent_back_x);
         $this->assertFalse($this->testObj->hasParentBackLink());
 
-        $this->testObj->setParentBackLabel("Test");
+        $this->testObj->setParentBackLabel($parent_back_x);
         $this->assertTrue($this->testObj->hasParentBackLink());
     }
 }

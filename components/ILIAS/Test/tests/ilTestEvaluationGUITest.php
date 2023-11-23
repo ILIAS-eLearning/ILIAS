@@ -74,8 +74,14 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
 
     public function testGetEvaluationQuestionId(): void
     {
-        $this->assertEquals(20, $this->testObj->getEvaluationQuestionId(20, 0));
-        $this->assertEquals(20, $this->testObj->getEvaluationQuestionId(20, -210));
-        $this->assertEquals(125, $this->testObj->getEvaluationQuestionId(20, 125));
+        $data = [
+            ['question_id' => 20, 'original_id' => 0],
+            ['question_id' => 20, 'original_id' => -210],
+            ['question_id' => 20, 'original_id' => 125],
+        ];
+
+        foreach ($data as $value) {
+            $this->assertEquals($value['original_id'] > 0 ? $value['original_id'] : $value['question_id'], $this->testObj->getEvaluationQuestionId($value['question_id'], $value['original_id']));
+        }
     }
 }

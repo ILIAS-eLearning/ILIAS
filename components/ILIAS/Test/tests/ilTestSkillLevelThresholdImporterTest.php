@@ -31,7 +31,7 @@ class ilTestSkillLevelThresholdImporterTest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->testObj = new ilTestSkillLevelThresholdImporter($DIC['ilDB']);
+        $this->testObj = new ilTestSkillLevelThresholdImporter($DIC->database());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -41,14 +41,16 @@ class ilTestSkillLevelThresholdImporterTest extends ilTestBaseTestCase
 
     public function testTargetTestId(): void
     {
-        $this->testObj->setTargetTestId(12);
-        $this->assertEquals(12, $this->testObj->getTargetTestId());
+        $targetTestId = 12;
+        $this->testObj->setTargetTestId($targetTestId);
+        $this->assertEquals($targetTestId, $this->testObj->getTargetTestId());
     }
 
     public function testImportInstallationId(): void
     {
-        $this->testObj->setImportInstallationId(12);
-        $this->assertEquals(12, $this->testObj->getImportInstallationId());
+        $importInstallationId = 12;
+        $this->testObj->setImportInstallationId($importInstallationId);
+        $this->assertEquals($importInstallationId, $this->testObj->getImportInstallationId());
     }
 
     public function testImportMappingRegistry(): void

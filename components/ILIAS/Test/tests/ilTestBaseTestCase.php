@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+require_once(__DIR__ . '/../../UI/tests/Base.php');
+require_once(__DIR__ . '/../../UI/tests/UITestHelper.php');
+
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\DI\Container;
@@ -35,6 +38,8 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 class ilTestBaseTestCase extends TestCase
 {
     protected ?Container $dic = null;
+
+    use BaseUITestTrait;
 
     /**
      * @inheritdoc
@@ -66,13 +71,15 @@ class ilTestBaseTestCase extends TestCase
         $http_mock = $this
             ->getMockBuilder(\ILIAS\HTTP\Services::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['request', 'wrapper'])->getMock();
+            ->onlyMethods(['request', 'wrapper'])->getMock()
+        ;
 
         $request_mock = $this
             ->getMockBuilder(\GuzzleHttp\Psr7\ServerRequest::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getParsedBody'])->getMock();
-        $request_mock->method('getParsedBody')->willReturn(array());
+            ->onlyMethods(['getParsedBody'])->getMock()
+        ;
+        $request_mock->method('getParsedBody')->willReturn([]);
         $http_mock->method('request')->willReturn($request_mock);
 
         $wrapper_mock = $this->createMock(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
@@ -96,7 +103,7 @@ class ilTestBaseTestCase extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value): void
+    protected function setGlobalVariable(string $name, mixed $value): void
     {
         global $DIC;
 
@@ -109,25 +116,25 @@ class ilTestBaseTestCase extends TestCase
     }
 
     /**
-     * @return ilTemplate|mixed|MockObject
+     * @return MockObject
      */
-    protected function getGlobalTemplateMock()
+    protected function getGlobalTemplateMock(): MockObject
     {
         return $this->getMockBuilder(ilTemplate::class)->disableOriginalConstructor()->getMock();
     }
 
     /**
-     * @return ilDBInterface|mixed|MockObject
+     * @return MockObject
      */
-    protected function getDatabaseMock()
+    protected function getDatabaseMock(): MockObject
     {
         return $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }
 
     /**
-     * @return ILIAS|mixed|MockObject
+     * @return MockObject
      */
-    protected function getIliasMock()
+    protected function getIliasMock(): MockObject
     {
         $mock = $this->getMockBuilder(ILIAS::class)->disableOriginalConstructor()->getMock();
 
@@ -136,201 +143,210 @@ class ilTestBaseTestCase extends TestCase
         $account->fullname = 'Esther Tester';
 
         $mock->account = $account;
+        $mock->ini_ilias = $this->createMock(ilIniFile::class);
+        $ilErrorHandlingMock = $this->createMock(ilErrorHandling::class);
+        $ilErrorHandlingMock->WARNING = 0;
+        $mock->error_obj = $ilErrorHandlingMock;
 
         return $mock;
     }
 
     protected function addGlobal_ilAccess(): void
     {
-        $this->setGlobalVariable("ilAccess", $this->createMock(ilAccess::class));
+        $this->setGlobalVariable('ilAccess', $this->createMock(ilAccess::class));
     }
 
     protected function addGlobal_ilUser(): void
     {
-        $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
+        $this->setGlobalVariable('ilUser', $this->createMock(ilObjUser::class));
     }
 
     protected function addGlobal_objDefinition(): void
     {
-        $this->setGlobalVariable("objDefinition", $this->createMock(ilObjectDefinition::class));
+        $this->setGlobalVariable('objDefinition', $this->createMock(ilObjectDefinition::class));
     }
 
     protected function addGlobal_tree(): void
     {
-        $this->setGlobalVariable("tree", $this->createMock(ilTree::class));
+        $this->setGlobalVariable('tree', $this->createMock(ilTree::class));
     }
 
     protected function addGlobal_ilSetting(): void
     {
-        $this->setGlobalVariable("ilSetting", $this->createMock(ilSetting::class));
+        $this->setGlobalVariable('ilSetting', $this->createMock(ilSetting::class));
     }
 
     protected function addGlobal_rbacsystem(): void
     {
-        $this->setGlobalVariable("rbacsystem", $this->createMock(ilRbacSystem::class));
+        $this->setGlobalVariable('rbacsystem', $this->createMock(ilRbacSystem::class));
     }
 
     protected function addGlobal_ilRbacAdmin(): void
     {
-        $this->setGlobalVariable("rbacadmin", $this->createMock(ilRbacAdmin::class));
+        $this->setGlobalVariable('rbacadmin', $this->createMock(ilRbacAdmin::class));
     }
 
     protected function addGlobal_ilCtrl(): void
     {
-        $this->setGlobalVariable("ilCtrl", $this->createMock(ilCtrl::class));
+        $this->setGlobalVariable('ilCtrl', $this->createMock(ilCtrl::class));
     }
 
     protected function addGlobal_lng(): void
     {
-        $this->setGlobalVariable("lng", $this->createMock(ilLanguage::class));
+        $this->setGlobalVariable('lng', $this->createMock(ilLanguage::class));
     }
 
     protected function addGlobal_filesystem(): void
     {
-        $this->setGlobalVariable("filesystem", $this->createMock(Filesystems::class));
+        $this->setGlobalVariable('filesystem', $this->createMock(Filesystems::class));
     }
 
     protected function addGlobal_upload(): void
     {
-        $this->setGlobalVariable("upload", $this->createMock(FileUpload::class));
+        $this->setGlobalVariable('upload', $this->createMock(FileUpload::class));
     }
 
     protected function addGlobal_ilDB(): void
     {
-        $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
+        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
     }
 
     protected function addGlobal_ilBench(): void
     {
-        $this->setGlobalVariable("ilBench", $this->createMock(ilBenchmark::class));
+        $this->setGlobalVariable('ilBench', $this->createMock(ilBenchmark::class));
     }
 
     protected function addGlobal_ilLog(): void
     {
-        $this->setGlobalVariable("ilLog", $this->createMock(ilLogger::class));
+        $this->setGlobalVariable('ilLog', $this->createMock(ilLogger::class));
     }
 
     protected function addGlobal_ilias(): void
     {
-        $this->setGlobalVariable("ilias", $this->getIliasMock());
+        $this->setGlobalVariable('ilias', $this->getIliasMock());
     }
 
     protected function addGlobal_ilErr(): void
     {
-        $this->setGlobalVariable("ilErr", $this->createMock(ilErrorHandling::class));
+        $this->setGlobalVariable('ilErr', $this->createMock(ilErrorHandling::class));
     }
 
     protected function addGlobal_GlobalScreenService(): void
     {
-        $this->setGlobalVariable("global_screen", $this->createMock(ILIAS\GlobalScreen\Services::class));
+        $this->setGlobalVariable('global_screen', $this->createMock(ILIAS\GlobalScreen\Services::class));
     }
 
     protected function addGlobal_ilNavigationHistory(): void
     {
-        $this->setGlobalVariable("ilNavigationHistory", $this->createMock(ilNavigationHistory::class));
+        $this->setGlobalVariable('ilNavigationHistory', $this->createMock(ilNavigationHistory::class));
     }
 
     protected function addGlobal_ilAppEventHandler(): void
     {
-        $this->setGlobalVariable("ilAppEventHandler", $this->createMock(ilAppEventHandler::class));
+        $this->setGlobalVariable('ilAppEventHandler', $this->createMock(ilAppEventHandler::class));
     }
 
     protected function addGlobal_tpl(): void
     {
-        $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
+        $this->setGlobalVariable('tpl', $this->createMock(ilGlobalPageTemplate::class));
     }
 
     protected function addGlobal_ilComponentRepository(): void
     {
-        $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
+        $this->setGlobalVariable('component.repository', $this->createMock(ilComponentRepository::class));
     }
 
     protected function addGlobal_ilComponentFactory(): void
     {
-        $this->setGlobalVariable("component.factory", $this->createMock(ilComponentFactory::class));
+        $this->setGlobalVariable('component.factory', $this->createMock(ilComponentFactory::class));
     }
 
     protected function addGlobal_ilTabs(): void
     {
-        $this->setGlobalVariable("ilTabs", $this->createMock(ilTabsGUI::class));
+        $this->setGlobalVariable('ilTabs', $this->createMock(ilTabsGUI::class));
     }
 
     protected function addGlobal_ilObjDataCache(): void
     {
-        $this->setGlobalVariable("ilObjDataCache", $this->createMock(ilObjectDataCache::class));
+        $this->setGlobalVariable('ilObjDataCache', $this->createMock(ilObjectDataCache::class));
     }
 
     protected function addGlobal_ilLocator(): void
     {
-        $this->setGlobalVariable("ilLocator", $this->createMock(ilLocatorGUI::class));
+        $this->setGlobalVariable('ilLocator', $this->createMock(ilLocatorGUI::class));
     }
 
     protected function addGlobal_rbacreview(): void
     {
-        $this->setGlobalVariable("rbacreview", $this->createMock(ilRbacReview::class));
+        $this->setGlobalVariable('rbacreview', $this->createMock(ilRbacReview::class));
     }
 
     protected function addGlobal_ilToolbar(): void
     {
-        $this->setGlobalVariable("ilToolbar", $this->createMock(ilToolbarGUI::class));
+        $this->setGlobalVariable('ilToolbar', $this->createMock(ilToolbarGUI::class));
     }
 
     protected function addGlobal_http(): void
     {
         $http_mock = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
         $http_mock->method('request')->willReturn($this->getMockBuilder(\Psr\Http\Message\ServerRequestInterface::class)->disableOriginalConstructor()->getMock());
-        $this->setGlobalVariable("http", $http_mock);
+        $this->setGlobalVariable('http', $http_mock);
     }
 
     protected function addGlobal_ilIliasIniFile(): void
     {
-        $this->setGlobalVariable("ilIliasIniFile", $this->createMock(ilIniFile::class));
+        $this->setGlobalVariable('ilIliasIniFile', $this->createMock(ilIniFile::class));
+    }
+
+    protected function addGlobal_ilClientIniFile(): void
+    {
+        $this->setGlobalVariable('ilClientIniFile', $this->createMock(ilIniFile::class));
     }
 
     protected function addGlobal_ilLoggerFactory(): void
     {
-        $this->setGlobalVariable("ilLoggerFactory", $this->createMock(ilLoggerFactory::class));
+        $this->setGlobalVariable('ilLoggerFactory', $this->createMock(ilLoggerFactory::class));
     }
 
     protected function addGlobal_ilHelp(): void
     {
-        $this->setGlobalVariable("ilHelp", $this->createMock(ilHelpGUI::class));
+        $this->setGlobalVariable('ilHelp', $this->createMock(ilHelpGUI::class));
     }
 
     protected function addGlobal_ui(): void
     {
-        $this->setGlobalVariable("ui", $this->createMock(ILIAS\DI\UIServices::class));
+        $this->setGlobalVariable('ui', $this->createMock(ILIAS\DI\UIServices::class));
     }
 
     protected function addGlobal_uiFactory(): void
     {
-        $this->setGlobalVariable("ui.factory", $this->createMock(Factory::class));
+        $this->setGlobalVariable('ui.factory', $this->createMock(Factory::class));
     }
 
     protected function addGlobal_uiRenderer(): void
     {
-        $this->setGlobalVariable("ui.renderer", $this->createMock(ILIAS\UI\Implementation\DefaultRenderer::class));
+        $this->setGlobalVariable('ui.renderer', $this->createMock(ILIAS\UI\Implementation\DefaultRenderer::class));
     }
 
     protected function addGlobal_refinery(): void
     {
         $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
         $refineryMock->expects(self::any())->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
-        $this->setGlobalVariable("refinery", $refineryMock);
+        $this->setGlobalVariable('refinery', $refineryMock);
     }
 
     protected function addGlobal_skillService(): void
     {
-        $this->setGlobalVariable("skill", $this->createMock(ILIAS\Skill\Service\SkillService::class));
+        $this->setGlobalVariable('skill', $this->createMock(ILIAS\Skill\Service\SkillService::class));
     }
 
     protected function addGlobal_objectService(): void
     {
         global $DIC;
         $DIC['object.customicons.factory'] = $this->getMockBuilder(ilObjectCustomIconFactory::class)->disableOriginalConstructor()->getMock();
-        $object_mock = $this->getMockBuilder(\ilObjectService::class)->disableOriginalConstructor()->getMock();
+        $object_mock = $this->getMockBuilder(ilObjectService::class)->disableOriginalConstructor()->getMock();
 
-        $this->setGlobalVariable("object", $object_mock);
+        $this->setGlobalVariable('object', $object_mock);
     }
 
     protected function getTestObjMock(): ilObjTest
@@ -341,5 +357,9 @@ class ilTestBaseTestCase extends TestCase
                 ilTestDIC::dic()
             );
         return $test_mock;
+    }
+
+    public static function callMethod($obj, $name, array $args = []) {
+        return (new ReflectionClass($obj))->getMethod($name)->invokeArgs($obj, $args);
     }
 }

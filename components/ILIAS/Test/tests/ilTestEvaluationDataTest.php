@@ -33,7 +33,7 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
         global $DIC;
         $this->addGlobal_ilDB();
 
-        $this->testObj = new ilTestEvaluationData($DIC['ilDB']);
+        $this->testObj = new ilTestEvaluationData($DIC->database());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -74,17 +74,17 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
     public function testQuestionTitle(): void
     {
         $expected = [
-            120 => "abcd",
-            121 => "Hello",
-            2150 => "World",
+            120 => 'abcd',
+            121 => 'Hello',
+            2150 => 'World',
         ];
 
         foreach ($expected as $questionId => $questionTitle) {
             $this->testObj->addQuestionTitle($questionId, $questionTitle);
+
+            $this->assertEquals($questionTitle, $this->testObj->getQuestionTitle($questionId));
         }
 
         $this->assertEquals($expected, $this->testObj->getQuestionTitles());
-
-        $this->assertEquals($expected[2150], $this->testObj->getQuestionTitle(2150));
     }
 }

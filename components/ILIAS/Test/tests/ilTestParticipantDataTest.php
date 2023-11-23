@@ -32,7 +32,7 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestParticipantData(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilLanguage::class)
+            $this->createMock(ilLanguage::class),
         );
     }
 
@@ -44,7 +44,7 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
     public function testParticipantAccessFilter(): void
     {
         $callback = static function () {
-            return "Hello";
+            return 'Hello';
         };
 
         $this->testObj->setParticipantAccessFilter($callback);
@@ -62,12 +62,12 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
 
     public function testGetScoredParticipantsFilterExpression(): void
     {
-        $this->assertEquals("1 = 1", $this->testObj->getScoredParticipantsFilterExpression());
+        $this->assertEquals('1 = 1', $this->testObj->getScoredParticipantsFilterExpression());
 
         $this->testObj->setScoredParticipantsFilterEnabled(true);
         $this->assertEquals(
-            "ta.last_finished_pass = ta.last_started_pass",
-            $this->testObj->getScoredParticipantsFilterExpression()
+            'ta.last_finished_pass = ta.last_started_pass',
+            $this->testObj->getScoredParticipantsFilterExpression(),
         );
     }
 

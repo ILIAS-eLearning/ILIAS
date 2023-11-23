@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\Test\test;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use ILIAS\components\Test\Incident;
 
@@ -32,29 +33,23 @@ class IncidentTest extends TestCase
 
     public function testAny(): void
     {
-        $incident = new Incident();
-        $this->assertTrue($incident->any(static fn(int $x) => $x === 2, [1, 2, 3]));
+        $this->assertTrue((new Incident())->any(static fn(int $x) => $x === 2, [1, 2, 3]));
     }
 
     public function testAnyBreaksAtFirstTrue(): void
     {
-        $incident = new Incident();
         $throw_error = false;
 
-        $this->assertTrue($incident->any(static function (int $x) use (&$throw_error): bool {
+        $this->assertTrue((new Incident())->any(static function (int $x) use (&$throw_error): bool {
             if ($throw_error) {
                 throw new Exception('Should not be called anymore.');
-            } elseif ($x === 2) {
-                $throw_error = true;
-                return true;
             }
-            return false;
+            return $x === 2 && ($throw_error = true);
         }, [1, 2, 3]));
     }
 
     public function testAnyReturnsFalse(): void
     {
-        $incident = new Incident();
-        $this->assertFalse($incident->any(static fn(int $x) => false, [1, 2, 3]));
+        $this->assertFalse((new Incident())->any(static fn(int $x) => false, [1, 2, 3]));
     }
 }

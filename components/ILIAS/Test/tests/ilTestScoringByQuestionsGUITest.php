@@ -47,9 +47,7 @@ class ilTestScoringByQuestionsGUITest extends ilTestBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $this->testObj = new ilTestScoringByQuestionsGUI(
-            $this->getTestObjMock()
-        );
+        $this->testObj = new ilTestScoringByQuestionsGUI($this->createMock(ilObjTest::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

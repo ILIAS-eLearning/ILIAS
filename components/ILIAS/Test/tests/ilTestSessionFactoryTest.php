@@ -34,8 +34,8 @@ class ilTestSessionFactoryTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestSessionFactory(
             $this->createMock(ilObjTest::class),
-            $DIC['ilDB'],
-            $DIC['ilUser']
+            $DIC->database(),
+            $DIC->user(),
         );
     }
 

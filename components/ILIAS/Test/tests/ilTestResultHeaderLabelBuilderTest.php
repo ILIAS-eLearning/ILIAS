@@ -24,17 +24,13 @@ class ilTestResultHeaderLabelBuilderTest extends ilTestBaseTestCase
 {
     private ilTestResultHeaderLabelBuilder $testObj;
 
-    private $lng_mock;
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->lng_mock = $this->createMock(ilLanguage::class);
-
         $this->testObj = new ilTestResultHeaderLabelBuilder(
-            $this->lng_mock,
-            $this->createMock(ilObjectDataCache::class)
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilObjectDataCache::class),
         );
     }
 
@@ -45,25 +41,29 @@ class ilTestResultHeaderLabelBuilderTest extends ilTestBaseTestCase
 
     public function testObjectiveOrientedContainerId(): void
     {
-        $this->testObj->setObjectiveOrientedContainerId(5);
-        $this->assertEquals(5, $this->testObj->getObjectiveOrientedContainerId());
+        $objectiveOrientedContainerId = 5;
+        $this->testObj->setObjectiveOrientedContainerId($objectiveOrientedContainerId);
+        $this->assertEquals($objectiveOrientedContainerId, $this->testObj->getObjectiveOrientedContainerId());
     }
 
     public function testTestObjId(): void
     {
-        $this->testObj->setTestObjId(5);
-        $this->assertEquals(5, $this->testObj->getTestObjId());
+        $testObjId = 5;
+        $this->testObj->setTestObjId($testObjId);
+        $this->assertEquals($testObjId, $this->testObj->getTestObjId());
     }
 
     public function testTestRefId(): void
     {
-        $this->testObj->setTestRefId(5);
-        $this->assertEquals(5, $this->testObj->getTestRefId());
+        $testRefId = 5;
+        $this->testObj->setTestRefId($testRefId);
+        $this->assertEquals($testRefId, $this->testObj->getTestRefId());
     }
 
     public function testUserId(): void
     {
-        $this->testObj->setUserId(5);
-        $this->assertEquals(5, $this->testObj->getUserId());
+        $userId = 5;
+        $this->testObj->setUserId($userId);
+        $this->assertEquals($userId, $this->testObj->getUserId());
     }
 }

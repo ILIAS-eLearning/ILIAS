@@ -38,7 +38,7 @@ class ilTestSkillEvaluationGUITest extends ilTestBaseTestCase
             $this->createMock(ilDBInterface::class),
             $this->createMock(\ILIAS\DI\LoggingServices::class),
             $this->createMock(ILIAS\Skill\Service\SkillService::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class)
+            $this->createMock(ILIAS\Test\InternalRequestService::class),
         );
     }
 

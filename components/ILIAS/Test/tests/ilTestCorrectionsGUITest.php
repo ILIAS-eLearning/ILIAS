@@ -45,19 +45,19 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
         $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestCorrectionsGUI(
-            $DIC['ilDB'],
-            $DIC['ilCtrl'],
-            $DIC['lng'],
-            $DIC['ilTabs'],
-            $DIC['ilHelp'],
-            $DIC['ui.factory'],
-            $DIC['ui.renderer'],
-            $DIC['tpl'],
-            $DIC['refinery'],
+            $DIC->database(),
+            $DIC->ctrl(),
+            $DIC->language(),
+            $DIC->tabs(),
+            $DIC->help(),
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer(),
+            $DIC->ui()->mainTemplate(),
+            $DIC->refinery(),
             $DIC->http()->request(),
             $this->createMock(ILIAS\Test\InternalRequestService::class),
             $this->createMock(ilObjTest::class),
-            $this->createMock(QuestionInfoService::class)
+            $this->createMock(QuestionInfoService::class),
         );
     }
 

@@ -32,7 +32,7 @@ class ilTestPassesSelectorTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestPassesSelector(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
         );
     }
 
@@ -43,13 +43,15 @@ class ilTestPassesSelectorTest extends ilTestBaseTestCase
 
     public function testActiveId(): void
     {
-        $this->testObj->setActiveId(125);
-        $this->assertEquals(125, $this->testObj->getActiveId());
+        $active_id = 125;
+        $this->testObj->setActiveId($active_id);
+        $this->assertEquals($active_id, $this->testObj->getActiveId());
     }
 
     public function testLastFinishedPass(): void
     {
-        $this->testObj->setLastFinishedPass(125);
-        $this->assertEquals(125, $this->testObj->getLastFinishedPass());
+        $last_finished_pass = 125;
+        $this->testObj->setLastFinishedPass($last_finished_pass);
+        $this->assertEquals($last_finished_pass, $this->testObj->getLastFinishedPass());
     }
 }

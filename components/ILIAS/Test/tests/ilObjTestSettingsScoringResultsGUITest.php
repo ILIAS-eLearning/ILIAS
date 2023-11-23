@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -24,48 +23,35 @@ use Psr\Http\Message\ServerRequestInterface;
  * @author Marvin Beym <mbeym@databay.de>
  * @author Nils Haagen <nhaagen@concepts-and-training.de>
  */
-class ilObjTestSettingsScoringResultsGUITest extends TestCase
+class ilObjTestSettingsScoringResultsGUITest extends ilTestBaseTestCase
 {
-    private ilObjTestSettingsScoringResultsGUI $testObj;
-
     protected function getUIComponents(): array
     {
         $test_helper = new UITestHelper();
 
-        $ui_factory = $test_helper->factory();
-        $ui_renderer = $test_helper->renderer();
-        $refinery = $this->getMockBuilder(\ILIAS\Refinery\Factory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $request = $this->createMock(ServerRequestInterface::class);
-
-        $main_template = $test_helper->mainTemplate();
-        $tabs_gui = $this->createMock(ilTabsGUI::class);
-
         return [
-            $ui_factory,
-            $ui_renderer,
-            $refinery,
-            $request,
-            $main_template,
-            $tabs_gui
+            $test_helper->factory(),
+            $test_helper->renderer(),
+            $this->createMock(ServerRequestInterface::class),
+            $this->getMockBuilder(\ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock(),
+            $test_helper->mainTemplate(),
+            $this->createMock(ilTabsGUI::class)
         ];
     }
 
 
     public function testScoringResultsGUIConstruct(): void
     {
-        $objTestGui_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
+        $objTestGui_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
         $objTestGui_mock->expects(
             $this->any()
         )->method('getObject')->willReturn(
             $this->createMock(ilObjTest::class)
         );
 
-        list($ui_factory, $ui_renderer, $refinery, $request, $main_template, $tabs_gui) = $this->getUIComponents();
+        [$ui_factory, $ui_renderer, $request, $refinery, $main_template, $tabs_gui] = $this->getUIComponents();
 
-        $this->testObj = new ilObjTestSettingsScoringResultsGUI(
+        $testObj = new ilObjTestSettingsScoringResultsGUI(
             $this->createMock(ilCtrl::class),
             $this->createMock(ilAccessHandler::class),
             $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock(),
@@ -84,6 +70,6 @@ class ilObjTestSettingsScoringResultsGUITest extends TestCase
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
         );
 
-        $this->assertInstanceOf(ilObjTestSettingsScoringResultsGUI::class, $this->testObj);
+        $this->assertInstanceOf(ilObjTestSettingsScoringResultsGUI::class, $testObj);
     }
 }

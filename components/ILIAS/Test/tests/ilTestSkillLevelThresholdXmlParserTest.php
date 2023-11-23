@@ -53,20 +53,22 @@ class ilTestSkillLevelThresholdXmlParserTest extends ilTestBaseTestCase
         $this->testObj->initSkillLevelThresholdImportList();
         $this->assertInstanceOf(
             ilTestSkillLevelThresholdImportList::class,
-            $this->testObj->getSkillLevelThresholdImportList()
+            $this->testObj->getSkillLevelThresholdImportList(),
         );
     }
 
     public function testCurSkillBaseId(): void
     {
-        $this->testObj->setCurSkillBaseId(12);
-        $this->assertEquals(12, $this->testObj->getCurSkillBaseId());
+        $curSkillBaseId = 12;
+        $this->testObj->setCurSkillBaseId($curSkillBaseId);
+        $this->assertEquals($curSkillBaseId, $this->testObj->getCurSkillBaseId());
     }
 
     public function testCurSkillTrefId(): void
     {
-        $this->testObj->setCurSkillTrefId(12);
-        $this->assertEquals(12, $this->testObj->getCurSkillTrefId());
+        $curSkillTrefId = 12;
+        $this->testObj->setCurSkillTrefId($curSkillTrefId);
+        $this->assertEquals($curSkillTrefId, $this->testObj->getCurSkillTrefId());
     }
 
     public function testCurSkillLevelThreshold(): void

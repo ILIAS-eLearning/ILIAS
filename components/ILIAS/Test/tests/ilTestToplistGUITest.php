@@ -41,12 +41,12 @@ class ilTestToplistGUITest extends ilTestBaseTestCase
         $this->testObj = new ilTestToplistGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestTopList::class),
-            $DIC['ilCtrl'],
-            $DIC['tpl'],
-            $DIC['lng'],
-            $DIC['ilUser'],
-            $DIC['ui.factory'],
-            $DIC['ui.renderer']
+            $DIC->ctrl(),
+            $DIC->ui()->mainTemplate(),
+            $DIC->language(),
+            $DIC->user(),
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer(),
         );
     }
 

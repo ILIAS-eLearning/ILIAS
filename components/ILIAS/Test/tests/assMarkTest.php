@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  * @version $Id$
  * @ingroup components\ILIASTest
  */
-class ilassMarkTest extends TestCase
+class assMarkTest extends TestCase
 {
     /** @var $backupGlobals bool */
     protected $backupGlobals = false;

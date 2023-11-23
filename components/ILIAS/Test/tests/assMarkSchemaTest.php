@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  * @version $Id$
  * @ingroup ServicesTree
  */
-class ilassMarkSchemaTest extends ilTestBaseTestCase
+class assMarkSchemaTest extends ilTestBaseTestCase
 {
     private ASS_MarkSchema $ass_mark_schema;
     protected $backupGlobals = false;

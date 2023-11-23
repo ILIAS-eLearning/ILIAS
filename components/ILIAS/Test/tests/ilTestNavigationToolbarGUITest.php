@@ -34,7 +34,7 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestNavigationToolbarGUI(
             $this->createMock(ilCtrl::class),
-            $this->createMock(ilTestPlayerAbstractGUI::class)
+            $this->createMock(ilTestPlayerAbstractGUI::class),
         );
     }
 
@@ -90,8 +90,9 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
 
     public function testFinishTestCommand(): void
     {
-        $this->testObj->setFinishTestCommand("testString");
-        $this->assertEquals("testString", $this->testObj->getFinishTestCommand());
+        $finishTestCommand = 'testString';
+        $this->testObj->setFinishTestCommand($finishTestCommand);
+        $this->assertEquals($finishTestCommand, $this->testObj->getFinishTestCommand());
     }
 
     public function testFinishTestButtonPrimary(): void

@@ -47,7 +47,7 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
 
     public function testGetId(): void
     {
-        $this->assertEquals("finish_unfinished_passes", $this->test_obj->getId());
+        $this->assertEquals('finish_unfinished_passes', $this->test_obj->getId());
     }
 
     public function testGetTitle(): void
@@ -55,14 +55,15 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock
             ->expects($this->any())
-            ->method("txt")
-            ->with("finish_unfinished_passes")
-            ->willReturn("testString");
+            ->method('txt')
+            ->with('finish_unfinished_passes')
+            ->willReturn('testString')
+        ;
 
-        $this->setGlobalVariable("lng", $lng_mock);
+        $this->setGlobalVariable('lng', $lng_mock);
         $test_obj = new ilCronFinishUnfinishedTestPasses();
 
-        $this->assertEquals("testString", $test_obj->getTitle());
+        $this->assertEquals('testString', $test_obj->getTitle());
     }
 
     public function testGetDescription(): void
@@ -70,22 +71,20 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock
             ->expects($this->any())
-            ->method("txt")
-            ->with("finish_unfinished_passes_desc")
-            ->willReturn("testString");
+            ->method('txt')
+            ->with('finish_unfinished_passes_desc')
+            ->willReturn('testString')
+        ;
 
-        $this->setGlobalVariable("lng", $lng_mock);
+        $this->setGlobalVariable('lng', $lng_mock);
         $test_obj = new ilCronFinishUnfinishedTestPasses();
 
-        $this->assertEquals("testString", $test_obj->getDescription());
+        $this->assertEquals('testString', $test_obj->getDescription());
     }
 
     public function testGetDefaultScheduleType(): void
     {
-        $this->assertEquals(
-            CronJobScheduleType::SCHEDULE_TYPE_DAILY,
-            $this->test_obj->getDefaultScheduleType()
-        );
+        $this->assertEquals(CronJobScheduleType::SCHEDULE_TYPE_DAILY, $this->test_obj->getDefaultScheduleType());
     }
 
     public function testHasAutoActivation(): void

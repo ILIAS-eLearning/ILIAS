@@ -45,23 +45,23 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestRandomQuestionSetConfigGUI(
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
-            $DIC['ilCtrl'],
-            $DIC['ilUser'],
-            $DIC['ilAccess'],
-            $DIC['ui.factory'],
-            $DIC['ui.renderer'],
-            $DIC['ilTabs'],
-            $DIC['lng'],
-            $DIC['ilLog'],
-            $DIC['tpl'],
-            $DIC['ilDB'],
-            $DIC['tree'],
-            $DIC['component.repository'],
-            $DIC['objDefinition'],
-            $DIC['ilObjDataCache'],
+            $DIC->ctrl(),
+            $DIC->user(),
+            $DIC->access(),
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer(),
+            $DIC->tabs(),
+            $DIC->language(),
+            $DIC['ilLog'], // TODO: replace with proper attribute
+            $DIC->ui()->mainTemplate(),
+            $DIC->database(),
+            $DIC['tree'], // TODO: replace with proper attribute
+            $DIC['component.repository'], // TODO: replace with proper attribute
+            $DIC['objDefinition'], // TODO: replace with proper attribute
+            $DIC['ilObjDataCache'], // TODO: replace with proper attribute
             $this->getMockBuilder(ilTestProcessLockerFactory::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ILIAS\Test\InternalRequestService::class),
-            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class)
+            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class),
         );
     }
 

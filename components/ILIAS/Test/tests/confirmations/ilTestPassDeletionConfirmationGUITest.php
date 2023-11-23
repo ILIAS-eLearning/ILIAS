@@ -18,17 +18,19 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Class ilTestPassDeletionConfirmationGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
 class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
 {
-    private $testEvaluationGUI_mock;
+    private MockObject $testEvaluationGUI_mock;
 
-    private $lng_mock;
+    private MockObject $lng_mock;
 
-    private $ctrl_mock;
+    private MockObject $ctrl_mock;
 
     protected function setUp(): void
     {
@@ -43,7 +45,7 @@ class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
         $instance = new ilTestPassDeletionConfirmationGUI(
             $this->ctrl_mock,
             $this->lng_mock,
-            $this->testEvaluationGUI_mock
+            $this->testEvaluationGUI_mock,
         );
 
         $this->assertInstanceOf(ilTestPassDeletionConfirmationGUI::class, $instance);
@@ -51,9 +53,10 @@ class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
 
     public function testConstructor(): void
     {
-        $this->ctrl_mock->expects($this->once())
-                        ->method("getFormAction")
-                        ->with($this->testEvaluationGUI_mock);
+        $this->ctrl_mock
+            ->expects($this->once())
+            ->method('getFormAction')
+            ->with($this->testEvaluationGUI_mock);
 
         new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock, $this->testEvaluationGUI_mock);
     }
@@ -62,6 +65,6 @@ class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
     {
         $gui = new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock, $this->testEvaluationGUI_mock);
         $this->expectException(ilTestException::class);
-        $gui->build(20, 5, "invalidContext");
+        $gui->build(20, 5, 'invalidContext');
     }
 }

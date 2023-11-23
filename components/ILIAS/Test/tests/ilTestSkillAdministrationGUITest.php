@@ -42,7 +42,7 @@ class ilTestSkillAdministrationGUITest extends ilTestBaseTestCase
             $this->createMock(ilComponentRepository::class),
             $this->createMock(ilObjTest::class),
             $this->createMock(QuestionInfoService::class),
-            201
+            201,
         );
     }
 

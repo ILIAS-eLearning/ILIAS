@@ -40,24 +40,28 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
 
     public function testAddOriginalSkillTitle(): void
     {
-        $this->testObj->addOriginalSkillTitle(17, 15, "Test");
+        $skillBaseId = 17;
+        $skillTrefId = 15;
+        $originalSkillTitle = "Test";
+        $this->testObj->addOriginalSkillTitle($skillBaseId, $skillTrefId, $originalSkillTitle);
 
         $reflProp = new ReflectionProperty($this->testObj, "originalSkillTitles");
         $reflProp->setAccessible(true);
-        $value = $reflProp->getValue($this->testObj);
 
-        $this->assertEquals(["17:15" => "Test"], $value);
+        $this->assertEquals(["$skillBaseId:$skillTrefId" => $originalSkillTitle], $reflProp->getValue($this->testObj));
     }
 
     public function testAddOriginalSkillPath(): void
     {
-        $this->testObj->addOriginalSkillPath(17, 15, "test/path");
+        $skillBaseId = 17;
+        $skillTrefId = 15;
+        $originalSkillPath = "test/path";
+        $this->testObj->addOriginalSkillPath($skillBaseId, $skillTrefId, $originalSkillPath);
 
         $reflProp = new ReflectionProperty($this->testObj, "originalSkillPaths");
         $reflProp->setAccessible(true);
-        $value = $reflProp->getValue($this->testObj);
 
-        $this->assertEquals(["17:15" => "test/path"], $value);
+        $this->assertEquals(["$skillBaseId:$skillTrefId" => $originalSkillPath], $reflProp->getValue($this->testObj));
     }
 
     public function testAddSkillLevelThreshold(): void
@@ -67,9 +71,8 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
 
         $reflProp = new ReflectionProperty($this->testObj, "importedSkillLevelThresholds");
         $reflProp->setAccessible(true);
-        $value = $reflProp->getValue($this->testObj);
 
-        $this->assertEquals([$testSkillLevelThresholdImport], $value);
+        $this->assertEquals([$testSkillLevelThresholdImport], $reflProp->getValue($this->testObj));
     }
 
     public function testCurrent(): void

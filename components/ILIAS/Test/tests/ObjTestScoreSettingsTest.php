@@ -22,13 +22,10 @@ require_once(__DIR__ . "/../../UI/tests/Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Symbol as S;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
-class ScoreSettingsTest extends ILIAS_UI_TestBase
+class ObjTestScoreSettingsTest extends ilTestBaseTestCase
 {
     public function testScoreSettingsBuild(): void
     {
