@@ -227,6 +227,6 @@
     <properties>
         <showDeprecation>true</showDeprecation>
         <encoding>UTF-8</encoding>
-        <release>17</release>
+        <maven.compiler.release>17</maven.compiler.release>
     </properties>
 </project>
