@@ -35,3 +35,13 @@ div.ilc_VerificationPlaceHolder /* no custom image yet */
 	font-weight: bold;
 	background-image: url(../../../templates/default/images/placeholder/text_placeholder.png);
 }
+
+.il-copg-cell-selected {
+	outline: #B54F00 2px solid;
+}
+
+#ed_datatable th.il-copg-edit-table {
+	background-color: #f9f9f9;
+	text-align: center;
+	min-width: 40px;
+}
