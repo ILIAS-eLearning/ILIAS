@@ -36,7 +36,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     private string $finishTestCommand = '';
     private bool $finishTestButtonPrimary = false;
     private bool $disabledStateEnabled = false;
-    private bool $user_has_attempts_left = true;
     protected ?InterruptiveModal $finish_test_modal = null;
     protected bool $user_pass_overview_button_enabled = false;
 
@@ -45,16 +44,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         protected ilTestPlayerAbstractGUI $player_gui
     ) {
         parent::__construct();
-    }
-
-    public function userHasAttemptsLeft(): bool
-    {
-        return $this->user_has_attempts_left;
-    }
-
-    public function setUserHasAttemptsLeft(bool $user_has_attempts_left): void
-    {
-        $this->user_has_attempts_left = $user_has_attempts_left;
     }
 
     /**
@@ -201,14 +190,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         }
     }
 
-    public function getFinishTestModalHTML(): string
-    {
-        if ($this->finish_test_modal === null) {
-            return '';
-        }
-        return $this->ui->renderer()->render($this->finish_test_modal);
-    }
-
     private function addSuspendTestButton()
     {
         $button = $this->ui->factory()->button()->standard(
@@ -238,24 +219,13 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
     private function retrieveFinishTestButton(): Button
     {
-        // Examview enabled & !reviewed & requires_confirmation? test_submission_overview (review gui)
+        $target = $this->ctrl->getLinkTarget($this->player_gui, $this->getFinishTestCommand());
         if ($this->player_gui->getObject()->getMainSettings()->getFinishingSettings()->getShowAnswerOverview()
             && $this->getFinishTestCommand() !== ilTestPlayerCommands::QUESTION_SUMMARY) {
-            return $this->buildShowSubmissionOverviewButton();
+            $target = $this->ctrl->getLinkTargetByClass('ilTestSubmissionReviewGUI', 'show');
         }
 
-        if ($this->getFinishTestCommand() === ilTestPlayerCommands::QUESTION_SUMMARY) {
-            return $this->buildShowQuestionSummaryButton();
-        }
-
-        return $this->buildShowConfirmationModalButton();
-    }
-
-    private function buildShowSubmissionOverviewButton(): Button
-    {
-        $target = $this->ctrl->getLinkTargetByClass('ilTestSubmissionReviewGUI', 'show');
-        $button = $this->getStandardOrPrimaryFinishButtonInstance('');
-
+        $button = $this->getStandardOrPrimaryFinishButtonInstance();
         return $button->withAdditionalOnLoadCode(
             static function (string $id) use ($target): string {
                 return "document.getElementById('$id').addEventListener('click', "
@@ -266,66 +236,12 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         );
     }
 
-    private function buildShowQuestionSummaryButton(): Button
-    {
-        $action = $this->ctrl->getLinkTarget(
-            $this->player_gui,
-            ilTestPlayerCommands::QUESTION_SUMMARY
-        );
-        $button = $this->getStandardOrPrimaryFinishButtonInstance($action);
-
-        return $button->withAdditionalOnLoadCode(
-            $this->getAdditionalOnLoadCodeForFinishTestButton('')
-        );
-    }
-
-    private function buildShowConfirmationModalButton(): Button
-    {
-        $button = $this->getStandardOrPrimaryFinishButtonInstance('');
-
-        if ($this->userHasAttemptsLeft()) {
-            $message = $this->lng->txt('tst_finish_confirmation_question');
-        } else {
-            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
-        }
-
-        $this->finish_test_modal = $this->ui->factory()->modal()->interruptive(
-            $this->lng->txt('finish_test'),
-            $message,
-            $this->ctrl->getLinkTarget(
-                $this->player_gui,
-                $this->getFinishTestCommand()
-            )
-        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
-
-        $signal = $this->finish_test_modal->getShowSignal()->getId();
-
-        return $button->withAdditionalOnLoadCode(
-            $this->getAdditionalOnLoadCodeForFinishTestButton($signal)
-        );
-    }
-
-    private function getStandardOrPrimaryFinishButtonInstance(string $action): Button
+    private function getStandardOrPrimaryFinishButtonInstance(): Button
     {
         if ($this->isFinishTestButtonPrimary()) {
-            return $this->ui->factory()->button()->primary($this->lng->txt('finish_test'), $action);
+            return $this->ui->factory()->button()->primary($this->lng->txt('finish_test'), '');
         }
 
-        return $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), $action);
-    }
-
-    private function getAdditionalOnLoadCodeForFinishTestButton(string $signal): Closure
-    {
-        return static function (string $id) use ($signal): string {
-            return "document.getElementById('$id').addEventListener('click', "
-                . '(e) => {'
-                . ' if (il.TestPlayerQuestionEditControl !== "undefined") {'
-                . "     il.TestPlayerQuestionEditControl.checkNavigationForKSButton(e, '{$signal}');"
-                . '     return;'
-                . ' };'
-                . ' e.target.setAttribute("name", "cmd[' . ilTestPlayerCommands::QUESTION_SUMMARY . ']");'
-                . ' e.target.form.requestSubmit(e.target);'
-                . '});';
-        };
+        return $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), '');
     }
 }

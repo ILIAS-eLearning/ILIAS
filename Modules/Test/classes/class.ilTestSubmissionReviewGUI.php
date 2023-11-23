@@ -33,7 +33,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
     private ?InterruptiveModal $finish_test_modal = null;
 
     public function __construct(
-        protected ilTestOutputGUI $testOutputGUI,
+        protected ilTestOutputGUI $test_output_gui,
         ilObjTest $testOBJ,
         protected ilTestSession $testSession
     ) {
@@ -92,7 +92,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         $toolbar->setId($toolbarId);
 
         $back_url = $this->ctrl->getLinkTarget(
-            $this->testOutputGUI,
+            $this->test_output_gui,
             $this->object->getListOfQuestionsEnd() ?
             ilTestPlayerCommands::QUESTION_SUMMARY : ilTestPlayerCommands::BACK_FROM_FINISHING
         );
@@ -102,7 +102,10 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         );
 
         if ($this->finish_test_modal === null) {
-            $this->finish_test_modal = $this->buildFinishTestModal();
+            $class = get_class($this->test_output_gui);
+            $this->ctrl->setParameterByClass($class, 'reviewed', 1);
+            $this->finish_test_modal = $this->test_output_gui->buildFinishTestModal();
+            $this->ctrl->setParameterByClass($class, 'reviewed', 0);
         }
 
         $toolbar->addComponent(
@@ -110,24 +113,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         );
 
         return $toolbar;
-    }
-
-    private function buildFinishTestModal(): InterruptiveModal
-    {
-        $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 1);
-        $next_url = $this->ctrl->getLinkTarget($this->testOutputGUI, ilTestPlayerCommands::FINISH_TEST);
-        $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 0);
-
-        if (($this->object->getNrOfTries() - 1) === $this->testSession->getPass()) {
-            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
-        } else {
-            $message = $this->lng->txt('tst_finish_confirmation_question');
-        }
-        return $this->ui_factory->modal()->interruptive(
-            $this->lng->txt('finish_test'),
-            $message,
-            $next_url
-        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
     }
 
     protected function buildUserReviewOutput(): string

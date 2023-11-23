@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
+
 /**
  * Output class for assessment test execution
  *
@@ -253,9 +255,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->updateLearningProgressOnTestStart();
 
-        $sequenceElement = $this->testSequence->getFirstSequence();
+        $sequence_element = $this->testSequence->getFirstSequence();
 
-        $this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+        $this->ctrl->setParameter($this, 'sequence', $sequence_element);
         $this->ctrl->setParameter($this, 'pmode', '');
 
         if ($this->object->getListOfQuestionsStart()) {
@@ -270,24 +272,24 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         ilLPStatusWrapper::_updateStatus($this->object->getId(), $this->user->getId());
     }
 
-    private function isValidSequenceElement($sequenceElement): bool
+    private function isValidSequenceElement($sequence_element): bool
     {
-        if ($sequenceElement === false) {
+        if ($sequence_element === false) {
             return false;
         }
 
-        if ($sequenceElement < 1) {
+        if ($sequence_element < 1) {
             return false;
         }
 
-        if (!$this->testSequence->getPositionOfSequence($sequenceElement)) {
+        if (!$this->testSequence->getPositionOfSequence($sequence_element)) {
             return false;
         }
 
         return true;
     }
 
-    protected function showQuestionCmd()
+    protected function showQuestionCmd(): void
     {
         ilSession::set('tst_pass_finish', 0);
 
@@ -379,9 +381,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $navigationToolbarGUI->setFinishTestButtonEnabled(true);
 
         $isNextPrimary = $this->handlePrimaryButton($navigationToolbarGUI, $questionId);
-        if (($this->object->getNrOfTries() - 1) === $this->test_session->getPass()) {
-            $navigationToolbarGUI->setUserHasAttemptsLeft(false);
-        }
 
         $this->ctrl->setParameter($this, 'sequence', $sequence_element);
         $this->ctrl->setParameter($this, 'pmode', $presentationMode);
@@ -555,9 +554,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
-    protected function handleQuestionPostponing($sequenceElement)
+    protected function handleQuestionPostponing($sequence_element)
     {
-        $questionId = $this->testSequence->getQuestionForSequence($sequenceElement);
+        $questionId = $this->testSequence->getQuestionForSequence($sequence_element);
 
         $isQuestionWorkedThrough = $this->questioninfo->lookupResultRecordExist(
             $this->test_session->getActiveId(),
@@ -606,28 +605,28 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     {
         $this->handleCheckTestPassValid();
 
-        $sequenceElement = $this->testSequence->getPreviousSequence(
+        $sequence_element = $this->testSequence->getPreviousSequence(
             $this->getCurrentSequenceElement()
         );
 
-        if (!$this->isValidSequenceElement($sequenceElement)) {
-            $sequenceElement = $this->testSequence->getLastSequence();
+        if (!$this->isValidSequenceElement($sequence_element)) {
+            $sequence_element = $this->testSequence->getLastSequence();
         }
 
-        $this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+        $this->ctrl->setParameter($this, 'sequence', $sequence_element);
         $this->ctrl->setParameter($this, 'pmode', '');
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
-    protected function isFirstQuestionInSequence($sequenceElement): bool
+    protected function isFirstQuestionInSequence($sequence_element): bool
     {
-        return $sequenceElement == $this->testSequence->getFirstSequence();
+        return $sequence_element == $this->testSequence->getFirstSequence();
     }
 
-    protected function isLastQuestionInSequence($sequenceElement): bool
+    protected function isLastQuestionInSequence($sequence_element): bool
     {
-        return $sequenceElement == $this->testSequence->getLastSequence();
+        return $sequence_element == $this->testSequence->getLastSequence();
     }
 
     /**
