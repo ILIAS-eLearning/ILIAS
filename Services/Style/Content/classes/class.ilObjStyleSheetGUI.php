@@ -463,7 +463,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $cont_style_settings->update();
 
                 ilObjStyleSheet::_writeStandard($newObj->getId(), true);
-                $ctrl->returnToParent($this);
+                $this->tpl->setOnScreenMessage("success", $this->lng->txt("object_added"), true);
+                $this->ctrl->setParameterByClass(self::class, "obj_id", (string) $newObj->getId());
+                $this->ctrl->redirectByClass(self::class, "");
             }
         }
     }
