@@ -54,7 +54,8 @@
 		"symfony/console": "^7.0",
 		"pimple/pimple": "^3.0",
 		"filp/whoops": "^2.15.4",
-		"cweagans/composer-patches": "^1.7"
+		"cweagans/composer-patches": "^1.7",
+		"ezyang/htmlpurifier": "^4.17"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
