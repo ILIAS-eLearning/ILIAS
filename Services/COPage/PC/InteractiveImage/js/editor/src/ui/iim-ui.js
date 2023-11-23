@@ -751,7 +751,7 @@ export default class UI {
     const dispatch = this.dispatcher;
     this.util.showModal(
       this.uiModel.modal,
-      il.Language.txt('cont_add_overlay'),
+      il.Language.txt('cont_iim_add_overlay'),
       this.uiModel.overlayUpload,
       il.Language.txt('add'),
       (e) => {
