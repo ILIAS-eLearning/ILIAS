@@ -180,7 +180,7 @@ class ilPCInteractiveImage extends ilPageContent
         }
 
         $new_item = $this->dom_doc->createElement("ContentPopup");
-        $new_item->setAttribute("Title", $lng->txt("cont_new_popup"));
+        $new_item->setAttribute("Title", $title);
         $new_item->setAttribute("Nr", $max + 1);
         $new_item = $this->iim_node->appendChild($new_item);
     }
