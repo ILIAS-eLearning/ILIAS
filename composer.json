@@ -55,7 +55,8 @@
 		"pimple/pimple": "^3.0",
 		"filp/whoops": "^2.15.4",
 		"cweagans/composer-patches": "^1.7",
-		"ezyang/htmlpurifier": "^4.17"
+		"ezyang/htmlpurifier": "^4.17",
+		"phpmailer/phpmailer": "^6.8"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
