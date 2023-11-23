@@ -106,7 +106,7 @@ class ilPdfGenerator
 
         $certificateContent = str_replace(
             ['[BACKGROUND_IMAGE]', '[CLIENT_WEB_DIR]'],
-            ['[CLIENT_WEB_DIR]' . $certificate->getBackgroundImagePath(), CLIENT_WEB_DIR],
+            ['[CLIENT_WEB_DIR]' . $certificate->getBackgroundImagePath(), 'file://' . CLIENT_WEB_DIR],
             $certificateContent
         );
 
