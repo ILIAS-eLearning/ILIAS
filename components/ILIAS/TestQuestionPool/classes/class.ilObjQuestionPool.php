@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
+require_once __DIR__ . '/../../Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Class ilObjQuestionPool
