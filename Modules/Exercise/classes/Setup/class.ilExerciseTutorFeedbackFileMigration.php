@@ -92,7 +92,7 @@ class ilExerciseTutorFeedbackFileMigration implements Migration
     public function getRemainingAmountOfSteps(): int
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT count(*) AS amount FROM exc_mem_ass_status WHERE feedback_rcid IS NULL OR feedback_rcid = ''"
+            "SELECT count(*) AS amount FROM exc_assignment ass JOIN object_data ob ON ass.exc_id = ob.obj_id JOIN exc_mem_ass_status st ON st.ass_id = ass.id WHERE st.feedback_rcid IS NULL OR st.feedback_rcid = ''"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
 
