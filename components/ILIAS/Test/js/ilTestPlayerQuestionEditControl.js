@@ -393,48 +393,6 @@ il.TestPlayerQuestionEditControl = new function() {
             $('#tst_revert_changes_action').attr('href','#');
         }
     }
-    this.checkNavigationForKSButton = (event, signal) => {
-        if (signal !== '') {
-          event.preventDefault();
-          const form = event.target.form;
-          submitSolutionAsync(form.action, new FormData(form), event, signal);
-          return;
-        }
-        // attributes of the clicked link
-        const element = event.target;
-        const link = $(element).attr('data-action');
-        // check explictly again at navigation
-        detectFormChange();
-
-        if (answerChanged                               // answer has been changed
-            && link                                     // link is not an anchor
-            && link.charAt(0) !== '#'                   // link is not a fragment
-        ) {
-            event.stopImmediatePropagation();
-            // remember the url for saveWithNavigation()
-            navUrl = link;
-            saveWithNavigation();
-        }
-    };
-
-    submitSolutionAsync = (action, data, event, signal) => {
-      data.append('cmd', 'submitSolution');
-      const request = new XMLHttpRequest();
-      request.open('POST', action, true);
-      request.onload = () => {
-        $(event.target).trigger(
-          signal,
-          {
-            'id': signal,
-            'event': event.type,
-            'triggerer': event.target,
-            'options': []
-          }
-        );
-      };
-      request.send(data);
-    };
-
 
     /**
      * Event handler for clicked links on the test page
