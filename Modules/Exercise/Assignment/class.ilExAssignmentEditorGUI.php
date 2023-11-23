@@ -455,7 +455,7 @@ class ilExAssignmentEditorGUI
         $deadline2 = new ilDateTimeInputGUI($lng->txt("exc_deadline_extended"), "deadline2");
         $deadline2->setInfo($lng->txt("exc_deadline_extended_info"));
         $deadline2->setShowTime(true);
-        $deadline->addSubItem($deadline2);
+        $op1->addSubItem($deadline2);
 
 
         // submit reminder
