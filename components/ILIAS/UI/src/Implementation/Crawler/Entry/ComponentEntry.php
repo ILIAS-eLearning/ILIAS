@@ -79,7 +79,7 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
         }
 
         $this->assert()->isIndex('path', $entry_data);
-        $this->setPath("$this->ilias_root/{$entry_data['path']}");
+        $this->setPath($entry_data['path']);
 
         if (array_key_exists('background', $entry_data)) {
             $this->setBackground($entry_data['background']);
@@ -322,7 +322,7 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
                 $example_path = $this->getExamplesPath() . "/" . $file_name;
                 if (is_file($example_path) && pathinfo($example_path)["extension"] == "php") {
                     $example_name = str_replace(".php", "", $file_name);
-                    $this->examples[$example_name] = $example_path;
+                    $this->examples[$example_name] = $this->trimRootDirectory($example_path);
                 }
             }
         }
@@ -335,7 +335,7 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
      */
     protected function getCaseInsensitiveExampleFolder(): string
     {
-        $parent_folder = dirname($this->getExamplesPath());
+        $parent_folder = $this->ilias_root . '/' . dirname($this->getExamplesPath());
 
         if (is_dir($parent_folder)) {
             foreach (scandir($parent_folder) as $folder_name) {
@@ -357,12 +357,11 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
                     str_replace("Component", "examples", $this->getPath())
                 )
                 . "/" . str_replace(" ", "", $this->getTitle());
-            $path_components = $this->trimRootDirectory($path_components);
             $path_array = self::array_iunique(explode("/", $path_components));
             if ($path_array[4] !== "examples") {
                 array_splice($path_array, 4, 0, 'examples');
             }
-            $this->examples_path = $this->prependRootDirectory(implode("/", $path_array));
+            $this->examples_path = implode("/", $path_array);
         }
         return $this->examples_path;
     }
@@ -370,12 +369,11 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
     public function getExamplesNamespace(): string
     {
         if (!$this->examples_namespace) {
-            $relative_path = $this->trimRootDirectory($this->getExamplesPath());
-            $relative_path = str_replace("src/", "", $relative_path);
+            $path = str_replace("src/", "", $this->getExamplesPath());
             $this->examples_namespace = str_replace(
                 "/",
                 "\\",
-                str_replace("components/", "", $relative_path)
+                str_replace("components/", "", $path)
             );
         }
         return $this->examples_namespace;
@@ -415,11 +413,6 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
             $rules_serialized = "";
         }
 
-        $examples = [];
-        foreach ($this->getExamples() as $name => $path) {
-            $examples[$name] = $this->trimRootDirectory($path);
-        }
-
         return array(
             'id' => $this->getId(),
             'title' => $this->getTitle(),
@@ -435,11 +428,11 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
             'parent' => $this->getParent(),
             'children' => $this->getChildren(),
             'less_variables' => $this->getLessVariables(),
-            'path' => $this->trimRootDirectory($this->getPath()),
+            'path' => $this->getPath(),
             'namespace' => $this->getNamespace(),
-            'examples_path' => $this->trimRootDirectory($this->getExamplesPath()),
+            'examples_path' => $this->getExamplesPath(),
             'examples_namespace' => $this->getExamplesNamespace(),
-            'examples' => $examples,
+            'examples' => $this->getExamples(),
         );
     }
 
