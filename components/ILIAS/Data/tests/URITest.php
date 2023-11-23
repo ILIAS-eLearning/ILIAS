@@ -90,6 +90,45 @@ class URITest extends TestCase
         $this->assertEquals('fragment', $uri->getFragment());
     }
 
+    /**
+     * @depends test_init
+     * @dataProvider provideIPv6addresses
+     */
+    public function testIPv6(string $host): void
+    {
+        $uri = new ILIAS\Data\URI('http://' . $host);
+        $this->assertEquals('http', $uri->getSchema());
+        $this->assertEquals($host, $uri->getAuthority());
+        $this->assertEquals($host, $uri->getHost());
+        $this->assertEquals(null, $uri->getPort());
+        $this->assertEquals(null, $uri->getPath());
+        $this->assertEquals(null, $uri->getQuery());
+        $this->assertEquals(null, $uri->getFragment());
+    }
+
+    public function provideIPv6addresses(): array
+    {
+        return [
+            // Long form.
+            ['[1234:5678:9ABC:DEF0:1234:5678:9ABC:DEF0]'],
+            ['[1:2:3:4:5:6:7:8]'],
+            // Short form.
+            ['[::1]'],
+            ['[::]'],
+            ['[::Ff00]'],
+            ['[1::]'],
+            ['[::3:4:5:6:7:8]'],
+            ['[3:4:5:6:7:8::]'],
+            ['[12::34]'],
+            // Embedded IPv4 (long).
+            ['[1234:5678:9ABC:DEF0:1234:5678:123.123.123.123]'],
+            // Embedded IPv4 (short).
+            ['[::123.123.123.123]'],
+            ['[1::123.123.123.123]'],
+            ['[1:3:4::123.123.123.123]'],
+            ['[::f:a:123.123.123.123]'],
+        ];
+    }
 
     /**
      * @depends test_init
