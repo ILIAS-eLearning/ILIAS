@@ -1277,6 +1277,7 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text f
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
+assessment#:#tst_already_passed_cannot_retake#:#Der Test wurde bereits bestanden. Sie können ihn nich erneut anfangen.
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Datenschutz
