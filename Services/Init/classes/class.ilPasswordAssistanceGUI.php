@@ -433,7 +433,7 @@ class ilPasswordAssistanceGUI
                                                                 $custom_problem = null;
                                                                 if (!ilSecuritySettingsChecker::isPassword(
                                                                     $value->toString(),
-                                                                    $problem
+                                                                    $custom_problem
                                                                 )) {
                                                                     $problem = $custom_problem;
                                                                 }
