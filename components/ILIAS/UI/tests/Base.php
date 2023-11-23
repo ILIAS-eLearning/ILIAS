@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once("vendor/composer/vendor/autoload.php");
+require_once(__DIR__ . "/../../../../vendor/composer/vendor/autoload.php");
 
 require_once(__DIR__ . "/Renderer/ilIndependentTemplate.php");
 require_once(__DIR__ . "/../../Language_/classes/class.ilLanguage.php");
@@ -308,6 +308,11 @@ class DummyComponent implements IComponent
  * Provides common functionality for UI tests.
  */
 abstract class ILIAS_UI_TestBase extends TestCase
+{
+    use BaseUITestTrait;
+}
+
+trait BaseUITestTrait
 {
     public function setUp(): void
     {
