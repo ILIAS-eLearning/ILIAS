@@ -82,6 +82,7 @@ class ilPCLayoutTemplateGUI extends ilPageContentGUI
 
         $config = $this->getPage()->getPageConfig();
         $templates = ilPageLayout::activeLayouts($config->getLayoutTemplateType());
+        $first = true;
         if ($templates) {
             $use_template = new ilRadioGroupInputGUI($this->lng->txt("cont_layout"), "tmpl");
             $use_template->setRequired(true);
@@ -91,6 +92,10 @@ class ilPCLayoutTemplateGUI extends ilPageContentGUI
                 $templ->readObject();
                 $opt = new ilRadioOption($templ->getTitle() . $templ->getPreview(), (string) $templ->getId());
                 $use_template->addOption($opt);
+                if ($first) {
+                    $use_template->setValue((string) $templ->getId());
+                    $first = false;
+                }
             }
         }
 

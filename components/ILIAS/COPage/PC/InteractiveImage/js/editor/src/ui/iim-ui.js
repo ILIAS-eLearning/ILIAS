@@ -12,65 +12,62 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
-import ACTIONS from "../actions/iim-action-types.js";
-import Util from "../../../../../../Editor/js/src/ui/util.js";
-import ShapeEditor from "../shape-edit/shape-editor.js";
-import ActionFactory from "../actions/iim-editor-action-factory.js";
-import TriggerFactory from "../trigger/trigger-factory.js";
-import Poly from "../shape-edit/poly.js";
-import IIMUIModifier from "./iim-ui-modifier.js";
-import IimCommonUtil from "../../../common/src/util.js";
+import ACTIONS from '../actions/iim-action-types.js';
+import Util from '../../../../../../Editor/js/src/ui/util.js';
+import ShapeEditor from '../shape-edit/shape-editor.js';
+import ActionFactory from '../actions/iim-editor-action-factory.js';
+import TriggerFactory from '../trigger/trigger-factory.js';
+import Poly from '../shape-edit/poly.js';
+import IIMUIModifier from './iim-ui-modifier.js';
+import IimCommonUtil from '../../../common/src/util.js';
 
 /**
  * interactive image ui
  */
 export default class UI {
-
-
   /**
    * @type {boolean}
    */
-  //debug = true;
+  // debug = true;
 
   /**
    * Model
    * @type {PageModel}
    */
-  //page_model = {};
+  // page_model = {};
 
   /**
    * UI model
    * @type {Object}
    */
-  //uiModel = {};
+  // uiModel = {};
 
   /**
    * @type {Client}
    */
-  //client;
+  // client;
 
   /**
    * @type {Dispatcher}
    */
-  //dispatcher;
+  // dispatcher;
 
   /**
    * @type {ActionFactory}
    */
-  //actionFactory;
+  // actionFactory;
 
   /**
    * @type {ToolSlate}
    */
-  //toolSlate;
+  // toolSlate;
 
   /**
    * @type {pageModifier}
    */
   //  pageModifier;
-
 
   /**
    * @param {Client} client
@@ -108,7 +105,6 @@ export default class UI {
     }
   }
 
-
   /**
    */
   init(uiModel) {
@@ -116,7 +112,7 @@ export default class UI {
     const dispatch = this.dispatcher;
 
     this.uiModel = uiModel;
-    let t = this;
+    const t = this;
     this.showMainScreen();
   }
 
@@ -142,9 +138,9 @@ export default class UI {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
 
-    document.querySelectorAll("[data-copg-ed-type='button']").forEach(button => {
+    document.querySelectorAll("[data-copg-ed-type='button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_ADD_TRIGGER:
             dispatch.dispatch(action.interactiveImage().editor().addTrigger());
@@ -155,9 +151,9 @@ export default class UI {
         }
       });
     });
-    document.querySelectorAll("[data-copg-ed-type='link']").forEach(button => {
+    document.querySelectorAll("[data-copg-ed-type='link']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_SWITCH_SETTINGS:
             dispatch.dispatch(action.interactiveImage().editor().switchSettings());
@@ -173,23 +169,22 @@ export default class UI {
     });
   }
 
-
   initShapeEditor() {
     const el = document.getElementById('il-copg-iim-main');
-    const mob = el.querySelector(".ilc_Mob");
-    console.log("initShapeEditor");
+    const mob = el.querySelector('.ilc_Mob');
+    console.log('initShapeEditor');
     if (mob) {
       this.shapeEditor = new ShapeEditor(mob);
       const ed = this.shapeEditor;
-      //ed.addShape(ed.factory.rect(10,10, 200, 200));
-      //ed.addShape(ed.factory.circle(210,210, 230,230));
-      //const p = ed.factory.poly();
-      //p.addHandle(ed.factory.handle(20,20));
-      //p.addHandle(ed.factory.handle(30,200));
-      //p.addHandle(ed.factory.handle(110,70));
-      //p.addHandle(ed.factory.handle(60,30));
-      //ed.addShape(p);
-      //ed.repaint();
+      // ed.addShape(ed.factory.rect(10,10, 200, 200));
+      // ed.addShape(ed.factory.circle(210,210, 230,230));
+      // const p = ed.factory.poly();
+      // p.addHandle(ed.factory.handle(20,20));
+      // p.addHandle(ed.factory.handle(30,200));
+      // p.addHandle(ed.factory.handle(110,70));
+      // p.addHandle(ed.factory.handle(60,30));
+      // ed.addShape(p);
+      // ed.repaint();
     }
   }
 
@@ -212,18 +207,18 @@ export default class UI {
   initShapes() {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-    document.querySelectorAll("[data-copg-ed-type='shape']").forEach(shape => {
-      shape.addEventListener("click", (event) => {
-          dispatch.dispatch(action.interactiveImage().editor().editTrigger(
-            shape.dataset.triggerNr
-          ));
+    document.querySelectorAll("[data-copg-ed-type='shape']").forEach((shape) => {
+      shape.addEventListener('click', (event) => {
+        dispatch.dispatch(action.interactiveImage().editor().editTrigger(
+          shape.dataset.triggerNr,
+        ));
       });
     });
-    document.querySelectorAll("[data-copg-iim-type='marker']").forEach(marker => {
-      marker.addEventListener("click", (event) => {
-          dispatch.dispatch(action.interactiveImage().editor().editTrigger(
-            marker.dataset.triggerNr
-          ));
+    document.querySelectorAll("[data-copg-iim-type='marker']").forEach((marker) => {
+      marker.addEventListener('click', (event) => {
+        dispatch.dispatch(action.interactiveImage().editor().editTrigger(
+          marker.dataset.triggerNr,
+        ));
       });
     });
   }
@@ -249,23 +244,27 @@ export default class UI {
     this.shapeEditor.repaint();
   }
 
-  setEditorAddMode () {
+  setEditorAddMode() {
     const trigger = this.iimModel.getCurrentTrigger();
     this.shapeEditor.setAllowAdd(false);
-    if (this.iimModel.getActionState() === this.iimModel.ACTION_STATE_ADD &&
-      trigger.getShape() instanceof Poly) {
+    if (this.iimModel.getActionState() === this.iimModel.ACTION_STATE_ADD
+      && trigger.getShape() instanceof Poly) {
       this.shapeEditor.setAllowAdd(true);
     }
   }
 
   repaintTrigger() {
-    //const trigger = this.iimModel.getCurrentTrigger();
+    // const trigger = this.iimModel.getCurrentTrigger();
     this.setEditorAddMode();
     this.showCurrentShape(true);
     /*
     this.shapeEditor.removeAllShapes();
     this.shapeEditor.addShape(trigger.getShape(), true);
-    this.shapeEditor.repaint();*/
+    this.shapeEditor.repaint(); */
+  }
+
+  formInput(nr) {
+    return `form/input_${nr}`;
   }
 
   showTriggerProperties() {
@@ -273,18 +272,18 @@ export default class UI {
     const action = this.actionFactory;
     const tr = this.iimModel.getCurrentTrigger();
     this.toolSlate.setContent(this.uiModel.triggerProperties);
-    this.setInputValueByName('#copg-iim-trigger-prop-form', 'form_input_1', tr.title);
+    this.setInputValueByName('#copg-iim-trigger-prop-form', this.formInput(0), tr.title);
     if (tr.getShape()) {
-      this.setInputValueByName('#copg-iim-trigger-prop-form', 'form_input_2', tr.area.shapeType);
+      this.setInputValueByName('#copg-iim-trigger-prop-form', this.formInput(1), tr.area.shapeType);
     } else {
-      this.setInputValueByName('#copg-iim-trigger-prop-form', 'form_input_2', "Marker");
+      this.setInputValueByName('#copg-iim-trigger-prop-form', this.formInput(1), 'Marker');
     }
     this.initTriggerViewControl();
     this.initBackButton();
     model = this.iimModel;
-    document.querySelectorAll("form [data-copg-ed-type='form-button']").forEach(button => {
+    document.querySelectorAll("form [data-copg-ed-type='form-button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         let coords;
         switch (act) {
           case ACTIONS.E_TRIGGER_PROPERTIES_SAVE:
@@ -296,18 +295,18 @@ export default class UI {
             }
             dispatch.dispatch(action.interactiveImage().editor().saveTriggerProperties(
               model.getCurrentTrigger().nr,
-              this.getInputValueByName('form_input_1'),
-              this.getInputValueByName('form_input_2'),
-              coords
+              this.getInputValueByName(this.formInput(0)),
+              this.getInputValueByName(this.formInput(1)),
+              coords,
             ));
             break;
         }
       });
     });
-    document.querySelectorAll("form [name='form_input_2']").forEach(select => {
-      select.addEventListener("change", (event) => {
+    document.querySelectorAll(`form [name='${this.formInput(1)}']`).forEach((select) => {
+      select.addEventListener('change', (event) => {
         dispatch.dispatch(action.interactiveImage().editor().changeTriggerShape(
-          this.getInputValueByName('form_input_2')
+          this.getInputValueByName(this.formInput(1)),
         ));
       });
     });
@@ -316,7 +315,7 @@ export default class UI {
   }
 
   getInputValueByName(name) {
-    const path = "#copg-iim-trigger-prop-form input[name='" + name + "'],select[name='" + name + "']";
+    const path = `#copg-iim-trigger-prop-form input[name='${name}'],select[name='${name}']`;
     const el = document.querySelector(path);
     if (el) {
       return el.value;
@@ -325,7 +324,7 @@ export default class UI {
   }
 
   setInputValueByName(sel, name, value) {
-    const path = sel + " input[name='" + name + "'],select[name='" + name + "']";
+    const path = `${sel} input[name='${name}'],select[name='${name}']`;
     const el = document.querySelector(path);
     if (el) {
       el.value = value;
@@ -334,12 +333,12 @@ export default class UI {
 
   setSelectOptions(sel, name, options, selected = null) {
     let op;
-    const path = sel + " select[name='" + name + "']";
+    const path = `${sel} select[name='${name}']`;
     const el = document.querySelector(path);
     if (el) {
       el.innerHTML = null;
       options.forEach((value, key) => {
-        op = document.createElement("option");
+        op = document.createElement('option');
         op.value = key;
         op.innerHTML = value;
         el.appendChild(op);
@@ -359,10 +358,10 @@ export default class UI {
     this.initBackButton();
     this.initTriggerOverlay();
     this.showCurrentShape(false, true);
-    document.querySelectorAll("form [name='form_input_1']").forEach(select => {
-      select.addEventListener("change", (event) => {
+    document.querySelectorAll(`form [name='${this.formInput(0)}']`).forEach((select) => {
+      select.addEventListener('change', (event) => {
         dispatch.dispatch(action.interactiveImage().editor().changeTriggerOverlay(
-          this.getInputValueByName('form_input_1')
+          this.getInputValueByName(this.formInput(0)),
         ));
       });
     });
@@ -376,7 +375,7 @@ export default class UI {
     this.showCurrentShape(false, false);
     const tr = this.iimModel.getCurrentTrigger();
     let size;
-    if (tr.getPopupNr() !== "") {
+    if (tr.getPopupNr() !== '') {
       size = tr.getPopupSize();
       if (size == '') {
         size = 'md';
@@ -392,16 +391,16 @@ export default class UI {
     this.shapeEditor.removeAllMarkers();
     this.removeDummyPopup();
     if (showOverlay && overlay) {
-      this.setInputValueByName('#copg-iim-trigger-overlay-form', 'form_input_1', overlay.getSrc());
+      this.setInputValueByName('#copg-iim-trigger-overlay-form', this.formInput(0), overlay.getSrc());
       this.shapeEditor.addOverlay(overlay, true);
     }
     this.shapeEditor.removeAllShapes();
     if (trigger.getShape()) {
       this.shapeEditor.addShape(trigger.getShape(), edit);
     }
-    console.log("A");
+    console.log('A');
     if (trigger.getMarker()) {
-      console.log("B");
+      console.log('B');
       this.shapeEditor.addMarker(trigger.getMarker(), edit);
     }
     this.shapeEditor.repaint();
@@ -410,9 +409,9 @@ export default class UI {
   initTriggerOverlay() {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-    document.querySelectorAll("[data-copg-ed-type='button']").forEach(button => {
+    document.querySelectorAll("[data-copg-ed-type='button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_TRIGGER_OVERLAY_ADD:
             dispatch.dispatch(action.interactiveImage().editor().addTriggerOverlay());
@@ -420,27 +419,27 @@ export default class UI {
         }
       });
     });
-    document.querySelectorAll("form [data-copg-ed-type='form-button']").forEach(button => {
+    document.querySelectorAll("form [data-copg-ed-type='form-button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_TRIGGER_OVERLAY_SAVE:
             event.preventDefault();
             dispatch.dispatch(action.interactiveImage().editor().saveTriggerOverlay(
               model.getCurrentTrigger().nr,
-              this.getInputValueByName('form_input_1'),
+              this.getInputValueByName(this.formInput(0)),
               model.getCurrentTrigger().getOverlay().getCoordsString()
             ));
             break;
         }
       });
     });
-    let options = new Map();
+    const options = new Map();
     options.set('', ' - ');
     this.iimModel.getOverlays().forEach((ov) => {
       options.set(ov.name, ov.name);
     });
-    this.setSelectOptions("#copg-editor-slate-content", "form_input_1", options);
+    this.setSelectOptions('#copg-editor-slate-content', this.formInput(0), options);
   }
 
   showTriggerPopup() {
@@ -450,16 +449,16 @@ export default class UI {
     this.initTriggerPopup();
     const tr = this.iimModel.getCurrentTrigger();
     let size;
-    if (tr.getPopupNr() !== "") {
+    if (tr.getPopupNr() !== '') {
       size = tr.getPopupSize();
       if (size == '') {
         size = 'md';
       }
-      this.setInputValueByName('#copg-iim-trigger-overlay-form', 'form_input_1', tr.getPopupNr());
-      this.setInputValueByName('#copg-iim-trigger-overlay-form', 'form_input_2', size);
+      this.setInputValueByName('#copg-iim-trigger-overlay-form', this.formInput(0), tr.getPopupNr());
+      this.setInputValueByName('#copg-iim-trigger-overlay-form', this.formInput(1), size);
     }
     this.showCurrentShape();
-    if (tr.getPopupNr() !== "") {
+    if (tr.getPopupNr() !== '') {
       this.showPopupDummy(size, tr.getNr());
     }
   }
@@ -476,24 +475,24 @@ export default class UI {
     this.removeDummyPopup();
     dummy.setAttribute('data-copg-iim-type', 'dummmy-popup');
     let ln = 160;
-    switch(size) {
+    switch (size) {
       case 'sm': ln = 40; break;
       case 'lg': ln = 360; break;
     }
-    dummy.innerHTML = this.uiModel.popupDummy.replace("###content###", this.uiModel.lore.substr(0, ln) + "...");
+    dummy.innerHTML = this.uiModel.popupDummy.replace('###content###', `${this.uiModel.lore.substr(0, ln)}...`);
     mainEl.appendChild(dummy);
     const popEl = mainEl.querySelector("[data-copg-cont-type='iim-popup']");
     popEl.classList.remove('copg-iim-popup-md');
-    popEl.classList.add('copg-iim-popup-' + size);
+    popEl.classList.add(`copg-iim-popup-${size}`);
     this.iimCommonUtil.attachPopupToTrigger(mainEl, mainEl, popEl, triggerNr);
   }
 
   initTriggerPopup() {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-    document.querySelectorAll("[data-copg-ed-type='button']").forEach(button => {
+    document.querySelectorAll("[data-copg-ed-type='button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_TRIGGER_POPUP_ADD:
             dispatch.dispatch(action.interactiveImage().editor().addTriggerPopup());
@@ -501,36 +500,36 @@ export default class UI {
         }
       });
     });
-    document.querySelectorAll("form [data-copg-ed-type='form-button']").forEach(button => {
+    document.querySelectorAll("form [data-copg-ed-type='form-button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_TRIGGER_POPUP_SAVE:
             event.preventDefault();
             dispatch.dispatch(action.interactiveImage().editor().saveTriggerPopup(
               model.getCurrentTrigger().nr,
-              this.getInputValueByName('form_input_1'),
+              this.getInputValueByName(this.formInput(0)),
               'Horizontal',
-              this.getInputValueByName('form_input_2')
+              this.getInputValueByName(this.formInput(1)),
             ));
             break;
         }
       });
     });
-    let options = new Map();
+    const options = new Map();
     options.set('', ' - ');
     this.iimModel.getPopups().forEach((pop) => {
-      options.set('' + pop.nr, pop.title);
+      options.set(`${pop.nr}`, pop.title);
     });
-    this.setSelectOptions("#copg-editor-slate-content", "form_input_1", options);
+    this.setSelectOptions('#copg-editor-slate-content', this.formInput(0), options);
   }
 
   initBackButton() {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-    document.querySelectorAll("[data-copg-ed-type='button']").forEach(button => {
+    document.querySelectorAll("[data-copg-ed-type='button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_TRIGGER_BACK:
             dispatch.dispatch(action.interactiveImage().editor().triggerBack());
@@ -544,9 +543,9 @@ export default class UI {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
 
-    document.querySelectorAll("[data-copg-ed-type='view-control']").forEach(button => {
+    document.querySelectorAll("[data-copg-ed-type='view-control']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_TRIGGER_PROPERTIES:
             dispatch.dispatch(action.interactiveImage().editor().triggerProperties());
@@ -584,21 +583,21 @@ export default class UI {
     const prop = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='trigger.properties']");
     const ov = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='trigger.overlay']");
     const pop = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='trigger.popup']");
-    prop.classList.remove("engaged");
-    ov.classList.remove("engaged");
-    pop.classList.remove("engaged");
+    prop.classList.remove('engaged');
+    ov.classList.remove('engaged');
+    pop.classList.remove('engaged');
     prop.disabled = false;
     ov.disabled = false;
     pop.disabled = false;
     if (model.getState() === model.STATE_TRIGGER_PROPERTIES) {
       prop.disabled = true;
-      prop.classList.add("engaged");
+      prop.classList.add('engaged');
     } else if (model.getState() === model.STATE_TRIGGER_OVERLAY) {
       ov.disabled = true;
-      ov.classList.add("engaged");
+      ov.classList.add('engaged');
     } else if (model.getState() === model.STATE_TRIGGER_POPUP) {
       pop.disabled = true;
-      pop.classList.add("engaged");
+      pop.classList.add('engaged');
     }
   }
 
@@ -611,15 +610,15 @@ export default class UI {
   initSettings() {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-    document.querySelectorAll("form [data-copg-ed-type='form-button']").forEach(button => {
+    document.querySelectorAll("form [data-copg-ed-type='form-button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_SAVE_SETTINGS:
             event.preventDefault();
-            const form = document.querySelector("#copg-editor-slate-content form");
+            const form = document.querySelector('#copg-editor-slate-content form');
             dispatch.dispatch(action.interactiveImage().editor().saveSettings(
-              form
+              form,
             ));
             break;
         }
@@ -627,11 +626,10 @@ export default class UI {
     });
     this.setInputValueByName(
       '#copg-editor-slate-content',
-      'form_input_2',
-      this.iimModel.getCaption()
+      this.formInput(1),
+      this.iimModel.getCaption(),
     );
   }
-
 
   showOverlays() {
     const dispatch = this.dispatcher;
@@ -639,9 +637,9 @@ export default class UI {
     this.toolSlate.setContent(this.uiModel.overlayOverview);
     this.initBackButton();
     this.initOverlayList();
-    document.querySelectorAll("[data-copg-ed-type='button']").forEach(button => {
+    document.querySelectorAll("[data-copg-ed-type='button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_TRIGGER_OVERLAY_ADD:
             dispatch.dispatch(action.interactiveImage().editor().addTriggerOverlay());
@@ -654,51 +652,51 @@ export default class UI {
   initOverlayList() {
     const overlays = this.iimModel.getOverlays();
     const action = this.actionFactory;
-    let items = [];
+    const items = [];
     overlays.forEach((ov) => {
       items.push({
         placeholders: {
           'item-title': ov.name,
           'img-alt': ov.name,
-          'img-src': ov.thumbpath
+          'img-src': ov.thumbpath,
         },
         actions: [
           {
             action: action.interactiveImage().editor().deleteOverlay(ov.name),
-            txt: il.Language.txt('delete')
-          }
-        ]
-      }
-    );
+            txt: il.Language.txt('delete'),
+          },
+        ],
+      });
     });
     this.fillItemList(items);
   }
 
   fillItemList(items) {
-    let newNode, newLiNode, liTempl, liParent;
+    let newNode; let newLiNode; let liTempl; let
+      liParent;
     const dispatch = this.dispatcher;
-    const templEl = document.querySelector("#copg-editor-slate-content .il-std-item-container");
+    const templEl = document.querySelector('#copg-editor-slate-content .il-std-item-container');
     const parent = templEl.parentNode;
     items.forEach((item) => {
       newNode = templEl.cloneNode(true);
       for (const [key, value] of Object.entries(item.placeholders)) {
         newNode.innerHTML = newNode.innerHTML.replace(
-          "#" + key + "#",
-          value
+          `#${key}#`,
+          value,
         );
       }
-      liTempl = newNode.querySelector(".dropdown-menu li");
+      liTempl = newNode.querySelector('.dropdown-menu li');
       liParent = liTempl.parentNode;
       item.actions.forEach((action) => {
         newLiNode = liTempl.cloneNode(true);
         newLiNode.innerHTML = newLiNode.innerHTML.replace(
-          "#link-label#",
-          action.txt
+          '#link-label#',
+          action.txt,
         );
         newLiNode = liParent.appendChild(newLiNode);
-        newLiNode.addEventListener("click", () => {
+        newLiNode.addEventListener('click', () => {
           dispatch.dispatch(action.action);
-        })
+        });
       });
       liTempl.remove();
       parent.appendChild(newNode);
@@ -712,9 +710,9 @@ export default class UI {
     this.toolSlate.setContent(this.uiModel.popupOverview);
     this.initBackButton();
     this.initPopupList();
-    document.querySelectorAll("[data-copg-ed-type='button']").forEach(button => {
+    document.querySelectorAll("[data-copg-ed-type='button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
+      button.addEventListener('click', (event) => {
         switch (act) {
           case ACTIONS.E_TRIGGER_POPUP_ADD:
             dispatch.dispatch(action.interactiveImage().editor().addTriggerPopup());
@@ -727,47 +725,46 @@ export default class UI {
   initPopupList() {
     const popups = this.iimModel.getPopups();
     const action = this.actionFactory;
-    let items = [];
+    const items = [];
     popups.forEach((pop) => {
       items.push({
-          placeholders: {
-            'item-title': pop.title,
+        placeholders: {
+          'item-title': pop.title,
+        },
+        actions: [
+          {
+            action: action.interactiveImage().editor().renamePopup(pop.nr),
+            txt: il.Language.txt('rename'),
           },
-          actions: [
-            {
-              action: action.interactiveImage().editor().renamePopup(pop.nr),
-              txt: il.Language.txt('rename')
-            },
-            {
-              action: action.interactiveImage().editor().deletePopup(pop.nr),
-              txt: il.Language.txt('delete')
-            }
-          ]
-        }
-      );
+          {
+            action: action.interactiveImage().editor().deletePopup(pop.nr),
+            txt: il.Language.txt('delete'),
+          },
+        ],
+      });
     });
     this.fillItemList(items);
   }
-
 
   showOverlayModal() {
     const action = this.actionFactory;
     const dispatch = this.dispatcher;
     this.util.showModal(
       this.uiModel.modal,
-      il.Language.txt("cont_add_overlay"),
+      il.Language.txt('cont_add_overlay'),
       this.uiModel.overlayUpload,
-      il.Language.txt("add"),
+      il.Language.txt('add'),
       (e) => {
-        const form = document.querySelector("#il-copg-ed-modal form");
+        const form = document.querySelector('#il-copg-ed-modal form');
 
-        //after_pcid, pcid, component, data
+        // after_pcid, pcid, component, data
         dispatch.dispatch(action.interactiveImage().editor().uploadOverlay(
           {
-            form:form
-          }
+            form,
+          },
         ));
-      });
+      },
+    );
   }
 
   showPopupModal(params = null, model = null) {
@@ -776,35 +773,36 @@ export default class UI {
     const nr = (params) ? params.nr : '';
     this.util.showModal(
       this.uiModel.modal,
-      il.Language.txt("cont_add_popup"),
+      il.Language.txt('cont_add_popup'),
       this.uiModel.popupForm,
-      il.Language.txt("save"),
+      il.Language.txt('save'),
       (e) => {
-        const form = document.querySelector("#il-copg-ed-modal form");
+        const form = document.querySelector('#il-copg-ed-modal form');
 
-        //after_pcid, pcid, component, data
+        // after_pcid, pcid, component, data
         dispatch.dispatch(action.interactiveImage().editor().savePopup(
           {
-            form:form
+            form,
           },
-          nr
+          nr,
         ));
-      });
+      },
+    );
     if (params) {
-      this.setInputValueByName('.modal-content', 'form_input_1', model.getPopupTitle(params.nr));
+      this.setInputValueByName('.modal-content', this.formInput(0), model.getPopupTitle(params.nr));
     }
   }
 
   deactivateSlateButtons() {
     const model = this.iimModel;
-    const prop = document.querySelectorAll("#copg-editor-slate-content button").forEach((b) => {
+    const prop = document.querySelectorAll('#copg-editor-slate-content button').forEach((b) => {
       b.disabled = true;
     });
   }
 
   activateSlateButtons() {
     const model = this.iimModel;
-    const prop = document.querySelectorAll("#copg-editor-slate-content button").forEach((b) => {
+    const prop = document.querySelectorAll('#copg-editor-slate-content button').forEach((b) => {
       b.disabled = false;
     });
   }
@@ -814,12 +812,12 @@ export default class UI {
     this.initShapeEditor();
     this.showAllShapes();
     // ensure img is not scaled
-    const img = document.querySelector("#il-copg-iim-main .ilc_Mob img");
+    const img = document.querySelector('#il-copg-iim-main .ilc_Mob img');
     img.style.width = 'auto';
   }
 
   redirectToPage() {
-    //this.pageUI.uiModel.backUrl + "#pc" + pcid
+    // this.pageUI.uiModel.backUrl + "#pc" + pcid
     window.location.replace(this.uiModel.backUrl);
   }
 }
