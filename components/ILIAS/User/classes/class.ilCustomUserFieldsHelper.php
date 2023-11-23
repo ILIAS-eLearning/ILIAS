@@ -90,10 +90,9 @@ class ilCustomUserFieldsHelper
     public function getFormPropertyForDefinition(
         array $definition,
         bool $changeable = true,
-        string $a_default_value = null
+        string $default_value = ''
     ): ?ilFormPropertyGUI {
         $fprop = null;
-        $default_value = $a_default_value ?? '';
 
         switch ($definition['field_type']) {
             case UDF_TYPE_TEXT:
@@ -148,7 +147,7 @@ class ilCustomUserFieldsHelper
                         $fprop = $plugin->getFormPropertyForDefinition(
                             $definition,
                             $changeable,
-                            $a_default_value
+                            $default_value
                         );
                         break;
                     }

@@ -54,7 +54,7 @@ abstract class ilUDFDefinitionPlugin extends ilPlugin
     abstract public function getFormPropertyForDefinition(
         array $definition,
         bool $a_changeable = true,
-        ?string $a_default_value = null
+        string $a_default_value = ''
     ): ilFormPropertyGUI;
 
 
