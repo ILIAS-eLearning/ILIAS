@@ -63,7 +63,9 @@
 		"friendsofphp/php-cs-fixer": "^3.40",
 		"phpunit/phpunit": "^10.5",
 		"phpstan/phpstan": "^1.10",
-		"mikey179/vfsstream": "^1.6"
+		"mikey179/vfsstream": "^1.6",
+		"captainhook/captainhook": "^5.16",
+		"captainhook/plugin-composer": "^5.3"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -304,6 +306,26 @@
 		"mikey179/vfsstream" : {
 			"source" : "https://github.com/bovigo/vfsStream",
 			"used_version" : "v1.6",
+			"wrapped_by" : "",
+			"added_by" : "mjansen <mjansen@databay.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"captainhook/captainhook" : {
+			"source" : "https://packagist.org/packages/captainhook/captainhook",
+			"used_version" : "v5.16",
+			"wrapped_by" : "",
+			"added_by" : "mjansen <mjansen@databay.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"captainhook/plugin-composer" : {
+			"source" : "https://packagist.org/packages/captainhook/plugin-composer",
+			"used_version" : "v5.3",
 			"wrapped_by" : "",
 			"added_by" : "mjansen <mjansen@databay.de>",
 			"last_update" : "",
