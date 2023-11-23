@@ -714,7 +714,7 @@ class ilUserProfile
                     if (self::userSettingVisible($f)) {
                         $ta = new ilTextAreaInputGUI($lng->txt($lv), "usr_" . $f);
                         if ($a_user) {
-                            $ta->setValue($a_user->$m());
+                            $ta->setValue($a_user->$m() ?? '');
                         }
                         $ta->setRows($p["rows"]);
                         $ta->setCols($p["cols"]);
