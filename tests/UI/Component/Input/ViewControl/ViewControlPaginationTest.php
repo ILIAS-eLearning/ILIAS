@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
 require_once('ViewControlBaseTest.php');
 
@@ -132,14 +133,14 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         array $expected
     ): void {
         $v = [
-            'offset' => $offset,
-            'limit' => $page_size
+            Pagination::FNAME_OFFSET => $offset,
+            Pagination::FNAME_LIMIT => $page_size
         ];
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
             ->will(
-                $this->onConsecutiveCalls($v["offset"], $v["limit"])
+                $this->onConsecutiveCalls($v[Pagination::FNAME_OFFSET], $v[Pagination::FNAME_LIMIT])
             );
 
         $vc = $this->buildVCFactory()->pagination()
@@ -153,7 +154,7 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         );
 
         $this->assertEquals(
-            ['offset' => $offset, 'limit' => $page_size],
+            [Pagination::FNAME_OFFSET => $offset, Pagination::FNAME_LIMIT => $page_size],
             $vc->getValue()
         );
     }
@@ -164,7 +165,7 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $vc = $this->buildVCFactory()->pagination()
             ->withLimitOptions([2, 5, 10])
             ->withTotalCount(42)
-            ->withValue(["offset" => 12, "limit" => 2])
+            ->withValue([Pagination::FNAME_OFFSET => 12, Pagination::FNAME_LIMIT => 2])
             ->withOnChange((new SignalGenerator())->create());
 
         $expected = $this->brutallyTrimHTML('

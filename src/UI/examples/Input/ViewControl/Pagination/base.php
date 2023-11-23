@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\ViewControl\Pagination;
 
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
+
 function base()
 {
     global $DIC;
@@ -12,7 +14,7 @@ function base()
 
     $pagination = $f->input()->viewControl()->pagination()
         ->withTotalCount(932)
-        ->withValue(["offset" => 31, "limit" => 10])
+        ->withValue([Pagination::FNAME_OFFSET => 31, Pagination::FNAME_LIMIT => 10])
     ;
 
     //view this in a ViewControlContainer with active request

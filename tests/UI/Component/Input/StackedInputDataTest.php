@@ -30,6 +30,8 @@ use LogicException;
  */
 class StackedInputDataTest extends TestCase
 {
+    protected StackedInputData $input;
+
     public function setUp(): void
     {
         $input_a = new ArrayInputData([ "in_a" => "a", "in_both" => "a"]);
@@ -62,7 +64,7 @@ class StackedInputDataTest extends TestCase
 
     public function testInFirstOnlyWithDefault(): void
     {
-        $this->assertEquals("a", $this->input->get("in_a", "default"));
+        $this->assertEquals("a", $this->input->getOr("in_a", "default"));
     }
 
     public function testInSecondOnly(): void
@@ -72,7 +74,7 @@ class StackedInputDataTest extends TestCase
 
     public function testInSecondOnlyWithDefault(): void
     {
-        $this->assertEquals("b", $this->input->get("in_b", "default"));
+        $this->assertEquals("b", $this->input->getOr("in_b", "default"));
     }
 
     public function testInBothOnly(): void
@@ -82,6 +84,6 @@ class StackedInputDataTest extends TestCase
 
     public function testInBothOnlyWithDefault(): void
     {
-        $this->assertEquals("a", $this->input->get("in_both", "default"));
+        $this->assertEquals("a", $this->input->getOr("in_both", "default"));
     }
 }

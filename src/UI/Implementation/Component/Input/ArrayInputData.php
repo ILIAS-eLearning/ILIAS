@@ -36,7 +36,7 @@ class ArrayInputData implements InputData
 
     public function get($name)
     {
-        if (!isset($this->data[$name])) {
+        if (!$this->has($name)) {
             throw new LogicException("'$name' is not contained in provided data.");
         }
 
