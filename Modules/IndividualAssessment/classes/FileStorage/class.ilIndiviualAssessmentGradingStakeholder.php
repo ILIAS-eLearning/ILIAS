@@ -22,6 +22,8 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 class ilIndividualAssessmentGradingStakeholder extends AbstractResourceStakeholder
 {
+    private const ID = 'IASSGrading';
+
     public function __construct(
         protected int $owner = 6
     ) {
@@ -29,7 +31,7 @@ class ilIndividualAssessmentGradingStakeholder extends AbstractResourceStakehold
 
     public function getId(): string
     {
-        return self::class;
+        return self::ID;
     }
 
     public function getOwnerOfNewResources(): int
