@@ -46,6 +46,8 @@
 		"ext-imagick": "*",
 	},
 	"require-dev": {
+		"captainhook/captainhook": "^5.16",
+		"captainhook/plugin-composer": "^5.3",
 	},
 	"autoload": {
 		"psr-4" : {
