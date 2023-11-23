@@ -116,7 +116,7 @@ class ResourcesCommandActionHandler implements Server\CommandActionHandler
             );
         } else {
             $res->setItemGroupRefId(
-                $body["itgr"]
+                (int) $body["itgr"]
             );
         }
 
