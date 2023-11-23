@@ -59,7 +59,9 @@
 		"friendsofphp/php-cs-fixer": "^3.40",
 		"phpunit/phpunit": "^10.5",
 		"phpstan/phpstan": "^1.10",
-		"mikey179/vfsstream": "^1.6"
+		"mikey179/vfsstream": "^1.6",
+		"captainhook/captainhook": "^5.16",
+		"captainhook/plugin-composer": "^5.3"
 	},
 	"autoload": {
 		"psr-4" : {
