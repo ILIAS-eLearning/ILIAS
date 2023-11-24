@@ -1,6 +1,9 @@
-# ILIAS Core Service
+# ILIAS Component Service
 
-This service boostraps the rest of the system, logically and at runtime.
+This service boostraps the rest of the system, logically and at runtime. It defines
+how the system is initialized and how components integrate with each other.
+
+The schema implemented here is described in [this paper](docs/development/components-and-directories.md).
 
 ## Why don't you use Immutable Objects in Dependencies
 
