@@ -31,7 +31,7 @@ class assClozeSelectGapTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(__DIR__ . '../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

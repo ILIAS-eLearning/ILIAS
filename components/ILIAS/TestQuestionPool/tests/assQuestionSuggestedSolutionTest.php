@@ -60,7 +60,9 @@ class assQuestionSuggestedSolutionTest extends TestCase
     private assQuestionSuggestedSolutionRepoMock $repo;
     protected function setUp(): void
     {
-        $this->repo = new assQuestionSuggestedSolutionRepoMock();
+        $this->repo = new assQuestionSuggestedSolutionRepoMock(
+            $this->createMock(ilDBInterface::class),
+        );
     }
 
     public function testSuggestedSolutionFile(): assSuggestedSolutionFile

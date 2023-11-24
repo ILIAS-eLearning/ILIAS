@@ -29,6 +29,6 @@ class assCHANGEMETest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(__DIR__ . '../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 }

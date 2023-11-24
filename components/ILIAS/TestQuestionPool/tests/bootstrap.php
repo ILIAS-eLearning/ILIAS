@@ -16,26 +16,6 @@
  *
  *********************************************************************/
 
-/**
-* Unit tests
-*
-* @author Maximilian Becker <mbecker@databay.de>
-*
-* @ingroup components\ILIASTestQuestionPool
-*/
-class assAnswerMatchingDefinitionTest extends assBaseTestCase
-{
-    protected $backupGlobals = false;
+declare(strict_types=1);
 
-    protected function setUp(): void
-    {
-        chdir(__DIR__ . '/../../../../');
-    }
-
-    public function test_instantiateObjectSimple(): void
-    {
-        $instance = new assAnswerMatchingDefinition();
-
-        $this->assertInstanceOf(assAnswerMatchingDefinition::class, $instance);
-    }
-}
+require_once __DIR__ . '/../../../../vendor/composer/vendor/autoload.php';

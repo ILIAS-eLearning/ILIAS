@@ -22,9 +22,9 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
 {
     public static function suite(): ilModulesTestQuestionPoolSuite
     {
-        chdir(__DIR__ . '../../../../');
+        require_once('assBaseTestCase.php');
 
-        require_once('./components/ILIAS/TestQuestionPool/tests/assBaseTestCase.php');
+        chdir(__DIR__ . '/../../../../');
 
         $suite = new ilModulesTestQuestionPoolSuite();
 
@@ -143,16 +143,8 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
         require_once('./components/ILIAS/TestQuestionPool/tests/ilAssQuestionHintTest.php');
         $suite->addTestSuite('ilAssQuestionHintTest');
 
-<<<<<<< Updated upstream
-        require_once("./components/ILIAS/TestQuestionPool/tests/ilAssQuestionHintAbstractTest.php");
-        $suite->addTestSuite("ilAssQuestionHintAbstractTest");
-
-        require_once("./components/ILIAS/TestQuestionPool/tests/ilAssQuestionHintListTest.php");
-        $suite->addTestSuite("ilAssQuestionHintListTest");
-=======
         require_once('./components/ILIAS/TestQuestionPool/tests/ilAssQuestionHintListTest.php');
         $suite->addTestSuite('ilAssQuestionHintListTest');
->>>>>>> Stashed changes
 
         require_once('./components/ILIAS/TestQuestionPool/tests/ilAssQuestionHintRequestStatisticDataTest.php');
         $suite->addTestSuite('ilAssQuestionHintRequestStatisticDataTest');
@@ -195,16 +187,8 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
         require_once('./components/ILIAS/TestQuestionPool/tests/assAnswerMultipleResponseImageTest.php');
         $suite->addTestSuite('assAnswerMultipleResponseImageTest');
 
-<<<<<<< Updated upstream
-        require_once("./components/ILIAS/TestQuestionPool/tests/assAnswerOrderingTest.php");
-        $suite->addTestSuite("assAnswerOrderingTest");
-
-        require_once("./components/ILIAS/TestQuestionPool/tests/assAnswerSimpleTest.php");
-        $suite->addTestSuite("assAnswerSimpleTest");
-=======
         require_once('./components/ILIAS/TestQuestionPool/tests/assAnswerSimpleTest.php');
         $suite->addTestSuite('assAnswerSimpleTest');
->>>>>>> Stashed changes
 
         require_once('./components/ILIAS/TestQuestionPool/tests/assAnswerTrueFalseTest.php');
         $suite->addTestSuite('assAnswerTrueFalseTest');
