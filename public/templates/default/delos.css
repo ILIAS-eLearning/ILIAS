@@ -13562,12 +13562,12 @@ div#block_cal_sel_0 div.ilBlockContent {
 }
 
 div.ilCalSelAct {
-  font-size: 90%;
+  font-size: 0.75rem;
   padding: 2px 2px 3px 0;
 }
 
 div.ilCalSelSelAll {
-  font-size: 80%;
+  font-size: 0.625rem;
   padding: 3px 2px 2px 0;
 }
 
@@ -13618,12 +13618,12 @@ div.ilCalSelList h6 {
 
 div.ilCalSelTitle {
   padding: 5px 3px 3px;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 
 table.calmini {
   width: 100%;
-  font-size: 90%;
+  font-size: 0.75rem;
   border-collapse: collapse;
   background-color: #f9f9f9;
   border: none;
@@ -13647,7 +13647,7 @@ table.calmini tr {
 }
 table.calmini th.calmini, table.calmini th.calminiweek {
   font-weight: 600;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 table.calmini td.calminitoday {
   background-color: #B54F00;
@@ -13673,12 +13673,13 @@ a.callink:link, a.callink:visited {
 .il_calevent > .btn.btn-link {
   color: inherit;
   vertical-align: inherit;
+  font-size: 0.875rem;
 }
 
 .cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
   text-align: left;
   vertical-align: top;
-  font-size: 90%;
+  font-size: 0.875rem;
 }
 
 table.calstd {
@@ -13686,7 +13687,7 @@ table.calstd {
   color: #161616;
   width: 100%;
   border: none;
-  font-size: 100%;
+  font-size: 0.875rem;
 }
 
 .calheader {
@@ -13721,7 +13722,7 @@ td.calheadertime {
   width: 6em;
   text-align: center;
   background-color: #f0f0f0;
-  font-size: 90%;
+  font-size: 0.875rem;
   padding: 3px;
 }
 
@@ -13842,12 +13843,16 @@ p.il_calevent {
   margin: 2px 0 0 0;
   padding: 2px;
   border-spacing: 0px;
-  font-size: 90%;
+  font-size: 0.875rem;
 }
 p.il_calevent .btn-link {
   margin: 0 auto;
   width: 100%;
   text-align: center;
+}
+
+div.il_calevent {
+  font-size: 0.875rem;
 }
 
 td.calevent {
@@ -13858,12 +13863,12 @@ td.calevent {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.875rem;
   /*background-color:white;*/
 }
 
 div.calevent {
-  font-size: 90%;
+  font-size: 0.875rem;
   padding: 3px;
   margin: 3px;
 }
@@ -13895,7 +13900,7 @@ table.calmini {
 
 th.calmini {
   text-align: center;
-  font-size: 90%;
+  font-size: 0.75rem;
   font-weight: 400;
   background-color: white;
 }
@@ -13917,7 +13922,7 @@ td.calministd {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13928,7 +13933,7 @@ td.calminitoday {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13939,7 +13944,7 @@ td.calmininow {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13950,7 +13955,7 @@ td.calmininext {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13961,7 +13966,7 @@ td.calminiprev {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13969,7 +13974,7 @@ td.calminiprev {
 td.calminiweek, th.calminiweek {
   vertical-align: top;
   background-color: white;
-  font-size: 60%;
+  font-size: 0.625rem;
   text-align: center;
   vertical-align: middle;
 }
