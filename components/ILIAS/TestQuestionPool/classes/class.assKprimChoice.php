@@ -1004,13 +1004,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return true;
     }
 
-    public function isAnswered(int $active_id, int $pass): bool
-    {
-        $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
-
-        return $numExistingSolutionRecords >= 4;
-    }
-
     /**
      * {@inheritdoc}
      */

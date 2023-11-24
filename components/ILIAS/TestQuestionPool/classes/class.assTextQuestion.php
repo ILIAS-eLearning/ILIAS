@@ -994,24 +994,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         return ['any'];
     }
 
-
-    /**
-     * returns boolean wether the question
-     * is answered during test pass or not
-     *
-     * (overwrites method in class assQuestion)
-     *
-     * @param integer $active_id
-     * @param integer $pass
-     * @return boolean $answered
-     */
-    public function isAnswered(int $active_id, int $pass): bool
-    {
-        $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
-
-        return $numExistingSolutionRecords > 0;
-    }
-
     /**
      * returns boolean wether it is possible to set
      * this question type as obligatory or not
