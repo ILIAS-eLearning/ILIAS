@@ -16,6 +16,7 @@
  *********************************************************************/
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
+use ILIAS\Test\QuestionIdentifiers;
 
 /**
 * Class for cloze question exports
@@ -72,7 +73,7 @@ class assClozeTestExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, CLOZE_TEST_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::CLOZE_TEST_IDENTIFIER);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
@@ -132,7 +133,7 @@ class assClozeTestExport extends assQuestionExport
                 // add gap
                 $gap = $this->object->getGap($i);
                 switch ($gap->getType()) {
-                    case CLOZE_SELECT:
+                    case assClozeGap::TYPE_SELECT:
                         // comboboxes
                         $attrs = [
                             "ident" => "gap_$i",
@@ -161,7 +162,7 @@ class assClozeTestExport extends assQuestionExport
                         $a_xml_writer->xmlEndTag("render_choice");
                         $a_xml_writer->xmlEndTag("response_str");
                         break;
-                    case CLOZE_TEXT:
+                    case assClozeGap::TYPE_TEXT:
                         // text fields
                         $attrs = [
                             "ident" => "gap_$i",
@@ -193,7 +194,7 @@ class assClozeTestExport extends assQuestionExport
                         $a_xml_writer->xmlEndTag("render_fib");
                         $a_xml_writer->xmlEndTag("response_str");
                         break;
-                    case CLOZE_NUMERIC:
+                    case assClozeGap::TYPE_NUMERIC:
                         // numeric fields
                         $attrs = [
                             "ident" => "gap_$i",
@@ -252,7 +253,7 @@ class assClozeTestExport extends assQuestionExport
         for ($i = 0; $i < $this->object->getGapCount(); $i++) {
             $gap = $this->object->getGap($i);
             switch ($gap->getType()) {
-                case CLOZE_SELECT:
+                case assClozeGap::TYPE_SELECT:
                     foreach ($gap->getItems($this->randomGroup->dontShuffle()) as $answer) {
                         $attrs = [
                             "continue" => "Yes"
@@ -281,8 +282,8 @@ class assClozeTestExport extends assQuestionExport
                         $a_xml_writer->xmlEndTag("respcondition");
                     }
                     break;
-                case CLOZE_NUMERIC:
-                case CLOZE_TEXT:
+                case assClozeGap::TYPE_NUMERIC:
+                case assClozeGap::TYPE_TEXT:
                     foreach ($gap->getItems($this->randomGroup->dontShuffle()) as $answer) {
                         $attrs = [
                             "continue" => "Yes"
@@ -332,9 +333,9 @@ class assClozeTestExport extends assQuestionExport
                     $a_xml_writer->xmlStartTag("and");
                 }
                 switch ($gap->getType()) {
-                    case CLOZE_TEXT:
-                    case CLOZE_NUMERIC:
-                    case CLOZE_SELECT:
+                    case assClozeGap::TYPE_TEXT:
+                    case assClozeGap::TYPE_NUMERIC:
+                    case assClozeGap::TYPE_SELECT:
                         $k = 0;
                         foreach ($indexes as $key) {
                             if ($k > 0) {
@@ -385,9 +386,9 @@ class assClozeTestExport extends assQuestionExport
                     $a_xml_writer->xmlStartTag("and");
                 }
                 switch ($gap->getType()) {
-                    case CLOZE_TEXT:
-                    case CLOZE_NUMERIC:
-                    case CLOZE_SELECT:
+                    case assClozeGap::TYPE_TEXT:
+                    case assClozeGap::TYPE_NUMERIC:
+                    case assClozeGap::TYPE_SELECT:
                         $k = 0;
                         foreach ($indexes as $key) {
                             if ($k > 0) {
@@ -426,9 +427,9 @@ class assClozeTestExport extends assQuestionExport
         for ($i = 0; $i < $this->object->getGapCount(); $i++) {
             $gap = $this->object->getGap($i);
             switch ($gap->getType()) {
-                case CLOZE_TEXT:
-                case CLOZE_NUMERIC:
-                case CLOZE_SELECT:
+                case assClozeGap::TYPE_TEXT:
+                case assClozeGap::TYPE_NUMERIC:
+                case assClozeGap::TYPE_SELECT:
                     break;
             }
         }

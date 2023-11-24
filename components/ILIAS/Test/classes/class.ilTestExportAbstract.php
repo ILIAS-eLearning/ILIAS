@@ -143,7 +143,7 @@ abstract class ilTestExportAbstract
 
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getPassCount();
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getFinishedPasses();
-            if ($test_obj->getPassScoring() === SCORE_BEST_PASS) {
+            if ($test_obj->getPassScoring() === ilObjTest::SCORE_BEST_PASS) {
                 $datarow2[] = $this->complete_data->getParticipant($active_id)->getBestPass() + 1;
             } else {
                 $datarow2[] = $this->complete_data->getParticipant($active_id)->getLastPass() + 1;

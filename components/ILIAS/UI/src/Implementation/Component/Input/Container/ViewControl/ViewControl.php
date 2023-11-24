@@ -32,8 +32,11 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Implementation\Component\Input\StackedInputData;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component as C;
+
+use ILIAS\UI\Implementation\Component\Input\ViewControl\HasInputGroup;
 
 abstract class ViewControl extends Container implements I\ViewControl
 {
@@ -81,6 +84,35 @@ abstract class ViewControl extends Container implements I\ViewControl
      */
     protected function extractRequestData(ServerRequestInterface $request): InputData
     {
-        return new QueryParamsFromServerRequest($request);
+        $internal_input_data = new Input\ArrayInputData($this->getComponentInternalValues());
+        return new StackedInputData(
+            new QueryParamsFromServerRequest($request),
+            $internal_input_data
+        );
+    }
+
+    /**
+    * @return array     with key input name and its current value
+    */
+    public function getComponentInternalValues(
+        C\Input\Group $component = null,
+        array $input_values = []
+    ): array {
+        if(is_null($component)) {
+            $component = $this->getInputGroup();
+        }
+        foreach ($component->getInputs() as $input) {
+            if ($input instanceof C\Input\Group) {
+                $input_values = $this->getComponentInternalValues($input, $input_values);
+            }
+            if ($input instanceof HasInputGroup) {
+                $input_values = $this->getComponentInternalValues($input->getInputGroup(), $input_values);
+            }
+            if($name = $input->getName()) {
+                $input_values[$input->getName()] = $input->getValue();
+            }
+        }
+
+        return $input_values;
     }
 }

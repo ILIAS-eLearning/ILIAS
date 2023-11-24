@@ -86,7 +86,7 @@ class ilExerciseSampleSolutionMigration implements Migration
     public function getRemainingAmountOfSteps(): int
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT count(id) AS amount FROM exc_assignment WHERE solution_rid IS NULL"
+            "SELECT count(id) AS amount FROM exc_assignment JOIN object_data ON exc_id = obj_id WHERE solution_rid IS NULL"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
 

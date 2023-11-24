@@ -18,8 +18,6 @@
 
 use ILIAS\FileDelivery\Delivery\Disposition;
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class for file upload questions
  *
@@ -931,6 +929,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function getQuestionType(): string
     {
         return 'assFileUpload';
+        //return QuestionIdentifiers::FILE_UPLOAD_IDENTIFIER;
     }
 
     public function getAdditionalTableName(): string
@@ -1114,13 +1113,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         $this->completion_by_submission = (bool) $bool;
         return $this;
-    }
-
-    public function isAnswered(int $active_id, int $pass): bool
-    {
-        $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
-
-        return $numExistingSolutionRecords > 0;
     }
 
     public static function isObligationPossible(int $questionId): bool

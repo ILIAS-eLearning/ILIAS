@@ -19,8 +19,6 @@
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * @version		$Id$
  *

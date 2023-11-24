@@ -455,7 +455,7 @@ class ilExAssignmentEditorGUI
         $deadline2 = new ilDateTimeInputGUI($lng->txt("exc_deadline_extended"), "deadline2");
         $deadline2->setInfo($lng->txt("exc_deadline_extended_info"));
         $deadline2->setShowTime(true);
-        $deadline->addSubItem($deadline2);
+        $op1->addSubItem($deadline2);
 
 
         // submit reminder
@@ -505,9 +505,11 @@ class ilExAssignmentEditorGUI
         $form->addItem($rmd_grade);
 
         // relative deadline
-        $ti = new ilNumberInputGUI($lng->txt("days"), "relative_deadline");
+        $ti = new ilNumberInputGUI($lng->txt("exc_rem_time_after_start"), "relative_deadline");
+        $ti->setSuffix($lng->txt("days"));
         $ti->setMaxLength(3);
         $ti->setSize(3);
+        $ti->setRequired(true);
         $op2->addSubItem($ti);
 
         // last submission for relative deadline

@@ -114,9 +114,9 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         if (strcmp($this->ctrl->getCmd(), 'save') === 0) {
             $backgroundDelete = $this->httpState->wrapper()->post()->has('background_delete') && $this->httpState->wrapper()->post()->retrieve(
-                    'background_delete',
-                    $this->refinery->kindlyTo()->bool()
-                );
+                'background_delete',
+                $this->refinery->kindlyTo()->bool()
+            );
             if ($backgroundDelete) {
                 $this->object->deleteBackgroundImage();
             }

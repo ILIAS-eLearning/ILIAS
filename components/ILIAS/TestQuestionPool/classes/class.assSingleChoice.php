@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class for single choice questions
  *
@@ -33,26 +31,24 @@ require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
  */
 class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
+    public const OUTPUT_ORDER = 0;
+    public const OUTPUT_RANDOM = 1;
+
     private bool $isSingleline = true;
 
     /**
     * The given answers of the single choice question
-    *
     * $answers is an array of the given answers of the single choice question
-    *
-    * @var array
     */
-    public $answers;
+    public array $answers;
 
     /**
-    * Output type
-    *
-    * This is the output type for the answers of the single choice question. You can select
-    * OUTPUT_ORDER(=0) or OUTPUT_RANDOM (=1). The default output type is OUTPUT_ORDER
-    *
-    * @var integer
-    */
-    public $output_type;
+     * Output type
+     *
+     * This is the output type for the answers of the single choice question. You can select
+     * OUTPUT_ORDER(=0) or OUTPUT_RANDOM (=1). The default output type is OUTPUT_ORDER
+     */
+    public int $output_type;
 
     /**
      * 1 - Feedback is shown for all answer options.
@@ -82,7 +78,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $author = "",
         $owner = -1,
         $question = "",
-        $output_type = OUTPUT_ORDER
+        $output_type = self::OUTPUT_ORDER
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->output_type = $output_type;
@@ -1197,23 +1193,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     public function getSpecificFeedbackAllCorrectOptionLabel(): string
     {
         return 'feedback_correct_sc_mc';
-    }
-
-    /**
-     * returns boolean wether the question
-     * is answered during test pass or not
-     *
-     * (overwrites method in class assQuestion)
-     *
-     * @param integer $active_id
-     * @param integer $pass
-     * @return boolean $answered
-     */
-    public function isAnswered(int $active_id, int $pass): bool
-    {
-        $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
-
-        return $numExistingSolutionRecords > 0;
     }
 
     /**

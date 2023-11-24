@@ -100,7 +100,7 @@ class ilPCDataTable extends ilPCTable
                                 $new_par_node = $nodes->item(0);
                                 foreach ($new_par_node->childNodes as $c) {
                                     $cloned_child = $c->cloneNode(true);
-                                    $cloned_child = $this->dom_doc->importNode($cloned_child);
+                                    $cloned_child = $this->dom_doc->importNode($cloned_child, true);
                                     $par_node->appendChild($cloned_child);
                                 }
                             }

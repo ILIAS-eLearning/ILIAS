@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\QuestionIdentifiers;
+
 class assLongMenuExport extends assQuestionExport
 {
     /**
@@ -51,7 +53,7 @@ class assLongMenuExport extends assQuestionExport
         $xml->xmlEndTag("qtimetadatafield");
         $xml->xmlStartTag("qtimetadatafield");
         $xml->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $xml->xmlElement("fieldentry", null, LONG_MENU_QUESTION_IDENTIFIER);
+        $xml->xmlElement("fieldentry", null, QuestionIdentifiers::LONG_MENU_QUESTION_IDENTIFIER);
         $xml->xmlEndTag("qtimetadatafield");
         $xml->xmlStartTag("qtimetadatafield");
         $xml->xmlElement("fieldlabel", null, "AUTHOR");

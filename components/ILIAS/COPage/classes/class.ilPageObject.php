@@ -1511,11 +1511,13 @@ s     */
             $this->log->debug("checking internal links");
             $inl = $this->containsIntLinks($content);
 
+            $now = ilUtil::now();
+            $this->lastchange = $now;
             $this->db->update("page_object", array(
                 "content" => array("clob", $content),
                 "parent_id" => array("integer", $this->getParentId()),
                 "last_change_user" => array("integer", $this->user->getId()),
-                "last_change" => array("timestamp", ilUtil::now()),
+                "last_change" => array("timestamp", $now),
                 "is_empty" => array("integer", $em),
                 "active" => array("integer", $this->getActive()),
                 "activation_start" => array("timestamp", $this->getActivationStart()),
@@ -1537,7 +1539,7 @@ s     */
                 "...ending, updated and returning true, content: " . substr(
                     $this->getXMLContent(),
                     0,
-                    100
+                    1000
                 )
             );
 

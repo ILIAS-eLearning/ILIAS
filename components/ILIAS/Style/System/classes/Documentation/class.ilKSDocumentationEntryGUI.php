@@ -105,6 +105,7 @@ class ilKSDocumentationEntryGUI
         if (count($examples) > 0) {
             $nr = 1;
             foreach ($this->entry->getExamples() as $name => $path) {
+                $path = ILIAS_ABSOLUTE_PATH . "/$path";
                 include_once($path);
                 $title = 'Example ' . $nr . ': ' . ucfirst(str_replace('_', ' ', $name));
                 $nr++;

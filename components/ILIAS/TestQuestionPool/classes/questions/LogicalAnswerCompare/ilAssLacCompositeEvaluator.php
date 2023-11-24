@@ -119,7 +119,7 @@ class ilAssLacCompositeEvaluator
                     $reached_points = null;
                     // @todo for Thomas J.: Maybe handle identical scoring for every type
                     switch ($gap->getType()) {
-                        case CLOZE_TEXT:
+                        case assClozeGap::TYPE_TEXT:
                             for ($order = 0; $order < $gap->getItemCount(); $order++) {
                                 $answer = $gap->getItem($order);
                                 $item_points = $question->getTextgapPoints($answer->getAnswertext(), $result['value'], $answer->getPoints());
@@ -129,7 +129,7 @@ class ilAssLacCompositeEvaluator
                             }
                             break;
 
-                        case CLOZE_NUMERIC:
+                        case assClozeGap::TYPE_NUMERIC:
                             for ($order = 0; $order < $gap->getItemCount(); $order++) {
                                 $answer = $gap->getItem($order);
                                 $item_points = $question->getNumericgapPoints($answer->getAnswertext(), $result["value"], $answer->getPoints(), $answer->getLowerBound(), $answer->getUpperBound());
@@ -139,7 +139,7 @@ class ilAssLacCompositeEvaluator
                             }
                             break;
 
-                        case CLOZE_SELECT:
+                        case assClozeGap::TYPE_SELECT:
                             if ($result['value'] != null) {
                                 $answer = $gap->getItem($result['value'] - 1);
                                 $reached_points = $answer->getPoints();

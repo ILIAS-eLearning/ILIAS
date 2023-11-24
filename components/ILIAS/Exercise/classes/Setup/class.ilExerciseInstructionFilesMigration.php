@@ -66,10 +66,20 @@ class ilExerciseInstructionFilesMigration implements Migration
         $assignment_id = (int)$d->id;
         $resource_owner_id = (int)$d->owner;
         $base_path = $this->buildAbsolutPath($exec_id, $assignment_id);
-        $collection_id = $this->helper->moveFilesOfPathToCollection(
-            $base_path,
-            $resource_owner_id
-        );
+        if (is_dir($base_path)) {
+            $collection_id = $this->helper->moveFilesOfPathToCollection(
+                $base_path,
+                $resource_owner_id
+            );
+        } else {
+            $collection = $this->helper->getCollectionBuilder()->new($resource_owner_id);
+            if ($this->helper->getCollectionBuilder()->store($collection)) {
+                $collection_id = $collection->getIdentification()->serialize();
+            } else {
+                throw new ilException("Could not build collection");
+            }
+        }
+
         $this->helper->getDatabase()->update(
             'exc_assignment',
             [
@@ -85,7 +95,7 @@ class ilExerciseInstructionFilesMigration implements Migration
     public function getRemainingAmountOfSteps(): int
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT count(id) AS amount FROM exc_assignment WHERE if_rcid IS NULL OR if_rcid = ''"
+            "SELECT count(id) AS amount FROM exc_assignment JOIN object_data ON exc_id = obj_id WHERE if_rcid IS NULL OR if_rcid = ''"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
 

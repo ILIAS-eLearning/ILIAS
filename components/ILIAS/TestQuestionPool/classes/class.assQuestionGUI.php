@@ -724,11 +724,7 @@ abstract class assQuestionGUI
             } else {
                 $this->ctrl->setParameter($this, "q_id", $this->object->getId());
                 $this->editQuestion();
-                if (ilSession::get("info") != null) {
-                    $this->tpl->setOnScreenMessage('success', ilSession::get("info") . "<br />" . $this->lng->txt("msg_obj_modified"), false);
-                } else {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), false);
-                }
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), false);
                 $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->object->getId());
                 $this->ctrl->redirectByClass("ilAssQuestionPageGUI", "edit");
             }
@@ -821,11 +817,7 @@ abstract class assQuestionGUI
 
                     $this->ctrl->redirectByClass($this->request->raw("cmdClass"), "editQuestion");
                 }
-                if (ilSession::get("info") != null) {
-                    $this->tpl->setOnScreenMessage('success', ilSession::get("info") . "<br />" . $this->lng->txt("msg_obj_modified"), true);
-                } else {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                }
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, 'editQuestion');
             }
         }
@@ -887,7 +879,7 @@ abstract class assQuestionGUI
                     $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
                 }
                 if (ilSession::get("info") != null) {
-                    $this->tpl->setOnScreenMessage('success', ilSession::get("info") . "<br />" . $this->lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 } else {
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 }

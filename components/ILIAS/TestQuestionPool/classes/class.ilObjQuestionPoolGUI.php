@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;
@@ -26,6 +24,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService as QuestionInfoService;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Test\QuestionIdentifiers;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -682,7 +681,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function uploadQplObject($questions_only = false)
     {
         $this->ctrl->setParameter($this, 'new_type', $this->qplrequest->raw('new_type'));
-        if ($_FILES['xmldoc']['error'] > UPLOAD_ERR_OK) {
+        if (!isset($_FILES['xmldoc']) || !isset($_FILES['xmldoc']['error']) || $_FILES['xmldoc']['error'] > UPLOAD_ERR_OK) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_upload'), true);
             if (!$questions_only) {
                 $this->ctrl->redirect($this, 'create');
@@ -782,7 +781,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'tpl.qpl_import_verification.html',
             'components/ILIAS/TestQuestionPool'
         );
-        $table = new ilQuestionPoolImportVerificationTableGUI($this, 'uploadQplObject');
+        $table = new ilQuestionPoolImportVerificationTableGUI($this, 'uploadQpl');
         $rows = [];
 
         foreach ($founditems as $item) {
@@ -791,37 +790,37 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 'ident' => $item['ident'],
             ];
             switch ($item['type']) {
-                case CLOZE_TEST_IDENTIFIER:
+                case QuestionIdentifiers::CLOZE_TEST_IDENTIFIER:
                     $type = $this->lng->txt('assClozeTest');
                     break;
-                case IMAGEMAP_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::IMAGEMAP_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assImagemapQuestion');
                     break;
-                case MATCHING_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::MATCHING_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assMatchingQuestion');
                     break;
-                case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assMultipleChoice');
                     break;
-                case KPRIM_CHOICE_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::KPRIM_CHOICE_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assKprimChoice');
                     break;
-                case LONG_MENU_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::LONG_MENU_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assLongMenu');
                     break;
-                case SINGLE_CHOICE_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::SINGLE_CHOICE_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assSingleChoice');
                     break;
-                case ORDERING_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::ORDERING_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assOrderingQuestion');
                     break;
-                case TEXT_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::TEXT_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assTextQuestion');
                     break;
-                case NUMERIC_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::NUMERIC_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assNumeric');
                     break;
-                case TEXTSUBSET_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::TEXTSUBSET_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt('assTextSubset');
                     break;
                 default:

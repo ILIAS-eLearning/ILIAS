@@ -42,6 +42,7 @@ final class RootFolderTest extends TestCase
         '.php-cs-fixer.cache',
         'captainhook.json',
         'composer.json',
+        'composer_new.json',
         'composer.lock',
         'ilias.ini.php',
         'ilias_version.php',

@@ -5,7 +5,7 @@ return array(
         array(
             'id' => 'Entry1',
             'title' => 'Entry1Title',
-            'abstract' => 1,
+            'abstract' => true,
             'status_entry' => 'Proposed',
             'status_implementation' => 'Partly implemented',
             'description' =>
@@ -25,8 +25,7 @@ return array(
                 ),
             'selector' => '',
             'feature_wiki_references' =>
-                array(
-                ),
+                array(),
             'rules' =>
                 array(
                     'usage' =>
@@ -34,8 +33,7 @@ return array(
                             1 => 'Where and when an element is to be used or not.',
                         ),
                     'composition' =>
-                        array(
-                        ),
+                        array(),
                     'interaction' =>
                         array(
                             2 => 'How the interaction with this object takes place.',
@@ -65,10 +63,12 @@ return array(
             'children' =>
                 array("Entry2"),
             'less_variables' =>
-                array(
-                ),
+                array(),
             'path' => 'components/ILIAS/UI/src/Factory',
             'namespace' => 'ILIAS\\UI\\Factory',
+            'examples_path' => 'components/ILIAS/UI/src/examples/Entry1Title',
+            'examples_namespace' => 'ILIAS\\UI\\examples\\Entry1Title',
+            'examples' => array(),
         ),
     'Entry2' =>
         array(
@@ -94,8 +94,7 @@ return array(
                 ),
             'selector' => '',
             'feature_wiki_references' =>
-                array(
-                ),
+                array(),
             'rules' =>
                 array(
                     'usage' =>
@@ -103,8 +102,7 @@ return array(
                             1 => 'Where and when an element is to be used or not.',
                         ),
                     'composition' =>
-                        array(
-                        ),
+                        array(),
                     'interaction' =>
                         array(
                             2 => 'How the interaction with this object takes place.',
@@ -134,9 +132,11 @@ return array(
             'children' =>
                 array(),
             'less_variables' =>
-                array(
-                ),
+                array(),
             'path' => 'components/ILIAS/UI/src/Factory',
-            'namespace' => 'ILIAS\\UI\\Factory'
+            'namespace' => 'ILIAS\\UI\\Factory',
+            'examples_path' => 'components/ILIAS/UI/src/examples/Entry2Title',
+            'examples_namespace' => 'ILIAS\\UI\\examples\\Entry2Title',
+            'examples' => array(),
         ),
 );

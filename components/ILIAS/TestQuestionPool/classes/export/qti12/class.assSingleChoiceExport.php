@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\QuestionIdentifiers;
+
 /**
 * Class for single choice question exports
 *
@@ -56,7 +58,7 @@ class assSingleChoiceExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, SINGLE_CHOICE_QUESTION_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::SINGLE_CHOICE_QUESTION_IDENTIFIER);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");

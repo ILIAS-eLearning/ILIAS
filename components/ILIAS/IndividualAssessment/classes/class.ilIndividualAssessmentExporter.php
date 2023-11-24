@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Manual Assessment exporter class
  */
@@ -31,6 +31,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilIndividualAssessmentDataSet();
+        $this->ds->setDSPrefix("ds");
     }
 
     /**
@@ -81,6 +82,13 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
                 "xsd_file" => "ilias_iass_5_3.xsd",
                 "uses_dataset" => true,
                 "min" => "5.3.0",
+                "max" => "8"
+            ],
+            "9.0" => [
+                "namespace" => "http://www.ilias.de/xml/Modules/IndividualAssessment/iass",
+                "xsd_file" => "ilias_iass_9_0.xsd",
+                "uses_dataset" => true,
+                "min" => "9.0",
                 "max" => ""
             ]
         ];

@@ -137,19 +137,13 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             );
             return;
         }
+
+        $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
         if ($this->userHasAttemptsLeft()) {
             $message = $this->lng->txt('tst_finish_confirmation_question');
-        } else {
-            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
         }
-        $this->finish_test_modal = $this->ui_factory->modal()->interruptive(
-            $this->lng->txt('finish_test'),
-            $message,
-            $this->ctrl->getLinkTarget(
-                $this->parent_obj,
-                ilTestPlayerCommands::FINISH_TEST
-            )
-        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
+
+        $this->finish_test_modal = $this->parent_obj->buildFinishTestModal();
 
         $this->command_buttons[] = $this->ui_factory->button()->standard($this->lng->txt('finish_test'), '')
                            ->withOnClick($this->finish_test_modal->getShowSignal());

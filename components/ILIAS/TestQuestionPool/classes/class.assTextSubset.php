@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class for TextSubset questions
  *
@@ -453,29 +451,29 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             }
             $value = html_entity_decode($value); #SB
             switch ($textrating) {
-                case TEXTGAP_RATING_CASEINSENSITIVE:
+                case assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE:
                     if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0) { #SB
                         return $key;
                     }
                     break;
-                case TEXTGAP_RATING_CASESENSITIVE:
+                case assClozeGap::TEXTGAP_RATING_CASESENSITIVE:
                     if (strcmp($value, $answer) == 0) {
                         return $key;
                     }
                     break;
-                case TEXTGAP_RATING_LEVENSHTEIN1:
+                case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1:
                     $transformation = $refinery->string()->levenshtein()->standard($answer, 1);
                     break;
-                case TEXTGAP_RATING_LEVENSHTEIN2:
+                case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2:
                     $transformation = $refinery->string()->levenshtein()->standard($answer, 2);
                     break;
-                case TEXTGAP_RATING_LEVENSHTEIN3:
+                case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3:
                     $transformation = $refinery->string()->levenshtein()->standard($answer, 3);
                     break;
-                case TEXTGAP_RATING_LEVENSHTEIN4:
+                case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4:
                     $transformation = $refinery->string()->levenshtein()->standard($answer, 4);
                     break;
-                case TEXTGAP_RATING_LEVENSHTEIN5:
+                case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5:
                     $transformation = $refinery->string()->levenshtein()->standard($answer, 5);
                     break;
             }
@@ -510,17 +508,17 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function setTextRating($a_text_rating): void
     {
         switch ($a_text_rating) {
-            case TEXTGAP_RATING_CASEINSENSITIVE:
-            case TEXTGAP_RATING_CASESENSITIVE:
-            case TEXTGAP_RATING_LEVENSHTEIN1:
-            case TEXTGAP_RATING_LEVENSHTEIN2:
-            case TEXTGAP_RATING_LEVENSHTEIN3:
-            case TEXTGAP_RATING_LEVENSHTEIN4:
-            case TEXTGAP_RATING_LEVENSHTEIN5:
+            case assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE:
+            case assClozeGap::TEXTGAP_RATING_CASESENSITIVE:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN2:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4:
+            case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5:
                 $this->text_rating = $a_text_rating;
                 break;
             default:
-                $this->text_rating = TEXTGAP_RATING_CASEINSENSITIVE;
+                $this->text_rating = assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE;
                 break;
         }
     }
