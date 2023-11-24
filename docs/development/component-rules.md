@@ -1,3 +1,5 @@
+# TODO: This might be outdated but should definitely be put in another place.
+
 # Components
 
 Services provide general functionalities used in the modules or in other services,

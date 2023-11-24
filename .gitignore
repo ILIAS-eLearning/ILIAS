@@ -26,6 +26,7 @@
 !/component/ILIAS
 
 # Generated Files
+/artifacts
 /ilias.ini.php
 /ilias.log
 /db_template_writer.php

@@ -44,6 +44,7 @@ final class RootFolderTest extends TestCase
         'composer.json',
         'composer_new.json',
         'composer.lock',
+        'dependency_resolution.php',
         'ilias.ini.php',
         'ilias_version.php',
         'LICENSE',
