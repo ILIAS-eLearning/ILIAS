@@ -53,9 +53,11 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
             $this->gui->getObject()->getType()
         );
         if ($requestedMethod === '') {
-            $this->ilCtrl->setCmd('showSummary');
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ilCtrl->setCmd('showSummary');
         } else {
-            $this->ilCtrl->setCmd($requestedMethod);
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ilCtrl->setCmd($requestedMethod);
         }
         $this->ilCtrl->forwardCommand($info);
     }

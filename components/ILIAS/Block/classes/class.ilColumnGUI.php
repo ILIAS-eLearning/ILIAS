@@ -535,8 +535,9 @@ class ilColumnGUI
 
         $class = array_search($this->request->getBlockType(), self::$block_types);
 
-        $ilCtrl->setCmdClass($class);
-        $ilCtrl->setCmd("create");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $ilCtrl->setCmdClass($class);
+        // $ilCtrl->setCmd("create");
         $block_gui = new $class();
         $block_gui->setProperties($this->block_property[$this->request->getBlockType()]);
         $block_gui->setRepositoryMode($this->getRepositoryMode());

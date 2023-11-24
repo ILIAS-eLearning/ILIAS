@@ -25,6 +25,7 @@ if (!file_exists(getcwd() . '/ilias.ini.php')) {
 ilInitialisation::initILIAS();
 
 /** @var ILIAS\DI\Container $DIC */
-$DIC->ctrl()->setCmd('confirmRegistration');
+// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+// $DIC->ctrl()->setCmd('confirmRegistration');
 $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 $DIC->http()->close();

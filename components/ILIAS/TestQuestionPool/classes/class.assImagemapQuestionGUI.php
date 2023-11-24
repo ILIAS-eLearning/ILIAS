@@ -56,7 +56,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if (isset($_POST["imagemap"]) ||
         isset($_POST["imagemap_x"]) ||
         isset($_POST["imagemap_y"])) {
-            $this->ctrl->setCmd("getCoords");
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmd("getCoords");
             $cmd = "getCoords";
         }
 

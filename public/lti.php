@@ -13,6 +13,7 @@ ilInitialisation::initILIAS();
 
 // authentication is done here ->
 global $DIC;
-$DIC->ctrl()->setCmd('doLTIAuthentication');
+// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+// $DIC->ctrl()->setCmd('doLTIAuthentication');
 $DIC->ctrl()->setTargetScript('ilias.php');
 $DIC->ctrl()->callBaseClass('ilStartUpGUI');

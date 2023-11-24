@@ -704,8 +704,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $page_gui->setEditPreview(true);
                 $page_gui->setEnabledTabs(false);
                 if (strlen($this->ctrl->getCmd()) == 0) {
-                    $this->ctrl->setCmdClass(get_class($page_gui));
-                    $this->ctrl->setCmd("preview");
+                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                    // $this->ctrl->setCmdClass(get_class($page_gui));
+                    // $this->ctrl->setCmd("preview");
                 }
 
                 $page_gui->setQuestionHTML([$q_gui->object->getId() => $q_gui->getPreview(true)]);
@@ -1047,8 +1048,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     private function userResultsGatewayObject()
     {
-        $this->ctrl->setCmdClass('ilTestEvaluationGUI');
-        $this->ctrl->setCmd('outUserResultsOverview');
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmdClass('ilTestEvaluationGUI');
+        // $this->ctrl->setCmd('outUserResultsOverview');
         $this->tabs_gui->clearTargets();
 
         $this->forwardToEvaluationGUI();
@@ -1061,8 +1063,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->prepareOutput();
         $this->addHeaderAction();
 
-        $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
-        $this->ctrl->setCmd('showParticipants');
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
+        // $this->ctrl->setCmd('showParticipants');
 
 
         $gui = new ilParticipantsTestResultsGUI(
@@ -2604,15 +2607,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function infoScreenObject()
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd("showSummary");
+        // $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreen();
     }
 
     public function redirectToInfoScreenObject()
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd("showSummary");
+        // $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreen($this->testrequest->raw('lock') ?? '');
     }
 
