@@ -52,7 +52,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
     protected function getAdditionalEditQuestionCommands(): array
     {
-        return array('uploadImage', 'removeImage');
+        return ['uploadImage', 'removeImage'];
     }
 
     protected function editQuestion(ilPropertyFormGUI $form = null): void
@@ -370,7 +370,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $keys = $this->getParticipantsAnswerKeySequence();
 
         // get the solution of the user for the active pass or from the last pass if allowed
-        $user_solution = array();
+        $user_solution = [];
         if ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
@@ -461,7 +461,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
-        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
+        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
 
@@ -574,7 +574,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $keys = $this->getParticipantsAnswerKeySequence();
 
         // get the solution of the user for the active pass or from the last pass if allowed
-        $user_solution = array();
+        $user_solution = [];
         if (($active_id > 0) && (!$show_correct_solution)) {
             $solutions = $this->object->getSolutionValues($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
@@ -782,7 +782,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -796,7 +796,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -838,12 +838,12 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
     public function aggregateAnswers($rawSolutionData, $answers): array
     {
-        $aggregate = array();
+        $aggregate = [];
 
         foreach ($answers as $answer) {
-            $answerAgg = array(
+            $answerAgg = [
                 'answertext' => $answer->getAnswerText(), 'count_true' => 0, 'count_false' => 0
-            );
+            ];
 
             foreach ($rawSolutionData as $solutionRecord) {
                 if ($solutionRecord['value1'] == $answer->getPosition()) {
@@ -865,14 +865,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     {
         $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
 
-        $answers = array();
+        $answers = [];
 
         foreach ($agg as $ans) {
-            $answers[] = array(
+            $answers[] = [
                 'answer' => $ans['answertext'],
                 'frequency_true' => $ans['count_true'],
                 'frequency_false' => $ans['count_false']
-            );
+            ];
         }
 
         return $answers;

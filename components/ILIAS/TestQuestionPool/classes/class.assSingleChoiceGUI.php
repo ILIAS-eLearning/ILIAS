@@ -590,10 +590,10 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $types->setRequired(false);
             $types->setValue(($is_singleline) ? 0 : 1);
             $types->setOptions(
-                array(
+                [
                                     0 => $this->lng->txt('answers_singleline'),
                                     1 => $this->lng->txt('answers_multiline'),
-                                )
+                                ]
             );
             $form->addItem($types);
         }
@@ -628,7 +628,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
@@ -661,7 +661,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 // check suffix
                 $file_name_parts = explode(".", $file_org_name);
                 $suffix = strtolower(array_pop($file_name_parts));
-                if (in_array($suffix, array("jpg", "jpeg", "png", "gif"))) {
+                if (in_array($suffix, ["jpg", "jpeg", "png", "gif"])) {
                     // upload image
                     $filename = $this->object->buildHashedImageFilename($file_org_name);
                     if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
@@ -728,7 +728,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -746,9 +746,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question): array
     {
-        $aggregate = array();
+        $aggregate = [];
         foreach ($answers_defined_on_question as $answer) {
-            $aggregated_info_for_answer = array();
+            $aggregated_info_for_answer = [];
             $aggregated_info_for_answer['answertext'] = $answer->getAnswerText();
             $aggregated_info_for_answer['count_checked'] = 0;
 
@@ -828,13 +828,13 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
 
-        $answers = array();
+        $answers = [];
 
         foreach ($agg as $ans) {
-            $answers[] = array(
+            $answers[] = [
                 'answer' => $ans['answertext'],
                 'frequency' => $ans['count_checked']
-            );
+            ];
         }
 
         return $answers;
