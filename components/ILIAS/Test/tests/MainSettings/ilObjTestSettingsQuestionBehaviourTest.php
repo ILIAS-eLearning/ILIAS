@@ -20,46 +20,6 @@ declare(strict_types=1);
 
 class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
 {
-    public function testToForm(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetInputAutosave(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetInputInstantFeedback(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetSubInputInstantFeedback(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetInputLockAnswers(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetTransformationLockAnswers(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetConstraintsSectionQuestionBehaviour(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestSkipped();
-    }
-
     private function getTestInstance(): ilObjTestSettingsQuestionBehaviour
     {
         return new ilObjTestSettingsQuestionBehaviour(
@@ -263,11 +223,6 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    public function testIsAnyInstantFeedbackOptionEnabled(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithForceInstantFeedbackOnNextQuestionDataProvider
      */
@@ -326,11 +281,6 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
             [false],
             [true],
         ];
-    }
-
-    public function testGetAnswerFixationSettingsAsFormValue(): void
-    {
-        $this->markTestSkipped();
     }
 
     /**

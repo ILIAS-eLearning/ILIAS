@@ -19,19 +19,4 @@ class ilTestResultsFactoryTest extends ilTestBaseTestCase
         );
         $this->assertInstanceOf(ilTestResultsFactory::class, $ilTestResultsFactoryTest);
     }
-
-    public function testGetPassResultsFor(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testBuildPassResults(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetPassResultsSettings(): void
-    {
-        $this->markTestSkipped();
-    }
 }

@@ -14,9 +14,4 @@ class ilTestDICTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(Container::class, ilTestDIC::dic());
     }
-
-    public function testBuildDIC(): void
-    {
-        $this->markTestSkipped();
-    }
 }

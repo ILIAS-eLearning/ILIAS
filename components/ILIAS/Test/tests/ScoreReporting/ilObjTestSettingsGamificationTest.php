@@ -13,21 +13,6 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilObjTestSettingsGamification::class, $ilObjTestSettingsGamification);
     }
 
-    public function testToForm(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetHighScoreMode(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithHighscoreEnabledDataProvider
      */

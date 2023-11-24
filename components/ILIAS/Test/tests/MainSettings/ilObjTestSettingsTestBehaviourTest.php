@@ -20,46 +20,6 @@ declare(strict_types=1);
 
 class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
 {
-    public function testToForm(): void
-    {
-        $this->markTestIncomplete();
-    }
-
-    public function testGetInputLimitAttempts(): void
-    {
-        $this->markTestIncomplete();
-    }
-
-    public function testGetInputForceWaitingBetweenAttempts(): void
-    {
-        $this->markTestIncomplete();
-    }
-
-    public function testGetSubInputsForceWaitingBetweenAttempts(): void
-    {
-        $this->markTestIncomplete();
-    }
-
-    public function testCleanupPassWaiting(): void
-    {
-        $this->markTestIncomplete();
-    }
-
-    public function testGetInputTimeLimitForCompletion(): void
-    {
-        $this->markTestIncomplete();
-    }
-
-    public function testGetInputKioskMode(): void
-    {
-        $this->markTestIncomplete();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestIncomplete();
-    }
-
     /**
      * @dataProvider getAndWithNumberOfTriesDataProvider
      */
@@ -122,11 +82,6 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    public function testGetPassWaitingEnabled(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithProcessingTimeEnabledDataProvider
      */
@@ -168,11 +123,6 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    public function testGetProcessingTimeAsMinutes(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithResetProcessingTimeDataProvider
      */
@@ -212,21 +162,6 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
             [0],
             [1],
         ];
-    }
-
-    public function testGetKioskModeEnabled(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetShowTitleInKioskMode(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetShowParticipantNameInKioskMode(): void
-    {
-        $this->markTestSkipped();
     }
 
     // ExamIdInTestPassEnabled

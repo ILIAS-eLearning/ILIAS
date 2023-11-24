@@ -14,29 +14,4 @@ class ilExcelTestExportTest extends ilTestBaseTestCase
         );
         $this->assertInstanceOf(ilExcelTestExport::class, $ilExcelTestExport);
     }
-
-    public function testWithResultsPage(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetContent(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testWithUserPages(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testWithAggregatedResultsPage(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testDeliver(): void
-    {
-        $this->markTestSkipped();
-    }
 }

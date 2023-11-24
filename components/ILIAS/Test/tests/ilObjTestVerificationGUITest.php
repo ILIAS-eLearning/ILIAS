@@ -36,39 +36,4 @@ class ilObjTestVerificationGUITest extends ilTestBaseTestCase
     {
         $this->assertEquals('tstv', $this->testObj->getType());
     }
-
-    public function testCreate(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testSave(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testDeliver(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testRender(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testDownloadFromPortfolioPage(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function test_goto(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetRequestValue(): void
-    {
-        $this->markTestSkipped();
-    }
 }

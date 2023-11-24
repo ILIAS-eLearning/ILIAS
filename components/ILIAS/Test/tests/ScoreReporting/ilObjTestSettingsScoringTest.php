@@ -13,16 +13,6 @@ class ilObjTestSettingsScoringTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilObjTestSettingsScoring::class, $ilObjTestSettingsScoring);
     }
 
-    public function testToForm(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithCountSystemDataProvider
      */

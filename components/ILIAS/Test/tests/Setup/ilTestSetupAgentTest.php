@@ -25,11 +25,6 @@ class ilTestSetupAgentTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilDatabaseUpdateStepsExecutedObjective::class, $ilTestSetupAgentTest->getUpdateObjective());
     }
 
-    public function testGetStatusObjective(): void
-    {
-        $this->markTestSkipped();
-    }
-
     public function testHasConfig(): void
     {
         $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));

@@ -18,9 +18,4 @@ class ilTestStatisticsTest extends ilTestBaseTestCase
         $ilTestStatistics->statistics = $object;
         $this->assertEquals($object, $ilTestStatistics->getStatistics());
     }
-
-    public function testCalculateStatistics(): void
-    {
-        $this->markTestSkipped();
-    }
 }

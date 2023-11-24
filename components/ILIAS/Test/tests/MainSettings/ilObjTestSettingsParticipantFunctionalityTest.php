@@ -20,21 +20,6 @@ declare(strict_types=1);
 
 class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
 {
-    public function testToForm(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetInputUsrPassOverview(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithUsePreviousAnswerAllowedDataProvider
      */
@@ -134,26 +119,6 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
             [0],
             [1],
         ];
-    }
-
-    public function testGetUsrPassOverviewEnabled(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetShownQuestionListAtBeginning(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetShownQuestionListAtEnd(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetShowDescriptionInQuestionList(): void
-    {
-        $this->markTestSkipped();
     }
 
     /**

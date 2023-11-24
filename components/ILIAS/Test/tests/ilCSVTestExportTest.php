@@ -13,24 +13,4 @@ class ilCSVTestExportTest extends ilTestBaseTestCase
         );
         $this->assertInstanceOf(ilCSVTestExport::class, $ilCSVTestExport);
     }
-
-    public function testWithAllResults(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testWithAggregatedResults(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testDeliver(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetContent(): void
-    {
-        $this->markTestSkipped();
-    }
 }

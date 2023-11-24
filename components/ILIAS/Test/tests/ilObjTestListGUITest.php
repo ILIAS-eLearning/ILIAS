@@ -25,41 +25,6 @@ class ilObjTestListGUITest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilObjTestListGUI::class, $this->testObj);
     }
 
-    public function testInit(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetCommandFrame(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetProperties(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetCommandLink(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetCommands(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testHandleUserResultsCommand(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testRemoveUserResultsCommand(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider createDefaultCommandDataProvider
      */
@@ -76,15 +41,5 @@ class ilObjTestListGUITest extends ilTestBaseTestCase
             [[1, 2]],
             [[1, 2, 3]],
         ];
-    }
-
-    public function testAddCommandLinkParameter(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function tesModifyTitleLink(): void
-    {
-        $this->markTestSkipped();
     }
 }

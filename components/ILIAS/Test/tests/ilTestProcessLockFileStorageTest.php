@@ -26,9 +26,4 @@ class ilTestProcessLockFileStorageTest extends ilTestBaseTestCase
     {
         $this->assertEquals('context', self::callMethod($this->testObj, 'getPathPostfix'));
     }
-
-    public function testCreate(): void
-    {
-        $this->markTestSkipped();
-    }
 }

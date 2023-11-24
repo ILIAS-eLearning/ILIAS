@@ -14,24 +14,4 @@ class ilObjTestScoreSettingsDatabaseRepositoryTest extends ilTestBaseTestCase
         );
         $this->assertInstanceOf(ilObjTestScoreSettingsDatabaseRepository::class, $ilObjTestScoreSettingsDatabaseRepository);
     }
-
-    public function testGetForObjFi(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetFor(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testDoSelect(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testStore(): void
-    {
-        $this->markTestSkipped();
-    }
 }

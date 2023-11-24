@@ -20,16 +20,6 @@ declare(strict_types=1);
 
 class ilObjTestSettingsIntroductionTest extends ilTestBaseTestCase
 {
-    public function testToForm(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithIntroductionEnabledDataProvider
      */

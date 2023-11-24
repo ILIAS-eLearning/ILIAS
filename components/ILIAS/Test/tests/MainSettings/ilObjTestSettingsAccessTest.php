@@ -20,31 +20,6 @@ declare(strict_types=1);
 
 class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
 {
-    public function testToForm(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetInputAccessWindow(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetSubInputAccessWindow(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetInputPassword(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithStartTimeEnabledDataProvider
      */

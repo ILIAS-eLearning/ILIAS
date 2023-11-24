@@ -35,24 +35,4 @@ class ilTestLPTest extends ilTestBaseTestCase
         $ilTestLP = new ilTestLP(0);
         $this->assertEquals([ilLPObjSettings::LP_MODE_DEACTIVATED, ilLPObjSettings::LP_MODE_TEST_FINISHED, ilLPObjSettings::LP_MODE_TEST_PASSED], $ilTestLP->getValidModes());
     }
-
-    public function testIsAnonymized(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testSetTestObject(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testResetCustomLPDataForUserIds(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testIsLPMember(): void
-    {
-        $this->markTestSkipped();
-    }
 }

@@ -19,21 +19,6 @@ class ilTestManScoringParticipantNotificationTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilTestManScoringParticipantNotification::class, $this->testObj);
     }
 
-    public function tetSend(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testBuildSubject(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testBuildBody(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider dataProviderGetAndSetRecipient
      */
@@ -50,10 +35,5 @@ class ilTestManScoringParticipantNotificationTest extends ilTestBaseTestCase
             [0],
             [1],
         ];
-    }
-
-    public function testConvertFeedbackForMail(): void
-    {
-        $this->markTestSkipped();
     }
 }

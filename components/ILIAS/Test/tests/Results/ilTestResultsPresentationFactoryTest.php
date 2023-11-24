@@ -25,9 +25,4 @@ class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
         );
         $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $ilTestResultsPresentationFactory);
     }
-
-    public function testGetPassResultsPresentationTable(): void
-    {
-        $this->markTestSkipped();
-    }
 }

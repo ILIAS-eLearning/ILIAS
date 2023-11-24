@@ -12,19 +12,4 @@ class TestManScoringDoneHelperTest extends ilTestBaseTestCase
         $testManScoringDoneHelper = new TestManScoringDoneHelper($this->createMock(ilDBInterface::class));
         $this->assertInstanceOf(TestManScoringDoneHelper::class, $testManScoringDoneHelper);
     }
-
-    public function testIsDone(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function  testExists(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testSetDone(): void
-    {
-        $this->markTestSkipped();
-    }
 }

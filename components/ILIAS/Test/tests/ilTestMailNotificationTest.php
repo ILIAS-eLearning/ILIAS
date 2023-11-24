@@ -17,14 +17,4 @@ class ilTestMailNotificationTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestMailNotification::class, $this->testObj);
     }
-
-    public function testSendSimpleNotification(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testSendAdvancedNotification(): void
-    {
-        $this->markTestSkipped();
-    }
 }

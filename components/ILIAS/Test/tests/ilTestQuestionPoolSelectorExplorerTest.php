@@ -52,14 +52,4 @@ class ilTestQuestionPoolSelectorExplorerTest extends ilTestBaseTestCase
         ];
 
     }
-
-    public function testIsAvailableQuestionPool(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testIsNodeVisible(): void
-    {
-        $this->markTestSkipped();
-    }
 }

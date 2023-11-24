@@ -15,9 +15,4 @@ class TestSkillDBRepositoryTest extends ilTestBaseTestCase
         $testSkillDBRepository = new TestSkillDBRepository($this->createMock(\ilDBInterface::class));
         $this->assertInstanceOf(TestSkillDBRepository::class, $testSkillDBRepository);
     }
-
-    public function testRemoveForSkill(): void
-    {
-        $this->markTestSkipped();
-    }
 }

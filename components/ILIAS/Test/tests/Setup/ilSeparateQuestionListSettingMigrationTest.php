@@ -37,19 +37,4 @@ class ilSeparateQuestionListSettingMigrationTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilDatabaseInitializedObjective::class, $result[0]);
         $this->assertInstanceOf(ilDatabaseUpdatedObjective::class, $result[1]);
     }
-
-    public function testPrepare(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testStep(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetRemainingAmountOfSteps(): void
-    {
-        $this->markTestSkipped();
-    }
 }

@@ -34,29 +34,4 @@ class ilTestPassResultsTableTest extends ilTestBaseTestCase
         );
         $this->assertInstanceOf(ilTestPassResultsTable::class, $ilTestPassResultsTable);
     }
-
-    public function testRender(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testApplyControls(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetViewControlsParameter(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetViewControls(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetMapping(): void
-    {
-        $this->markTestSkipped();
-    }
 }

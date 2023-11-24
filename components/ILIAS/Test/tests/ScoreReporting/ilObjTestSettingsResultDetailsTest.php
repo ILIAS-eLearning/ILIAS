@@ -13,16 +13,6 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilObjTestSettingsResultDetails::class, $ilObjTestSettingsResultDetails);
     }
 
-    public function testToForm(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithResultsPresentationDataProvider
      */
@@ -58,16 +48,6 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
             [false],
             [true],
         ];
-    }
-
-    public function testCompareResultPresentation(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testModifyResultPresentation(): void
-    {
-        $this->markTestSkipped();
     }
 
     /**
@@ -213,15 +193,5 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
             [0],
             [1],
         ];
-    }
-
-    public function testCompareExportSetting(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testModifyExportSetting(): void
-    {
-        $this->markTestSkipped();
     }
 }

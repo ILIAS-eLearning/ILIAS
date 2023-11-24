@@ -9,9 +9,4 @@ class ilTestShufflerTest extends ilTestBaseTestCase
         $ilTestShuffler = new ilTestShuffler($this->createMock(Refinery::class));
         $this->assertInstanceOf(ilTestShuffler::class, $ilTestShuffler);
     }
-
-    public function testGetAnswerShuffleFor(): void
-    {
-        $this->markTestSkipped();
-    }
 }

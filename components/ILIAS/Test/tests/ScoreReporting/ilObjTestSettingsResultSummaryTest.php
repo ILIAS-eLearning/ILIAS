@@ -13,16 +13,6 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilObjTestSettingsResultSummary::class, $ilObjTestSettingsResultSummary);
     }
 
-    public function testToForm(): void
-    {
-        $this->markTestIncomplete();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestIncomplete();
-    }
-
     /**
      * @dataProvider getAndWithScoreReportingDataProvider
      */

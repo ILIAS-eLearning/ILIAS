@@ -23,9 +23,4 @@ class ilECSTestSettingsTest extends ilTestBaseTestCase
     {
         $this->assertEquals('/campusconnect/tests', self::callMethod($this->testObj, 'getECSObjectType'));
     }
-
-    public function testBuildJson(): void
-    {
-        $this->markTestSkipped();
-    }
 }

@@ -7,9 +7,4 @@ class ilTestAppEventListenerTest extends ilTestBaseTestCase
         $ilTestAppEventListener = new ilTestAppEventListener();
         $this->assertInstanceOf(ilTestAppEventListener::class, $ilTestAppEventListener);
     }
-
-    public function testHandleEvent(): void
-    {
-        $this->markTestSkipped();
-    }
 }

@@ -15,11 +15,6 @@ class ilManScoringSettingsToOwnDbTableMigrationTest extends  ilTestBaseTestCase
         $this->assertInstanceOf(ilManScoringSettingsToOwnDbTableMigration::class, $ilManScoringSettingsToOwnDbTableMigration);
     }
 
-    public function testManScoringDoneEntryExists(): void
-    {
-        $this->markTestSkipped();
-    }
-
     public function testGetLabel(): void
     {
         $ilManScoringSettingsToOwnDbTableMigration = new ilManScoringSettingsToOwnDbTableMigration();
@@ -39,20 +34,5 @@ class ilManScoringSettingsToOwnDbTableMigrationTest extends  ilTestBaseTestCase
         $this->assertIsArray($result);
         $this->assertNotEmpty($result);
         $this->assertInstanceOf(ilDatabaseInitializedObjective::class, $result[0]);
-    }
-
-    public function testPrepare(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testStep(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetRemainingAmountOfSteps(): void
-    {
-        $this->markTestSkipped();
     }
 }

@@ -20,26 +20,6 @@ declare(strict_types=1);
 
 class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
 {
-    public function testToForm(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetRedirectionInputs(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testGetMailNotificationInputs(): void
-    {
-        $this->markTestSkipped();
-    }
-
-    public function testToStorage(): void
-    {
-        $this->markTestSkipped();
-    }
-
     /**
      * @dataProvider getAndWithConcludingRemarksEnabledDataProvider
      */
