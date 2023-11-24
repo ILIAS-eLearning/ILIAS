@@ -52,9 +52,8 @@ class assTextQuestionTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assTextQuestion();
 
-        $this->assertInstanceOf('assTextQuestion', $instance);
+        $this->assertInstanceOf(assTextQuestion::class, $instance);
     }
 }

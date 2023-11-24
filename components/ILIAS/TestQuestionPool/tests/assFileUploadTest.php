@@ -54,9 +54,8 @@ class assFileUploadTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assFileUpload();
 
-        $this->assertInstanceOf('assFileUpload', $instance);
+        $this->assertInstanceOf(assFileUpload::class, $instance);
     }
 }

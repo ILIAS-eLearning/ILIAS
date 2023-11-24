@@ -29,29 +29,24 @@ class assAnswerImagemapTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function test_instantiateObjectSimple(): void
     {
-        // Act
         $instance = new ASS_AnswerImagemap();
 
-        // Assert
-        $this->assertInstanceOf('ASS_AnswerImagemap', $instance);
+        $this->assertInstanceOf(ASS_AnswerImagemap::class, $instance);
     }
 
     public function test_setGetCoords(): void
     {
         $instance = new ASS_AnswerImagemap();
 
-        // Act
-        $expected = "12345";
+        $expected = '12345';
         $instance->setCoords($expected);
         $actual = $instance->getCoords();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -59,12 +54,10 @@ class assAnswerImagemapTest extends assBaseTestCase
     {
         $instance = new ASS_AnswerImagemap();
 
-        // Act
-        $expected = "12345";
+        $expected = '12345';
         $instance->setArea($expected);
         $actual = $instance->getArea();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -72,12 +65,10 @@ class assAnswerImagemapTest extends assBaseTestCase
     {
         $instance = new ASS_AnswerImagemap();
 
-        // Act
-        $expected = "12345";
+        $expected = '12345';
         $instance->setPointsUnchecked($expected);
         $actual = $instance->getPointsUnchecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -85,12 +76,10 @@ class assAnswerImagemapTest extends assBaseTestCase
     {
         $instance = new ASS_AnswerImagemap();
 
-        // Act
         $expected = 0.0;
         $instance->setPointsUnchecked('Günther');
         $actual = $instance->getPointsUnchecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

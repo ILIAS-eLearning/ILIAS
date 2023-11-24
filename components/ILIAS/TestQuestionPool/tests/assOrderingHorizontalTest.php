@@ -52,9 +52,8 @@ class assOrderingHorizontalTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assOrderingHorizontal();
 
-        $this->assertInstanceOf('assOrderingHorizontal', $instance);
+        $this->assertInstanceOf(assOrderingHorizontal::class, $instance);
     }
 }

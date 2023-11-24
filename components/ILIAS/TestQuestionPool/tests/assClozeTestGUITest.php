@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
 * Unit tests
 *
@@ -65,21 +68,20 @@ class assClozeTestGUITest extends assBaseTestCase
          * @preserveGlobalState enabled
          */
 
-        // Act
         $this->setGlobalVariable(
             'ui.factory',
-            $this->getMockBuilder(\ILIAS\UI\Factory::class)
+            $this->getMockBuilder(Factory::class)
                 ->disableOriginalConstructor()
                 ->getMock()
         );
         $this->setGlobalVariable(
             'ui.renderer',
-            $this->getMockBuilder(\ILIAS\UI\Renderer::class)
+            $this->getMockBuilder(Renderer::class)
                 ->disableOriginalConstructor()
                 ->getMock()
         );
 
         $instance = new assClozeTestGUI();
-        $this->assertInstanceOf('assClozeTestGUI', $instance);
+        $this->assertInstanceOf(assClozeTestGUI::class, $instance);
     }
 }

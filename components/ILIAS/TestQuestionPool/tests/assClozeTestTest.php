@@ -52,10 +52,9 @@ class assClozeTestTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assClozeTest();
 
-        $this->assertInstanceOf('assClozeTest', $instance);
+        $this->assertInstanceOf(assClozeTest::class, $instance);
     }
 
     public function test_cleanQuestionText_shouldReturnCleanedText(): void

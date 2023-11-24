@@ -29,16 +29,13 @@ class assAnswerMatchingDefinitionTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function test_instantiateObjectSimple(): void
     {
-        // Act
         $instance = new assAnswerMatchingDefinition();
 
-        // Assert
-        $this->assertInstanceOf('assAnswerMatchingDefinition', $instance);
+        $this->assertInstanceOf(assAnswerMatchingDefinition::class, $instance);
     }
 }

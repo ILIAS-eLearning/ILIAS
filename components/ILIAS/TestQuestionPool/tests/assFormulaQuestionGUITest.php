@@ -54,9 +54,8 @@ class assFormulaQuestionGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assFormulaQuestionGUI();
 
-        $this->assertInstanceOf('assFormulaQuestionGUI', $instance);
+        $this->assertInstanceOf(assFormulaQuestionGUI::class, $instance);
     }
 }

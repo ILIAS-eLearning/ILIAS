@@ -29,16 +29,14 @@ class assNumericRangeTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assNumericRange();
 
-        $this->assertInstanceOf('assNumericRange', $instance);
+        $this->assertInstanceOf(assNumericRange::class, $instance);
     }
 
     public function test_setGetLowerLimit_shouldReturnUnchangedLowerLimit(): void
@@ -46,11 +44,9 @@ class assNumericRangeTest extends assBaseTestCase
         $instance = new assNumericRange();
         $expected = 1.00;
 
-        // Act
         $instance->setLowerLimit($expected);
         $actual = $instance->getLowerLimit();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -59,11 +55,9 @@ class assNumericRangeTest extends assBaseTestCase
         $instance = new assNumericRange();
         $expected = 10.00;
 
-        // Act
         $instance->setUpperLimit($expected);
         $actual = $instance->getUpperLimit();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -72,11 +66,9 @@ class assNumericRangeTest extends assBaseTestCase
         $instance = new assNumericRange();
         $expected = 10;
 
-        // Act
         $instance->setOrder($expected);
         $actual = $instance->getOrder();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -85,11 +77,9 @@ class assNumericRangeTest extends assBaseTestCase
         $instance = new assNumericRange();
         $expected = 10;
 
-        // Act
         $instance->setPoints($expected);
         $actual = $instance->getPoints();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -100,10 +90,8 @@ class assNumericRangeTest extends assBaseTestCase
         $instance->setUpperLimit(10.00);
         $expected = true;
 
-        // Act
         $actual = $instance->contains(5.00);
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -114,10 +102,8 @@ class assNumericRangeTest extends assBaseTestCase
         $instance->setUpperLimit(10.00);
         $expected = false;
 
-        // Act
         $actual = $instance->contains(15.00);
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -128,10 +114,8 @@ class assNumericRangeTest extends assBaseTestCase
         $instance->setUpperLimit(10.00);
         $expected = false;
 
-        // Act
         $actual = $instance->contains('Günther');
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

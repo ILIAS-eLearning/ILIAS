@@ -54,9 +54,8 @@ class assMatchingQuestionGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assMatchingQuestionGUI();
 
-        $this->assertInstanceOf('assMatchingQuestionGUI', $instance);
+        $this->assertInstanceOf(assMatchingQuestionGUI::class, $instance);
     }
 }

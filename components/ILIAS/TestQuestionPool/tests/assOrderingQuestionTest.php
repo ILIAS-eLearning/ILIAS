@@ -52,17 +52,16 @@ class assOrderingQuestionTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assOrderingQuestion();
 
-        $this->assertInstanceOf('assOrderingQuestion', $instance);
+        $this->assertInstanceOf(assOrderingQuestion::class, $instance);
     }
 
     public function testOrderingElementListDefaults(): ilAssOrderingElementList
     {
         $question_id = 7;
         $list = new ilAssOrderingElementList($question_id);
-        $this->assertInstanceOf('ilAssOrderingElementList', $list);
+        $this->assertInstanceOf(ilAssOrderingElementList::class, $list);
         $this->assertEquals($question_id, $list->getQuestionId());
         $this->assertEquals([], $list->getElements());
         return $list;
@@ -81,7 +80,7 @@ class assOrderingQuestionTest extends assBaseTestCase
     {
         $element_id = 12;
         $element = new ilAssOrderingElement($element_id);
-        $this->assertInstanceOf('ilAssOrderingElement', $element);
+        $this->assertInstanceOf(ilAssOrderingElement::class, $element);
         $this->assertEquals($element_id, $element->getId());
         return $element;
     }

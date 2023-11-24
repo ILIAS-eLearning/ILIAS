@@ -56,9 +56,8 @@ class assSingleChoiceGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assSingleChoiceGUI();
 
-        $this->assertInstanceOf('assSingleChoiceGUI', $instance);
+        $this->assertInstanceOf(assSingleChoiceGUI::class, $instance);
     }
 }

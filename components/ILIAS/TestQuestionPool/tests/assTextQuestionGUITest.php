@@ -38,7 +38,7 @@ class assTextQuestionGUITest extends assBaseTestCase
         $ilCtrl_mock->expects($this->any())->method('saveParameterByClass');
         $this->setGlobalVariable('ilCtrl', $ilCtrl_mock);
 
-        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
+        $lng_mock = $this->createMock('ilLanguage',  ['txt'], [], '', false);
         $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
         $this->setGlobalVariable('lng', $lng_mock);
 
@@ -49,9 +49,8 @@ class assTextQuestionGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assTextQuestionGUI();
 
-        $this->assertInstanceOf('assTextQuestionGUI', $instance);
+        $this->assertInstanceOf(assTextQuestionGUI::class, $instance);
     }
 }

@@ -29,16 +29,14 @@ class assAnswerOrderingTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new ilAssOrderingElement();
 
-        $this->assertInstanceOf('ilAssOrderingElement', $instance);
+        $this->assertInstanceOf(ilAssOrderingElement::class, $instance);
     }
 
     public function test_setGetRandomId(): void
@@ -46,11 +44,9 @@ class assAnswerOrderingTest extends assBaseTestCase
         $instance = new ilAssOrderingElement();
         $expected = 13579;
 
-        // Act
         $instance->setRandomIdentifier($expected);
         $actual = $instance->getRandomIdentifier();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -59,11 +55,9 @@ class assAnswerOrderingTest extends assBaseTestCase
         $instance = new ilAssOrderingElement();
         $expected = 13579;
 
-        // Act
         $instance->setId($expected);
         $actual = $instance->getId();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -73,11 +67,9 @@ class assAnswerOrderingTest extends assBaseTestCase
         $instance = new ilAssOrderingElement();
         $expected = 13579;
 
-        // Act
         $instance->setIndentation($expected);
         $actual = $instance->getIndentation();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

@@ -56,9 +56,8 @@ class assFileUploadGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assFileUploadGUI();
 
-        $this->assertInstanceOf('assFileUploadGUI', $instance);
+        $this->assertInstanceOf(assFileUploadGUI::class, $instance);
     }
 }

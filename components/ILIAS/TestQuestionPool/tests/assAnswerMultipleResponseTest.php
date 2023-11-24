@@ -29,17 +29,14 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function test_instantiateObjectSimple(): void
     {
-        // Act
         $instance = new ASS_AnswerMultipleResponse();
 
-        // Assert
-        $this->assertInstanceOf('ASS_AnswerMultipleResponse', $instance);
+        $this->assertInstanceOf(ASS_AnswerMultipleResponse::class, $instance);
     }
 
     public function test_setGetPointsUnchecked(): void
@@ -47,11 +44,9 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
         $instance = new ASS_AnswerMultipleResponse();
         $expected = 1;
 
-        // Act
         $instance->setPointsUnchecked($expected);
         $actual = $instance->getPointsUnchecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -60,11 +55,9 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
         $instance = new ASS_AnswerMultipleResponse();
         $expected = 0;
 
-        // Act
         $instance->setPointsUnchecked('Günther');
         $actual = $instance->getPointsUnchecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -73,11 +66,9 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
         $instance = new ASS_AnswerMultipleResponse();
         $expected = 2;
 
-        // Act
         $instance->setPointsChecked($expected);
         $actual = $instance->getPointsChecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

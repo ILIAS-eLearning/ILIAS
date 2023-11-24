@@ -52,9 +52,8 @@ class assMatchingQuestionTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assMatchingQuestion();
 
-        $this->assertInstanceOf('assMatchingQuestion', $instance);
+        $this->assertInstanceOf(assMatchingQuestion::class, $instance);
     }
 }

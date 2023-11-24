@@ -29,15 +29,13 @@ class ilAssQuestionHintTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new ilAssQuestionHint();
 
-        $this->assertInstanceOf('ilAssQuestionHint', $instance);
+        $this->assertInstanceOf(ilAssQuestionHint::class, $instance);
     }
 }

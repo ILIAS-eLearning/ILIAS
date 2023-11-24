@@ -52,9 +52,8 @@ class assImagemapQuestionTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assImagemapQuestion();
 
-        $this->assertInstanceOf('assImagemapQuestion', $instance);
+        $this->assertInstanceOf(assImagemapQuestion::class, $instance);
     }
 }

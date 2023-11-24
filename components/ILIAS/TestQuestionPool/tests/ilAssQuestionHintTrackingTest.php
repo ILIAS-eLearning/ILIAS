@@ -29,15 +29,13 @@ class ilAssQuestionHintTrackingTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new ilAssQuestionHintTracking(null, null, null);
 
-        $this->assertInstanceOf('ilAssQuestionHintTracking', $instance);
+        $this->assertInstanceOf(ilAssQuestionHintTracking::class, $instance);
     }
 }

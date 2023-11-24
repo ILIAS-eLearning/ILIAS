@@ -48,9 +48,8 @@ class assNumericGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assNumericGUI();
 
-        $this->assertInstanceOf('assNumericGUI', $instance);
+        $this->assertInstanceOf(assNumericGUI::class, $instance);
     }
 }

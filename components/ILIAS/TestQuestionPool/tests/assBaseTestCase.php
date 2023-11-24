@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\DefaultRenderer;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;
@@ -134,7 +135,7 @@ abstract class assBaseTestCase extends TestCase
 
     protected function getIliasMock()
     {
-        $mock = $this->getMockBuilder(\ILIAS::class)->disableOriginalConstructor()->getMock();
+        $mock = $this->getMockBuilder(ILIAS::class)->disableOriginalConstructor()->getMock();
 
         $account = new stdClass();
         $account->id = 6;
@@ -147,11 +148,11 @@ abstract class assBaseTestCase extends TestCase
 
     protected function addGlobal_uiFactory(): void
     {
-        $this->setGlobalVariable("ui.factory", $this->createMock(Factory::class));
+        $this->setGlobalVariable('ui.factory', $this->createMock(Factory::class));
     }
 
     protected function addGlobal_uiRenderer(): void
     {
-        $this->setGlobalVariable("ui.renderer", $this->createMock(ILIAS\UI\Implementation\DefaultRenderer::class));
+        $this->setGlobalVariable('ui.renderer', $this->createMock(DefaultRenderer::class));
     }
 }

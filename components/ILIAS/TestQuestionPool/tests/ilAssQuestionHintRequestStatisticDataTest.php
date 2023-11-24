@@ -29,15 +29,13 @@ class ilAssQuestionHintRequestStatisticDataTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new ilAssQuestionHintRequestStatisticData();
 
-        $this->assertInstanceOf('ilAssQuestionHintRequestStatisticData', $instance);
+        $this->assertInstanceOf(ilAssQuestionHintRequestStatisticData::class, $instance);
     }
 }

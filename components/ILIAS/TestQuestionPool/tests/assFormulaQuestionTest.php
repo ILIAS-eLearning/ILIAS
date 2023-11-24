@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\Container;
+
 /**
 * Unit tests
 *
@@ -26,7 +28,7 @@
 class assFormulaQuestionTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
-    protected $backup_dic;
+    protected Container $backup_dic;
 
     protected function setUp(): void
     {
@@ -59,26 +61,20 @@ class assFormulaQuestionTest extends assBaseTestCase
         assFormulaQuestionResult $result,
         array $variables,
         array $results,
-        $userResult,
-        $userResultUnit,
-        $expectedResult
+        string $userResult,
+        ?assFormulaQuestionUnit $userResultUnit,
+        bool $expectedResult
     ): void {
         $isCorrect = $result->isCorrect($variables, $results, $userResult, $userResultUnit);
         $this->assertEquals($expectedResult, $isCorrect);
     }
 
-    /**
-     *
-     */
     public function simpleRatedCalculationsData(): array
     {
         global $DIC;
 
         $this->backup_dic = $DIC;
-        $DIC = new ILIAS\DI\Container([
-            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
-                          ->getMock()
-        ]);
+        $DIC = new ILIAS\DI\Container(['tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock()]);
         $points = 5;
         $precision = 2;
 
@@ -90,7 +86,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             'unit' => 'Meter',
             'factor' => 1,
             'baseunit_fi' => -1,
-            'baseunit_title' => ''
+            'baseunit_title' => '',
         ]);
 
         $centimeter = new assFormulaQuestionUnit();
@@ -101,7 +97,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             'unit' => 'Centimeter',
             'factor' => 0.01,
             'baseunit_fi' => 1,
-            'baseunit_title' => 'Meter'
+            'baseunit_title' => 'Meter',
         ]);
 
         $newtonmetre = new assFormulaQuestionUnit();
@@ -112,7 +108,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             'unit' => 'Newton Metre',
             'factor' => 1,
             'baseunit_fi' => -1,
-            'baseunit_title' => ''
+            'baseunit_title' => '',
         ]);
 
         $newtoncentimeter = new assFormulaQuestionUnit();
@@ -123,7 +119,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             'unit' => 'Newton Centimeter',
             'factor' => 0.01,
             'baseunit_fi' => 3,
-            'baseunit_title' => 'Newton Metre'
+            'baseunit_title' => 'Newton Metre',
         ]);
 
         $v1 = new assFormulaQuestionVariable('$v1', 1, 20, $newtonmetre, 1);
@@ -153,7 +149,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_DEC
+            assFormulaQuestionResult::RESULT_DEC,
         );
         $r2 = new assFormulaQuestionResult(
             '$r2',
@@ -168,7 +164,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_DEC
+            assFormulaQuestionResult::RESULT_DEC,
         );
         $r3 = new assFormulaQuestionResult(
             '$r3',
@@ -183,7 +179,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_DEC
+            assFormulaQuestionResult::RESULT_DEC,
         );
         $r4 = new assFormulaQuestionResult(
             '$r4',
@@ -198,7 +194,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_DEC
+            assFormulaQuestionResult::RESULT_DEC,
         );
         $r5 = new assFormulaQuestionResult(
             '$r5',
@@ -213,7 +209,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_DEC
+            assFormulaQuestionResult::RESULT_DEC,
         );
         $r6 = new assFormulaQuestionResult(
             '$r6',
@@ -228,7 +224,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_DEC
+            assFormulaQuestionResult::RESULT_DEC,
         );
 
         // RESULT_FRAC
@@ -298,7 +294,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_CO_FRAC
+            assFormulaQuestionResult::RESULT_CO_FRAC,
         );
 
         $r10 = new assFormulaQuestionResult(
@@ -314,7 +310,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_CO_FRAC
+            assFormulaQuestionResult::RESULT_CO_FRAC,
         );
 
         // RESULT_NO_SELECTION
@@ -335,7 +331,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_NO_SELECTION
+            assFormulaQuestionResult::RESULT_NO_SELECTION,
         );
 
         $v15 = new assFormulaQuestionVariable('$v15', 200, 800, null, 0);
@@ -360,7 +356,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_NO_SELECTION
+            assFormulaQuestionResult::RESULT_NO_SELECTION,
         );
         $r13 = new assFormulaQuestionResult(
             '$r12',
@@ -375,7 +371,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_NO_SELECTION
+            assFormulaQuestionResult::RESULT_NO_SELECTION,
         );
         $r14 = new assFormulaQuestionResult(
             '$r11',
@@ -390,7 +386,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             34,
             33,
-            assFormulaQuestionResult::RESULT_NO_SELECTION
+            assFormulaQuestionResult::RESULT_NO_SELECTION,
         );
 
         $variables = [

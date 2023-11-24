@@ -26,16 +26,13 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     /**
      * @var array
      */
-    protected $storage = array();
+    protected array $storage = [];
 
-    /**
-     *
-     */
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->storage = array();
+        $this->storage = [];
     }
 
     /**
@@ -47,7 +44,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
      */
     public function testSkillAssignmentsCanBetStoredAndFetchedBySerializationStrategy($value, $chunkSize, callable $preCallback, callable $postCallback): void
     {
-        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();
+        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(['set', 'get', 'delete'])->getMock();
 
         $settingsMock->expects($this->any())->method('set')->will(
             $this->returnCallback(function ($key, $value) {
@@ -71,7 +68,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
 
         $valueToTest = $preCallback($value);
 
-        $registry = new \ilAssQuestionSkillAssignmentRegistry($settingsMock);
+        $registry = new ilAssQuestionSkillAssignmentRegistry($settingsMock);
         $registry->setChunkSize($chunkSize);
         $registry->setStringifiedImports(self::TEST_KEY, $valueToTest);
         $actual = $registry->getStringifiedImports(self::TEST_KEY);
@@ -85,20 +82,20 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
      */
     public function testInvalidChunkSizeWillRaiseException(): void
     {
-        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();
+        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(['set', 'get', 'delete'])->getMock();
 
         try {
-            $registry = new \ilAssQuestionSkillAssignmentRegistry($settingsMock);
-            $registry->setChunkSize("a");
-            $this->fail("Failed asserting that exception of type \"InvalidArgumentException\" is thrown.");
-        } catch (\InvalidArgumentException $e) {
+            $registry = new ilAssQuestionSkillAssignmentRegistry($settingsMock);
+            $registry->setChunkSize('a');
+            $this->fail('Failed asserting that exception of type "InvalidArgumentException" is thrown.');
+        } catch (InvalidArgumentException $e) {
         }
 
         try {
-            $registry = new \ilAssQuestionSkillAssignmentRegistry($settingsMock);
+            $registry = new ilAssQuestionSkillAssignmentRegistry($settingsMock);
             $registry->setChunkSize(-5);
-            $this->fail("Failed asserting that exception of type \"InvalidArgumentException\" is thrown.");
-        } catch (\InvalidArgumentException $e) {
+            $this->fail('Failed asserting that exception of type "InvalidArgumentException" is thrown.');
+        } catch (InvalidArgumentException $e) {
         }
     }
 
@@ -111,14 +108,14 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     {
         $data = [];
 
-        $assignmentList = new \ilAssQuestionSkillAssignmentImportList();
+        $assignmentList = new ilAssQuestionSkillAssignmentImportList();
 
         for ($i = 0; $i < 5; $i++) {
-            $assignment = new \ilAssQuestionSkillAssignmentImport();
+            $assignment = new ilAssQuestionSkillAssignmentImport();
             $assignment->setEvalMode(\ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION);
             $assignment->setImportSkillTitle('phpunit' . $i);
             $assignment->setImportSkillPath('phpunit' . $i);
-            $random = new \ilRandom();
+            $random = new ilRandom();
             $assignment->setSkillPoints($random->int(0, PHP_INT_MAX));
             $assignment->setImportQuestionId($random->int(0, PHP_INT_MAX));
             $assignment->setImportSkillBaseId($random->int(0, PHP_INT_MAX));
@@ -127,17 +124,15 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
             $assignmentList->addAssignment($assignment);
         }
 
-        $rawData = array(
-            array("This is a Test", 2),
-            array(array("üäöÖÜÄÖß"), 2),
-            array("This is a Test with a huge chunk size", 10000),
-            array($assignmentList, 7)
-        );
+        $rawData = [
+            ['This is a Test', 2],
+            [['üäöÖÜÄÖß'], 2],
+            ['This is a Test with a huge chunk size', 10000],
+            [$assignmentList, 7],
+        ];
 
         foreach ($rawData as $rawItem) {
-            $data[] = array(
-                $rawItem[0], $rawItem[1], $pre, $post
-            );
+            $data[] = [$rawItem[0], $rawItem[1], $pre, $post];
         }
 
         return $data;
@@ -149,11 +144,11 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     public function serializedData(): array
     {
         $pre = function ($value) {
-            return \serialize($value);
+            return serialize($value);
         };
 
         $post = function ($value) {
-            return \unserialize($value);
+            return unserialize($value);
         };
 
         return $this->getTestData($pre, $post);

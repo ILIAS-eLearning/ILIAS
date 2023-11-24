@@ -52,9 +52,8 @@ class assNumericTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assNumeric();
 
-        $this->assertInstanceOf('assNumeric', $instance);
+        $this->assertInstanceOf(assNumeric::class, $instance);
     }
 }

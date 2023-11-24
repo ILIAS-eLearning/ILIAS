@@ -56,9 +56,8 @@ class assMultipleChoiceGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assMultipleChoiceGUI();
 
-        $this->assertInstanceOf('assMultipleChoiceGUI', $instance);
+        $this->assertInstanceOf(assMultipleChoiceGUI::class, $instance);
     }
 }

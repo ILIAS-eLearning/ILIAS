@@ -29,8 +29,7 @@ class assTextSubsetTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
 
         parent::setUp();
 
@@ -39,8 +38,8 @@ class assTextSubsetTest extends assBaseTestCase
         $ilCtrl_mock->expects($this->any())->method('saveParameterByClass');
         $this->setGlobalVariable('ilCtrl', $ilCtrl_mock);
 
-        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
-        //$lng_mock->expects( $this->once() )->method( 'txt' )->will( $this->returnValue('Test') );
+        $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
+        //$lng_mock->expects($this->once())->method('txt')->will($this->returnValue('Test'));
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());
@@ -50,9 +49,8 @@ class assTextSubsetTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assTextSubset();
 
-        $this->assertInstanceOf('assTextSubset', $instance);
+        $this->assertInstanceOf(assTextSubset::class, $instance);
     }
 }

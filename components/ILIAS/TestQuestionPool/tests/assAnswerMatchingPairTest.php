@@ -29,8 +29,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function testAnswerMatchingPairInstantiation(): void
@@ -38,7 +37,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         $term = new assAnswerMatchingTerm('test');
         $definition = new assAnswerMatchingDefinition('testing');
         $instance = new assAnswerMatchingPair($term, $definition, 0.0);
-        $this->assertInstanceOf('assAnswerMatchingPair', $instance);
+        $this->assertInstanceOf(assAnswerMatchingPair::class, $instance);
     }
 
     public function testAnswerMatchingPairMutation(): void

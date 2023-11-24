@@ -32,9 +32,6 @@ use ILIAS\TA\Questions\assSuggestedSolutionLink;
 */
 class assQuestionSuggestedSolutionRepoMock extends assQuestionSuggestedSolutionsDatabaseRepository
 {
-    public function __construct()
-    {
-    }
     public function getSolution(
         int $id,
         int $question_id,
@@ -43,7 +40,7 @@ class assQuestionSuggestedSolutionRepoMock extends assQuestionSuggestedSolutions
         int $subquestion_index,
         string $type,
         string $value,
-        \DateTimeImmutable $last_update
+        DateTimeImmutable $last_update
     ): assQuestionSuggestedSolution {
         return $this->buildSuggestedSolution(
             $id,
@@ -79,10 +76,10 @@ class assQuestionSuggestedSolutionTest extends TestCase
             'name' => 'something.jpg',
             'type' => 'image/jpeg',
             'size' => 120,
-            'filename' => 'actually title of file'
+            'filename' => 'actually title of file',
         ];
 
-        $last_update = new \DateTimeImmutable();
+        $last_update = new DateTimeImmutable();
 
         $sugsol = $this->repo->getSolution(
             $id,
@@ -92,7 +89,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
             $subquestion_index,
             $type,
             serialize($values),
-            $last_update
+            $last_update,
         );
         $this->assertInstanceOf(assQuestionSuggestedSolution::class, $sugsol);
         $this->assertInstanceOf(assSuggestedSolutionFile::class, $sugsol);
@@ -118,7 +115,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
             'name' => 'somethingelse.ico',
             'type' => 'image/x-icon',
             'size' => 11,
-            'filename' => ''
+            'filename' => '',
         ];
 
         $sugsol = $sugsol

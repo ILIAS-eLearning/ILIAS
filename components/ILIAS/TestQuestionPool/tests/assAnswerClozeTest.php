@@ -29,29 +29,24 @@ class assAnswerClozeTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
     }
 
     public function test_constructorShouldReturnInstance(): void
     {
-        // Act
         $instance = new assAnswerCloze();
 
-        // Assert
-        $this->assertNotNull($instance);
+        $this->assertInstanceOf(assAnswerCloze::class, $instance);
     }
 
     public function test_setGetLowerBound(): void
     {
         $instance = new assAnswerCloze('2');
 
-        // Act
         $expected = '1';
         $instance->setLowerBound($expected);
         $actual = $instance->getLowerBound();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -59,12 +54,10 @@ class assAnswerClozeTest extends assBaseTestCase
     {
         $instance = new assAnswerCloze('2');
 
-        // Act
         $expected = '2';
         $instance->setLowerBound(4);
         $actual = $instance->getLowerBound();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -72,12 +65,10 @@ class assAnswerClozeTest extends assBaseTestCase
     {
         $instance = new assAnswerCloze('3');
 
-        // Act
         $expected = '3';
         $instance->setLowerBound('test');
         $actual = $instance->getLowerBound();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -85,12 +76,10 @@ class assAnswerClozeTest extends assBaseTestCase
     {
         $instance = new assAnswerCloze('1');
 
-        // Act
         $expected = '3';
         $instance->setUpperBound($expected);
         $actual = $instance->getUpperBound();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -98,12 +87,10 @@ class assAnswerClozeTest extends assBaseTestCase
     {
         $instance = new assAnswerCloze('4');
 
-        // Act
         $expected = '4';
         $instance->setUpperBound(2);
         $actual = $instance->getUpperBound();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -111,12 +98,10 @@ class assAnswerClozeTest extends assBaseTestCase
     {
         $instance = new assAnswerCloze('4');
 
-        // Act
         $expected = '4';
         $instance->setUpperBound('test');
         $actual = $instance->getUpperBound();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

@@ -54,9 +54,8 @@ class assTextSubsetGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assTextSubsetGUI();
 
-        $this->assertInstanceOf('assTextSubsetGUI', $instance);
+        $this->assertInstanceOf(assTextSubsetGUI::class, $instance);
     }
 }

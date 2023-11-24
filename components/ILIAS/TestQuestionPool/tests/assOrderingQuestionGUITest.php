@@ -54,9 +54,8 @@ class assOrderingQuestionGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assOrderingQuestionGUI();
 
-        $this->assertInstanceOf('assOrderingQuestionGUI', $instance);
+        $this->assertInstanceOf(assOrderingQuestionGUI::class, $instance);
     }
 }

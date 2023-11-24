@@ -29,8 +29,7 @@ class assErrorTextTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '../../../../');
 
         parent::setUp();
 
@@ -50,11 +49,9 @@ class assErrorTextTest extends assBaseTestCase
 
     public function test_instantiateObjectSimple(): void
     {
-        // Act
         $instance = new assErrorText();
 
-        // Assert
-        $this->assertInstanceOf('assErrorText', $instance);
+        $this->assertInstanceOf(assErrorText::class, $instance);
     }
 
     public function test_getErrorsFromText(): void
@@ -72,7 +69,7 @@ class assErrorTextTest extends assBaseTestCase
             new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0, 6),
             new assAnswerErrorText('drei gleichlaute', '', 0.0, 13),
             new assAnswerErrorText('Supermarkt', '', 0.0, 23),
-            new assAnswerErrorText('konsequentes Handeln.', '', 0.0, 40)
+            new assAnswerErrorText('konsequentes Handeln.', '', 0.0, 40),
         ];
 
         $instance->setErrorText($errortext);
@@ -126,13 +123,13 @@ class assErrorTextTest extends assBaseTestCase
             new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0, 6),
             new assAnswerErrorText('drei gleichlaute', '', 0.0, 13),
             new assAnswerErrorText('Supermarkt', '', 0.0, 23),
-            new assAnswerErrorText('konsequentes Handeln.', '', 0.0, 40)
+            new assAnswerErrorText('konsequentes Handeln.', '', 0.0, 40),
         ];
         $new_errordata = [
             new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0, 2),
             new assAnswerErrorText('drei gleichlaute', '', 0.0, 3),
             new assAnswerErrorText('Supermarkt', '', 0.0, 11),
-            new assAnswerErrorText('konsequentes Handeln.', '', 0.0, 32)
+            new assAnswerErrorText('konsequentes Handeln.', '', 0.0, 32),
         ];
 
         $instance->setErrorData($old_errordata);
@@ -156,7 +153,7 @@ class assErrorTextTest extends assBaseTestCase
                     'error_type' => 'passage_start',
                     'error_position' => 1,
                     'text_correct' => '',
-                    'points' => 1
+                    'points' => 1,
                 ],
                 ['text' => '2', 'error_type' => 'none'],
                 [
@@ -165,8 +162,8 @@ class assErrorTextTest extends assBaseTestCase
                     'error_type' => 'word',
                     'error_position' => 3,
                     'text_correct' => '',
-                    'points' => 1
-                ]
+                    'points' => 1,
+                ],
             ]
         ];
 
@@ -174,11 +171,11 @@ class assErrorTextTest extends assBaseTestCase
             new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0),
             new assAnswerErrorText('drei gleichlaute', '', 0.0),
             new assAnswerErrorText('Supermarkt', '', 0.0),
-            new assAnswerErrorText('konsequentes Handeln.', '', )
+            new assAnswerErrorText('konsequentes Handeln.', '', ),
         ];
         $expected = [
             new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0, 1),
-            new assAnswerErrorText('Supermarkt', '', 0.0, 3)
+            new assAnswerErrorText('Supermarkt', '', 0.0, 3),
         ];
 
         $instance->setParsedErrorText($parsed_errortext);
