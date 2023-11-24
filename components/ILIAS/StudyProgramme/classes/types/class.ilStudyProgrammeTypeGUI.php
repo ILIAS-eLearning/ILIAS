@@ -156,19 +156,39 @@ class ilStudyProgrammeTypeGUI
 
     protected function editCustomIcons(): void
     {
-        $form = new ilStudyProgrammeTypeCustomIconsFormGUI(
-            $this,
-            $this->type_repository,
-            $this->ctrl,
-            $this->tpl,
-            $this->lng,
-            $this->user,
-            $this->web_dir
+
+        /*
+                $form = new ilStudyProgrammeTypeCustomIconsFormGUI(
+                    $this,
+                    $this->type_repository,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->lng,
+                    $this->user,
+                    $this->web_dir
+                );
+                $form->fillForm($this->type_repository->getType(
+                    $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int())
+                ));
+                $this->tpl->setContent($form->getHTML());
+        */
+
+        $input = $this->ui_factory->input()->field()->file(
+            new ilStudyProgrammeTypeUploadHandlerGUI(),
+            $this->lng->txt('icon'),
+            $this->lng->txt('file_allowed_suffixes') . ' .svg'
         );
-        $form->fillForm($this->type_repository->getType(
-            $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int())
-        ));
-        $this->tpl->setContent($form->getHTML());
+        $section = $this->ui_factory->input()->field()->section(
+            [$input],
+            $this->lng->txt('prg_type_custom_icon'),
+            $this->lng->txt('prg_type_custom_icon_info')
+        );
+        $form = $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this),
+            [$section]
+        );
+
+        $this->tpl->setContent($this->renderer->render($form));
     }
 
     protected function updateCustomIcons(): void
