@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input;
 
@@ -59,5 +59,10 @@ class PostDataFromServerRequest implements InputData
         }
 
         return $this->parsed_body[$name];
+    }
+
+    public function has($name): bool
+    {
+        return array_key_exists($name, $this->parsed_body);
     }
 }

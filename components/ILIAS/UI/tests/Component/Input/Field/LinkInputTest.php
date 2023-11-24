@@ -114,6 +114,11 @@ class LinkInputTest extends ILIAS_UI_TestBase
             {
                 return "";
             }
+            public function has($name): bool
+            {
+                return true;
+            }
+
         });
         $result = $input->getContent();
 

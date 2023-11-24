@@ -91,8 +91,8 @@ class Renderer extends AbstractComponentRenderer
                 fn($id) => "$(document).on('{$internal_signal}', 
                     function(event, signal_data) {
                         var container = event.target.closest('.il-viewcontrol-fieldselection'),
-                            checked = container.querySelectorAll('input[type=checkbox]:checked'),
-                            value = Object.values(checked).map(o => o.value),
+                            checkbox = container.querySelectorAll('input[type=checkbox]'),
+                            value = Object.values(checkbox).map(o => o.checked ? o.value : ''),
                             value_container = container.querySelector('.il-viewcontrol-value');
 
                         value_container.innerHTML = '';
@@ -252,7 +252,7 @@ class Renderer extends AbstractComponentRenderer
         $limit_options = $component->getLimitOptions();
         $total_count = $component->getTotalCount();
 
-        list($offset, $limit) = array_map('intval', $component->getValue());
+        list(Pagination::FNAME_OFFSET => $offset, Pagination::FNAME_LIMIT => $limit) = array_map('intval', $component->getValue());
         $limit = $limit > 0 ? $limit : reset($limit_options);
 
         if (! $total_count) {

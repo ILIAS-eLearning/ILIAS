@@ -110,6 +110,11 @@ class DefInputData implements InputData
 
         return $this->values[$name];
     }
+
+    public function has($name): bool
+    {
+        return array_key_exists($name, $this->values);
+    }
 }
 
 /**
