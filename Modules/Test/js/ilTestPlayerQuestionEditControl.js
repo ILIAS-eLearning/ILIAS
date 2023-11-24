@@ -248,7 +248,7 @@ il.TestPlayerQuestionEditControl = new function() {
         }
 
         // activate the autosave function if required
-        if (config.autosaveUrl != '' && config.autosaveInterval > 0) {
+        if (config.autosaveUrl !== '' && config.autosaveInterval > 0) {
             autoSaver = window.setInterval(autoSave, config.autosaveInterval);
         }
 
@@ -675,7 +675,7 @@ il.TestPlayerQuestionEditControl = new function() {
         }
 
         // force a copy of edited richtext to its textarea
-        if (typeof tinyMCE != 'undefined') {
+        if (typeof tinyMCE !== 'undefined') {
             tinyMCE.triggerSave();
         }
 
@@ -722,12 +722,16 @@ il.TestPlayerQuestionEditControl = new function() {
      * @param jqXHR
      */
     function autoSaveFailure(jqXHR) {
+      let responseText = 'Autosafe Timeout'
+      if (typeof jqXHR.responseText !== 'undefined') {
+        responseText = jqXHR.responseText ;
+      }
 
-        $('#autosavemessage').text(jqXHR.responseText)
-            .fadeIn(500, function(){
-                $('#autosavemessage').fadeOut(5000)
-        });
-        autoSavedData = '';
+      $('#autosavemessage').text(responseText)
+        .fadeIn(500, function(){
+            $('#autosavemessage').fadeOut(5000);
+      });
+      autoSavedData = '';
     }
 };
 
