@@ -790,7 +790,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     ) . ".pdf");
                 }
             }
-            $zipArchive = $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
+            try {
+                $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
+            } catch(\ILIAS\Filesystem\Exception\IOException $e) {
+                $this->tpl->setOnScreenMessage('error', $this->lng->txt('error_creating_certificate_zip_empty'), true);
+                $this->ctrl->redirect($this, 'outEvaluation');
+            }
         }
     }
 
