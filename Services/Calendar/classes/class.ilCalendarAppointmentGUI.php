@@ -519,7 +519,11 @@ class ilCalendarAppointmentGUI
             }
         } else {
             $this->form->setValuesByPost();
-            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
+            if ($this->error->getMessage() !== '') {
+                $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
+            } else {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+            }
             $this->add($this->form);
             return;
         }
