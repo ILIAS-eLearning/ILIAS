@@ -24,6 +24,7 @@ declare(strict_types=1);
 class ilUserCertificateZip
 {
     private readonly string $typeInFileName;
+    private bool $files_added_to_archive = false;
 
     public function __construct(
         private readonly int $objectId,
@@ -71,10 +72,18 @@ class ilUserCertificateZip
         $fh = fopen($dir . $filename, 'wb');
         fwrite($fh, $pdfdata);
         fclose($fh);
+        $this->files_added_to_archive = true;
     }
 
+    /**
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
     public function zipCertificatesInArchiveDirectory(string $dir, bool $deliver = true): string
     {
+        if (!$this->files_added_to_archive) {
+            throw new \ILIAS\Filesystem\Exception\IOException('No files added to archive directory');
+        }
+
         $zipFile = time() . '__' . $this->installionId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';
         $zipFilePath = $this->webDirectory . $this->certificatePath . $zipFile;
 
