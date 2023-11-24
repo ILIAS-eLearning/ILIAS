@@ -1528,6 +1528,9 @@ class ilInitialisation
         );
 
         if ($replace_super_globals) {
+            if(ilContext::getType() == ilContext::CONTEXT_SOAP_NO_AUTH){
+                return;
+            }
             $throwOnValueAssignment = defined('DEVMODE') && DEVMODE;
 
             $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET, $throwOnValueAssignment);
