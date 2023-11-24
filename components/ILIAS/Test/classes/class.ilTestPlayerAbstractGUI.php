@@ -556,12 +556,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         if (!is_countable($_POST) || count($_POST) === 0) {
             echo '';
-            return;
+            exit;
         }
 
         if (!$this->canSaveResult() || $this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
             echo '-IGNORE-';
-            return;
+            exit;
         }
 
         // answer is changed from authorized solution, so save the change as intermediate solution
@@ -578,10 +578,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($res) {
             echo $this->lng->txt("autosave_success");
-            return;
+            exit;
         }
 
         echo $this->lng->txt("autosave_failed");
+        exit;
     }
 
     /**
@@ -2416,47 +2417,32 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         return ilSession::get(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
     }
 
-    // fau: testNav - new function populateQuestionEditControl
-    /**
-     * Populate the navigation and saving control for editable questions
-     *
-     * @param assQuestionGUI 	$questionGUI
-     */
-    protected function populateQuestionEditControl($questionGUI)
+    protected function populateQuestionEditControl(assQuestionGUI $question_gui): void
     {
         // configuration for ilTestPlayerQuestionEditControl.js
         $config = [];
-
-        // set the initial state of the question
-        $state = $questionGUI->object->lookupForExistingSolutions($this->test_session->getActiveId(), $this->test_session->getPass());
+        $state = $question_gui->object->lookupForExistingSolutions($this->test_session->getActiveId(), $this->test_session->getPass());
         $config['isAnswered'] = $state['authorized'];
         $config['isAnswerChanged'] = $state['intermediate'] || $this->getAnswerChangedParameter();
-
-        // set  url to which the for should be submitted when the working time is over
-        // don't use asynch url because the form is submitted directly
-        // but use simple '&' because url is copied by javascript into the form action
         $config['saveOnTimeReachedUrl'] = str_replace('&amp;', '&', $this->ctrl->getFormAction($this, ilTestPlayerCommands::AUTO_SAVE_ON_TIME_LIMIT));
 
-        // enable the auto saving function
-        // the autosave url is asynch because it will be used by an ajax request
-        if ($questionGUI instanceof ilAssQuestionAutosaveable && $this->object->getAutosave()) {
+        $config['autosaveUrl'] = '';
+        $config['autosaveInterval'] = 0;
+        if ($question_gui->object instanceof ilAssQuestionAutosaveable && $this->object->getAutosave()) {
             $config['autosaveUrl'] = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', true);
             $config['autosaveInterval'] = $this->object->getMainSettings()->getQuestionBehaviourSettings()->getAutosaveInterval();
-        } else {
-            $config['autosaveUrl'] = '';
-            $config['autosaveInterval'] = 0;
         }
 
-        /** @var  ilTestQuestionConfig $questionConfig */
+        /** @var ilTestQuestionConfig $questionConfig */
         // hey: prevPassSolutions - refactored method identifiers
-        $questionConfig = $questionGUI->object->getTestPresentationConfig();
+        $question_config = $question_gui->object->getTestPresentationConfig();
         // hey.
 
         // Normal questions: changes are done in form fields an can be detected there
-        $config['withFormChangeDetection'] = $questionConfig->isFormChangeDetectionEnabled();
+        $config['withFormChangeDetection'] = $question_config->isFormChangeDetectionEnabled();
 
         // Flash and Java questions: changes are directly sent to ilias and have to be polled from there
-        $config['withBackgroundChangeDetection'] = $questionConfig->isBackgroundChangeDetectionEnabled();
+        $config['withBackgroundChangeDetection'] = $question_config->isBackgroundChangeDetectionEnabled();
         $config['backgroundDetectorUrl'] = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::DETECT_CHANGES, '', true);
 
         // Forced feedback will change the navigation saving command
