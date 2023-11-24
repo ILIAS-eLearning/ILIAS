@@ -113,7 +113,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     private ilComponentFactory $component_factory;
     private Filesystem $filesystem_web;
 
-    protected ilTestParticipantList $access_filtered_participant_list;
+    protected ?ilTestParticipantList $access_filtered_participant_list = null;
 
     /**
      * Constructor
