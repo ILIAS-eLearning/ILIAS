@@ -682,7 +682,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function uploadQplObject($questions_only = false)
     {
         $this->ctrl->setParameter($this, 'new_type', $this->qplrequest->raw('new_type'));
-        if ($_FILES['xmldoc']['error'] > UPLOAD_ERR_OK) {
+        if (!isset($_FILES['xmldoc']) || !isset($_FILES['xmldoc']['error']) || $_FILES['xmldoc']['error'] > UPLOAD_ERR_OK) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_upload'), true);
             if (!$questions_only) {
                 $this->ctrl->redirect($this, 'create');
@@ -782,7 +782,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'tpl.qpl_import_verification.html',
             'Modules/TestQuestionPool'
         );
-        $table = new ilQuestionPoolImportVerificationTableGUI($this, 'uploadQplObject');
+        $table = new ilQuestionPoolImportVerificationTableGUI($this, 'uploadQpl');
         $rows = [];
 
         foreach ($founditems as $item) {
