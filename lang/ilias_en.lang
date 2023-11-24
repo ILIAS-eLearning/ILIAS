@@ -8318,6 +8318,7 @@ dateplaner#:#cal_grp_others#:#Others
 dateplaner#:#cal_grp_personal#:#Personal
 dateplaner#:#cal_ical_infoscreen#:#Subscribe
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL (Google Calendar)
 dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar
 dateplaner#:#cal_import_appointments#:#Import Appointments
 dateplaner#:#cal_import_file#:#Import File
