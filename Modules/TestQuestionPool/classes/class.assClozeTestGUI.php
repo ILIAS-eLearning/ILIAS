@@ -460,7 +460,7 @@ JS;
         // text rating
         if (!$this->object->getSelfAssessmentEditingMode()) {
             $textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "textgap_rating");
-            $text_options = array(
+            $text_options = [
                 "ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
                 "cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
                 "l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
@@ -468,7 +468,7 @@ JS;
                 "l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
                 "l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
                 "l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
-            );
+            ];
             $textrating->setOptions($text_options);
             $textrating->setValue($this->object->getTextgapRating());
             $form->addItem($textrating);
@@ -537,7 +537,7 @@ JS;
         if ($gap == null) {
             return $array;
         }
-        $translate_type = array('text','select','numeric');
+        $translate_type = ['text','select','numeric'];
         $i = 0;
         foreach ($gap as $content) {
             $shuffle = false;
@@ -545,31 +545,31 @@ JS;
             $items = [];
             for ($j = 0, $jMax = count($value); $j < $jMax; $j++) {
                 if ($content->isNumericGap()) {
-                    $items[$j] = array(
+                    $items[$j] = [
                         'answer' => $value[$j]->getAnswerText(),
                         'lower' => $value[$j]->getLowerBound(),
                         'upper' => $value[$j]->getUpperBound(),
                         'points' => $value[$j]->getPoints(),
                         'error' => false
-                    );
+                    ];
                 } else {
-                    $items[$j] = array(
+                    $items[$j] = [
                         'answer' => $this->escapeTemplatePlaceholders($value[$j]->getAnswerText()),
                         'points' => $value[$j]->getPoints(),
                         'error' => false
-                    );
+                    ];
 
                     if ($content->isSelectGap()) {
                         $shuffle = $content->getShuffle();
                     }
                 }
             }
-            $answers[$i] = array(
+            $answers[$i] = [
             'type' => $translate_type[$content->getType()] ,
             'values' => $items ,
             'shuffle' => $shuffle,
             'text_field_length' => $content->getGapSize() > 0 ? $content->getGapSize() : '',
-            'used_in_gap_combination' => true);
+            'used_in_gap_combination' => true];
             $i++;
         }
         return $answers;
@@ -602,11 +602,11 @@ JS;
         $form->addItem($gapcounter);
 
         $gaptype = new ilSelectInputGUI($this->lng->txt('type'), "clozetype_$gapCounter");
-        $options = array(
+        $options = [
             0 => $this->lng->txt("text_gap"),
             1 => $this->lng->txt("select_gap"),
             2 => $this->lng->txt("numeric_gap")
-        );
+        ];
         $gaptype->setOptions($options);
         $gaptype->setValue($gap->getType());
         $form->addItem($gaptype);
@@ -1547,9 +1547,9 @@ JS;
             if (!isset($answers[$row['value2']])) {
                 $label = $this->getAnswerTextLabel($row['value1'], $row['value2']);
 
-                $answers[$row['value2']] = array(
+                $answers[$row['value2']] = [
                     'answer' => $label, 'frequency' => 0
-                );
+                ];
             }
 
             $answers[$row['value2']]['frequency']++;
@@ -1583,9 +1583,9 @@ JS;
             }
 
             if (!isset($combinations[$c['cid']][$c['row_id']])) {
-                $combinations[$c['cid']][$c['row_id']] = array(
+                $combinations[$c['cid']][$c['row_id']] = [
                     'gaps' => [], 'points' => $c['points'],
-                );
+                ];
             }
 
             if (!isset($combinations[$c['cid']][$c['row_id']]['gaps'][$c['gap_fi']])) {
@@ -1740,7 +1740,7 @@ JS;
     {
         // please dont ask (!) -.-
 
-        $combinationPoints = array('points' => [], 'select' => []);
+        $combinationPoints = ['points' => [], 'select' => []];
         $combinationValues = [];
 
         foreach ($this->getGapCombinations() as $combiId => $combi) {
