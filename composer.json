@@ -285,6 +285,16 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "2023-12-22"
 		},
+		"phpstan/phpstan" : {
+			"source" : "https://github.com/phpstan/phpstan",
+			"used_version" : "v1.10",
+			"wrapped_by" : "",
+			"added_by" : "mjansen <mjansen@databay.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
 		"patches": {
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "./vendor/composer/patches/phpmailer.patch"
@@ -299,6 +309,7 @@
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
-		"phpunit/phpunit": "^10.5"
+		"phpunit/phpunit": "^10.5",
+		"phpstan/phpstan": "^1.10"
 	}
 }
