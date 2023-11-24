@@ -2311,7 +2311,8 @@ abstract class assQuestion
 
     public function isAnswered(int $active_id, int $pass): bool
     {
-        return true;
+        $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
+        return $numExistingSolutionRecords > 0;
     }
 
     public static function isObligationPossible(int $questionId): bool

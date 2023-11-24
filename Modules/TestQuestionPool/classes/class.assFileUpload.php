@@ -1116,13 +1116,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $this;
     }
 
-    public function isAnswered(int $active_id, int $pass): bool
-    {
-        $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
-
-        return $numExistingSolutionRecords > 0;
-    }
-
     public static function isObligationPossible(int $questionId): bool
     {
         return true;
