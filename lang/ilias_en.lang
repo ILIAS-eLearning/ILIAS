@@ -11168,50 +11168,50 @@ mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
 mail#:#mail_absence_auto_responder_body#:#Message
-mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically created message. You will not receive this kind of message until [NEXT_AUTO_RESPONDER_DATETIME].
-mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified of your absence every %1$s days if they send further messages.
-mail#:#mail_absence_auto_responder_body_info_single_day#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified again of your absence the next day if they send further messages.
+mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically generated message. If you send further messages to this user during their absence, you will not receive another automatic reply until [NEXT_AUTO_RESPONDER_DATETIME].
+mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified of your absence every %1$s days if they send further messages.
+mail#:#mail_absence_auto_responder_body_info_single_day#:#This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified again of your absence the next day if they send further messages.
 mail#:#mail_absence_auto_responder_subject#:#Subject
 mail#:#mail_absence_duration#:#Duration
 mail#:#mail_absence_status#:#Enable Autoresponder
-mail#:#mail_absence_status_info#:#Activation of the automatic sending of an out of office message
+mail#:#mail_absence_status_info#:#Activate an automatic out-of-office message.
 mail#:#mail_absent_from#:#Absent from
 mail#:#mail_absent_until#:#Absent until
 mail#:#mail_account_mail#:#Notify New Account Holders
-mail#:#mail_add_folder#:#Add New Sub-folder
-mail#:#mail_add_recipient#:#Please enter a recipient
-mail#:#mail_add_subfolder#:#Add Sub-folder
-mail#:#mail_add_subject#:#Please enter a subject
+mail#:#mail_add_folder#:#Add New Sub-Folder
+mail#:#mail_add_recipient#:#Please enter a recipient in the form of a valid e-mail address or ILIAS username.
+mail#:#mail_add_subfolder#:#Add Sub-Folder
+mail#:#mail_add_subject#:#Please enter a subject.
 mail#:#mail_allow_external#:#External E-Mails
-mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
-mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List "%s"
+mail#:#mail_allow_external_info#:#Allow the delivery of external e-mails (via-SMTP). Unchecking this box will prevent external mails being sent globally across this installation.
+mail#:#mail_assign_entry_to_mailing_list#:##Add One of Your Contacts to the Mailing List
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 mail#:#mail_auto_responder#:#Autoresponder
-mail#:#mail_auto_responder_idle_time#:#Sending again
-mail#:#mail_auto_responder_idle_time_info#:#Specify here how many days should elapse between resending an out-of-office note to the same sender.
+mail#:#mail_auto_responder_idle_time#:#Resend
+mail#:#mail_auto_responder_idle_time_info#:#Specify here how many days should elapse before your out-of-office reply is resent to a mail correspondent who has sent you further mails.
 mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Subject: %s
 mail#:#mail_bg_task_title#:#E-mail Delivery
 mail#:#mail_both_email#:#Both E-Mail Addresses
 mail#:#mail_cc#:#CC
 mail#:#mail_change_to_folder#:#Switch to folder: %s
-mail#:#mail_create_tpl#:#Create Text Templates
-mail#:#mail_cronjob_notification_info#:#Activation of regular notifications about new mails.
+mail#:#mail_create_tpl#:#Create Text Template
+mail#:#mail_cronjob_notification_info#:#Allow ILIAS to periodically send you notifications about new e-mails.
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
-mail#:#mail_deleted#:#The mail is deleted
-mail#:#mail_deleted_entry#:#The entries are deleted
-mail#:#mail_download_zip_no_attachments#:#Could not find any attachments.
-mail#:#mail_edit_tpl#:#Edit Text Templates
-mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.
-mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
-mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.
-mail#:#mail_email_usr_subject#:#Test E-Mail User Mail
+mail#:#mail_deleted#:#Mail(s) deleted.
+mail#:#mail_deleted_entry#:#Entries deleted.
+mail#:#mail_download_zip_no_attachments#:#No attachments could be found.
+mail#:#mail_edit_tpl#:#Edit Text Template
+mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to external mail accounts.
+mail#:#mail_email_sys_subject#:#Test E-Mail: System Mail
+mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to external mail accounts.
+mail#:#mail_email_usr_subject#:#Test E-Mail: User Mail
 mail#:#mail_empty_trash#:#Empty Trash
-mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
+mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in the Trash folder?
 mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
 mail#:#mail_enable_crs_member_notification#:#Notify Course Members
