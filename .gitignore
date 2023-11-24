@@ -39,7 +39,7 @@
 /components/ILIAS/UICore/artifacts/ctrl_security.php
 /components/ILIAS/Component/artifacts/*
 /components/ILIAS/EventHandling/artifacts/*
-/components/ILIAS/Object/artifacts/*
+/components/ILIAS/ILIASObject/artifacts/*
 /components/ILIAS/LegalDocuments/artifacts/*
 /components/ILIAS/FileDelivery/src/artifacts/*
 

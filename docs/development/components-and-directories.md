@@ -134,7 +134,7 @@ A components folder also contains this substructure:
 * `/src` for the code to be used for production
 * `/tests` for code that performs automated tests
 * `/resources` for auxiliary files like icons, endpoints
-* a `$COMPONENT.php` (e.g. AccessControl.php) that defines the binding of the
+* a `Component.php` that defines the binding of the
   component to the rest of the system
 * a `component.json` that contains component metadata, such as contact of
   maintainers
@@ -212,8 +212,8 @@ define the integration.
 
 The integrations are defined by implementing the interface `\ILIAS\Core\Component`
 for the class that has the same qualified name as the component it ought to describe.
-The component `Vendor\SomeComponent` should have file `SomeComponent.php` in its
-folder, containing a class `Vendor\SomeComponent`. The interface `\ILIAS\Core\Component`
+The component `Vendor\SomeComponent` should have file `Component.php` in its folder,
+containing a class `Vendor\SomeComponent`. The interface `\ILIAS\Core\Component`
 defines one method `init`, that describes the integration with other components:
 
 ```php
