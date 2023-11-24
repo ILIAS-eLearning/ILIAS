@@ -144,9 +144,6 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
         require_once("./components/ILIAS/TestQuestionPool/tests/ilAssQuestionHintTest.php");
         $suite->addTestSuite("ilAssQuestionHintTest");
 
-        require_once("./components/ILIAS/TestQuestionPool/tests/ilAssQuestionHintAbstractTest.php");
-        $suite->addTestSuite("ilAssQuestionHintAbstractTest");
-
         require_once("./components/ILIAS/TestQuestionPool/tests/ilAssQuestionHintListTest.php");
         $suite->addTestSuite("ilAssQuestionHintListTest");
 
@@ -190,9 +187,6 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
 
         require_once("./components/ILIAS/TestQuestionPool/tests/assAnswerMultipleResponseImageTest.php");
         $suite->addTestSuite("assAnswerMultipleResponseImageTest");
-
-        require_once("./components/ILIAS/TestQuestionPool/tests/assAnswerOrderingTest.php");
-        $suite->addTestSuite("assAnswerOrderingTest");
 
         require_once("./components/ILIAS/TestQuestionPool/tests/assAnswerSimpleTest.php");
         $suite->addTestSuite("assAnswerSimpleTest");

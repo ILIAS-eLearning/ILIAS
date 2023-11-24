@@ -23,7 +23,7 @@
 *
 * @ingroup components\ILIASTestQuestionPool
 */
-class assAnswerOrderingTest extends assBaseTestCase
+class assOrderingElementTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
