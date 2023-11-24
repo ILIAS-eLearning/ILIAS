@@ -51,6 +51,10 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
 
+        if($this->user->getLogin() == "") {
+            return;
+        }
+        
         $this->ctrl = $ilCtrl;
         $this->ui = $DIC->ui();
         $this->help_request = new StandardGUIRequest(
