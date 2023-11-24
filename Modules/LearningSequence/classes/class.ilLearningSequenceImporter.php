@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilLearningSequenceImporter extends ilXmlImporter
 {
@@ -47,13 +47,27 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->data = $parser->start();
 
         $a_mapping->addMapping("Modules/LearningSequence", "lso", $a_id, (string) $this->obj->getId());
+        $a_mapping->addMapping('Services/COPage', 'pg', 'cont:' . $a_id * ilObjLearningSequence::CP_INTRO, 'cont:' . (string) $this->obj->getId() * ilObjLearningSequence::CP_INTRO);
+        $a_mapping->addMapping('Services/COPage', 'pg', 'cont:' . $a_id * ilObjLearningSequence::CP_EXTRO, 'cont:' . (string) $this->obj->getId() * ilObjLearningSequence::CP_EXTRO);
+
     }
 
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
         $this->buildSettings($this->data["settings"]);
-
         $this->obj->update();
+
+        // pages
+        $page_map = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
+        foreach ($page_map as $old_pg_id => $new_pg_id) {
+            $parts = explode(':', $old_pg_id);
+            $pg_type = $parts[0];
+            $old_obj_id = $parts[1];
+            $parts = explode(':', $new_pg_id);
+            $new_pg_id = array_pop($parts);
+            $new_obj_id = $this->obj->getId();
+            ilPageObject::_writeParentId($pg_type, (int) $new_pg_id, (int) $new_obj_id);
+        }
     }
 
     public function afterContainerImportProcessing(ilImportMapping $mapping): void
@@ -79,59 +93,39 @@ class ilLearningSequenceImporter extends ilXmlImporter
 
     protected function buildLSItems(array $ls_data, ilImportMapping $mapping): void
     {
-        $ls_items = array();
+        $mapped = [];
         foreach ($ls_data as $data) {
-            $old_ref_id = $data["id"];
+            $old_ref_id = $data["ref_id"];
             $new_ref_id = $mapping->getMapping("Services/Container", "refs", $old_ref_id);
-
-            $post_condition = new ilLSPostCondition(
-                (int) $new_ref_id,
-                $data["ls_item_pc_condition_type"],
-                $data["ls_item_pc_value"]
-            );
-
-            $ls_items[] = new LSItem(
-                $data["ls_item_type"] ?? "",
-                $data["ls_item_title"] ?? "",
-                $data["ls_item_description"] ?? "",
-                $data["ls_item_icon_path"] ?? "",
-                (bool) $data["ls_item_is_online"],
-                (int) $data["ls_item_order_number"],
-                $post_condition,
-                (int) $new_ref_id
-            );
+            $mapped[$new_ref_id] = $data;
         }
 
-        $this->obj->storeLSItems($ls_items);
+        $ls_items = $this->obj->getLSItems($this->obj->getRefId());
+        $updated = [];
+        foreach ($ls_items as $item) {
+            $item_ref_id = $item->getRefId();
+            if(array_key_exists($item_ref_id, $mapped)) {
+                $item_data = $mapped[$item_ref_id];
+                $post_condition = new ilLSPostCondition(
+                    $item_ref_id,
+                    $item_data["condition_type"],
+                    $item_data["condition_value"]
+                );
+                $updated[] = $item->withPostCondition($post_condition);
+            }
+        }
+
+        if($updated) {
+            $this->obj->storeLSItems($updated);
+        }
     }
 
     protected function buildSettings(array $ls_settings): void
     {
         $settings = $this->obj->getLSSettings();
         $settings = $settings
-            ->withAbstract($ls_settings["abstract"])
-            ->withExtro($ls_settings["extro"])
-            ->withMembersGallery((bool) $ls_settings["members_gallery"])
+            ->withMembersGallery($ls_settings["members_gallery"] === 'true' ? true : false)
         ;
-
-        if ($ls_settings["abstract_img"] != "") {
-            $path = $this->getNewImagePath(ilLearningSequenceFilesystem::IMG_ABSTRACT, $ls_settings['abstract_img']);
-            $abstract_img_data = $this->decodeImageData($ls_settings["abstract_img_data"]);
-            $this->writeToFileSystem($abstract_img_data, $path);
-            $settings = $settings
-                ->withAbstractImage($path)
-            ;
-        }
-
-        if ($ls_settings["extro_img"] != "") {
-            $path = $this->getNewImagePath(ilLearningSequenceFilesystem::IMG_EXTRO, $ls_settings['extro_img']);
-            $extro_img_data = $this->decodeImageData($ls_settings["extro_img_data"]);
-            $this->writeToFileSystem($extro_img_data, $path);
-            $settings = $settings
-                ->withExtroImage($path)
-            ;
-        }
-
         $this->obj->updateSettings($settings);
     }
 

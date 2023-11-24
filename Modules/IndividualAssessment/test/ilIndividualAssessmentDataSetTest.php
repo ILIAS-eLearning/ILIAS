@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -47,7 +47,7 @@ class ilIndividualAssessmentDataSetTest extends TestCase
 
     public function test_getSupportedVersions(): void
     {
-        $expected = ['5.2.0', '5.3.0'];
+        $expected = ['5.2.0', '5.3.0', '9.0.0'];
 
         $obj = new ilIndividualAssessmentDataSetWrapper();
         $result = $obj->getSupportedVersions();

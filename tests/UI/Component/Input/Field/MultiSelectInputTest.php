@@ -100,6 +100,9 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             public function get($_): void
             {
             }
+            public function has($name): bool
+            {
+            }
         });
         $ms->getContent();
     }

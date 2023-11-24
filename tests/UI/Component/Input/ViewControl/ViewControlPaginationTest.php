@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
 require_once('ViewControlBaseTest.php');
 
@@ -70,7 +71,6 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $vc = $this->buildVCFactory()->pagination();
         $this->assertEquals($o, $vc->withLimitOptions($o)->getLimitOptions($o));
     }
-
 
     public static function providePaginationInput(): array
     {
@@ -132,11 +132,15 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         int $page_size,
         array $expected
     ): void {
+        $v = [
+            Pagination::FNAME_OFFSET => $offset,
+            Pagination::FNAME_LIMIT => $page_size
+        ];
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
             ->will(
-                $this->onConsecutiveCalls($offset, $page_size)
+                $this->onConsecutiveCalls($v[Pagination::FNAME_OFFSET], $v[Pagination::FNAME_LIMIT])
             );
 
         $vc = $this->buildVCFactory()->pagination()
@@ -148,7 +152,11 @@ class ViewControlPaginationTest extends ViewControlBaseTest
             $df->ok($df->range(...$expected)),
             $vc->getContent()
         );
-        $this->assertEquals([$offset, $page_size], $vc->getValue());
+
+        $this->assertEquals(
+            [Pagination::FNAME_OFFSET => $offset, Pagination::FNAME_LIMIT => $page_size],
+            $vc->getValue()
+        );
     }
 
     public function testViewControlPaginationRendering(): void
@@ -157,7 +165,7 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $vc = $this->buildVCFactory()->pagination()
             ->withLimitOptions([2, 5, 10])
             ->withTotalCount(42)
-            ->withValue([12,2])
+            ->withValue([Pagination::FNAME_OFFSET => 12, Pagination::FNAME_LIMIT => 2])
             ->withOnChange((new SignalGenerator())->create());
 
         $expected = $this->brutallyTrimHTML('
