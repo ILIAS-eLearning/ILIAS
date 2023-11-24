@@ -33,7 +33,7 @@ class shibUser extends ilObjUser
         $ext_id = $shibUser->shibServerData->getLogin();
         $shibUser->setExternalAccount($ext_id);
         $existing_usr_id = self::getUsrIdByExtId($ext_id);
-        if ($existing_usr_id) {
+        if ($existing_usr_id !== null) {
             $shibUser->setId($existing_usr_id);
             $shibUser->read();
         }
@@ -156,12 +156,12 @@ class shibUser extends ilObjUser
 
     protected function returnNewLoginName(): ?string
     {
-        $login = substr(self::cleanName($this->getFirstname()), 0, 1) . '.' . self::cleanName($this->getLastname());
+        $login = substr($this->cleanName($this->getFirstname()), 0, 1) . '.' . self::cleanName($this->getLastname());
         //remove whitespaces see mantis 0023123: https://www.ilias.de/mantis/view.php?id=23123
         $login = preg_replace('/\s+/', '', $login);
         $appendix = null;
         $login_tmp = $login;
-        while (self::loginExists($login, $this->getId())) {
+        while ($this->loginExists($login, $this->getId())) {
             $login = $login_tmp . $appendix;
             $appendix++;
         }
@@ -174,16 +174,18 @@ class shibUser extends ilObjUser
         return $this->getId() === 0;
     }
 
-    protected static function cleanName(string $name): string
+    protected function cleanName(string $name): string
     {
-        return strtolower(strtr(
-            utf8_decode($name),
-            utf8_decode('ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ'),
-            'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy'
-        ));
+        return strtolower(
+            strtr(
+                $name,
+                'ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ',
+                'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy'
+            )
+        );
     }
 
-    private static function loginExists(string $login, int $usr_id): bool
+    private function loginExists(string $login, int $usr_id): bool
     {
         global $DIC;
 
@@ -195,11 +197,7 @@ class shibUser extends ilObjUser
         return $ilDB->numRows($ilDB->query($query)) > 0;
     }
 
-    /**
-     * @param $ext_id
-     * @return false|int
-     */
-    protected static function getUsrIdByExtId(string $ext_id)
+    protected static function getUsrIdByExtId(string $ext_id): ?int
     {
         global $DIC;
 
@@ -208,11 +206,11 @@ class shibUser extends ilObjUser
         $query = 'SELECT usr_id FROM usr_data WHERE ext_account = ' . $ilDB->quote($ext_id, 'text');
         $a_set = $ilDB->query($query);
         if ($ilDB->numRows($a_set) === 0) {
-            return false;
+            return null;
         }
 
         $usr = $ilDB->fetchObject($a_set);
 
-        return (int) $usr->usr_id;
+        return isset($usr->usr_id) ? (int) $usr->usr_id : null;
     }
 }
