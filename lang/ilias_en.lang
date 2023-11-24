@@ -77,7 +77,7 @@ adm#:#adm_accessibility_contacts#:#Contact Point for Accessibility Issues
 adm#:#adm_accessibility_contacts_info#:#Contacts for the ‘Report Accessibility Issue’ link in your installation’s footer. Comma-separated list of account usernames (logins).
 adm#:#adm_awrn_support_contacts_info#:#All users assigned as contacts for technical support are listed. Users can be assigned to the list of technical support contacts in the administration section 'System Settings and Maintenance » General Settings', tab 'Contact Information'.
 adm#:#adm_support_contacts#:#Technical Support
-adm#:#adm_support_contacts_info#:#Technical support contacts accessible via link in footer and (if activated) in the ‘Who is online?’ Tool. Comma-separated list of account usernames (logins).
+adm#:#adm_support_contacts_info#:#Please enter the login names of the people who can be contacted with questions and technical problems here, separated by commas. They can be contacted by e-mail via the "Contact technical support" link in the ILIAS footer. If the "Who is online?" display is active, these people will also be displayed there as technical support.
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_activate_db_benchmark#:#Activate Benchmarking
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
@@ -614,6 +614,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and use the dropdown ‘Text Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value, the gap text field will be created with the value of the global fixed length.
@@ -621,9 +622,6 @@ assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
 assessment#:#cloze_textgap_case_sensitive#:#Case Sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
@@ -644,7 +642,7 @@ assessment#:#create_new#:#Create New
 assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.
 assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.
 assessment#:#customstyle#:#Custom Style
-assessment#:#dashboard_tab#:#Dashboard
+assessment#:#dashboard_tab#:#Participants
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
@@ -1123,8 +1121,8 @@ assessment#:#question_marking#:#Flagging Questions
 assessment#:#question_marking_description#:#Participants are given the option to flag test questions for themselves. The flags are shown in the ‘List of Questions’, if that feature it has been activated.
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
-assessment#:#question_summary#:#Dashboard
-assessment#:#question_summary_btn#:#Dashboard
+assessment#:#question_summary#:#Test Attempt Overview
+assessment#:#question_summary_btn#:#Test Attempt Overview
 assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
@@ -1550,10 +1548,11 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create New Grade Category
-assessment#:#tst_mark_create_simple_mark_schema#:#Reset to Simple Pass/Fail Grading System
 assessment#:#tst_mark_minimum_level#:#Minimum Score Required (in %)
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Reset to Simple Mark Schema
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.
 assessment#:#tst_mark_short_form#:#Short Form
 assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
 assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
@@ -2462,6 +2461,7 @@ blog#:#blog_settings#:#Blog Administration
 blog#:#blog_settings_navigation#:#Navigation Column
 blog#:#blog_show_latest#:#Show latest postings/drafts
 blog#:#blog_show_print_view#:#Show Print View
+blog#:#blog_starting_page#:#Starting Page
 blog#:#blog_style#:#Blog Style
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"
 blog#:#blog_toggle_draft#:#Withdraw Publication
@@ -3979,6 +3979,7 @@ common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_check_input#:#The settings could not be saved. Please check your input.
 common#:#err_count_param#:#Reason: Wrong parameter count
+common#:#err_double_entries#:#Reason: Duplicate Entries
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
 common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account.
@@ -4281,7 +4282,7 @@ common#:#icon_settings#:#Custom Icons
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to use file name as title.
-common#:#ignore_on_conflict#:#Ignore on conflict
+common#:#ignore_on_conflict#:#Insert/Update action will be followed strictly
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
 common#:#il_astpl_loc_initial#:#Initial Test
@@ -4344,7 +4345,7 @@ common#:#info_available_roles#:#Available Roles
 common#:#info_change_user_view#:#Change User
 common#:#info_deactivate_sure#:#Are you sure that you want to deactivate the following user(s)?
 common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
-common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)
+common#:#info_delete_warning_no_trash#:#(WARNING: The selected object(s) will be irretrievably deleted from the system. The recovery of any such deleted objects will not be possible).
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists
 common#:#info_from_role#:#Granted by Role / Ownership
@@ -4409,7 +4410,7 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uninstall_changes#:#Uninstall Local Changes
 common#:#lang_uninstall_changes_confirm#:#Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?
-common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages?
+common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages? This also means that all local changes to the respective languages are irretrievably lost if they have not been saved or exported beforehand.
 common#:#langfile_found#:#Language file found
 common#:#language#:#Language
 common#:#language_not_installed#:#is not installed. Please install that language first
@@ -5135,6 +5136,7 @@ common#:#objs_rtst#:#ECS Tests
 common#:#objs_rwik#:#ECS Wikis
 common#:#objs_sahs#:#SCORM Learning Modules
 common#:#objs_sess#:#Sessions
+common#:#objs_skee#:#Competence Trees
 common#:#objs_spl#:#Question Pools Survey
 common#:#objs_st#:#Chapters
 common#:#objs_svy#:#Surveys
@@ -5746,7 +5748,6 @@ common#:#udf_delete_sure#:#Are you sure you want to delete this field and all as
 common#:#udf_duplicate_entries#:#The values have to be unique.
 common#:#udf_field_deleted#:#Deleted field.
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data‘, it must also be ‘Changeable in Profile’
 common#:#udf_required_requires_visib_reg#:#When a field is ‘Required’, it must also be ‘Visible in Registration’
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
@@ -5775,7 +5776,7 @@ common#:#up#:#Up
 common#:#update#:#Edit
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
-common#:#update_on_conflict#:#Update on conflict
+common#:#update_on_conflict#:#Insert/Update action will be detected automatically
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#upload#:#Upload
@@ -5865,7 +5866,7 @@ common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
 common#:#usrimport_cant_delete#:#Can't perform ‘Delete’ action. No such user in database.
 common#:#usrimport_cant_insert#:#Can't perform ‘Insert’ action. User is already in database.
 common#:#usrimport_cant_update#:#Can't perform ‘Update’ action. No such user in database.
-common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there is already a user with the same login in the database.) When ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
+common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there already is a user with the same login in the database.) When ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
 common#:#usrimport_form_not_evaluabe#:#The form data couldn't be read.
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
@@ -5874,6 +5875,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Can't perform ‘Insert’ act
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform ‘Update’ action. External account already exists.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.
 common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.
 common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.
@@ -7262,6 +7264,7 @@ copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
@@ -8202,6 +8205,7 @@ dateplaner#:#cal_edit_category#:#Edit Calendar
 dateplaner#:#cal_edit_milestone#:#Edit Milestone
 dateplaner#:#cal_edit_recurrences#:#Edit all Appointments
 dateplaner#:#cal_edit_single#:#Edit this Appointment
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?
 dateplaner#:#cal_enable_group_milestones#:#Enable Milestones
 dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.
 dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid e-mail addresses.
@@ -9009,6 +9013,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s
 etal#:#notification_talks_subject_update#:#Update: %s
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Add Talks
 etal#:#tals_new#:#New Talks
@@ -9492,20 +9497,9 @@ file#:#file_download#:#Download File
 file#:#file_import#:#Import File
 file#:#file_new_version#:#Create New Version
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
-file#:#file_suffix_default_white#:#Default Suffix Whitelist
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version uploaded by
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
-file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#migrated#:#Status
 file#:#msg_unzip_success#:#Archive has been successfully unziped.
 file#:#replace_file_info#:#All previous file versions will be deleted.
@@ -9926,6 +9920,7 @@ grp#:#grp_members#:#Members
 grp#:#grp_members_deleted#:#Selected members were successfully removed from group.
 grp#:#grp_members_map#:#Group Members Map
 grp#:#grp_members_print_title#:#Group Members
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
 grp#:#grp_new_status#:#Your new status is:
@@ -10349,9 +10344,13 @@ link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module
+lm#:#lm_edit_chapters#:#Edit Chapters
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings
 lm#:#lm_est_reading_time#:#Estimated Reading Time
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
+lm#:#lm_page_added#:#Page has been added.
 lm#:#lm_page_type_lm#:#LM Page
+lm#:#lm_pages_added#:#Pages have been added.
 lm#:#lm_save_titles#:#Titles saved.
 lng#:#language_detection#:#Language Detection
 lng#:#lng_disable_language_detection#:#Disable Language Detection
@@ -10448,6 +10447,7 @@ lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.
 lso#:#lso_new_status#:#Your new status is:
 lso#:#lso_notification#:#Notification
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.
@@ -10624,7 +10624,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Description
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers
@@ -10742,6 +10745,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format
 lti#:#online_info#:#This makes the object visible and usable for the users.
 lti#:#prefix#:#Prefix
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.
 lti#:#provider_info#:#Used Provider resp. Tool
 lti#:#settings_subtab#:#Settings
 lti#:#show_statements#:#Display Learning Experiences
@@ -10986,6 +10990,7 @@ mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external e-mails 
 mail#:#mail_smtp_user#:#User
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails. It is recommended the usage of a prefix for supporting message filtering by users.
+mail#:#mail_subject_too_long#:#The subject is too long.
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?
@@ -11319,9 +11324,15 @@ meta#:#md_advanced#:#Custom Metadata
 meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add New Copyright
+meta#:#md_copyright_alt_text#:#Text Representation
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute
 meta#:#md_copyright_edit#:#Edit Copyright
 meta#:#md_copyright_enable_info#:#Add a copyright section to the LOM Metadata of Objects, including a selection of selectable predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
+meta#:#md_copyright_full_name#:#Full Name
+meta#:#md_copyright_image_link#:#Image URL
+meta#:#md_copyright_link#:#URL
+meta#:#md_copyright_link_info#:#Link to the licence
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Available Copyrights
 meta#:#md_copyright_settings#:#Copyright Settings
@@ -11952,6 +11963,7 @@ mme#:#move_to_top_item#:#Move to Top Items
 mme#:#msg_languages_added#:#Added languages
 mme#:#msg_moved#:#Item successfully moved
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.
 mme#:#msg_restored#:#Main Menu completely reset
 mme#:#msg_subitem_deleted#:#Item deleted.
@@ -12230,6 +12242,7 @@ obj#:#obj_activation#:#Activation
 obj#:#obj_activation_list_gui#:#Availability
 obj#:#obj_add_languages#:#Add Languages
 obj#:#obj_additional_langs#:#Additional Languages
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 obj#:#obj_copy_progress#:#Copy Progress
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
@@ -13103,7 +13116,7 @@ pwassist#:#pwassist_enter_username_and_email#:#Enter a username and the associat
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the username and the new password in the fields below.
 pwassist#:#pwassist_login_not_match#:#Please enter another username. The username you have entered does not match the username for which you had asked for password assistance.
 pwassist#:#pwassist_mail_body#:#Register a new password for your user account: %1$s<br><br>This message has been generated automatically by the ILIAS server %2$s<br><br>You (or someone at %3$s) has asked for password assistance for the user account "%4$s". Please check carefully the conditions listed below and proceed accordingly:<br><br>• If you have used the password assistance form on the ILIAS server by accident: Delete this mail.<br><br>• If you are certain, that you never asked for password assistance at this ILIAS server: Please contact %5$s.<br><br>• If you asked for password assistance, please proceed as follows:<br>1. Open your browser.<br>2. Enter the following address in your browser: %6$s<br>Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.<br>3. On the web page shown by your browser, enter a new password for your user account.<br><br>Please note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
-pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s. Please check your mail box.
+pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s, if a user account with the entered username and email address could be found. Please check your mail box for further instructions.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
@@ -13548,10 +13561,10 @@ rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
 rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
-rbac#:#manage_comp#:#User can edit Competences
-rbac#:#manage_comp_temp#:#User can edit Competence Templates
+rbac#:#manage_comp#:#Edit Competences
+rbac#:#manage_comp_temp#:#Edit Competence Templates
 rbac#:#manage_materials#:#Manage Materials
-rbac#:#manage_profiles#:#User can edit Competence Profiles
+rbac#:#manage_profiles#:#Edit Competence Profiles
 rbac#:#mcst_copy#:#User can copy mediacast
 rbac#:#mcst_delete#:#User can move or delete mediacast
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
@@ -13744,6 +13757,7 @@ rbac#:#rbac_create_role#:#Create new Role
 rbac#:#rbac_create_rolt#:#Create new Role Template
 rbac#:#rbac_create_sahs#:#Create SCORM Learning Module
 rbac#:#rbac_create_sess#:#Create Session
+rbac#:#rbac_create_skee#:#Create Competence Tree
 rbac#:#rbac_create_spl#:#Create Question Pool Survey
 rbac#:#rbac_create_svy#:#Create Survey
 rbac#:#rbac_create_tst#:#Create Test
@@ -13836,10 +13850,10 @@ rbac#:#rcrs_edit_permission#:#User can change permission settings
 rbac#:#rcrs_read#:#User can use ECS Course
 rbac#:#rcrs_visible#:#ECS Course is visible
 rbac#:#rcrs_write#:#User can edit settings of ECS Course
-rbac#:#read_comp#:#User has read access to Competences and Competence Templates
+rbac#:#read_comp#:#Read Competences
 rbac#:#read_learning_progress#:#View learning progress of other users
 rbac#:#read_outcomes#:#View learning experiences of other users
-rbac#:#read_profiles#:#User has read access to Competence Profiles
+rbac#:#read_profiles#:#Read Profiles
 rbac#:#read_results#:#Survey Results
 rbac#:#read_users#:#Read Access to User Accounts
 rbac#:#recf_edit_permission#:#User can change permission settings of Restored Objects administration
@@ -13919,6 +13933,17 @@ rbac#:#sess_read#:#User has read access to sessions
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
 rbac#:#sess_visible#:#Sessions are visible
 rbac#:#sess_write#:#User can edit session content and settings
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)
+rbac#:#skee_delete#:#User can delete Competence Tree
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree
+rbac#:#skee_read#:#User has read access to administration of Competence Tree
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree
+rbac#:#skee_visible#:#Competence Tree is visible
+rbac#:#skee_write#:#User can edit settings of Competence Tree
 rbac#:#skmg_edit_permission#:#User can change permission settings of Competence Management administration
 rbac#:#skmg_read#:#User has read access to administration of Competence Management
 rbac#:#skmg_visible#:#Competence Management administration is visible
@@ -14835,6 +14860,7 @@ skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following us
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Local
+skmg#:#skmg_count_references#:#Number of referenced competences:
 skmg#:#skmg_create_sctp#:#Create Template Category
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_create_skill_template#:#Create Competence Template
@@ -16046,6 +16072,7 @@ survey#:#svy_mail_send_confirmation#:#Send Participation Confirmation
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 survey#:#svy_neutral_answer#:#Text for a Neutral Answer (‘Not Specified’, ‘I don't know’ etc.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
@@ -16127,7 +16154,7 @@ svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
 svy#:#svy_print_selection#:#Print View Selection
-svy#:#svy_remove_all_participants#:#Remove all Participants
+svy#:#svy_remove_all_participants#:#Delete all Participant Data
 svy#:#svy_remove_participants#:#Remove Participants
 svy#:#svy_selected_participants#:#Selected Participants
 svy#:#svy_selected_questions#:#Selected Questions
@@ -16620,6 +16647,7 @@ user#:#clipboard_remove_btn#:#Remove from Clipboard
 user#:#clipboard_table_title#:#Clipboard (User Accounts)
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.
 user#:#create_starting_point#:#Create Rule
 user#:#criteria#:#Criteria
 user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.
@@ -16627,6 +16655,7 @@ user#:#del_mail_subject#:#Your ILIAS account will be deleted soon
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.
 user#:#editing_this_role#:#Role
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#Allow local user accounts to be administrated in categories and organisational units.
 user#:#feedhash#:#Newsfeedhash
@@ -16719,7 +16748,7 @@ user#:#user_profile_info_std#:#Default User Profile Info
 user#:#user_profile_info_text_info#:#This text is presented on top of the form for entering personal data.
 user#:#user_profile_portfolio#:#If you would like to use a portfolio as your profile, go to the portfolio section and select ‘Set As My Profile’ from the drop-down menu to the right of the portfolio you wish to use.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
-user#:#user_profile_preview#:#Preview
+user#:#user_profile_preview#:#Preview of Profile
 user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
 user#:#user_prompt_incomplete#:#Only if profile is incomplete
 user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
@@ -16731,6 +16760,7 @@ user#:#user_prompting_recurrence#:#When and How Often a User is Prompted
 user#:#user_prompting_settings#:#Prompting Settings
 user#:#user_public_profile_info#:#Please select which personal data you would like to have visible in your profile and which users should be able to visit your profile.
 user#:#user_publish_options#:#Publish Profile
+user#:#user_role_selection#:#Role Selection
 user#:#user_role_starting_point#:#User - Starting Point
 user#:#user_save_continue#:#Save and Continue
 user#:#user_save_ordering_and_titles#:#Save Order and Titles

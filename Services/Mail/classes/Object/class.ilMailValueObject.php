@@ -33,8 +33,10 @@ class ilMailValueObject
     private bool $usePlaceholders;
     private bool $saveInSentBox;
     private string $from;
+
     /**
      * @param string[] $attachments
+     * @throws InvalidArgumentException
      */
     public function __construct(
         string $from,
@@ -47,6 +49,10 @@ class ilMailValueObject
         bool $usePlaceholders = false,
         bool $saveInSentBox = false
     ) {
+        if (ilStr::strLen($subject) > 255) {
+            throw new InvalidArgumentException('Subject must not be longer than 255 characters');
+        }
+
         $this->from = $from;
         $this->recipients = $recipients;
         $this->recipientsCC = $recipientsCC;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilLDAPPagedResult
@@ -35,7 +35,7 @@ class ilLDAPResult
      */
     private $result;
 
-    private ?array $rows;
+    private array $rows = [];
     private ?array $last_row;
 
     /**
@@ -114,7 +114,6 @@ class ilLDAPResult
     private function addEntriesToRows(array $entries): void
     {
         $num = $entries['count'];
-        $this->rows = [];
         if ($num === 0) {
             return;
         }

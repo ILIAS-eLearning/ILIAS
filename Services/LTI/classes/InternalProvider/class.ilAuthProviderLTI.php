@@ -224,7 +224,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                 $DIC->refinery()->kindlyTo()->string()
             )) {
             // TODO move to session-variable
-//            $_POST['launch_presentation_document_target'] = 'window';
+            //            $_POST['launch_presentation_document_target'] = 'window';
         }
 
         $this->dataConnector = new ilLTIDataConnector();
@@ -282,7 +282,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
 
         // store POST into Consumer Session
-//        $post = (array) $DIC->http()->wrapper()->post();
+        //        $post = (array) $DIC->http()->wrapper()->post();
         $post = [];
         if ($DIC->http()->wrapper()->post()->has('launch_presentation_return_url')) {
             $post['launch_presentation_return_url'] = $DIC->http()->wrapper()->post()->retrieve('launch_presentation_return_url', $DIC->refinery()->kindlyTo()->string());
@@ -371,14 +371,22 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     protected function updateUser(int $a_local_user_id, ilLTIPlatform $consumer): int
     {
         global $ilClientIniFile, $DIC;
-//        if (empty($this->messageParameters)) {
-//            $status->setReason('empty_lti_message_parameters');
-//            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-//            return false;
-//        }
+        //        if (empty($this->messageParameters)) {
+        //            $status->setReason('empty_lti_message_parameters');
+        //            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+        //            return false;
+        //        }
         $user_obj = new ilObjUser($a_local_user_id);
-        $user_obj->setFirstname($this->messageParameters['lis_person_name_given']);
-        $user_obj->setLastname($this->messageParameters['lis_person_name_family']);
+        if (isset($this->messageParameters['lis_person_name_given'])) {
+            $user_obj->setFirstname($this->messageParameters['lis_person_name_given']);
+        } else {
+            $user_obj->setFirstname('-');
+        }
+        if (isset($this->messageParameters['lis_person_name_family'])) {
+            $user_obj->setLastname($this->messageParameters['lis_person_name_family']);
+        } else {
+            $user_obj->setLastname('-');
+        }
         $user_obj->setEmail($this->messageParameters['lis_person_contact_email_primary']);
 
         $user_obj->setActive(true);
@@ -410,21 +418,29 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     protected function createUser(ilLTIPlatform $consumer): int
     {
         global $ilClientIniFile, $DIC;
-//        if (empty($this->messageParameters)) {
-//            $status->setReason('empty_lti_message_parameters');
-//            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-//            return false;
-//        }
+        //        if (empty($this->messageParameters)) {
+        //            $status->setReason('empty_lti_message_parameters');
+        //            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+        //            return false;
+        //        }
         $userObj = new ilObjUser();
         $local_user = ilAuthUtils::_generateLogin($consumer->getPrefix() . '_' . $this->getCredentials()->getUsername());
 
         $newUser["login"] = $local_user;
-        $newUser["firstname"] = $this->messageParameters['lis_person_name_given'];
-        $newUser["lastname"] = $this->messageParameters['lis_person_name_family'];
+        if(isset($this->messageParameters['lis_person_name_given'])) {
+            $newUser["firstname"] = $this->messageParameters['lis_person_name_given'];
+        } else {
+            $newUser["firstname"] = '-';
+        }
+        if(isset($this->messageParameters['lis_person_name_family'])) {
+            $newUser["lastname"] = $this->messageParameters['lis_person_name_family'];
+        } else {
+            $newUser["lastname"] = '-';
+        }
         $newUser['email'] = $this->messageParameters['lis_person_contact_email_primary'];
 
         // set "plain md5" password (= no valid password)
-//        $newUser["passwd"] = "";
+        //        $newUser["passwd"] = "";
         $newUser["passwd_type"] = ilObjUser::PASSWD_CRYPTED;
 
         $newUser["auth_mode"] = 'lti_' . $consumer->getExtConsumerId();
@@ -475,7 +491,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $newUser["time_limit_unlimited"] = 0;
         $newUser["time_limit_message"] = 0;
         $newUser["passwd"] = " ";
-//        $newUser["last_update"]
+        //        $newUser["last_update"]
 
         // system data
         $userObj->assignData($newUser);
@@ -489,14 +505,14 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $userObj->setTimeLimitOwner(7);
         $userObj->setTimeLimitUnlimited(false);
         $userObj->setTimeLimitFrom(time() - 5);
-//        todo ?
+        //        todo ?
         $userObj->setTimeLimitUntil(time() + (int) $ilClientIniFile->readVariable("session", "expire"));
 
         // Create user in DB
         $userObj->setOwner(6);
         $userObj->create();
         $userObj->setActive(true);
-//        $userObj->updateOwner();
+        //        $userObj->updateOwner();
         $userObj->setLastPasswordChangeTS(time());
         $userObj->saveAsNew();
         $userObj->writePrefs();
@@ -510,11 +526,11 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer): bool
     {
         global $DIC;
-//        if (empty($this->messageParameters)) {
-//            $status->setReason('empty_lti_message_parameters');
-//            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-//            return false;
-//        }
+        //        if (empty($this->messageParameters)) {
+        //            $status->setReason('empty_lti_message_parameters');
+        //            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+        //            return false;
+        //        }
         //$target_ref_id = $_SESSION['lti_current_context_id'];
         $target_ref_id = $this->ref_id;
         $this->getLogger()->info('$target_ref_id: ' . $target_ref_id);

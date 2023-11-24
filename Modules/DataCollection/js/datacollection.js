@@ -6,21 +6,6 @@
  */
 
 $(document).ready(function () {
-  /**
-   * Increment comments count after saving comment with ajax
-   * @param o Object
-   */
-  if (typeof ilNotes != 'undefined') {
-    ilNotes.callbackSuccess = function (o) {
-      if (o && o.argument.mode == 'cmd') {
-        var $elem = $('tr.dcl_comments_active .dcl_comment').find('.ilHActProp');
-        var count = parseInt($elem.text());
-        $elem.html(++count);
-      }
-    }
-  }
-
-
   var dcl = {};
 
   dcl.removeHighlightedRows = function () {

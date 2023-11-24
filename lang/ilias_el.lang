@@ -607,9 +607,6 @@ assessment#:#cloze_text#:#Κείμενο με κενά
 assessment#:#cloze_textgap_case_insensitive#:#Χωρίς ταίριασμα πεζών-κεφαλαίων
 assessment#:#cloze_textgap_case_sensitive#:#Με ταίριασμα πεζών-κεφαλαίων
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein απόσταση του %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#Κώδικας
 assessment#:#codebase#:#Κωδικοσελίδα
 assessment#:#concatenation#:#Συγχώνευση
@@ -919,6 +916,7 @@ assessment#:#new_category#:#New Unit Category###24 10 2013 new variable
 assessment#:#new_unit#:#New Unit###24 10 2013 new variable
 assessment#:#next_question#:#Επόμενο
 assessment#:#next_question_rows#:#Ερωτήσεις %d - %d από %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Πρέπει να ορίσετε τουλάχιστο ένα βαθμό σε ΠΡΟΒΙΒΑΣΤΗΚΕ! Το βαθμολογικό σχήμα δεν αποθηκεύθηκε.
 assessment#:#no_question_selected_for_move#:#Παρακαλώ επιλέξτε τουλάχιστο μια ερώτηση για να την μετακινήσετε!
 assessment#:#no_questions_available#:#Δεν υπάρχουν διαθέσιμες ερωτήσεις!
@@ -1535,10 +1533,10 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s###28 08 2012 
 assessment#:#tst_manscoring_user_notification#:#Send Notification###28 08 2012 new variable
 assessment#:#tst_mark#:#Βαθμός
 assessment#:#tst_mark_create_new_mark_step#:#Δημιουργία νέου βαθμολογικού βήματος
-assessment#:#tst_mark_create_simple_mark_schema#:#Δημιουργία απλού βαθμολογικού σχήματος
 assessment#:#tst_mark_minimum_level#:#Ελάχιστο επίπεδο (σε %)
 assessment#:#tst_mark_official_form#:#Επίσημη μορφή
 assessment#:#tst_mark_passed#:#Πέρασε
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Δημιουργία απλού βαθμολογικού σχήματος
 assessment#:#tst_mark_short_form#:#Σύντομη μορφή
 assessment#:#tst_max_allowed_users_heading#:#Έχετε φθάσει το μέγιστο αριθμό ταυτόχρονων χρηστών γι' αυτό το διαγώνισμα
 assessment#:#tst_max_allowed_users_message#:#Έχετε φθάσει το μέγιστο αριθμό ταυτόχρονων χρηστών γι' αυτό το διαγώνισμα. Παρακαλώ ξαναπροσπαθήστε αργότερα να ξεκινήσετε ή να συνεχίσετε το διαγώνισμα. Αν κάποιος από τους ενεργούς χρήστες μείνει ανενεργός για περισσότερα από %s δευτερόλεπτα, ίσως να έχετε τη δυνατότητα να δώσετε το διαγώνισμα. Σας ευχαριστούμε για την κατανόηση.
@@ -1647,6 +1645,7 @@ assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
 assessment#:#tst_password_introduction#:#Μπορείτε να προσπαλάσετε το διαγώνισμα μόνο αφού δώσετε το σωστό κωδικό. Παρακαλώ δώστε το κωδικό του διαγωνίσματος για να ξεκινήσετε το τεστ
 assessment#:#tst_percent_solved#:#Ποσοστό που επιλύθηκε
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#Ερώτηση %s από %s
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -2801,8 +2800,6 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#Ban###06 08 2011 new variable
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#Disconnected###06 08 2011 new variable
 chatroom#:#chat_connection_established#:#Connection established###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
@@ -5732,7 +5729,6 @@ common#:#udf_delete_sure#:#Είστε σίγουροι ότι θέλετε να 
 common#:#udf_duplicate_entries#:#Οι τιμές πρέπει να είναι μοναδικές.
 common#:#udf_field_deleted#:#Το πεδίο διαγράφηκε.
 common#:#udf_name_already_exists#:#Το όνομα του πεδίου υπάρχει ήδη. Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"###29 09 2009 new variable
 common#:#udf_type_date#:#Date Field
 common#:#udf_type_datetime#:#Date and Time
@@ -5860,6 +5856,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action.
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.
 common#:#usrimport_with_specified_role_not_permitted#:#Δεν επιτρέπεται εισαγωγή από τον συγκεκριμένο ρόλο.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Η ιδιότητα "%2$s" στο στοιχείο "%1$s" λείπει.
 common#:#usrimport_xml_attribute_value_illegal#:#Η τιμή "%3$s" της ιδιότητας "%2$s" του στοιχείου "%1$s" είναι παράνομη.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Η τιμή "%3$s" της ιδιότητας "%2$s" του στοιχείου "%1$s" είναι ακατάλληλη για την ενέργεια "%4$s".
@@ -8134,6 +8131,8 @@ dateplaner#:#cal_create#:#Create
 dateplaner#:#cal_created_appointment#:#Created new appointment.###28 10 2009 new variable
 dateplaner#:#cal_created_milestone#:#Added milestone.###18 08 2009 new variable
 dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.###18 08 2009 new variable
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Course Information###31 08 2017 new variable
 dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".###16 07 2010 new variable
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"###16 07 2010 new variable
@@ -9476,20 +9475,9 @@ file#:#file_download#:#Download File###27 10 2012 new variable
 file#:#file_import#:#Import File###30 08 2015 new variable
 file#:#file_new_version#:#Create New Version###02 03 2009 new variable
 file#:#file_new_version_info#:#Create new file version. Old versions will not be modfied.###02 03 2009 new variable
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###10 11 2018 new variable
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###10 11 2018 new variable
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist###07 02 2020 new variable
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.###07 02 2020 new variable
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###10 11 2018 new variable
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###10 11 2018 new variable
-file#:#file_suffix_default_white#:#Default Suffix Whitelist###10 11 2018 new variable
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###10 11 2018 new variable
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###10 11 2018 new variable
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###10 11 2018 new variable
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###10 11 2018 new variable
 file#:#file_uploaded_by#:#Uploaded by###28 08 2012 new variable
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.###30 04 2021 new variable
-file#:#generate_sanitize_report#:#Report about inaccessible files###07 02 2020 new variable
 file#:#migrated#:#Status###09 03 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
 file#:#replace_file_info#:#All files versions will be deleted.###02 03 2009 new variable
@@ -9910,6 +9898,7 @@ grp#:#grp_members#:#Members
 grp#:#grp_members_deleted#:#Deleted members###07 02 2017 new variable
 grp#:#grp_members_map#:#Group Members Map
 grp#:#grp_members_print_title#:#Group Members###28 08 2012 new variable
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#Please choose a group type.###12 08 2009 new variable
 grp#:#grp_missing_password#:#Please enter a group password.###12 08 2009 new variable
 grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
@@ -10333,6 +10322,8 @@ link#:#link_wpages#:#Wiki Pages###07 11 2014 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
@@ -10432,6 +10423,7 @@ lso#:#lso_members_gallery#:#Learning Sequence Members Gallery###10 11 2018 new v
 lso#:#lso_members_print_title#:#Learning sequence mebers###10 11 2018 new variable
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.###10 11 2018 new variable
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)###10 11 2018 new variable
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification#:#Notification###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
@@ -10608,7 +10600,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider###07 02 2020 new variable
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2###07 02 2020 new variable
 lti#:#lti_con_prov_description#:#Description###07 02 2020 new variable
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###31 03 2023 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider###07 02 2020 new variable
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###07 02 2020 new variable
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers###07 02 2020 new variable
@@ -10726,6 +10721,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format###07 02 2020 new variable
 lti#:#online_info#:#This makes the object visible and usable for the users.###07 02 2020 new variable
 lti#:#prefix#:#Prefix###31 08 2017 new variable
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#Used Provider###07 02 2020 new variable
 lti#:#settings_subtab#:#Settings###07 02 2020 new variable
 lti#:#show_statements#:#Display Learning Experiences###07 02 2020 new variable
@@ -10970,6 +10966,7 @@ mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external emails t
 mail#:#mail_smtp_user#:#User###31 08 2017 new variable
 mail#:#mail_subject_prefix#:#Mail Subject###12 10 2009 new variable
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails###12 10 2009 new variable
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#Είστε σίγουροι ότι θέλετε να διαγράψετε το σημειωμένο mail;
 mail#:#mail_sure_delete_entry#:#Είστε σίγουροι οτι θέλετε να διαγράψετε τις ακόλουθες εισόδους;
 mail#:#mail_sure_delete_file#:#Το αρχείο θα διαγραφεί μόνιμα
@@ -11303,9 +11300,15 @@ meta#:#md_advanced#:#Advanced Metadata
 meta#:#md_aria_language_selection#:#Language Selection###30 04 2021 new variable
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add Copyright Presetting
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#Edit Copyright Presetting
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Copyright Presettings
 meta#:#md_copyright_settings#:#Copyright Settings
@@ -14819,6 +14822,7 @@ skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following us
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global###30 04 2021 new variable
 skmg#:#skmg_context_local#:#Local###30 04 2021 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Create Template Category###02 09 2011 new variable
 skmg#:#skmg_create_skill_category#:#Create Skill Category###02 09 2011 new variable
 skmg#:#skmg_create_skill_template#:#Create Skill Template###02 09 2011 new variable
@@ -16604,6 +16608,7 @@ user#:#clipboard_remove_btn#:#Remove from Clipboard###25 10 2016 new variable
 user#:#clipboard_table_title#:#Clipboard (User Accounts)###25 10 2016 new variable
 user#:#clipboard_user_added#:#Added selected users to clipboard.###25 10 2016 new variable
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?###31 08 2017 new variable
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Create Rule###31 08 2017 new variable
 user#:#criteria#:#Criteria###31 08 2017 new variable
 user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.###26 09 2014 new variable
@@ -16611,6 +16616,7 @@ user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted###26 09 2014 
 user#:#delete_inactive_user_accounts_frequency#:#Frequency###26 09 2014 new variable
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.###26 09 2014 new variable
 user#:#editing_this_role#:#Role###31 08 2017 new variable
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Enable Local User Administration###16 07 2010 new variable
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.###16 07 2010 new variable
 user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable

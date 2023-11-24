@@ -31,5 +31,4 @@ Please subscribe to our admin mailing list (ilias-admins@lists.ilias.de) to get 
 * Tim Bongers, CaT Concepts and Training GmbH, Cologne, Germany
 * Rob Falkenstein, University of Freiburg - IT Services, Germany
 * Manuel G. Müller, Qualitus GmbH, Cologne, Germany
-* Fabian Sesterhenn, TH Köln, Cologne, Germany
-* Nadimo Staszak, University of Cologne, Cologne, Germany
+* David Tokar, WEKA Media GmbH & Co. KG, Kissing, Germany

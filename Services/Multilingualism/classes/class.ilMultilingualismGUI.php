@@ -143,7 +143,7 @@ class ilMultilingualismGUI
         }
     }
 
-    public function saveTranslations(): void
+    public function saveTranslations(bool $delete_checked = false): void
     {
         $default = $this->request->getDefault();
         $langs = $this->request->getLanguages();
@@ -171,12 +171,17 @@ class ilMultilingualismGUI
             return;
         }
 
+        $check = $this->request->getCheck();
+
         // save the stuff
         $this->obj_trans->setLanguages(array());
 
         foreach ($titles as $k => $v) {
             // update object data if default
             $is_default = ($default == $k);
+            if ($delete_checked && !$is_default && isset($check[$k])) {
+                continue;
+            }
 
             $this->obj_trans->addLanguage(
                 $langs[$k],
@@ -198,9 +203,8 @@ class ilMultilingualismGUI
         $titles = $this->request->getTitles();
         $descs = $this->request->getDescriptions();
         $check = $this->request->getCheck();
-
         foreach ($titles as $k => $v) {
-            if ($check[$k]) {
+            if ($check[$k] ?? false) {
                 // default translation cannot be deleted
                 if ($k != $default) {
                     unset($titles[$k], $descs[$k], $langs[$k]);
@@ -211,7 +215,7 @@ class ilMultilingualismGUI
                 }
             }
         }
-        $this->saveTranslations();
+        $this->saveTranslations(true);
     }
 
     ////

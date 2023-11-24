@@ -130,8 +130,8 @@ class ilMailSearchGUI
 
     private function saveMailData(): void
     {
-        $mail_data = $this->umail->getSavedData();
-        $this->umail->savePostData(
+        $mail_data = $this->umail->retrieveFromStage();
+        $this->umail->persistToStage(
             (int) $mail_data['user_id'],
             $mail_data['attachments'],
             $mail_data['rcp_to'],

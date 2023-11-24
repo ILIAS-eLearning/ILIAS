@@ -54,18 +54,17 @@ class ilSubscriberTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $col) {
             $this->addColumn(
                 $all_cols[$col]['txt'],
-                $col,
-                array_key_exists('width', $all_cols[$col]) ? $all_cols[$col]['width'] : ""
+                $col
             );
         }
 
         if ($this->getShowSubject()) {
-            $this->addColumn($this->lng->txt('application_date'), 'sub_time', "20%");
-            $this->addColumn($this->lng->txt('subject'), 'subject', '60%');
+            $this->addColumn($this->lng->txt('application_date'), 'sub_time');
+            $this->addColumn($this->lng->txt('message'), 'subject', '40%');
         } else {
-            $this->addColumn($this->lng->txt('application_date'), 'sub_time', "60%");
+            $this->addColumn($this->lng->txt('application_date'), 'sub_time');
         }
-        $this->addColumn('', 'mail', '20%');
+        $this->addColumn('', 'mail');
         if ($this->getRepositoryObject()->getType() === "sess") {
             $this->addMultiCommand('confirmAssignSubscribers', $this->lng->txt('sess_accept_request'));
         } else {
@@ -114,7 +113,6 @@ class ilSubscriberTableGUI extends ilTable2GUI
         if ($this->getRepositoryObject()->getType() === 'sess') {
             self::$all_columns['login'] = [
                 'txt' => $this->lng->txt('login'),
-                'width' => '15%',
                 'default' => 1
             ];
             return self::$all_columns;

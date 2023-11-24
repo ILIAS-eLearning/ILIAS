@@ -71,7 +71,7 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
             if (!is_array($query) && !trim($query)) {
                 continue;
             }
-            $parsed = $this->getFieldDefinition()->parseFieldQuery($field, $query);
+            $parsed = $this->getFieldDefinition()->parseFieldQuery((string) $field, $query);
             if (strlen($parsed)) {
                 $this->parsed_query .= " +(";
                 $this->parsed_query .= $parsed;

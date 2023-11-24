@@ -525,14 +525,14 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
         $res = $this->db->query($query);
         $row = $this->db->fetchAssoc($res);
-        if ($row[$this->getTree()->getTreePk()] == $this->getTree()->getTreeId()) {
+        if ($row[$this->getTree()->getTreePk()] ?? null == $this->getTree()->getTreeId()) {
             $path = (string) $row['path'];
         } else {
             return [];
         }
 
         // then query for the nodes in that path
-        $query = "SELECT t2." . $this->getTree()->getTreePk() . ", t2.child child, type, t2.path path " .
+        $query = "SELECT t2." . $this->getTree()->getTreePk() . ", t2.child child, t2.parent parent, type, t2.path path " .
             "FROM " . $this->getTree()->getTreeTable() . " t2 " .
             "JOIN " . $this->getTree()->getTableReference() . " obr ON t2.child = obr.ref_id " .
             "JOIN " . $this->getTree()->getObjectDataTable() . " obd ON obr.obj_id = obd.obj_id " .
@@ -552,6 +552,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
             }
 
             $nodes[$row['child']]['child'] = (int) $row['child'];
+            $nodes[$row['child']]['parent'] = (int) $row['parent'];
             $nodes[$row['child']]['type'] = (string) $row['type'];
             $nodes[$row['child']]['path'] = (string) $row['path'];
         }

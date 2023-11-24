@@ -621,9 +621,6 @@ assessment#:#cloze_text#:#Kiegészítendő szöveg
 assessment#:#cloze_textgap_case_insensitive#:#Kis-/nagybetűre nem érzékeny
 assessment#:#cloze_textgap_case_sensitive#:#Kis-/nagybetűre érzékeny
 assessment#:#cloze_textgap_levenshtein_of#:#'%s' Levenshtein-távolsága
-assessment#:#cloze_textgap_multiple_whitespace#:#Több nem látható karakter
-assessment#:#cloze_textgap_whitespace_after#:#Nem látható karakter az érték után
-assessment#:#cloze_textgap_whitespace_before#:#Nem látható karakter az érték előtt
 assessment#:#code#:#Kód
 assessment#:#codebase#:#Kódbázis
 assessment#:#concatenation#:#Szavak összekapcsolása
@@ -933,6 +930,7 @@ assessment#:#new_category#:#Új mértékegység-kategória
 assessment#:#new_unit#:#Új mértékegység
 assessment#:#next_question#:#Következő
 assessment#:#next_question_rows#:#Kérdések %d - %d (összesen: %d) →
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Legalább egy értékelésnek sikeres teljesítésnek kell lennie. Az értékeléssémát nem mentettük.
 assessment#:#no_question_selected_for_move#:#Legalább egy kérdést jelöljön ki az áthelyezéshez!
 assessment#:#no_questions_available#:#Nincsenek elérhető kérdések.
@@ -1549,10 +1547,10 @@ assessment#:#tst_manscoring_question_section_header#:#Kérdés: <i>%s</i>
 assessment#:#tst_manscoring_user_notification#:#Értesítés küldése
 assessment#:#tst_mark#:#Jegy
 assessment#:#tst_mark_create_new_mark_step#:#Új értékelésséma létrehozása
-assessment#:#tst_mark_create_simple_mark_schema#:#Egyszerű (Teljesített/Nem teljesítette) értékelésséma visszaállítása
 assessment#:#tst_mark_minimum_level#:#Minimumszint (%-ban)
 assessment#:#tst_mark_official_form#:#Hivatalos forma
 assessment#:#tst_mark_passed#:#Sikeres teljesítés-e
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Egyszerű (Teljesített/Nem teljesítette) értékelésséma visszaállítása
 assessment#:#tst_mark_short_form#:#Rövid forma
 assessment#:#tst_max_allowed_users_heading#:#Ebben a tesztben egyidejűleg jelen lévő felhasználók száma elérte a maximális számot
 assessment#:#tst_max_allowed_users_message#:#A tesztben egyidejűleg engedélyezett résztvevőszám elérte a maximumot. Próbálja később elkezdeni, illetve folytatni a tesztet. Ha egy jelenleg aktív felhasználó több mint %s másodpercig tétlen, Ön beléphet a tesztbe. Köszönjük megértését!
@@ -1661,6 +1659,7 @@ assessment#:#tst_password_form#:#Adja meg a tesztjelszót
 assessment#:#tst_password_introduction#:#Ez a teszt csak tesztjelszóval érhető el. Adja meg a teszthez tartozó jelszót a teszt elkezdéséhez!
 assessment#:#tst_percent_solved#:#Elért százalék
 assessment#:#tst_player_answer_saved_and_locked#:#Mentett és zárolt válasz nem módosítható
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Válassza ki a céltárolót.
 assessment#:#tst_position#:#%s / %s kérdés
 assessment#:#tst_position_without_total#:#%s. kérdés
@@ -2815,8 +2814,6 @@ chatroom#:#chat_auth_token_info#:#Kérem, egyedi sztringeket hozzon létre. Ezek
 chatroom#:#chat_ban#:#Kizárás
 chatroom#:#chat_broadcast_typing#:#Gépelés műsorszórása
 chatroom#:#chat_broadcast_typing_info#:#A gépelési folyamat megjelenítése a beszélgetés, illetve a csevegőszoba résztvevőnél.
-chatroom#:#chat_broadcast_typing_no#:#A gépelést nem jelenítjük meg a többi résztvevőnél
-chatroom#:#chat_broadcast_typing_yes#:#A gépelést megjelenítjük a többi résztvevőnél
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> elhagyta a csevegőszobát ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> belépett a csevegőszobába +++
 chatroom#:#chat_create_private_room_button#:#Privát szoba létrehozása
@@ -5746,7 +5743,6 @@ common#:#udf_delete_sure#:#Biztos, hogy törli ezt a mezőt és minden hozzáren
 common#:#udf_duplicate_entries#:#Az értékeknek egyedieknek kell lenniük.
 common#:#udf_field_deleted#:#Törölt mező
 common#:#udf_name_already_exists#:#Ez a mezőnév már létezik. Válasszon egy másik nevet!
-common#:#udf_required_and_visible_requires_changeable#:#Ha a mező 'kötelező' és 'Látható a személyes adatok alatt', akkor a 'Módosítható a profilban' opciót is be kell állítani
 common#:#udf_required_requires_visib_reg#:#Ha a mező 'kötelező', akkor a 'Látható a Regisztráció alatt' opciót is be kell állítani
 common#:#udf_type_date#:#Dátum
 common#:#udf_type_datetime#:#Dátum és idő
@@ -5874,6 +5870,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Nem hajtható végre a 'Beszú
 common#:#usrimport_no_update_ext_account_exists#:#Nem hajtható végre a 'Frissítés' művelet. A külső felhasználói fiók már létezik.
 common#:#usrimport_with_specified_role_not_permitted#:#Az import a megadott szereppel nem engedélyezett.
 common#:#usrimport_wrong_file_count#:#Túl sok a fájl az importálandó mappában. Próbálja újra.
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Hiányzik a '%2$s' tulajdonság a '%1$s' elemből.
 common#:#usrimport_xml_attribute_value_illegal#:#Nem érvényes a '%2$s' tulajdonság '%3$s' értéke a '%1$s' elemben.
 common#:#usrimport_xml_attribute_value_inapplicable#:#'%2$s' attribútum '%3$s' értéke '%1$s' elemben nem használható '%4$s' tevékenységhez.
@@ -8148,6 +8145,8 @@ dateplaner#:#cal_create#:#Létrehozás
 dateplaner#:#cal_created_appointment#:#Új esemény létrehozása.
 dateplaner#:#cal_created_milestone#:#A mérföldkővet sikeresen hozzáadta.
 dateplaner#:#cal_created_milestone_resp_q#:#A mérföldkővet sikeresen hozzáadta. Válassza ki a felhasználókat, akik felelősek a mérföldkő eléréséért.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Kurzusinformáció
 dateplaner#:#cal_crs_new_notification_body#:#ezúton tájékoztatjuk, hogy '%s' kurzusban új esemény jött létre.
 dateplaner#:#cal_crs_new_notification_sub#:#'%s' kurzusban új esemény
@@ -9490,20 +9489,9 @@ file#:#file_download#:#Fájl letöltése
 file#:#file_import#:#Fájlok importálása
 file#:#file_new_version#:#Új verzió létrehozása
 file#:#file_new_version_info#:#Új fájlverzió létrehozása. A korábbi verziók nem módosulnak.
-file#:#file_suffix_custom_black#:#Kiterjesztések egyéni tiltólistája
-file#:#file_suffix_custom_black_info#:#Ezeket a kiterjesztéseket eltávolítjuk az engedélyezettek közül.
-file#:#file_suffix_custom_expl_black#:#Explicit tiltólista
-file#:#file_suffix_custom_expl_black_info#:#Az ilyen végződésekkel rendelkező fájlokat nem fogadjuk el.
-file#:#file_suffix_custom_white#:#Egyénileg engedélyezett kiterjesztések
-file#:#file_suffix_custom_white_info#:#Ezeket a kiterjesztéseket hozzáadjuk az engedélyezettekhez.
-file#:#file_suffix_default_white#:#Alapértelmezetten engedélyezett kiterjesztések
-file#:#file_suffix_default_white_info#:#Alapértelmezetten elfogadható fájlkiterjesztések felsorolása.
-file#:#file_suffix_overall_white#:#Engedélyezett kiterjesztések összesítő listája
-file#:#file_suffix_overall_white_info#:#Az elfogadható fájlkiterjesztések összesítő felsorolása.
 file#:#file_upload_info_file_with_critical_extension#:#Legalább egy feltöltött fájl kritikus vagy ismeretlen fájlvégződést tartalmaz. Minden fájl minden feltöltött példányának a végét lecseréljük '.sec'-re. A fájl(ok): %s
 file#:#file_uploaded_by#:#Feltöltötte
 file#:#general_upload_error_occured#:#A feltöltés alatt ismeretlen hiba lépett fel.
-file#:#generate_sanitize_report#:#Jelentés az elérhetetlen fájlokról
 file#:#migrated#:#Állapot
 file#:#msg_unzip_success#:#A ZIP-fájlt sikeresen kibontotta.
 file#:#replace_file_info#:#Az összes korábbi fájlverziót törli.
@@ -9924,6 +9912,7 @@ grp#:#grp_members#:#Tagok
 grp#:#grp_members_deleted#:#A tago(ka)t sikeresen törölte
 grp#:#grp_members_map#:#Csoporttagok térképe
 grp#:#grp_members_print_title#:#A csoport tagjai
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#Válasszon csoporttípust!
 grp#:#grp_missing_password#:#Adjon meg csoportjelszót!
 grp#:#grp_new_status#:#Az Ön új állapota:
@@ -10347,6 +10336,8 @@ link#:#link_wpages#:#Wiki oldalak
 lm#:#lm_btn_lp_toggle_state_completed#:#Nem teljesítettre állítás
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Sikeresen teljesítettre állítás
 lm#:#lm_copy#:#Tananyag másolása
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Becsült olvasási idő
 lm#:#lm_est_reading_time_info#:#A tananyagokban a becsült olvasási idő megállapítható és megjeleníthető.
 lm#:#lm_page_type_lm#:#Tananyagoldal
@@ -10446,6 +10437,7 @@ lso#:#lso_members_gallery#:#Tanulási sor tagképgalériája
 lso#:#lso_members_print_title#:#Tanulási sor tagjai
 lso#:#lso_min_one_admin#:#Legalább egy vezetője kell, hogy legyen a tanulási sornak.
 lso#:#lso_msg_member_assigned#:#A felhasználó(ka)t sikeresen hozzárendelte a tanulási sorhoz.
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#Az Ön új állapota:
 lso#:#lso_notification#:#Értesítés
 lso#:#lso_notification_explanation_admin#:#Ezt az e-mail azért küldtük, mert Ön a tanulási sor vezetője és az értesítés be van kapcsolva.
@@ -10622,7 +10614,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Kiszolgáló
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Leírás
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Az eszköz regisztrációs URL-je
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#Küldő kiszolgáló
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Kiszolgáló. An external Kiszolgáló is characterized by insufficient influence on the Kiszolgáló by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 lti#:#lti_con_prov_group_options#:#Options to group és filter Kiszolgálós
@@ -10740,6 +10735,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Kisz
 lti#:#obj_tile_image_info#:#Use an Image in Square Format
 lti#:#online_info#:#This makes the object visible és usable for the users.
 lti#:#prefix#:#Előtag
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#Haszánaltban lévőKiszolgáló
 lti#:#settings_subtab#:#Beállítások
 lti#:#show_statements#:#Display Learning Experiences
@@ -10984,6 +10980,7 @@ mail#:#mail_smtp_status_info#:#Az ILIAS a PHP függvény (sendmail, mail() függ
 mail#:#mail_smtp_user#:#Felhasználó
 mail#:#mail_subject_prefix#:#Levél tárgya
 mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet.
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#Biztos, hogy törli a megjelölt level(ek)et?
 mail#:#mail_sure_delete_entry#:#Biztos, hogy törli az alábbi névjegy(ek)et?
 mail#:#mail_sure_delete_file#:#Biztos, hogy törli a kiválasztott fájlokat?
@@ -11317,9 +11314,15 @@ meta#:#md_advanced#:#Egyéni metaadatok
 meta#:#md_aria_language_selection#:#Nyelv választása
 meta#:#md_copyright#:#Szerzői jog
 meta#:#md_copyright_add#:#Új szerzői jog hozzáadása
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#Alapértelmezett szerzői jog módosítása
 meta#:#md_copyright_enable_info#:#Válassza ezt az opciót előre meghatározott szerzői jogok ajánlására.
 meta#:#md_copyright_enabled#:#Szerzői jog kiválasztásának engedélyezése
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#Szerzői jog (előnézet)
 meta#:#md_copyright_selection#:#Elérhető Szerzői jogok
 meta#:#md_copyright_settings#:#Szerzői jog beállítások
@@ -14833,6 +14836,7 @@ skmg#:#skmg_confirm_user_removal#:#Biztos, hogy törli az alábbi felhasználók
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Globális
 skmg#:#skmg_context_local#:#Helyi
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Sablonkategória létrehozása
 skmg#:#skmg_create_skill_category#:#Kompetenciakategória létrehozása
 skmg#:#skmg_create_skill_template#:#Kompetenciasablon létrehozása
@@ -16618,6 +16622,7 @@ user#:#clipboard_remove_btn#:#Eltávolítás a vágólapról
 user#:#clipboard_table_title#:#Vágólap (ILIAS-fiókok)
 user#:#clipboard_user_added#:#Sikeresen hozzáadta a kiválasztott felhasználókat a vágólaphoz.
 user#:#confirm_delete_starting_point#:#Biztos, hogy törli ezt a szabályt?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Szabály létrehozása
 user#:#criteria#:#Feltétel
 user#:#del_mail_body#:#Tisztelt %1$s, %2$s régóta nem jelentkezett be (%3$s). Ha %4$s napon belül nem jelentkezik be, ILIAS-fiókját töröljük.
@@ -16625,6 +16630,7 @@ user#:#del_mail_subject#:#[ILIAS] – ILIAS-fiókját hamarosan töröljük
 user#:#delete_inactive_user_accounts_frequency#:#Gyakoriság
 user#:#delete_inactive_user_accounts_frequency_desc#:#A törlés és az e-mail küldés gyakorisága.
 user#:#editing_this_role#:#Szabályok
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Helyi ILIAS-fiókok kezelésének engedélyezése
 user#:#enable_local_user_administration_info#:#A 'Helyi ILIAS-fiókok kezelése' fül megjelenik a kategóriáknál és a szervezeti egységeknél.
 user#:#feedhash#:#Hírcsatorna-hash

@@ -37,9 +37,9 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     private ilObject $_cmixObj;
 
-    private ?int $_newId = null;
+    private ?string $_newId = null;
 
-    private int $_import_objId;
+    private string $_import_objId;
 
     private \ilImportMapping $_mapping;
 
@@ -77,16 +77,18 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        $this->_import_objId = (int) $a_id;
+        $this->_import_objId = $a_id;
         $this->_mapping = $a_mapping;
 
-        if (false === ($this->_newId = $a_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId))) {
+        if ($this->_newId = $a_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId)) {
+            // container content
+            $this->prepareContainerObject();
+            $this->getImportDirectoryContainer();
+        } else {
+            // single object
             $this->prepareSingleObject();
             $this->getImportDirectorySingle();
             $this->_isSingleImport = true;
-        } else {
-            $this->prepareContainerObject();
-            $this->getImportDirectoryContainer();
         }
         $this->prepareLocalSourceStorage();
         $this->parseXmlFileProperties();
@@ -108,7 +110,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->setDescription("test import");
         // create the questionpool class in the ILIAS database (object_data table)
         $this->_cmixObj->create(true);
-        $this->_newId = $this->_cmixObj->getId();
+        $this->_newId = (string) $this->_cmixObj->getId();
         $this->_mapping->addMapping('Modules/CmiXapi', 'cmix', (string) $this->_import_objId, (string) $this->_newId);
         //$this->getImport();
         $this->_cmixObj->update();
@@ -121,9 +123,10 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     private function prepareContainerObject(): void
     {
-        if ($this->_newId = $this->_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId)) {
+        $this->_newId = $this->_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId);
+        if (!is_null($this->_newId) && $this->_newId != "") {
             // container content
-            $this->_cmixObj = ilObjectFactory::getInstanceByObjId($this->_newId, false);
+            $this->_cmixObj = ilObjectFactory::getInstanceByObjId((int) $this->_newId, false);
             //$_SESSION['tst_import_subdir'] = $this->getImportPackageName();
             $this->_cmixObj->save(); // this generates test id first time
             //var_dump([$this->getImportDirectory(), $this->_import_dirname]); exit;
@@ -141,7 +144,7 @@ class ilCmiXapiImporter extends ilXmlImporter
     private function prepareLocalSourceStorage(): self
     {
         if (true === $this->filesystemTemp->has($this->_relImportDir . '/content.zip')) {
-//            $this->_hasContent = true;
+            //            $this->_hasContent = true;
             $this->_relWebDir = $this->_relWebDir . $this->_cmixObj->getId();
             if (false === $this->filesystemWeb->has($this->_relWebDir)) {
                 $this->filesystemWeb->createDir($this->_relWebDir);
@@ -177,9 +180,9 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Finalize the new CmiXapi Object
-     * @return $this
+     * @return void
      */
-    private function updateNewObj(): self
+    private function updateNewObj(): void
     {
         $this->_cmixObj->setTitle($this->_moduleProperties['Title'] . " " . $this->dic->language()->txt("copy_of_suffix"));
         $this->_cmixObj->setDescription($this->_moduleProperties['Description']);
@@ -189,55 +192,54 @@ class ilCmiXapiImporter extends ilXmlImporter
             $this->_cmixObj->setLrsTypeId((int) $this->_moduleProperties['LrsTypeId']);
             $this->_cmixObj->setLrsType(new ilCmiXapiLrsType((int) $this->_moduleProperties['LrsTypeId']));
         }
-        $this->_cmixObj->setContentType($this->_moduleProperties['ContentType']);
-        $this->_cmixObj->setSourceType($this->_moduleProperties['SourceType']);
-        $this->_cmixObj->setActivityId($this->_moduleProperties['ActivityId']);
-        $this->_cmixObj->setInstructions($this->_moduleProperties['Instructions']);
+        $this->_cmixObj->setContentType((string) $this->_moduleProperties['ContentType']);
+        $this->_cmixObj->setSourceType((string) $this->_moduleProperties['SourceType']);
+        $this->_cmixObj->setActivityId((string) $this->_moduleProperties['ActivityId']);
+        $this->_cmixObj->setInstructions((string) $this->_moduleProperties['Instructions']);
         // $this->_cmixObj->setOfflineStatus($this->_moduleProperties['OfflineStatus']);
-        $this->_cmixObj->setLaunchUrl($this->_moduleProperties['LaunchUrl']);
-        $this->_cmixObj->setAuthFetchUrlEnabled($this->_moduleProperties['AuthFetchUrl']);
-        $this->_cmixObj->setLaunchMethod($this->_moduleProperties['LaunchMethod']);
-        $this->_cmixObj->setLaunchMode($this->_moduleProperties['LaunchMode']);
-        $this->_cmixObj->setMasteryScore($this->_moduleProperties['MasteryScore']);
-        $this->_cmixObj->setKeepLpStatusEnabled($this->_moduleProperties['KeepLp']);
-        $this->_cmixObj->setPrivacyIdent($this->_moduleProperties['PrivacyIdent']);
-        $this->_cmixObj->setPrivacyName($this->_moduleProperties['PrivacyName']);
-        $this->_cmixObj->setUserPrivacyComment($this->_moduleProperties['UsrPrivacyComment']);
-        $this->_cmixObj->setStatementsReportEnabled($this->_moduleProperties['ShowStatements']);
-        $this->_cmixObj->setXmlManifest($this->_moduleProperties['XmlManifest']);
-        $this->_cmixObj->setVersion($this->_moduleProperties['Version']);
-        $this->_cmixObj->setHighscoreEnabled($this->_moduleProperties['HighscoreEnabled']);
-        $this->_cmixObj->setHighscoreAchievedTS($this->_moduleProperties['HighscoreAchievedTs']);
-        $this->_cmixObj->setHighscorePercentage($this->_moduleProperties['HighscorePercentage']);
-        $this->_cmixObj->setHighscoreWtime($this->_moduleProperties['HighscoreWtime']);
-        $this->_cmixObj->setHighscoreOwnTable($this->_moduleProperties['HighscoreOwnTable']);
-        $this->_cmixObj->setHighscoreTopTable($this->_moduleProperties['HighscoreTopTable']);
-        $this->_cmixObj->setHighscoreTopNum($this->_moduleProperties['HighscoreTopNum']);
-        $this->_cmixObj->setBypassProxyEnabled($this->_moduleProperties['BypassProxy']);
-        $this->_cmixObj->setOnlyMoveon($this->_moduleProperties['OnlyMoveon']);
-        $this->_cmixObj->setAchieved($this->_moduleProperties['Achieved']);
-        $this->_cmixObj->setAnswered($this->_moduleProperties['Answered']);
-        $this->_cmixObj->setCompleted($this->_moduleProperties['Completed']);
-        $this->_cmixObj->setFailed($this->_moduleProperties['Failed']);
-        $this->_cmixObj->setInitialized($this->_moduleProperties['Initialized']);
-        $this->_cmixObj->setPassed($this->_moduleProperties['Passed']);
-        $this->_cmixObj->setProgressed($this->_moduleProperties['Progressed']);
-        $this->_cmixObj->setSatisfied($this->_moduleProperties['Satisfied']);
-        $this->_cmixObj->setTerminated($this->_moduleProperties['Terminated']);
-        $this->_cmixObj->setHideData($this->_moduleProperties['HideData']);
-        $this->_cmixObj->setTimestamp($this->_moduleProperties['Timestamp']);
-        $this->_cmixObj->setDuration($this->_moduleProperties['Duration']);
-        $this->_cmixObj->setNoSubstatements($this->_moduleProperties['NoSubstatements']);
+        $this->_cmixObj->setLaunchUrl((string) $this->_moduleProperties['LaunchUrl']);
+        $this->_cmixObj->setAuthFetchUrlEnabled((bool) $this->_moduleProperties['AuthFetchUrl']);
+        $this->_cmixObj->setLaunchMethod((string) $this->_moduleProperties['LaunchMethod']);
+        $this->_cmixObj->setLaunchMode((string) $this->_moduleProperties['LaunchMode']);
+        $this->_cmixObj->setMasteryScore((float) $this->_moduleProperties['MasteryScore']);
+        $this->_cmixObj->setKeepLpStatusEnabled((bool) $this->_moduleProperties['KeepLp']);
+        $this->_cmixObj->setPrivacyIdent((int) $this->_moduleProperties['PrivacyIdent']);
+        $this->_cmixObj->setPrivacyName((int) $this->_moduleProperties['PrivacyName']);
+        $this->_cmixObj->setUserPrivacyComment((string) $this->_moduleProperties['UsrPrivacyComment']);
+        $this->_cmixObj->setStatementsReportEnabled((bool) $this->_moduleProperties['ShowStatements']);
+        $this->_cmixObj->setXmlManifest((string) $this->_moduleProperties['XmlManifest']);
+        $this->_cmixObj->setVersion((int) $this->_moduleProperties['Version']);
+        $this->_cmixObj->setHighscoreEnabled((bool) $this->_moduleProperties['HighscoreEnabled']);
+        $this->_cmixObj->setHighscoreAchievedTS((bool) $this->_moduleProperties['HighscoreAchievedTs']);
+        $this->_cmixObj->setHighscorePercentage((bool) $this->_moduleProperties['HighscorePercentage']);
+        $this->_cmixObj->setHighscoreWtime((bool) $this->_moduleProperties['HighscoreWtime']);
+        $this->_cmixObj->setHighscoreOwnTable((bool) $this->_moduleProperties['HighscoreOwnTable']);
+        $this->_cmixObj->setHighscoreTopTable((bool) $this->_moduleProperties['HighscoreTopTable']);
+        $this->_cmixObj->setHighscoreTopNum((int) $this->_moduleProperties['HighscoreTopNum']);
+        $this->_cmixObj->setBypassProxyEnabled((bool) $this->_moduleProperties['BypassProxy']);
+        $this->_cmixObj->setOnlyMoveon((bool) $this->_moduleProperties['OnlyMoveon']);
+        $this->_cmixObj->setAchieved((bool) $this->_moduleProperties['Achieved']);
+        $this->_cmixObj->setAnswered((bool) $this->_moduleProperties['Answered']);
+        $this->_cmixObj->setCompleted((bool) $this->_moduleProperties['Completed']);
+        $this->_cmixObj->setFailed((bool) $this->_moduleProperties['Failed']);
+        $this->_cmixObj->setInitialized((bool) $this->_moduleProperties['Initialized']);
+        $this->_cmixObj->setPassed((bool) $this->_moduleProperties['Passed']);
+        $this->_cmixObj->setProgressed((bool) $this->_moduleProperties['Progressed']);
+        $this->_cmixObj->setSatisfied((bool) $this->_moduleProperties['Satisfied']);
+        $this->_cmixObj->setTerminated((bool) $this->_moduleProperties['Terminated']);
+        $this->_cmixObj->setHideData((bool) $this->_moduleProperties['HideData']);
+        $this->_cmixObj->setTimestamp((bool) $this->_moduleProperties['Timestamp']);
+        $this->_cmixObj->setDuration((bool) $this->_moduleProperties['Duration']);
+        $this->_cmixObj->setNoSubstatements((bool) $this->_moduleProperties['NoSubstatements']);
         $this->_cmixObj->setPublisherId((string) $this->_moduleProperties['PublisherId']);
-//        $this->_cmixObj->setAnonymousHomepage($this->_moduleProperties['AnonymousHomepage']);
+        //        $this->_cmixObj->setAnonymousHomepage($this->_moduleProperties['AnonymousHomepage']);
         $this->_cmixObj->setMoveOn((string) $this->_moduleProperties['MoveOn']);
         $this->_cmixObj->setLaunchParameters((string) $this->_moduleProperties['LaunchParameters']);
         $this->_cmixObj->setEntitlementKey((string) $this->_moduleProperties['EntitlementKey']);
-        $this->_cmixObj->setSwitchToReviewEnabled($this->_moduleProperties['SwitchToReview']);
+        $this->_cmixObj->setSwitchToReviewEnabled((bool) $this->_moduleProperties['SwitchToReview']);
         $this->_cmixObj->save();
         $this->_cmixObj->updateMetaData();
 
-        return $this;
     }
 
     /**

@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\Data;
@@ -48,9 +64,13 @@ class VersionTest extends TestCase
     public function testGreaterThan(Data\Version $l, Data\Version $r): void
     {
         $this->assertTrue($l->isGreaterThan($r));
+        $this->assertFalse($l->isSmallerThan($r));
         $this->assertTrue($r->isSmallerThan($l));
+        $this->assertFalse($r->isGreaterThan($l));
         $this->assertTrue($l->isGreaterThanOrEquals($r));
+        $this->assertFalse($l->isSmallerThanOrEquals($r));
         $this->assertTrue($r->isSmallerThanOrEquals($l));
+        $this->assertFalse($r->isGreaterThanOrEquals($l));
         $this->assertFalse($l->equals($r));
         $this->assertFalse($r->equals($l));
     }
@@ -59,12 +79,13 @@ class VersionTest extends TestCase
     {
         $f = new Data\Factory();
         return [
-            [$f->version("0.0.2"), $f->version("0.0.1")],
-            [$f->version("0.2.0"), $f->version("0.1.0")],
-            [$f->version("2.0.0"), $f->version("1.0.0")],
-            [$f->version("1.2.3"), $f->version("1.2.2")],
-            [$f->version("1.2.3"), $f->version("1.1.3")],
-            [$f->version("1.2.3"), $f->version("0.2.3")]
+            'Patch version is greater (2>1), major and minor versions are equal (0)' => [$f->version("0.0.2"), $f->version("0.0.1")],
+            'Minor version is greater (2>1), major and patch versions are equal (0)' => [$f->version("0.2.0"), $f->version("0.1.0")],
+            'Major version is greater (2>1), minor and patch versions are equal (0)' => [$f->version("2.0.0"), $f->version("1.0.0")],
+            'Patch version is greater (3>2), major (1) and minor (2) versions are equal' => [$f->version("1.2.3"), $f->version("1.2.2")],
+            'Minor version is greater (2>1), major (1) and patch (3) versions are equal' => [$f->version("1.2.3"), $f->version("1.1.3")],
+            'Major version is greater (1>0), minor (2) and patch (3) versions are equal' => [$f->version("1.2.3"), $f->version("0.2.3")],
+            'Minor version is greater (5>1), patch is smaller (0<1), minor version is equal (1)' => [$f->version("1.5.0"), $f->version("1.1.1")],
         ];
     }
 
@@ -76,7 +97,9 @@ class VersionTest extends TestCase
         $this->assertFalse($l->isGreaterThan($r));
         $this->assertFalse($r->isSmallerThan($l));
         $this->assertTrue($l->isGreaterThanOrEquals($r));
+        $this->assertTrue($l->isSmallerThanOrEquals($r));
         $this->assertTrue($r->isSmallerThanOrEquals($l));
+        $this->assertTrue($r->isGreaterThanOrEquals($l));
         $this->assertTrue($l->equals($r));
         $this->assertTrue($r->equals($l));
     }

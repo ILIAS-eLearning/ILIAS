@@ -24,7 +24,7 @@ use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
 class ilObjLearningModuleListGUI extends ilObjectListGUI
 {
     protected PresentationGUIRequest $request;
-    private int $child_id = 0;
+    private string $child_id = "";
     protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
 
     public function init(): void

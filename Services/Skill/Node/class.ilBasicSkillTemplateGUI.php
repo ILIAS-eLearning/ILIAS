@@ -161,11 +161,32 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $ilTabs->clearTargets();
         $ilHelp->setScreenIdComponent("skmg_sktp");
 
+        $parent_node_id = $this->tree_repo->getParentNodeIdForNodeId($this->requested_node_id);
+        $parent_title = ilSkillTreeNode::_lookupTitle($parent_node_id);
+        $parent_type = ilSkillTreeNode::_lookupType($parent_node_id);
+
         if ($this->tref_id == 0) {
-            $ilTabs->setBackTarget(
-                $lng->txt("skmg_skill_templates"),
-                $ilCtrl->getLinkTargetByClass("ilobjskilltreegui", "editSkillTemplates")
-            );
+            if ($parent_type === "sctp") {
+                $ilCtrl->setParameterByClass(
+                    "ilskilltemplatecategorygui",
+                    "node_id",
+                    $parent_node_id
+                );
+                $ilTabs->setBackTarget(
+                    $parent_title,
+                    $ilCtrl->getLinkTargetByClass("ilskilltemplatecategorygui", "listItems")
+                );
+                $ilCtrl->setParameterByClass(
+                    "ilskilltemplatecategorygui",
+                    "node_id",
+                    ""
+                );
+            } else {
+                $ilTabs->setBackTarget(
+                    $lng->txt("skmg_skill_templates"),
+                    $ilCtrl->getLinkTargetByClass("ilobjskilltreegui", "editSkillTemplates")
+                );
+            }
         }
 
         if (is_object($this->node_object)) {

@@ -308,7 +308,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_editor_html = $this->purgePlaceholders($page_editor_html);
 
         // check expired session and send message
-        if ($this->authSession->isExpired()) {
+        if ($this->authSession->isExpired() || $this->http->wrapper()->query()->has('session_expired')) {
             $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('auth_err_expired'));
         } elseif ($this->http->wrapper()->query()->has('reg_confirmation_msg')) {
             $this->lng->loadLanguageModule('registration');
@@ -2149,7 +2149,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 $this->logger->debug('Authentication successful; Redirecting to starting page.');
-                ilInitialisation::redirectToStartingPage($target);
+                ilInitialisation::redirectToStartingPage($target ?? '');
                 return;
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:

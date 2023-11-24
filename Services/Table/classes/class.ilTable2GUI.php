@@ -1482,7 +1482,6 @@ class ilTable2GUI extends ilTableGUI
 
             $this->tpl->setCurrentBlock("tbl_header_title");
             $this->tpl->setVariable("TBL_TITLE", $this->title);
-            $this->tpl->setVariable("TOP_ANCHOR", $this->getTopAnchor());
             if ($this->getDisplayAsBlock()) {
                 $this->tpl->setVariable("BLK_CLASS", "Block");
             }

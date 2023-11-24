@@ -82,7 +82,8 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 $this->row_commands[] = array(
                     "cmd" => "extCommand_" . $i,
                     "caption" => $command["name"],
-                    "allow_dir" => $command["allow_dir"] ?? ""
+                    "allow_dir" => $command["allow_dir"] ?? "",
+                    "id" => $command["id"] ?? "",
                 );
             }
         }
@@ -254,13 +255,26 @@ class ilFileSystemTableGUI extends ilTable2GUI
         }
 
         // single item commands
-        if (sizeof($this->row_commands) &&
-            !($a_set["type"] == "dir" && $a_set["entry"] == "..")) {
+
+        $zip_mime_types = [
+            "application/zip",
+            "application/x-zip"
+        ];
+
+        if (count($this->row_commands) > 0
+            && !(($a_set["type"] ?? '') === "dir" && ($a_set["entry"] ?? '') === "..")) {
             $advsel = new ilAdvancedSelectionListGUI();
             $advsel->setListTitle('');
             foreach ($this->row_commands as $rcom) {
-                if ($rcom["allow_dir"] || $a_set["type"] != "dir") {
-                    if (($rcom["caption"] == "Unzip" && MimeType::getMimeType($this->cur_dir . $a_set['entry']) == "application/zip") || $rcom["caption"] != "Unzip") {
+                if ($rcom["allow_dir"] || ($a_set["type"] ?? '') !== "dir") {
+                    // see https://mantis.ilias.de/view.php?id=36305
+                    // will be dropped soon anyway...
+                    $path = $this->cur_dir . $a_set['entry'];
+                    $mime_type = MimeType::getMimeType($path);
+                    if (
+                        $rcom["id"] !== "unzip_file"
+                        || ($rcom["id"] === "unzip_file" && in_array($mime_type, $zip_mime_types))
+                    ) {
                         $this->ctrl->setParameter($this->parent_obj, "fhsh", $hash);
                         $url = $this->ctrl->getLinkTarget($this->parent_obj, $rcom["cmd"]);
                         $this->ctrl->setParameter($this->parent_obj, "fhsh", "");

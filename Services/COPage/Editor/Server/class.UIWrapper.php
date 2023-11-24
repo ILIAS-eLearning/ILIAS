@@ -198,7 +198,7 @@ class UIWrapper
         }
 
         $data = new \stdClass();
-        $data->renderedContent = $page_data;
+        $data->renderedContent = $page_data . $this->getOnloadCode($page_gui);
         $data->pcModel = $pc_model;
         $data->error = $error;
         if ($last_change) {
@@ -207,6 +207,29 @@ class UIWrapper
             $data->last_update = \ilDatePresentation::formatDate($lu, true);
         }
         return new Response($data);
+    }
+
+    protected function getOnloadCode(\ilPageObjectGUI $page_gui) : string
+    {
+        $page = $page_gui->getPageObject();
+        $defs = \ilCOPagePCDef::getPCDefinitions();
+        $all_onload_code = [];
+        foreach ($defs as $def) {
+            $pc_class = $def["pc_class"];
+            /** @var \ilPageContent $pc_obj */
+            $pc_obj = new $pc_class($page);
+
+            // onload code
+            $onload_code = $pc_obj->getOnloadCode("edit");
+            foreach ($onload_code as $code) {
+                $all_onload_code[] = $code;
+            }
+        }
+        $code_str = "";
+        if (count($all_onload_code) > 0) {
+            $code_str = "<script>" . implode("\n", $all_onload_code) . "</script>";
+        }
+        return $code_str;
     }
 
     public function sendFormError(

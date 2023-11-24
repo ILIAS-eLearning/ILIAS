@@ -76,7 +76,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
     public function executeCommand(): void
     {
         $this->checkPermission("read");
-
         $this->setTitleAndDescription();
 
         $next_class = $this->ctrl->getNextClass($this);
@@ -96,7 +95,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         // trigger assignment tool
         $this->triggerAssignmentTool();
-
         switch ($next_class) {
             case "ilworkspaceaccessgui":
                 if ($this->checkPermissionBool("write")) {
@@ -129,30 +127,30 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            /*
+                /*
         case "ilobjstylesheetgui":
-            $this->ctrl->setReturn($this, "editStyleProperties");
-            $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-            $style_gui->enableWrite(true);
-            $style_gui->omitLocator();
-            if ($cmd == "create" || $this->port_request->getNewType() == "sty") {
-                $style_gui->setCreationMode(true);
-            }
+                $this->ctrl->setReturn($this, "editStyleProperties");
+                $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+                $style_gui->enableWrite(true);
+                $style_gui->omitLocator();
+                if ($cmd == "create" || $this->port_request->getNewType() == "sty") {
+                    $style_gui->setCreationMode(true);
+                }
 
-            if ($cmd == "confirmedDelete") {
-                $this->object->setStyleSheetId(0);
-                $this->object->update();
-            }
+                if ($cmd == "confirmedDelete") {
+                    $this->object->setStyleSheetId(0);
+                    $this->object->update();
+                }
 
-            $ret = $this->ctrl->forwardCommand($style_gui);
+                $ret = $this->ctrl->forwardCommand($style_gui);
 
-            if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-                $style_id = $ret;
-                $this->object->setStyleSheetId($style_id);
-                $this->object->update();
-                $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-            }
-            break;*/
+                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
+                    $style_id = $ret;
+                    $this->object->setStyleSheetId($style_id);
+                    $this->object->update();
+                    $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+                }
+                break;*/
 
             case "ilobjectcontentstylesettingsgui":
                 $this->checkPermission("write");
@@ -224,7 +222,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
             $this->tabs_gui->addNonTabbedLink(
                 "preview",
-                $this->lng->txt("user_profile_preview"),
+                $this->lng->txt("preview"),
                 $this->ctrl->getLinkTarget($this, "preview")
             );
 
@@ -608,6 +606,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             0,
             $this->object->hasPublicComments()
         );
+        $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         $page_gui->setAdditional($this->getAdditional());
         return $page_gui;
     }

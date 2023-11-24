@@ -118,7 +118,7 @@ class ilCalendarEntry implements ilDatePeriod
         return $this->start;
     }
 
-    public function setStart(ilDateTime $a_start): void
+    public function setStart(?ilDateTime $a_start): void
     {
         $this->start = $a_start;
     }
@@ -128,7 +128,7 @@ class ilCalendarEntry implements ilDatePeriod
         return $this->end;
     }
 
-    public function setEnd(ilDateTime $a_end): void
+    public function setEnd(?ilDateTime $a_end): void
     {
         $this->end = $a_end;
     }
@@ -194,17 +194,22 @@ class ilCalendarEntry implements ilDatePeriod
                             $this->getContextId(),
                             $this->getStart()
                         );
-                        $orig_event = $apps[0];
-                        $max = $entry->getNumberOfBookings();
-                        $current = $entry->getCurrentNumberOfBookings($this->getEntryId());
-                        if ($entry->hasBooked($orig_event)) {
-                            $title = $this->lng->txt('cal_date_booked');
-                        } elseif ($current >= $max) {
+                        if ($apps === []) {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: red';
                             $title = $this->lng->txt('cal_booked_out');
                         } else {
-                            $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
-                            $title = $this->lng->txt('cal_book_free');
+                            $orig_event = $apps[0];
+                            $max = $entry->getNumberOfBookings();
+                            $current = $entry->getCurrentNumberOfBookings($this->getEntryId());
+                            if ($entry->hasBooked($orig_event)) {
+                                $title = $this->lng->txt('cal_date_booked');
+                            } elseif ($current >= $max) {
+                                $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: red';
+                                $title = $this->lng->txt('cal_booked_out');
+                            } else {
+                                $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
+                                $title = $this->lng->txt('cal_book_free');
+                            }
                         }
                     }
                 }

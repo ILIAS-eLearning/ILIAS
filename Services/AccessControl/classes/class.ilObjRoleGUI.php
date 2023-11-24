@@ -339,7 +339,8 @@ class ilObjRoleGUI extends ilObjectGUI
     public function createObject(): void
     {
         if (!$this->rbac_system->checkAccess('create_role', $this->obj_ref_id)) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
         $form = $this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);
         $this->tpl->setContent($form->getHTML());
@@ -348,7 +349,8 @@ class ilObjRoleGUI extends ilObjectGUI
     public function editObject(): void
     {
         if (!$this->checkAccess('write', 'edit_permission')) {
-            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
+            $this->tpl->setOnScreenMessage('msg_no_perm_write', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
         $this->tabs_gui->activateTab('edit_properties');
 
@@ -431,8 +433,8 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         if (!$this->checkAccess('write', 'edit_permission')) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_perm'), $this->error->MESSAGE);
-            return;
+            $this->tpl->setOnScreenMessage('msg_no_perm_write', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         // Show copy role button
@@ -559,17 +561,13 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     protected function confirmDeleteRoleObject(): void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        $access = $this->checkAccess('visible,write', 'edit_permission');
-        if (!$access) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_perm'), $this->error->WARNING);
+        if (!$this->checkAccess('visible,write', 'edit_permission')) {
+            $this->tpl->setOnScreenMessage('msg_no_perm_perm', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         $question = $this->lng->txt('rbac_role_delete_qst');
-        if ($this->rbac_review->isAssigned($ilUser->getId(), $this->object->getId())) {
+        if ($this->rbac_review->isAssigned($this->user->getId(), $this->object->getId())) {
             $question .= ('<br />' . $this->lng->txt('rbac_role_delete_self'));
         }
         $this->tpl->setOnScreenMessage('question', $question);
@@ -595,9 +593,9 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     protected function performDeleteRoleObject(): void
     {
-        $access = $this->checkAccess('visible,write', 'edit_permission');
-        if (!$access) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_perm'), $this->error->WARNING);
+        if (!$this->checkAccess('visible,write', 'edit_permission')) {
+            $this->tpl->setOnScreenMessage('msg_no_perm_perm', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         $this->object->setParent($this->obj_ref_id);
@@ -613,11 +611,9 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     public function permSaveObject(bool $a_show_admin_permissions = false): void
     {
-        // for role administration check write of global role folder
-        $access = $this->checkAccess('visible,write', 'edit_permission');
-
-        if (!$access) {
-            $this->error->raiseError($this->lng->txt("msg_no_perm_perm"), $this->error->MESSAGE);
+        if (!$this->checkAccess('visible,write', 'edit_permission')) {
+            $this->tpl->setOnScreenMessage('msg_no_perm_perm', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         // rbac log
@@ -928,7 +924,7 @@ class ilObjRoleGUI extends ilObjectGUI
         if (
             $this->object->getId() != SYSTEM_ROLE_ID ||
             (
-                !$this->rbac_review->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) or
+                $this->rbac_review->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) ||
                 !ilSecuritySettings::_getInstance()->isAdminRoleProtected()
             )
         ) {

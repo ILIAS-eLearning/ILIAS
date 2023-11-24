@@ -87,4 +87,14 @@ class ProfileGUIRequest
 
         return $this->str('user_picture_carry');
     }
+
+    public function getToken(): string
+    {
+        $query = $this->http->wrapper()->query();
+        if (!$query->has('token')) {
+            return '';
+        }
+
+        return $query->retrieve('token', $this->refinery->kindlyTo()->string());
+    }
 }

@@ -1229,7 +1229,7 @@ class ilPCParagraph extends ilPageContent
                         $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "media=\"" . $target_id . "\"/]", $a_text);
                     } else {
                         $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln media=\"" . $target_id . "\"" .
-                            " target=\"" . $attribs["TargetFrame"] . "\"]", $a_text);
+                            " target=\"" . ($attribs["TargetFrame"] ?? "") . "\"]", $a_text);
                     }
                     break;
 
@@ -1267,27 +1267,27 @@ class ilPCParagraph extends ilPageContent
             //$found[1] = str_replace("?", "\?", $found[1]);
             $tstr = "";
             if (in_array(($attribs["TargetFrame"] ?? ""), array("FAQ", "Glossary", "Media"))) {
-                $tstr = ' target="' . $attribs["TargetFrame"] . '"';
+                $tstr = ' target="' . ($attribs["TargetFrame"] ?? "") . '"';
             }
-            $a_text = str_replace("<ExtLink" . $found[1] . ">", "[xln url=\"" . $attribs["Href"] . "\"$tstr]", $a_text);
+            $a_text = str_replace("<ExtLink" . $found[1] . ">", "[xln url=\"" . ($attribs["Href"] ?? "") . "\"$tstr]", $a_text);
         }
         $a_text = str_replace("</ExtLink>", "[/xln]", $a_text);
 
         // anchor
         while (preg_match('~<Anchor(' . $any . '/)>~i', $a_text, $found)) {
             $attribs = self::attribsToArray($found[1]);
-            $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . $attribs["Name"] . "\"][/anc]", $a_text);
+            $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . ($attribs["Name"] ?? "") . "\"][/anc]", $a_text);
         }
         while (preg_match('~<Anchor(' . $any . ')>~i', $a_text, $found)) {
             $attribs = self::attribsToArray($found[1]);
-            $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . $attribs["Name"] . "\"]", $a_text);
+            $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . ($attribs["Name"] ?? "") . "\"]", $a_text);
         }
         $a_text = str_replace("</Anchor>", "[/anc]", $a_text);
 
         // marked text
         while (preg_match('~<Marked(' . $any . ')>~i', $a_text, $found)) {
             $attribs = self::attribsToArray($found[1]);
-            $a_text = str_replace("<Marked" . $found[1] . ">", "[marked class=\"" . $attribs["Class"] . "\"]", $a_text);
+            $a_text = str_replace("<Marked" . $found[1] . ">", "[marked class=\"" . ($attribs["Class"] ?? "") . "\"]", $a_text);
         }
         $a_text = str_replace("</Marked>", "[/marked]", $a_text);
 

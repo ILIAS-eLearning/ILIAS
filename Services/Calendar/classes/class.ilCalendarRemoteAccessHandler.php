@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
 
@@ -28,11 +28,14 @@ use ILIAS\HTTP\Services as HTTPServices;
  */
 class ilCalendarRemoteAccessHandler
 {
+    protected const LIMITED_QUERY_PARAM = 'limited';
+
     private ?ilCalendarAuthenticationToken $token_handler = null;
     protected ?Refinery $refinery = null;
     protected ?HTTPServices $http = null;
     protected ?ilLogger $logger = null;
     protected ?ilLanguage $lng = null;
+    protected bool $limit_enabled;
 
     public function __construct()
     {
@@ -64,6 +67,7 @@ class ilCalendarRemoteAccessHandler
         $this->initIlias();
         $logger = $GLOBALS['DIC']->logger()->cal();
         $this->initTokenHandler();
+        $this->initLimitEnabled();
 
         if (!$this->initUser()) {
             $logger->warning('Calendar token is invalid. Authentication failed.');
@@ -80,11 +84,11 @@ class ilCalendarRemoteAccessHandler
             #$export = new ilCalendarExport(array($this->getTokenHandler()->getCalendar()));
             $cats = ilCalendarCategories::_getInstance();
             $cats->initialize(ilCalendarCategories::MODE_REMOTE_SELECTED, $this->getTokenHandler()->getCalendar());
-            $export = new ilCalendarExport($cats->getCategories(true));
+            $export = new ilCalendarExport($cats->getCategories(true), $this->limit_enabled);
         } else {
             $cats = ilCalendarCategories::_getInstance();
             $cats->initialize(ilCalendarCategories::MODE_REMOTE_ACCESS);
-            $export = new ilCalendarExport($cats->getCategories(true));
+            $export = new ilCalendarExport($cats->getCategories(true), $this->limit_enabled);
         }
 
         $export->export();
@@ -116,6 +120,11 @@ class ilCalendarRemoteAccessHandler
             ilCalendarAuthenticationToken::lookupUser($token),
             $token
         );
+    }
+
+    protected function initLimitEnabled()
+    {
+        $this->limit_enabled = (bool) $_GET[self::LIMITED_QUERY_PARAM];
     }
 
     protected function initIlias()

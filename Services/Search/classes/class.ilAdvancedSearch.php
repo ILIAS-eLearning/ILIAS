@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilAdvancedSearch
@@ -50,8 +52,7 @@ class ilAdvancedSearch extends ilAbstractSearch
     }
 
 
-    public function performSearch() : ?ilSearchResult
-
+    public function performSearch(): ?ilSearchResult
     {
         switch ($this->getMode()) {
             case 'requirement':
@@ -96,6 +97,12 @@ class ilAdvancedSearch extends ilAbstractSearch
             case 'title_description':
                 return $this->__searchTitleDescription();
 
+            case 'title':
+                return $this->__searchTitle();
+
+            case 'description':
+                return $this->__searchDescription();
+
             case 'language':
                 return $this->__searchLanguage();
 
@@ -106,10 +113,26 @@ class ilAdvancedSearch extends ilAbstractSearch
 
     public function &__searchTitleDescription(): ilSearchResult
     {
-        $this->setFields(array('title','description'));
+        $this->searchObjectProperties('title', 'description');
+        return $this->search_result;
+    }
+
+    public function __searchTitle(): ilSearchResult
+    {
+        return $this->searchObjectProperties('title');
+    }
+
+    public function __searchDescription(): ilSearchResult
+    {
+        return $this->searchObjectProperties('description');
+    }
+
+    protected function searchObjectProperties(string ...$fields): ilSearchResult
+    {
+        $this->setFields($fields);
 
         $and = ("AND type " . $this->__getInStatement($this->getFilter()));
-        $where = $this->__createTitleDescriptionWhereCondition();
+        $where = $this->__createObjectPropertiesWhereCondition(...$fields);
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_id,type " .
@@ -135,7 +158,7 @@ class ilAdvancedSearch extends ilAbstractSearch
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (
             !($this->options['lom_coverage'] ?? null) and
             !($this->options['lom_structure'] ?? null)
@@ -449,7 +472,7 @@ class ilAdvancedSearch extends ilAbstractSearch
             $where = "WHERE 1 = 1 ";
         }
         $and = ("AND obj_type " . $this->__getInStatement($this->getFilter()));
-        
+
         if ($this->options['lom_status'] ?? null) {
             $and .= (" AND lifecycle_status = " . $this->db->quote($this->options['lom_status'], 'text') . "");
         }

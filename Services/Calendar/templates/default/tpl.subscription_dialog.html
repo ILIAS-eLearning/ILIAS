@@ -7,3 +7,10 @@
 	</label>
 	<input size="30" class="form-control" id="current_perma_link" type="text" value="{LINK}" readonly="readonly" onclick="this.focus();this.select();return false;" />
 </div>
+<br />
+<div class="ilPermalinkContainer input-group">
+	<label for="current_perma_link">
+		<a href="{LINK_LIMITED}" onclick="with(document.getElementById('current_perma_link_limited')){focus();select();} return false;" class="permalink_label">{TXT_PERMA_LIMITED}</a>
+	</label>
+	<input size="30" class="form-control" id="current_perma_link_limited" type="text" value="{LINK_LIMITED}" readonly="readonly" onclick="this.focus();this.select();return false;" />
+</div>

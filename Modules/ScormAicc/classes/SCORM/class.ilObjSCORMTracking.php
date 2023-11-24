@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjSCORMTracking
@@ -622,10 +622,7 @@ class ilObjSCORMTracking
             array($packageId, $userId, date('Y-m-d H:i:s'))
         );
         $rowtmp = $ilDB->fetchAssoc($res);
-        if ($rowtmp['hash'] == $hash) {
-            //ok - do nothing
-            //            die("allowed");
-        } else {
+        if (! ($rowtmp && $rowtmp['hash'] == $hash)) {
             //output used by api
             die("not allowed");
         }

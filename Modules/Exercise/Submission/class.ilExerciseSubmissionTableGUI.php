@@ -492,7 +492,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         if (!$has_no_team_yet &&
             $a_ass->hasActiveIDl() &&
             !$a_ass->hasReadOnlyIDl() &&
-            (!is_null($a_row["calc_deadline"]) || $a_ass->getDeadline())) {    // calculated or common deadline given
+            (!is_null($a_row["calc_deadline"] ?? null) || $a_ass->getDeadline())) {    // calculated or common deadline given
             $idl_id = $a_ass->hasTeam()
                 ? "t" . ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id)
                 : $a_user_id;

@@ -380,7 +380,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         );
 
         $callback = array($this, "observeNoteAction");
-
         // notes
         if (!$ilSetting->get("disable_comments") &&
             ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId())) {

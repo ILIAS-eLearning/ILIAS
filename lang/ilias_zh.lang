@@ -605,9 +605,6 @@ assessment#:#cloze_text#:#填充测验文本
 assessment#:#cloze_textgap_case_insensitive#:#不区分大小写
 assessment#:#cloze_textgap_case_sensitive#:#区分大小定
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#代码
 assessment#:#codebase#:#代码库
 assessment#:#concatenation#:#级联
@@ -917,6 +914,7 @@ assessment#:#new_category#:#New Unit Category###24 10 2013 new variable
 assessment#:#new_unit#:#New Unit###24 10 2013 new variable
 assessment#:#next_question#:#保存并跳转到下一题
 assessment#:#next_question_rows#:#Questions %d - %d of %d >>问题
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#您至少要设置一个标记PASSED!这个标记模式没被保存.
 assessment#:#no_question_selected_for_move#:#要移除它请至少要检查一个题目!
 assessment#:#no_questions_available#:#无有效题目！
@@ -1533,10 +1531,10 @@ assessment#:#tst_manscoring_question_section_header#:#题目：%s
 assessment#:#tst_manscoring_user_notification#:#发送通知
 assessment#:#tst_mark#:#标记
 assessment#:#tst_mark_create_new_mark_step#:#创建新的标记步骤
-assessment#:#tst_mark_create_simple_mark_schema#:#创建简单标记模式
 assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
 assessment#:#tst_mark_official_form#:#Official form官方形式
 assessment#:#tst_mark_passed#:#已通过
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#创建简单标记模式
 assessment#:#tst_mark_short_form#:#Short form
 assessment#:#tst_max_allowed_users_heading#:#已经达到此次测试中同时允许的用户人数上限
 assessment#:#tst_max_allowed_users_message#:#已经达到此次测试中同翻搅时允许的活跃用户人数上限。请稍后再尝试启动或恢复测试。如果其中某位活跃用户超过 %s 秒未活动，您将有可能进入此次测试。感谢您的理解。
@@ -1645,6 +1643,7 @@ assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
 assessment#:#tst_password_introduction#:#这个测试只能通过输入一个测试密码才能访问。请输入这个测试的密码开始测试。
 assessment#:#tst_percent_solved#:#已完成的百分比
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#Question %s of %s问题的
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -2799,8 +2798,6 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#禁令
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#连接已断开
 chatroom#:#chat_connection_established#:#连接已建立
 chatroom#:#chat_create_private_room_button#:#创建私人房间
@@ -5730,7 +5727,6 @@ common#:#udf_delete_sure#:#您真的要删除这个字段，以及所有已分�
 common#:#udf_duplicate_entries#:#这个值必须是唯一的。
 common#:#udf_field_deleted#:#已删除字段。
 common#:#udf_name_already_exists#:#这个字段名称已经存在。请选择一个不同的名称
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#当字段设置为“必填”时，它必需被设置为“注册中可见”。
 common#:#udf_type_date#:#日期字段
 common#:#udf_type_datetime#:#日期和时间
@@ -5858,6 +5854,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#不能执行“插入”行为
 common#:#usrimport_no_update_ext_account_exists#:#不能执行“更新”行为。外部账号已经存在。
 common#:#usrimport_with_specified_role_not_permitted#:#不允许导入指定的角色
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#元素“%1$s”中缺失“%2$s属性。
 common#:#usrimport_xml_attribute_value_illegal#:#元素“%1$s”中的属性“%2$s”的值“%3$s”是非法的。
 common#:#usrimport_xml_attribute_value_inapplicable#:#元素“%1$s”中的属性“%2$s”的值“%3$s”无法应用到“%4$s”行为中。
@@ -8132,6 +8129,8 @@ dateplaner#:#cal_create#:#创建
 dateplaner#:#cal_created_appointment#:#创建新任命
 dateplaner#:#cal_created_milestone#:#已添加的里程碑。
 dateplaner#:#cal_created_milestone_resp_q#:#已添加里程碑。请选择负责满足这个里程碑的用户。
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Course Information###31 08 2017 new variable
 dateplaner#:#cal_crs_new_notification_body#:#一个新预约已经创建在课程 "%s" 中。
 dateplaner#:#cal_crs_new_notification_sub#:#课程 "%s" 中的新预约
@@ -9474,20 +9473,9 @@ file#:#file_download#:#下载文件
 file#:#file_import#:#Import File###30 08 2015 new variable
 file#:#file_new_version#:#创建新版本
 file#:#file_new_version_info#:#创建新文件版本。老版本将不会被修改。
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###10 11 2018 new variable
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###10 11 2018 new variable
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist###07 02 2020 new variable
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.###07 02 2020 new variable
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###10 11 2018 new variable
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###10 11 2018 new variable
-file#:#file_suffix_default_white#:#Default Suffix Whitelist###10 11 2018 new variable
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###10 11 2018 new variable
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###10 11 2018 new variable
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###10 11 2018 new variable
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###10 11 2018 new variable
 file#:#file_uploaded_by#:#由上传
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.###30 04 2021 new variable
-file#:#generate_sanitize_report#:#Report about inaccessible files###07 02 2020 new variable
 file#:#migrated#:#Status###09 03 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
 file#:#replace_file_info#:#所有文件版本都将被删除。
@@ -9908,6 +9896,7 @@ grp#:#grp_members#:#成员
 grp#:#grp_members_deleted#:#Deleted members###07 02 2017 new variable
 grp#:#grp_members_map#:#组成员地图
 grp#:#grp_members_print_title#:#组成员
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#请选择一个组类型。
 grp#:#grp_missing_password#:#请输入一个组密码。
 grp#:#grp_new_status#:#您的新状态：
@@ -10331,6 +10320,8 @@ link#:#link_wpages#:#Wiki Pages###07 11 2014 new variable
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
 lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
@@ -10430,6 +10421,7 @@ lso#:#lso_members_gallery#:#Learning Sequence Members Gallery###10 11 2018 new v
 lso#:#lso_members_print_title#:#Learning sequence mebers###10 11 2018 new variable
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.###10 11 2018 new variable
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)###10 11 2018 new variable
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification#:#Notification###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
@@ -10606,7 +10598,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider###07 02 2020 new variable
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2###07 02 2020 new variable
 lti#:#lti_con_prov_description#:#Description###07 02 2020 new variable
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###31 03 2023 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider###07 02 2020 new variable
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###07 02 2020 new variable
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers###07 02 2020 new variable
@@ -10724,6 +10719,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format###07 02 2020 new variable
 lti#:#online_info#:#This makes the object visible and usable for the users.###07 02 2020 new variable
 lti#:#prefix#:#Prefix###31 08 2017 new variable
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#Used Provider###07 02 2020 new variable
 lti#:#settings_subtab#:#Settings###07 02 2020 new variable
 lti#:#show_statements#:#Display Learning Experiences###07 02 2020 new variable
@@ -10968,6 +10964,7 @@ mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external emails t
 mail#:#mail_smtp_user#:#User###31 08 2017 new variable
 mail#:#mail_subject_prefix#:#邮件主题
 mail#:#mail_subject_prefix_info#:#输入一个文本，它将被加到自动生成的电子邮件输出的标题行的前面。
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#您确定要删除已标记的邮件吗？
 mail#:#mail_sure_delete_entry#:#您确定要删除下列条目吗？
 mail#:#mail_sure_delete_file#:#文件将永久删除
@@ -11301,9 +11298,15 @@ meta#:#md_advanced#:#高级元数据
 meta#:#md_aria_language_selection#:#Language Selection###30 04 2021 new variable
 meta#:#md_copyright#:#版权
 meta#:#md_copyright_add#:#添加版权预设定置
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#编辑版权预设置
 meta#:#md_copyright_enable_info#:#选择这个选项提供一个预定义版权选项
 meta#:#md_copyright_enabled#:#启用版权选择
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#版权 (预览)
 meta#:#md_copyright_selection#:#版权预设置
 meta#:#md_copyright_settings#:#版权设置
@@ -14817,6 +14820,7 @@ skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following us
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global###30 04 2021 new variable
 skmg#:#skmg_context_local#:#Local###30 04 2021 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#创建模板类目
 skmg#:#skmg_create_skill_category#:#创建技能类目
 skmg#:#skmg_create_skill_template#:#创建技能模板
@@ -16602,6 +16606,7 @@ user#:#clipboard_remove_btn#:#Remove from Clipboard###25 10 2016 new variable
 user#:#clipboard_table_title#:#Clipboard (User Accounts)###25 10 2016 new variable
 user#:#clipboard_user_added#:#Added selected users to clipboard.###25 10 2016 new variable
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?###31 08 2017 new variable
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Create Rule###31 08 2017 new variable
 user#:#criteria#:#Criteria###31 08 2017 new variable
 user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.###26 09 2014 new variable
@@ -16609,6 +16614,7 @@ user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted###26 09 2014 
 user#:#delete_inactive_user_accounts_frequency#:#Frequency###26 09 2014 new variable
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.###26 09 2014 new variable
 user#:#editing_this_role#:#Role###31 08 2017 new variable
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#启用本地用户管理
 user#:#enable_local_user_administration_info#:#如果启用，本地用户账号在类目中能被管理。
 user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable

@@ -105,7 +105,7 @@ class ilSoapUtils extends ilSoapAdministration
             foreach ($attachments as $att) {
                 $file->unlinkFile($att);
             }
-            $mail_obj->savePostData(
+            $mail_obj->persistToStage(
                 $ilUser->getId(),
                 [],
                 '',

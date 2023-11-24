@@ -836,7 +836,7 @@ class ilNewsItem
         foreach ($news as $k => $v) {
             if ($a_group_posting_sequence && $last_aggregation_forum > 0 &&
                 $last_aggregation_forum != $v["context_obj_id"]) {
-                $forums[$last_aggregation_forum] = "";
+                $forums[$last_aggregation_forum] = null;
             }
 
             if ($v["context_obj_type"] === "frm") {
@@ -865,7 +865,6 @@ class ilNewsItem
             unset($news[$k]);
         }
         //var_dump($news[14]["aggregation"]);
-
 
         return $news;
     }

@@ -141,7 +141,7 @@ il.UI.Input = il.UI.Input || {};
 					uploadMultiple: (1 < max_file_amount),
 					acceptedFiles: (0 < mime_types.length) ? mime_types : null,
 					maxFiles: max_file_amount,
-					maxFilesize: max_file_size / 1024 / 1024,
+					maxFilesize: max_file_size,
 					previewsContainer: file_list,
 					clickable: action_button,
 					autoProcessQueue: false,
@@ -356,8 +356,8 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			// abort if the given file size exceeds the max limit.
-			if (dropzones[input_id].options.maxFileSize < file.size) {
-				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFileSize);
+			if (dropzones[input_id].options.maxFilesize < file.size) {
+				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFilesize);
 				displayErrorMessage(
 					I18N.invalid_size.replace('%s', allowed_file_size),
 					$(`#${input_id} ${SELECTOR.dropzone}`)

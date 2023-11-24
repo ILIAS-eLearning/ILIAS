@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\Data\URI;
 
 /**
  * Meta Data Settings.
@@ -34,6 +38,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     protected ?ilMDCopyrightSelectionEntry $entry = null;
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     public function __construct($a_data, $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -44,6 +50,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("meta");
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
     }
 
     protected function initEntryIdFromQuery(): int
@@ -263,35 +271,51 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->ctrl->redirectByClass('ilmdcopyrightusagegui', "showUsageTable");
     }
 
-    public function editEntry(?ilPropertyFormGUI $form = null): void
+    public function editEntry(?StandardForm $form = null): void
     {
         $this->ctrl->saveParameter($this, 'entry_id');
-        if (!$form instanceof ilPropertyFormGUI) {
+        if (!$form instanceof StandardForm) {
             $form = $this->initCopyrightEditForm();
         }
-        $this->tpl->setContent($form->getHTML());
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('back'),
+            $post_url = $this->ctrl->getLinkTarget($this, 'showCopyrightSettings')
+        );
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
-    public function addEntry(?ilPropertyFormGUI $form = null): void
+    public function addEntry(?StandardForm $form = null): void
     {
-        if (!$form instanceof ilPropertyFormGUI) {
+        if (!$form instanceof StandardForm) {
             $form = $this->initCopyrightEditForm('add');
         }
-        $this->tpl->setContent($form->getHTML());
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('back'),
+            $post_url = $this->ctrl->getLinkTarget($this, 'showCopyrightSettings')
+        );
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     public function saveEntry(): bool
     {
-        $form = $this->initCopyrightEditForm('add');
-        if ($form->checkInput()) {
+        $form = $this->initCopyrightEditForm('add')->withRequest($this->request);
+        if ($data = $form->getData()) {
+            $data = $data[0];
             $this->entry = new ilMDCopyrightSelectionEntry(0);
-            $this->entry->setTitle($form->getInput('title'));
-            $this->entry->setDescription($form->getInput('description'));
-            $this->entry->setCopyright($form->getInput('copyright'));
+            $this->entry->setTitle($data['title']);
+            $this->entry->setDescription($data['description']);
+            $this->entry->setCopyrightData(
+                $data['copyright']['full_name'],
+                $data['copyright']['link'],
+                $data['copyright']['image_link'],
+                $data['copyright']['alt_text']
+            );
+            $this->entry->setOutdated((bool) $data['outdated']);
             $this->entry->setLanguage('en');
             $this->entry->setCopyrightAndOtherRestrictions(true);
             $this->entry->setCosts(false);
-            $this->entry->setOutdated((bool) $form->getInput('outdated'));
 
             if (!$this->entry->validate()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('fill_out_all_required_fields'));
@@ -353,12 +377,18 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     public function updateEntry(): bool
     {
         $this->entry = new ilMDCopyrightSelectionEntry($this->initEntryIdFromQuery());
-        $form = $this->initCopyrightEditForm();
-        if ($form->checkInput()) {
-            $this->entry->setTitle($form->getInput('title'));
-            $this->entry->setDescription($form->getInput('description'));
-            $this->entry->setCopyright($form->getInput('copyright'));
-            $this->entry->setOutdated((bool) $form->getInput('outdated'));
+        $form = $this->initCopyrightEditForm()->withRequest($this->request);
+        if ($data = $form->getData()) {
+            $data = $data[0];
+            $this->entry->setTitle($data['title']);
+            $this->entry->setDescription($data['description']);
+            $this->entry->setCopyrightData(
+                $data['copyright']['full_name'],
+                $data['copyright']['link'],
+                $data['copyright']['image_link'],
+                $data['copyright']['alt_text']
+            );
+            $this->entry->setOutdated((bool) $data['outdated']);
             if (!$this->entry->validate()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('fill_out_all_required_fields'));
                 $this->editEntry($form);
@@ -399,52 +429,93 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    public function initCopyrightEditForm(string $a_mode = 'edit'): ilPropertyFormGUI
+    public function initCopyrightEditForm(string $a_mode = 'edit'): StandardForm
     {
         if (!is_object($this->entry)) {
             $this->entry = new ilMDCopyrightSelectionEntry($this->initEntryIdFromQuery());
         }
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
 
-        $tit = new ilTextInputGUI($this->lng->txt('title'), 'title');
-        $tit->setValue($this->entry->getTitle());
-        $tit->setRequired(true);
-        $tit->setSize(40);
-        $tit->setMaxLength(255);
-        $form->addItem($tit);
+        $inputs = [];
+        $ff = $this->ui_factory->input()->field();
 
-        $des = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-        $des->setValue($this->entry->getDescription());
-        $des->setRows(3);
-        $form->addItem($des);
+        $title = $ff
+            ->text($this->lng->txt('title'))
+            ->withValue($this->entry->getTitle())
+            ->withRequired(true)
+            ->withMaxLength(255);
+        $inputs['title'] = $title;
 
-        $cop = new ilTextAreaInputGUI($this->lng->txt('md_copyright_value'), 'copyright');
-        $cop->setValue($this->entry->getCopyright());
-        $cop->setRows(5);
-        $form->addItem($cop);
-        $usage = new ilRadioGroupInputGUI($this->lng->txt('meta_copyright_usage'), 'outdated');
-        $use = new ilRadioOption($this->lng->txt('meta_copyright_in_use'), '0');
-        $out = new ilRadioOption($this->lng->txt('meta_copyright_outdated'), '1');
-        $usage->addOption($use);
-        $usage->addOption($out);
-        $usage->setValue((string) $this->entry->getOutdated());
-        $form->addItem($usage);
+        $des = $ff
+            ->textarea($this->lng->txt('description'))
+            ->withValue($this->entry->getDescription());
+        $inputs['description'] = $des;
 
+        $usage = $ff
+            ->radio($this->lng->txt('meta_copyright_usage'))
+            ->withOption('0', $this->lng->txt('meta_copyright_in_use'))
+            ->withOption('1', $this->lng->txt('meta_copyright_outdated'))
+            ->withValue((int) $this->entry->getOutdated());
+        $inputs['outdated'] = $usage;
+
+        $cp_data = $this->entry->getCopyrightData();
+
+        $full_name = $ff
+            ->text($this->lng->txt('md_copyright_full_name'))
+            ->withValue($cp_data->fullName());
+
+        $link = $ff
+            ->url(
+                $this->lng->txt('md_copyright_link'),
+                $this->lng->txt('md_copyright_link_info')
+            )
+            ->withValue((string) $cp_data->link())
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(fn ($v) => $v instanceof URI ? $v : null)
+            );
+
+        $image_link = $ff
+            ->url($this->lng->txt('md_copyright_image_link'))
+            ->withValue((string) $cp_data->imageLink())
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(
+                fn ($v) => $v instanceof URI ? $v : null
+            ));
+
+        $alt_text = $ff
+            ->text(
+                $this->lng->txt('md_copyright_alt_text'),
+                $this->lng->txt('md_copyright_alt_text_info')
+            )
+            ->withValue($cp_data->altText());
+
+        $cop = $ff
+            ->section(
+                [
+                    'full_name' => $full_name,
+                    'link' => $link,
+                    'image_link' => $image_link,
+                    'alt_text' => $alt_text
+                ],
+                $this->lng->txt('md_copyright_value')
+            );
+        $inputs['copyright'] = $cop;
+
+        $form_title = '';
+        $post_url = '';
         switch ($a_mode) {
             case 'edit':
-                $form->setTitle($this->lng->txt('md_copyright_edit'));
-                $form->addCommandButton('updateEntry', $this->lng->txt('save'));
-                $form->addCommandButton('showCopyrightSettings', $this->lng->txt('cancel'));
+                $form_title = $this->lng->txt('md_copyright_edit');
+                $post_url = $this->ctrl->getLinkTarget($this, 'updateEntry');
                 break;
 
             case 'add':
-                $form->setTitle($this->lng->txt('md_copyright_add'));
-                $form->addCommandButton('saveEntry', $this->lng->txt('save'));
-                $form->addCommandButton('showCopyrightSettings', $this->lng->txt('cancel'));
+                $form_title = $this->lng->txt('md_copyright_add');
+                $post_url = $this->ctrl->getLinkTarget($this, 'saveEntry');
                 break;
         }
-        return $form;
+        return $this->ui_factory->input()->container()->form()->standard(
+            $post_url,
+            [$ff->section($inputs, $form_title)]
+        );
     }
 
     protected function initMDSettings(): void
@@ -462,7 +533,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $positions = $this->http->wrapper()->post()->retrieve(
             'order',
             $this->refinery->kindlyTo()->dictOf(
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             )
         );
         asort($positions);

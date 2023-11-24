@@ -446,9 +446,9 @@ class ilObjUser extends ilObject
         $update_array = [
             "gender" => ["text", $this->gender],
             "title" => ["text", $this->utitle],
-            "firstname" => ["text", $this->firstname],
-            "lastname" => ["text", $this->lastname],
-            "email" => ["text", trim($this->email)],
+            "firstname" => ["text", substr($this->firstname, 0, 128)],
+            "lastname" => ["text", substr($this->lastname, 0, 128)],
+            "email" => ["text", substr(trim($this->email), 0, 128)],
             "second_email" => ["text", trim($this->second_email)],
             "birthday" => ['date', $this->getBirthday()],
             "hobby" => ["text", $this->hobby],
@@ -3110,7 +3110,7 @@ class ilObjUser extends ilObject
             $body .= $language->txt('time_limit') . ': ' .
                 $language->txt('from') . " " .
                 $start->get(IL_CAL_DATETIME) . " ";
-            $body .= $language->txt('to') . ' ' . $end->get(IL_CAL_DATETIME);
+            $body .= $language->txt('to') . ' ' . $end->get(IL_CAL_DATETIME) . "\n";
         }
 
         /**

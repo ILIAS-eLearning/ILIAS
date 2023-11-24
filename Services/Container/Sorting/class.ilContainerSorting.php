@@ -139,7 +139,7 @@ class ilContainerSorting
                 if (in_array($row->parent_type, ["sess", "itgr"])) {
                     $par_refs = ilObject::_getAllReferences($row->parent_id);
                     $par_ref_id = current($par_refs);			// should be only one
-                    $ilLog->debug("Got ref id: " . $par_ref_id . " for obj_id " . $row->parent_id . " map ref id: " . $mappings[$par_ref_id] . ".");
+                    $ilLog->debug("Got ref id: " . $par_ref_id . " for obj_id " . $row->parent_id . " map ref id: " . ($mappings[$par_ref_id] ?? "") . ".");
                     if (isset($mappings[$par_ref_id])) {
                         $new_parent_ref_id = $mappings[$par_ref_id];
                         $new_parent_id = ilObject::_lookupObjectId($new_parent_ref_id);

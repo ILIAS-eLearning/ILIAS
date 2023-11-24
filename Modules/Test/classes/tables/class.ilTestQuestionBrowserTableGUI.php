@@ -268,6 +268,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             $this->getBrowseQuestionsTabLabel(),
             $this->getBrowseQuestionsTabUrl()
         );
+        $this->tabs->activateTab('browseQuestions');
     }
 
     private function getBackTargetLabel(): string

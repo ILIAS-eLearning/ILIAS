@@ -538,6 +538,7 @@ class ilObjUserGUI extends ilObjectGUI
      */
     public function editObject(): void
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $rbacsystem = $DIC->rbac()->system();
@@ -545,23 +546,20 @@ class ilObjUserGUI extends ilObjectGUI
 
         // User folder
         // User folder && access granted by rbac or by org unit positions
-        if ($this->usrf_ref_id == USER_FOLDER_ID &&
-            (
-                !$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id) ||
-                !$access->checkRbacOrPositionPermissionAccess(
-                    'write',
-                    \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                    $this->usrf_ref_id
-                ) ||
-                !in_array(
-                    $this->object->getId(),
-                    $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                        'write',
-                        \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                        USER_FOLDER_ID,
-                        [$this->object->getId()]
+        if ($this->usrf_ref_id == USER_FOLDER_ID
+            && (
+                !$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id)
+                || !$rbacsystem->checkAccess('write', $this->usrf_ref_id)
+                    && !$access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                || $access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                    && !in_array(
+                        $this->object->getId(),
+                        $access->filterUserIdsByPositionOfCurrentUser(
+                            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+                            USER_FOLDER_ID,
+                            [$this->object->getId()]
+                        )
                     )
-                )
             )
         ) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"), $this->ilias->error_obj->MESSAGE);
@@ -1205,14 +1203,14 @@ class ilObjUserGUI extends ilObjectGUI
         $acfrom = new ilDateTimeInputGUI($this->lng->txt("crs_from"), "time_limit_from");
         $acfrom->setRequired(true);
         $acfrom->setShowTime(true);
-        //		$ac->addSubItem($acfrom);
+        $acfrom->setMinuteStepSize(1);
         $op2->addSubItem($acfrom);
 
         // access.to
         $acto = new ilDateTimeInputGUI($this->lng->txt("crs_to"), "time_limit_until");
         $acto->setRequired(true);
         $acto->setShowTime(true);
-        //		$ac->addSubItem($acto);
+        $acto->setMinuteStepSize(1);
         $op2->addSubItem($acto);
 
         //		$this->form_gui->addItem($ac);
@@ -1246,11 +1244,13 @@ class ilObjUserGUI extends ilObjectGUI
         }
 
         // firstname, lastname, title
-        $fields = array("firstname" => true,
-                        "lastname" => true,
-                        "title" => isset($settings["require_title"]) && $settings["require_title"]
-        );
+        $fields = [
+            "firstname" => true,
+            "lastname" => true,
+            "title" => isset($settings["require_title"]) && $settings["require_title"]
+        ];
         foreach ($fields as $field => $req) {
+            $max_len = $field === 'title' ? 32 : 128;
             if ($this->isSettingChangeable($field)) {
                 // #18795
                 $caption = ($field == "title")
@@ -1258,7 +1258,7 @@ class ilObjUserGUI extends ilObjectGUI
                     : $field;
                 $inp = new ilTextInputGUI($lng->txt($caption), $field);
                 $inp->setSize(32);
-                $inp->setMaxLength(32);
+                $inp->setMaxLength($max_len);
                 $inp->setRequired($req);
                 $this->form_gui->addItem($inp);
             }
@@ -1338,6 +1338,7 @@ class ilObjUserGUI extends ilObjectGUI
             $em = new ilEMailInputGUI($lng->txt("email"), "email");
             $em->setRequired(isset($settings["require_email"]) &&
                 $settings["require_email"]);
+            $em->setMaxLength(128);
             $this->form_gui->addItem($em);
         }
 
@@ -1842,8 +1843,9 @@ class ilObjUserGUI extends ilObjectGUI
 
         $ilTabs->activateTab("role_assignment");
 
-        if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id) &&
-            !$access->isCurrentUserBasedOnPositionsAllowedTo("read_users", array($this->object->getId()))
+        if ($this->object->getId() === (int) ANONYMOUS_USER_ID
+            || !$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id)
+                && !$access->isCurrentUserBasedOnPositionsAllowedTo("read_users", array($this->object->getId()))
         ) {
             $this->ilias->raiseError(
                 $this->lng->txt("msg_no_perm_assign_role_to_user"),
@@ -2093,14 +2095,25 @@ class ilObjUserGUI extends ilObjectGUI
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
+
+        /** @var ilCtrl $ilCtrl */
         $ilCtrl = $DIC['ilCtrl'];
+
+        if (strstr($a_target, ilPersonalProfileGUI::CHANGE_EMAIL_CMD) === $a_target
+            && $ilUser->getId() !== ANONYMOUS_USER_ID) {
+            $class = ilPersonalProfileGUI::class;
+            $cmd = ilPersonalProfileGUI::CHANGE_EMAIL_CMD;
+            $ilCtrl->clearParametersByClass($class);
+            $ilCtrl->setParameterByClass($class, 'token', str_replace($cmd, '', $a_target));
+            $ilCtrl->redirectByClass(['ildashboardgui', $class], $cmd);
+        }
 
         // #10888
         if ($a_target == md5("usrdelown")) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID &&
                 $ilUser->hasDeletionFlag()) {
                 $ilCtrl->setTargetScript('ilias.php');
-                $ilCtrl->redirectByClass(array("ildashboardgui", "ilpersonalsettingsgui"), "deleteOwnAccount3");
+                $ilCtrl->redirectByClass(['ildashboardgui', 'ilpersonalsettingsgui'], "deleteOwnAccount3");
             }
             exit("This account is not flagged for deletion."); // #12160
         }
@@ -2146,7 +2159,7 @@ class ilObjUserGUI extends ilObjectGUI
      */
     protected function handleIgnoredRequiredFields(): bool
     {
-        $profileMaybeIncomplete = false;
+        $profile_maybe_incomplete = false;
 
         foreach (ilUserProfile::getIgnorableRequiredSettings() as $fieldName) {
             $elm = $this->form_gui->getItemByPostVar($fieldName);
@@ -2156,7 +2169,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
 
             if ($elm->getRequired()) {
-                $profileMaybeIncomplete = true;
+                $profile_maybe_incomplete = true;
 
                 // Flag as optional
                 $elm->setRequired(false);
@@ -2170,16 +2183,15 @@ class ilObjUserGUI extends ilObjectGUI
             if (!$elm) {
                 continue;
             }
-
-            if ($elm->getRequired() && $definition['changeable'] && $definition['required'] && $definition['visible']) {
-                $profileMaybeIncomplete = true;
+            if ($elm->getRequired() && $definition['required']) {
+                $profile_maybe_incomplete = true;
 
                 // Flag as optional
                 $elm->setRequired(false);
             }
         }
 
-        return $profileMaybeIncomplete;
+        return $profile_maybe_incomplete;
     }
 
     protected function showAcceptedTermsOfService(): void

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -87,7 +87,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             }
         }
 
-        if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
+        if ($this->is_root) {
             $this->addColumn($this->lng->txt("path"));
             $this->addColumn($this->lng->txt("action"));
         }
@@ -832,7 +832,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                         break;
                     }
 
-                // no break
+                    // no break
                 default:
                     $value = $this->parseValue($c, $a_set[$c], $a_set["type"]);
                     $this->tpl->setVariable(strtoupper($c), $value);

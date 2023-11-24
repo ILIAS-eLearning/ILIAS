@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Individual Assessment dataset class
@@ -127,7 +127,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
     ): void {
         if ($a_entity == "iass") {
             if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
-                $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+                $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             } else {
                 $newObj = new ilObjIndividualAssessment();
                 $newObj->create();

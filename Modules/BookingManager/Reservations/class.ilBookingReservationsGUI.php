@@ -312,7 +312,6 @@ class ilBookingReservationsGUI
         if (count($ids) === 0) {
             $this->back();
         }
-
         $max = array();
         foreach ($ids as $idx => $id) {
             if (!is_numeric($id)) {
@@ -322,8 +321,7 @@ class ilBookingReservationsGUI
                 foreach (ilBookingObject::getList($this->pool->getId()) as $item) {
                     $valid_ids[$item["booking_object_id"]] = $item["title"];
                 }
-
-                if (array_key_exists($obj_id, $valid_ids) && $from > time() && ($this->checkPermissionBool("write") || $user_id === $ilUser->getId())) {
+                if (array_key_exists($obj_id, $valid_ids) && $from > time() && ($this->checkPermissionBool("write") || (int) $user_id === $ilUser->getId())) {
                     $rsv_ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
                     if (!count($rsv_ids)) {
                         unset($ids[$idx]);
@@ -634,7 +632,7 @@ class ilBookingReservationsGUI
         $this->ctrl->redirect($this, 'log');
     }
 
-    protected function showRerunPreferenceAssignment() : void
+    protected function showRerunPreferenceAssignment(): void
     {
         if (!$this->checkPermissionBool('write')) {
             return;
@@ -689,5 +687,4 @@ class ilBookingReservationsGUI
         }
         $this->ctrl->redirect($this, "log");
     }
-
 }

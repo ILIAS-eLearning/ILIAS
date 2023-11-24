@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 /**
  * @author  Tim Schmitz <schmitz@leifos.de>
@@ -39,5 +38,27 @@ class ilCalendarDBUpdateSteps8 implements ilDatabaseUpdateSteps
         if (!$this->db->indexExistsByFields('cal_entries', ['enda'])) {
             $this->db->addIndex('cal_entries', ['enda'], 'i4');
         }
+    }
+
+    public function step_2(): void
+    {
+        $this->db->modifyTableColumn(
+            'cal_entries',
+            'title',
+            [
+                'length' => 255
+            ]
+        );
+    }
+
+    public function step_3(): void
+    {
+        $this->db->modifyTableColumn(
+            'cal_categories',
+            'title',
+            [
+                'length' => 255
+            ]
+        );
     }
 }

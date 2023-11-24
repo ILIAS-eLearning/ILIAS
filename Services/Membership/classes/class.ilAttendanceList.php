@@ -1,8 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Base class for attendance lists
@@ -101,7 +100,7 @@ class ilAttendanceList
                     $this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
                     break;
 
-                // local
+                    // local
                 default:
                     $this->has_local_role = true;
                     $this->addRole($role_id, $title, 'local');
@@ -603,7 +602,7 @@ class ilAttendanceList
                         $valid_user_ids = array_merge($valid_user_ids, $this->participants->getTutors());
                         break;
 
-                    // member/local
+                        // member/local
                     default:
                         if (!$this->has_local_role) {
                             $valid_user_ids = array_merge($valid_user_ids, $members);
@@ -641,7 +640,7 @@ class ilAttendanceList
                     if ($item[1]) {
                         switch ($id) {
                             case 'org_units':
-                                $value = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+                                $value = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $user_id);
                                 break;
 
                             case "name":
@@ -650,14 +649,14 @@ class ilAttendanceList
                                     $value = $name["lastname"] . ", " . $name["firstname"];
                                     break;
                                 }
-                            // no break
+                                // no break
                             case "login":
                                 if (!($user_data[$id] ?? false)) {
                                     $value = ilObjUser::_lookupLogin((int) $user_id);
                                     break;
                                 }
 
-                            // no break
+                                // no break
                             default:
                                 $value = (string) ($user_data[$id] ?? '');
                                 break;

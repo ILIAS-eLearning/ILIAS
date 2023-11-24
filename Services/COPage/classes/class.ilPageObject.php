@@ -903,7 +903,8 @@ s     */
     public function copyXmlContent(
         bool $a_clone_mobs = false,
         int $a_new_parent_id = 0,
-        int $obj_copy_id = 0
+        int $obj_copy_id = 0,
+        bool $self_ass = true
     ): string {
         $xml = $this->getXMLContent();
         $temp_dom = domxml_open_mem(
@@ -912,7 +913,7 @@ s     */
             $error
         );
         if (empty($error)) {
-            $this->handleCopiedContent($temp_dom, true, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
+            $this->handleCopiedContent($temp_dom, $self_ass, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
         }
         $xml = $temp_dom->dump_mem(0, $this->encoding);
         $xml = preg_replace('/<\?xml[^>]*>/i', "", $xml);
@@ -2027,7 +2028,6 @@ s     */
         $this->buildDom();
 
         $changed = false;
-
         // resolve normal internal links
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
@@ -2047,6 +2047,10 @@ s     */
                 }
                 if ($type == "PortfolioPage") {
                     $res->nodeset[$i]->set_attribute("Target", "il__ppage_" . $a_from_to[$obj_id]);
+                    $changed = true;
+                }
+                if ($type == "WikiPage") {
+                    $res->nodeset[$i]->set_attribute("Target", "il__wpage_" . $a_from_to[$obj_id]);
                     $changed = true;
                 }
             }
@@ -2602,7 +2606,6 @@ s     */
                                   $old_rec["lang"]
                             )
                         );
-
                         // the following lines are a workaround for
                         // bug 6741
                         $last_c = $old_rec["last_change"];
@@ -2621,14 +2624,13 @@ s     */
                             "ilias_version" => array("text", ILIAS_VERSION_NUMERIC),
                             "nr" => array("integer", (int) $last_nr["mnr"] + 1)
                         ));
-
                         $old_content = $old_rec["content"];
                         $old_domdoc = new DOMDocument();
                         $old_nr = $last_nr["mnr"] + 1;
                         $old_domdoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>' . $old_content);
 
                         // after history entry creation event
-                        $this->log->debug("calling __afterHistoryEntry");
+                        $this->log->debug("calling __afterHistoryEntry $old_nr");
                         $this->__afterHistoryEntry($old_domdoc, $old_content, $old_nr);
 
                         // only save one time
@@ -4226,7 +4228,8 @@ s     */
         // get page objects
         $l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left);
         $r_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_right);
-
+        $this->preparePageForCompare($l_page);
+        $this->preparePageForCompare($r_page);
         $l_hashes = $l_page->getPageContentsHashes();
         $r_hashes = $r_page->getPageContentsHashes();
         // determine all deleted and changed page elements
@@ -4270,6 +4273,10 @@ s     */
                      "l_changes" => $l_hashes,
                      "r_changes" => $r_hashes
         );
+    }
+
+    protected function preparePageForCompare(ilPageObject $page): void
+    {
     }
 
     /**

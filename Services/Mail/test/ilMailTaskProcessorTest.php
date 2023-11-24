@@ -53,6 +53,21 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
     }
 
+    public function testMailValueObjectCannotBeCreatedWithUnsupportedSubjectLength(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $mailValueObject = new ilMailValueObject(
+            'ilias@server.com',
+            'somebody@iliase.de',
+            '',
+            '',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mollis posuere tincidunt. Phasellus et euismod ligula. Suspendisse dignissim eget dui nec imperdiet. Donec in pretium tellus. Maecenas lacinia eleifend erat ut euismod. Aenean eu malesuada est.',
+            'Dear Steve, great!',
+            []
+        );
+    }
+
     /**
      * @throws ilException
      * @throws ReflectionException

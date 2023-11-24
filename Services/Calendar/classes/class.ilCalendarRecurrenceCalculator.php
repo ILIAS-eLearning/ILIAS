@@ -94,6 +94,7 @@ class ilCalendarRecurrenceCalculator
         $time = microtime(true);
 
         $start = $this->optimizeStartingTime();
+        $end = $this->optimizeEndingTime();
 
         #echo "ZEIT: ADJUST: ".(microtime(true) - $time).'<br>';
         $counter = 0;
@@ -134,7 +135,7 @@ class ilCalendarRecurrenceCalculator
 
             $start = $this->incrementByFrequency($start);
 
-            if (ilDateTime::_after($start, $this->period_end) or $this->limit_reached) {
+            if (ilDateTime::_after($start, $end) || $this->limit_reached) {
                 break;
             }
         } while (true);
@@ -215,6 +216,16 @@ class ilCalendarRecurrenceCalculator
             $start = $this->incrementByFrequency($start);
         }
         return $optimized;
+    }
+
+    protected function optimizeEndingTime(): ilDateTime
+    {
+        $end = clone $this->period_start;
+        $end = $this->incrementByFrequency($end);
+        if (ilDateTime::_before($this->period_end, $end, ilDateTime::DAY)) {
+            return $end;
+        }
+        return $this->period_end;
     }
 
     protected function incrementByFrequency(ilDateTime $start): ilDateTime

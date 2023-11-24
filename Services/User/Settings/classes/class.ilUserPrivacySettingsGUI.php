@@ -107,7 +107,10 @@ class ilUserPrivacySettingsGUI
         $lng = $this->lng;
 
         $html = "";
-        if ($this->checklist_status->anyVisibilitySettings()) {
+        if ($this->checklist_status->anyVisibilitySettings()
+            && ($this->isAwarnessSettingVisible()
+                || $this->isContactSettingVisible()
+                || $this->shouldDisplayChatSection())) {
             if (is_null($form)) {
                 $form = $this->initPrivacySettingsForm();
             }
@@ -116,7 +119,11 @@ class ilUserPrivacySettingsGUI
 
         $pub_profile = new ilPublicUserProfileGUI($user->getId());
         if ($this->profile_mode->isEnabled()) {
-            $html .= $pub_profile->getEmbeddable();
+            $pub_profile_legacy = $this->uiFactory->legacy($pub_profile->getEmbeddable());
+            $html .= $this->uiRenderer->render($this->uiFactory->panel()->standard(
+                $this->lng->txt('user_profile_preview'),
+                $pub_profile_legacy
+            ));
         } elseif (!$this->checklist_status->anyVisibilitySettings()) {
             $html .= $this->uiRenderer->render(
                 [$this->uiFactory->messageBox()->info($lng->txt("usr_public_profile_disabled"))]
@@ -233,8 +240,7 @@ class ilUserPrivacySettingsGUI
             ->withValue($val)
             ->withRequired(true)
             ->withDisabled(
-                (bool)
-                $this->settings->get("usr_settings_disable_hide_own_online_status")
+                $this->settings->get('usr_settings_disable_hide_own_online_status', '0') === '1' ? true : false
             );
 
         $formSections['awrn_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('obj_awra'));
@@ -258,8 +264,7 @@ class ilUserPrivacySettingsGUI
             )
             ->withValue($bs_allow_contact_me)
             ->withDisabled(
-                (bool)
-                $this->settings->get('usr_settings_disable_bs_allow_to_contact_me')
+                $this->settings->get('usr_settings_disable_bs_allow_to_contact_me', '0') === '1' ? true : false
             );
 
         $formSections['contacts_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('mm_contacts'));
@@ -315,7 +320,7 @@ class ilUserPrivacySettingsGUI
         });
 
         if ($this->shouldShowOnScreenChatOptions()) {
-            $oscAvailable = (bool) $this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0');
+            $oscAvailable = $this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0') === '1' ? true : false;
             $oscSubFormGroup = [];
 
             if ($this->chatSettings->get('enable_browser_notifications', '0')) {
@@ -429,7 +434,7 @@ class ilUserPrivacySettingsGUI
                         $enableOsc = is_array($enableOsc);
                     }
 
-                    if (!$this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0')) {
+                    if ($this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0') !== '1') {
                         $preferencesUpdated = true;
                         if ($oldEnableOscValue !== $enableOsc) {
                             $this->user->setPref('chat_osc_accept_msg', ilUtil::tf2yn($enableOsc));

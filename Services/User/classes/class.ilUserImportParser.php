@@ -909,7 +909,9 @@ class ilUserImportParser extends ilSaxParser
                     $user_id = $this->user_id;
                 }
 
-                //echo $user_id.":".$this->userObj->getLogin();
+                if ($user_id === (int) ANONYMOUS_USER_ID || $user_id === (int) SYSTEM_USER_ID) {
+                    return;
+                }
 
                 // Handle conflicts
                 switch ($this->conflict_rule) {
@@ -1660,12 +1662,19 @@ class ilUserImportParser extends ilSaxParser
             case "User":
                 $this->userObj->setFullname();
                 if ($this->user_id != -1 && ($this->action === "Update" || $this->action === "Delete")) {
-                    $user_exists = !is_null(ilObjUser::_lookupLogin($this->user_id));
+                    $user_id = $this->user_id;
+                    $user_exists = !is_null(ilObjUser::_lookupLogin($user_id));
                 } else {
-                    $user_exists = ilObjUser::getUserIdByLogin($this->userObj->getLogin()) != 0;
+                    $user_id = ilObjUser::getUserIdByLogin($this->userObj->getLogin());
+                    $user_exists = $user_id != 0;
                 }
                 if (is_null($this->userObj->getLogin())) {
                     $this->logFailure("---", sprintf($lng->txt("usrimport_xml_element_for_action_required"), "Login", "Insert"));
+                }
+
+                if ($user_id === (int) ANONYMOUS_USER_ID || $user_id === (int) SYSTEM_USER_ID) {
+                    $this->logWarning($this->userObj->getLogin(), $lng->txt('usrimport_xml_anonymous_or_root_not_allowed'));
+                    break;
                 }
 
                 switch ($this->action) {

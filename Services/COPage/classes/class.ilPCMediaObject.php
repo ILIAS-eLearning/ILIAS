@@ -328,7 +328,7 @@ class ilPCMediaObject extends ilPageContent
         ilObjMediaObject::_deleteAllUsages(
             $a_page->getParentType() . ":pg",
             $a_page->getId(),
-            false,
+            null,
             $a_page->getLanguage()
         );
 
@@ -364,8 +364,9 @@ class ilPCMediaObject extends ilPageContent
         DOMDocument $a_domdoc,
         int $a_old_nr = 0
     ): array {
-        $usages = array();
+        $log = ilLoggerFactory::getLogger("copg");
 
+        $usages = array();
         // media aliases
         $xpath = new DOMXPath($a_domdoc);
         $nodes = $xpath->query('//MediaAlias');
@@ -410,9 +411,11 @@ class ilPCMediaObject extends ilPageContent
             $a_old_nr,
             $a_page->getLanguage()
         );
+        $log->debug("Deleted all mob usages page id: " . $a_page->getId() . ", lang" . $a_page->getLanguage() . ", old nr: " . $a_old_nr);
         foreach ($usages as $mob_id => $val) {
             // save usage, if object exists...
             if (ilObject::_lookupType($mob_id) == "mob") {
+                $log->debug("Save usage mob id: " . $mob_id . ", old nr: " . $a_old_nr);
                 ilObjMediaObject::_saveUsage(
                     $mob_id,
                     $a_page->getParentType() . ":pg",
@@ -566,7 +569,9 @@ class ilPCMediaObject extends ilPageContent
                 return true;
             }
         }
-        return false;
+        // see https://mantis.ilias.de/view.php?id=38582
+        // we allow instance editing regardless of number of usages
+        return true;
     }
 
     public static function deleteHistoryLowerEqualThan(

@@ -130,7 +130,7 @@
 	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
 
     <!-- Footnote List -->
-	<xsl:if test="count(//Footnote) > 0 and $append_footnotes = 'y'">
+	<xsl:if test="count(//Footnote) > 0 and $append_footnotes = 'y' and $mode != 'edit'">
 		<hr />
 		<xsl:for-each select="//Footnote">
 			<xsl:choose>
@@ -1174,8 +1174,7 @@
 </xsl:template>
 
 <!-- Footnote (Links) -->
-<xsl:template match="Footnote"><a class="ilc_link_FootnoteLink"><xsl:attribute name="href">#fn<xsl:number count="Footnote" level="any"/></xsl:attribute>[<xsl:number count="Footnote" level="any"/>]
-	</a>
+	<xsl:template match="Footnote"><xsl:if test="$mode != 'edit' and $append_footnotes='y'"><a class="ilc_link_FootnoteLink"><xsl:attribute name="href">#fn<xsl:number count="Footnote" level="any"/></xsl:attribute>[<xsl:number count="Footnote" level="any"/>]</a></xsl:if><xsl:if test="$mode = 'edit' or $append_footnotes!='y'">[fn]<xsl:apply-templates/>[/fn]</xsl:if>
 </xsl:template>
 
 
@@ -1909,9 +1908,9 @@
 		</xsl:if>
 		<xsl:if test="$mode = 'print'">
 			<xsl:if test="$page_perma_link = ''">
-				<span class="ilc_Print_FileItem">
+				<a class="ilc_flist_a_FileListItemLink" href="#">
 					<xsl:call-template name="FileItemText"/>
-				</span>
+				</a>
 			</xsl:if>
 			<xsl:if test="$page_perma_link != ''">
 				<a class="ilc_flist_a_FileListItemLink" target="_blank">

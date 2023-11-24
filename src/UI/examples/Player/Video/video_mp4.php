@@ -26,7 +26,7 @@ function video_mp4(): string
     $renderer = $DIC->ui()->renderer();
     $f = $DIC->ui()->factory();
 
-    $video = $f->player()->video("https://files.ilias.de/ILIAS-Video.mp4");
+    $video = $f->player()->video("https://files.ilias.de/ks/ILIAS-Video.mp4");
     $video = $video->withAdditionalSubtitleFile("en", "./src/UI/examples/Player/Video/subtitles_en.vtt");
     $video = $video->withAdditionalSubtitleFile("de", "./src/UI/examples/Player/Video/subtitles_de.vtt");
 

@@ -834,88 +834,102 @@ class ilFileUtils
         return $temp_name;
     }
 
-    /**
-     * unzip file
-     *
-     * @param string  $a_file    full path/filename
-     * @param boolean $overwrite pass true to overwrite existing files
-     * @static
-     *
-     */
-    public static function unzip(string $a_file, bool $overwrite = false, bool $a_flat = false): void
-    {
+    public static function unzip(
+        string $path_to_zip_file,
+        bool $overwrite_existing = false,
+        bool $unpack_flat = false
+    ): void {
         global $DIC;
+
+        $sanitizer = new ilFileServicesFilenameSanitizer(
+            $DIC->fileServiceSettings()
+        );
 
         $log = $DIC->logger()->root();
 
-        if (!is_file($a_file)) {
+        if (!is_file($path_to_zip_file)) {
             return;
         }
 
-        // if flat, move file to temp directory first
-        if ($a_flat) {
-            $tmpdir = ilFileUtils::ilTempnam();
-            ilFileUtils::makeDir($tmpdir);
-            copy($a_file, $tmpdir . DIRECTORY_SEPARATOR . basename($a_file));
-            $orig_file = $a_file;
-            $a_file = $tmpdir . DIRECTORY_SEPARATOR . basename($a_file);
-            $origpathinfo = pathinfo($orig_file);
-        }
+        // we unpack the zip always in a temp directory
+        $temporary_unzip_directory = self::ilTempnam();
+        self::makeDir($temporary_unzip_directory);
+        copy($path_to_zip_file, $temporary_unzip_directory . DIRECTORY_SEPARATOR . basename($path_to_zip_file));
+        $original_path_to_zip_file = $path_to_zip_file;
+        $path_to_zip_file = $temporary_unzip_directory . DIRECTORY_SEPARATOR . basename($path_to_zip_file);
+        $original_zip_path_info = pathinfo($original_path_to_zip_file);
+        $unzippable_zip_path_info = pathinfo($path_to_zip_file);
 
-        $pathinfo = pathinfo($a_file);
-        $dir = $pathinfo["dirname"];
-        $file = $pathinfo["basename"];
+        $unzippable_zip_directory = $unzippable_zip_path_info["dirname"];
+        $unzippable_zip_filename = $unzippable_zip_path_info["basename"];
 
         // unzip
-        $cdir = getcwd();
-        chdir($dir);
-        $unzip = PATH_TO_UNZIP;
+        $current_directory = getcwd();
+        chdir($unzippable_zip_directory);
+        $unzip_command = PATH_TO_UNZIP;
 
         // real unzip
-        if (!$overwrite) {
-            $unzipcmd = ilShellUtil::escapeShellArg($file);
+        if (!$overwrite_existing) {
+            $unzip_parameters = ilShellUtil::escapeShellArg($unzippable_zip_filename);
         } else {
-            $unzipcmd = "-o " . ilShellUtil::escapeShellArg($file);
+            $unzip_parameters = "-o " . ilShellUtil::escapeShellArg($unzippable_zip_filename);
         }
-        ilShellUtil::execQuoted($unzip, $unzipcmd);
-
-        chdir($cdir);
+        ilShellUtil::execQuoted($unzip_command, $unzip_parameters);
+        // move back
+        chdir($current_directory);
 
         // remove all sym links
-        clearstatcache();            // prevent is_link from using cache
-        $dir_realpath = realpath($dir);
-        foreach (new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($dir)
-        ) as $name => $f) {
+        clearstatcache();			// prevent is_link from using cache
+        $dir_realpath = realpath($unzippable_zip_directory);
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($unzippable_zip_directory)) as $name => $f) {
             if (is_link($name)) {
                 $target = readlink($name);
-                if (substr(
-                    $target,
-                    0,
-                    strlen($dir_realpath)
-                ) != $dir_realpath) {
+                if (substr($target, 0, strlen($dir_realpath)) != $dir_realpath) {
                     unlink($name);
                     $log->info("Removed symlink " . $name);
                 }
             }
+            if (is_file($name) && $name !== $sanitizer->sanitize($name)) {
+                // rename file if it contains invalid suffix
+                $new_name = ilFileUtils::getValidFilename($name);
+                rename($name, $new_name);
+            }
         }
 
-        // if flat, get all files and move them to original directory
-        if ($a_flat) {
-            $filearray = [];
-            ilFileUtils::recursive_dirscan($tmpdir, $filearray);
-            if (is_array($filearray["file"])) {
-                foreach ($filearray["file"] as $k => $f) {
-                    if (substr($f, 0, 1) != "." && $f != basename($orig_file)) {
+        // rename executables
+        self::renameExecutables($unzippable_zip_directory);
+
+        // now we have to move the files to the original directory.
+        // if $a_flat is true, we move the files only without directories, otherwise we move the whole directory.
+        // since some provide a realtive path here, we have to get the absolute path first
+        $target_dir_name = $original_zip_path_info["dirname"];
+        $target_dir_name = realpath($target_dir_name);
+
+        if ($unpack_flat) {
+            $file_array = [];
+            self::recursive_dirscan($temporary_unzip_directory, $file_array);
+            if (is_array($file_array["file"])) {
+                foreach ($file_array["file"] as $k => $f) {
+                    if (
+                        substr($f, 0, 1) !== "."
+                        && $f !== basename($original_path_to_zip_file)
+                    ) {
                         copy(
-                            $filearray["path"][$k] . $f,
-                            $origpathinfo["dirname"] . DIRECTORY_SEPARATOR . $f
+                            $file_array["path"][$k] . $f,
+                            $target_dir_name . DIRECTORY_SEPARATOR . $f
                         );
                     }
                 }
             }
-            ilFileUtils::delDir($tmpdir);
+        } else {
+            $target_directory = $target_dir_name;
+            self::rCopy(
+                $temporary_unzip_directory,
+                $target_directory
+            );
         }
+
+        self::delDir($temporary_unzip_directory);
     }
 
     /**
@@ -942,8 +956,10 @@ class ilFileUtils
     */
     public static function rRenameSuffix(string $a_dir, string $a_old_suffix, string $a_new_suffix): bool
     {
-        if ($a_dir == "/" || $a_dir == "" || is_int(strpos($a_dir, ".."))
-            || trim($a_old_suffix) == "") {
+        if ($a_dir === "/"
+            || $a_dir === ""
+            || strpos($a_dir, "..") !== false
+            || trim($a_old_suffix) === "") {
             return false;
         }
 
@@ -954,18 +970,28 @@ class ilFileUtils
 
         // read a_dir
         $dir = opendir($a_dir);
+        if ($dir === false) {
+            return false;
+        }
+
+        $prohibited =  [
+            '...'
+        ];
 
         while ($file = readdir($dir)) {
-            if ($file != "." and
-                $file != "..") {
+            if (
+                $file !== "."
+                && $file !== ".."
+            ) {
                 // triple dot is not allowed in filenames
-                if ($file === '...') {
+                if (in_array($file, $prohibited)) {
                     unlink($a_dir . "/" . $file);
                     continue;
                 }
+
                 // directories
                 if (@is_dir($a_dir . "/" . $file)) {
-                    ilFileUtils::rRenameSuffix($a_dir . "/" . $file, $a_old_suffix, $a_new_suffix);
+                    self::rRenameSuffix($a_dir . "/" . $file, $a_old_suffix, $a_new_suffix);
                 }
 
                 // files
@@ -979,19 +1005,19 @@ class ilFileUtils
                             unlink($a_dir . '/' . $file);
                             continue;
                         }
+
                         $file = substr($file, 0, -1);
                     }
 
                     $path_info = pathinfo($a_dir . "/" . $file);
 
-                    if (strtolower($path_info["extension"]) ==
-                        strtolower($a_old_suffix)) {
+                    if (strtolower($path_info["extension"] ?? '') === strtolower($a_old_suffix)) {
                         $pos = strrpos($a_dir . "/" . $file, ".");
                         $new_name = substr($a_dir . "/" . $file, 0, $pos) . "." . $a_new_suffix;
                         // check if file exists
                         if (file_exists($new_name)) {
                             if (is_dir($new_name)) {
-                                ilFileUtils::delDir($new_name);
+                                self::delDir($new_name);
                             } else {
                                 unlink($new_name);
                             }
@@ -1026,16 +1052,16 @@ class ilFileUtils
             switch (strtoupper($suffix)) {
                 case 'P':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'T':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'G':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'M':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'K':
                     $value *= 1024;
                     break;

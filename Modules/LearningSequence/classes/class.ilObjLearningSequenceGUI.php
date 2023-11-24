@@ -85,6 +85,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public const CMD_SHOW_TRASH = 'trash';
     public const CMD_UNDELETE = 'undelete';
     public const CMD_REDRAW_HEADER = 'redrawHeaderAction';
+    public const CMD_ENABLE_ADMINISTRATION_PANEL = "enableAdministrationPanel";
 
     public const TAB_VIEW_CONTENT = "view";
     public const TAB_MANAGE = "manage";
@@ -105,6 +106,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     public const ACCESS_READ = 'read';
     public const ACCESS_VISIBLE = 'visible';
+    protected \ILIAS\Style\Content\Service $content_style;
 
     protected string $obj_type;
     protected ilNavigationHistory $navigation_history;
@@ -221,6 +223,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->refinery = $DIC->refinery();
+        $this->content_style = $DIC->contentStyle();
 
         $this->help->setScreenIdComponent($this->obj_type);
         $this->lng->loadLanguageModule($this->obj_type);
@@ -326,6 +329,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     $gui_class = 'ilObjLearningSequenceEditExtroGUI';
                 }
 
+                $this->addContentStyleCss();
                 $this->addSubTabsForContent($which_tab);
 
                 $page_id = $this->object->getContentPageId($which_page);
@@ -425,6 +429,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     case self::CMD_REDRAW_HEADER:
                         $this->redrawHeaderActionObject();
                         break;
+                        
+                    // This is a temporary implementation (Mantis Ticket 36631)
+                    case self::CMD_ENABLE_ADMINISTRATION_PANEL:
+                        $tpl->setOnScreenMessage("failure", $this->lng->txt('lso_multidownload_not_available'), false);
+                        $this->manageContent();
+                        break;
 
                     default:
                         throw new ilException("ilObjLearningSequenceGUI: Invalid command '$cmd'");
@@ -444,6 +454,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         if (strtolower($this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string())) === strtolower(self::class)) {
             $tpl->printToStdOut();
         }
+    }
+
+    public function addContentStyleCss(): void
+    {
+        $this->content_style->gui()->addCss(
+            $this->tpl,
+            $this->object->getRefId()
+        );
     }
 
     public function addToNavigationHistory(): void
@@ -530,6 +548,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     protected function learnerView(string $cmd = self::CMD_LEARNER_VIEW): void
     {
+        $this->addContentStyleCss();
         $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
         $this->addSubTabsForContent(self::TAB_VIEW_CONTENT);
 

@@ -47,7 +47,7 @@ final class PageMetricsService implements ilContentPageObjectConstants
 
     protected function doesPageExistsForLanguage(int $contentPageId, string $language): bool
     {
-        return ilContentPagePage::_exists(self::OBJ_TYPE, $contentPageId, $language);
+        return ilContentPagePage::_exists(self::OBJ_TYPE, $contentPageId, $language, true);
     }
 
     protected function ensurePageObjectExists(int $contentPageId, string $language): void

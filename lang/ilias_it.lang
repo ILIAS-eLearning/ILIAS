@@ -620,9 +620,6 @@ assessment#:#cloze_text#:#Testo corrispondente
 assessment#:#cloze_textgap_case_insensitive#:#No Maiuscole/minuscole
 assessment#:#cloze_textgap_case_sensitive#:#Maiuscole/minuscole
 assessment#:#cloze_textgap_levenshtein_of#:#Distanza di Levenshtein del %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Diversi spazi vuoti
-assessment#:#cloze_textgap_whitespace_after#:#Spazio vuoto dopo il valore
-assessment#:#cloze_textgap_whitespace_before#:#Spazio vuoto prima del valore
 assessment#:#code#:#Codice
 assessment#:#codebase#:#Base dei codici
 assessment#:#concatenation#:#Concatenazione
@@ -932,6 +929,7 @@ assessment#:#new_category#:#Nuova categoria di unità
 assessment#:#new_unit#:#Nuova unità
 assessment#:#next_question#:#Domanda successiva
 assessment#:#next_question_rows#:#Domande %d - %d di %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Devi scegliere almeno un voto come SUPERATO! Lo schema voti non e' stato salvato.
 assessment#:#no_question_selected_for_move#:#Per favore seleziona almeno una domanda da spostare!
 assessment#:#no_questions_available#:#Non ci sono domande disponibili!
@@ -1548,10 +1546,10 @@ assessment#:#tst_manscoring_question_section_header#:#Domanda: %s
 assessment#:#tst_manscoring_user_notification#:#Invia notifica
 assessment#:#tst_mark#:#Voto
 assessment#:#tst_mark_create_new_mark_step#:#Crea un nuovo voto
-assessment#:#tst_mark_create_simple_mark_schema#:#Crea uno schema voti
 assessment#:#tst_mark_minimum_level#:#Livello minimo (in %)
 assessment#:#tst_mark_official_form#:#Form ufficiale
 assessment#:#tst_mark_passed#:#Superato
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Crea uno schema voti
 assessment#:#tst_mark_short_form#:#Form ridotto
 assessment#:#tst_max_allowed_users_heading#:#È stato raggiunto il numero massimo di partecipanti a questo test
 assessment#:#tst_max_allowed_users_message#:#È stato raggiunto il numero massimo di utenti attivi simultanei nel test. Riprovare più tardi per avviare o riprendere il test. Se uno degli utenti attivi è inattivo per più di %s secondi, potresti essere in grado di accedere a questo test. Grazie per la vostra comprensione.
@@ -1660,6 +1658,7 @@ assessment#:#tst_password_form#:#Password di accesso del test
 assessment#:#tst_password_introduction#:#Questo test può essere fatto solo dopo l'inserimento di una password. Inseriscila qui per favore.
 assessment#:#tst_percent_solved#:#Percentuale risolta
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Selezionare un contenitore di destinazione.
 assessment#:#tst_position#:#Domanda %s di %s
 assessment#:#tst_position_without_total#:#Domanda %s
@@ -2814,8 +2813,6 @@ chatroom#:#chat_auth_token_info#:#Si prega di definire stringhe univoche utilizz
 chatroom#:#chat_ban#:#Divieto
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#Disconnesso
 chatroom#:#chat_connection_established#:#Connessione stabilita
 chatroom#:#chat_create_private_room_button#:#Crea stanza privata
@@ -5745,7 +5742,6 @@ common#:#udf_delete_sure#:#Sei sicuro di voler eliminare questo campo e con esso
 common#:#udf_duplicate_entries#:#I valori devono essere unici.
 common#:#udf_field_deleted#:#Campo eliminato.
 common#:#udf_name_already_exists#:#Questo nome di campo esiste già. Scegli un nome diverso.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Quando il campo è impostato su "obbligatorio", deve essere impostato su "visibile in registrazione".
 common#:#udf_type_date#:#Campo Data
 common#:#udf_type_datetime#:#Data e Ora
@@ -5873,6 +5869,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Non e' possibile eseguire l'az
 common#:#usrimport_no_update_ext_account_exists#:#Non è possibile eseguire l'azione di "Update". Esistono già account esterni.
 common#:#usrimport_with_specified_role_not_permitted#:#Importazione con ruolo specificato non consentita.
 common#:#usrimport_wrong_file_count#:#La cartella import-folder contiene troppi elementi. Riprova.
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Attributo " %2$s" nell'elemento " %1$s" mancante.
 common#:#usrimport_xml_attribute_value_illegal#:#Il valore " %3$s" dell'attributo " %2$s" nell'elemento " %1$s" non è consentito.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore " %3$s" dell'attributo " %2$s" nell'elemento " %1$s" non è applicabile per l'azione " %4$s".
@@ -8147,6 +8144,8 @@ dateplaner#:#cal_create#:#Crea
 dateplaner#:#cal_created_appointment#:#Un nuovo appuntamento e' stato creato.
 dateplaner#:#cal_created_milestone#:#Aggiunta milestone.
 dateplaner#:#cal_created_milestone_resp_q#:#Aggiunta milestone. Per cortesia seleziona gli utenti che devono rispettare tale milestone.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Informazione corso
 dateplaner#:#cal_crs_new_notification_body#:#un nuovo appuntamento è stato creato nel corso "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#Nuovo appuntamento nel Corso "%s"
@@ -9489,20 +9488,9 @@ file#:#file_download#:#Scarica file
 file#:#file_import#:#Importa file
 file#:#file_new_version#:#Crea una nuova versione
 file#:#file_new_version_info#:#Crea una nuova versione del file. Versioni precedenti non saranno modificate.
-file#:#file_suffix_custom_black#:#Blacklist suffissi personalizzati
-file#:#file_suffix_custom_black_info#:#Questi suffissi verranno rimosso dall’elenco predefinito degli elementi consentiti .
-file#:#file_suffix_custom_expl_black#:#Estensioni file proibite
-file#:#file_suffix_custom_expl_black_info#:#I file con queste estensioni non vengono accettati all'upload.
-file#:#file_suffix_custom_white#:#Elenco elementi consentiti suffisso personalizzato
-file#:#file_suffix_custom_white_info#:#Questi suffissi verranno aggiunti all’elenco predefinito di elementi consentiti.
-file#:#file_suffix_default_white#:#Elenco elementi consentiti suffisso predefinito
-file#:#file_suffix_default_white_info#:#Elenco predefinito di suffissi di file accettati.
-file#:#file_suffix_overall_white#:#Elenco elementi consentiti suffisso complessivo
-file#:#file_suffix_overall_white_info#:#Risultante elenco complessivo dei suffissi di file accettati.
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.###09 03 2022 new variable
 file#:#file_uploaded_by#:#Caricato da
 file#:#general_upload_error_occured#:#Si è verificato un errore inaspettato alla carica del file.
-file#:#generate_sanitize_report#:#Segnala file inaccessibili
 file#:#migrated#:#Status###09 03 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
 file#:#replace_file_info#:#Tutte le versioni del file verranno cancellate.
@@ -9923,6 +9911,7 @@ grp#:#grp_members#:#Membri
 grp#:#grp_members_deleted#:#Elimina membri
 grp#:#grp_members_map#:#Mappa dei membri del gruppo
 grp#:#grp_members_print_title#:#Membri del gruppo
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#Si prega di scegliere un tipo di gruppo.
 grp#:#grp_missing_password#:#Si prega di inserire la password del gruppo.
 grp#:#grp_new_status#:#Il tuo nuovo stato è:
@@ -10346,6 +10335,8 @@ link#:#link_wpages#:#Pagine Wiki
 lm#:#lm_btn_lp_toggle_state_completed#:#Imposta come non completato
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Imposta come completato
 lm#:#lm_copy#:#Copia il modulo di apprendimento
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
 lm#:#lm_page_type_lm#:#Pagina LM
@@ -10445,6 +10436,7 @@ lso#:#lso_members_gallery#:#Galleria dei membri della sequenza di apprendimento
 lso#:#lso_members_print_title#:#Membri della sequenza di apprendimento
 lso#:#lso_min_one_admin#:#Deve essere assegnato almeno un amministratore a questa sequenza di apprendimento.
 lso#:#lso_msg_member_assigned#:#Utente/i assegnato/i come membro/i della sequenza di apprendimento
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#Il tuo nuovo stato è:
 lso#:#lso_notification#:#Notifica
 lso#:#lso_notification_explanation_admin#:#Hai ricevuto una e-mail da ILIAS perchè sei un amministratore delle sequenze di apprendimento e hai le notifiche abilitate.
@@ -10621,7 +10613,10 @@ lti#:#lti_con_prov_category_info#:#Categoria da cui filtrare quando l'oggetto vi
 lti#:#lti_con_prov_custom_params#:#Parametri personalizzati per questo fornitore
 lti#:#lti_con_prov_custom_params_info#:#Per favore inseriscili con il formato: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Descrizione
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###31 03 2023 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#Fornitore esterno
 lti#:#lti_con_prov_external_provider_info#:#Un suggerimento che verrà mostrato a tutti gli utenti che stanno lavorando con un fornitore esterno. Un fornitore esterno è caratterizzato da una insufficiente gestione del fornitore da parte del gestore della piattaforma ILIAS.<br />Questo è il caso in cui non ci sono diritti da rimuovere.
 lti#:#lti_con_prov_group_options#:#Opzione per raggruppare e filtrare i fornitori
@@ -10739,6 +10734,7 @@ lti#:#mastery_score_info#:#Il progresso dell'apprendimento sarà valutato in bas
 lti#:#obj_tile_image_info#:#Utilizzare un'immagine quadrata
 lti#:#online_info#:#Questo rende l'oggetto visibile e utilizzabile per gli utenti.
 lti#:#prefix#:#Prefisso
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#Fornitore utilizzato
 lti#:#settings_subtab#:#Impostazioni
 lti#:#show_statements#:#Mostra esperienze di apprendimento
@@ -10983,6 +10979,7 @@ mail#:#mail_smtp_status_info#:#Se abilitato, ILIAS invierà e-mail esterne a un 
 mail#:#mail_smtp_user#:#Utente
 mail#:#mail_subject_prefix#:#Oggetto
 mail#:#mail_subject_prefix_info#:#Inserisci un testo, che verrà anteposto alla riga dell'oggetto di auto generazione di e-mail in uscita. Si raccomanda l'uso di un prefisso per supportare il filtraggio dei messaggi da parte degli utenti.
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#Sei sicuro di voler eliminare le eMail selezionate?
 mail#:#mail_sure_delete_entry#:#Sei sicuro di voler eliminare le voci selezionate?
 mail#:#mail_sure_delete_file#:#Sei sicuro di voler eliminare il file selezionato?
@@ -11316,9 +11313,15 @@ meta#:#md_advanced#:#Metadata avanzati
 meta#:#md_aria_language_selection#:#Selezione della lingua
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Aggiungi preset di Copyright
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#Modifica il preset di Copyright
 meta#:#md_copyright_enable_info#:#Seleziona questa opzione per mostrare una selezione di copyright predefiniti.
 meta#:#md_copyright_enabled#:#Abilita la selezione dei Copyright
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#Copyright (Anteprima)
 meta#:#md_copyright_selection#:#Preset di Copyright
 meta#:#md_copyright_settings#:#Impostazione di Copyright
@@ -14832,6 +14835,7 @@ skmg#:#skmg_confirm_user_removal#:#Vuoi davvero rimuovere i seguenti utenti da q
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Local
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Crea una Categoria di Template
 skmg#:#skmg_create_skill_category#:#Crea una Categoria di competenze
 skmg#:#skmg_create_skill_template#:#Crea Template di competenze
@@ -16617,6 +16621,7 @@ user#:#clipboard_remove_btn#:#Rimuovi da Appunti
 user#:#clipboard_table_title#:#Appunti (account utente)
 user#:#clipboard_user_added#:#Aggiunti gli utenti selezionati agli Appunti.
 user#:#confirm_delete_starting_point#:#Sei sicuro di voler eliminare questa regola?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Crea ruolo
 user#:#criteria#:#Criteri
 user#:#del_mail_body#:#Ciao %1$s, %2$s non hai effettuato l'accesso per un lungo periodo di tempo, su %3$s. Quindi il tuo account verrà eliminato tra %4$ s giorni. Devi accedere di nuovo per impedire la cancellazione del tuo account.
@@ -16624,6 +16629,7 @@ user#:#del_mail_subject#:#[ILIAS] - Il tuo account verrà eliminato
 user#:#delete_inactive_user_accounts_frequency#:#Frequenza
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequenza, in cui verranno testati la cancellazione e la distribuzione della posta elettronica.
 user#:#editing_this_role#:#Ruolo
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Abilita l'amministrazione di utenti locali
 user#:#enable_local_user_administration_info#:#Se abilitato, gli account degli utenti locali possono essere categorizzati.
 user#:#feedhash#:#News feed hash

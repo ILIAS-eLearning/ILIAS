@@ -81,7 +81,8 @@ class ilHelpDataSet extends ilDataSet
         if ($a_entity === "help_tooltip") {
             switch ($a_version) {
                 case "4.3.0":
-                    $this->getDirectDataFromQuery("SELECT id, tt_text, tt_id, comp, lang FROM help_tooltip");
+                    $this->getDirectDataFromQuery("SELECT id, tt_text, tt_id, comp, lang FROM help_tooltip " .
+                        " WHERE module_id = " . $ilDB->quote(0, "integer"));
                     break;
             }
         }

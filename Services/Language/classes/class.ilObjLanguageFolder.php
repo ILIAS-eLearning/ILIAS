@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilObjLanguageFolder
@@ -29,9 +28,6 @@ declare(strict_types=1);
 *
 * @extends  ilObject
 */
-
-require_once "./Services/Object/classes/class.ilObject.php";
-
 class ilObjLanguageFolder extends ilObject
 {
     /**
@@ -71,16 +67,13 @@ class ilObjLanguageFolder extends ilObject
     */
     public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
-        global $DIC;
-        $lng = $DIC->language();
-
         $this->type = "lngf";
         parent::__construct($a_id, $a_call_by_reference);
 
-        $this->lang_path = $lng->lang_path;
-        $this->lang_default = $lng->lang_default;
-        $this->lang_user = $lng->lang_user;
-        $this->separator = $lng->separator;
+        $this->lang_path = $this->lng->lang_path;
+        $this->lang_default = $this->lng->lang_default;
+        $this->lang_user = $this->lng->lang_user;
+        $this->separator = $this->lng->separator;
     }
 
     /**
@@ -99,10 +92,7 @@ class ilObjLanguageFolder extends ilObject
     */
     public function getLanguages(): array
     {
-        global $DIC;
-        $lng = $DIC->language();
-
-        $lng->loadLanguageModule("meta");
+        $this->lng->loadLanguageModule("meta");
 
         // set path to directory where lang-files reside
         $d = dir($this->lang_path);
@@ -169,7 +159,7 @@ class ilObjLanguageFolder extends ilObject
 
         // setting language's full names
         foreach ($languages as $lang_key => $lang_data) {
-            $languages[$lang_key]["name"] = $lng->txt("meta_l_" . $lang_key);
+            $languages[$lang_key]["name"] = $this->lng->txt("meta_l_" . $lang_key);
         }
 
         $this->languages = $languages;
@@ -223,9 +213,6 @@ class ilObjLanguageFolder extends ilObject
     */
     public function removeLanguages(array $a_languages): array
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-
         foreach ($a_languages as $lang_key => $lang_data) {
             if ($lang_data["desc"] === "not_installed" && $lang_data["info"] === "file_not_found") {
                 // update languages array
@@ -233,9 +220,9 @@ class ilObjLanguageFolder extends ilObject
 
                 // update object_data table
                 $query = "DELETE FROM object_data " .
-                         "WHERE type = " . $ilDB->quote("lng", "text") . " " .
-                         "AND title = " . $ilDB->quote($lang_key, "text");
-                $ilDB->manipulate($query);
+                         "WHERE type = " . $this->db->quote("lng", "text") . " " .
+                         "AND title = " . $this->db->quote($lang_key, "text");
+                $this->db->manipulate($query);
             }
         }
 
@@ -252,10 +239,6 @@ class ilObjLanguageFolder extends ilObject
     */
     public function checkAllLanguages(): string
     {
-        global $DIC;
-        // TODO: lng object should not be used in this class
-        $lng = $DIC->language();
-
         // set path to directory where lang-files reside
         $d = dir($this->lang_path);
         $tmpPath = getcwd();
@@ -269,53 +252,76 @@ class ilObjLanguageFolder extends ilObject
         while ($entry = $d->read()) {
             if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry))) {
                 // textmeldung, wenn langfile gefunden wurde
-                $output .= "<br/><br/>" . $lng->txt("langfile_found") . ": " . $entry;
+                $output .= "<br/><br/>" . $this->lng->txt("langfile_found") . ": " . $entry;
                 $content = file($entry);
-
+                $lines_full = count($content);
                 $found = true;
-                $error = false;
+                $error_param = false;
+                $error_double = false;
+                $double_checker = [];
 
                 if ($content = ilObjLanguage::cut_header($content)) {
+                    $lines_cut = count($content);
                     foreach ($content as $key => $val) {
                         $separated = explode($this->separator, trim($val));
                         $num = count($separated);
+                        $line = $key + $lines_full - $lines_cut + 1;
 
                         if ($num !== 3) {
-                            $error = true;
-                            $line = $key + 37;
+                            $error_param = true;
 
-                            $output .= "<br/><b/>" . $lng->txt("err_in_line") . " " . $line . " !</b>&nbsp;&nbsp;";
-                            $output .= $lng->txt("module") . ": " . $separated[0];
-                            $output .= ", " . $lng->txt("identifier") . ": " . $separated[1];
-                            $output .= ", " . $lng->txt("value") . ": " . $separated[2];
+                            $output .= "<br/><b/>" . $this->lng->txt("err_in_line") . " " . $line . " !</b>&nbsp;&nbsp;";
 
                             switch ($num) {
                                 case 1:
                                     if (empty($separated[0])) {
-                                        $output .= "<br/>" . $lng->txt("err_no_param") . " " . $lng->txt("check_langfile");
+                                        $output .= "<br/>" . $this->lng->txt("err_no_param") . " " . $this->lng->txt("check_langfile");
                                     } else {
-                                        $output .= "<br/>" . $lng->txt("err_1_param") . " " . $lng->txt("check_langfile");
+                                        $output .= $this->lng->txt("module") . ": " . $separated[0];
+                                        $output .= "<br/>" . $this->lng->txt("err_1_param") . " " . $this->lng->txt("check_langfile");
                                     }
                                     break;
 
                                 case 2:
-                                    $output .= "<br/>" . $lng->txt("err_2_param") . " " . $lng->txt("check_langfile");
+                                    $output .= $this->lng->txt("module") . ": " . $separated[0];
+                                    $output .= ", " . $this->lng->txt("identifier") . ": " . $separated[1];
+                                    $output .= "<br/>" . $this->lng->txt("err_2_param") . " " . $this->lng->txt("check_langfile");
                                     break;
 
                                 default:
-                                    $output .= "<br/>" . $lng->txt("err_over_3_param") . " " . $lng->txt("check_langfile");
+                                    $output .= $this->lng->txt("module") . ": " . $separated[0];
+                                    $output .= ", " . $this->lng->txt("identifier") . ": " . $separated[1];
+                                    $output .= ", " . $this->lng->txt("value") . ": " . $separated[2];
+                                    $output .= "<br/>" . $this->lng->txt("err_over_3_param") . " " . $this->lng->txt("check_langfile");
                                     break;
                             }
+                            continue;
                         }
+                        if ($double_checker[strtolower($separated[0])][strtolower($separated[1])] ?? false) {
+                            $error_double = true;
+                            
+                            $output .= "<br/><b/>" . $this->lng->txt("err_in_line") . " " . $double_checker[strtolower($separated[0])][strtolower($separated[1])] . " " . $this->lng->txt("and") . " " . $line . " !</b>&nbsp;&nbsp;";
+                            $output .= $this->lng->txt("module") . ": " . $separated[0];
+                            $output .= ", " . $this->lng->txt("identifier") . ": " . $separated[1];
+                            $output .= ", " . $this->lng->txt("value") . ": " . $separated[2];
+                        }
+                        $double_checker[strtolower($separated[0])][strtolower($separated[1])] = $line;
                     }
 
-                    if ($error) {
-                        $output .= "<br/>" . $lng->txt("file_not_valid") . " " . $lng->txt("err_count_param");
+                    if ($error_param || $error_double) {
+                        $reason = "";
+                        if ($error_param) {
+                            $reason .= " " . $this->lng->txt("err_count_param");
+                        }
+                        if ($error_double) {
+                            $reason .= " " . $this->lng->txt("err_double_entries");
+                        }
+                        $output .= "<br/>" . $this->lng->txt("file_not_valid") . $reason;
                     } else {
-                        $output .= "<br/>" . $lng->txt("file_valid");
+                        $output .= "<br/>" . $this->lng->txt("file_valid");
                     }
                 } else {
-                    $output .= "<br/>" . $lng->txt("file_not_valid") . " " . $lng->txt("err_wrong_header");
+                    $output .= "<br/>" . $this->lng->txt("file_not_valid") . " " . $this->lng->txt("err_wrong_header");
                 }
             }
         }
@@ -323,7 +329,7 @@ class ilObjLanguageFolder extends ilObject
         $d->close();
 
         if (!$found) {
-            $output .= "<br/>" . $lng->txt("err_no_langfile_found");
+            $output .= "<br/>" . $this->lng->txt("err_no_langfile_found");
         }
 
         chdir($tmpPath);

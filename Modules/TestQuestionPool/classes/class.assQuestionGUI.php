@@ -1896,9 +1896,10 @@ abstract class assQuestionGUI
 
     protected function addBackTab(ilTabsGUI $ilTabs): void
     {
+        $this->ctrl->saveParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
         $ilTabs->setBackTarget(
             $this->lng->txt('backtocallingpage'),
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
         );
     }
 
@@ -1929,6 +1930,11 @@ abstract class assQuestionGUI
     public function showHints(): void
     {
         $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+    }
+
+    protected function escapeTemplatePlaceholders(string $text): string
+    {
+        return str_replace(['{','}'], ['&#123;','&#125;'], $text);
     }
 
     protected function buildEditForm(): ilPropertyFormGUI

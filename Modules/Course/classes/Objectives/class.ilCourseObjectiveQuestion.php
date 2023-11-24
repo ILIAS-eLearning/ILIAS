@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * class ilcourseobjectiveQuestion
@@ -127,6 +128,9 @@ class ilCourseObjectiveQuestion
 
         // Copy tests
         foreach ($this->getTests() as $test) {
+            if (!isset($mappings["$test[ref_id]"])) {
+                continue;
+            }
             $new_test_id = $mappings["$test[ref_id]"];
 
             $query = "UPDATE crs_objective_tst " .

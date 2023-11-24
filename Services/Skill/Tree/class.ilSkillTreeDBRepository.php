@@ -149,4 +149,18 @@ class ilSkillTreeDBRepository implements ilSkillTreeRepository
         $tree_id = $this->getTreeIdForNodeId($node_id);
         return $this->tree_factory->getVirtualTreeById($tree_id);
     }
+
+    public function getParentNodeIdForNodeId(int $node_id): int
+    {
+        $db = $this->db;
+
+        $set = $db->queryF(
+            "SELECT * FROM skl_tree " .
+            " WHERE child = %s ",
+            ["integer"],
+            [$node_id]
+        );
+        $rec = $db->fetchAssoc($set);
+        return (int) ($rec["parent"] ?? 0);
+    }
 }

@@ -314,7 +314,7 @@ class ilPCQuestion extends ilPageContent
 
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != ilPageObjectGUI::PREVIEW
-                && $a_mode != "offline") {
+                && $a_mode != "offline" && $a_mode !== "edit") {
                 $ilCtrl->setParameterByClass(strtolower(get_class($this->getPage())) . "gui", "page_id", $this->getPage()->getId());
                 $url = $ilCtrl->getLinkTargetByClass(strtolower(get_class($this->getPage())) . "gui", "processAnswer", "", true, false);
                 $code[] = "ilCOPageQuestionHandler.initCallback('" . $url . "');";

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=0);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -208,7 +207,7 @@ class ilObjCourseGUI extends ilContainerGUI
         if (
             strlen($this->object->getImportantInformation()) ||
             strlen($this->object->getSyllabus()) ||
-            strlen($this->object->getTargetGroup()) ||
+            strlen((string) $this->object->getTargetGroup()) ||
             count($files)) {
             $info->addSection($this->lng->txt('crs_general_informations'));
         }
@@ -226,7 +225,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 ilUtil::makeClickable($this->object->getSyllabus(), true)
             ));
         }
-        if (strlen($this->object->getTargetGroup())) {
+        if (strlen((string) $this->object->getTargetGroup())) {
             $info->addProperty(
                 $this->lng->txt('crs_target_group'),
                 nl2br(
@@ -828,6 +827,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->object->setWaitingListAutoFill(false);
                 break;
         }
+        $this->object->handleAutoFill();
 
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
@@ -911,7 +911,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->afterUpdate();
     }
 
-    protected function getSubServices() : array
+    protected function getSubServices(): array
     {
         $subs = array(
             ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
@@ -1556,7 +1556,7 @@ class ilObjCourseGUI extends ilContainerGUI
         ));
     }
 
-    public function readMemberData(array $ids, array $selected_columns = null): array
+    public function readMemberData(array $ids, array $selected_columns = null, bool $skip_names = false): array
     {
         $show_tracking =
             (
@@ -1591,10 +1591,19 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $members = [];
         foreach ($ids as $usr_id) {
-            $name = ilObjUser::_lookupName($usr_id);
-            $tmp_data['firstname'] = $name['firstname'];
-            $tmp_data['lastname'] = $name['lastname'];
-            $tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
+            /**
+             * When building the members table in a course, user names are
+             * already read out via ilUserQuery::getUserListData (#31394).
+             * Adding skip_name as a parameter here is not super elegant, but
+             * seems like the only practical way avoid unnecessarily reading
+             * out the names again.
+             */
+            if (!$skip_names) {
+                $name = ilObjUser::_lookupName($usr_id);
+                $tmp_data['firstname'] = $name['firstname'];
+                $tmp_data['lastname'] = $name['lastname'];
+                $tmp_data['login'] = $name['login'];
+            }
             $tmp_data['passed'] = $this->object->getMembersObject()->hasPassed($usr_id) ? 1 : 0;
             if ($this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP) {
                 $tmp_data['passed_info'] = $this->object->getMembersObject()->getPassedInfo($usr_id);
@@ -2140,7 +2149,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($agreement);
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $ret = $this->forwardToPageObject();
                 if ($ret != "") {
@@ -2170,6 +2179,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
                 $settings_gui = $DIC->contentStyle()->gui()
                     ->objectSettingsGUIForRefId(
                         null,

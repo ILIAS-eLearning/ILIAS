@@ -606,9 +606,6 @@ assessment#:#cloze_text#:#Verhaspelde zin
 assessment#:#cloze_textgap_case_insensitive#:#Hoofdletter ongevoelig
 assessment#:#cloze_textgap_case_sensitive#:#Hoofdletter gevoelig
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein afstand van %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Meerdere Whitespaces
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace na de waarde
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace voor de waarde
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Aaneenschakeling
@@ -918,6 +915,7 @@ assessment#:#new_category#:#Nieuwe categorie
 assessment#:#new_unit#:#Nieuwe eenheid
 assessment#:#next_question#:#Sla op en ga naar volgende vraag
 assessment#:#next_question_rows#:#Vragen %d - %d van %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Je moet 1 punt op geslaagd zetten! Het punten schema is niet opgeslaan
 assessment#:#no_question_selected_for_move#:#Selecteer tenminste één vraag om te verplaatsen!
 assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar
@@ -1534,10 +1532,10 @@ assessment#:#tst_manscoring_question_section_header#:#Vraag: %s
 assessment#:#tst_manscoring_user_notification#:#Bericht sturen
 assessment#:#tst_mark#:#Cijfer
 assessment#:#tst_mark_create_new_mark_step#:#Aanmaken van een nieuwe nootstap
-assessment#:#tst_mark_create_simple_mark_schema#:#Een simpel nootschema aanmaken
 assessment#:#tst_mark_minimum_level#:#Minimum niveau (in %
 assessment#:#tst_mark_official_form#:#Officiëel formulier
 assessment#:#tst_mark_passed#:#Geslaagd
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Een simpel nootschema aanmaken
 assessment#:#tst_mark_short_form#:#Korte aanduiding
 assessment#:#tst_max_allowed_users_heading#:#Het maximum aantal gebruikers voor de toets is bereikt.
 assessment#:#tst_max_allowed_users_message#:#Het maximum aantal gebruikers voor de toets is bereikt. Probeer laten opnieuw
@@ -1646,6 +1644,7 @@ assessment#:#tst_password_form#:#Invoeren toets wachtwoord
 assessment#:#tst_password_introduction#:#De toets kan enkel gestart worden met het juiste wachtwoord. Type het wachtwoord om de toets te starten
 assessment#:#tst_percent_solved#:#Percentage gescoord
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#Vragen %s van %s
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -2800,8 +2799,6 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chatroom ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chatroom +++
 chatroom#:#chat_create_private_room_button#:#Create Private Room
@@ -5731,7 +5728,6 @@ common#:#udf_delete_sure#:#Ben je zeker dat je het veld wilt verwijderen en alle
 common#:#udf_duplicate_entries#:#De waarden moeten uniek zijn
 common#:#udf_field_deleted#:#Veld verwijderd
 common#:#udf_name_already_exists#:#Dit veldnaam bestaat reeds.Gelieve een andere naam te kiezen
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Als veld op "vereist" staat, moet het ook "zichtbaar" zijn tijdens registratie.
 common#:#udf_type_date#:#Date Field
 common#:#udf_type_datetime#:#Date and Time
@@ -5859,6 +5855,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Kan geen 'invoeg' actie uitvoe
 common#:#usrimport_no_update_ext_account_exists#:#Kan geen 'update' actie uitvoeren. Externe gebruiker bestaat al.
 common#:#usrimport_with_specified_role_not_permitted#:#Importeren met specifieke rol is niet toegelaten.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Attribuut "%2$s" in element "%1$s" is niet aanwezig
 common#:#usrimport_xml_attribute_value_illegal#:#Waarde "%3$s" van attribuut "%2$s" in element "%1$s" is ongeldig
 common#:#usrimport_xml_attribute_value_inapplicable#:#Waarde "%3$s" van attribuut "%2$s" in element "%1$s" is ongeldig voor "%4$s" actie.
@@ -8133,6 +8130,8 @@ dateplaner#:#cal_create#:#Aanmaken
 dateplaner#:#cal_created_appointment#:#Nieuwe afspraak aangemaakt.
 dateplaner#:#cal_created_milestone#:#Mijlpaal toegevoegd.
 dateplaner#:#cal_created_milestone_resp_q#:#Mijlpaal toegevoegd. Kies de gebruikers die aan deze mijlpaal moeten voldoen.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Course Information###31 08 2017 new variable
 dateplaner#:#cal_crs_new_notification_body#:#een nieuwe afspraak is gemaakt in cursus "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#Nieuwe afspraak in cursus "%s"
@@ -9475,20 +9474,9 @@ file#:#file_download#:#Download File
 file#:#file_import#:#Import File###30 08 2015 new variable
 file#:#file_new_version#:#Aanmaken nieuwe versie
 file#:#file_new_version_info#:#Aanmaken nieuwe bestandversie. Oude versies zullen niet worden gewijzigd.
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###10 11 2018 new variable
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###10 11 2018 new variable
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist###07 02 2020 new variable
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.###07 02 2020 new variable
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###10 11 2018 new variable
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###10 11 2018 new variable
-file#:#file_suffix_default_white#:#Default Suffix Whitelist###10 11 2018 new variable
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###10 11 2018 new variable
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###10 11 2018 new variable
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###10 11 2018 new variable
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###10 11 2018 new variable
 file#:#file_uploaded_by#:#Uploaded by
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.###30 04 2021 new variable
-file#:#generate_sanitize_report#:#Report about inaccessible files###07 02 2020 new variable
 file#:#migrated#:#Status###09 03 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
 file#:#replace_file_info#:#All files versions will be deleted.
@@ -9909,6 +9897,7 @@ grp#:#grp_members#:#Deelnemers
 grp#:#grp_members_deleted#:#Deleted members###07 02 2017 new variable
 grp#:#grp_members_map#:#Groepsdeelnemers kaart
 grp#:#grp_members_print_title#:#Groepdeelnamwers
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#Kies een groepstype
 grp#:#grp_missing_password#:#Type een groepswachtwoord
 grp#:#grp_new_status#:#Your new status is:
@@ -10332,6 +10321,8 @@ link#:#link_wpages#:#Wiki Pagina's
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
 lm#:#lm_copy#:#Copy Learning Module###06 02 2015 new variable
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
@@ -10431,6 +10422,7 @@ lso#:#lso_members_gallery#:#Learning Sequence Members Gallery###10 11 2018 new v
 lso#:#lso_members_print_title#:#Learning sequence mebers###10 11 2018 new variable
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.###10 11 2018 new variable
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)###10 11 2018 new variable
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification#:#Notification###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
@@ -10607,7 +10599,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider###07 02 2020 new variable
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2###07 02 2020 new variable
 lti#:#lti_con_prov_description#:#Description###07 02 2020 new variable
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###31 03 2023 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider###07 02 2020 new variable
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###07 02 2020 new variable
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers###07 02 2020 new variable
@@ -10725,6 +10720,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format###07 02 2020 new variable
 lti#:#online_info#:#This makes the object visible and usable for the users.###07 02 2020 new variable
 lti#:#prefix#:#Prefix###31 08 2017 new variable
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#Used Provider###07 02 2020 new variable
 lti#:#settings_subtab#:#Settings###07 02 2020 new variable
 lti#:#show_statements#:#Display Learning Experiences###07 02 2020 new variable
@@ -10969,6 +10965,7 @@ mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external emails t
 mail#:#mail_smtp_user#:#User###31 08 2017 new variable
 mail#:#mail_subject_prefix#:#E-mail Subject
 mail#:#mail_subject_prefix_info#:#Deze tekst wordt getoond in de onderwerp lijn van de automatische mails, voor het feitelijk onderwerp.
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#Ben je zeker dat je de gemarkeerde e-mail wilt verwijderen?
 mail#:#mail_sure_delete_entry#:#Ben je zeker dat je de volgende bijdragen wilt verwijderen?
 mail#:#mail_sure_delete_file#:#Het bestand zal verwijderd worden
@@ -11302,9 +11299,15 @@ meta#:#md_advanced#:#Advanced Metadata
 meta#:#md_aria_language_selection#:#Language Selection###30 04 2021 new variable
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add Copyright Presetting
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#Edit Copyright Presetting
 meta#:#md_copyright_enable_info#:#Kies deze optie om een selectie van voor-gedefinieerde copyrights aan te bieden.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Copyright Presettings
 meta#:#md_copyright_settings#:#Copyright Settings
@@ -14818,6 +14821,7 @@ skmg#:#skmg_confirm_user_removal#:#Wil je de volgende gebruikers verwijderen van
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global###30 04 2021 new variable
 skmg#:#skmg_context_local#:#Local###30 04 2021 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Aanmaken Sjablooncategorie
 skmg#:#skmg_create_skill_category#:#Aanmaken Competentiecategorie
 skmg#:#skmg_create_skill_template#:#Aanmaken competentiesjabloon
@@ -16603,6 +16607,7 @@ user#:#clipboard_remove_btn#:#Remove from Clipboard###25 10 2016 new variable
 user#:#clipboard_table_title#:#Clipboard (User Accounts)###25 10 2016 new variable
 user#:#clipboard_user_added#:#Added selected users to clipboard.###25 10 2016 new variable
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?###31 08 2017 new variable
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Create Rule###31 08 2017 new variable
 user#:#criteria#:#Criteria###31 08 2017 new variable
 user#:#del_mail_body#:#Beste %1$s, %2$s je hebt al lang niet ingelogd, op %3$s. Je account zal worden verwijderd over %4$s dagen. Om verwijdering te voorkomen, moet je inloggen.
@@ -16610,6 +16615,7 @@ user#:#del_mail_subject#:#(ILIAS) – Je account zal worden verwijderd
 user#:#delete_inactive_user_accounts_frequency#:#Frequentie
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequentie waarmee de verwijdering en e-mailverdeling getest wordt.
 user#:#editing_this_role#:#Role###31 08 2017 new variable
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Lokaal gebruikersbeheer inschakelen
 user#:#enable_local_user_administration_info#:#Wanneer ingeschakeld kunnen lokale gebruiker accounts beheerd worden in categorieën
 user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable

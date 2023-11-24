@@ -499,7 +499,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $this->editLPDefaultsObject($form);
     }
 
-    public function addToExternalSettingsForm(string $a_form_id): array
+    public function addToExternalSettingsForm(int $a_form_id): array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_CERTIFICATE:

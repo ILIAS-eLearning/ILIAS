@@ -169,6 +169,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 
         if ((int) $this->form->getInput('title_type') === ilContainerReference::TITLE_TYPE_CUSTOM) {
             $new_object->setTitle($this->form->getInput('title'));
+        } elseif ((int) $this->form->getInput('title_type') === ilContainerReference::TITLE_TYPE_REUSE) {
+            $new_object->setTitle(ilObject::_lookupTitle($new_object->getTargetId()));
         }
 
         $new_object->update();
@@ -290,11 +292,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ok = true;
         $access = $DIC->access();
 
-        $this->object->setTitleType((int) $form->getInput('title_type'));
-        if ((int) $form->getInput('title_type') === ilContainerReference::TITLE_TYPE_CUSTOM) {
-            $this->object->setTitle($form->getInput('title'));
-        }
-
         // check access
         if (
             !$access->checkAccess('visible', '', (int) $form->getInput('target_id'))
@@ -315,6 +312,14 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $this->object->setTargetId(
             ilObject::_lookupObjId((int) $form->getInput('target_id'))
         );
+
+        // set title after target id, so that the title can be reused immediately
+        $this->object->setTitleType((int) $form->getInput('title_type'));
+        if ((int) $form->getInput('title_type') === ilContainerReference::TITLE_TYPE_CUSTOM) {
+            $this->object->setTitle($form->getInput('title'));
+        } elseif ((int) $form->getInput('title_type') === ilContainerReference::TITLE_TYPE_REUSE) {
+            $this->object->setTitle(ilObject::_lookupTitle($this->object->getTargetId()));
+        }
 
         return $ok;
     }

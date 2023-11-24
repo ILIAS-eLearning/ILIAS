@@ -81,7 +81,7 @@ class SkillTreeManager
         $root_node->create();
         $tree->addTree($tree_obj->getId(), $root_node->getId());
         $this->ctrl->setParameterByClass("ilobjskilltreegui", "ref_id", $tree_obj->getRefId());
-        $this->ctrl->setParameterByClass("ilobjskilltreegui", "obj_id", $tree->readRootId());
+        $this->ctrl->setParameterByClass("ilobjskilltreegui", "node_id", $tree->readRootId());
     }
 
     public function updateTree(\ilObjSkillTree $tree_obj, string $title, string $description): void

@@ -962,7 +962,7 @@ class ilObjContentObject extends ilObject
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
         // #14661
-        $this->notes->domain()->activateComments($this->getId());
+        $this->notes->domain()->activateComments($this->getId(), $this->publicNotes());
     }
 
     /**
@@ -972,8 +972,10 @@ class ilObjContentObject extends ilObject
     {
         $ilDB = $this->db;
 
-        $q = "INSERT INTO content_object (id) VALUES (" . $ilDB->quote($this->getId(), "integer") . ")";
-        $ilDB->manipulate($q);
+        $this->db->insert("content_object", [
+            "id" => ["integer", $this->getId()],
+            "page_header" => ["text", ilLMObject::PAGE_TITLE]
+        ]);
 
         // #14661
         $this->notes->domain()->activateComments($this->getId());

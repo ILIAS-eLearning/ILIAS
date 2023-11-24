@@ -154,8 +154,8 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         if (count($unlimited) > 0) {
             $successful = $unlimited;
             usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-                $a_dat =$a->getProgressTree()->getCompletionDate();
-                $b_dat =$b->getProgressTree()->getCompletionDate();
+                $a_dat = $a->getProgressTree()->getCompletionDate();
+                $b_dat = $b->getProgressTree()->getCompletionDate();
                 if ($a_dat > $b_dat) {
                     return -1;
                 } elseif ($a_dat < $b_dat) {
@@ -172,8 +172,8 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
             );
             $successful = $limited;
             usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-                $a_dat =$a->getProgressTree()->getValidityOfQualification();
-                $b_dat =$b->getProgressTree()->getValidityOfQualification();
+                $a_dat = $a->getProgressTree()->getValidityOfQualification();
+                $b_dat = $b->getProgressTree()->getValidityOfQualification();
                 if ($a_dat > $b_dat) {
                     return -1;
                 } elseif ($a_dat < $b_dat) {

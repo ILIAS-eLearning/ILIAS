@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 
@@ -893,7 +893,6 @@ class ilObjStudyProgramme extends ilContainer
         $rbacadmin = $DIC['rbacadmin'];
 
         if ($parent = $this->getParent()) {
-
             // TODO: check if there some leafs in the new parent
 
             $this->tree->moveTree($this->getRefId(), $new_parent->getRefId());
@@ -1103,7 +1102,14 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function hasAssignments(): bool
     {
-        return count($this->getAssignments()) > 0;
+        $filter = new ilPRGAssignmentFilter($this->lng);
+        $count = $this->assignment_repository->countAllForNodeIsContained(
+            $this->getId(),
+            null,
+            $filter
+        );
+        return $count > 0;
+
     }
 
     /**
@@ -1147,12 +1153,16 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function hasRelevantProgresses(): bool
     {
-        $assignments = $this->getAssignments();
-        $relevant = array_filter(
-            $assignments,
-            fn ($ass) => $ass->getProgressForNode($this->getId())->isRelevant()
+        $filter = new ilPRGAssignmentFilter($this->lng);
+        $filter = $filter->withValues([
+            'prg_status_hide_irrelevant'=> true
+        ]);
+        $count = $this->assignment_repository->countAllForNodeIsContained(
+            $this->getId(),
+            null,
+            $filter
         );
-        return count($relevant) > 0;
+        return $count > 0;
     }
 
     public function getIdsOfUsersWithRelevantProgress(): array
@@ -1228,6 +1238,10 @@ class ilObjStudyProgramme extends ilContainer
             $course_ref->setPermissions($crs_ref_id);
             $course_ref->setTargetId(ilObject::_lookupObjectId($crs_ref_id));
             $course_ref->update();
+            $lp = new ilLPObjSettings($course_ref->getId());
+            $lp->insert();
+            $lp->setMode($lp::LP_MODE_COURSE_REFERENCE);
+            $lp->update(false);
         }
     }
 
@@ -1483,7 +1497,7 @@ class ilObjStudyProgramme extends ilContainer
     {
         // We only use courses via crs_refs
         $type = ilObject::_lookupType($obj_id);
-        if ($type === "crs") {
+        if ($type === "crsr") {
             require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
             $crs_reference_obj_ids = ilContainerReference::_lookupSourceIds($obj_id);
             foreach ($crs_reference_obj_ids as $crs_reference_obj_id) {

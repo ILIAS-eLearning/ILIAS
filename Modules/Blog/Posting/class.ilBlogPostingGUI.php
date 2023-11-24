@@ -37,7 +37,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     protected bool $enable_public_notes = false;
     protected bool $may_contribute = false;
     protected bool $fetchall = false;
-    protected bool $blpg = false;
+    protected int $blpg = 0;
     protected string $term = "";
     public bool $add_date = false;
 
@@ -212,7 +212,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $callback
             ));
         }
-
         // permanent link
         if ($a_mode !== "embedded") {
             $append = ($this->blpg > 0)
@@ -255,6 +254,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     ): string {
         $this->setTemplateOutput(false);
 
+        $this->setPresentationTitle("");
         if (!$this->getAbstractOnly() && !$this->showPageHeading()) {
             if ($a_title !== "") {
                 $this->setPresentationTitle($a_title);
@@ -263,7 +263,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             }
         }
         $this->getBlogPosting()->increaseViewCnt();
-
         return parent::showPage();
     }
 

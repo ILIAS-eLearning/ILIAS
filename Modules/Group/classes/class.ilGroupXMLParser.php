@@ -532,8 +532,8 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         $this->group_obj->setShowMembers((bool) ($this->group_data['show_members'] ?? false));
         $this->group_obj->setAutoNotification((bool) (($this->group_data['auto_notification'] ?? false)));
         $this->group_obj->setMailToMembersType((int) ($this->group_data['mail_members_type'] ?? 0));
-        $this->group_obj->enableRegistrationAccessCode((bool) $this->group_data['registration_code_enabled'] ?? false);
-        $this->group_obj->setRegistrationAccessCode((string) $this->group_data['registration_code'] ?? '');
+        $this->group_obj->enableRegistrationAccessCode((bool) ($this->group_data['registration_code_enabled'] ?? false));
+        $this->group_obj->setRegistrationAccessCode((string) ($this->group_data['registration_code'] ?? ''));
         if (isset($this->group_data['view_mode'])) {
             $this->group_obj->setViewMode((int) $this->group_data['view_mode']);
         }
@@ -547,10 +547,10 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             $this->group_obj->setNumberOfNextSessions((int) $this->group_data['session_next']);
         }
 
-        $this->group_obj->setEnableGroupMap((bool) $this->group_data['map_enabled'] ?? false);
-        $this->group_obj->setLatitude((string) $this->group_data['map_latitude'] ?? '');
-        $this->group_obj->setLongitude((string) $this->group_data['map_longitude'] ?? '');
-        $this->group_obj->setLocationZoom((int) $this->group_data['map_location_zoom'] ?? 0);
+        $this->group_obj->setEnableGroupMap((bool) ($this->group_data['map_enabled'] ?? false));
+        $this->group_obj->setLatitude((string) ($this->group_data['map_latitude'] ?? ''));
+        $this->group_obj->setLongitude((string) ($this->group_data['map_longitude'] ?? ''));
+        $this->group_obj->setLocationZoom((int) ($this->group_data['map_location_zoom'] ?? 0));
 
         /*
          * readContainerSettings needs to be called before update, otherwise container

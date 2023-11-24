@@ -251,11 +251,11 @@ class ilTrQuery
             }
 
             if (in_array($a_user_id, ($status_info["completed"][$item_id] ?? []))) {
-                $status = ilLPStatus::LP_STATUS_COMPLETED;
+                $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } elseif (in_array($a_user_id, ($status_info["in_progress"][$item_id] ?? []))) {
-                $status = ilLPStatus::LP_STATUS_IN_PROGRESS;
+                $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             } else {
-                $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED;
+                $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
             }
 
             $items[$item_id] = array(

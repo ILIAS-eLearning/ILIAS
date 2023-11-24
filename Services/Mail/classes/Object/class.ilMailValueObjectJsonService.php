@@ -62,7 +62,7 @@ class ilMailValueObjectJsonService
                 $objectValues['recipients'],
                 $objectValues['recipients_cc'],
                 $objectValues['recipients_bcc'],
-                $objectValues['subject'],
+                ilStr::strLen($objectValues['subject']) > 255 ? ilStr::substr($objectValues['subject'], 0, 255) : $objectValues['subject'],
                 $objectValues['body'],
                 $objectValues['attachments'],
                 $objectValues['is_using_placholders'],

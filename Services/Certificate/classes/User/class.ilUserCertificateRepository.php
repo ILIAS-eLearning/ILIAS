@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -581,6 +581,29 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             $userId,
             $objId
         ));
+    }
+
+    public function isBackgroundImageUsed(string $relative_image_path): bool
+    {
+        $this->logger->debug(sprintf(
+            'START - Checking if any certificate template uses background image path "%s"',
+            $relative_image_path
+        ));
+
+        $result = $this->database->queryF(
+            'SELECT EXISTS(SELECT 1 FROM il_cert_user_cert WHERE background_image_path = %s AND currently_active = 1) AS does_exist',
+            ['text'],
+            [$relative_image_path]
+        );
+
+        $exists = (bool) ($this->database->fetchAssoc($result)['does_exist'] ?? false);
+
+        $this->logger->debug(sprintf(
+            'END - Image path "%s" is ' . $exists ? "in use" : "unused",
+            $relative_image_path
+        ));
+
+        return $exists;
     }
 
     /**

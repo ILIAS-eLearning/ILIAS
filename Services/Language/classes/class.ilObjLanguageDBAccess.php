@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 class ilObjLanguageDBAccess
 {
@@ -86,12 +85,11 @@ class ilObjLanguageDBAccess
             }
             if ($double_checker[$separated[0]][$separated[1]][$this->key] ?? false) {
                 global $DIC;
-                /** @var ilErrorHandling $ilErr */
-                $ilErr = $DIC["ilErr"];
-                $ilErr->raiseError(
+                $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                    'failure',
                     "Duplicate Language Entry in $lang_file:\n$val",
-                    $ilErr->MESSAGE
-                );
+                    true);
+                $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
             }
             $double_checker[$separated[0]][$separated[1]][$this->key] = true;
 
@@ -107,7 +105,7 @@ class ilObjLanguageDBAccess
             $query_check = true;
             $lang_array[$separated[0]][$separated[1]] = $separated[2];
         }
-        $query = rtrim($query, ",") . " ON DUPLICATE KEY UPDATE value=VALUES(value),remarks=VALUES(remarks);";
+        $query = rtrim($query, ",") . " ON DUPLICATE KEY UPDATE value=VALUES(value),local_change=VALUES(local_change),remarks=VALUES(remarks);";
         if ($query_check) {
             $this->ilDB->manipulate($query);
         }
@@ -168,13 +166,12 @@ class ilObjLanguageDBAccess
             $unserialied = unserialize($module["lang_array"], ["allowed_classes" => false]);
             if (!is_array($unserialied)) {
                 global $DIC;
-                /** @var ilErrorHandling $ilErr */
-                $ilErr = $DIC["ilErr"];
-                $ilErr->raiseError(
+                $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                    'failure',
                     "Data for module '" . $module["module"] . "' of  language '" . $this->key . "' is not correctly saved. " .
                     "Please check the collation of your database tables lng_data and lng_modules. It must be utf8_unicode_ci.",
-                    $ilErr->MESSAGE
-                );
+                    true);
+                $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
             }
         }
     }

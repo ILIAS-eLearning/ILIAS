@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -94,7 +95,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             );
         }
 
-        [$ORIG_DIC, $ORIG_ilDB] = $this->initEnvironment($environment);
+        [$ORIG_DIC, $ORIG_ilDB] = $this->initEnvironment($environment, $component_repository, $component_factory);
         $plugin = $component_factory->getPlugin($info->getId());
         $plugin->update();
         $GLOBALS["DIC"] = $ORIG_DIC;
@@ -114,13 +115,15 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         return $plugin->isUpdateRequired();
     }
 
-    protected function initEnvironment(Setup\Environment $environment): array
-    {
+    protected function initEnvironment(
+        Setup\Environment $environment,
+        \ilComponentRepository $component_repository,
+        \ilComponentFactory $component_factory
+    ): array {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-
 
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -130,6 +133,8 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         $ORIG_ilDB = $GLOBALS["ilDB"];
 
         $GLOBALS["DIC"] = new DI\Container();
+        $GLOBALS["DIC"]["component.repository"] = $component_repository;
+        $GLOBALS["DIC"]["component.factory"] = $component_factory;
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
@@ -185,7 +190,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             {
             }
         };
-        $GLOBALS["DIC"]["ilLog"] = new class () extends ilLog {
+        $GLOBALS["DIC"]["ilLog"] = new class () extends ilLogger {
             public function __construct()
             {
             }
@@ -214,11 +219,11 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
             public static function getRootLogger(): ilLogger
             {
-                return $GLOBALS["DIC"]["ilLogger"];
+                return $GLOBALS["DIC"]["ilLog"];
             }
             public static function getLogger(string $a_component_id): ilLogger
             {
-                return $GLOBALS["DIC"]["ilLogger"];
+                return $GLOBALS["DIC"]["ilLog"];
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];

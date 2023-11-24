@@ -403,6 +403,8 @@ class ilCronManagerGUI
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('cron_action_activate_success'), true);
+        } else {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
         }
 
         $this->ctrl->redirect($this, 'render');
@@ -428,6 +430,8 @@ class ilCronManagerGUI
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('cron_action_deactivate_success'), true);
+        } else {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
         }
 
         $this->ctrl->redirect($this, 'render');
@@ -450,6 +454,8 @@ class ilCronManagerGUI
                 $this->cronManager->resetJob($job, $this->actor);
             }
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('cron_action_reset_success'), true);
+        } else {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
         }
 
         $this->ctrl->redirect($this, 'render');
@@ -469,7 +475,7 @@ class ilCronManagerGUI
             } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException $e) {
                 $job_ids = $this->getRequestValue('mjid', $this->refinery->kindlyTo()->listOf(
                     $this->refinery->kindlyTo()->string()
-                ), false);
+                ), false, []);
             }
         } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException $e) {
         }
@@ -492,6 +498,7 @@ class ilCronManagerGUI
 
         $jobs = $this->getMultiActionData();
         if ($jobs === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'render');
         }
 

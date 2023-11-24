@@ -29,7 +29,7 @@ class ilCourseObjectiveResultCache
 
     public static function isSuggested(int $a_usr_id, int $a_crs_id, int $a_objective_id): bool
     {
-        if (!is_array(self::$suggested[$a_usr_id][$a_crs_id])) {
+        if (!isset(self::$suggested[$a_usr_id][$a_crs_id])) {
             self::$suggested[$a_usr_id][$a_crs_id] = self::readSuggested($a_usr_id, $a_crs_id);
         }
         return in_array($a_objective_id, self::$suggested[$a_usr_id][$a_crs_id]);
@@ -44,7 +44,7 @@ class ilCourseObjectiveResultCache
         return self::$status[$a_usr_id][$a_crs_id] = $tmp_res->getStatus($a_crs_id);
     }
 
-    protected function readSuggested(int $a_usr_id, int $a_crs_id): array
+    protected static function readSuggested(int $a_usr_id, int $a_crs_id): array
     {
         return ilCourseObjectiveResult::_getSuggested($a_usr_id, $a_crs_id, self::getStatus($a_usr_id, $a_crs_id));
     }

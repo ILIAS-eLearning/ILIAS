@@ -267,7 +267,7 @@ class ilLOEditorGUI
                 $settings->setInitialTest(0);
                 $this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
 
-            // no break
+                // no break
             case ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL:
             case ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL:
                 $this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
@@ -1130,7 +1130,7 @@ class ilLOEditorGUI
         $post_position = $this->http->wrapper()->post()->retrieve(
             'position',
             $this->refinery->kindlyTo()->dictOf(
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             )
         );
         asort($post_position, SORT_NUMERIC);

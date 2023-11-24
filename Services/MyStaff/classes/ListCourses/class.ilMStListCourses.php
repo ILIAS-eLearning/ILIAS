@@ -123,13 +123,13 @@ class ilMStListCourses
         while ($crs = $this->dic->database()->fetchAssoc($result)) {
             $list_course = new ilMStListCourse();
             $list_course->setCrsRefId(intval($crs['crs_ref_id']));
-            $list_course->setCrsTitle($crs['crs_title']);
+            $list_course->setCrsTitle($crs['crs_title'] ?? "");
             $list_course->setUsrRegStatus(intval($crs['reg_status']));
             $list_course->setUsrLpStatus(intval($crs['lp_status']));
             $list_course->setUsrLogin($crs['usr_login']);
             $list_course->setUsrLastname($crs['usr_lastname']);
             $list_course->setUsrFirstname($crs['usr_firstname']);
-            $list_course->setUsrEmail($crs['usr_email']);
+            $list_course->setUsrEmail($crs['usr_email'] ?? "");
             $list_course->setUsrId(intval($crs['usr_id']));
 
             $crs_data[] = $list_course;

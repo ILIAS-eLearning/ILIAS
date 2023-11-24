@@ -230,29 +230,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function checkAccess(string $a_permission): void
-    {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-
-        if (!$this->checkAccessBool($a_permission)) {
-            $ilErr->raiseError(
-                $this->lng->txt('msg_no_perm_read'),
-                $ilErr->WARNING
-            );
-        }
-    }
-
-    protected function checkAccessBool(string $a_permission): bool
-    {
-        return $this->access->checkAccess(
-            $a_permission,
-            '',
-            $this->ref_id
-        );
-    }
-
     public function resetFilterObject(): void
     {
         $utab = new ilUserTableGUI(
@@ -3708,6 +3685,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
+        $ctrl = $DIC['ilCtrl'];
 
         $a_target = USER_FOLDER_ID;
 
@@ -3716,7 +3694,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             "",
             $a_target
         )) {
-            ilUtil::redirect("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
+            $ctrl->redirectToURL("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
             exit;
         } else {
             if ($ilAccess->checkAccess(
@@ -3812,7 +3790,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $cmds = [];
         // see searchResultHandler()
         if ($a_search_form) {
-            if ($this->checkAccessBool('write')) {
+            if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
                 $cmds = [
                     'activate' => $this->lng->txt('activate'),
                     'deactivate' => $this->lng->txt('deactivate'),
@@ -3821,12 +3799,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 ];
             }
 
-            if ($this->checkAccessBool('delete')) {
+            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
                 $cmds["delete"] = $this->lng->txt("delete");
             }
         } // show confirmation
         else {
-            if ($this->checkAccessBool('write')) {
+            if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
                 $cmds = [
                     'activateUsers' => $this->lng->txt('activate'),
                     'deactivateUsers' => $this->lng->txt('deactivate'),
@@ -3835,12 +3813,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 ];
             }
 
-            if ($this->checkAccessBool('delete')) {
+            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
                 $cmds["deleteUsers"] = $this->lng->txt("delete");
             }
         }
 
-        if ($this->checkAccessBool('write')) {
+        if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
             $export_types = array("userfolder_export_excel_x86", "userfolder_export_csv", "userfolder_export_xml");
             foreach ($export_types as $type) {
                 $cmd = explode(
@@ -4018,16 +3996,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         $umail = new ilFormatMail($ilUser->getId());
-        $mail_data = $umail->getSavedData();
+        $mail_data = $umail->retrieveFromStage();
 
-        if (!is_array($mail_data)) {
-            $mail_data = array("user_id" => $ilUser->getId());
-        }
-
-        // ???
-        // $mail_data = $umail->appendSearchResult(array('#il_ml_'.$list_id), 'to');
-
-        $umail->savePostData(
+        $umail->persistToStage(
             $mail_data['user_id'],
             $mail_data['attachments'],
             '#il_ml_' . $list_id,

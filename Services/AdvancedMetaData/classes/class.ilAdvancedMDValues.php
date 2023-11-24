@@ -357,7 +357,7 @@ class ilAdvancedMDValues
                 }
                 $target_sel[] = $record_id;
             }
-            ilAdvancedMDRecord::saveObjRecSelection($a_target_id, $a_sub_type, $target_sel);
+            ilAdvancedMDRecord::saveObjRecSelection($a_target_id, (string) $a_sub_type, $target_sel);
         }
 
         // clone values

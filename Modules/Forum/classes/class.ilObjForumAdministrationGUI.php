@@ -140,7 +140,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $frma_set = new ilSetting('frma');
 
         $form->setValuesByArray([
-            'forum_overview' => (string) $frma_set->get('forum_overview'),
+            'forum_overview' => (string) $frma_set->get('forum_overview', (string) ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS),
             'fora_statistics' => (bool) $this->settings->get('enable_fora_statistics'),
             'anonymous_fora' => (bool) $this->settings->get('enable_anonymous_fora'),
             'forum_notification' => (int) $this->settings->get('forum_notification', '0') === 1,

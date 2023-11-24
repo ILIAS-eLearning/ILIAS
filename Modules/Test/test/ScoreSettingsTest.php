@@ -261,9 +261,7 @@ EOT;
         $actual = $this->getDefaultRenderer()->render(
             $s->toForm(...array_merge($ui, [[
                 'user_time_zone' => 'Europe/Berlin',
-                'user_date_format' => $data_factory->dateFormat()->withTime24(
-                    $data_factory->dateFormat()->standard()
-                )
+                'user_date_format' => $data_factory->dateFormat()->standard()
             ]]))
         );
 

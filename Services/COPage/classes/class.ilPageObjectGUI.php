@@ -1778,18 +1778,37 @@ class ilPageObjectGUI
         $ctrl = $DIC->ctrl();
         $ui = $DIC->ui();
 
+        $style_service = $DIC->contentStyle()->internal();
+        $style_access_manager = $style_service->domain()->access(
+            0,
+            $DIC->user()->getId()
+        );
+        $char_manager = $style_service->domain()->characteristic(
+            $a_style_id,
+            $style_access_manager
+        );
+
         $aset = new ilSetting("adve");
+
+        $f = static function (string $type, string $code) use ($char_manager, $lng) : string {
+            $title = $char_manager->getPresentationTitle("text_inline", $type);
+            if ($title === $type) {
+                $title = $lng->txt("cont_char_style_" . $code);
+            }
+            return $title;
+        };
 
         // character styles
         $chars = array(
-            "Comment" => array("code" => "com", "txt" => $lng->txt("cont_char_style_com")),
-            "Quotation" => array("code" => "quot", "txt" => $lng->txt("cont_char_style_quot")),
-            "Accent" => array("code" => "acc", "txt" => $lng->txt("cont_char_style_acc")),
-            "Code" => array("code" => "code", "txt" => $lng->txt("cont_char_style_code"))
+            "Comment" => array("code" => "com", "txt" => $f("Comment", "com")),
+            "Quotation" => array("code" => "quot", "txt" => $f("Quotation", "quot")),
+            "Accent" => array("code" => "acc", "txt" => $f("Accent", "acc")),
+            "Code" => array("code" => "code", "txt" => $f("Code", "code"))
         );
         foreach (ilPCParagraphGUI::_getTextCharacteristics($a_style_id) as $c) {
             if (!isset($chars[$c])) {
-                $chars[$c] = array("code" => "", "txt" => $c);
+                $title = $char_manager->getPresentationTitle("text_inline", $c);
+                $chars[$c] = array("code" => "", "txt" => $title);
             }
         }
         $char_formats = [];

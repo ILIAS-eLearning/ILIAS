@@ -436,7 +436,7 @@ class ilSurveyEditorGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_target_selected_for_move"), true);
         } else {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-            if ($this->edit_manager->getMoveSurveyId() !== $this->object->getId()) {
+            if ($this->edit_manager->getMoveSurveyId() === $this->object->getId()) {
                 $this->object->moveQuestions(
                     $this->edit_manager->getMoveSurveyQuestions(),
                     $insert_id,

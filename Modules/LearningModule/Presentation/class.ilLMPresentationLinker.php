@@ -109,7 +109,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         // handling of free pages
         $cur_page_id = $this->current_page;
         $back_pg = $this->back_pg;
-        if ($a_obj_id != "" && !$this->lm_tree->isInTree($a_obj_id) && $cur_page_id != "" &&
+        if ($a_obj_id !== 0 && !$this->lm_tree->isInTree($a_obj_id) && $cur_page_id !== 0 &&
             $a_back_link == "append") {
             if ($back_pg != "") {
                 $back_pg = $cur_page_id . ":" . $back_pg;
@@ -186,7 +186,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     if ($a_frame != "") {
                         $this->ctrl->setParameterByClass(self::TARGET_GUI, "frame", $a_frame);
                     }
-                    if ($a_obj_id != "") {
+                    if ($a_obj_id !== 0) {
                         switch ($a_type) {
                             case "MediaObject":
                                 $this->ctrl->setParameterByClass(self::TARGET_GUI, "mob_id", $a_obj_id);
@@ -231,7 +231,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 
                 case "layout":
 
-                    if ($a_obj_id == "") {
+                    if ($a_obj_id === 0) {
                         $a_obj_id = $this->lm_tree->getRootId();
                         $pg_node = $this->lm_tree->fetchSuccessorNode($a_obj_id, "pg");
                         $a_obj_id = $pg_node["obj_id"];
@@ -374,7 +374,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                     "append",
                                     $anc
                                 );
-                            if ($lm_id == "") {
+                            if ($lm_id === 0) {
                                 $href = "";
                             }
                             if ($this->embed_mode) {

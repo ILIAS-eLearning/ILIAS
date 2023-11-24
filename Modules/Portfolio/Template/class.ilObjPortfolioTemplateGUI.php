@@ -189,7 +189,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         if ($this->checkPermissionBool("read")) {
             $this->tabs_gui->addNonTabbedLink(
                 "preview",
-                $this->lng->txt("user_profile_preview"),
+                $this->lng->txt("preview"),
                 $this->ctrl->getLinkTarget($this, "preview")
             );
         }
@@ -510,7 +510,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 
     public function preview(
         bool $a_return = false,
-        bool $a_content = false,
+        $a_content = false,
         bool $a_show_notes = true
     ): string {
         if (!$this->checkPermissionBool("write") &&

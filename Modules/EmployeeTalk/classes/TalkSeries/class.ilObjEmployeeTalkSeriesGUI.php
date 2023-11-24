@@ -535,7 +535,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     {
         $template = new ilObjTalkTemplate($this->getTemplateRefId(), true);
         $talk->setDescription($template->getTitle());
-        $template->cloneMetaData($talk);
         $talk->update();
 
         // assign talk series type to adv md records of the template

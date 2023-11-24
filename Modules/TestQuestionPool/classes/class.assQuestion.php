@@ -125,7 +125,7 @@ abstract class assQuestion
      */
     protected array $suggested_solutions;
 
-    protected ?int $original_id;
+    protected ?int $original_id = null;
 
     /**
      * Page object
@@ -2964,12 +2964,23 @@ abstract class assQuestion
         return $this->question;
     }
 
+    public function getQuestionForHTMLOutput(): string
+    {
+        $question_text = $this->getHtmlQuestionContentPurifier()->purify($this->question);
+        if ($this->isAdditionalContentEditingModePageObject()
+            || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
+            $question_text = nl2br($question_text);
+        }
+        return $this->prepareTextareaOutput(
+            $question_text,
+            true,
+            true
+        );
+    }
+
     public function setQuestion(string $question = ""): void
     {
         $this->question = $question;
-        if ($question !== '') {
-            $this->question = $this->getHtmlQuestionContentPurifier()->purify($question);
-        }
     }
 
     /**

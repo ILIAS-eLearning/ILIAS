@@ -228,7 +228,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->renderObject();
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $ret = $this->forwardToPageObject();
                 if ($ret != "") {
@@ -248,6 +248,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
                 $settings_gui = $DIC->contentStyle()->gui()
                     ->objectSettingsGUIForRefId(
                         null,
@@ -495,8 +496,8 @@ class ilObjGroupGUI extends ilContainerGUI
         // check for parent group or course => SORT_INHERIT
         $sort_mode = ilContainer::SORT_TITLE;
         if (
-                $this->tree->checkForParentType($new_object->getRefId(), 'crs', true) ||
-                $this->tree->checkForParentType($new_object->getRefId(), 'grp', true)
+            $this->tree->checkForParentType($new_object->getRefId(), 'crs', true) ||
+            $this->tree->checkForParentType($new_object->getRefId(), 'grp', true)
         ) {
             $sort_mode = ilContainer::SORT_INHERIT;
         }
@@ -730,7 +731,7 @@ class ilObjGroupGUI extends ilContainerGUI
         }
     }
 
-    protected function getSubServices() : array
+    protected function getSubServices(): array
     {
         $subs = array(
             ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
@@ -922,16 +923,16 @@ class ilObjGroupGUI extends ilContainerGUI
             );
         }
 
+        /**
+         * This reads out all fields in usr_data, including usr_id, firstname,
+         * lastname, and login, so should never be necessary here to call
+         * ilObjUser a second time (#31394).
+         */
         $profile_data = ilObjUser::_readUsersProfileData($ids);
         $members = [];
         foreach ($ids as $usr_id) {
-            $name = ilObjUser::_lookupName((int) $usr_id);
-            $tmp_data['firstname'] = (string) ($name['firstname'] ?? '');
-            $tmp_data['lastname'] = (string) ($name['lastname'] ?? '');
             $tmp_data['notification'] = (bool) $this->object->members_obj->isNotificationEnabled((int) $usr_id) ? 1 : 0;
             $tmp_data['contact'] = (bool) $this->object->members_obj->isContact((int) $usr_id) ? 1 : 0;
-            $tmp_data['usr_id'] = (int) $usr_id;
-            $tmp_data['login'] = ilObjUser::_lookupLogin((int) $usr_id);
 
             foreach ((array) ($profile_data[$usr_id] ?? []) as $field => $value) {
                 $tmp_data[$field] = $value;
@@ -1719,7 +1720,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->object->getId(),
                 $form,
                 $this->getSubServices()
-                );
+            );
 
 
             $mem = new ilCheckboxInputGUI($this->lng->txt('grp_show_members'), 'show_members');

@@ -58,7 +58,7 @@ acc#:#acc_tree_off#:#ツリー表示しない
 acc#:#acc_tree_on#:#ツリー表示する
 adm#:#adm_acc_ctrl_cpt_desc#:#有効にするとアクセッシビリティコントロールコンセプト用のリンクはフッタ－内に表示されます。
 adm#:#adm_acc_ctrl_cpt_enable#:#アクセッシビリティコントロールコンセプトを有効にする
-adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point 
+adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point
 adm#:#adm_accessibility_contacts_info#:#フッターリンクのaccessibility issue報告用コンタクト。ログインアカウントのコンマ区切りリスト
 adm#:#adm_awrn_support_contacts_info#:#全てのテクニカルサポートコンタクトが表示されます。ユーザは"全般設定" > "コンタクト情報" セクションのテクニカルサポートコンタクトとして定義されます。
 adm#:#adm_support_contacts#:#テクニカルサポート
@@ -606,9 +606,6 @@ assessment#:#cloze_text#:#穴埋め問題のテキスト
 assessment#:#cloze_textgap_case_insensitive#:#大文字・小文字を非区分
 assessment#:#cloze_textgap_case_sensitive#:#大文字・小文字を区分
 assessment#:#cloze_textgap_levenshtein_of#:#%sのレーベンシュタイン距離
-assessment#:#cloze_textgap_multiple_whitespace#:#複数の白スペース
-assessment#:#cloze_textgap_whitespace_after#:#値の後の白スペース
-assessment#:#cloze_textgap_whitespace_before#:#値の前の白スペース
 assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
@@ -918,6 +915,7 @@ assessment#:#new_category#:#新ユニットカテゴリ
 assessment#:#new_unit#:#新ユニット
 assessment#:#next_question#:#次
 assessment#:#next_question_rows#:#問題 %dの%d - %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#合格のマークを1つはセットしなけれなりません! 採点尺度が保存されませんでした。
 assessment#:#no_question_selected_for_move#:#移動する問題の最低一つにチェックしてください!
 assessment#:#no_questions_available#:#問題がありません!
@@ -1534,10 +1532,10 @@ assessment#:#tst_manscoring_question_section_header#:#問題:%s
 assessment#:#tst_manscoring_user_notification#:#通知送付
 assessment#:#tst_mark#:#マーク
 assessment#:#tst_mark_create_new_mark_step#:#新規評価尺度を作成
-assessment#:#tst_mark_create_simple_mark_schema#:#シンプル評価尺度を作成
 assessment#:#tst_mark_minimum_level#:#最低レベル (%中)
 assessment#:#tst_mark_official_form#:#正式書式
 assessment#:#tst_mark_passed#:#合格
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#シンプル評価尺度を作成
 assessment#:#tst_mark_short_form#:#略式書式
 assessment#:#tst_max_allowed_users_heading#:#テストの同時最大ユーザ数に達しました
 assessment#:#tst_max_allowed_users_message#:#テストの同時最大ユーザ数に達しました。 後でやり直すかもしくはテストを再開してください。 受験中のユーザのだれかが %s 以上中断すると入力できるようになる場合があります。ご理解ありがとうございます。
@@ -1646,6 +1644,7 @@ assessment#:#tst_password_form#:#テストパスワードを入力
 assessment#:#tst_password_introduction#:#テストのパスワードがないとテストにはアクセスできません。テストを開始するためにテストのパスワードを入力してください。
 assessment#:#tst_percent_solved#:#正解率
 assessment#:#tst_player_answer_saved_and_locked#:#回答は保存されてロックされ変更できなくなります。
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#目標のコンテナを選択してください。
 assessment#:#tst_position#:#問題 %s の%s
 assessment#:#tst_position_without_total#:#問題 %s
@@ -2040,7 +2039,7 @@ auth#:#auth_oidc_settings_discovery_error#:#ディスカバリーURLの読込み
 auth#:#auth_oidc_settings_discovery_url#:#プロバイダーのDiscovery URL
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#ログインページに表示する写真をアップロードします。画像は自動的にOpenId コンテンツログインスクリプトにリンクします。
-auth#:#auth_oidc_settings_invalid_scopes#:#次の値には有効な範囲がありません: %s 
+auth#:#auth_oidc_settings_invalid_scopes#:#次の値には有効な範囲がありません: %s
 auth#:#auth_oidc_settings_le#:#プレゼンテーションログインページ
 auth#:#auth_oidc_settings_login_option_default#:#強制的にログオンしない
 auth#:#auth_oidc_settings_login_option_default_info#:#有効なセッションがすでに存在する場合は、OpenIdコンテンツサーバーにログインする必要はありません。
@@ -2800,8 +2799,6 @@ chatroom#:#chat_auth_token_info#:#チャットサーバへリクエストを送�
 chatroom#:#chat_ban#:#禁止する
 chatroom#:#chat_broadcast_typing#:#タイプのブロードキャスト
 chatroom#:#chat_broadcast_typing_info#:#会話中またはチャットルーム内のユーザへメッセージタイプ中に見る事を許容する。
-chatroom#:#chat_broadcast_typing_no#:#他のチャット参加者へタイプ入力をブロードキャストしない。
-chatroom#:#chat_broadcast_typing_yes#:#他のチャット参加者へタイプ入力をブロードキャストする。
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b>は チャットルームを退室 ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> はチャットルームへ参加 +++
 chatroom#:#chat_create_private_room_button#:#プライベートルームを作成
@@ -5507,7 +5504,7 @@ common#:#session_config#:#セッション設定
 common#:#session_config_maintenance_disabled#:#クライアントによるメンテナンスを禁止する
 common#:#session_mail_subject_deletion#:# セッション "%s"からユーザ "%s"の登録解除
 common#:#session_mail_subject_entered#:#セッション "%s"内ユーザ"%s" の参加
-common#:#session_mail_subject_registered#:#セッション "%s"のユーザ"%s"の登録 
+common#:#session_mail_subject_registered#:#セッション "%s"のユーザ"%s"の登録
 common#:#session_max_count#:#Maxアクティブセッション
 common#:#session_max_count_info#:#同時に確立可能な最大セッション数を定義します。"0"の場合この機能はOFFとなります。
 common#:#session_max_idle#:#Maxセッションアイドル(分単位)
@@ -5731,7 +5728,6 @@ common#:#udf_delete_sure#:#本当にこの欄と全ての割り当てユーザ�
 common#:#udf_duplicate_entries#:#値はユニークでなければなりません。
 common#:#udf_field_deleted#:#欄を削除しました。
 common#:#udf_name_already_exists#:#この欄の名称は既に使用されています。別の名前を使用してください。
-common#:#udf_required_and_visible_requires_changeable#:#フィールドが"必須"で"パーソナルデータ中に表示"の際は、'プロファイル内で表示可'にする必要があります。
 common#:#udf_required_requires_visib_reg#:#欄が"必須項目"に設定されていると、"登録中表示"に設定しなければなりません。
 common#:#udf_type_date#:#日付
 common#:#udf_type_datetime#:#日付と時間
@@ -5859,6 +5855,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#挿入アクションを実行
 common#:#usrimport_no_update_ext_account_exists#:#更新アクションが実行できません。外部アカウントが既に存在します。
 common#:#usrimport_with_specified_role_not_permitted#:#指定した役割のインポートはアクセス許可されません。
 common#:#usrimport_wrong_file_count#:#インポートフォルダーにたくさんファイルがありすぎます。もう一度やり直してください。
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#要素 "%1$s" の属性 "%2$s" がありません。
 common#:#usrimport_xml_attribute_value_illegal#:#要素 "%1$s" の属性 "%2$s" の値 "%3$s" がありません。
 common#:#usrimport_xml_attribute_value_inapplicable#:#要素"%1$s"の属性 "%2$s"の値"%3$s"はアクション"%4$s"には不適切です。
@@ -5949,7 +5946,7 @@ common#:#withdrawal_complete_redirect#:#完全に承諾を取り下げます。 
 common#:#withdrawal_mail_info#:#取り下げ確認後に以下のメールが管理者へ送られます。:[BR][BR]
 common#:#withdrawal_mail_subject#:#利用規約承諾の取り下げ
 common#:#withdrawal_mail_text#:#担当の方へ,[BR][BR]ILIASシステムの利用規約をここに取り下げます。適時アカウントの更新または削除をお願いします。[BR][BR]名前: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]早々[BR]%1$s
-common#:#withdrawal_sure_account#:#承諾を本当に取り下げますか? 
+common#:#withdrawal_sure_account#:#承諾を本当に取り下げますか?
 common#:#withdrawal_sure_account_deletion#:#承諾を本当に取り下げますか? アカウントは取り消し不可能で削除されます。
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#本当に使用許諾を承認しませんか? ユーザアカウントは取消不可で削除されます。
 common#:#withdrawal_sure_account_no_consent_yet#:#本当に使用許諾を承認しませんか?
@@ -6210,7 +6207,7 @@ content#:#cont_citation_selection_not_valid#:#選択は無効です
 content#:#cont_click_br_corner#:#希望範囲の右下の角をクリックしてください。
 content#:#cont_click_center#:#希望範囲の中央をクリックしてください。
 content#:#cont_click_circle#:#希望範囲の円のポイントをクリックしてください。
-content#:#cont_click_edit#:#プロパティを<b>編集</b>するには要素を<b>クリック</b> 
+content#:#cont_click_edit#:#プロパティを<b>編集</b>するには要素を<b>クリック</b>
 content#:#cont_click_multi_select#:#<b>要素を</b> 選択<b>クリック</b> または解除する。
 content#:#cont_click_next_or_save#:#多角形あるいは保存範囲の次のポイントをクリックしてください。(この多角形の開始点を再度クリックする必要はありません !)
 content#:#cont_click_next_point#:#多角形の次のポイントをクリックしてください。
@@ -6295,7 +6292,7 @@ content#:#cont_download_title#:#ダウンロード タイトル
 content#:#cont_downloads#:#ダウンロード
 content#:#cont_downloads_desc#:#ダウンロード用(オフライン利用やインポート等)に全ての公開エクスポートファイルを提供します。
 content#:#cont_downloads_public_desc#:#匿名ユーザに対してもダウンロードを許可する。(共用範囲に限る)
-content#:#cont_drag_and_drop_elements#:#<b>Drag and drop</b>でプレースフォルダのコンテンツ要素へ<b>移動</b> 
+content#:#cont_drag_and_drop_elements#:#<b>Drag and drop</b>でプレースフォルダのコンテンツ要素へ<b>移動</b>
 content#:#cont_drag_element_click_save#:#希望する位置に要素をドラッグアナドドロップする。その後"保存"する。
 content#:#cont_ed_align_center#:#整列：中央
 content#:#cont_ed_align_left#:#整列：左
@@ -8133,6 +8130,8 @@ dateplaner#:#cal_create#:#作成
 dateplaner#:#cal_created_appointment#:#新規予定を作成しました。
 dateplaner#:#cal_created_milestone#:#マイルストーンを追加しました。
 dateplaner#:#cal_created_milestone_resp_q#:#マイルストーンを追加しました。マイルストーンに一致する責任あるユーザを選択してください。
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#コース情報
 dateplaner#:#cal_crs_new_notification_body#:#コース"%s"へ新しい予定が作成されました。
 dateplaner#:#cal_crs_new_notification_sub#:#コース"%s"の新しい予定
@@ -9475,20 +9474,9 @@ file#:#file_download#:#ファイルをダウンロード
 file#:#file_import#:#ファイルをインポート
 file#:#file_new_version#:#新バージョンを作成
 file#:#file_new_version_info#:#新ファイルバージョンを作成します。旧バージョンは修正されません。
-file#:#file_suffix_custom_black#:#カスタム拡張子ブラックリスト
-file#:#file_suffix_custom_black_info#:#これらの拡張子は既定のホワイトリストから削除されます。
-file#:#file_suffix_custom_expl_black#:#明示的なブラックリスト
-file#:#file_suffix_custom_expl_black_info#:#これらの拡張子のファイルは受領できません。
-file#:#file_suffix_custom_white#:#カスタム拡張子ホワイトリスト
-file#:#file_suffix_custom_white_info#:#これらの拡張子は初期値のホワイトリストへ追加されます。
-file#:#file_suffix_default_white#:#拡張子ホワイトリスト初期値
-file#:#file_suffix_default_white_info#:#承認済ファイル拡張子の初期値リスト
-file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
-file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
 file#:#file_upload_info_file_with_critical_extension#:#uploadされたファイルはクリティカルまたは不明なファイル終端が含まれています。ファイル終端はダウンロード毎に.secへ変更されます。必要に応じて管理者へ連絡してください。
 file#:#file_uploaded_by#:#アップロード者
 file#:#general_upload_error_occured#:#upload中に予期しないエラーが発生しました。
-file#:#generate_sanitize_report#:#アクセス不可なファイルに関するレポート
 file#:#migrated#:#ステータス
 file#:#msg_unzip_success#:#アーカイブは正しくunzipされました。
 file#:#replace_file_info#:#全ての旧バージョンファイルは削除されます。
@@ -9909,6 +9897,7 @@ grp#:#grp_members#:#メンバー
 grp#:#grp_members_deleted#:#メンバーを削除しました
 grp#:#grp_members_map#:#グループ メンバーのMap
 grp#:#grp_members_print_title#:#グループメンバ
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#グループタイプを選んでください。
 grp#:#grp_missing_password#:#グループパスワードを入力してください。
 grp#:#grp_new_status#:#新しいステータス
@@ -10332,6 +10321,8 @@ link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#未完了を設定
 lm#:#lm_btn_lp_toggle_state_not_completed#:#完了を設定
 lm#:#lm_copy#:#ラーニングモジュールをコピー
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#予測読込み時間
 lm#:#lm_est_reading_time_info#:#リポジトリ内の学習モジュール予測読込み時間が確定されて表示できます。
 lm#:#lm_page_type_lm#:#LMページ
@@ -10431,6 +10422,7 @@ lso#:#lso_members_gallery#:#学習シーケンスメンバーギャラリー
 lso#:#lso_members_print_title#:#学習シーケンスメンバー
 lso#:#lso_min_one_admin#:#この学習シーケンスに対して一人は管理者を割当てる必要があります。
 lso#:#lso_msg_member_assigned#:#ユーザは学習シーケンスメンバーとして割当てられました。
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#新しいステータスは:
 lso#:#lso_notification#:#通知
 lso#:#lso_notification_explanation_admin#:#通知を有効にしている学習シーケンス管理者なのでILIASからメール受信します。
@@ -10607,7 +10599,10 @@ lti#:#lti_con_prov_category_info#:#LTI Consumerオブジェクトが作成され
 lti#:#lti_con_prov_custom_params#:#この特定のプロバイダー用のカスタムパラメータ
 lti#:#lti_con_prov_custom_params_info#:#フォームへ入力してください。 param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#説明
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#ツールのURLを登録
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#External Providerと通信中ユーザへヒントが表示されます。External ProviderはILIASシステムのオペレータによりプロバイダに対しては不十分な影響として特徴づけられます。これは削除する権利がない時の場合です。
 lti#:#lti_con_prov_group_options#:#グループオプションとプロバイダフィルター
@@ -10667,7 +10662,7 @@ lti#:#lti_consumer_set_active#:#Consumerを有効にしました
 lti#:#lti_consumer_set_inactive#:#Consumerを解除しました
 lti#:#lti_consumer_updated#:#Consumerを更新しました
 lti#:#lti_consuming_tab#:#LTI ConsumerとしてのILIAS
-lti#:#lti_copy#:#ConsumerをCopy 
+lti#:#lti_copy#:#ConsumerをCopy
 lti#:#lti_create_consumer#:#Consumerを作成
 lti#:#lti_create_lti_user_role#:#LTI ユーザ用の推奨グローバル役割を作成
 lti#:#lti_cron_title#:#LTI Outcome Service
@@ -10725,6 +10720,7 @@ lti#:#mastery_score_info#:#学習進捗はProvider Outcome Serviceとmastery sco
 lti#:#obj_tile_image_info#:#四角形のイメージを使用
 lti#:#online_info#:#これはユーザーへオブジェクトを表示して利用可能にします。
 lti#:#prefix#:#Prefix
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#使用したプロバイダー
 lti#:#settings_subtab#:#設定
 lti#:#show_statements#:#学習履歴を表示
@@ -10969,6 +10965,7 @@ mail#:#mail_smtp_status_info#:#有効にするとILIASはPHP runtime(mail() func
 mail#:#mail_smtp_user#:#ユーザ
 mail#:#mail_subject_prefix#:#メール件名
 mail#:#mail_subject_prefix_info#:#自動生成される発信メール件名の行の部分へ挿入するテキストを入力します。
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#本当にマークされたメールを削除しますか?
 mail#:#mail_sure_delete_entry#:#本当に次のエントリーを削除しますか?
 mail#:#mail_sure_delete_file#:#ファイルは完全に削除されます
@@ -11302,9 +11299,15 @@ meta#:#md_advanced#:#メタデータ詳細
 meta#:#md_aria_language_selection#:#言語選択
 meta#:#md_copyright#:#著作権
 meta#:#md_copyright_add#:#著作権のプリセットを追加
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#著作権のプリセットを編集
 meta#:#md_copyright_enable_info#:#定義済みの著作権の選択を提供するには、このオプションを選択します。
 meta#:#md_copyright_enabled#:#著作権選択を可能にする
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#著作権(プレビュー)
 meta#:#md_copyright_selection#:#著作権初期値
 meta#:#md_copyright_settings#:#著作権設定
@@ -14818,6 +14821,7 @@ skmg#:#skmg_confirm_user_removal#:#本当にこのプロファイルから次の
 skmg#:#skmg_cont_profiles_info#:#この表示では、現在開いているオブジェクト(コース/グループ)に関係する能力エントリーの能力プロファイルを選択できます。割当てられている全ての能力プロファイルと全ての能力エントリー付きでグローバル表示をするには、以下のリンクをクリックします。
 skmg#:#skmg_context_global#:#グローバル
 skmg#:#skmg_context_local#:#ローカル
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#テンプレートカテゴリを作成
 skmg#:#skmg_create_skill_category#:#能力カテゴリを作成
 skmg#:#skmg_create_skill_template#:#能力テンプレートを作成
@@ -16176,7 +16180,7 @@ sysc#:#sysc_tree_list_failures#:#リポジトリツリーのダンプが作成�
 sysc#:#sysc_tree_missing_failures#:#ツリー構造内の欠損エントリーが見つかりました欠損エントリー数
 sysc#:#sysc_tree_structure_failures#:#ツリー構造(親-関係)内の不良数:
 tagging#:#no_tag_text_1#:#まだタグは未利用です。実行するには2つのステップを実行する必要があります。
-tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択 
+tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択
 tagging#:#no_tag_text_3#:#オブジェクトへタグを添付するには、アクションメニューから'タグ設定'を選択します。
 tagging#:#tag_remove_tags_of_obj_without_access#:#タグを削除
 tagging#:#tag_some_obj_tagged_without_access#:#タグされたオブジェクトにはアクセス権のないものがあります。これらのオブジェクト用のタグを削除しますか?
@@ -16603,6 +16607,7 @@ user#:#clipboard_remove_btn#:#クリップボードから削除
 user#:#clipboard_table_title#:#クリップボード(ユーザアカウント)
 user#:#clipboard_user_added#:#クリップボードへ選択のユーザを追加しました
 user#:#confirm_delete_starting_point#:#このルールを本当に消去しますか？
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#ルールを作成
 user#:#criteria#:#判定基準
 user#:#del_mail_body#:#%1$sさん, %3$s時点で%2$sへあなたは長期間ログインしていません。そのためアカウントは%4$s日以内に削除されます。アカウント削除を回避するには再度ログインし直す必要があります。
@@ -16610,6 +16615,7 @@ user#:#del_mail_subject#:#(ILIAS) アカウントは削除されます。
 user#:#delete_inactive_user_accounts_frequency#:#間隔
 user#:#delete_inactive_user_accounts_frequency_desc#:#削除とメール配布間隔をテストします。
 user#:#editing_this_role#:#役割
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#ローカルユーザ管理を使用
 user#:#enable_local_user_administration_info#:#有効にするとローカルユーザアカウントはカテゴリ内で管理できます。
 user#:#feedhash#:#ニュースフィードハッシュ

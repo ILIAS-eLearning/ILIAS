@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Data;
@@ -53,19 +69,7 @@ class Version
 
     public function isGreaterThan(Version $other): bool
     {
-        if ($this->major > $other->major) {
-            return true;
-        }
-        if ($this->major < $other->major) {
-            return false;
-        }
-        if ($this->minor > $other->minor) {
-            return true;
-        }
-        if ($this->minor < $other->major) {
-            return false;
-        }
-        return $this->patch > $other->patch;
+        return version_compare((string) $this, (string) $other, '>');
     }
 
     public function isGreaterThanOrEquals(Version $other): bool

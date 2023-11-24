@@ -86,9 +86,14 @@ class ilCronJobResult
         return $this->message;
     }
 
-    public function setMessage(string $a_value): void
+    public function setMessage(string $value): void
     {
-        $this->message = trim($a_value);
+        $value = trim($value);
+        if (ilStr::strLen($value) > 400) {
+            throw new InvalidArgumentException("The message must not exceed 400 characters");
+        }
+
+        $this->message = $value;
     }
 
     public function getCode(): ?string

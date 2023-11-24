@@ -44,6 +44,11 @@ abstract class ilMimeMailNotification extends ilMailNotification
         $this->mime_mail->Send();
     }
 
+    protected function setSubject(string $a_subject): string
+    {
+        return $this->subject = $a_subject;
+    }
+
     protected function initMimeMail(): ilMimeMail
     {
         $this->mime_mail = new ilMimeMail();

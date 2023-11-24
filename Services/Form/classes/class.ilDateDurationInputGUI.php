@@ -29,8 +29,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 
     protected ?ilDateTime $start = null;
     protected ?int $startyear = null;
-    protected string $start_text = "";
-    protected string $end_text = "";
+    protected ?string $start_text = null;
+    protected ?string $end_text = null;
     protected int $minute_step_size = 5;
     protected ?ilDateTime $end = null;
     protected bool $showtime = false;
@@ -87,7 +87,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         $this->start_text = $a_txt;
     }
 
-    public function getStartText(): string
+    public function getStartText(): ?string
     {
         return $this->start_text;
     }
@@ -97,7 +97,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         $this->end_text = $a_txt;
     }
 
-    public function getEndText(): string
+    public function getEndText(): ?string
     {
         return $this->end_text;
     }

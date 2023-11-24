@@ -123,7 +123,7 @@ class ilMailingLists
 
         $this->setCurrentMailingList($ml_id);
 
-        return true;
+        return $this->getCurrentMailingList()->doesExist();
     }
 
     public function setCurrentMailingList(int $id = 0): void

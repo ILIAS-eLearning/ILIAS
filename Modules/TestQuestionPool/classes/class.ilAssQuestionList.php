@@ -518,7 +518,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			";
         }
 
-        if ($this->getParentObjectType() === 'tst') {
+        if ($this->getParentObjectType() === 'tst'
+            && $this->getQuestionInstanceTypeFilter() === self::QUESTION_INSTANCE_TYPE_ALL) {
             $tableJoin .= "
             						INNER JOIN	tst_test_question tstquest
 			ON			tstquest.question_fi = qpl_questions.question_id

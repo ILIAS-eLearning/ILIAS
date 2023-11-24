@@ -54,7 +54,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         $title = new ilTextInputGUI($this->getTitle(), $this->getElementId());
         $title->setSize(255);
-        $title->setValue((string) $this->getADT()->getTargetRefId());
+        $title->setValue($this->getTitleQuery());
         $this->addToParentElement($title);
     }
 
@@ -64,7 +64,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function loadFilter(): void
     {
         $value = $this->readFilter();
-        if ($value !== null) {
+        if ($value !== null && $value !== '') {
             $this->getADT()->setTargetRefId(1);
             $this->setTitleQuery($value);
         }

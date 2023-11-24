@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -75,27 +75,5 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         );
 
         $this->templateRepository->save($certificateTemplate);
-
-        $this->overwriteBackgroundImageThumbnail($certificateTemplate);
-    }
-
-    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate): void
-    {
-        $relativePath = $previousTemplate->getBackgroundImagePath();
-
-        if ('' === $relativePath) {
-            $relativePath = '/certificates/default/background.jpg';
-        }
-
-        $pathInfo = pathinfo($relativePath);
-
-        $newFilePath = $pathInfo['dirname'] . '/background.jpg.thumb.jpg';
-
-        $this->utilHelper->convertImage(
-            $this->rootDirectory . $relativePath,
-            $this->rootDirectory . $newFilePath,
-            'JPEG',
-            "100"
-        );
     }
 }

@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-require_once "./Services/Language/classes/class.ilObjLanguage.php";
-
 /**
 * Class ilObjLanguageExt
 *
@@ -411,31 +409,33 @@ class ilObjLanguageExt extends ilObjLanguage
         if (!is_array($a_values)) {
             return;
         }
-        $save_array = array();
-        $save_date = date("Y-m-d H:i:s", time());
+        $save_array = [];
+        $save_date = (new DateTime())->format("Y-m-d H:i:s");
 
         // read and get the global values
-        require_once "./Services/Language/classes/class.ilLanguageFile.php";
         $global_file_obj = ilLanguageFile::_getGlobalLanguageFile($a_lang_key);
-        $global_values = $global_file_obj->getAllValues();
-        $global_comments = $global_file_obj->getAllComments();
-
+        $file_values = $global_file_obj->getAllValues();
+        $file_comments = $global_file_obj->getAllComments();
+        $db_values = self::_getValues($a_lang_key);
+        $db_comments = self::_getRemarks($a_lang_key);
+        $global_values = array_merge($db_values, $file_values);
+        $global_comments = array_merge($db_comments, $file_comments);
+        
         // save the single translations in lng_data
         foreach ($a_values as $key => $value) {
             $keys = explode($lng->separator, $key);
-            if (count($keys) === 2) {
-                $module = $keys[0];
-                $topic = $keys[1];
-                $save_array[$module][$topic] = $value;
+            
+            if (count($keys) !== 2) {
+                continue;
+            }
+            
+            list($module, $topic) = $keys;
+            $save_array[$module][$topic] = $value;
 
-                if (!isset($global_values[$key])) continue;
-                $are_comments_set = isset($global_comments[$key]) && isset($a_remarks[$key]);
-                if ($global_values[$key] != $value || ($are_comments_set ? $global_comments[$key] != $a_remarks[$key] : $are_comments_set)) {
-                    $local_change = $save_date;
-                } else {
-                    $local_change = null;
-                }
-
+            $are_comments_set = array_key_exists($key, $global_comments) && array_key_exists($key, $a_remarks);
+            $are_changes_made = (isset($global_values[$key]) ? $global_values[$key] != $value : true) || (isset($db_values[$key]) ? $db_values[$key] != $value : true);
+            if ($are_changes_made || ($are_comments_set ? $global_comments[$key] != $a_remarks[$key] : $are_comments_set)) {
+                $local_change = (isset($db_values[$key]) ? $db_values[$key] == $value : true) || (isset($global_values[$key]) ? $global_values[$key] != $value : true) ? $save_date : null;
                 ilObjLanguage::replaceLangEntry(
                     $module,
                     $topic,

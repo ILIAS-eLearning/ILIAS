@@ -183,13 +183,15 @@ class ilAuthModeDetermination
                 break;
             }
             if ($auth_mode) {
-                //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
                 switch ((int) $auth_mode) {
                     case ilAuthUtils::AUTH_LOCAL:
                         $this->position[] = (int) $auth_mode;
                         break;
                     case ilAuthUtils::AUTH_LDAP:
                         $auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
+                        if ($auth_id === null) {
+                            break;
+                        }
                         $server = ilLDAPServer::getInstanceByServerId($auth_id);
 
                         if ($server->isActive()) {

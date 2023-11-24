@@ -33,6 +33,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
     protected ilRbacReview $rbacreview;
     protected ilObjUser $user;
 
+    protected array $cached_user_names = [];
 
     public function __construct(
         ?object $a_parent_obj,
@@ -125,7 +126,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if (!ilObjUser::_lookupActive($a_set['usr_id'])) {
+        if (!$a_set['active']) {
             $this->tpl->setCurrentBlock('access_warning');
             $this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
             $this->tpl->parseCurrentBlock();
@@ -389,7 +390,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     $a_user_data[$usr_id]['odf_last_update'] = $edit_info['update_user'];
                     $a_user_data[$usr_id]['odf_last_update'] .= ('_' . $edit_info['editing_time']->get(IL_CAL_UNIX));
 
-                    $name = ilObjUser::_lookupName($edit_info['update_user']);
+                    $name = $this->lookupUserName((int) $edit_info['update_user']);
                     $a_user_data[$usr_id]['odf_info_txt'] = ($name['firstname'] . ' ' . $name['lastname'] . ', ' . ilDatePresentation::formatDate($edit_info['editing_time']));
                 }
             }
@@ -412,5 +413,16 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             $this->getOrderDirection()
         );
         $this->setData($a_user_data);
+    }
+
+    /**
+     * @return array{user_id: int, firstname: string, lastname: string, login: string, title: string}
+     */
+    protected function lookupUserName(int $user_id): array
+    {
+        if (isset($this->cached_user_names[$user_id])) {
+            return $this->cached_user_names[$user_id];
+        }
+        return $this->cached_user_names[$user_id] = ilObjUser::_lookupName($user_id);
     }
 }

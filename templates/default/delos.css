@@ -19516,10 +19516,6 @@ div.term {
 span.result {
   font-style: italic;
 }
-div.ilc_Page.readonly div.ilc_question_Standard {
-  background-color: #f3f3f3;
-  background-image: url(../../../../templates/default/images/qmark-ro.svg);
-}
 ul.ilAssQuestionRelatedNavigationContainer,
 div.ilAssQuestionRelatedNavigationContainer {
   margin: 15px 0;

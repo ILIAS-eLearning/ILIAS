@@ -606,9 +606,6 @@ assessment#:#cloze_text#:#Doplňovaný text
 assessment#:#cloze_textgap_case_insensitive#:#Nerozlišuje velká/malá písmena
 assessment#:#cloze_textgap_case_sensitive#:#Rozlišuje velká/malá písmena
 assessment#:#cloze_textgap_levenshtein_of#:#Vzdálenost Levenshtein %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Více prázdných míst
-assessment#:#cloze_textgap_whitespace_after#:#Prázdné místo za hodnotou
-assessment#:#cloze_textgap_whitespace_before#:#Prázdné místo před hodnotou
 assessment#:#code#:#Kód
 assessment#:#codebase#:#Databáze kódu
 assessment#:#concatenation#:#Sřetězení
@@ -918,6 +915,7 @@ assessment#:#new_category#:#Nová kategorie jednotky
 assessment#:#new_unit#:#Nová jednotka
 assessment#:#next_question#:#Další
 assessment#:#next_question_rows#:#Otázky %d - %d z %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Musíte nastavit nejméně jednu známku k hodnocení PROSPĚL/A! Schéma hodnocení nebylo uloženo.
 assessment#:#no_question_selected_for_move#:#Vyberte alespoň jednu otázku k přesunutí!
 assessment#:#no_questions_available#:#Nejsou dostupné žádné otázky!
@@ -1534,10 +1532,10 @@ assessment#:#tst_manscoring_question_section_header#:#Otázka: %s
 assessment#:#tst_manscoring_user_notification#:#Zaslat upozornění
 assessment#:#tst_mark#:#Známka
 assessment#:#tst_mark_create_new_mark_step#:#Vytvořit nový známkovací stupeň
-assessment#:#tst_mark_create_simple_mark_schema#:#Vytvořit jednoduché schéma známkování
 assessment#:#tst_mark_minimum_level#:#Minimální hladina (v %)
 assessment#:#tst_mark_official_form#:#Oficiální tvar
 assessment#:#tst_mark_passed#:#Prošel
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Vytvořit jednoduché schéma známkování
 assessment#:#tst_mark_short_form#:#Zkrácený tvar
 assessment#:#tst_max_allowed_users_heading#:#Dosažen maximální počet simultánních účastníků v tomto testu
 assessment#:#tst_max_allowed_users_message#:#Maximální počet simultánních účastníků v tomto testu byl dosažen. Zkuste začít nebo pokračovat znovu později. Pokud bude některý z aktivních účastníků nenaktivní déle než %s s., můžete namísto něj do testu vstoupit. Děkujeme za pochopení.
@@ -1646,6 +1644,7 @@ assessment#:#tst_password_form#:#Vložit heslo testu
 assessment#:#tst_password_introduction#:#Tento test je přístupný pouze s heslem. Vložte prosím heslo testu k jeho spuštění.
 assessment#:#tst_percent_solved#:#Procent vyřešeno
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Vyberte cílový kontejner.
 assessment#:#tst_position#:#Otázka %s z %s
 assessment#:#tst_position_without_total#:#Otázka %s
@@ -2800,8 +2799,6 @@ chatroom#:#chat_auth_token_info#:#Definujte unikátní řetězce, které použí
 chatroom#:#chat_ban#:#Zákaz
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#--- <b>
 chatroom#:#chat_connection_established#:#+++ <b>
 chatroom#:#chat_create_private_room_button#:#Vytvořit soukromou hovornu
@@ -5731,7 +5728,6 @@ common#:#udf_delete_sure#:#Skutečně chcete smazat toto pole a všechna přiřa
 common#:#udf_duplicate_entries#:#Tato hodnota musí být unikátní.
 common#:#udf_field_deleted#:#Pole smazáno.
 common#:#udf_name_already_exists#:#Toto pole již existuje. Zvolte prosím jiný název.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Je-li pole nastaveno na "požadováno", pak to musí ibýt nastaveno na "viditelné při registraci"
 common#:#udf_type_date#:#Datové pole
 common#:#udf_type_datetime#:#Datum a čas
@@ -5859,6 +5855,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Nelze vykonat akci "Vložit". 
 common#:#usrimport_no_update_ext_account_exists#:#Nelze vykonat akci "Aktualizovat". Externí účet již existuje.
 common#:#usrimport_with_specified_role_not_permitted#:#Import se specifikovanou rolí není povolen.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Atribut "%2$s" v prvku "%1$s" chybí.
 common#:#usrimport_xml_attribute_value_illegal#:#Hodnota "%3$s" atributu "%2$s" v prvku "%1$s" není povolena.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Hodnota "%3$s" atributu "%2$s" iv prvku "%1$s" není použitelná pro akci "%4$s".
@@ -8133,6 +8130,8 @@ dateplaner#:#cal_create#:#Vytvořit
 dateplaner#:#cal_created_appointment#:#Vytvořena nová schůzka.
 dateplaner#:#cal_created_milestone#:#Milník přidán.
 dateplaner#:#cal_created_milestone_resp_q#:#Přidaný milník. Vyberte prosím uživatele, kteří jsou určeni potkat tento milník.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Informace o kurzu
 dateplaner#:#cal_crs_new_notification_body#:#v kurzu "%s" byla vytvořena nová schůzka.
 dateplaner#:#cal_crs_new_notification_sub#:#Nová schůzka v kurzu "%s"
@@ -9475,20 +9474,9 @@ file#:#file_download#:#Stáhnout soubor
 file#:#file_import#:#Importovat soubor
 file#:#file_new_version#:#Vytvořit novou verzi
 file#:#file_new_version_info#:#Vytváří novou verzi souboru. Stará verze nebude modifikována.
-file#:#file_suffix_custom_black#:#Vlastní seznam zakázaných přípon
-file#:#file_suffix_custom_black_info#:#Tyto přípony budou odstraněny z výchozího seznamu povolených přípon.
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist###07 02 2020 new variable
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.###07 02 2020 new variable
-file#:#file_suffix_custom_white#:#Vlastní seznam povolených přípon
-file#:#file_suffix_custom_white_info#:#Tyto přípony budou přidány na výchozí seznam povolených přípon.
-file#:#file_suffix_default_white#:#Výchozí seznam povolených přípon
-file#:#file_suffix_default_white_info#:#Výchozí seznam přípustných přípon souborů.
-file#:#file_suffix_overall_white#:#Úplný seznam povolených přípon
-file#:#file_suffix_overall_white_info#:#Výsledný úplný seznam přípustných přípon souborů.
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.###24 09 2021 new variable
 file#:#file_uploaded_by#:#Nahrál
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.###30 04 2021 new variable
-file#:#generate_sanitize_report#:#Report about inaccessible files###07 02 2020 new variable
 file#:#migrated#:#Status###09 03 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
 file#:#replace_file_info#:#Všechny dřívější verze souboru budou smazány.
@@ -9909,6 +9897,7 @@ grp#:#grp_members#:#Příslušníci
 grp#:#grp_members_deleted#:#Smazaní členové
 grp#:#grp_members_map#:#Mapa členů skupiny
 grp#:#grp_members_print_title#:#Členové skupiny
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#Vyberte prosím typ skupiny.
 grp#:#grp_missing_password#:#Vložte prosím skupinové heslo.
 grp#:#grp_new_status#:#Váš nový status je:
@@ -10332,6 +10321,8 @@ link#:#link_wpages#:#Stránky Wiki
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
 lm#:#lm_copy#:#Kopírovat výukový
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
@@ -10431,6 +10422,7 @@ lso#:#lso_members_gallery#:#Galerie členů výukové sekvence
 lso#:#lso_members_print_title#:#Členové výukové sekvence
 lso#:#lso_min_one_admin#:#Musí existovat alespoň jeden správce přiřazený této sekvence učení.
 lso#:#lso_msg_member_assigned#:#Uživatel(é) přiřazený(í) jako člen(ové) sekvence učení
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#Váš nový status je:
 lso#:#lso_notification#:#Oznámení
 lso#:#lso_notification_explanation_admin#:#Dostáváte poštu od ILIAS, protože jste správcem sekvence učení s aktivovaným oznámením.
@@ -10607,7 +10599,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider###07 02 2020 new variable
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2###07 02 2020 new variable
 lti#:#lti_con_prov_description#:#Description###07 02 2020 new variable
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###31 03 2023 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider###07 02 2020 new variable
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###07 02 2020 new variable
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers###07 02 2020 new variable
@@ -10725,6 +10720,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format###07 02 2020 new variable
 lti#:#online_info#:#This makes the object visible and usable for the users.###07 02 2020 new variable
 lti#:#prefix#:#Předpona
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#Used Provider###07 02 2020 new variable
 lti#:#settings_subtab#:#Settings###07 02 2020 new variable
 lti#:#show_statements#:#Display Learning Experiences###07 02 2020 new variable
@@ -10969,6 +10965,7 @@ mail#:#mail_smtp_status_info#:#Pokud je to povoleno, ILIAS bude odesílat extern
 mail#:#mail_smtp_user#:#Uživatel
 mail#:#mail_subject_prefix#:#Předmět e-mailu
 mail#:#mail_subject_prefix_info#:#Vložte text, který bude předřazen do řádku subjektu u odchozích automaticky generovaných e-mailů.
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#Určitě chcete odstranit označené zprávy?
 mail#:#mail_sure_delete_entry#:#Určitě chcete odstranit následující položky?
 mail#:#mail_sure_delete_file#:#Soubor bude definitivně vymazán
@@ -11302,9 +11299,15 @@ meta#:#md_advanced#:#Rozšířená Metadata
 meta#:#md_aria_language_selection#:#Language Selection###30 04 2021 new variable
 meta#:#md_copyright#:#Autorská práva
 meta#:#md_copyright_add#:#Přidat přednastavení Copyrightu
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#Upravit přednastavení Copyrightu
 meta#:#md_copyright_enable_info#:#Vyberte tuto volbu k nabídnutí výběru předdefinovaného Copyrightu
 meta#:#md_copyright_enabled#:#Zapnout výběr Copyrightu
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#Copyright (Náhled)
 meta#:#md_copyright_selection#:#Přednastavení Copyrightu
 meta#:#md_copyright_settings#:#Nastavení Copyrightu
@@ -14818,6 +14821,7 @@ skmg#:#skmg_confirm_user_removal#:#Opravdu chcete z tohoto profilu odebrat násl
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global###30 04 2021 new variable
 skmg#:#skmg_context_local#:#Local###30 04 2021 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Vytvořit kategorii šablony
 skmg#:#skmg_create_skill_category#:#Vytvořit kategorii způsobilosti
 skmg#:#skmg_create_skill_template#:#Vytvořit šablonu způsobilosti
@@ -16603,6 +16607,7 @@ user#:#clipboard_remove_btn#:#Odstranit ze schránky
 user#:#clipboard_table_title#:#Schránka (uživatelské účty)
 user#:#clipboard_user_added#:#Do schránky přidáni vybraní uživatelé.
 user#:#confirm_delete_starting_point#:#Opravdu chcete odstranit toto pravidlo?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Vytvořit pravidlo
 user#:#criteria#:#Kritéria
 user#:#del_mail_body#:#Dobrý den, %1$s, %2 jste se nepřihlásili už dlouhou dobu, na %3$s. Váš účet bude proto smazán za %4$s dnů. Chcete-li zabránit vymazání účtu, musíte se znovu přihlásit.
@@ -16610,6 +16615,7 @@ user#:#del_mail_subject#:#(ILIAS) - Váš účet bude smazán
 user#:#delete_inactive_user_accounts_frequency#:#Frekvence
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frekvence, ve které bude testováno vymazání a distribuce pošty.
 user#:#editing_this_role#:#Role
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Zapnout lokální uživatelskou správu
 user#:#enable_local_user_administration_info#:#Je-li zapnuto, lokální uživatelské účty mohou být spravovány v kategoriích.
 user#:#feedhash#:#Newsfeedhash

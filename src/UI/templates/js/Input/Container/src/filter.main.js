@@ -58,8 +58,13 @@ var filter = function($) {
       $('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
 
       //Hide Add-Button when all Input Fields are shown in the Filter at the beginning
-      var addable_inputs = $(".il-popover-container:hidden").length;
-      if (addable_inputs === 0) {
+      var empty_list = true;
+      var addable_inputs = $($filter).find(".il-filter-add-list").find("li").each(function() {
+        if ($(this).css("display") !== "none" && $(this).css("visibility") !== "hidden") {
+          empty_list = false;
+        }
+      });
+      if (empty_list) {
         $(".btn-bulky").parents(".il-popover-container").hide();
       }
 

@@ -78,6 +78,9 @@ class ilStyleCharacteristicGUI
         $this->style_type = $this->request->getStyleType();
         $this->requested_char = $this->request->getCharacteristic();
         $this->mq_id = $this->request->getMediaQueryId();
+
+        $ctrl = $gui_service->ctrl();
+        $ctrl->saveParameter($this, "tag");
     }
 
     protected function extractParametersOfTag(
@@ -418,6 +421,7 @@ class ilStyleCharacteristicGUI
             $lng->txt("sty_titles"),
             $ctrl->getLinkTarget($this, "editTagTitles")
         );
+        $ctrl->setParameter($this, "tag", $this->request->getTag());
     }
 
     protected function setParameterSubTabs(): void
@@ -457,6 +461,7 @@ class ilStyleCharacteristicGUI
             }
             $ctrl->setParameter($this, "tag", $this->current_tag . "." . $this->current_base_class);
         }
+        $ctrl->setParameter($this, "tag", $this->request->getTag());
     }
 
     protected function editTagStyle(): void
@@ -840,7 +845,6 @@ class ilStyleCharacteristicGUI
         if ($this->style_type == "") {
             return;
         }
-
         $this->manager->replaceParameter(
             $this->current_tag,
             $this->current_class,

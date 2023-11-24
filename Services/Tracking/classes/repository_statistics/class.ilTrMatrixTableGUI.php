@@ -177,6 +177,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         }
     }
 
+    public function numericOrdering($a_field): bool
+    {
+        if ($a_field === 'read_count') {
+            return true;
+        }
+        return false;
+    }
+
     public function getSelectableColumns(): array
     {
         $user_cols = $this->getSelectableUserColumns(
@@ -427,11 +435,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
                         if (isset(
-                                $collection["subitems"]["completed"]
-                            ) && in_array(
-                                $user_id,
-                                $collection["subitems"]["completed"][$item_id]
-                            )) {
+                            $collection["subitems"]["completed"]
+                        ) && in_array(
+                            $user_id,
+                            $collection["subitems"]["completed"][$item_id]
+                        )) {
                             $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
                         } elseif (isset(
                             $collection["subitems"]["in_progress"]
@@ -599,7 +607,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         // #7694
         if (!$a_set["active"] || ($a_set["privacy_conflict"] ?? false)) {
             $mess = array();
-            if ($a_set["privacy_conflict"]) {
+            if ($a_set["privacy_conflict"] ?? false) {
                 $mess[] = $this->lng->txt("status_no_permission");
             } elseif (!$a_set["active"]) {
                 $mess[] = $this->lng->txt("inactive");
@@ -702,11 +710,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     $a_excel->setCell($a_row, $cnt, $val);
                     break;
 
-                /* #14142
-                case "last_access":
-                case "spent_seconds":
-                case "status_changed":
-                */
+                    /* #14142
+                    case "last_access":
+                    case "spent_seconds":
+                    case "status_changed":
+                    */
                 default:
                     $val = $this->parseValue($c, $a_set[$c] ?? '', "user");
                     $a_excel->setCell($a_row, $cnt, $val);
@@ -786,11 +794,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     $a_csv->addColumn($val);
                     break;
 
-                /* #14142
-                case "last_access":
-                case "spent_seconds":
-                case "status_changed":
-                */
+                    /* #14142
+                    case "last_access":
+                    case "spent_seconds":
+                    case "status_changed":
+                    */
                 default:
                     $val = $this->parseValue($c, $a_set[$c] ?? '', "user");
                     $a_csv->addColumn($val);

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Jumbojett\OpenIDConnectClient;
 
 /**
@@ -26,6 +26,7 @@ use Jumbojett\OpenIDConnectClient;
  */
 class ilAuthProviderOpenIdConnect extends ilAuthProvider
 {
+    private const OIDC_AUTH_IDTOKEN = "oidc_auth_idtoken";
     private ilOpenIdConnectSettings $settings;
     /** @var array $body */
     private $body;
@@ -50,16 +51,21 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             return;
         }
 
-        $auth_token = ilSession::get('oidc_auth_token');
-        $this->logger->debug('Using token: ' . $auth_token);
+        $id_token = ilSession::get(self::OIDC_AUTH_IDTOKEN);
+        $this->logger->debug('Logging out with token: ' . $id_token);
 
-        if (isset($auth_token) && $auth_token !== '') {
-            ilSession::set('oidc_auth_token', '');
+        if (isset($id_token) && $id_token !== '') {
+            ilSession::set(self::OIDC_AUTH_IDTOKEN, '');
             $oidc = $this->initClient();
-            $oidc->signOut(
-                $auth_token,
-                ILIAS_HTTP_PATH . '/logout.php'
-            );
+            try {
+                $oidc->signOut(
+                    $id_token,
+                    ILIAS_HTTP_PATH . '/' . ilStartUpGUI::logoutUrl()
+                );
+            } catch (\Jumbojett\OpenIDConnectClientException $e) {
+                $this->logger->warning("Logging out of OIDC provider failed with: " . $e->getMessage());
+            }
+
         }
     }
 
@@ -84,36 +90,25 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
                 $oidc->getRedirectURL()
             );
 
-            $oidc->setResponseTypes(
-                [
-                    'id_token'
-                ]
-            );
-
-
             $oidc->addScope($this->settings->getAllScopes());
-            $oidc->addAuthParam(['response_mode' => 'form_post']);
             if ($this->settings->getLoginPromptType() === ilOpenIdConnectSettings::LOGIN_ENFORCE) {
                 $oidc->addAuthParam(['prompt' => 'login']);
             }
-            $oidc->setAllowImplicitFlow(true);
 
             $oidc->authenticate();
             // user is authenticated, otherwise redirected to authorization endpoint or exception
             $this->logger->dump($this->body, ilLogLevel::DEBUG);
 
-            $claims = $oidc->getVerifiedClaims(null);
+            $claims = $oidc->requestUserInfo();
             $this->logger->dump($claims, ilLogLevel::DEBUG);
             $status = $this->handleUpdate($status, $claims);
 
             // @todo : provide a general solution for all authentication methods
             //$_GET['target'] = $this->getCredentials()->getRedirectionTarget();// TODO PHP8-REVIEW Please eliminate this. Mutating the request is not allowed and will not work in ILIAS 8.
 
-            //TODO fix this. There is a PR and it is broken in 7 as well
-            //if ($this->settings->getLogoutScope() === ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL) {
-            //$token = $oidc->requestClientCredentialsToken();
-            //ilSession::set('oidc_auth_token', $token->access_token);
-            //}
+            if ($this->settings->getLogoutScope() === ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL) {
+                ilSession::set(self::OIDC_AUTH_IDTOKEN, $oidc->getIdToken());
+            }
             return true;
         } catch (Exception $e) {
             $this->logger->warning($e->getMessage());

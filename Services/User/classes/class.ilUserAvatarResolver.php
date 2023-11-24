@@ -67,9 +67,9 @@ class ilUserAvatarResolver
         );
 
         while ($row = $this->db->fetchAssoc($res)) { // MUST be loop
-            $this->login = $row['login'];
-            $this->firstname = $row['firstname'];
-            $this->lastname = $row['lastname'];
+            $this->login = $row['login'] ?? '';
+            $this->firstname = $row['firstname'] ?? '';
+            $this->lastname = $row['lastname'] ?? '';
 
             switch ($row['keyword']) {
                 case 'public_upload':

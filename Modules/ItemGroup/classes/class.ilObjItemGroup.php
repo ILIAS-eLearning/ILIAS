@@ -135,6 +135,11 @@ class ilObjItemGroup extends ilObject2
     {
         if ($this->getId()) {
             $this->item_data_ar->update();
+
+            $trans = ilObjectTranslation::getInstance($this->getId());;
+            $trans->setDefaultTitle($this->getTitle());
+            $trans->setDefaultDescription($this->getLongDescription());
+            $trans->save();
         }
     }
 

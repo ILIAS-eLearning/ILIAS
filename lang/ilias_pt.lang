@@ -606,9 +606,6 @@ assessment#:#cloze_text#:#Fechar texto
 assessment#:#cloze_textgap_case_insensitive#:#Caso insensível
 assessment#:#cloze_textgap_case_sensitive#:#Caso sensível
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distância de %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Múltiplos espaços em branco
-assessment#:#cloze_textgap_whitespace_after#:#Espaço branco depois do valor
-assessment#:#cloze_textgap_whitespace_before#:#Espaço branco antes do valor
 assessment#:#code#:#Código
 assessment#:#codebase#:#Base do código
 assessment#:#concatenation#:#Concatenação
@@ -918,6 +915,7 @@ assessment#:#new_category#:#Nova unidade de categoria
 assessment#:#new_unit#:#Nova unidade
 assessment#:#next_question#:#Próximo
 assessment#:#next_question_rows#:#Perguntas %d - %d de %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Tem de definir pelo menos uma marca para APROVADO! O esquema de anotações não foi guardado.
 assessment#:#no_question_selected_for_move#:#Selecione pelo menos uma pergunta para mover!
 assessment#:#no_questions_available#:#Não existem nenhumas perguntas disponíveis!
@@ -1534,10 +1532,10 @@ assessment#:#tst_manscoring_question_section_header#:#Pergunta: %s
 assessment#:#tst_manscoring_user_notification#:#Enviar notificação
 assessment#:#tst_mark#:#A configuração para o conjunto aleatório de perguntas foi modificada com sucesso.
 assessment#:#tst_mark_create_new_mark_step#:#Não é possível um teste com um conjunto aleatório de perguntas sem uma quantidade de perguntas corretamente definida.
-assessment#:#tst_mark_create_simple_mark_schema#:#Não é possível um teste com um conjunto aleatório de perguntas sem selecionar pelo menos um banco de perguntas.
 assessment#:#tst_mark_minimum_level#:#<b>Não é possível um teste com um conjunto aleatório de perguntas com a seleção atual de bancos de perguntas e a quantidade de perguntas.</b><br />
 assessment#:#tst_mark_official_form#:#Date da última sincronização dos bancos de perguntas selecionados: <b>%s</b>
 assessment#:#tst_mark_passed#:#Os pontos de competência foram guardados.
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Não é possível um teste com um conjunto aleatório de perguntas sem selecionar pelo menos um banco de perguntas.
 assessment#:#tst_mark_short_form#:#A regra foi removida com sucesso.
 assessment#:#tst_max_allowed_users_heading#:#Foi alcançado o número máximo de utilizadores simultâneos no teste
 assessment#:#tst_max_allowed_users_message#:#Foi alcançado o número máximo de utilizadores ativos simultâneos no teste. Tente novamente mais tarde reiniciar ou retomar o teste. Se um dos utilizadores ativos estiver inativo durante mais de %s segundos, pode introduzir este teste. Obrigado pela sua compreensão.
@@ -1646,6 +1644,7 @@ assessment#:#tst_password_form#:#Inserir palavra-passe de teste
 assessment#:#tst_password_introduction#:#Os participantes podem rever o processar apenas por um período de tempo especificado. O tempo começa a contar a partir do momento que um utilizador inicia o teste pela primeira vez. Suspender o teste não para o relógio. Se houver um número limitado de possíveis tentativas do teste, aparece uma função adicional para garantir tempo extra aos participantes no separador 'Participantes'.
 assessment#:#tst_percent_solved#:#Todas as perguntas, exceto as que forem respondidas corretamente
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Selecione um destinatário.
 assessment#:#tst_position#:#Pergunta %s de %s
 assessment#:#tst_position_without_total#:#Pergunta %s
@@ -2800,8 +2799,6 @@ chatroom#:#chat_auth_token_info#:#Defina strings únicos usados por ILIAS para e
 chatroom#:#chat_ban#:#Banir
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#Função predefinida
 chatroom#:#chat_connection_established#:#Disponível
 chatroom#:#chat_create_private_room_button#:#Criar sala privada
@@ -5731,7 +5728,6 @@ common#:#udf_delete_sure#:#Tem a certeza que quer apagar este campo e todos os d
 common#:#udf_duplicate_entries#:#Os valores têm de ser únicos.
 common#:#udf_field_deleted#:#Campo apagado.
 common#:#udf_name_already_exists#:#Este nome de campo já existe. Escolha um nome diferente.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Inserir texto
 common#:#udf_type_date#:#Inserir pergunta
 common#:#udf_type_datetime#:#Data e hora
@@ -5859,6 +5855,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Permite manter IDs extra para 
 common#:#usrimport_no_update_ext_account_exists#:#identifierref
 common#:#usrimport_with_specified_role_not_permitted#:#Não é permitido importar com função especificada.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Falta o atributo "%2$s" no elemento "%1$s".
 common#:#usrimport_xml_attribute_value_illegal#:#O valor "%3$s" do atributo "%2$s" no elemento "%1$s" é ilegal.
 common#:#usrimport_xml_attribute_value_inapplicable#:#O valor "%3$s" do atributo "%2$s" no elemento "%1$s" não é aplicável à ação "%4$s".
@@ -8133,6 +8130,8 @@ dateplaner#:#cal_create#:#Criar
 dateplaner#:#cal_created_appointment#:#Nova marcação criada.
 dateplaner#:#cal_created_milestone#:#Marco adicionado
 dateplaner#:#cal_created_milestone_resp_q#:#Marco adicionado Selecione os utilizadores que são responsáveis por cumprir o marco.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Informações sobre o curso
 dateplaner#:#cal_crs_new_notification_body#:#foi criada uma nova marcação no curso "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#Nova marcação no curso "%s"
@@ -9475,20 +9474,9 @@ file#:#file_download#:#Descarregar ficheiro
 file#:#file_import#:#Importar ficheiro
 file#:#file_new_version#:#Criar nova versão
 file#:#file_new_version_info#:#Tem a certeza que quer apagar os seguintes conjuntos de dados?
-file#:#file_suffix_custom_black#:#Lista negra de sufixos personalizados
-file#:#file_suffix_custom_black_info#:#Estes sufixos serão removidos da lista segura predefinida.
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist###07 02 2020 new variable
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.###07 02 2020 new variable
-file#:#file_suffix_custom_white#:#Lista segura de sufixos personalizados
-file#:#file_suffix_custom_white_info#:#Estes sufixos serão adicionados à lista branca predefinida.
-file#:#file_suffix_default_white#:#Lista segura de sufixos predefinidos
-file#:#file_suffix_default_white_info#:#Lista padrão de sufixos de ficheiros aceites.
-file#:#file_suffix_overall_white#:#Lista segura de sufixos geral
-file#:#file_suffix_overall_white_info#:#Lista geral resultante de sufixos de ficheiros aceites.
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Carregado por
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.###30 04 2021 new variable
-file#:#generate_sanitize_report#:#Report about inaccessible files###07 02 2020 new variable
 file#:#migrated#:#Status###09 03 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
 file#:#replace_file_info#:#Conjuntos de dados incluídos
@@ -9909,6 +9897,7 @@ grp#:#grp_members#:#Membros
 grp#:#grp_members_deleted#:#Membros apagados
 grp#:#grp_members_map#:#Mapa dos membros do grupo
 grp#:#grp_members_print_title#:#Membros do grupo
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#Escolha um tipo de grupo.
 grp#:#grp_missing_password#:#Insira uma palavra-passe de grupo.
 grp#:#grp_new_status#:#O seu novo estado é:
@@ -10332,6 +10321,8 @@ link#:#link_wpages#:#Páginas wiki
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
 lm#:#lm_copy#:#Copiar módulo de aprendizagem
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
@@ -10431,6 +10422,7 @@ lso#:#lso_members_gallery#:#Ucraniano
 lso#:#lso_members_print_title#:#Vietnamês
 lso#:#lso_min_one_admin#:#Versão máxima
 lso#:#lso_msg_member_assigned#:#Médio
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#Versão mínima
 lso#:#lso_notification#:#Misturado
 lso#:#lso_notification_explanation_admin#:#Nome
@@ -10607,7 +10599,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider###07 02 2020 new variable
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2###07 02 2020 new variable
 lti#:#lti_con_prov_description#:#Description###07 02 2020 new variable
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###31 03 2023 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider###07 02 2020 new variable
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###07 02 2020 new variable
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers###07 02 2020 new variable
@@ -10725,6 +10720,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format###07 02 2020 new variable
 lti#:#online_info#:#This makes the object visible and usable for the users.###07 02 2020 new variable
 lti#:#prefix#:#Prefixo
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#Used Provider###07 02 2020 new variable
 lti#:#settings_subtab#:#Settings###07 02 2020 new variable
 lti#:#show_statements#:#Display Learning Experiences###07 02 2020 new variable
@@ -10969,6 +10965,7 @@ mail#:#mail_smtp_status_info#:#Este é o seu espaço pessoal para todos os curso
 mail#:#mail_smtp_user#:#Utilizador
 mail#:#mail_subject_prefix#:#Itens selecionados
 mail#:#mail_subject_prefix_info#:#Escolha a vista preferida dos itens pessoais.
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#Computador pessoal
 mail#:#mail_sure_delete_entry#:#Tem de selecionar pelo menos uma vista, seja ‘Itens selecionados’ e/ou ‘As minhas adesões’.
 mail#:#mail_sure_delete_file#:#Favorito(s)
@@ -11302,9 +11299,15 @@ meta#:#md_advanced#:#O utilizador tem acesso de leitura às definições gerais 
 meta#:#md_aria_language_selection#:#Language Selection###30 04 2021 new variable
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Adicionar predefinição de Copyright
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#Editar predefinição de Copyright
 meta#:#md_copyright_enable_info#:#O utilizador pode editar definições da administração de teste e avaliação
 meta#:#md_copyright_enabled#:#Ativar seleção de Copyright
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#Copyright (pré-visualização)
 meta#:#md_copyright_selection#:#O utilizador pode mudar definições de permissões da administração autenticação e registo
 meta#:#md_copyright_settings#:#Definições Copyright
@@ -14818,6 +14821,7 @@ skmg#:#skmg_confirm_user_removal#:#Quer remover os seguintes utilizadores do per
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global###30 04 2021 new variable
 skmg#:#skmg_context_local#:#Local###30 04 2021 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Criar categoria de modelo
 skmg#:#skmg_create_skill_category#:#Create Skill Category
 skmg#:#skmg_create_skill_template#:#Create Skill Template
@@ -16603,6 +16607,7 @@ user#:#clipboard_remove_btn#:#Remover da área de transferência
 user#:#clipboard_table_title#:#Área de transferência (contas de utilizador)
 user#:#clipboard_user_added#:#Utilizadores selecionados adicionados à área de transferência.
 user#:#confirm_delete_starting_point#:#Tem a certeza que quer apagar esta regra?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Criar regra
 user#:#criteria#:#Critérios
 user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
@@ -16610,6 +16615,7 @@ user#:#del_mail_subject#:#(ILIAS) – A sua conta foi apagada
 user#:#delete_inactive_user_accounts_frequency#:#Frequência
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.
 user#:#editing_this_role#:#Função
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Habilitar administração local de usuário
 user#:#enable_local_user_administration_info#:#Se habiliatdo, contas locais de usuário podem ser administradas nas categorias.
 user#:#feedhash#:#Newsfeedhash

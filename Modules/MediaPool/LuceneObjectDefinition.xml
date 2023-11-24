@@ -44,5 +44,23 @@
 				<Field store="YES" index="ANALYZED" column="text_representation" type="text" name="propertyLow" />
 			</DataSource>
 		</DataSource>
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT title,content, obj_id AS metaObjId, mep_id, type AS metaType,0 AS metaRbacId, child, parent_type FROM mep_tree
+				JOIN mep_item ON child = obj_id
+				JOIN page_object po ON obj_id = po.page_id
+				WHERE type = 'pg' AND parent_type = 'mep'
+				AND mep_id IN (?);
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="content" type="clob" name="content">
+				<Transformer name="ContentObjectTransformer" />
+			</Field>
+			<Field store="YES" index="NOT_ANALYZED" column="mep_id" type="integer" name="objId" global="NO" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
+			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" type="integer" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="parent_type" type="text" name="type" global="NO"/>
+			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		</DataSource>
 	</Document>
 </ObjectDefinition>

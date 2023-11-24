@@ -823,7 +823,7 @@ $ilCtrlStructureReader->getStructure();
 <#5487>
 <?php
     $ilDB->dropPrimaryKey('post_conditions');
-    $ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
+$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
 ?>
 
 <#5488>
@@ -2808,14 +2808,14 @@ ilDBUpdateNewObjectType::addAdminNode('prss', 'Personal Resources Settings');
         ["integer"],
         [0]
     );
-    while ($rec = $ilDB->fetchAssoc($set)) {
-        $ilDB->manipulateF(
-            "DELETE FROM svy_inv_usr WHERE " .
-            " survey_fi = %s",
-            ["integer"],
-            [$rec["survey_id"]]
-        );
-    }
+while ($rec = $ilDB->fetchAssoc($set)) {
+    $ilDB->manipulateF(
+        "DELETE FROM svy_inv_usr WHERE " .
+        " survey_fi = %s",
+        ["integer"],
+        [$rec["survey_id"]]
+    );
+}
 
 ?>
 <#5585>
@@ -2841,16 +2841,16 @@ if (!$ilDB->tableExists('svy_invitation')) {
 <#5586>
 <?php
     $set = $ilDB->queryF(
-    "SELECT DISTINCT survey_fi, user_fi FROM svy_inv_usr ",
-    [],
-    []
-);
-    while ($rec = $ilDB->fetchAssoc($set)) {
-        $ilDB->insert("svy_invitation", [
-            "survey_id" => ["integer", $rec["survey_fi"]],
-            "user_id" => ["integer", $rec["user_fi"]]
-        ]);
-    }
+        "SELECT DISTINCT survey_fi, user_fi FROM svy_inv_usr ",
+        [],
+        []
+    );
+while ($rec = $ilDB->fetchAssoc($set)) {
+    $ilDB->insert("svy_invitation", [
+        "survey_id" => ["integer", $rec["survey_fi"]],
+        "user_id" => ["integer", $rec["user_fi"]]
+    ]);
+}
 
 ?>
 <#5587>
@@ -2905,13 +2905,13 @@ $tree_type = $settings->get('main_tree_impl', \ilTree::TREE_TYPE_NESTED_SET);
 $tree = new \ilTree(1);
 switch ($tree_type) {
 
-        case \ilTree::TREE_TYPE_NESTED_SET:
-                $tree->renumber();
-                break;
+    case \ilTree::TREE_TYPE_NESTED_SET:
+        $tree->renumber();
+        break;
 
-        case \ilTree::TREE_TYPE_MATERIALIZED_PATH:
-                \ilMaterializedPathTree::createFromParentRelation($ilDB);
-                break;
+    case \ilTree::TREE_TYPE_MATERIALIZED_PATH:
+        \ilMaterializedPathTree::createFromParentRelation($ilDB);
+        break;
 
 
 }
@@ -3670,30 +3670,30 @@ ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::
 <#5627>
 <?php
     ilOrgUnitOperationQueries::registerNewOperation(
-    ilOrgUnitOperation::OP_VIEW_MEMBERS,
-    'View Memberships of other users',
+        ilOrgUnitOperation::OP_VIEW_MEMBERS,
+        'View Memberships of other users',
+        ilOrgUnitOperationContext::CONTEXT_PRG
+    );
+ilOrgUnitOperationQueries::registerNewOperation(
+    ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+    'View learning progress of other users',
     ilOrgUnitOperationContext::CONTEXT_PRG
 );
-    ilOrgUnitOperationQueries::registerNewOperation(
-        ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
-        'View learning progress of other users',
-        ilOrgUnitOperationContext::CONTEXT_PRG
-    );
-    ilOrgUnitOperationQueries::registerNewOperation(
-        ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN,
-        'View Individual Plans of other users',
-        ilOrgUnitOperationContext::CONTEXT_PRG
-    );
-    ilOrgUnitOperationQueries::registerNewOperation(
-        ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN,
-        'Edit Individual Plans of other users',
-        ilOrgUnitOperationContext::CONTEXT_PRG
-    );
-    ilOrgUnitOperationQueries::registerNewOperation(
-        ilOrgUnitOperation::OP_MANAGE_MEMBERS,
-        'Manage Memberships of other users',
-        ilOrgUnitOperationContext::CONTEXT_PRG
-    );
+ilOrgUnitOperationQueries::registerNewOperation(
+    ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN,
+    'View Individual Plans of other users',
+    ilOrgUnitOperationContext::CONTEXT_PRG
+);
+ilOrgUnitOperationQueries::registerNewOperation(
+    ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN,
+    'Edit Individual Plans of other users',
+    ilOrgUnitOperationContext::CONTEXT_PRG
+);
+ilOrgUnitOperationQueries::registerNewOperation(
+    ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+    'Manage Memberships of other users',
+    ilOrgUnitOperationContext::CONTEXT_PRG
+);
 ?>
 
 <#5628>
@@ -4002,16 +4002,16 @@ $ilCtrlStructureReader->getStructure();
                         'fixed' => false
                 ));
         }
-        ?>
+?>
 <#5644>
 <?php
-        if (!$ilDB->tableColumnExists('svy_svy', 'tutor_res_cron')) {
-            $ilDB->addTableColumn('svy_svy', 'tutor_res_cron', array(
-                        "type" => "integer",
-                        "notnull" => false,
-                        "length" => 1
-                ));
-        }
+if (!$ilDB->tableColumnExists('svy_svy', 'tutor_res_cron')) {
+    $ilDB->addTableColumn('svy_svy', 'tutor_res_cron', array(
+                "type" => "integer",
+                "notnull" => false,
+                "length" => 1
+        ));
+}
 ?>
 <#5645>
 <?php
@@ -5851,14 +5851,10 @@ $ilDB->addPrimaryKey('wiki_user_html_export', ['wiki_id', 'with_comments']);
 ?>
 <#5750>
 <?php
-$ilDB->update(
-    "wiki_user_html_export",
-    [
-        "start_ts" => ["timestamp", "1980-01-01 12:00:00"]
-    ],
-    [
-        "1" => ["integer", 1]
-    ]
+$ilDB->manipulateF(
+    'UPDATE wiki_user_html_export SET start_ts = %s',
+    ['timestamp'],
+    ["1980-01-01 12:00:00"]
 );
 ?>
 <#5751>
@@ -6260,11 +6256,10 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     if (array_key_exists('options', $values)) {
         $idx = 0;
         foreach ($values['options'] as $option) {
-            $index = $idx + 1;
             $exists_query = 'select field_id from adv_mdf_enum ' .
                 'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
                 'and lang_code = ' . $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ' ' .
-                'and idx = ' . $ilDB->quote($index, ilDBConstants::T_INTEGER);
+                'and idx = ' . $ilDB->quote($idx, ilDBConstants::T_INTEGER);
             $exists_res = $ilDB->query($exists_query);
             if ($exists_res->numRows() > 0) {
                 continue;
@@ -6286,11 +6281,10 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             }
             $idx = 0;
             foreach ($options as $option) {
-                $index = $idx + 1;
                 $exists_query = 'select field_id from adv_mdf_enum ' .
                     'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
                     'and lang_code = ' . $ilDB->quote($lang, ilDBConstants::T_TEXT) . ' ' .
-                    'and idx = ' . $ilDB->quote($index, ilDBConstants::T_INTEGER);
+                    'and idx = ' . $ilDB->quote($idx, ilDBConstants::T_INTEGER);
                 $exists_res = $ilDB->query($exists_query);
                 if ($exists_res->numRows() > 0) {
                     continue;
@@ -6313,11 +6307,10 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     ) {
         $idx = 0;
         foreach ($values as $option) {
-            $index = $idx + 1;
             $exists_query = 'select field_id from adv_mdf_enum ' .
                 'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
                 'and lang_code = ' . $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ' ' .
-                'and idx = ' . $ilDB->quote($index, ilDBConstants::T_INTEGER);
+                'and idx = ' . $ilDB->quote($idx, ilDBConstants::T_INTEGER);
             $exists_res = $ilDB->query($exists_query);
             if ($exists_res->numRows() > 0) {
                 continue;

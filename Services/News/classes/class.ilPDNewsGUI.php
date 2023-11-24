@@ -82,6 +82,7 @@ class ilPDNewsGUI
     public function displayHeader(): void
     {
         $this->tpl->setTitle($this->lng->txt("news"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_nwss.svg"));
     }
 
     public function view(): void

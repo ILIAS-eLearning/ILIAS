@@ -606,9 +606,6 @@ assessment#:#cloze_text#:#Pitanje s prazninom u tekstu
 assessment#:#cloze_textgap_case_insensitive#:#Neosjetljivo na velika i mala slova
 assessment#:#cloze_textgap_case_sensitive#:#Osjetljivo na velika i mala slova
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein razmak od%s
-assessment#:#cloze_textgap_multiple_whitespace#:#Višestruki razmaci
-assessment#:#cloze_textgap_whitespace_after#:#Razmak iza vrijednosti
-assessment#:#cloze_textgap_whitespace_before#:#Razmak ispred vrijednosti
 assessment#:#code#:#Kod
 assessment#:#codebase#:#Kodna osnova
 assessment#:#concatenation#:#Povezivanje
@@ -918,6 +915,7 @@ assessment#:#new_category#:#Kategorija nove jedinice
 assessment#:#new_unit#:#Nova jedinica
 assessment#:#next_question#:#Sljedeće
 assessment#:#next_question_rows#:#Pitanja %d - %d od %d »
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Barem jednu ocjenu morate odrediti kao PROLAZ! Shema ocjena nije spremljena.
 assessment#:#no_question_selected_for_move#:#Molimo odaberite najmanje jedno pitanje za pomicanje!
 assessment#:#no_questions_available#:#Nema dostupnih pitanja!
@@ -1534,10 +1532,10 @@ assessment#:#tst_manscoring_question_section_header#:#Pitanje: %s
 assessment#:#tst_manscoring_user_notification#:#Pošalji obavijest
 assessment#:#tst_mark#:#Ocjena
 assessment#:#tst_mark_create_new_mark_step#:#Kreiraj novu ocjenu
-assessment#:#tst_mark_create_simple_mark_schema#:#Vrati na jednostavnu shemu ocjena
 assessment#:#tst_mark_minimum_level#:#Minimalna razina (u %)
 assessment#:#tst_mark_official_form#:#Službeni naziv
 assessment#:#tst_mark_passed#:#Položeno
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Vrati na jednostavnu shemu ocjena
 assessment#:#tst_mark_short_form#:#Skraćeni naziv
 assessment#:#tst_max_allowed_users_heading#:#Dosegnut je maksimalan broj istovremenih korisnika za ovaj test
 assessment#:#tst_max_allowed_users_message#:#Dosegnut je maksimalan broj istovremenih aktivnih korisnika za ovaj test Pokušajte ponovno kasnije započeti ili nastaviti test. Ako je neki aktivan korisnik više od %s sekundi neaktivan, možda ćete biti u mogućnosti sudjelovati u ovom testu. Zahvaljujemo na razumijevanju.
@@ -1646,6 +1644,7 @@ assessment#:#tst_password_form#:#Unesi lozinku za test
 assessment#:#tst_password_introduction#:#Ovom se testu može pristupiti samo s lozinkom za test. Unesite lozinku za test kako biste ga pokrenuli.
 assessment#:#tst_percent_solved#:#Posto riješeno
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Molimo odaberite ciljni kontejner.
 assessment#:#tst_position#:#Pitanje %s od %s
 assessment#:#tst_position_without_total#:#Pitanje %s
@@ -2800,8 +2799,6 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
 chatroom#:#chat_create_private_room_button#:#Create Private Room
@@ -5731,7 +5728,6 @@ common#:#udf_delete_sure#:#Jeste li sigurni da želite izbrisati ovo polje i sve
 common#:#udf_duplicate_entries#:#Vrijednosti moraju biti jedinstvene.
 common#:#udf_field_deleted#:#Izbrisano polje.
 common#:#udf_name_already_exists#:#Ovo ime polja već postoji. Odaberite drugo ime.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Kada je polje postavljeno na 'obavezno', mora biti postavljeno na 'vidljivo u registraciji'
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum i vrijeme
@@ -5859,6 +5855,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Nije moguće izvršiti radnju 
 common#:#usrimport_no_update_ext_account_exists#:#Nije moguće izvršiti radnju 'Ažuriraj'. Vanjski račun već postoji.
 common#:#usrimport_with_specified_role_not_permitted#:#Uvoz s navedenom ulogom nije dopušten.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###04 06 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Nedostaje atribut "%2$s" u elementu "%1$s".
 common#:#usrimport_xml_attribute_value_illegal#:#Vrijednost "%3$s" atributa "%2$s" u elementu "%1$s" je protuzakonita.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Vrijednost "%3$s" atributa "%2$s" u elementu "%1$s" nije primjenjiva za radnju "%4$s".
@@ -8133,6 +8130,8 @@ dateplaner#:#cal_create#:#Stvori
 dateplaner#:#cal_created_appointment#:#Stvoren novi sastanak.
 dateplaner#:#cal_created_milestone#:#Dodana ključna točka.
 dateplaner#:#cal_created_milestone_resp_q#:#Dodana ključna točka. Odaberite korisnike koji su odgovorni za postizanje ključne točke.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Informacije o tečaju
 dateplaner#:#cal_crs_new_notification_body#:#stvoren je novi sastanak na tečaju "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#Novi sastanak na tečaju "%s"
@@ -9475,20 +9474,9 @@ file#:#file_download#:#Preuzmi datoteku
 file#:#file_import#:#Uvezi datoteku
 file#:#file_new_version#:#Kreiraj novu verziju
 file#:#file_new_version_info#:#Izradi novu verziju datoteke. Prethodne verzije neće se mijenjati.
-file#:#file_suffix_custom_black#:#Prilagođena crna lista sufiksa
-file#:#file_suffix_custom_black_info#:#Ovi će se sufiksi ukloniti sa zadanog bijelog popisa (dopuštenih sufiksa).
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist###04 06 2021 new variable
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.###04 06 2021 new variable
-file#:#file_suffix_custom_white#:#Bijela lista prilagođenog sufiksa
-file#:#file_suffix_custom_white_info#:#Ovi će se sufiksi dodati na zadani bijeli popis (dopuštenih sufiksa).
-file#:#file_suffix_default_white#:#Zadana bijela lista sufiksa
-file#:#file_suffix_default_white_info#:#Zadani popis prihvaćenih sufiksa datoteka.
-file#:#file_suffix_overall_white#:#Opća bijela lista sufiksa
-file#:#file_suffix_overall_white_info#:#Rezultira ukupnim popisom prihvaćenih sufiksa datoteka.
 file#:#file_upload_info_file_with_critical_extension#:#Učitana datoteka sadrži kritičnu ili nepoznatu ekstenziju datoteke. Ekstenzija datoteke bit će promijenjena u .sec za svako preuzimanje.
 file#:#file_uploaded_by#:#Učitana od
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.###04 06 2021 new variable
-file#:#generate_sanitize_report#:#Izvještaj o nepristupačnim datotekama
 file#:#migrated#:#Status###09 03 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
 file#:#replace_file_info#:#Sve prethodne verzije datoteka bit će izbrisane.
@@ -9909,6 +9897,7 @@ grp#:#grp_members#:#Članovi
 grp#:#grp_members_deleted#:#Izbrisani članovi
 grp#:#grp_members_map#:#Mapa članova grupe
 grp#:#grp_members_print_title#:#Članovi grupe
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#Odaberite vrstu grupe.
 grp#:#grp_missing_password#:#Unesite lozinku za grupu.
 grp#:#grp_new_status#:#Vaš novi status je:
@@ -10332,6 +10321,8 @@ link#:#link_wpages#:#Wiki stranice
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###04 06 2021 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###04 06 2021 new variable
 lm#:#lm_copy#:#Kopiraj modul za učenje
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###04 06 2021 new variable
@@ -10431,6 +10422,7 @@ lso#:#lso_members_gallery#:#Galerija članova sekvence učenja
 lso#:#lso_members_print_title#:#Članovi sekvence učenja
 lso#:#lso_min_one_admin#:#Ovoj sekvenci učenja mora biti dodijeljen barem jedan administrator.
 lso#:#lso_msg_member_assigned#:#Korisnik(-ci) dodijeljen(-i) kao član(-ovi) sekvence učenja
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#Vaš novi status je:
 lso#:#lso_notification#:#Obavijest
 lso#:#lso_notification_explanation_admin#:#Dobivate poštu od ILIAS-a jer ste administrator sekvence učenja s omogućenim obavijestima.
@@ -10607,7 +10599,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider###04 06 2021 new variable
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2###04 06 2021 new variable
 lti#:#lti_con_prov_description#:#Description###04 06 2021 new variable
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###31 03 2023 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider###04 06 2021 new variable
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###04 06 2021 new variable
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers###04 06 2021 new variable
@@ -10725,6 +10720,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format###04 06 2021 new variable
 lti#:#online_info#:#This makes the object visible and usable for the users.###04 06 2021 new variable
 lti#:#prefix#:#Prefiks
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#Used Provider###04 06 2021 new variable
 lti#:#settings_subtab#:#Settings###04 06 2021 new variable
 lti#:#show_statements#:#Display Learning Experiences###04 06 2021 new variable
@@ -10969,6 +10965,7 @@ mail#:#mail_smtp_status_info#:#Ako je omogućeno, ILIAS će slati vanjske e-poru
 mail#:#mail_smtp_user#:#Korisnik
 mail#:#mail_subject_prefix#:#Predmet pošte
 mail#:#mail_subject_prefix_info#:#Unesite tekst koji će biti dodan u redak predmeta odlazne automatski generirane e-pošte. Preporučuje se upotreba prefiksa radi podrške filtriranja poruka od strane korisnika.
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#Jeste li sigurni da želite izbrisati označenu(e) poruku(e)?
 mail#:#mail_sure_delete_entry#:#Jeste li sigurni da želite izbrisati sljedeće unose?
 mail#:#mail_sure_delete_file#:#Jeste li sigurni da želite izbrisati odabrane datoteke?
@@ -11302,9 +11299,15 @@ meta#:#md_advanced#:#Prilagođeni metapodaci
 meta#:#md_aria_language_selection#:#Language Selection###04 06 2021 new variable
 meta#:#md_copyright#:#Autorska prava
 meta#:#md_copyright_add#:#Dodaj zadano autorsko pravo
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#Uredi zadano autorsko pravo
 meta#:#md_copyright_enable_info#:#Odaberite ovu opciju da biste ponudili izbor unaprijed definiranih autorskih prava.
 meta#:#md_copyright_enabled#:#Omogući odabir autorskih prava
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#Autorska prava (pregled)
 meta#:#md_copyright_selection#:#Zadane vrijednosti autorskih prava
 meta#:#md_copyright_settings#:#Postavke autorskih prava
@@ -14818,6 +14821,7 @@ skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following us
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global###04 06 2021 new variable
 skmg#:#skmg_context_local#:#Local###04 06 2021 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Create Template Category
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_create_skill_template#:#Create Competence Template
@@ -16603,6 +16607,7 @@ user#:#clipboard_remove_btn#:#Remove from Clipboard###04 06 2021 new variable
 user#:#clipboard_table_title#:#Clipboard (User Accounts)###04 06 2021 new variable
 user#:#clipboard_user_added#:#Added selected users to clipboard.###04 06 2021 new variable
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?###04 06 2021 new variable
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Create Rule###04 06 2021 new variable
 user#:#criteria#:#Criteria###04 06 2021 new variable
 user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.###04 06 2021 new variable
@@ -16610,6 +16615,7 @@ user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted###04 06 2021 
 user#:#delete_inactive_user_accounts_frequency#:#Frequency###04 06 2021 new variable
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.###04 06 2021 new variable
 user#:#editing_this_role#:#Role###04 06 2021 new variable
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Enable Local User Administration###04 06 2021 new variable
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories and organisational units.###04 06 2021 new variable
 user#:#feedhash#:#Newsfeedhash###04 06 2021 new variable

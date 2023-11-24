@@ -69,14 +69,22 @@ class ilWikiUtil
     public static function collectInternalLinks(
         string $s,
         int $a_wiki_id,
-        bool $a_collect_non_ex = false
+        bool $a_collect_non_ex = false,
+        string $mode = IL_WIKI_MODE_COLLECT
     ): array {
-        return self::processInternalLinks(
+        $log = ilLoggerFactory::getLogger("wiki");
+
+        $log->debug("collect interna links wiki id: " . $a_wiki_id . ", collect nonex: " . $a_collect_non_ex);
+
+        $result = self::processInternalLinks(
             $s,
             $a_wiki_id,
-            IL_WIKI_MODE_COLLECT,
+            $mode,
             $a_collect_non_ex
         );
+        $log->debug("content: " . $s);
+        $log->debug("found: " . print_r($result, true));
+        return $result;
     }
 
     /**
@@ -91,6 +99,7 @@ class ilWikiUtil
         bool $a_collect_non_ex = false,
         bool $a_offline = false
     ) {
+
         include_once("./Modules/Wiki/libs/Sanitizer.php");
         $collect = array();
         // both from mediawiki DefaulSettings.php
@@ -258,8 +267,7 @@ class ilWikiUtil
             } else {
                 $db_title = self::makeDbTitle($nt->mTextform);
 
-                if ((ilWikiPage::_wikiPageExists($a_wiki_id, $db_title) ||
-                    $a_collect_non_ex)
+                if (($a_collect_non_ex || ilWikiPage::_wikiPageExists($a_wiki_id, $db_title))
                 &&
                     !in_array($db_title, $collect)) {
                     $collect[] = $db_title;
@@ -467,6 +475,10 @@ class ilWikiUtil
         $ilUser = $DIC->user();
         $ilObjDataCache = $DIC["ilObjDataCache"];
         $ilAccess = $DIC->access();
+
+        if ($a_wiki_ref_id === 0) {
+            return;
+        }
 
         $wiki_id = $ilObjDataCache->lookupObjId($a_wiki_ref_id);
         $wiki = new ilObjWiki($a_wiki_ref_id, true);

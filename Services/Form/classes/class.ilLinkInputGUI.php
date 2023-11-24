@@ -618,7 +618,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         string $a_target_frame = ""
     ): void {
         $t = explode("_", $a_target);
-        $target_id = $t[3];
+        $target_id = ($t[3] ?? "");
         $type = "";
         $map = self::getAttrTypeToType();
         if ($a_type == "RepositoryItem") {

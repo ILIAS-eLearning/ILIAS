@@ -23,8 +23,6 @@ namespace ILIAS\Modules\Test;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
-use ILIAS\DI\Container;
-use Closure;
 
 class AccessQuestionImage implements SimpleAccess
 {

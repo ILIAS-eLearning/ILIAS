@@ -84,4 +84,27 @@ class ilUser8DBUpdateSteps implements ilDatabaseUpdateSteps
             ]
         );
     }
+
+    public function step_3(): void
+    {
+        if (!$this->db->tableExists('usr_change_email_token')) {
+            $this->db->createTable(
+                'usr_change_email_token',
+                [
+                    'token' => [
+                        'type'     => 'text',
+                        'length'   => 32
+                    ],
+                    'new_email' => [
+                        'type'     => 'text',
+                        'length'   => 256
+                    ],
+                    'valid_until' => [
+                        'type'     => 'integer',
+                        'length'   => 8
+                    ]
+                ]
+            );
+        }
+    }
 }

@@ -30,6 +30,8 @@ use ILIAS\Notes\Service;
  */
 class ilDclBaseRecordModel
 {
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected Service $notes;
 
     /**
@@ -39,7 +41,7 @@ class ilDclBaseRecordModel
     protected int $id = 0;
     protected int $table_id;
     protected ?ilDclTable $table = null;
-    protected int $last_edit_by;
+    protected ?int $last_edit_by = null;
     protected int $owner = 0;
     protected ilDateTime $last_update;
     protected ilDateTime $create_date;
@@ -56,6 +58,8 @@ class ilDclBaseRecordModel
         $this->db = $DIC->database();
         $this->event = $DIC->event();
         $this->user = $DIC->user();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         if ($a_id && $a_id != 0) {
             $this->id = $a_id;
@@ -234,12 +238,12 @@ class ilDclBaseRecordModel
         return $this->owner;
     }
 
-    public function getLastEditBy(): int
+    public function getLastEditBy(): ?int
     {
         return $this->last_edit_by;
     }
 
-    public function setLastEditBy(int $last_edit_by): void
+    public function setLastEditBy(?int $last_edit_by): void
     {
         $this->last_edit_by = $last_edit_by;
     }
@@ -562,7 +566,6 @@ class ilDclBaseRecordModel
             case 'create_date':
                 return ilDatePresentation::formatDate($this->getCreateDate());
             case 'comments':
-                $nComments = $this->getNrOfComments();
 
                 $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
 
@@ -575,11 +578,17 @@ class ilDclBaseRecordModel
                     'dcl',
                     $this->getId()
                 );
-                $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
+                $update_code = "il.UI.counter.getCounterObject($(\".ilc_page_Page\")).incrementStatusCount(1);";
+                $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, $update_code);
 
-                return "<a class='dcl_comment' href='#' onclick=\"return " . $ajax_link . "\">
-                        <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
-                    . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
+                $nr_comments = $this->getNrOfComments();
+
+                $comment_glyph = $this->ui_factory->symbol()->glyph()->comment()->withCounter(
+                    $this->ui_factory->counter()->status($nr_comments)
+                )->withAdditionalOnLoadCode(function ($id) use ($ajax_link): string {
+                    return "document.getElementById('$id').onclick = function (event) { $ajax_link; };";
+                });
+                return $this->renderer->render($comment_glyph);
         }
 
         return "";
