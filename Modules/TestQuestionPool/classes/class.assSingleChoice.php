@@ -18,6 +18,8 @@
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
+use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
+
 /**
  * Class for single choice questions
  *
@@ -33,6 +35,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
+    use ManipulateThumbnailsInChoiceQuestionsTrait;
+
     private bool $isSingleline = true;
 
     /**
@@ -149,47 +153,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $this->saveAnswerSpecificDataToDb();
 
         parent::saveToDb($original_id);
-    }
-
-    /*
-    * Rebuild the thumbnail images with a new thumbnail size
-    */
-    protected function rebuildThumbnails(): void
-    {
-        if ($this->isSingleline && ($this->getThumbSize())) {
-            foreach ($this->getAnswers() as $answer) {
-                if (strlen($answer->getImage())) {
-                    $this->generateThumbForFile($this->getImagePath(), $answer->getImage());
-                }
-            }
-        }
-    }
-
-    public function getThumbPrefix(): string
-    {
-        return "thumb.";
-    }
-
-    protected function generateThumbForFile($path, $file): void
-    {
-        $filename = $path . $file;
-        if (@file_exists($filename)) {
-            $thumbpath = $path . $this->getThumbPrefix() . $file;
-            $path_info = @pathinfo($filename);
-            $ext = "";
-            switch (strtoupper($path_info['extension'])) {
-                case 'PNG':
-                    $ext = 'PNG';
-                    break;
-                case 'GIF':
-                    $ext = 'GIF';
-                    break;
-                default:
-                    $ext = 'JPEG';
-                    break;
-            }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbSize());
-        }
     }
 
     /**
@@ -825,7 +788,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 ]
             );
         }
-        $this->rebuildThumbnails();
     }
 
     /**
@@ -871,30 +833,35 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function setImageFile($image_filename, $image_tempfilename = ""): int
     {
-        $result = 0;
-        if (!empty($image_tempfilename)) {
-            $image_filename = str_replace(" ", "_", $image_filename);
-            $imagepath = $this->getImagePath();
-            if (!file_exists($imagepath)) {
-                ilFileUtils::makeDirParents($imagepath);
-            }
-            //if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
-            if (!ilFileUtils::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
-                $result = 2;
-            } else {
-                $mimetype = ilObjMediaObject::getMimeType($imagepath . $image_filename);
-                if (!preg_match("/^image/", $mimetype)) {
-                    unlink($imagepath . $image_filename);
-                    $result = 1;
-                } else {
-                    // create thumbnail file
-                    if ($this->isSingleline && ($this->getThumbSize())) {
-                        $this->generateThumbForFile($imagepath, $image_filename);
-                    }
-                }
-            }
+        if (empty($image_tempfilename)) {
+            return 0;
         }
-        return $result;
+
+        $cleaned_image_filename = str_replace(" ", "_", $image_filename);
+        $imagepath = $this->getImagePath();
+        if (!file_exists($imagepath)) {
+            ilFileUtils::makeDirParents($imagepath);
+        }
+
+        if (!ilFileUtils::moveUploadedFile($image_tempfilename, $cleaned_image_filename, $imagepath . $cleaned_image_filename)) {
+            return 2;
+        }
+
+        $mimetype = ilObjMediaObject::getMimeType($imagepath . $cleaned_image_filename);
+        if (!preg_match("/^image/", $mimetype)) {
+            unlink($imagepath . $cleaned_image_filename);
+            return 1;
+        }
+
+        if ($this->isSingleline && $this->getThumbSize()) {
+            $this->generateThumbForFile(
+                $cleaned_image_filename,
+                $this->getImagePath(),
+                $this->getThumbSize()
+            );
+        }
+
+        return 0;
     }
 
     /**
@@ -1046,6 +1013,11 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     public function &getAnswers(): array
     {
         return $this->answers;
+    }
+
+    public function setAnswers(array $answers): void
+    {
+        $this->answers = $answers;
     }
 
     /**

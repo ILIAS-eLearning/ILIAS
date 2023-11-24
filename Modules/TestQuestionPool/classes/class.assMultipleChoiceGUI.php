@@ -34,7 +34,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-    public $choiceKeys;
+    private bool $rebuild_thumbnails = false;
 
     /**
     * assMultipleChoiceGUI constructor
@@ -653,13 +653,13 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     public function getChoiceKeys(): array
     {
-        $choiceKeys = array_keys($this->object->answers);
+        $choice_keys = array_keys($this->object->answers);
 
         if ($this->object->getShuffle()) {
-            $choiceKeys = $this->object->getShuffler()->transform($choiceKeys);
+            $choice_keys = $this->object->getShuffler()->transform($choice_keys);
         }
 
-        return $choiceKeys;
+        return $choice_keys;
     }
 
     public function getSpecificFeedbackOutput(array $userSolution): string
@@ -688,8 +688,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         } else {
             $this->object->setIsSingleline(($types === 0) ? true : false);
         }
-        if (isset($_POST["thumb_size"])) {
+        if (isset($_POST["thumb_size"])
+            && (int) $_POST["thumb_size"] !== $this->object->getThumbSize()) {
             $this->object->setThumbSize((int) $_POST["thumb_size"]);
+            $this->rebuild_thumbnails = true;
         }
     }
 
@@ -698,36 +700,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
         $choice = $this->cleanupAnswerText($_POST['choice'], $this->object->isSingleline() === false);
-        if ($this->object->isSingleline()) {
-            foreach ($choice['answer'] as $index => $answertext) {
-                $answertext = htmlentities($answertext);
-                $picturefile = $choice['imagename'][$index] ?? '';
-                $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
-                $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
-
-                if ($file_temp_name !== '') {
-                    // check suffix
-                    $parts = explode(".", $file_org_name);
-                    $suffix = strtolower(array_pop($parts));
-                    if (in_array($suffix, ["jpg", "jpeg", "png", "gif"])) {
-                        // upload image
-                        $filename = $this->object->buildHashedImageFilename($file_org_name);
-                        if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
-                            $picturefile = $filename;
-                        }
-                    }
-                }
-
-                $this->object->addAnswer(
-                    $answertext,
-                    (float) str_replace(',', '.', $choice['points'][$index]),
-                    (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
-                    $index,
-                    $picturefile,
-                    $choice['answer_id'][$index]
-                );
-            }
-        } else {
+        if (!$this->object->isSingleline()) {
             foreach ($choice['answer'] as $index => $answer) {
                 $answertext = $answer;
                 $this->object->addAnswer(
@@ -739,6 +712,47 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     (int) $choice['answer_id'][$index]
                 );
             }
+            return;
+        }
+
+        foreach ($choice['answer'] as $index => $answertext) {
+            $answertext = htmlentities($answertext);
+            $picturefile = $choice['imagename'][$index] ?? '';
+            $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
+            $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
+
+            if ($file_temp_name !== '') {
+                // check suffix
+                $parts = explode(".", $file_org_name);
+                $suffix = strtolower(array_pop($parts));
+                if (in_array($suffix, ["jpg", "jpeg", "png", "gif"])) {
+                    // upload image
+                    $filename = $this->object->buildHashedImageFilename($file_org_name);
+                    if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
+                        $picturefile = $filename;
+                    }
+                }
+            }
+
+            $this->object->addAnswer(
+                $answertext,
+                (float) str_replace(',', '.', $choice['points'][$index]),
+                (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
+                $index,
+                $picturefile,
+                $choice['answer_id'][$index]
+            );
+        }
+
+        if ($this->rebuild_thumbnails) {
+            $this->object->setAnswers(
+                $this->object->rebuildThumbnails(
+                    $this->object->isSingleline(),
+                    $this->object->getThumbSize(),
+                    $this->object->getImagePath(),
+                    $this->object->getAnswers()
+                )
+            );
         }
     }
 
