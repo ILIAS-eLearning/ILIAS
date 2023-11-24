@@ -29,12 +29,12 @@ class ilTestRandomQuestionsQuantitiesDistribution
     /**
      * @var array[ $questionId => ilTestRandomQuestionSetSourcePoolDefinitionList ]
      */
-    protected array $questRelatedSrcPoolDefRegister = [];
+    protected array $questRelated_src_pool_def_register = [];
 
     /**
      * @var array[ $definitionId => ilTestRandomSetQuestionCollection ]
      */
-    protected array $srcPoolDefRelatedQuestRegister = [];
+    protected array $src_pool_def_related_quest_register = [];
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -79,21 +79,18 @@ class ilTestRandomQuestionsQuantitiesDistribution
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    /**
-     * re-setter for questRelatedSrcPoolDefRegister
-     */
     protected function resetQuestRelatedSrcPoolDefRegister()
     {
-        $this->questRelatedSrcPoolDefRegister = [];
+        $this->questRelated_src_pool_def_register = [];
     }
 
     protected function registerQuestRelatedSrcPoolDef(int $question_id, ilTestRandomQuestionSetSourcePoolDefinition $definition)
     {
-        if (!array_key_exists($question_id, $this->questRelatedSrcPoolDefRegister)) {
-            $this->questRelatedSrcPoolDefRegister[$question_id] = $this->buildSourcePoolDefinitionListInstance();
+        if (!array_key_exists($question_id, $this->questRelated_src_pool_def_register)) {
+            $this->questRelated_src_pool_def_register[$question_id] = $this->buildSourcePoolDefinitionListInstance();
         }
 
-        $this->questRelatedSrcPoolDefRegister[$question_id]->addDefinition($definition);
+        $this->questRelated_src_pool_def_register[$question_id]->addDefinition($definition);
     }
 
     /**
@@ -102,34 +99,31 @@ class ilTestRandomQuestionsQuantitiesDistribution
      */
     protected function getQuestRelatedSrcPoolDefinitionList($questionId): ?ilTestRandomQuestionSetSourcePoolDefinitionList
     {
-        if (isset($this->questRelatedSrcPoolDefRegister[$questionId])) {
-            return $this->questRelatedSrcPoolDefRegister[$questionId];
+        if (isset($this->questRelated_src_pool_def_register[$questionId])) {
+            return $this->questRelated_src_pool_def_register[$questionId];
         }
 
         return null;
     }
 
-    /**
-     * re-setter the srcPoolDefRelatedQuestRegister
-     */
     protected function resetSrcPoolDefRelatedQuestRegister()
     {
-        $this->srcPoolDefRelatedQuestRegister = [];
+        $this->src_pool_def_related_quest_register = [];
     }
 
     protected function registerSrcPoolDefRelatedQuest(int $definition_id, ilTestRandomQuestionSetQuestion $random_set_question): void
     {
-        if (!isset($this->srcPoolDefRelatedQuestRegister[$definition_id])) {
-            $this->srcPoolDefRelatedQuestRegister[$definition_id] = $this->buildRandomQuestionCollectionInstance();
+        if (!isset($this->src_pool_def_related_quest_register[$definition_id])) {
+            $this->src_pool_def_related_quest_register[$definition_id] = $this->buildRandomQuestionCollectionInstance();
         }
 
-        $this->srcPoolDefRelatedQuestRegister[$definition_id]->addQuestion($random_set_question);
+        $this->src_pool_def_related_quest_register[$definition_id]->addQuestion($random_set_question);
     }
 
     protected function getSrcPoolDefRelatedQuestionCollection(int $definition_id): ilTestRandomQuestionSetQuestionCollection
     {
-        if (isset($this->srcPoolDefRelatedQuestRegister[$definition_id])) {
-            return $this->srcPoolDefRelatedQuestRegister[$definition_id];
+        if (isset($this->src_pool_def_related_quest_register[$definition_id])) {
+            return $this->src_pool_def_related_quest_register[$definition_id];
         }
 
         return new ilTestRandomQuestionSetQuestionCollection();
@@ -147,10 +141,12 @@ class ilTestRandomQuestionsQuantitiesDistribution
                 $random_question
             );
 
-            $this->registerQuestRelatedSrcPoolDef(
-                $random_question->getQuestionId(),
-                $source_pool_definition
-            );
+            if ($sourcePoolDefinition && $randomQuestion->getQuestionId()) {
+                $this->registerQuestRelatedSrcPoolDef(
+                    $random_question->getQuestionId(),
+                    $source_pool_definition
+                );
+            }
         }
     }
 
@@ -297,7 +293,7 @@ class ilTestRandomQuestionsQuantitiesDistribution
     protected function isQuestionUsedByMultipleSrcPoolDefinitions(ilTestRandomQuestionSetQuestion $question): bool
     {
         /* @var ilTestRandomQuestionSetSourcePoolDefinitionList $qstRelatedSrcPoolDefList */
-        $qstRelatedSrcPoolDefList = $this->questRelatedSrcPoolDefRegister[$question->getQuestionId()];
+        $qstRelatedSrcPoolDefList = $this->questRelated_src_pool_def_register[$question->getQuestionId()];
         return $qstRelatedSrcPoolDefList->getDefinitionCount() > 1;
     }
 
