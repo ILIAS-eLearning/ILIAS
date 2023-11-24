@@ -674,6 +674,7 @@ assessment#:#err_unit_in_variables#:#Die Einheit kann nicht gelöscht werden. Si
 assessment#:#err_unit_is_baseunit#:#Die Einheit kann nicht gelöscht werden. Sie wird von anderen Einheiten als Basiseinheit verwendet.
 assessment#:#err_wrong_categoryname#:#Die Kategorie existiert bereits.
 assessment#:#err_wrong_rating_advanced#:#Bitte stellen Sie sicher, dass die Summe der erweiterten Bewertungsoptionen genau 100 Prozent ergibt.
+assessment#:#error_creating_certificate_zip_empty#:#Keine Daten zu exportieren.
 assessment#:#error_importing_question#:#Beim Importieren der Fragen ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
 assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfragen ist ein unbekannter Fehler aufgetreten. Bitte kontaktieren Sie Ihre ILIAS-Administration und geben Sie die folgende Information weiter: Das ILIAS-System konnte keine Aktivitäts-ID für die ID des ILIAS-Kontos %s und die Test-ID %s erzeugen.###Modified as part of gender mainstreaming activities for ILIAS 8

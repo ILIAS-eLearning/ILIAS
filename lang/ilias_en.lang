@@ -674,6 +674,7 @@ assessment#:#err_unit_in_variables#:#The unit cannot be deleted. It is already i
 assessment#:#err_unit_is_baseunit#:#The unit cannot be deleted. It is used as base unit by other units.
 assessment#:#err_wrong_categoryname#:#The category already exists.
 assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent
+assessment#:#error_creating_certificate_zip_empty#:#No data for export.
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 assessment#:#error_open_image_file#:#Error opening an image file!
 assessment#:#error_random_question_generation#:#A fatal error occurred during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.
