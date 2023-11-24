@@ -793,7 +793,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             try {
                 $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
             } catch(\ILIAS\Filesystem\Exception\IOException $e) {
-                $this->tpl->setOnScreenMessage('error', $this->lng->txt('error_creating_certificate_zip_empty'), true);
+                $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('error_creating_certificate_zip_empty'), true);
                 $this->ctrl->redirect($this, 'outEvaluation');
             }
         }
