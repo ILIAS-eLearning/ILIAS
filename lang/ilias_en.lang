@@ -11208,7 +11208,7 @@ mail#:#mail_cc#:#CC
 mail#:#mail_change_to_folder#:#Switch to folder: %s
 mail#:#mail_create_tpl#:#Create Text Template
 mail#:#mail_cronjob_notification_info#:#Allow ILIAS to periodically send you notifications about new e-mails.
-mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
+mail#:#mail_crs_list_members_not_available#:#The members of the selected courses can not be listed.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
 mail#:#mail_deleted#:#Mail(s) deleted.
@@ -11222,25 +11222,25 @@ mail#:#mail_email_usr_subject#:#Test E-Mail: User Mail
 mail#:#mail_empty_trash#:#Empty Trash
 mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in the Trash folder?
 mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators
-mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
+mail#:#mail_enable_crs_admin_notification_info#:#In new courses, the setting 'Notification' will be activated by default for members with ‘Course Administrator’ and/or ‘Course Tutor’ status. This can be altered in the 'Member' tab of courses (in the ‘Course Participants’ list for each admin/tutor individually). Admins/tutors will receive an e-mail when a user joins the course or leaves it, or if the minimum number of participants required for a course to take place has not been met.
 mail#:#mail_enable_crs_member_notification#:#Notify Course Members
-mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the platform.
+mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to any course member whose membership status changes. This setting applies to all courses on the platform.
 mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
-mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. Course administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.
+mail#:#mail_enable_grp_admin_notification_info#:#In new groups, the setting 'Notification' will be activated by default for members with ‘Group Administrator’ status. This can be altered in the 'Member' tab of groups (in the ‘Group Participants’ list for each administrator individually). Admins will receive an e-mail when a member joins the group or leaves it, or if the minimum number of participants required for a group to be formed has not been met.
 mail#:#mail_enable_grp_member_notification#:#Notify Group Members
-mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the platform.
+mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to any group member whose membership status changes. This setting applies to all groups on the platform.
 mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators
-mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.
+mail#:#mail_enable_lso_admin_notification_info#:#In new learning sequences, the setting 'Notification’ will be activated by default for members with ‘Learning Sequence Administrator’ status. This can be altered in the 'Member' tab of a learning sequence (in the ‘Learning Sequence Members’ list for each administrator individually). With notifications active, administrators will receive an e-mail whenever a member joins or leaves the learning sequence.
 mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members
-mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.
-mail#:#mail_entry_of_contacts#:#Entry of Contacts
+mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to any member whose membership status changes. This setting applies to all learning sequences on the platform.
+mail#:#mail_entry_of_contacts#:#Name/Username of Contact
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.
 mail#:#mail_external_send_test_sys#:#Send Test E-Mail (System Mail)
 mail#:#mail_external_send_test_usr#:#Send Test E-Mail (User Mail)
-mail#:#mail_external_test_sent#:#An e-mail was sent to the e-mail address defined in your profile.
+mail#:#mail_external_test_sent#:#An e-mail has been sent to the e-mail address associated with your profile.
 mail#:#mail_file_name#:#File Name
 mail#:#mail_file_size#:#File Size
-mail#:#mail_files_deleted#:#The file(s) are deleted
+mail#:#mail_files_deleted#:#File(s) deleted.
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_body#:#Body
@@ -11257,13 +11257,13 @@ mail#:#mail_filter_subject#:#Subject
 mail#:#mail_filter_txt#:#Filter messages by
 mail#:#mail_first_email#:#First E-Mail Address
 mail#:#mail_firstname_last_name_superior#:#Comma separated list for firstname and lastname of the user's superior(s)
-mail#:#mail_folder_created#:#A new folder has been created
-mail#:#mail_folder_deleted#:#The folder has been deleted
-mail#:#mail_folder_exists#:#A folder already exists with this name
-mail#:#mail_folder_name_changed#:#The folder has been renamed
+mail#:#mail_folder_created#:#New folder successfully created.
+mail#:#mail_folder_deleted#:#Folder deleted.
+mail#:#mail_folder_exists#:#A folder with this name already exists.
+mail#:#mail_folder_name_changed#:#Folder successfully renamed.
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_form_placeholders_label#:#Available Placeholders
-mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s
+mail#:#mail_generic_rcp_error#:#An error occurred while validating the recipients: %1$s
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
@@ -11272,26 +11272,26 @@ mail#:#mail_incoming#:#Incoming Mail
 mail#:#mail_incoming_both#:#Receive Mail Locally and Forward to:
 mail#:#mail_incoming_local#:#Receive Mail Locally Only
 mail#:#mail_incoming_mail#:#Incoming Mail
-mail#:#mail_incoming_smtp#:#Forward to E-mail Address:
+mail#:#mail_incoming_smtp#:#Forward to E-Mail Address:
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
-mail#:#mail_is_read#:#gelesen
-mail#:#mail_is_unread#:#ungelesen
-mail#:#mail_list_members#:#List members
+mail#:#mail_is_read#:#Read
+mail#:#mail_is_unread#:#Unread
+mail#:#mail_list_members#:#List Members
 mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_mailing_lists#:#Mailing Lists
-mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
-mail#:#mail_mailing_lists_no_contact_entries#:#You have no entries in your contacts to add to a list.
-mail#:#mail_mark_read#:#Mark mail read
-mail#:#mail_mark_unread#:#Mark mail unread
-mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files).
-mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
+mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already added all of your contacts to this mailing list.
+mail#:#mail_mailing_lists_no_contact_entries#:#You don’t have any entries in your contacts to add to a mailing list.
+mail#:#mail_mark_read#:#Mark as Read
+mail#:#mail_mark_unread#:#Mark as Unread
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum combined size of all attachments allowed per mail. This setting is not related to other resource limits, e.g. server limits such as ‘upload_max_filesize’, as you can attach multiple files to a single mail.
+mail#:#mail_max_size_attachments_total_error#:#The maximum combined size of all attachments may not exceed:
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_member_notification#:#Participant Notification
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List "%s"
 mail#:#mail_members_search_continue#:#Continue
-mail#:#mail_message_send#:#Message sent
+mail#:#mail_message_send#:#Message sent.
 mail#:#mail_move_error#:#Error moving mail
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_move_to_folder_btn_label#:#Move Mail

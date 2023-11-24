@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema 
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://www.ilias.de/xml/Modules/IndividualAssessment/iass"
+  elementFormDefault="qualified">
+
+  <import schemaLocation="ilias_ds_4_3.xsd"/>
+
+  <element name='Iass'>
+    <complexType>
+      <sequence>
+        <element name="id" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="title" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="description" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="content" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="recordTemplate" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="eventTimePlaceRequired" type="boolean" minOccurs="1" maxOccurs="1"/>
+        <element name="file_required" type="boolean" minOccurs="1" maxOccurs="1"/>
+        <element name="contact" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="responsibility" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="phone" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="mails" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="consultation_hours" type="string" minOccurs="1" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>
