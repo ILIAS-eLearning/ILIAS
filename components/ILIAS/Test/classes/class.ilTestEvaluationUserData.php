@@ -28,7 +28,7 @@ declare(strict_types=1);
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
+require_once __DIR__ . '/../classes/inc.AssessmentConstants.php';
 
 class ilTestEvaluationUserData
 {
