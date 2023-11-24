@@ -106,11 +106,13 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         if ($next_class == "") {
             switch ($type) {
                 case "scorm2004":
-                    $this->ctrl->setCmdClass("ilobjscorm2004learningmodulegui");
+                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                    // $this->ctrl->setCmdClass("ilobjscorm2004learningmodulegui");
                     break;
 
                 case "scorm":
-                    $this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
+                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                    // $this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
                     break;
             }
             $next_class = $this->ctrl->getNextClass($this);
@@ -146,7 +148,8 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                         }
                     }
                 }
-                $this->ctrl->setCmd("export");
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmd("export");
                 ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=" . $this->refId);
                 break;
 

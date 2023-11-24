@@ -127,10 +127,11 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
     {
         switch ($this->content_obj->getContentClass()) {
             case self::TYPE_MEDIA:
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass("ilpcmediaobjectgui");
+                // $this->ctrl->setCmd("insert");
                 var_dump("1");
                 exit;
-                $this->ctrl->setCmdClass("ilpcmediaobjectgui");
-                $this->ctrl->setCmd("insert");
                 $media_gui = new ilPCMediaObjectGUI($this->pg_obj, null, "");
                 $this->ctrl->forwardCommand($media_gui);
                 break;
@@ -140,16 +141,18 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                 break;
 
             case self::TYPE_QUESTION:
-                $this->ctrl->setCmdClass("ilpcquestiongui");
-                $this->ctrl->setCmd("insert");
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass("ilpcquestiongui");
+                // $this->ctrl->setCmd("insert");
                 $question_gui = new ilPCQuestionGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
                 $question_gui->setSelfAssessmentMode(true);
                 $this->ctrl->forwardCommand($question_gui);
                 break;
 
             case self::TYPE_VERIFICATION:
-                $this->ctrl->setCmdClass("ilpcverificationgui");
-                $this->ctrl->setCmd("insert");
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass("ilpcverificationgui");
+                // $this->ctrl->setCmd("insert");
                 /** @var ilPCVerification $ver */
                 $ver = $this->content_obj;
                 $cert_gui = new ilPCVerificationGUI($this->pg_obj, $ver, $this->hier_id, $this->pc_id);
@@ -240,8 +243,9 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                     "insertJSAtPlaceholder"
                 );
 
-                $this->ctrl->setCmdClass("ilpcparagraphgui");
-                $this->ctrl->setCmd("insert");
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass("ilpcparagraphgui");
+                // $this->ctrl->setCmd("insert");
                 $paragraph_gui = new ilPCParagraphGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
                 $paragraph_gui->setStyleId($this->getStyleId());
                 $paragraph_gui->setPageConfig($this->getPageConfig());
@@ -249,37 +253,42 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                 break;
 
             case 1:  //DataTable
-                $this->ctrl->setCmdClass("ilpcdatatablegui");
-                $this->ctrl->setCmd("insert");
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass("ilpcdatatablegui");
+                // $this->ctrl->setCmd("insert");
                 $dtable_gui = new ilPCDataTableGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
                 $this->ctrl->forwardCommand($dtable_gui);
                 break;
 
             case 2:  //Advanced Table
-                $this->ctrl->setCmdClass("ilpctablegui");
-                $this->ctrl->setCmd("insert");
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass("ilpctablegui");
+                // $this->ctrl->setCmd("insert");
                 $atable_gui = new ilPCTableGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
                 $this->ctrl->forwardCommand($atable_gui);
                 break;
 
             case 3:  //Advanced List
-                $this->ctrl->setCmdClass("ilpclistgui");
-                $this->ctrl->setCmd("insert");
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass("ilpclistgui");
+                // $this->ctrl->setCmd("insert");
                 $list_gui = new ilPCListGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
                 $this->ctrl->forwardCommand($list_gui);
                 break;
 
             case 4:  //File List
-                $this->ctrl->setCmdClass("ilpcfilelistgui");
-                $this->ctrl->setCmd("insert");
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass("ilpcfilelistgui");
+                // $this->ctrl->setCmd("insert");
                 $file_list_gui = new ilPCFileListGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
                 $file_list_gui->setStyleId($this->getStyleId());
                 $this->ctrl->forwardCommand($file_list_gui);
                 break;
 
             case 5:  //Tabs
-                $this->ctrl->setCmdClass("ilpctabsgui");
-                $this->ctrl->setCmd("insert");
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass("ilpctabsgui");
+                // $this->ctrl->setCmd("insert");
                 $tabs_gui = new ilPCTabsGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
                 $tabs_gui->setStyleId($this->getStyleId());
                 $this->ctrl->forwardCommand($tabs_gui);

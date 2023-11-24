@@ -94,8 +94,9 @@ class ilAssQuestionPageCommandForwarder
 
         $page_gui->setEditPreview(true);
         if (strlen($ctrl->getCmd()) == 0) {
-            $ctrl->setCmdClass(get_class($page_gui));
-            $ctrl->setCmd("preview");
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $ctrl->setCmdClass(get_class($page_gui));
+            // $ctrl->setCmd("preview");
         }
         $page_gui->setQuestionHTML(array($q_gui->object->getId() => $q_gui->getPreview(true)));
         $page_gui->setTemplateTargetVar("ADM_CONTENT");

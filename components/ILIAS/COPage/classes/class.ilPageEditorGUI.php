@@ -302,7 +302,8 @@ class ilPageEditorGUI
 
         $this->ctrl->setParameter($this, "hier_id", $hier_id);
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
-        $this->ctrl->setCmd($cmd);
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd($cmd);
         if ($next_class == "") {
             $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
             if (is_array($pc_def)) {

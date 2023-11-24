@@ -448,7 +448,8 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->tabs_gui->setTabActive('view_content');
             $this->ctrl->setReturn($this, 'view');
             $agreement = new ilMemberAgreementGUI($this->object->getRefId());
-            $this->ctrl->setCmdClass(get_class($agreement));
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmdClass(get_class($agreement));
             $this->ctrl->forwardCommand($agreement);
             return;
         }

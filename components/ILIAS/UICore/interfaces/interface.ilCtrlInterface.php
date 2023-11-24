@@ -105,31 +105,11 @@ interface ilCtrlInterface
     public function getCmd(string $fallback_command = null): ?string;
 
     /**
-     * Sets the current command.
-     *
-     * @deprecated this method should not be used anymore and will be
-     *             removed with ILIAS 10.
-     *
-     * @param string|null $a_cmd
-     */
-    public function setCmd(?string $a_cmd): void;
-
-    /**
      * Returns the command class which should be executed next.
      *
      * @return string|null
      */
     public function getCmdClass(): ?string;
-
-    /**
-     * Sets the command class that should be executed next.
-     *
-     * @deprecated this method should not be used anymore and will be
-     *             removed with ILIAS 10.
-     *
-     * @param object|string|null $a_cmd_class
-     */
-    public function setCmdClass($a_cmd_class): void;
 
     /**
      * Returns the classname of the next class in the control flow.

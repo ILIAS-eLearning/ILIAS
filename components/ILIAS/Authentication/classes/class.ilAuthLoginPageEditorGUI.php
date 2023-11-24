@@ -174,7 +174,8 @@ class ilAuthLoginPageEditorGUI
         //$page_gui->setTabHook($this, "addPageTabs");
 
         if ($this->ctrl->getCmd() === 'editPage') {
-            $this->ctrl->setCmd('edit');
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmd('edit');
         }
         $html = $this->ctrl->forwardCommand($page_gui);
 

@@ -34,6 +34,7 @@ if (
     $DIC->ui()->mainTemplate()->printToStdout();
 } else {
     // authentication is done here ->
-    $DIC->ctrl()->setCmd('doShibbolethAuthentication');
+    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+    // $DIC->ctrl()->setCmd('doShibbolethAuthentication');
     $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 }

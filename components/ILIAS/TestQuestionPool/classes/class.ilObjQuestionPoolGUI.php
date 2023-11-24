@@ -304,8 +304,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 if (strlen(
                     $this->ctrl->getCmd()
                 ) == 0 && !isset($_POST['editImagemapForward_x'])) { // workaround for page edit imagemaps, keep in mind
-                    $this->ctrl->setCmdClass(get_class($page_gui));
-                    $this->ctrl->setCmd('preview');
+                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                    // $this->ctrl->setCmdClass(get_class($page_gui));
+                    // $this->ctrl->setCmd('preview');
                 }
                 $page_gui->setQuestionHTML([$q_gui->object->getId() => $q_gui->getPreview(true)]);
                 $page_gui->setTemplateTargetVar('ADM_CONTENT');
@@ -1801,8 +1802,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      */
     public function infoScreenObject(): void
     {
-        $this->ctrl->setCmd('showSummary');
-        $this->ctrl->setCmdClass('ilinfoscreengui');
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd('showSummary');
+        // $this->ctrl->setCmdClass('ilinfoscreengui');
         $this->infoScreenForward();
     }
 

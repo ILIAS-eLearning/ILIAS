@@ -22,7 +22,8 @@ if (!file_exists(getcwd() . "/../ilias.ini.php")) {
 
 ilInitialisation::initILIAS();
 
-$ilCtrl->setCmd('showLoginPageOrStartupPage');
+// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+// $ilCtrl->setCmd('showLoginPageOrStartupPage');
 $ilCtrl->callBaseClass('ilStartUpGUI');
 $ilBench->save();
 

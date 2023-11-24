@@ -14,7 +14,8 @@
 
 ilInitialisation::initILIAS();
 
-$ilCtrl->setCmd('jumpToPasswordAssistance');
+// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+// $ilCtrl->setCmd('jumpToPasswordAssistance');
 $ilCtrl->callBaseClass('ilStartUpGUI');
 $ilBench->save();
 
