@@ -26,6 +26,8 @@
  */
 class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
+    private bool $rebuild_thumbnails = false;
+
     /**
      * @param $qId
      */
@@ -252,7 +254,11 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
 
         if (!$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($old_answer_type)) {
-            $this->object->setThumbSize((int) ($form->getItemByPostVar('thumb_size')->getValue() ?? $this->object->getThumbSize()));
+            $thumbsize = (int) ($form->getItemByPostVar('thumb_size')->getValue() ?? $this->object->getThumbSize());
+            if ($thumbsize !== $this->object->getThumbSize()) {
+                $this->object->setThumbSize($thumbsize);
+                $this->rebuild_thumbnails = true;
+            }
         }
 
         $this->object->setOptionLabel($form->getItemByPostVar('option_label')->getValue());
@@ -300,11 +306,22 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $answers = $form->getItemByPostVar('kprimanswers')->getValues();
-        $answers = $this->handleAnswerTextsSubmit($answers);
+        $answers = $this->handleAnswerTextsSubmit(
+            $form->getItemByPostVar('kprimanswers')->getValues()
+        );
         $files = $form->getItemByPostVar('kprimanswers')->getFiles();
 
         $this->object->handleFileUploads($answers, $files);
+
+        if ($this->rebuild_thumbnails) {
+            $answers = $this->object->rebuildThumbnails(
+                $this->object->isSingleLineAnswerType(),
+                $this->object->getThumbSize(),
+                $this->object->getImagePath(),
+                $answers
+            );
+        }
+
         $this->object->setAnswers($answers);
     }
 
@@ -709,13 +726,13 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
     protected function getParticipantsAnswerKeySequence()
     {
-        $choiceKeys = array_keys($this->object->getAnswers());
+        $choice_keys = array_keys($this->object->getAnswers());
 
         if ($this->object->isShuffleAnswersEnabled()) {
-            $choiceKeys = $this->object->getShuffler()->transform($choiceKeys);
+            $choice_keys = $this->object->getShuffler()->transform($choice_keys);
         }
 
-        return $choiceKeys;
+        return $choice_keys;
     }
 
     private function populateSpecificFeedbackInline($user_solution, $answer_id, $template): void

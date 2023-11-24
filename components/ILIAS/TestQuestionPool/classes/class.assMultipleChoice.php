@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
+
 /**
  * Class for multiple choice tests.
  *
@@ -33,6 +35,8 @@
  */
 class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
+    use ManipulateThumbnailsInChoiceQuestionsTrait;
+
     public const OUTPUT_ORDER = 0;
     public const OUTPUT_RANDOM = 1;
 
@@ -153,54 +157,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
         $this->ensureNoInvalidObligation($this->getId());
         parent::saveToDb($original_id);
-    }
-
-    /**
-     * Rebuild the thumbnail images with a new thumbnail size
-     */
-    protected function rebuildThumbnails(): void
-    {
-        if ($this->isSingleline && ($this->getThumbSize())) {
-            foreach ($this->getAnswers() as $answer) {
-                if (strlen($answer->getImage())) {
-                    $this->generateThumbForFile($this->getImagePath(), $answer->getImage());
-                }
-            }
-        }
-    }
-
-    /**
-     * @return string
-     */
-    public function getThumbPrefix(): string
-    {
-        return "thumb.";
-    }
-
-    /**
-     * @param $path string
-     * @param $file string
-     */
-    protected function generateThumbForFile($path, $file): void
-    {
-        $filename = $path . $file;
-        if (@file_exists($filename)) {
-            $thumbpath = $path . $this->getThumbPrefix() . $file;
-            $path_info = @pathinfo($filename);
-            $ext = "";
-            switch (strtoupper($path_info['extension'])) {
-                case 'PNG':
-                    $ext = 'PNG';
-                    break;
-                case 'GIF':
-                    $ext = 'GIF';
-                    break;
-                default:
-                    $ext = 'JPEG';
-                    break;
-            }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbSize());
-        }
     }
 
     /**
@@ -826,7 +782,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 ]
             );
         }
-        $this->rebuildThumbnails();
     }
 
     public function syncWithOriginal(): void
@@ -893,7 +848,11 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 } else {
                     // create thumbnail file
                     if ($this->isSingleline && ($this->getThumbSize())) {
-                        $this->generateThumbForFile($imagepath, $image_filename);
+                        $this->generateThumbForFile(
+                            $image_filename,
+                            $this->getImagePath(),
+                            $this->getThumbSize()
+                        );
                     }
                 }
             }
@@ -1050,6 +1009,11 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     public function &getAnswers(): array
     {
         return $this->answers;
+    }
+
+    public function setAnswers(array $answers): void
+    {
+        $this->answers = $answers;
     }
 
     /**

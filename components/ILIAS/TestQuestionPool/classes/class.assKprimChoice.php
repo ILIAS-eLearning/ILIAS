@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,6 +26,8 @@
  */
 class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
+    use ManipulateThumbnailsInChoiceQuestionsTrait;
+
     public const NUM_REQUIRED_ANSWERS = 4;
 
     public const PARTIAL_SCORING_NUM_CORRECT_ANSWERS = 3;
@@ -357,8 +361,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 )
             );
         }
-
-        $this->rebuildThumbnails();
     }
 
     public function isComplete(): bool
@@ -587,44 +589,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     public function isCustomOptionLabel($labelValue): bool
     {
         return $labelValue == self::OPTION_LABEL_CUSTOM;
-    }
-
-    public function getThumbPrefix(): string
-    {
-        return self::THUMB_PREFIX;
-    }
-
-    public function rebuildThumbnails(): void
-    {
-        if ($this->isSingleLineAnswerType($this->getAnswerType()) && $this->getThumbSize()) {
-            foreach ($this->getAnswers() as $answer) {
-                if ($answer->getImageFile() !== null) {
-                    $this->generateThumbForFile($answer->getImageFsDir(), $answer->getImageFile());
-                }
-            }
-        }
-    }
-
-    protected function generateThumbForFile($path, $file): void
-    {
-        $filename = $path . $file;
-        if (@file_exists($filename)) {
-            $thumbpath = $path . $this->getThumbPrefix() . $file;
-            $path_info = @pathinfo($filename);
-            $ext = "";
-            switch (strtoupper($path_info['extension'])) {
-                case 'PNG':
-                    $ext = 'PNG';
-                    break;
-                case 'GIF':
-                    $ext = 'GIF';
-                    break;
-                default:
-                    $ext = 'JPEG';
-                    break;
-            }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbSize());
-        }
     }
 
     public function handleFileUploads($answers, $files): void
