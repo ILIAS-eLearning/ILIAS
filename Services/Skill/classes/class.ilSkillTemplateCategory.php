@@ -59,7 +59,7 @@ class ilSkillTemplateCategory extends ilSkillTreeNode
             }
         }
 
-        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTemplateId($sctp_id) as $tref_id) {
+        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTopTemplateId($sctp_id) as $tref_id) {
             $obj = ilSkillTreeNodeFactory::getInstance($tref_id);
             $node_data = $this->skill_tree->getNodeData($tref_id);
             if (is_object($obj)) {

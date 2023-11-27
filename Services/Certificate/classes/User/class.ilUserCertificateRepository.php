@@ -42,7 +42,7 @@ class ilUserCertificateRepository
             $logger = $DIC->logger()->cert();
         }
         $this->logger = $logger;
-        
+
         if (null === $defaultTitle) {
             global $DIC;
             $defaultTitle = $DIC->language()->txt('certificate_no_object_title');
@@ -356,7 +356,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         $result = array();
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
-            
+
             $presentation = new ilUserCertificatePresentation(
                 (int) $row['obj_id'],
                 (string) $row['obj_type'],
@@ -549,6 +549,29 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
         $this->database->manipulate($sql);
 
         $this->logger->info(sprintf('END - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
+    }
+
+    public function isBackgroundImageUsed(string $relativeImagePath) : bool
+    {
+        $this->logger->debug(sprintf(
+            'START - Checking if any certificate template uses background image path "%s"',
+            $relativeImagePath
+        ));
+
+        $result = $this->database->queryF(
+            'SELECT EXISTS(SELECT 1 FROM il_cert_user_cert WHERE background_image_path = %s AND currently_active = 1) AS does_exist',
+            ['text'],
+            [$relativeImagePath]
+        );
+
+        $exists = (bool) ($this->database->fetchAssoc($result)['does_exist'] ?? false);
+
+        $this->logger->debug(sprintf(
+            'END - Image path "%s" is ' . $exists ? "in use" : "unused",
+            $relativeImagePath
+        ));
+
+        return $exists;
     }
 
     /**

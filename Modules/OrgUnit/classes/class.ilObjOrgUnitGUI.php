@@ -544,7 +544,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     {
         $this->addStandardContainerSubTabs();
         //only display the import tab at the first level
-        if ($this->rbacsystem->checkAccess("visible, read", $_GET["ref_id"]) and $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+        if ($this->rbacsystem->checkAccess("create_orgu", $_GET["ref_id"]) and $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
             $this->tabs_gui->addSubTab("import", $this->lng->txt("import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport"));
         }
     }

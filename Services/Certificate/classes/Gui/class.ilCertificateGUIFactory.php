@@ -160,7 +160,7 @@ class ilCertificateGUIFactory
                     $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
-                 );
+                );
                 break;
             default:
                 throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));

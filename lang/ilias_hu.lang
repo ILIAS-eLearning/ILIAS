@@ -83,7 +83,7 @@ acc#:#acc_tbl_docs_title#:#Dokumentumok
 acc#:#acc_tree_off#:#Tartalomfa kikapcsolása
 acc#:#acc_tree_on#:#Tartalomfa bekapcsolása
 adm#:#adm_acc_ctrl_cpt_desc#:#Ha be van kapcsolva, a Hozzáférés-vezérlés koncepciója link jelenik meg a lálécben.
-adm#:#adm_acc_ctrl_cpt_enable#:#Hozzáférésvezérlés-koncepció bekapcsolása 
+adm#:#adm_acc_ctrl_cpt_enable#:#Hozzáférésvezérlés-koncepció bekapcsolása
 adm#:#adm_accessibility_contacts#:#A kapcsolat hozzáférési pontja
 adm#:#adm_accessibility_contacts_info#:#Kapcsolatok a hozzáférési problémák jelentéséhez, láblécben lévő link. Felhasználónevek vesszővel elválasztott felsorolása.
 adm#:#adm_awrn_support_contacts_info#:#Az összes technikai segítségnyújtót felsoroljuk. Ezek az 'Általános beállítások' » 'Elérhetőségek' » 'Technikai segítségnyújtók' részben található felhasználók.
@@ -637,9 +637,6 @@ assessment#:#cloze_text#:#Kiegészítendő szöveg
 assessment#:#cloze_textgap_case_insensitive#:#Kis-/nagybetűre nem érzékeny
 assessment#:#cloze_textgap_case_sensitive#:#Kis-/nagybetűre érzékeny
 assessment#:#cloze_textgap_levenshtein_of#:#'%s' Levenshtein-távolsága
-assessment#:#cloze_textgap_multiple_whitespace#:#Több nem látható karakter
-assessment#:#cloze_textgap_whitespace_after#:#Nem látható karakter az érték után
-assessment#:#cloze_textgap_whitespace_before#:#Nem látható karakter az érték előtt
 assessment#:#code#:#Kód
 assessment#:#codebase#:#Kódbázis
 assessment#:#concatenation#:#Szavak összekapcsolása
@@ -2480,7 +2477,7 @@ blog#:#blog_task_publishing_draft_title#:#'%s' bejegyzéspiszkozat közzététel
 blog#:#blog_toggle_draft#:#Közzététel visszavonása
 blog#:#blog_toggle_draft_admin#:#Blog hozzászólások tiltása
 blog#:#blog_toggle_final#:#Bejegyzés közzététele
-book#:#X_reservations_of#:#%s foglalás / 
+book#:#X_reservations_of#:#%s foglalás /
 book#:#book_add#:#Foglalásgyűjtemény létrehozása
 book#:#book_add_object#:#Objektum létrehozása
 book#:#book_add_schedule#:#Időterv létrehozása
@@ -4520,7 +4517,7 @@ common#:#lres#:#Tananyagok
 common#:#lso_add#:#Tanulási sor létrehozása
 common#:#lso_admin_form_byline#:#Tanulási sorok általános beállításai
 common#:#lso_admin_form_title#:#Beállítások
-common#:#lso_admin_interval_byline#:#A tanulás előrehaladásának lekérdezése x másodpercekben. Legyen óvatos! Az alacsony érték növeli a szerverlekérdezések gyakoriságát, ami hatással lehet a rendszer teljesítményére. Válassza a lehető legnagyobb értéket! 
+common#:#lso_admin_interval_byline#:#A tanulás előrehaladásának lekérdezése x másodpercekben. Legyen óvatos! Az alacsony érték növeli a szerverlekérdezések gyakoriságát, ami hatással lehet a rendszer teljesítményére. Válassza a lehető legnagyobb értéket!
 common#:#lso_admin_interval_label#:#Tanulási folyamatok lekérdezési időköze (másodpercekben)
 common#:#lso_copy#:#Tanulási sor másolása
 common#:#lso_copy_threads_info#:#Válassza ki, a tanulási sor mely elemeit kívánja másolni, linkelni, illetve kihagyni.
@@ -5791,7 +5788,7 @@ common#:#user_activated#:#A felhasználót sikeresen jóváhagyta
 common#:#user_added#:#Sikeresen létrehozott egy felhasználót.
 common#:#user_assignment#:#Felhasználó-hozzárendelés
 common#:#user_avatar#:#Profilkép
-common#:#user_avatar_of#:#Profilkép - 
+common#:#user_avatar_of#:#Profilkép -
 common#:#user_cant_receive_mail#:#%1$s – a felhasználónak nem engedélyezett a levelezőrendszer használata.
 common#:#user_comment#:#Felhasználói megjegyzés
 common#:#user_deactivated#:#Felhasználót kikapcsolta
@@ -9091,7 +9088,7 @@ exc#:#exc_msg_failed_mandatory#:#Nem sikerült legalább egy kötelező feladat.
 exc#:#exc_msg_min_number_ass#:#Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez.
 exc#:#exc_msg_missed_minimum_number#:#Nem oldotta meg a minimális számú feladatot.
 exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésfájl
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához. 
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.
 exc#:#exc_msg_new_feedback_text_uploaded#:#'%s' beadandó feladathoz új megjegyzés jött létre
 exc#:#exc_msg_new_feedback_text_uploaded2#:#ezúton tájékoztatjuk, hogy egy tutor megjegyzést írt Önnek.
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
@@ -10715,7 +10712,7 @@ mail#:#mail_folder_exists#:#Mappa már létezik ezen a néven.
 mail#:#mail_folder_name_changed#:#A mappát sikeresen átnevezte.
 mail#:#mail_following_rcp_not_valid#:#Az alábbi címzettek érvénytelenek:
 mail#:#mail_generic_rcp_error#:#Hiba a címzettek ellenőrzése közben: %1$s
-mail#:#mail_global_reply_to_addr#:#Válaszcím 
+mail#:#mail_global_reply_to_addr#:#Válaszcím
 mail#:#mail_global_reply_to_addr_info#:#Adja meg a kívánt válaszcímet ('Reply-To') címet.
 mail#:#mail_grp_roles#:#Csoportszerepeknek levélküldés
 mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
@@ -10819,7 +10816,7 @@ mail#:#mail_smtp_status#:#Küldés SMTP-n keresztül
 mail#:#mail_smtp_status_info#:#Ha be van kapcsolva, az ILIAS a PHP függvény (sendmail, mail() függvény) helyett SMTP szerveren keresztül küld külső leveleket.
 mail#:#mail_smtp_user#:#Felhasználó
 mail#:#mail_subject_prefix#:#Levél tárgya
-mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet. 
+mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet.
 mail#:#mail_sure_delete#:#Biztos, hogy törli a megjelölt level(ek)et?
 mail#:#mail_sure_delete_entry#:#Biztos, hogy törli az alábbi névjegy(ek)et?
 mail#:#mail_sure_delete_file#:#Biztos, hogy törli a kiválasztott fájlokat?
@@ -12054,7 +12051,7 @@ obj#:#obj_tool_setting_tag_cloud#:#Címkefelhő
 obj#:#obj_tool_setting_tag_cloud_info#:#'Címkefelhő' blokk megjelenik a 'Tartalom' fül alatt.
 obj#:#obj_tool_setting_taxonomies#:#Taxonómiák
 obj#:#obj_tool_setting_use_news#:#Hírek
-obj#:#obj_tool_setting_use_news_info#:#Hírblokk, illetve idővonal nézet bekapcsolása. Amennyiben aktív, a felhasználók értesítést kérhetnek a módosulásról. 
+obj#:#obj_tool_setting_use_news_info#:#Hírblokk, illetve idővonal nézet bekapcsolása. Amennyiben aktív, a felhasználók értesítést kérhetnek a módosulásról.
 obj#:#obj_tool_setting_use_news_open_settings#:#Beállítások megnyitása
 obj#:#obj_user_decides_notification#:#A tagoknak saját maguknak kell aktiválniuk az értesítéseket
 obj#:#obj_user_not_disable_not#:#A tagok nem kapcsolhatják ki az értesítéseket
@@ -12401,7 +12398,7 @@ prg#:#msg_mark_not_relevant_failed#:#A releváns el nem távolítva:
 prg#:#msg_mark_relevant#:#%s felhasználót sikeresen módosította irrelevánsra
 prg#:#msg_mark_relevant_failed#:#Nem releváns:
 prg#:#msg_points_must_be_positive#:#Csak pozitív szám lehetséges.
-prg#:#msg_unmark_accredited#:#%s felhasználó abszolvált állapotát sikeresen eltávolította 
+prg#:#msg_unmark_accredited#:#%s felhasználó abszolvált állapotát sikeresen eltávolította
 prg#:#msg_unmark_accredited_failed#:#Abszolvált állapot eltávolítása sikertelen:
 prg#:#msg_update_from_settings#:#%s felhasználót sikeresen módosított a beállításokból
 prg#:#msg_update_from_settings_failed#:#A módosítás a beállításokból sikertelen:
@@ -13324,9 +13321,9 @@ rbac#:#mep_read#:#A felhasználónak olvasási elérése van a médiagyűjtemén
 rbac#:#mep_visible#:#A médiagyűjtemény látható
 rbac#:#mep_write#:#A felhasználó szerkeszthet médiagyűjtemény-tartalmat és -beállításokat
 rbac#:#mme_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü jogosultsági beállításait
-rbac#:#mme_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Főmenü beállításaihoz 
+rbac#:#mme_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Főmenü beállításaihoz
 rbac#:#mme_visible#:#A felhasználó láthatja a Rendszerbeállítások » Főmenü menüpontot
-rbac#:#mme_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü beállításait 
+rbac#:#mme_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü beállításait
 rbac#:#mobs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények jogosultsági beállításait
 rbac#:#mobs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények beállításaihoz
 rbac#:#mobs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények menüpontot

@@ -114,7 +114,7 @@ class ilPdfGenerator
         );
         $certificateContent = str_replace(
             '[CLIENT_WEB_DIR]',
-            CLIENT_WEB_DIR,
+            'file://' . CLIENT_WEB_DIR,
             $certificateContent
         );
 

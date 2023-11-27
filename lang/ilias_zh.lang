@@ -622,9 +622,6 @@ assessment#:#cloze_text#:#填充测验文本
 assessment#:#cloze_textgap_case_insensitive#:#不区分大小写
 assessment#:#cloze_textgap_case_sensitive#:#区分大小定
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#代码
 assessment#:#codebase#:#代码库
 assessment#:#concatenation#:#级联

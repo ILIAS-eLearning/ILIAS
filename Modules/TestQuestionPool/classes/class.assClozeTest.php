@@ -584,7 +584,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getClozeTextForHTMLOutput() : string
     {
         $gaps = [];
-        preg_match_all('/\[gap\].*\[\/gap\]/', $this->getClozeText(), $gaps);
+        preg_match_all('/\[gap\].*?\[\/gap\]/', $this->getClozeText(), $gaps);
         $string_with_replaced_gaps = str_replace($gaps[0], '######GAP######', $this->getClozeText());
         $cleaned_text = $this->getHtmlQuestionContentPurifier()->purify(
             $string_with_replaced_gaps
@@ -766,7 +766,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 // only allow notation with "." for real numbers
                 $answer = str_replace(",", ".", $answer);
             }
-            $this->gaps[$gap_index]->addItem(new assAnswerCloze($answer, 0, $order));
+            $this->gaps[$gap_index]->addItem(new assAnswerCloze(trim($answer), 0, $order));
         }
     }
 
@@ -1329,20 +1329,28 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $solutionSubmit = array();
         foreach ($submit as $key => $value) {
+            if ($value === null || is_array($value)) {
+                continue;
+            }
+
+            $trimmed_value = trim($value);
+            if ($trimmed_value === '') {
+                continue;
+            }
+
             if (preg_match("/^gap_(\d+)/", $key, $matches)) {
-                if ($value !== null && $value !== '') {
-                    $gap = $this->getGap($matches[1]);
-                    if (is_object($gap)) {
-                        if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
-                            if ($gap->getType() == CLOZE_NUMERIC && !is_numeric(str_replace(",", ".", $value))) {
-                                $value = null;
-                            } elseif ($gap->getType() == CLOZE_NUMERIC) {
-                                $value = str_replace(",", ".", $value);
-                            }
-                            $solutionSubmit[trim($matches[1])] = $value;
-                        }
-                    }
+                $gap = $this->getGap($matches[1]);
+                if (!is_object($gap)
+                    || $gap->getType() == CLOZE_SELECT && $trimmed_value == -1) {
+                    continue;
                 }
+
+                if ($gap->getType() == CLOZE_NUMERIC && !is_numeric(str_replace(",", ".", $trimmed_value))) {
+                    $trimmed_value = null;
+                } elseif ($gap->getType() == CLOZE_NUMERIC) {
+                    $trimmed_value = str_replace(",", ".", $trimmed_value);
+                }
+                $solutionSubmit[trim($matches[1])] = $trimmed_value;
             }
         }
 
@@ -1401,13 +1409,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
             $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-            foreach ($this->getSolutionSubmit() as $val1 => $val2) {
-                $value = trim($val2);
+            foreach ($this->getSolutionSubmit() as $key => $value) {
                 if ($value !== null && $value !== '') {
-                    $gap = $this->getGap($val1);
+                    $gap = $this->getGap($key);
                     if (is_object($gap)) {
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
-                            $this->saveCurrentSolution($active_id, $pass, $val1, $value, $authorized);
+                            $this->saveCurrentSolution($active_id, $pass, $key, $value, $authorized);
                             $entered_values++;
                         }
                     }

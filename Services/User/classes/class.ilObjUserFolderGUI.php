@@ -184,36 +184,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return true;
     }
 
-    /**
-     * @param string $a_permission
-     */
-    protected function checkAccess($a_permission)
-    {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-
-        if (!$this->checkAccessBool($a_permission)) {
-            $ilErr->raiseError(
-                $this->lng->txt('msg_no_perm_read'),
-                $ilErr->WARNING
-            );
-        }
-    }
-
-    /**
-     * @param string $a_permission
-     * @return bool
-     */
-    protected function checkAccessBool($a_permission)
-    {
-        return $this->access->checkAccess(
-            $a_permission,
-            '',
-            $this->ref_id
-        );
-    }
-
     public function learningProgressObject()
     {
         global $DIC;
@@ -3762,6 +3732,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
+        $ctrl = $DIC['ilCtrl'];
 
         $a_target = USER_FOLDER_ID;
 
@@ -3770,7 +3741,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             "",
             $a_target
         )) {
-            $this->ctrl->redirectToURL("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
+            $ctrl->redirectToURL("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
             exit;
         } else {
             if ($ilAccess->checkAccess(
@@ -3874,7 +3845,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $cmds = [];
         // see searchResultHandler()
         if ($a_search_form) {
-            if ($this->checkAccessBool('write')) {
+            if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
                 $cmds = [
                     'activate' => $this->lng->txt('activate'),
                     'deactivate' => $this->lng->txt('deactivate'),
@@ -3883,12 +3854,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 ];
             }
 
-            if ($this->checkAccessBool('delete')) {
+            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
                 $cmds["delete"] = $this->lng->txt("delete");
             }
         } // show confirmation
         else {
-            if ($this->checkAccessBool('write')) {
+            if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
                 $cmds = [
                     'activateUsers' => $this->lng->txt('activate'),
                     'deactivateUsers' => $this->lng->txt('deactivate'),
@@ -3897,12 +3868,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 ];
             }
 
-            if ($this->checkAccessBool('delete')) {
+            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
                 $cmds["deleteUsers"] = $this->lng->txt("delete");
             }
         }
 
-        if ($this->checkAccessBool('write')) {
+        if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
             $export_types = array("userfolder_export_excel_x86", "userfolder_export_csv", "userfolder_export_xml");
             foreach ($export_types as $type) {
                 $cmd = explode(

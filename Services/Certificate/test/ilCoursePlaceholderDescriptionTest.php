@@ -42,7 +42,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $customUserPlaceholderObject->method('createPlaceholderHtmlDescription')
                                   ->willReturn('');
 
-        $placeholderDescriptionObject = new ilCoursePlaceholderDescription(200,null, $languageMock, $userDefinePlaceholderMock, $customUserPlaceholderObject);
+        $placeholderDescriptionObject = new ilCoursePlaceholderDescription(200, null, $languageMock, $userDefinePlaceholderMock, $customUserPlaceholderObject);
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 

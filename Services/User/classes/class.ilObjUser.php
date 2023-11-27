@@ -4081,7 +4081,7 @@ class ilObjUser extends ilObject
             $body .= $language->txt('time_limit') . ': ' .
                 $language->txt('from') . " " .
                 $start->get(IL_CAL_DATETIME) . " ";
-            $body .= $language->txt('to') . ' ' . $end->get(IL_CAL_DATETIME);
+            $body .= $language->txt('to') . ' ' . $end->get(IL_CAL_DATETIME) . "\n";
         }
 
         include_once './Services/User/classes/class.ilUserDefinedFields.php';

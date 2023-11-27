@@ -625,9 +625,6 @@ assessment#:#cloze_text#:#Đoạn văn điền chỗ trống
 assessment#:#cloze_textgap_case_insensitive#:#Không phân biệt chữ hoa chữ thường
 assessment#:#cloze_textgap_case_sensitive#:#Phân biệt chữ hoa chữ thường
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s///
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#Mã
 assessment#:#codebase#:#Codebase###25 02 2007 new variable
 assessment#:#concatenation#:#Kết hợp

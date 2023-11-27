@@ -103,6 +103,11 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
         $objectHelper->method('lookupObjId')
             ->willReturn(1000);
 
+        $global_certificate_settings = $this->getMockBuilder(ilObjCertificateSettings::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+
         $cloneAction = new ilCertificateCloneAction(
             $database,
             new ilCertificatePathFactory(),
@@ -110,6 +115,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             $fileSystem,
             $logger,
             $objectHelper,
+            $global_certificate_settings,
             'some/web/directory',
             '/certificates/default/background.jpg'
         );

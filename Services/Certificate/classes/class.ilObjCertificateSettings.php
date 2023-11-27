@@ -21,7 +21,9 @@
     +-----------------------------------------------------------------------------+
 */
 
-require_once "./Services/Object/classes/class.ilObject.php";
+use ILIAS\Data\UUID\Factory;
+
+require_once './Services/Object/classes/class.ilObject.php';
 
 /**
 * Class ilObjCertificateSettings
@@ -37,84 +39,149 @@ class ilObjCertificateSettings extends ilObject
     private $cert_logger;
 
     /**
+     * @var Factory
+     */
+    private $uuidFactory;
+
+    /**
+     * @var ilSetting
+     */
+    private $certificateSettings;
+
+    /**
+     * @var ilCertificateTemplateRepository
+     */
+    private $certificateRepo;
+
+    /**
+     * @var ilUserCertificateRepository
+     */
+    private $userCertificateRepo;
+
+    /**
     * Constructor
     * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
+    * @param	int $a_id reference_id or object_id
+    * @param	bool $a_reference treat the id as reference_id (true) or object_id (false)
     */
     public function __construct($a_id = 0, $a_reference = true)
     {
         global $DIC;
 
+        $this->type = 'cert';
         parent::__construct($a_id, $a_reference);
-        $this->type = "cert";
         $this->cert_logger = $DIC->logger()->cert();
+        $this->uuidFactory = new Factory();
+        $this->certificateSettings = new ilSetting('certificate');
+        $this->certificateRepo = new ilCertificateTemplateRepository($DIC->database());
+        $this->userCertificateRepo = new ilUserCertificateRepository($DIC->database());
     }
 
     /**
-    * Uploads a background image for the certificate. Creates a new directory for the
-    * certificate if needed. Removes an existing certificate image if necessary
-    *
-    * @param string $image_tempfilename Name of the temporary uploaded image file
-    * @return integer An errorcode if the image upload fails, 0 otherwise
-    */
-    public function uploadBackgroundImage($image_tempfilename)
+     * Uploads a background image for the certificate. Creates a new directory for the
+     * certificate if needed. Removes an existing certificate image if necessary
+     *
+     * @param string $imageTempFileName Name of the temporary uploaded image file
+     * @return bool True on success otherwise false
+     * @throws ilException
+     * @throws Exception
+     */
+    public function uploadBackgroundImage(string $imageTempFileName) : bool
     {
-        if (!empty($image_tempfilename)) {
-            $convert_filename = ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
-            $imagepath = $this->getBackgroundImageDefaultFolder();
-            if (!file_exists($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+        if (!empty($imageTempFileName)) {
+            $imagePath = $this->getBackgroundImageDefaultFolder();
+            $newImageFileName = "background_{$this->uuidFactory->uuid4AsString()}.jpg";
+            $newImagePath = $imagePath . $newImageFileName;
+
+            if (!file_exists($imagePath)) {
+                ilUtil::makeDirParents($imagePath);
             }
             // upload the file
             if (!ilUtil::moveUploadedFile(
-                $image_tempfilename,
-                basename($this->getDefaultBackgroundImageTempfilePath()),
-                $this->getDefaultBackgroundImageTempfilePath()
+                $imageTempFileName,
+                basename($this->getDefaultBackgroundImageTempFilePath()),
+                $this->getDefaultBackgroundImageTempFilePath()
             )) {
                 $this->cert_logger->error(sprintf(
                     "Could not upload certificate background image from '%s' to temporary file '%s' (name: '%s')",
-                    $image_tempfilename,
-                    $this->getDefaultBackgroundImageTempfilePath(),
-                    basename($this->getDefaultBackgroundImageTempfilePath())
+                    $imageTempFileName,
+                    $this->getDefaultBackgroundImageTempFilePath(),
+                    basename($this->getDefaultBackgroundImageTempFilePath())
                 ));
                 return false;
             }
 
             // convert the uploaded file to JPEG
-            ilUtil::convertImage($this->getDefaultBackgroundImageTempfilePath(), $this->getDefaultBackgroundImagePath(), "JPEG");
-            ilUtil::convertImage($this->getDefaultBackgroundImageTempfilePath(), $this->getDefaultBackgroundImageThumbPath(), "JPEG", 100);
+            ilUtil::convertImage(
+                $this->getDefaultBackgroundImageTempFilePath(),
+                $newImagePath,
+                'JPEG'
+            );
+            ilUtil::convertImage(
+                $this->getDefaultBackgroundImageTempFilePath(),
+                $newImagePath . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING,
+                'JPEG',
+                100
+            );
 
-            if (!is_file($this->getDefaultBackgroundImagePath())) {
+            if (!is_file($newImagePath) || !file_exists($newImagePath)) {
                 // Something went wrong converting the file. Use the original file and hope, that PDF can work with it.
                 $this->cert_logger->error(sprintf(
                     "Could not convert certificate background image from '%s' as JPEG to '%s', trying fallbacj ...",
-                    $this->getDefaultBackgroundImageTempfilePath(),
-                    $this->getDefaultBackgroundImagePath()
+                    $this->getDefaultBackgroundImageTempFilePath(),
+                    $newImagePath
                 ));
-                if (!ilUtil::moveUploadedFile(
-                    $this->getDefaultBackgroundImageTempfilePath(),
-                    $convert_filename,
-                    $this->getDefaultBackgroundImagePath()
+                if (!rename(
+                    $this->getDefaultBackgroundImageTempFilePath(),
+                    $newImagePath
                 )) {
                     $this->cert_logger->error(sprintf(
                         "Could not upload certificate background image from '%s' to final file '%s' (name: '%s')",
-                        $this->getDefaultBackgroundImageTempfilePath(),
-                        $this->getDefaultBackgroundImagePath(),
-                        $convert_filename
+                        $this->getDefaultBackgroundImageTempFilePath(),
+                        $newImagePath,
+                        $newImageFileName
                     ));
                     return false;
                 }
             }
 
-            unlink($this->getDefaultBackgroundImageTempfilePath());
-            if (file_exists($this->getDefaultBackgroundImagePath()) && (filesize($this->getDefaultBackgroundImagePath()) > 0)) {
+            if (
+                is_file($this->getDefaultBackgroundImageTempFilePath())
+                && file_exists($this->getDefaultBackgroundImageTempFilePath())
+            ) {
+                unlink($this->getDefaultBackgroundImageTempFilePath());
+            }
+
+            if (file_exists($newImagePath) && (filesize($newImagePath) > 0)) {
+                $oldPath = $this->getDefaultBackgroundImagePath();
+                $oldPathThumb = $this->getDefaultBackgroundImageThumbPath();
+
+                $oldRelativePath = $this->getDefaultBackgroundImagePath(true);
+                $this->certificateSettings->set('defaultImageFileName', $newImageFileName);
+                $newRelativePath = $this->getDefaultBackgroundImagePath(true);
+
+                $this->certificateRepo->updateDefaultBackgroundImagePaths($oldRelativePath, $newRelativePath);
+
+                if (
+                    !$this->certificateRepo->isBackgroundImageUsed($oldRelativePath)
+                    && !$this->userCertificateRepo->isBackgroundImageUsed($oldRelativePath)
+                ) {
+                    if (is_file($oldPath) && file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+
+                    if (is_file($oldPathThumb) && file_exists($oldPathThumb)) {
+                        unlink($oldPathThumb);
+                    }
+                }
+
+
                 return true;
             }
 
             $this->cert_logger->error(sprintf(
                 "Final background image '%s' does not exist or is empty",
-                $this->getDefaultBackgroundImagePath()
+                $newImagePath
             ));
         }
 
@@ -124,26 +191,39 @@ class ilObjCertificateSettings extends ilObject
     /**
     * Deletes the background image of a certificate
     *
-    * @return boolean TRUE if the process succeeds
+    * @return bool TRUE if the process succeeds
     */
-    public function deleteBackgroundImage()
+    public function deleteBackgroundImage() : bool
     {
         $result = true;
-        if (file_exists($this->getDefaultBackgroundImageThumbPath())) {
-            $result = $result & unlink($this->getDefaultBackgroundImageThumbPath());
+
+
+        if (
+            $this->certificateSettings->get('defaultImageFileName', '')
+            && !$this->certificateRepo->isBackgroundImageUsed($this->getDefaultBackgroundImagePath(true))
+            && !$this->userCertificateRepo->isBackgroundImageUsed($this->getDefaultBackgroundImagePath(true))
+        ) {
+            //No certificates exist using the currently configured file, deleting file possible.
+
+            if (is_file($this->getDefaultBackgroundImageThumbPath())) {
+                $result &= unlink($this->getDefaultBackgroundImageThumbPath());
+            }
+            if (is_file($this->getDefaultBackgroundImagePath())) {
+                $result &= unlink($this->getDefaultBackgroundImagePath());
+            }
+            if (is_file($this->getDefaultBackgroundImageTempFilePath())) {
+                $result &= unlink($this->getDefaultBackgroundImageTempFilePath());
+            }
         }
-        if (file_exists($this->getDefaultBackgroundImagePath())) {
-            $result = $result & unlink($this->getDefaultBackgroundImagePath());
-        }
-        if (file_exists($this->getDefaultBackgroundImageTempfilePath())) {
-            $result = $result & unlink($this->getDefaultBackgroundImageTempfilePath());
-        }
+
+        $this->certificateSettings->set('defaultImageFileName', '');
+
         return $result;
     }
 
-    private function getBackgroundImageDefaultFolder()
+    public function getBackgroundImageDefaultFolder(bool $relativePath = false) : string
     {
-        return CLIENT_WEB_DIR . "/certificates/default/";
+        return ($relativePath ? '' : CLIENT_WEB_DIR) . '/certificates/default/';
     }
 
     /**
@@ -151,9 +231,10 @@ class ilObjCertificateSettings extends ilObject
      *
      * @return string The filesystem path of the background image
      */
-    private function getDefaultBackgroundImagePath()
+    public function getDefaultBackgroundImagePath(bool $relativePath = false) : string
     {
-        return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
+        return $this->getBackgroundImageDefaultFolder($relativePath)
+            . $this->certificateSettings->get('defaultImageFileName', '');
     }
 
     /**
@@ -161,9 +242,9 @@ class ilObjCertificateSettings extends ilObject
      *
      * @return string The filesystem path of the background image thumbnail
      */
-    private function getDefaultBackgroundImageThumbPath()
+    public function getDefaultBackgroundImageThumbPath(bool $relativePath = false) : string
     {
-        return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING;
+        return $this->getDefaultBackgroundImagePath($relativePath) . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
 
     /**
@@ -171,7 +252,7 @@ class ilObjCertificateSettings extends ilObject
      *
      * @return string The filesystem path of the background image temp file
      */
-    private function getDefaultBackgroundImageTempfilePath()
+    private function getDefaultBackgroundImageTempFilePath() : string
     {
         return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME;
     }
@@ -182,11 +263,7 @@ class ilObjCertificateSettings extends ilObject
     public function hasBackgroundImage() : bool
     {
         $filePath = $this->getDefaultBackgroundImagePath();
-        if (file_exists($filePath) && filesize($filePath) > 0) {
-            return true;
-        }
-
-        return false;
+        return is_file($filePath) && filesize($filePath) > 0;
     }
 
     /**

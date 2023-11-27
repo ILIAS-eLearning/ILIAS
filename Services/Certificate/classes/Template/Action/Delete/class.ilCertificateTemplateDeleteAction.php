@@ -91,30 +91,5 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         );
 
         $this->templateRepository->save($certificateTemplate);
-
-        $this->overwriteBackgroundImageThumbnail($certificateTemplate);
-    }
-
-    /**
-     * @param $previousTemplate
-     */
-    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate)
-    {
-        $relativePath = $previousTemplate->getBackgroundImagePath();
-
-        if (null === $relativePath || '' === $relativePath) {
-            $relativePath = '/certificates/default/background.jpg';
-        }
-
-        $pathInfo = pathinfo($relativePath);
-
-        $newFilePath = $pathInfo['dirname'] . '/background.jpg.thumb.jpg';
-
-        $this->utilHelper->convertImage(
-            $this->rootDirectory . $relativePath,
-            $this->rootDirectory . $newFilePath,
-            'JPEG',
-            100
-        );
     }
 }

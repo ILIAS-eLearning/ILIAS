@@ -384,7 +384,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         include_once("./Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php");
         $width_height = new ilWidthHeightInputGUI($lng->txt("cont_width") .
                 " / " . $lng->txt("cont_height"), "standard_width_height");
-        $width_height->setConstrainProportions(true);
+        if ($a_mode == "edit" && is_int(strpos($std_item->getFormat(), "image"))
+            && $std_item->getLocationType() == "LocalFile") {
+            $width_height->setSupportConstraintsProps(true);
+            $width_height->setConstrainProportions(true);
+        }
         $op2->addSubItem($width_height);
             
         // resize image
@@ -486,11 +490,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
         
         // fullscreen size
+        $full_support_constraint_props = false;
         $radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "full_size");
         if ($a_mode == "edit") {
             $add_str = "";
             if ($this->object->hasFullscreenItem() && ($orig_size = $full_item->getOriginalSize())) {
                 $add_str = " (" . $orig_size["width"] . " x " . $orig_size["height"] . ")";
+
+                if (is_int(strpos($full_item->getFormat(), "image"))
+                    && $full_item->getLocationType() == "LocalFile") {
+                    $full_support_constraint_props = true;
+                }
             }
             $op1 = new ilRadioOption($lng->txt("cont_resource_size") . $add_str, "original");
             $op1->setInfo($lng->txt("cont_resource_size_info"));
@@ -505,7 +515,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         // width/height
         $width_height = new ilWidthHeightInputGUI($lng->txt("cont_width") .
                 " / " . $lng->txt("cont_height"), "full_width_height");
-        $width_height->setConstrainProportions(true);
+        if ($full_support_constraint_props) {
+            $width_height->setSupportConstraintsProps(true);
+            $width_height->setConstrainProportions(true);
+        }
         $op2->addSubItem($width_height);
             
         // resize image

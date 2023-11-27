@@ -637,9 +637,6 @@ assessment#:#cloze_text#:#Testo corrispondente
 assessment#:#cloze_textgap_case_insensitive#:#No Maiuscole/minuscole
 assessment#:#cloze_textgap_case_sensitive#:#Maiuscole/minuscole
 assessment#:#cloze_textgap_levenshtein_of#:#Distanza di Levenshtein del %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Diversi spazi vuoti
-assessment#:#cloze_textgap_whitespace_after#:#Spazio vuoto dopo il valore
-assessment#:#cloze_textgap_whitespace_before#:#Spazio vuoto prima del valore
 assessment#:#code#:#Codice
 assessment#:#codebase#:#Base dei codici
 assessment#:#concatenation#:#Concatenazione

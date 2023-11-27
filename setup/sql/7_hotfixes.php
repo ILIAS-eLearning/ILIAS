@@ -1815,6 +1815,22 @@ if ($ilDB->tableExists('adv_md_values_text') &&
 ?>
 <#107>
 <?php
+if (
+    $this->db->tableExists('il_cert_template')
+    && !$this->db->indexExistsByFields('il_cert_template', ['background_image_path', 'currently_active'])
+) {
+    $this->db->addIndex('il_cert_template', ['background_image_path', 'currently_active'], 'i5');
+}
+
+if (
+    $this->db->tableExists('il_cert_user_cert')
+    && !$this->db->indexExistsByFields('il_cert_user_cert', ['background_image_path', 'currently_active'])
+) {
+    $this->db->addIndex('il_cert_user_cert', ['background_image_path', 'currently_active'], 'i7');
+}
+?>
+<#108>
+<?php
     if (!$this->db->indexExistsByFields('loc_settings', ['itest'])) {
         $this->db->addIndex('loc_settings', ['itest'], 'i1');
     }

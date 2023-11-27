@@ -630,6 +630,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and use the dropdown ‘Text Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value, the gap text field will be created with the value of the global fixed length.
@@ -637,9 +638,6 @@ assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
 assessment#:#cloze_textgap_case_sensitive#:#Case Sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
@@ -4292,7 +4290,7 @@ common#:#icon_settings#:#Custom Icons
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to use file name as title.
-common#:#ignore_on_conflict#:#Ignore on conflict
+common#:#ignore_on_conflict#:#Insert/Update action will be followed strictly
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
 common#:#il_astpl_loc_initial#:#Initial Test
@@ -5769,7 +5767,7 @@ common#:#up#:#Up
 common#:#update#:#Edit
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
-common#:#update_on_conflict#:#Update on conflict
+common#:#update_on_conflict#:#Insert/Update action will be detected automatically
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#upload#:#Upload
@@ -5858,7 +5856,7 @@ common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
 common#:#usrimport_cant_delete#:#Can't perform ‘Delete’ action. No such user in database.
 common#:#usrimport_cant_insert#:#Can't perform ‘Insert’ action. User is already in database.
 common#:#usrimport_cant_update#:#Can't perform ‘Update’ action. No such user in database.
-common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there is already a user with the same login in the database.) When ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
+common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there already is a user with the same login in the database.) When ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
 common#:#usrimport_form_not_evaluabe#:#The form data couldn't be read.
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
@@ -8207,6 +8205,7 @@ dateplaner#:#cal_grp_others#:#Others
 dateplaner#:#cal_grp_personal#:#Personal
 dateplaner#:#cal_ical_infoscreen#:#Subscribe
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar
 dateplaner#:#cal_import_appointments#:#Import Appointments
 dateplaner#:#cal_import_file#:#Import File
 dateplaner#:#cal_import_file_info#:#Choose the file, that contains your calendar appointments.

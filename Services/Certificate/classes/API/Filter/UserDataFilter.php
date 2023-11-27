@@ -95,7 +95,7 @@ class UserDataFilter
     /**
      * @param int[] $orgUnitIds
      */
-    private function ensureValidUniqueOrgUnitIds(array $orgUnitIds): void
+    private function ensureValidUniqueOrgUnitIds(array $orgUnitIds) : void
     {
         array_walk($orgUnitIds, function (int $orgUnitId) {
             // Do nothing, use this for type safety of array values
@@ -166,7 +166,7 @@ class UserDataFilter
      * @param string|null $userIdentification
      * @return $this
      */
-    public function withUserIdentification(?string $userIdentification): self
+    public function withUserIdentification(?string $userIdentification) : self
     {
         $clone = clone $this;
         $clone->userIdentification = $userIdentification;
@@ -273,7 +273,7 @@ class UserDataFilter
      *
      * @return $this
      */
-    public function withOrgUnitIds(array $orgUnitIds): self
+    public function withOrgUnitIds(array $orgUnitIds) : self
     {
         $this->ensureValidUniqueOrgUnitIds($orgUnitIds);
 
@@ -288,7 +288,7 @@ class UserDataFilter
      *
      * @return $this
      */
-    public function withAdditionalOrgUnitIds(array $orgUnitIds): self
+    public function withAdditionalOrgUnitIds(array $orgUnitIds) : self
     {
         $this->ensureValidUniqueOrgUnitIds($orgUnitIds);
 
@@ -365,7 +365,7 @@ class UserDataFilter
     /**
      * @return string
      */
-    public function getUserIdentification(): ?string
+    public function getUserIdentification() : ?string
     {
         return $this->userIdentification;
     }
@@ -389,7 +389,7 @@ class UserDataFilter
     /**
      * @return int[]
      */
-    public function getOrgUnitIds(): array
+    public function getOrgUnitIds() : array
     {
         return $this->orgUnitIds;
     }
@@ -464,7 +464,7 @@ class UserDataFilter
      *
      * @return $this
      */
-    public function withSortedEmails(int $direction = self::SORT_DIRECTION_ASC): self
+    public function withSortedEmails(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
         $clone->sorts[] = [self::SORT_FIELD_USR_EMAIL, $direction];

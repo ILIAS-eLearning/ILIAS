@@ -501,7 +501,7 @@ assessment#:#answers_singleline#:#Odgovori s jednim retkom
 assessment#:#answers_text_box#:#Polje za tekst
 assessment#:#applet_attributes#:#Applet atributi
 assessment#:#applet_parameter#:#Parametar
-assessment#:#applet_parameters#:#Parametri Appleta 
+assessment#:#applet_parameters#:#Parametri Appleta
 assessment#:#apply#:#Preuzmi
 assessment#:#apply_def_settings_to_tst#:#Preuzimi postavke za test
 assessment#:#assClozeTest#:#Pitanje s prazninom u tekstu
@@ -623,9 +623,6 @@ assessment#:#cloze_text#:#Pitanje s prazninom u tekstu
 assessment#:#cloze_textgap_case_insensitive#:#Neosjetljivo na velika i mala slova
 assessment#:#cloze_textgap_case_sensitive#:#Osjetljivo na velika i mala slova
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein razmak od%s
-assessment#:#cloze_textgap_multiple_whitespace#:#Višestruki razmaci
-assessment#:#cloze_textgap_whitespace_after#:#Razmak iza vrijednosti
-assessment#:#cloze_textgap_whitespace_before#:#Razmak ispred vrijednosti
 assessment#:#code#:#Kod
 assessment#:#codebase#:#Kodna osnova
 assessment#:#concatenation#:#Povezivanje
@@ -1072,7 +1069,7 @@ assessment#:#qpl_qst_skl_selection_for_question_header#:#Dodjela kompetencija za
 assessment#:#qpl_qst_skl_usg_numq_col#:#Broj pitanja u cjelokupnom bazenu koji se odnose na tu kompetenciju
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetencija
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Ukupan broj kompetencijskih bodova po kompetenciji
-assessment#:#qpl_question_is_in_use#:#Pitanje koje želite urediti postoji već u u %s testova. Ako promijenite ovo pitanje, to NEĆE imati nikakav utjecaj na pitanja koja su već sadržana u testovima, jer sustav automatski izrađuje kopiju pitanja kada se umetne u test! 
+assessment#:#qpl_question_is_in_use#:#Pitanje koje želite urediti postoji već u u %s testova. Ako promijenite ovo pitanje, to NEĆE imati nikakav utjecaj na pitanja koja su već sadržana u testovima, jer sustav automatski izrađuje kopiju pitanja kada se umetne u test!
 assessment#:#qpl_questions_deleted#:#Pitanje(a) izbrisano(a).
 assessment#:#qpl_reset_preview#:#Resetiraj pregled
 assessment#:#qpl_save_skill_assigns_update#:#Spremi dodjelu kompetencija
@@ -1257,7 +1254,7 @@ assessment#:#test_question_pool_usage#:#Koristi bazen pitanja
 assessment#:#test_question_pool_usage_optional#:#Dodatni pitanja iz bazena pitanja ili sastaviti izravno u testu
 assessment#:#test_question_pool_usage_optional_info#:#Možete koristiti postojeća pitanja iz bazena pitanja ili sastaviti nova pitanja izravno u testu. Također, nova pitanja možete spremiti i u bazen pitanja kako bi se mogla koristiti ponovno.
 assessment#:#test_question_pool_usage_tst_directly#:#Pitanja su sastavljena izravno u testu
-assessment#:#test_question_pool_usage_tst_directly_info#:#Sastavljate pitanja izravno u testu tako da ne možete dodati postojeća pitanja iz bazena pitanja. No, nova pitanja iz ovoga testa kasnije možete spremiti u bazen pitanja. 
+assessment#:#test_question_pool_usage_tst_directly_info#:#Sastavljate pitanja izravno u testu tako da ne možete dodati postojeća pitanja iz bazena pitanja. No, nova pitanja iz ovoga testa kasnije možete spremiti u bazen pitanja.
 assessment#:#test_results#:#Objava rezultata testa
 assessment#:#test_scoring#:#Ocjenjivanje testa
 assessment#:#test_template_reset#:#Predložak je uklonjen.
@@ -3420,7 +3417,7 @@ common#:#accessibility_control_concept#:#Accessibility Control Concept###04 06 2
 common#:#account#:#My Account###04 06 2021 new variable
 common#:#account_expires_body#:#Vaš račun je vremenski ograničen, istječe u:
 common#:#account_expires_subject#:#Vaš račun istječe
-common#:#action#:#Akcija  
+common#:#action#:#Akcija
 common#:#action_aborted#:#Akcija je prekinuta
 common#:#actions#:#Akcije
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
@@ -3463,7 +3460,7 @@ common#:#adve_frm_post_settings#:#Objave na forumima
 common#:#adve_general_settings#:#Opće postavke
 common#:#adve_survey_settings#:#Postavke ankete
 common#:#agree_date#:#Suglasio se dana
-common#:#all#:#Svi  
+common#:#all#:#Svi
 common#:#all_global_roles#:#Globalne uloge
 common#:#all_local_roles#:#Lokalne uloge (sve)
 common#:#all_objects#:#Svi objekti
@@ -3548,7 +3545,7 @@ common#:#auth_mode#:#Način provjere autentičnosti
 common#:#auth_mode_not_changed#:#(Ništa se nije promijenilo)
 common#:#auth_mode_roles_changed#:#Promijenjen način provjere autentičnosti za ovu ulogu
 common#:#auth_new_account_mail_desc#:#Pošalji e-poštu novog računa korisniku ako se korisnik automatski generira. Lozinka će se generirati samo ako je aktivirana i opcija 'Dopusti lokalnu provjeru autentičnosti'.
-common#:#auth_per_default#:#Prema zadanoj vrijednosti  
+common#:#auth_per_default#:#Prema zadanoj vrijednosti
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Konfiguriraj RADIUS-autentifikaciju
 common#:#auth_radius_enable#:#Omogući RADIUS podršku
@@ -3584,7 +3581,7 @@ common#:#auth_soap_use_https#:#Koristi HTTPS
 common#:#auth_soap_user_default_role_desc#:#Ova je uloga dodijeljena automatski stvorenim SOAP korisnicima.
 common#:#auth_user_default_role#:#Zadana uloga
 common#:#authenticate_ilias#:#Izvorna autentifikacija ILIAS-a
-common#:#authentication_settings#:#Autentifikacija  
+common#:#authentication_settings#:#Autentifikacija
 common#:#author#:#Autor
 common#:#authoring_mode#:#Način rada za autore
 common#:#authors#:#Autori
@@ -3623,7 +3620,7 @@ common#:#bookmarks_of#:#Oznake za
 common#:#breadcrumb_navigation#:#Breadcrumb navigacija
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###04 06 2021 new variable
 common#:#briefcase#:#Background Tasks###04 06 2021 new variable
-common#:#btn_add#:#Dodaj 
+common#:#btn_add#:#Dodaj
 common#:#btn_back#:#Natrag
 common#:#btn_next#:#Nastavi
 common#:#btn_previous#:#Natrag
@@ -3632,7 +3629,7 @@ common#:#btn_undelete#:#Vrati
 common#:#buddy_allow_to_contact_me_no#:#Ne prima zahtjeve za kontakt
 common#:#buddy_allow_to_contact_me_yes#:#Prima zahtjeve za kontakt
 common#:#building_export_file#:#Izrada datoteke za izvoz ...
-common#:#by#:#Od 
+common#:#by#:#Od
 common#:#bytes#:#Bajtovi
 common#:#cal_from#:#Od:
 common#:#cal_until#:#Do:
@@ -3659,7 +3656,7 @@ common#:#catr_new#:#Izradite novu poveznicu kategorije
 common#:#certificate#:#Certifikat
 common#:#certificate_file_already_exists_error#:#Datoteka certifikata već postoji u datotečnom sustavu.
 common#:#certificate_file_input_output_error#:#Datoteka certifikata je pronađena, ali se zbog internih pogrešaka ne može izbrisati. Molimo kontaktirajte svog administratora.
-common#:#certificate_file_not_found_error#:#Datoteka certifikata više ne postoji u datotečnom sustavu. 
+common#:#certificate_file_not_found_error#:#Datoteka certifikata više ne postoji u datotečnom sustavu.
 common#:#certificate_persistent_option#:#Certifikati o postignućima
 common#:#certificate_selection#:#Porijeklo certifikata
 common#:#certificate_workspace_option#:#Certifikati o radnom prostoru
@@ -3679,7 +3676,7 @@ common#:#chat_enter_public_room_tooltip#:#Uđite u javnu sobu za razgovor.
 common#:#chat_invite_public_room#:#Javna soba za razgovor
 common#:#chat_invite_public_room_tooltip#:#Pozovite u javnu sobu za razgovor.
 common#:#chat_users_active#:#Aktivni korisnici
-common#:#check#:#Provjeri 
+common#:#check#:#Provjeri
 common#:#check_all#:#Provjeri sve
 common#:#check_langfile#:#Molimo provjerite svoju jezičnu datoteku
 common#:#check_languages#:#Provjeri sve jezike
@@ -3721,7 +3718,7 @@ common#:#clientlist_start_page#:#Početna stranica
 common#:#clipboard#:#Međuspremnik
 common#:#close#:#Zatvori
 common#:#cnt_new#:#(%s novo)
-common#:#collapse#:#Sažmi  
+common#:#collapse#:#Sažmi
 common#:#collapse_all#:#Sažmi sve
 common#:#collapse_content#:#Collapse Content###04 06 2021 new variable
 common#:#collapsed#:#Sažeto
@@ -3769,7 +3766,7 @@ common#:#copyChapter#:#Kopiraj
 common#:#copyPage#:#Kopiraj
 common#:#copy_all#:#Kopiraj sve
 common#:#copy_n_of_suffix#:#- Kopija (%1$s)
-common#:#copy_of#:#Kopija 
+common#:#copy_of#:#Kopija
 common#:#copy_of_suffix#:#=- kopija
 common#:#copy_selected_items#:#Kopiraj
 common#:#count#:#Količina
@@ -3778,7 +3775,7 @@ common#:#country_free_text#:#Država (unos slobodnog teksta)
 common#:#country_selection#:#Država (padajući izbor)
 common#:#course#:#Tečaj
 common#:#courses#:#Tečajevi
-common#:#create#:#Izradi 
+common#:#create#:#Izradi
 common#:#create_date#:#Izrađeno dana
 common#:#create_export_file#:#Kreiraj datoteku za izvoz
 common#:#create_stylesheet#:#Kreiraj stil
@@ -3839,7 +3836,7 @@ common#:#currently_used_disk_space#:#Trenutačno korišten prostor na disku
 common#:#cut#:#Izreži
 common#:#cutPage#:#Izreži
 common#:#daily#:#dnevno
-common#:#database#:#Baza podataka  
+common#:#database#:#Baza podataka
 common#:#database_version#:#Trenutačna verzija baze podataka
 common#:#dataset#:#Stavka
 common#:#date#:#Datum
@@ -4275,7 +4272,7 @@ common#:#iass_import#:#Uvezi pojedinačnu procjenu
 common#:#iass_new#:#Izradi individualnu procjenu
 common#:#icon#:#Ikona
 common#:#icon_settings#:#Prilagođene ikone
-common#:#id#:#ID 
+common#:#id#:#ID
 common#:#identifier#:#Identifikator
 common#:#if_no_title_then_filename#:#Ostavite prazno kako biste kao naslov koristili naziv datoteke.
 common#:#ignore_on_conflict#:#Zanemari u slučaju sukoba
@@ -4330,7 +4327,7 @@ common#:#in_use#:#Korisnički jezik
 common#:#in_use_by#:#U upotrebi od strane
 common#:#inactive#:#Neaktivan
 common#:#inbox#:#Pristigla pošta
-common#:#include_local#:#prilikom ažuriranja jezika uključi datoteku prilagođenog jezika 
+common#:#include_local#:#prilikom ažuriranja jezika uključi datoteku prilagođenog jezika
 common#:#info#:#Informacija
 common#:#info_access_and_status_info#:#Informacije o pristupu i statusu
 common#:#info_access_permissions#:#Dopuštenja za pristup
@@ -4439,7 +4436,7 @@ common#:#leave_waiting_list#:#Odjavi se s liste čekanja
 common#:#legend#:#Legenda
 common#:#level#:#Razina
 common#:#like#:#Sviđa mi se
-common#:#link#:#Poveži  
+common#:#link#:#Poveži
 common#:#link_all#:#Poveži sve
 common#:#link_check#:#Provjera web poveznice
 common#:#link_check_message_b#:#Ako je omogućeno, o nevažećim poveznicama bit ćete obaviješteni poštom.
@@ -4637,27 +4634,27 @@ common#:#month#:#Mjesec
 common#:#month_01_long#:#Siječanj
 common#:#month_01_short#:#Sij
 common#:#month_02_long#:#Veljača
-common#:#month_02_short#:#Velj 
+common#:#month_02_short#:#Velj
 common#:#month_03_long#:#Ožujak
 common#:#month_03_short#:#Ož
 common#:#month_04_long#:#Travanj
-common#:#month_04_short#:#Tr 
+common#:#month_04_short#:#Tr
 common#:#month_05_long#:#Svibanj
-common#:#month_05_short#:#Svi 
+common#:#month_05_short#:#Svi
 common#:#month_06_long#:#Lipanj
-common#:#month_06_short#:#Lip 
+common#:#month_06_short#:#Lip
 common#:#month_07_long#:#Srpanj
-common#:#month_07_short#:#Srp 
+common#:#month_07_short#:#Srp
 common#:#month_08_long#:#Kolovoz
-common#:#month_08_short#:#Kol 
+common#:#month_08_short#:#Kol
 common#:#month_09_long#:#Rujan
-common#:#month_09_short#:#Ruj 
+common#:#month_09_short#:#Ruj
 common#:#month_10_long#:#Listopad
-common#:#month_10_short#:#Lis 
+common#:#month_10_short#:#Lis
 common#:#month_11_long#:#Studeni
 common#:#month_11_short#:#Stu
 common#:#month_12_long#:#Prosinac
-common#:#month_12_short#:#Pro 
+common#:#month_12_short#:#Pro
 common#:#monthly#:#mjesečno
 common#:#months#:#Mjeseci
 common#:#mount_webfolder#:#Otvori kao web mapu
@@ -5171,7 +5168,7 @@ common#:#parameter#:#Parametar
 common#:#parse#:#Raščlani
 common#:#participate#:#Pretplati se
 common#:#passed#:#Prošao
-common#:#passwd#:#Lozinka  
+common#:#passwd#:#Lozinka
 common#:#passwd_generation#:#Generiranje lozinke
 common#:#passwd_invalid#:#Nova lozinka je nevaljana! Lozinka smije sadržavati samo sljedeće znakove (najmanje 6 znakova): A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_not_match#:#Vaši unosi za novu lozinku se ne podudaraju! unesite novu lozinku ponovno.
@@ -5209,7 +5206,7 @@ common#:#pdfg_edit_permission#:#Korisnik može promijeniti postavke prava
 common#:#pdfg_read#:#Korisnik ima pristup s pravom čitanja kod generiranja PDF-a
 common#:#pdfg_visible#:#Generiranje PDF-a je vidljivo
 common#:#pdfg_write#:#Korisnik može uređivati postavke za generiranje PDF-a
-common#:#perm_settings#:#Prava  
+common#:#perm_settings#:#Prava
 common#:#perma_link#:#Trajna poveznica
 common#:#permission#:#Dozvola
 common#:#permission_denied#:#Dozvola odbijena
@@ -5351,7 +5348,7 @@ common#:#related_to#:#Odnosi se na
 common#:#remove#:#Ukloni
 common#:#remove_entries#:#Ukloni unose
 common#:#remove_translation#:#Ukloni prijevod
-common#:#rename#:#Preimenuj  
+common#:#rename#:#Preimenuj
 common#:#rename_file#:#Preimenuj datoteku
 common#:#renderer_supported_file_types#:#Podržane vrste datoteka
 common#:#renderer_supported_repo_types#:#Podržani ILIAS objekti
@@ -5376,7 +5373,7 @@ common#:#require_referral_comment#:#Obvezni unos komentara informacije
 common#:#required_field#:#Obvezno polje
 common#:#res_links#:#Poveznice u repozitoriju
 common#:#res_links_short#:#Poveznice
-common#:#reset#:#Poništi  
+common#:#reset#:#Poništi
 common#:#reset_filter#:#Poništi filtar
 common#:#resources#:#Resursi
 common#:#right#:#Pravo
@@ -5420,7 +5417,7 @@ common#:#rpc_pdf_font_info#:#Dodatni fontovi za generiranje PDF datoteka. Na ILI
 common#:#rpc_pdf_generation#:#Generiranje PDF-a
 common#:#sad#:#Tužan
 common#:#sahs#:#Modul za učenje SCORM
-common#:#sahs_added#:#Dodan je modul za učenje SCORM 
+common#:#sahs_added#:#Dodan je modul za učenje SCORM
 common#:#sahs_export_file#:#ILIAS je izvezao arhivsku datoteku SCORM-a
 common#:#sahs_insert_chap_from_clip#:#Zalijepi poglavlja iz međuspremnika
 common#:#sahs_insert_page_from_clip#:#Zalijepi stranice iz međuspremnika
@@ -5483,12 +5480,12 @@ common#:#select_object_to_link#:#Odaberite objekt koji želite povezati
 common#:#select_one#:#Odaberi barem jedan.
 common#:#select_question_pool_info#:#Sve dok datoteka za uvoz sadrži pitanja, ta će se pitanja uvoziti i u odabrani bazen pitanja.
 common#:#select_questionpool#:#Umetni pitanja u
-common#:#selected#:#Odabrane  
+common#:#selected#:#Odabrane
 common#:#selected_files#:#Odabrane datoteke
 common#:#selected_items#:#Osobne stavke
 common#:#selected_items_back#:#Povratak na osobne stavke
 common#:#selected_languages_updated#:#Odabrani jezici su ažurirani (ako su instalirani):
-common#:#send#:#Pošalji  
+common#:#send#:#Pošalji
 common#:#send_mail#:#Pošalji poruku
 common#:#sender#:#Pošiljatelj
 common#:#sent#:#Poslano
@@ -5644,7 +5641,7 @@ common#:#summary#:#Sažetak
 common#:#sure_delete_selected_users#:#Jeste li sigurni da želite izbrisati odabrane korisnike?
 common#:#survey_defaults#:#Zadane postavke za ankete
 common#:#survey_unlimited_invitation#:#Neograničena pozivnica
-common#:#svy#:#Anketa  
+common#:#svy#:#Anketa
 common#:#svy_add#:#Dodaj anketu
 common#:#svy_finished#:#Već ste ispunili ste anketu
 common#:#svy_new#:#Nova anketa
@@ -5686,7 +5683,7 @@ common#:#time_limit_not_valid#:#Razdoblje nije važeće.
 common#:#time_limit_reached#:#Vaš korisnički račun nije aktivan.
 common#:#time_limit_unlimited#:#Neograničeno (vremensko ograničenje)
 common#:#time_limit_until#:#Do (vremensko ograničenje)
-common#:#title#:#Naslov  
+common#:#title#:#Naslov
 common#:#title_required#:#Unesi naslov.
 common#:#to#:#Do
 common#:#to_client_list#:#Odabir mandanta
@@ -6179,8 +6176,8 @@ content#:#cont_chapters_only#:#Samo poglavlja
 content#:#cont_char_format#:#Znak
 content#:#cont_char_style_acc#:#Naglašeno
 content#:#cont_char_style_code#:#Kod
-content#:#cont_char_style_com#:#Komentar 
-content#:#cont_char_style_quot#:#Citat 
+content#:#cont_char_style_com#:#Komentar
+content#:#cont_char_style_quot#:#Citat
 content#:#cont_characteristic#:#Format odlomka
 content#:#cont_check_values#:#Provjeri vrijednosti poslane od SCO
 content#:#cont_check_values_info#:#Alat za ispitivanje provjerit će odgovaraju li vrijednosti poslane iz SCO-a SCORM standardu. <br /> SCORM standard vrlo je zahtjevan u pogledu spremanja vrijednosti. Ne zadovoljavaju svi moduli za učenje zahtjevima standarda. Ova opcija omogućuje provjeru ispunjava li se modul standard ili ne. Nemojte označavati ovu opciju ako samo želite provjeriti može li ILIAS pokrenuti ovaj modul ili ne.
@@ -6280,7 +6277,7 @@ content#:#cont_dir_file#:#Direktorij/datoteka
 content#:#cont_dir_renamed#:#Direktorij je preimenovan.
 content#:#cont_disable_def_feedback#:#Onemogući povratne informacije o zadanim pitanjima
 content#:#cont_disable_def_feedback_info#:#Ako je onemogućeno, za pitanja za koja je dan odgovor, polazniku se neće pokazivati povratne informacije.Za svoja pitanja morate osigurati prilagođene povratne informacije.
-content#:#cont_download#:#Preuzimanje 
+content#:#cont_download#:#Preuzimanje
 content#:#cont_download_no_download#:#Preuzimanje neće biti dostupno korisnicima budući da značajka preuzimanja nije aktivirana.
 content#:#cont_download_no_menu#:#Preuzimanje neće biti dostupno korisnicima budući da izbornik modula za učenje nije aktiviran.
 content#:#cont_download_title#:#Preuzmi naslov
@@ -6367,7 +6364,7 @@ content#:#cont_ed_pglprop#:#Svojstva izgleda stranice
 content#:#cont_ed_plachmedia#:#Rezervni medij
 content#:#cont_ed_plachprop#:#Svojstva zamjenskog znaka
 content#:#cont_ed_plachquestion#:#Zamjenski znak za pitanje
-content#:#cont_ed_plachtext#:#Zamjenski znak za tekst 
+content#:#cont_ed_plachtext#:#Zamjenski znak za tekst
 content#:#cont_ed_plachverification#:#Zamjenski znak za certifikat
 content#:#cont_ed_row_down#:#Pomakni redak prema dolje
 content#:#cont_ed_row_up#:#Pomakni redak prema gore
@@ -7471,7 +7468,7 @@ crs#:#crs_loc_qtst_for_objective#:#Kvalifikacijski test "%1$s"
 crs#:#crs_loc_rand_assign_qpl#:#Dodjela iz bazena pitanja
 crs#:#crs_loc_rand_qpl#:#Dostupni bazeni pitanja
 crs#:#crs_loc_settings_err_qstart#:#Opcija "Završni test kao početni objekt" je deaktivirana, jer se može odabrati samo za tečajeve bez početnog testa.
-crs#:#crs_loc_settings_it_start_object#:#Početni test je početni objekt 
+crs#:#crs_loc_settings_it_start_object#:#Početni test je početni objekt
 crs#:#crs_loc_settings_it_type#:#Početni test
 crs#:#crs_loc_settings_itest_tbl#:#Postavke za početni test
 crs#:#crs_loc_settings_passed_mode#:#Svladani ciljevi učenja
@@ -8383,7 +8380,7 @@ dcl#:#dcl_change_notification_dcl_update_record#:#Ažuriran je sljedeći zapis p
 dcl#:#dcl_change_notification_link#:#Poveznica na zbirku podataka
 dcl#:#dcl_change_notification_subject#:#Izmijenjeno je prikupljanje podataka "%s"
 dcl#:#dcl_change_why_you_receive_this_email#:#Ovu poruku primate jer ste aktivirali obavijest o ovom prikupljanju podataka.
-dcl#:#dcl_changed_by#:#Promijenio 
+dcl#:#dcl_changed_by#:#Promijenio
 dcl#:#dcl_checked#:#Provjereno.
 dcl#:#dcl_comments#:#Komentari
 dcl#:#dcl_comments_desc#:#Prikazuje broj komentara za unos.
@@ -11274,7 +11271,7 @@ meta#:#meta_c_LS#:#Lesoto
 meta#:#meta_c_LT#:#Litva
 meta#:#meta_c_LU#:#Luksemburg
 meta#:#meta_c_LV#:#Latvija
-meta#:#meta_c_LY#:#Libijska Arapska Džamahirija 
+meta#:#meta_c_LY#:#Libijska Arapska Džamahirija
 meta#:#meta_c_MA#:#Maroko
 meta#:#meta_c_MC#:#Monako
 meta#:#meta_c_MD#:#Moldavija
@@ -11643,7 +11640,7 @@ meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorija za objavljivanje OER sadržaja
 meta#:#meta_operating_system#:#Operativni sustav
-meta#:#meta_or_composite#:#Ili sastavljeni 
+meta#:#meta_or_composite#:#Ili sastavljeni
 meta#:#meta_order#:#Redoslijed
 meta#:#meta_other#:#Ostalo
 meta#:#meta_other_plattform_requirements#:#Ostali zahtjevi platforme
@@ -12418,7 +12415,7 @@ prg#:#prg_belongs_to#:#Pripada
 prg#:#prg_can_not_manage_in_repo#:#Ne možete upravljati ovim studijskim programom zbog korisničkih zadataka.
 prg#:#prg_cancel#:#Cancel###04 06 2021 new variable
 prg#:#prg_cancel_tree_order#:#Odbaci redoslijed stabla
-prg#:#prg_changed_by#:#Promijenio 
+prg#:#prg_changed_by#:#Promijenio
 prg#:#prg_completion_by#:#Dovršio
 prg#:#prg_completion_date#:#Completion date###04 06 2021 new variable
 prg#:#prg_confirm_delete#:#Delete###04 06 2021 new variable
@@ -13669,13 +13666,13 @@ rbac#:#statistics_read#:#Vidi statistiku
 rbac#:#sty_write_content#:#Uredi stilove sadržaja
 rbac#:#sty_write_page_layout#:#Uredi izgled stranice
 rbac#:#sty_write_system#:#Uredi stilove sustava
-rbac#:#stys_edit_permission#:#Korisnik može promijeniti postavke dozvole administracije izgleda stranica i stilova 
+rbac#:#stys_edit_permission#:#Korisnik može promijeniti postavke dozvole administracije izgleda stranica i stilova
 rbac#:#stys_read#:#Korisnik ima pristup za čitanje administracije izgleda stranica i stilova
 rbac#:#stys_sty_write_content#:#Uredi stilova sadržaja
 rbac#:#stys_sty_write_custom#:#Uredi stilova sadržaja
 rbac#:#stys_sty_write_page_layout#:#Uredi izglede stranice
 rbac#:#stys_sty_write_system#:#Uredi stilove sustava
-rbac#:#stys_visible#:#Administracija izgleda stranice i stilova je vidljiva 
+rbac#:#stys_visible#:#Administracija izgleda stranice i stilova je vidljiva
 rbac#:#svy_copy#:#Korisnik može kopirati anketu
 rbac#:#svy_delete#:#Korisnik može premjestiti ili izbrisati anketu
 rbac#:#svy_edit_learning_progress#:#Korisnik može uređivati postavke napretk u učenju
@@ -15184,7 +15181,7 @@ survey#:#confirm_remove_heading#:#Jeste li sigurni da želite ukloniti naslov?
 survey#:#confirm_sync_questions#:#Pitanje koje ste promijenili je kopija koja je kreirana za upotrebu s aktivnom anketom. Želite li promijeniti i izvornik pitanja?
 survey#:#conjunction_and#:#ako je ispunjen svaki uvjet
 survey#:#conjunction_and_title#:#Ispunite svaki od sljedećih uvjeta
-survey#:#conjunction_or#:#ako je ispunjen jedan od uvjeta 
+survey#:#conjunction_or#:#ako je ispunjen jedan od uvjeta
 survey#:#conjunction_or_title#:#Ispunite jedan od sljedećih uvjeta
 survey#:#constraint_add#:#Dodaj pravilo usmjeravanja
 survey#:#constraint_fulfilled#:#Prikaži stranicu
@@ -16247,7 +16244,7 @@ trac#:#trac_sync_obj_stats#:#Ažuriranje podataka
 trac#:#trac_sync_obj_stats_success#:#Podaci su ažurirani.
 trac#:#trac_sync_session_stats#:#Agregiraj podatke
 trac#:#trac_sync_session_stats_success#:#Podaci su uspješno agregirani.
-trac#:#trac_time_passed#:#Prekoračeno vrijeme za obradu 
+trac#:#trac_time_passed#:#Prekoračeno vrijeme za obradu
 trac#:#trac_title#:#Naslov
 trac#:#trac_title_description#:#Naslov / opis
 trac#:#trac_total_online#:#Ukupno vrijeme online

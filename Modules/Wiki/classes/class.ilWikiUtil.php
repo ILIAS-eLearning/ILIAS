@@ -58,12 +58,14 @@ class ilWikiUtil
     */
     public static function collectInternalLinks($s, $a_wiki_id, $a_collect_non_ex = false)
     {
-        return ilWikiUtil::processInternalLinks(
+        $result = ilWikiUtil::processInternalLinks(
             $s,
             $a_wiki_id,
             IL_WIKI_MODE_COLLECT,
             $a_collect_non_ex
         );
+
+        return $result;
     }
     
     /**
@@ -388,8 +390,7 @@ class ilWikiUtil
 
                 //$s .= ilWikiUtil::makeLink($nt, $a_wiki_id, $text, '', $trail, $prefix);
                 include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-                if ((ilWikiPage::_wikiPageExists($a_wiki_id, $db_title) ||
-                    $a_collect_non_ex)
+                if (($a_collect_non_ex || ilWikiPage::_wikiPageExists($a_wiki_id, $db_title))
                 &&
                     !in_array($db_title, $collect)) {
                     $collect[] = $db_title;
@@ -621,6 +622,10 @@ class ilWikiUtil
         $ilObjDataCache = $DIC["ilObjDataCache"];
         $ilAccess = $DIC->access();
 
+        if ((int) $a_wiki_ref_id === 0) {
+            return;
+        }
+
         include_once "./Services/Notification/classes/class.ilNotification.php";
         include_once "./Modules/Wiki/classes/class.ilObjWiki.php";
         include_once "./Modules/Wiki/classes/class.ilWikiPage.php";
@@ -654,7 +659,7 @@ class ilWikiUtil
                 return;
             }
         }
-        
+
         ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users, $a_page_id);
         
         // #15192 - should always be present

@@ -1684,7 +1684,7 @@ class ilObjSurvey extends ilObject
     */
     public function moveQuestions($move_questions, $target_index, $insert_mode)
     {
-        $this->svy_log->debug("move_questions: " . print_r($move_questions, true).
+        $this->svy_log->debug("move_questions: " . print_r($move_questions, true) .
             ", target_index: " . $target_index . ", insert_mode: " . $insert_mode);
         $array_pos = array_search($target_index, $this->questions);
         if ($insert_mode == 0) {
@@ -3752,6 +3752,9 @@ class ilObjSurvey extends ilObject
                     $tgt_skills->addQuestionSkillAssignment($tgt_qst_id, $qst_skill["base_skill_id"], $qst_skill["tref_id"]);
                 }
             }
+
+            $thresholds = new ilSurveySkillThresholds($this);
+            $thresholds->cloneTo($newObj, $mapping);
         }
 
         // clone the questionblocks
@@ -5426,8 +5429,21 @@ class ilObjSurvey extends ilObject
         $row = $ilDB->fetchAssoc($set);
         return $row["finished_id"];
     }
-    
-    
+
+    public function getFinishedIdsForSelfEval($a_user_id) : array
+    {
+        $ilDB = $this->db;
+
+        $finished_ids = [];
+        $set = $ilDB->query("SELECT finished_id, user_fi FROM svy_finished" .
+            " WHERE survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer") .
+            " AND user_fi = " . $ilDB->quote($a_user_id, "integer"));
+        if ($row = $ilDB->fetchAssoc($set)) {
+            $finished_ids[] = (int) $row["finished_id"];
+        }
+        return $finished_ids;
+    }
+
     // 360° using competence/skill service
     
     /**

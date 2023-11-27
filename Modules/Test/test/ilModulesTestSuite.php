@@ -3,6 +3,7 @@
 
 use PHPUnit\Framework\TestSuite;
 use ILIAS\Modules\Test\test\AccessFileUploadAnswerTest;
+use ILIAS\Modules\Test\test\AccessFileUploadPreviewTest;
 use ILIAS\Modules\Test\test\AccessQuestionImageTest;
 use ILIAS\Modules\Test\test\ReadableTest;
 use ILIAS\Modules\Test\test\IncidentTest;
@@ -21,26 +22,21 @@ class ilModulesTestSuite extends TestSuite
 
         $suite = new ilModulesTestSuite();
 
-        include_once("./Modules/Test/test/ilassMarkTest.php");
-        $suite->addTestSuite("ilassMarkTest");
+        $class_list = [
+            ilassMarkTest::class => 'ilassMarkTest.php',
+            ilassMarkSchemaTest::class => 'ilassMarkSchemaTest.php',
+            ilTestFinalMarkLangVarBuilderTest::class => 'ilTestFinalMarkLangVarBuilderTest.php',
+            AccessFileUploadAnswerTest::class => 'AccessFileUploadAnswerTest.php',
+            AccessFileUploadPreviewTest::class => 'AccessFileUploadPreviewTest.php',
+            AccessQuestionImageTest::class => 'AccessQuestionImageTest.php',
+            IncidentTest::class => 'IncidentTest.php',
+            ReadableTest::class => 'ReadableTest.php',
+        ];
 
-        include_once("./Modules/Test/test/ilassMarkSchemaTest.php");
-        $suite->addTestSuite("ilassMarkSchemaTest");
-
-        include_once("./Modules/Test/test/ilTestFinalMarkLangVarBuilderTest.php");
-        $suite->addTestSuite("ilTestFinalMarkLangVarBuilderTest");
-
-        include_once("./Modules/Test/test/AccessFileUploadAnswerTest.php");
-        $suite->addTestSuite(AccessFileUploadAnswerTest::class);
-
-        include_once("./Modules/Test/test/AccessQuestionImageTest.php");
-        $suite->addTestSuite(AccessQuestionImageTest::class);
-
-        include_once("./Modules/Test/test/IncidentTest.php");
-        $suite->addTestSuite(IncidentTest::class);
-
-        include_once("./Modules/Test/test/ReadableTest.php");
-        $suite->addTestSuite(ReadableTest::class);
+        foreach ($class_list as $class => $file) {
+            include_once('./Modules/Test/test/' . $file);
+            $suite->addTestSuite($class);
+        }
 
         return $suite;
     }
