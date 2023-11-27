@@ -19,6 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\InfoScreen\StandardGUIRequest;
+use ILIAS\MetaData\Services\Services as Metadata;
 
 /**
  * Class ilInfoScreenGUI
@@ -38,6 +39,7 @@ class ilInfoScreenGUI
     protected ilObjUser $user;
     protected ilTree $tree;
     protected ilSetting $settings;
+    protected Metadata $metadata;
     public ilLanguage $lng;
     public ilCtrl $ctrl;
     public ?object $gui_object;
@@ -79,6 +81,7 @@ class ilInfoScreenGUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $ilTabs = $DIC->tabs();
+        $this->metadata = $DIC->learningObjectMetadata();
 
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
@@ -339,75 +342,36 @@ class ilInfoScreenGUI
 
         $lng->loadLanguageModule("meta");
 
-        $md = new ilMD($a_rep_obj_id, $a_obj_id, $a_type);
-        $description = "";
-        $langs = '';
-        $keywords = "";
-        if ($md_gen = $md->getGeneral()) {
-            // get first descrption
-            // The description is shown on the top of the page.
-            // Thus it is not necessary to show it again.
-            foreach ($md_gen->getDescriptionIds() as $id) {
-                $md_des = $md_gen->getDescription($id);
-                $description = $md_des->getDescription();
-                break;
-            }
+        $md_reader = $this->metadata->read($a_rep_obj_id, $a_obj_id, $a_type);
+        $md_paths = $this->metadata->paths();
+        $md_data_helper = $this->metadata->dataHelper();
 
-            // get language(s)
-            $language_arr = [];
-            foreach ($md_gen->getLanguageIds() as $id) {
-                $md_lan = $md_gen->getLanguage($id);
-                if ($md_lan->getLanguageCode() != "") {
-                    $language_arr[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
-                }
-            }
-            $langs = implode(", ", $language_arr);
+        // general
+        $description = $md_reader->firstData($md_paths->descriptions())->value();
 
-            // keywords
-            $keyword_arr = [];
-            foreach ($md_gen->getKeywordIds() as $id) {
-                $md_key = $md_gen->getKeyword($id);
-                $keyword_arr[] = $md_key->getKeyword();
-            }
-            $keywords = implode(", ", $keyword_arr);
-        }
+        $lang_data = $md_reader->allData(
+            $md_paths->custom()->withNextStep('general')->withNextStep('language')->get()
+        );
+        $langs = $md_data_helper->makePresentableAsList(', ', ...$lang_data);
+
+        $keyword_data = $md_reader->allData($md_paths->keywords());
+        $keywords = $md_data_helper->makePresentableAsList(', ', ...$keyword_data);
 
         // authors
-        $author = "";
-        if (is_object($lifecycle = $md->getLifecycle())) {
-            $sep = "";
-            foreach (($lifecycle->getContributeIds()) as $con_id) {
-                $md_con = $lifecycle->getContribute($con_id);
-                if ($md_con->getRole() == "Author") {
-                    foreach ($md_con->getEntityIds() as $ent_id) {
-                        $md_ent = $md_con->getEntity($ent_id);
-                        $author = $author . $sep . $md_ent->getEntity();
-                        $sep = ", ";
-                    }
-                }
-            }
-        }
+        $author_data = $md_reader->allData($md_paths->authors());
+        $author = $md_data_helper->makePresentableAsList(', ', ...$author_data);
 
         // copyright
-        $copyright = "";
-        if (is_object($rights = $md->getRights())) {
-            $copyright = ilMDUtils::_parseCopyright($rights->getDescription());
+        $copyright_description = $md_reader->firstData($md_paths->copyright())->value();
+        if ($copyright_description) {
+            $copyright = ilMDUtils::_parseCopyright($copyright_description);
         } else {
             $copyright = ilMDUtils::_getDefaultCopyright();
         }
 
         // learning time
-        #if(is_object($educational = $md->getEducational()))
-        #{
-        #	$learning_time = $educational->getTypicalLearningTime();
-        #}
-        $learning_time = "";
-        if (is_object($educational = $md->getEducational())) {
-            if ($seconds = $educational->getTypicalLearningTimeSeconds()) {
-                $learning_time = ilDatePresentation::secondsToString($seconds);
-            }
-        }
-
+        $learning_time_data = $md_reader->firstData($md_paths->firstTypicalLearningTime());
+        $learning_time = $md_data_helper->makePresentable($learning_time_data);
 
         // output
 
