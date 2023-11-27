@@ -21,10 +21,15 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input;
 use ILIAS\UI\Component\Input\Container\Form\FormInput as InputField;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Renderer;
 use ILIAS\Refinery;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -39,6 +44,10 @@ class ilStudyProgrammeTypeGUI
     protected $parent_gui;
     protected ?array $installed_languages = null;
     protected Input\Factory $input_factory;
+    protected ?ilStudyProgrammeType $type = null;
+    protected URLBuilder $url_builder;
+    protected URLBuilderToken $action_token;
+    protected URLBuilderToken $id_token;
 
     public function __construct(
         public ilGlobalTemplateInterface $tpl,
@@ -52,23 +61,77 @@ class ilStudyProgrammeTypeGUI
         protected ilStudyProgrammeTypeRepository $type_repository,
         protected UIFactory $ui_factory,
         protected Renderer $renderer,
+        DataFactory $data_factory,
         protected Psr\Http\Message\ServerRequestInterface $request,
-        protected Refinery\Factory $refinery_factory,
-        protected Filesystem $web_dir,
+        protected Refinery\Factory $refinery,
         protected RequestWrapper $request_wrapper
     ) {
         $this->lng->loadLanguageModule('prg');
-        $this->ctrl->saveParameter($this, 'type_id');
         $this->lng->loadLanguageModule('meta');
         $this->input_factory = $ui_factory->input();
+
+        $here_uri = $data_factory->uri($this->request->getUri()->__toString());
+        $url_builder = new URLBuilder($here_uri);
+        $namespace = ['prgtypes'];
+        list($url_builder, $action_token, $id_token) =
+        $url_builder->acquireParameters(
+            $namespace,
+            "table_action",
+            "type_ids"
+        );
+
+        $this->url_builder = $url_builder;
+        $this->action_token = $action_token;
+        $this->id_token = $id_token;
     }
+
+
+    protected function getCommandFromQueryToken(string $default): string
+    {
+        if($this->request_wrapper->has($this->action_token->getName())) {
+            return $this->request_wrapper->retrieve($this->action_token->getName(), $this->refinery->to()->string());
+        }
+        return $default;
+    }
+
+    protected function getTypeIdFromQueryToken(): int
+    {
+        if($this->request_wrapper->has($this->id_token->getName())) {
+            $type_id = $this->request_wrapper->retrieve(
+                $this->id_token->getName(),
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->int(),
+                    $this->refinery->custom()->transformation(static fn($v): int => (int)current($v)),
+                ])
+            );
+            return $type_id;
+        }
+        throw new \Exception('No type id found in query.');
+    }
+
+    protected function getUrl(string $action, int $type_id = null): string
+    {
+        $url_builder = $this->url_builder->withParameter($this->action_token, $action);
+        if($type_id) {
+            $url_builder = $url_builder->withParameter($this->id_token, [$type_id]);
+        }
+        return $url_builder->buildURI()->__toString();
+    }
+
 
     public function executeCommand(): void
     {
+        $next_class = $this->ctrl->getNextClass($this);
+        switch ($next_class) {
+            case strtolower(ilStudyProgrammeTypeUploadHandlerGUI::class):
+                $this->ctrl->forwardCommand(new ilStudyProgrammeTypeUploadHandlerGUI());
+                break;
+        }
+
         $this->checkAccess();
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->getCommandFromQueryToken('view');
+
         switch ($cmd) {
-            case '':
             case 'view':
             case 'listTypes':
                 $this->listTypes();
@@ -78,7 +141,7 @@ class ilStudyProgrammeTypeGUI
                 break;
             case 'edit':
                 $this->setSubTabsEdit('general');
-                $this->edit();
+                $this->edit($this->getTypeIdFromQueryToken());
                 break;
             case 'editCustomIcons':
                 $this->setSubTabsEdit('custom_icons');
@@ -129,17 +192,18 @@ class ilStudyProgrammeTypeGUI
 
     protected function setSubTabsEdit(string $active_tab_id): void
     {
+        $type_id = $this->getTypeIdFromQueryToken();
         $this->tabs->addSubTab(
             'general',
             $this->lng->txt('meta_general'),
-            $this->ctrl->getLinkTarget($this, 'edit')
+            $this->getUrl('edit', $type_id)
         );
 
         if ($this->ilias->getSetting('custom_icons')) {
             $this->tabs->addSubTab(
                 'custom_icons',
                 $this->lng->txt('icon_settings'),
-                $this->ctrl->getLinkTarget($this, 'editCustomIcons')
+                $this->getUrl('editCustomIcons', $type_id)
             );
         }
 
@@ -147,97 +211,97 @@ class ilStudyProgrammeTypeGUI
             $this->tabs->addSubTab(
                 'amd',
                 $this->lng->txt('md_advanced'),
-                $this->ctrl->getLinkTarget($this, 'editAMD')
+                $this->getUrl('editAMD', $type_id)
             );
         }
 
         $this->tabs->activateSubTab($active_tab_id);
     }
 
-    protected function editCustomIcons(): void
+    protected function getIconForm(): StandardForm
     {
-
-        /*
-                $form = new ilStudyProgrammeTypeCustomIconsFormGUI(
-                    $this,
-                    $this->type_repository,
-                    $this->ctrl,
-                    $this->tpl,
-                    $this->lng,
-                    $this->user,
-                    $this->web_dir
-                );
-                $form->fillForm($this->type_repository->getType(
-                    $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int())
-                ));
-                $this->tpl->setContent($form->getHTML());
-        */
+        $handler_gui = new ilStudyProgrammeTypeUploadHandlerGUI();
+        $type = $this->type_repository->getType($this->getTypeIdFromQueryToken());
 
         $input = $this->ui_factory->input()->field()->file(
-            new ilStudyProgrammeTypeUploadHandlerGUI(),
+            $handler_gui,
             $this->lng->txt('icon'),
             $this->lng->txt('file_allowed_suffixes') . ' .svg'
         );
+
         $section = $this->ui_factory->input()->field()->section(
-            [$input],
-            $this->lng->txt('prg_type_custom_icon'),
+            ['iconfile' => $input],
+            $type->getTitle() . ': ' . $this->lng->txt('prg_type_custom_icon'),
             $this->lng->txt('prg_type_custom_icon_info')
         );
+
+        $this->ctrl->setParameter($this, $this->id_token->getName(), $this->getTypeIdFromQueryToken());
+        $this->ctrl->setParameter($this, $this->action_token->getName(), 'updateCustomIcons');
+        $form_action = $this->ctrl->getFormAction($this, 'updateCustomIcons');
         $form = $this->ui_factory->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this),
+            $form_action,
             [$section]
         );
 
+        $form = $form->withAdditionalTransformation(
+            $this->refinery->custom()->transformation(
+                function ($values) {
+                    return array_shift($values)['iconfile'];
+                }
+            )
+        );
+        return $form;
+    }
+
+    protected function editCustomIcons(): void
+    {
+        $form = $this->getIconForm();
         $this->tpl->setContent($this->renderer->render($form));
     }
 
     protected function updateCustomIcons(): void
     {
-        $form = new ilStudyProgrammeTypeCustomIconsFormGUI(
-            $this,
-            $this->type_repository,
-            $this->ctrl,
-            $this->tpl,
-            $this->lng,
-            $this->user,
-            $this->web_dir
-        );
-        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
-        if ($form->saveObject($this->type_repository->getType($type_id))) {
+        $data = $this->getIconForm()
+            ->withRequest($this->request)
+            ->getData();
+        if($data) {
+            $type_id = $this->getTypeIdFromQueryToken();
+            $type = $this->type_repository->getType($type_id)->withIconIdentifier(current($data));
+            $this->type_repository->updateType($type);
+            $type->updateAssignedStudyProgrammesIcons();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('msg_obj_modified'), true);
-            $this->ctrl->redirect($this, 'editCustomIcons');
-        } else {
-            $this->tpl->setContent($form->getHTML());
         }
+        $this->listTypes();
     }
 
     protected function editAMD(): void
     {
+        $type_id = $this->getTypeIdFromQueryToken();
+        $type = $this->type_repository->getType($type_id);
         $form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI(
-            $this,
+            $this->getUrl('updateAMD', $type_id),
             $this->type_repository,
-            $this->ctrl,
             $this->tpl,
             $this->lng
         );
-        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
-        $form->fillForm($this->type_repository->getType($type_id));
+        $form->fillForm($type);
         $this->tpl->setContent($form->getHTML());
     }
 
     protected function updateAMD(): void
     {
+        $type_id = $this->getTypeIdFromQueryToken();
+        $type = $this->type_repository->getType($type_id);
         $form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI(
-            $this,
+            $this->getUrl('updateAMD', $type_id),
             $this->type_repository,
-            $this->ctrl,
             $this->tpl,
             $this->lng
         );
-        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
-        if ($form->saveObject($this->type_repository->getType($type_id))) {
+
+        if ($form->saveObject($type)) {
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('msg_obj_modified'), true);
-            $this->ctrl->redirect($this, 'editAMD');
+            $this->ctrl->redirectToURL($this->getUrl('editAMD', $type_id));
         } else {
             $this->tpl->setContent($form->getHTML());
         }
@@ -245,51 +309,74 @@ class ilStudyProgrammeTypeGUI
 
     protected function listTypes(): void
     {
+        $table = $this->type_repository->getTable();
+
         if ($this->access->checkAccess("write", "", $this->parent_gui->getObject()->getRefId())) {
-            $link = $this->ui_factory->link()->standard($this->lng->txt('prg_subtype_add'), $this->ctrl->getLinkTarget($this, 'add'));
+            $link = $this->ui_factory->link()->standard(
+                $this->lng->txt('prg_subtype_add'),
+                $this->getUrl('add')
+            );
             $this->toolbar->addComponent($link);
+
+            $actions = [
+                'edit' => $this->ui_factory->table()->action()->single(
+                    $this->lng->txt('edit'),
+                    $this->url_builder->withParameter($this->action_token, "edit"),
+                    $this->id_token
+                ),
+                'delete' => $this->ui_factory->table()->action()->single(
+                    $this->lng->txt('delete'),
+                    $this->url_builder->withParameter($this->action_token, "delete"),
+                    $this->id_token
+                )
+            ];
+            $table = $table->withActions($actions);
         }
-        $table = new ilStudyProgrammeTypeTableGUI(
-            $this,
-            'listTypes',
-            $this->parent_gui->getObject()->getRefId(),
-            $this->type_repository,
-            $this->ctrl,
-            $this->tabs,
-            $this->access,
-            $this->lng,
-            $this->web_dir,
-            $this->ui_factory,
-            $this->renderer
+
+        $this->tpl->setContent(
+            $this->renderer->render($table->withRequest($this->request))
         );
-        $this->tpl->setContent($table->getHTML());
+    }
+
+    protected function buildForm(
+        string $submit_action,
+        string $type_action
+    ): Input\Container\Form\Form {
+        $default_lng = $this->type ? $this->type->getDefaultLang() : "";
+        return $this->input_factory->container()->form()->standard(
+            $submit_action,
+            [
+                "default_lang" => $this->buildModalHeading($type_action, $default_lng),
+                "info" => $this->buildLanguagesForms($this->type)
+            ]
+        )->withAdditionalTransformation(
+            $this->refinery->custom()->transformation(
+                function ($values) {
+                    return [
+                        'default_lang' => $values['default_lang']['default_lang'],
+                        'info' => $values['info']
+                    ];
+                }
+            )
+        );
     }
 
     protected function add(): void
     {
         $form = $this->buildForm(
-            $this->ctrl->getFormActionByClass(
-                __CLASS__,
-                'create'
-            ),
+            $this->getUrl('create'),
             $this->lng->txt('prg_type_add')
         );
 
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function edit(): void
+    protected function edit(int $type_id): void
     {
-        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
-        $type = $this->type_repository->getType($type_id);
-
+        $this->type = $this->type_repository->getType($type_id);
         $form = $this->buildForm(
-            $this->ctrl->getFormActionByClass(
-                __CLASS__,
-                'update'
-            ),
-            $this->lng->txt('prg_type_edit'),
-            $type
+            $this->getUrl('update', $type_id),
+            $this->lng->txt('prg_type_edit')
         );
 
         $this->tpl->setContent($this->renderer->render($form));
@@ -298,10 +385,7 @@ class ilStudyProgrammeTypeGUI
     protected function create(): void
     {
         $form = $this->buildForm(
-            $this->ctrl->getFormActionByClass(
-                __CLASS__,
-                'create'
-            ),
+            $this->getUrl('create'),
             $this->lng->txt('prg_type_add')
         )->withRequest($this->request);
 
@@ -319,19 +403,15 @@ class ilStudyProgrammeTypeGUI
 
     protected function update(): void
     {
-        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
-        $type = $this->type_repository->getType($type_id);
+        $type_id = $this->getTypeIdFromQueryToken();
         $form = $this->buildForm(
-            $this->ctrl->getFormActionByClass(
-                __CLASS__,
-                'update'
-            ),
-            $this->lng->txt('prg_type_edit'),
-            $type
+            $this->getUrl('update', $type_id),
+            $this->lng->txt('prg_type_edit')
         )->withRequest($this->request);
 
         $result = $form->getData();
         if (!is_null($result)) {
+            $type = $this->type_repository->getType($type_id);
             $this->updateTypeFromFormResult($type, $result);
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, 'view');
@@ -359,9 +439,9 @@ class ilStudyProgrammeTypeGUI
 
     protected function delete(): void
     {
-        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
-        $type = $this->type_repository->getType($type_id);
+        $type_id = $this->getTypeIdFromQueryToken();
         try {
+            $type = $this->type_repository->getType($type_id);
             $this->type_repository->deleteType($type);
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('prg_type_msg_deleted'), true);
             $this->ctrl->redirect($this);
@@ -369,34 +449,6 @@ class ilStudyProgrammeTypeGUI
             $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);
             $this->ctrl->redirect($this);
         }
-    }
-
-    protected function buildForm(
-        string $submit_action,
-        string $type_action,
-        ilStudyProgrammeType $type = null
-    ): Input\Container\Form\Form {
-        $default_lng = "";
-        if (!is_null($type)) {
-            $default_lng = $type->getDefaultLang();
-        }
-
-        return $this->input_factory->container()->form()->standard(
-            $submit_action,
-            [
-                "default_lang" => $this->buildModalHeading($type_action, $default_lng),
-                "info" => $this->buildLanguagesForms($type)
-            ]
-        )->withAdditionalTransformation(
-            $this->refinery_factory->custom()->transformation(
-                function ($values) {
-                    return [
-                        'default_lang' => $values['default_lang']['default_lang'],
-                        'info' => $values['info']
-                    ];
-                }
-            )
-        );
     }
 
     protected function buildModalHeading(string $title, string $default_lng): InputField
@@ -430,7 +482,7 @@ class ilStudyProgrammeTypeGUI
             $return[] = $lng_field->toFormInput(
                 $this->input_factory->field(),
                 $this->lng,
-                $this->refinery_factory
+                $this->refinery
             );
         }
 

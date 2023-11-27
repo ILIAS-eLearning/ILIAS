@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Table as DataTableInterface;
+use ILIAS\UI\Implementation\Component\Table as DataTable;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\URLBuilder;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+use ILIAS\ResourceStorage\Services as IRSS;
+
+class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository, DataTableInterface\DataRetrieval
 {
     private const TYPE_TABLE = 'prg_type';
 
@@ -45,28 +56,16 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     protected array $amd_records_assigned = [];
     protected static ?array $amd_records_available = null;
 
-    protected ilDBInterface $db;
-    protected ilStudyProgrammeSettingsRepository $settings_repo;
-    protected ILIAS\Filesystem\Filesystem $webdir;
-    protected ilObjUser $usr;
-    protected ilLanguage $lng;
-
-    protected ilComponentFactory $component_factory;
-
     public function __construct(
-        ilDBInterface $db,
-        ilStudyProgrammeSettingsRepository $settings_repo,
-        ILIAS\Filesystem\Filesystem $webdir,
-        ilObjUser $usr,
-        ilLanguage $lng,
-        ilComponentFactory $component_factory
+        protected ilDBInterface $db,
+        protected ilStudyProgrammeSettingsRepository $settings_repo,
+        protected ilObjUser $usr,
+        protected ilLanguage $lng,
+        protected ilComponentFactory $component_factory,
+        protected UIFactory $ui_factory,
+        protected Renderer $ui_renderer,
+        protected IRSS $irss,
     ) {
-        $this->db = $db;
-        $this->settings_repo = $settings_repo;
-        $this->webdir = $webdir;
-        $this->usr = $usr;
-        $this->lng = $lng;
-        $this->component_factory = $component_factory;
     }
 
     /**
@@ -108,7 +107,6 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         $return = new ilStudyProgrammeType(
             (int) $row[self::FIELD_ID],
             $this,
-            $this->webdir,
             $this->lng,
             $this->usr,
             $this->component_factory
@@ -127,7 +125,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
                 $row[self::FIELD_LAST_UPDATE]
             )
         );
-        $return->setIcon((string) $row[self::FIELD_ICON]);
+        $return = $return->withIconIdentifier($row[self::FIELD_ICON]);
         return $return;
     }
 
@@ -215,7 +213,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
                 ,self::FIELD_OWNER => $type->getOwner()
                 ,self::FIELD_CREATE_DATE => $type->getCreateDate()->format(ilStudyProgrammeType::DATE_TIME_FORMAT)
                 ,self::FIELD_LAST_UPDATE => $type->getLastUpdate()->format(ilStudyProgrammeType::DATE_TIME_FORMAT)
-                ,self::FIELD_ICON => $type->getIcon()
+                ,self::FIELD_ICON => $type->getIconIdentifier()
             ]
         );
     }
@@ -322,11 +320,9 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
             throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
         }
 
-        if ($this->webdir->has($type->getIconPath(true))) {
-            $this->webdir->delete($type->getIconPath(true));
-        }
-        if ($this->webdir->has($type->getIconPath())) {
-            $this->webdir->deleteDir($type->getIconPath());
+
+        if($rid = $this->irss->manage()->find($type->getIconIdentifier())) {
+            $this->irss->manage()->remove($rid, new ilStudyProgrammeTypeStakeholder());
         }
         $this->deleteAllTranslationsByTypeId($type->getId());
         $this->deleteAMDRecordsByTypeId($type->getId());
@@ -392,17 +388,50 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAllTypes(): array
-    {
+    public function getAllTypes(
+        Range $range = null,
+        Order $order = null
+    ): array {
         $return = [];
-        foreach ($this->getAllTypesRecords() as $row) {
+        foreach ($this->getAllTypesRecords($range, $order) as $row) {
             $return[] = $this->createTypeByRow($row);
         }
+
+        if($order) {
+            list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+            usort(
+                $return,
+                static function ($a, $b) use ($order_field) {
+                    switch ($order_field) {
+                        case 'title':
+                            $a_aspect = $a->getTitle();
+                            $b_aspect = $b->getTitle();
+                            break;
+                        case 'description':
+                            $a_aspect = $a->getDescription();
+                            $b_aspect = $b->getDescription();
+                            break;
+                        case 'default_language':
+                            $a_aspect = $a->getDefaultLang();
+                            $b_aspect = $b->getDefaultLang();
+                            break;
+                    }
+                    return $a_aspect <=> $b_aspect;
+                }
+            );
+            if ($order_direction === 'DESC') {
+                $return = array_reverse($return);
+            }
+        }
+        if($range) {
+            $return = array_slice($return, $range->getStart(), $range->getLength());
+        }
+
         return $return;
     }
 
-    protected function getAllTypesRecords(): Generator
-    {
+    protected function getAllTypesRecords(
+    ): Generator {
         $q = 'SELECT'
             . '	' . self::FIELD_DEFAULT_LANG
             . '	,' . self::FIELD_OWNER
@@ -411,11 +440,18 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
             . '	,' . self::FIELD_ICON
             . '	,' . self::FIELD_ID
             . '	FROM ' . self::TYPE_TABLE;
-        $res = $this->db->query($q);
 
+        $res = $this->db->query($q);
         while ($rec = $this->db->fetchAssoc($res)) {
             yield $rec;
         }
+    }
+
+    protected function getAllTypesRecordCount(): int
+    {
+        $q = 'SELECT count(*) AS cnt FROM ' . self::TYPE_TABLE;
+        $res = $this->db->query($q);
+        return (int) $this->db->fetchAssoc($res)['cnt'];
     }
 
     /**
@@ -660,5 +696,76 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
             return $this->createTypeTranslationByRow($rec);
         }
         return null;
+    }
+
+
+    public function getTable(): DataTable\Data
+    {
+        return $this->ui_factory->table()->data(
+            $this->lng->txt('prg_subtypes'),
+            $this->getColums(),
+            $this
+        );
+    }
+
+    protected function getColums(): array
+    {
+        $f = $this->ui_factory;
+        return  [
+            'title' => $f->table()->column()->text($this->lng->txt('title')),
+            'description' => $f->table()->column()->text($this->lng->txt('description')),
+            'default_language' => $f->table()->column()->status($this->lng->txt('default_language')),
+            'icon' => $f->table()->column()->statusIcon($this->lng->txt('icon'))->withIsSortable(false)
+        ];
+    }
+
+    public function getTotalRowCount(
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): ?int {
+        return $this->getAllTypesRecordCount();
+    }
+
+    public function getRows(
+        DataTableInterface\DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): \Generator {
+        foreach ($this->getAllTypes($range, $order) as $idx => $type) {
+            $default_language = $type->getDefaultLang();
+
+            $icon = '';
+            if($type->getIconIdentifier()) {
+                $icon_path = $this->getIconPath($type);
+                $icon = $this->ui_renderer->render(
+                    $this->ui_factory->symbol()->icon()->custom($icon_path, '')
+                );
+            }
+
+            yield $row_builder->buildDataRow(
+                (string)$type->getId(),
+                [
+                    'title' => $type->getTitle($default_language),
+                    'description' => $type->getDescription($default_language),
+                    'default_language' => $default_language,
+                    'icon' => $icon
+                ]
+            );
+        }
+    }
+
+    public function getIconPathFS(ilStudyProgrammeType $type): string
+    {
+        $icon_id = $this->irss->manage()->find($type->getIconIdentifier());
+        return $this->irss->consume()->stream($icon_id)->getStream()->getMetadata('uri');
+    }
+
+    public function getIconPath(ilStudyProgrammeType $type): string
+    {
+        $icon_id = $this->irss->manage()->find($type->getIconIdentifier());
+        return $this->irss->consume()->src($icon_id)->getSrc();
     }
 }

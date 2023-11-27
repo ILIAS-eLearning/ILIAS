@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilStudyProgrammeTypeAdvancedMetaDataFormGUI
  *
@@ -25,30 +25,19 @@ declare(strict_types=1);
  */
 class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
 {
-    protected ilStudyProgrammeTypeRepository $type_repository;
-    protected ilStudyProgrammeTypeGUI $parent_gui;
-
     public function __construct(
-        ilStudyProgrammeTypeGUI $parent_gui,
-        ilStudyProgrammeTypeRepository $type_repository,
-        ilCtrl $ctrl,
+        string $form_action,
+        protected ilStudyProgrammeTypeRepository $type_repository,
         ilGlobalTemplateInterface $tpl,
-        ilLanguage $lng
+        protected ilLanguage $lng
     ) {
         parent::__construct();
 
-        $this->parent_gui = $parent_gui;
-        $this->type_repository = $type_repository;
         $this->global_tpl = $tpl;
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
-        $this->initForm();
+        $this->initForm($form_action);
     }
 
-    /**
-     * Save object (create or update)
-     */
     public function saveObject(ilStudyProgrammeType $type): bool
     {
         $type = $this->fillObject($type);
@@ -59,15 +48,15 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function initForm(): void
+    protected function initForm(string $form_action): void
     {
         /** @var ilAdvancedMDRecord $record */
         $records = $this->type_repository->getAllAMDRecords();
-        $options = array();
+        $options = [];
         foreach ($records as $record) {
             $options[$record->getRecordId()] = $record->getTitle();
         }
-        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
+        $this->setFormAction($form_action);
         $this->setTitle($this->lng->txt('prg_type_assign_amd_sets'));
 
         $item = new ilMultiSelectInputGUI($this->lng->txt('prg_type_available_amd_sets'), 'amd_records');

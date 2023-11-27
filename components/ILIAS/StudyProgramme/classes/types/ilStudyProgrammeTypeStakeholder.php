@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
+use ILIAS\FileUpload\Processor\WhitelistExtensionPreProcessor;
 
 class ilStudyProgrammeTypeStakeholder extends AbstractResourceStakeholder
 {
@@ -37,5 +38,15 @@ class ilStudyProgrammeTypeStakeholder extends AbstractResourceStakeholder
     public function getOwnerOfNewResources(): int
     {
         return $this->owner;
+    }
+
+    public function getPreprocessors(): array
+    {
+        $allowed = ['svg'];
+        $processor = new WhitelistExtensionPreProcessor($allowed);
+
+        return [
+            $processor
+        ];
     }
 }

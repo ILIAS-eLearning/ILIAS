@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 
@@ -49,7 +49,6 @@ class ilStudyProgrammeType
 
     protected int $id = 0;
     protected ilStudyProgrammeTypeRepository $type_repo;
-    protected Filesystem $webdir;
 
     protected ilComponentFactory $component_factory;
 
@@ -57,14 +56,12 @@ class ilStudyProgrammeType
     public function __construct(
         int $id,
         ilStudyProgrammeTypeRepository $type_repo,
-        ILIAS\Filesystem\Filesystem $webdir,
         ilLanguage $lng,
         ilObjUser $user,
         ilComponentFactory $component_factory
     ) {
         $this->id = $id;
         $this->type_repo = $type_repo;
-        $this->webdir = $webdir;
         $this->lng = $lng;
         $this->user = $user;
         $this->component_factory = $component_factory;
@@ -413,25 +410,14 @@ class ilStudyProgrammeType
         return $this->id;
     }
 
-    /**
-     * Set new Icon filename.
-     *
-     * Note that if you did also send a new icon image file with a form, make sure to call
-     * ilStudyProgrammeType::processAndStoreIconFile() to store the file additionally on disk.
-     *
-     * If you want to delete the icon, set call ilStudyProgrammeType::removeIconFile() first and set an empty string here.
-     *
-     * @throws ilStudyProgrammeTypeException
-     */
-    public function setIcon(string $icon): void
+    public function withIconIdentifier(string $identifier): self
     {
-        if ($icon && !preg_match('/\.(svg)$/', $icon)) {
-            throw new ilStudyProgrammeTypeException('Icon must be set with file extension svg');
-        }
-        $this->icon = $icon;
+        $clone = clone $this;
+        $clone->icon = $identifier;
+        return $clone;
     }
 
-    public function getIcon(): string
+    public function getIconIdentifier(): string
     {
         return $this->icon;
     }

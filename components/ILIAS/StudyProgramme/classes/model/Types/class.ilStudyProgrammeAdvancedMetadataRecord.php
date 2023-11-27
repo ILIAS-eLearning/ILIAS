@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilStudyProgrammeAdvancedMetadataRecord
  *
@@ -26,13 +26,12 @@ declare(strict_types=1);
  */
 class ilStudyProgrammeAdvancedMetadataRecord
 {
-    protected int $id;
     protected int $type_id = 0;
     protected int $rec_id = 0;
 
-    public function __construct(int $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        protected int $id
+    ) {
     }
 
     public function getId(): int

@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -26,13 +27,20 @@ use ILIAS\FileUpload\Handler\HandlerResult;
   */
 class ilStudyProgrammeTypeUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
 {
-    public function __construct(private string $rid = "")
-    {
+    public function __construct(
+        private string $rid = ""
+    ) {
         parent::__construct(new ilStudyProgrammeTypeStakeholder());
     }
 
+
     protected function getUploadResult(): HandlerResult
     {
+
+        foreach ($this->stakeholder->getPreprocessors() as $p) {
+            $this->upload->register($p);
+        }
+
         $this->upload->process();
 
         $result_array = $this->upload->getResults();
