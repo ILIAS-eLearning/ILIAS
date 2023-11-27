@@ -1829,4 +1829,12 @@ if (
     $this->db->addIndex('il_cert_user_cert', ['background_image_path', 'currently_active'], 'i7');
 }
 ?>
-
+<#108>
+<?php
+    if (!$this->db->indexExistsByFields('loc_settings', ['itest'])) {
+        $this->db->addIndex('loc_settings', ['itest'], 'i1');
+    }
+    if (!$this->db->indexExistsByFields('loc_settings', ['qtest'])) {
+        $this->db->addIndex('loc_settings', ['qtest'], 'i2');
+    }
+?>
