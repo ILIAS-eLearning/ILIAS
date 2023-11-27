@@ -18,20 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS;
+namespace ILIAS\Component;
 
-class Component implements Component\Component
+/**
+ * An entrypoint is where the programm execution starts. These thingies are
+ * available from the bootstrap generated for the system.
+ */
+interface EntryPoint
 {
-    public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
-    ): void {
-        $contribute[Component\EntryPoint::class] = fn() => new Component\EntryPoint\HelloWorld("Component/HelloWorld");
-    }
+    public function getName(): string;
+
+    /**
+     * Pass program execution to this entry point.
+     *
+     * @return int 0 if everthing went fine, or an error-code.
+     */
+    public function enter(): int;
 }

@@ -18,20 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS;
+namespace ILIAS\Component\EntryPoint;
 
-class Component implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Component\EntryPoint;
+
+abstract class Base implements EntryPoint
 {
-    public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
-    ): void {
-        $contribute[Component\EntryPoint::class] = fn() => new Component\EntryPoint\HelloWorld("Component/HelloWorld");
+    public function __construct(
+        protected string $name
+    ) {
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

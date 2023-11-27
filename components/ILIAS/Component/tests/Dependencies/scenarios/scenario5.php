@@ -16,11 +16,26 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+namespace ILIAS\Component\Tests\Dependencies\Scenario5;
 
-namespace ILIAS;
+use ILIAS\Component\Component;
+use ILIAS\Component\EntryPoint;
 
-class Component implements Component\Component
+class ComponentAEntryPoint implements EntryPoint
+{
+    public function getComponent(): Component
+    {
+    }
+    public function getName(): string
+    {
+        return "just a name";
+    }
+    public function enter(): int
+    {
+    }
+}
+
+class ComponentA implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,6 +47,6 @@ class Component implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[Component\EntryPoint::class] = fn() => new Component\EntryPoint\HelloWorld("Component/HelloWorld");
+        $contribute[EntryPoint::class] = fn() => new ComponentAEntryPoint();
     }
 }

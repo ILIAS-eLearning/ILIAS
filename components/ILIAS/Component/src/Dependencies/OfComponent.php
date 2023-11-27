@@ -74,6 +74,17 @@ class OfComponent implements \ArrayAccess
         }
     }
 
+    public function getOutDependenciesOf(OutType $type): \Iterator
+    {
+        foreach ($this->dependencies as $d) {
+            foreach ($d as $o) {
+                if ($o instanceof Out && $o->getType() === $type) {
+                    yield $o;
+                }
+            }
+        }
+    }
+
     // ArrayAccess
 
     public function offsetExists($dependency_description): bool
