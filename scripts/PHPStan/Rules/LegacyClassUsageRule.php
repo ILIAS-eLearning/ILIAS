@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules;
 
 use PhpParser\Node\Expr\CallLike;
 use PHPStan\Reflection\ReflectionProvider;

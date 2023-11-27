@@ -87,7 +87,7 @@
 	},
 	"autoload": {
 		"psr-4" : {
-			"ILIAS\\CI\\" : "./scripts"
+			"ILIAS\\Scripts\\" : "./scripts"
 		},
 		"classmap": [
 			"./Customizing/global/plugins",
