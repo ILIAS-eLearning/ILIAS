@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -40,7 +41,7 @@ abstract class AbstractBaseItem implements isItem
     protected $position = 0;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     private $is_visible_static;
 
@@ -97,6 +98,7 @@ abstract class AbstractBaseItem implements isItem
     {
         $clone = clone($this);
         $clone->visiblility_callable = $is_visible;
+        $clone->is_visible_static = null;
 
         return $clone;
     }

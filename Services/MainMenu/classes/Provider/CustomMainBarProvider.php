@@ -1,4 +1,20 @@
-<?php namespace ILIAS\MainMenu\Provider;
+<?php /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
@@ -103,8 +119,15 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     {
         $identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
 
-        $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification)->withVisibilityCallable(
-            $this->mm_access->isCurrentUserAllowedToSeeCustomItem($storage)
+        $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification);
+
+        $item = $item->withVisibilityCallable(
+            $this->mm_access->isCurrentUserAllowedToSeeCustomItem(
+                $storage,
+                function () use ($item) {
+                    return $item->isVisible();
+                }
+            )
         );
 
         if ($item instanceof hasTitle && !empty($storage->getDefaultTitle())) {
@@ -143,24 +166,30 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     {
         $c = new TypeInformationCollection();
         // TopParentItem
-        $c->add(new TypeInformation(
-                TopParentItem::class,
-                $this->translateType(TopParentItem::class),
-                new TopParentItemRenderer())
+        $c->add(
+            new TypeInformation(
+            TopParentItem::class,
+            $this->translateType(TopParentItem::class),
+            new TopParentItemRenderer()
+        )
         );
         // TopLinkItem
-        $c->add(new TypeInformation(
-                TopLinkItem::class,
-                $this->translateType(TopLinkItem::class),
-                new \ilMMTopLinkItemRenderer(),
-                new ilMMTypeHandlerTopLink())
+        $c->add(
+            new TypeInformation(
+            TopLinkItem::class,
+            $this->translateType(TopLinkItem::class),
+            new \ilMMTopLinkItemRenderer(),
+            new ilMMTypeHandlerTopLink()
+        )
         );
         // Link
-        $c->add(new TypeInformation(
-                Link::class,
-                $this->translateType(Link::class),
-                new \ilMMLinkItemRenderer(),
-                new ilMMTypeHandlerLink())
+        $c->add(
+            new TypeInformation(
+            Link::class,
+            $this->translateType(Link::class),
+            new \ilMMLinkItemRenderer(),
+            new ilMMTypeHandlerLink()
+        )
         );
 
         // LinkList
@@ -173,20 +202,24 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         $c->add($link_list);
 
         // Separator
-        $c->add(new TypeInformation(
-                Separator::class,
-                $this->translateType(Separator::class),
-                new SeparatorItemRenderer(),
-                new ilMMTypeHandlerSeparator(),
-                $this->translateByline(Separator::class))
+        $c->add(
+            new TypeInformation(
+            Separator::class,
+            $this->translateType(Separator::class),
+            new SeparatorItemRenderer(),
+            new ilMMTypeHandlerSeparator(),
+            $this->translateByline(Separator::class)
+        )
         );
 
         // RepositoryLink
-        $c->add(new TypeInformation(
-                RepositoryLink::class,
-                $this->translateType(RepositoryLink::class),
-                new \ilMMRepositoryLinkItemRenderer(),
-                new ilMMTypeHandlerRepositoryLink())
+        $c->add(
+            new TypeInformation(
+            RepositoryLink::class,
+            $this->translateType(RepositoryLink::class),
+            new \ilMMRepositoryLinkItemRenderer(),
+            new ilMMTypeHandlerRepositoryLink()
+        )
         );
 
         // Lost
