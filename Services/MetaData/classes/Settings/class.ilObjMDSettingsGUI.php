@@ -82,11 +82,10 @@ class ilObjMDSettingsGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd === 'view') {
-                    $cmd = "showGeneralSettings";
-                }
-
-                $this->$cmd();
+                $this->ctrl->redirectByClass(
+                    ilMDCopyrightSelectionGUI::class,
+                    'view'
+                );
                 break;
         }
     }
@@ -107,12 +106,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             $this->access_service->hasCurrentUserVisibleAccess() &&
             $this->access_service->hasCurrentUserReadAccess()
         ) {
-            $this->tabs_gui->addTab(
-                'md_general_settings',
-                $this->lng->txt('md_general_settings'),
-                $this->ctrl->getLinkTarget($this, 'showGeneralSettings')
-            );
-
             $this->tabs_gui->addTab(
                 'md_copyright',
                 $this->lng->txt('md_copyright'),
@@ -136,60 +129,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm')
             );
         }
-    }
-
-    /**
-     * TODO: get rid of this and the customizable delimiter for authors/keywords
-     *  with the new MD editor
-     */
-    public function showGeneralSettings(?ilPropertyFormGUI $form = null): void
-    {
-        if (!$form instanceof ilPropertyFormGUI) {
-            $form = $this->initGeneralSettingsForm();
-        }
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    public function initGeneralSettingsForm(string $a_mode = "edit"): ilPropertyFormGUI
-    {
-        $this->tabs_gui->setTabActive('md_general_settings');
-        $form = new ilPropertyFormGUI();
-        $ti = new ilTextInputGUI($this->lng->txt("md_delimiter"), "delimiter");
-        $ti->setInfo($this->lng->txt("md_delimiter_info"));
-        $ti->setMaxLength(1);
-        $ti->setSize(1);
-        $ti->setValue($this->MDSettings()->getDelimiter());
-        $form->addItem($ti);
-
-        if ($this->access_service->hasCurrentUserWriteAccess()) {
-            $form->addCommandButton("saveGeneralSettings", $this->lng->txt("save"));
-        }
-        $form->setTitle($this->lng->txt("md_general_settings"));
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        return $form;
-    }
-
-    public function saveGeneralSettings(): void
-    {
-        if (!$this->access_service->hasCurrentUserWriteAccess()) {
-            $this->ctrl->redirect($this, "showGeneralSettings");
-        }
-        $form = $this->initGeneralSettingsForm();
-        if ($form->checkInput()) {
-            $delim = $form->getInput('delimiter');
-            $delim = (
-                trim($delim) === '' ?
-                ',' :
-                trim($delim)
-            );
-            $this->MDSettings()->setDelimiter($delim);
-            $this->MDSettings()->save();
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this, "showGeneralSettings");
-        }
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), true);
-        $form->setValuesByPost();
-        $this->showGeneralSettings($form);
     }
 
     protected function MDSettings(): ilMDSettings
