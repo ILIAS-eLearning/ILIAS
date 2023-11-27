@@ -938,9 +938,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		          FROM usr_data
 		          LEFT JOIN usr_pref
 		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = " .
-                  $ilDB->quote("language", "text") .
-                  "'language'
-		          WHERE 1 = 1 " . $query;
+            $ilDB->quote("language", "text") .
+            "  WHERE 1 = 1 " . $query;
 
         if (is_numeric($active) && $active > -1) {
             $query .= " AND active = " . $ilDB->quote($active);
@@ -998,7 +997,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $field_query = array();
             foreach ($a_keyvalues as $keyvalue) {
                 if (strlen($keyvalue) >= 3) {
-                    $field_query []= $keyfield . " like '%" . $keyvalue . "%'";
+                    $field_query [] = $ilDB->like($ilDB->quoteIdentifier($keyfield), 'text', '%' . $keyvalue . "%");
                 }
             }
             if (count($field_query)) {
