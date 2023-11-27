@@ -93,7 +93,7 @@ class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
             }
             if (!empty($item->getGlobalRoleIDs())) {
                 foreach ($roles_of_current_user as $role_of_current_user) {
-                    if (in_array($role_of_current_user, $item->getGlobalRoleIDs(), true)) {
+                    if (in_array((int) $role_of_current_user, $item->getGlobalRoleIDs(), true)) {
                         return $current();
                     }
                 }
