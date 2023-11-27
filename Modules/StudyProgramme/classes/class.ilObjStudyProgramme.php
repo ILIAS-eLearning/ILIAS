@@ -1548,12 +1548,14 @@ class ilObjStudyProgramme extends ilContainer
         $customIcon = $this->custom_icon_factory->getByObjId($this->getId(), $this->getType());
         $subtype = $this->getSubType();
 
-        if ($subtype
-                && $this->webdir->has($subtype->getIconPath(true))
-                && $subtype->getIconPath(true) !== $subtype->getIconPath(false)
-        ) {
-            $icon = $subtype->getIconPath(true);
-            $customIcon->saveFromSourceFile($icon);
+        if ($subtype && $subtype->getIconIdentifier()) {
+            $src = $this->type_repository->getIconPathFS($subtype);
+
+            //This is a horrible hack to allow Flysystem/LocalFilesystem to read the file.
+            $tmp = 'ico_' . $this->getId();
+            copy($src, \ilFileUtils::getDataDir() . '/temp/' . $tmp);
+
+            $customIcon->saveFromTempFileName($tmp);
         } else {
             $customIcon->remove();
         }
