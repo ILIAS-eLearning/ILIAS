@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\scripts\PHPStan\Rules;
+namespace ILIAS\Scripts\PHPStan\Rules;
 
 use PHPStan\Rules\Rule;
 
