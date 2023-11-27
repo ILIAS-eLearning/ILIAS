@@ -48,7 +48,7 @@ class MDEditorToolProvider extends AbstractDynamicToolProvider
 
     public function isInterestedInContexts(): ContextCollection
     {
-        return $this->context_collection->repository();
+        return $this->context_collection->main()->repository()->desktop();
     }
 
     /**
