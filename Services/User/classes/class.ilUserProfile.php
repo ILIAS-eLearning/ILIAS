@@ -561,9 +561,11 @@ class ilUserProfile
                 case "text":
                     if (self::userSettingVisible($f)) {
                         $ti = new ilTextInputGUI($lng->txt($lv), "usr_" . $f);
+                        $value = '';
                         if ($a_user) {
-                            $ti->setValue($a_user->$m() ?? '');
+                            $value = $a_user->$m() ?? '';
                         }
+                        $ti->setValue($value);
                         $ti->setMaxLength($p["maxlength"]);
                         $ti->setSize($p["size"]);
                         $ti->setRequired((bool) $ilSetting->get("require_" . $f));
