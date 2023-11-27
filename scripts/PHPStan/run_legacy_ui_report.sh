@@ -13,7 +13,7 @@ if [ -d "$1" ]; then
     REPORT_DIRECTORIES=($1)
 else
     # Find all directories matching the regex (depth 2)
-    REPORT_DIRECTORIES=($(find components/ILIAS/* -maxdepth 1 -mindepth 1 -type d -print0 |
+    REPORT_DIRECTORIES=($(find components/ILIAS -maxdepth 1 -mindepth 1 -type d -print0 |
     xargs -0I % echo "%" |
     tr "\n" "\0" |
     xargs -0))
