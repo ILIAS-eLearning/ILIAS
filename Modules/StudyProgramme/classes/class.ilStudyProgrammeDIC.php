@@ -169,10 +169,12 @@ class ilStudyProgrammeDIC
             new ilStudyProgrammeTypeDBRepository(
                 $DIC['ilDB'],
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
-                $DIC->filesystem()->web(),
                 $DIC['ilUser'],
                 $DIC['lng'],
-                $DIC['component.factory']
+                $DIC['component.factory'],
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['resource_storage'],
             );
         $dic['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'] = static fn($dic) =>
             new ilStudyProgrammeAutoCategoryDBRepository(
@@ -249,7 +251,7 @@ class ilStudyProgrammeDIC
                 $DIC->refinery(),
                 $DIC['ui.factory']
             );
-        $dic['ilStudyProgrammeTypeGUI'] = static fn($dic) =>
+        $dic['ilStudyProgrammeTypeGUI'] = static fn($dic): ilStudyProgrammeTypeGUI =>
             new ilStudyProgrammeTypeGUI(
                 $DIC['tpl'],
                 $DIC['ilCtrl'],
@@ -262,11 +264,12 @@ class ilStudyProgrammeDIC
                 $dic['model.Type.ilStudyProgrammeTypeRepository'],
                 $DIC->ui()->factory(),
                 $DIC->ui()->renderer(),
+                $dic['DataFactory'],
                 $DIC->http()->request(),
                 $DIC->refinery(),
-                $DIC->filesystem()->web(),
                 $DIC->http()->wrapper()->query()
             );
+
         $dic['ilStudyProgrammeRepositorySearchGUI'] = static fn($dic) =>
             new ilStudyProgrammeRepositorySearchGUI();
         $dic['ilObjStudyProgrammeIndividualPlanGUI'] = static fn($dic) =>
