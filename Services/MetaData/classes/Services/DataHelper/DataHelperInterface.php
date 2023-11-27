@@ -26,6 +26,8 @@ interface DataHelperInterface
 {
     public function makePresentable(DataInterface $data): string;
 
+    public function makePresentableAsList(string $separator, DataInterface ...$data): string;
+
     /**
      * Translates strings in the LOM-internal duration format to arrays
      * consisting of in order years, months, days, hours, minutes, seconds.
