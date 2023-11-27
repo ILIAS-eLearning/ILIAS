@@ -1068,27 +1068,17 @@ class ilObjTestGUI extends ilObjectGUI
         $this->forwardToEvaluationGUI();
     }
 
-    private function testResultsGatewayObject()
+    private function testResultsGatewayObject() : void
     {
-        global $DIC, $ilPluginAdmin;
-        $this->tabs_gui->clearTargets();
-
-        $this->prepareOutput();
-        $this->addHeaderAction();
-
-        $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
-        $this->ctrl->setCmd('showParticipants');
-
-
-        $gui = new ilParticipantsTestResultsGUI();
-        $gui->setTestObj($this->object);
-
-        $factory = new ilTestQuestionSetConfigFactory($this->tree, $DIC->database(), $ilPluginAdmin, $this->object);
-        $gui->setQuestionSetConfig($factory->getQuestionSetConfig());
-        $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
-        $gui->setTestAccess($this->getTestAccess());
-        $this->tabs_gui->activateTab('results');
-        $this->ctrl->forwardCommand($gui);
+        $this->ctrl->redirectByClass(
+            [
+                ilRepositoryGUI::class,
+                __CLASS__,
+                ilTestResultsGUI::class,
+                ilParticipantsTestResultsGUI::class
+            ],
+            'showParticipants'
+        );
     }
 
     /**
