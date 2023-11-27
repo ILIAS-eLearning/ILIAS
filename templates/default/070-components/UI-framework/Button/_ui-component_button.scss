@@ -271,6 +271,8 @@ button > .glyphicon {
   font-weight: s.$il-font-weight-bold;
   line-height: 1;
   color: s.$il-neutral-light-color;
+  background-color: transparent;
+  border: 0;
 
   &:hover,
   &:focus {
