@@ -1,4 +1,4 @@
-name: install-check-trunk-8.1
+name: install-check-trunk-8.3
 on:
   schedule:
     - cron: "0 12 * * *"
@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.1]
+        php: [8.3]
     env:
       DB_DATABASE: ilias
       DB_USER: root
@@ -24,7 +24,7 @@ jobs:
 
       - name: Copy config file to location outside webroot
         run: |
-           cp scripts/install-check/ilias-ci-config.json ../ilias-ci-config.json
+           cp CI/install-check/ilias-ci-config.json ../ilias-ci-config.json
 
       - name: Start MySQL Service
         run: |
@@ -42,8 +42,8 @@ jobs:
         run: composer install --no-interaction --no-progress --no-dev
 
       - name: Install Node dependencies
-        run: npm clean-install --omit-dev --ignore-scripts
+        run: npm install --omit-dev --ignore-scripts
 
       - name: Perform setup
         run: |
-           php cli/setup.php install -y ../ilias-ci-config.json
+           php setup/setup.php install -y ../ilias-ci-config.json
