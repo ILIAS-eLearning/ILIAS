@@ -105,7 +105,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
 
         $query = "
 			SELECT DISTINCT
-				mail.rcp_to login
+				COALESCE(mail.rcp_to, '') login
 			FROM mail
 			WHERE " . $this->db->like('mail.rcp_to', 'text', $this->quoted_term) . "
 			AND sender_id = " . $this->db->quote($this->user_id, 'integer') . "
