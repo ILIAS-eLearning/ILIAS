@@ -81,6 +81,11 @@ class RendererTest extends TestCase
                     \ILIAS\Component\Tests\Dependencies\Scenario4\ComponentB::class,
                     \ILIAS\Component\Tests\Dependencies\Scenario4\ComponentC::class
                 ]
+            ],
+            "render entry points" => ["scenario5.php", "result5.php",
+                [
+                    \ILIAS\Component\Tests\Dependencies\Scenario5\ComponentA::class
+                ]
             ]
         ];
     }

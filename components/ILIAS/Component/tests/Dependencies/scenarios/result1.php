@@ -16,17 +16,32 @@
  *
  *********************************************************************/
 
-$null_dic = new ILIAS\Component\Dependencies\NullDIC();
+require_once(__DIR__ . "/../vendor/composer/vendor/autoload.php");
+
+function entry_point(string $name)
+{
+    $null_dic = new ILIAS\Component\Dependencies\NullDIC();
 
 
-$component_0 = new ILIAS\Component\Tests\Dependencies\Scenario1\ComponentA();
+    $component_0 = new ILIAS\Component\Tests\Dependencies\Scenario1\ComponentA();
 
-$implement_0 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
-$use = new Pimple\Container();
-$contribute_0 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
-$seek = new Pimple\Container();
-$provide_0 = new Pimple\Container();
-$pull = new Pimple\Container();
-$internal = new Pimple\Container();
+    $implement_0 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    $use = new Pimple\Container();
+    $contribute_0 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    $seek = new Pimple\Container();
+    $provide_0 = new Pimple\Container();
+    $pull = new Pimple\Container();
+    $internal = new Pimple\Container();
 
-$component_0->init($null_dic, $implement_0, $use, $contribute_0, $seek, $provide_0, $pull, $internal);
+    $component_0->init($null_dic, $implement_0, $use, $contribute_0, $seek, $provide_0, $pull, $internal);
+
+
+    $entry_points = [
+    ];
+
+    if (!isset($entry_points[$name])) {
+        throw new \LogicException("Unknown entry point: $name.");
+    }
+
+    $entry_points[$name]()->enter();
+}

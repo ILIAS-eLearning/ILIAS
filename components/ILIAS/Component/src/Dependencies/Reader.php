@@ -151,6 +151,9 @@ class Reader
         $aux = [
             "position" => $i
         ];
+        if ($impl instanceof \ILIAS\Component\EntryPoint) {
+            $aux["entry_point_name"] = $impl->getName();
+        }
         $d = new Out(OutType::CONTRIBUTE, $name, $aux, $dependencies);
         $this->contributes[$i] = $d;
     }

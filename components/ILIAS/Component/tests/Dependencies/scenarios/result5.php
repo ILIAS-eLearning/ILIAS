@@ -23,7 +23,7 @@ function entry_point(string $name)
     $null_dic = new ILIAS\Component\Dependencies\NullDIC();
 
 
-    $component_0 = new ILIAS\Component\Tests\Dependencies\Scenario3\ComponentA();
+    $component_0 = new ILIAS\Component\Tests\Dependencies\Scenario5\ComponentA();
 
     $implement_0 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
     $use = new Pimple\Container();
@@ -36,21 +36,8 @@ function entry_point(string $name)
     $component_0->init($null_dic, $implement_0, $use, $contribute_0, $seek, $provide_0, $pull, $internal);
 
 
-    $component_1 = new ILIAS\Component\Tests\Dependencies\Scenario3\ComponentB();
-
-    $implement_1 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
-    $use = new Pimple\Container();
-    $use[ILIAS\Component\Tests\Dependencies\Scenario3\Service::class] = fn() => $implement_0[ILIAS\Component\Tests\Dependencies\Scenario3\Service::class . "_0"];
-    $contribute_1 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
-    $seek = new Pimple\Container();
-    $provide_1 = new Pimple\Container();
-    $pull = new Pimple\Container();
-    $internal = new Pimple\Container();
-
-    $component_1->init($null_dic, $implement_1, $use, $contribute_1, $seek, $provide_1, $pull, $internal);
-
-
     $entry_points = [
+        "just a name" => fn() => $contribute_0[ILIAS\Component\EntryPoint::class . "_0"],
     ];
 
     if (!isset($entry_points[$name])) {

@@ -61,6 +61,7 @@ final class RootFolderTest extends TestCase
         '.git',
         '.github',
         '.idea',
+        'artifacts',
         'cli',
         'components',
         'Customizing',

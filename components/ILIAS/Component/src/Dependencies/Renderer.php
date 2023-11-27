@@ -40,7 +40,8 @@ class Renderer
             join("\n", array_map(
                 fn($c) => $this->renderComponent($component_lookup, $c),
                 $components
-            ));
+            )) .
+            $this->renderEntryPointsSection($component_lookup, ...$components);
     }
 
     protected function renderHeader(): string
@@ -64,7 +65,11 @@ class Renderer
  *
  *********************************************************************/
 
-\$null_dic = new ILIAS\Component\Dependencies\NullDIC();
+require_once(__DIR__ . "/../vendor/composer/vendor/autoload.php");
+
+function entry_point(string \$name)
+{
+    \$null_dic = new ILIAS\Component\Dependencies\NullDIC();
 
 
 PHP;
@@ -78,17 +83,17 @@ PHP;
         $pull = $this->renderPull($component_lookup, $component);
         return <<<PHP
 
-\$component_$me = new {$component->getComponentName()}();
+    \$component_$me = new {$component->getComponentName()}();
 
-\$implement_$me = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
-\$use = new Pimple\Container();{$use}
-\$contribute_$me = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
-\$seek = new Pimple\Container();{$seek}
-\$provide_$me = new Pimple\Container();
-\$pull = new Pimple\Container();{$pull}
-\$internal = new Pimple\Container();
+    \$implement_$me = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    \$use = new Pimple\Container();{$use}
+    \$contribute_$me = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    \$seek = new Pimple\Container();{$seek}
+    \$provide_$me = new Pimple\Container();
+    \$pull = new Pimple\Container();{$pull}
+    \$internal = new Pimple\Container();
 
-\$component_{$me}->init(\$null_dic, \$implement_$me, \$use, \$contribute_$me, \$seek, \$provide_$me, \$pull, \$internal);
+    \$component_{$me}->init(\$null_dic, \$implement_$me, \$use, \$contribute_$me, \$seek, \$provide_$me, \$pull, \$internal);
 
 PHP;
     }
@@ -101,7 +106,7 @@ PHP;
             $p = $r->aux["position"];
             $o = $component_lookup[$r->getComponent()->getComponentName()];
             $use .= "\n" . <<<PHP
-\$use[{$in->getName()}::class] = fn() => \$implement_{$o}[{$r->getName()}::class . "_{$p}"];
+    \$use[{$in->getName()}::class] = fn() => \$implement_{$o}[{$r->getName()}::class . "_{$p}"];
 PHP;
         }
         return $use;
@@ -119,15 +124,15 @@ PHP;
                 $o = $component_lookup[$r->getComponent()->getComponentName()];
                 $u[] = "\$contribute_{$o}";
                 $a .= "\n" . <<<PHP
-        \$contribute_{$o}[{$r->getName()}::class . "_{$p}"],
+            \$contribute_{$o}[{$r->getName()}::class . "_{$p}"],
 PHP;
             }
             $u = join(", ", array_unique($u));
             $seek .= "\n" . <<<PHP
-\$seek[{$in->getName()}::class] = function () use ({$u}) {
-    return [{$a}
-    ];
-};
+    \$seek[{$in->getName()}::class] = function () use ({$u}) {
+        return [{$a}
+        ];
+    };
 PHP;
         }
         return $seek;
@@ -140,9 +145,50 @@ PHP;
             $r = $in->getResolvedBy()[0];
             $o = $component_lookup[$r->getComponent()->getComponentName()];
             $pull .= "\n" . <<<PHP
-\$pull[{$in->getName()}::class] = fn() => \$provide_{$o}[{$r->getName()}::class];
+    \$pull[{$in->getName()}::class] = fn() => \$provide_{$o}[{$r->getName()}::class];
 PHP;
         }
         return $pull;
+    }
+
+    protected function renderEntryPointsSection(array $component_lookup, OfComponent ...$components): string
+    {
+        $entry_points = "";
+        foreach ($components as $component) {
+            $p = $component_lookup[$component->getComponentName()];
+            $entry_points .= $this->renderEntryPoints($p, $component);
+        }
+        return <<<PHP
+
+
+    \$entry_points = [{$entry_points}
+    ];
+
+    if (!isset(\$entry_points[\$name])) {
+        throw new \\LogicException("Unknown entry point: \$name.");
+    }
+
+    \$entry_points[\$name]()->enter();
+}
+
+PHP;
+    }
+
+    protected function renderEntryPoints(int $me, OfComponent $component): string
+    {
+        $entry_points = "";
+        foreach ($component->getOutDependenciesOf(OutType::CONTRIBUTE) as $out) {
+            if ($out->getName() !== \ILIAS\Component\EntryPoint::class) {
+                continue;
+            }
+            $p = $out->aux["position"];
+            $n = str_replace("\"", "\\\"", $out->aux["entry_point_name"]);
+            $entry_points .= "\n" . <<<PHP
+        "$n" => fn() => \$contribute_{$me}[ILIAS\Component\EntryPoint::class . "_{$p}"],
+PHP;
+        }
+
+        return $entry_points;
+        PHP;
     }
 }

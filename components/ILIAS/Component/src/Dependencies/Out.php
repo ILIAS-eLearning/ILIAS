@@ -51,6 +51,11 @@ class Out implements Dependency
         return $this->type->value . ": " . $this->name;
     }
 
+    public function getType(): OutType
+    {
+        return $this->type;
+    }
+
     public function getName(): string
     {
         return (string) $this->name;
