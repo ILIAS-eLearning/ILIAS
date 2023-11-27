@@ -429,7 +429,7 @@ class ilMathJax
                     break;
 
                 case self::RENDER_PNG_AS_FO_FILE:
-                    $html = '<fo:external-graphic src="' . $image->absolutePath() . '"'
+                    $html = '<fo:external-graphic src="file://' . $image->absolutePath() . '"'
                         . ' content-height="' . $height . 'px" content-width="' . $width . 'px"></fo:external-graphic>';
                     break;
 
