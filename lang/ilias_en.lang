@@ -11723,7 +11723,6 @@ meta#:#md_delete_cp_sure#:#Are you sure you want to delete the following entries
 meta#:#md_delimiter#:#Delimiter
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen to separate multiple keywords and/or authors. Default is ‘,’.
 meta#:#md_fields#:#Fields
-meta#:#md_general_settings#:#General Settings
 meta#:#md_months#:#Months:
 meta#:#md_obj_types#:#Assigned Objects
 meta#:#md_record_export_table#:#Export Files

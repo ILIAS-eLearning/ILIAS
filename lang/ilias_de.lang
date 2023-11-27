@@ -11731,7 +11731,6 @@ meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entf
 meta#:#md_delimiter#:#Trennzeichen
 meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist ','.###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#md_fields#:#Felder
-meta#:#md_general_settings#:#Einstellungen
 meta#:#md_months#:#Monate:
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien
