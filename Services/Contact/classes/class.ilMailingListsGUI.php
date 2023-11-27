@@ -254,7 +254,7 @@ class ilMailingListsGUI
 
                 $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(false, 'ml_id[]', (string) $entry->getId());
                 $result[$counter]['title'] = $entry->getTitle() . " [#il_ml_" . $entry->getId() . "]";
-                $result[$counter]['description'] = $entry->getDescription();
+                $result[$counter]['description'] = $entry->getDescription() ?? '';
                 $result[$counter]['members'] = count($entry->getAssignedEntries());
 
                 $this->ctrl->setParameter($this, 'ml_id', $entry->getId());
@@ -388,7 +388,7 @@ class ilMailingListsGUI
     {
         $this->form_gui->setValuesByArray([
             'title' => $this->mlists->getCurrentMailingList()->getTitle(),
-            'description' => $this->mlists->getCurrentMailingList()->getDescription()
+            'description' => $this->mlists->getCurrentMailingList()->getDescription() ?? ''
         ]);
     }
 
