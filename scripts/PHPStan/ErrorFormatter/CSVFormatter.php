@@ -26,7 +26,7 @@ use PHPStan\Command\Output;
 
 class CSVFormatter implements ErrorFormatter
 {
-    private const COMPONENT_REGEX = '/.*(Modules|Services|src)\/(.*?)\/.*/m';
+    private const COMPONENT_REGEX = '/.*(components)\/(.*?)\/.*/m';
     private const H_COMPONENT = 'Component';
     private const H_CLASS = 'Filename';
     private const H_LINE = 'Line';
