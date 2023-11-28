@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -68,21 +84,17 @@ class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
         return $roles;
     }
 
-    /**
-     * @param ilMMCustomItemStorage $item
-     * @return Closure
-     */
-    public function isCurrentUserAllowedToSeeCustomItem(ilMMCustomItemStorage $item): Closure
+    public function isCurrentUserAllowedToSeeCustomItem(ilMMCustomItemStorage $item, Closure $current): Closure
     {
-        return function () use ($item): bool {
+        return function () use ($item, $current): bool {
             $roles_of_current_user = $this->rbacreview->assignedGlobalRoles($this->user->getId());
             if (!$item->hasRoleBasedVisibility()) {
-                return true;
+                return $current();
             }
             if (!empty($item->getGlobalRoleIDs())) {
                 foreach ($roles_of_current_user as $role_of_current_user) {
-                    if (in_array($role_of_current_user, $item->getGlobalRoleIDs())) {
-                        return true;
+                    if (in_array((int) $role_of_current_user, $item->getGlobalRoleIDs(), true)) {
+                        return $current();
                     }
                 }
             }
