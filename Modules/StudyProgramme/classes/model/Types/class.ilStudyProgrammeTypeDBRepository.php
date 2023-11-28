@@ -204,6 +204,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         $return->setValue((string) $row[self::FIELD_VALUE]);
         return $return;
     }
+
     public function updateType(ilStudyProgrammeType $type): void
     {
         $this->updateRowTypeDB(
@@ -216,6 +217,12 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
                 ,self::FIELD_ICON => $type->getIconIdentifier()
             ]
         );
+    }
+    public function removeIconFromIrss(string $identifier): void
+    {
+        if($rid = $this->irss->manage()->find($identifier)) {
+            $this->irss->manage()->remove($rid, new ilStudyProgrammeTypeStakeholder());
+        }
     }
 
     protected function updateRowTypeDB(array $row): void
@@ -738,8 +745,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
             $default_language = $type->getDefaultLang();
 
             $icon = '';
-            if($type->getIconIdentifier()) {
-                $icon_path = $this->getIconPath($type);
+            if($type->getIconIdentifier() && $icon_path = $this->getIconPath($type)) {
                 $icon = $this->ui_renderer->render(
                     $this->ui_factory->symbol()->icon()->custom($icon_path, '')
                 );
@@ -757,15 +763,21 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         }
     }
 
-    public function getIconPathFS(ilStudyProgrammeType $type): string
+    public function getIconPathFS(ilStudyProgrammeType $type): ?string
     {
         $icon_id = $this->irss->manage()->find($type->getIconIdentifier());
-        return $this->irss->consume()->stream($icon_id)->getStream()->getMetadata('uri');
+        if($icon_id) {
+            return $this->irss->consume()->stream($icon_id)->getStream()->getMetadata('uri');
+        }
+        return null;
     }
 
-    public function getIconPath(ilStudyProgrammeType $type): string
+    public function getIconPath(ilStudyProgrammeType $type): ?string
     {
         $icon_id = $this->irss->manage()->find($type->getIconIdentifier());
-        return $this->irss->consume()->src($icon_id)->getSrc();
+        if($icon_id) {
+            return $this->irss->consume()->src($icon_id)->getSrc();
+        }
+        return null;
     }
 }
