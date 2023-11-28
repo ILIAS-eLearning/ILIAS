@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -78,6 +77,12 @@ class ilOrgUnitTypeGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
+            case strtolower(ilOrgUnitTypeUploadHandlerGUI::class):
+                $this->ctrl->forwardCommand(
+                    new ilOrgUnitTypeUploadHandlerGUI()
+                );
+                break;
+
             case '':
                 switch ($cmd) {
                     case '':
@@ -146,23 +151,80 @@ class ilOrgUnitTypeGUI
         $this->tabs->setSubTabActive($active_tab_id);
     }
 
-    /**
-     * Display form for editing custom icons
-     */
+
+
+    protected function getIconForm(
+        string $section_title = null,
+        string $current_identifier = null
+    ): StandardForm {
+        $handler_gui = new ilOrgUnitTypeUploadHandlerGUI();
+
+        $input = $this->ui_factory->input()->field()->file(
+            $handler_gui,
+            $this->lng->txt('icon'),
+            $this->lng->txt('file_allowed_suffixes') . ' .svg'
+        );
+
+        if($current_identifier) {
+            $input = $input->withValue([$current_identifier]);
+        }
+
+        $section = $this->ui_factory->input()->field()->section(
+            ['iconfile' => $input],
+            $section_title . $this->lng->txt('orgu_type_custom_icon'),
+            $this->lng->txt('orgu_type_custom_icon_info')
+        );
+
+        $form_action = $this->ctrl->getFormAction($this, 'updateCustomIcons');
+        $form = $this->ui_factory->input()->container()->form()->standard(
+            $form_action,
+            [$section]
+        );
+
+        $form = $form->withAdditionalTransformation(
+            $this->refinery->custom()->transformation(
+                function ($values) {
+                    return array_shift($values)['iconfile'];
+                }
+            )
+        );
+        return $form;
+    }
+
+
     private function editCustomIcons(): void
     {
-        $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
-        $this->tpl->setContent($form->getHTML());
+        $type = new ilOrgUnitType((int) $_GET['type_id']);
+        $form = $this->getIconForm(
+            $type->getTitle() . ': ',
+            $type->getIconIdentifier()
+        );
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     private function updateCustomIcons(): void
     {
-        $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
-        if ($form->saveObject()) {
+        $type = new ilOrgUnitType((int) $_GET['type_id']);
+        $form = $this->getIconForm(
+            $type->getTitle() . ': ',
+            $type->getIconIdentifier()
+        )
+        ->withRequest($this->request);
+
+        $data = $form->getData();
+
+        if(! is_null($data)) {
+            $new_icon_id = current($data) ? current($data) : '';
+            $identifier = $type->getIconIdentifier();
+            if($identifier && $new_icon_id == '') {
+                $type->removeIconFromIrss($identifier);
+            }
+            $type = $type->withIconIdentifier($new_icon_id);
+            $type->save();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
-            $this->tpl->setContent($form->getHTML());
+            $this->tpl->setContent($this->ui_renderer->render($form));
         }
     }
 

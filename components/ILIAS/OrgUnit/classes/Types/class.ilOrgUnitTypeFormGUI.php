@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilOrgUnitTypeFormGUI
@@ -32,7 +32,7 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
         $this->parent_gui = $parent_gui;
         $this->type = $type;
         //$this->tpl =  $DIC->ui()->mainTemplate();
-        $this->global_tpl =  $DIC->ui()->mainTemplate();
+        $this->global_tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
