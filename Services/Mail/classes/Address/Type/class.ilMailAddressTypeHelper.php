@@ -38,7 +38,7 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 
     public function getGroupObjIdByTitle(string $title): int
     {
-        return ilObjGroup::_lookupIdByTitle($title);
+        return (int) ilObjGroup::_lookupIdByTitle($title);
     }
 
     public function getInstanceByRefId(int $refId): ilObject
