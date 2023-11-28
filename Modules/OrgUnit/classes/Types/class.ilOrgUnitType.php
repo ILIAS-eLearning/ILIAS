@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,9 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+use ILIAS\ResourceStorage\Services as IRSS;
 
 /**
  * Class ilOrgUnitType
@@ -24,16 +26,12 @@
 class ilOrgUnitType
 {
     public const TABLE_NAME = 'orgu_types';
-    /**
-     * Folder in ILIAS webdir to store the icons
-     */
-    public const WEB_DATA_FOLDER = 'orgu_data';
     protected int $id = 0;
     protected string $default_lang = '';
     protected int $owner;
     protected string $create_date;
     protected string $last_update;
-    protected ?string $icon = null;
+    protected string $icon = '';
     protected array $translations = array();
     protected array $amd_records_assigned;
     protected static ?array $amd_records_available = null;
@@ -47,7 +45,7 @@ class ilOrgUnitType
     /** @param self[] */
     protected static array $instances = array();
     protected ilComponentFactory $component_factory;
-
+    protected IRSS $irss;
 
     /**
      * @throws ilOrgUnitTypeException
@@ -64,6 +62,7 @@ class ilOrgUnitType
             $this->id = (int) $a_id;
             $this->read();
         }
+        $this->irss = $DIC['resource_storage'];
     }
 
     /**
@@ -127,7 +126,7 @@ class ilOrgUnitType
             'id' => array('integer', $this->getId()),
             'default_lang' => array('text', $this->getDefaultLang()),
             'owner' => array('integer', $this->user->getId()),
-            'icon' => array('text', $this->getIcon()),
+            'icon' => array('text', $this->getIconIdentifier()),
             'create_date' => array('text', date('Y-m-d H:i:s')),
             'last_update' => array('text', date('Y-m-d H:i:s')),
         ));
@@ -169,7 +168,7 @@ class ilOrgUnitType
         $this->db->update(self::TABLE_NAME, array(
             'default_lang' => array('text', $this->getDefaultLang()),
             'owner' => array('integer', $this->getOwner()),
-            'icon' => array('text', $this->getIcon()),
+            'icon' => array('text', $this->getIconIdentifier()),
             'last_update' => array('text', date('Y-m-d H:i:s')),
         ), array(
             'id' => array('integer', $this->getId()),
@@ -243,12 +242,7 @@ class ilOrgUnitType
         ilOrgUnitTypeTranslation::deleteAllTranslations($this->getId());
 
         // Delete icon & folder
-        if (is_file($this->getIconPath(true))) {
-            unlink($this->getIconPath(true));
-        }
-        if (is_dir($this->getIconPath())) {
-            rmdir($this->getIconPath());
-        }
+        $this->removeIconFromIrss($this->getIconIdentifier());
 
         // Delete relations to advanced metadata records
         $sql = 'DELETE FROM orgu_types_adv_md_rec WHERE type_id = ' . $this->db->quote($this->getId(), 'integer');
@@ -516,40 +510,6 @@ class ilOrgUnitType
         }
     }
 
-    /**
-     * Resize and store an icon file for this object
-     * @param array $file_data The array containing file information from the icon from PHPs $_FILES array
-     * @return bool
-     */
-    public function processAndStoreIconFile(array $file_data): bool
-    {
-        if (!$this->updateable()) {
-            return false;
-        }
-        if (!count($file_data) || !$file_data['name']) {
-            return false;
-        }
-        if (!is_dir($this->getIconPath())) {
-            ilFileUtils::makeDirParents($this->getIconPath());
-        }
-        $filename = $this->getIcon() ? $this->getIcon() : $file_data['name'];
-        return ilFileUtils::moveUploadedFile($file_data['tmp_name'], $filename, $this->getIconPath(true), false);
-    }
-
-    /**
-     * Remove the icon file on disk
-     */
-    public function removeIconFile(): void
-    {
-        if (!$this->updateable()) {
-            return;
-        }
-        if (is_file($this->getIconPath(true))) {
-            unlink($this->getIconPath(true));
-            $this->setIcon('');
-        }
-    }
-
 
     /**
      * Protected
@@ -694,7 +654,7 @@ class ilOrgUnitType
         $this->setCreateDate($rec->create_date);
         $this->setLastUpdate($rec->last_update);
         $this->setOwner($rec->owner);
-        $this->setIcon($rec->icon);
+        $this->icon = $rec->icon;
     }
 
     /**
@@ -774,39 +734,16 @@ class ilOrgUnitType
         return $this->id;
     }
 
-    /**
-     * Set new Icon filename.
-     * Note that if you did also send a new icon image file with a form, make sure to call
-     * ilOrgUnitType::processAndStoreIconFile() to store the file additionally on disk.
-     * If you want to delete the icon, set call ilOrgUnitType::removeIconFile() first and set an empty string here.
-     * @throws ilOrgUnitTypeException
-     */
-    public function setIcon(?string $icon): void
+    public function withIconIdentifier(string $identifier): self
     {
-        if ($icon and !preg_match('/\.(svg)$/', $icon)) {
-            throw new ilOrgUnitTypeException('Icon must be set with file extension svg');
-        }
-        $this->icon = $icon;
+        $clone = clone $this;
+        $clone->icon = $identifier;
+        return $clone;
     }
 
-    public function getIcon(): ?string
+    public function getIconIdentifier(): string
     {
         return $this->icon;
-    }
-
-    /**
-     * Return the path to the icon
-     * @param bool $append_filename If true, append filename of icon
-     * @return string
-     */
-    public function getIconPath(bool $append_filename = false): string
-    {
-        $path = ilFileUtils::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
-        if ($append_filename) {
-            $path .= $this->getIcon();
-        }
-
-        return $path;
     }
 
     /**
@@ -855,5 +792,12 @@ class ilOrgUnitType
     public function getCreateDate(): string
     {
         return $this->create_date;
+    }
+
+    public function removeIconFromIrss(string $identifier): void
+    {
+        if($rid = $this->irss->manage()->find($identifier)) {
+            $this->irss->manage()->remove($rid, new ilOrgUnitTypeStakeholder());
+        }
     }
 }

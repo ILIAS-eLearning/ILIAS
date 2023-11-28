@@ -19,6 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
 
 class ilOrgUnitTypeTableGUI extends ilTable2GUI
 {
@@ -30,6 +33,9 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         'icon',
     ];
     protected DropdownBuilder $dropdownbuilder;
+    protected IRSS $irss;
+    protected UIFactory $ui_factory;
+    protected Renderer $ui_renderer;
 
     public function __construct(ilOrgUnitTypeGUI $parent_obj, string $parent_cmd)
     {
@@ -38,6 +44,9 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         $this->tabs = $dic['tabs'];
         $this->lng = $dic['lng'];
         $this->dropdownbuilder = $dic['dropdownbuilder'];
+        $this->irss = $dic['resource_storage'];
+        $this->ui_factory = $dic['ui.factory'];
+        $this->ui_renderer = $dic['ui.renderer'];
 
         $this->setPrefix('orgu_types_table');
         $this->setId('orgu_types_table');
@@ -54,10 +63,21 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
      */
     public function fillRow(array $a_set): void
     {
+        $icon = '';
+        if($a_set['icon'] && $icon_id = $this->irss->manage()->find($a_set['icon'])) {
+            $icon = $this->ui_renderer->render(
+                $this->ui_factory->symbol()->icon()->custom(
+                    $this->irss->consume()->src($icon_id)->getSrc(),
+                    ''
+                )
+            );
+        }
+
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         $this->tpl->setVariable('DEFAULT_LANG', $a_set['default_language']);
-        $this->tpl->setVariable('ICON', $a_set['icon']);
+        $this->tpl->setVariable('ICON', $icon);
+
         $this->ctrl->setParameterByClass("ilorgunittypegui", "type_id", $a_set['id']);
         $dropdownbuilder = $this->dropdownbuilder
             ->withItem(
@@ -90,7 +110,7 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
             $row['title'] = $type->getTitle($type->getDefaultLang());
             $row['default_language'] = $type->getDefaultLang();
             $row['description'] = $type->getDescription($type->getDefaultLang());
-            $row['icon'] = $type->getIcon();
+            $row['icon'] = $type->getIconIdentifier();
             $data[] = $row;
         }
         $this->setData($data);
