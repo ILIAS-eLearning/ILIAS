@@ -17437,6 +17437,7 @@ wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
 wopi#:#activate_wopi#:#Activate WOPI
+wopi#:#close_wopi_editor#:#Close Editor
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.
 wopi#:#msg_wopi_settings_modified#:#Settings stored
 wopi#:#open_external_editor#:#Open in external Editor
