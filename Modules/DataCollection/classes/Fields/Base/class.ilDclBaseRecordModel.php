@@ -122,7 +122,8 @@ class ilDclBaseRecordModel
 
         //TODO: add event raise
         if (!$omit_notification) {
-            ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
+            $objDataCollection = new ilObjDataCollection($_GET['ref_id']);
+            $objDataCollection->sendNotification("update_record", $this->getTableId(), $this->id);
         }
     }
 
@@ -846,7 +847,8 @@ class ilDclBaseRecordModel
         $this->table->loadRecords();
 
         if (!$omit_notification) {
-            ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+            $objDataCollection = new ilObjDataCollection($_GET['ref_id']);
+            $objDataCollection->sendNotification("delete_record", $this->getTableId(), $this->getId());
 
             $ilAppEventHandler->raise(
                 'Modules/DataCollection',

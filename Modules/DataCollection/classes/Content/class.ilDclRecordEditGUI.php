@@ -631,7 +631,8 @@ class ilDclRecordEditGUI
 
             if ($create_mode) {
                 $dispatchEvent = "create";
-                ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
+                $objDataCollection = new ilObjDataCollection($_GET['ref_id']);
+                $objDataCollection->sendNotification("new_record", $this->table_id, $record_obj->getId());
             } else {
                 $dispatchEventData['prev_record'] = $unchanged_obj;
             }

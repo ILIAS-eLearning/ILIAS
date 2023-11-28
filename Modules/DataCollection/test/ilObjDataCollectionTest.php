@@ -131,4 +131,18 @@ class ilObjDataCollectionTest extends TestCase
             $this->assertNotEmpty($f_sets);
         }
     }
+
+    public function testPrepareMessageText() : void
+    {
+        $testData = [
+            "test\r\n message" => "test\r\n message",
+            "test<br />\r\n message" => "test\r\n message",
+            "test<br /><br>\r\n message" => "test\r\n\r\n message",
+            "test><br><br /><br>\r\n message" => "test\r\n\r\n\r\n message",
+        ];
+
+        foreach ($testData as $testString => $expected) {
+            $this->assertEquals($expected, $testString);
+        }
+    }
 }
