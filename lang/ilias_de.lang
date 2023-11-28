@@ -8329,7 +8329,6 @@ dateplaner#:#cal_grp_personal#:#Persönlich
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
 dateplaner#:#cal_ical_url#:#iCal-URL
 dateplaner#:#cal_ical_url_google#:#iCal-URL (Google Kalender)
-dateplaner#:#cal_ical_url_google#:#iCal-URL (Google Kalender)
 dateplaner#:#cal_import_appointments#:#Termine importieren
 dateplaner#:#cal_import_file#:#Importdatei
 dateplaner#:#cal_import_file_info#:#Wählen Sie die Datei aus, die Ihre Termine enthält.
@@ -10795,6 +10794,8 @@ lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#avail_time_period#:#Zeitraum
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#condition_always#:#Immer
+lso#:#cont_ed_insert_lsocurriculum#:#Lernsequenz Curriculum einfügen
+lso#:#cont_ed_insert_lsostartbutton#:#Lernsequenz 'Start' einfügen
 lso#:#curriculum#:#Inhalt
 lso#:#delete_confirmation#:#Möchten Sie folgende Objekte wirklich löschen?
 lso#:#entries_deleted#:#Einträge wurden erfolgreich gelöscht.
