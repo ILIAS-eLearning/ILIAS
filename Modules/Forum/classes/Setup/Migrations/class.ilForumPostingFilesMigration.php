@@ -71,21 +71,25 @@ LIMIT 1;"
         $filename_pattern = '/^' . $object_id . '\_' . $posting_id . '\_(.*)/m';
         $pattern = '/.*\/' . $object_id . '\_' . $posting_id . '\_(.*)/m';
 
-        $collection_id = $this->helper->moveFilesOfPatternToCollection(
-            $base_path,
-            $pattern,
-            $resource_owner_id,
-            ResourceCollection::NO_SPECIFIC_OWNER,
-            $this->getFileNameCallback($filename_pattern),
-            $this->getRevisionNameCallback()
-        );
+        if (is_dir($base_path)) {
+            if (count(scandir($base_path)) > 2) {
+                $collection_id = $this->helper->moveFilesOfPatternToCollection(
+                    $base_path,
+                    $pattern,
+                    $resource_owner_id,
+                    ResourceCollection::NO_SPECIFIC_OWNER,
+                    $this->getFileNameCallback($filename_pattern),
+                    $this->getRevisionNameCallback()
+                );
 
-        $save_colletion_id = $collection_id === null ? '-' : $collection_id->serialize();
-        $this->helper->getDatabase()->update(
-            'frm_posts',
-            ['rcid' => ['text', $save_colletion_id]],
-            ['pos_pk' => ['integer', $posting_id],]
-        );
+                $save_colletion_id = $collection_id === null ? '-' : $collection_id->serialize();
+                $this->helper->getDatabase()->update(
+                    'frm_posts',
+                    ['rcid' => ['text', $save_colletion_id]],
+                    ['pos_pk' => ['integer', $posting_id],]
+                );
+            }
+        }
     }
 
     public function getRemainingAmountOfSteps(): int
