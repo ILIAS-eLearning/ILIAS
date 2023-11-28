@@ -68,21 +68,25 @@ LIMIT 1;"
         $base_path = $this->buildBasePath() . $draft_id . '/';
         $pattern = '/(.+)/m';
 
-        $collection_id = $this->helper->moveFilesOfPatternToCollection(
-            $base_path,
-            $pattern,
-            $resource_owner_id,
-            ResourceCollection::NO_SPECIFIC_OWNER,
-            null,
-            $this->getRevisionNameCallback()
-        );
+        if (is_dir($base_path)) {
+            if (count(scandir($base_path)) > 2) {
+                $collection_id = $this->helper->moveFilesOfPatternToCollection(
+                    $base_path,
+                    $pattern,
+                    $resource_owner_id,
+                    ResourceCollection::NO_SPECIFIC_OWNER,
+                    null,
+                    $this->getRevisionNameCallback()
+                );
 
-        $save_colletion_id = $collection_id === null ? '-' : $collection_id->serialize();
-        $this->helper->getDatabase()->update(
-            'frm_posts_drafts',
-            ['rcid' => ['text', $save_colletion_id]],
-            ['draft_id' => ['integer', $draft_id]]
-        );
+                $save_colletion_id = $collection_id === null ? '-' : $collection_id->serialize();
+                $this->helper->getDatabase()->update(
+                    'frm_posts_drafts',
+                    ['rcid' => ['text', $save_colletion_id]],
+                    ['draft_id' => ['integer', $draft_id]]
+                );
+            }
+        }
     }
 
     public function getRemainingAmountOfSteps(): int
