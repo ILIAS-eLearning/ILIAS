@@ -124,7 +124,11 @@ class ilStudyProgrammeTypeGUI
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             case strtolower(ilStudyProgrammeTypeUploadHandlerGUI::class):
-                $this->ctrl->forwardCommand(new ilStudyProgrammeTypeUploadHandlerGUI());
+                $type_id = $this->getTypeIdFromQueryToken();
+                $type = $this->type_repository->getType($type_id);
+                $this->ctrl->forwardCommand(
+                    new ilStudyProgrammeTypeUploadHandlerGUI($type->getIconIdentifier())
+                );
                 break;
         }
 
@@ -218,10 +222,11 @@ class ilStudyProgrammeTypeGUI
         $this->tabs->activateSubTab($active_tab_id);
     }
 
-    protected function getIconForm(): StandardForm
-    {
+    protected function getIconForm(
+        string $section_title = null,
+        string $current_identifier = null
+    ): StandardForm {
         $handler_gui = new ilStudyProgrammeTypeUploadHandlerGUI();
-        $type = $this->type_repository->getType($this->getTypeIdFromQueryToken());
 
         $input = $this->ui_factory->input()->field()->file(
             $handler_gui,
@@ -229,9 +234,13 @@ class ilStudyProgrammeTypeGUI
             $this->lng->txt('file_allowed_suffixes') . ' .svg'
         );
 
+        if($current_identifier) {
+            $input = $input->withValue([$current_identifier]);
+        }
+
         $section = $this->ui_factory->input()->field()->section(
             ['iconfile' => $input],
-            $type->getTitle() . ': ' . $this->lng->txt('prg_type_custom_icon'),
+            $section_title . $this->lng->txt('prg_type_custom_icon'),
             $this->lng->txt('prg_type_custom_icon_info')
         );
 
@@ -255,23 +264,36 @@ class ilStudyProgrammeTypeGUI
 
     protected function editCustomIcons(): void
     {
-        $form = $this->getIconForm();
+        $type = $this->type_repository->getType($this->getTypeIdFromQueryToken());
+        $form = $this->getIconForm(
+            $type->getTitle() . ': ',
+            $type->getIconIdentifier()
+        );
         $this->tpl->setContent($this->renderer->render($form));
     }
 
     protected function updateCustomIcons(): void
     {
+        $type_id = $this->getTypeIdFromQueryToken();
+        $type = $this->type_repository->getType($type_id);
+
         $data = $this->getIconForm()
             ->withRequest($this->request)
             ->getData();
+
         if($data) {
-            $type_id = $this->getTypeIdFromQueryToken();
-            $type = $this->type_repository->getType($type_id)->withIconIdentifier(current($data));
-            $this->type_repository->updateType($type);
-            $type->updateAssignedStudyProgrammesIcons();
+            $type = $type->withIconIdentifier(current($data));
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('msg_obj_modified'), true);
+        } else {
+            if($identifier = $type->getIconIdentifier()) {
+                $this->type_repository->removeIconFromIrss($identifier);
+            }
+            $type = $type->withIconIdentifier(null);
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt('icon_removed'), true);
         }
-        $this->listTypes();
+        $this->type_repository->updateType($type);
+        $type->updateAssignedStudyProgrammesIcons();
+        $this->ctrl->redirectToURL($this->getUrl('editCustomIcons', $type_id));
     }
 
     protected function editAMD(): void
