@@ -1539,7 +1539,7 @@ CREATE TABLE `cal_cat_visibility` (
 CREATE TABLE `cal_categories` (
   `cat_id` int(11) NOT NULL DEFAULT 0,
   `obj_id` int(11) NOT NULL DEFAULT 0,
-  `title` char(128) DEFAULT NULL,
+  `title` char(255) DEFAULT NULL,
   `color` char(8) DEFAULT NULL,
   `type` tinyint(4) NOT NULL DEFAULT 0,
   `loc_type` tinyint(4) NOT NULL DEFAULT 1,
@@ -6887,7 +6887,8 @@ CREATE TABLE `il_cert_template` (
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`obj_id`,`deleted`),
   KEY `i3_idx` (`obj_id`,`currently_active`,`deleted`),
-  KEY `i4_idx` (`obj_type`)
+  KEY `i4_idx` (`obj_type`),
+  KEY `i5_idx` (`background_image_path`,`currently_active`)
 ) ;
 
 --
@@ -6935,7 +6936,8 @@ CREATE TABLE `il_cert_user_cert` (
   KEY `i3_idx` (`usr_id`,`currently_active`,`acquired_timestamp`),
   KEY `i4_idx` (`usr_id`,`obj_type`,`currently_active`),
   KEY `i5_idx` (`obj_id`,`currently_active`),
-  KEY `i6_idx` (`usr_id`,`obj_id`,`currently_active`)
+  KEY `i6_idx` (`usr_id`,`obj_id`,`currently_active`),
+  KEY `i7_idx` (`background_image_path`,`currently_active`)
 ) ;
 
 --
@@ -7048,10 +7050,12 @@ INSERT INTO `il_db_steps` VALUES ('ilAuthenticationDatabaseUpdateSteps8',1,'2023
 INSERT INTO `il_db_steps` VALUES ('ilBibliograficDB80',1,'2023-03-31 13:10:08.334649','2023-03-31 13:10:08.339628');
 INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps8',1,'2023-05-17 16:34:13.573649','2023-05-17 16:34:13.585092');
 INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps8',2,'2023-10-23 15:11:23.252946','2023-10-23 15:11:23.265275');
+INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps8',3,'2023-11-28 16:35:31.003064','2023-11-28 16:35:31.013966');
 INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',1,'2023-03-31 13:10:08.340522','2023-03-31 13:10:08.351832');
 INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',2,'2023-03-31 13:10:08.352314','2023-03-31 13:10:08.360574');
 INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',3,'2023-03-31 13:10:08.361030','2023-03-31 13:10:08.369035');
 INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',4,'2023-03-31 13:10:08.369600','2023-03-31 13:10:08.375204');
+INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',5,'2023-11-28 16:35:31.014790','2023-11-28 16:35:31.030743');
 INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',1,'2023-03-31 13:10:08.375940','2023-03-31 13:10:08.380350');
 INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',2,'2023-03-31 13:10:08.380828','2023-03-31 13:10:08.385378');
 INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',3,'2023-03-31 13:10:08.385862','2023-03-31 13:10:08.390362');
@@ -7065,6 +7069,8 @@ INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',10,'2023-03-31 
 INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',11,'2023-03-31 13:10:08.424889','2023-03-31 13:10:08.429291');
 INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',12,'2023-05-17 16:34:13.586023','2023-05-17 16:34:13.586564');
 INSERT INTO `il_db_steps` VALUES ('ilContentPageUpdateSteps',1,'2023-03-31 13:10:08.478093','2023-03-31 13:10:08.478487');
+INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',1,'2023-11-28 16:35:31.032083','2023-11-28 16:35:31.038214');
+INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',2,'2023-11-28 16:35:31.038821','2023-11-28 16:35:31.045221');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',1,'2023-03-31 13:10:08.895434','2023-03-31 13:10:08.901218');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',2,'2023-03-31 13:10:08.902626','2023-03-31 13:10:08.908797');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',3,'2023-03-31 13:10:08.909297','2023-03-31 13:10:08.916505');
@@ -11344,7 +11350,9 @@ CREATE TABLE `loc_settings` (
   `it_start` tinyint(4) DEFAULT 1,
   `qt_start` tinyint(4) DEFAULT 1,
   `passed_obj_mode` tinyint(4) DEFAULT 1,
-  PRIMARY KEY (`obj_id`)
+  PRIMARY KEY (`obj_id`),
+  KEY `i1_idx` (`itest`),
+  KEY `i2_idx` (`qtest`)
 ) ;
 
 --
@@ -13108,7 +13116,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-10-23 15:11:23','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-11-28 16:35:30','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -20101,7 +20109,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.6.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.7.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25084,4 +25092,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-10-23 15:11:24
+-- Dump completed on 2023-11-28 16:35:32
