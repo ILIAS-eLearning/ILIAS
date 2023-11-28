@@ -3461,6 +3461,8 @@ button > .glyphicon {
   font-weight: 600;
   line-height: 1;
   color: #737373;
+  background-color: transparent;
+  border: 0;
 }
 .minimize:hover, .minimize:focus, .close:hover, .close:focus {
   color: #2c2c2c;
@@ -6738,6 +6740,9 @@ div.alert ul > li:before {
 .modal-body {
   position: relative;
   padding: 9px 15px;
+}
+.modal-body .il-standard-form .il-standard-form-header + .il-section-input {
+  margin-top: 0;
 }
 
 .modal-footer {
