@@ -613,6 +613,7 @@ assessment#:#circle_click_center#:#Fare clic sul centro dell'area desiderata.
 assessment#:#circle_click_circle#:#Fare clic su un punto circolare dell'area desiderata.
 assessment#:#clientip#:#IP cliente
 assessment#:#close_text_hint#:#Per aggiungere un nuovo spazio, imposta il cursore sulla posizione desiderata e utilizza il menu a discesa "Spazio vuoto". Le sezioni di modifica corrispondenti verranno visualizzate di seguito. Puoi anche modificare gli spazi facendo clic sugli spazi all'interno del testo degli spazi.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Lunghezza del campo di testo
 assessment#:#cloze_fixed_textlength_description#:#Se si inserisce un valore maggiore di 0 tutte le mancanze di testo e di numero avranno quella lunghezza.
 assessment#:#cloze_gap_size_info#:#Se si immette un valore maggiore di 0, questo campo di testo spazio verrà creato con la lunghezza fissa di questo valore. Se non si immette un valore, il campo di testo del gap verrà creato con il valore della lunghezza fissa globale.
@@ -1550,6 +1551,7 @@ assessment#:#tst_mark_minimum_level#:#Livello minimo (in %)
 assessment#:#tst_mark_official_form#:#Form ufficiale
 assessment#:#tst_mark_passed#:#Superato
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Crea uno schema voti
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Form ridotto
 assessment#:#tst_max_allowed_users_heading#:#È stato raggiunto il numero massimo di partecipanti a questo test
 assessment#:#tst_max_allowed_users_message#:#È stato raggiunto il numero massimo di utenti attivi simultanei nel test. Riprovare più tardi per avviare o riprendere il test. Se uno degli utenti attivi è inattivo per più di %s secondi, potresti essere in grado di accedere a questo test. Grazie per la vostra comprensione.
@@ -2458,6 +2460,7 @@ blog#:#blog_settings#:#Amministrazione blog
 blog#:#blog_settings_navigation#:#Colonna di navigazione
 blog#:#blog_show_latest#:#Mostra ultimi messaggi/bozze
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Stile blog
 blog#:#blog_task_publishing_draft_title#:#Pubblicazione della Bozza "%s"
 blog#:#blog_toggle_draft#:#Salva come bozza
@@ -3975,6 +3978,7 @@ common#:#err_auth_mode_inactive#:#Il tuo metodo di autenticazione è disattivato
 common#:#err_auth_soap_no_ilias_user#:#Accesso non riuscito. Autenticazione SOAP riuscita, ma non esiste alcun utente ILIAS corrispondente. Si prega di contattare il proprio amministratore di sistema.
 common#:#err_check_input#:#Le impostazioni non possono essere salvate. Controllare il proprio ingresso.
 common#:#err_count_param#:#Causa: errato numero dei parametri.
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Errore nella linea
 common#:#err_inactive#:#Questo account non è stato attivato. Si prega di contattare l'amministratore di sistema per l'accesso.
 common#:#err_inactive_login_attempts#:#Il tuo account è stato disattivato a causa dei molti tentativi di accesso falliti. Clicca su “Contatta supporto tecnico” a piè di pagina per comunicare all’amministratore la necessità di riattivare il proprio account.
@@ -5131,6 +5135,7 @@ common#:#objs_rtst#:#Test ESC
 common#:#objs_rwik#:#ECS Wiki
 common#:#objs_sahs#:#Moduli SCORM/AICC
 common#:#objs_sess#:#Sessioni
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Raccolte di domande (per sondaggi)
 common#:#objs_st#:#Capitoli
 common#:#objs_svy#:#Sondaggi
@@ -7258,6 +7263,7 @@ copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new 
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Pagina layout
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Le domande non sono supportate in questo contesto.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
 copg#:#copg_sec_link_info#:#Se si imposta un link sul tutta la sezione, bisogna assicurarsi che nessun altro elemento interattivo sia incluso nella sezione. Altrimenti il loro comportamento potrebbe essere errato.
@@ -8198,6 +8204,7 @@ dateplaner#:#cal_edit_category#:#Modifica Calendario
 dateplaner#:#cal_edit_milestone#:#Modifica Milestone
 dateplaner#:#cal_edit_recurrences#:#Modifica tutti gli appuntamenti
 dateplaner#:#cal_edit_single#:#Modifica questo appuntamento
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Abilita Milestones
 dateplaner#:#cal_enable_group_milestones_desc#:#Questa opzione abilita i milestones nella pianificazione a calendario.
 dateplaner#:#cal_err_invalid_notification_rcps#:#L'elenco dei destinatari delle notifiche non è valido. Scegli solo nomi di account utente ILIAS o indirizzi e-mail validi.
@@ -8228,6 +8235,7 @@ dateplaner#:#cal_grp_others#:#Altro
 dateplaner#:#cal_grp_personal#:#Personale
 dateplaner#:#cal_ical_infoscreen#:#Sottoscrivere
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Importa appuntamenti
 dateplaner#:#cal_import_file#:#Importa file
 dateplaner#:#cal_import_file_info#:#Scegli il file che contiene i tuoi appuntamenti sul calendario.
@@ -9005,6 +9013,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10339,7 +10348,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#Pagina LM
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Titoli salvati.
 lng#:#language_detection#:#Riconoscimento della lingua
 lng#:#lng_disable_language_detection#:#Disattiva riconoscimento lingua
@@ -11952,6 +11963,7 @@ mme#:#move_to_top_item#:#Sposta negli oggetti preferiti
 mme#:#msg_languages_added#:#Lingue aggiunte
 mme#:#msg_moved#:#Oggetto spostato correttamente
 mme#:#msg_not_moved#:#L'oggetto non può essere spostato, seleziona una cartella madre valida.
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#Tutti gli articoli personalizzati e le traduzioni verranno eliminati, tutti gli articoli standard verranno ripristinati alle impostazioni di fabbrica. Tutta la personalizzazione andrà persa.
 mme#:#msg_restored#:#Menu principale reimpostato
 mme#:#msg_subitem_deleted#:#Oggetto cancellato.
@@ -12230,6 +12242,7 @@ obj#:#obj_activation#:#Attivazione
 obj#:#obj_activation_list_gui#:#Disponibilità
 obj#:#obj_add_languages#:#Aggiungi lingue
 obj#:#obj_additional_langs#:#Lingue aggiuntive
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#La traduzione per la modifica delle pagine è stata disattivata.
 obj#:#obj_copy_progress#:#Progresso di copia
 obj#:#obj_deactivate_content_lang#:#Disattiva traduzione per la modifica delle pagine
@@ -13744,6 +13757,7 @@ rbac#:#rbac_create_role#:#Crea nuovo ruolo
 rbac#:#rbac_create_rolt#:#Crea nuovo modello di ruolo
 rbac#:#rbac_create_sahs#:#Creare un modulo di apprendimento SCORM/AICC
 rbac#:#rbac_create_sess#:#Crea sessione
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Crea sondaggio gruppo di domande
 rbac#:#rbac_create_svy#:#Crea sondaggio
 rbac#:#rbac_create_tst#:#Crea test
@@ -13919,6 +13933,17 @@ rbac#:#sess_read#:#L'utente ha accesso in lettura alle sessioni
 rbac#:#sess_read_learning_progress#:#L’utente può visualizzare il progresso di apprendimento degli altri utenti
 rbac#:#sess_visible#:#La sessione è visibile
 rbac#:#sess_write#:#L'utente può modificare il contenuto e le impostazioni della sessione
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#L'utente può cambiare le impostazioni dei permessi dell'amministrazione della gestione delle competenze
 rbac#:#skmg_read#:#L'utente ha accesso in lettura all'amministrazione della Gestione delle competenze
 rbac#:#skmg_visible#:#La gestione delle competenze è visibile
@@ -16047,6 +16072,7 @@ survey#:#svy_mail_send_confirmation#:#Invia conferma di partecipazione
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Le impostazioni di colonna non raggiungono il 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 survey#:#svy_neutral_answer#:#Testo per una risposta neutra ("Non specificato", "Non lo so" ecc.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
@@ -16734,6 +16760,7 @@ user#:#user_prompting_recurrence#:#Richiesta di ricorrenza
 user#:#user_prompting_settings#:#Impostazioni di richiesta
 user#:#user_public_profile_info#:#Seleziona quali dati personali saranno visibili agli altri utenti.
 user#:#user_publish_options#:#Pubblica Profilo
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#Utente - Punto di inizio
 user#:#user_save_continue#:#Salva e Continua
 user#:#user_save_ordering_and_titles#:#Salva ordine e titoli

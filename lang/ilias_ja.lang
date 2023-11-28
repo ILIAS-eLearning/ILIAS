@@ -599,6 +599,7 @@ assessment#:#circle_click_center#:#希望範囲の中心をクリックしてく
 assessment#:#circle_click_circle#:#希望範囲の円の部分をクリックしてください。
 assessment#:#clientip#:#クライアントのIP
 assessment#:#close_text_hint#:#新しくギャップを追加するには選択の位置にカーソルをセットして"ギャップを挿入"ボタンをクリックします。対応する編集セクションが下に表示されます。ギャップはギャップテキスト内のギャップをクリックして編集することもできます。
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#テキスト欄の長さ
 assessment#:#cloze_fixed_textlength_description#:#0以上の値を入力すると全てのテキストと数値穴埋めテキストフィールドがこの値の固定長で作成されます。
 assessment#:#cloze_gap_size_info#:#0以上を入力するとこのギャップテキストフィールドはこの値の固定長で作成されます。値を入力しない場合はギャップテキストフィールドはグローバル固定長で作成されます。
@@ -1536,6 +1537,7 @@ assessment#:#tst_mark_minimum_level#:#最低レベル (%中)
 assessment#:#tst_mark_official_form#:#正式書式
 assessment#:#tst_mark_passed#:#合格
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#シンプル評価尺度を作成
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#略式書式
 assessment#:#tst_max_allowed_users_heading#:#テストの同時最大ユーザ数に達しました
 assessment#:#tst_max_allowed_users_message#:#テストの同時最大ユーザ数に達しました。 後でやり直すかもしくはテストを再開してください。 受験中のユーザのだれかが %s 以上中断すると入力できるようになる場合があります。ご理解ありがとうございます。
@@ -2444,6 +2446,7 @@ blog#:#blog_settings#:#ブログ管理
 blog#:#blog_settings_navigation#:#ナビゲーション列
 blog#:#blog_show_latest#:#最終投稿/ドラフトを表示
 blog#:#blog_show_print_view#:#印刷ビューを表示
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#ブログスタイル
 blog#:#blog_task_publishing_draft_title#:#ドラフト "%s" の公開
 blog#:#blog_toggle_draft#:#告知を取り消す
@@ -3961,6 +3964,7 @@ common#:#err_auth_mode_inactive#:#認証方式が使用可能になっていま�
 common#:#err_auth_soap_no_ilias_user#:#ログイン失敗しました。SOAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_check_input#:#設定は保存されませんでした。入力を確認してください。
 common#:#err_count_param#:#理由：パラメーターカウントの間違い
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#ライン中のエラー
 common#:#err_inactive#:#アカウントが使用可能になっていません。アクセスするにはシステム管理者へ連絡してください。
 common#:#err_inactive_login_attempts#:#ログイン回数が失敗回数を大きく超えたためにアカウントは無効になっています。管理者へアカウントの再解除が必要であることを通知するには、このページのフッターに記載されている'テクニカルサポートへコンタクト'をクリックします。
@@ -5117,6 +5121,7 @@ common#:#objs_rtst#:#ECSテスト
 common#:#objs_rwik#:#ECS Wiki
 common#:#objs_sahs#:#SCORM/AICCラーニングモジュール
 common#:#objs_sess#:#セッション
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#サーベイ質問集
 common#:#objs_st#:#章
 common#:#objs_svy#:#サーベイ
@@ -7244,6 +7249,7 @@ copg#:#copg_history_cleanup_cron#:#ページエディター履歴のクリーン
 copg#:#copg_history_cleanup_cron_info#:#ページ履歴から過去のエントリーを削除
 copg#:#copg_page_element_not_found#:#ページ要素が見つかりません。
 copg#:#copg_page_type_stys#:#ページをレイアウト
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#問題はこのコンテキスト内でサポートされません。
 copg#:#copg_reload_page#:#ページの再読み込み
 copg#:#copg_sec_link_info#:#全セクションのリンクを設定するには他のインタラクティブ要素がセクション内に含まれない事を確認して下さい。そうでないと動作が不安定になります。
@@ -8184,6 +8190,7 @@ dateplaner#:#cal_edit_category#:#カレンダーを編集
 dateplaner#:#cal_edit_milestone#:#マイルストーンを編集
 dateplaner#:#cal_edit_recurrences#:#日程を編集
 dateplaner#:#cal_edit_single#:#この日程を編集
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#マイルストーンを利用する
 dateplaner#:#cal_enable_group_milestones_desc#:#カレンダー上でマイルストーン計画が利用可能になります。
 dateplaner#:#cal_err_invalid_notification_rcps#:#通知受信者リストが無効です。ILIASユーザアカウント名もしくは有効なメールアドレスのどちらかを選択してください。
@@ -8214,6 +8221,7 @@ dateplaner#:#cal_grp_others#:#その他
 dateplaner#:#cal_grp_personal#:#パーソナル
 dateplaner#:#cal_ical_infoscreen#:#購読
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#アポイントをインポート
 dateplaner#:#cal_import_file#:#ファイルをインポート
 dateplaner#:#cal_import_file_info#:#カレンダアポイントの入ったファイルを選択します。
@@ -8991,6 +8999,7 @@ etal#:#notification_talks_removed#:#次のアポイントはキャンセルさ�
 etal#:#notification_talks_subject#:#招待: %s
 etal#:#notification_talks_subject_update#:#更新: %s
 etal#:#notification_talks_updated#:#次のアポイントはキャンセルされました。
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Talksを追加
 etal#:#tals_new#:#新しいトーク
@@ -10325,7 +10334,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#予測読込み時間
 lm#:#lm_est_reading_time_info#:#リポジトリ内の学習モジュール予測読込み時間が確定されて表示できます。
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#LMページ
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#タイトルは保存されました。
 lng#:#language_detection#:#言語検知
 lng#:#lng_disable_language_detection#:#言語検知を無効化
@@ -11938,6 +11949,7 @@ mme#:#move_to_top_item#:#トップアイテムへ移動
 mme#:#msg_languages_added#:#言語を追加しました
 mme#:#msg_moved#:#アイテムは正しく移動されました。
 mme#:#msg_not_moved#:#アイテムを移動できませんでしたので有効な親を選択してください。
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#全カスタム項目と翻訳は削除されて全標準項目が工場出荷値へリセットされます。カスタマイズ化全ては消去されます。
 mme#:#msg_restored#:#メインメニューを完全にリセット
 mme#:#msg_subitem_deleted#:#アイテムを削除しました。
@@ -12216,6 +12228,7 @@ obj#:#obj_activation#:#アクティベーション
 obj#:#obj_activation_list_gui#:#アベイラビリティ
 obj#:#obj_add_languages#:#言語を追加
 obj#:#obj_additional_langs#:#追加言語
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#ページ編集用の翻訳は解除されました。
 obj#:#obj_copy_progress#:#進捗をコピー
 obj#:#obj_deactivate_content_lang#:#ページ編集用の翻訳を解除
@@ -13730,6 +13743,7 @@ rbac#:#rbac_create_role#:#新しい役割を作成
 rbac#:#rbac_create_rolt#:#新しい役割テンプレートを作成
 rbac#:#rbac_create_sahs#:#SCORM/AICCラーニングモジュールを作成
 rbac#:#rbac_create_sess#:#セクションを作成
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#サーベイ質問集を作成
 rbac#:#rbac_create_svy#:#サーベイを作成
 rbac#:#rbac_create_tst#:#テストを作成
@@ -13905,6 +13919,17 @@ rbac#:#sess_read#:#セッションを読込む
 rbac#:#sess_read_learning_progress#:#ユーザは他のユーザの学習進捗を閲覧できます。
 rbac#:#sess_visible#:#セッションを表示
 rbac#:#sess_write#:#セッションを編集
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#アクセス権設定の変更
 rbac#:#skmg_read#:#能力管理への読み込みアクセス
 rbac#:#skmg_visible#:#能力管理が表示されます
@@ -16033,6 +16058,7 @@ survey#:#svy_mail_send_confirmation#:#参加確認を送る
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#列設定は合計100%にする必要があります。
 survey#:#svy_max_sum_score#:#最高累計点数
 survey#:#svy_neutral_answer#:#中立回答用のテキスト("未定"、"わからない"など)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#サーベイ結果の含まれる1通のメール
 survey#:#svy_notification_tutor_results_alert#:#これは終了日が必須です。
 survey#:#svy_notification_tutor_results_info#:#データ終了するとcronjobはそれに添付する詳細サーベイ結果と合わせてメールを送ります。
@@ -16720,6 +16746,7 @@ user#:#user_prompting_recurrence#:#更新催促
 user#:#user_prompting_settings#:#更新設定
 user#:#user_public_profile_info#:#どのパーソナルデータをプロファイルへ表示してどのユーザがプロファイルへ訪問できるかを選択してください。
 user#:#user_publish_options#:#プロファイルを公開
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#ユーザ - 開始点
 user#:#user_save_continue#:#保存して継続
 user#:#user_save_ordering_and_titles#:#順番とタイトルを保存

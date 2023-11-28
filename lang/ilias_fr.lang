@@ -599,6 +599,7 @@ assessment#:#circle_click_center#:#Veuillez cliquer au centre de la zone désir�
 assessment#:#circle_click_circle#:#Veuillez cliquer sur un point du cercle de la zone désirée
 assessment#:#clientip#:#Adresse IP
 assessment#:#close_text_hint#:#Vous pouvez définir un trou en saisissant les balises [gap] et [/gap] avant et après le ou les mots de votre choix dans le texte.  Cliquez sur le bouton 'Créer les trous' pour ajouter un formulaire modifiable pour chaque trou.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Longueur du Champ Texte
 assessment#:#cloze_fixed_textlength_description#:#Si une valeur supérieure à  zéro est saisie , tous les champs de texte seront créés avec cette valeur comme longueur de champ.
 assessment#:#cloze_gap_size_info#:#Si vous entrez une valeur supérieure à  0, ce champ de texte d'écart sera créé avec la longueur fixe de cette valeur. Si vous n'entrez pas de valeur, le champ de texte d'écart sera créé avec la valeur de la longueur fixe globale.
@@ -1536,6 +1537,7 @@ assessment#:#tst_mark_minimum_level#:#Niveau Minimum (en %)
 assessment#:#tst_mark_official_form#:#Forme Officielle
 assessment#:#tst_mark_passed#:#Valid&eacute;
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Créer une Echelle d'Evaluation Simple
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Forme Courte
 assessment#:#tst_max_allowed_users_heading#:#Le nombre maximum d'utilisateurs simultanés de ce test a été atteint
 assessment#:#tst_max_allowed_users_message#:#Le nombre maximum d'utilisateurs simultanés de ce test a été atteint. Veuillez effectuer ou reprendre ce test ultérieurement. Si l'un des participants au test est inactif pendant plus de  %s secondes, vous serez autorisé à passer ce test. Merci de votre compréhension.
@@ -2444,6 +2446,7 @@ blog#:#blog_settings#:#Administration des Blogs
 blog#:#blog_settings_navigation#:#Colonne de navigation
 blog#:#blog_show_latest#:#Montrer les dernier(ière)s publications/brouillons
 blog#:#blog_show_print_view#:#Show Print View###31 10 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Style du Blog
 blog#:#blog_task_publishing_draft_title#:#Publication de brouillon "%s"
 blog#:#blog_toggle_draft#:#Enregistrer comme Brouillon
@@ -3961,6 +3964,7 @@ common#:#err_auth_mode_inactive#:#Votre méthode d'authentification a été dés
 common#:#err_auth_soap_no_ilias_user#:#La connexion a échoué. L'authentification au serveur SOAP a réussi, mais aucun compte utilisateur correspondant sur ILIAS n'existe. Veuillez prendre contact avec l'administrateur de la plate-forme ILIAS.
 common#:#err_check_input#:#Les paramètres ne peuvent être enregistrés. Veuillez vérifier votre saisie.
 common#:#err_count_param#:#Raison : nombre de paramètre invalide
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Erreur ligne
 common#:#err_inactive#:#Ce compte n'a pas été activé. Veuillez contacter l'administrateur système pour y accéder
 common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account.
@@ -5117,6 +5121,7 @@ common#:#objs_rtst#:#Tests ECS
 common#:#objs_rwik#:#Wikis ECS
 common#:#objs_sahs#:#Modules SCORM/AICC
 common#:#objs_sess#:#Sessions
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Banques de questions (Enquête)
 common#:#objs_st#:#Chapitres
 common#:#objs_svy#:#Enquêtes
@@ -7244,6 +7249,7 @@ copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 10 2023 new 
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 10 2023 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Les questions ne sont pas supportées dans ce contexte.
 copg#:#copg_reload_page#:#Reload Page
 copg#:#copg_sec_link_info#:#Si vous définissez un lien sur toute la section, veuillez vous assurer qu’aucun autre élément interactif n’est inclus dans la section. Autrement, son comportement peut être irrégulier.
@@ -8184,6 +8190,7 @@ dateplaner#:#cal_edit_category#:#Modifier l'agenda
 dateplaner#:#cal_edit_milestone#:#Modifier étape
 dateplaner#:#cal_edit_recurrences#:#Editer tous les Rendez-Vous
 dateplaner#:#cal_edit_single#:#Editer ce Rendez-Vous
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Activer étapes
 dateplaner#:#cal_enable_group_milestones_desc#:#Cette option active le planning par étape dans l'agenda.
 dateplaner#:#cal_err_invalid_notification_rcps#:#La liste des destinataires n'est pas valide. Veuillez choisir uniquement des noms d'utilisateur ILIAS ou adresses email valides.
@@ -8214,6 +8221,7 @@ dateplaner#:#cal_grp_others#:#Autres
 dateplaner#:#cal_grp_personal#:#Personnel
 dateplaner#:#cal_ical_infoscreen#:#Souscrire
 dateplaner#:#cal_ical_url#:#URL iCal
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Importer Evènements
 dateplaner#:#cal_import_file#:#Importer Fichier
 dateplaner#:#cal_import_file_info#:#Choisissez le fichier contenant vos évènements d'agenda.
@@ -10326,7 +10334,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###31 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###31 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 10 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 10 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Titres sauvegardés.
 lng#:#language_detection#:#Détection de la langue
 lng#:#lng_disable_language_detection#:#Désactiver la Détection de la Langue
@@ -12218,6 +12228,7 @@ obj#:#obj_activation#:#Activation
 obj#:#obj_activation_list_gui#:#Disponibilité
 obj#:#obj_add_languages#:#Ajouter Langues
 obj#:#obj_additional_langs#:#Langues Additionnelles
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#La traduction pour l'édition des pages a été désactivée.
 obj#:#obj_copy_progress#:#Progression de la Copie
 obj#:#obj_deactivate_content_lang#:#Désactiver la Traduction pour l'Edition des Pages
@@ -13732,6 +13743,7 @@ rbac#:#rbac_create_role#:#Créer Nouveau Rôle
 rbac#:#rbac_create_rolt#:#Créer Nouveau Modèle de Rôle
 rbac#:#rbac_create_sahs#:#Créer un Module SCORM/AICC
 rbac#:#rbac_create_sess#:#Créer une Session
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Créer une Banque de Questions (Enquêtes)
 rbac#:#rbac_create_svy#:#Créer une Enquête
 rbac#:#rbac_create_tst#:#Créer un Test
@@ -13907,6 +13919,17 @@ rbac#:#sess_read#:#Lire l'activité session
 rbac#:#sess_read_learning_progress#:#L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs
 rbac#:#sess_visible#:#Les sessions sont visibles
 rbac#:#sess_write#:#Modifier sessions
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#Permissions d'administration modifiables
 rbac#:#skmg_read#:#Panneau d'administration accessible
 rbac#:#skmg_visible#:#Panneau d'administration visible
@@ -16035,6 +16058,7 @@ survey#:#svy_mail_send_confirmation#:#Envoyer une confirmation de participation
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Les paramètres de colonnes ne totalisent pas à 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 survey#:#svy_neutral_answer#:#Texte pour réponse neutre ("Ne sait pas", "Sans opinion", etc.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
@@ -16722,6 +16746,7 @@ user#:#user_prompting_recurrence#:#Prompting Recurrence
 user#:#user_prompting_settings#:#Prompting Settings
 user#:#user_public_profile_info#:#Veuillez cocher les données que vous souhaitez rendre visibles dans votre profil.
 user#:#user_publish_options#:#Publier le profil
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#Utilisateur - Point de départ
 user#:#user_save_continue#:#Sauver et continuer
 user#:#user_save_ordering_and_titles#:#Enregistrer l'ordre et les titres

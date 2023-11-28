@@ -614,6 +614,7 @@ assessment#:#circle_click_center#:#Kattintson a kívánt terület középpontjá
 assessment#:#circle_click_circle#:#Kattintson a kívánt terület körvonalának egy pontjára.
 assessment#:#clientip#:#Kliens-IP
 assessment#:#close_text_hint#:#Új kitöltendő hely létrehozásához vigye a kurzort a kívánt helyre, majd használja a 'Szöveghely' legördülőt. A megfelelő szerkesztési szakaszok megjelennek alatta. A kitöltendő helyeket szerkesztheti úgy is, hogy kitöltendő részen belül a kitöltendő szövegre kattint.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Szövegmező hossza
 assessment#:#cloze_fixed_textlength_description#:#Ha megad egy értéket, akkor az összes szöveg- és szám mező evvel a rögzített hosszal kerül létrehozásra, így nincs lehetőség a több karakter bevitelére. Szövegmezőknek lehet saját korlátjuk a karakterszámra. Számmezők esetén a tizedesvessző is egy karakternek számít.
 assessment#:#cloze_gap_size_info#:#Ha 0-nál nagyobb értéked ad meg, ilyen hosszúságú lesz a szövegmező. Amennyiben nem ad meg értéket, a globális hossz lesz ez az érték.
@@ -1551,6 +1552,7 @@ assessment#:#tst_mark_minimum_level#:#Minimumszint (%-ban)
 assessment#:#tst_mark_official_form#:#Hivatalos forma
 assessment#:#tst_mark_passed#:#Sikeres teljesítés-e
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Egyszerű (Teljesített/Nem teljesítette) értékelésséma visszaállítása
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Rövid forma
 assessment#:#tst_max_allowed_users_heading#:#Ebben a tesztben egyidejűleg jelen lévő felhasználók száma elérte a maximális számot
 assessment#:#tst_max_allowed_users_message#:#A tesztben egyidejűleg engedélyezett résztvevőszám elérte a maximumot. Próbálja később elkezdeni, illetve folytatni a tesztet. Ha egy jelenleg aktív felhasználó több mint %s másodpercig tétlen, Ön beléphet a tesztbe. Köszönjük megértését!
@@ -2459,6 +2461,7 @@ blog#:#blog_settings#:#Blog beállításainak kezelése
 blog#:#blog_settings_navigation#:#Navigáció oszlop
 blog#:#blog_show_latest#:#Utolsó bejegyzés/piszkozat megjelenítése
 blog#:#blog_show_print_view#:#Nyomtatási nézet megjelenítése
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Blog stílus
 blog#:#blog_task_publishing_draft_title#:#'%s' bejegyzéspiszkozat közzététele
 blog#:#blog_toggle_draft#:#Közzététel visszavonása
@@ -3976,6 +3979,7 @@ common#:#err_auth_mode_inactive#:#Az Ön hitelesítési módszere ki van kapcsol
 common#:#err_auth_soap_no_ilias_user#:#Bejelentkezés sikertelen. A SOAP-hitelesítés sikeres, de nincs megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot egy rendszergazdával!
 common#:#err_check_input#:#Beállítások nem menthetők. Ellenőrizze a bemeneti értékeket.
 common#:#err_count_param#:#Ok: hibás paraméterszám
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Hiba a sorban.
 common#:#err_inactive#:#Ez az ILIAS-fiók még nincs aktiválva. Vegye fel a kapcsolatot egy rendszergazdával!
 common#:#err_inactive_login_attempts#:#Felhasználói fiókját túl sok sikertelen bejelentkezési kísérlet miatt letiltottuk. Kattintson a láblécben lévő 'Kapcsolat' lehetőségre, hogy az üzemeltetőt megkérje ILIAS-fiókjának újraaktiválására.
@@ -5132,6 +5136,7 @@ common#:#objs_rtst#:#ECS tesztek
 common#:#objs_rwik#:#ECS wikik
 common#:#objs_sahs#:#SCORM-tananyagok
 common#:#objs_sess#:#Események
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Kérdőívkérdés-gyűjtemény
 common#:#objs_st#:#Fejezetek
 common#:#objs_svy#:#Kérdőívek
@@ -7259,6 +7264,7 @@ copg#:#copg_history_cleanup_cron#:#Oldalszerkesztőelőzmény-tisztítás
 copg#:#copg_history_cleanup_cron_info#:#Régi bejegyzések eltávolítása az oldalelőzményekből.
 copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
 copg#:#copg_page_type_stys#:#Lapelrendezés
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Ebben a kontextusban a kérdéseket nem támogatjuk.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
 copg#:#copg_sec_link_info#:#Válassza ki a cél, amire a blokk mutat. Figyelem: A blokk nem tartalmazhat önmagára mutató linket!
@@ -8199,6 +8205,7 @@ dateplaner#:#cal_edit_category#:#Naptár módosítása
 dateplaner#:#cal_edit_milestone#:#Mérföldkő módosítása
 dateplaner#:#cal_edit_recurrences#:#Összes esemény módosítása
 dateplaner#:#cal_edit_single#:#Esemény módosítása
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Mérföldkövek engedélyezése
 dateplaner#:#cal_enable_group_milestones_desc#:#Ez a beállítás engedélyezi a mérföldkőtervezést a naptárban.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Az értesítés címzettjeinek listája nem érvényes. Csak ILIAS felhasználóneveket vagy érvényes e-mail címet válasszon!
@@ -8229,6 +8236,7 @@ dateplaner#:#cal_grp_others#:#További
 dateplaner#:#cal_grp_personal#:#Személyes
 dateplaner#:#cal_ical_infoscreen#:#Feliratkozás
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Események importja
 dateplaner#:#cal_import_file#:#Fájl importja
 dateplaner#:#cal_import_file_info#:#Válassza ki a naptárjának eseményeit tartalmazó fájlt.
@@ -9006,6 +9014,7 @@ etal#:#notification_talks_removed#:#Az alábbi találkozókat törölték.
 etal#:#notification_talks_subject#:#Meghívás: %s
 etal#:#notification_talks_subject_update#:#Módosítás: %s
 etal#:#notification_talks_updated#:#Az alábbi találkozókat módosították.
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Megbeszéléssorozat
 etal#:#tals_add#:#Megbeszélés hozzáadása
 etal#:#tals_new#:#Új Megbeszélés
@@ -10340,7 +10349,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Becsült olvasási idő
 lm#:#lm_est_reading_time_info#:#A tananyagokban a becsült olvasási idő megállapítható és megjeleníthető.
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#Tananyagoldal
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#A címeket sikeresen mentette.
 lng#:#language_detection#:#Nyelvfelismerés
 lng#:#lng_disable_language_detection#:#Nyelvfelismerés tiltása
@@ -11953,6 +11964,7 @@ mme#:#move_to_top_item#:#Mozgatás a felső elemekhez
 mme#:#msg_languages_added#:#Hozzáadott nyelvek
 mme#:#msg_moved#:#Az elemet sikeresen mozgatta
 mme#:#msg_not_moved#:#Az elem mozgatása sikertelen, érvényes szülőt válasszon.
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#Az összes egyéni elembeállítást és fordítást töröl, és az összes standard elem visszaáll annak alapértékére. Az összes személyre szabás elveszik.
 mme#:#msg_restored#:#A Főmenüt alapértékeit sikeresen visszaállította
 mme#:#msg_subitem_deleted#:#Az elemet sikeresen törölte.
@@ -12231,6 +12243,7 @@ obj#:#obj_activation#:#Aktiválás
 obj#:#obj_activation_list_gui#:#Elérhetőség
 obj#:#obj_add_languages#:#Nyelvek hozzáadása
 obj#:#obj_additional_langs#:#További nyelvek
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#Lapszerkesztés fordítása ki van kapcsolva van.
 obj#:#obj_copy_progress#:#Másolási folyamat
 obj#:#obj_deactivate_content_lang#:#Többnyelvűség kikapcsolása
@@ -13745,6 +13758,7 @@ rbac#:#rbac_create_role#:#Új szabály létrehozása
 rbac#:#rbac_create_rolt#:#Új szabály sablon létrehozása
 rbac#:#rbac_create_sahs#:#SCORM-tananyag létrehozása
 rbac#:#rbac_create_sess#:#Esemény létrehozása
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Kérdőívkérdés-gyűjtemény létrehozása
 rbac#:#rbac_create_svy#:#Kérdőív létrehozása
 rbac#:#rbac_create_tst#:#Teszt létrehozása
@@ -13920,6 +13934,17 @@ rbac#:#sess_read#:#A felhasználónak olvasási elérése van munkamenetekhez
 rbac#:#sess_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
 rbac#:#sess_visible#:#Az események láthatók
 rbac#:#sess_write#:#A felhasználó eseménytartalmakat és -beállításokat szerkeszthet
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Kompetenciamenedzsment jogosultsági beállításait
 rbac#:#skmg_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Kompetenciamenedzsment beállításaihoz
 rbac#:#skmg_visible#:#A felhasználó láthatja a Rendszerbeállítások » Kompetenciamenedzsment menüpontot
@@ -16048,6 +16073,7 @@ survey#:#svy_mail_send_confirmation#:#A kitöltésről e-mail küldése
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Az oszlopbeállítások összege nem 100%.
 survey#:#svy_max_sum_score#:#Összpontszám maximális értéke
 survey#:#svy_neutral_answer#:#Szöveg semleges válaszhoz ('Nem meghatározott', 'Nem tudom' stb.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#Egy e-mail a kérdőív eredményeivel
 survey#:#svy_notification_tutor_results_alert#:#Adjon meg záró dátumot.
 survey#:#svy_notification_tutor_results_info#:#A feladatütemező el fogja küldeni csatolmányként a kérdőív részletes eredményeit a záró dátumkor.
@@ -16735,6 +16761,7 @@ user#:#user_prompting_recurrence#:#Felkérés ismétlődése
 user#:#user_prompting_settings#:#Felkérés beállításai
 user#:#user_public_profile_info#:#Válassza ki, mely személyes adatai legyenek láthatóak profiljában, és hogy mely felhasználók lássák profilját.
 user#:#user_publish_options#:#Profil közzététele
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#Felhasználó - Kiindulási pont
 user#:#user_save_continue#:#Mentés és folytatás
 user#:#user_save_ordering_and_titles#:#Sorrend és címek mentése

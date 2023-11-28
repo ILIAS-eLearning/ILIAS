@@ -598,6 +598,7 @@ assessment#:#circle_click_center#:#请点击要选取的中心区域
 assessment#:#circle_click_circle#:#请点击要选取区域的周围
 assessment#:#clientip#:#客户端IP
 assessment#:#close_text_hint#:#您可以通过在您选择的文本位置进入<gp></gap>置标符定义一个gap。按“创建gaps”按钮为每个gap添加一个可编辑的表格
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#文本域长度
 assessment#:#cloze_fixed_textlength_description#:#如果输入一个大于0的值，所有文本和数字的文本域将以这个值的固定长度被创建。
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value the gap text fiel will be created with the value of the global fixed length.###26 09 2014 new variable
@@ -1535,6 +1536,7 @@ assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
 assessment#:#tst_mark_official_form#:#Official form官方形式
 assessment#:#tst_mark_passed#:#已通过
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#创建简单标记模式
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Short form
 assessment#:#tst_max_allowed_users_heading#:#已经达到此次测试中同时允许的用户人数上限
 assessment#:#tst_max_allowed_users_message#:#已经达到此次测试中同翻搅时允许的活跃用户人数上限。请稍后再尝试启动或恢复测试。如果其中某位活跃用户超过 %s 秒未活动，您将有可能进入此次测试。感谢您的理解。
@@ -2443,6 +2445,7 @@ blog#:#blog_settings#:#博客管理
 blog#:#blog_settings_navigation#:#Navigation Column###26 09 2014 new variable
 blog#:#blog_show_latest#:#Show latest postings/drafts###25 10 2016 new variable
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Blog Style###24 10 2013 new variable
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###07 02 2020 new variable
 blog#:#blog_toggle_draft#:#保存为草稿
@@ -3960,6 +3963,7 @@ common#:#err_auth_mode_inactive#:#您的身份验证方法已失效。
 common#:#err_auth_soap_no_ilias_user#:#登录失败。SOAP身份验证成功，但不存在相应的ILIAS用户。请联系您的系统管理员。
 common#:#err_check_input#:#设置不能被保存。请检查您输入的内容
 common#:#err_count_param#:#原因错误计算参数！
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#行内出错
 common#:#err_inactive#:#这个账号没有激活。请联系系统管理员。
 common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. ###31 08 2017 new variable
@@ -5116,6 +5120,7 @@ common#:#objs_rtst#:#ECS 测试
 common#:#objs_rwik#:#ECS Wikis
 common#:#objs_sahs#:#SCORM/AICC 学习模块
 common#:#objs_sess#:#会话
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#题目池 (调查)
 common#:#objs_st#:#章节
 common#:#objs_svy#:#问卷调查
@@ -7243,6 +7248,7 @@ copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new 
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###07 02 2017 new variable
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.###25 10 2016 new variable
@@ -8183,6 +8189,7 @@ dateplaner#:#cal_edit_category#:#编辑日历
 dateplaner#:#cal_edit_milestone#:#编辑里程碑
 dateplaner#:#cal_edit_recurrences#:#Edit all Appointments###24 10 2013 new variable
 dateplaner#:#cal_edit_single#:#Edit this Appointment###24 10 2013 new variable
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#启用里程碑
 dateplaner#:#cal_enable_group_milestones_desc#:#这个选项在日历中启用里程碑计划。
 dateplaner#:#cal_err_invalid_notification_rcps#:#这个收件人通知名单是无效的。请仅选择ILIAS用户账号名或有效的电子邮件地址。
@@ -8213,6 +8220,7 @@ dateplaner#:#cal_grp_others#:#Others###31 08 2017 new variable
 dateplaner#:#cal_grp_personal#:#Personal###31 08 2017 new variable
 dateplaner#:#cal_ical_infoscreen#:#订阅
 dateplaner#:#cal_ical_url#:#iCal-URL###14 05 2014 new variable
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#导入预约
 dateplaner#:#cal_import_file#:#导入文件
 dateplaner#:#cal_import_file_info#:#选择包含您的日历预约的文件。
@@ -8990,6 +8998,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10324,7 +10333,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Titles saved.###23 10 2017 new variable
 lng#:#language_detection#:#Language Detection###30 04 2021 new variable
 lng#:#lng_disable_language_detection#:#Disable Language Detection###30 08 2015 new variable
@@ -11937,6 +11948,7 @@ mme#:#move_to_top_item#:#Move to Top Items###30 04 2021 new variable
 mme#:#msg_languages_added#:#Added languages###10 11 2018 new variable
 mme#:#msg_moved#:#Item successfully moved###30 04 2021 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###30 04 2021 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###07 02 2020 new variable
 mme#:#msg_restored#:#Main Menu completely reset###07 02 2020 new variable
 mme#:#msg_subitem_deleted#:#Item deleted.###10 11 2018 new variable
@@ -12215,6 +12227,7 @@ obj#:#obj_activation#:#Activation###31 08 2017 new variable
 obj#:#obj_activation_list_gui#:#Availability###30 12 2013 new variable
 obj#:#obj_add_languages#:#Add Languages###22 01 2014 new variable
 obj#:#obj_additional_langs#:#Additional Languages###22 01 2014 new variable
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.###22 01 2014 new variable
 obj#:#obj_copy_progress#:#Copy Progress###30 08 2015 new variable
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing###22 01 2014 new variable
@@ -13729,6 +13742,7 @@ rbac#:#rbac_create_role#:#Create new Role###30 12 2013 new variable
 rbac#:#rbac_create_rolt#:#Create new Role Template###30 12 2013 new variable
 rbac#:#rbac_create_sahs#:#创建SCROM/AICC学习模块
 rbac#:#rbac_create_sess#:#创建会话
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#创建题目池调查
 rbac#:#rbac_create_svy#:#创建调查
 rbac#:#rbac_create_tst#:#创建测试
@@ -13904,6 +13918,17 @@ rbac#:#sess_read#:#会话的读访问权限
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
 rbac#:#sess_visible#:#会话的可见权限
 rbac#:#sess_write#:#会话的编辑权限
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#更改权限设置
 rbac#:#skmg_read#:#技能管理读访问权限
 rbac#:#skmg_visible#:#技能管理是可见的
@@ -16032,6 +16057,7 @@ survey#:#svy_mail_send_confirmation#:#Send Participation Confirmation###25 10 20
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#列设置加起来没有100%。
 survey#:#svy_max_sum_score#:#Maximum Sum Score###30 04 2021 new variable
 survey#:#svy_neutral_answer#:#一个中性的答案文本("未指定的", "我不知道" 等等。)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results###07 02 2020 new variable
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.###07 02 2020 new variable
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.###07 02 2020 new variable
@@ -16719,6 +16745,7 @@ user#:#user_prompting_recurrence#:#Prompting Recurrence###10 11 2018 new variabl
 user#:#user_prompting_settings#:#Prompting Settings###10 11 2018 new variable
 user#:#user_public_profile_info#:#请选择能让其他用户可见的个人数据。
 user#:#user_publish_options#:#Publish Profile###07 02 2020 new variable
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#User - Starting Point###31 08 2017 new variable
 user#:#user_save_continue#:#Save and Continue###07 02 2020 new variable
 user#:#user_save_ordering_and_titles#:#保存排序和标题

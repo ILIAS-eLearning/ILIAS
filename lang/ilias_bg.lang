@@ -599,6 +599,7 @@ assessment#:#circle_click_center#:#Моля, кликнете в центъра 
 assessment#:#circle_click_circle#:#Моля, кликнете на точка от кръга на желаната област.
 assessment#:#clientip#:#Клиенски IP адрес
 assessment#:#close_text_hint#:#Можете да дефинирате празнина, като въведете <gap></gap> в избраната от вас позиция в текста. Натиснете бутона "Създаване на празнини", за да добавите форма за редактиране за всяка от празнините.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Дължина на текстовото поле
 assessment#:#cloze_fixed_textlength_description#:#Ако въведете стойност, по-голяма от 0, всички текстови полета и текстови полета с цифрова разлика ще бъдат създадени с фиксираната дължина на тази стойност.
 assessment#:#cloze_gap_size_info#:#Ако въведете стойност, по-голяма от 0, това текстово поле за празнина ще бъде създадено с фиксираната дължина на тази стойност. Ако не въведете стойност, текстовото поле за празнина ще бъде създадено със стойността на глобалната фиксирана дължина.
@@ -1536,6 +1537,7 @@ assessment#:#tst_mark_minimum_level#:#Минимално ниво (в %)
 assessment#:#tst_mark_official_form#:#Официална форма
 assessment#:#tst_mark_passed#:#Издържан
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Създаване на проста схема на оценките
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Кратка форма
 assessment#:#tst_max_allowed_users_heading#:#Максималният брой едновременни потребители в този тест е достигнат
 assessment#:#tst_max_allowed_users_message#:#Максималният брой едновременно активни потребители в теста е достигнат. Моля, опитайте отново по-късно, за да стартирате или възобновите теста. Ако един от активните потребители е неактивен за повече от %s секунди, може да успеете да въведете този тест. Благодарим ви за разбирането.
@@ -2444,6 +2446,7 @@ blog#:#blog_settings#:#Администрация на блога
 blog#:#blog_settings_navigation#:#Колона за навигиране
 blog#:#blog_show_latest#:#Показване на последните публикации/чертежи
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Стил на блога###22 06 2022 new variable
 blog#:#blog_task_publishing_draft_title#:#Публикуване на проект "%s"
 blog#:#blog_toggle_draft#:#Запазване като чернова
@@ -3961,6 +3964,7 @@ common#:#err_auth_mode_inactive#:#Вашият метод за удостове�
 common#:#err_auth_soap_no_ilias_user#:#Присъединяването е неуспешно. Удостоверяването по SOAP е успешно, но не съществува съответен потребител на ILIAS. Свържете се със системния си администратор.
 common#:#err_check_input#:#Настройките не могат да бъдат запазени. Моля, проверете въведените данни.
 common#:#err_count_param#:#Причина: Грешно изброяване на параметрите
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Грешка в реда
 common#:#err_inactive#:#Този акаунт не е бил активиран. Моля, свържете се със системния администратор за достъп.
 common#:#err_inactive_login_attempts#:#Потребителският ви акаунт е деактивиран поради твърде много неуспешни опити за влизане. Щракнете върху "Свържете се с техническата поддръжка" в долния колонтитул на тази страница, за да уведомите администратора за необходимостта от повторно активиране на акаунта ви.
@@ -5117,6 +5121,7 @@ common#:#objs_rtst#:#ECS тестове
 common#:#objs_rwik#:#ECS Уикита
 common#:#objs_sahs#:#SCORM/AICC модули за обучение
 common#:#objs_sess#:#Сесии
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Набори въпроси за проучванията
 common#:#objs_st#:#Глави
 common#:#objs_svy#:#Проучвания
@@ -7244,6 +7249,7 @@ copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new 
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
 copg#:#copg_page_element_not_found#:#Елементът на страницата не е намерен.###22 06 2022 new variable
 copg#:#copg_page_type_stys#:#Страница за оформление
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Въпросите не се поддържат в този контекст.
 copg#:#copg_reload_page#:#Презареждане на страницата###22 06 2022 new variable
 copg#:#copg_sec_link_info#:#Ако зададете връзка към целия раздел, моля, уверете се, че в раздела не са включени други интерактивни елементи. В противен случай поведението им може да бъде нестабилно.
@@ -8184,6 +8190,7 @@ dateplaner#:#cal_edit_category#:#Редактиране на календар
 dateplaner#:#cal_edit_milestone#:#Редактиране на основни етапи
 dateplaner#:#cal_edit_recurrences#:#Редактиране на всички срещи
 dateplaner#:#cal_edit_single#:#Редактиране на тази среща
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Разрешаване на основни етапи
 dateplaner#:#cal_enable_group_milestones_desc#:#Тази опция активира планирането на етапи в календара.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Списъкът на получателите на уведомленията не е валиден. Моля, изберете само имена на потребителски акаунти в ILIAS или валидни имейл адреси.
@@ -8214,6 +8221,7 @@ dateplaner#:#cal_grp_others#:#Others
 dateplaner#:#cal_grp_personal#:#Personal
 dateplaner#:#cal_ical_infoscreen#:#Subscribe
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Import Appointments
 dateplaner#:#cal_import_file#:#Файл за импортиране
 dateplaner#:#cal_import_file_info#:#Изберете файла, който съдържа срещите от календара ви.
@@ -8991,6 +8999,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10325,7 +10334,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Записани заглавия.
 lng#:#language_detection#:#Разпознаване на езици###22 06 2022 new variable
 lng#:#lng_disable_language_detection#:# Деактивиране на откриването на езика
@@ -11938,6 +11949,7 @@ mme#:#move_to_top_item#:#Преместване в основните елеме
 mme#:#msg_languages_added#:#Прибавени езици
 mme#:#msg_moved#:#Елементът е преместен успешно###22 06 2022 new variable
 mme#:#msg_not_moved#:#Елементът не можа да бъде преместен, моля, изберете валиден родител.###22 06 2022 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#Всички потребителски елементи и преводи ще бъдат изтрити, всички стандартни елементи ще бъдат възстановени до фабричните настройки по подразбиране. Всички персонализации ще бъдат загубени.
 mme#:#msg_restored#:#Пълно възстановяване на главното меню
 mme#:#msg_subitem_deleted#:#Изтрит елемент.
@@ -12216,6 +12228,7 @@ obj#:#obj_activation#:#Activation
 obj#:#obj_activation_list_gui#:#Availability
 obj#:#obj_add_languages#:#Добавяне на езици
 obj#:#obj_additional_langs#:#Допълнителни езици
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#Преводът за редактиране на страница е деактивиран.
 obj#:#obj_copy_progress#:#Прогрес на копирането
 obj#:#obj_deactivate_content_lang#:# Деактивиране на превода за редактиране на страници
@@ -13730,6 +13743,7 @@ rbac#:#rbac_create_role#:#Създаване на нова роля
 rbac#:#rbac_create_rolt#:#Създаване на нов шаблон на роля
 rbac#:#rbac_create_sahs#:#Създаване на SCORM/AICC модул за обучение
 rbac#:#rbac_create_sess#:#Създаване на сесия
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Създаване на анкета с въпроси
 rbac#:#rbac_create_svy#:#Създаване на проучване
 rbac#:#rbac_create_tst#:#Създаване на тест
@@ -13905,6 +13919,17 @@ rbac#:#sess_read#:#Достъп за четене на сесии
 rbac#:#sess_read_learning_progress#:#Потребителят може да види напредъка в обучението на други потребители
 rbac#:#sess_visible#:#Сесиите са видими
 rbac#:#sess_write#:#Редактиране на сесии
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#Промяна на настройките на разрешението
 rbac#:#skmg_read#:#Достъп до управлението на уменията за четене
 rbac#:#skmg_visible#:#Управлението на уменията е видимо
@@ -16033,6 +16058,7 @@ survey#:#svy_mail_send_confirmation#:#Изпращане на потвържде
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Настройките на колоните не се сумират до 100%.
 survey#:#svy_max_sum_score#:#Максимален общ резултат###22 06 2022 new variable
 survey#:#svy_neutral_answer#:#Текст за неутрален отговор ("Не е посочено", "Не знам" и т.н.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#Един имейл, включващ резултатите от проучването
 survey#:#svy_notification_tutor_results_alert#:#Това изисква крайна дата.
 survey#:#svy_notification_tutor_results_info#:#След достигане на крайните данни задача на cron ще изпрати имейл с прикрепени към него подробни резултати от проучването.
@@ -16720,6 +16746,7 @@ user#:#user_prompting_recurrence#:#Промотиране на повторен�
 user#:#user_prompting_settings#:#Настройки на подканянето
 user#:#user_public_profile_info#:#Моля, изберете кои лични данни да бъдат видими за други потребители.
 user#:#user_publish_options#:#Публикуване на профил
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#Потребител - начална точка
 user#:#user_save_continue#:#Запазване и продължаване
 user#:#user_save_ordering_and_titles#:#Запазване на подредбата и заглавията

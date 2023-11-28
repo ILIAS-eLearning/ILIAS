@@ -614,6 +614,7 @@ assessment#:#circle_click_center#:#Klicka på mitten av den önskade regionen
 assessment#:#circle_click_circle#:#Klicka på en punkt på omkretsen av den önskade regionen
 assessment#:#clientip#:#Klient IP
 assessment#:#close_text_hint#:#För att infoga ett mellanrum i texten, placera markören på motsvarande position och använd knappen "Textmellanrum". Därefter finns motsvarande redigeringsområden tillgängliga längre ner. Du kan också klicka direkt på luckorna för att redigera i lucktexte
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Längd på textfältet
 assessment#:#cloze_fixed_textlength_description#:#Om du anger ett värde här skapas textgap som inte definierar ett eget värde för en maximal längd, samt numeriska gap med denna längd, så att det inte är möjligt att ange ett större antal tecken. För numeriska luckor, observera att decimalavgränsaren ocks
 assessment#:#cloze_gap_size_info#:#Om ett värde större än 0 anges skapas detta mellanrum med den längd som anges här. Om inget värde anges skapas detta mellanrum med den globalt angivna textfältslängden.
@@ -621,9 +622,6 @@ assessment#:#cloze_text#:#Cloze fråga
 assessment#:#cloze_textgap_case_insensitive#:#Ingen skillnad görs mellan stora och små bokstäver
 assessment#:#cloze_textgap_case_sensitive#:#Känsliga gemener
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein avstånd från %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Flera utrymmen i rad
-assessment#:#cloze_textgap_whitespace_after#:#Space efter terminen
-assessment#:#cloze_textgap_whitespace_before#:#Space före terminen
 assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Länk
@@ -1550,10 +1548,11 @@ assessment#:#tst_manscoring_question_section_header#:#Fråga
 assessment#:#tst_manscoring_user_notification#:#Skicka meddelande
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Skapa ny anteckningsnivå
-assessment#:#tst_mark_mark_reset_to_simple_mark_schema#:#Återställ till enkelt notsystem
 assessment#:#tst_mark_minimum_level#:#Minsta procentandel
 assessment#:#tst_mark_official_form#:#Officiell beteckning
 assessment#:#tst_mark_passed#:#Bekräftad
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Reset to Simple Mark Schema###28 11 2023 new variable
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Kort namn
 assessment#:#tst_max_allowed_users_heading#:#Det maximala antalet samtidiga deltagare för detta test har uppnåtts.
 assessment#:#tst_max_allowed_users_message#:#Det maximala antalet samtidiga deltagare för detta test har uppnåtts. Försök att starta eller fortsätta testet igen lite senare. Om aktiva deltagare är inaktiva i mer än %s av en sekund kommer du inte att kunna delta i detta test. Tack för din förståelse
@@ -2462,6 +2461,7 @@ blog#:#blog_settings#:#bloggadministration
 blog#:#blog_settings_navigation#:#Navigation
 blog#:#blog_show_latest#:#Visa senaste inlägg/utkast
 blog#:#blog_show_print_view#:# Skriv ut vy
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#bloggstil
 blog#:#blog_task_publishing_draft_title#:#Publicera utkast "%s"
 blog#:#blog_toggle_draft#:#Återkalla publicering
@@ -3979,6 +3979,7 @@ common#:#err_auth_mode_inactive#:#Tyvärr är registrering inte möjlig för til
 common#:#err_auth_soap_no_ilias_user#:#Logon misslyckades! SOAP-autentiseringen lyckades, men det finns ingen motsvarande ILIAS-användare. Kontakta din systemadministratör.
 common#:#err_check_input#:#Inställningarna kunde inte sparas. Vänligen kontrollera dina poster.
 common#:#err_count_param#:#Anledning
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Fel i raden
 common#:#err_inactive#:#Detta ILIAS-konto är inte aktivt eller har inte aktiverats ännu. Kontakta teknisk support (se länk nedan) för ytterligare hjälp.
 common#:#err_inactive_login_attempts#:#Ditt ILIAS-konto har avaktiverats på grund av felaktiga inloggningsförsök. Klicka på "Kontakta teknisk support" längst ned på denna sida för att informera administratörerna om att återaktivera ditt ILIAS-konto.
@@ -4976,6 +4977,7 @@ common#:#obj_petmp#:#SidaTemplate
 common#:#obj_peusr#:#Användare
 common#:#obj_pg#:#Sida
 common#:#obj_poll#:#Röstning
+common#:#obj_poll_dupliate:#:#Copy Poll###28 11 2023 new variable
 common#:#obj_poll_duplicate#:#Kopiera omröstning
 common#:#obj_prg#:#Studieprogram
 common#:#obj_prg_duplicate#:#Kopiera studieprogram
@@ -5134,6 +5136,7 @@ common#:#objs_rtst#:#ECS-tester
 common#:#objs_rwik#:#ECS wikis
 common#:#objs_sahs#:#SCORM utbildningsmoduler
 common#:#objs_sess#:#Sessioner
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Pooler med enkätfrågor
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Undersökningar
@@ -7261,6 +7264,7 @@ copg#:#copg_history_cleanup_cron#:#Page Editor Historik rensning
 copg#:#copg_history_cleanup_cron_info#:# Raderar äldre poster från sidredigerarens historik.
 copg#:#copg_page_element_not_found#:# Okänt sidelement.
 copg#:#copg_page_type_stys#:#Sidans layout
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Inga frågor stöds i detta sammanhang.
 copg#:#copg_reload_page#:#Reload sida
 copg#:#copg_sec_link_info#:#Välj en destination för länkning av blocket. Uppmärksamhet
@@ -8201,6 +8205,7 @@ dateplaner#:#cal_edit_category#:#Redigera kalender
 dateplaner#:#cal_edit_milestone#:#Redigera milstolpe
 dateplaner#:#cal_edit_recurrences#:#Redigera alla möten
 dateplaner#:#cal_edit_single#:#Redigera detta möte
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Aktivera milstolpar
 dateplaner#:#cal_enable_group_milestones_desc#:#Detta alternativ aktiverar hanteringen av milstolpar i kalendern (kurser och grupper).
 dateplaner#:#cal_err_invalid_notification_rcps#:#Vänligen korrigera din post. Ange endast ILIAS-inloggningsnamn eller giltiga e-postadresser.
@@ -8231,6 +8236,7 @@ dateplaner#:#cal_grp_others#:#Andra
 dateplaner#:#cal_grp_personal#:#Personlig
 dateplaner#:#cal_ical_infoscreen#:#Prenumerera
 dateplaner#:#cal_ical_url#:#iCal URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Import utnämningar
 dateplaner#:#cal_import_file#:#Importera fil
 dateplaner#:#cal_import_file_info#:#Välj den fil som innehåller dina möten.
@@ -10343,7 +10349,9 @@ lm#:#lm_edit_chapters#:#Redigera kapitel
 lm#:#lm_edit_lm_settings#:#Redigera inställningar för lärmodulen
 lm#:#lm_est_reading_time#:#Uppskattad lästid
 lm#:#lm_est_reading_time_info#:#I lärmoduler kan en uppskattad lästid bestämmas och visas.
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#sida för utbildningsmodul
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Titlar har sparats.
 lng#:#language_detection#:#Automatisk taligenkänning
 lng#:#lng_disable_language_detection#:#Avaktivera automatisk taligenkänning
@@ -12235,6 +12243,7 @@ obj#:#obj_activation#:#Aktivering
 obj#:#obj_activation_list_gui#:#Tillgänglighet
 obj#:#obj_add_languages#:#Lägg till språk
 obj#:#obj_additional_langs#:#Ytterligare språk
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#Stödet för flerspråkigt innehåll i sidredigeraren har inaktiverats.
 obj#:#obj_copy_progress#:#Kopiering av framsteg
 obj#:#obj_deactivate_content_lang#:#Inaktivera flerspråkighet för sidredigeraren.
@@ -13749,6 +13758,7 @@ rbac#:#rbac_create_role#:#Skapa roll
 rbac#:#rbac_create_rolt#:#Skapa rollmall
 rbac#:#rbac_create_sahs#:#Skapa utbildningsmodul för SCORM
 rbac#:#rbac_create_sess#:#Skapa session
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Skapa frågepool för undersökningar
 rbac#:#rbac_create_svy#:#Skapa undersökning
 rbac#:#rbac_create_tst#:#Skapa test
@@ -13924,6 +13934,17 @@ rbac#:#sess_read#:#Läs tillgång till sessioner
 rbac#:#sess_read_learning_progress#:#Användaren kan se andra användares inlärningsframsteg
 rbac#:#sess_visible#:#Sessionerna är synliga
 rbac#:#sess_write#:#Redigera sessioner
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#Ändra rättighetsinställningar för administration av kompetenshantering
 rbac#:#skmg_read#:#Läsning tillgång till kompetenshantering
 rbac#:#skmg_visible#:#Kompetenshantering är synlig
@@ -16052,6 +16073,7 @@ survey#:#svy_mail_send_confirmation#:#Skicka bekräftelse på deltagande
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Kolumninställningarna summerar inte till 100%.
 survey#:#svy_max_sum_score#:#Maximal skala punkt summa
 survey#:#svy_neutral_answer#:#Text för ett neutralt svar ("Ej definierat", "Jag vet inte", "Ingen indikation" etc.).
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#Ett e-postmeddelande med undersökningsresultaten
 survey#:#svy_notification_tutor_results_alert#:#Denna funktion kräver ett slutdatum.
 survey#:#svy_notification_tutor_results_info#:#Efter slutdatumet kommer ett e-postmeddelande att skickas med de detaljerade undersökningsresultaten.
@@ -16739,6 +16761,7 @@ user#:#user_prompting_recurrence#:#Frekvens
 user#:#user_prompting_settings#:#Prompt profil publicering
 user#:#user_public_profile_info#:#Välj vilken data som ska visas i din profil och vilka användare som kan se den.
 user#:#user_publish_options#:#Publicera profil
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#User - Hemsida
 user#:#user_save_continue#:#Spara och gå vidare
 user#:#user_save_ordering_and_titles#:#Spara order och titel
