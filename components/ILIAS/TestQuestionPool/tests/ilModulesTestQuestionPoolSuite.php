@@ -54,6 +54,8 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
             define('ANONYMOUS_USER_ID', 13);
         }
 
+        chdir(__DIR__ . '/../../../../');
+
         $suite = new ilModulesTestQuestionPoolSuite();
 
         foreach (new RegExIterator(
