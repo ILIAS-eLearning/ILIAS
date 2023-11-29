@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Modules\Test\traits\QuestionPoolLinkedTitleBuilder;
+
 /**
  *
  * @author	Björn Heyser <bheyser@databay.de>
@@ -27,6 +29,7 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
     public const IDENTIFIER = 'tstRndPools';
     private bool $definitionEditModeEnabled = false;
     private bool $questionAmountColumnEnabled = false;
@@ -121,23 +124,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($this->access->checkAccess('read', '', $a_set['ref_id'])) {
-            $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $a_set['ref_id']);
-            $this->tpl->setVariable(
-                'SOURCE_POOL_LABEL',
-                $this->ui->renderer()->render(
-                    $this->ui->factory()->link()->standard(
-                        $a_set['source_pool_label'],
-                        $this->ctrl->getLinkTargetByClass(
-                            [ilObjQuestionPoolGUI::class]
-                        )
-                    )
-                )
-            );
-            $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
-        } else {
-            $this->tpl->setVariable('SOURCE_POOL_LABEL', $a_set['source_pool_label']);
-        }
+        $this->buildPossiblyLinkedQuestonPoolTitle($a_set['ref_id'], $a_set['source_pool_label'], true);
         // fau: taxFilter/typeFilter - set taxonomy/type filter label in a single coulumn each
         $this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($a_set['taxonomy_filter'], '<br />'));
         #$this->tpl->setVariable('FILTER_TAXONOMY', $this->getTaxonomyTreeLabel($set['filter_taxonomy']));

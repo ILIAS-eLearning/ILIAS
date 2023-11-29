@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Modules\Test\traits\QuestionPoolLinkedTitleBuilder;
 
 /**
 *
@@ -32,6 +33,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 */
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
     private const CLASS_PATH_FOR_QUESTION_EDIT_LINKS = [ilRepositoryGUI::class, ilObjQuestionPoolGUI::class];
     private ilAccessHandler $access;
 
@@ -224,34 +226,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             }
         }
 
-        if (ilObject::_lookupType((int) $a_set["orig_obj_fi"]) === 'qpl') {
-            $qp_ref_ids = ilObject::_getAllReferences($a_set["orig_obj_fi"]);
-            $qp_references = [];
-            foreach ($qp_ref_ids as $reference) {
-                if ($this->access->checkAccess('read', '', $reference)) {
-                    $qp_references[] = $reference;
-                }
-            }
-            if (count($qp_references) === 1) {
-                $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $qp_references[0]);
-                $this->tpl->setVariable(
-                    "QUESTION_POOL",
-                    $this->ui_renderer->render(
-                        $this->ui_factory->link()->standard(
-                            ilObject::_lookupTitle($a_set["orig_obj_fi"]),
-                            $this->ctrl->getLinkTargetByClass(
-                                [ilObjQuestionPoolGUI::class]
-                            )
-                        )
-                    )
-                );
-                $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
-            } else {
-                $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
-            }
-        } else {
-            $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
+        if (isset($a_set['orig_obj_fi'])) {
+            $this->tpl->setVariable("QUESTION_POOL", $this->buildPossiblyLinkedQuestonPoolTitle($a_set["orig_obj_fi"], ilObject::_lookupTitle($a_set["orig_obj_fi"])));
         }
+
         $actions = [];
 
         $actions[] = $this->ui_factory->link()->standard(
