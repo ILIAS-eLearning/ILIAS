@@ -3139,12 +3139,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
 
             // no posts
-            if ($firstNodeInThread->getId() === 0 && !$numberOfPostings = count($subtree_nodes)) {
+            $numberOfPostings = count($subtree_nodes);
+            if ($numberOfPostings === 0 && $firstNodeInThread->getId() === 0) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_no_posts_available'));
             }
 
             $pageSize = $frm->getPageHits();
             $postIndex = 0;
+
             if ($numberOfPostings > $pageSize) {
                 $this->ctrl->setParameter($this, 'ref_id', $this->object->getRefId());
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
