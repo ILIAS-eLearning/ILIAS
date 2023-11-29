@@ -37,7 +37,6 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
-        $this->addGlobal_ilAccess();
 
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())

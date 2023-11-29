@@ -35,7 +35,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 {
     use QuestionPoolLinkedTitleBuilder;
     private const CLASS_PATH_FOR_QUESTION_EDIT_LINKS = [ilRepositoryGUI::class, ilObjQuestionPoolGUI::class];
-    private ilAccessHandler $access;
 
     /**
      * @var bool
@@ -77,8 +76,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $this->setId('tst_qst_lst_' . $parent_ref_id);
 
         parent::__construct($parent_obj, $parent_cmd);
-        global $DIC;
-        $this->access = $DIC->access();
 
         $this->setFormName('questionbrowser');
         $this->setStyle('table', 'fullwidth');

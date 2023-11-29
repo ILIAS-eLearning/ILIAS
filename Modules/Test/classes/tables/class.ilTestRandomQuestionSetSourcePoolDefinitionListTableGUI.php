@@ -37,7 +37,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
     private ?ilTestQuestionFilterLabelTranslater $taxonomyLabelTranslater = null;
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
-    private ilAccessHandler $access;
 
     public function __construct(
         ilTestRandomQuestionSetConfigGUI $parent_obj,
@@ -46,7 +45,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         private array $question_amount
     ) {
         global $DIC;
-        $this->access = $DIC->access();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
 

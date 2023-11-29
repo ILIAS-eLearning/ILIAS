@@ -34,7 +34,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
         $this->addGlobal_lng();
         $this->addGlobal_tpl();
         $this->addGlobal_ilComponentRepository();
-        $this->addGlobal_ilAccess();
 
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())

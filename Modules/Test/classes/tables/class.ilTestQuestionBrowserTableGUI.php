@@ -63,7 +63,6 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         private InternalRequestService $testrequest,
         private ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
-        global $DIC;
         $this->setId('qpl_brows_tabl_' . $this->test_obj->getId());
 
         parent::__construct($this, self::CMD_BROWSE_QUESTIONS);
