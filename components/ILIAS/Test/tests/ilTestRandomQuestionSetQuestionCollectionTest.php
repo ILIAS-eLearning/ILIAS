@@ -42,7 +42,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
     {
         $expected = [
             new ilTestRandomQuestionSetQuestion(),
-            new ilTestRandomQuestionSetQuestion(),
+            new ilTestRandomQuestionSetQuestion()
         ];
 
         $this->testObj->setQuestions($expected);

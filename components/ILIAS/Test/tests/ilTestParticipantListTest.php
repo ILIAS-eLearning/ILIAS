@@ -36,9 +36,9 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestParticipantList(
             $this->createMock(ilObjTest::class),
-            $DIC->user(),
-            $DIC->language(),
-            $DIC->database(),
+            $DIC['ilUser'],
+            $DIC['ilLanguage'],
+            $DIC['ilDB'],
         );
     }
 
@@ -87,7 +87,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             125,
             176,
             12111,
-            1,
+            1
         ];
 
         foreach ($ids as $id) {
@@ -105,7 +105,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             125,
             176,
             12111,
-            1,
+            1
         ];
 
         foreach ($ids as $id) {
@@ -123,7 +123,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             125,
             176,
             12111,
-            1,
+            1
         ];
 
         foreach ($ids as $id) {
@@ -143,13 +143,13 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             125,
             176,
             12111,
-            1,
+            1
         ];
 
         $expected = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {
@@ -172,7 +172,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {
@@ -193,7 +193,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {
@@ -217,7 +217,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $key => $id) {
@@ -235,7 +235,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {
@@ -258,7 +258,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {

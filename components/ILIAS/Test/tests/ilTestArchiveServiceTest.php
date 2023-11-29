@@ -34,7 +34,7 @@ class ilTestArchiveServiceTest extends ilTestBaseTestCase
             $this->createMock(ilObjTest::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilObjectDataCache::class),
-            $this->createMock(ilTestHTMLGenerator::class),
+            $this->createMock(ilTestHTMLGenerator::class)
         );
     }
 

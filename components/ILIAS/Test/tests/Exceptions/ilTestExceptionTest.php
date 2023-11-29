@@ -42,7 +42,7 @@ class ilTestExceptionTest extends ilTestBaseTestCase
             [['msg' => 'test', 'code' => -1], ['msg' => 'test', 'code' => -1]],
             [['msg' => 'test', 'code' => 0], ['msg' => 'test', 'code' => 0]],
             [['msg' => 'test', 'code' => 1], ['msg' => 'test', 'code' => 1]],
-            [['msg' => 'test'], ['msg' => 'test', 'code' => 0]],
+            [['msg' => 'test'], ['msg' => 'test', 'code' => 0]]
         ];
     }
 
@@ -70,7 +70,7 @@ class ilTestExceptionTest extends ilTestBaseTestCase
             [['msg' => 'test', 'code' => -1], ['msg' => 'test', 'code' => -1]],
             [['msg' => 'test', 'code' => 0], ['msg' => 'test', 'code' => 0]],
             [['msg' => 'test', 'code' => 1], ['msg' => 'test', 'code' => 1]],
-            [['msg' => 'test'], ['msg' => 'test', 'code' => 0]],
+            [['msg' => 'test'], ['msg' => 'test', 'code' => 0]]
         ];
     }
 }

@@ -56,7 +56,7 @@ class ilTestPageGUITest extends ilTestBaseTestCase
     {
         return [
             [''],
-            ['test'],
+            ['test']
         ];
     }
 }

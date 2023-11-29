@@ -32,7 +32,7 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestParticipantData(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilLanguage::class),
+            $this->createMock(ilLanguage::class)
         );
     }
 
@@ -67,7 +67,7 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
         $this->testObj->setScoredParticipantsFilterEnabled(true);
         $this->assertEquals(
             'ta.last_finished_pass = ta.last_started_pass',
-            $this->testObj->getScoredParticipantsFilterExpression(),
+            $this->testObj->getScoredParticipantsFilterExpression()
         );
     }
 

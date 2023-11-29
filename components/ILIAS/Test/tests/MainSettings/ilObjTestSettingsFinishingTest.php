@@ -36,7 +36,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -61,7 +61,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
             0,
             false,
             false,
-            $IO,
+            $IO
         );
 
         $this->assertEquals($IO, $ilObjTestSettingsFinishing->getConcludingRemarksText());
@@ -72,7 +72,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         return [
             [null],
             [''],
-            ['string'],
+            ['string']
         ];
     }
 
@@ -94,7 +94,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
             [null],
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -115,7 +115,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -136,7 +136,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         return [
             [null],
             [''],
-            ['string'],
+            ['string']
         ];
     }
 
@@ -157,7 +157,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -177,7 +177,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 }

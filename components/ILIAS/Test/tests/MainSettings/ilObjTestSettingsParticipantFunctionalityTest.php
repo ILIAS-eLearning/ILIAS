@@ -36,7 +36,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -56,7 +56,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -76,7 +76,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -96,7 +96,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -117,7 +117,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -137,7 +137,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 }

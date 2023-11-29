@@ -48,7 +48,7 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
             'maxpoints',
             'questioncount',
             'workingtime',
-            'examId',
+            'examId'
         ];
         $this->assertEquals($expected, $this->testObj->__sleep());
     }
@@ -101,7 +101,7 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
             ['id' => 20, 'points' => 2.5, 'reached' => 1.5, 'isAnswered' => true, 'sequence' => null, 'manual' => 0],
             ['id' => 12, 'points' => 12.5, 'reached' => 11, 'isAnswered' => true, 'sequence' => null, 'manual' => 1],
             ['id' => 165, 'points' => -5.5, 'reached' => 0, 'isAnswered' => false, 'sequence' => null, 'manual' => 0],
-            ['id' => 4, 'points' => 55.5, 'reached' => 200, 'isAnswered' => false, 'sequence' => null, 'manual' => 1],
+            ['id' => 4, 'points' => 55.5, 'reached' => 200, 'isAnswered' => false, 'sequence' => null, 'manual' => 1]
         ];
 
         foreach ($expected as $value) {
@@ -111,7 +111,7 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
                 $value['reached'],
                 $value['isAnswered'],
                 $value['sequence'],
-                $value['manual'],
+                $value['manual']
             );
         }
 
@@ -128,7 +128,7 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
             ['id' => 20, 'points' => 2.5, 'reached' => 1.5, 'isAnswered' => true, 'sequence' => null, 'manual' => 0],
             ['id' => 12, 'points' => 12.5, 'reached' => 11, 'isAnswered' => true, 'sequence' => null, 'manual' => 1],
             ['id' => 165, 'points' => -5.5, 'reached' => 0, 'isAnswered' => false, 'sequence' => null, 'manual' => 0],
-            ['id' => 4, 'points' => 55.5, 'reached' => 200, 'isAnswered' => false, 'sequence' => null, 'manual' => 1],
+            ['id' => 4, 'points' => 55.5, 'reached' => 200, 'isAnswered' => false, 'sequence' => null, 'manual' => 1]
         ];
         foreach ($expected as $value) {
             $this->testObj->addAnsweredQuestion(
@@ -137,7 +137,7 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
                 $value['reached'],
                 $value['isAnswered'],
                 $value['sequence'],
-                $value['manual'],
+                $value['manual']
             );
         }
 
@@ -152,7 +152,7 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
             ['id' => 20, 'points' => 2.5, 'reached' => 1.5, 'isAnswered' => true, 'sequence' => null, 'manual' => 0],
             ['id' => 12, 'points' => 12.5, 'reached' => 11, 'isAnswered' => true, 'sequence' => null, 'manual' => 1],
             ['id' => 165, 'points' => -5.5, 'reached' => 0, 'isAnswered' => false, 'sequence' => null, 'manual' => 0],
-            ['id' => 4, 'points' => 55.5, 'reached' => 200, 'isAnswered' => false, 'sequence' => null, 'manual' => 1],
+            ['id' => 4, 'points' => 55.5, 'reached' => 200, 'isAnswered' => false, 'sequence' => null, 'manual' => 1]
         ];
 
         foreach ($expected as $value) {
@@ -162,7 +162,7 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
                 $value['reached'],
                 $value['isAnswered'],
                 $value['sequence'],
-                $value['manual'],
+                $value['manual']
             );
         }
 

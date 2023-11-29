@@ -45,7 +45,7 @@ class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
         $instance = new ilTestPassDeletionConfirmationGUI(
             $this->ctrl_mock,
             $this->lng_mock,
-            $this->testEvaluationGUI_mock,
+            $this->testEvaluationGUI_mock
         );
 
         $this->assertInstanceOf(ilTestPassDeletionConfirmationGUI::class, $instance);

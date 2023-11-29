@@ -28,7 +28,6 @@ declare(strict_types=1);
  * @extends ilObjectListGUI
  * @ingroup components\ILIASTest
  */
-require_once 'inc.AssessmentConstants.php';
 
 class ilObjTestListGUI extends ilObjectListGUI
 {

@@ -37,10 +37,10 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
 
 
         $this->testObj = new ilTestRandomQuestionSetConfigStateMessageHandler(
-            $DIC->language(),
-            $DIC->ui()->factory(),
-            $DIC->ui()->renderer(),
-            $DIC->ctrl(),
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['ilCtrl']
         );
     }
 
@@ -54,7 +54,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
         $expected = [
             new ilTestRandomQuestionSetNonAvailablePool(),
             new ilTestRandomQuestionSetNonAvailablePool(),
-            new ilTestRandomQuestionSetNonAvailablePool(),
+            new ilTestRandomQuestionSetNonAvailablePool()
         ];
 
         $this->testObj->setLostPools($expected);

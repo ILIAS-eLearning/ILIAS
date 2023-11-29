@@ -28,8 +28,6 @@ use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\Test\QuestionIdentifiers;
 
-require_once __DIR__ . '/../classes/inc.AssessmentConstants.php';
-
 /**
  * Class ilObjTestGUI
  *

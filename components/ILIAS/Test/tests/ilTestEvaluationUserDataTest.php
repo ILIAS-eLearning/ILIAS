@@ -56,7 +56,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
             'user_id',
             'login',
             'name',
-            'passScoring',
+            'passScoring'
         ];
 
         $this->assertEquals($expected, $this->testObj->__sleep());
@@ -222,7 +222,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
         $this->testObj->passes = [
             $data1,
-            $data2,
+            $data2
         ];
 
         $this->assertEquals($workingtime1 + $workingtime2, $this->testObj->getTimeOfWork());
@@ -263,7 +263,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
         $this->testObj->passes = [
             $data1,
-            $data2,
+            $data2
         ];
 
         $this->assertEquals([$data1, $data2], $this->testObj->getPasses());
@@ -277,7 +277,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
             0,
             0,
             1,
-            1,
+            1
         ];
 
         foreach ($data as $value) {
@@ -294,7 +294,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $data = [
             0 => $expected = new ilTestEvaluationPassData(),
             1 => new ilTestEvaluationPassData(),
-            2 => new ilTestEvaluationPassData(),
+            2 => new ilTestEvaluationPassData()
         ];
 
         foreach ($data as $key => $value) {
@@ -312,7 +312,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
             0,
             0,
             1,
-            1,
+            1
         ];
 
         foreach ($data as $value) {

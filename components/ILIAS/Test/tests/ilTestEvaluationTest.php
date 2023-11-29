@@ -32,7 +32,7 @@ class ilTestEvaluationTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestEvaluation(
             $this->createMock(ilDBInterface::class),
-            0,
+            0
         );
     }
 

@@ -29,6 +29,7 @@ class ilTestMailNotificationTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestMailNotification();
     }
+
     public function testConstruct(): void
     {
         $this->assertInstanceOf(ilTestMailNotification::class, $this->testObj);

@@ -36,11 +36,11 @@ class ilTestFixedQuestionSetConfigTest extends ilTestBaseTestCase
         $this->addGlobal_ilComponentRepository();
 
         $this->testObj = new ilTestFixedQuestionSetConfig(
-            $DIC['tree'], // TODO: replace with proper attribute
-            $DIC->database(),
-            $DIC->language(),
-            $DIC['ilLog'], // TODO: replace with proper attribute
-            $DIC['component.repository'], // TODO: replace with proper attribute
+            $DIC['tree'],
+            $DIC['ilDB'],
+            $DIC['lng'],
+            $DIC['ilLog'],
+            $DIC['component.repository'],
             $this->createMock(ilObjTest::class),
             $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class),
         );

@@ -32,7 +32,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
     }
 
@@ -80,7 +80,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
     {
         $expected = [
             125 => ['nodeId' => 20],
-            17 => ['nodeId' => 3],
+            17 => ['nodeId' => 3]
         ];
         $this->testObj->setOriginalTaxonomyFilter($expected);
         $this->assertEquals($expected, $this->testObj->getOriginalTaxonomyFilter());
@@ -90,7 +90,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
     {
         $expected = [
             125 => ['nodeId' => 20],
-            17 => ['nodeId' => 3],
+            17 => ['nodeId' => 3]
         ];
         $this->testObj->setMappedTaxonomyFilter($expected);
         $this->assertEquals($expected, $this->testObj->getMappedTaxonomyFilter());
@@ -101,7 +101,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
         $expected = [
             'test',
             'hello',
-            'world',
+            'world'
         ];
         $this->testObj->setTypeFilter($expected);
         $this->assertEquals($expected, $this->testObj->getTypeFilter());
@@ -112,7 +112,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
         $expected = [
             'test',
             'hello',
-            'world',
+            'world'
         ];
         $this->testObj->setLifecycleFilter($expected);
         $this->assertEquals($expected, $this->testObj->getLifecycleFilter());

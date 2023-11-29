@@ -25,7 +25,7 @@ class ilCSVTestExportTest extends ilTestBaseTestCase
             '',
             '',
             false,
-            null,
+            null
         );
         $this->assertInstanceOf(ilCSVTestExport::class, $ilCSVTestExport);
     }

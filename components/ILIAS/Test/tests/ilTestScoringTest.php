@@ -33,7 +33,7 @@ class ilTestScoringTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestScoring(
             $this->createMock(ilObjTest::class),
-            $DIC->database(),
+            $DIC['ilDB']
         );
     }
 

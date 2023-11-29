@@ -38,12 +38,12 @@ class ilTestParticipantsTimeExtensionGUITest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestParticipantsTimeExtensionGUI(
             $this->createMock(ilObjTest::class),
-            $DIC->user(),
-            $DIC->ctrl(),
-            $DIC->language(),
-            $DIC->database(),
-            $DIC->ui()->mainTemplate(),
-            $this->createMock(ilTestParticipantAccessFilterFactory::class),
+            $DIC['ilUser'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ilDB'],
+            $DIC['tpl'],
+            $this->createMock(ilTestParticipantAccessFilterFactory::class)
         );
     }
 

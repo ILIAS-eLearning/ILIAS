@@ -43,7 +43,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -61,7 +61,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -79,7 +79,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -98,7 +98,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -134,7 +134,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -152,7 +152,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -170,7 +170,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -188,7 +188,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -206,7 +206,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 }

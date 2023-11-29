@@ -30,7 +30,7 @@ class ilTestResultHeaderLabelBuilderTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestResultHeaderLabelBuilder(
             $this->createMock(ilLanguage::class),
-            $this->createMock(ilObjectDataCache::class),
+            $this->createMock(ilObjectDataCache::class)
         );
     }
 

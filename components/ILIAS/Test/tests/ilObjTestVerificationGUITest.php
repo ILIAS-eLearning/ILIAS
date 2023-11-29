@@ -39,7 +39,7 @@ class ilObjTestVerificationGUITest extends ilTestBaseTestCase
         $this->testObj = new ilObjTestVerificationGUI(
             0,
             1,
-            0,
+            0
         );
     }
 

@@ -42,7 +42,7 @@ class ilTestPassResultTest extends ilTestBaseTestCase
     public function getSettingsDataProvider(): array
     {
         return [
-            [new ilTestPassResultsSettings()],
+            [new ilTestPassResultsSettings()]
         ];
     }
 
@@ -65,7 +65,7 @@ class ilTestPassResultTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -88,7 +88,7 @@ class ilTestPassResultTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -111,7 +111,7 @@ class ilTestPassResultTest extends ilTestBaseTestCase
         return [
             [[]],
             [[$this->createMock(ilQuestionResult::class)]],
-            [[$this->createMock(ilQuestionResult::class), $this->createMock(ilQuestionResult::class)]],
+            [[$this->createMock(ilQuestionResult::class), $this->createMock(ilQuestionResult::class)]]
         ];
     }
 }

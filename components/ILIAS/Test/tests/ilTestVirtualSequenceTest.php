@@ -33,7 +33,7 @@ class ilTestVirtualSequenceTest extends ilTestBaseTestCase
         $this->testObj = new ilTestVirtualSequence(
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilObjTest::class),
-            $this->createMock(ilTestSequenceFactory::class),
+            $this->createMock(ilTestSequenceFactory::class)
         );
     }
 

@@ -93,6 +93,8 @@ class AccessFileUploadAnswerTest extends TestCase
         $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
         $readable->expects(self::once())->method('references')->with([678])->willReturn(false);
 
+
+
         $object_id_of_test_id = function (int $test) use (&$called): int {
             $this->assertEquals(8, $test);
             $called = true;
@@ -250,7 +252,7 @@ class AccessFileUploadAnswerTest extends TestCase
         });
         $database->expects(self::once())->method('fetchAssoc')->with($statement)->willReturn([
             'active_fi' => '11111',
-            'value1' => 'file.mp3',
+            'value1' => 'file.mp3'
         ]);
 
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();

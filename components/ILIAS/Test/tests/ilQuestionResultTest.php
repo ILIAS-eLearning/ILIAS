@@ -39,7 +39,7 @@ class ilQuestionResultTest extends ilTestBaseTestCase
            '',
            true,
            true,
-           '',
+           ''
         );
     }
 

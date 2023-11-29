@@ -42,7 +42,7 @@ class ilTestMissingQuestionPoolIdParameterExceptionTest extends ilTestBaseTestCa
             [['msg' => 'test', 'code' => -1], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],
             [['msg' => 'test', 'code' => 0], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],
             [['msg' => 'test', 'code' => 1], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],
-            [['msg' => 'test'], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],
+            [['msg' => 'test'], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]]
         ];
     }
 
@@ -70,7 +70,7 @@ class ilTestMissingQuestionPoolIdParameterExceptionTest extends ilTestBaseTestCa
             [['msg' => 'test', 'code' => -1], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],
             [['msg' => 'test', 'code' => 0], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],
             [['msg' => 'test', 'code' => 1], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],
-            [['msg' => 'test'], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],
+            [['msg' => 'test'], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]]
         ];
     }
 }

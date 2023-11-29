@@ -18,6 +18,7 @@
 
 namespace Skills;
 
+use ilDBInterface;
 use ILIAS\Test\Skills\TestSkillDBRepository;
 use ilTestBaseTestCase;
 
@@ -28,7 +29,7 @@ class TestSkillDBRepositoryTest extends ilTestBaseTestCase
         $testSkillDBRepository = new TestSkillDBRepository();
         $this->assertInstanceOf(TestSkillDBRepository::class, $testSkillDBRepository);
 
-        $testSkillDBRepository = new TestSkillDBRepository($this->createMock(\ilDBInterface::class));
+        $testSkillDBRepository = new TestSkillDBRepository($this->createMock(ilDBInterface::class));
         $this->assertInstanceOf(TestSkillDBRepository::class, $testSkillDBRepository);
     }
 }

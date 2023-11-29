@@ -18,6 +18,7 @@
 
 namespace ScoreReporting;
 
+use DateTimeImmutable;
 use ilObjTestSettingsResultSummary;
 use ilTestBaseTestCase;
 
@@ -44,7 +45,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -62,7 +63,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -80,7 +81,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
     {
         return [
             [null],
-            [new \DateTimeImmutable()],
+            [new DateTimeImmutable()]
         ];
     }
 
@@ -98,7 +99,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -116,7 +117,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -134,7 +135,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -152,7 +153,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 }

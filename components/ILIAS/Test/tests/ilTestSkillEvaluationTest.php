@@ -36,7 +36,7 @@ class ilTestSkillEvaluationTest extends ilTestBaseTestCase
             0,
             0,
             $this->createMock(\ILIAS\Skill\Service\SkillProfileService::class),
-            $this->createMock(\ILIAS\Skill\Service\SkillPersonalService::class),
+            $this->createMock(\ILIAS\Skill\Service\SkillPersonalService::class)
         );
     }
 

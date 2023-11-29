@@ -37,7 +37,7 @@ class ilTestSkillLevelThresholdsGUITest extends ilTestBaseTestCase
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilDBInterface::class),
-            $this->testId,
+            $this->testId
         );
     }
 

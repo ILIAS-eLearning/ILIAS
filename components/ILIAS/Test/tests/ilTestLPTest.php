@@ -36,7 +36,7 @@ class ilTestLPTest extends ilTestBaseTestCase
     {
         return [
             [true, [ilLPObjSettings::LP_MODE_DEACTIVATED, ilLPObjSettings::LP_MODE_TEST_FINISHED, ilLPObjSettings::LP_MODE_TEST_PASSED]],
-            [false, [ilLPObjSettings::LP_MODE_DEACTIVATED, ilLPObjSettings::LP_MODE_TEST_FINISHED, ilLPObjSettings::LP_MODE_TEST_PASSED]],
+            [false, [ilLPObjSettings::LP_MODE_DEACTIVATED, ilLPObjSettings::LP_MODE_TEST_FINISHED, ilLPObjSettings::LP_MODE_TEST_PASSED]]
         ];
     }
 

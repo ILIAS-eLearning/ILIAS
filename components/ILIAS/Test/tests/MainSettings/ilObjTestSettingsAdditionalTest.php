@@ -36,7 +36,7 @@ class ilObjTestSettingsAdditionalTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -56,7 +56,7 @@ class ilObjTestSettingsAdditionalTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 }

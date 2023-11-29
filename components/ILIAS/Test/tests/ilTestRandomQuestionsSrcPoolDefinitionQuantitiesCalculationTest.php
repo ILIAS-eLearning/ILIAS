@@ -31,7 +31,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculationTest extends il
         parent::setUp();
 
         $this->testObj = new ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation(
-            $this->createMock(ilTestRandomQuestionSetSourcePoolDefinition::class),
+            $this->createMock(ilTestRandomQuestionSetSourcePoolDefinition::class)
         );
     }
 

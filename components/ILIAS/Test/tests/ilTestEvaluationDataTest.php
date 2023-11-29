@@ -33,7 +33,7 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
         global $DIC;
         $this->addGlobal_ilDB();
 
-        $this->testObj = new ilTestEvaluationData($DIC->database());
+        $this->testObj = new ilTestEvaluationData($DIC['ilDB']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

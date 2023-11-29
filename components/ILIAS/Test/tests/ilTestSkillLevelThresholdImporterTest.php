@@ -31,7 +31,7 @@ class ilTestSkillLevelThresholdImporterTest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->testObj = new ilTestSkillLevelThresholdImporter($DIC->database());
+        $this->testObj = new ilTestSkillLevelThresholdImporter($DIC['ilDB']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

@@ -32,7 +32,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
 
         $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
     }
 
@@ -48,7 +48,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
             'qpl_ref_id' => 4711,
             "qpl_title" => "testTitle",
             "qpl_path" => "test/path",
-            "count" => 5,
+            "count" => 5
         ];
 
         $result = $this->testObj->getSourcePoolDefinitionByOriginalPoolData($originalPoolData);
@@ -63,7 +63,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
     {
         $this->assertInstanceOf(
             ilTestRandomQuestionSetSourcePoolDefinition::class,
-            $this->testObj->getEmptySourcePoolDefinition(),
+            $this->testObj->getEmptySourcePoolDefinition()
         );
     }
 }

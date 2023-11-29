@@ -46,21 +46,21 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
         $this->testObj = new ilTestResultsGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestQuestionSetConfig::class),
-            $DIC->ctrl(),
-            $DIC->access(),
-            $DIC->database(),
-            $DIC->user(),
-            $DIC->language(),
+            $DIC['ilCtrl'],
+            $DIC['ilAccess'],
+            $DIC['ilDB'],
+            $DIC['ilUser'],
+            $DIC['lng'],
             $this->createMock(\ILIAS\DI\LoggingServices::class),
-            $DIC['component.repository'], // TODO: replace with proper attribute
-            $DIC->tabs(),
-            $DIC->toolbar(),
-            $DIC->ui()->mainTemplate(),
-            $DIC->ui()->factory(),
-            $DIC->ui()->renderer(),
+            $DIC['component.repository'],
+            $DIC['ilTabs'],
+            $DIC['ilToolbar'],
+            $DIC['tpl'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
             $this->createMock(ILIAS\Skill\Service\SkillService::class),
             $this->createMock(ILIAS\Test\InternalRequestService::class),
-            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class),
+            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class)
         );
     }
 

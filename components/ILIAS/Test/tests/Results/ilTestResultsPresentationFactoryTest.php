@@ -37,7 +37,7 @@ class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
             $this->createMock(Refinery::class),
             $this->createMock(DataFactory::class),
             $this->createMock(HTTPService::class),
-            $this->createMock(ilLanguage::class),
+            $this->createMock(ilLanguage::class)
         );
         $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $ilTestResultsPresentationFactory);
     }

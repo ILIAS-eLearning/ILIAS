@@ -32,7 +32,7 @@ class ilTestProcessLockerFactoryTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestProcessLockerFactory(
             $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock(),
-            $this->createMock(ilDBInterface::class),
+            $this->createMock(ilDBInterface::class)
         );
     }
 

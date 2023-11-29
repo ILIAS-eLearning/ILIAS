@@ -34,7 +34,7 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
         $this->testObj = new ilTestRandomQuestionsQuantitiesDistribution(
             $DIC->database(),
             $this->createMock(ilTestRandomSourcePoolDefinitionQuestionCollectionProvider::class),
-            $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class),
+            $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class)
         );
     }
 

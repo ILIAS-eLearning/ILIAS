@@ -47,7 +47,7 @@ class ilObjAssessmentFolderGUITest extends ilTestBaseTestCase
             null,
             1, // 0 is not allowed
             true,
-            true,
+            true
         );
     }
 

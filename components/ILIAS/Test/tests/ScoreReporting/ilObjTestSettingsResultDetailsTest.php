@@ -44,7 +44,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -62,7 +62,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -80,7 +80,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -98,7 +98,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -116,7 +116,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -134,7 +134,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -152,7 +152,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -170,7 +170,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -188,7 +188,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
     {
         return [
             [false],
-            [true],
+            [true]
         ];
     }
 
@@ -207,7 +207,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 }

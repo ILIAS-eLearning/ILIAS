@@ -43,7 +43,7 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable('lng', $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock());
 
         $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
-            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
         );
     }
 

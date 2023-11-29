@@ -35,7 +35,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         protected ?string $processing_time = null,
         protected bool $reset_processing_time = false,
         protected int $kiosk_mode = 0,
-        protected bool $examid_in_test_pass_enabled = false,
+        protected bool $examid_in_test_pass_enabled = false
     ) {
         $this->pass_waiting = $this->cleanupPassWaiting($this->pass_waiting);
         parent::__construct($test_id);
@@ -46,31 +46,30 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): FormInput
-    {
+    ): FormInput {
         $inputs['limit_attempts'] = $this->getInputLimitAttempts(
             $lng,
             $f,
             $refinery,
-            $environment,
+            $environment
         );
         $inputs['force_waiting_between_attempts'] = $this->getInputForceWaitingBetweenAttempts(
             $lng,
             $f,
             $refinery,
-            $environment,
+            $environment
         );
         $inputs['time_limit_for_completion'] = $this->getInputTimeLimitForCompletion(
             $lng,
             $f,
             $refinery,
-            $environment,
+            $environment
         );
         $inputs['kiosk_mode'] = $this->getInputKioskMode($lng, $f, $refinery);
 
         $inputs['show_exam_id'] = $f->checkbox(
             $lng->txt('examid_in_test_pass'),
-            $lng->txt('examid_in_test_pass_desc'),
+            $lng->txt('examid_in_test_pass_desc')
         )->withValue($this->getExamIdInTestPassEnabled());
 
         return $f->section($inputs, $lng->txt('tst_settings_header_test_run'));
@@ -81,14 +80,13 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment
-    ): FormInput
-    {
+    ): FormInput {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'number_of_available_attempts' => 0,
-                        'block_after_passed' => false,
+                        'block_after_passed' => false
                     ];
                 }
 
@@ -99,7 +97,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         $sub_inputs['number_of_available_attempts'] = $f->numeric($lng->txt('tst_nr_of_tries'));
         $sub_inputs['block_after_passed'] = $f->checkbox(
             $lng->txt('tst_block_passes_after_passed'),
-            $lng->txt('tst_block_passes_after_passed_info'),
+            $lng->txt('tst_block_passes_after_passed_info')
         );
 
         if (!$environment['participant_data_exists']) {
@@ -111,7 +109,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         $limit_attempts = $f->optionalGroup(
             $sub_inputs,
             $lng->txt('tst_limit_nr_of_tries'),
-            $lng->txt('tst_nr_of_tries_desc'),
+            $lng->txt('tst_nr_of_tries_desc')
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
@@ -119,7 +117,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
             $limit_attempts = $limit_attempts->withValue(
                 [
                     'number_of_available_attempts' => $this->getNumberOfTries(),
-                    'block_after_passed' => $this->getBlockAfterPassedEnabled(),
+                    'block_after_passed' => $this->getBlockAfterPassedEnabled()
                 ]
             );
         }
@@ -136,13 +134,12 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment
-    ): FormInput
-    {
+    ): FormInput {
         $constraint = $refinery->custom()->constraint(
             static function (?string $vs): bool {
                 return $vs !== '0:0:0';
             },
-            sprintf($lng->txt('not_greater_than'), $lng->txt('tst_pass_waiting_time'), 0),
+            sprintf($lng->txt('not_greater_than'), $lng->txt('tst_pass_waiting_time'), 0)
         );
 
         $trafo = $refinery->custom()->transformation(
@@ -154,7 +151,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         $force_waiting_between_attempts = $f->optionalGroup(
             $this->getSubInputsForceWaitingBetweenAttempts($lng, $f, $refinery, ),
             $lng->txt('tst_pass_waiting_enabled'),
-            $lng->txt('tst_pass_waiting_info'),
+            $lng->txt('tst_pass_waiting_info')
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
@@ -164,7 +161,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
                 [
                     'days' => $days,
                     'hours' => $hours,
-                    'minutes' => $minutes,
+                    'minutes' => $minutes
                 ]
             );
         }
@@ -180,8 +177,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery
-    ): array
-    {
+    ): array {
         $sub_inputs_force_waiting_between_attempts['days'] = $f->numeric($lng->txt('days'))
             ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
             ->withAdditionalTransformation($refinery->int()->isLessThanOrEqual(31))
@@ -222,15 +218,14 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment
-    ): FormInput
-    {
+    ): FormInput {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'processing_time_limit' => false,
                         'time_limit_for_completion_value' => null,
-                        'reset_time_limit_for_completion_by_attempt' => false,
+                        'reset_time_limit_for_completion_by_attempt' => false
                     ];
                 }
 
@@ -240,7 +235,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
                     floor(
                         $vs['time_limit_for_completion_value'] / 60
                     ),
-                    $vs['time_limit_for_completion_value'] % 60,
+                    $vs['time_limit_for_completion_value'] % 60
                 );
                 return $vs;
             }
@@ -249,20 +244,20 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         $sub_inputs_time_limit_for_completion['time_limit_for_completion_value'] = $f
             ->numeric(
                 $lng->txt('tst_processing_time_duration'),
-                $lng->txt('tst_processing_time_desc'),
+                $lng->txt('tst_processing_time_desc')
             )
             ->withRequired(true)
             ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
             ->withValue(self::DEFAULT_PROCESSING_TIME_MINUTES);
         $sub_inputs_time_limit_for_completion['reset_time_limit_for_completion_by_attempt'] = $f->checkbox(
             $lng->txt('tst_reset_processing_time'),
-            $lng->txt('tst_reset_processing_time_desc'),
+            $lng->txt('tst_reset_processing_time_desc')
         );
 
         $time_limit_for_completion = $f->optionalGroup(
             $sub_inputs_time_limit_for_completion,
             $lng->txt('tst_processing_time'),
-            $lng->txt('tst_processing_time_desc'),
+            $lng->txt('tst_processing_time_desc')
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
@@ -270,7 +265,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
             $time_limit_for_completion = $time_limit_for_completion->withValue(
                 [
                     'time_limit_for_completion_value' => (int) $this->getProcessingTimeAsMinutes(),
-                    'reset_time_limit_for_completion_by_attempt' => (bool) $this->getResetProcessingTime(),
+                    'reset_time_limit_for_completion_by_attempt' => (bool) $this->getResetProcessingTime()
                 ]
             );
         }
@@ -286,8 +281,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery
-    ): FormInput
-    {
+    ): FormInput {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): ?int {
                 if ($vs === null) {
@@ -315,7 +309,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         $kiosk_mode = $f->optionalGroup(
             $sub_inputs_kiosk_mode,
             $lng->txt('kiosk'),
-            $lng->txt('kiosk_description'),
+            $lng->txt('kiosk_description')
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
@@ -325,7 +319,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
 
         return $kiosk_mode->withValue([
             'show_title' => $this->getShowTitleInKioskMode(),
-            'show_participant_name' => $this->getShowParticipantNameInKioskMode(),
+            'show_participant_name' => $this->getShowParticipantNameInKioskMode()
         ]);
     }
 
@@ -339,7 +333,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
             'processing_time' => ['string', $this->getProcessingTime()],
             'reset_processing_time' => ['integer', (int) $this->getResetProcessingTime()],
             'kiosk' => ['integer', $this->getKioskMode()],
-            'examid_in_test_pass' => ['integer', (int) $this->getExamIdInTestPassEnabled()],
+            'examid_in_test_pass' => ['integer', (int) $this->getExamIdInTestPassEnabled()]
         ];
     }
 

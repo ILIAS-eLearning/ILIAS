@@ -32,7 +32,7 @@ class ilTestSessionTest extends ilTestBaseTestCase
         parent::setUp();
         $this->addGlobal_ilUser();
 
-        $this->testObj = new ilTestSession($DIC->database(), $DIC->user());
+        $this->testObj = new ilTestSession($DIC['ilDB'], $DIC['ilUser']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

@@ -49,7 +49,7 @@ class ilTestManScoringParticipantNotificationTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 }

@@ -35,7 +35,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createConfiguredMock(ilObjTestSettingsQuestionBehaviour::class, ['getTestId' => $IO]),
             $this->createConfiguredMock(ilObjTestSettingsParticipantFunctionality::class, ['getTestId' => $IO]),
             $this->createConfiguredMock(ilObjTestSettingsFinishing::class, ['getTestId' => $IO]),
-            $this->createConfiguredMock(ilObjTestSettingsAdditional::class, ['getTestId' => $IO]),
+            $this->createConfiguredMock(ilObjTestSettingsAdditional::class, ['getTestId' => $IO])
         );
 
         $output = self::callMethod($ilObjTestMainSettings, 'throwOnDifferentTestId', [$testSettings]);
@@ -48,7 +48,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -68,7 +68,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createConfiguredMock(ilObjTestSettingsQuestionBehaviour::class, ['getTestId' => $input['test_id_2']]),
             $this->createConfiguredMock(ilObjTestSettingsParticipantFunctionality::class, ['getTestId' => $input['test_id_2']]),
             $this->createConfiguredMock(ilObjTestSettingsFinishing::class, ['getTestId' => $input['test_id_2']]),
-            $this->createConfiguredMock(ilObjTestSettingsAdditional::class, ['getTestId' => $input['test_id_2']]),
+            $this->createConfiguredMock(ilObjTestSettingsAdditional::class, ['getTestId' => $input['test_id_2']])
         );
         $this->expectException(LogicException::class);
         self::callMethod($ilObjTestMainSettings, 'throwOnDifferentTestId', [$testSettings]);
@@ -79,7 +79,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
         return [
             [['test_id_1' => -1, 'test_id_2' => 0]],
             [['test_id_1' => 0, 'test_id_2' => 1]],
-            [['test_id_1' => 1, 'test_id_2' => -1]],
+            [['test_id_1' => 1, 'test_id_2' => -1]]
         ];
     }
 
@@ -93,14 +93,14 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createMock(ilObjTestSettingsGeneral::class),
             $this->createConfiguredMock(
                 ilObjTestSettingsIntroduction::class,
-                ['withTestId' => $this->createMock(ilObjTestSettingsIntroduction::class)],
+                ['withTestId' => $this->createMock(ilObjTestSettingsIntroduction::class)]
             ),
             $this->createMock(ilObjTestSettingsAccess::class),
             $this->createMock(ilObjTestSettingsTestBehaviour::class),
             $this->createMock(ilObjTestSettingsQuestionBehaviour::class),
             $this->createMock(ilObjTestSettingsParticipantFunctionality::class),
             $this->createMock(ilObjTestSettingsFinishing::class),
-            $this->createMock(ilObjTestSettingsAdditional::class),
+            $this->createMock(ilObjTestSettingsAdditional::class)
         );
         $ilObjTestMainSettings = $ilObjTestMainSettings->withTestId($IO);
 
@@ -113,7 +113,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -131,7 +131,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createMock(ilObjTestSettingsQuestionBehaviour::class),
             $this->createMock(ilObjTestSettingsParticipantFunctionality::class),
             $this->createMock(ilObjTestSettingsFinishing::class),
-            $this->createMock(ilObjTestSettingsAdditional::class),
+            $this->createMock(ilObjTestSettingsAdditional::class)
         );
         $ilObjTestMainSettings = $ilObjTestMainSettings->withGeneralSettings($IO);
 
@@ -142,7 +142,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
     public function getAndWithGeneralSettingsDataProvider(): array
     {
         return [
-            [$this->createMock(ilObjTestSettingsGeneral::class)],
+            [$this->createMock(ilObjTestSettingsGeneral::class)]
         ];
     }
 
@@ -160,7 +160,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createMock(ilObjTestSettingsQuestionBehaviour::class),
             $this->createMock(ilObjTestSettingsParticipantFunctionality::class),
             $this->createMock(ilObjTestSettingsFinishing::class),
-            $this->createMock(ilObjTestSettingsAdditional::class),
+            $this->createMock(ilObjTestSettingsAdditional::class)
         );
         $ilObjTestMainSettings = $ilObjTestMainSettings->withIntroductionSettings($IO);
 
@@ -171,7 +171,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
     public function getAndWithIntroductionSettingsDataProvider(): array
     {
         return [
-            [$this->createMock(ilObjTestSettingsIntroduction::class)],
+            [$this->createMock(ilObjTestSettingsIntroduction::class)]
         ];
     }
 
@@ -189,7 +189,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createMock(ilObjTestSettingsQuestionBehaviour::class),
             $this->createMock(ilObjTestSettingsParticipantFunctionality::class),
             $this->createMock(ilObjTestSettingsFinishing::class),
-            $this->createMock(ilObjTestSettingsAdditional::class),
+            $this->createMock(ilObjTestSettingsAdditional::class)
         );
         $ilObjTestMainSettings = $ilObjTestMainSettings->withAccessSettings($IO);
 
@@ -200,7 +200,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
     public function getAndWithAccessSettingsDataProvider(): array
     {
         return [
-            [$this->createMock(ilObjTestSettingsAccess::class)],
+            [$this->createMock(ilObjTestSettingsAccess::class)]
         ];
     }
 
@@ -218,7 +218,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createMock(ilObjTestSettingsQuestionBehaviour::class),
             $this->createMock(ilObjTestSettingsParticipantFunctionality::class),
             $this->createMock(ilObjTestSettingsFinishing::class),
-            $this->createMock(ilObjTestSettingsAdditional::class),
+            $this->createMock(ilObjTestSettingsAdditional::class)
         );
         $ilObjTestMainSettings = $ilObjTestMainSettings->withTestBehaviourSettings($IO);
 
@@ -229,7 +229,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
     public function getAndWithTestBehaviourSettingsDataProvider(): array
     {
         return [
-            [$this->createMock(ilObjTestSettingsTestBehaviour::class)],
+            [$this->createMock(ilObjTestSettingsTestBehaviour::class)]
         ];
     }
 
@@ -247,7 +247,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createMock(ilObjTestSettingsQuestionBehaviour::class),
             $this->createMock(ilObjTestSettingsParticipantFunctionality::class),
             $this->createMock(ilObjTestSettingsFinishing::class),
-            $this->createMock(ilObjTestSettingsAdditional::class),
+            $this->createMock(ilObjTestSettingsAdditional::class)
         );
         $ilObjTestMainSettings = $ilObjTestMainSettings->withQuestionBehaviourSettings($IO);
 
@@ -258,7 +258,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
     public function getAndWithQuestionBehaviourSettingsDataProvider(): array
     {
         return [
-            [$this->createMock(ilObjTestSettingsQuestionBehaviour::class)],
+            [$this->createMock(ilObjTestSettingsQuestionBehaviour::class)]
         ];
     }
 
@@ -276,7 +276,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createMock(ilObjTestSettingsQuestionBehaviour::class),
             $this->createMock(ilObjTestSettingsParticipantFunctionality::class),
             $this->createMock(ilObjTestSettingsFinishing::class),
-            $this->createMock(ilObjTestSettingsAdditional::class),
+            $this->createMock(ilObjTestSettingsAdditional::class)
         );
         $ilObjTestMainSettings = $ilObjTestMainSettings->withParticipantFunctionalitySettings($IO);
 
@@ -287,7 +287,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
     public function getAndWithParticipantFunctionalitySettingsDataProvider(): array
     {
         return [
-            [$this->createMock(ilObjTestSettingsParticipantFunctionality::class)],
+            [$this->createMock(ilObjTestSettingsParticipantFunctionality::class)]
         ];
     }
 
@@ -305,7 +305,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createMock(ilObjTestSettingsQuestionBehaviour::class),
             $this->createMock(ilObjTestSettingsParticipantFunctionality::class),
             $this->createMock(ilObjTestSettingsFinishing::class),
-            $this->createMock(ilObjTestSettingsAdditional::class),
+            $this->createMock(ilObjTestSettingsAdditional::class)
         );
         $ilObjTestMainSettings = $ilObjTestMainSettings->withFinishingSettings($IO);
 
@@ -316,7 +316,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
     public function getAndWithFinishingSettingsDataProvider(): array
     {
         return [
-            [$this->createMock(ilObjTestSettingsFinishing::class)],
+            [$this->createMock(ilObjTestSettingsFinishing::class)]
         ];
     }
 
@@ -334,7 +334,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
             $this->createMock(ilObjTestSettingsQuestionBehaviour::class),
             $this->createMock(ilObjTestSettingsParticipantFunctionality::class),
             $this->createMock(ilObjTestSettingsFinishing::class),
-            $this->createMock(ilObjTestSettingsAdditional::class),
+            $this->createMock(ilObjTestSettingsAdditional::class)
         );
         $ilObjTestMainSettings = $ilObjTestMainSettings->withAdditionalSettings($IO);
 
@@ -345,7 +345,7 @@ class ilObjTestMainSettingsTest extends ilTestBaseTestCase
     public function getAndWithAdditionalSettingsDataProvider(): array
     {
         return [
-            [$this->createMock(ilObjTestSettingsAdditional::class)],
+            [$this->createMock(ilObjTestSettingsAdditional::class)]
         ];
     }
 }

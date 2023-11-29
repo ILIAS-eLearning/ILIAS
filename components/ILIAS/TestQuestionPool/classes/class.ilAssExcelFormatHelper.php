@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once __DIR__ . '/../../Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class ilAssExcelFormatHelper
  * @author Guido Vollbach <gvollbach@databay.de>

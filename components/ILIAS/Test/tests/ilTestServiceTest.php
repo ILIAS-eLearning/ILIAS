@@ -29,7 +29,7 @@ class ilTestServiceTest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->testObj = new ilTestService($this->createMock(ilObjTest::class), $DIC->database(), $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class));
+        $this->testObj = new ilTestService($this->createMock(ilObjTest::class), $DIC['ilDB'], $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

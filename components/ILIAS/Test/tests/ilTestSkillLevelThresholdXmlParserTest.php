@@ -53,7 +53,7 @@ class ilTestSkillLevelThresholdXmlParserTest extends ilTestBaseTestCase
         $this->testObj->initSkillLevelThresholdImportList();
         $this->assertInstanceOf(
             ilTestSkillLevelThresholdImportList::class,
-            $this->testObj->getSkillLevelThresholdImportList(),
+            $this->testObj->getSkillLevelThresholdImportList()
         );
     }
 

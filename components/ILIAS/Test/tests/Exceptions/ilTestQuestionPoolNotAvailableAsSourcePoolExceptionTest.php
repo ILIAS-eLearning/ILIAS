@@ -45,7 +45,7 @@ class ilTestQuestionPoolNotAvailableAsSourcePoolExceptionTest extends ilTestBase
             [['msg' => 'test', 'code' => -1], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],
             [['msg' => 'test', 'code' => 0], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],
             [['msg' => 'test', 'code' => 1], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],
-            [['msg' => 'test'], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],
+            [['msg' => 'test'], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]]
         ];
     }
 
@@ -72,7 +72,7 @@ class ilTestQuestionPoolNotAvailableAsSourcePoolExceptionTest extends ilTestBase
             [['msg' => 'test', 'code' => -1], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],
             [['msg' => 'test', 'code' => 0], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],
             [['msg' => 'test', 'code' => 1], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],
-            [['msg' => 'test'], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],
+            [['msg' => 'test'], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]]
         ];
     }
 }

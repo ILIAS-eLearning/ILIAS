@@ -33,7 +33,7 @@ class ilTestRandomQuestionSetPoolDeriverTest extends ilTestBaseTestCase
         $this->testObj = new ilTestRandomQuestionSetPoolDeriver(
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilComponentRepository::class),
-            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
         );
     }
 

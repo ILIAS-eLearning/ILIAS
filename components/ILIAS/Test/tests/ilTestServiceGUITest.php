@@ -126,7 +126,7 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
                 'pass_id' => 11,
                 'active_id' => 9223372036854775804,
                 'return' => 9223372036854775804
-            ],
+            ]
         ];
     }
 }

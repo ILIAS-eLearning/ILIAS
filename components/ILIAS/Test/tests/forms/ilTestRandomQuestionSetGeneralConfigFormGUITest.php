@@ -48,7 +48,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
             $lng_mock,
             $testObject_mock,
             $questionSetConfigGui_mock,
-            $this->createMock(ilTestRandomQuestionSetConfig::class),
+            $this->createMock(ilTestRandomQuestionSetConfig::class)
         );
     }
 
@@ -70,7 +70,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
     {
         return match (func_get_args()[0]) {
             'tst_rnd_quest_set_cfg_general_form' => 'testTitle',
-            default => 'testValue',
+            default => 'testValue'
         };
     }
 }

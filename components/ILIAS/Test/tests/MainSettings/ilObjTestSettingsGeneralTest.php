@@ -36,7 +36,7 @@ class ilObjTestSettingsGeneralTest extends ilTestBaseTestCase
     {
         return [
             [ilObjTest::QUESTION_SET_TYPE_FIXED],
-            [ilObjTest::QUESTION_SET_TYPE_RANDOM],
+            [ilObjTest::QUESTION_SET_TYPE_RANDOM]
         ];
     }
 
@@ -56,7 +56,7 @@ class ilObjTestSettingsGeneralTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 }

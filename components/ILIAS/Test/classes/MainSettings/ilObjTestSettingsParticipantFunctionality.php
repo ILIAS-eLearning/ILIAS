@@ -32,7 +32,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         protected bool $postponed_questions_move_to_end = false,
         protected int $usrpass_overview_mode = 0,
         protected bool $question_marking_enabled = false,
-        protected bool $question_list_enabled = false,
+        protected bool $question_list_enabled = false
     ) {
         parent::__construct($test_id);
     }
@@ -42,41 +42,40 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): FormInput
-    {
+    ): FormInput {
         $inputs['use_previous_answers'] = $f->checkbox(
             $lng->txt('tst_use_previous_answers'),
-            $lng->txt('tst_use_previous_answers_description'),
+            $lng->txt('tst_use_previous_answers_description')
         )->withValue($this->getUsePreviousAnswerAllowed());
 
         $inputs['allow_suspend_test'] = $f->checkbox(
             $lng->txt('tst_show_cancel'),
-            $lng->txt('tst_show_cancel_description'),
+            $lng->txt('tst_show_cancel_description')
         )->withValue($this->getSuspendTestAllowed());
 
         $inputs['postponed_questions_behaviour'] = $f->radio(
-            $lng->txt('tst_postpone'),
+            $lng->txt('tst_postpone')
         )->withOption(
             '0',
             $lng->txt('tst_postpone_off'),
-            $lng->txt('tst_postpone_off_desc'),
+            $lng->txt('tst_postpone_off_desc')
         )->withOption(
             '1',
             $lng->txt('tst_postpone_on'),
-            $lng->txt('tst_postpone_on_desc'),
+            $lng->txt('tst_postpone_on_desc')
         )->withValue($this->getPostponedQuestionsMoveToEnd() ? '1' : '0')
             ->withAdditionalTransformation($refinery->kindlyTo()->bool());
 
         $inputs['enable_question_list'] = $f->checkbox(
             $lng->txt('tst_enable_questionlist'),
-            $lng->txt('tst_enable_questionlist_description'),
+            $lng->txt('tst_enable_questionlist_description')
         )->withValue($this->getQuestionListEnabled());
 
         $inputs['usr_pass_overview'] = $this->getInputUsrPassOverview($lng, $f, $refinery);
 
         $inputs['enable_question_marking'] = $f->checkbox(
             $lng->txt('question_marking'),
-            $lng->txt('question_marking_description'),
+            $lng->txt('question_marking_description')
         )->withValue($this->getQuestionMarkingEnabled());
 
         return $f->section($inputs, $lng->txt('tst_sequence_properties'));
@@ -86,8 +85,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery
-    ): OptionalGroup
-    {
+    ): OptionalGroup {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): int {
                 if ($vs === null) {
@@ -119,7 +117,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         $enable_usrpass_questionlist = $f->optionalGroup(
             $sub_inputs_usrpass_questionlist,
             $lng->txt('tst_show_summary'),
-            $lng->txt('tst_show_summary_description'),
+            $lng->txt('tst_show_summary_description')
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
@@ -131,7 +129,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
             [
                 'show_at_beginning' => $this->getShownQuestionListAtBeginning(),
                 'show_at_end' => $this->getShownQuestionListAtEnd(),
-                'show_description' => $this->getShowDescriptionInQuestionList(),
+                'show_description' => $this->getShowDescriptionInQuestionList()
             ]
         );
     }
@@ -144,7 +142,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
             'sequence_settings' => ['integer', (int) $this->getPostponedQuestionsMoveToEnd()],
             'usr_pass_overview_mode' => ['integer', $this->getUsrPassOverviewMode()],
             'show_marker' => ['integer', (int) $this->getQuestionMarkingEnabled()],
-            'show_questionlist' => ['integer', $this->getQuestionListEnabled()],
+            'show_questionlist' => ['integer', $this->getQuestionListEnabled()]
         ];
     }
 

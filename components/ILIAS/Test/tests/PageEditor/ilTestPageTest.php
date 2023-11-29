@@ -54,7 +54,7 @@ class ilTestPageTest extends ilTestBaseTestCase
         $property->setValue($this->testObj, $this->createConfiguredMock(\ilDBInterface::class, [
             'query' => $this->createConfiguredMock(\ilDBStatement::class, [
                 'fetchAssoc' => [
-                    'last_id' => $IO,
+                    'last_id' => $IO
                 ],
             ]),
         ]));
@@ -67,7 +67,7 @@ class ilTestPageTest extends ilTestBaseTestCase
         return [
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 }

@@ -34,8 +34,8 @@ class ilTestQuestionFilterLabelTranslaterTest extends ilTestBaseTestCase
         $this->addGlobal_ilComponentFactory();
 
         $this->testObj = new ilTestQuestionFilterLabelTranslater(
-            $DIC->database(),
-            $DIC['lng'], // TODO: replace with proper attribute
+            $DIC['ilDB'],
+            $DIC['lng']
         );
     }
 

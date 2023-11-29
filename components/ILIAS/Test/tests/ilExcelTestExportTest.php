@@ -26,7 +26,7 @@ class ilExcelTestExportTest extends ilTestBaseTestCase
             '',
             false,
             true,
-            null,
+            null
         );
         $this->assertInstanceOf(ilExcelTestExport::class, $ilExcelTestExport);
     }

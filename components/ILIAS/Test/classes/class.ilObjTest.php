@@ -24,8 +24,6 @@ use ILIAS\Test\MainSettingsRepository;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
 
-require_once __DIR__ . '/../classes/inc.AssessmentConstants.php';
-
 /**
  * Class ilObjTest
  *

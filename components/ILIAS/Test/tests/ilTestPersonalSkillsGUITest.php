@@ -30,7 +30,7 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestPersonalSkillsGUI(
             $this->createMock(ilLanguage::class),
-            0,
+            0
         );
     }
 
@@ -43,7 +43,7 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
     {
         $expected = [
             'test123' => 'test12',
-            '2' => 21,
+            '2' => 21
         ];
         $this->testObj->setAvailableSkills($expected);
         $this->assertEquals($expected, $this->testObj->getAvailableSkills());
@@ -60,7 +60,7 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
     {
         $expected = [
             'test123' => 'test12',
-            '2' => 21,
+            '2' => 21
         ];
         $this->testObj->setReachedSkillLevels($expected);
         $this->assertEquals($expected, $this->testObj->getReachedSkillLevels());

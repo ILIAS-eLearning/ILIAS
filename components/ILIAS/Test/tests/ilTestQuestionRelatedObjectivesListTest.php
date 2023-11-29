@@ -44,7 +44,7 @@ class ilTestQuestionRelatedObjectivesListTest extends ilTestBaseTestCase
             1 => [1, 2, 3, 4],
             2 => [5, 6, 7, 8],
             1236 => [9, 10, 11, 12],
-            12 => [13, 14, 15, 16],
+            12 => [13, 14, 15, 16]
         ];
         foreach ($expected as $key => $value) {
             $this->testObj->addQuestionRelatedObjectives($key, $value);
@@ -59,7 +59,7 @@ class ilTestQuestionRelatedObjectivesListTest extends ilTestBaseTestCase
             1 => [1, 2, 3, 4],
             2 => [5, 6, 7, 8],
             1236 => [9, 10, 11, 12],
-            12 => [13, 14, 16],
+            12 => [13, 14, 16]
         ];
         foreach ($expected as $key => $value) {
             $this->testObj->addQuestionRelatedObjectives($key, $value);

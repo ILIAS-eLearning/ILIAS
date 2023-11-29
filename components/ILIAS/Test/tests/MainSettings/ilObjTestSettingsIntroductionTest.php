@@ -36,7 +36,7 @@ class ilObjTestSettingsIntroductionTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -56,7 +56,7 @@ class ilObjTestSettingsIntroductionTest extends ilTestBaseTestCase
     {
         return [
             [''],
-            ['string'],
+            ['string']
         ];
     }
 
@@ -78,7 +78,7 @@ class ilObjTestSettingsIntroductionTest extends ilTestBaseTestCase
             [null],
             [-1],
             [0],
-            [1],
+            [1]
         ];
     }
 
@@ -98,7 +98,7 @@ class ilObjTestSettingsIntroductionTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 }

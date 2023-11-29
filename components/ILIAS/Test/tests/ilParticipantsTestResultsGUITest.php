@@ -46,15 +46,15 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
 
 
         $this->testObj = new ilParticipantsTestResultsGUI(
-            $DIC->ctrl(),
-            $DIC->language(),
-            $DIC->database(),
-            $DIC->user(),
-            $DIC->tabs(),
-            $DIC->toolbar(),
-            $DIC->ui()->mainTemplate(),
-            $DIC->ui()->factory(),
-            $DIC->ui()->renderer(),
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ilDB'],
+            $DIC['ilUser'],
+            $DIC['ilTabs'],
+            $DIC['ilToolbar'],
+            $DIC['tpl'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
             $this->createMock(ilTestParticipantAccessFilterFactory::class),
             $this->createMock(ILIAS\Test\InternalRequestService::class)
         );

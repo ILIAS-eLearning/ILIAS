@@ -74,7 +74,7 @@ class ilObjTestVerificationListGUITest extends ilTestBaseTestCase
         $commands_property = $reflection->getProperty('commands');
         $this->assertEquals(
             [['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'show', 'default' => true]],
-            $commands_property->getValue($this->testObj),
+            $commands_property->getValue($this->testObj)
         );
     }
 
@@ -83,7 +83,7 @@ class ilObjTestVerificationListGUITest extends ilTestBaseTestCase
         $this->assertEquals([[
             'alert' => false,
             'property' => '',
-            'value' => '',
+            'value' => ''
         ]],
             $this->testObj->getProperties(),
         );

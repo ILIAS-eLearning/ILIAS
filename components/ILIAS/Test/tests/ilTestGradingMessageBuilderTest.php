@@ -33,7 +33,7 @@ class ilTestGradingMessageBuilderTest extends ilTestBaseTestCase
         $this->testObj = new ilTestGradingMessageBuilder(
             $this->createMock(ilLanguage::class),
             $this->createMock(ilGlobalTemplate::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
     }
 

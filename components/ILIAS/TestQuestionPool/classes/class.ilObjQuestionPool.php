@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-require_once __DIR__ . '/../../Test/classes/inc.AssessmentConstants.php';
 
 /**
  * Class ilObjQuestionPool

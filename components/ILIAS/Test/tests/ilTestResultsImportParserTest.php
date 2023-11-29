@@ -32,7 +32,7 @@ class ilTestResultsImportParserTest extends ilTestBaseTestCase
         $this->addGlobal_ilLog();
 
         $testObject = $this->createMock(ilObjTest::class);
-        $this->testObj = new ilTestResultsImportParser("", $testObject, $DIC->database(), $DIC->logger());
+        $this->testObj = new ilTestResultsImportParser('', $testObject, $DIC['ilDB'], $DIC['ilLog']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -44,7 +44,7 @@ class ilTestResultsImportParserTest extends ilTestBaseTestCase
     {
         $expected = [
             12 => 17,
-            124 => 19,
+            124 => 19
         ];
         $this->testObj->setQuestionIdMapping($expected);
         $this->assertEquals($expected, $this->testObj->getQuestionIdMapping());
@@ -54,7 +54,7 @@ class ilTestResultsImportParserTest extends ilTestBaseTestCase
     {
         $expected = [
             12 => 17,
-            124 => 19,
+            124 => 19
         ];
         $this->testObj->setSrcPoolDefIdMapping($expected);
         $this->assertEquals($expected, $this->testObj->getSrcPoolDefIdMapping());

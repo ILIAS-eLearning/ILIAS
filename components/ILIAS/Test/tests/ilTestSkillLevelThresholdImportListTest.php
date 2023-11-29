@@ -42,10 +42,10 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
     {
         $skillBaseId = 17;
         $skillTrefId = 15;
-        $originalSkillTitle = "Test";
+        $originalSkillTitle = 'Test';
         $this->testObj->addOriginalSkillTitle($skillBaseId, $skillTrefId, $originalSkillTitle);
 
-        $reflProp = new ReflectionProperty($this->testObj, "originalSkillTitles");
+        $reflProp = new ReflectionProperty($this->testObj, 'originalSkillTitles');
         $reflProp->setAccessible(true);
 
         $this->assertEquals(["$skillBaseId:$skillTrefId" => $originalSkillTitle], $reflProp->getValue($this->testObj));
@@ -55,10 +55,10 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
     {
         $skillBaseId = 17;
         $skillTrefId = 15;
-        $originalSkillPath = "test/path";
+        $originalSkillPath = 'test/path';
         $this->testObj->addOriginalSkillPath($skillBaseId, $skillTrefId, $originalSkillPath);
 
-        $reflProp = new ReflectionProperty($this->testObj, "originalSkillPaths");
+        $reflProp = new ReflectionProperty($this->testObj, 'originalSkillPaths');
         $reflProp->setAccessible(true);
 
         $this->assertEquals(["$skillBaseId:$skillTrefId" => $originalSkillPath], $reflProp->getValue($this->testObj));
@@ -69,7 +69,7 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
         $testSkillLevelThresholdImport = new ilTestSkillLevelThresholdImport();
         $this->testObj->addSkillLevelThreshold($testSkillLevelThresholdImport);
 
-        $reflProp = new ReflectionProperty($this->testObj, "importedSkillLevelThresholds");
+        $reflProp = new ReflectionProperty($this->testObj, 'importedSkillLevelThresholds');
         $reflProp->setAccessible(true);
 
         $this->assertEquals([$testSkillLevelThresholdImport], $reflProp->getValue($this->testObj));

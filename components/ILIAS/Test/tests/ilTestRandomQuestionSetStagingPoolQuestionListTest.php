@@ -32,7 +32,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionListTest extends ilTestBaseTestC
 
         $this->testObj = new ilTestRandomQuestionSetStagingPoolQuestionList(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilComponentRepository::class),
+            $this->createMock(ilComponentRepository::class)
         );
     }
 
@@ -80,8 +80,8 @@ class ilTestRandomQuestionSetStagingPoolQuestionListTest extends ilTestBaseTestC
     public function testLifecycleFilter(): void
     {
         $expected = [
-            "Hello",
-            "World",
+            'Hello',
+            'World'
         ];
 
         $this->testObj->setLifecycleFilter($expected);

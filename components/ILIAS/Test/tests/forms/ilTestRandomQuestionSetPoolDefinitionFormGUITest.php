@@ -48,7 +48,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
             $lng_mock,
             $this->createMock(ilObjTest::class),
             $testRandomQuestionSetConfigGUI_mock,
-            $testRandomQuestionSetConfig_mock,
+            $testRandomQuestionSetConfig_mock
         );
     }
 

@@ -91,7 +91,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         global $DIC;
 
         $this->tabs = $DIC->tabs();
-        $this->toolbar = $DIC->toolbar();
+        $this->toolbar = $DIC['ilToolbar'];
         $this->ui = $DIC->ui();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->refinery = $DIC->refinery();

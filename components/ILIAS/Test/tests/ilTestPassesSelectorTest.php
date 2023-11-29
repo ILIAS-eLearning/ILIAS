@@ -32,7 +32,7 @@ class ilTestPassesSelectorTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestPassesSelector(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
     }
 

@@ -63,8 +63,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): FormInput
-    {
+    ): FormInput {
         $inputs['title_output'] = $f->radio($lng->txt('tst_title_output'))
             ->withOption('0', $lng->txt('tst_title_output_full'))
             ->withOption('1', $lng->txt('tst_title_output_hide_points'))
@@ -78,12 +77,12 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
 
         $inputs['shuffle_questions'] = $f->checkbox(
             $lng->txt('tst_shuffle_questions'),
-            $lng->txt('tst_shuffle_questions_description'),
+            $lng->txt('tst_shuffle_questions_description')
         )->withValue($this->getShuffleQuestions());
 
         $inputs['offer_hints'] = $f->checkbox(
             $lng->txt('tst_setting_offer_hints_label'),
-            $lng->txt('tst_setting_offer_hints_info'),
+            $lng->txt('tst_setting_offer_hints_info')
         )->withValue($this->getQuestionHintsEnabled());
 
         if ($environment['participant_data_exists']) {
@@ -95,7 +94,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
 
         $inputs['enable_compulsory_questions'] = $f->checkbox(
             $lng->txt('tst_setting_enable_obligations_label'),
-            $lng->txt('tst_setting_enable_obligations_info'),
+            $lng->txt('tst_setting_enable_obligations_info')
         )->withValue($this->getCompulsoryQuestionsEnabled());
 
         if ($environment['participant_data_exists']) {
@@ -114,20 +113,19 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery
-    ): OptionalGroup
-    {
+    ): OptionalGroup {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'autosave_enabled' => false,
-                        'autosave_interval' => self::DEFAULT_AUTOSAVE_INTERVAL,
+                        'autosave_interval' => self::DEFAULT_AUTOSAVE_INTERVAL
                     ];
                 }
 
                 return [
                     'autosave_enabled' => true,
-                    'autosave_interval' => $vs['autosave_interval'] * 1000,
+                    'autosave_interval' => $vs['autosave_interval'] * 1000
                 ];
             }
         );
@@ -140,7 +138,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         $autosave_input = $f->optionalGroup(
             $sub_inputs_autosave,
             $lng->txt('autosave'),
-            $lng->txt('autosave_info'),
+            $lng->txt('autosave_info')
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
@@ -156,8 +154,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment
-    ): OptionalGroup
-    {
+    ): OptionalGroup {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): array {
                 if ($vs === null) {
@@ -166,9 +163,9 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
                             'instant_feedback_specific' => false,
                             'instant_feedback_generic' => false,
                             'instant_feedback_points' => false,
-                            'instant_feedback_solution' => false,
+                            'instant_feedback_solution' => false
                         ],
-                        'feedback_on_next_question' => false,
+                        'feedback_on_next_question' => false
                     ];
                 }
 
@@ -180,7 +177,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         $instant_feedback = $f->optionalGroup(
             $this->getSubInputInstantFeedback($lng, $f),
             $lng->txt('tst_instant_feedback'),
-            $lng->txt('tst_instant_feedback_desc'),
+            $lng->txt('tst_instant_feedback_desc')
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
@@ -191,7 +188,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
                         'instant_feedback_specific' => (bool) $this->getInstantFeedbackSpecificEnabled(),
                         'instant_feedback_generic' => (bool) $this->getInstantFeedbackGenericEnabled(),
                         'instant_feedback_points' => (bool) $this->getInstantFeedbackPointsEnabled(),
-                        'instant_feedback_solution' => (bool) $this->getInstantFeedbackSolutionEnabled(),
+                        'instant_feedback_solution' => (bool) $this->getInstantFeedbackSolutionEnabled()
                     ],
                     'feedback_trigger' => ($this->getForceInstantFeedbackOnNextQuestion() ? '1' : '0')
                 ]
@@ -208,42 +205,41 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     private function getSubInputInstantFeedback(
         \ilLanguage $lng,
         FieldFactory $f
-    ): array
-    {
+    ): array {
         $feedback_options = [
             'instant_feedback_points' => $f->checkbox(
                 $lng->txt('tst_instant_feedback_results'),
-                $lng->txt('tst_instant_feedback_results_desc'),
+                $lng->txt('tst_instant_feedback_results_desc')
             ),
             'instant_feedback_generic' => $f->checkbox(
                 $lng->txt('tst_instant_feedback_answer_generic'),
-                $lng->txt('tst_instant_feedback_answer_specific_desc'),
+                $lng->txt('tst_instant_feedback_answer_specific_desc')
             ),
             'instant_feedback_specific' => $f->checkbox(
                 $lng->txt('tst_instant_feedback_answer_specific'),
-                $lng->txt('tst_instant_feedback_answer_specific_desc'),
+                $lng->txt('tst_instant_feedback_answer_specific_desc')
             ),
             'instant_feedback_solution' => $f->checkbox(
                 $lng->txt('tst_instant_feedback_solution'),
-                $lng->txt('tst_instant_feedback_solution_desc'),
+                $lng->txt('tst_instant_feedback_solution_desc')
             )
         ];
 
         $sub_inputs_feedback['enabled_feedback_types'] = $f->group(
             $feedback_options,
-            $lng->txt('tst_instant_feedback_contents'),
+            $lng->txt('tst_instant_feedback_contents')
         )->withRequired(true);
 
         $sub_inputs_feedback['feedback_trigger'] = $f->radio(
-            $lng->txt('tst_instant_feedback_trigger'),
+            $lng->txt('tst_instant_feedback_trigger')
         )->withOption(
             '0',
             $lng->txt('tst_instant_feedback_trigger_manual'),
-            $lng->txt('tst_instant_feedback_trigger_manual_desc'),
+            $lng->txt('tst_instant_feedback_trigger_manual_desc')
         )->withOption(
             '1',
             $lng->txt('tst_instant_feedback_trigger_forced'),
-            $lng->txt('tst_instant_feedback_trigger_forced_desc'),
+            $lng->txt('tst_instant_feedback_trigger_forced_desc')
         );
 
         return $sub_inputs_feedback;
@@ -260,19 +256,19 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         )->withOption(
             self::ANSWER_FIXATION_NONE,
             $lng->txt('tst_answer_fixation_none'),
-            $lng->txt('tst_answer_fixation_none_desc'),
+            $lng->txt('tst_answer_fixation_none_desc')
         )->withOption(
             self::ANSWER_FIXATION_ON_INSTANT_FEEDBACK,
             $lng->txt('tst_answer_fixation_on_instant_feedback'),
-            $lng->txt('tst_answer_fixation_on_instant_feedback_desc'),
+            $lng->txt('tst_answer_fixation_on_instant_feedback_desc')
         )->withOption(
             self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION,
             $lng->txt('tst_answer_fixation_on_followup_question'),
-            $lng->txt('tst_answer_fixation_on_followup_question_desc'),
+            $lng->txt('tst_answer_fixation_on_followup_question_desc')
         )->withOption(
             self::ANSWER_FIXATION_ON_IFB_OR_FUQST,
             $lng->txt('tst_answer_fixation_on_instantfb_or_followupqst'),
-            $lng->txt('tst_answer_fixation_on_instantfb_or_followupqst_desc'),
+            $lng->txt('tst_answer_fixation_on_instantfb_or_followupqst_desc')
         )->withValue(
             $this->getAnswerFixationSettingsAsFormValue()
         )->withAdditionalTransformation($this->getTransformationLockAnswers($refinery));
@@ -291,26 +287,26 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
                 if ($v === null || $v === self::ANSWER_FIXATION_NONE) {
                     return [
                         'lock_answer_on_instant_feedback' => false,
-                        'lock_answer_on_next_question' => false,
+                        'lock_answer_on_next_question' => false
                     ];
                 }
 
                 if ($v === self::ANSWER_FIXATION_ON_INSTANT_FEEDBACK) {
                     return [
                         'lock_answer_on_instant_feedback' => true,
-                        'lock_answer_on_next_question' => false,
+                        'lock_answer_on_next_question' => false
                     ];
                 }
                 if ($v === self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION) {
                     return [
                         'lock_answer_on_instant_feedback' => false,
-                        'lock_answer_on_next_question' => true,
+                        'lock_answer_on_next_question' => true
                     ];
                 }
 
                 return [
                     'lock_answer_on_instant_feedback' => true,
-                    'lock_answer_on_next_question' => true,
+                    'lock_answer_on_next_question' => true
                 ];
             }
         );
@@ -319,8 +315,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     private function getConstraintsSectionQuestionBehaviour(
         \ilLanguage $lng,
         Refinery $refinery
-    ): Generator
-    {
+    ): Generator {
         yield from [
             $refinery->custom()->constraint(
                 function ($vs): bool {
@@ -334,7 +329,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
                     }
                     return true;
                 },
-                $lng->txt('tst_settings_conflict_compulsory_and_lock'),
+                $lng->txt('tst_settings_conflict_compulsory_and_lock')
             ),
             $refinery->custom()->constraint(
                 function ($vs): bool {
@@ -364,7 +359,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
             'force_inst_fb' => ['integer', (int) $this->getForceInstantFeedbackOnNextQuestion()],
             'inst_fb_answer_fixation' => ['integer', (int) $this->getLockAnswerOnInstantFeedbackEnabled()],
             'follow_qst_answer_fixation' => ['integer', (int) $this->getLockAnswerOnNextQuestionEnabled()],
-            'obligations_enabled' => ['integer', (int) $this->getCompulsoryQuestionsEnabled()],
+            'obligations_enabled' => ['integer', (int) $this->getCompulsoryQuestionsEnabled()]
         ];
     }
 

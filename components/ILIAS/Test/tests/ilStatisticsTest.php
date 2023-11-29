@@ -53,7 +53,7 @@ class ilStatisticsTest extends ilTestBaseTestCase
             -1251,
             '1250',
             1518,
-            '125125',
+            '125125'
         ];
         $this->assertEquals($expected1, $this->testObj->getData());
     }

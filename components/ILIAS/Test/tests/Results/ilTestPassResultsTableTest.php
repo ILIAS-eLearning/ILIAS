@@ -39,7 +39,7 @@ class ilTestPassResultsTableTest extends ilTestBaseTestCase
             $this->createConfiguredMock(HTTPService::class, [
                 'request' => $this->createConfiguredMock(RequestInterface::class, [
                     'getUri' => $this->createConfiguredMock(UriInterface::class, [
-                        '__toString' => '',
+                        '__toString' => ''
                     ]),
                 ]),
             ]),

@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-require_once 'inc.AssessmentConstants.php';
-
 /**
  * A class defining marks for assessment test objects
  *

@@ -33,7 +33,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinitionList(
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilObjTest::class),
-            $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionFactory::class),
+            $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionFactory::class)
         );
     }
 
@@ -47,7 +47,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $id = 20;
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
         $expected->setId($id);
         $this->testObj->addDefinition($expected);
@@ -87,7 +87,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
         $id = 20;
         $expected->setId($id);
@@ -100,7 +100,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
         $id = 20;
         $expected->setId($id);
@@ -113,7 +113,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
         $id = 20;
         $poolId = 11;
@@ -128,7 +128,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
         $id = 20;
         $poolId = 11;
@@ -143,7 +143,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjTest::class)
         );
         $expected->setId(20);
         $expected->setPoolId(11);

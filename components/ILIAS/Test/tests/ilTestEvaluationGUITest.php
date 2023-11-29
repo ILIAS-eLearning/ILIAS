@@ -77,7 +77,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $data = [
             ['question_id' => 20, 'original_id' => 0],
             ['question_id' => 20, 'original_id' => -210],
-            ['question_id' => 20, 'original_id' => 125],
+            ['question_id' => 20, 'original_id' => 125]
         ];
 
         foreach ($data as $value) {

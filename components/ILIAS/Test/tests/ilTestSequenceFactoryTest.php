@@ -33,7 +33,7 @@ class ilTestSequenceFactoryTest extends ilTestBaseTestCase
         $this->testObj = new ilTestSequenceFactory(
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ilDBInterface::class),
-            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class),
+            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class)
         );
     }
 

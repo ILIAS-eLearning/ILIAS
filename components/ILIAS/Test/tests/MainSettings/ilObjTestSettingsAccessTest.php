@@ -36,7 +36,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -56,7 +56,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
     {
         return [
             [new DateTimeImmutable()],
-            [null],
+            [null]
         ];
     }
 
@@ -76,7 +76,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -96,7 +96,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
     {
         return [
             [new DateTimeImmutable()],
-            [null],
+            [null]
         ];
     }
 
@@ -116,7 +116,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 
@@ -137,7 +137,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
         return [
             [null],
             [''],
-            ['string'],
+            ['string']
         ];
     }
 
@@ -157,7 +157,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
     {
         return [
             [true],
-            [false],
+            [false]
         ];
     }
 }
