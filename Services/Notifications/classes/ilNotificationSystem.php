@@ -24,6 +24,7 @@ use ILIAS\Notifications\Model\ilNotificationConfig;
 use ilObjectFactory;
 use ilObjUser;
 use ilRbacReview;
+use ilLogger;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>
@@ -34,8 +35,9 @@ class ilNotificationSystem
     private array $handler = [];
     private string $defaultLanguage = 'en';
     private readonly ilRbacReview $rbacReview;
+    private readonly ilLogger $logger;
 
-    public function __construct(ilRbacReview $rbacReview = null)
+    public function __construct(ilRbacReview $rbacReview = null, ilLogger $logger = null)
     {
         $this->addHandler('osd', new ilNotificationOSDHandler());
         $this->addHandler('mail', new ilNotificationMailHandler());
@@ -45,6 +47,12 @@ class ilNotificationSystem
             $rbacReview = $DIC->rbac()->review();
         }
         $this->rbacReview = $rbacReview;
+
+        if ($logger === null) {
+            global $DIC;
+            $logger = $DIC->logger()->nota();
+        }
+        $this->logger = $logger;
     }
 
     private function addHandler(string $channel, ilNotificationHandler $handler): void
@@ -61,7 +69,17 @@ class ilNotificationSystem
      */
     public function toUsers(ilNotificationConfig $notification, array $users, bool $process_async = false): void
     {
-        if ($process_async === false) {
+        $this->logger->debug(
+            'Sending notification to users {users}: {notification_type} / {id} / {id_type}',
+            [
+                'users' => $users,
+                'notification_type' => $notification->getType(),
+                'id' => (string) $notification->getIdentification(),
+                'id_type' => $notification->getIdentification()->getType(),
+            ]
+        );
+
+       if ($process_async === false) {
             $adminConfig = ilNotificationDatabaseHandler::loadUserConfig(-1);
             $usersWithCustomConfig = ilNotificationDatabaseHandler::getUsersWithCustomConfig($users);
             $channels = ilNotificationDatabaseHandler::getAvailableChannels();
@@ -96,6 +114,13 @@ class ilNotificationSystem
                     }
                 }
             }
+            
+            $this->logger->debug(
+                'User by handler: {user_by_handler}',
+                [
+                    'user_by_handler' => $user_by_handler
+                ]
+            );
 
             $userCache = [];
 
@@ -113,6 +138,13 @@ class ilNotificationSystem
 
                     $instance = $notification->getUserInstance($user, $lang, $this->defaultLanguage);
                     foreach ($handler as $h) {
+                        $this->logger->debug(
+                            'Notify {user} by calling handler {handler}',
+                            [
+                                'user' => $user->getId(),
+                                'handler' => get_class($h),
+                            ]
+                        );
                         $h->notify($instance);
                     }
                 }
