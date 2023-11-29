@@ -50,7 +50,6 @@ class assMultipleChoiceGUITest extends assBaseTestCase
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());
-        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 

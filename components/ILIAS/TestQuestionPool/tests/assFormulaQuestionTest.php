@@ -42,12 +42,6 @@ class assFormulaQuestionTest extends assBaseTestCase
         $this->setGlobalVariable('lng', $lng);
     }
 
-    protected function tearDown(): void
-    {
-        global $DIC;
-        $DIC = $this->backup_dic;
-    }
-
     /**
      * @dataProvider simpleRatedCalculationsData
      * @param assFormulaQuestionResult     $result

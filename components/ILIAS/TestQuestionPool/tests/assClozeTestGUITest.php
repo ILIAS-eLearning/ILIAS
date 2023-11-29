@@ -56,7 +56,6 @@ class assClozeTestGUITest extends assBaseTestCase
         $ilias_mock->account->fullname = 'Esther Tester';
 
         $this->setGlobalVariable('ilias', $ilias_mock);
-        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
     }
