@@ -105,7 +105,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
             $text->setRequired(
                 $this->mandatory_manager->isMandatoryForUser($this->submission->getAssignment()->getId(), $this->user->getId())
             );
-            $text->setRows(40);
+            $text->setRows(15);
             $text->setMaxNumOfChars($this->assignment->getMaxCharLimit());
             $text->setMinNumOfChars($this->assignment->getMinCharLimit());
 
