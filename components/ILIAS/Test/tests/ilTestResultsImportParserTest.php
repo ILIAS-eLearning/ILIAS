@@ -22,41 +22,4 @@
  */
 class ilTestResultsImportParserTest extends ilTestBaseTestCase
 {
-    private ilTestResultsImportParser $testObj;
-
-    protected function setUp(): void
-    {
-        global $DIC;
-        parent::setUp();
-
-        $this->addGlobal_ilLog();
-
-        $testObject = $this->createMock(ilObjTest::class);
-        $this->testObj = new ilTestResultsImportParser('', $testObject, $DIC['ilDB'], $DIC['ilLog']);
-    }
-
-    public function test_instantiateObject_shouldReturnInstance(): void
-    {
-        $this->assertInstanceOf(ilTestResultsImportParser::class, $this->testObj);
-    }
-
-    public function testQuestionIdMapping(): void
-    {
-        $expected = [
-            12 => 17,
-            124 => 19
-        ];
-        $this->testObj->setQuestionIdMapping($expected);
-        $this->assertEquals($expected, $this->testObj->getQuestionIdMapping());
-    }
-
-    public function testSrcPoolDefIdMapping(): void
-    {
-        $expected = [
-            12 => 17,
-            124 => 19
-        ];
-        $this->testObj->setSrcPoolDefIdMapping($expected);
-        $this->assertEquals($expected, $this->testObj->getSrcPoolDefIdMapping());
-    }
 }

@@ -37,7 +37,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->testObj = new ilTestParticipantList(
             $this->createMock(ilObjTest::class),
             $DIC['ilUser'],
-            $DIC['ilLanguage'],
+            $DIC['lng'],
             $DIC['ilDB'],
         );
     }
