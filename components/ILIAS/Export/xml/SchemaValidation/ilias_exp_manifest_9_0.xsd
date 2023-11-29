@@ -11,6 +11,12 @@
             </xs:sequence>
             <xs:attribute name="MainEntity" type="lowercaseNameString" use="required"/>
             <xs:attribute name="Title" type="nameString" use="required"/>
+            <!--
+                TargetRelease is only included for backwards compatibility,
+                it must not be included in new exports, and it must not be
+                processed during import in any way!
+            -->
+            <xs:attribute name="TargetRelease" type="xs:string" use="optional"/>
             <xs:attribute name="InstallationId" type="xs:nonNegativeInteger" use="required"/>
             <xs:attribute name="InstallationUrl" type="xs:anyURI" use="required"/>
         </xs:complexType>
