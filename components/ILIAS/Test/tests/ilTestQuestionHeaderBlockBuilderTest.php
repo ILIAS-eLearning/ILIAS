@@ -30,9 +30,7 @@ class ilTestQuestionHeaderBlockBuilderTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->testObj = new ilTestQuestionHeaderBlockBuilder(
-            $this->createMock(ilLanguage::class)
-        );
+        $this->testObj = new ilTestQuestionHeaderBlockBuilder($this->createMock(ilLanguage::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -42,20 +40,23 @@ class ilTestQuestionHeaderBlockBuilderTest extends ilTestBaseTestCase
 
     public function testHeaderMode(): void
     {
-        $this->testObj->setHeaderMode(12);
-        $this->assertEquals(12, $this->testObj->getHeaderMode());
+        $headerMode = 12;
+        $this->testObj->setHeaderMode($headerMode);
+        $this->assertEquals($headerMode, $this->testObj->getHeaderMode());
     }
 
     public function testQuestionTitle(): void
     {
-        $this->testObj->setQuestionTitle("test");
-        $this->assertEquals("test", $this->testObj->getQuestionTitle());
+        $questionTitle = 'test';
+        $this->testObj->setQuestionTitle($questionTitle);
+        $this->assertEquals($questionTitle, $this->testObj->getQuestionTitle());
     }
 
     public function testQuestionPoints(): void
     {
-        $this->testObj->setQuestionPoints(20.5);
-        $this->assertEquals(20.5, $this->testObj->getQuestionPoints());
+        $questionPoints = 20.5;
+        $this->testObj->setQuestionPoints($questionPoints);
+        $this->assertEquals($questionPoints, $this->testObj->getQuestionPoints());
     }
 
     public function testQuestionAnswered(): void
@@ -69,14 +70,16 @@ class ilTestQuestionHeaderBlockBuilderTest extends ilTestBaseTestCase
 
     public function testQuestionPosition(): void
     {
-        $this->testObj->setQuestionPosition(20);
-        $this->assertEquals(20, $this->testObj->getQuestionPosition());
+        $questionPosition = 20;
+        $this->testObj->setQuestionPosition($questionPosition);
+        $this->assertEquals($questionPosition, $this->testObj->getQuestionPosition());
     }
 
     public function testQuestionCount(): void
     {
-        $this->testObj->setQuestionCount(20);
-        $this->assertEquals(20, $this->testObj->getQuestionCount());
+        $questionCount = 20;
+        $this->testObj->setQuestionCount($questionCount);
+        $this->assertEquals($questionCount, $this->testObj->getQuestionCount());
     }
 
     public function testQuestionPostponed(): void
@@ -99,7 +102,8 @@ class ilTestQuestionHeaderBlockBuilderTest extends ilTestBaseTestCase
 
     public function testQuestionRelatedObjectives(): void
     {
-        $this->testObj->setQuestionRelatedObjectives("test");
-        $this->assertEquals("test", $this->testObj->getQuestionRelatedObjectives());
+        $questionRelatedObjectives = 'test';
+        $this->testObj->setQuestionRelatedObjectives($questionRelatedObjectives);
+        $this->assertEquals($questionRelatedObjectives, $this->testObj->getQuestionRelatedObjectives());
     }
 }

@@ -40,31 +40,36 @@ class ilTestSkillLevelThresholdTest extends ilTestBaseTestCase
 
     public function testTestId(): void
     {
-        $this->testObj->setTestId(12);
-        $this->assertEquals(12, $this->testObj->getTestId());
+        $testId = 12;
+        $this->testObj->setTestId($testId);
+        $this->assertEquals($testId, $this->testObj->getTestId());
     }
 
     public function testSkillBaseId(): void
     {
-        $this->testObj->setSkillBaseId(12);
-        $this->assertEquals(12, $this->testObj->getSkillBaseId());
+        $skillBaseId = 12;
+        $this->testObj->setSkillBaseId($skillBaseId);
+        $this->assertEquals($skillBaseId, $this->testObj->getSkillBaseId());
     }
 
     public function testSkillTrefId(): void
     {
-        $this->testObj->setSkillTrefId(12);
-        $this->assertEquals(12, $this->testObj->getSkillTrefId());
+        $skillTrefId = 12;
+        $this->testObj->setSkillTrefId($skillTrefId);
+        $this->assertEquals($skillTrefId, $this->testObj->getSkillTrefId());
     }
 
     public function testSkillLevelId(): void
     {
-        $this->testObj->setSkillLevelId(12);
-        $this->assertEquals(12, $this->testObj->getSkillLevelId());
+        $skillLevelId = 12;
+        $this->testObj->setSkillLevelId($skillLevelId);
+        $this->assertEquals($skillLevelId, $this->testObj->getSkillLevelId());
     }
 
     public function testThreshold(): void
     {
-        $this->testObj->setThreshold(12);
-        $this->assertEquals(12, $this->testObj->getThreshold());
+        $threshold = 12;
+        $this->testObj->setThreshold($threshold);
+        $this->assertEquals($threshold, $this->testObj->getThreshold());
     }
 }

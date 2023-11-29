@@ -18,36 +18,23 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\MockObject\MockObject;
-
 /**
  * Class ilTestRandomQuestionSetPoolDefinitionFormGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
 class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCase
 {
-    /**
-     * @var ilCtrl|mixed|MockObject
-     */
-    private $ctrl_mock;
-    /**
-     * @var ilLanguage|mixed|MockObject
-     */
-    private $lng_mock;
-
-    // ilTestRandomQuestionSetPoolDefinitionFormGUI
-    private $formGui;
+    private ilTestRandomQuestionSetPoolDefinitionFormGUI $formGui;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ctrl_mock = $this->createMock(ilCtrl::class);
-        $this->lng_mock = $this->createMock(ilLanguage::class);
+        $ctrl_mock = $this->createMock(ilCtrl::class);
+        $lng_mock = $this->createMock(ilLanguage::class);
 
-        $this->setGlobalVariable("lng", $this->lng_mock);
-        $this->setGlobalVariable("ilCtrl", $this->ctrl_mock);
+        $this->setGlobalVariable("lng", $lng_mock);
+        $this->setGlobalVariable("ilCtrl", $ctrl_mock);
 
-        $objTest_mock = $this->createMock(ilObjTest::class);
         $testRandomQuestionSetConfigGUI_mock = $this->getMockBuilder(
             ilTestRandomQuestionSetConfigGUI::class
         )->disableOriginalConstructor()->getMock();
@@ -57,9 +44,9 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
         )->disableOriginalConstructor()->getMock();
 
         $this->formGui = new ilTestRandomQuestionSetPoolDefinitionFormGUI(
-            $this->ctrl_mock,
-            $this->lng_mock,
-            $objTest_mock,
+            $ctrl_mock,
+            $lng_mock,
+            $this->createMock(ilObjTest::class),
             $testRandomQuestionSetConfigGUI_mock,
             $testRandomQuestionSetConfig_mock
         );
@@ -72,7 +59,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
 
     protected function testSaveCommand(): void
     {
-        $expected = "testCommand";
+        $expected = 'testCommand';
 
         $this->formGui->setSaveCommand($expected);
 
@@ -81,7 +68,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
 
     protected function testSaveAndNewCommand(): void
     {
-        $expected = "testCommand";
+        $expected = 'testCommand';
 
         $this->formGui->setSaveAndNewCommand($expected);
 

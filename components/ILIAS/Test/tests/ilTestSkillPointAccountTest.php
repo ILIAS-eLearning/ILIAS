@@ -40,19 +40,28 @@ class ilTestSkillPointAccountTest extends ilTestBaseTestCase
 
     public function testAddBooking(): void
     {
-        $this->testObj->addBooking(80, 20);
-        $this->assertEquals(80, $this->testObj->getTotalMaxSkillPoints());
-        $this->assertEquals(20, $this->testObj->getTotalReachedSkillPoints());
+        $maxSkillPoints1 = 80;
+        $reachedSkillPoints1 = 20;
+        $this->testObj->addBooking($maxSkillPoints1, $reachedSkillPoints1);
+        $this->assertEquals($maxSkillPoints1, $this->testObj->getTotalMaxSkillPoints());
+        $this->assertEquals($reachedSkillPoints1, $this->testObj->getTotalReachedSkillPoints());
 
-        $this->testObj->addBooking(50, 10);
-        $this->assertEquals(130, $this->testObj->getTotalMaxSkillPoints());
-        $this->assertEquals(30, $this->testObj->getTotalReachedSkillPoints());
+        $maxSkillPoints2 = 50;
+        $reachedSkillPoints2 = 10;
+        $this->testObj->addBooking($maxSkillPoints2, $reachedSkillPoints2);
+        $this->assertEquals($maxSkillPoints1 + $maxSkillPoints2, $this->testObj->getTotalMaxSkillPoints());
+        $this->assertEquals($reachedSkillPoints1 + $reachedSkillPoints2, $this->testObj->getTotalReachedSkillPoints());
     }
 
     public function testGetTotalReachedSkillPercent(): void
     {
-        $this->testObj->addBooking(80, 20);
-        $this->testObj->addBooking(20, 30);
-        $this->assertEquals(50, $this->testObj->getTotalReachedSkillPercent());
+        $maxSkillPoints1 = 80;
+        $reachedSkillPoints1 = 20;
+        $maxSkillPoints2 = 20;
+        $reachedSkillPoints2 = 30;
+
+        $this->testObj->addBooking($maxSkillPoints1, $reachedSkillPoints1);
+        $this->testObj->addBooking($maxSkillPoints2, $reachedSkillPoints2);
+        $this->assertEquals(($reachedSkillPoints1 + $reachedSkillPoints2) / ($maxSkillPoints1 + $maxSkillPoints2) * 100, $this->testObj->getTotalReachedSkillPercent());
     }
 }

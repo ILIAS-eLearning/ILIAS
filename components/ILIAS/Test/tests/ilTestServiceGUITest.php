@@ -84,12 +84,25 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
 
     public function testGetCommand(): void
     {
-        $this->assertEquals("testCmd", $this->testObj->getCommand("testCmd"));
+        $cmd = 'testCmd';
+        $this->assertEquals($cmd, $this->testObj->getCommand($cmd));
     }
 
-    public function testBuildFixedShufflerSeedReturnsValidSeed(): void
+    /**
+     * @dataProvider buildFixedShufflerSeedDataProvider
+     */
+    public function testBuildFixedShufflerSeed(int $question_id, int $pass_id, int $active_id, int $return): void
     {
-        $seeds = [
+        $reflection = new ReflectionClass(ilTestShuffler::class);
+        $method = $reflection->getMethod('buildFixedShufflerSeed');
+        $ilTestShuffler = new ilTestShuffler($this->createMock(ILIAS\Refinery\Factory::class));
+
+        $this->assertEquals($return, $method->invoke($ilTestShuffler, $question_id, $pass_id, $active_id));
+    }
+
+    public function buildFixedShufflerSeedDataProvider(): array
+    {
+        return [
             [
                 'question_id' => 1,
                 'pass_id' => 1,
@@ -115,20 +128,5 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
                 'return' => 9223372036854775804
             ]
         ];
-
-        $reflection = new \ReflectionClass(ilTestShuffler::class);
-        $method = $reflection->getMethod('buildFixedShufflerSeed');
-        $method->setAccessible(true);
-
-        $refinery = new \ILIAS\Refinery\Factory(
-            new \ILIAS\Data\Factory(),
-            $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()
-        );
-        $shuffler = new ilTestShuffler($refinery);
-
-        foreach ($seeds as $seed) {
-            $fixed_seed = $method->invoke($shuffler, $seed['question_id'], $seed['pass_id'], $seed['active_id']);
-            $this->assertEquals($seed['return'], $fixed_seed);
-        }
     }
 }

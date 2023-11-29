@@ -40,43 +40,50 @@ class ilTestSkillLevelThresholdImportTest extends ilTestBaseTestCase
 
     public function testImportSkillBaseId(): void
     {
-        $this->testObj->setImportSkillBaseId(12);
-        $this->assertEquals(12, $this->testObj->getImportSkillBaseId());
+        $importSkillBaseId = 12;
+        $this->testObj->setImportSkillBaseId($importSkillBaseId);
+        $this->assertEquals($importSkillBaseId, $this->testObj->getImportSkillBaseId());
     }
 
     public function testImportSkillTrefId(): void
     {
-        $this->testObj->setImportSkillTrefId(12);
-        $this->assertEquals(12, $this->testObj->getImportSkillTrefId());
+        $importSkillTrefId = 12;
+        $this->testObj->setImportSkillTrefId($importSkillTrefId);
+        $this->assertEquals($importSkillTrefId, $this->testObj->getImportSkillTrefId());
     }
 
     public function testImportLevelId(): void
     {
-        $this->testObj->setImportLevelId(12);
-        $this->assertEquals(12, $this->testObj->getImportLevelId());
+        $importLevelId = 12;
+        $this->testObj->setImportLevelId($importLevelId);
+        $this->assertEquals($importLevelId, $this->testObj->getImportLevelId());
     }
 
     public function testOrderIndex(): void
     {
-        $this->testObj->setOrderIndex(12);
-        $this->assertEquals(12, $this->testObj->getOrderIndex());
+        $orderIndex = 12;
+        $this->testObj->setOrderIndex($orderIndex);
+        $this->assertEquals($orderIndex, $this->testObj->getOrderIndex());
     }
 
     public function testThreshold(): void
     {
-        $this->testObj->setThreshold(12);
-        $this->assertEquals(12, $this->testObj->getThreshold());
+        $threshold = 12;
+        $this->testObj->setThreshold($threshold);
+        $this->assertEquals($threshold, $this->testObj->getThreshold());
     }
 
     public function testOriginalLevelTitle(): void
     {
-        $this->testObj->setOriginalLevelTitle("test");
-        $this->assertEquals("test", $this->testObj->getOriginalLevelTitle());
+        $originalLevelTitle = "test";
+        $this->testObj->setOriginalLevelTitle($originalLevelTitle);
+        $this->assertEquals($originalLevelTitle, $this->testObj->getOriginalLevelTitle());
     }
 
     public function testOriginalLevelDescription(): void
     {
-        $this->testObj->setOriginalLevelDescription("test");
-        $this->assertEquals("test", $this->testObj->getOriginalLevelDescription());
+        $originalLevelDescription = "test";
+        $this->testObj->setOriginalLevelDescription($originalLevelDescription);
+        $this->assertEquals($originalLevelDescription, $this->testObj->getOriginalLevelDescription());
     }
 }

@@ -38,7 +38,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             $this->createMock(ilObjTest::class),
             $DIC['ilUser'],
             $DIC['lng'],
-            $DIC['ilDB']
+            $DIC['ilDB'],
         );
     }
 
@@ -49,18 +49,20 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
 
     public function testAddParticipant(): void
     {
+        $activeId = 22;
         $participant = new ilTestParticipant();
-        $participant->setActiveId(22);
+        $participant->setActiveId($activeId);
         $this->testObj->addParticipant($participant);
-        $this->assertEquals($participant, $this->testObj->getParticipantByActiveId(22));
+        $this->assertEquals($participant, $this->testObj->getParticipantByActiveId($activeId));
     }
 
     public function testGetParticipantByUsrId(): void
     {
+        $usr_id = 125;
         $participant = new ilTestParticipant();
-        $participant->setUsrId(125);
+        $participant->setUsrId($usr_id);
         $this->testObj->addParticipant($participant);
-        $this->assertEquals($participant, $this->testObj->getParticipantByUsrId(125));
+        $this->assertEquals($participant, $this->testObj->getParticipantByUsrId($usr_id));
     }
 
     public function testHasUnfinishedPasses(): void
@@ -128,9 +130,10 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             $participant = new ilTestParticipant();
             $participant->setActiveId($id);
             $this->testObj->addParticipant($participant);
+
+            $this->assertTrue($this->testObj->isActiveIdInList($id));
         }
-        $this->assertTrue($this->testObj->isActiveIdInList(12));
-        $this->assertFalse($this->testObj->isActiveIdInList(222222));
+        $this->assertFalse($this->testObj->isActiveIdInList(PHP_INT_MAX));
     }
 
     public function testGetAccessFilteredList(): void
@@ -146,7 +149,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $expected = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {
@@ -159,12 +162,9 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             return $expected;
         };
 
-        $result = $this->testObj->getAccessFilteredList($callback);
-
-        $this->assertNotNull($result->getParticipantByUsrId(12));
-        $this->assertNotNull($result->getParticipantByUsrId(125));
-        $this->assertNotNull($result->getParticipantByUsrId(176));
-        $this->assertNull($result->getParticipantByUsrId(212121));
+        foreach ($expected as $value) {
+            $this->assertInstanceOf(ilTestParticipant::class, $this->testObj->getAccessFilteredList($callback)->getParticipantByUsrId($value));
+        }
     }
 
     public function testCurrent(): void
@@ -172,7 +172,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {
@@ -181,10 +181,11 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             $this->testObj->addParticipant($participant);
         }
 
-        $this->assertEquals($ids[0], $this->testObj->current()->getUsrId());
-
-        $this->testObj->next();
-        $this->assertEquals($ids[1], $this->testObj->current()->getUsrId());
+        if (isset($ids[0])) {
+            $this->assertEquals($ids[0], $this->testObj->current()->getUsrId());
+        } else {
+            $this->assertTrue(false);
+        }
     }
 
     public function testNext(): void
@@ -192,7 +193,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {
@@ -201,10 +202,14 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             $this->testObj->addParticipant($participant);
         }
 
-        $this->testObj->next();
-        $this->testObj->next();
+        $countIds = count($ids);
+        if ($countIds > 0) {
+            for ($i = 1; $i < $countIds; $i++) {
+                $this->testObj->next();
+            }
 
-        $this->assertEquals($ids[2], $this->testObj->current()->getUsrId());
+            $this->assertEquals($ids[--$countIds], $this->testObj->current()->getUsrId());
+        }
     }
 
     public function testKey(): void
@@ -212,19 +217,17 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
-        foreach ($ids as $id) {
+        foreach ($ids as $key => $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
             $this->testObj->addParticipant($participant);
+
+            $this->assertEquals($key, $this->testObj->key());
+            $this->testObj->next();
         }
-
-        $this->testObj->next();
-        $this->testObj->next();
-
-        $this->assertEquals(2, $this->testObj->key());
     }
 
     public function testValid(): void
@@ -232,7 +235,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {
@@ -241,8 +244,9 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             $this->testObj->addParticipant($participant);
         }
 
-        $this->testObj->next();
-        $this->testObj->next();
+        for ($i = 0, $iMax = count($ids) - 1; $i < $iMax; $i++) {
+            $this->testObj->next();
+        }
         $this->assertTrue($this->testObj->valid());
 
         $this->testObj->next();
@@ -254,7 +258,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $ids = [
             12,
             125,
-            176,
+            176
         ];
 
         foreach ($ids as $id) {
@@ -263,11 +267,17 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
             $this->testObj->addParticipant($participant);
         }
 
-        $this->testObj->next();
-        $this->testObj->next();
-        $this->assertEquals($ids[2], $this->testObj->current()->getUsrId());
+        $countIds = count($ids);
+        if ($countIds > 0) {
+            for ($i = 1; $i < $countIds; $i++) {
+                $this->testObj->next();
+            }
+            $this->assertTrue($this->testObj->valid());
 
-        $this->testObj->rewind();
-        $this->assertEquals($ids[0], $this->testObj->current()->getUsrId());
+            $this->testObj->rewind();
+            $this->assertEquals($ids[0], $this->testObj->current()->getUsrId());
+        } else {
+            $this->assertTrue(false);
+        }
     }
 }

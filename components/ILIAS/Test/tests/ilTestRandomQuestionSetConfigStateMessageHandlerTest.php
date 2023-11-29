@@ -79,8 +79,9 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
 
     public function testContext(): void
     {
-        $this->testObj->setContext("test");
-        $this->assertEquals("test", $this->testObj->getContext());
+        $context = 'test';
+        $this->testObj->setContext($context);
+        $this->assertEquals($context, $this->testObj->getContext());
     }
 
     public function testQuestionSetConfig(): void

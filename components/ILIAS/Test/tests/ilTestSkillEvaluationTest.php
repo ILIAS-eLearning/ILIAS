@@ -47,25 +47,29 @@ class ilTestSkillEvaluationTest extends ilTestBaseTestCase
 
     public function testUserId(): void
     {
-        $this->testObj->setUserId(125);
-        $this->assertEquals(125, $this->testObj->getUserId());
+        $userId = 125;
+        $this->testObj->setUserId($userId);
+        $this->assertEquals($userId, $this->testObj->getUserId());
     }
 
     public function testActiveId(): void
     {
-        $this->testObj->setActiveId(125);
-        $this->assertEquals(125, $this->testObj->getActiveId());
+        $activeId = 125;
+        $this->testObj->setActiveId($activeId);
+        $this->assertEquals($activeId, $this->testObj->getActiveId());
     }
 
     public function testPass(): void
     {
-        $this->testObj->setPass(125);
-        $this->assertEquals(125, $this->testObj->getPass());
+        $pass = 125;
+        $this->testObj->setPass($pass);
+        $this->assertEquals($pass, $this->testObj->getPass());
     }
 
     public function testNumRequiredBookingsForSkillTriggering(): void
     {
-        $this->testObj->setNumRequiredBookingsForSkillTriggering(125);
-        $this->assertEquals(125, $this->testObj->getNumRequiredBookingsForSkillTriggering());
+        $numRequiredBookingsForSkillTriggering = 125;
+        $this->testObj->setNumRequiredBookingsForSkillTriggering($numRequiredBookingsForSkillTriggering);
+        $this->assertEquals($numRequiredBookingsForSkillTriggering, $this->testObj->getNumRequiredBookingsForSkillTriggering());
     }
 }

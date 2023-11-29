@@ -58,19 +58,22 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculationTest extends il
 
     public function testOverallQuestionAmount(): void
     {
-        $this->testObj->setOverallQuestionAmount(5);
-        $this->assertEquals(5, $this->testObj->getOverallQuestionAmount());
+        $overAllQuestionAmount = 5;
+        $this->testObj->setOverallQuestionAmount($overAllQuestionAmount);
+        $this->assertEquals($overAllQuestionAmount, $this->testObj->getOverallQuestionAmount());
     }
 
     public function testExclusiveQuestionAmount(): void
     {
-        $this->testObj->setExclusiveQuestionAmount(5);
-        $this->assertEquals(5, $this->testObj->getExclusiveQuestionAmount());
+        $exclusiveQuestionAmount = 5;
+        $this->testObj->setExclusiveQuestionAmount($exclusiveQuestionAmount);
+        $this->assertEquals($exclusiveQuestionAmount, $this->testObj->getExclusiveQuestionAmount());
     }
 
     public function testAvailableSharedQuestionAmount(): void
     {
-        $this->testObj->setAvailableSharedQuestionAmount(5);
-        $this->assertEquals(5, $this->testObj->getAvailableSharedQuestionAmount());
+        $availableSharedQuestionAmount = 5;
+        $this->testObj->setAvailableSharedQuestionAmount($availableSharedQuestionAmount);
+        $this->assertEquals($availableSharedQuestionAmount, $this->testObj->getAvailableSharedQuestionAmount());
     }
 }

@@ -30,9 +30,7 @@ class ilTestProcessLockerDbTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->testObj = new ilTestProcessLockerDb(
-            $this->createMock(ilDBInterface::class)
-        );
+        $this->testObj = new ilTestProcessLockerDb($this->createMock(ilDBInterface::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
