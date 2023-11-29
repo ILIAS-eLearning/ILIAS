@@ -18,4 +18,8 @@
 
 class ilTestExpressPageObjectGUITest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }

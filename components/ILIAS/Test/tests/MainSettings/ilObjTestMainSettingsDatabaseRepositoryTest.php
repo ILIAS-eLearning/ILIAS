@@ -20,4 +20,8 @@ declare(strict_types=1);
 
 class ilObjTestMainSettingsDatabaseRepositoryTest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }

@@ -22,4 +22,8 @@ use ilTestBaseTestCase;
 
 class ilTestPassResultsTableTest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }

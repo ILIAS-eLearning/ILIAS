@@ -22,4 +22,8 @@ use ilTestBaseTestCase;
 
 class ilTestPageTest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }

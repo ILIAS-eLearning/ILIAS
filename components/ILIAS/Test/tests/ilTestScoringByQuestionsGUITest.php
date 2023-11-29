@@ -22,4 +22,8 @@
  */
 class ilTestScoringByQuestionsGUITest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }

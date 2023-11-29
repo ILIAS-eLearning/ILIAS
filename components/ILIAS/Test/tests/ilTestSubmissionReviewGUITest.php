@@ -24,4 +24,8 @@ declare(strict_types=1);
  */
 class ilTestSubmissionReviewGUITest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }

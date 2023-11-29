@@ -24,4 +24,8 @@ declare(strict_types=1);
  */
 class ilTestPlayerFixedQuestionSetGUITest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }

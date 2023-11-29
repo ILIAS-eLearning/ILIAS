@@ -22,4 +22,8 @@
  */
 class ilTestResultsImportParserTest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }

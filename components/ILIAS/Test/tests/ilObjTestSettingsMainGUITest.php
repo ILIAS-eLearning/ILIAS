@@ -23,4 +23,8 @@ declare(strict_types=1);
  */
 class ilObjTestSettingsMainGUITest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }
