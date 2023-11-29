@@ -13,6 +13,7 @@
 
 ilInitialisation::initILIAS();
 
-$ilCtrl->setCmd("jumpToRegistration");
+// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+// $ilCtrl->setCmd("jumpToRegistration");
 $ilCtrl->callBaseClass('ilStartUpGUI');
 $ilBench->save();

@@ -13,7 +13,8 @@
 
 ilInitialisation::initILIAS();
 
-$ilCtrl->setCmd('doLogout');
+// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+// $ilCtrl->setCmd('doLogout');
 $ilCtrl->callBaseClass('ilStartUpGUI');
 $ilBench->save();
 

@@ -94,7 +94,8 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
     public function setCmdClass(string $a_cmd_class): void
     {
         if ($this->ctrl->getNextClass($this) === '') {
-            $this->ctrl->setCmdClass($a_cmd_class);
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmdClass($a_cmd_class);
         }
     }
 

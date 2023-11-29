@@ -29,7 +29,7 @@ class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
      */
     protected function saveTranslations(): void
     {
-        $languages = (array) $this->request->getParsedBody()['active_languages'];
+        $languages = (array) ($this->request->getParsedBody()['active_languages'] ?? []);
         $default = (string) $this->request->getParsedBody()['default'];
 
         if (!in_array($default, $languages)) {

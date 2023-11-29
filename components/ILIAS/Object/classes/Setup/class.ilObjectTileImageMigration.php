@@ -71,9 +71,15 @@ class ilObjectTileImageMigration implements Migration
             INNER JOIN object_data AS o
                 ON cs.id = o.obj_id
             WHERE cs.keyword = "tile_image"
+            ORDER BY cs.id
             LIMIT 1;
         ');
         $next_record = $this->helper->getDatabase()->fetchObject($query_select);
+
+        if ($next_record === null) {
+            $this->cleanupTileInformationWithoutCorrespondingObject();
+            return;
+        }
 
         $path = $this->getFullPath($next_record->id, $next_record->extension);
 
@@ -113,6 +119,50 @@ class ilObjectTileImageMigration implements Migration
                 'tile_image.' . $extension
             ]
         );
+    }
+
+    private function cleanupTileInformationWithoutCorrespondingObject(): void
+    {
+        $select_next_id = $this->helper->getDatabase()->query('
+            SELECT
+                id,
+                value AS extension
+            FROM container_settings
+            WHERE keyword = "tile_image"
+            ORDER BY id
+            LIMIT 1;
+        ');
+        $next_record = $this->helper->getDatabase()->fetchObject($select_next_id);
+
+        if ($next_record === null) {
+            return;
+        }
+
+        $check_object_query = $this->helper->getDatabase()->queryF(
+            'SELECT
+                    count(obj_id) AS objs
+                FROM object_data
+                WHERE obj_id = %s;
+            ',
+            ['integer'],
+            [$next_record->id]
+        );
+        $has_objects = $this->helper->getDatabase()->fetchObject($check_object_query);
+        $path = $this->getFullPath($next_record->id, $next_record->extension);
+
+        if ($has_objects->objs > 0) {
+            return;
+        }
+
+        if (is_file($path)) {
+            unlink($path);
+        }
+
+        if (file_exists(dirname($path))) {
+            rmdir(dirname($path));
+        }
+
+        $this->deleteTileImageInfoFromContainerSettings($next_record->id);
     }
 
     private function deleteTileImageInfoFromContainerSettings(int $id): void

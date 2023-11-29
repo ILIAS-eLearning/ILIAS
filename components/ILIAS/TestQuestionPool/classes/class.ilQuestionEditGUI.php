@@ -154,7 +154,8 @@ class ilQuestionEditGUI
                         $this->main_tpl->setOnScreenMessage('info', sprintf($this->lng->txt('qpl_question_is_in_use'), $count));
                     }
                 }
-                $this->ctrl->setCmdClass(get_class($q_gui));
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass(get_class($q_gui));
                 $ret = (string) $this->ctrl->forwardCommand($q_gui);
                 break;
         }

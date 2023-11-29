@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,6 +26,8 @@
  */
 class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
+    use ManipulateThumbnailsInChoiceQuestionsTrait;
+
     public const NUM_REQUIRED_ANSWERS = 4;
 
     public const PARTIAL_SCORING_NUM_CORRECT_ANSWERS = 3;
@@ -72,7 +76,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
 
-        $this->answers = array();
+        $this->answers = [];
     }
 
     public function getQuestionType(): string
@@ -210,7 +214,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     public function loadFromDb($questionId): void
     {
-        $res = $this->db->queryF($this->buildQuestionDataQuery(), array('integer'), array($questionId));
+        $res = $this->db->queryF($this->buildQuestionDataQuery(), ['integer'], [$questionId]);
 
         while ($data = $this->db->fetchAssoc($res)) {
             $this->setId($questionId);
@@ -277,8 +281,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getAnswerTableName()} WHERE question_fi = %s ORDER BY position ASC",
-            array('integer'),
-            array($questionId)
+            ['integer'],
+            [$questionId]
         );
 
         while ($data = $ilDB->fetchAssoc($res)) {
@@ -325,19 +329,19 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     {
         $this->db->replace(
             $this->getAdditionalTableName(),
-            array(
-                'question_fi' => array('integer', $this->getId())
-            ),
-            array(
-                'shuffle_answers' => array('integer', (int) $this->isShuffleAnswersEnabled()),
-                'answer_type' => array('text', $this->getAnswerType()),
-                'thumb_size' => array('integer', $this->getThumbSize()),
-                'opt_label' => array('text', $this->getOptionLabel()),
-                'custom_true' => array('text', $this->getCustomTrueOptionLabel()),
-                'custom_false' => array('text', $this->getCustomFalseOptionLabel()),
-                'score_partsol' => array('integer', (int) $this->isScorePartialSolutionEnabled()),
-                'feedback_setting' => array('integer', $this->getSpecificFeedbackSetting())
-            )
+            [
+                'question_fi' => ['integer', $this->getId()]
+            ],
+            [
+                'shuffle_answers' => ['integer', (int) $this->isShuffleAnswersEnabled()],
+                'answer_type' => ['text', $this->getAnswerType()],
+                'thumb_size' => ['integer', $this->getThumbSize()],
+                'opt_label' => ['text', $this->getOptionLabel()],
+                'custom_true' => ['text', $this->getCustomTrueOptionLabel()],
+                'custom_false' => ['text', $this->getCustomFalseOptionLabel()],
+                'score_partsol' => ['integer', (int) $this->isScorePartialSolutionEnabled()],
+                'feedback_setting' => ['integer', $this->getSpecificFeedbackSetting()]
+            ]
         );
     }
 
@@ -346,24 +350,22 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         foreach ($this->getAnswers() as $answer) {
             $this->db->replace(
                 $this->getAnswerTableName(),
-                array(
-                    'question_fi' => array('integer', $this->getId()),
-                    'position' => array('integer', (int) $answer->getPosition())
-                ),
-                array(
-                    'answertext' => array('text', $answer->getAnswertext()),
-                    'imagefile' => array('text', $answer->getImageFile()),
-                    'correctness' => array('integer', (int) $answer->getCorrectness())
-                )
+                [
+                    'question_fi' => ['integer', $this->getId()],
+                    'position' => ['integer', (int) $answer->getPosition()]
+                ],
+                [
+                    'answertext' => ['text', $answer->getAnswertext()],
+                    'imagefile' => ['text', $answer->getImageFile()],
+                    'correctness' => ['integer', (int) $answer->getCorrectness()]
+                ]
             );
         }
-
-        $this->rebuildThumbnails();
     }
 
     public function isComplete(): bool
     {
-        foreach (array($this->title, $this->author, $this->question) as $text) {
+        foreach ([$this->title, $this->author, $this->question] as $text) {
             if (!strlen($text)) {
                 return false;
             }
@@ -461,7 +463,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $found_values = array();
+        $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
@@ -479,7 +481,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     public function getValidAnswerTypes(): array
     {
-        return array(self::ANSWER_TYPE_SINGLE_LINE, self::ANSWER_TYPE_MULTI_LINE);
+        return [self::ANSWER_TYPE_SINGLE_LINE, self::ANSWER_TYPE_MULTI_LINE];
     }
 
     public function isValidAnswerType($answerType): bool
@@ -499,32 +501,32 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
      */
     public function getAnswerTypeSelectOptions(ilLanguage $lng): array
     {
-        return array(
+        return [
             self::ANSWER_TYPE_SINGLE_LINE => $lng->txt('answers_singleline'),
             self::ANSWER_TYPE_MULTI_LINE => $lng->txt('answers_multiline')
-        );
+        ];
     }
 
     public function getValidOptionLabels(): array
     {
-        return array(
+        return [
             self::OPTION_LABEL_RIGHT_WRONG,
             self::OPTION_LABEL_PLUS_MINUS,
             self::OPTION_LABEL_APPLICABLE_OR_NOT,
             self::OPTION_LABEL_ADEQUATE_OR_NOT,
             self::OPTION_LABEL_CUSTOM
-        );
+        ];
     }
 
     public function getValidOptionLabelsTranslated(ilLanguage $lng): array
     {
-        return array(
+        return [
             self::OPTION_LABEL_RIGHT_WRONG => $lng->txt('option_label_right_wrong'),
             self::OPTION_LABEL_PLUS_MINUS => $lng->txt('option_label_plus_minus'),
             self::OPTION_LABEL_APPLICABLE_OR_NOT => $lng->txt('option_label_applicable_or_not'),
             self::OPTION_LABEL_ADEQUATE_OR_NOT => $lng->txt('option_label_adequate_or_not'),
             self::OPTION_LABEL_CUSTOM => $lng->txt('option_label_custom')
-        );
+        ];
     }
 
     public function isValidOptionLabel($optionLabel): bool
@@ -587,44 +589,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     public function isCustomOptionLabel($labelValue): bool
     {
         return $labelValue == self::OPTION_LABEL_CUSTOM;
-    }
-
-    public function getThumbPrefix(): string
-    {
-        return self::THUMB_PREFIX;
-    }
-
-    public function rebuildThumbnails(): void
-    {
-        if ($this->isSingleLineAnswerType($this->getAnswerType()) && $this->getThumbSize()) {
-            foreach ($this->getAnswers() as $answer) {
-                if ($answer->getImageFile() !== null) {
-                    $this->generateThumbForFile($answer->getImageFsDir(), $answer->getImageFile());
-                }
-            }
-        }
-    }
-
-    protected function generateThumbForFile($path, $file): void
-    {
-        $filename = $path . $file;
-        if (@file_exists($filename)) {
-            $thumbpath = $path . $this->getThumbPrefix() . $file;
-            $path_info = @pathinfo($filename);
-            $ext = "";
-            switch (strtoupper($path_info['extension'])) {
-                case 'PNG':
-                    $ext = 'PNG';
-                    break;
-                case 'GIF':
-                    $ext = 'GIF';
-                    break;
-                default:
-                    $ext = 'JPEG';
-                    break;
-            }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbSize());
-        }
     }
 
     public function handleFileUploads($answers, $files): void
@@ -774,34 +738,34 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
+    public function createNewOriginalFromThisDuplicate($target_parent_id, $target_question_title = ""): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
+        $source_question_id = $this->id;
+        $source_parent_id = $this->getObjId();
 
         // duplicate the question in database
         $clone = $this;
         $clone->id = -1;
 
-        $clone->setObjId($targetParentId);
+        $clone->setObjId($target_parent_id);
 
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
+        if ($target_question_title) {
+            $clone->setTitle($target_question_title);
         }
 
         $clone->saveToDb();
         // copy question page content
-        $clone->copyPageOfQuestion($sourceQuestionId);
+        $clone->copyPageOfQuestion($source_question_id);
         // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
+        $clone->copyXHTMLMediaObjectsOfQuestion($source_question_id);
         // duplicate the image
-        $clone->cloneAnswerImages($sourceQuestionId, $sourceParentId, $clone->getId(), $clone->getObjId());
+        $clone->cloneAnswerImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
 
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $targetParentId, $clone->getId());
+        $clone->onCopy($source_parent_id, $source_question_id, $target_parent_id, $clone->getId());
 
         return $clone->id;
     }
@@ -855,49 +819,55 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->cloneAnswerImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
     }
 
-    protected function cloneAnswerImages($sourceQuestionId, $sourceParentId, $targetQuestionId, $targetParentId): void
-    {
+    protected function cloneAnswerImages(
+        $source_question_id,
+        $source_parent_id,
+        $target_question_id,
+        $target_parent_id
+    ): void {
         /** @var $ilLog ilLogger */
         global $DIC;
         $ilLog = $DIC['ilLog'];
 
-        $sourcePath = $this->questionFilesService->buildImagePath($sourceQuestionId, $sourceParentId);
-        $targetPath = $this->questionFilesService->buildImagePath($targetQuestionId, $targetParentId);
+        $source_path = $this->questionFilesService->buildImagePath($source_question_id, $source_parent_id);
+        $target_path = $this->questionFilesService->buildImagePath($target_question_id, $target_parent_id);
 
         foreach ($this->getAnswers() as $answer) {
             $filename = $answer->getImageFile();
 
-            if ($filename !== null) {
-                if (!file_exists($targetPath)) {
-                    ilFileUtils::makeDirParents($targetPath);
-                }
+            if ($filename !== null || $filename === '') {
+                continue;
+            }
 
-                if (file_exists($sourcePath . $filename)) {
-                    if (!copy($sourcePath . $filename, $targetPath . $filename)) {
-                        $ilLog->warning(sprintf(
-                            "Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-                            $sourcePath . $filename,
-                            $targetPath . $filename,
-                            $sourceQuestionId,
-                            $targetQuestionId,
-                            $sourceParentId,
-                            $targetParentId
-                        ));
-                    }
-                }
+            if (!file_exists($target_path)) {
+                ilFileUtils::makeDirParents($target_path);
+            }
 
-                if (file_exists($sourcePath . $this->getThumbPrefix() . $filename)) {
-                    if (!copy($sourcePath . $this->getThumbPrefix() . $filename, $targetPath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->warning(sprintf(
-                            "Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-                            $sourcePath . $this->getThumbPrefix() . $filename,
-                            $targetPath . $this->getThumbPrefix() . $filename,
-                            $sourceQuestionId,
-                            $targetQuestionId,
-                            $sourceParentId,
-                            $targetParentId
-                        ));
-                    }
+            if (file_exists($source_path . $filename)) {
+                if (!copy($source_path . $filename, $target_path . $filename)) {
+                    $ilLog->warning(sprintf(
+                        "Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+                        $source_path . $filename,
+                        $target_path . $filename,
+                        $source_question_id,
+                        $target_question_id,
+                        $source_parent_id,
+                        $target_parent_id
+                    ));
+                }
+            }
+
+            if (file_exists($source_path . $this->getThumbPrefix() . $filename)) {
+                if (!copy($source_path . $this->getThumbPrefix() . $filename, $target_path . $this->getThumbPrefix() . $filename)) {
+                    $ilLog->warning(sprintf(
+                        "Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+                        $source_path . $this->getThumbPrefix() . $filename,
+                        $target_path . $this->getThumbPrefix() . $filename,
+                        $source_question_id,
+                        $target_question_id,
+                        $source_parent_id,
+                        $target_parent_id
+                    ));
                 }
             }
         }
@@ -932,7 +902,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     {
         $this->lng->loadLanguageModule('assessment');
 
-        $result = array();
+        $result = [];
         $result['id'] = $this->getId();
         $result['type'] = $this->getQuestionType();
         $result['title'] = $this->getTitle();
@@ -943,17 +913,17 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         );
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->isShuffleAnswersEnabled();
-        $result['feedback'] = array(
+        $result['feedback'] = [
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
-        );
+        ];
 
         $result['trueOptionLabel'] = $this->getTrueOptionLabelTranslation($this->lng, $this->getOptionLabel());
         $result['falseOptionLabel'] = $this->getFalseOptionLabelTranslation($this->lng, $this->getOptionLabel());
 
         $result['num_allowed_failures'] = $this->getNumAllowedFailures();
 
-        $answers = array();
+        $answers = [];
         $has_image = false;
 
         foreach ($this->getAnswers() as $key => $answer) {
@@ -961,7 +931,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 $has_image = true;
             }
 
-            $answers[] = array(
+            $answers[] = [
                 'answertext' => $this->formatSAQuestion($answer->getAnswertext()),
                 'correctness' => (bool) $answer->getCorrectness(),
                 'order' => (int) $answer->getPosition(),
@@ -969,7 +939,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 'feedback' => $this->formatSAQuestion(
                     $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
                 )
-            );
+            ];
         }
 
         $result['answers'] = $answers;

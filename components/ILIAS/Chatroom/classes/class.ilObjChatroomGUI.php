@@ -185,13 +185,15 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 
         // #8701 - infoscreen actions
         if ($this->ctrl->getCmd() !== 'info' && strtolower($next_class) === strtolower(ilInfoScreenGUI::class)) {
-            $this->ctrl->setCmd('info-' . $this->ctrl->getCmd());
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmd('info-' . $this->ctrl->getCmd());
         }
 
         // repository info call
         if ($this->ctrl->getCmd() === 'infoScreen') {
-            $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
-            $this->ctrl->setCmd('info');
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
+            // $this->ctrl->setCmd('info');
         }
 
         switch (strtolower($next_class)) {

@@ -66,7 +66,8 @@ class ilObjECSSettingsGUI extends ilObjectGUI
             default:
                 $this->tabs_gui->setTabActive('settings');
                 $settings = new ilECSSettingsGUI();
-                $this->ctrl->setCmdClass('ilecssettingsgui');
+                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                // $this->ctrl->setCmdClass('ilecssettingsgui');
                 $this->ctrl->forwardCommand($settings);
                 break;
         }

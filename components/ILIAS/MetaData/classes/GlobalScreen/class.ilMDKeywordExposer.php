@@ -47,11 +47,9 @@ class ilMDKeywordExposer extends AbstractModificationProvider
                     $keywords[] = $keyword->getKeyword();
                 }
 
-                $delimiter = ilMDSettings::_getInstance()->getDelimiter() ?? ",";
-
                 if (count($keywords) > 0) {
                     $this->globalScreen()->layout()->meta()->addMetaDatum(
-                        $this->data->htmlMetadata()->userDefined('keywords', implode($delimiter, $keywords))
+                        $this->data->htmlMetadata()->userDefined('keywords', implode(',', $keywords))
                     );
                 }
                 // Languages
@@ -62,7 +60,7 @@ class ilMDKeywordExposer extends AbstractModificationProvider
                 }
                 if (count($languages) > 0) {
                     $this->globalScreen()->layout()->meta()->addMetaDatum(
-                        $this->data->htmlMetadata()->userDefined('languages', implode($delimiter, $languages))
+                        $this->data->htmlMetadata()->userDefined('languages', implode(',', $languages))
                     );
                 }
             }

@@ -29,7 +29,7 @@ class ilMailingList
 
     private int $user_id;
     private string $title = '';
-    private string $description = '';
+    private ?string $description = '';
     private string $createdate;
     private ?string $changedate = null;
     private readonly ilDBInterface $db;
@@ -255,12 +255,12 @@ class ilMailingList
         return $this->title;
     }
 
-    public function setDescription(string $a_description = ''): void
+    public function setDescription(?string $a_description = ''): void
     {
         $this->description = $a_description;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

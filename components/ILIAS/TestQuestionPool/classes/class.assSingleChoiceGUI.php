@@ -32,6 +32,7 @@
  */
 class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
+    private bool $rebuild_thumbnails = false;
     /**
      * assSingleChoiceGUI constructor
      *
@@ -532,16 +533,16 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function getChoiceKeys()
     {
-        $choiceKeys = array_keys($this->object->answers);
+        $choice_keys = array_keys($this->object->answers);
 
         if ($this->object->getShuffle()) {
-            $choiceKeys = $this->object->getShuffler()->transform($choiceKeys);
+            $choice_keys = $this->object->getShuffler()->transform($choice_keys);
         }
 
-        return $choiceKeys;
+        return $choice_keys;
     }
 
-    public function getSpecificFeedbackOutput(array $userSolution): string
+    public function getSpecificFeedbackOutput(array $user_solution): string
     {
         // No return value, this question type supports inline specific feedback.
         $output = "";
@@ -561,8 +562,10 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         } else {
             $this->object->setIsSingleline($types === '0' ? true : false);
         }
-        if (isset($_POST["thumb_size"])) {
+        if (isset($_POST["thumb_size"])
+            && (int) $_POST["thumb_size"] !== $this->object->getThumbSize()) {
             $this->object->setThumbSize((int) $_POST["thumb_size"]);
+            $this->rebuild_thumbnails = true;
         }
     }
 
@@ -587,10 +590,10 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $types->setRequired(false);
             $types->setValue(($is_singleline) ? 0 : 1);
             $types->setOptions(
-                array(
+                [
                                     0 => $this->lng->txt('answers_singleline'),
                                     1 => $this->lng->txt('answers_multiline'),
-                                )
+                                ]
             );
             $form->addItem($types);
         }
@@ -625,7 +628,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
@@ -633,35 +636,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
         $choice = $this->cleanupAnswerText($_POST['choice'], $this->object->isSingleline() === false);
-        if ($this->object->isSingleline()) {
-            foreach ($choice['answer'] as $index => $answertext) {
-                $answertext = htmlentities($answertext);
-                $picturefile = $choice['imagename'][$index] ?? '';
-                $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
-                $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
-
-                if ($file_temp_name !== '') {
-                    // check suffix
-                    $file_name_parts = explode(".", $file_org_name);
-                    $suffix = strtolower(array_pop($file_name_parts));
-                    if (in_array($suffix, array("jpg", "jpeg", "png", "gif"))) {
-                        // upload image
-                        $filename = $this->object->buildHashedImageFilename($file_org_name);
-                        if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
-                            $picturefile = $filename;
-                        }
-                    }
-                }
-                $points = (float) str_replace(',', '.', $choice['points'][$index]);
-                $this->object->addAnswer(
-                    $answertext,
-                    $points,
-                    $index,
-                    $picturefile,
-                    $choice['answer_id'][$index]
-                );
-            }
-        } else {
+        if (!$this->object->isSingleline()) {
             foreach ($choice['answer'] as $index => $answer) {
                 $answertext = $answer;
                 $this->object->addAnswer(
@@ -672,6 +647,48 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     $choice['answer_id'][$index]
                 );
             }
+
+            return;
+        }
+
+        foreach ($choice['answer'] as $index => $answertext) {
+            $answertext = htmlentities($answertext);
+            $picturefile = $choice['imagename'][$index] ?? '';
+            $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
+            $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
+
+            if ($file_temp_name !== '') {
+                // check suffix
+                $file_name_parts = explode(".", $file_org_name);
+                $suffix = strtolower(array_pop($file_name_parts));
+                if (in_array($suffix, ["jpg", "jpeg", "png", "gif"])) {
+                    // upload image
+                    $filename = $this->object->buildHashedImageFilename($file_org_name);
+                    if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
+                        $picturefile = $filename;
+                    }
+                }
+            }
+
+            $points = (float) str_replace(',', '.', $choice['points'][$index]);
+            $this->object->addAnswer(
+                $answertext,
+                $points,
+                $index,
+                $picturefile,
+                $choice['answer_id'][$index]
+            );
+        }
+
+        if ($this->rebuild_thumbnails) {
+            $this->object->setAnswers(
+                $this->object->rebuildThumbnails(
+                    $this->object->isSingleline(),
+                    $this->object->getThumbSize(),
+                    $this->object->getImagePath(),
+                    $this->object->getAnswers()
+                )
+            );
         }
     }
 
@@ -711,7 +728,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -729,9 +746,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question): array
     {
-        $aggregate = array();
+        $aggregate = [];
         foreach ($answers_defined_on_question as $answer) {
-            $aggregated_info_for_answer = array();
+            $aggregated_info_for_answer = [];
             $aggregated_info_for_answer['answertext'] = $answer->getAnswerText();
             $aggregated_info_for_answer['count_checked'] = 0;
 
@@ -811,13 +828,13 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
 
-        $answers = array();
+        $answers = [];
 
         foreach ($agg as $ans) {
-            $answers[] = array(
+            $answers[] = [
                 'answer' => $ans['answertext'],
                 'frequency' => $ans['count_checked']
-            );
+            ];
         }
 
         return $answers;

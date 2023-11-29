@@ -155,7 +155,8 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             $obj_type = $new_type;
             $class_name = $this->objDefinition->getClassName($obj_type);
             $next_class = strtolower("ilObj" . $class_name . "GUI");
-            $this->ctrl->setCmdClass($next_class);
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmdClass($next_class);
         }
 
         // set next_class directly for page translations
@@ -173,8 +174,9 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             $obj_type = ilObject::_lookupType($this->cur_ref_id, true);
             $class_name = $this->objDefinition->getClassName($obj_type);
             $next_class = strtolower("ilObj" . $class_name . "GUI");
-            $this->ctrl->setCmdClass($next_class);
-            $this->ctrl->setCmd("view");
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmdClass($next_class);
+            // $this->ctrl->setCmd("view");
         }
 
         $cmd = $this->ctrl->getCmd("forward");

@@ -162,6 +162,12 @@ $il-modal-dark-color: $il-neutral-color;
   .modal-body {
 	position: relative;
 	padding: $modal-inner-padding;
+
+	  .il-standard-form {
+		  .il-standard-form-header + .il-section-input {
+			  margin-top: 0;
+		  }
+	  }
   }
   
   // Footer (for actions)

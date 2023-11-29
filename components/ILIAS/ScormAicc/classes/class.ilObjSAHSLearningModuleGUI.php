@@ -176,8 +176,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
     protected function infoScreen(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd("showSummary");
+        // $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreenForward();
     }
 
@@ -872,7 +873,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     {
         $GLOBALS['DIC']->tabs()->setTabActive('export');
         $exp_gui = new ilExportGUI($this);
-        $this->ctrl->setCmd("listExportFiles");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd("listExportFiles");
         $exp_gui->addFormat("xml");
         return $this->ctrl->forwardCommand($exp_gui);
     }

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
@@ -36,7 +37,7 @@ abstract class AbstractBaseItem implements isItem
 
     protected int $position = 0;
 
-    private bool $is_visible_static;
+    private ?bool $is_visible_static = null;
 
     protected IdentificationInterface $provider_identification;
     protected ?Closure $available_callable = null;
@@ -70,6 +71,7 @@ abstract class AbstractBaseItem implements isItem
     {
         $clone = clone($this);
         $clone->visiblility_callable = $is_visible;
+        $clone->is_visible_static = null;
 
         return $clone;
     }

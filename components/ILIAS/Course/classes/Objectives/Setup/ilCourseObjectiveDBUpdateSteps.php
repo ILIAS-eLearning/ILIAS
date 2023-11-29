@@ -16,29 +16,28 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Scripts\PHPStan\Rules;
+declare(strict_types=1);
 
-use PHPStan\Rules\Rule;
-
-class NoLegacyTabsUsagesRule extends LegacyClassUsageRule implements Rule
+class ilCourseObjectiveDBUpdateSteps implements ilDatabaseUpdateSteps
 {
-    protected function getHumanReadableRuleName(): string
+    protected ilDBInterface $db;
+
+    public function prepare(ilDBInterface $db): void
     {
-        return 'Legacy Tabs Usages';
+        $this->db = $db;
     }
 
-    protected function getRelevantILIASVersion(): int
+    public function step_1(): void
     {
-        return 10;
+        if (!$this->db->indexExistsByFields('loc_settings', ['itest'])) {
+            $this->db->addIndex('loc_settings', ['itest'], 'i1');
+        }
     }
 
-    protected function getForbiddenClasses(): array
+    public function step_2(): void
     {
-        return ['ilTabsGUI'];
-    }
-
-    protected function findMethodUsages(): bool
-    {
-        return true;
+        if (!$this->db->indexExistsByFields('loc_settings', ['qtest'])) {
+            $this->db->addIndex('loc_settings', ['qtest'], 'i2');
+        }
     }
 }

@@ -27,7 +27,6 @@ class ilMDSettings
 
     protected ilSetting $settings;
     private bool $copyright_selection_active = false;
-    private string $delimiter = '';
 
     private function __construct()
     {
@@ -52,23 +51,9 @@ class ilMDSettings
         $this->copyright_selection_active = $a_status;
     }
 
-    public function setDelimiter(string $a_val): void
-    {
-        $this->delimiter = $a_val;
-    }
-
-    public function getDelimiter(): string
-    {
-        if (trim($this->delimiter) === '') {
-            return ",";
-        }
-        return $this->delimiter;
-    }
-
     public function save(): void
     {
         $this->settings->set('copyright_selection_active', (string) $this->isCopyrightSelectionActive());
-        $this->settings->set('delimiter', $this->getDelimiter());
     }
 
     private function read(): void
@@ -76,6 +61,5 @@ class ilMDSettings
         $this->settings = new ilSetting('md_settings');
 
         $this->copyright_selection_active = (bool) $this->settings->get('copyright_selection_active', '0');
-        $this->delimiter = (string) $this->settings->get('delimiter', ",");
     }
 }

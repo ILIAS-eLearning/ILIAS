@@ -18,6 +18,7 @@
 class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
 {
     public const POST_VARIABLE_NAME = 'ordering';
+    private string $pending;
 
     /**
      * ilAssOrderingImagesInputGUI constructor.

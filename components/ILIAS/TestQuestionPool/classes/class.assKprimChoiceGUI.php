@@ -26,6 +26,8 @@
  */
 class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
+    private bool $rebuild_thumbnails = false;
+
     /**
      * @param $qId
      */
@@ -50,7 +52,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
     protected function getAdditionalEditQuestionCommands(): array
     {
-        return array('uploadImage', 'removeImage');
+        return ['uploadImage', 'removeImage'];
     }
 
     protected function editQuestion(ilPropertyFormGUI $form = null): void
@@ -252,7 +254,11 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
 
         if (!$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($old_answer_type)) {
-            $this->object->setThumbSize((int) ($form->getItemByPostVar('thumb_size')->getValue() ?? $this->object->getThumbSize()));
+            $thumbsize = (int) ($form->getItemByPostVar('thumb_size')->getValue() ?? $this->object->getThumbSize());
+            if ($thumbsize !== $this->object->getThumbSize()) {
+                $this->object->setThumbSize($thumbsize);
+                $this->rebuild_thumbnails = true;
+            }
         }
 
         $this->object->setOptionLabel($form->getItemByPostVar('option_label')->getValue());
@@ -300,11 +306,22 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $answers = $form->getItemByPostVar('kprimanswers')->getValues();
-        $answers = $this->handleAnswerTextsSubmit($answers);
+        $answers = $this->handleAnswerTextsSubmit(
+            $form->getItemByPostVar('kprimanswers')->getValues()
+        );
         $files = $form->getItemByPostVar('kprimanswers')->getFiles();
 
         $this->object->handleFileUploads($answers, $files);
+
+        if ($this->rebuild_thumbnails) {
+            $answers = $this->object->rebuildThumbnails(
+                $this->object->isSingleLineAnswerType(),
+                $this->object->getThumbSize(),
+                $this->object->getImagePath(),
+                $answers
+            );
+        }
+
         $this->object->setAnswers($answers);
     }
 
@@ -353,7 +370,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $keys = $this->getParticipantsAnswerKeySequence();
 
         // get the solution of the user for the active pass or from the last pass if allowed
-        $user_solution = array();
+        $user_solution = [];
         if ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
@@ -444,7 +461,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
-        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
+        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
 
@@ -557,7 +574,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $keys = $this->getParticipantsAnswerKeySequence();
 
         // get the solution of the user for the active pass or from the last pass if allowed
-        $user_solution = array();
+        $user_solution = [];
         if (($active_id > 0) && (!$show_correct_solution)) {
             $solutions = $this->object->getSolutionValues($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
@@ -709,13 +726,13 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
     protected function getParticipantsAnswerKeySequence()
     {
-        $choiceKeys = array_keys($this->object->getAnswers());
+        $choice_keys = array_keys($this->object->getAnswers());
 
         if ($this->object->isShuffleAnswersEnabled()) {
-            $choiceKeys = $this->object->getShuffler()->transform($choiceKeys);
+            $choice_keys = $this->object->getShuffler()->transform($choice_keys);
         }
 
-        return $choiceKeys;
+        return $choice_keys;
     }
 
     private function populateSpecificFeedbackInline($user_solution, $answer_id, $template): void
@@ -765,7 +782,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -779,7 +796,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -821,12 +838,12 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
     public function aggregateAnswers($rawSolutionData, $answers): array
     {
-        $aggregate = array();
+        $aggregate = [];
 
         foreach ($answers as $answer) {
-            $answerAgg = array(
+            $answerAgg = [
                 'answertext' => $answer->getAnswerText(), 'count_true' => 0, 'count_false' => 0
-            );
+            ];
 
             foreach ($rawSolutionData as $solutionRecord) {
                 if ($solutionRecord['value1'] == $answer->getPosition()) {
@@ -848,14 +865,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     {
         $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
 
-        $answers = array();
+        $answers = [];
 
         foreach ($agg as $ans) {
-            $answers[] = array(
+            $answers[] = [
                 'answer' => $ans['answertext'],
                 'frequency_true' => $ans['count_true'],
                 'frequency_false' => $ans['count_false']
-            );
+            ];
         }
 
         return $answers;
