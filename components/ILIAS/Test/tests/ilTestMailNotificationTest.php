@@ -18,4 +18,8 @@
 
 class ilTestMailNotificationTest extends ilTestBaseTestCase
 {
+    public function testSuppressWarning(): void
+    {
+        $this->assertTrue(true);
+    }
 }
