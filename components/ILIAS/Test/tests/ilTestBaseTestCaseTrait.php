@@ -270,6 +270,11 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('object', $object_mock);
     }
 
+    protected function addGlobal_resourceStorage(): void
+    {
+        $this->setGlobalVariable('resource_storage', $this->createMock(\ILIAS\ResourceStorage\Services::class));
+    }
+
     protected function getTestObjMock(): ilObjTest
     {
         $test_mock = $this->createMock(ilObjTest::class);
