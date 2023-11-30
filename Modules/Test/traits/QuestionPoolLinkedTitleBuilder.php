@@ -34,19 +34,28 @@ trait QuestionPoolLinkedTitleBuilder
         \ilLanguage $lng,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
-        int $qpl_id,
+        ?int $qpl_id,
         string $title,
         bool $reference = false
     ): string {
+        if ($qpl_id === null) {
+            return $title;
+        }
+
         if (ilObject::_lookupType($qpl_id, $reference) !== 'qpl') {
             return '';
+        }
+
+        $qpl_obj_id = $qpl_id;
+        if ($reference) {
+            $qpl_obj_id = ilObject::_lookupObjId($qpl_id);
         }
 
         $qpl_ref_id = $this->getFirstQuestionPoolReferenceWithCurrentUserAccess(
             $access,
             $reference,
             $qpl_id,
-            ilObject::_getAllReferences($qpl_id)
+            ilObject::_getAllReferences($qpl_obj_id)
         );
 
         if ($qpl_ref_id === null) {
@@ -92,7 +101,7 @@ trait QuestionPoolLinkedTitleBuilder
             }
         );
         if ($qpl_references_with_access !== []) {
-            return $qpl_references_with_access[0];
+            return array_shift($qpl_references_with_access);
         }
         return null;
     }
