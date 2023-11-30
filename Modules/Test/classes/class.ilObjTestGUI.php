@@ -524,7 +524,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->getTestObject(),
                     $ilAccess,
                     $DIC->http(),
-                    $DIC->refinery()
+                    $DIC->refinery(),
+                    $DIC['ui.factory'],
+                    $DIC['ui.renderer']
                 );
                 $gui->setWriteAccess($ilAccess->checkAccess("write", "", $this->ref_id));
                 $gui->init();

@@ -18,12 +18,17 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
  * @ilCtrl_Calls ilTestQuestionBrowserTableGUI: ilFormPropertyDispatchGUI
  */
 class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
     private const REPOSITORY_ROOT_NODE_ID = 1;
 
     public const CONTEXT_PARAMETER = 'question_browse_context';
@@ -51,6 +56,9 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     private ilObjTest $testOBJ;
     private ilAccessHandler $access;
 
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
+
     /** @var array<string, mixed> */
     private array $filter = [];
 
@@ -65,7 +73,9 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         ilObjTest $testOBJ,
         ilAccessHandler $access,
         ILIAS\HTTP\GlobalHttpState $httpState,
-        ILIAS\Refinery\Factory $refinery
+        ILIAS\Refinery\Factory $refinery,
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer
     ) {
         $this->ctrl = $ctrl;
         $this->mainTpl = $mainTpl;
@@ -78,6 +88,8 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->access = $access;
         $this->httpState = $httpState;
         $this->refinery = $refinery;
+        $this->ui_factory = $ui_factory;
+        $this->ui_renderer = $ui_renderer;
 
         $this->setId('qpl_brows_tabl_' . $this->testOBJ->getId());
         global $DIC;
@@ -440,7 +452,18 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             "QUESTION_UPDATED",
             ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX))
         );
-        $this->tpl->setVariable("QUESTION_POOL", $a_set['parent_title']);
+        $this->tpl->setVariable(
+            "QUESTION_POOL",
+            $this->buildPossiblyLinkedQuestonPoolTitle(
+                $this->ctrl,
+                $this->access,
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                (int) $a_set["obj_fi"],
+                $a_set["parent_title"]
+            )
+        );
     }
 
     private function buildTestQuestionSetConfig(): ilTestQuestionSetConfig

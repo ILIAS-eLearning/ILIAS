@@ -79,6 +79,8 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
                 new \ILIAS\Data\Factory(),
                 $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()
             ),
+            $this->createMock(ILIAS\UI\Factory::class),
+            $this->createMock(ILIAS\UI\Renderer::class),
         );
     }
 

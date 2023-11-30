@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -26,6 +28,7 @@
 */
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
     private const CLASS_PATH_FOR_QUESTION_EDIT_LINKS = [ilRepositoryGUI::class, ilObjQuestionPoolGUI::class];
 
     /**
@@ -60,6 +63,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
     protected \ILIAS\UI\Renderer $renderer;
     protected \ILIAS\UI\Factory $factory;
+    private ilAccess $access;
 
     public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
     {
@@ -67,6 +71,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         $this->renderer = $DIC->ui()->renderer();
         $this->factory = $DIC->ui()->factory();
+        $this->access = $DIC['ilAccess'];
 
         $this->setId('tst_qst_lst_' . $parentRefId);
 
@@ -220,11 +225,21 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             }
         }
 
-        if (ilObject::_lookupType((int) $a_set["orig_obj_fi"]) == 'qpl') {
-            $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($a_set["orig_obj_fi"]));
-        } else {
-            $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
+        if (isset($a_set['orig_obj_fi'])) {
+            $this->tpl->setVariable(
+                "QUESTION_POOL",
+                $this->buildPossiblyLinkedQuestonPoolTitle(
+                    $this->ctrl,
+                    $this->access,
+                    $this->lng,
+                    $this->factory,
+                    $this->renderer,
+                    $a_set["orig_obj_fi"],
+                    ilObject::_lookupTitle($a_set["orig_obj_fi"])
+                )
+            );
         }
+
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setId('qst' . $a_set["question_id"]);
         $actions->setListTitle($this->lng->txt('actions'));
@@ -378,7 +393,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $icon = $this->factory->symbol()->icon()->custom(
                 ilUtil::getImagePath("icon_checked.svg"),
                 $this->lng->txt('question_obligatory')
-
             );
             return $this->renderer->render($icon);
         }
