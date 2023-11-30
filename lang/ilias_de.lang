@@ -8329,7 +8329,6 @@ dateplaner#:#cal_grp_personal#:#Persönlich
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
 dateplaner#:#cal_ical_url#:#iCal-URL
 dateplaner#:#cal_ical_url_google#:#iCal-URL (Google Kalender)
-dateplaner#:#cal_ical_url_google#:#iCal-URL (Google Kalender)
 dateplaner#:#cal_import_appointments#:#Termine importieren
 dateplaner#:#cal_import_file#:#Importdatei
 dateplaner#:#cal_import_file_info#:#Wählen Sie die Datei aus, die Ihre Termine enthält.
@@ -11188,7 +11187,7 @@ mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben.
 mail#:#mail_absence_auto_responder_body#:#Nachricht
-mail#:#mail_absence_auto_responder_body_hint#:#Dies ist ein automatisch generierte Nachricht. Die nächste Nachricht erhalten Sie frühestens am [NEXT_AUTO_RESPONDER_DATETIME].
+mail#:#mail_absence_auto_responder_body_hint#:#Dies ist eine automatisch generierte Nachricht. Wenn Sie weitere Mails an diese Adresse schicken, bekommen Sie frühestens [NEXT_AUTO_RESPONDER_DATETIME] eine weitere automatische Antwort.
 mail#:#mail_absence_auto_responder_body_info#:#Diese Nachricht wird während Ihrer Abwesenheit automatisch versendet, wenn Benutzer Ihnen eine ILIAS-interne Nachricht schicken.<br>Benutzer werden bei weiteren Nachrichten alle %1$s Tage über Ihre Abwesenheit informiert.
 mail#:#mail_absence_auto_responder_body_info_single_day#:#Diese Nachricht wird während Ihrer Abwesenheit automatisch versendet, wenn Benutzer Ihnen eine ILIAS-interne Nachricht schicken.<br>Benutzer werden bei weiteren Nachrichten am nächsten Tag wieder über Ihre Abwesenheit informiert.
 mail#:#mail_absence_auto_responder_subject#:#Betreff
@@ -11203,14 +11202,14 @@ mail#:#mail_add_recipient#:#Bitte geben Sie an, wer die Mail erhalten soll. Gebe
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
 mail#:#mail_allow_external#:#Externe E-Mails
-mail#:#mail_allow_external_info#:#Sofern nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
+mail#:#mail_allow_external_info#:#Die Zustellung von externen E-Mails (via SMTP) zulassen. Falls nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
 mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler "%s"
 mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
 mail#:#mail_auto_responder#:#Abwesenheitsnotiz
 mail#:#mail_auto_responder_idle_time#:#Erneuter Versand
-mail#:#mail_auto_responder_idle_time_info#:#Geben Sie hier an, wie viele Tage zwischen dem erneuten Versand einer Abwesenheitsnotiz an den gleichen Absender liegen sollen.
+mail#:#mail_auto_responder_idle_time_info#:#Geben Sie hier an, wie viele Tage vergehen sollen, bevor erneut eine Abwesenheitsnotiz an die Person gesandt wird, die Ihnen wiederholt Mails schickt.
 mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Betreff: %s
 mail#:#mail_bg_task_title#:#Mailversand
@@ -11296,14 +11295,14 @@ mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all I
 mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
-mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Dateigröße für Mailanhänge an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Datenmenge der als Anhang einer Mail ausgewählten Dateien.
-mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße für Anhänge beträgt:
+mail#:#mail_max_size_attachments_total#:#Bitte geben Sie die maximal zulässige Gesamtgröße aller Anhänge pro E-Mail an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Gesamtdatenmenge der als Anhang einer Mail ausgewählten Dateien.
+mail#:#mail_max_size_attachments_total_error#:#Die maximal zulässige Gesamtgröße aller Anhänge beträgt:
 mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
 mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
 mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste "%s"
 mail#:#mail_members_search_continue#:#Weiter
 mail#:#mail_message_send#:#Die Mail wurde versandt.
-mail#:#mail_move_error#:#Fehler beim Mailversand
+mail#:#mail_move_error#:#Beim Versuch, Ihre E-Mail zu verschieben, ist ein Fehler aufgetreten.
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_move_to_folder_btn_label#:#Mail verschieben
 mail#:#mail_move_to_folder_x#:#nach "%s"
@@ -11336,10 +11335,10 @@ mail#:#mail_no_valid_mailing_list#:#%1$s (kein gültiger Verteiler)
 mail#:#mail_notification_membership_section#:#Mitgliedschaften
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_notify_orphaned#:#Benachrichtigungsmail
-mail#:#mail_notify_orphaned_info#:#Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an den Benutzer bevor eine interne Mail gelöscht wird. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist.
+mail#:#mail_notify_orphaned_info#:#Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an alle betroffenen Mail-Konten so viele Tage vor dem Löschen von etwaigen internen Mails. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist.
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_orphaned_mails#:#Löschen alter oder verwaister Mails
-mail#:#mail_orphaned_mails_desc#:#Löschen alter oder verwaister Mails
+mail#:#mail_orphaned_mails_desc#:#Löscht verwaiste Mails und Mails die älter sind als der eingestellte Schwellenwert (einstellbar über den „Bearbeiten“-Link in der „Aktionen“-Spalte dieses Cron-Jobs).
 mail#:#mail_recipient_not_found#:#%1$s – Bitte korrigieren Sie die Angaben im „An”-Feld.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_rename_folder#:#Ordner umbenennen
 mail#:#mail_roles#:#alle Personen mit folgenden lokalen Rollen
@@ -11403,7 +11402,7 @@ mail#:#mail_system_usr_from_name#:#„FROM”-Name und Format###Modified as part
 mail#:#mail_system_usr_from_name_info#:#Dieser Name wird üblicherweise im E-Mail-Client in der Spalte „Von“ angezeigt. Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die jeweiligen Daten der Person ersetzt, die eine manuelle E-Mail versendet hat.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_tbl_head_attachments#:#Anhang
 mail#:#mail_template_client#:#Textvorlage
-mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Bei der Wahl einer Textvorlage werden Nachricht und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
+mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Bei der Wahl einer Textvorlage wird der Inhalt dieser Nachricht ersetzt und etwaige Änderungen die schon vorgenommen wurden, gehen verloren. Der Betreff ändert sich nicht und muss manuell angepasst werden.
 mail#:#mail_template_context#:#Kontext
 mail#:#mail_template_default#:# (Standard)
 mail#:#mail_template_invalid_tpl_syntax#:#Es wurde eine ungültige Syntax festgestellt. Bitte prüfen Sie Ihre Eingaben, vor allem hinsichtlich der Platzhalter-Syntax.
@@ -11431,7 +11430,7 @@ mail#:#nc_mail_unread_messages_number_p#:#%s ungelesene Mails
 mail#:#nc_mail_unread_messages_number_s#:#eine ungelesene Mail
 mail#:#only_inbox_trash#:#Nur Posteingang/Papierkorb berücksichtigen
 mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Person befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
-mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Postfächern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
+mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Ordnern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
 mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
 mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Personen im „An”-Feld ersetzt. Personen im „CC”-Feld und „BCC”-Feld erhalten die Mail mit nicht-ersetzten Platzhaltern.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#search_content#:#Suchergebnis
@@ -11742,7 +11741,6 @@ meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entf
 meta#:#md_delimiter#:#Trennzeichen
 meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist ','.###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#md_fields#:#Felder
-meta#:#md_general_settings#:#Einstellungen
 meta#:#md_months#:#Monate:
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien

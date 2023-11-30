@@ -262,7 +262,7 @@ class ilTestSkillEvaluation
 
             list($skillBaseId, $skillTrefId) = explode(':', $skillKey);
 
-            $skill = new ilBasicSkill($skillBaseId);
+            $skill = new ilBasicSkill((int) $skillBaseId);
             $levels = $skill->getLevelData();
 
             $reachedLevelId = null;
@@ -318,8 +318,8 @@ class ilTestSkillEvaluation
             $skillTrefId,
             ilBasicSkill::ACHIEVED,
             true,
-            0,
-            $this->getPass()
+            false,
+            (string) $this->getPass()
         );
 
         $this->logging_services->root()->info(

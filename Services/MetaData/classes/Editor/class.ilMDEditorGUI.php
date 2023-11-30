@@ -101,8 +101,7 @@ class ilMDEditorGUI
         switch ($next_class) {
             default:
                 if (!$cmd) {
-                    //$cmd = "listQuickEdit";
-                    $cmd = "fullEditor";
+                    $cmd = "listQuickEdit";
                 }
                 $this->$cmd();
                 break;

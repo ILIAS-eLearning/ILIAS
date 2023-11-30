@@ -81,7 +81,7 @@ class ilTestSkillLevelThreshold
         $row = $this->db->fetchAssoc($res);
 
         if (is_array($row)) {
-            $this->setThreshold($row['threshold']);
+            $this->setThreshold((int) $row['threshold']);
         }
     }
 
@@ -212,6 +212,6 @@ class ilTestSkillLevelThreshold
 
     public function getThreshold(): ?int
     {
-        return $this->threshold;
+        return is_numeric($this->threshold) ? (int) $this->threshold : null;
     }
 }

@@ -29,12 +29,16 @@ use ILIAS\MetaData\Elements\Data\NullData as NullElementsData;
 
 class DataHelperTest extends TestCase
 {
-    protected function getData(): ElementsDataInterface
+    protected function getData(string $value): ElementsDataInterface
     {
-        return new class () extends NullElementsData {
+        return new class ($value) extends NullElementsData {
+            public function __construct(protected string $value)
+            {
+            }
+
             public function value(): string
             {
-                return 'value';
+                return $this->value;
             }
         };
     }
@@ -97,7 +101,22 @@ class DataHelperTest extends TestCase
 
         $this->assertSame(
             'presentable value',
-            $helper->makePresentable($this->getData())
+            $helper->makePresentable($this->getData('value'))
+        );
+    }
+
+    public function testMakePresentableAsList(): void
+    {
+        $helper = $this->getDataHelper();
+
+        $this->assertSame(
+            'presentable value1,? ,.presentable value2,? ,.presentable value3',
+            $helper->makePresentableAsList(
+                ',? ,.',
+                $this->getData('value1'),
+                $this->getData('value2'),
+                $this->getData('value3')
+            )
         );
     }
 

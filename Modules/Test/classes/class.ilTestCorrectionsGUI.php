@@ -45,6 +45,7 @@ class ilTestCorrectionsGUI
     public function __construct(
         protected ilDBInterface $database,
         protected ilCtrl $ctrl,
+        protected ilAccessHandler $access,
         protected ilLanguage $language,
         protected ilTabsGUI $tabs,
         protected ilHelpGUI $help,
@@ -101,6 +102,7 @@ class ilTestCorrectionsGUI
                 $this,
                 'showQuestionList',
                 $this->testOBJ->getRefId(),
+                $this->access,
                 $this->ui_factory,
                 $this->ui_renderer,
                 $this->questioninfo

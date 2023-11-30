@@ -60,6 +60,14 @@ class Paths implements PathsInterface
                     ->get();
     }
 
+    public function languages(): PathInterface
+    {
+        return $this->custom()
+                    ->withNextStep('general')
+                    ->withNextStep('language')
+                    ->get();
+    }
+
     public function authors(): PathInterface
     {
         return $this->custom()

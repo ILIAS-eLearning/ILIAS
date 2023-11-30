@@ -47,6 +47,7 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
         $this->testObj = new ilTestCorrectionsGUI(
             $DIC['ilDB'],
             $DIC['ilCtrl'],
+            $DIC['ilAccess'],
             $DIC['lng'],
             $DIC['ilTabs'],
             $DIC['ilHelp'],

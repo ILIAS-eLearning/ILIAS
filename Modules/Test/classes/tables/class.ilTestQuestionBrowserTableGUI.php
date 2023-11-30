@@ -20,7 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -28,6 +31,7 @@ use ILIAS\Test\InternalRequestService;
  */
 class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
     private const REPOSITORY_ROOT_NODE_ID = 1;
 
     public const CONTEXT_PARAMETER = 'question_browse_context';
@@ -58,6 +62,8 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         private ilAccessHandler $access,
         private GlobalHttpState $http_state,
         private Refinery $refinery,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer,
         private InternalRequestService $testrequest,
         private ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
@@ -421,7 +427,18 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             "QUESTION_UPDATED",
             ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX))
         );
-        $this->tpl->setVariable("QUESTION_POOL", $a_set['parent_title']);
+        $this->tpl->setVariable(
+            "QUESTION_POOL",
+            $this->buildPossiblyLinkedQuestonPoolTitle(
+                $this->ctrl,
+                $this->access,
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                (int) $a_set["obj_fi"],
+                $a_set["parent_title"]
+            )
+        );
     }
 
     private function buildTestQuestionSetConfig(): ilTestQuestionSetConfig

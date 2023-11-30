@@ -101,23 +101,23 @@ class ilQuestionPageParser extends ilMDSaxParser
             : $a_content_object->getImportDirectory();
 
         parent::__construct($a_xml_file);
-        $this->cnt = array();
-        $this->current_element = array();
-        $this->structure_objects = array();
+        $this->cnt = [];
+        $this->current_element = [];
+        $this->structure_objects = [];
         $this->content_object = $a_content_object;
-        $this->st_into_tree = array();
-        $this->pg_into_tree = array();
-        $this->pages_to_parse = array();
-        $this->mobs_with_int_links = array();
-        $this->mob_mapping = array();
-        $this->file_item_mapping = array();
-        $this->pg_mapping = array();
-        $this->link_targets = array();
+        $this->st_into_tree = [];
+        $this->pg_into_tree = [];
+        $this->pages_to_parse = [];
+        $this->mobs_with_int_links = [];
+        $this->mob_mapping = [];
+        $this->file_item_mapping = [];
+        $this->pg_mapping = [];
+        $this->link_targets = [];
         $this->subdir = $a_subdir;
         $this->lng = $lng;
         $this->tree = $tree;
         $this->inside_code = false;
-        $this->qst_mapping = array();
+        $this->qst_mapping = [];
         $this->coType = $this->content_object->getType();
         $this->metadata_parsing_disabled = false;
 
@@ -249,7 +249,7 @@ class ilQuestionPageParser extends ilMDSaxParser
 
         //echo "<br><b>incoming interna links</b>"; flush();
         // incoming internal links
-        $done = array();
+        $done = [];
         foreach ($this->link_targets as $link_target) {
             //echo "doin link target:".$link_target.":<br>";
             $link_arr = explode("_", $link_target);
@@ -452,7 +452,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                     $this->in_media_object = true;
                 }
                 $this->media_meta_start = true;
-                $this->media_meta_cache = array();
+                $this->media_meta_cache = [];
                 $this->media_object = new ilObjMediaObject();
                 break;
 
@@ -849,7 +849,7 @@ class ilQuestionPageParser extends ilMDSaxParser
             // we send the cached data to the meta xml handler)
             if ($this->in_media_object && $this->media_meta_start) {
                 $this->media_meta_cache[] =
-                    array("type" => "handlerBeginTag", "par1" => $a_name, "par2" => $a_attribs);
+                    ["type" => "handlerBeginTag", "par1" => $a_name, "par2" => $a_attribs];
             } else {
                 if ($a_name == "Identifier") {
                     if (!$this->in_media_object) {
@@ -890,7 +890,7 @@ class ilQuestionPageParser extends ilMDSaxParser
             // to the meta xml handler)
             if ($this->in_media_object && $this->media_meta_start) {
                 $this->media_meta_cache[] =
-                    array("type" => "handlerEndTag", "par1" => $a_name);
+                    ["type" => "handlerEndTag", "par1" => $a_name];
             } else {
                 parent::handlerEndTag($a_xml_parser, $a_name);
             }
@@ -990,7 +990,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                     //if ($this->lm_page_object->isAlias()) {
                     //    $this->pg_into_tree[$parent_id][] = array("type" => "pg_alias", "id" => $this->lm_page_object->getOriginId());
                     //} else {
-                    $this->pg_into_tree[$parent_id][] = array("type" => "pg", "id" => $this->lm_page_object->getId());
+                    $this->pg_into_tree[$parent_id][] = ["type" => "pg", "id" => $this->lm_page_object->getId()];
                     //}
                 }
 
@@ -1115,8 +1115,8 @@ class ilQuestionPageParser extends ilMDSaxParser
                         $parent_id = $this->lm_tree->getRootId();
                     }
 
-                    $this->st_into_tree[] = array("id" => $this->current_object->getId(),
-                        "parent" => $parent_id);
+                    $this->st_into_tree[] = ["id" => $this->current_object->getId(),
+                        "parent" => $parent_id];
 
                     // update title/description of structure object
                     $this->current_object->MDUpdateListener('General');
@@ -1298,7 +1298,7 @@ class ilQuestionPageParser extends ilMDSaxParser
             // to the meta xml handler)
             if ($this->in_media_object && $this->media_meta_start) {
                 $this->media_meta_cache[] =
-                    array("type" => "handlerCharacterData", "par1" => $a_data);
+                    ["type" => "handlerCharacterData", "par1" => $a_data];
             } else {
                 parent::handlerCharacterData($a_xml_parser, $a_data);
             }
@@ -1371,7 +1371,7 @@ class ilQuestionPageParser extends ilMDSaxParser
         }
 
         $this->media_meta_start = false;
-        $this->media_meta_cache[] = array();
+        $this->media_meta_cache[] = [];
     }
 
     /**

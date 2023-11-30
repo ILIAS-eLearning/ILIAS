@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  *
  * @author	Björn Heyser <bheyser@databay.de>
@@ -27,24 +31,22 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
     public const IDENTIFIER = 'tstRndPools';
     private bool $definitionEditModeEnabled = false;
     private bool $questionAmountColumnEnabled = false;
     private bool $showMappedTaxonomyFilter = false;
     private ?ilTestQuestionFilterLabelTranslater $taxonomyLabelTranslater = null;
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(
         ilTestRandomQuestionSetConfigGUI $parent_obj,
         string $parent_cmd,
+        private ilAccess $access,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer,
         private array $defined_order,
         private array $question_amount
     ) {
-        global $DIC;
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
-
         parent::__construct($parent_obj, $parent_cmd);
     }
 
@@ -119,11 +121,22 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable('SOURCE_POOL_LABEL', $a_set['source_pool_label']);
+        $this->tpl->setVariable(
+            'SOURCE_POOL_LABEL',
+            $this->buildPossiblyLinkedQuestonPoolTitle(
+                $this->ctrl,
+                $this->access,
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $a_set['ref_id'],
+                $a_set['source_pool_label'],
+                true
+            )
+        );
         // fau: taxFilter/typeFilter - set taxonomy/type filter label in a single coulumn each
+
         $this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($a_set['taxonomy_filter'], '<br />'));
-        #$this->tpl->setVariable('FILTER_TAXONOMY', $this->getTaxonomyTreeLabel($set['filter_taxonomy']));
-        #$this->tpl->setVariable('FILTER_TAX_NODE', $this->getTaxonomyNodeLabel($set['filter_tax_node']));
         $this->tpl->setVariable('LIFECYCLE_FILTER', $this->taxonomyLabelTranslater->getLifecycleFilterLabel($a_set['lifecycle_filter']));
         $this->tpl->setVariable('TYPE_FILTER', $this->taxonomyLabelTranslater->getTypeFilterLabel($a_set['type_filter']));
         // fau.
@@ -289,7 +302,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
             $set['type_filter'] = $sourcePoolDefinition->getTypeFilter();
             // fau.
             $set['question_amount'] = $sourcePoolDefinition->getQuestionAmount();
-
+            $set['ref_id'] = $sourcePoolDefinition->getPoolRefId();
             $rows[] = $set;
         }
 

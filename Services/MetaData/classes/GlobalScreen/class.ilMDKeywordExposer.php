@@ -21,6 +21,8 @@ use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
+use ILIAS\MetaData\Services\Services as Metadata;
+use ILIAS\MetaData\Services\Reader\ReaderInterface as Reader;
 
 /**
  * Class ilMDKeywordExposer
@@ -29,6 +31,14 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
  */
 class ilMDKeywordExposer extends AbstractModificationProvider
 {
+    protected Metadata $md;
+
+    public function __construct(\ILIAS\DI\Container $dic)
+    {
+        $this->md = $dic->learningObjectMetadata();
+        parent::__construct($dic);
+    }
+
     public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->repository();
@@ -38,69 +48,76 @@ class ilMDKeywordExposer extends AbstractModificationProvider
     {
         if ($screen_context_stack->current()->hasReferenceId()) {
             $object_id = $screen_context_stack->current()->getReferenceId()->toObjectId()->toInt();
+            $paths = $this->md->paths();
+            $reader = $this->generalReader($object_id);
 
-            if ($general = $this->getGeneral($object_id)) {
-                // Keywords
-                $keywords = [];
-                foreach ($general->getKeywordIds() as $keyword_id) {
-                    $keyword = $general->getKeyword($keyword_id);
-                    $keywords[] = $keyword->getKeyword();
-                }
-
-                $delimiter = ilMDSettings::_getInstance()->getDelimiter() ?? ",";
-
-                if (count($keywords) > 0) {
-                    $this->globalScreen()->layout()->meta()->addMetaDatum(
-                        $this->data->htmlMetadata()->userDefined('keywords', implode($delimiter, $keywords))
-                    );
-                }
-                // Languages
-                $languages = [];
-                foreach ($general->getLanguageIds() as $language_id) {
-                    $language = $general->getLanguage($language_id);
-                    $languages[] = $language->getLanguageCode();
-                }
-                if (count($languages) > 0) {
-                    $this->globalScreen()->layout()->meta()->addMetaDatum(
-                        $this->data->htmlMetadata()->userDefined('languages', implode($delimiter, $languages))
-                    );
-                }
+            // Keywords
+            $keywords = [];
+            foreach ($reader->allData($paths->keywords()) as $keyword) {
+                $keywords[] = $keyword->value();
+            }
+            if (count($keywords) > 0) {
+                $this->globalScreen()->layout()->meta()->addMetaDatum(
+                    $this->data->htmlMetadata()->userDefined('keywords', implode(',', $keywords))
+                );
             }
 
-            if ($rights = $this->getRights($object_id)) {
+            // Languages
+            $languages = [];
+            foreach ($reader->allData($paths->languages()) as $language) {
+                $languages[] = $language->value();
+            }
+            if (count($languages) > 0) {
+                $this->globalScreen()->layout()->meta()->addMetaDatum(
+                    $this->data->htmlMetadata()->userDefined('languages', implode(',', $languages))
+                );
+            }
+
+            if ($settings = ilMDSettings::_getInstance()->isCopyrightSelectionActive()) {
+                $reader = $this->copyrightReader($object_id);
                 // Copyright
-                $copy_right_id = ilMDCopyrightSelectionEntry::_extractEntryId($rights->getDescription());
-                if ($copy_right_id > 0) {
-                    $entry = new ilMDCopyrightSelectionEntry($copy_right_id);
-                    $this->globalScreen()->layout()->meta()->addMetaDatum(
-                        $this->data->htmlMetadata()->userDefined('copyright', $entry->getTitle())
-                    );
+                $copyright = $reader->firstData($paths->copyright())->value();
+                $copyright_id = ilMDCopyrightSelectionEntry::_extractEntryId($copyright);
+                if ($copyright_id > 0) {
+                    $entry = new ilMDCopyrightSelectionEntry($copyright_id);
+                    $copyright = $entry->getTitle();
                 }
+                if ($copyright === '') {
+                    $entry = new ilMDCopyrightSelectionEntry(ilMDCopyrightSelectionEntry::getDefault());
+                    $copyright = $entry->getTitle();
+                }
+                $this->globalScreen()->layout()->meta()->addMetaDatum(
+                    $this->data->htmlMetadata()->userDefined('copyright', $copyright)
+                );
             }
         }
 
         return null;
     }
 
-    private function getGeneral(int $object_id): ?ilMDGeneral
+    protected function generalReader(int $object_id): Reader
     {
-        if ($id = ilMDGeneral::_getId($object_id, $object_id)) {
-            $gen = new ilMDGeneral();
-            $gen->setMetaId($id);
-
-            return $gen;
-        }
-        return null;
+        $path = $this->md->paths()->custom()->withNextStep('general')->get();
+        return $this->md->read(
+            $object_id,
+            $object_id,
+            ilObject::_lookupType($object_id),
+            $path
+        );
     }
 
-    private function getRights(int $object_id): ?ilMDRights
+    protected function copyrightReader(int $object_id): Reader
     {
-        if ($id = ilMDRights::_getId($object_id, $object_id)) {
-            $rig = new ilMDRights();
-            $rig->setMetaId($id);
-
-            return $rig;
-        }
-        return null;
+        $path = $this->md->paths()->custom()
+                                  ->withNextStep('rights')
+                                  ->withNextStep('description')
+                                  ->withNextStep('string')
+                                  ->get();
+        return $this->md->read(
+            $object_id,
+            $object_id,
+            ilObject::_lookupType($object_id),
+            $path
+        );
     }
 }

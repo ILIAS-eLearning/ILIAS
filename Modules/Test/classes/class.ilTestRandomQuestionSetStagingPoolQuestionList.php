@@ -168,8 +168,8 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer'),
-            array($this->getTestId(), $this->getPoolId())
+            ['integer', 'integer'],
+            [$this->getTestId(), $this->getPoolId()]
         );
 
         //echo sprintf($query, $this->getTestId(), $this->getPoolId());exit;
@@ -202,10 +202,10 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
     private function getTaxonomyFilterExpressions(): array
     {
-        $expressions = array();
+        $expressions = [];
 
         foreach ($this->getTaxonomyFilters() as $taxId => $taxNodes) {
-            $questionIds = array();
+            $questionIds = [];
 
             $forceBypass = true;
 
@@ -216,7 +216,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
                 $taxNodeAssignment = new ilTaxNodeAssignment('tst', $this->getTestObjId(), 'quest', $taxId);
 
-                $subNodes = $taxTree->getSubTreeIds($taxNode);
+                $subNodes = $taxTree->getSubTreeIds((int) $taxNode);
                 $subNodes[] = $taxNode;
 
                 $taxItems = $taxNodeAssignment->getAssignmentsOfNode($subNodes);
@@ -237,24 +237,24 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     private function getLifecycleFilterExpressions(): array
     {
         if (count($this->lifecycleFilter)) {
-            return array(
+            return [
                 $this->db->in('lifecycle', $this->lifecycleFilter, false, 'text')
-            );
+            ];
         }
 
-        return array();
+        return [];
     }
 
     // fau: taxFilter/typeFilter - get the expressions for a type filter
     private function getTypeFilterExpressions(): array
     {
         if (count($this->typeFilter)) {
-            return array(
+            return [
                 $this->db->in('question_type_fi', $this->typeFilter, false, 'integer')
-            );
+            ];
         }
 
-        return array();
+        return [];
     }
     // fau;
 
@@ -290,8 +290,8 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
     public function resetQuestionList()
     {
-        $this->questions = array();
-        $this->taxFilters = array();
+        $this->questions = [];
+        $this->taxFilters = [];
 
         $this->testObjId = -1;
         $this->testId = -1;
@@ -340,8 +340,8 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
         $db->manipulateF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($newPoolId, $testId, $oldPoolId)
+            ['integer', 'integer', 'integer'],
+            [$newPoolId, $testId, $oldPoolId]
         );
     }
 }
