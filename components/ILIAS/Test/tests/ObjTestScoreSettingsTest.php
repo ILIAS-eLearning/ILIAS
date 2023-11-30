@@ -27,6 +27,8 @@ use ILIAS\Data;
 
 class ObjTestScoreSettingsTest extends ilTestBaseTestCase
 {
+    use BaseUITestTrait;
+
     public function testScoreSettingsBuild(): void
     {
         $id = -666;

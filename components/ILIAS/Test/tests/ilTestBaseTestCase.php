@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../../UI/tests/Base.php');
 require_once(__DIR__ . '/../../UI/tests/UITestHelper.php');
+require_once(__DIR__ . '/ilTestBaseTestCaseTrait.php');
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -88,5 +89,9 @@ class ilTestBaseTestCase extends TestCase
         $DIC = $this->dic;
 
         parent::tearDown();
+    }
+
+    public static function callMethod($obj, $name, array $args = []) {
+        return (new ReflectionClass($obj))->getMethod($name)->invokeArgs($obj, $args);
     }
 }
