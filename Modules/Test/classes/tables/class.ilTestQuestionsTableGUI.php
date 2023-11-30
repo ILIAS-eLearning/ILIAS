@@ -4,6 +4,8 @@
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
+use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -15,6 +17,7 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
     private const CLASS_PATH_FOR_EDIT_LINKS = [ilRepositoryGUI::class, ilObjQuestionPoolGUI::class];
 
     /**
@@ -51,6 +54,9 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
      * @var string
      */
     protected $totalWorkingTime = '';
+    protected $renderer;
+    protected $factory;
+    private $access;
 
     /**
      * @var int
@@ -66,6 +72,12 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
     {
+        global $DIC;
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->factory = $DIC->ui()->factory();
+        $this->access = $DIC['ilAccess'];
+
         $this->setId('tst_qst_lst_' . $parentRefId);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -242,13 +254,21 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("QUESTION_WORKING_TIME", $data["working_time"]);
         }
 
-        if (ilObject::_lookupType($data["orig_obj_fi"]) == 'qpl') {
-            $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["orig_obj_fi"]));
-        } else {
-            $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
+        if (isset($data['orig_obj_fi'])) {
+            $this->tpl->setVariable(
+                "QUESTION_POOL",
+                $this->buildPossiblyLinkedQuestonPoolTitle(
+                    $this->ctrl,
+                    $this->access,
+                    $this->lng,
+                    $this->factory,
+                    $this->renderer,
+                    $data["orig_obj_fi"],
+                    ilObject::_lookupTitle($data["orig_obj_fi"])
+                )
+            );
         }
 
-        // Hier muss das Aktionsmenu hin
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setId('qst' . $data["question_id"]);
         $actions->setListTitle($this->lng->txt('actions'));

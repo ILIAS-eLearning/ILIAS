@@ -4,8 +4,11 @@
 require_once './Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+
 /**
- *
  * @author Helmut Schottmüller <ilias@aurealis.de>
  *
  * @version $Id$
@@ -17,6 +20,8 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
  */
 class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
+
     const REPOSITORY_ROOT_NODE_ID = 1;
 
     const CONTEXT_PARAMETER = 'question_browse_context';
@@ -38,6 +43,8 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
      * @var \ilCtrl
      */
     protected $ctrl;
+    private $ui_factory;
+    private $ui_renderer;
 
     /**
      * @var \ilGlobalTemplateInterface
@@ -100,7 +107,9 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         ilDBInterface $db,
         ilPluginAdmin $pluginAdmin,
         ilObjTest $testOBJ,
-        ilAccessHandler $access
+        ilAccessHandler $access,
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer
     ) {
         $this->ctrl = $ctrl;
         $this->mainTpl = $mainTpl;
@@ -111,6 +120,8 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->pluginAdmin = $pluginAdmin;
         $this->testOBJ = $testOBJ;
         $this->access = $access;
+        $this->ui_factory = $ui_factory;
+        $this->ui_renderer = $ui_renderer;
 
         $this->setId('qpl_brows_tabl_' . $this->testOBJ->getId());
 
@@ -473,6 +484,18 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'], IL_CAL_UNIX)));
         $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"], IL_CAL_UNIX)));
         $this->tpl->setVariable("QUESTION_POOL", $data['parent_title']);
+        $this->tpl->setVariable(
+            "QUESTION_POOL",
+            $this->buildPossiblyLinkedQuestonPoolTitle(
+                $this->ctrl,
+                $this->access,
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                (int) $data["obj_fi"],
+                $data["parent_title"]
+            )
+        );
         $this->tpl->setVariable("WORKING_TIME", $data['working_time']);
     }
 

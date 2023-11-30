@@ -3,6 +3,10 @@
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 
+use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  *
  * @author	Björn Heyser <bheyser@databay.de>
@@ -12,6 +16,8 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
+
     const IDENTIFIER = 'tstRndPools';
 
     /**
@@ -33,7 +39,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
      * @var boolean
      */
     private $questionAmountColumnEnabled = null;
-    
+
     // fau: taxFilter/typeFilter - flag to show the mapped taxonomy filter instead of the original
     /**
      * @var boolean
@@ -46,6 +52,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
      */
     private $taxonomyLabelTranslater = null;
 
+    private $access;
+    private $ui_factory;
+    private $ui_renderer;
+
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
     {
         parent::__construct($parentGUI, $parentCMD);
@@ -53,6 +63,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         $this->ctrl = $ctrl;
         $this->lng = $lng;
 
+        global $DIC;
+        $this->access = $DIC['ilAccess'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
         $this->definitionEditModeEnabled = false;
         $this->questionAmountColumnEnabled = false;
     }
@@ -81,7 +95,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
     {
         return $this->questionAmountColumnEnabled;
     }
-    
+
     // fau: taxFilter - set flag to show the mapped tayonomy filter instead of original
     public function setShowMappedTaxonomyFilter($showMappedTaxonomyFilter)
     {
@@ -130,7 +144,19 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable('SOURCE_POOL_LABEL', $set['source_pool_label']);
+        $this->tpl->setVariable(
+            'SOURCE_POOL_LABEL',
+            $this->buildPossiblyLinkedQuestonPoolTitle(
+                $this->ctrl,
+                $this->access,
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $set['ref_id'],
+                $set['source_pool_label'],
+                true
+            )
+        );
         // fau: taxFilter/typeFilter - set taxonomy/type filter label in a single coulumn each
         $this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($set['taxonomy_filter'], '<br />'));
         #$this->tpl->setVariable('FILTER_TAXONOMY', $this->getTaxonomyTreeLabel($set['filter_taxonomy']));
@@ -311,7 +337,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
             $set['type_filter'] = $sourcePoolDefinition->getTypeFilter();
             // fau.
             $set['question_amount'] = $sourcePoolDefinition->getQuestionAmount();
-
+            $set['ref_id'] = $sourcePoolDefinition->getPoolRefId();
             $rows[] = $set;
         }
 
