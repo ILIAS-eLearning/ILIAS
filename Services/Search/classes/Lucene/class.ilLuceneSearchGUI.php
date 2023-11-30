@@ -27,6 +27,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls      ilLuceneSearchGUI: ilPropertyFormGUI
  * @ilCtrl_Calls      ilLuceneSearchGUI: ilObjectGUI, ilContainerGUI
  * @ilCtrl_Calls      ilLuceneSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
+ * @ilCtrl_Calls      ilLuceneSearchGUI: ilObjStudyProgrammeGUI
  * @ilCtrl_Calls      ilLuceneSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
  *
  * @ingroup           ServicesSearch
