@@ -42,6 +42,7 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPRGPageObjectGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPRGMembersExportGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPropertyFormGUI
  */
 class ilObjStudyProgrammeGUI extends ilContainerGUI
 {
@@ -247,7 +248,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $output_gui = $guiFactory->create($this->object);
                 $this->ctrl->forwardCommand($output_gui);
                 break;
-
             case "ilprgpageobjectgui":
                 if (!$this->object->hasContentPage()) {
                     $this->object->createContentPage();
@@ -277,7 +277,24 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     ->objectSettingsGUIForRefId(null, $this->object->getRefId());
                 $this->ctrl->forwardCommand($settings_gui);
                 break;
-
+            case strtolower(ilPropertyFormGUI::class):
+                /*
+                 * Only used for async loading of the repository tree in custom md
+                 * internal links (see #28060, #37974). This is necessary since StudyProgrammes don't
+                 * use ilObjectMetaDataGUI.
+                 */
+                $form = $this->initAdvancedSettingsForm();
+                $gui = new ilAdvancedMDRecordGUI(
+                    ilAdvancedMDRecordGUI::MODE_EDITOR,
+                    'prg',
+                    $this->object->getId(),
+                    'prg_type',
+                    $this->object->getSettings()->getTypeSettings()->getTypeId()
+                );
+                $gui->setPropertyForm($form);
+                $gui->parse();
+                $this->ctrl->forwardCommand($form);
+                break;
             case false:
                 $this->getSubTabs($cmd);
                 switch ($cmd) {
