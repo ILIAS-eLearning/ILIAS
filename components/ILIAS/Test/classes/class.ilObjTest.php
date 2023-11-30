@@ -3563,6 +3563,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withFinishingSettings($finishing_settings)
             ->withAdditionalSettings($additional_settings);
         $this->getMainSettingsRepository()->store($main_settings);
+        $this->main_settings = $main_settings;
 
         $score_settings = $score_settings
                 ->withGamificationSettings($gamification_settings)

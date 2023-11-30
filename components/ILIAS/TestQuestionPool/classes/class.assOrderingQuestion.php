@@ -205,7 +205,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         bool $for_test = true,
         ?string $title = "",
         ?string $author = "",
-        ?string $owner = "",
+        ?int $owner = -1,
         $testObjId = null
     ): int {
         if ($this->id <= 0) {

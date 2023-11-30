@@ -2721,7 +2721,7 @@ abstract class assQuestion
         return json_encode([]);
     }
 
-    abstract public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int;
+    abstract public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int;
 
     // hey: prevPassSolutions - check for authorized solution
     public function intermediateSolutionExists(int $active_id, int $pass): bool

@@ -319,7 +319,7 @@ class assMatchingQuestionImport extends assQuestionImport
         $this->object->saveToDb();
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
             $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
         } else {
