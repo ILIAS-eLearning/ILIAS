@@ -31,16 +31,14 @@ class assClozeSelectGapTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assClozeSelectGap(1); // 1 - select gap
 
-        $this->assertInstanceOf('assClozeSelectGap', $instance);
+        $this->assertInstanceOf(assClozeSelectGap::class, $instance);
     }
 
     public function test_newlyInstatiatedObject_shouldReturnTrueOnGetShuffle(): void

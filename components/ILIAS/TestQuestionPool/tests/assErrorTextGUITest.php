@@ -48,7 +48,6 @@ class assErrorTextGUITest extends assBaseTestCase
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());
-        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
 
         global $DIC;
@@ -59,9 +58,8 @@ class assErrorTextGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assErrorTextGUI();
 
-        $this->assertInstanceOf('assErrorTextGUI', $instance);
+        $this->assertInstanceOf(assErrorTextGUI::class, $instance);
     }
 }

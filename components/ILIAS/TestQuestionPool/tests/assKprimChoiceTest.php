@@ -30,7 +30,6 @@ class assKprimChoiceTest extends assBaseTestCase
     {
         parent::setUp();
         $this->setGlobalVariable('ilias', $this->getIliasMock());
-        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

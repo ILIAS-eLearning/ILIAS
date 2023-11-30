@@ -46,16 +46,14 @@ class assClozeTestTest extends assBaseTestCase
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());
-        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assClozeTest();
 
-        $this->assertInstanceOf('assClozeTest', $instance);
+        $this->assertInstanceOf(assClozeTest::class, $instance);
     }
 
     public function test_cleanQuestionText_shouldReturnCleanedText(): void

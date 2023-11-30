@@ -33,7 +33,6 @@ class assMultipleChoiceTest extends assBaseTestCase
     {
         parent::setUp();
         $this->setGlobalVariable('ilias', $this->getIliasMock());
-        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
     }
 
     /* Removed by @kergomard 17 NOV 2022, we should introduce this again

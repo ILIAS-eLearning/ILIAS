@@ -29,23 +29,20 @@ class assAnswerBinaryStateImageTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new ASS_AnswerBinaryStateImage();
 
-        $this->assertInstanceOf('ASS_AnswerBinaryStateImage', $instance);
+        $this->assertInstanceOf(ASS_AnswerBinaryStateImage::class, $instance);
     }
 
     public function test_setGetImage(): void
     {
         $instance = new ASS_AnswerBinaryStateImage();
         $expected = 'image';
-        // Act
         $instance->setImage($expected);
         $actual = $instance->getImage();
 

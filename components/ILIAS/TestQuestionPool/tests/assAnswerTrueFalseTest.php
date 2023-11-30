@@ -29,16 +29,14 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new ASS_AnswerTrueFalse();
 
-        $this->assertInstanceOf('ASS_AnswerTrueFalse', $instance);
+        $this->assertInstanceOf(ASS_AnswerTrueFalse::class, $instance);
     }
 
     public function test_setGetCorrectness_shouldReturnUnchangedState(): void
@@ -46,11 +44,9 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $instance = new ASS_AnswerTrueFalse();
         $expected = true;
 
-        // Act
         $instance->setCorrectness($expected);
         $actual = $instance->getCorrectness();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -59,10 +55,8 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $instance = new ASS_AnswerTrueFalse();
         $expected = true;
 
-        // Act
         $instance->setCorrectness($expected);
 
-        // Assert
         $this->assertEquals($expected, $instance->isTrue());
         $this->assertEquals($expected, $instance->isCorrect());
     }
@@ -72,10 +66,8 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $instance = new ASS_AnswerTrueFalse();
         $expected = false;
 
-        // Act
         $instance->setCorrectness(true);
 
-        // Assert
         $this->assertEquals($expected, $instance->isFalse());
         $this->assertEquals($expected, $instance->isIncorrect());
     }
@@ -85,11 +77,9 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $instance = new ASS_AnswerTrueFalse();
         $expected = false;
 
-        // Act
         $instance->setFalse();
         $actual = $instance->getCorrectness();
 
-        // Assert
         $this->assertEquals((bool) $expected, (bool) $actual);
     }
 
@@ -98,11 +88,9 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $instance = new ASS_AnswerTrueFalse();
         $expected = true;
 
-        // Act
         $instance->setTrue();
         $actual = $instance->isTrue();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -111,11 +99,9 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $instance = new ASS_AnswerTrueFalse();
         $expected = true;
 
-        // Act
         $instance->setFalse();
         $actual = $instance->isFalse();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

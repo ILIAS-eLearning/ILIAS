@@ -29,16 +29,14 @@ class assAnswerBinaryStateTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new ASS_AnswerBinaryState();
 
-        $this->assertInstanceOf('ASS_AnswerBinaryState', $instance);
+        $this->assertInstanceOf(ASS_AnswerBinaryState::class, $instance);
     }
 
     public function test_setGetState_shouldReturnUnchangedState(): void
@@ -46,11 +44,9 @@ class assAnswerBinaryStateTest extends assBaseTestCase
         $instance = new ASS_AnswerBinaryState();
         $expected = 1;
 
-        // Act
         $instance->setState($expected);
         $actual = $instance->getState();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -59,11 +55,9 @@ class assAnswerBinaryStateTest extends assBaseTestCase
         $instance = new ASS_AnswerBinaryState();
         $expected = 1;
 
-        // Act
         $instance->setState($expected);
         $actual = $instance->isStateChecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -72,11 +66,9 @@ class assAnswerBinaryStateTest extends assBaseTestCase
         $instance = new ASS_AnswerBinaryState();
         $expected = 1;
 
-        // Act
         $instance->setState($expected);
         $actual = $instance->isStateSet();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -85,11 +77,9 @@ class assAnswerBinaryStateTest extends assBaseTestCase
         $instance = new ASS_AnswerBinaryState();
         $expected = 1;
 
-        // Act
         $instance->setState($expected);
         $actual = !$instance->isStateUnset();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -98,11 +88,9 @@ class assAnswerBinaryStateTest extends assBaseTestCase
         $instance = new ASS_AnswerBinaryState();
         $expected = 1;
 
-        // Act
         $instance->setState($expected);
         $actual = !$instance->isStateUnchecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -112,11 +100,9 @@ class assAnswerBinaryStateTest extends assBaseTestCase
         $expected = 0;
         $instance->setState($expected);
 
-        // Act
         $instance->setChecked();
         $actual = $instance->isStateUnchecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -126,11 +112,9 @@ class assAnswerBinaryStateTest extends assBaseTestCase
         $expected = 1;
         $instance->setState($expected);
 
-        // Act
         $instance->setUnchecked();
         $actual = $instance->isStateUnchecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -140,11 +124,9 @@ class assAnswerBinaryStateTest extends assBaseTestCase
         $expected = 0;
         $instance->setState($expected);
 
-        // Act
         $instance->setSet();
         $actual = $instance->isStateUnchecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -154,11 +136,9 @@ class assAnswerBinaryStateTest extends assBaseTestCase
         $expected = 1;
         $instance->setState($expected);
 
-        // Act
         $instance->setUnset();
         $actual = $instance->isStateUnchecked();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }
