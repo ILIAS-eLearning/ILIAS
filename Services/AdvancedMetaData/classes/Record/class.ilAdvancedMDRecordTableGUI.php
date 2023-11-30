@@ -44,7 +44,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('md_adv_col_presentation_ordering'), 'position');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('md_fields'), 'fields');
-        $this->addColumn($this->lng->txt('md_adv_scope'), 'scope');
+        $this->addColumn($this->lng->txt('md_adv_scope'), 'first_scope');
         $this->addColumn($this->lng->txt('md_obj_types'), 'obj_types');
         $this->addColumn($this->lng->txt('md_adv_active'), 'active');
 

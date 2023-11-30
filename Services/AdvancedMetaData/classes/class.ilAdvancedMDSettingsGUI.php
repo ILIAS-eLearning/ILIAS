@@ -2148,6 +2148,12 @@ class ilAdvancedMDSettingsGUI
             $tmp_arr['title'] = $record->getTitle();
             $tmp_arr['description'] = $record->getDescription();
             $tmp_arr['fields'] = [];
+            /*
+             * This is a workaround to fix sorting by scope, see #21963
+             */
+            $tmp_arr['first_scope'] = ilObject::_lookupTitle(
+                ilObject::_lookupObjId($record->getScopeRefIds()[0] ?? 0)
+            );
             $tmp_arr['obj_types'] = $record->getAssignedObjectTypes();
             foreach ($record->getAssignedObjectTypes() as $idx => $item) {
                 $tmp_arr['obj_types'][$idx]['context'] = null;
