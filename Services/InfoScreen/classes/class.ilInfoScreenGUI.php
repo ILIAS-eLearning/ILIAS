@@ -349,9 +349,7 @@ class ilInfoScreenGUI
         // general
         $description = $md_reader->firstData($md_paths->descriptions())->value();
 
-        $lang_data = $md_reader->allData(
-            $md_paths->custom()->withNextStep('general')->withNextStep('language')->get()
-        );
+        $lang_data = $md_reader->allData($md_paths->languages());
         $langs = $md_data_helper->makePresentableAsList(', ', ...$lang_data);
 
         $keyword_data = $md_reader->allData($md_paths->keywords());
