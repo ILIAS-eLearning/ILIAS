@@ -46,6 +46,7 @@ class ilTestBaseTestCase extends TestCase
 
         $DIC = new Container();
 
+        $this->addGlobal_ilAccess();
         $this->addGlobal_tpl();
         $this->addGlobal_ilDB();
         $this->addGlobal_ilias();
@@ -91,7 +92,8 @@ class ilTestBaseTestCase extends TestCase
         parent::tearDown();
     }
 
-    public static function callMethod($obj, $name, array $args = []) {
+    public static function callMethod($obj, $name, array $args = [])
+    {
         return (new ReflectionClass($obj))->getMethod($name)->invokeArgs($obj, $args);
     }
 }
