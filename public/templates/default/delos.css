@@ -17992,7 +17992,7 @@ a.ilMediaLightboxClose:hover {
 .ilToolbar .ilToolbarItems {
   padding: 0;
 }
-.ilToolbar .form-control {
+.ilToolbar > .form-control {
   width: auto;
   display: inline-block;
   vertical-align: middle;
@@ -18095,14 +18095,6 @@ a.ilMediaLightboxClose:hover {
     padding-left: 0;
   }
 }
-.ilToolbar .navbar-form .modal .radio {
-  display: block;
-}
-
-.ilToolbar .navbar-form .modal .form-group {
-  display: block;
-}
-
 .navbar {
   position: relative;
   min-height: 40px;
