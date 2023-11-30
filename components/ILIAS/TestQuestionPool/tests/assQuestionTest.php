@@ -35,7 +35,7 @@ class assQuestionTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class extends assQuestion{
+        $this->object = new class () extends assQuestion {
             public function isComplete(): bool
             {
                 return true;
@@ -46,18 +46,24 @@ class assQuestionTest extends assBaseTestCase
                 return true;
             }
 
-            public function getAdditionalTableName(){}
+            public function getAdditionalTableName()
+            {
+            }
 
-            public function getAnswerTableName(){}
+            public function getAnswerTableName()
+            {
+            }
 
-            public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false){}
+            public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+            {
+            }
 
             public function getQuestionType(): string
             {
                 return '';
             }
 
-            public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
+            public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
             {
                 return 0;
             }
