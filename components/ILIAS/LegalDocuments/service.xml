@@ -1,12 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="ldoc">
-  <baseclasses>
-  </baseclasses>
-  <objects>
-    <object id="ldoc" class_name="LegalDocuments" dir="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
-      <parent id="adm" max="1">adm</parent>
-    </object>
-  </objects>
   <events>
     <event type="listen" id="components/ILIAS/Authentication" />
   </events>
