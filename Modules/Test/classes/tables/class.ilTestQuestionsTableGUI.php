@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Modules\Test\traits\QuestionPoolLinkedTitleBuilder;
 
 /**
 *
@@ -32,6 +33,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 */
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
+    use QuestionPoolLinkedTitleBuilder;
     private const CLASS_PATH_FOR_QUESTION_EDIT_LINKS = [ilRepositoryGUI::class, ilObjQuestionPoolGUI::class];
 
     /**
@@ -221,11 +223,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             }
         }
 
-        if (ilObject::_lookupType((int) $a_set["orig_obj_fi"]) == 'qpl') {
-            $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($a_set["orig_obj_fi"]));
-        } else {
-            $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
+        if (isset($a_set['orig_obj_fi'])) {
+            $this->tpl->setVariable("QUESTION_POOL", $this->buildPossiblyLinkedQuestonPoolTitle($a_set["orig_obj_fi"], ilObject::_lookupTitle($a_set["orig_obj_fi"])));
         }
+
         $actions = [];
 
         $actions[] = $this->ui_factory->link()->standard(
