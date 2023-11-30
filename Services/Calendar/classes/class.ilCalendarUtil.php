@@ -97,7 +97,7 @@ class ilCalendarUtil
         $start = clone $a_day;
         $start_info = $start->get(IL_CAL_FKT_GETDATE, '', 'UTC');
         $day_diff = $a_weekstart - $start_info['isoday'];
-        if ($day_diff == 7) {
+        if (abs($day_diff) === 7) {
             $day_diff = 0;
         }
         $start->increment(IL_CAL_DAY, $day_diff);
