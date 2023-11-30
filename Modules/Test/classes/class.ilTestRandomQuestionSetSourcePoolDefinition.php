@@ -26,66 +26,37 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionSetSourcePoolDefinition
 {
-    /**
-     * global $ilDB object instance
-     *
-     * @var ilDBInterface
-     */
-    protected $db = null;
-
-    /**
-     * object instance of current test
-     *
-     * @var ilObjTest
-     */
-    protected $testOBJ = null;
-
-    private $id = null;
-
-    private $poolId = null;
-
-    /** @var null|int */
-    private $poolRefId = null;
-
-    private $poolTitle = null;
-
-    private $poolPath = null;
-
-    private $poolQuestionCount = null;
+    private ?int $id = null;
+    private ?int $pool_id = null;
+    private ?int $pool_ref_id = null;
+    private ?string $pool_title = null;
+    private ?string $pool_path = null;
+    private ?int $pool_question_count = null;
 
     /**
      * @var array taxId => [nodeId, ...]
      */
-    private $originalTaxonomyFilter = [];
+    private array $original_taxonomy_filter = [];
 
     /**
      * @var array taxId => [nodeId, ...]
      */
-    private $mappedTaxonomyFilter = [];
+    private array $mapped_taxonomy_filter = [];
 
-    /**
-     * @var array
-     */
-    private $typeFilter = [];
-    // fau.
-    // fau.
+    private array $type_filter = [];
+    private array $lifecycle_filter = [];
 
-    /**
-     * @var array
-     */
-    private $lifecycleFilter = [];
+    private ?int $question_amount = null;
 
-    private $questionAmount = null;
+    private ?int $sequence_position = null;
 
-    private $sequencePosition = null;
-
-    public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
-    {
-        $this->db = $db;
-        $this->testOBJ = $testOBJ;
+    public function __construct(
+        protected ilDBInterface $db,
+        protected ilObjTest $test_obj
+    ) {
     }
 
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -95,93 +66,76 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         return $this->id;
     }
 
-    public function setPoolId($poolId)
+    public function setPoolId(int $pool_id): void
     {
-        $this->poolId = $poolId;
+        $this->pool_id = $pool_id;
     }
 
-    public function getPoolId()
+    public function getPoolId(): ?int
     {
-        return $this->poolId;
+        return $this->pool_id;
     }
 
     public function getPoolRefId(): ?int
     {
-        return $this->poolRefId;
+        return $this->pool_ref_id;
     }
 
-    public function setPoolRefId(?int $poolRefId): void
+    public function setPoolRefId(?int $pool_ref_id): void
     {
-        $this->poolRefId = $poolRefId;
+        $this->pool_ref_id = $pool_ref_id;
     }
 
-    public function setPoolTitle($poolTitle)
+    public function setPoolTitle(string $pool_title): void
     {
-        $this->poolTitle = $poolTitle;
+        $this->pool_title = $pool_title;
     }
 
-    public function getPoolTitle()
+    public function getPoolTitle(): string
     {
-        return $this->poolTitle;
+        return $this->pool_title;
     }
 
-    public function setPoolPath($poolPath)
+    public function setPoolPath(?string $pool_path): void
     {
-        $this->poolPath = $poolPath;
+        $this->pool_path = $pool_path;
     }
 
-    public function getPoolPath()
+    public function getPoolPath(): ?string
     {
-        return $this->poolPath;
+        return $this->pool_path;
     }
 
-    public function setPoolQuestionCount($poolQuestionCount)
+    public function setPoolQuestionCount(?int $pool_question_count): void
     {
-        $this->poolQuestionCount = $poolQuestionCount;
+        $this->pool_question_count = $pool_question_count;
     }
 
-    public function getPoolQuestionCount()
+    public function getPoolQuestionCount(): ?int
     {
-        return $this->poolQuestionCount;
+        return $this->pool_question_count;
     }
 
-    // fau: taxFilter/typeFilter - new setters/getters
-    /**
-     * get the original taxonomy filter conditions
-     * @return array	taxId => [nodeId, ...]
-     */
     public function getOriginalTaxonomyFilter(): array
     {
-        return $this->originalTaxonomyFilter;
+        return $this->original_taxonomy_filter;
     }
 
-    /**
-     * set the original taxonomy filter condition
-     * @param  array taxId => [nodeId, ...]
-     */
-    public function setOriginalTaxonomyFilter($filter = [])
+    public function setOriginalTaxonomyFilter(array $filter = []): void
     {
-        $this->originalTaxonomyFilter = $filter;
+        $this->original_taxonomy_filter = $filter;
     }
 
-    /**
-     * get the original taxonomy filter for insert into the database
-     * @return null|string		serialized taxonomy filter
-     */
     private function getOriginalTaxonomyFilterForDbValue(): ?string
     {
         // TODO-RND2017: migrate to separate table for common selections by e.g. statistics
-        return empty($this->originalTaxonomyFilter) ? null : serialize($this->originalTaxonomyFilter);
+        return empty($this->original_taxonomy_filter) ? null : serialize($this->original_taxonomy_filter);
     }
 
-    /**
-     * get the original taxonomy filter from database value
-     * @param null|string		serialized taxonomy filter
-     */
-    private function setOriginalTaxonomyFilterFromDbValue($value)
+    private function setOriginalTaxonomyFilterFromDbValue(?string $value): void
     {
         // TODO-RND2017: migrate to separate table for common selections by e.g. statistics
-        $this->originalTaxonomyFilter = empty($value) ? [] : unserialize($value);
+        $this->original_taxonomy_filter = empty($value) ? [] : unserialize($value);
     }
 
     /**
@@ -190,61 +144,48 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      */
     public function getMappedTaxonomyFilter(): array
     {
-        return $this->mappedTaxonomyFilter;
+        return $this->mapped_taxonomy_filter;
     }
 
     /**
      * set the original taxonomy filter condition
      * @param array 	taxId => [nodeId, ...]
      */
-    public function setMappedTaxonomyFilter($filter = [])
+    public function setMappedTaxonomyFilter(array $filter = []): void
     {
-        $this->mappedTaxonomyFilter = $filter;
+        $this->mapped_taxonomy_filter = $filter;
     }
 
-    /**
-     * get the original taxonomy filter for insert into the database
-     * @return null|string		serialized taxonomy filter
-     */
     private function getMappedTaxonomyFilterForDbValue(): ?string
     {
-        return empty($this->mappedTaxonomyFilter) ? null : serialize($this->mappedTaxonomyFilter);
+        return empty($this->mapped_taxonomy_filter) ? null : serialize($this->mapped_taxonomy_filter);
     }
 
-    /**
-     * get the original taxonomy filter from database value
-     * @param null|string		serialized taxonomy filter
-     */
-    private function setMappedTaxonomyFilterFromDbValue($value)
+    private function setMappedTaxonomyFilterFromDbValue(?string $value): void
     {
-        $this->mappedTaxonomyFilter = empty($value) ? [] : unserialize($value);
+        $this->mapped_taxonomy_filter = empty($value) ? [] : unserialize($value);
     }
 
-
-    /**
-     * set the mapped taxonomy filter from original by applying a keys map
-     * @param ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap
-     */
-    public function mapTaxonomyFilter(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap)
+    public function mapTaxonomyFilter(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxonomies_keys_map): void
     {
-        $this->mappedTaxonomyFilter = [];
-        foreach ($this->originalTaxonomyFilter as $taxId => $nodeIds) {
+        $this->mapped_taxonomy_filter = [];
+        foreach ($this->original_taxonomy_filter as $taxId => $nodeIds) {
             $mappedNodeIds = [];
             foreach ($nodeIds as $nodeId) {
-                $mappedNodeIds[] = $taxonomiesKeysMap->getMappedTaxNodeId($nodeId);
+                $mappedNodeIds[] = $taxonomies_keys_map->getMappedTaxNodeId($nodeId);
             }
-            $this->mappedTaxonomyFilter[$taxonomiesKeysMap->getMappedTaxonomyId($taxId)] = $mappedNodeIds;
+            $this->mapped_taxonomy_filter[$taxonomies_keys_map->getMappedTaxonomyId($taxId)] = $mappedNodeIds;
         }
     }
 
-    public function setTypeFilter($typeFilter = [])
+    public function setTypeFilter(array $type_filter = []): void
     {
-        $this->typeFilter = $typeFilter;
+        $this->type_filter = $type_filter;
     }
 
     public function getTypeFilter(): array
     {
-        return $this->typeFilter;
+        return $this->type_filter;
     }
 
     /**
@@ -252,35 +193,35 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      */
     private function getTypeFilterForDbValue(): ?string
     {
-        return empty($this->typeFilter) ? null : serialize($this->typeFilter);
+        return empty($this->type_filter) ? null : serialize($this->type_filter);
     }
 
     /**
      * get the question type filter from database value
      */
-    private function setTypeFilterFromDbValue(?string $value)
+    private function setTypeFilterFromDbValue(?string $value): void
     {
-        $this->typeFilter = empty($value) ? [] : unserialize($value);
+        $this->type_filter = empty($value) ? [] : unserialize($value);
     }
 
     public function getLifecycleFilter(): array
     {
-        return $this->lifecycleFilter;
+        return $this->lifecycle_filter;
     }
 
     public function setLifecycleFilter(array $lifecycle_filter): void
     {
-        $this->lifecycleFilter = $lifecycle_filter;
+        $this->lifecycle_filter = $lifecycle_filter;
     }
 
     public function getLifecycleFilterForDbValue(): ?string
     {
-        return empty($this->lifecycleFilter) ? null : serialize($this->lifecycleFilter);
+        return empty($this->lifecycle_filter) ? null : serialize($this->lifecycle_filter);
     }
 
     public function setLifecycleFilterFromDbValue(?string $db_value)
     {
-        $this->lifecycleFilter = empty($db_value) ? [] : unserialize($db_value);
+        $this->lifecycle_filter = empty($db_value) ? [] : unserialize($db_value);
     }
 
     /**
@@ -295,7 +236,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         }
 
         $tags = [];
-        foreach ($this->typeFilter as $type_id) {
+        foreach ($this->type_filter as $type_id) {
             if (isset($map[$type_id])) {
                 $tags[] = $map[$type_id];
             }
@@ -308,49 +249,46 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * Set the type filter from a list of type tags
      * @param string[] $tags
      */
-    public function setTypeFilterFromTypeTags(array $tags)
+    public function setTypeFilterFromTypeTags(array $tags): void
     {
         $map = [];
         foreach (ilObjQuestionPool::_getQuestionTypes(true) as $row) {
             $map[$row['type_tag']] = $row['question_type_id'];
         }
 
-        $this->typeFilter = [];
+        $this->type_filter = [];
         foreach ($tags as $type_tag) {
             if (isset($map[$type_tag])) {
-                $this->typeFilter[] = $map[$type_tag];
+                $this->type_filter[] = $map[$type_tag];
             }
         }
     }
 
-    public function setQuestionAmount($questionAmount)
+    public function setQuestionAmount(int $question_amount): void
     {
-        $this->questionAmount = $questionAmount;
+        $this->question_amount = $question_amount;
     }
 
-    public function getQuestionAmount()
+    public function getQuestionAmount(): ?int
     {
-        return $this->questionAmount;
+        return $this->question_amount;
     }
 
-    public function setSequencePosition($sequencePosition)
+    public function setSequencePosition(int $sequence_position): void
     {
-        $this->sequencePosition = $sequencePosition;
+        $this->sequence_position = $sequence_position;
     }
 
-    public function getSequencePosition()
+    public function getSequencePosition(): ?int
     {
-        return $this->sequencePosition;
+        return $this->sequence_position;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    /**
-     * @param array $dataArray
-     */
-    public function initFromArray($dataArray)
+    public function initFromArray(array $data_array): void
     {
-        foreach ($dataArray as $field => $value) {
+        foreach ($data_array as $field => $value) {
             switch ($field) {
                 case 'def_id':
                     $this->setId($value);
@@ -393,16 +331,12 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         }
     }
 
-    /**
-     * @param integer $poolId
-     * @return boolean
-     */
-    public function loadFromDb($id): bool
+    public function loadFromDb(int $id): bool
     {
         $res = $this->db->queryF(
             "SELECT * FROM tst_rnd_quest_set_qpls WHERE def_id = %s",
-            array('integer'),
-            array($id)
+            ['integer'],
+            [$id]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -414,77 +348,72 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         return false;
     }
 
-    public function saveToDb()
+    public function saveToDb(): void
     {
         if ($this->getId()) {
-            $this->updateDbRecord($this->testOBJ->getTestId());
-        } else {
-            $this->insertDbRecord($this->testOBJ->getTestId());
+            $this->updateDbRecord($this->test_obj->getTestId());
+            return;
         }
+
+        $this->insertDbRecord($this->test_obj->getTestId());
     }
 
-    public function cloneToDbForTestId($testId)
+    public function cloneToDbForTestId(int $test_id): void
     {
-        $this->insertDbRecord($testId);
+        $this->insertDbRecord($test_id);
     }
 
-    public function deleteFromDb()
+    public function deleteFromDb(): void
     {
         $this->db->manipulateF(
             "DELETE FROM tst_rnd_quest_set_qpls WHERE def_id = %s",
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
     }
 
-    /**
-     * @param $testId
-     */
-    private function updateDbRecord($testId)
+    private function updateDbRecord(int $test_id): void
     {
         $this->db->update(
             'tst_rnd_quest_set_qpls',
             [
-                'test_fi' => array('integer', $testId),
-                'pool_fi' => array('integer', $this->getPoolId()),
-                'pool_ref_id' => array('integer', $this->getPoolRefId()),
-                'pool_title' => array('text', $this->getPoolTitle()),
-                'pool_path' => array('text', $this->getPoolPath()),
-                'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
-                'origin_tax_filter' => array('text', $this->getOriginalTaxonomyFilterForDbValue()),
-                'mapped_tax_filter' => array('text', $this->getMappedTaxonomyFilterForDbValue()),
-                'type_filter' => array('text', $this->getTypeFilterForDbValue()),
-                'lifecycle_filter' => array('text', $this->getLifecycleFilterForDbValue()),
-                'quest_amount' => array('integer', $this->getQuestionAmount()),
-                'sequence_pos' => array('integer', $this->getSequencePosition())
+                'test_fi' => ['integer', $test_id],
+                'pool_fi' => ['integer', $this->getPoolId()],
+                'pool_ref_id' => ['integer', $this->getPoolRefId()],
+                'pool_title' => ['text', $this->getPoolTitle()],
+                'pool_path' => ['text', $this->getPoolPath()],
+                'pool_quest_count' => ['integer', $this->getPoolQuestionCount()],
+                'origin_tax_filter' => ['text', $this->getOriginalTaxonomyFilterForDbValue()],
+                'mapped_tax_filter' => ['text', $this->getMappedTaxonomyFilterForDbValue()],
+                'type_filter' => ['text', $this->getTypeFilterForDbValue()],
+                'lifecycle_filter' => ['text', $this->getLifecycleFilterForDbValue()],
+                'quest_amount' => ['integer', $this->getQuestionAmount()],
+                'sequence_pos' => ['integer', $this->getSequencePosition()]
             ],
             [
-                'def_id' => array('integer', $this->getId())
+                'def_id' => ['integer', $this->getId()]
             ]
         );
     }
 
-    /**
-     * @param $testId
-     */
     private function insertDbRecord(int $test_id): void
     {
         $next_id = $this->db->nextId('tst_rnd_quest_set_qpls');
 
         $this->db->insert('tst_rnd_quest_set_qpls', [
-                'def_id' => array('integer', $next_id),
-                'test_fi' => array('integer', $next_id),
-                'pool_fi' => array('integer', $this->getPoolId()),
-                'pool_ref_id' => array('integer', $this->getPoolRefId()),
-                'pool_title' => array('text', $this->getPoolTitle()),
-                'pool_path' => array('text', $this->getPoolPath()),
-                'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
-                'origin_tax_filter' => array('text', $this->getOriginalTaxonomyFilterForDbValue()),
-                'mapped_tax_filter' => array('text', $this->getMappedTaxonomyFilterForDbValue()),
-                'type_filter' => array('text', $this->getTypeFilterForDbValue()),
-                'lifecycle_filter' => array('text', $this->getLifecycleFilterForDbValue()),
-                'quest_amount' => array('integer', $this->getQuestionAmount()),
-                'sequence_pos' => array('integer', $this->getSequencePosition())
+                'def_id' => ['integer', $next_id],
+                'test_fi' => ['integer', $test_id],
+                'pool_fi' => ['integer', $this->getPoolId()],
+                'pool_ref_id' => ['integer', $this->getPoolRefId()],
+                'pool_title' => ['text', $this->getPoolTitle()],
+                'pool_path' => ['text', $this->getPoolPath()],
+                'pool_quest_count' => ['integer', $this->getPoolQuestionCount()],
+                'origin_tax_filter' => ['text', $this->getOriginalTaxonomyFilterForDbValue()],
+                'mapped_tax_filter' => ['text', $this->getMappedTaxonomyFilterForDbValue()],
+                'type_filter' => ['text', $this->getTypeFilterForDbValue()],
+                'lifecycle_filter' => ['text', $this->getLifecycleFilterForDbValue()],
+                'quest_amount' => ['integer', $this->getQuestionAmount()],
+                'sequence_pos' => ['integer', $this->getSequencePosition()]
         ]);
 
         $this->setId($next_id);

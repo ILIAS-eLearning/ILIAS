@@ -320,7 +320,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->saveToDb();
         if (isset($tst_id) && $tst_id !== $questionpool_id) {
             $qplQid = $this->object->getId();
-            $tstQid = $this->object->duplicate(true, '', '', '', $tst_id);
+            $tstQid = $this->object->duplicate(true, '', '', -1, $tst_id);
             $tst_object->questions[$question_counter++] = $tstQid;
             $import_mapping[$item->getIdent()] = ["pool" => $qplQid, "test" => $tstQid];
             return $import_mapping;

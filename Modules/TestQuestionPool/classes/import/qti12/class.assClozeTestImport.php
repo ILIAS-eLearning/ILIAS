@@ -377,7 +377,7 @@ class assClozeTestImport extends assQuestionImport
         }
         if (isset($tst_id) && $tst_id !== $questionpool_id) {
             $qpl_qid = $this->object->getId();
-            $tst_qid = $this->object->duplicate(true, "", "", "", $tst_id);
+            $tst_qid = $this->object->duplicate(true, "", "", -1, $tst_id);
             $tst_object->questions[$question_counter++] = $tst_qid;
             $import_mapping[$item->getIdent()] = array("pool" => $qpl_qid, "test" => $tst_qid);
             return $import_mapping;
