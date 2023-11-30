@@ -30,46 +30,18 @@ class ilMDUtils
      * LOM datatype duration is a string like P2M4DT7H18M2S (2 months 4 days 7 hours 18 minutes 2 seconds)
      * This function tries to parse a given string in an array of months, days, hours, minutes and seconds
      * @return int[]  e.g array(1,2,0,1,2) => 1 month,2 days, 0 hours, 1 minute, 2 seconds or empty array if not parsable
+     * @deprecated use DataHelper::durationToArray
      */
     public static function _LOMDurationToArray(string $a_string): array
     {
-        $a_string = trim($a_string);
-        #$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';
-        $pattern = '/^P(\d{1,2}M)?(\d{1,2}D)?(T(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?)?$/i';
+        global $DIC;
 
-        $months = $days = $hours = $min = $sec = null;
-        if (!preg_match($pattern, $a_string, $matches)) {
-            return [];
-        }
-        // Month
-        if (preg_match('/^P(\d+)M/i', $a_string, $matches)) {
-            $months = $matches[1];
-        }
-        // Days
-        if (preg_match('/(\d+)+D/i', $a_string, $matches)) {
-            #var_dump("<pre>",$matches,"<pre>");
-            $days = $matches[1];
-        }
+        $data_helper = $DIC->learningObjectMetadata()->dataHelper();
 
-        if (preg_match('/(\d+)+H/i', $a_string, $matches)) {
-            #var_dump("<pre>",$matches,"<pre>");
-            $hours = $matches[1];
-        }
-        if (preg_match('/T(\d{1,2}H)?(\d+)M/i', $a_string, $matches)) {
-            #var_dump("<pre>",$matches,"<pre>");
-            $min = $matches[2];
-        }
-        if (preg_match('/(\d+)S/i', $a_string, $matches)) {
-            #var_dump("<pre>",$matches,"<pre>");
-            $sec = $matches[1];
-        }
-
-        // Hack for zero values
-        if (!$months && !$days && !$hours && !$min && !$sec) {
-            return [];
-        }
-
-        return array((int) $months, (int) $days, (int) $hours, (int) $min, (int) $sec);
+        $array = $data_helper->durationToArray($a_string);
+        // this function never returned the year, so we throw it away for backwards compatibility
+        array_shift($array);
+        return $array ?? [];
     }
 
     public static function _fillHTMLMetaTags(int $a_rbac_id, int $a_obj_id, string $a_type): bool

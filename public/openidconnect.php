@@ -20,6 +20,7 @@ global $DIC;
 
 
 // authentication is done here ->
-$DIC->ctrl()->setCmd('doOpenIdConnectAuthentication');
+// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+// $DIC->ctrl()->setCmd('doOpenIdConnectAuthentication');
 $DIC->ctrl()->setTargetScript('ilias.php');
 $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);

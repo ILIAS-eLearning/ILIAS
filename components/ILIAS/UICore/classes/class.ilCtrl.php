@@ -172,35 +172,9 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setCmd(?string $a_cmd): void
-    {
-        if (!empty($a_cmd)) {
-            $this->context->setCmd($a_cmd);
-            $this->command = $a_cmd;
-        } else {
-            $this->context->setCmd(null);
-            $this->command = null;
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getCmdClass(): ?string
     {
         return $this->context->getCmdClass() ?? '';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setCmdClass($a_cmd_class): void
-    {
-        if (!empty($a_cmd_class)) {
-            $this->context->setCmdClass($a_cmd_class);
-        } else {
-            $this->context->setCmdClass(null);
-        }
     }
 
     /**

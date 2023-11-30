@@ -42,6 +42,15 @@ class DataHelper implements DataHelperInterface
         return $this->data_presentation->dataValue($data);
     }
 
+    public function makePresentableAsList(string $separator, DataInterface ...$data): string
+    {
+        $presentable = [];
+        foreach ($data as $datum) {
+            $presentable[] = $this->makePresentable($datum);
+        }
+        return implode($separator, $presentable);
+    }
+
     /**
      * @return int[]|null[]
      */

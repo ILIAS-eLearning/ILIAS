@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilTestTabsManagerTest
@@ -29,20 +30,18 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
 {
     private ilTestTabsManager $testObj;
 
-    private $tabs_mock;
-
     protected function setUp(): void
     {
         parent::setUp();
+        global $DIC;
 
-        $this->tabs_mock = $this->createMock(ilTabsGUI::class);
-        $this->setGlobalVariable("ilTabs", $this->tabs_mock);
+        $this->addGlobal_ilTabs();
         $this->addGlobal_ilAccess();
         $this->addGlobal_ilCtrl();
         $this->addGlobal_lng();
 
         $this->testObj = new ilTestTabsManager(
-            $this->tabs_mock,
+            $DIC['ilTabs'],
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrl::class),
             $this->createMock(RequestWrapper::class),
@@ -60,15 +59,17 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
 
     public function testActivateTab(): void
     {
-        $this->tabs_mock->expects($this->exactly(2))->method("activateTab");
+        global $DIC;
+        $DIC['ilTabs']->expects($this->exactly(2))->method('activateTab');
         $this->testObj->activateTab(ilTestTabsManager::TAB_ID_EXAM_DASHBOARD);
         $this->testObj->activateTab(ilTestTabsManager::TAB_ID_RESULTS);
-        $this->testObj->activateTab("randomString");
+        $this->testObj->activateTab('randomString');
     }
 
     public function testActivateSubTab(): void
     {
-        $this->tabs_mock->expects($this->exactly(10))->method("activateSubTab");
+        global $DIC;
+        $DIC['ilTabs']->expects($this->exactly(10))->method('activateSubTab');
 
         $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
         $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_TIME_EXTENSION);
@@ -81,7 +82,7 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
         $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_PAGE_VIEW);
         $this->testObj->activateSubTab(ilTestTabsManager::TAB_ID_EXAM_DASHBOARD);
-        $this->testObj->activateSubTab("randomString");
+        $this->testObj->activateSubTab('randomString');
     }
 
     public function testTestOBJ(): void
@@ -107,24 +108,27 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
 
     public function testParentBackLabel(): void
     {
-        $this->testObj->setParentBackLabel("Test");
-        $this->assertEquals("Test", $this->testObj->getParentBackLabel());
+        $parent_back_label = 'Test';
+        $this->testObj->setParentBackLabel($parent_back_label);
+        $this->assertEquals($parent_back_label, $this->testObj->getParentBackLabel());
     }
 
     public function testParentBackHref(): void
     {
-        $this->testObj->setParentBackHref("Test");
-        $this->assertEquals("Test", $this->testObj->getParentBackHref());
+        $parent_back_href = 'Test';
+        $this->testObj->setParentBackHref($parent_back_href);
+        $this->assertEquals($parent_back_href, $this->testObj->getParentBackHref());
     }
 
     public function testHasParentBackLink(): void
     {
         $this->assertFalse($this->testObj->hasParentBackLink());
+        $parent_back_x = 'Test';
 
-        $this->testObj->setParentBackHref("Test");
+        $this->testObj->setParentBackHref($parent_back_x);
         $this->assertFalse($this->testObj->hasParentBackLink());
 
-        $this->testObj->setParentBackLabel("Test");
+        $this->testObj->setParentBackLabel($parent_back_x);
         $this->assertTrue($this->testObj->hasParentBackLink());
     }
 }

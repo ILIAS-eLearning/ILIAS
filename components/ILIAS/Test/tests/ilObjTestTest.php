@@ -57,8 +57,9 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testTmpCopyWizardCopyId(): void
     {
-        $this->testObj->setTmpCopyWizardCopyId(12);
-        $this->assertEquals(12, $this->testObj->getTmpCopyWizardCopyId());
+        $tmpCopyWizardCopyId = 12;
+        $this->testObj->setTmpCopyWizardCopyId($tmpCopyWizardCopyId);
+        $this->assertEquals($tmpCopyWizardCopyId, $this->testObj->getTmpCopyWizardCopyId());
     }
 
     /*public function testIntroductionEnabled(): void
@@ -95,8 +96,9 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testTestId(): void
     {
-        $this->testObj->setTestId(15);
-        $this->assertEquals(15, $this->testObj->getTestId());
+        $a_id = 15;
+        $this->testObj->setTestId($a_id);
+        $this->assertEquals($a_id, $this->testObj->getTestId());
     }
 
     /*public function testSequenceSettings(): void

@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+require_once(__DIR__ . '/../../UI/tests/Base.php');
+require_once(__DIR__ . '/../../UI/tests/UITestHelper.php');
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 

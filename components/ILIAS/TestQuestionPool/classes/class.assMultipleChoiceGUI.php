@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Multiple choice question GUI representation
  *
@@ -34,7 +32,7 @@ require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
  */
 class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-    public $choiceKeys;
+    private bool $rebuild_thumbnails = false;
 
     /**
     * assMultipleChoiceGUI constructor
@@ -222,7 +220,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
 
         // get the solution of the user for the active pass or from the last pass if allowed
-        $user_solution = array();
+        $user_solution = [];
         if (($active_id > 0) && (!$show_correct_solution)) {
             $solutions = $this->object->getSolutionValues($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
@@ -412,7 +410,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
-        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
+        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
         // shuffle output
         $keys = $this->getChoiceKeys();
 
@@ -514,7 +512,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $keys = $this->getChoiceKeys();
 
         // get the solution of the user for the active pass or from the last pass if allowed
-        $user_solution = array();
+        $user_solution = [];
         if ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
@@ -643,7 +641,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function getPresentationJavascripts(): array
     {
-        return array('components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js');
+        return ['components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js'];
     }
 
     /**
@@ -653,13 +651,13 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     public function getChoiceKeys(): array
     {
-        $choiceKeys = array_keys($this->object->answers);
+        $choice_keys = array_keys($this->object->answers);
 
         if ($this->object->getShuffle()) {
-            $choiceKeys = $this->object->getShuffler()->transform($choiceKeys);
+            $choice_keys = $this->object->getShuffler()->transform($choice_keys);
         }
 
-        return $choiceKeys;
+        return $choice_keys;
     }
 
     public function getSpecificFeedbackOutput(array $userSolution): string
@@ -688,8 +686,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         } else {
             $this->object->setIsSingleline(($types === 0) ? true : false);
         }
-        if (isset($_POST["thumb_size"])) {
+        if (isset($_POST["thumb_size"])
+            && (int) $_POST["thumb_size"] !== $this->object->getThumbSize()) {
             $this->object->setThumbSize((int) $_POST["thumb_size"]);
+            $this->rebuild_thumbnails = true;
         }
     }
 
@@ -698,36 +698,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
         $choice = $this->cleanupAnswerText($_POST['choice'], $this->object->isSingleline() === false);
-        if ($this->object->isSingleline()) {
-            foreach ($choice['answer'] as $index => $answertext) {
-                $answertext = htmlentities($answertext);
-                $picturefile = $choice['imagename'][$index] ?? '';
-                $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
-                $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
-
-                if ($file_temp_name !== '') {
-                    // check suffix
-                    $parts = explode(".", $file_org_name);
-                    $suffix = strtolower(array_pop($parts));
-                    if (in_array($suffix, ["jpg", "jpeg", "png", "gif"])) {
-                        // upload image
-                        $filename = $this->object->buildHashedImageFilename($file_org_name);
-                        if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
-                            $picturefile = $filename;
-                        }
-                    }
-                }
-
-                $this->object->addAnswer(
-                    $answertext,
-                    (float) str_replace(',', '.', $choice['points'][$index]),
-                    (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
-                    $index,
-                    $picturefile,
-                    $choice['answer_id'][$index]
-                );
-            }
-        } else {
+        if (!$this->object->isSingleline()) {
             foreach ($choice['answer'] as $index => $answer) {
                 $answertext = $answer;
                 $this->object->addAnswer(
@@ -739,6 +710,47 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     (int) $choice['answer_id'][$index]
                 );
             }
+            return;
+        }
+
+        foreach ($choice['answer'] as $index => $answertext) {
+            $answertext = htmlentities($answertext);
+            $picturefile = $choice['imagename'][$index] ?? '';
+            $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
+            $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
+
+            if ($file_temp_name !== '') {
+                // check suffix
+                $parts = explode(".", $file_org_name);
+                $suffix = strtolower(array_pop($parts));
+                if (in_array($suffix, ["jpg", "jpeg", "png", "gif"])) {
+                    // upload image
+                    $filename = $this->object->buildHashedImageFilename($file_org_name);
+                    if ($this->object->setImageFile($filename, $file_temp_name) == 0) {
+                        $picturefile = $filename;
+                    }
+                }
+            }
+
+            $this->object->addAnswer(
+                $answertext,
+                (float) str_replace(',', '.', $choice['points'][$index]),
+                (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
+                $index,
+                $picturefile,
+                $choice['answer_id'][$index]
+            );
+        }
+
+        if ($this->rebuild_thumbnails) {
+            $this->object->setAnswers(
+                $this->object->rebuildThumbnails(
+                    $this->object->isSingleline(),
+                    $this->object->getThumbSize(),
+                    $this->object->getImagePath(),
+                    $this->object->getAnswers()
+                )
+            );
         }
     }
 
@@ -836,7 +848,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -850,7 +862,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -868,9 +880,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question): array
     {
-        $aggregate = array();
+        $aggregate = [];
         foreach ($answers_defined_on_question as $answer) {
-            $aggregated_info_for_answer = array();
+            $aggregated_info_for_answer = [];
             $aggregated_info_for_answer['answertext'] = $answer->getAnswerText();
             $aggregated_info_for_answer['count_checked'] = 0;
 
@@ -979,13 +991,13 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
 
-        $answers = array();
+        $answers = [];
 
         foreach ($agg as $ans) {
-            $answers[] = array(
+            $answers[] = [
                 'answer' => $ans['answertext'],
                 'frequency' => $ans['count_checked']
-            );
+            ];
         }
 
         return $answers;

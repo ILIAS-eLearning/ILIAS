@@ -218,7 +218,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setCurrentBlock('multiline');
                 $tpl->setVariable(
                     "PROPERTY_VALUE",
-                    ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                    ilLegacyFormElementsUtil::prepareFormOutput((string) $value->getAnswertext())
                 );
                 $tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][{$value->getPosition()}]");
                 $tpl->setVariable("MULTILINE_ROW_NUMBER", $value->getPosition());

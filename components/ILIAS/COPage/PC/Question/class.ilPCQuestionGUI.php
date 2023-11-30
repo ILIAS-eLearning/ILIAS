@@ -322,8 +322,9 @@ class ilPCQuestionGUI extends ilPageContentGUI
             }
         }
 
-        $ilCtrl->setCmdClass("ilquestioneditgui");
-        $ilCtrl->setCmd("feedback");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $ilCtrl->setCmdClass("ilquestioneditgui");
+        // $ilCtrl->setCmd("feedback");
         $edit_gui = new ilQuestionEditGUI();
         if ($q_id > 0) {
             $edit_gui->setQuestionId($q_id);

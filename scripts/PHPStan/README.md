@@ -20,5 +20,5 @@ To run the rules individually (e.g. for the directory Modules/File), the followi
 If you want to just check and show violations directly (without csv-report), you can use the following command (for Modules/File):
 
 ```bash
-./vendor/composer/vendor/bin/phpstan analyse -c ./CI/PHPStan/legacy_ui.neon -a ./vendor/composer/vendor/autoload.php --no-interaction --no-progress Modules/File 
+./vendor/composer/vendor/bin/phpstan analyse -c ./scripts/PHPStan/legacy_ui.neon -a ./vendor/composer/vendor/autoload.php --no-interaction --no-progress  components/ILIAS/File 
 ```

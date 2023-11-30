@@ -40,25 +40,29 @@ class ilTestRandomQuestionSetNonAvailablePoolTest extends ilTestBaseTestCase
 
     public function testId(): void
     {
-        $this->testObj->setId(222);
-        $this->assertEquals(222, $this->testObj->getId());
+        $id = 222;
+        $this->testObj->setId($id);
+        $this->assertEquals($id, $this->testObj->getId());
     }
 
     public function testTitle(): void
     {
-        $this->testObj->setTitle("Test");
-        $this->assertEquals("Test", $this->testObj->getTitle());
+        $title = 'Test';
+        $this->testObj->setTitle($title);
+        $this->assertEquals($title, $this->testObj->getTitle());
     }
 
     public function testPath(): void
     {
-        $this->testObj->setPath("Test");
-        $this->assertEquals("Test", $this->testObj->getPath());
+        $path = 'Test';
+        $this->testObj->setPath($path);
+        $this->assertEquals($path, $this->testObj->getPath());
     }
 
     public function testUnavailabilityStatus(): void
     {
-        $this->testObj->setUnavailabilityStatus("Test");
-        $this->assertEquals("Test", $this->testObj->getUnavailabilityStatus());
+        $unavailabilityStatus = 'Test';
+        $this->testObj->setUnavailabilityStatus($unavailabilityStatus);
+        $this->assertEquals($unavailabilityStatus, $this->testObj->getUnavailabilityStatus());
     }
 }

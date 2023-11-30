@@ -416,7 +416,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $form->addItem($nrPasses);
 
         $scoredPass = new ilNonEditableValueGUI($this->lng->txt('scored_pass'));
-        if ($this->object->getPassScoring() == SCORE_BEST_PASS) {
+        if ($this->object->getPassScoring() == ilObjTest::SCORE_BEST_PASS) {
             $scoredPass->setValue($data->getParticipant($active_id)->getBestPass() + 1);
         } else {
             $scoredPass->setValue($data->getParticipant($active_id)->getLastPass() + 1);
@@ -790,7 +790,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     ) . ".pdf");
                 }
             }
-            $zipArchive = $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
+            try {
+                $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
+            } catch(\ILIAS\Filesystem\Exception\IOException $e) {
+                $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('error_creating_certificate_zip_empty'), true);
+                $this->ctrl->redirect($this, 'outEvaluation');
+            }
         }
     }
 

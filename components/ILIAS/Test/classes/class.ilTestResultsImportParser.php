@@ -17,6 +17,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\LoggingServices;
+
 class ilTestResultsImportParser extends ilSaxParser
 {
     private $table;
@@ -35,7 +37,7 @@ class ilTestResultsImportParser extends ilSaxParser
         ?string $a_xml_file,
         private ilObjTest $test_obj,
         private ilDBInterface $db,
-        private ilLogger $log
+        private LoggingServices $log
     ) {
         parent::__construct($a_xml_file, true);
         $this->table = '';

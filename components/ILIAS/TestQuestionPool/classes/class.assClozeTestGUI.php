@@ -178,7 +178,7 @@ JS;
             $this->object->setGapType($idx, $clozetype);
 
             switch ($clozetype) {
-                case CLOZE_TEXT:
+                case assClozeGap::TYPE_TEXT:
 
                     $this->object->setGapShuffle($idx, 0);
 
@@ -204,7 +204,7 @@ JS;
                     }
                     break;
 
-                case CLOZE_SELECT:
+                case assClozeGap::TYPE_SELECT:
 
                     $this->object->setGapShuffle($idx, (int) (isset($_POST["shuffle_$idx"]) && $_POST["shuffle_$idx"]));
 
@@ -225,7 +225,7 @@ JS;
                     }
                     break;
 
-                case CLOZE_NUMERIC:
+                case assClozeGap::TYPE_NUMERIC:
 
                     $this->object->setGapShuffle($idx, 0);
 
@@ -460,7 +460,7 @@ JS;
         // text rating
         if (!$this->object->getSelfAssessmentEditingMode()) {
             $textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "textgap_rating");
-            $text_options = array(
+            $text_options = [
                 "ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
                 "cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
                 "l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
@@ -468,7 +468,7 @@ JS;
                 "l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
                 "l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
                 "l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
-            );
+            ];
             $textrating->setOptions($text_options);
             $textrating->setValue($this->object->getTextgapRating());
             $form->addItem($textrating);
@@ -537,7 +537,7 @@ JS;
         if ($gap == null) {
             return $array;
         }
-        $translate_type = array('text','select','numeric');
+        $translate_type = ['text','select','numeric'];
         $i = 0;
         foreach ($gap as $content) {
             $shuffle = false;
@@ -545,31 +545,31 @@ JS;
             $items = [];
             for ($j = 0, $jMax = count($value); $j < $jMax; $j++) {
                 if ($content->isNumericGap()) {
-                    $items[$j] = array(
+                    $items[$j] = [
                         'answer' => $value[$j]->getAnswerText(),
                         'lower' => $value[$j]->getLowerBound(),
                         'upper' => $value[$j]->getUpperBound(),
                         'points' => $value[$j]->getPoints(),
                         'error' => false
-                    );
+                    ];
                 } else {
-                    $items[$j] = array(
+                    $items[$j] = [
                         'answer' => $this->escapeTemplatePlaceholders($value[$j]->getAnswerText()),
                         'points' => $value[$j]->getPoints(),
                         'error' => false
-                    );
+                    ];
 
                     if ($content->isSelectGap()) {
                         $shuffle = $content->getShuffle();
                     }
                 }
             }
-            $answers[$i] = array(
+            $answers[$i] = [
             'type' => $translate_type[$content->getType()] ,
             'values' => $items ,
             'shuffle' => $shuffle,
             'text_field_length' => $content->getGapSize() > 0 ? $content->getGapSize() : '',
-            'used_in_gap_combination' => true);
+            'used_in_gap_combination' => true];
             $i++;
         }
         return $answers;
@@ -602,28 +602,28 @@ JS;
         $form->addItem($gapcounter);
 
         $gaptype = new ilSelectInputGUI($this->lng->txt('type'), "clozetype_$gapCounter");
-        $options = array(
+        $options = [
             0 => $this->lng->txt("text_gap"),
             1 => $this->lng->txt("select_gap"),
             2 => $this->lng->txt("numeric_gap")
-        );
+        ];
         $gaptype->setOptions($options);
         $gaptype->setValue($gap->getType());
         $form->addItem($gaptype);
 
-        if ($gap->getType() == CLOZE_TEXT) {
+        if ($gap->getType() == assClozeGap::TYPE_TEXT) {
             $this->populateGapSizeFormPart($form, $gap, $gapCounter);
 
             if (count($gap->getItemsRaw()) == 0) {
                 $gap->addItem(new assAnswerCloze("", 0, 0));
             }
             $this->populateTextGapFormPart($form, $gap, $gapCounter);
-        } elseif ($gap->getType() == CLOZE_SELECT) {
+        } elseif ($gap->getType() == assClozeGap::TYPE_SELECT) {
             if (count($gap->getItemsRaw()) == 0) {
                 $gap->addItem(new assAnswerCloze("", 0, 0));
             }
             $this->populateSelectGapFormPart($form, $gap, $gapCounter);
-        } elseif ($gap->getType() == CLOZE_NUMERIC) {
+        } elseif ($gap->getType() == assClozeGap::TYPE_NUMERIC) {
             $this->populateGapSizeFormPart($form, $gap, $gapCounter);
 
             if (count($gap->getItemsRaw()) == 0) {
@@ -830,7 +830,7 @@ JS;
         $output = $this->object->getClozeTextForHTMLOutput();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
             switch ($gap->getType()) {
-                case CLOZE_TEXT:
+                case assClozeGap::TYPE_TEXT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_text.html", true, true, "components/ILIAS/TestQuestionPool");
 
                     $gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
@@ -851,7 +851,7 @@ JS;
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
                     // fau.
                     break;
-                case CLOZE_SELECT:
+                case assClozeGap::TYPE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "components/ILIAS/TestQuestionPool");
                     foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
@@ -874,7 +874,7 @@ JS;
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
                     // fau.
                     break;
-                case CLOZE_NUMERIC:
+                case assClozeGap::TYPE_NUMERIC:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_numeric.html", true, true, "components/ILIAS/TestQuestionPool");
                     $gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
                     if ($gap_size > 0) {
@@ -1021,8 +1021,8 @@ JS;
             }
             $combination = null;
             switch ($gap->getType()) {
-                case CLOZE_NUMERIC:
-                case CLOZE_TEXT:
+                case assClozeGap::TYPE_NUMERIC:
+                case assClozeGap::TYPE_TEXT:
                     $solutiontext = "";
                     if (($active_id > 0) && (!$show_correct_solution)) {
                         if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0)) {
@@ -1040,7 +1040,7 @@ JS;
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
                     // fau.
                     break;
-                case CLOZE_SELECT:
+                case assClozeGap::TYPE_SELECT:
                     $solutiontext = "";
                     if (($active_id > 0) && (!$show_correct_solution)) {
                         if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0)) {
@@ -1187,7 +1187,7 @@ JS;
         $output = $this->object->getClozeTextForHTMLOutput();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
             switch ($gap->getType()) {
-                case CLOZE_TEXT:
+                case assClozeGap::TYPE_TEXT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_text.html", true, true, "components/ILIAS/TestQuestionPool");
                     $gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
 
@@ -1209,7 +1209,7 @@ JS;
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
                     // fau.
                     break;
-                case CLOZE_SELECT:
+                case assClozeGap::TYPE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "components/ILIAS/TestQuestionPool");
                     foreach ($gap->getItems($this->object->getShuffler(), $gap_index) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
@@ -1232,7 +1232,7 @@ JS;
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
                     // fau.
                     break;
-                case CLOZE_NUMERIC:
+                case assClozeGap::TYPE_NUMERIC:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_numeric.html", true, true, "components/ILIAS/TestQuestionPool");
                     $gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
                     if ($gap_size > 0) {
@@ -1342,7 +1342,7 @@ JS;
         $html = '<div>';
         $i = 0;
         foreach ($this->object->getGaps() as $gap_index => $gap) {
-            if ($gap->type == CLOZE_SELECT) {
+            if ($gap->type == assClozeGap::TYPE_SELECT) {
                 $html .= '<p>Gap ' . ($i + 1) . ' - SELECT</p>';
                 $html .= '<ul>';
                 $j = 0;
@@ -1354,7 +1354,7 @@ JS;
                 $html .= '</ul>';
             }
 
-            if ($gap->type == CLOZE_TEXT) {
+            if ($gap->type == assClozeGap::TYPE_TEXT) {
                 $present_elements = [];
                 foreach ($gap->getItems($this->randomGroup->shuffleArray(new Seed\RandomSeed())) as $item) {
                     /** @var assAnswerCloze $item */
@@ -1378,7 +1378,7 @@ JS;
                 $html .= '</ul>';
             }
 
-            if ($gap->type == CLOZE_NUMERIC) {
+            if ($gap->type == assClozeGap::TYPE_NUMERIC) {
                 $html .= '<p>Gap ' . ($i + 1) . ' - NUMERIC</p>';
                 $html .= '<ul>';
                 $j = 0;
@@ -1431,7 +1431,7 @@ JS;
         if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
             $gaptemplate->setCurrentBlock('gap_span');
             $gaptemplate->setVariable('SPAN_SOLUTION', $solutiontext);
-        } elseif ($gap->getType() == CLOZE_SELECT) {
+        } elseif ($gap->getType() == assClozeGap::TYPE_SELECT) {
             $gaptemplate->setCurrentBlock('gap_select');
             $gaptemplate->setVariable('SELECT_SOLUTION', $solutiontext);
         } else {
@@ -1495,11 +1495,11 @@ JS;
         $gap = $this->object->getGap($gapIndex);
 
         switch ($gap->type) {
-            case CLOZE_NUMERIC:
-            case CLOZE_TEXT:
+            case assClozeGap::TYPE_NUMERIC:
+            case assClozeGap::TYPE_TEXT:
                 return $answer;
 
-            case CLOZE_SELECT:
+            case assClozeGap::TYPE_SELECT:
             default:
                 $items = $gap->getItems($this->randomGroup->dontShuffle());
                 return $items[$answer]->getAnswertext();
@@ -1510,7 +1510,7 @@ JS;
     {
         $gap = $this->object->getGap($gap_index);
 
-        if ($gap->type != CLOZE_TEXT ||
+        if ($gap->type != assClozeGap::TYPE_TEXT ||
             $this->isUsedInCombinations($gap_index)) {
             return $answers;
         }
@@ -1547,9 +1547,9 @@ JS;
             if (!isset($answers[$row['value2']])) {
                 $label = $this->getAnswerTextLabel($row['value1'], $row['value2']);
 
-                $answers[$row['value2']] = array(
+                $answers[$row['value2']] = [
                     'answer' => $label, 'frequency' => 0
-                );
+                ];
             }
 
             $answers[$row['value2']]['frequency']++;
@@ -1583,9 +1583,9 @@ JS;
             }
 
             if (!isset($combinations[$c['cid']][$c['row_id']])) {
-                $combinations[$c['cid']][$c['row_id']] = array(
+                $combinations[$c['cid']][$c['row_id']] = [
                     'gaps' => [], 'points' => $c['points'],
-                );
+                ];
             }
 
             if (!isset($combinations[$c['cid']][$c['row_id']]['gaps'][$c['gap_fi']])) {
@@ -1638,9 +1638,9 @@ JS;
         $header->setTitle($this->lng->txt("gap") . " " . ($gapIndex + 1));
         $form->addItem($header);
 
-        if ($gap->getType() == CLOZE_TEXT || $gap->getType() == CLOZE_SELECT) {
+        if ($gap->getType() == assClozeGap::TYPE_TEXT || $gap->getType() == assClozeGap::TYPE_SELECT) {
             $this->populateTextOrSelectGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints);
-        } elseif ($gap->getType() == CLOZE_NUMERIC) {
+        } elseif ($gap->getType() == assClozeGap::TYPE_NUMERIC) {
             foreach ($gap->getItemsRaw() as $item) {
                 $this->populateNumericGapCorrectionFormProperty($form, $item, $gapIndex, $hidePoints);
             }
@@ -1710,9 +1710,9 @@ JS;
 
     protected function saveGapCorrectionFormProperty(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex): void
     {
-        if ($gap->getType() == CLOZE_TEXT || $gap->getType() == CLOZE_SELECT) {
+        if ($gap->getType() == assClozeGap::TYPE_TEXT || $gap->getType() == assClozeGap::TYPE_SELECT) {
             $this->saveTextOrSelectGapCorrectionFormProperty($form, $gap, $gapIndex);
-        } elseif ($gap->getType() == CLOZE_NUMERIC) {
+        } elseif ($gap->getType() == assClozeGap::TYPE_NUMERIC) {
             foreach ($gap->getItemsRaw() as $item) {
                 $this->saveNumericGapCorrectionFormProperty($form, $item, $gapIndex);
             }
@@ -1740,7 +1740,7 @@ JS;
     {
         // please dont ask (!) -.-
 
-        $combinationPoints = array('points' => [], 'select' => []);
+        $combinationPoints = ['points' => [], 'select' => []];
         $combinationValues = [];
 
         foreach ($this->getGapCombinations() as $combiId => $combi) {

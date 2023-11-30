@@ -42,8 +42,8 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
     public function testAvailableSkills(): void
     {
         $expected = [
-            "test123" => "test12",
-            "2" => 21,
+            'test123' => 'test12',
+            '2' => 21
         ];
         $this->testObj->setAvailableSkills($expected);
         $this->assertEquals($expected, $this->testObj->getAvailableSkills());
@@ -51,15 +51,16 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
 
     public function testSelectedSkillProfile(): void
     {
-        $this->testObj->setSelectedSkillProfile(4);
-        $this->assertEquals(4, $this->testObj->getSelectedSkillProfile());
+        $selectedSkillProfile = 4;
+        $this->testObj->setSelectedSkillProfile($selectedSkillProfile);
+        $this->assertEquals($selectedSkillProfile, $this->testObj->getSelectedSkillProfile());
     }
 
     public function testReachedSkillLevels(): void
     {
         $expected = [
-            "test123" => "test12",
-            "2" => 21,
+            'test123' => 'test12',
+            '2' => 21
         ];
         $this->testObj->setReachedSkillLevels($expected);
         $this->assertEquals($expected, $this->testObj->getReachedSkillLevels());
@@ -67,7 +68,8 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
 
     public function testUsrId(): void
     {
-        $this->testObj->setUsrId(212);
-        $this->assertEquals(212, $this->testObj->getUsrId());
+        $usr_id = 212;
+        $this->testObj->setUsrId($usr_id);
+        $this->assertEquals($usr_id, $this->testObj->getUsrId());
     }
 }

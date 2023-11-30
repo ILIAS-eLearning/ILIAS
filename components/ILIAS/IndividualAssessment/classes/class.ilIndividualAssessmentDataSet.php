@@ -25,7 +25,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
 {
     public function getSupportedVersions(): array
     {
-        return ['5.2.0', '5.3.0'];
+        return ['5.2.0', '5.3.0', '9.0.0'];
     }
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string

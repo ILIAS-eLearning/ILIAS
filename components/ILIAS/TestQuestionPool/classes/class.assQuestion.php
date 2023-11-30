@@ -22,8 +22,6 @@ use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 use ILIAS\DI\Container;
 use ILIAS\Skill\Service\SkillUsageService;
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Abstract basic class which is to be extended by the concrete assessment question type classes
  *
@@ -2311,7 +2309,8 @@ abstract class assQuestion
 
     public function isAnswered(int $active_id, int $pass): bool
     {
-        return true;
+        $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
+        return $numExistingSolutionRecords > 0;
     }
 
     public static function isObligationPossible(int $questionId): bool

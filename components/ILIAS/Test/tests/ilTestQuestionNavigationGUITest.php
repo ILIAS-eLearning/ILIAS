@@ -48,8 +48,9 @@ class ilTestQuestionNavigationGUITest extends ilTestBaseTestCase
 
     public function testEditSolutionCommand(): void
     {
-        $this->testObj->setEditSolutionCommand("test");
-        $this->assertEquals("test", $this->testObj->getEditSolutionCommand());
+        $editSolutionCommand = 'test';
+        $this->testObj->setEditSolutionCommand($editSolutionCommand);
+        $this->assertEquals($editSolutionCommand, $this->testObj->getEditSolutionCommand());
     }
 
     public function testQuestionWorkedThrough(): void
@@ -63,14 +64,16 @@ class ilTestQuestionNavigationGUITest extends ilTestBaseTestCase
 
     public function testSubmitSolutionCommand(): void
     {
-        $this->testObj->setSubmitSolutionCommand("test");
-        $this->assertEquals("test", $this->testObj->getSubmitSolutionCommand());
+        $submitSolutionCommand = 'test';
+        $this->testObj->setSubmitSolutionCommand($submitSolutionCommand);
+        $this->assertEquals($submitSolutionCommand, $this->testObj->getSubmitSolutionCommand());
     }
 
     public function testRevertChangesLinkTarget(): void
     {
-        $this->testObj->setRevertChangesLinkTarget("test");
-        $this->assertEquals("test", $this->testObj->getRevertChangesLinkTarget());
+        $revertChangesLinkTarget = 'test';
+        $this->testObj->setRevertChangesLinkTarget($revertChangesLinkTarget);
+        $this->assertEquals($revertChangesLinkTarget, $this->testObj->getRevertChangesLinkTarget());
     }
 
     public function testDiscardSolutionButtonEnabled(): void
@@ -84,14 +87,16 @@ class ilTestQuestionNavigationGUITest extends ilTestBaseTestCase
 
     public function testSkipQuestionLinkTarget(): void
     {
-        $this->testObj->setSkipQuestionLinkTarget("test");
-        $this->assertEquals("test", $this->testObj->getSkipQuestionLinkTarget());
+        $skipQuestionLinkTarget = 'test';
+        $this->testObj->setSkipQuestionLinkTarget($skipQuestionLinkTarget);
+        $this->assertEquals($skipQuestionLinkTarget, $this->testObj->getSkipQuestionLinkTarget());
     }
 
     public function testInstantFeedbackCommand(): void
     {
-        $this->testObj->setInstantFeedbackCommand("test");
-        $this->assertEquals("test", $this->testObj->getInstantFeedbackCommand());
+        $instantFeedbackCommand = 'test';
+        $this->testObj->setInstantFeedbackCommand($instantFeedbackCommand);
+        $this->assertEquals($instantFeedbackCommand, $this->testObj->getInstantFeedbackCommand());
     }
 
     public function testAnswerFreezingEnabled(): void
@@ -114,14 +119,16 @@ class ilTestQuestionNavigationGUITest extends ilTestBaseTestCase
 
     public function testRequestHintCommand(): void
     {
-        $this->testObj->setRequestHintCommand("test");
-        $this->assertEquals("test", $this->testObj->getRequestHintCommand());
+        $requestHintCommand = 'test';
+        $this->testObj->setRequestHintCommand($requestHintCommand);
+        $this->assertEquals($requestHintCommand, $this->testObj->getRequestHintCommand());
     }
 
     public function testShowHintsCommand(): void
     {
-        $this->testObj->setShowHintsCommand("test");
-        $this->assertEquals("test", $this->testObj->getShowHintsCommand());
+        $showHintsCommand = 'test';
+        $this->testObj->setShowHintsCommand($showHintsCommand);
+        $this->assertEquals($showHintsCommand, $this->testObj->getShowHintsCommand());
     }
 
     public function testHintRequestsExist(): void
@@ -135,8 +142,9 @@ class ilTestQuestionNavigationGUITest extends ilTestBaseTestCase
 
     public function testQuestionMarkLinkTarget(): void
     {
-        $this->testObj->setQuestionMarkLinkTarget("test");
-        $this->assertEquals("test", $this->testObj->getQuestionMarkLinkTarget());
+        $questionMarkLinkTarget = 'test';
+        $this->testObj->setQuestionMarkLinkTarget($questionMarkLinkTarget);
+        $this->assertEquals($questionMarkLinkTarget, $this->testObj->getQuestionMarkLinkTarget());
     }
 
     public function testQuestionMarked(): void

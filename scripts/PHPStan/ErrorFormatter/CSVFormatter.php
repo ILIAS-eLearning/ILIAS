@@ -26,7 +26,7 @@ use PHPStan\Command\Output;
 
 class CSVFormatter implements ErrorFormatter
 {
-    private const COMPONENT_REGEX = '/.*(Modules|Services|src)\/(.*?)\/.*/m';
+    private const COMPONENT_REGEX = '/.*\/components\/ILIAS\/(.*?)\/.*/m';
     private const H_COMPONENT = 'Component';
     private const H_CLASS = 'Filename';
     private const H_LINE = 'Line';
@@ -53,7 +53,7 @@ class CSVFormatter implements ErrorFormatter
         foreach ($analysisResult->getFileSpecificErrors() as $fileSpecificError) {
             $filename = str_replace($getcwd, '', $fileSpecificError->getFile());
             if (preg_match(self::COMPONENT_REGEX, $filename, $matches)) {
-                $component = $matches[1] . '/' . $matches[2];
+                $component = $matches[1];
             } else {
                 $component = self::UNKNOWN;
             }

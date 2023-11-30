@@ -49,6 +49,10 @@ class Services implements ServicesInterface
         string $type,
         PathInterface $limited_to = null
     ): ReaderInterface {
+        if ($sub_id === 0) {
+            $sub_id = $obj_id;
+        }
+
         $repo = $this->internal_services->repository()->repository();
         if (isset($limited_to)) {
             $set = $repo->getMDOnPath($limited_to, $obj_id, $sub_id, $type);

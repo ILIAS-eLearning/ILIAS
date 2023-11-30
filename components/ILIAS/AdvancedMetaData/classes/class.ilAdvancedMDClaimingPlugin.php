@@ -213,8 +213,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         $field_id = $ilDB->nextId("adv_mdf_definition");
 
         // validating type
-        $a_type = $a_type;
-        if ($a_type < 1 || $a_type > 8) {
+        if (!ilAdvancedMDFieldDefinition::isValidType($a_type)) {
             return null;
         }
 

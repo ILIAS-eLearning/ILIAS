@@ -672,6 +672,7 @@ assessment#:#err_unit_in_variables#:#Die Einheit kann nicht gelöscht werden. Si
 assessment#:#err_unit_is_baseunit#:#Die Einheit kann nicht gelöscht werden. Sie wird von anderen Einheiten als Basiseinheit verwendet.
 assessment#:#err_wrong_categoryname#:#Die Kategorie existiert bereits.
 assessment#:#err_wrong_rating_advanced#:#Bitte stellen Sie sicher, dass die Summe der erweiterten Bewertungsoptionen genau 100 Prozent ergibt.
+assessment#:#error_creating_certificate_zip_empty#:#Keine Daten zu exportieren.
 assessment#:#error_importing_question#:#Beim Importieren der Fragen ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
 assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfragen ist ein unbekannter Fehler aufgetreten. Bitte kontaktieren Sie Ihre ILIAS-Administration und geben Sie die folgende Information weiter: Das ILIAS-System konnte keine Aktivitäts-ID für die ID des ILIAS-Kontos %s und die Test-ID %s erzeugen.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -1275,7 +1276,7 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text f
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
-assessment#:#tst_already_passed_cannot_retake#:#Der Test wurde bereits bestanden. Sie können ihn nich erneut anfangen.
+assessment#:#tst_already_passed_cannot_retake#:#Der Test wurde bereits bestanden. Sie können ihn nicht erneut starten.
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Datenschutz
@@ -11730,7 +11731,6 @@ meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entf
 meta#:#md_delimiter#:#Trennzeichen
 meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist ','.###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#md_fields#:#Felder
-meta#:#md_general_settings#:#Einstellungen
 meta#:#md_months#:#Monate:
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien
@@ -16323,7 +16323,7 @@ survey#:#survey_block_hidden#:#nicht sichtbar
 survey#:#survey_block_visible#:#sichtbar
 survey#:#survey_calc_skills#:#Kompetenzstufen bestimmen
 survey#:#survey_calculate_sum_score#:#Skalenpunktesumme berechnen
-survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkt von Single Choice, Multiple Choice und Matrixfragen je Teilnehmer. Achtung: Wenn Teilnehmer solche Fragen überspringen, wird die gesammte Skalenpunktesumme nicht berechnet.
+survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkte von Single Choice, Multiple Choice und Matrixfragen je Teilnehmer. Achtung: Wenn Teilnehmer solche Fragen überspringen, wird die gesamte Skalenpunktesumme nicht berechnet.
 survey#:#survey_cancel_preview#:#Vorschau abbrechen
 survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
 survey#:#survey_clipboard_notice#:#Es befinden sich Fragen in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.

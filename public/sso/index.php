@@ -27,5 +27,6 @@ ilContext::init(ilContext::CONTEXT_APACHE_SSO);
 
 ilInitialisation::initILIAS();
 
-$ilCtrl->setCmd('doApacheAuthentication');
+// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+// $ilCtrl->setCmd('doApacheAuthentication');
 $ilCtrl->callBaseClass('ilStartUpGUI');

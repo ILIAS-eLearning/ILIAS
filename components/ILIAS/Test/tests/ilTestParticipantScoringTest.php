@@ -40,38 +40,44 @@ class ilTestParticipantScoringTest extends ilTestBaseTestCase
 
     public function testActiveId(): void
     {
-        $this->testObj->setActiveId(210);
-        $this->assertEquals(210, $this->testObj->getActiveId());
+        $activeId = 210;
+        $this->testObj->setActiveId($activeId);
+        $this->assertEquals($activeId, $this->testObj->getActiveId());
     }
 
     public function testScoredPass(): void
     {
-        $this->testObj->setScoredPass(210);
-        $this->assertEquals(210, $this->testObj->getScoredPass());
+        $scoredPass = 210;
+        $this->testObj->setScoredPass($scoredPass);
+        $this->assertEquals($scoredPass, $this->testObj->getScoredPass());
     }
 
     public function testAnsweredQuestions(): void
     {
-        $this->testObj->setAnsweredQuestions(210);
-        $this->assertEquals(210, $this->testObj->getAnsweredQuestions());
+        $answeredQuestions = 210;
+        $this->testObj->setAnsweredQuestions($answeredQuestions);
+        $this->assertEquals($answeredQuestions, $this->testObj->getAnsweredQuestions());
     }
 
     public function testTotalQuestions(): void
     {
-        $this->testObj->setTotalQuestions(210);
-        $this->assertEquals(210, $this->testObj->getTotalQuestions());
+        $totalQuestions = 210;
+        $this->testObj->setTotalQuestions($totalQuestions);
+        $this->assertEquals($totalQuestions, $this->testObj->getTotalQuestions());
     }
 
     public function testReachedPoints(): void
     {
-        $this->testObj->setReachedPoints(210);
-        $this->assertEquals(210, $this->testObj->getReachedPoints());
+        $reachedPoints = 210;
+        $this->testObj->setReachedPoints($reachedPoints);
+        $this->assertEquals($reachedPoints, $this->testObj->getReachedPoints());
     }
 
     public function testMaxPoints(): void
     {
-        $this->testObj->setMaxPoints(210);
-        $this->assertEquals(210, $this->testObj->getMaxPoints());
+        $maxPoints = 210;
+        $this->testObj->setMaxPoints($maxPoints);
+        $this->assertEquals($maxPoints, $this->testObj->getMaxPoints());
     }
 
     public function testPassed(): void
@@ -85,16 +91,19 @@ class ilTestParticipantScoringTest extends ilTestBaseTestCase
 
     public function testFinalMark(): void
     {
-        $this->testObj->setFinalMark("testString");
-        $this->assertEquals("testString", $this->testObj->getFinalMark());
+        $finalMark = 'testString';
+        $this->testObj->setFinalMark($finalMark);
+        $this->assertEquals($finalMark, $this->testObj->getFinalMark());
     }
 
     public function testGetPercentResult(): void
     {
         $this->assertEquals(0, $this->testObj->getPercentResult());
 
-        $this->testObj->setMaxPoints(20);
-        $this->testObj->setReachedPoints(12);
-        $this->assertEquals(0.6, $this->testObj->getPercentResult());
+        $maxPoints = 20;
+        $reachedPoints = 12;
+        $this->testObj->setMaxPoints($maxPoints);
+        $this->testObj->setReachedPoints($reachedPoints);
+        $this->assertEquals($reachedPoints / $maxPoints, $this->testObj->getPercentResult());
     }
 }

@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Export class for tests
  *

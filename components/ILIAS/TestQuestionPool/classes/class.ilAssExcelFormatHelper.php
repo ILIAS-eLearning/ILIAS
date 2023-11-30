@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class ilAssExcelFormatHelper
  * @author Guido Vollbach <gvollbach@databay.de>
@@ -25,6 +23,7 @@ require_once 'components/ILIAS/Test/classes/inc.AssessmentConstants.php';
 class ilAssExcelFormatHelper extends ilExcel
 {
     public const escapeString = true;
+    private const EXCEL_BACKGROUND_COLOR = "C0C0C0";
 
     protected $stringEscaping = self::escapeString;
 
@@ -43,7 +42,7 @@ class ilAssExcelFormatHelper extends ilExcel
     public function setFormattedExcelTitle($coordinates, $value): void
     {
         $this->setCellByCoordinates($coordinates, $value);
-        $this->setColors($coordinates, EXCEL_BACKGROUND_COLOR);
+        $this->setColors($coordinates, self::EXCEL_BACKGROUND_COLOR);
         $this->setBold($coordinates);
     }
 

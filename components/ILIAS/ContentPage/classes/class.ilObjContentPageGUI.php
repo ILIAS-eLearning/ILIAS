@@ -486,8 +486,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     public function infoScreen(): void
     {
-        $this->ctrl->setCmd('showSummary');
-        $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd('showSummary');
+        // $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
 
         $this->infoScreenForward();
     }

@@ -73,7 +73,8 @@ class ilMyTestSolutionsGUI
         global $DIC;
 
         if (!$DIC->ctrl()->getCmd()) {
-            $DIC->ctrl()->setCmd(self::EVALGUI_CMD_SHOW_PASS_OVERVIEW);
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $DIC->ctrl()->setCmd(self::EVALGUI_CMD_SHOW_PASS_OVERVIEW);
         }
 
         switch ($DIC->ctrl()->getNextClass()) {

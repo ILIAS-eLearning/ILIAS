@@ -38,12 +38,14 @@ class ilTestReindexedSequencePositionMapTest extends ilTestBaseTestCase
 
     public function testSequenceCanBeSetAndRetrieved(): void
     {
-        $this->testObj->addPositionMapping(1, 2);
-        self::assertEquals(2, $this->testObj->getNewSequencePosition(1));
+        $oldSequencePosition = 1;
+        $newSequencePosition = 2;
+        $this->testObj->addPositionMapping($oldSequencePosition, $newSequencePosition);
+        $this->assertEquals($newSequencePosition, $this->testObj->getNewSequencePosition($oldSequencePosition));
     }
 
     public function testNullIsReturnedIfSequenceDoesNotExistInMap(): void
     {
-        self::assertNull($this->testObj->getNewSequencePosition(5));
+        $this->assertNull($this->testObj->getNewSequencePosition(5));
     }
 }

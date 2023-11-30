@@ -40,44 +40,51 @@ class ilTestParticipantTest extends ilTestBaseTestCase
 
     public function testActiveId(): void
     {
-        $this->testObj->setActiveId(125);
-        $this->assertEquals(125, $this->testObj->getActiveId());
+        $active_id = 125;
+        $this->testObj->setActiveId($active_id);
+        $this->assertEquals($active_id, $this->testObj->getActiveId());
     }
 
     public function testAnonymousId(): void
     {
-        $this->testObj->setAnonymousId(125);
-        $this->assertEquals(125, $this->testObj->getAnonymousId());
+        $anonymous_id = 125;
+        $this->testObj->setAnonymousId($anonymous_id);
+        $this->assertEquals($anonymous_id, $this->testObj->getAnonymousId());
     }
 
     public function testUsrId(): void
     {
-        $this->testObj->setUsrId(125);
-        $this->assertEquals(125, $this->testObj->getUsrId());
+        $usr_id = 125;
+        $this->testObj->setUsrId($usr_id);
+        $this->assertEquals($usr_id, $this->testObj->getUsrId());
     }
 
     public function testLogin(): void
     {
-        $this->testObj->setLogin("testLogin");
-        $this->assertEquals("testLogin", $this->testObj->getLogin());
+        $login = 'testLogin';
+        $this->testObj->setLogin($login);
+        $this->assertEquals($login, $this->testObj->getLogin());
     }
 
     public function testLastname(): void
     {
-        $this->testObj->setLastname("testLastname");
-        $this->assertEquals("testLastname", $this->testObj->getLastname());
+        $lastname = 'testLastname';
+        $this->testObj->setLastname($lastname);
+        $this->assertEquals($lastname, $this->testObj->getLastname());
     }
 
     public function testFirstname(): void
     {
-        $this->testObj->setFirstname("testFirstname");
-        $this->assertEquals("testFirstname", $this->testObj->getFirstname());
+        $firstname = 'testFirstname';
+        $this->testObj->setFirstname($firstname);
+        $this->assertEquals($firstname, $this->testObj->getFirstname());
     }
 
     public function testMatriculation(): void
     {
-        $this->testObj->setMatriculation("testMatriculation");
-        $this->assertEquals("testMatriculation", $this->testObj->getMatriculation());
+        $matriculation = 'testMatriculation';
+        $this->testObj->setMatriculation($matriculation);
+        $this->assertEquals($matriculation, $this->testObj->getMatriculation());
     }
 
     public function testActiveStatus(): void
@@ -91,14 +98,16 @@ class ilTestParticipantTest extends ilTestBaseTestCase
 
     public function testClientIp(): void
     {
-        $this->testObj->setClientIp("127.0.0.1");
-        $this->assertEquals("127.0.0.1", $this->testObj->getClientIp());
+        $client_id = '127.0.0.1';
+        $this->testObj->setClientIp($client_id);
+        $this->assertEquals($client_id, $this->testObj->getClientIp());
     }
 
     public function testFinishedTries(): void
     {
-        $this->testObj->setFinishedTries(125);
-        $this->assertEquals(125, $this->testObj->getFinishedTries());
+        $finished_tries = 125;
+        $this->testObj->setFinishedTries($finished_tries);
+        $this->assertEquals($finished_tries, $this->testObj->getFinishedTries());
     }
 
     public function testTestFinished(): void

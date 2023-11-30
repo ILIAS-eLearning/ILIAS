@@ -24,8 +24,6 @@ use ILIAS\Test\MainSettingsRepository;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
 
-require_once 'components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class ilObjTest
  *
@@ -40,7 +38,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 {
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
-
+    public const INVITATION_OFF = 0;
+    public const INVITATION_ON = 1;
+    public const SCORE_LAST_PASS = 0;
+    public const SCORE_BEST_PASS = 1;
 
     public const REDIRECT_NONE = 0;
     public const REDIRECT_ALWAYS = 1;
@@ -54,7 +55,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     private InternalRequestService $testrequest;
     private ASS_MarkSchema $mark_schema;
     public int $test_id = -1;
-    public int $invitation = INVITATION_OFF;
+    public int $invitation = self::INVITATION_OFF;
     public string $author;
 
     /**
@@ -69,14 +70,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public $evaluation_data;
 
     /**
-     * contains the test session data
-     */
-    public $testSession = false;
-
-    /**
      * contains the test sequence data
      */
-    public $testSequence = false;
+    public $test_sequence = false;
+
+    private ?bool $has_obligations = null;
+    private ?bool $current_user_all_obliations_answered = null;
 
     private int $template_id = 0;
 
@@ -114,6 +113,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     private ilComponentRepository $component_repository;
     private ilComponentFactory $component_factory;
     private Filesystem $filesystem_web;
+
+    protected ?ilTestParticipantList $access_filtered_participant_list = null;
 
     /**
      * Constructor
@@ -1123,7 +1124,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      */
     public function removeQuestionFromSequences($questionId, $activeIds, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap): void
     {
-        $testSequenceFactory = new ilTestSequenceFactory(
+        $test_sequence_factory = new ilTestSequenceFactory(
             $this,
             $this->db,
             $this->questioninfo
@@ -1134,11 +1135,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $passSelector->setActiveId($activeId);
 
             foreach ($passSelector->getExistingPasses() as $pass) {
-                $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
-                $testSequence->loadFromDb();
+                $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($activeId, $pass);
+                $test_sequence->loadFromDb();
 
-                $testSequence->removeQuestion($questionId, $reindexedSequencePositionMap);
-                $testSequence->saveToDb();
+                $test_sequence->removeQuestion($questionId, $reindexedSequencePositionMap);
+                $test_sequence->saveToDb();
             }
         }
     }
@@ -1802,19 +1803,19 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $pass = (int) $results['pass'];
         }
 
-        $testSequenceFactory = new ilTestSequenceFactory($this, $this->db, $this->questioninfo);
-        $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
+        $test_sequence_factory = new ilTestSequenceFactory($this, $this->db, $this->questioninfo);
+        $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
 
-        $testSequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
-        $testSequence->setConsiderOptionalQuestionsEnabled($considerOptionalQuestions);
+        $test_sequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
+        $test_sequence->setConsiderOptionalQuestionsEnabled($considerOptionalQuestions);
 
-        $testSequence->loadFromDb();
-        $testSequence->loadQuestions();
+        $test_sequence->loadFromDb();
+        $test_sequence->loadQuestions();
 
         if ($ordered_sequence) {
-            $sequence = $testSequence->getOrderedSequenceQuestions();
+            $sequence = $test_sequence->getOrderedSequenceQuestions();
         } else {
-            $sequence = $testSequence->getUserSequenceQuestions();
+            $sequence = $test_sequence->getUserSequenceQuestions();
         }
 
         $arrResults = [];
@@ -2559,23 +2560,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $qpass;
     }
 
-    /**
-     * @var ilTestParticipantList
-     */
-    protected $accessFilteredParticipantList;
-
-
     public function getAccessFilteredParticipantList(): ?ilTestParticipantList
     {
-        return $this->accessFilteredParticipantList;
+        return $this->access_filtered_participant_list;
     }
 
-    /**
-     * @param ilTestParticipantList $accessFilteredParticipantList
-     */
-    public function setAccessFilteredParticipantList($accessFilteredParticipantList): void
+    public function setAccessFilteredParticipantList(ilTestParticipantList $access_filtered_participant_list): void
     {
-        $this->accessFilteredParticipantList = $accessFilteredParticipantList;
+        $this->access_filtered_participant_list = $access_filtered_participant_list;
     }
 
     public function buildStatisticsAccessFilteredParticipantList(): ilTestParticipantList
@@ -5495,7 +5487,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public static function _getResultPass($active_id): ?int
     {
         $counted_pass = null;
-        if (ilObjTest::_getPassScoring($active_id) == SCORE_BEST_PASS) {
+        if (ilObjTest::_getPassScoring($active_id) == self::SCORE_BEST_PASS) {
             $counted_pass = ilObjTest::_getBestPass($active_id);
         } else {
             $counted_pass = ilObjTest::_getMaxPass($active_id);
@@ -5576,13 +5568,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     /**
      * Checks if the test is executable by the given user
-     * @param         $testSession
+     * @param         $test_session
      * @param integer $user_id The user id
      * @param bool    $allowPassIncrease
      * @return array Result array
      * @throws ilDateTimeException
      */
-    public function isExecutable($testSession, $user_id, $allowPassIncrease = false): array
+    public function isExecutable($test_session, $user_id, $allowPassIncrease = false): array
     {
         $result = [
             "executable" => true,
@@ -5613,9 +5605,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                             // start the test again.
                             // This code block is only called when $allowPassIncrease is TRUE which only happens when
                             // the test info page is opened. Otherwise this will lead to unexpected results!
-                            $testSession->increasePass();
-                            $testSession->setLastSequence(0);
-                            $testSession->saveToDb();
+                            $test_session->increasePass();
+                            $test_session->setLastSequence(0);
+                            $test_session->saveToDb();
                         } else {
                             $result["executable"] = false;
                             $result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
@@ -5628,7 +5620,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $testPassesSelector = new ilTestPassesSelector($this->db, $this);
         $testPassesSelector->setActiveId($active_id);
-        $testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+        $testPassesSelector->setLastFinishedPass($test_session->getLastFinishedPass());
 
         if ($this->hasNrOfTriesRestriction() && ($active_id > 0)) {
             $closedPasses = $testPassesSelector->getClosedPasses();
@@ -5678,22 +5670,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return true;
     }
 
-    public function canShowTestResults(ilTestSession $testSession): bool
+    public function canShowTestResults(ilTestSession $test_session): bool
     {
         $passSelector = new ilTestPassesSelector($this->db, $this);
 
-        $passSelector->setActiveId($testSession->getActiveId());
-        $passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+        $passSelector->setActiveId($test_session->getActiveId());
+        $passSelector->setLastFinishedPass($test_session->getLastFinishedPass());
 
         return $passSelector->hasReportablePasses();
     }
 
-    public function hasAnyTestResult(ilTestSession $testSession): bool
+    public function hasAnyTestResult(ilTestSession $test_session): bool
     {
         $passSelector = new ilTestPassesSelector($this->db, $this);
 
-        $passSelector->setActiveId($testSession->getActiveId());
-        $passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+        $passSelector->setActiveId($test_session->getActiveId());
+        $passSelector->setLastFinishedPass($test_session->getLastFinishedPass());
 
         return $passSelector->hasExistingPasses();
     }
@@ -6866,7 +6858,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function &createTestSequence($active_id, $pass, $shuffle)
     {
-        $this->testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest(), $this->questioninfo);
+        $this->test_sequence = new ilTestSequence($active_id, $pass, $this->isRandomTest(), $this->questioninfo);
     }
 
     /**
@@ -7644,46 +7636,41 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      * @param integer $pass
      * @return boolean $allObligationsAnswered
      */
-    public static function allObligationsAnswered($test_id, $active_id, $pass): bool
+    public function allObligationsAnswered(): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $rset = $ilDB->queryF(
-            'SELECT obligations_answered FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
-            ['integer', 'integer'],
-            [$active_id, $pass]
-        );
-
-        if ($row = $ilDB->fetchAssoc($rset)) {
-            return (bool) $row['obligations_answered'];
+        if (!$this->hasObligations()) {
+            return true;
         }
 
-        return !self::hasObligations($test_id);
+        if ($this->current_user_all_obliations_answered === null) {
+            $active_id = $this->getActiveIdOfUser();
+            $rset = $this->db->queryF(
+                'SELECT obligations_answered FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
+                ['integer', 'integer'],
+                [$active_id, self::_getPass($active_id)]
+            );
+
+            if ($row = $this->db->fetchAssoc($rset)) {
+                $this->current_user_all_obliations_answered = (bool) ($row['obligations_answered'] ?? 0);
+            }
+        }
+
+        return $this->current_user_all_obliations_answered;
     }
 
-    /**
-     * returns the fact wether the test with given test id
-     * contains questions markes as obligatory or not
-     *
-     * @global ilDBInterface $ilDB
-     * @param integer $test_id
-     * @return boolean $hasObligations
-     */
-    public static function hasObligations($test_id): bool
+    public function hasObligations(): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        if ($this->has_obligations === null) {
+            $rset = $this->db->queryF(
+                'SELECT count(*) cnt FROM tst_test_question WHERE test_fi = %s AND obligatory = 1',
+                ['integer'],
+                [$this->getTestId()]
+            );
+            $row = $this->db->fetchAssoc($rset);
+            $this->has_obligations = $row['cnt'] > 0;
+        }
 
-        $rset = $ilDB->queryF(
-            'SELECT count(*) cnt FROM tst_test_question WHERE test_fi = %s AND obligatory = 1',
-            ['integer'],
-            [$test_id]
-        );
-
-        $row = $ilDB->fetchAssoc($rset);
-
-        return (bool) $row['cnt'] > 0;
+        return $this->has_obligations;
     }
 
     public function getAutosave(): bool

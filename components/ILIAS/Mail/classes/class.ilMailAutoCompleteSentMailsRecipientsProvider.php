@@ -108,6 +108,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
 				mail.rcp_to login
 			FROM mail
 			WHERE " . $this->db->like('mail.rcp_to', 'text', $this->quoted_term) . "
+			AND mail.rcp_to IS NOT NULL
 			AND sender_id = " . $this->db->quote($this->user_id, 'integer') . "
 			AND mail.sender_id = mail.user_id";
 

@@ -41,19 +41,19 @@ class ilStatisticsTest extends ilTestBaseTestCase
     public function testData(): void
     {
         $input = [
-            "1250",
-            "125125",
+            '1250',
+            '125125',
             1518,
-            "abasfki",
+            'abasfki',
             -1251
         ];
         $this->testObj->setData($input);
 
         $expected1 = [
             -1251,
-            "1250",
+            '1250',
             1518,
-            "125125",
+            '125125'
         ];
         $this->assertEquals($expected1, $this->testObj->getData());
     }

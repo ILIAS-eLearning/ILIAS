@@ -100,7 +100,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function renderObject(): void
     {
-        $this->ctrl->setCmd("view");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd("view");
         $this->viewObject();
     }
 
@@ -140,7 +141,8 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->tabs_gui->clearTargets();
             $this->ctrl->setReturn($this, 'view_content');
             $agreement = new ilMemberAgreementGUI($this->object->getRefId());
-            $this->ctrl->setCmdClass(get_class($agreement));
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmdClass(get_class($agreement));
             $this->ctrl->forwardCommand($agreement);
             return;
         }
@@ -164,7 +166,8 @@ class ilObjCourseGUI extends ilContainerGUI
             parent::renderObject();
         } else {
             $course_content_obj = new ilCourseContentGUI($this);
-            $this->ctrl->setCmdClass(get_class($course_content_obj));
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmdClass(get_class($course_content_obj));
             $this->ctrl->forwardCommand($course_content_obj);
         }
     }
@@ -182,8 +185,9 @@ class ilObjCourseGUI extends ilContainerGUI
      */
     public function infoScreenObject(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd("showSummary");
+        // $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreen();
     }
 

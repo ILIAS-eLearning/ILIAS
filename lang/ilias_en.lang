@@ -672,6 +672,7 @@ assessment#:#err_unit_in_variables#:#The unit cannot be deleted. It is already i
 assessment#:#err_unit_is_baseunit#:#The unit cannot be deleted. It is used as base unit by other units.
 assessment#:#err_wrong_categoryname#:#The category already exists.
 assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent
+assessment#:#error_creating_certificate_zip_empty#:#No data for export.
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 assessment#:#error_open_image_file#:#Error opening an image file!
 assessment#:#error_random_question_generation#:#A fatal error occurred during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.
@@ -1275,7 +1276,7 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#All user data for this test has been removed!
-assessment#:#tst_already_passed_cannot_retake#:#Test already passed. You cannot retake the test.
+assessment#:#tst_already_passed_cannot_retake#:#Test already passed. You cannot start the test again.
 assessment#:#tst_already_submitted#:#The test has already been completed and submitted.
 assessment#:#tst_analysis#:#Analysis
 assessment#:#tst_anonymity#:#Privacy
@@ -5452,8 +5453,8 @@ common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#salutation#:#Salutation
-common#:#salutation_f#:#Ms./Mrs.
-common#:#salutation_m#:#Mr.
+common#:#salutation_f#:#Ms
+common#:#salutation_m#:#Mr
 common#:#salutation_n#:#No salutation desired
 common#:#saml_log_in#:#Direct login
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
@@ -11168,70 +11169,70 @@ mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
 mail#:#mail_absence_auto_responder_body#:#Message
-mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically created message. You will not receive this kind of message until [NEXT_AUTO_RESPONDER_DATETIME].
-mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified of your absence every %1$s days if they send further messages.
-mail#:#mail_absence_auto_responder_body_info_single_day#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified again of your absence the next day if they send further messages.
+mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically generated message. If you send further messages to this user during their absence, you will not receive another automatic reply until [NEXT_AUTO_RESPONDER_DATETIME].
+mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified of your absence every %1$s days if they send further messages.
+mail#:#mail_absence_auto_responder_body_info_single_day#:#This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified again of your absence the next day if they send further messages.
 mail#:#mail_absence_auto_responder_subject#:#Subject
 mail#:#mail_absence_duration#:#Duration
 mail#:#mail_absence_status#:#Enable Autoresponder
-mail#:#mail_absence_status_info#:#Activation of the automatic sending of an out of office message
+mail#:#mail_absence_status_info#:#Activate an automatic out-of-office message.
 mail#:#mail_absent_from#:#Absent from
 mail#:#mail_absent_until#:#Absent until
 mail#:#mail_account_mail#:#Notify New Account Holders
-mail#:#mail_add_folder#:#Add New Sub-folder
-mail#:#mail_add_recipient#:#Please enter a recipient
-mail#:#mail_add_subfolder#:#Add Sub-folder
-mail#:#mail_add_subject#:#Please enter a subject
+mail#:#mail_add_folder#:#Add New Sub-Folder
+mail#:#mail_add_recipient#:#Please enter a recipient in the form of a valid e-mail address or ILIAS username.
+mail#:#mail_add_subfolder#:#Add Sub-Folder
+mail#:#mail_add_subject#:#Please enter a subject.
 mail#:#mail_allow_external#:#External E-Mails
-mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
-mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List "%s"
+mail#:#mail_allow_external_info#:#Allow the delivery of external e-mails (via-SMTP). Unchecking this box will prevent external mails being sent globally across this installation.
+mail#:#mail_assign_entry_to_mailing_list#:##Add One of Your Contacts to the Mailing List
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 mail#:#mail_auto_responder#:#Autoresponder
-mail#:#mail_auto_responder_idle_time#:#Sending again
-mail#:#mail_auto_responder_idle_time_info#:#Specify here how many days should elapse between resending an out-of-office note to the same sender.
+mail#:#mail_auto_responder_idle_time#:#Resend
+mail#:#mail_auto_responder_idle_time_info#:#Specify here how many days should elapse before your out-of-office reply is resent to a mail correspondent who has sent you further mails.
 mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Subject: %s
 mail#:#mail_bg_task_title#:#E-mail Delivery
 mail#:#mail_both_email#:#Both E-Mail Addresses
 mail#:#mail_cc#:#CC
 mail#:#mail_change_to_folder#:#Switch to folder: %s
-mail#:#mail_create_tpl#:#Create Text Templates
-mail#:#mail_cronjob_notification_info#:#Activation of regular notifications about new mails.
-mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
+mail#:#mail_create_tpl#:#Create Text Template
+mail#:#mail_cronjob_notification_info#:#Allow ILIAS to periodically send you notifications about new e-mails.
+mail#:#mail_crs_list_members_not_available#:#The members of the selected courses can not be listed.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
-mail#:#mail_deleted#:#The mail is deleted
-mail#:#mail_deleted_entry#:#The entries are deleted
-mail#:#mail_download_zip_no_attachments#:#Could not find any attachments.
-mail#:#mail_edit_tpl#:#Edit Text Templates
-mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.
-mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
-mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.
-mail#:#mail_email_usr_subject#:#Test E-Mail User Mail
+mail#:#mail_deleted#:#Mail(s) deleted.
+mail#:#mail_deleted_entry#:#Entries deleted.
+mail#:#mail_download_zip_no_attachments#:#No attachments could be found.
+mail#:#mail_edit_tpl#:#Edit Text Template
+mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to external mail accounts.
+mail#:#mail_email_sys_subject#:#Test E-Mail: System Mail
+mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to external mail accounts.
+mail#:#mail_email_usr_subject#:#Test E-Mail: User Mail
 mail#:#mail_empty_trash#:#Empty Trash
-mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
+mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in the Trash folder?
 mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators
-mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
+mail#:#mail_enable_crs_admin_notification_info#:#In new courses, the setting 'Notification' will be activated by default for members with ‘Course Administrator’ and/or ‘Course Tutor’ status. This can be altered in the 'Member' tab of courses (in the ‘Course Participants’ list for each admin/tutor individually). Admins/tutors will receive an e-mail when a user joins the course or leaves it, or if the minimum number of participants required for a course to take place has not been met.
 mail#:#mail_enable_crs_member_notification#:#Notify Course Members
-mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the platform.
+mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to any course member whose membership status changes. This setting applies to all courses on the platform.
 mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
-mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. Course administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.
+mail#:#mail_enable_grp_admin_notification_info#:#In new groups, the setting 'Notification' will be activated by default for members with ‘Group Administrator’ status. This can be altered in the 'Member' tab of groups (in the ‘Group Participants’ list for each administrator individually). Admins will receive an e-mail when a member joins the group or leaves it, or if the minimum number of participants required for a group to be formed has not been met.
 mail#:#mail_enable_grp_member_notification#:#Notify Group Members
-mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the platform.
+mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to any group member whose membership status changes. This setting applies to all groups on the platform.
 mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators
-mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.
+mail#:#mail_enable_lso_admin_notification_info#:#In new learning sequences, the setting 'Notification’ will be activated by default for members with ‘Learning Sequence Administrator’ status. This can be altered in the 'Member' tab of a learning sequence (in the ‘Learning Sequence Members’ list for each administrator individually). With notifications active, administrators will receive an e-mail whenever a member joins or leaves the learning sequence.
 mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members
-mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.
-mail#:#mail_entry_of_contacts#:#Entry of Contacts
+mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to any member whose membership status changes. This setting applies to all learning sequences on the platform.
+mail#:#mail_entry_of_contacts#:#Name/Username of Contact
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.
 mail#:#mail_external_send_test_sys#:#Send Test E-Mail (System Mail)
 mail#:#mail_external_send_test_usr#:#Send Test E-Mail (User Mail)
-mail#:#mail_external_test_sent#:#An e-mail was sent to the e-mail address defined in your profile.
+mail#:#mail_external_test_sent#:#An e-mail has been sent to the e-mail address associated with your profile.
 mail#:#mail_file_name#:#File Name
 mail#:#mail_file_size#:#File Size
-mail#:#mail_files_deleted#:#The file(s) are deleted
+mail#:#mail_files_deleted#:#File(s) deleted.
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_body#:#Body
@@ -11248,13 +11249,13 @@ mail#:#mail_filter_subject#:#Subject
 mail#:#mail_filter_txt#:#Filter messages by
 mail#:#mail_first_email#:#First E-Mail Address
 mail#:#mail_firstname_last_name_superior#:#Comma separated list for firstname and lastname of the user's superior(s)
-mail#:#mail_folder_created#:#A new folder has been created
-mail#:#mail_folder_deleted#:#The folder has been deleted
-mail#:#mail_folder_exists#:#A folder already exists with this name
-mail#:#mail_folder_name_changed#:#The folder has been renamed
+mail#:#mail_folder_created#:#New folder successfully created.
+mail#:#mail_folder_deleted#:#Folder deleted.
+mail#:#mail_folder_exists#:#A folder with this name already exists.
+mail#:#mail_folder_name_changed#:#Folder successfully renamed.
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_form_placeholders_label#:#Available Placeholders
-mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s
+mail#:#mail_generic_rcp_error#:#An error occurred while validating the recipients: %1$s
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
@@ -11263,36 +11264,37 @@ mail#:#mail_incoming#:#Incoming Mail
 mail#:#mail_incoming_both#:#Receive Mail Locally and Forward to:
 mail#:#mail_incoming_local#:#Receive Mail Locally Only
 mail#:#mail_incoming_mail#:#Incoming Mail
-mail#:#mail_incoming_smtp#:#Forward to E-mail Address:
+mail#:#mail_incoming_smtp#:#Forward to E-Mail Address:
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
-mail#:#mail_is_read#:#gelesen
-mail#:#mail_is_unread#:#ungelesen
-mail#:#mail_list_members#:#List members
+mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
+mail#:#mail_is_read#:#Read
+mail#:#mail_is_unread#:#Unread
+mail#:#mail_list_members#:#List Members
 mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_mailing_lists#:#Mailing Lists
-mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
-mail#:#mail_mailing_lists_no_contact_entries#:#You have no entries in your contacts to add to a list.
-mail#:#mail_mark_read#:#Mark mail read
-mail#:#mail_mark_unread#:#Mark mail unread
-mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files).
-mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
+mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already added all of your contacts to this mailing list.
+mail#:#mail_mailing_lists_no_contact_entries#:#You don’t have any entries in your contacts to add to a mailing list.
+mail#:#mail_mark_read#:#Mark as Read
+mail#:#mail_mark_unread#:#Mark as Unread
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum combined size of all attachments allowed per mail. This setting is not related to other resource limits, e.g. server limits such as ‘upload_max_filesize’, as you can attach multiple files to a single mail.
+mail#:#mail_max_size_attachments_total_error#:#The maximum combined size of all attachments may not exceed:
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_member_notification#:#Participant Notification
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List "%s"
 mail#:#mail_members_search_continue#:#Continue
-mail#:#mail_message_send#:#Message sent
-mail#:#mail_move_error#:#Error moving mail
+mail#:#mail_message_send#:#Message sent.
+mail#:#mail_move_error#:#An error occurred while trying to move your mail.
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_move_to_folder_btn_label#:#Move Mail
 mail#:#mail_move_to_folder_x#:#to "%s"
-mail#:#mail_moved#:#The mail has been moved
-mail#:#mail_moved_to_trash#:#Mail has been moved to trash
-mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
+mail#:#mail_moved#:#Mail(s) moved.
+mail#:#mail_moved_to_trash#:#Mail(s) moved to trash.
+mail#:#mail_multiple_role_recipients_found#:#The value %1$s could apply to multiple recipient roles. Please send this mail directly from the ‘Members’ tab of the group or course in question.
 mail#:#mail_my_courses#:#My Courses
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
-mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
+mail#:#mail_nacc_admin_mail#:#Mail address of administrator
 mail#:#mail_nacc_if_timelimit#:#This text is only included if the user has a limited access period.
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
 mail#:#mail_nacc_installation_desc#:#Installation Description
@@ -11307,45 +11309,45 @@ mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
 mail#:#mail_nacc_timelimit#:#User access period
 mail#:#mail_nacc_title#:#Title
-mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in Message Content)
+mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in the ‘Message Content’ field)
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_subject#:#No subject available
-mail#:#mail_no_valid_mailing_list#:#%1$s (no valid mailing list)
+mail#:#mail_no_valid_mailing_list#:#%1$s (not a valid mailing list)
 mail#:#mail_notification_membership_section#:#Membership
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_notify_orphaned#:#Notification Mail
-mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an e-mail to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
-mail#:#mail_options_saved#:#Options saved
+mail#:#mail_notify_orphaned_info#:#If you enter a value here that is larger than or equal to 1, ILIAS will send a notification e-mail to all affected accounts that many days before any internal mails are deleted. Please make sure that external e-mail reception is possible.
+mail#:#mail_options_saved#:#Options saved.
 mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
-mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails
-mail#:#mail_recipient_not_found#:#%1$s (could not find a valid recipient)
+mail#:#mail_orphaned_mails_desc#:#Deletes orphaned mails and mails that are older than the configured threshold value (configurable via the ‘Edit’ link to the right of this cron job).
+mail#:#mail_recipient_not_found#:#%1$s - Please correct this entry in the ‘To’ field.
 mail#:#mail_rename_folder#:#Rename Folder
-mail#:#mail_roles#:#Users with the following local roles
+mail#:#mail_roles#:#All users with one or more of the following local roles
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
-mail#:#mail_salutation_f#:#Dear Mrs.
-mail#:#mail_salutation_female#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Ms.'
+mail#:#mail_salutation_f#:#Dear Ms
+mail#:#mail_salutation_female#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Ms'
 mail#:#mail_salutation_general#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if no salutation is desired or specified
-mail#:#mail_salutation_m#:#Dear Mr.
-mail#:#mail_salutation_male#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Mr.'
+mail#:#mail_salutation_m#:#Dear Mr
+mail#:#mail_salutation_male#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Mr'
 mail#:#mail_salutation_n#:#Hello
-mail#:#mail_saved#:#The message has been saved
+mail#:#mail_saved#:#Your mail has been saved.
 mail#:#mail_second_email#:#Second E-Mail Address
 mail#:#mail_sel_label#:#Send mail to
 mail#:#mail_sel_users#:#Selected users
-mail#:#mail_select_attachment#:#Please select an attachment for download.
+mail#:#mail_select_attachment#:#Please select an attachment to download.
 mail#:#mail_select_course#:#Please select at least one course.
 mail#:#mail_select_group#:#Please select at least one group.
-mail#:#mail_select_one_entry#:#You must select one entry
-mail#:#mail_select_one_file#:#You must select one file
+mail#:#mail_select_one_entry#:#You must select at least one entry.
+mail#:#mail_select_one_file#:#You must select at least one file.
 mail#:#mail_send_html#:#HTML Frame
-mail#:#mail_send_html_info#:#If enabled, the body of external e-mails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .
-mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
+mail#:#mail_send_html_info#:#Embed the body of external e-mails in an HTML frame. The corresponding template can be customised by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html'.
+mail#:#mail_serial_letter_placeholders#:#Mail Merge Placeholders
 mail#:#mail_settings_external_frm_head#:#External E-Mails
 mail#:#mail_settings_external_tab#:#External
 mail#:#mail_settings_general_tab#:#General
-mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
+mail#:#mail_settings_incoming_type_see_also#:#How incoming e-mails for users are handled can also be set <a href="%s">here</a>.
 mail#:#mail_settings_system_frm_head#:#System E-Mails
 mail#:#mail_settings_user_frm_head#:#User E-Mails
 mail#:#mail_smtp_encryption#:#Encryption
@@ -11354,76 +11356,76 @@ mail#:#mail_smtp_encryption_tls#:#TLS
 mail#:#mail_smtp_host#:#Host
 mail#:#mail_smtp_host_info#:#Please enter the hostname or IP of the desired mail server.
 mail#:#mail_smtp_password#:#Password
-mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
+mail#:#mail_smtp_password_req#:#If you have entered a user for authentication purposes, then you are also required to set a password.
 mail#:#mail_smtp_port#:#Port
 mail#:#mail_smtp_port_info#:#Please enter a numeric value for the mail server port (e.g. 25).
 mail#:#mail_smtp_status#:#Send via SMTP
-mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external e-mails to an SMTP server instead of using the the internal functionality provided by the PHP runtime (mail() function, sendmail).
+mail#:#mail_smtp_status_info#:#Have ILIAS dispatch external e-mails to an SMTP server instead of using the the internal functionality provided by the PHP runtime (mail() function, sendmail).
 mail#:#mail_smtp_user#:#User
 mail#:#mail_subject_prefix#:#Mail Subject
-mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails. It is recommended the usage of a prefix for supporting message filtering by users.
+mail#:#mail_subject_prefix_info#:#Enter a text which will be prepended to the subject line of outgoing auto-generated e-mails. The usage of a prefix is recommended, as it makes it easier for users to filter messages.
 mail#:#mail_subject_too_long#:#The subject is too long.
-mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
+mail#:#mail_sure_delete#:#Are you sure you want to delete the selected mail(s)?
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
-mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?
-mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
+mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file(s)?
+mail#:#mail_sure_delete_folder#:#The folder and its contents will be irrevocably deleted.
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_from_addr#:#Sender E-Mail (From)
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
-mail#:#mail_system_sys_from_name#:#Sender Fullname (From)
+mail#:#mail_system_sys_from_name#:#Name of Sender (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_signature#:#Signature
 mail#:#mail_system_usr_env_from_addr#:#Technical Sender
 mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_usr_from_addr#:#Sender E-Mail (From)
-mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
-mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
-mail#:#mail_system_usr_from_name_info#:#You can use the placeholders &lbrace;&lbrace;FULLNAME&rbrace;&rbrace;, &lbrace;&lbrace;FIRSTNAME&rbrace;&rbrace; and &lbrace;&lbrace;LASTNAME&rbrace;&rbrace;. These will then be replaced by the respective data of the e-mail initiator.
+mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client and helps prevent mails being rejected as spam. When a user manually sends an e-mail via ILIAS, the e-mail address associated with that user’s account will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
+mail#:#mail_system_usr_from_name#:#Name of Sender (From)
+mail#:#mail_system_usr_from_name_info#:#The name of the sender is normally displayed in e-mail clients in the ‘From’ line. You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the relevant data of the user who manually sent the mail.
 mail#:#mail_tbl_head_attachments#:#Attachment
 mail#:#mail_template_client#:#Text Template
-mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
+mail#:#mail_template_client_info#:#Choose one of the available text templates and, if required, make use of its placeholders. Switching to a different text template will change the message content of your mail and lose any changes you may have made. The subject line of your mail will not change and needs to be altered manually.
 mail#:#mail_template_context#:#Context
 mail#:#mail_template_default#:# (Default)
 mail#:#mail_template_invalid_tpl_syntax#:#An invalid syntax has been detected. Please ensure a valid input, especially regarding the placeholder syntax.
-mail#:#mail_template_missing_id#:#Can't execute the action because the text template id is missing.
-mail#:#mail_template_no_context_available#:#There is no context provided by any ILIAS service or module. Thus it is not possible to create or edit a text template.
-mail#:#mail_template_no_valid_context#:#The given context is not valid.
+mail#:#mail_template_missing_id#:#This action cannot be carried out because the text template ID is missing.
+mail#:#mail_template_no_context_available#:#Currently, no context is being provided by any ILIAS service or module. It is therefore not possible to create or edit a text template.
+mail#:#mail_template_no_valid_context#:#The selected context is not valid.
 mail#:#mail_template_orphaned_context#:#Orphaned Context
 mail#:#mail_template_set_as_default#:#Set as Default
 mail#:#mail_template_title#:#Name
-mail#:#mail_template_unset_as_default#:#Unset as Default
+mail#:#mail_template_unset_as_default#:#Remove Default Status
 mail#:#mail_templates#:#Text Templates
 mail#:#mail_threshold#:#Threshold
-mail#:#mail_threshold_info#:#Internal messages that are older than the defined threshold value here, will be deleted (including possibly existing attachments). <br> Please keep in mind that on the first run of this cronjob  a lot of messages will be deleted and because of this it is not possible to send a mail as a warning.
+mail#:#mail_threshold_info#:#Internal messages that are older than the entered threshold value will be deleted (including any attachments they may have). <br> Please keep in mind that the first time this cron job is run, a lot of messages may need to be deleted (depending on the threshold value) and because of this it will not be possible to warn users via notification mail.
 mail#:#mail_to#:#To
-mail#:#mail_tpl_deleted_p#:#The text templates were successfully deleted.
-mail#:#mail_tpl_deleted_s#:#The text template was successfully deleted.
-mail#:#mail_tpl_sure_delete_entries#:#Are you sure you want to delete the following entries?
-mail#:#mail_tpl_sure_delete_entry#:#Are you sure you want to delete the text template?
-mail#:#mail_use_global_reply_to_addr#:#Use Global Reply-To
-mail#:#mail_use_global_reply_to_addr_info#:#If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore.
+mail#:#mail_tpl_deleted_p#:#Text templates successfully deleted.
+mail#:#mail_tpl_deleted_s#:#Text template successfully deleted.
+mail#:#mail_tpl_sure_delete_entries#:#Are you sure you want to delete the following text templates?
+mail#:#mail_tpl_sure_delete_entry#:#Are you sure you want to delete the following text template?
+mail#:#mail_use_global_reply_to_addr#:#Use Global Reply-To Address
+mail#:#mail_use_global_reply_to_addr_info#:#Use an email address as the reply-to address across the whole platform. Senders’ email addresses will not be disclosed to recipients. Direct replies to e-mails will also no longer be possible.
 mail#:#nc_mail_noti_item_title#:#Inbox
 mail#:#nc_mail_prop_time#:#Time
 mail#:#nc_mail_unread_messages#:#You have %s in your inbox.
-mail#:#nc_mail_unread_messages_number_p#:#%s Unread Mails
-mail#:#nc_mail_unread_messages_number_s#:#1 Unread Mail
-mail#:#only_inbox_trash#:#Only consider inbox / trash
-mail#:#only_inbox_trash_info#:#If enabled, e-mails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder.
-mail#:#orphaned_mail_body#:#The following old or orphaned mails are in your mailbox. Please note, that these mails will be deleted automatically soon.
-mail#:#orphaned_mail_subject#:#Notification about orphaned mails
-mail#:#placeholders_advise#:#Personal placeholders are only substituted for recipients in the 'To' field. %s personal placeholders of CC and BCC recipients are kept as they are.
+mail#:#nc_mail_unread_messages_number_p#:#%s unread mails
+mail#:#nc_mail_unread_messages_number_s#:#1 unread mail
+mail#:#only_inbox_trash#:#Limit to Inbox / Trash
+mail#:#only_inbox_trash_info#:#Only delete e-mails that are located in the Inbox or Trash folders of users. Otherwise, all messages are deleted regardless of the folder they are in.
+mail#:#orphaned_mail_body#:#Your mailbox contains the following old or orphaned mails. Please note that these mails will soon be automatically deleted.
+mail#:#orphaned_mail_subject#:#Notification of orphaned mails
+mail#:#placeholders_advise#:#Personal placeholders are only replaced with user-specific information for recipients listed in the ‘To’ field.%s Personal placeholders for recipients listed in the CC and BCC fields are NOT replaced with user-specific information and instead show up as placeholders.
 mail#:#search_content#:#Search Result
-mail#:#search_recipients#:#Search Recipients
-mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered
+mail#:#search_recipients#:#Look up Users
+mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered.
 mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“
 mail#:#send_mail_admins#:#All Administrators
 mail#:#send_mail_members#:#All Members
 mail#:#send_mail_to#:#Mail to
 mail#:#send_mail_tutors#:#All Tutors
 mail#:#show_mail_settings#:#Show Mail Settings
-mail#:#show_mail_settings_info#:#'Mail Settings' are visible via the 'Personal Settings' or 'Mail' section. The permission to change these settings depends on the configuration of the user profile in ILIAS. If users do not have the permission to change these profile settings the global default is applied even if users were able to and did change their personal mail settings in the past.
-mail#:#system_notification_installation_changed_by#:#Changed By
+mail#:#show_mail_settings_info#:#Enable individual users to alter their mail settings, thereby overriding the global mail settings that would otherwise apply to them. ‘Mail Settings’ are accessible via their ‘Personal Settings’ or ‘Communication > Mail’. Note: In order for users to be allowed to change their individual mail settings and thereby override the global settings, this needs to be set in the 'Standard Fields' section of the global user account administration settings. If users do not have the permission to change these profile settings, the global default is applied even if users were able to and did change their personal mail settings in the past.
+mail#:#system_notification_installation_changed_by#:#Changed by
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search?q=[QUERY]&format=json
@@ -11721,7 +11723,6 @@ meta#:#md_delete_cp_sure#:#Are you sure you want to delete the following entries
 meta#:#md_delimiter#:#Delimiter
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen to separate multiple keywords and/or authors. Default is ‘,’.
 meta#:#md_fields#:#Fields
-meta#:#md_general_settings#:#General Settings
 meta#:#md_months#:#Months:
 meta#:#md_obj_types#:#Assigned Objects
 meta#:#md_record_export_table#:#Export Files

@@ -40,14 +40,16 @@ class ilTestObjectiveOrientedContainerTest extends ilTestBaseTestCase
 
     public function testObjId(): void
     {
-        $this->testObj->setObjId(125);
-        $this->assertEquals(125, $this->testObj->getObjId());
+        $objId = 125;
+        $this->testObj->setObjId($objId);
+        $this->assertEquals($objId, $this->testObj->getObjId());
     }
 
     public function testRefId(): void
     {
-        $this->testObj->setRefId(125);
-        $this->assertEquals(125, $this->testObj->getRefId());
+        $refId = 125;
+        $this->testObj->setRefId($refId);
+        $this->assertEquals($refId, $this->testObj->getRefId());
     }
 
     public function testIsObjectiveOrientedPresentationRequired(): void

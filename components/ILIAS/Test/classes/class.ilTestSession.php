@@ -86,7 +86,7 @@ class ilTestSession
                 $row = $this->db->fetchAssoc($result);
                 $this->active_id = (int) $row["active_id"];
                 $this->user_id = (int) $row["user_fi"];
-                $this->anonymous_id = $row["anonymous_id"];
+                $this->anonymous_id = $row["anonymous_id"] ?? '';
                 $this->test_id = (int) $row["test_fi"];
                 $this->lastsequence = (int) $row["lastindex"];
                 $this->pass = (int) $row["tries"];

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified">
+
+  <xs:element name="LearningSequence">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="LPSetting" name="LPSetting" minOccurs="1" maxOccurs="1"/>
+        <xs:element type="LSItems" name="LSItems" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="ref_id"  type="xs:string"  use="required" />
+      <xs:attribute name="members_gallery"  type="xs:boolean"  use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="LPSetting">
+    <xs:sequence>
+      <xs:element type="xs:string" name="LPRefId" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+    <xs:attribute name="mode" type="xs:string" use="required"/>
+
+  </xs:complexType>
+
+  <xs:complexType name="LSItems">
+    <xs:sequence>
+      <xs:element type="LSItem" name="LSItem" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LSItem">
+    <xs:sequence>
+      <xs:element type="Condition" name="Condition" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="obj_id" type="xs:string" use="required"/>
+    <xs:attribute name="ref_id" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="Condition">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="type" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+</xs:schema>

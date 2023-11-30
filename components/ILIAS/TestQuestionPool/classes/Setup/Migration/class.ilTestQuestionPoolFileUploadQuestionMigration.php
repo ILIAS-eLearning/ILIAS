@@ -50,18 +50,18 @@ class ilTestQuestionPoolFileUploadQuestionMigration implements Migration
     {
         $db = $this->helper->getDatabase();
         $res = $db->query(
-            "SELECT
-                        tst_solutions.solution_id AS solution_id,
-                        tst_active.user_fi AS user_id,
-                        tst_solutions.question_fi AS question_id,
-                        tst_solutions.active_fi AS active_id,
-                        tst_active.test_fi AS test_id,
-                        tst_solutions.value1 AS filename,
-                        tst_solutions.value2 AS revision_name
-                    FROM tst_solutions
-                             INNER JOIN qpl_qst_fileupload ON qpl_qst_fileupload.question_fi = tst_solutions.question_fi
-                             INNER JOIN tst_active ON tst_active.active_id =  tst_solutions.active_fi
-                    WHERE tst_solutions.value2 != 'rid';"
+            'SELECT
+                tst_solutions.solution_id AS solution_id,
+                tst_active.user_fi AS user_id,
+                tst_solutions.question_fi AS question_id,
+                tst_solutions.active_fi AS active_id,
+                tst_active.test_fi AS test_id,
+                tst_solutions.value1 AS filename,
+                tst_solutions.value2 AS revision_name
+            FROM tst_solutions
+                     INNER JOIN qpl_qst_fileupload ON qpl_qst_fileupload.question_fi = tst_solutions.question_fi
+                     INNER JOIN tst_active ON tst_active.active_id =  tst_solutions.active_fi
+            WHERE tst_solutions.value2 != "rid";'
         );
 
         $res = $db->fetchAssoc($res);
@@ -83,23 +83,27 @@ class ilTestQuestionPoolFileUploadQuestionMigration implements Migration
             $filename
         );
 
-        $rid = $this->helper->movePathToStorage(
-            $path,
-            $user_id,
-            null,
-            static function () use ($revision_name): string {
-                return $revision_name;
-            }
-        );
-        if ($rid === null) {
-            return; // no files found
+        $rid = null;
+
+        if (file_exists($path)) {
+            $rid = $this->helper->movePathToStorage(
+                $path,
+                $user_id,
+                null,
+                static function () use ($revision_name): string {
+                    return $revision_name;
+                }
+            );
+        }
+        if ($rid !== null) {
+            $rid = $rid->serialize(); // no files found
         }
 
         // store the rid in as value1 and 'rid' as value2
         $db->update(
             'tst_solutions',
             [
-                'value1' => ['string', $rid->serialize()],
+                'value1' => ['string', $rid],
                 'value2' => ['string', 'rid']
             ],
             [
@@ -113,10 +117,10 @@ class ilTestQuestionPoolFileUploadQuestionMigration implements Migration
         $database = $this->helper->getDatabase();
         $res = $database->query(
             "SELECT COUNT(*) as count
-FROM tst_solutions
-         INNER JOIN qpl_qst_fileupload ON qpl_qst_fileupload.question_fi = tst_solutions.question_fi
-         INNER JOIN tst_active ON tst_active.active_id =  tst_solutions.active_fi
-WHERE tst_solutions.value2 != 'rid';"
+            FROM tst_solutions
+            INNER JOIN qpl_qst_fileupload ON qpl_qst_fileupload.question_fi = tst_solutions.question_fi
+            INNER JOIN tst_active ON tst_active.active_id =  tst_solutions.active_fi
+            WHERE tst_solutions.value2 != 'rid';"
         );
 
         return (int) $database->fetchAssoc($res)['count'];

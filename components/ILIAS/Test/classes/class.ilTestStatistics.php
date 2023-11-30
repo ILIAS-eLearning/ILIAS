@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
 * This class calculates statistical data for a test which has to be
 * calculated using all participant datasets (like the median).

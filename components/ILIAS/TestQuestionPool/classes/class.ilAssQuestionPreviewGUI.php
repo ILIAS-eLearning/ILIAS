@@ -371,8 +371,9 @@ class ilAssQuestionPreviewGUI
 
         // FOR WHICH SITUATION IS THIS WORKAROUND NECCESSARY? (sure .. imagemaps, but where this can be done?)
         if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST['editImagemapForward_x'])) { // workaround for page edit imagemaps, keep in mind
-            $this->ctrl->setCmdClass(get_class($pageGUI));
-            $this->ctrl->setCmd('preview');
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmdClass(get_class($pageGUI));
+            // $this->ctrl->setCmd('preview');
         }
 
         $this->questionGUI->setPreviewSession($this->previewSession);
@@ -421,8 +422,9 @@ class ilAssQuestionPreviewGUI
 
         // FOR WHICH SITUATION IS THIS WORKAROUND NECCESSARY? (sure .. imagemaps, but where this can be done?)
         if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST['editImagemapForward_x'])) { // workaround for page edit imagemaps, keep in mind
-            $this->ctrl->setCmdClass(get_class($pageGUI));
-            $this->ctrl->setCmd('preview');
+            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+            // $this->ctrl->setCmdClass(get_class($pageGUI));
+            // $this->ctrl->setCmd('preview');
         }
 
         $this->questionGUI->setPreviewSession($this->previewSession);

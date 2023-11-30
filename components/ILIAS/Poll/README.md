@@ -19,6 +19,8 @@ write-access even if the poll is offline.
 - Title and description of the poll, an anchor with its id, whether
 it is offline (or unavailable), and comments (if enabled) are always
 rendered in the block.
+- For anonymous users, a warning is shown that they need to be logged in
+to interact with the poll.
 - When no question is set yet, a corresponding message
 is shown in the block.
 - When a question is set, but a limited voting period is set and has not

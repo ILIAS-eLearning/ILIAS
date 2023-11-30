@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,17 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilLearningSequenceExporter extends ilXmlExporter
 {
     protected ilSetting $settings;
-    protected ilRbacReview $rbac_review;
 
     public function init(): void
     {
         global $DIC;
-
         $this->settings = $DIC["ilSetting"];
-        $this->rbac_review = $DIC["rbacreview"];
     }
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
@@ -59,33 +56,32 @@ class ilLearningSequenceExporter extends ilXmlExporter
         return new ilLearningSequenceXMLWriter(
             $ls_object,
             $this->settings,
-            $lp_settings,
-            $this->rbac_review
+            $lp_settings
         );
     }
 
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            "5.4.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/LearningSequence/lso/5_4",
-                "xsd_file" => "ilias_lso_5_4.xsd",
+        return [
+            "9.0.0" => [
+                "namespace" => "http://www.ilias.de/Modules/LearningSequence/lso/9_0",
+                "xsd_file" => "ilias_lso_9_0.xsd",
                 "uses_dataset" => false,
-                "min" => "5.4.0",
+                "min" => "9.0",
                 "max" => ""
-            )
-        );
+            ]
+        ];
     }
 
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
-        return array(
-            array(
+        return [
+            [
                 'component' => 'components/ILIAS/Container',
                 'entity' => 'struct',
                 'ids' => $a_ids
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -97,13 +93,33 @@ class ilLearningSequenceExporter extends ilXmlExporter
 
         if ($a_entity == "lso") {
             // service settings
-            $res[] = array(
+            $res[] = [
                 "component" => "components/ILIAS/Object",
                 "entity" => "common",
                 "ids" => $a_ids
-            );
+            ];
         }
 
+        // container pages
+        $pg_ids = [];
+        $lso_ids = [];
+        foreach ($a_ids as $id) {
+            $lso_ids[] = (int)$id * ilObjLearningSequence::CP_INTRO;
+            $lso_ids[] = (int)$id * ilObjLearningSequence::CP_EXTRO;
+        }
+        foreach ($lso_ids as $id) {
+            if (ilContainerPage::_exists("cont", (int) $id)) {
+                $pg_ids[] = "cont:" . $id;
+            }
+        }
+
+        if (count($pg_ids)) {
+            $res[] = [
+                "component" => "Services/COPage",
+                "entity" => "pg",
+                "ids" => $pg_ids
+            ];
+        }
         return $res;
     }
 }

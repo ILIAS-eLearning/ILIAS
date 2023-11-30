@@ -3417,12 +3417,6 @@ input.btn, input.il-link.link-bulky,
   text-align: left;
 }
 
-.il-drilldown .menulevel {
-  justify-content: space-between;
-  text-align: left;
-  margin-bottom: 2px;
-}
-
 .btn-lg, .btn-group-lg > .btn {
   min-height: 50.4px;
   min-width: 50.4px;
@@ -3465,6 +3459,8 @@ button > .glyphicon {
   font-weight: 600;
   line-height: 1;
   color: #737373;
+  background-color: transparent;
+  border: 0;
 }
 .minimize:hover, .minimize:focus, .close:hover, .close:focus {
   color: #2c2c2c;
@@ -6541,12 +6537,13 @@ footer {
   align-items: center;
   min-height: 80px;
   margin-bottom: 2px;
-  padding: 9px 15px;
+  padding: 9px 15px 9px 38px;
   z-index: initial;
 }
 .il-drilldown header h2 {
   font-size: 1.115rem;
   margin: 0;
+  padding: 0;
 }
 .il-drilldown header .backnav {
   display: none;
@@ -6562,7 +6559,7 @@ footer {
   border: none;
 }
 .il-drilldown header.show-backnav {
-  padding-left: 39px;
+  padding-left: 38px;
 }
 .il-drilldown header.show-backnav .backnav {
   display: block;
@@ -6585,18 +6582,27 @@ footer {
   margin: 6px 0;
 }
 .il-drilldown .btn-bulky,
-.il-drilldown .link-bulky {
+.il-drilldown .link-bulky,
+.il-drilldown .menulevel {
   background-color: transparent;
   border-color: transparent;
 }
 .il-drilldown .btn-bulky:hover,
-.il-drilldown .link-bulky:hover {
+.il-drilldown .link-bulky:hover,
+.il-drilldown .menulevel:hover {
   background-color: #e2e8ef;
   color: inherit;
 }
 .il-drilldown .btn-bulky .icon,
-.il-drilldown .link-bulky .icon {
+.il-drilldown .link-bulky .icon,
+.il-drilldown .menulevel .icon {
   filter: invert(50%);
+}
+.il-drilldown .menulevel {
+  justify-content: space-between;
+  text-align: left;
+  padding-left: 38px;
+  margin-bottom: 2px;
 }
 
 div.alert div {
@@ -6729,6 +6735,9 @@ div.alert ul > li:before {
 .modal-body {
   position: relative;
   padding: 9px 15px;
+}
+.modal-body .il-standard-form .il-standard-form-header + .il-section-input {
+  margin-top: 0;
 }
 
 .modal-footer {
@@ -8805,24 +8814,10 @@ div.alert ul > li:before {
 .il-table-presentation-row {
   background-color: white;
   border-top: 1px solid #dddddd;
-  margin: 0;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   position: relative;
   white-space: nowrap;
-}
-.il-table-presentation-row .il-table-presentation-actions {
-  right: 10px;
-  position: absolute;
-}
-.il-table-presentation-row .il-table-presentation-row-controls,
-.il-table-presentation-row .il-table-presentation-row-contents {
-  display: inline-block;
-  vertical-align: top;
-}
-.il-table-presentation-row .il-table-presentation-row-controls {
-  width: 5%;
-  padding-left: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-controls .il-table-presentation-row-controls-collapser {
   display: none; /*initially hidden*/
@@ -8832,13 +8827,6 @@ div.alert ul > li:before {
 }
 .il-table-presentation-row .il-table-presentation-row-contents {
   white-space: normal;
-  width: 95%;
-}
-.il-table-presentation-row .il-table-presentation-actions {
-  margin: 5px 0;
-}
-.il-table-presentation-row .il-table-presentation-actions:not(:empty) + .il-table-presentation-row-header {
-  max-width: calc(100% - 11rem);
 }
 .il-table-presentation-row .il-table-presentation-row-header {
   min-height: 2rem;
@@ -8850,61 +8838,50 @@ div.alert ul > li:before {
   margin: 0;
   cursor: pointer;
 }
+@media screen and (max-width: 768px) {
+  .il-table-presentation-row .il-table-presentation-row-header {
+    order: 1;
+  }
+}
 .il-table-presentation-row .il-table-presentation-row-header .il-table-presentation-row-header-fields {
   display: block; /*initially visible*/
+}
+@media screen and (max-width: 768px) {
+  .il-table-presentation-row .il-table-presentation-actions {
+    order: 3;
+    margin-top: 12px;
+  }
 }
 .il-table-presentation-row .il-table-presentation-row-header-fields-label::after,
 .il-table-presentation-row .il-table-presentation-desclist .il-listing-characteristic-value-label::after {
   content: ":";
 }
 .il-table-presentation-row .il-table-presentation-row-expanded {
-  --bs-gutter-x: 30px;
-  --bs-gutter-y: 0;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: calc(-1 * var(--bs-gutter-y));
-  margin-right: calc(-0.5 * var(--bs-gutter-x));
-  margin-left: calc(-0.5 * var(--bs-gutter-x));
   display: none; /*initially hidden*/
   margin-top: 6px;
-  margin-left: 0;
-  margin-right: 0;
 }
-.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist {
-  padding-right: 6px;
-}
-.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist.desclist-column {
-  padding-left: 0;
-}
-@media (min-width: 480px) {
-  .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist.desclist-column {
-    flex: 0 0 auto;
-    width: 58.3333333333%;
-  }
-}
-@media (min-width: 480px) {
-  .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
-    flex: 0 0 auto;
-    width: 41.6666666667%;
+@media screen and (max-width: 768px) {
+  .il-table-presentation-row .il-table-presentation-row-expanded {
+    order: 2;
   }
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-actions {
   margin-bottom: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields {
-  min-height: 20px;
-  padding: 19px;
-  margin-bottom: 20px;
+  min-height: auto;
+  padding: 18px;
   background-color: #f0f0f0;
-  border: 1px solid #757575;
+  border: 1px solid #dddddd;
   border-radius: 0px;
+  text-color: white;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  min-height: 20px;
   font-size: 0.75rem;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields blockquote {
-  border-color: #ddd;
-  border-color: rgba(0, 0, 0, 0.15);
+  border-color: #dddddd;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
   color: #6f6f6f;
@@ -10182,7 +10159,6 @@ div.il_info {
 .well {
   min-height: auto;
   padding: 18px;
-  margin-bottom: 12px;
   background-color: #f0f0f0;
   border: 1px solid #dddddd;
   border-radius: 0px;
@@ -10197,7 +10173,6 @@ div.il_info {
 .php {
   min-height: auto;
   padding: 18px;
-  margin-bottom: 12px;
   background-color: #f9f9f9;
   border: 1px solid #dddddd;
   border-radius: 0px;
@@ -13558,12 +13533,12 @@ div#block_cal_sel_0 div.ilBlockContent {
 }
 
 div.ilCalSelAct {
-  font-size: 90%;
+  font-size: 0.75rem;
   padding: 2px 2px 3px 0;
 }
 
 div.ilCalSelSelAll {
-  font-size: 80%;
+  font-size: 0.625rem;
   padding: 3px 2px 2px 0;
 }
 
@@ -13614,12 +13589,12 @@ div.ilCalSelList h6 {
 
 div.ilCalSelTitle {
   padding: 5px 3px 3px;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 
 table.calmini {
   width: 100%;
-  font-size: 90%;
+  font-size: 0.75rem;
   border-collapse: collapse;
   background-color: #f9f9f9;
   border: none;
@@ -13643,7 +13618,7 @@ table.calmini tr {
 }
 table.calmini th.calmini, table.calmini th.calminiweek {
   font-weight: 600;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 table.calmini td.calminitoday {
   background-color: #B54F00;
@@ -13669,12 +13644,13 @@ a.callink:link, a.callink:visited {
 .il_calevent > .btn.btn-link {
   color: inherit;
   vertical-align: inherit;
+  font-size: 0.875rem;
 }
 
 .cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
   text-align: left;
   vertical-align: top;
-  font-size: 90%;
+  font-size: 0.875rem;
 }
 
 table.calstd {
@@ -13682,7 +13658,7 @@ table.calstd {
   color: #161616;
   width: 100%;
   border: none;
-  font-size: 100%;
+  font-size: 0.875rem;
 }
 
 .calheader {
@@ -13717,7 +13693,7 @@ td.calheadertime {
   width: 6em;
   text-align: center;
   background-color: #f0f0f0;
-  font-size: 90%;
+  font-size: 0.875rem;
   padding: 3px;
 }
 
@@ -13838,12 +13814,16 @@ p.il_calevent {
   margin: 2px 0 0 0;
   padding: 2px;
   border-spacing: 0px;
-  font-size: 90%;
+  font-size: 0.875rem;
 }
 p.il_calevent .btn-link {
   margin: 0 auto;
   width: 100%;
   text-align: center;
+}
+
+div.il_calevent {
+  font-size: 0.875rem;
 }
 
 td.calevent {
@@ -13854,12 +13834,12 @@ td.calevent {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.875rem;
   /*background-color:white;*/
 }
 
 div.calevent {
-  font-size: 90%;
+  font-size: 0.875rem;
   padding: 3px;
   margin: 3px;
 }
@@ -13891,7 +13871,7 @@ table.calmini {
 
 th.calmini {
   text-align: center;
-  font-size: 90%;
+  font-size: 0.75rem;
   font-weight: 400;
   background-color: white;
 }
@@ -13913,7 +13893,7 @@ td.calministd {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13924,7 +13904,7 @@ td.calminitoday {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13935,7 +13915,7 @@ td.calmininow {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13946,7 +13926,7 @@ td.calmininext {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13957,7 +13937,7 @@ td.calminiprev {
   border-width: 1px;
   border-style: solid;
   border-color: #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -13965,7 +13945,7 @@ td.calminiprev {
 td.calminiweek, th.calminiweek {
   vertical-align: top;
   background-color: white;
-  font-size: 60%;
+  font-size: 0.625rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -15703,10 +15683,6 @@ a#ilHelpClose {
   border-top: 1px solid #dddddd;
 }
 
-.il_InfoScreenPropertyValue {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
 .il_InfoScreenPropertyValue .ilProfile {
   margin: 0;
 }
@@ -18016,7 +17992,7 @@ a.ilMediaLightboxClose:hover {
 .ilToolbar .ilToolbarItems {
   padding: 0;
 }
-.ilToolbar .form-control {
+.ilToolbar > .form-control {
   width: auto;
   display: inline-block;
   vertical-align: middle;
@@ -18119,14 +18095,6 @@ a.ilMediaLightboxClose:hover {
     padding-left: 0;
   }
 }
-.ilToolbar .navbar-form .modal .radio {
-  display: block;
-}
-
-.ilToolbar .navbar-form .modal .form-group {
-  display: block;
-}
-
 .navbar {
   position: relative;
   min-height: 40px;

@@ -150,7 +150,8 @@ class ilPermissionGUI extends ilPermission2GUI
     protected function confirmTemplateSwitch(): void
     {
         $this->ctrl->setReturn($this, 'perm');
-        $this->ctrl->setCmdClass('ildidactictemplategui');
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmdClass('ildidactictemplategui');
         $dtpl_gui = new ilDidacticTemplateGUI($this->gui_obj);
         $this->ctrl->forwardCommand($dtpl_gui);
     }

@@ -93,11 +93,7 @@ class ilUpdateMailTemplatesForMustache implements Migration
 
     protected function getWhere(): string
     {
-        return ' WHERE ' . PHP_EOL
-            . $this->db->like('m_message', ilDBConstants::T_TEXT, '%[%') . ' OR ' . PHP_EOL
-            . $this->db->like('m_message', ilDBConstants::T_TEXT, '%]%') . ' OR ' . PHP_EOL
-            . $this->db->like('m_subject', ilDBConstants::T_TEXT, '%[%') . ' OR ' . PHP_EOL
-            . $this->db->like('m_subject', ilDBConstants::T_TEXT, '%]%');
+        return " WHERE (m_subject REGEXP '\[[A-Z_]+?\]' OR m_message REGEXP '\[[A-Z_]+?\]')" . PHP_EOL;
     }
 
     protected function replace(int $tpl_id, string $lang): void

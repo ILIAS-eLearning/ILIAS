@@ -146,7 +146,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             case 'iltestexpresspageobjectgui':
                 if ($cmd == 'view') {
                     $cmd = 'showPage';
-                    $this->ctrl->setCmd($cmd);
+                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                    // $this->ctrl->setCmd($cmd);
                 }
 
                 $q_gui = assQuestionGUI::_getQuestionGUI('', (int) $this->testrequest->raw('q_id'));

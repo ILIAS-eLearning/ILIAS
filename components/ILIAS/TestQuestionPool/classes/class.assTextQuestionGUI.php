@@ -478,7 +478,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setCurrentBlock("maximum_char_hint");
             $template->setVariable("MAXIMUM_CHAR_HINT", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxNumOfChars()));
             $template->parseCurrentBlock();
-            #mbecker: No such block. $template->setCurrentBlock("has_maxchars");
             $template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
             $template->parseCurrentBlock();
             $template->setCurrentBlock("maxchars_counter");

@@ -98,12 +98,14 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             $next_class !== "illearningprogressgui") {
             switch ($type) {
                 case "scorm2004":
-                    $this->ctrl->setCmdClass("ilscorm13playergui");
+                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                    // $this->ctrl->setCmdClass("ilscorm13playergui");
                     $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                     break;
 
                 case "scorm":
-                    $this->ctrl->setCmdClass("ilscormpresentationgui");
+                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                    // $this->ctrl->setCmdClass("ilscormpresentationgui");
                     $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                     break;
             }
@@ -172,8 +174,9 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
      */
     public function infoScreen(): void
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd("showSummary");
+        // $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->outputInfoScreen();
     }
 

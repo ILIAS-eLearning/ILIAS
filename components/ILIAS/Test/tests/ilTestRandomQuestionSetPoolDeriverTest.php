@@ -44,14 +44,16 @@ class ilTestRandomQuestionSetPoolDeriverTest extends ilTestBaseTestCase
 
     public function testTargetContainerRef(): void
     {
-        $this->testObj->setTargetContainerRef(125);
-        $this->assertEquals(125, $this->testObj->getTargetContainerRef());
+        $targetContainerRef = 125;
+        $this->testObj->setTargetContainerRef($targetContainerRef);
+        $this->assertEquals($targetContainerRef, $this->testObj->getTargetContainerRef());
     }
 
     public function testOwnerId(): void
     {
-        $this->testObj->setOwnerId(125);
-        $this->assertEquals(125, $this->testObj->getOwnerId());
+        $ownerId = 125;
+        $this->testObj->setOwnerId($ownerId);
+        $this->assertEquals($ownerId, $this->testObj->getOwnerId());
     }
 
     public function testSourcePoolDefinitionList(): void

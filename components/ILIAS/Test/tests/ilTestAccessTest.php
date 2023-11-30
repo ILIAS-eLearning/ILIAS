@@ -50,15 +50,17 @@ class ilTestAccessTest extends ilTestBaseTestCase
 
     public function testRefId(): void
     {
-        $this->testObj->setRefId(120);
+        $ref_id = 120;
+        $this->testObj->setRefId($ref_id);
 
-        $this->assertEquals(120, $this->testObj->getRefId());
+        $this->assertEquals($ref_id, $this->testObj->getRefId());
     }
 
     public function testTestId(): void
     {
-        $this->testObj->setTestId(120);
+        $test_id = 120;
+        $this->testObj->setTestId($test_id);
 
-        $this->assertEquals(120, $this->testObj->getTestId());
+        $this->assertEquals($test_id, $this->testObj->getTestId());
     }
 }

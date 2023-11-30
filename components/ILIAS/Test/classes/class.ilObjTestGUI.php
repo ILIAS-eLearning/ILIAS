@@ -26,8 +26,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
-
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
+use ILIAS\Test\QuestionIdentifiers;
 
 /**
  * Class ilObjTestGUI
@@ -705,8 +704,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $page_gui->setEditPreview(true);
                 $page_gui->setEnabledTabs(false);
                 if (strlen($this->ctrl->getCmd()) == 0) {
-                    $this->ctrl->setCmdClass(get_class($page_gui));
-                    $this->ctrl->setCmd("preview");
+                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+                    // $this->ctrl->setCmdClass(get_class($page_gui));
+                    // $this->ctrl->setCmd("preview");
                 }
 
                 $page_gui->setQuestionHTML([$q_gui->object->getId() => $q_gui->getPreview(true)]);
@@ -1048,8 +1048,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     private function userResultsGatewayObject()
     {
-        $this->ctrl->setCmdClass('ilTestEvaluationGUI');
-        $this->ctrl->setCmd('outUserResultsOverview');
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmdClass('ilTestEvaluationGUI');
+        // $this->ctrl->setCmd('outUserResultsOverview');
         $this->tabs_gui->clearTargets();
 
         $this->forwardToEvaluationGUI();
@@ -1062,8 +1063,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->prepareOutput();
         $this->addHeaderAction();
 
-        $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
-        $this->ctrl->setCmd('showParticipants');
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
+        // $this->ctrl->setCmd('showParticipants');
 
 
         $gui = new ilParticipantsTestResultsGUI(
@@ -1338,63 +1340,63 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $importVerificationTpl->setVariable("QUESTION_IDENT", $item["ident"]);
 
             switch ($item["type"]) {
-                case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_MULTIPLE_CHOICE_MR:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
                     break;
-                case SINGLE_CHOICE_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::SINGLE_CHOICE_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_MULTIPLE_CHOICE_SR:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
                     break;
-                case KPRIM_CHOICE_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::KPRIM_CHOICE_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_KPRIM_CHOICE:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
                     break;
-                case LONG_MENU_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::LONG_MENU_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_LONG_MENU:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assLongMenu"));
                     break;
-                case NUMERIC_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::NUMERIC_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_NUMERIC:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
                     break;
-                case FORMULA_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::FORMULA_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_FORMULA:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFormulaQuestion"));
                     break;
-                case TEXTSUBSET_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::TEXTSUBSET_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_TEXTSUBSET:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
                     break;
-                case CLOZE_TEST_IDENTIFIER:
+                case QuestionIdentifiers::CLOZE_TEST_IDENTIFIER:
                 case ilQTIItem::QT_CLOZE:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
                     break;
-                case ERROR_TEXT_IDENTIFIER:
+                case QuestionIdentifiers::ERROR_TEXT_IDENTIFIER:
                 case ilQTIItem::QT_ERRORTEXT:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assErrorText"));
                     break;
-                case IMAGEMAP_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::IMAGEMAP_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_IMAGEMAP:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
                     break;
-                case MATCHING_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::MATCHING_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_MATCHING:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
                     break;
-                case ORDERING_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::ORDERING_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_ORDERING:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
                     break;
-                case ORDERING_HORIZONTAL_IDENTIFIER:
+                case OQuestionIdentifiers::RDERING_HORIZONTAL_IDENTIFIER:
                 case ilQTIItem::QT_ORDERING_HORIZONTAL:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingHorizontal"));
                     break;
-                case TEXT_QUESTION_IDENTIFIER:
+                case QuestionIdentifiers::TEXT_QUESTION_IDENTIFIER:
                 case ilQTIItem::QT_TEXT:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
                     break;
-                case FILE_UPLOAD_IDENTIFIER:
+                case QuestionIdentifiers::FILE_UPLOAD_IDENTIFIER:
                 case ilQTIItem::QT_FILEUPLOAD:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFileUpload"));
                     break;
@@ -2605,15 +2607,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function infoScreenObject()
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd("showSummary");
+        // $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreen();
     }
 
     public function redirectToInfoScreenObject()
     {
-        $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmd("showSummary");
+        // $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreen($this->testrequest->raw('lock') ?? '');
     }
 
@@ -2685,9 +2689,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         );
 
         $info->addSection($this->lng->txt("tst_heading_scoring"));
-        $info->addProperty($this->lng->txt("tst_text_count_system"), $this->lng->txt(($this->object->getCountSystem() == COUNT_PARTIAL_SOLUTIONS) ? "tst_count_partial_solutions" : "tst_count_correct_solutions"));
+        $info->addProperty(
+            $this->lng->txt("tst_text_count_system"),
+            $this->lng->txt(
+                ($this->object->getCountSystem() == ilObjTestSettingsScoring::COUNT_PARTIAL_SOLUTIONS) ? "tst_count_partial_solutions" : "tst_count_correct_solutions"
+            )
+        );
         if ($this->object->isRandomTest()) {
-            $info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == SCORE_BEST_PASS) ? "tst_pass_best_pass" : "tst_pass_last_pass"));
+            $info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == ilObjTest::SCORE_BEST_PASS) ? "tst_pass_best_pass" : "tst_pass_last_pass"));
         }
 
         $info->addSection($this->lng->txt("tst_score_reporting"));

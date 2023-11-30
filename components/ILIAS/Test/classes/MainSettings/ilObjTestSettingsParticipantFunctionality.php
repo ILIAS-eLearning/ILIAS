@@ -37,10 +37,6 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         parent::__construct($test_id);
     }
 
-    /**
-     *
-     * @return array<ILIAS\UI\Component\Input\Field\Input>
-     */
     public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,
@@ -62,11 +58,11 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         )->withOption(
             '0',
             $lng->txt('tst_postpone_off'),
-            $lng->txt('tst_postpone_off_desc'),
+            $lng->txt('tst_postpone_off_desc')
         )->withOption(
             '1',
             $lng->txt('tst_postpone_on'),
-            $lng->txt('tst_postpone_on_desc'),
+            $lng->txt('tst_postpone_on_desc')
         )->withValue($this->getPostponedQuestionsMoveToEnd() ? '1' : '0')
             ->withAdditionalTransformation($refinery->kindlyTo()->bool());
 
@@ -75,11 +71,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
             $lng->txt('tst_enable_questionlist_description')
         )->withValue($this->getQuestionListEnabled());
 
-        $inputs['usr_pass_overview'] = $this->getInputUsrPassOverview(
-            $lng,
-            $f,
-            $refinery
-        );
+        $inputs['usr_pass_overview'] = $this->getInputUsrPassOverview($lng, $f, $refinery);
 
         $inputs['enable_question_marking'] = $f->checkbox(
             $lng->txt('question_marking'),
@@ -118,15 +110,9 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
             }
         );
 
-        $sub_inputs_usrpass_questionlist['show_at_beginning'] = $f->checkbox(
-            $lng->txt('tst_list_of_questions_start')
-        );
-        $sub_inputs_usrpass_questionlist['show_at_end'] = $f->checkbox(
-            $lng->txt('tst_list_of_questions_end')
-        );
-        $sub_inputs_usrpass_questionlist['show_description'] = $f->checkbox(
-            $lng->txt('tst_list_of_questions_with_description')
-        );
+        $sub_inputs_usrpass_questionlist['show_at_beginning'] = $f->checkbox($lng->txt('tst_list_of_questions_start'));
+        $sub_inputs_usrpass_questionlist['show_at_end'] = $f->checkbox($lng->txt('tst_list_of_questions_end'));
+        $sub_inputs_usrpass_questionlist['show_description'] = $f->checkbox($lng->txt('tst_list_of_questions_with_description'));
 
         $enable_usrpass_questionlist = $f->optionalGroup(
             $sub_inputs_usrpass_questionlist,
@@ -208,38 +194,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
     {
         return $this->usrpass_overview_mode;
     }
-    public function getUsrPassOverviewEnabled(): bool
-    {
-        if (($this->usrpass_overview_mode & 1) > 0) {
-            return true;
-        }
 
-        return false;
-    }
-    public function getShownQuestionListAtBeginning(): bool
-    {
-        if (($this->usrpass_overview_mode & 2) > 0) {
-            return true;
-        }
-
-        return false;
-    }
-    public function getShownQuestionListAtEnd(): bool
-    {
-        if (($this->usrpass_overview_mode & 4) > 0) {
-            return true;
-        }
-
-        return false;
-    }
-    public function getShowDescriptionInQuestionList(): bool
-    {
-        if (($this->usrpass_overview_mode & 8) > 0) {
-            return true;
-        }
-
-        return false;
-    }
     public function withUsrPassOverviewMode(int $usrpass_overview_mode): self
     {
         $clone = clone $this;
@@ -247,10 +202,29 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         return $clone;
     }
 
+    public function getUsrPassOverviewEnabled(): bool
+    {
+        return ($this->usrpass_overview_mode & 1) > 0;
+    }
+    public function getShownQuestionListAtBeginning(): bool
+    {
+        return ($this->usrpass_overview_mode & 2) > 0;
+    }
+    public function getShownQuestionListAtEnd(): bool
+    {
+        return ($this->usrpass_overview_mode & 4) > 0;
+    }
+
+    public function getShowDescriptionInQuestionList(): bool
+    {
+        return ($this->usrpass_overview_mode & 8) > 0;
+    }
+
     public function getQuestionMarkingEnabled(): bool
     {
         return $this->question_marking_enabled;
     }
+
     public function withQuestionMarkingEnabled(bool $question_marking_enabled): self
     {
         $clone = clone $this;

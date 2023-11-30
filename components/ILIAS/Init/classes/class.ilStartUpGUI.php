@@ -161,15 +161,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function jumpToRegistration(): void
     {
-        $this->ctrl->setCmdClass(ilAccountRegistrationGUI::class);
-        $this->ctrl->setCmd('');
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmdClass(ilAccountRegistrationGUI::class);
+        // $this->ctrl->setCmd('');
         $this->executeCommand();
     }
 
     private function jumpToPasswordAssistance(): void
     {
-        $this->ctrl->setCmdClass(ilPasswordAssistanceGUI::class);
-        $this->ctrl->setCmd('');
+        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
+        // $this->ctrl->setCmdClass(ilPasswordAssistanceGUI::class);
+        // $this->ctrl->setCmd('');
         $this->executeCommand();
     }
 

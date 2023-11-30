@@ -21,8 +21,6 @@ declare(strict_types=1);
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 
-require_once './components/ILIAS/Test/classes/inc.AssessmentConstants.php';
-
 /**
  * Class for matching questions
  *
@@ -80,6 +78,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public $element_height;
 
+    public const MT_TERMS_PICTURES = 0;
+    public const MT_TERMS_DEFINITIONS = 1;
+
     public const MATCHING_MODE_1_ON_1 = '1:1';
     public const MATCHING_MODE_N_ON_N = 'n:n';
 
@@ -105,7 +106,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $author = "",
         $owner = -1,
         $question = "",
-        $matching_type = MT_TERMS_DEFINITIONS
+        $matching_type = self::MT_TERMS_DEFINITIONS
     ) {
         global $DIC;
 

@@ -47,6 +47,14 @@ class _PWDInputData implements InputData
     {
         return 'some alternative value';
     }
+
+    /**
+     * @inheritcoc
+     */
+    public function has($name): bool
+    {
+        return true;
+    }
 }
 
 class PasswordInputTest extends ILIAS_UI_TestBase

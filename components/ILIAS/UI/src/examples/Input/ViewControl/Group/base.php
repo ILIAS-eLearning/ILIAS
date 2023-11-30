@@ -6,6 +6,7 @@ namespace ILIAS\UI\examples\Input\ViewControl\Group;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
 function base(): string
 {
@@ -19,7 +20,7 @@ function base(): string
         ->viewControl()
         ->pagination()
         ->withTotalCount(932)
-        ->withValue([31, 10]);
+        ->withValue([Pagination::FNAME_OFFSET => 31, Pagination::FNAME_LIMIT => 10]);
 
     $sortation = $f->input()->viewControl()->sortation([
         'Field 1, ascending' => $d->order('field1', Order::ASC),
