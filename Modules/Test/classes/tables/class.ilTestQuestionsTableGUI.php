@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\TestQuestionPool\QuestionInfoService;
-use ILIAS\Modules\Test\traits\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
 
 /**
 *
@@ -69,6 +69,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         ilObjTestGUI|ilTestCorrectionsGUI $parent_obj,
         string $parent_cmd,
         private int $parent_ref_id,
+        private ilAccessHandler $access,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
         private QuestionInfoService $questioninfo
@@ -224,7 +225,18 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
 
         if (isset($a_set['orig_obj_fi'])) {
-            $this->tpl->setVariable("QUESTION_POOL", $this->buildPossiblyLinkedQuestonPoolTitle($a_set["orig_obj_fi"], ilObject::_lookupTitle($a_set["orig_obj_fi"])));
+            $this->tpl->setVariable(
+                "QUESTION_POOL",
+                $this->buildPossiblyLinkedQuestonPoolTitle(
+                    $this->ctrl,
+                    $this->access,
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $a_set["orig_obj_fi"],
+                    ilObject::_lookupTitle($a_set["orig_obj_fi"])
+                )
+            );
         }
 
         $actions = [];

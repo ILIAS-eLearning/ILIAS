@@ -20,8 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
-use ILIAS\Modules\Test\traits\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -60,6 +62,8 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         private ilAccessHandler $access,
         private GlobalHttpState $http_state,
         private Refinery $refinery,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer,
         private InternalRequestService $testrequest,
         private ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
@@ -425,7 +429,15 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         );
         $this->tpl->setVariable(
             "QUESTION_POOL",
-            $this->buildPossiblyLinkedQuestonPoolTitle((int) $a_set["obj_fi"], $a_set["parent_title"])
+            $this->buildPossiblyLinkedQuestonPoolTitle(
+                $this->ctrl,
+                $this->access,
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                (int) $a_set["obj_fi"],
+                $a_set["parent_title"]
+            )
         );
     }
 
