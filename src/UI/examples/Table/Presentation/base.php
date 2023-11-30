@@ -76,7 +76,7 @@ function included_data()
             'bookings_available' => '3',
             'target_group' => 'Employees, Field Service',
             'goals' => 'Lorem Ipsum....',
-            'topics' => '<li>Tranportations</li><li>Europapolice</li>',
+            'topics' => '<ul><li>Tranportations</li><li>Europapolice</li></ul>',
             'date' => '30.09.2017 - 02.10.2017',
             'location' => 'Hamburg',
             'address' => 'Hauptstraße 123',
