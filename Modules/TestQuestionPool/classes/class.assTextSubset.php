@@ -847,9 +847,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $solutionSubmit = [];
         foreach ($this->getAnswers() as $index => $a) {
-            if ($post->has("TEXTSUBSET_$index")) {
+            if ($post->has("TEXTSUBSET_" . ($index + 1))) {
                 $value = $post->retrieve(
-                    "TEXTSUBSET_$index",
+                    "TEXTSUBSET_" . ($index + 1),
                     $this->dic->refinery()->kindlyTo()->string()
                 );
                 if ($value) {
