@@ -48,3 +48,12 @@ $grid-breakpoints: (
     xxl: 1400px) !default;
 
 // end of section based on bootstrap 3
+
+@mixin on-screen-size($size) {
+  @if $size == small {
+    @media screen and (max-width: $screen-sm) { @content; }
+  } @else if $size == large {
+    // note that this excludes print!
+    @media screen and (min-width: $screen-sm + 1px) { @content; }
+  }
+}
