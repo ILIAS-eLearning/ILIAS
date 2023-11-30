@@ -1608,6 +1608,9 @@ abstract class assQuestion
             return; // No original -> no sync
         }
 
+        $currentID = $this->getId();
+        $currentObjId = $this->getObjId();
+        $originalID = $this->getOriginalId();
         $originalObjId = self::lookupParentObjId($this->getOriginalId());
 
         if (!$originalObjId) {
@@ -1615,6 +1618,23 @@ abstract class assQuestion
         }
 
         $this->beforeSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
+
+        // Now we become the original
+        $this->setId($this->getOriginalId());
+        $this->setOriginalId(null);
+        $this->setObjId($originalObjId);
+        // And save ourselves as the original
+        $this->saveToDb();
+
+        // Now we delete the originals page content
+        $this->deletePageOfQuestion($originalID);
+        $this->createPageObject();
+        $this->copyPageOfQuestion($currentID);
+
+        $this->setId($currentID);
+        $this->setOriginalId($originalID);
+        $this->setObjId($currentObjId);
+
         $this->syncSuggestedSolutions($this->getId(), $this->getOriginalId());
         $this->syncXHTMLMediaObjectsOfQuestion();
         $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $originalObjId);
