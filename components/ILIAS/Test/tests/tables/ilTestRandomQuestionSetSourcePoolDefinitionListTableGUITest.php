@@ -51,6 +51,9 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
         $this->tableGui = new ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI(
             $this->parentObj_mock,
             "",
+            $this->createMock(ilAccess::class),
+            $this->createMock(ILIAS\UI\Factory::class),
+            $this->createMock(ILIAS\UI\Renderer::class),
             [],
             []
         );

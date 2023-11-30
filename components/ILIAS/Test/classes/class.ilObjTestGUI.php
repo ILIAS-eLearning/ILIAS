@@ -594,6 +594,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->access,
                     $this->http,
                     $this->refinery,
+                    $this->ui_factory,
+                    $this->ui_renderer,
                     $this->testrequest,
                     $this->questioninfo
                 );
@@ -870,6 +872,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $gui = new ilTestCorrectionsGUI(
                     $this->db,
                     $this->ctrl,
+                    $this->access,
                     $this->lng,
                     $this->tabs_gui,
                     $this->help,
@@ -2181,6 +2184,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this,
             'questions',
             $this->object->getRefId(),
+            $this->access,
             $this->ui_factory,
             $this->ui_renderer,
             $this->questioninfo
