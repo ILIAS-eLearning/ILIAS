@@ -232,8 +232,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
                 $this->ctrl,
                 $this->access,
                 $this->lng,
-                $this->ui_factory,
-                $this->ui_renderer,
+                $this->factory,
+                $this->renderer,
                 $a_set["orig_obj_fi"],
                 ilObject::_lookupTitle($a_set["orig_obj_fi"])
             );
