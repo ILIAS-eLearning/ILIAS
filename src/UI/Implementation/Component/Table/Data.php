@@ -34,6 +34,7 @@ use ILIAS\Data\Range;
 use ILIAS\UI\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
+use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
 
 class Data extends Table implements T\Data, JSBindable
 {
@@ -43,26 +44,25 @@ class Data extends Table implements T\Data, JSBindable
     public const VIEWCONTROL_KEY_ORDERING = 'order';
     public const VIEWCONTROL_KEY_FIELDSELECTION = 'selected_optional';
 
-
     /**
      * @var array<string, Column>
      */
-    protected $columns = [];
+    protected array $columns = [];
 
     /**
      * @var array<string, Action>
      */
-    protected $actions_single = [];
+    protected array $actions_single = [];
 
     /**
      * @var array<string, Action>
      */
-    protected $actions_multi = [];
+    protected array $actions_multi = [];
 
     /**
      * @var array<string, Action>
      */
-    protected $actions_std = [];
+    protected array $actions_std = [];
 
     protected Signal $multi_action_signal;
     protected Signal $selection_signal;
@@ -77,6 +77,7 @@ class Data extends Table implements T\Data, JSBindable
     protected ?Order $order = null;
     protected ?array $filter = null;
     protected ?array $additional_parameters = null;
+    protected ?string $id = null;
 
     /**
      * @param array<string, Column> $columns
@@ -89,7 +90,8 @@ class Data extends Table implements T\Data, JSBindable
         protected DataRowBuilder $data_row_builder,
         string $title,
         array $columns,
-        protected T\DataRetrieval $data_retrieval
+        protected T\DataRetrieval $data_retrieval,
+        protected \ArrayAccess $session,
     ) {
         $this->checkArgListElements('columns', $columns, [Column::class]);
         if ($columns === []) {
@@ -370,8 +372,28 @@ class Data extends Table implements T\Data, JSBindable
         $view_controls = $this->getViewControls($total_count);
 
         if ($request = $this->getRequest()) {
-            $view_controls = $view_controls->withRequest($request);
+
+            $stored_values = [];
+            if($storage = $this->getStorage()) {
+                foreach(array_keys($view_controls->getComponentInternalValues()) as $k) {
+                    if(isset($storage[$k])) {
+                        $stored_values[$k] = $storage[$k];
+                    }
+                }
+            }
+            $stored_input = new ArrayInputData($stored_values);
+
+            $view_controls = $view_controls
+                ->withStoredValues($stored_input)
+                ->withRequest($request);
             $data = $view_controls->getData();
+
+            if($storage) {
+                foreach($view_controls->getComponentInternalValues() as $k => $v) {
+                    $storage[$k] = $v;
+                }
+            }
+
             $table = $table
                 ->withRange(($data[self::VIEWCONTROL_KEY_PAGINATION] ?? null)?->croppedTo($total_count ?? PHP_INT_MAX))
                 ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)
@@ -444,5 +466,26 @@ class Data extends Table implements T\Data, JSBindable
                 $optional_cols
             ))
             ->withValue($this->getSelectedOptionalColumns());
+    }
+
+    public function withId(string $id): self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function getStorage(): ?\ArrayAccess
+    {
+        if(! $id = $this->getId()) {
+            return null;
+        }
+        $this->session = $this->session->get($id);
+        return $this->session;
     }
 }

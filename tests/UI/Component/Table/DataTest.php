@@ -196,4 +196,30 @@ class DataTest extends TableTestBase
         $this->assertEquals(0, $table->getVisibleColumns()['f0']->getIndex());
         $this->assertEquals(2, $table->getVisibleColumns()['f2']->getIndex());
     }
+
+    public function testDataTableIdAndStorage(): void
+    {
+        $table = $this->getTable();
+        $this->assertNull($table->getId());
+        $this->assertNull($table->getStorage());
+
+        $table = $table->withId('some_id');
+        $this->assertEquals('some_id', $table->getId());
+        $this->assertInstanceOf(\ArrayAccess::class, $table->getStorage());
+    }
+
+    public function testDataTableStorage(): void
+    {
+        $store = $this->getTable()->withId('first')->getStorage();
+        $store['A'] = 1;
+
+        $store = $this->getTable()->withId('second')->getStorage();
+        $store['B'] = 1;
+        $this->assertNull($store['A']);
+
+        $store = $this->getTable()->withId('first')->getStorage();
+        $this->assertNull($store['B']);
+        $this->assertEquals(1, $store['A']);
+    }
+
 }

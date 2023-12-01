@@ -80,7 +80,45 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             new \ILIAS\Data\Factory(),
             new C\Table\Column\Factory(),
             new C\Table\Action\Factory(),
-            new C\Table\DataRowBuilder()
+            new C\Table\DataRowBuilder(),
+            $this->getSessionStorage()
         );
+    }
+
+    protected function getSessionStorage(): ArrayAccess
+    {
+        return new class () implements ArrayAccess {
+            protected ?string $id = null;
+            protected array $data = [];
+
+            public function get(string $id)
+            {
+                $this->id = $id;
+                $this->data = \ilSession::get($id) ?? [];
+                return $this;
+            }
+
+            public function offsetExists(mixed $offset): bool
+            {
+                return array_key_exists($offset, $this->data);
+            }
+            public function offsetGet(mixed $offset): mixed
+            {
+                if(! $this->offsetExists($offset)) {
+                    return null;
+                }
+                return $this->data[$offset];
+            }
+            public function offsetSet(mixed $offset, mixed $value): void
+            {
+                $this->data[$offset] = $value;
+                \ilSession::set($this->id, $this->data);
+            }
+            public function offsetUnset(mixed $offset): void
+            {
+                unset($this->data[$offset]);
+                \ilSession::set($this->id, $this->data);
+            }
+        };
     }
 }

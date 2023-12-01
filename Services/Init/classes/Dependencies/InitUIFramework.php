@@ -145,7 +145,8 @@ class InitUIFramework
                 $c["ui.data_factory"],
                 $c["ui.factory.table.column"],
                 $c["ui.factory.table.action"],
-                $row_builder
+                $row_builder,
+                $c["ui.session"]
             );
         };
         $c["ui.factory.table.column"] = function ($c) {
@@ -342,6 +343,42 @@ class InitUIFramework
 
         $c["ui.factory.entity"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Entity\Factory();
+        };
+
+        $c["ui.session"] = function ($c): ArrayAccess {
+            return new class () implements ArrayAccess {
+                protected ?string $id = null;
+                protected array $data = [];
+
+                public function get(string $id)
+                {
+                    $this->id = $id;
+                    $this->data = \ilSession::get($id) ?? [];
+                    return $this;
+                }
+
+                public function offsetExists(mixed $offset): bool
+                {
+                    return array_key_exists($offset, $this->data);
+                }
+                public function offsetGet(mixed $offset): mixed
+                {
+                    if(! $this->offsetExists($offset)) {
+                        return null;
+                    }
+                    return $this->data[$offset];
+                }
+                public function offsetSet(mixed $offset, mixed $value): void
+                {
+                    $this->data[$offset] = $value;
+                    \ilSession::set($this->id, $this->data);
+                }
+                public function offsetUnset(mixed $offset): void
+                {
+                    unset($this->data[$offset]);
+                    \ilSession::set($this->id, $this->data);
+                }
+            };
         };
     }
 }
