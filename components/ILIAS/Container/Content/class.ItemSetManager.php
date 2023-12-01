@@ -95,6 +95,7 @@ class ItemSetManager
         $this->applySorting();
         $this->groupItems();
         $this->sortSessions();
+        $this->preloadAdvancedMDValues();
     }
 
     /**
@@ -323,5 +324,14 @@ class ItemSetManager
                 });
             }
         }
+    }
+
+    protected function preloadAdvancedMDValues(): void
+    {
+        $obj_ids = [];
+        foreach ($this->raw_by_type["_all"] as $object) {
+            $obj_ids[] = $object["obj_id"];
+        }
+        \ilAdvancedMDValues::preloadByObjIds($obj_ids);
     }
 }
