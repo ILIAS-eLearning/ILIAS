@@ -243,10 +243,14 @@ class assSingleChoiceImport extends assQuestionImport
                 }
                 $imagepath .= $answer["imagefile"]["label"];
                 $fh = fopen($imagepath, "wb");
-                if ($fh == false) {
-                } else {
+                if ($fh !== false) {
                     $imagefile = fwrite($fh, $image);
                     fclose($fh);
+                    $this->object->generateThumbForFile(
+                        $answer["imagefile"]["label"],
+                        $this->object->getImagePath(),
+                        $this->object->getThumbSize()
+                    );
                 }
             }
         }

@@ -66,7 +66,7 @@ trait ManipulateThumbnailsInChoiceQuestionsTrait
         return "thumb.";
     }
 
-    protected function generateThumbForFile(
+    public function generateThumbForFile(
         string $file_name,
         string $image_path,
         int $thumbnail_size,

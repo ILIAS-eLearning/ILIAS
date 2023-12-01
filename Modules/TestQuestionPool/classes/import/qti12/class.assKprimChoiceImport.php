@@ -36,7 +36,7 @@ class assKprimChoiceImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $shuffle = 0;
-        $answers = [];
+        $answers = array();
 
         $presentation = $item->getPresentation();
         foreach ($presentation->order as $entry) {
@@ -52,7 +52,7 @@ class assKprimChoiceImport extends assQuestionImport
                             foreach ($rendertype->response_labels as $response_label) {
                                 $ident = $response_label->getIdent();
                                 $answertext = "";
-                                $answerimage = [];
+                                $answerimage = array();
                                 foreach ($response_label->material as $mat) {
                                     $embedded = false;
                                     for ($m = 0; $m < $mat->getMaterialCount(); $m++) {
@@ -73,11 +73,11 @@ class assKprimChoiceImport extends assQuestionImport
                                             }
                                             if (strcmp($foundmat["type"], "matimage") == 0) {
                                                 $foundimage = true;
-                                                $answerimage = [
+                                                $answerimage = array(
                                                     "imagetype" => $foundmat["material"]->getImageType(),
                                                     "label" => $foundmat["material"]->getLabel(),
                                                     "content" => $foundmat["material"]->getContent()
-                                                ];
+                                                );
                                             }
                                         }
                                     } else {
@@ -85,11 +85,11 @@ class assKprimChoiceImport extends assQuestionImport
                                     }
                                 }
 
-                                $answers[$ident] = [
+                                $answers[$ident] = array(
                                     "answertext" => $answertext,
                                     "imagefile" => $answerimage,
                                     "answerorder" => $ident
-                                ];
+                                );
                             }
                             break;
                     }
@@ -97,8 +97,8 @@ class assKprimChoiceImport extends assQuestionImport
             }
         }
 
-        $feedbacks = [];
-        $feedbacksgeneric = [];
+        $feedbacks = array();
+        $feedbacksgeneric = array();
 
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->outcomes->decvar as $decvar) {
@@ -239,6 +239,11 @@ class assKprimChoiceImport extends assQuestionImport
                 if ($fh = fopen($imagepath, "wb")) {
                     $imagefile = fwrite($fh, $image);
                     fclose($fh);
+                    $this->object->generateThumbForFile(
+                        $answer["imagefile"]["label"],
+                        $this->object->getImagePath(),
+                        $this->object->getThumbSize()
+                    );
                 }
             }
         }
@@ -319,9 +324,9 @@ class assKprimChoiceImport extends assQuestionImport
             $q_1_id = $this->object->getId();
             $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
+            $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
         } else {
-            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
+            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
         return $import_mapping;
     }
