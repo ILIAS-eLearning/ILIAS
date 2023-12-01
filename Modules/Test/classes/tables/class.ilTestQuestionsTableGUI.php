@@ -254,20 +254,24 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("QUESTION_WORKING_TIME", $data["working_time"]);
         }
 
+        $question_pool_title = $this->lng->txt('tst_question_not_from_pool_info');
+
         if (isset($data['orig_obj_fi'])) {
-            $this->tpl->setVariable(
-                "QUESTION_POOL",
-                $this->buildPossiblyLinkedQuestonPoolTitle(
-                    $this->ctrl,
-                    $this->access,
-                    $this->lng,
-                    $this->factory,
-                    $this->renderer,
-                    $data["orig_obj_fi"],
-                    ilObject::_lookupTitle($data["orig_obj_fi"])
-                )
+            $question_pool_title = $this->buildPossiblyLinkedQuestonPoolTitle(
+                $this->ctrl,
+                $this->access,
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $data["orig_obj_fi"],
+                ilObject::_lookupTitle($data["orig_obj_fi"])
             );
         }
+
+        $this->tpl->setVariable(
+            "QUESTION_POOL",
+            $question_pool_title
+        );
 
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setId('qst' . $data["question_id"]);
