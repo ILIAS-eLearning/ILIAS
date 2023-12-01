@@ -9437,7 +9437,6 @@ td.c-table-data__cell--highlighted {
 }
 .il-viewcontrol-pagination .glyph .glyphicon::before {
   top: 0;
-  vertical-align: middle;
 }
 
 .il-viewcontrol-fieldselection .dropdown-menu {
