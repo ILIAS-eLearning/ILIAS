@@ -315,7 +315,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
         if ($this->rebuild_thumbnails) {
             $answers = $this->object->rebuildThumbnails(
-                $this->object->isSingleLineAnswerType(),
+                $this->object->getAnswerType(),
                 $this->object->getThumbSize(),
                 $this->object->getImagePath(),
                 $answers
