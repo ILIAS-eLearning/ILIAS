@@ -52,7 +52,7 @@ class assQuestionImport
 
     public function getFeedbackGeneric($item): array
     {
-        $feedbacksgeneric = array();
+        $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
                 foreach ($respcondition->displayfeedback as $feedbackpointer) {
@@ -121,7 +121,7 @@ class assQuestionImport
      */
     protected function getFeedbackAnswerSpecific(ilQTIItem $item, $prefix = 'response_'): array
     {
-        $feedbacks = array();
+        $feedbacks = [];
 
         foreach ($item->itemfeedback as $ifb) {
             if ($ifb->getIdent() == 'response_allcorrect' || $ifb->getIdent() == 'response_onenotcorrect') {
@@ -245,7 +245,7 @@ class assQuestionImport
         $matches = null;
 
         if (preg_match_all($reg, $text, $matches)) {
-            $mobs = array();
+            $mobs = [];
             for ($i = 0, $max = count($matches[1]); $i < $max; $i++) {
                 $mobSrcId = $matches[1][$i];
                 $mobSrcName = $matches[2][$i];
@@ -256,9 +256,9 @@ class assQuestionImport
                 //}
 
                 //$_SESSION["import_mob_xhtml"][] = array(
-                $mobs[] = array(
+                $mobs[] = [
                     "mob" => $mobSrcLabel, "uri" => 'objects/' . $mobSrcLabel . '/' . $mobSrcName
-                );
+                ];
             }
             ilSession::set('import_mob_xhtml', $mobs);
         }
@@ -333,7 +333,7 @@ class assQuestionImport
     public function QTIMaterialToString(ilQTIMaterial $a_material): string
     {
         $result = "";
-        $mobs = array();
+        $mobs = [];
         for ($i = 0; $i < $a_material->getMaterialCount(); $i++) {
             $material = $a_material->getMaterial($i);
             if (strcmp($material["type"], "mattext") === 0) {
@@ -346,9 +346,9 @@ class assQuestionImport
                     //if (!is_array(ilSession::get("import_mob_xhtml"))) {
                     //    ilSession::set("import_mob_xhtml", array());
                     //}
-                    $mobs[] = array("mob" => $matimage->getLabel(),
+                    $mobs[] = ["mob" => $matimage->getLabel(),
                                     "uri" => $matimage->getUri()
-                    );
+                    ];
                 }
             }
         }

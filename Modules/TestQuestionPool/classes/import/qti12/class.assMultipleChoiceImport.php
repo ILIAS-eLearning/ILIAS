@@ -52,7 +52,7 @@ class assMultipleChoiceImport extends assQuestionImport
         $selectionLimit = null;
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $answers = array();
+        $answers = [];
         foreach ($presentation->order as $entry) {
             switch ($entry["type"]) {
                 case "response":
@@ -69,7 +69,7 @@ class assMultipleChoiceImport extends assQuestionImport
                             foreach ($rendertype->response_labels as $response_label) {
                                 $ident = $response_label->getIdent();
                                 $answertext = "";
-                                $answerimage = array();
+                                $answerimage = [];
                                 foreach ($response_label->material as $mat) {
                                     $embedded = false;
                                     for ($m = 0; $m < $mat->getMaterialCount(); $m++) {
@@ -90,34 +90,34 @@ class assMultipleChoiceImport extends assQuestionImport
                                             }
                                             if (strcmp($foundmat["type"], "matimage") == 0) {
                                                 $foundimage = true;
-                                                $answerimage = array(
+                                                $answerimage = [
                                                     "imagetype" => $foundmat["material"]->getImageType(),
                                                     "label" => $foundmat["material"]->getLabel(),
                                                     "content" => $foundmat["material"]->getContent()
-                                                );
+                                                ];
                                             }
                                         }
                                     } else {
                                         $answertext = $this->QTIMaterialToString($mat);
                                     }
                                 }
-                                $answers[$ident] = array(
+                                $answers[$ident] = [
                                     "answertext" => $answertext,
                                     "imagefile" => $answerimage,
                                     "points" => 0,
                                     "answerorder" => $answerorder++,
                                     "points_unchecked" => 0,
                                     "action" => ""
-                                );
+                                ];
                             }
                             break;
                     }
                     break;
             }
         }
-        $responses = array();
-        $feedbacks = array();
-        $feedbacksgeneric = array();
+        $responses = [];
+        $feedbacks = [];
+        $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
                 $ident = "";
@@ -323,9 +323,9 @@ class assMultipleChoiceImport extends assQuestionImport
             $q_1_id = $this->object->getId();
             $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
         } else {
-            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
         }
         return $import_mapping;
     }
