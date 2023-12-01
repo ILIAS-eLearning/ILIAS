@@ -43,7 +43,7 @@ trait QuestionPoolLinkedTitleBuilder
         }
 
         if (ilObject::_lookupType($qpl_id, $reference) !== 'qpl') {
-            return '';
+            return $lng->txt('tst_question_not_from_pool_info');
         }
 
         $qpl_obj_id = $qpl_id;
