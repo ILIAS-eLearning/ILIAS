@@ -64,13 +64,13 @@ class ilTestImporter extends ilXmlImporter
             $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
             ilSession::set('tst_import_subdir', $this->getImportPackageName());
             $new_obj->saveToDb(); // this generates test id first time
-            $questionParentObjId = $new_obj->getId();
+            $question_parent_obj_id = $new_obj->getId();
         } else {
             // single object
             $new_id = (int) $a_mapping->getMapping('Modules/Test', 'tst', 'new_id');
             $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
 
-            $questionParentObjId = ilSession::get('tst_import_qst_parent') ?? $new_obj->getId();
+            $question_parent_obj_id = (int) (ilSession::get('tst_import_qst_parent') ?? $new_obj->getId());
         }
 
         $new_obj->loadFromDb();
@@ -96,7 +96,7 @@ class ilTestImporter extends ilXmlImporter
         $idents = ilSession::get('tst_import_idents');
 
         // start parsing of QTI files
-        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $idents);
+        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $question_parent_obj_id, $idents);
         $qtiParser->setTestObject($new_obj);
         $qtiParser->startParsing();
         $new_obj = $qtiParser->getTestObject();
