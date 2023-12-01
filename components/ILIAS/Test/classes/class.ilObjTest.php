@@ -3260,9 +3260,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         ilSession::clear('import_mob_xhtml');
 
-        $this->setDescription($assessment->getComment());
-        $this->setTitle($assessment->getTitle());
-        $this->saveToDb();
+        $this->saveToDb(true);
 
         $main_settings = $this->getMainSettings();
         $general_settings = $main_settings->getGeneralSettings();
@@ -3553,6 +3551,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
 
         $this->saveToDb();
+        $this->getObjectProperties()->storePropertyTitleAndDescription(
+            $this->getObjectProperties()->getPropertyTitleAndDescription()
+                ->withTitle($assessment->getTitle())
+                ->withDescription($assessment->getComment())
+        );
         $main_settings = $main_settings
             ->withGeneralSettings($general_settings)
             ->withIntroductionSettings($introduction_settings)
