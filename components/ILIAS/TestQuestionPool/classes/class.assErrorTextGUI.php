@@ -118,7 +118,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $this->object->setPointsWrong((float) $points_wrong);
 
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            $this->object->setTextSize($this->request->int('textsize'));
+            $this->object->setTextSize(
+                (float) str_replace(',', '.', $this->request->raw('textsize'))
+            );
         }
     }
 
@@ -221,7 +223,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // textsize
             $textsize = new ilNumberInputGUI($this->lng->txt("textsize"), "textsize");
-            $textsize->setValue(mb_strlen($this->object->getTextSize()) ? $this->object->getTextSize() : 100.0);
+            $textsize->setValue($this->object->getTextSize() ?? 100.0);
             $textsize->setInfo($this->lng->txt("textsize_errortext_info"));
             $textsize->setSize(6);
             $textsize->setSuffix("%");
