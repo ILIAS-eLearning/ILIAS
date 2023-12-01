@@ -17072,6 +17072,15 @@ ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
+ui#:#order_option_alphabetical_ascending#:#A→Z
+ui#:#order_option_alphabetical_descending#:#Z→A
+ui#:#order_option_chronological_ascending#:#Älteste zuerst
+ui#:#order_option_chronological_descending#:#Neueste zuerst
+ui#:#order_option_first#:#zuerst
+ui#:#order_option_generic_ascending#:#aufsteigend
+ui#:#order_option_generic_descending#:#absteigend
+ui#:#order_option_numerical_ascending#:#0→9
+ui#:#order_option_numerical_descending#:#9→0
 ui#:#presentation_table_collapse#:#alle minimieren
 ui#:#presentation_table_expand#:#alle zeigen
 ui#:#ui_chars_max#:#Maximum:

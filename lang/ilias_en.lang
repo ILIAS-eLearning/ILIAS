@@ -17074,6 +17074,15 @@ ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_pagination_limit#:#Pagination Number of Rows
 ui#:#label_pagination_offset#:#Pagination Offset
 ui#:#label_sortation#:#Sortation
+ui#:#order_option_alphabetical_ascending#:#A→Z
+ui#:#order_option_alphabetical_descending#:#Z→A
+ui#:#order_option_chronological_ascending#:#Earliest first
+ui#:#order_option_chronological_descending#:#Most Recent first
+ui#:#order_option_first#:#first
+ui#:#order_option_generic_ascending#:#ascending
+ui#:#order_option_generic_descending#:#descending
+ui#:#order_option_numerical_ascending#:#0→9
+ui#:#order_option_numerical_descending#:#9→0
 ui#:#presentation_table_collapse#:#collapse all
 ui#:#presentation_table_expand#:#expand all
 ui#:#ui_chars_max#:#Maximum:

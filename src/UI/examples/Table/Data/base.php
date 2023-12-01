@@ -181,25 +181,25 @@ function base()
         {
             $records = [
                 ['usr_id' => 123,'login' => 'superuser','email' => 'user@example.com',
-                 'last' => new \DateTimeImmutable(),'achieve' => 20,'fee' => 0
+                 'last' => (new \DateTimeImmutable())->modify('-1 day') ,'achieve' => 20,'fee' => 0
                 ],
                 ['usr_id' => 867,'login' => 'student1','email' => 'student1@example.com',
-                 'last' => new \DateTimeImmutable(),'achieve' => 90,'fee' => 40
+                 'last' => (new \DateTimeImmutable())->modify('-10 day'),'achieve' => 90,'fee' => 40
                 ],
                 ['usr_id' => 8923,'login' => 'student2','email' => 'student2@example.com',
-                 'last' => new \DateTimeImmutable(),'achieve' => 66,'fee' => 36.789
+                 'last' => (new \DateTimeImmutable())->modify('-8 day'),'achieve' => 66,'fee' => 36.789
                 ],
                 ['usr_id' => 8748,'login' => 'student3_longname','email' => 'student3_long_email@example.com',
-                 'last' => new \DateTimeImmutable(),'achieve' => 8,'fee' => 36.789
+                 'last' => (new \DateTimeImmutable())->modify('-300 day'),'achieve' => 8,'fee' => 36.789
                 ],
                 ['usr_id' => 8749,'login' => 'studentAB','email' => 'studentAB@example.com',
-                 'last' => new \DateTimeImmutable(),'achieve' => 100,'fee' => 114
+                 'last' => (new \DateTimeImmutable())->modify('-7 day'),'achieve' => 100,'fee' => 114
                 ],
                 ['usr_id' => 8750,'login' => 'student5','email' => 'student5@example.com',
                  'last' => new \DateTimeImmutable(),'achieve' => 76,'fee' => 3.789
                 ],
                 ['usr_id' => 8751,'login' => 'student6','email' => 'student6@example.com',
-                 'last' => new \DateTimeImmutable(),'achieve' => 66,'fee' => 67
+                 'last' => (new \DateTimeImmutable())->modify('-2 day'),'achieve' => 66,'fee' => 67
                 ]
             ];
             if ($order) {

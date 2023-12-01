@@ -94,6 +94,7 @@ class Data extends Table implements T\Data, JSBindable
         array $columns,
         protected T\DataRetrieval $data_retrieval,
         protected \ArrayAccess $storage,
+        protected OrderOptionsBuilder $order_options_builder
     ) {
         $this->checkArgListElements('columns', $columns, [Column::class]);
         if ($columns === []) {
@@ -450,16 +451,13 @@ class Data extends Table implements T\Data, JSBindable
             $this->getVisibleColumns(),
             static fn($c): bool => $c->isSortable()
         );
-        $sort_options = [];
-        foreach ($sortable_visible_cols as $id => $col) {
-            $sort_options[$col->getTitle() . ', ' . 'ascending'] = $this->data_factory->order($id, 'ASC');
-            $sort_options[$col->getTitle() . ', ' . 'decending'] = $this->data_factory->order($id, 'DESC');
+
+        if ($sortable_visible_cols === []) {
+            return null;
         }
 
-        if ($sort_options !== []) {
-            return $this->view_control_factory->sortation($sort_options);
-        }
-        return null;
+        $sort_options = $this->order_options_builder->buildFor($sortable_visible_cols);
+        return $this->view_control_factory->sortation($sort_options);
     }
 
     protected function getViewControlFieldSelection(): ?ViewControl\FieldSelection
