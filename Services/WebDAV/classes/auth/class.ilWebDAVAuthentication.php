@@ -68,7 +68,9 @@ class ilWebDAVAuthentication
     public function authenticate(string $a_username, string $a_password): bool
     {
         if ($this->isUserAgentSessionAware($this->getUserAgent())) {
-            if ($this->session->isAuthenticated() && $this->user->getId() != 0) {
+            if ($this->session->isAuthenticated()
+                && $this->user->getId() !== 0
+                && $this->user->getId() !== ANONYMOUS_USER_ID) {
                 $this->logger->debug('User authenticated through session. UserID = ' . $this->user->getId());
                 return true;
             }
