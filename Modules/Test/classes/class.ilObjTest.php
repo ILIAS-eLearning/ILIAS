@@ -1358,7 +1358,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function duplicateQuestionForTest($question_id): int
     {
         $question = ilObjTest::_instanciateQuestion($question_id);
-        $duplicate_id = $question->duplicate(true, '', '', '', $this->getId());
+        $duplicate_id = $question->duplicate(true, '', '', -1, $this->getId());
         return $duplicate_id;
     }
 

@@ -104,7 +104,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
         while ($row = $this->db->fetchAssoc($res)) {
             $question = assQuestion::instantiateQuestion($row['question_id']);
-            $duplicateId = $question->duplicate(true, null, null, null, $this->test_obj->getId());
+            $duplicateId = $question->duplicate(true, '', '', -1, $this->test_obj->getId());
 
             $nextId = $this->db->nextId('tst_rnd_cpy');
             $this->db->insert('tst_rnd_cpy', array(
@@ -208,7 +208,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             }
             if (!isset($questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ])) {
                 $question = assQuestion::instantiateQuestion($row['question_id']);
-                $duplicateId = $question->duplicate(true, '', '', '', $this->test_obj->getId());
+                $duplicateId = $question->duplicate(true, '', '', -1, $this->test_obj->getId());
 
                 $nextId = $this->db->nextId('tst_rnd_cpy');
                 $this->db->insert('tst_rnd_cpy', array(
