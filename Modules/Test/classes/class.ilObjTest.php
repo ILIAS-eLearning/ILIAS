@@ -4584,13 +4584,18 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->cloneMetaData($new_obj);
 
         //copy online status if object is not the root copy object
-        $new_obj->setOfflineStatus(true);
         $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
         if ($cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOfflineStatus($this->getOfflineStatus());
+            $new_obj->setOfflineStatus(true);
         }
 
-        $new_obj->update();
+        $new_obj->saveToDb();
+        $this->getMainSettingsRepository()->store(
+            $this->getMainSettings()->withTestId($new_obj->getTestId())
+        );
+        $this->getScoreSettingsRepository()->store(
+            $this->getScoreSettings()->withTestId($new_obj->getTestId())
+        );
 
         $new_obj->mark_schema = clone $this->mark_schema;
         $new_obj->setTemplate($this->getTemplate());
@@ -4617,17 +4622,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $skillLevelThresholdList->setTestId($this->getTestId());
         $skillLevelThresholdList->loadFromDb();
         $skillLevelThresholdList->cloneListForTest($new_obj->getTestId());
-
-        $new_obj->saveToDb();
-        $new_obj->updateMetaData();// #14467
-
-        $this->getMainSettingsRepository()->store(
-            $this->getMainSettings()->withTestId($new_obj->getTestId())
-        );
-
-        $this->getScoreSettingsRepository()->store(
-            $this->getScoreSettings()->withTestId($new_obj->getTestId())
-        );
 
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
