@@ -4584,9 +4584,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->cloneMetaData($new_obj);
 
         //copy online status if object is not the root copy object
+        $new_obj->setOfflineStatus(true);
         $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
         if ($cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOfflineStatus(true);
+            $new_obj->setOfflineStatus($this->getOfflineStatus());
         }
 
         $new_obj->update();

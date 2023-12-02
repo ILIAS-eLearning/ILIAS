@@ -341,7 +341,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
     private function buildStagingPoolBuilder(ilObjTest $test_obj): ilTestRandomQuestionSetStagingPoolBuilder
     {
-        $stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder($this->db, $test_obj);
+        $stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder($this->db, $this->log, $test_obj);
 
         return $stagingPool;
     }
