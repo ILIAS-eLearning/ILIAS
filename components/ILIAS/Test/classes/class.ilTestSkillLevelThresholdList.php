@@ -153,8 +153,8 @@ class ilTestSkillLevelThresholdList
 
     public function cloneListForTest($testId)
     {
-        foreach ($this->thresholds as $skillKey => $data) {
-            foreach ($data as $levelId => $threshold) {
+        foreach ($this->thresholds as $data) {
+            foreach ($data as $threshold) {
                 /* @var ilTestSkillLevelThreshold $threshold */
 
                 $threshold->setTestId($testId);
