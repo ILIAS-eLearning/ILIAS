@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer;
 use ILIAS\User\UserGUIRequest;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\LegalDocuments\Conductor;
 
 /**
@@ -381,136 +381,137 @@ class ilObjUserGUI extends ilObjectGUI
             $profile_maybe_incomplete = $this->handleIgnoredRequiredFields();
         }
 
-        if ($this->form_gui->checkInput()) {
-            // @todo: external account; time limit check and savings
-
-            // checks passed. save user
-            $user_object = $this->loadValuesFromForm();
-            $user_object->setPasswd($this->form_gui->getInput('passwd'), ilObjUser::PASSWD_PLAIN);
-            $user_object->setTitle($user_object->getFullname());
-            $user_object->setDescription($user_object->getEmail());
-
-            $this->loadUserDefinedDataFromForm($user_object);
-
-            $user_object->create();
-
-            if (ilAuthUtils::_isExternalAccountEnabled()) {
-                $user_object->setExternalAccount($this->form_gui->getInput('ext_account'));
-            }
-
-            // set a timestamp for last_password_change
-            // this ts is needed by ilSecuritySettings
-            $user_object->setLastPasswordChangeTS(time());
-
-            //insert user data in table user_data
-            $user_object->saveAsNew();
-
-            // setup user preferences
-            if ($this->isSettingChangeable('language')) {
-                $user_object->setLanguage($this->form_gui->getInput('language'));
-            }
-
-            if ($this->isSettingChangeable('skin_style')) {
-                //set user skin and style
-                $sknst = explode(':', $this->form_gui->getInput('skin_style'));
-
-                if ($user_object->getPref('style') != $sknst[1] ||
-                    $user_object->getPref('skin') != $sknst[0]) {
-                    $user_object->setPref('skin', $sknst[0]);
-                    $user_object->setPref('style', $sknst[1]);
-                }
-            }
-            if ($this->isSettingChangeable('hits_per_page')) {
-                $user_object->setPref('hits_per_page', $this->form_gui->getInput('hits_per_page'));
-            }
-            if ($this->isSettingChangeable('hide_own_online_status')) {
-                $user_object->setPref(
-                    'hide_own_online_status',
-                    $this->form_gui->getInput('hide_own_online_status')
-                );
-            }
-            if ($this->isSettingChangeable('bs_allow_to_contact_me')) {
-                $user_object->setPref(
-                    'bs_allow_to_contact_me',
-                    $this->form_gui->getInput('bs_allow_to_contact_me') ? 'y' : 'n'
-                );
-            }
-            if ($this->isSettingChangeable('chat_osc_accept_msg')) {
-                $user_object->setPref(
-                    'chat_osc_accept_msg',
-                    $this->form_gui->getInput('chat_osc_accept_msg') ? 'y' : 'n'
-                );
-            }
-            if ($this->isSettingChangeable('chat_broadcast_typing')) {
-                $user_object->setPref(
-                    'chat_broadcast_typing',
-                    $this->form_gui->getInput('chat_broadcast_typing') ? 'y' : 'n'
-                );
-            }
-            if ($this->settings->get('session_reminder_enabled') === '1') {
-                $user_object->setPref(
-                    'session_reminder_enabled',
-                    $this->form_gui->getInput('session_reminder_enabled')
-                );
-            }
-            $user_object->writePrefs();
-
-            //set role entries
-            $this->rbac_admin->assignUser(
-                (int) $this->form_gui->getInput('default_role'),
-                $user_object->getId(),
-                true
-            );
-
-            $msg = $this->lng->txt('user_added');
-
-            $this->user->setPref(
-                'send_info_mails',
-                ($this->form_gui->getInput('send_mail') == 'y') ? 'y' : 'n'
-            );
-            $this->user->writePrefs();
-
-            $this->object = $user_object;
-
-            if ($this->isSettingChangeable('upload')) {
-                $this->uploadUserPictureObject();
-            }
-
-            if ($profile_maybe_incomplete) {
-                if ($this->user_profile->isProfileIncomplete($this->object)) {
-                    $this->object->setProfileIncomplete(true);
-                    $this->object->update();
-                }
-            }
-
-            // send new account mail
-            if ($this->form_gui->getInput('send_mail') == 'y') {
-                $acc_mail = new ilAccountMail();
-                $acc_mail->useLangVariablesAsFallback(true);
-                $acc_mail->setAttachConfiguredFiles(true);
-                $acc_mail->setUserPassword($this->form_gui->getInput('passwd'));
-                $acc_mail->setUser($user_object);
-
-                if ($acc_mail->send()) {
-                    $msg .= '<br />' . $this->lng->txt('mail_sent');
-                    $this->tpl->setOnScreenMessage('success', $msg, true);
-                } else {
-                    $msg .= '<br />' . $this->lng->txt('mail_not_sent');
-                    $this->tpl->setOnScreenMessage('info', $msg, true);
-                }
-            } else {
-                $this->tpl->setOnScreenMessage('success', $msg, true);
-            }
-
-            if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
-                $this->ctrl->redirectByClass('ilobjuserfoldergui', 'view');
-            } else {
-                $this->ctrl->redirectByClass('ilobjcategorygui', 'listUsers');
-            }
-        } else {
+        if (!$this->form_gui->checkInput()) {
             $this->form_gui->setValuesByPost();
             $this->tpl->setContent($this->form_gui->getHTML());
+            return;
         }
+
+        // @todo: external account; time limit check and savings
+
+        // checks passed. save user
+        $user_object = $this->loadValuesFromForm();
+        $user_object->setPasswd($this->form_gui->getInput('passwd'), ilObjUser::PASSWD_PLAIN);
+        $user_object->setTitle($user_object->getFullname());
+        $user_object->setDescription($user_object->getEmail());
+
+        $this->loadUserDefinedDataFromForm($user_object);
+
+        $user_object->create();
+
+        if (ilAuthUtils::_isExternalAccountEnabled()) {
+            $user_object->setExternalAccount($this->form_gui->getInput('ext_account'));
+        }
+
+        // set a timestamp for last_password_change
+        // this ts is needed by ilSecuritySettings
+        $user_object->setLastPasswordChangeTS(time());
+
+        //insert user data in table user_data
+        $user_object->saveAsNew();
+
+        // setup user preferences
+        if ($this->isSettingChangeable('language')) {
+            $user_object->setLanguage($this->form_gui->getInput('language'));
+        }
+
+        if ($this->isSettingChangeable('skin_style')) {
+            //set user skin and style
+            $sknst = explode(':', $this->form_gui->getInput('skin_style'));
+
+            if ($user_object->getPref('style') != $sknst[1] ||
+                $user_object->getPref('skin') != $sknst[0]) {
+                $user_object->setPref('skin', $sknst[0]);
+                $user_object->setPref('style', $sknst[1]);
+            }
+        }
+        if ($this->isSettingChangeable('hits_per_page')) {
+            $user_object->setPref('hits_per_page', $this->form_gui->getInput('hits_per_page'));
+        }
+        if ($this->isSettingChangeable('hide_own_online_status')) {
+            $user_object->setPref(
+                'hide_own_online_status',
+                $this->form_gui->getInput('hide_own_online_status')
+            );
+        }
+        if ($this->isSettingChangeable('bs_allow_to_contact_me')) {
+            $user_object->setPref(
+                'bs_allow_to_contact_me',
+                $this->form_gui->getInput('bs_allow_to_contact_me') ? 'y' : 'n'
+            );
+        }
+        if ($this->isSettingChangeable('chat_osc_accept_msg')) {
+            $user_object->setPref(
+                'chat_osc_accept_msg',
+                $this->form_gui->getInput('chat_osc_accept_msg') ? 'y' : 'n'
+            );
+        }
+        if ($this->isSettingChangeable('chat_broadcast_typing')) {
+            $user_object->setPref(
+                'chat_broadcast_typing',
+                $this->form_gui->getInput('chat_broadcast_typing') ? 'y' : 'n'
+            );
+        }
+        if ($this->settings->get('session_reminder_enabled') === '1') {
+            $user_object->setPref(
+                'session_reminder_enabled',
+                $this->form_gui->getInput('session_reminder_enabled')
+            );
+        }
+        $user_object->writePrefs();
+
+        //set role entries
+        $this->rbac_admin->assignUser(
+            (int) $this->form_gui->getInput('default_role'),
+            $user_object->getId(),
+            true
+        );
+
+        $msg = $this->lng->txt('user_added');
+
+        $this->user->setPref(
+            'send_info_mails',
+            ($this->form_gui->getInput('send_mail') == 'y') ? 'y' : 'n'
+        );
+        $this->user->writePrefs();
+
+        $this->object = $user_object;
+
+        if ($this->isSettingChangeable('upload')) {
+            $this->uploadUserPictureObject();
+        }
+
+        if ($profile_maybe_incomplete
+            && $this->user_profile->isProfileIncomplete($this->object)) {
+            $this->object->setProfileIncomplete(true);
+            $this->object->update();
+        }
+
+        // send new account mail
+        if ($this->form_gui->getInput('send_mail') == 'y') {
+            $acc_mail = new ilAccountMail();
+            $acc_mail->useLangVariablesAsFallback(true);
+            $acc_mail->setAttachConfiguredFiles(true);
+            $acc_mail->setUserPassword($this->form_gui->getInput('passwd'));
+            $acc_mail->setUser($user_object);
+
+            if ($acc_mail->send()) {
+                $msg .= '<br />' . $this->lng->txt('mail_sent');
+                $this->tpl->setOnScreenMessage('success', $msg, true);
+            } else {
+                $msg .= '<br />' . $this->lng->txt('mail_not_sent');
+                $this->tpl->setOnScreenMessage('info', $msg, true);
+            }
+        } else {
+            $this->tpl->setOnScreenMessage('success', $msg, true);
+        }
+
+        if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
+            $this->ctrl->redirectByClass('ilobjuserfoldergui', 'view');
+            return;
+        }
+
+        $this->ctrl->redirectByClass('ilobjcategorygui', 'listUsers');
     }
 
     public function editObject(): void
@@ -1507,34 +1508,72 @@ class ilObjUserGUI extends ilObjectGUI
             // Store profile picture
             // This part can be changed when using new Inputs: Currently we map the $_FILES array to get the 'correct' upload as it was before
             $this->uploads->process();
-            $uploads = $this->uploads->getResults();
-            $upload_tmp_name = $_FILES['userfile']['tmp_name'];
-            $avatar_upload_result = $uploads[$upload_tmp_name] ?? null;
 
-            $existing_rid = $this->irss->manage()->find($this->object->getAvatarRid());
-            $revision_title = 'Avatar for user ' . $this->object->getLogin();
-            $this->stakeholder->setOwner($this->object->getId()); // The Resource is owned by the user we are editing
-            if ($existing_rid === null) {
-                $rid = $this->irss->manage()->upload(
-                    $avatar_upload_result,
-                    $this->stakeholder,
-                    $revision_title
-                );
-            } else {
-                $rid = $existing_rid;
-                $this->irss->manage()->replaceWithUpload(
-                    $existing_rid,
-                    $avatar_upload_result,
-                    $this->stakeholder,
-                    $revision_title
-                );
+            $rid = $this->moveFileToStorage();
+
+            if ($rid === null) {
+                return;
             }
+
             $this->object->setAvatarRid($rid->serialize());
             $this->irss->flavours()->ensure($rid, new ilUserProfilePictureDefinition());
 
             $this->object->setPref('profile_image', $store_file); // this may be dropped with the next release
             $this->object->update();
         }
+    }
+
+    private function moveFileToStorage(): ?ResourceIdentification
+    {
+        $uploads = $this->uploads->getResults();
+        $upload_tmp_name = $_FILES['userfile']['tmp_name'];
+        $avatar_upload_result = $uploads[$upload_tmp_name] ?? null;
+
+        $existing_rid = null;
+        if ($this->object->getAvatarRid() !== null) {
+            $existing_rid = $this->irss->manage()->find($this->object->getAvatarRid());
+        }
+
+        $revision_title = 'Avatar for user ' . $this->object->getLogin();
+        $this->stakeholder->setOwner($this->object->getId()); // The Resource is owned by the user we are editing
+
+        if ($avatar_upload_result === null && file_exists($upload_tmp_name)) {
+            $stream = Streams::ofResource(
+                fopen($upload_tmp_name, 'r')
+            );
+
+            if ($existing_rid === null) {
+                return $this->irss->manage()->stream($stream, $this->stakeholder, $revision_title);
+            }
+
+            $this->irss->manage()->appendNewRevisionFromStream(
+                $existing_rid,
+                $stream,
+                $this->stakeholder,
+                $revision_title
+            );
+            return $existing_rid;
+        }
+
+        if ($avatar_upload_result === null) {
+            return null;
+        }
+
+        if ($existing_rid === null) {
+            return $this->irss->manage()->upload(
+                $avatar_upload_result,
+                $this->stakeholder,
+                $revision_title
+            );
+        }
+
+        $this->irss->manage()->replaceWithUpload(
+            $existing_rid,
+            $avatar_upload_result,
+            $this->stakeholder,
+            $revision_title
+        );
+        return $existing_rid;
     }
 
     public function removeUserPictureObject(): void
