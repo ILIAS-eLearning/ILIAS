@@ -1371,8 +1371,11 @@ class ilObjQuestionPool extends ilObject
     {
         $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
-        $newObj->setOnline(false);
-        $newObj->update();
+        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $newObj->setOnline($this->getOnline());
+        if ($cp_options->isRootNode($this->getRefId())) {
+            $newObj->setOnline(0);
+        }
 
         $newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
         $newObj->setShowTaxonomies($this->getShowTaxonomies());
