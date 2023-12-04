@@ -89,14 +89,25 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
                     $lng->txt("exc_blog_returned"),
                     $node["title"]
                 );
-                $button = $f->button()->standard(
-                    $lng->txt("exc_edit_blog"),
-                    $blog_link
-                );
-                $builder->addAction(
-                    $builder::SEC_SUBMISSION,
-                    $button
-                );
+                if ($submission->canSubmit()) {
+                    $button = $f->button()->primary(
+                        $lng->txt("exc_edit_blog"),
+                        $blog_link
+                    );
+                    $builder->setMainAction(
+                        $builder::SEC_SUBMISSION,
+                        $button
+                    );
+                } else {
+                    $button = $f->button()->standard(
+                        $lng->txt("exc_edit_blog"),
+                        $blog_link
+                    );
+                    $builder->addAction(
+                        $builder::SEC_SUBMISSION,
+                        $button
+                    );
+                }
             }
             // remove invalid resource if no upload yet (see download below)
             elseif (substr($selected_blog["filename"], -1) == "/") {
@@ -122,6 +133,16 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
                 $button = $f->button()->standard(
                     $lng->txt("exc_select_blog" . ($valid_blog ? "_change" : "")),
                     $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectBlog")
+                );
+                $builder->addAction(
+                    $builder::SEC_SUBMISSION,
+                    $button
+                );
+            }
+            if ($valid_blog) {
+                $button = $f->button()->standard(
+                    $lng->txt("exc_select_blog_unlink"),
+                    $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkBlog")
                 );
                 $builder->addAction(
                     $builder::SEC_SUBMISSION,

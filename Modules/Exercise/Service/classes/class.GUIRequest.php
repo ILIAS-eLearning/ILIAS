@@ -505,4 +505,10 @@ class GUIRequest
     {
         return $this->str("mode");
     }
+
+    public function getFromOverview(): bool
+    {
+        return (bool) $this->int("from_overview");
+    }
+
 }

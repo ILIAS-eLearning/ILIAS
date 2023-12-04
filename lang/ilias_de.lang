@@ -9151,6 +9151,7 @@ exc#:#exc_all_new_files_offered_already#:#Alle neuen Dateien wurden bereits zum 
 exc#:#exc_ass_submission_zip#:#Abgaben
 exc#:#exc_ass_team_wiki#:#Team-Wiki
 exc#:#exc_assignment#:#Übungseinheit
+exc#:#exc_assignment_list#:#Liste der Übungseinheiten
 exc#:#exc_assignment_type#:#Abgabetyp
 exc#:#exc_assignment_view#:#Je Übungseinheit
 exc#:#exc_assignments#:#Übungseinheiten
@@ -9463,6 +9464,7 @@ exc#:#exc_select_ass#:#Übungseinheit auswählen
 exc#:#exc_select_blog#:#Vorhandenes Blog nutzen
 exc#:#exc_select_blog_change#:#Anderes Blog benutzen
 exc#:#exc_select_blog_info#:#Bitte wählen Sie eines Ihrer Blogs, um es in dieser Übungseinheit zu benutzen.
+exc#:#exc_select_blog_unlink#:#Blog entfernen
 exc#:#exc_select_part#:#Teilnehmer auswählen
 exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
@@ -9501,6 +9503,7 @@ exc#:#exc_submissions_and_grades#:#Abgaben und Noten
 exc#:#exc_submit_anytime#:#Jederzeit abgeben
 exc#:#exc_submit_convenience_no_deadline#:#Geben Sie nach Bearbeitung der Übungseinheit ab. Es gibt keinen festen Abgabetermin.
 exc#:#exc_submitted_files_deleted#:#Die ausgewählten Dateien wurden gelöscht.
+exc#:#exc_sure_unlink_blog#:#Möchten Sie das Blog aus dieser Übungseinheit entfernen?
 exc#:#exc_sure_unlink_portfolio#:#Möchten Sie das Portfolio aus dieser Übungseinheit entfernen?
 exc#:#exc_target_not_valid#:#Das Link-Ziel ist nicht mehr gültig.
 exc#:#exc_task_grading#:#Bewertung der Übungseinheit "%1"

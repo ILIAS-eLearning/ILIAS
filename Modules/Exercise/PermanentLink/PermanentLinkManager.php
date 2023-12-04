@@ -22,6 +22,9 @@ namespace ILIAS\Exercise\PermanentLink;
 
 use ILIAS\Exercise\InternalGUIService;
 use ILIAS\Exercise\InternalDomainService;
+use ILIAS\UICore\PageContentProvider;
+use ILIAS\StaticURL\Services as StaticUrl;
+use ILIAS\Data\ReferenceId;
 
 /**
  * Link to exercise: goto.php?target=exc_<exc_ref_id>
@@ -31,6 +34,7 @@ use ILIAS\Exercise\InternalDomainService;
  */
 class PermanentLinkManager
 {
+    protected StaticUrl $static_url;
     protected InternalGUIService $gui;
     protected InternalDomainService $domain;
 
@@ -38,10 +42,15 @@ class PermanentLinkManager
         InternalDomainService $domain,
         InternalGUIService $gui
     ) {
+        global $DIC;
+        /** @var StaticUrl $static_url */
+        $this->static_url = $DIC['static_url'];
+
         $this->domain = $domain;
         $this->gui = $gui;
     }
 
+    /*
     public function goto(
         string $target,
         string $raw
@@ -156,17 +165,18 @@ class PermanentLinkManager
             ), true);
             \ilObjectGUI::_gotoRepositoryRoot();
         }
-    }
+    }*/
 
-    protected function _setPermanentLink(string $append): void
+    protected function _setPermanentLink(array $append): void
     {
         $request = $this->gui->request();
-        $main_tpl = $this->gui->ui()->mainTemplate();
-        $main_tpl->setPermanentLink(
-            "exc",
-            $request->getRefId(),
-            $append
+        $ref_id = $request->getRefId();
+        $uri = $this->static_url->builder()->build(
+            'exc', // namespace
+            $ref_id > 0 ? new ReferenceId($ref_id) : null, // ref_id
+            $append // additional parameters
         );
+        PageContentProvider::setPermaLink((string) $uri);
     }
 
     public function setPermanentLink(): void
@@ -179,28 +189,32 @@ class PermanentLinkManager
         );
     }
 
-    public function getDefaultAppend(int $ass_id): string
+    public function getDefaultAppend(int $ass_id): array
     {
-        $append = "";
+        $append = [];
         if ($ass_id > 0) {
-            $append = "_" . $ass_id;
+            $append[] = $ass_id;
         }
         return $append;
     }
 
     public function getPermanentLink(int $ref_id, int $ass_id): string
     {
-        $append = ($ass_id > 0)
-            ? $this->getDefaultAppend($ass_id)
-            : "";
-        return \ilLink::_getLink($ref_id, "exc", [], $append);
+        $append = $this->getDefaultAppend($ass_id);
+        $uri = $this->static_url->builder()->build(
+            'exc', // namespace
+            $ref_id > 0 ? new ReferenceId($ref_id) : null, // ref_id
+            $append // additional parameters
+        );
+
+        return (string) $uri;
     }
 
 
 
-    public function getDownloadSubmissionAppend(int $ass_id, int $user_id): string
+    public function getDownloadSubmissionAppend(int $ass_id, int $user_id): array
     {
-        return "_" . $ass_id . "_" . $user_id . "_setdownload";
+        return [$ass_id, $user_id, "setdownload"];
     }
 
     public function setGradesPermanentLink(): void
@@ -213,9 +227,9 @@ class PermanentLinkManager
         );
     }
 
-    public function getGradesAppend(int $ass_id): string
+    public function getGradesAppend(int $ass_id): array
     {
-        return "_" . $ass_id . "_grades";
+        return [$ass_id, "grades"];
     }
 
     public function setGivenFeedbackPermanentLink(): void
@@ -229,9 +243,9 @@ class PermanentLinkManager
         );
     }
 
-    public function getGivenFeedbackAppend(int $ass_id, int $peer_id): string
+    public function getGivenFeedbackAppend(int $ass_id, int $peer_id): array
     {
-        return "_" . $ass_id . "_" . $peer_id . "_given";
+        return [$ass_id, $peer_id, "given"];
     }
 
     public function setReceivedFeedbackPermanentLink(): void
@@ -244,9 +258,9 @@ class PermanentLinkManager
         );
     }
 
-    public function getReceivedFeedbackAppend(int $ass_id): string
+    public function getReceivedFeedbackAppend(int $ass_id): array
     {
-        return "_" . $ass_id . "_received";
+        return [$ass_id, "received"];
     }
 
 }
