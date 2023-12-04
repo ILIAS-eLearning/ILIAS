@@ -52,6 +52,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $templateRepositoryMock->expects($this->once())->method("save");
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)

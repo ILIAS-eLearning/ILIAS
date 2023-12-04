@@ -38,6 +38,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $page_formats = new ilPageFormats($language);
 
         $util_helper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+                            ->disableOriginalConstructor()
                             ->getMock();
 
         $util_helper->method('stripSlashes')
@@ -114,6 +115,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+                           ->disableOriginalConstructor()
                            ->getMock();
 
         $utilHelper->method('stripSlashes')
@@ -208,6 +210,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+                           ->disableOriginalConstructor()
                            ->getMock();
 
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
@@ -279,6 +282,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+                           ->disableOriginalConstructor()
                            ->getMock();
 
         $utilHelper->method('stripSlashes')
@@ -373,6 +377,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+                           ->disableOriginalConstructor()
                            ->getMock();
 
         $utilHelper->method('stripSlashes')

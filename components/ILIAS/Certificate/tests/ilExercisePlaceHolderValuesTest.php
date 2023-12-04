@@ -69,6 +69,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn('aaa');
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper->expects($this->exactly(2))
@@ -147,6 +148,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')

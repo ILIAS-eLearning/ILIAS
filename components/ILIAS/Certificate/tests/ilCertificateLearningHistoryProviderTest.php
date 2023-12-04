@@ -61,6 +61,10 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
         $provider = new ilCertificateLearningHistoryProvider(
             10,
             $learningHistoryFactory,
@@ -71,7 +75,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             $controller,
             $certificateSettings,
             $uiFactory,
-            $uiRenderer
+            $uiRenderer,
+            $utilHelper
         );
 
         $this->assertTrue($provider->isActive());
@@ -304,6 +309,10 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
         $provider = new ilCertificateLearningHistoryProvider(
             10,
             $learningHistoryFactory,
@@ -314,7 +323,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             $controller,
             $certificateSettings,
             $uiFactory,
-            $uiRenderer
+            $uiRenderer,
+            $utilHelper
         );
 
         $this->assertSame('Certificates', $provider->getName());

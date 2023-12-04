@@ -74,6 +74,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn($objectMock);
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')
@@ -193,6 +194,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn($objectMock);
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')
