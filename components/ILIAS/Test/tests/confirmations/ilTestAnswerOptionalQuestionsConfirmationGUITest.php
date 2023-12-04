@@ -18,13 +18,15 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Class ilTestAnswerOptionalQuestionsConfirmationGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
 class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCase
 {
-    protected $lng_mock;
+    protected MockObject $lng_mock;
 
     protected function setUp(): void
     {
@@ -41,7 +43,7 @@ class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCas
 
     public function testGetAndSetCancelCmd(): void
     {
-        $expect = "testCancelCmd";
+        $expect = 'testCancelCmd';
 
         $gui = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng_mock);
 
@@ -52,7 +54,7 @@ class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCas
 
     public function testGetAndSetConfirmCmd(): void
     {
-        $expect = "testConfirmCmd";
+        $expect = 'testConfirmCmd';
 
         $gui = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng_mock);
 

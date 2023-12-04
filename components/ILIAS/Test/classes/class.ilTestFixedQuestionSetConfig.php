@@ -71,7 +71,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         foreach ($this->test_obj->questions as $key => $question_id) {
             $question_orig = assQuestion::instantiateQuestion($question_id);
 
-            $clone_test_obj->questions[$key] = $question_orig->duplicate(true, '', '', '', $clone_test_obj->getId());
+            $clone_test_obj->questions[$key] = $question_orig->duplicate(true, '', '', -1, $clone_test_obj->getId());
 
             $original_id = $this->questioninfo->getOriginalId($question_id);
 

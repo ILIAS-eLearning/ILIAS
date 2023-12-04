@@ -29,17 +29,14 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObjectSimple(): void
     {
-        // Act
         $instance = new ASS_AnswerMatching();
 
-        // Assert
-        $this->assertInstanceOf('ASS_AnswerMatching', $instance);
+        $this->assertInstanceOf(ASS_AnswerMatching::class, $instance);
     }
 
     public function test_setGetPoints(): void
@@ -47,11 +44,9 @@ class assAnswerMatchingTest extends assBaseTestCase
         $instance = new ASS_AnswerMatching();
         $expected = 10;
 
-        // Act
         $instance->setPoints($expected);
         $actual = $instance->getPoints();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -60,11 +55,9 @@ class assAnswerMatchingTest extends assBaseTestCase
         $instance = new ASS_AnswerMatching();
         $expected = 10;
 
-        // Act
         $instance->setTermId($expected);
         $actual = $instance->getTermId();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -73,11 +66,9 @@ class assAnswerMatchingTest extends assBaseTestCase
         $instance = new ASS_AnswerMatching();
         $expected = '/link/to/image?';
 
-        // Act
         $instance->setPicture($expected);
         $actual = $instance->getPicture();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -86,11 +77,9 @@ class assAnswerMatchingTest extends assBaseTestCase
         $instance = new ASS_AnswerMatching();
         $expected = 47;
 
-        // Act
         $instance->setPictureId($expected);
         $actual = $instance->getPictureId();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -99,11 +88,9 @@ class assAnswerMatchingTest extends assBaseTestCase
         $instance = new ASS_AnswerMatching();
         $expected = 0;
 
-        // Act
         $instance->setPictureId(-47);
         $actual = $instance->getPictureId();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -112,11 +99,9 @@ class assAnswerMatchingTest extends assBaseTestCase
         $instance = new ASS_AnswerMatching();
         $expected = 'Definition is this.';
 
-        // Act
         $instance->setDefinition($expected);
         $actual = $instance->getDefinition();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -125,11 +110,9 @@ class assAnswerMatchingTest extends assBaseTestCase
         $instance = new ASS_AnswerMatching();
         $expected = 10;
 
-        // Act
         $instance->setDefinitionId($expected);
         $actual = $instance->getDefinitionId();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

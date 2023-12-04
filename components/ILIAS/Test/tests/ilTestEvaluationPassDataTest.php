@@ -41,137 +41,148 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
     public function test__sleep(): void
     {
         $expected = [
-            "answeredQuestions",
-            "pass",
-            "nrOfAnsweredQuestions",
-            "reachedpoints",
-            "maxpoints",
-            "questioncount",
-            "workingtime",
-            "examId"
+            'answeredQuestions',
+            'pass',
+            'nrOfAnsweredQuestions',
+            'reachedpoints',
+            'maxpoints',
+            'questioncount',
+            'workingtime',
+            'examId'
         ];
         $this->assertEquals($expected, $this->testObj->__sleep());
     }
 
     public function testNrOfAnsweredQuestions(): void
     {
-        $this->testObj->setNrOfAnsweredQuestions(20);
-        $this->assertEquals(20, $this->testObj->getNrOfAnsweredQuestions());
+        $nrOfAnsweredQuestions = 20;
+        $this->testObj->setNrOfAnsweredQuestions($nrOfAnsweredQuestions);
+        $this->assertEquals($nrOfAnsweredQuestions, $this->testObj->getNrOfAnsweredQuestions());
     }
 
     public function testReachedPoints(): void
     {
-        $this->testObj->setReachedPoints(20);
-        $this->assertEquals(20, $this->testObj->getReachedPoints());
+        $reachedpoints = 20;
+        $this->testObj->setReachedPoints($reachedpoints);
+        $this->assertEquals($reachedpoints, $this->testObj->getReachedPoints());
     }
 
     public function testMaxPoints(): void
     {
-        $this->testObj->setMaxPoints(20);
-        $this->assertEquals(20, $this->testObj->getMaxPoints());
+        $maxpoints = 20;
+        $this->testObj->setMaxPoints($maxpoints);
+        $this->assertEquals($maxpoints, $this->testObj->getMaxPoints());
     }
 
     public function testQuestionCount(): void
     {
-        $this->testObj->setQuestionCount(20);
-        $this->assertEquals(20, $this->testObj->getQuestionCount());
+        $questioncount = 20;
+        $this->testObj->setQuestionCount($questioncount);
+        $this->assertEquals($questioncount, $this->testObj->getQuestionCount());
     }
 
     public function testWorkingTime(): void
     {
-        $this->testObj->setWorkingTime(20);
-        $this->assertEquals(20, $this->testObj->getWorkingTime());
+        $workingtime = 20;
+        $this->testObj->setWorkingTime($workingtime);
+        $this->assertEquals($workingtime, $this->testObj->getWorkingTime());
     }
 
     public function testPass(): void
     {
-        $this->testObj->setPass(20);
-        $this->assertEquals(20, $this->testObj->getPass());
+        $pass = 20;
+        $this->testObj->setPass($pass);
+        $this->assertEquals($pass, $this->testObj->getPass());
     }
 
     public function testAnsweredQuestions(): void
     {
         $expected = [
-            ["id" => 20, "points" => 2.5, "reached" => 1.5, "isAnswered" => true, "sequence" => null, "manual" => 0],
-            ["id" => 12, "points" => 12.5, "reached" => 11, "isAnswered" => true, "sequence" => null, "manual" => 1],
-            ["id" => 165, "points" => -5.5, "reached" => 0, "isAnswered" => false, "sequence" => null, "manual" => 0],
-            ["id" => 4, "points" => 55.5, "reached" => 200, "isAnswered" => false, "sequence" => null, "manual" => 1],
+            ['id' => 20, 'points' => 2.5, 'reached' => 1.5, 'isAnswered' => true, 'sequence' => null, 'manual' => 0],
+            ['id' => 12, 'points' => 12.5, 'reached' => 11, 'isAnswered' => true, 'sequence' => null, 'manual' => 1],
+            ['id' => 165, 'points' => -5.5, 'reached' => 0, 'isAnswered' => false, 'sequence' => null, 'manual' => 0],
+            ['id' => 4, 'points' => 55.5, 'reached' => 200, 'isAnswered' => false, 'sequence' => null, 'manual' => 1]
         ];
 
         foreach ($expected as $value) {
             $this->testObj->addAnsweredQuestion(
-                $value["id"],
-                $value["points"],
-                $value["reached"],
-                $value["isAnswered"],
-                $value["sequence"],
-                $value["manual"],
+                $value['id'],
+                $value['points'],
+                $value['reached'],
+                $value['isAnswered'],
+                $value['sequence'],
+                $value['manual']
             );
         }
 
         $this->assertEquals($expected, $this->testObj->getAnsweredQuestions());
 
-        $this->assertEquals($expected[1], $this->testObj->getAnsweredQuestion(1));
+        foreach ($expected as $key => $value) {
+            $this->assertEquals($value, $this->testObj->getAnsweredQuestion($key));
+        }
     }
 
     public function testGetAnsweredQuestionByQuestionId(): void
     {
         $expected = [
-            ["id" => 20, "points" => 2.5, "reached" => 1.5, "isAnswered" => true, "sequence" => null, "manual" => 0],
-            ["id" => 12, "points" => 12.5, "reached" => 11, "isAnswered" => true, "sequence" => null, "manual" => 1],
-            ["id" => 165, "points" => -5.5, "reached" => 0, "isAnswered" => false, "sequence" => null, "manual" => 0],
-            ["id" => 4, "points" => 55.5, "reached" => 200, "isAnswered" => false, "sequence" => null, "manual" => 1],
+            ['id' => 20, 'points' => 2.5, 'reached' => 1.5, 'isAnswered' => true, 'sequence' => null, 'manual' => 0],
+            ['id' => 12, 'points' => 12.5, 'reached' => 11, 'isAnswered' => true, 'sequence' => null, 'manual' => 1],
+            ['id' => 165, 'points' => -5.5, 'reached' => 0, 'isAnswered' => false, 'sequence' => null, 'manual' => 0],
+            ['id' => 4, 'points' => 55.5, 'reached' => 200, 'isAnswered' => false, 'sequence' => null, 'manual' => 1]
         ];
-
         foreach ($expected as $value) {
             $this->testObj->addAnsweredQuestion(
-                $value["id"],
-                $value["points"],
-                $value["reached"],
-                $value["isAnswered"],
-                $value["sequence"],
-                $value["manual"],
+                $value['id'],
+                $value['points'],
+                $value['reached'],
+                $value['isAnswered'],
+                $value['sequence'],
+                $value['manual']
             );
         }
 
-        $this->assertEquals($expected[1], $this->testObj->getAnsweredQuestionByQuestionId(12));
+        foreach ($expected as $value) {
+            $this->assertEquals($value, $this->testObj->getAnsweredQuestionByQuestionId($value['id']));
+        }
     }
 
     public function testGetAnsweredQuestionCount(): void
     {
         $expected = [
-            ["id" => 20, "points" => 2.5, "reached" => 1.5, "isAnswered" => true, "sequence" => null, "manual" => 0],
-            ["id" => 12, "points" => 12.5, "reached" => 11, "isAnswered" => true, "sequence" => null, "manual" => 1],
-            ["id" => 165, "points" => -5.5, "reached" => 0, "isAnswered" => false, "sequence" => null, "manual" => 0],
-            ["id" => 4, "points" => 55.5, "reached" => 200, "isAnswered" => false, "sequence" => null, "manual" => 1],
+            ['id' => 20, 'points' => 2.5, 'reached' => 1.5, 'isAnswered' => true, 'sequence' => null, 'manual' => 0],
+            ['id' => 12, 'points' => 12.5, 'reached' => 11, 'isAnswered' => true, 'sequence' => null, 'manual' => 1],
+            ['id' => 165, 'points' => -5.5, 'reached' => 0, 'isAnswered' => false, 'sequence' => null, 'manual' => 0],
+            ['id' => 4, 'points' => 55.5, 'reached' => 200, 'isAnswered' => false, 'sequence' => null, 'manual' => 1]
         ];
 
         foreach ($expected as $value) {
             $this->testObj->addAnsweredQuestion(
-                $value["id"],
-                $value["points"],
-                $value["reached"],
-                $value["isAnswered"],
-                $value["sequence"],
-                $value["manual"],
+                $value['id'],
+                $value['points'],
+                $value['reached'],
+                $value['isAnswered'],
+                $value['sequence'],
+                $value['manual']
             );
         }
 
-        $this->assertEquals(4, $this->testObj->getAnsweredQuestionCount());
+        $this->assertEquals(count($expected), $this->testObj->getAnsweredQuestionCount());
     }
 
     public function testRequestedHintsCount(): void
     {
-        $this->testObj->setRequestedHintsCount(5);
+        $requestedHintsCount = 5;
+        $this->testObj->setRequestedHintsCount($requestedHintsCount);
 
-        $this->assertEquals(5, $this->testObj->getRequestedHintsCount());
+        $this->assertEquals($requestedHintsCount, $this->testObj->getRequestedHintsCount());
     }
 
     public function testDeductedHintPoints(): void
     {
-        $this->testObj->setDeductedHintPoints(5);
+        $deductedHintPoints = 5;
+        $this->testObj->setDeductedHintPoints($deductedHintPoints);
 
-        $this->assertEquals(5, $this->testObj->getDeductedHintPoints());
+        $this->assertEquals($deductedHintPoints, $this->testObj->getDeductedHintPoints());
     }
 
     public function testObligationsAnswered(): void
@@ -183,8 +194,9 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
 
     public function testExamId(): void
     {
-        $this->testObj->setExamId("5");
+        $exam_id = '5';
+        $this->testObj->setExamId($exam_id);
 
-        $this->assertEquals("5", $this->testObj->getExamId());
+        $this->assertEquals($exam_id, $this->testObj->getExamId());
     }
 }

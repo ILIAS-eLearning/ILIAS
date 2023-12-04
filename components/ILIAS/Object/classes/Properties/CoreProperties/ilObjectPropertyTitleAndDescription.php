@@ -48,9 +48,23 @@ class ilObjectPropertyTitleAndDescription implements ilObjectProperty
         return $this->title;
     }
 
+    public function withTitle(string $title): self
+    {
+        $clone = clone $this;
+        $clone->title = $title;
+        return $clone;
+    }
+
     public function getDescription(): string
     {
         return mb_substr($this->getLongDescription(), 0, ilObject::DESC_LENGTH);
+    }
+
+    public function withDescription(string $description): self
+    {
+        $clone = clone $this;
+        $clone->long_description = $description;
+        return $clone;
     }
 
     public function getLongDescription(): ?string

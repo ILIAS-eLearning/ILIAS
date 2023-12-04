@@ -40,7 +40,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $this->db = $DIC['ilDB'];
-        $this->logger = $DIC["ilLoggerFactory"];
+        $this->logger = $DIC->logger();
 
         parent::__construct($id, $id_type, $parent_node_id);
     }

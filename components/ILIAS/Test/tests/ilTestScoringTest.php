@@ -53,7 +53,8 @@ class ilTestScoringTest extends ilTestBaseTestCase
 
     public function testQuestionId(): void
     {
-        $this->testObj->setQuestionId(20);
-        $this->assertEquals(20, $this->testObj->getQuestionId());
+        $questionId = 20;
+        $this->testObj->setQuestionId($questionId);
+        $this->assertEquals($questionId, $this->testObj->getQuestionId());
     }
 }

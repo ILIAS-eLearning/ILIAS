@@ -617,9 +617,11 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $answer->setImageFsDir($imagePath);
         $answer->setImageFile($filename);
 
-        if (!ilFileUtils::moveUploadedFile($fileData['tmp_name'], $fileData['name'], $answer->getImageFsPath())) {
+        if (!ilFileUtils::moveUploadedFile($fileData['tmp_name'], $filename, $answer->getImageFsPath())) {
             return 2;
         }
+
+        $this->generateThumbForFile($filename, $this->getImagePath(), $this->getThumbSize());
 
         return 0;
     }
@@ -690,7 +692,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $points;
     }
 
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
@@ -835,7 +837,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         foreach ($this->getAnswers() as $answer) {
             $filename = $answer->getImageFile();
 
-            if ($filename !== null || $filename === '') {
+            if ($filename === null || $filename === '') {
                 continue;
             }
 

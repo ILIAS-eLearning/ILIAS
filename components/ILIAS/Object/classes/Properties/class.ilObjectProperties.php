@@ -31,7 +31,7 @@ class ilObjectProperties
     ) {
     }
 
-    public function getPropertyTitleAndDescription(): ilObjectProperty
+    public function getPropertyTitleAndDescription(): ilObjectPropertyTitleAndDescription
     {
         return $this->core_properties->getPropertyTitleAndDescription();
     }

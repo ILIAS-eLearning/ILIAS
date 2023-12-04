@@ -44,7 +44,8 @@ class ilTestGradingMessageBuilderTest extends ilTestBaseTestCase
 
     public function testActiveId(): void
     {
-        $this->testObj->setActiveId(2120);
-        $this->assertEquals(2120, $this->testObj->getActiveId());
+        $activeId = 2120;
+        $this->testObj->setActiveId($activeId);
+        $this->assertEquals($activeId, $this->testObj->getActiveId());
     }
 }

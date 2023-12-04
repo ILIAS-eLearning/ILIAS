@@ -70,7 +70,8 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
             ->withOption('3', $lng->txt('tst_title_output_only_points'))
             ->withOption('2', $lng->txt('tst_title_output_no_title'))
             ->withValue($this->getQuestionTitleOutputMode())
-            ->withAdditionalTransformation($refinery->kindlyTo()->int());
+            ->withAdditionalTransformation($refinery->kindlyTo()->int())
+        ;
 
         $inputs['autosave'] = $this->getInputAutosave($lng, $f, $refinery);
 
@@ -131,7 +132,8 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         $sub_inputs_autosave['autosave_interval'] = $f->numeric($lng->txt('autosave_ival'))
             ->withRequired(true)
             ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
-            ->withValue($this->getAutosaveInterval() / 1000);
+            ->withValue($this->getAutosaveInterval() / 1000)
+        ;
 
         $autosave_input = $f->optionalGroup(
             $sub_inputs_autosave,
@@ -144,11 +146,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
             return $autosave_input;
         }
 
-        return $autosave_input->withValue(
-            [
-                'autosave_interval' => $this->getAutosaveInterval() / 1000
-            ]
-        );
+        return $autosave_input->withValue(['autosave_interval' => $this->getAutosaveInterval() / 1000]);
     }
 
     private function getInputInstantFeedback(
@@ -171,7 +169,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
                     ];
                 }
 
-                $vs['feedback_on_next_question'] = $vs['feedback_trigger'] === '1' ? true : false;
+                $vs['feedback_on_next_question'] = $vs['feedback_trigger'] === '1';
                 return $vs;
             }
         );
@@ -192,8 +190,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
                         'instant_feedback_points' => (bool) $this->getInstantFeedbackPointsEnabled(),
                         'instant_feedback_solution' => (bool) $this->getInstantFeedbackSolutionEnabled()
                     ],
-                    'feedback_trigger' => (string) ($this->getForceInstantFeedbackOnNextQuestion() ?
-                        '1' : '0')
+                    'feedback_trigger' => ($this->getForceInstantFeedbackOnNextQuestion() ? '1' : '0')
                 ]
             );
         }
@@ -334,16 +331,16 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
                 },
                 $lng->txt('tst_settings_conflict_compulsory_and_lock')
             ),
-             $refinery->custom()->constraint(
-                 function ($vs): bool {
-                     if ($vs['shuffle_questions'] === true
-                         && $vs['lock_answers']['lock_answer_on_next_question']) {
-                         return false;
-                     }
-                     return true;
-                 },
-                 $lng->txt('tst_settings_conflict_shuffle_and_lock')
-             )
+            $refinery->custom()->constraint(
+                function ($vs): bool {
+                    if ($vs['shuffle_questions'] === true
+                        && $vs['lock_answers']['lock_answer_on_next_question']) {
+                        return false;
+                    }
+                    return true;
+                },
+                $lng->txt('tst_settings_conflict_shuffle_and_lock'),
+            )
         ];
     }
 
@@ -370,6 +367,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     {
         return $this->question_title_output_mode;
     }
+
     public function withQuestionTitleOutputMode(int $question_title_output_mode): self
     {
         $clone = clone $this;
@@ -381,6 +379,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     {
         return $this->autosave_enabled;
     }
+
     public function withAutosaveEnabled(bool $autosave_enabled): self
     {
         $clone = clone $this;
@@ -392,6 +391,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     {
         return $this->autosave_interval;
     }
+
     public function withAutosaveInterval(int $autosave_interval): self
     {
         $clone = clone $this;
@@ -403,6 +403,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     {
         return $this->shuffle_questions;
     }
+
     public function withShuffleQuestions(bool $shuffle_questions): self
     {
         $clone = clone $this;
@@ -414,6 +415,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     {
         return $this->question_hints_enabled;
     }
+
     public function withQuestionHintsEnabled(bool $question_hints_enabled): self
     {
         $clone = clone $this;
@@ -425,42 +427,50 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     {
         return $this->instant_feedback_points_enabled;
     }
+
     public function withInstantFeedbackPointsEnabled(bool $instant_feedback_points_enabled): self
     {
         $clone = clone $this;
         $clone->instant_feedback_points_enabled = $instant_feedback_points_enabled;
         return $clone;
     }
+
     public function getInstantFeedbackGenericEnabled(): bool
     {
         return $this->instant_feedback_generic_enabled;
     }
+
     public function withInstantFeedbackGenericEnabled(bool $instant_feedback_generic_enabled): self
     {
         $clone = clone $this;
         $clone->instant_feedback_generic_enabled = $instant_feedback_generic_enabled;
         return $clone;
     }
+
     public function getInstantFeedbackSpecificEnabled(): bool
     {
         return $this->instant_feedback_specific_enabled;
     }
+
     public function withInstantFeedbackSpecificEnabled(bool $instant_feedback_specific_enabled): self
     {
         $clone = clone $this;
         $clone->instant_feedback_specific_enabled = $instant_feedback_specific_enabled;
         return $clone;
     }
+
     public function getInstantFeedbackSolutionEnabled(): bool
     {
         return $this->instant_feedback_solution_enabled;
     }
+
     public function withInstantFeedbackSolutionEnabled(bool $instant_feedback_solution_enabled): self
     {
         $clone = clone $this;
         $clone->instant_feedback_solution_enabled = $instant_feedback_solution_enabled;
         return $clone;
     }
+
     private function isAnyInstantFeedbackOptionEnabled(): bool
     {
         return $this->getInstantFeedbackPointsEnabled()
@@ -473,6 +483,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     {
         return $this->force_instant_feedback_on_next_question;
     }
+
     public function withForceInstantFeedbackOnNextQuestion(bool $force_instant_feedback_on_next_question): self
     {
         $clone = clone $this;
@@ -484,10 +495,26 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     {
         return $this->lock_answer_on_instant_feedback;
     }
+
+    public function withLockAnswerOnInstantFeedbackEnabled(bool $lock_answer_on_instant_feedback): self
+    {
+        $clone = clone $this;
+        $clone->lock_answer_on_instant_feedback = $lock_answer_on_instant_feedback;
+        return $clone;
+    }
+
     public function getLockAnswerOnNextQuestionEnabled(): bool
     {
         return $this->lock_answer_on_next_question;
     }
+
+    public function withLockAnswerOnNextQuestionEnabled(bool $lock_answer_on_next_question): self
+    {
+        $clone = clone $this;
+        $clone->lock_answer_on_next_question = $lock_answer_on_next_question;
+        return $clone;
+    }
+
     private function getAnswerFixationSettingsAsFormValue(): string
     {
         if ($this->getLockAnswerOnInstantFeedbackEnabled()
@@ -505,23 +532,12 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
 
         return self::ANSWER_FIXATION_NONE;
     }
-    public function withLockAnswerOnInstantFeedbackEnabled(bool $lock_answer_on_instant_feedback): self
-    {
-        $clone = clone $this;
-        $clone->lock_answer_on_instant_feedback = $lock_answer_on_instant_feedback;
-        return $clone;
-    }
-    public function withLockAnswerOnNextQuestionEnabled(bool $lock_answer_on_next_question): self
-    {
-        $clone = clone $this;
-        $clone->lock_answer_on_next_question = $lock_answer_on_next_question;
-        return $clone;
-    }
 
     public function getCompulsoryQuestionsEnabled(): bool
     {
         return $this->compulsory_questions_enabled;
     }
+
     public function withCompulsoryQuestionsEnabled(bool $compulsory_questions_enabled): self
     {
         $clone = clone $this;

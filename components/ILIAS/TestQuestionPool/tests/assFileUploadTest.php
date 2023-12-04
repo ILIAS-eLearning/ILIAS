@@ -46,7 +46,6 @@ class assFileUploadTest extends assBaseTestCase
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());
-        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
         $this->setGlobalVariable('resource_storage', $this->getIRSSMock());
         $this->setGlobalVariable('file_delivery', $this->getFileDeliveryMock());
@@ -54,9 +53,8 @@ class assFileUploadTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assFileUpload();
 
-        $this->assertInstanceOf('assFileUpload', $instance);
+        $this->assertInstanceOf(assFileUpload::class, $instance);
     }
 }

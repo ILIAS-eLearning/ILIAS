@@ -29,31 +29,26 @@ class assAnswerErrorTextTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObjectSimple(): void
     {
-        // Act
         $instance = new assAnswerErrorText('errortext');
 
-        // Assert
         $this->assertInstanceOf(assAnswerErrorText::class, $instance);
     }
 
 
     public function test_instantiateObjectFull(): void
     {
-        // Act
         $instance = new assAnswerErrorText(
             'errortext',
             'correcttext',
             0.01,
-            21
+            21,
         );
 
-        // Assert
         $this->assertInstanceOf(assAnswerErrorText::class, $instance);
     }
 
@@ -63,7 +58,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
             'errortext',
             'correcttext',
             0.01,
-            21
+            21,
         );
 
         $this->assertInstanceOf(assAnswerErrorText::class, $instance);
@@ -79,11 +74,9 @@ class assAnswerErrorTextTest extends assBaseTestCase
         $instance = new assAnswerErrorText('errortext');
         $expected = 0.01;
 
-        // Act
         $instance_with_points = $instance->withPoints($expected);
         $actual = $instance_with_points->getPoints();
 
-        // Assert
         $this->assertEquals($actual, $expected);
     }
 
@@ -92,11 +85,9 @@ class assAnswerErrorTextTest extends assBaseTestCase
         $instance = new assAnswerErrorText('errortext');
         $expected = 21;
 
-        // Act
         $instance_with_position = $instance->withPosition($expected);
         $actual = $instance_with_position->getPosition();
 
-        // Assert
         $this->assertEquals($actual, $expected);
     }
 }

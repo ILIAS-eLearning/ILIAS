@@ -41,22 +41,22 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
     public function test__sleep(): void
     {
         $expected = [
-            "questions",
-            "passes",
-            "passed",
-            "lastVisit",
-            "firstVisit",
-            "timeOfWork",
-            "numberOfQuestions",
-            "questionsWorkedThrough",
-            "mark_official",
-            "mark",
-            "maxpoints",
-            "reached",
-            "user_id",
-            "login",
-            "name",
-            "passScoring"
+            'questions',
+            'passes',
+            'passed',
+            'lastVisit',
+            'firstVisit',
+            'timeOfWork',
+            'numberOfQuestions',
+            'questionsWorkedThrough',
+            'mark_official',
+            'mark',
+            'maxpoints',
+            'reached',
+            'user_id',
+            'login',
+            'name',
+            'passScoring'
         ];
 
         $this->assertEquals($expected, $this->testObj->__sleep());
@@ -64,8 +64,9 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
     public function testPassScoring(): void
     {
-        $this->testObj->setPassScoring(1);
-        $this->assertEquals(1, $this->testObj->getPassScoring());
+        $passScoring = 1;
+        $this->testObj->setPassScoring($passScoring);
+        $this->assertEquals($passScoring, $this->testObj->getPassScoring());
     }
 
     public function testPassed(): void
@@ -79,14 +80,16 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
     public function testName(): void
     {
-        $this->testObj->setName("testName");
-        $this->assertEquals("testName", $this->testObj->getName());
+        $name = 'testName';
+        $this->testObj->setName($name);
+        $this->assertEquals($name, $this->testObj->getName());
     }
 
     public function testLogin(): void
     {
-        $this->testObj->setLogin("testLogin");
-        $this->assertEquals("testLogin", $this->testObj->getLogin());
+        $login = 'testLogin';
+        $this->testObj->setLogin($login);
+        $this->assertEquals($login, $this->testObj->getLogin());
     }
 
     public function testSubmitted(): void
@@ -100,153 +103,163 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
     public function testSetReached(): void
     {
-        $this->testObj->setReached(220.55);
-        $this->assertEquals(220.55, $this->testObj->reached);
+        $reached = 220.55;
+        $this->testObj->setReached($reached);
+        $this->assertEquals($reached, $this->testObj->reached);
     }
 
     public function testGetReached(): void
     {
+        $reachedPoints = 20;
         $testEvaluationPassData = new ilTestEvaluationPassData();
-        $testEvaluationPassData->setReachedPoints(20);
+        $testEvaluationPassData->setReachedPoints($reachedPoints);
 
-        $this->testObj->passes = [
-            $testEvaluationPassData
-        ];
+        $this->testObj->passes = [$testEvaluationPassData];
 
-        $this->assertEquals(20, $this->testObj->getReached());
+        $this->assertEquals($reachedPoints, $this->testObj->getReached());
     }
 
     public function testGetMaxpoints(): void
     {
+        $maxpoints = 20;
         $testEvaluationPassData = new ilTestEvaluationPassData();
-        $testEvaluationPassData->setMaxPoints(20);
+        $testEvaluationPassData->setMaxPoints($maxpoints);
 
-        $this->testObj->passes = [
-            $testEvaluationPassData
-        ];
+        $this->testObj->passes = [$testEvaluationPassData];
 
-        $this->assertEquals(20, $this->testObj->getMaxpoints());
+        $this->assertEquals($maxpoints, $this->testObj->getMaxpoints());
     }
 
     public function testSetMaxpoints(): void
     {
-        $this->testObj->setMaxpoints(220.55);
-        $this->assertEquals(220.55, $this->testObj->maxpoints);
+        $max_points = 220.55;
+        $this->testObj->setMaxpoints($max_points);
+        $this->assertEquals($max_points, $this->testObj->maxpoints);
     }
 
     public function testGetReachedPointsInPercent(): void
     {
+        $reachedpoints = 15;
+        $maxpoints = 20;
         $testEvaluationPassData = new ilTestEvaluationPassData();
-        $testEvaluationPassData->setReachedPoints(15);
-        $testEvaluationPassData->setMaxPoints(20);
+        $testEvaluationPassData->setReachedPoints($reachedpoints);
+        $testEvaluationPassData->setMaxPoints($maxpoints);
 
-        $this->testObj->passes = [
-            $testEvaluationPassData
-        ];
+        $this->testObj->passes = [$testEvaluationPassData];
 
-        $this->assertEquals(75, $this->testObj->getReachedPointsInPercent());
+        $this->assertEquals(($reachedpoints / $maxpoints) * 100, $this->testObj->getReachedPointsInPercent());
     }
 
     public function testMark(): void
     {
-        $this->testObj->setMark("testMark");
-        $this->assertEquals("testMark", $this->testObj->getMark());
+        $a_mark = 'testMark';
+        $this->testObj->setMark($a_mark);
+        $this->assertEquals($a_mark, $this->testObj->getMark());
     }
 
     public function testGetQuestionsWorkedThrough(): void
     {
+        $reachedpoints = 15;
+        $maxpoints = 20;
+        $nrOfAnsweredQuestions = 5;
         $testEvaluationPassData = new ilTestEvaluationPassData();
-        $testEvaluationPassData->setReachedPoints(15);
-        $testEvaluationPassData->setMaxPoints(20);
-        $testEvaluationPassData->setNrOfAnsweredQuestions(5);
+        $testEvaluationPassData->setReachedPoints($reachedpoints);
+        $testEvaluationPassData->setMaxPoints($maxpoints);
+        $testEvaluationPassData->setNrOfAnsweredQuestions($nrOfAnsweredQuestions);
 
-        $this->testObj->passes = [
-            $testEvaluationPassData
-        ];
+        $this->testObj->passes = [$testEvaluationPassData];
 
-        $this->assertEquals(5, $this->testObj->getQuestionsWorkedThrough());
+        $this->assertEquals($nrOfAnsweredQuestions, $this->testObj->getQuestionsWorkedThrough());
     }
 
     public function testSetQuestionsWorkedThrough(): void
     {
-        $this->testObj->setQuestionsWorkedThrough(215);
-        $this->assertEquals(215, $this->testObj->questionsWorkedThrough);
+        $nr = 215;
+        $this->testObj->setQuestionsWorkedThrough($nr);
+        $this->assertEquals($nr, $this->testObj->questionsWorkedThrough);
     }
 
     public function testGetNumberOfQuestions(): void
     {
+        $questioncount = 5;
         $testEvaluationPassData = new ilTestEvaluationPassData();
-        $testEvaluationPassData->setQuestionCount(5);
+        $testEvaluationPassData->setQuestionCount($questioncount);
 
-        $this->testObj->passes = [
-            $testEvaluationPassData
-        ];
+        $this->testObj->passes = [$testEvaluationPassData];
 
-        $this->assertEquals(5, $this->testObj->getNumberOfQuestions());
+        $this->assertEquals($questioncount, $this->testObj->getNumberOfQuestions());
     }
 
     public function testSetNumberOfQuestions(): void
     {
-        $this->testObj->setNumberOfQuestions(215);
-        $this->assertEquals(215, $this->testObj->numberOfQuestions);
+        $nr = 215;
+        $this->testObj->setNumberOfQuestions($nr);
+        $this->assertEquals($nr, $this->testObj->numberOfQuestions);
     }
 
     public function testGetQuestionsWorkedThroughInPercent(): void
     {
+        $questioncount = 5;
+        $nrOfAnsweredQuestions = 3;
         $testEvaluationPassData = new ilTestEvaluationPassData();
-        $testEvaluationPassData->setQuestionCount(5);
-        $testEvaluationPassData->setNrOfAnsweredQuestions(3);
+        $testEvaluationPassData->setQuestionCount($questioncount);
+        $testEvaluationPassData->setNrOfAnsweredQuestions($nrOfAnsweredQuestions);
 
-        $this->testObj->passes = [
-            $testEvaluationPassData
-        ];
+        $this->testObj->passes = [$testEvaluationPassData];
 
-        $this->assertEquals(60, $this->testObj->getQuestionsWorkedThroughInPercent());
+        $this->assertEquals(($nrOfAnsweredQuestions / $questioncount) * 100, $this->testObj->getQuestionsWorkedThroughInPercent());
     }
 
     public function testGetTimeOfWork(): void
     {
+        $workingtime1 = 5;
         $data1 = new ilTestEvaluationPassData();
-        $data1->setWorkingTime(5);
+        $data1->setWorkingTime($workingtime1);
 
+        $workingtime2 = 7;
         $data2 = new ilTestEvaluationPassData();
-        $data2->setWorkingTime(7);
+        $data2->setWorkingTime($workingtime2);
 
         $this->testObj->passes = [
             $data1,
             $data2
         ];
 
-        $this->assertEquals(12, $this->testObj->getTimeOfWork());
+        $this->assertEquals($workingtime1 + $workingtime2, $this->testObj->getTimeOfWork());
     }
 
     public function testSetTimeOfWork(): void
     {
-        $this->testObj->setTimeOfWork('215');
-        $this->assertEquals('215', $this->testObj->timeOfWork);
+        $time_of_work = '215';
+        $this->testObj->setTimeOfWork($time_of_work);
+        $this->assertEquals($time_of_work, $this->testObj->timeOfWork);
     }
 
     public function testFirstVisit(): void
     {
-        $this->testObj->setFirstVisit(2125);
+        $time = 2125;
+        $this->testObj->setFirstVisit($time);
 
-        $this->assertEquals(2125, $this->testObj->getFirstVisit());
+        $this->assertEquals($time, $this->testObj->getFirstVisit());
     }
 
     public function testLastVisit(): void
     {
-        $this->testObj->setLastVisit(2125);
+        $time = 2125;
+        $this->testObj->setLastVisit($time);
 
-        $this->assertEquals(2125, $this->testObj->getLastVisit());
+        $this->assertEquals($time, $this->testObj->getLastVisit());
     }
 
     public function testGetPasses(): void
     {
+        $workingtime1 = 5;
         $data1 = new ilTestEvaluationPassData();
-        $data1->setWorkingTime(5);
+        $data1->setWorkingTime($workingtime1);
 
+        $workingtime2 = 7;
         $data2 = new ilTestEvaluationPassData();
-        $data2->setWorkingTime(7);
+        $data2->setWorkingTime($workingtime2);
 
         $this->testObj->passes = [
             $data1,
@@ -260,42 +273,62 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
     {
         $this->assertEquals(0, $this->testObj->getPassCount());
 
-        $this->testObj->addPass(0, new ilTestEvaluationPassData());
-        $this->testObj->addPass(0, new ilTestEvaluationPassData());
-        $this->testObj->addPass(1, new ilTestEvaluationPassData());
+        $data = [
+            0,
+            0,
+            1,
+            1
+        ];
 
-        $this->assertEquals(2, $this->testObj->getPassCount());
+        foreach ($data as $value) {
+            $this->testObj->addPass($value, new ilTestEvaluationPassData());
+        }
+
+        $this->assertEquals(count(array_unique($data)), $this->testObj->getPassCount());
     }
 
     public function testGetPass(): void
     {
         $this->assertEquals(0, $this->testObj->getPassCount());
 
-        $data = new ilTestEvaluationPassData();
-        $this->testObj->addPass(3, $data);
-        $this->testObj->addPass(0, new ilTestEvaluationPassData());
-        $this->testObj->addPass(1, new ilTestEvaluationPassData());
+        $data = [
+            0 => $expected = new ilTestEvaluationPassData(),
+            1 => new ilTestEvaluationPassData(),
+            2 => new ilTestEvaluationPassData()
+        ];
 
-        $this->assertEquals($data, $this->testObj->getPass(3));
+        foreach ($data as $key => $value) {
+            $this->testObj->addPass($key, $value);
+        }
+
+        $this->assertEquals($expected, $this->testObj->getPass(0));
     }
 
     public function testGetPassCount(): void
     {
         $this->assertEquals(0, $this->testObj->getPassCount());
 
-        $this->testObj->addPass(0, new ilTestEvaluationPassData());
-        $this->testObj->addPass(0, new ilTestEvaluationPassData());
-        $this->testObj->addPass(1, new ilTestEvaluationPassData());
+        $data = [
+            0,
+            0,
+            1,
+            1
+        ];
 
-        $this->assertEquals(2, $this->testObj->getPassCount());
+        foreach ($data as $value) {
+            $this->testObj->addPass($value, new ilTestEvaluationPassData());
+        }
+
+        $this->assertEquals(count(array_unique($data)), $this->testObj->getPassCount());
     }
 
     public function testAddQuestionTitle(): void
     {
-        $this->testObj->addQuestionTitle(0, "testString");
-        $this->testObj->addQuestionTitle(1, "testString2");
+        $question_title = 'testString';
+        $question_id = 0;
+        $this->testObj->addQuestionTitle($question_id, $question_title);
 
-        $this->assertEquals("testString", $this->testObj->getQuestionTitles()[0]);
+        $this->assertEquals($question_title, $this->testObj->getQuestionTitles()[$question_id]);
     }
 
     public function testGetQuestions(): void
@@ -303,13 +336,13 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $this->assertNull($this->testObj->getQuestions());
 
         $expected = [
-            "id" => 22,
-            "o_id" => 20,
-            "points" => 15,
-            "sequence" => null
+            'id' => $question_id = 22,
+            'o_id' => $original_id = 20,
+            'points' => $max_points = 15,
+            'sequence' => $sequence = null
         ];
 
-        $this->testObj->addQuestion(20, 22, 15, null, 0);
+        $this->testObj->addQuestion($original_id, $question_id, $max_points, $sequence, 0);
 
         $this->assertEquals([$expected], $this->testObj->getQuestions());
     }
@@ -317,63 +350,73 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
     public function testGetQuestion(): void
     {
         $expected = [
-            "id" => 22,
-            "o_id" => 20,
-            "points" => 15,
-            "sequence" => null
+            'id' => $question_id = 22,
+            'o_id' => $original_id = 20,
+            'points' => $max_points = 15.0,
+            'sequence' => $sequence = null
         ];
 
-        $this->testObj->addQuestion(20, 22, 15, null, 0);
+        $pass = 0;
 
-        $this->assertEquals($expected, $this->testObj->getQuestion(0));
+        $this->testObj->addQuestion($original_id, $question_id, $max_points, $sequence, $pass);
+
+        $this->assertEquals($expected, $this->testObj->getQuestion($pass));
     }
 
     public function testGetQuestionCount(): void
     {
+        $questioncount = 5;
         $pass = new ilTestEvaluationPassData();
-        $pass->setQuestionCount(5);
+        $pass->setQuestionCount($questioncount);
         $this->testObj->addPass(0, $pass);
 
-        $this->assertEquals(5, $this->testObj->getQuestionCount());
+        $this->assertEquals($questioncount, $this->testObj->getQuestionCount());
     }
 
     public function testReachedPoints(): void
     {
+        $reachedpoints = 25;
         $pass = new ilTestEvaluationPassData();
-        $pass->setReachedPoints(25);
+        $pass->setReachedPoints($reachedpoints);
         $this->testObj->addPass(0, $pass);
 
-        $this->assertEquals(25, $this->testObj->getReachedPoints());
+        $this->assertEquals($reachedpoints, $this->testObj->getReachedPoints());
     }
 
     public function testGetAvailablePoints(): void
     {
+        $maxpoints = 25;
         $pass = new ilTestEvaluationPassData();
-        $pass->setMaxPoints(25);
+        $pass->setMaxPoints($maxpoints);
         $this->testObj->addPass(0, $pass);
 
-        $this->assertEquals(25, $this->testObj->getAvailablePoints());
+        $this->assertEquals($maxpoints, $this->testObj->getAvailablePoints());
     }
 
     public function testGetReachedPointsInPercentForPass(): void
     {
+        $reachedpoints = 25;
+        $maxpoints = 50;
         $pass = new ilTestEvaluationPassData();
-        $pass->setReachedPoints(25);
-        $pass->setMaxPoints(50);
-        $this->testObj->addPass(0, $pass);
+        $pass->setReachedPoints($reachedpoints);
+        $pass->setMaxPoints($maxpoints);
+        $pass_nr = 0;
+        $this->testObj->addPass($pass_nr, $pass);
 
-        $this->assertEquals(0.5, $this->testObj->getReachedPointsInPercentForPass(0));
+        $this->assertEquals($reachedpoints / $maxpoints, $this->testObj->getReachedPointsInPercentForPass($pass_nr));
     }
 
     public function testUserID(): void
     {
-        $this->testObj->setUserID(120);
-        $this->assertEquals(120, $this->testObj->getUserID());
+        $user_id = 120;
+        $this->testObj->setUserID($user_id);
+        $this->assertEquals($user_id, $this->testObj->getUserID());
     }
 
     public function testMarkOfficial(): void
     {
-        $this->testObj->setMarkOfficial("test");
-        $this->assertEquals("test", $this->testObj->getMarkOfficial());
+        $a_mark_official = 'test';
+        $this->testObj->setMarkOfficial($a_mark_official);
+        $this->assertEquals($a_mark_official, $this->testObj->getMarkOfficial());
     }
 }

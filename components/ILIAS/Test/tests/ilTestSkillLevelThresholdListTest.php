@@ -28,9 +28,7 @@ class ilTestSkillLevelThresholdListTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->testObj = new ilTestSkillLevelThresholdList(
-            $this->createMock(ilDBInterface::class)
-        );
+        $this->testObj = new ilTestSkillLevelThresholdList($this->createMock(ilDBInterface::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -40,7 +38,8 @@ class ilTestSkillLevelThresholdListTest extends ilTestBaseTestCase
 
     public function testTestId(): void
     {
-        $this->testObj->setTestId(20);
-        $this->assertEquals(20, $this->testObj->getTestId());
+        $testId = 20;
+        $this->testObj->setTestId($testId);
+        $this->assertEquals($testId, $this->testObj->getTestId());
     }
 }

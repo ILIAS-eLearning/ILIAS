@@ -26,6 +26,8 @@ class ilTestSkillLevelThresholdsGUITest extends ilTestBaseTestCase
 {
     private ilTestSkillLevelThresholdsGUI $testObj;
 
+    private int $testId = 112;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,7 +37,7 @@ class ilTestSkillLevelThresholdsGUITest extends ilTestBaseTestCase
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilDBInterface::class),
-            112
+            $this->testId
         );
     }
 
@@ -46,8 +48,9 @@ class ilTestSkillLevelThresholdsGUITest extends ilTestBaseTestCase
 
     public function testQuestionContainerId(): void
     {
-        $this->testObj->setQuestionContainerId(12);
-        $this->assertEquals(12, $this->testObj->getQuestionContainerId());
+        $questionContainerId = 12;
+        $this->testObj->setQuestionContainerId($questionContainerId);
+        $this->assertEquals($questionContainerId, $this->testObj->getQuestionContainerId());
     }
 
     public function testQuestionAssignmentColumnsEnabled(): void
@@ -61,6 +64,6 @@ class ilTestSkillLevelThresholdsGUITest extends ilTestBaseTestCase
 
     public function testTestId(): void
     {
-        $this->assertEquals(112, $this->testObj->getTestId());
+        $this->assertEquals($this->testId, $this->testObj->getTestId());
     }
 }

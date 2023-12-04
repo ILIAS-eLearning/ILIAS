@@ -50,9 +50,9 @@ class assImagemapQuestionImport extends assQuestionImport
 
         $presentation = $item->getPresentation();
         $now = getdate();
-        $questionimage = array();
+        $questionimage = [];
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $answers = array();
+        $answers = [];
         foreach ($presentation->order as $entry) {
             switch ($entry["type"]) {
                 case "response":
@@ -64,11 +64,11 @@ class assImagemapQuestionImport extends assQuestionImport
                                 for ($i = 0; $i < $mat->getMaterialCount(); $i++) {
                                     $m = $mat->getMaterial($i);
                                     if (strcmp($m["type"], "matimage") == 0) {
-                                        $questionimage = array(
+                                        $questionimage = [
                                             "imagetype" => $m["material"]->getImageType(),
                                             "label" => $m["material"]->getLabel(),
                                             "content" => $m["material"]->getContent()
-                                        );
+                                        ];
                                     }
                                 }
                             }
@@ -78,7 +78,7 @@ class assImagemapQuestionImport extends assQuestionImport
                                 foreach ($response_label->material as $mat) {
                                     $answerhint .= $this->QTIMaterialToString($mat);
                                 }
-                                $answers[$ident] = array(
+                                $answers[$ident] = [
                                     "answerhint" => $answerhint,
                                     "areatype" => $response_label->getRarea(),
                                     "coordinates" => $response_label->getContent(),
@@ -87,16 +87,16 @@ class assImagemapQuestionImport extends assQuestionImport
                                     "correctness" => "1",
                                     "action" => "",
                                     "points_unchecked" => 0
-                                );
+                                ];
                             }
                             break;
                     }
                     break;
             }
         }
-        $responses = array();
-        $feedbacks = array();
-        $feedbacksgeneric = array();
+        $responses = [];
+        $feedbacks = [];
+        $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
                 $coordinates = "";
@@ -198,7 +198,7 @@ class assImagemapQuestionImport extends assQuestionImport
         $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $this->object->setIsMultipleChoice($item->getMetadataEntry("IS_MULTIPLE_CHOICE"));
-        $areas = array("2" => "rect", "1" => "circle", "3" => "poly");
+        $areas = ["2" => "rect", "1" => "circle", "3" => "poly"];
         $this->object->setImageFilename($questionimage["label"]);
         foreach ($answers as $answer) {
             $this->object->addAnswer($answer["answerhint"], $answer["points"], $answer["answerorder"], $answer["coordinates"], $areas[$answer["areatype"]], $answer["points_unchecked"]);
@@ -279,11 +279,11 @@ class assImagemapQuestionImport extends assQuestionImport
         $this->object->saveToDb();
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
         } else {
-            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
         }
         return $import_mapping;
     }

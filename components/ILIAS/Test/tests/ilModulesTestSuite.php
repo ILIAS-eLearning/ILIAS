@@ -21,63 +21,63 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . "/ilTestBaseTestCase.php";
+require_once __DIR__ . '/ilTestBaseTestCase.php';
 
 class ilModulesTestSuite extends TestSuite
 {
     public static function suite(): ilModulesTestSuite
     {
-        if (!defined("ILIAS_HTTP_PATH")) {
-            define("ILIAS_HTTP_PATH", "http://localhost");
+        if (!defined('ILIAS_HTTP_PATH')) {
+            define('ILIAS_HTTP_PATH', 'http://localhost');
         }
 
-        if (!defined("ILIAS_LOG_ENABLED")) {
-            define("ILIAS_LOG_ENABLED", false);
+        if (!defined('ILIAS_LOG_ENABLED')) {
+            define('ILIAS_LOG_ENABLED', false);
         }
 
-        if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", 1);
+        if (!defined('ROOT_FOLDER_ID')) {
+            define('ROOT_FOLDER_ID', 1);
         }
 
-        if (!defined("IL_INST_ID")) {
-            define("IL_INST_ID", 0);
+        if (!defined('IL_INST_ID')) {
+            define('IL_INST_ID', 0);
         }
-        if (!defined("CLIENT_DATA_DIR")) {
-            define("CLIENT_DATA_DIR", "/tmp");
+        if (!defined('CLIENT_DATA_DIR')) {
+            define('CLIENT_DATA_DIR', '/tmp');
         }
 
-        if (!defined("CLIENT_ID")) {
-            define("CLIENT_ID", 1);
+        if (!defined('CLIENT_ID')) {
+            define('CLIENT_ID', 1);
         }
 
         if (!defined('ANONYMOUS_USER_ID')) {
             define('ANONYMOUS_USER_ID', 13);
         }
 
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__);
+        chdir('../../../');
 
 
         $suite = new ilModulesTestSuite();
 
         foreach (new RegExIterator(
-            new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                RecursiveIteratorIterator::LEAVES_ONLY
-            ),
-            '/BaseTest\.php$/'
-        ) as $file) {
+                     new RecursiveIteratorIterator(
+                         new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                         RecursiveIteratorIterator::LEAVES_ONLY
+                     ),
+                     '/BaseTest\.php$/'
+                 ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
         }
 
         foreach (new RegExIterator(
-            new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                RecursiveIteratorIterator::LEAVES_ONLY
-            ),
-            '/(?<!Base)Test\.php$/'
-        ) as $file) {
+                     new RecursiveIteratorIterator(
+                         new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                         RecursiveIteratorIterator::LEAVES_ONLY
+                     ),
+                     '/(?<!Base)Test\.php$/'
+                 ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
 

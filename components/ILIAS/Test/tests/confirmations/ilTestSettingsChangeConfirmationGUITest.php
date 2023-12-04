@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\DI\Container;
 
 /**
  * Class ilTestSettingsChangeConfirmationGUITest
@@ -27,18 +27,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 {
     private ilTestSettingsChangeConfirmationGUI $testSettingsChangeConfirmationGUI;
-    /**
-     * @var ilObjTest|MockObject
-     */
-    private $testObj_mock;
-    /**
-     * @var ilLanguage|MockObject
-     */
-    private $lng_mock;
-    /**
-     * @var \ILIAS\DI\Container|mixed
-     */
-    private $backup_dic;
+
+    private Container $backup_dic;
 
     protected function setUp(): void
     {
@@ -46,17 +36,14 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
         global $DIC;
 
         $this->backup_dic = $DIC;
-        $DIC = new ILIAS\DI\Container([
-            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
-                          ->getMock()
+        $DIC = new Container([
+            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock()
         ]);
-        $this->lng_mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $this->testObj_mock = $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock();
 
-        $this->setGlobalVariable('lng', $this->lng_mock);
+        $this->setGlobalVariable('lng', $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock());
 
         $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
-            $this->testObj_mock
+            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
         );
     }
 
@@ -68,7 +55,7 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 
     public function testSetAndGetOldQuestionSetType(): void
     {
-        $expect = "testType";
+        $expect = 'testType';
 
         $this->testSettingsChangeConfirmationGUI->setOldQuestionSetType($expect);
 
@@ -77,7 +64,7 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 
     public function testSetAndGetNewQuestionSetType(): void
     {
-        $expect = "testType";
+        $expect = 'testType';
 
         $this->testSettingsChangeConfirmationGUI->setNewQuestionSetType($expect);
 

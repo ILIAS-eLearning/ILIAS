@@ -34,17 +34,17 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @var integer
      */
-    protected $testId;
+    protected $test_id;
 
     /**
      * @var integer
      */
-    protected $poolId;
+    protected $pool_id;
 
     /**
      * @var integer
      */
-    protected $questionId;
+    protected $question_id;
 
     /**
      * @param ilDBInterface $db
@@ -59,58 +59,43 @@ class ilTestRandomQuestionSetStagingPoolQuestion
      */
     public function getTestId(): int
     {
-        return $this->testId;
+        return $this->test_id;
     }
 
-    /**
-     * @param int $testId
-     */
-    public function setTestId($testId)
+    public function setTestId(int $test_id)
     {
-        $this->testId = $testId;
+        $this->test_id = $test_id;
     }
 
-    /**
-     * @return int
-     */
     public function getPoolId(): int
     {
-        return $this->poolId;
+        return $this->pool_id;
     }
 
-    /**
-     * @param int $poolId
-     */
-    public function setPoolId($poolId)
+    public function setPoolId(int $pool_id)
     {
-        $this->poolId = $poolId;
+        $this->pool_id = $pool_id;
     }
 
-    /**
-     * @return int
-     */
     public function getQuestionId(): int
     {
-        return $this->questionId;
+        return $this->question_id;
     }
 
-    /**
-     * @param int $questionId
-     */
-    public function setQuestionId($questionId)
+    public function setQuestionId(int $question_id)
     {
-        $this->questionId = $questionId;
+        $this->question_id = $question_id;
     }
 
     public function saveQuestionStaging()
     {
-        $nextId = $this->db->nextId('tst_rnd_cpy');
+        $next_id = $this->db->nextId('tst_rnd_cpy');
 
-        $this->db->insert('tst_rnd_cpy', array(
-            'copy_id' => array('integer', $nextId),
-            'tst_fi' => array('integer', $this->getTestId()),
-            'qst_fi' => array('integer', $this->getQuestionId()),
-            'qpl_fi' => array('integer', $this->getPoolId())
-        ));
+        $this->db->insert('tst_rnd_cpy', [
+            'copy_id' => ['integer', $next_id],
+            'tst_fi' => ['integer', $this->getTestId()],
+            'qst_fi' => ['integer', $this->getQuestionId()],
+            'qpl_fi' => ['integer', $this->getPoolId()]
+        ]);
     }
 }

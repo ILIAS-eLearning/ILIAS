@@ -34,9 +34,16 @@ class ilObjTestXMLParser extends ilSaxParser
     private ilTree $tree;
     private ilComponentRepository $component_repository;
 
-    protected ?ilImportMapping $importMapping = null;
+    protected ?ilImportMapping $import_mapping = null;
 
-    protected String $cdata = '';
+    protected string $cdata = '';
+    protected ?array $attr = null;
+
+    private ?bool $in_random_question_set_config = null;
+    private ?bool $in_random_question_set_settings = null;
+    private ?bool $in_random_question_stage = null;
+    private ?bool $in_random_question_selection_definitions = null;
+    private ?ilTestRandomQuestionSetSourcePoolDefinition $source_pool_definition = null;
 
     public function __construct(
         ?string $path_to_file = '',
@@ -63,93 +70,98 @@ class ilObjTestXMLParser extends ilSaxParser
 
     public function getImportMapping(): ?\ilImportMapping
     {
-        return $this->importMapping;
+        return $this->import_mapping;
     }
 
-    public function setImportMapping(\ilImportMapping $importMapping): void
+    public function setImportMapping(\ilImportMapping $import_mapping): void
     {
-        $this->importMapping = $importMapping;
+        $this->import_mapping = $import_mapping;
     }
 
-    public function setHandlers($a_xml_parser): void
+    public function setHandlers($xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_object($xml_parser, $this);
+        xml_set_element_handler($xml_parser, 'handlerBeginTag', 'handlerEndTag');
+        xml_set_character_data_handler($xml_parser, 'handlerCharacterData');
     }
 
-    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes): void
-    {
-        switch ($tagName) {
+    public function handlerBeginTag(
+        $xml_parser,
+        string $tag_name,
+        array $tag_attributes
+    ): void {
+        switch ($tag_name) {
             case 'RandomQuestionSetConfig':
-                $this->inRandomQuestionSetConfig = true;
+                $this->in_random_question_set_config = true;
                 break;
 
             case 'RandomQuestionSetSettings':
-                if ($this->inRandomQuestionSetConfig) {
-                    $this->inRandomQuestionSetSettings = true;
+                if ($this->in_random_question_set_config !== null) {
+                    $this->in_random_question_set_settings = true;
                     $this->cdata = '';
-                    $this->attr = $tagAttributes;
+                    $this->attr = $tag_attributes;
                 }
                 break;
 
             case 'RandomQuestionStage':
-                if ($this->inRandomQuestionSetConfig) {
-                    $this->inRandomQuestionStage = true;
+                if ($this->in_random_question_set_config !== null) {
+                    $this->in_random_question_stage = true;
                 }
                 break;
 
             case 'RandomQuestionStagingPool':
-                if ($this->inRandomQuestionStage) {
+                if ($this->in_random_question_stage !== null) {
                     $this->cdata = '';
-                    $this->attr = $tagAttributes;
+                    $this->attr = $tag_attributes;
                 }
                 break;
 
             case 'RandomQuestionSelectionDefinitions':
-                if ($this->inRandomQuestionSetConfig) {
-                    $this->inRandomQuestionSelectionDefinitions = true;
+                if ($this->in_random_question_set_config !== null) {
+                    $this->in_random_question_selection_definitions = true;
                 }
                 break;
 
             case 'RandomQuestionSelectionDefinition':
-                if ($this->inRandomQuestionSelectionDefinitions) {
-                    $this->sourcePoolDefinition = $this->getRandomQuestionSourcePoolDefinitionInstance();
-                    $this->attr = $tagAttributes;
+                if ($this->in_random_question_selection_definitions !== null) {
+                    $this->source_pool_definition = new ilTestRandomQuestionSetSourcePoolDefinition($this->db, $this->test_obj);
+                    ;
+                    $this->attr = $tag_attributes;
                 }
                 break;
 
             case 'RandomQuestionSourcePoolTitle':
             case 'RandomQuestionSourcePoolPath':
-                if ($this->sourcePoolDequestioninffinition instanceof ilTestRandomQuestionSetSourcePoolDefinition) {
+                if ($this->source_pool_definition !== null) {
                     $this->cdata = '';
                 }
                 break;
         }
     }
 
-    public function handlerEndTag($xmlParser, $tagName): void
+    public function handlerEndTag($xml_parser, string $tag_name): void
     {
-        switch ($tagName) {
+        switch ($tag_name) {
             case 'RandomQuestionSetConfig':
-                $this->inRandomQuestionSetConfig = false;
+                $this->in_random_question_set_config = false;
                 break;
 
             case 'RandomQuestionSetSettings':
-                if ($this->inRandomQuestionSetConfig) {
+                if ($this->in_random_question_set_config) {
                     $this->importRandomQuestionSetSettings($this->attr);
                     $this->attr = null;
                 }
                 break;
 
             case 'RandomQuestionStage':
-                if ($this->inRandomQuestionSetConfig) {
-                    $this->inRandomQuestionStage = false;
+                if ($this->in_random_question_set_config) {
+                    $this->in_random_question_stage = false;
                 }
                 break;
 
             case 'RandomQuestionStagingPool':
-                if ($this->inRandomQuestionSetConfig && $this->inRandomQuestionStage) {
+                if ($this->in_random_question_set_config !== null
+                    && $this->in_random_question_stage !== null) {
                     $this->importRandomQuestionStagingPool($this->attr, $this->cdata);
                     $this->attr = null;
                     $this->cdata = '';
@@ -157,57 +169,58 @@ class ilObjTestXMLParser extends ilSaxParser
                 break;
 
             case 'RandomQuestionSelectionDefinitions':
-                if ($this->inRandomQuestionSetConfig) {
-                    $this->inRandomQuestionSelectionDefinitions = false;
+                if ($this->in_random_question_set_config) {
+                    $this->in_random_question_selection_definitions = false;
                 }
                 break;
 
             case 'RandomQuestionSelectionDefinition':
-                if ($this->inRandomQuestionSetConfig && $this->inRandomQuestionSelectionDefinitions) {
-                    $this->importRandomQuestionSourcePoolDefinition($this->sourcePoolDefinition, $this->attr);
-                    $this->sourcePoolDefinition->saveToDb();
+                if ($this->in_random_question_set_config !== null
+                    && $this->in_random_question_selection_definitions !== null) {
+                    $this->importRandomQuestionSourcePoolDefinition($this->source_pool_definition, $this->attr);
+                    $this->source_pool_definition->saveToDb();
 
                     $this->getImportMapping()->addMapping(
                         'components/ILIAS/Test',
                         'rnd_src_pool_def',
-                        $this->attr['id'],
-                        $this->sourcePoolDefinition->getId()
+                        (string) $this->attr['id'],
+                        (string) $this->source_pool_definition->getId()
                     );
 
-                    $this->sourcePoolDefinition = null;
+                    $this->source_pool_definition = null;
                     $this->attr = null;
                 }
                 break;
 
             case 'RandomQuestionSourcePoolTitle':
-                if ($this->sourcePoolDefinition instanceof ilTestRandomQuestionSetSourcePoolDefinition) {
-                    $this->sourcePoolDefinition->setPoolTitle($this->cdata);
+                if ($this->source_pool_definition !== null) {
+                    $this->source_pool_definition->setPoolTitle($this->cdata);
                     $this->cdata = '';
                 }
                 break;
 
             case 'RandomQuestionSourcePoolPath':
-                if ($this->sourcePoolDefinition instanceof ilTestRandomQuestionSetSourcePoolDefinition) {
-                    $this->sourcePoolDefinition->setPoolPath($this->cdata);
+                if ($this->source_pool_definition !== null) {
+                    $this->source_pool_definition->setPoolPath($this->cdata);
                     $this->cdata = '';
                 }
                 break;
         }
     }
 
-    public function handlerCharacterData($xmlParser, $charData): void
+    public function handlerCharacterData($xml_parser, string $char_data): void
     {
-        if ($charData != "\n") {
+        if ($char_data != "\n") {
             // Replace multiple tabs with one space
-            $charData = preg_replace("/\t+/", " ", $charData);
+            $char_data = preg_replace("/\t+/", " ", $char_data);
 
-            $this->cdata .= $charData;
+            $this->cdata .= $char_data;
         }
     }
 
     protected function importRandomQuestionSetSettings($attr): void
     {
-        $questionSetConfig = new ilTestRandomQuestionSetConfig(
+        $question_set_config = new ilTestRandomQuestionSetConfig(
             $this->tree,
             $this->db,
             $this->lng,
@@ -217,99 +230,94 @@ class ilObjTestXMLParser extends ilSaxParser
             $this->questioninfo
         );
 
-        if (!$questionSetConfig->isValidQuestionAmountConfigurationMode($attr['amountMode'])) {
+        if (!$question_set_config->isValidQuestionAmountConfigurationMode($attr['amountMode'])) {
             throw new ilTestException(
                 'invalid random test question set config amount mode given: "' . $attr['amountMode'] . '"'
             );
         }
 
-        $questionSetConfig->setQuestionAmountConfigurationMode($attr['amountMode']);
-        $questionSetConfig->setQuestionAmountPerTest((int) $attr['questAmount']);
-        $questionSetConfig->setPoolsWithHomogeneousScoredQuestionsRequired((bool) $attr['homogeneous']);
-        $questionSetConfig->setLastQuestionSyncTimestamp((int) $attr['synctimestamp']);
+        $question_set_config->setQuestionAmountConfigurationMode($attr['amountMode']);
+        $question_set_config->setQuestionAmountPerTest((int) $attr['questAmount']);
+        $question_set_config->setPoolsWithHomogeneousScoredQuestionsRequired((bool) $attr['homogeneous']);
+        $question_set_config->setLastQuestionSyncTimestamp((int) $attr['synctimestamp']);
 
-        $questionSetConfig->saveToDb();
+        $question_set_config->saveToDb();
     }
 
-    protected function importRandomQuestionStagingPool($attr, $cdata): void
+    protected function importRandomQuestionStagingPool(array $attr, string $cdata): void
     {
-        $oldPoolId = $attr['poolId'];
-        $newPoolId = $this->db->nextId('object_data'); // yes !!
+        $old_pool_id = $attr['poolId'];
+        $new_pool_id = $this->db->nextId('object_data'); // yes !!
 
         $this->getImportMapping()->addMapping(
             'components/ILIAS/Test',
             'pool',
-            $oldPoolId,
-            $newPoolId
+            (string) $old_pool_id,
+            (string) $new_pool_id
         );
 
-        $oldQuestionIds = explode(',', $cdata);
+        $old_question_ids = explode(',', $cdata);
 
-        foreach ($oldQuestionIds as $oldQuestionId) {
-            $newQuestionId = $this->getImportMapping()->getMapping(
+        foreach ($old_question_ids as $old_question_id) {
+            $new_question_id = (int) $this->getImportMapping()->getMapping(
                 'components/ILIAS/Test',
                 'quest',
-                $oldQuestionId
+                $old_question_id
             );
 
-            $stagingQuestion = new ilTestRandomQuestionSetStagingPoolQuestion($this->db);
-            $stagingQuestion->setTestId($this->test_obj->getTestId());
-            $stagingQuestion->setPoolId($newPoolId);
-            $stagingQuestion->setQuestionId($newQuestionId);
+            $staging_question = new ilTestRandomQuestionSetStagingPoolQuestion($this->db);
+            $staging_question->setTestId($this->test_obj->getTestId());
+            $staging_question->setPoolId($new_pool_id);
+            $staging_question->setQuestionId($new_question_id);
 
-            $stagingQuestion->saveQuestionStaging();
+            $staging_question->saveQuestionStaging();
         }
     }
 
-    protected function getRandomQuestionSourcePoolDefinitionInstance(): \ilTestRandomQuestionSetSourcePoolDefinition
-    {
-        return new ilTestRandomQuestionSetSourcePoolDefinition($this->db, $this->test_obj);
-    }
-
-    protected function importRandomQuestionSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $attr): void
+    protected function importRandomQuestionSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $source_pool_definition, $attr): void
     {
         $source_pool_id = (int) $attr['poolId'];
         $effective_pool_id = (int) $this->getImportMapping()->getMapping(
             'components/ILIAS/Test',
             'pool',
-            $source_pool_id
+            (string) $source_pool_id
         );
-        $sourcePoolDefinition->setPoolId($effective_pool_id);
+        $source_pool_definition->setPoolId($effective_pool_id);
 
         $derive_from_obj_id = true;
         // The ref_id might not be given in old export files, so we have to check for existence
         if (isset($attr['ref_id']) && is_numeric($attr['ref_id'])) {
             if ($source_pool_id === $effective_pool_id) {
                 $derive_from_obj_id = false;
-                $sourcePoolDefinition->setPoolRefId((int) $attr['ref_id']);
+                $source_pool_definition->setPoolRefId((int) $attr['ref_id']);
             }
         }
 
         if ($derive_from_obj_id) {
             $ref_ids = ilObject::_getAllReferences($effective_pool_id);
             $ref_id = current($ref_ids);
-            $sourcePoolDefinition->setPoolRefId($ref_id ? $ref_id : null);
+            $source_pool_definition->setPoolRefId($ref_id ? $ref_id : null);
         }
 
-        $sourcePoolDefinition->setPoolQuestionCount((int) $attr['poolQuestCount']);
-        $sourcePoolDefinition->setQuestionAmount((int) $attr['questAmount']);
-        $sourcePoolDefinition->setSequencePosition((int) $attr['position']);
+        $source_pool_definition->setPoolQuestionCount((int) $attr['poolQuestCount']);
+        $source_pool_definition->setQuestionAmount((int) $attr['questAmount']);
+        $source_pool_definition->setSequencePosition((int) $attr['position']);
 
         if (isset($attr['typeFilter']) && strlen($attr['typeFilter']) > 0) {
-            $sourcePoolDefinition->setTypeFilterFromTypeTags(explode(',', $attr['typeFilter']));
+            $source_pool_definition->setTypeFilterFromTypeTags(explode(',', $attr['typeFilter']));
         }
 
         // #21330
         if (isset($attr['tax']) && isset($attr['taxNode'])) {
-            $mappedTaxFilter = array(
-                (int) $attr['tax'] => array(
+            $mappedTaxFilter = [
+                (int) $attr['tax'] => [
                     (int) $attr['taxNode']
-                )
-            );
-            $sourcePoolDefinition->setMappedTaxonomyFilter($mappedTaxFilter);
+                ]
+            ];
+            $source_pool_definition->setMappedTaxonomyFilter($mappedTaxFilter);
         } elseif (isset($attr['taxFilter']) && strlen($attr['taxFilter']) > 0) {
             $mappedTaxFilter = unserialize($attr['taxFilter']);
-            $sourcePoolDefinition->setMappedTaxonomyFilter($mappedTaxFilter);
+            $source_pool_definition->setMappedTaxonomyFilter($mappedTaxFilter);
         }
     }
 }

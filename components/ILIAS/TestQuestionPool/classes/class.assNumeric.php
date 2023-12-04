@@ -168,7 +168,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return void|integer Id of the clone or nothing.
      */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated

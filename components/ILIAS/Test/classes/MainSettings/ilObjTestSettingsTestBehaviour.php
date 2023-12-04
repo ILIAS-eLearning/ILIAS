@@ -103,7 +103,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         if (!$environment['participant_data_exists']) {
             $sub_inputs['number_of_available_attempts'] =
                 $sub_inputs['number_of_available_attempts']->withRequired(true)
-                ->withAdditionalTransformation($refinery->int()->isGreaterThan(0));
+                    ->withAdditionalTransformation($refinery->int()->isGreaterThan(0));
         }
 
         $limit_attempts = $f->optionalGroup(
@@ -137,22 +137,14 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     ): FormInput {
         $constraint = $refinery->custom()->constraint(
             static function (?string $vs): bool {
-                if ($vs !== null && $vs === '0:0:0') {
-                    return false;
-                }
-
-                return true;
+                return $vs !== '0:0:0';
             },
             sprintf($lng->txt('not_greater_than'), $lng->txt('tst_pass_waiting_time'), 0)
         );
 
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): ?string {
-                if ($vs === null) {
-                    return null;
-                }
-
-                return implode(':', $vs);
+                return $vs === null ? null : implode(':', $vs);
             }
         );
 
@@ -293,7 +285,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): ?int {
                 if ($vs === null) {
-                    return $kiosk_mode = 0;
+                    return 0;
                 }
 
                 $kiosk_mode = 1;
@@ -310,13 +302,9 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
             }
         );
 
-        $sub_inputs_kiosk_mode['show_title'] = $f->checkbox(
-            $lng->txt('kiosk_show_title')
-        );
+        $sub_inputs_kiosk_mode['show_title'] = $f->checkbox($lng->txt('kiosk_show_title'));
 
-        $sub_inputs_kiosk_mode['show_participant_name'] = $f->checkbox(
-            $lng->txt('kiosk_show_participant')
-        );
+        $sub_inputs_kiosk_mode['show_participant_name'] = $f->checkbox($lng->txt('kiosk_show_participant'));
 
         $kiosk_mode = $f->optionalGroup(
             $sub_inputs_kiosk_mode,
@@ -329,12 +317,10 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
             return $kiosk_mode;
         }
 
-        return $kiosk_mode->withValue(
-            [
-                'show_title' => $this->getShowTitleInKioskMode(),
-                'show_participant_name' => $this->getShowParticipantNameInKioskMode()
-            ]
-        );
+        return $kiosk_mode->withValue([
+            'show_title' => $this->getShowTitleInKioskMode(),
+            'show_participant_name' => $this->getShowParticipantNameInKioskMode()
+        ]);
     }
 
     public function toStorage(): array
@@ -355,6 +341,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     {
         return $this->number_of_tries;
     }
+
     public function withNumberOfTries(int $number_of_tries): self
     {
         $clone = clone $this;
@@ -366,6 +353,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     {
         return $this->block_after_passed_enabled;
     }
+
     public function withBlockAfterPassedEnabled(bool $block_after_passed_enabled): self
     {
         $clone = clone $this;
@@ -377,6 +365,14 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     {
         return $this->pass_waiting;
     }
+
+    public function withPassWaiting(?string $pass_waiting): self
+    {
+        $clone = clone $this;
+        $clone->pass_waiting = $this->cleanupPassWaiting($pass_waiting);
+        return $clone;
+    }
+
     public function getPassWaitingEnabled(): bool
     {
         if ($this->pass_waiting === null) {
@@ -387,17 +383,12 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         }
         return false;
     }
-    public function withPassWaiting(?string $pass_waiting): self
-    {
-        $clone = clone $this;
-        $clone->pass_waiting = $this->cleanupPassWaiting($pass_waiting);
-        return $clone;
-    }
 
     public function getProcessingTimeEnabled(): bool
     {
         return $this->processing_time_enabled;
     }
+
     public function withProcessingTimeEnabled(bool $processing_time_enabled): self
     {
         $clone = clone $this;
@@ -409,16 +400,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     {
         return $this->processing_time;
     }
-    public function getProcessingTimeAsMinutes(): int
-    {
-        if ($this->processing_time !== null) {
-            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches)) {
-                return ((int) $matches[1] * 60) + (int) $matches[2];
-            }
-        }
 
-        return self::DEFAULT_PROCESSING_TIME_MINUTES;
-    }
     public function withProcessingTime(?string $processing_time): self
     {
         $clone = clone $this;
@@ -426,10 +408,20 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         return $clone;
     }
 
+    public function getProcessingTimeAsMinutes(): int
+    {
+        if ($this->processing_time !== null && preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches)) {
+            return ((int) $matches[1] * 60) + (int) $matches[2];
+        }
+
+        return self::DEFAULT_PROCESSING_TIME_MINUTES;
+    }
+
     public function getResetProcessingTime(): bool
     {
         return $this->reset_processing_time;
     }
+
     public function withResetProcessingTime(bool $reset_processing_time): self
     {
         $clone = clone $this;
@@ -441,30 +433,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     {
         return $this->kiosk_mode;
     }
-    public function getKioskModeEnabled(): bool
-    {
-        if (($this->kiosk_mode & 1) > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public function getShowTitleInKioskMode(): bool
-    {
-        if (($this->kiosk_mode & 2) > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public function getShowParticipantNameInKioskMode(): bool
-    {
-        if (($this->kiosk_mode & 4) > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
     public function withKioskMode(int $kiosk_mode): self
     {
         $clone = clone $this;
@@ -472,10 +441,26 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         return $clone;
     }
 
+    public function getKioskModeEnabled(): bool
+    {
+        return ($this->kiosk_mode & 1) > 0;
+    }
+
+    public function getShowTitleInKioskMode(): bool
+    {
+        return ($this->kiosk_mode & 2) > 0;
+    }
+
+    public function getShowParticipantNameInKioskMode(): bool
+    {
+        return ($this->kiosk_mode & 4) > 0;
+    }
+
     public function getExamIdInTestPassEnabled(): bool
     {
         return $this->examid_in_test_pass_enabled;
     }
+
     public function withExamIdInTestPassEnabled(bool $exam_id_in_test_pass_enabled): self
     {
         $clone = clone $this;

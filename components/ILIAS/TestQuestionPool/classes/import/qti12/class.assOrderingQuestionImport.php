@@ -99,15 +99,15 @@ class assOrderingQuestionImport extends assQuestionImport
                                         if (strcmp($foundmat["type"], "matimage") == 0
                                             && strcmp($foundmat["material"]->getLabel(), "answerdepth") != 0) {
                                             $foundimage = true;
-                                            $answerimage = array(
+                                            $answerimage = [
                                                 "imagetype" => $foundmat["material"]->getImageType(),
                                                 "label" => $foundmat["material"]->getLabel(),
                                                 "content" => $foundmat["material"]->getContent()
-                                            );
+                                            ];
                                         }
                                     }
                                 }
-                                $answers[$answerorder] = array(
+                                $answers[$answerorder] = [
                                     'ident' => $ident,
                                     "answertext" => $answertext,
                                     "answerimage" => $answerimage,
@@ -116,7 +116,7 @@ class assOrderingQuestionImport extends assQuestionImport
                                     "answerdepth" => $answerdepth,
                                     "correctness" => "",
                                     "action" => ""
-                                );
+                                ];
                                 $answerorder++;
                             }
                             break;
@@ -125,7 +125,7 @@ class assOrderingQuestionImport extends assQuestionImport
             }
         }
 
-        $feedbacksgeneric = array();
+        $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
                 $ident = "";
@@ -213,7 +213,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->setPoints(0);
         $this->object->saveQuestionDataToDb();
         $points = 0;
-        $solanswers = array();
+        $solanswers = [];
 
         foreach ($answers as $answer) {
             $solanswers[$answer["solutionorder"] ?? null] = $answer;
@@ -320,7 +320,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->saveToDb();
         if (isset($tst_id) && $tst_id !== $questionpool_id) {
             $qplQid = $this->object->getId();
-            $tstQid = $this->object->duplicate(true, '', '', '', $tst_id);
+            $tstQid = $this->object->duplicate(true, '', '', -1, $tst_id);
             $tst_object->questions[$question_counter++] = $tstQid;
             $import_mapping[$item->getIdent()] = ["pool" => $qplQid, "test" => $tstQid];
             return $import_mapping;

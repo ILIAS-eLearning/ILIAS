@@ -29,16 +29,14 @@ class assAnswerMultipleResponseImageTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new ASS_AnswerMultipleResponseImage();
 
-        $this->assertInstanceOf('ASS_AnswerMultipleResponseImage', $instance);
+        $this->assertInstanceOf(ASS_AnswerMultipleResponseImage::class, $instance);
     }
 
     public function test_setGetImage(): void
@@ -46,11 +44,9 @@ class assAnswerMultipleResponseImageTest extends assBaseTestCase
         $instance = new ASS_AnswerMultipleResponseImage();
         $expected = 'c:\image.jpg';
 
-        // Act
         $instance->setImage($expected);
         $actual = $instance->getImage();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

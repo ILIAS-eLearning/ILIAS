@@ -29,17 +29,14 @@ class assAnswerMatchingTermTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObjectSimple(): void
     {
-        // Act
         $instance = new assAnswerMatchingTerm();
 
-        // Assert
-        $this->assertInstanceOf('assAnswerMatchingTerm', $instance);
+        $this->assertInstanceOf(assAnswerMatchingTerm::class, $instance);
     }
 
     public function test_setGetText(): void
@@ -47,11 +44,9 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $instance = new assAnswerMatchingTerm();
         $expected = 'Text';
 
-        // Act
         $instance = $instance->withText($expected);
         $actual = $instance->getText();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -60,11 +55,9 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $instance = new assAnswerMatchingTerm();
         $expected = 'path/to/picture?';
 
-        // Act
         $instance = $instance->withPicture($expected);
         $actual = $instance->getPicture();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -73,10 +66,8 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $instance = new assAnswerMatchingTerm();
         $expected = null;
 
-        // Act
         $actual = $instance->getPicture();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -85,11 +76,9 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $instance = new assAnswerMatchingTerm();
         $expected = 12345;
 
-        // Act
         $instance = $instance->withIdentifier($expected);
         $actual = $instance->getIdentifier();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

@@ -29,54 +29,46 @@ class assAnswerSimpleTest extends assBaseTestCase
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../../');
+        chdir(__DIR__ . '/../../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new ASS_AnswerSimple();
 
-        $this->assertInstanceOf('ASS_AnswerSimple', $instance);
+        $this->assertInstanceOf(ASS_AnswerSimple::class, $instance);
     }
 
     public function test_setGetId_shouldReturnUnchangedId(): void
     {
-        $instance = new ASS_AnswerSimple("", 0.0, 0, -1, 0);
+        $instance = new ASS_AnswerSimple('', 0.0, 0, -1, 0);
         $expected = 1;
 
-        // Act
         $instance->setId($expected);
         $actual = $instance->getId();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
     public function test_setGetAnswertext_shouldReturnUnchangedAnswertext(): void
     {
-        $instance = new ASS_AnswerSimple("", 0.0, 0, -1, 0);
+        $instance = new ASS_AnswerSimple('', 0.0, 0, -1, 0);
         $expected = 'The answer, of course, is 42.';
 
-        // Act
         $instance->setAnswertext($expected);
         $actual = $instance->getAnswertext();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
     public function test_setGetPoints_shouldReturnUnchangedPoints(): void
     {
-        $instance = new ASS_AnswerSimple("", 0.0, 0, -1, 0);
+        $instance = new ASS_AnswerSimple('', 0.0, 0, -1, 0);
         $expected = 42;
 
-        // Act
         $instance->setPoints($expected);
         $actual = $instance->getPoints();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
@@ -85,24 +77,20 @@ class assAnswerSimpleTest extends assBaseTestCase
         $instance = new ASS_AnswerSimple();
         $expected = 0.0;
 
-        // Act
         $instance->setPoints('Günther');
         $actual = $instance->getPoints();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
     public function test_setGetOrder_shouldReturnUnchangedOrder(): void
     {
-        $instance = new ASS_AnswerSimple("", 0.0, 0, -1, 0);
+        $instance = new ASS_AnswerSimple('', 0.0, 0, -1, 0);
         $expected = 42;
 
-        // Act
         $instance->setOrder($expected);
         $actual = $instance->getOrder();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 }

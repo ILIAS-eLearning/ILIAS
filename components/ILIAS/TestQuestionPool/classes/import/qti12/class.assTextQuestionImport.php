@@ -72,7 +72,7 @@ class assTextQuestionImport extends assQuestionImport
             }
         }
 
-        $feedbacksgeneric = array();
+        $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
             $outcomes = $resprocessing->getOutcomes();
             foreach ($outcomes->decvar as $decvar) {
@@ -232,11 +232,11 @@ class assTextQuestionImport extends assQuestionImport
         $this->object->saveToDb();
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
         } else {
-            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
         }
         return $import_mapping;
     }
@@ -246,7 +246,7 @@ class assTextQuestionImport extends assQuestionImport
         $termScoringString = $item->getMetadataEntry('termscoring');
 
         if (!strlen($termScoringString)) {
-            return array();
+            return [];
         }
 
         $termScoring = @unserialize($termScoringString);
@@ -262,6 +262,6 @@ class assTextQuestionImport extends assQuestionImport
             return $termScoring;
         }
 
-        return array();
+        return [];
     }
 }

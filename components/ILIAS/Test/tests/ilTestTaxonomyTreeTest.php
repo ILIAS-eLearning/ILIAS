@@ -33,9 +33,11 @@ class ilTestTaxonomyTreeTest extends ilTestBaseTestCase
         $db_mock = $this->createMock(ilDBInterface::class);
         $returnValue = new stdClass();
         $returnValue->child = 1;
-        $db_mock->expects($this->once())
-                ->method("fetchObject")
-                ->willReturn($returnValue);
+        $db_mock
+            ->expects($this->once())
+            ->method("fetchObject")
+            ->willReturn($returnValue)
+        ;
 
         $this->setGlobalVariable("ilDB", $db_mock);
         $this->addGlobal_ilAppEventHandler();

@@ -44,7 +44,8 @@ class ilTestVirtualSequenceTest extends ilTestBaseTestCase
 
     public function testActiveId(): void
     {
-        $this->testObj->setActiveId(12);
-        $this->assertEquals(12, $this->testObj->getActiveId());
+        $active_id = 12;
+        $this->testObj->setActiveId($active_id);
+        $this->assertEquals($active_id, $this->testObj->getActiveId());
     }
 }

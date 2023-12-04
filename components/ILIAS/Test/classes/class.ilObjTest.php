@@ -1359,7 +1359,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function duplicateQuestionForTest($question_id): int
     {
         $question = ilObjTest::_instanciateQuestion($question_id);
-        $duplicate_id = $question->duplicate(true, '', '', '', $this->getId());
+        $duplicate_id = $question->duplicate(true, '', '', -1, $this->getId());
         return $duplicate_id;
     }
 
@@ -3260,9 +3260,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         ilSession::clear('import_mob_xhtml');
 
-        $this->setDescription($assessment->getComment());
-        $this->setTitle($assessment->getTitle());
-        $this->saveToDb();
+        $this->saveToDb(true);
 
         $main_settings = $this->getMainSettings();
         $general_settings = $main_settings->getGeneralSettings();
@@ -3553,6 +3551,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
 
         $this->saveToDb();
+        $this->getObjectProperties()->storePropertyTitleAndDescription(
+            $this->getObjectProperties()->getPropertyTitleAndDescription()
+                ->withTitle($assessment->getTitle())
+                ->withDescription($assessment->getComment())
+        );
         $main_settings = $main_settings
             ->withGeneralSettings($general_settings)
             ->withIntroductionSettings($introduction_settings)
@@ -3563,6 +3566,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withFinishingSettings($finishing_settings)
             ->withAdditionalSettings($additional_settings);
         $this->getMainSettingsRepository()->store($main_settings);
+        $this->main_settings = $main_settings;
 
         $score_settings = $score_settings
                 ->withGamificationSettings($gamification_settings)
@@ -4586,7 +4590,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $new_obj->setOfflineStatus(true);
         }
 
-        $new_obj->update();
+        $new_obj->saveToDb();
+        $this->getMainSettingsRepository()->store(
+            $this->getMainSettings()->withTestId($new_obj->getTestId())
+        );
+        $this->getScoreSettingsRepository()->store(
+            $this->getScoreSettings()->withTestId($new_obj->getTestId())
+        );
 
         $new_obj->mark_schema = clone $this->mark_schema;
         $new_obj->setTemplate($this->getTemplate());
@@ -4613,17 +4623,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $skillLevelThresholdList->setTestId($this->getTestId());
         $skillLevelThresholdList->loadFromDb();
         $skillLevelThresholdList->cloneListForTest($new_obj->getTestId());
-
-        $new_obj->saveToDb();
-        $new_obj->updateMetaData();// #14467
-
-        $this->getMainSettingsRepository()->store(
-            $this->getMainSettings()->withTestId($new_obj->getTestId())
-        );
-
-        $this->getScoreSettingsRepository()->store(
-            $this->getScoreSettings()->withTestId($new_obj->getTestId())
-        );
 
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());

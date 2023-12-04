@@ -50,10 +50,10 @@ class assTextSubsetImport extends assQuestionImport
         ;
         $presentation = $item->getPresentation();
         $shuffle = 0;
-        $idents = array();
+        $idents = [];
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $gaps = array();
+        $gaps = [];
         foreach ($presentation->order as $entry) {
             switch ($entry["type"]) {
                 case "response":
@@ -64,8 +64,8 @@ class assTextSubsetImport extends assQuestionImport
                     break;
             }
         }
-        $responses = array();
-        $feedbacksgeneric = array();
+        $responses = [];
+        $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
                 $ident = "";
@@ -77,11 +77,11 @@ class assTextSubsetImport extends assQuestionImport
                             $respident = $conditionvar->varsubset[$order["index"]]->getRespident();
                             $content = $conditionvar->varsubset[$order["index"]]->getContent();
                             if (!isset($responses[$respident]) || !is_array($responses[$respident])) {
-                                $responses[$respident] = array();
+                                $responses[$respident] = [];
                             }
                             $vars = explode(",", $content);
                             foreach ($vars as $var) {
-                                array_push($responses[$respident], array("solution" => $var, "points" => ""));
+                                array_push($responses[$respident], ["solution" => $var, "points" => ""]);
                             }
                             break;
                     }
@@ -210,11 +210,11 @@ class assTextSubsetImport extends assQuestionImport
         $this->object->saveToDb();
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
         } else {
-            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
         }
         return $import_mapping;
     }

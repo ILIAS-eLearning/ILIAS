@@ -151,7 +151,7 @@ class PresentationTest extends TableTestBase
     <div class="il-table-presentation-data">
         <div class="il-table-presentation-row row collapsed" id="id_4">
 
-            <div class="il-table-presentation-row-controls">
+            <div class="il-table-presentation-row-controls col-lg-auto col-sm-12">
                 <div class="il-table-presentation-row-controls-expander inline">
                     <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
@@ -164,48 +164,51 @@ class PresentationTest extends TableTestBase
                 </div>
             </div>
 
-            <div class="il-table-presentation-row-contents">
-                <div class="il-table-presentation-actions"><button class="btn btn-default" data-action="#" id="id_8">do</button><br /></div>
-                <div class="il-table-presentation-row-header">
-                    <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
-                    </h4>
-                    <div class="il-table-presentation-row-header-fields">
-                        <div class="l-bar__container">
-                            <div class="l-bar__group">
-                                <div class="il-table-presentation-row-header-fields-value l-bar__element">important-1</div>
+            <div class="il-table-presentation-row-contents col-lg col-sm-12">
+                <div class="row">
+                   <div class="il-table-presentation-row-header col-lg col-sm-12">
+                       <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
+                       </h4>
+                       <div class="il-table-presentation-row-header-fields">
+                          <div class="l-bar__container">
+                              <div class="l-bar__group">
+                                  <div class="il-table-presentation-row-header-fields-value l-bar__element">important-1</div>
+                              </div>
+                              <div class="l-bar__group">
+                                  <div class="il-table-presentation-row-header-fields-value l-bar__element">important-2</div>
+                              </div>
+                          </div>
+                          <button class="btn btn-link" id="id_7">presentation_table_more</button>
+                       </div>
+                   </div>
+                   <div class="il-table-presentation-actions col-lg-auto col-sm-12">
+                        <button class="btn btn-default" data-action="#" id="id_8">do</button><br />
+                   </div>
+                   <div class="il-table-presentation-row-expanded col-lg-12 col-sm-12">
+                        <div class="row">
+                            <div class="il-table-presentation-desclist col-lg col-sm-12 desclist-column">
+                                <dl>
+                                   <dt>1st</dt>
+                                   <dd>first content</dd>
+                                   <dt>2nd</dt>
+                                   <dd>second content</dd>
+                                </dl>
                             </div>
-                            <div class="l-bar__group">
-                                <div class="il-table-presentation-row-header-fields-value l-bar__element">important-2</div>
+                            <div class="il-table-presentation-details col-lg-5 col-sm-12">
+                                <div class="il-table-presentation-fields">
+                                    <h5>further fields</h5>
+                                    <span class="il-item-property-name">f-1</span>
+                                    <span class="il-item-property-value">further</span>
+                                    <br />
+                                    <span class="il-item-property-name">f-2</span>
+                                    <span class="il-item-property-value">way further</span>
+                                    <br />
+                                </div>
                             </div>
                         </div>
-                        <button class="btn btn-link" id="id_7">presentation_table_more</button>
-                    </div>
+                   </div>
                 </div>
-
-                <div class="il-table-presentation-row-expanded">
-                    <div class="il-table-presentation-desclist inline desclist-column">
-                        <dl>
-                            <dt>1st</dt>
-                            <dd>first content</dd>
-                            <dt>2nd</dt>
-                            <dd>second content</dd>
-                        </dl>
-                    </div>
-                    
-                    <div class="il-table-presentation-details inline">
-                        <div class="il-table-presentation-fields">
-                            <h5>further fields</h5>
-                            <span class="il-item-property-name">f-1</span>
-                            <span class="il-item-property-value">further</span>
-                            <br />
-                            <span class="il-item-property-name">f-2</span>
-                            <span class="il-item-property-value">way further</span>
-                            <br />
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            </div>       
         </div>
     </div>
 </div>
@@ -249,7 +252,7 @@ EXP;
     <div class="il-table-presentation-data">
         <div class="il-table-presentation-row row collapsed" id="id_4">
 
-            <div class="il-table-presentation-row-controls">
+            <div class="il-table-presentation-row-controls col-lg-auto col-sm-12">
                 <div class="il-table-presentation-row-controls-expander inline">
                     <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
@@ -262,23 +265,27 @@ EXP;
                 </div>
             </div>
 
-            <div class="il-table-presentation-row-contents">
-                <div class="il-table-presentation-actions"></div>
-                <div class="il-table-presentation-row-header">
-                    <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
-                    <div class="il-table-presentation-row-header-fields">
-                        <div class="l-bar__container"></div>
-                        <button class="btn btn-link" id="id_7">presentation_table_more</button>
+            <div class="il-table-presentation-row-contents col-lg col-sm-12">
+                <div class="row">
+                    <div class="il-table-presentation-row-header col-lg col-sm-12">
+                        <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
+                        <div class="il-table-presentation-row-header-fields">
+                            <div class="l-bar__container"></div>
+                            <button class="btn btn-link" id="id_7">presentation_table_more</button>
+                        </div>
                     </div>
-                </div>
-                <div class="il-table-presentation-row-expanded">
-                    <div class="il-table-presentation-desclist inline">
-                        <dl>
-                            <dt>1st</dt>
-                            <dd>first content</dd>
-                            <dt>2nd</dt>
-                            <dd>second content</dd>
-                        </dl>
+                    <div class="il-table-presentation-actions col-lg-auto col-sm-12"></div>
+                    <div class="il-table-presentation-row-expanded col-lg-12 col-sm-12">
+                        <div class="row">
+                            <div class="il-table-presentation-desclist col-lg col-sm-12">
+                                <dl>
+                                    <dt>1st</dt>
+                                    <dd>first content</dd>
+                                    <dt>2nd</dt>
+                                    <dd>second content</dd>
+                                </dl>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -36,9 +36,7 @@ class ilMarkSchemaGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilToolbar();
         $this->addGlobal_ilTabs();
 
-        $this->testObj = new ilMarkSchemaGUI(
-            $this->createMock(ilMarkSchemaAware::class)
-        );
+        $this->testObj = new ilMarkSchemaGUI($this->createMock(ilMarkSchemaAware::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

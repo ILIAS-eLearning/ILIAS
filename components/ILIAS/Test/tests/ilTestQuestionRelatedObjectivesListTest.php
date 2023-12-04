@@ -48,9 +48,9 @@ class ilTestQuestionRelatedObjectivesListTest extends ilTestBaseTestCase
         ];
         foreach ($expected as $key => $value) {
             $this->testObj->addQuestionRelatedObjectives($key, $value);
-        }
 
-        $this->assertEquals($expected[1236], $this->testObj->getQuestionRelatedObjectives(1236));
+            $this->assertEquals($value, $this->testObj->getQuestionRelatedObjectives($key));
+        }
     }
 
     public function testHasQuestionRelatedObjectives(): void
@@ -63,8 +63,8 @@ class ilTestQuestionRelatedObjectivesListTest extends ilTestBaseTestCase
         ];
         foreach ($expected as $key => $value) {
             $this->testObj->addQuestionRelatedObjectives($key, $value);
-        }
 
-        $this->assertEquals(3, $this->testObj->hasQuestionRelatedObjectives(12));
+            $this->assertEquals((bool) count($value), $this->testObj->hasQuestionRelatedObjectives($key));
+        }
     }
 }

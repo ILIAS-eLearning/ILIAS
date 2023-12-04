@@ -42,13 +42,13 @@ class assLongMenuImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
-        $questiontext = array();
+        $questiontext = [];
         $seperate_question_field = $item->getMetadataEntry("question");
-        $clozetext = array();
+        $clozetext = [];
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $answers = array();
-        $correct_answers = array();
+        $answers = [];
+        $correct_answers = [];
         $presentation = $item->getPresentation();
         $gap_types = json_decode($item->getMetadataEntry("gapTypes"));
         foreach ($presentation->order as $entry) {
@@ -243,11 +243,11 @@ class assLongMenuImport extends assQuestionImport
 
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
         } else {
-            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
         }
         return $import_mapping;
     }

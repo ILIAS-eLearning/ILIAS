@@ -43,14 +43,12 @@ class assNumericGUITest extends assBaseTestCase
         $ilias_mock->account->id = 6;
         $ilias_mock->account->fullname = 'Esther Tester';
         $this->setGlobalVariable('ilias', $ilias_mock);
-        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Act
         $instance = new assNumericGUI();
 
-        $this->assertInstanceOf('assNumericGUI', $instance);
+        $this->assertInstanceOf(assNumericGUI::class, $instance);
     }
 }

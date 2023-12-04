@@ -208,7 +208,7 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 		padding: 0;
 	}
 
-	.form-control {
+	> .form-control {
 		width: auto;
 		display: inline-block;
 		vertical-align: middle;
@@ -347,14 +347,6 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 			}
 		}
 	}
-}
-
-.ilToolbar .navbar-form .modal .radio {
-	display: block;
-}
-
-.ilToolbar .navbar-form .modal .form-group {
-	display: block;
 }
 
 //

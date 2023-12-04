@@ -40,6 +40,11 @@ interface PathsInterface
     public function keywords(): PathInterface;
 
     /**
+     * Path to general > language.
+     */
+    public function languages(): PathInterface;
+
+    /**
      * Path to lifeCycle > contribute > entity, where the contribute
      * has a role > value with value 'author'.
      */

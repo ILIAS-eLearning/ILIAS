@@ -51,10 +51,10 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
 
     public function testAddQuestions(): void
     {
-        $this->testObj->addQuestion(new ilTestRandomQuestionSetQuestion());
-        $this->testObj->addQuestion(new ilTestRandomQuestionSetQuestion());
-        $this->testObj->addQuestion(new ilTestRandomQuestionSetQuestion());
-        $this->assertCount(3, $this->testObj->getQuestions());
+        for ($count = 0; $count < 3; $count++) {
+            $this->testObj->addQuestion(new ilTestRandomQuestionSetQuestion());
+        }
+        $this->assertCount($count, $this->testObj->getQuestions());
     }
 
     public function testCurrent(): void
@@ -84,11 +84,18 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
 
         $this->testObj->setQuestions($questions);
 
-        $this->assertEquals(0, $this->testObj->key());
+        $iMax = count($ids);
+        if ($iMax > 0) {
+            $this->assertEquals(0, $this->testObj->key());
 
-        $this->testObj->next();
-        $this->testObj->next();
-        $this->assertEquals(2, $this->testObj->key());
+            for ($i = 1; $i < $iMax; $i++) {
+                $this->testObj->next();
+            }
+
+            $this->assertEquals(--$i, $this->testObj->key());
+        } else {
+            $this->assertTrue(false);
+        }
     }
 
     public function testValid(): void
@@ -121,14 +128,24 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
 
         $this->testObj->setQuestions($questions);
 
-        $this->assertEquals($questions[0], $this->testObj->current());
+        $iMax = count($questions);
+        if ($iMax > 0) {
+            $this->assertEquals($questions[0], $this->testObj->current());
 
-        $this->testObj->next();
-        $this->testObj->next();
-        $this->assertEquals($questions[2], $this->testObj->current());
+            for ($i = 1; $i < $iMax; $i++) {
+                $this->testObj->next();
+            }
 
-        $this->testObj->rewind();
-        $this->assertEquals($questions[0], $this->testObj->current());
+            $this->assertEquals($questions[--$i], $this->testObj->current());
+
+            for ($j = $i; $j > 0; $j--) {
+                $this->testObj->rewind();
+            }
+
+            $this->assertEquals($questions[$j], $this->testObj->current());
+        } else {
+            $this->assertTrue(false);
+        }
     }
 
     public function testIsGreaterThan(): void
@@ -143,9 +160,10 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
 
         $this->testObj->setQuestions($questions);
 
-        $this->assertTrue($this->testObj->isGreaterThan(2));
-        $this->assertTrue($this->testObj->isGreaterThan(1));
-        $this->assertFalse($this->testObj->isGreaterThan(6));
+        for ($i = 0, $iMax = count($questions); $i < $iMax; $i++) {
+            $this->assertTrue($this->testObj->isGreaterThan($i));
+        }
+        $this->assertFalse($this->testObj->isGreaterThan($i));
     }
 
     public function testIsSmallerThan(): void
@@ -160,9 +178,10 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
 
         $this->testObj->setQuestions($questions);
 
-        $this->assertFalse($this->testObj->isSmallerThan(3));
-        $this->assertFalse($this->testObj->isSmallerThan(1));
-        $this->assertTrue($this->testObj->isSmallerThan(6));
+        for ($questionsCount = count($questions), $i = $questionsCount * 2; $i > $questionsCount; $i--) {
+            $this->assertTrue($this->testObj->isSmallerThan($i));
+        }
+        $this->assertFalse($this->testObj->isSmallerThan($i));
     }
 
     public function testGetMissingCount(): void
@@ -177,29 +196,35 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
 
         $this->testObj->setQuestions($questions);
 
-        $this->assertEquals(0, $this->testObj->getMissingCount(3));
-        $this->assertEquals(0, $this->testObj->getMissingCount(1));
-        $this->assertEquals(3, $this->testObj->getMissingCount(6));
+        $questionsCount = count($questions);
+
+        for ($i = 0, $iMax = $questionsCount; $i < $iMax; $i++) {
+            $this->assertEquals(0, $this->testObj->getMissingCount($i));
+        }
+
+        for ($i = $questionsCount, $iMax = $questionsCount * 2; $i <= $iMax; $i++) {
+            $this->assertEquals($i - $questionsCount, $this->testObj->getMissingCount($i));
+        }
     }
 
     public function testMergeQuestionCollection(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
-        foreach ($ids as $index => $id) {
+        foreach ($ids as $id) {
             $question = new ilTestRandomQuestionSetQuestion();
             $question->setQuestionId($id);
-            $questions[$index] = $question;
+            $questions[] = $question;
             $this->testObj->addQuestion($question);
         }
 
         $collection = new ilTestRandomQuestionSetQuestionCollection();
 
         $ids = [1, 5, 8];
-        foreach ($ids as $index => $id) {
+        foreach ($ids as $id) {
             $question = new ilTestRandomQuestionSetQuestion();
             $question->setQuestionId($id);
-            $questions[$index + 3] = $question;
+            $questions[] = $question;
             $collection->addQuestion($question);
         }
 
@@ -217,7 +242,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
             $this->testObj->addQuestion($question);
         }
 
-        $this->assertCount(3, $this->testObj->getUniqueQuestionCollection()->getQuestions());
+        $this->assertCount(count(array_unique($ids)), $this->testObj->getUniqueQuestionCollection()->getQuestions());
     }
 
     public function testGetQuestionAmount(): void
@@ -229,7 +254,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
             $this->testObj->addQuestion($question);
         }
 
-        $this->assertEquals(3, $this->testObj->getQuestionAmount());
+        $this->assertEquals(count($ids), $this->testObj->getQuestionAmount());
     }
 
     public function testGetInvolvedQuestionIds(): void

@@ -40,52 +40,53 @@ class ilTestRandomQuestionCollectionSubsetApplicationTest extends ilTestBaseTest
 
     public function testApplicantId(): void
     {
-        $this->testObj->setApplicantId(12);
-        $this->assertEquals(12, $this->testObj->getApplicantId());
+        $applicantId = 12;
+        $this->testObj->setApplicantId($applicantId);
+        $this->assertEquals($applicantId, $this->testObj->getApplicantId());
     }
 
     public function testRequiredAmount(): void
     {
-        $this->testObj->setRequiredAmount(12);
-        $this->assertEquals(12, $this->testObj->getRequiredAmount());
+        $requiredAmount = 12;
+        $this->testObj->setRequiredAmount($requiredAmount);
+        $this->assertEquals($requiredAmount, $this->testObj->getRequiredAmount());
     }
 
     public function testHasRequiredAmountLeft(): void
     {
-        $this->testObj->setRequiredAmount(5);
-        $this->assertTrue($this->testObj->hasRequiredAmountLeft());
-
-        $this->testObj->setRequiredAmount(-200);
-        $this->assertFalse($this->testObj->hasRequiredAmountLeft());
-
-        $this->testObj->setRequiredAmount(0);
-        $this->assertFalse($this->testObj->hasRequiredAmountLeft());
+        for ($i = 3; $i > -3; $i--) {
+            $this->testObj->setRequiredAmount($i);
+            $this->assertEquals($i > 0, $this->testObj->hasRequiredAmountLeft());
+        }
     }
 
     public function testDecrementRequiredAmount(): void
     {
-        $this->testObj->setRequiredAmount(5);
+        $requiredAmount = 5;
+        $this->testObj->setRequiredAmount($requiredAmount);
         $this->testObj->decrementRequiredAmount();
-        $this->assertEquals(4, $this->testObj->getRequiredAmount());
+        $this->assertEquals(--$requiredAmount, $this->testObj->getRequiredAmount());
     }
 
     public function testHasQuestion(): void
     {
-        $this->assertFalse($this->testObj->hasQuestion(2));
+        $questionId = 2;
+        $this->assertFalse($this->testObj->hasQuestion($questionId));
 
         $question = new ilTestRandomQuestionSetQuestion();
-        $question->setQuestionId(2);
+        $question->setQuestionId($questionId);
 
         $this->testObj->addQuestion($question);
-        $this->assertTrue($this->testObj->hasQuestion(2));
+        $this->assertTrue($this->testObj->hasQuestion($questionId));
     }
 
     public function testGetQuestion(): void
     {
+        $questionId = 2;
         $question = new ilTestRandomQuestionSetQuestion();
-        $question->setQuestionId(2);
+        $question->setQuestionId($questionId);
         $this->testObj->addQuestion($question);
 
-        $this->assertEquals($question, $this->testObj->getQuestion(2));
+        $this->assertEquals($question, $this->testObj->getQuestion($questionId));
     }
 }
