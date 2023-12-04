@@ -617,9 +617,11 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $answer->setImageFsDir($imagePath);
         $answer->setImageFile($filename);
 
-        if (!ilFileUtils::moveUploadedFile($fileData['tmp_name'], $fileData['name'], $answer->getImageFsPath())) {
+        if (!ilFileUtils::moveUploadedFile($fileData['tmp_name'], $filename, $answer->getImageFsPath())) {
             return 2;
         }
+
+        $this->generateThumbForFile($filename, $this->getImagePath(), $this->getThumbSize());
 
         return 0;
     }

@@ -659,7 +659,7 @@ class ilAdvancedMDRecordGUI
                 $this->adt_search[$def->getFieldId()]->setElementId('md_' . $def->getFieldId());
 
                 $this->adt_search[$def->getFieldId()]->loadFilter();
-                $this->adt_search[$def->getFieldId()]->addToForm();
+                $this->adt_search[$def->getFieldId()]->addToFilterForm();
             }
         }
     }

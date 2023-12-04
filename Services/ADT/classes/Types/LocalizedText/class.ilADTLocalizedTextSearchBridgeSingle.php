@@ -39,14 +39,12 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
 
     public function addToForm(): void
     {
-        $text = new ilTextInputGUI($this->getTitle(), $this->getElementId());
-        $text->setSize(20);
-        $text->setMaxLength(512);
-        $text->setSubmitFormOnEnter(true);
+        $this->addTextInputToForm(true);
+    }
 
-        $text->setValue($this->getADT()->getText());
-
-        $this->addToParentElement($text);
+    public function addToFilterForm(): void
+    {
+        $this->addTextInputToForm(false);
     }
 
     public function importFromPost(array $a_post = null): bool

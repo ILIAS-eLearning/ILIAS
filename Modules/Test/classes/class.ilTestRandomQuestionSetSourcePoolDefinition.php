@@ -264,7 +264,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         }
     }
 
-    public function setQuestionAmount(int $question_amount): void
+    public function setQuestionAmount(?int $question_amount): void
     {
         $this->question_amount = $question_amount;
     }

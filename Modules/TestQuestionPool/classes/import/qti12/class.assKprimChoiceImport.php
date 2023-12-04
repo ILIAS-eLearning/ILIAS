@@ -239,6 +239,11 @@ class assKprimChoiceImport extends assQuestionImport
                 if ($fh = fopen($imagepath, "wb")) {
                     $imagefile = fwrite($fh, $image);
                     fclose($fh);
+                    $this->object->generateThumbForFile(
+                        $answer["imagefile"]["label"],
+                        $this->object->getImagePath(),
+                        $this->object->getThumbSize()
+                    );
                 }
             }
         }

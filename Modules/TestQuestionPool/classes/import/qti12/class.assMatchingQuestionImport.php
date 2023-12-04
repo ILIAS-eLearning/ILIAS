@@ -67,8 +67,8 @@ class assMatchingQuestionImport extends assQuestionImport
         $shuffle = 0;
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $definitions = array();
-        $terms = array();
+        $definitions = [];
+        $terms = [];
         $foundimage = false;
         foreach ($presentation->order as $entry) {
             switch ($entry["type"]) {
@@ -82,7 +82,7 @@ class assMatchingQuestionImport extends assQuestionImport
                             foreach ($rendertype->response_labels as $response_label) {
                                 $ident = $response_label->getIdent();
                                 $answertext = "";
-                                $answerimage = array();
+                                $answerimage = [];
                                 foreach ($response_label->material as $mat) {
                                     for ($m = 0; $m < $mat->getMaterialCount(); $m++) {
                                         $foundmat = $mat->getMaterial($m);
@@ -91,30 +91,30 @@ class assMatchingQuestionImport extends assQuestionImport
                                         }
                                         if (strcmp($foundmat["type"], "matimage") == 0) {
                                             $foundimage = true;
-                                            $answerimage = array(
+                                            $answerimage = [
                                                 "imagetype" => $foundmat["material"]->getImageType(),
                                                 "label" => $foundmat["material"]->getLabel(),
                                                 "content" => $foundmat["material"]->getContent()
-                                            );
+                                            ];
                                         }
                                     }
                                 }
                                 if (($response_label->getMatchMax() == 1) && (strlen($response_label->getMatchGroup()))) {
-                                    $definitions[$ident] = array(
+                                    $definitions[$ident] = [
                                         "answertext" => $answertext,
                                         "answerimage" => $answerimage,
                                         "points" => 0,
                                         "answerorder" => $ident,
                                         "action" => ""
-                                    );
+                                    ];
                                 } else {
-                                    $terms[$ident] = array(
+                                    $terms[$ident] = [
                                         "term" => $answertext,
                                         "answerimage" => $answerimage,
                                         "points" => 0,
                                         "ident" => $ident,
                                         "action" => ""
-                                    );
+                                    ];
                                 }
                             }
                             break;
@@ -122,11 +122,11 @@ class assMatchingQuestionImport extends assQuestionImport
                     break;
             }
         }
-        $responses = array();
-        $feedbacksgeneric = array();
+        $responses = [];
+        $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
-                $subset = array();
+                $subset = [];
                 $correctness = 1;
                 $conditionvar = $respcondition->getConditionvar();
                 foreach ($conditionvar->order as $order) {
@@ -137,7 +137,7 @@ class assMatchingQuestionImport extends assQuestionImport
                     }
                 }
                 foreach ($respcondition->setvar as $setvar) {
-                    array_push($responses, array("subset" => $subset, "action" => $setvar->getAction(), "points" => $setvar->getContent()));
+                    array_push($responses, ["subset" => $subset, "action" => $setvar->getAction(), "points" => $setvar->getContent()]);
                 }
 
                 if (count($respcondition->displayfeedback)) {
@@ -321,9 +321,9 @@ class assMatchingQuestionImport extends assQuestionImport
             $q_1_id = $this->object->getId();
             $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
+            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
         } else {
-            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
         }
         return $import_mapping;
     }
