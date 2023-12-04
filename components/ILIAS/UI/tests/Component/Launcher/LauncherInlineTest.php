@@ -53,8 +53,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         return new I\Modal\Factory(
             new I\SignalGenerator(),
             new I\Modal\InterruptiveItem\Factory(),
-            $this->getInputFactory(),
-            new I\Button\Factory()
+            $this->getInputFactory()
         );
     }
 

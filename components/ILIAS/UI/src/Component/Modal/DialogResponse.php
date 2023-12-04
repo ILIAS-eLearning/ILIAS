@@ -21,12 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Button;
 
 /**
  *
  */
 interface DialogResponse extends Component
 {
-
 }

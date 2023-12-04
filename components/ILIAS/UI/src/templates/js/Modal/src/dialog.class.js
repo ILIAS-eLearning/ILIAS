@@ -76,6 +76,7 @@ export default class Dialog {
         dialogTitle.innerHTML = title.innerHTML;
         dialogContents.innerHTML = contents.innerHTML;
         dialogButtons.innerHTML = buttons.innerHTML;
+        //eval(dialogButtons.innerHTML);
 
         this.#captureForms(dialogContents);
         this.#captureLinks(dialogContents);

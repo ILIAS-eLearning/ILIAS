@@ -335,11 +335,19 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COMMAND', $component->getCommand());
         $tpl->setVariable('CONTENT', $default_renderer->render(
-            $component->getContent()
+            $component->getContent()->getDialogContent()
         ));
-        $tpl->setVariable('BUTTONS', $default_renderer->render(
-            $component->getButtons()
-        ));
+        $buttons = $component->getButtons();
+        $buttons[] = $this->getUIFactory()->button()
+            ->standard($this->txt('close_dialog'), '')
+            ->withOnLoadCode(
+                fn($id) => "$('#$id').on('click', (e)=> {
+                    let dialogId = e.target.closest('dialog').parentNode.id;
+                    il.UI.modal.dialog.get(dialogId).close();
+                });"
+            );
+
+        $tpl->setVariable('BUTTONS', $default_renderer->render($buttons));
         return $tpl->get();
     }
 }

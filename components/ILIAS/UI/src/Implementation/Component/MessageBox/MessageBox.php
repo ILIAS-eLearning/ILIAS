@@ -106,4 +106,31 @@ class MessageBox implements C\MessageBox\MessageBox
         $clone->links = $links;
         return $clone;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDialogButtons(): array
+    {
+        return $this->buttons;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDialogTitle(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDialogContent(): array
+    {
+        $clone = clone $this;
+        $clone->buttons = [];
+        return [$clone];
+    }
+
 }

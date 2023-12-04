@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,19 +18,16 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
 namespace ILIAS\UI\Component\Modal\InterruptiveItem;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Modal\DialogContent;
 
 /**
  * Interface InterruptiveItem
  *
  * Represents an item to be displayed inside an interruptive modal
  */
-interface InterruptiveItem extends Component, DialogContent
+interface InterruptiveItem extends Component
 {
     /**
      * Return an ID of the item

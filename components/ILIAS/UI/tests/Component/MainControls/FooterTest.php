@@ -322,13 +322,10 @@ EOT;
         $factory_mock = $this->createMock(FieldFactory::class);
         $factory_mock->method('group')->willReturn($group_mock);
 
-        $button_factory_mock = $this->createMock(C\Button\Factory::class);
-
         return new I\Modal\Factory(
             new SignalGeneratorMock(),
             $this->createMock(C\Modal\InterruptiveItem\Factory::class),
             $factory_mock,
-            $button_factory_mock
         );
     }
 }

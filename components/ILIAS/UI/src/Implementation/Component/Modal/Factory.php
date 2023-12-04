@@ -26,7 +26,6 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Factory as ItemFactory;
 use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Component\Card\Card;
 use ILIAS\Data\URI;
 
@@ -38,8 +37,7 @@ class Factory implements M\Factory
     public function __construct(
         protected SignalGeneratorInterface $signal_generator,
         protected ItemFactory $item_factory,
-        protected FieldFactory $field_factory,
-        protected ButtonFactory $button_factory
+        protected FieldFactory $field_factory
     ) {
     }
 
@@ -110,8 +108,10 @@ class Factory implements M\Factory
     }
 
     public function dialogResponse(
-        ?\ILIAS\UI\Component\DialogContent ...$content
+        \ILIAS\UI\Component\Modal\DialogContent $content
     ): DialogResponse {
-        return new DialogResponse($this->button_factory, ...$content);
+        return new DialogResponse(
+            $content
+        );
     }
 }
