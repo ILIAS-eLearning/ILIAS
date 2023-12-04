@@ -292,6 +292,6 @@ interface Factory
      * @return \ILIAS\UI\Component\Modal\DialogResponse
      */
     public function dialogResponse(
-        ?\ILIAS\UI\Component\DialogContent ...$content
+        \ILIAS\UI\Component\Modal\DialogContent $content
     ): DialogResponse;
 }

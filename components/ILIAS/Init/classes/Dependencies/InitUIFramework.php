@@ -94,7 +94,6 @@ class InitUIFramework
                 $c["ui.signal_generator"],
                 $c["ui.factory.interruptive_item"],
                 $c["ui.factory.input.field"],
-                $c["ui.factory.button"],
             );
         };
         $c["ui.factory.dropzone"] = function ($c) {
@@ -222,7 +221,8 @@ class InitUIFramework
         };
         $c["ui.factory.input.container.form"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(
-                $c["ui.factory.input.field"]
+                $c["ui.factory.input.field"],
+                $c["ui.signal_generator"]
             );
         };
         $c["ui.factory.input.container.filter"] = function ($c) {

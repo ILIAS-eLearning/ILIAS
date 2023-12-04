@@ -22,14 +22,15 @@ namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Component\Input\Container\Form as F;
 use ILIAS\UI\Implementation\Component\Input;
+use ILIAS\UI\Component\Button;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements F\Factory
 {
-    protected Input\Field\Factory $field_factory;
-
-    public function __construct(Input\Field\Factory $field_factory)
-    {
-        $this->field_factory = $field_factory;
+    public function __construct(
+        protected Input\Field\Factory $field_factory,
+        protected SignalGeneratorInterface $signal_generator,
+    ) {
     }
 
     /**
@@ -42,13 +43,23 @@ class Factory implements F\Factory
 
     public function withoutButtons(string $post_url, array $inputs): F\Form
     {
-        $signal_generator = new \ILIAS\UI\Implementation\Component\SignalGenerator();
         return new FormWithoutSubmitButton(
-            $signal_generator,
+            $this->signal_generator,
             $this->field_factory,
             new Input\FormInputNameSource(),
             $post_url,
             $inputs
         );
     }
+    public function dialog(string $post_url, array $inputs): F\Form
+    {
+        return new Dialog(
+            $this->signal_generator,
+            $this->field_factory,
+            new Input\FormInputNameSource(),
+            $post_url,
+            $inputs
+        );
+    }
+
 }

@@ -44,6 +44,10 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderNoSubmit($component, $default_renderer);
         }
 
+        if ($component instanceof Form\Dialog) {
+            return $this->renderNoSubmit($component, $default_renderer);
+        }
+
         throw new LogicException("Cannot render: " . get_class($component));
     }
 
@@ -70,8 +74,10 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderNoSubmit(Form\FormWithoutSubmitButton $component, RendererInterface $default_renderer): string
-    {
+    protected function renderNoSubmit(
+        Form\FormWithoutSubmitButton|Form\Dialog $component,
+        RendererInterface $default_renderer
+    ): string {
         $tpl = $this->getTemplate("tpl.no_submit.html", true, true);
 
         $this->maybeAddRequired($component, $tpl);
@@ -138,6 +144,7 @@ class Renderer extends AbstractComponentRenderer
         return [
             Component\Input\Container\Form\Standard::class,
             FormWithoutSubmitButton::class,
+            Dialog::class,
         ];
     }
 }

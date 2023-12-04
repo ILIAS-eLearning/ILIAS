@@ -34,31 +34,23 @@ class DialogResponse implements M\DialogResponse
 
     private const CMD_CLOSE = 'close';
 
-    protected array $content;
+    protected M\DialogContent $content;
     protected array $buttons = [];
     protected string $cmd = 'show';
 
     public function __construct(
-        protected Button\Factory $button_factory,
-        protected string $title = '',
-        M\DialogContent ...$content
+        //protected Button\Factory $button_factory,
+        M\DialogContent $content
     ) {
         $this->content = $content;
     }
 
-    public function withTitle(string $title): self
-    {
-        $clone = clone $this;
-        $clone->title = $title;
-        return $clone;
-    }
-
     public function getTitle(): ?string
     {
-        return $this->title;
+        return $this->content->getDialogTitle();
     }
 
-    public function withContent(M\DialogContent ...$content): self
+    public function withContent(M\DialogContent $content): self
     {
         $clone = clone $this;
         $clone->content = $content;
@@ -66,18 +58,11 @@ class DialogResponse implements M\DialogResponse
     }
 
     /**
-     * @return M\ModalContent[]
+     * @return Component[]
      */
-    public function getContent(): array
+    public function getContent(): M\DialogContent
     {
         return $this->content;
-    }
-
-    public function withButtons(Button\Button ...$buttons): self
-    {
-        $clone = clone $this;
-        $clone->buttons = $buttons;
-        return $clone;
     }
 
     /**
@@ -85,7 +70,7 @@ class DialogResponse implements M\DialogResponse
      */
     public function getButtons(): array
     {
-        return $this->buttons;
+        return $this->content->getDialogButtons();
     }
 
 
@@ -106,7 +91,7 @@ class DialogResponse implements M\DialogResponse
         return $this->cmd;
     }
 
-    public function getCloseButton(string $label = 'Cancel'): Button\Standard
+    /*public function getCloseButton(string $label = 'Cancel'): Button\Standard
     {
         return $this->button_factory->standard($label, '')
             ->withOnLoadCode(
@@ -115,5 +100,5 @@ class DialogResponse implements M\DialogResponse
                     il.UI.modal.dialog.get(dialogId).close();
                 });"
             );
-    }
+    }*/
 }
