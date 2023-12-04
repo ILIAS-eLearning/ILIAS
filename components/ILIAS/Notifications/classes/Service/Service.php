@@ -33,6 +33,9 @@ class Service
 
     public function system(): ilNotificationSystem
     {
-        return new ilNotificationSystem($this->dic->rbac()->review());
+        return new ilNotificationSystem(
+            $this->dic->rbac()->review(),
+            $this->dic->logger()->nota()
+        );
     }
 }
