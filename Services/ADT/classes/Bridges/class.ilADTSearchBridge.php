@@ -193,6 +193,16 @@ abstract class ilADTSearchBridge
     abstract public function addToForm(): void;
 
     /**
+     * Add ADT-specific fields to filter. This needs to be
+     * separated from other forms to avoid weird js interactions,
+     * but can probably be dropped when moving to KS (see #39225).
+     */
+    public function addToFilterForm(): void
+    {
+        $this->addToForm();
+    }
+
+    /**
      * Check if incoming values should be imported at all
      * @param string|int $a_post
      * @return bool
