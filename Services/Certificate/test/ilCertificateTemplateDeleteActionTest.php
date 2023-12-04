@@ -63,61 +63,6 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
-            $fs_mock,
-            __DIR__,
-            'v5.4.0',
-            $utilHelper,
-            $objectHelper
-        );
-
-        $action->delete(100, 2000);
-    }
-
-    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate(): void
-    {
-        $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
-
-        $templateRepositoryMock
-            ->method('deleteTemplate')
-            ->with(100, 2000);
-
-        $templateRepositoryMock->method('activatePreviousCertificate')
-            ->with(2000)
-            ->willReturn(new ilCertificateTemplate(
-                2000,
-                'crs',
-                'something',
-                md5('something'),
-                '[]',
-                1,
-                'v5.4.0',
-                1_234_567_890,
-                true
-            ));
-
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $utilHelper
-            ->expects($this->once())
-            ->method('convertImage');
-
-        $fs_mock = $this->createMock(\ILIAS\Filesystem\Filesystem::class);
-        $fs_mock->expects($this->once())
-                ->method('has')
-                ->with($this->isType('string'))
-                ->willReturn(true);
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
-
-        $objectHelper->method('lookUpType')
-            ->willReturn('crs');
-
-        $action = new ilCertificateTemplateDeleteAction(
-            $templateRepositoryMock,
-            $fs_mock,
             __DIR__,
             'v5.4.0',
             $utilHelper,
