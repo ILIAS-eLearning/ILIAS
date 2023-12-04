@@ -90,7 +90,6 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC['ilToolbar'];
         $this->ui = $DIC->ui();
         $this->tpl = $DIC->ui()->mainTemplate();
