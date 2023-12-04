@@ -13,9 +13,9 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import Modal from './modal.class';
+import Dialog from './dialog.class';
 
-export default class ModalFactory {
+export default class DialogFactory {
   /**
    * @type {DOMParser}
    */
@@ -43,7 +43,7 @@ export default class ModalFactory {
       throw new Error(`Modal with id '${id}' has already been initialized.`);
     }
 
-    this.#instances[id] = new Modal(this.#DOMParser, id);
+    this.#instances[id] = new Dialog(this.#DOMParser, id);
   }
 
   /**

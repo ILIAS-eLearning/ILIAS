@@ -28,29 +28,5 @@ use ILIAS\UI\Component\Button;
  */
 interface DialogResponse extends Component
 {
-    /**
-     * Changes the title of the Modal
-     */
-    public function withTitle(string $title): self;
 
-    /**
-     * Changes the contents of the Modal
-     */
-    public function withContent(DialogContent ...$content): self;
-
-    /**
-     * Adds buttons to the bottom of the Modal
-     */
-    public function withButtons(Button\Button ...$buttons): self;
-
-    /**
-     * Tells the Modal to close
-     */
-    public function withCloseModal(bool $flag): self;
-
-    /**
-     * Provides a shorthand to a Standard Button that closes the Modal when clicked.
-     * Use the Button in ::withButtons.
-     */
-    public function getCloseButton(string $label = 'Cancel'): Button\Standard;
 }

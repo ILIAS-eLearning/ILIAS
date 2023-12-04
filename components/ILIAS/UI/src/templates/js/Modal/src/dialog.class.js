@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export default class Modal {
+export default class Dialog {
   /**
    * @type {DOMParser}
    */

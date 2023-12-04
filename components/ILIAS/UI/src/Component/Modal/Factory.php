@@ -277,7 +277,7 @@ interface Factory
      *      It allows for dedicated changes to recurring parts of Dialogs,
      *      such as Title, Content or Buttons.
      *   composition: >
-     *      The Dialog Response renders specific sections to be handled by
+     *      The Dialog Response accepts Dialog Content to be handled by
      *      the Dialog Modal.
      *   effect: >
      *       The sections of the Dialog Response are rendered to their respective
@@ -292,7 +292,6 @@ interface Factory
      * @return \ILIAS\UI\Component\Modal\DialogResponse
      */
     public function dialogResponse(
-        string $title = '',
-        ?\ILIAS\UI\Component\Component ...$content
+        ?\ILIAS\UI\Component\DialogContent ...$content
     ): DialogResponse;
 }

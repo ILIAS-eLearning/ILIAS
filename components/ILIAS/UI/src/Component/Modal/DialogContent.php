@@ -21,8 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Modal;
 
 /**
- * Defines allowed content(parts) of a DialogModal
+ * Defines the allowed content of a DialogModal
  */
 interface DialogContent
 {
+    public function getDialogTitle(): string;
+    public function getDialogButtons(): array;
+    public function getContent(): string;
 }

@@ -72,12 +72,8 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-<<<<<<< HEAD:components/ILIAS/UI/src/Implementation/Component/Modal/Renderer.php
         $registry->register('./components/ILIAS/UI/src/templates/js/Modal/modal.js');
-=======
-        $registry->register('./src/UI/templates/js/Modal/modal.js');
-        $registry->register('./src/UI/templates/js/Modal/dist/modal.min.js');
->>>>>>> 562602f166e (UI/Modals: use dialog element for modal and introduce a Response Component):src/UI/Implementation/Component/Modal/Renderer.php
+        $registry->register('./components/ILIAS/UI/src/templates/js/Modal/dist/dialog.min.js');
     }
 
     protected function registerSignals(Component\Modal\Modal $modal): Component\JavaScriptBindable
