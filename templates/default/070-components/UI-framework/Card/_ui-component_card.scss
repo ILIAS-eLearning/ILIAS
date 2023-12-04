@@ -59,6 +59,7 @@ $il-card-border-radius: 0;
 	&.thumbnail{
 		margin-bottom: 0px;
 		font-size: $il-font-size-small;
+		border-radius: $il-border-radius-secondary-small;
 
 		&:focus-within .il-card-repository-head {
 			z-index: 400;
