@@ -51,6 +51,7 @@ class ilAdvancedMDSettingsGUI
     protected RequestInterface $request;
     protected GlobalHttpState $http;
     protected RefineryFactory $refinery;
+    protected ilDBInterface $db;
 
     protected ilTabsGUI $tabs_gui;
     protected UIFactory $ui_factory;
@@ -90,6 +91,7 @@ class ilAdvancedMDSettingsGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->http = $DIC->http();
+        $this->db = $DIC->database();
 
         /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
@@ -223,19 +225,6 @@ class ilAdvancedMDSettingsGUI
             );
         }
         return [];
-    }
-
-    protected function getTableOffsetFromPost(): int
-    {
-        // BT 35518: hacky solution for getting the table offset
-        if ($this->http->wrapper()->post()->has(ilAdvancedMDRecordTableGUI::ID . '_table_nav')) {
-            $nav = $this->http->wrapper()->post()->retrieve(
-                ilAdvancedMDRecordTableGUI::ID . '_table_nav',
-                $this->refinery->kindlyTo()->string()
-            );
-            return (int) explode(':', $nav)[2];
-        }
-        return 0;
     }
 
     /**
@@ -716,41 +705,49 @@ class ilAdvancedMDSettingsGUI
     {
         // sort positions and renumber
         $positions = $this->getPositionsFromPost();
-        asort($positions, SORT_NUMERIC);
+        $records = $this->getParsedRecordObjects();
+
+        $all_positions = $positions;
+        foreach ($records as $record) {
+            if (!array_key_exists($record['id'], $all_positions)) {
+                $all_positions[$record['id']] = $record['position'];
+            }
+        }
+        asort($all_positions, SORT_NUMERIC);
 
         $sorted_positions = [];
-        $i = 1 + $this->getTableOffsetFromPost();
-        foreach ($positions as $record_id => $pos) {
+        $i = 1;
+        foreach ($all_positions as $record_id => $pos) {
             $sorted_positions[(int) $record_id] = $i++;
         }
-        $selected_global = array();
+        $selected_global = [];
 
         $post_active = (array) ($this->http->request()->getParsedBody()['active'] ?? []);
         if ($this->obj_id > 0) {
             ilAdvancedMDRecord::deleteObjRecSelection($this->obj_id);
         }
-        foreach ($this->getParsedRecordObjects() as $item) {
+        foreach ($records as $item) {
             // BT 35518: this is kind of a hacky solution to skip items not in the table due to pagination
-            if (!array_key_exists($item['id'], $sorted_positions)) {
-                continue;
-            }
+            $is_on_page = array_key_exists($item['id'], $positions);
 
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
                 (string) $item['id'],
-                array(
-                    ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES
-                    )
-                )
+                [
+                    ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES
+                    ]
+                ]
             );
-
 
             $record_obj = ilAdvancedMDRecord::_getInstanceByRecordId($item['id']);
 
-            if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES]) {
+            if (
+                $perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES] &&
+                $is_on_page
+            ) {
                 $obj_types = array();
                 $post_object_types = (array) ($this->http->request()->getParsedBody()['obj_types'] ?? []);
                 if (is_array($post_object_types[$record_obj->getRecordId()] ?? false)) {
@@ -779,15 +776,19 @@ class ilAdvancedMDSettingsGUI
             }
 
             if ($this->context == self::CONTEXT_ADMINISTRATION) {
-                if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION]) {
+                if (
+                    $perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION] &&
+                    $is_on_page
+                ) {
                     $record_obj->setActive(isset($post_active[$record_obj->getRecordId()]));
                 }
 
-                if (isset($sorted_positions[$record_obj->getRecordId()])) {
-                    $record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
-                }
+                $record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
                 $record_obj->update();
-            } elseif ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION]) {
+            } elseif (
+                $perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION] &&
+                $is_on_page
+            ) {
                 // global, optional record
                 if ($item['readonly'] &&
                     $item['optional'] &&
@@ -802,17 +803,13 @@ class ilAdvancedMDSettingsGUI
 
             // save local sorting
             if ($this->context == self::CONTEXT_OBJECT) {
-                if (isset($sorted_positions[$item['id']])) {
-                    global $DIC;
-
-                    $local_position = new \ilAdvancedMDRecordObjectOrdering(
-                        $item['id'],
-                        $this->obj_id,
-                        $DIC->database()
-                    );
-                    $local_position->setPosition((int) $sorted_positions[$item['id']]);
-                    $local_position->save();
-                }
+                $local_position = new \ilAdvancedMDRecordObjectOrdering(
+                    $item['id'],
+                    $this->obj_id,
+                    $this->db
+                );
+                $local_position->setPosition((int) $sorted_positions[$item['id']]);
+                $local_position->save();
             }
         }
 
