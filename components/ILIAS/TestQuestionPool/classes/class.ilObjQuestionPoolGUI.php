@@ -53,7 +53,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 {
     private ilObjectCommonSettings $common_settings;
     private HttpRequest $http_request;
-    protected UIServices $ui;
     private QuestionInfoService $questioninfo;
     protected Service $taxonomy;
     public ?ilObject $object;
@@ -84,7 +83,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->component_factory = $DIC['component.factory'];
         $this->component_repository = $DIC['component.repository'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
-        $this->ui = $DIC->ui();
         $this->ui_service = $DIC->uiService();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->qplrequest = $DIC->testQuestionPool()->internal()->request();
@@ -1227,13 +1225,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         ilSession::set('test_id', '');
         $qsa_import_fails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
         if ($qsa_import_fails->failedImportsRegistered()) {
-            $button = $this->ui->factory()->button()->standard(
+            $button = $this->ui_factory->button()->standard(
                 $this->lng->txt('ass_skl_import_fails_remove_btn'),
                 $this->ctrl->getLinkTarget($this, 'renoveImportFails')
             );
             $this->tpl->setOnScreenMessage(
                 'failure',
-                $qsa_import_fails->getFailedImportsMessage($this->lng) . '<br />' . $this->ui->renderer()->render(
+                $qsa_import_fails->getFailedImportsMessage($this->lng) . '<br />' . $this->ui_renderer->render(
                     $button
                 )
             );
@@ -1243,20 +1241,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         if ($this->rbac_system->checkAccess('write', $this->qplrequest->getRefId())) {
             $toolbar = new ilToolbarGUI();
-            $btn = $this->ui->factory()->button()->primary(
+            $btn = $this->ui_factory->button()->primary(
                 $this->lng->txt('ass_create_question'),
                 $this->ctrl->getLinkTarget($this, 'createQuestionForm')
             );
             $toolbar->addComponent($btn);
 
-            $btn_import = $this->ui->factory()->button()->standard(
+            $btn_import = $this->ui_factory->button()->standard(
                 $this->lng->txt('import'),
                 $this->ctrl->getLinkTarget($this, 'importQuestions')
             );
             $toolbar->addComponent($btn_import);
 
             if (ilSession::get('qpl_clipboard') != null && count(ilSession::get('qpl_clipboard'))) {
-                $btn_paste = $this->ui->factory()->button()->standard(
+                $btn_paste = $this->ui_factory->button()->standard(
                     $this->lng->txt('paste'),
                     $this->ctrl->getLinkTarget($this, 'paste')
                 );
@@ -1351,25 +1349,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function printObject(): void
     {
-        $ilToolbar = $this->toolbar;
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'print'));
+        $this->ctrl->setParameter($this, 'output', 'overview');
+        $output_link = $this->ctrl->getLinkTarget($this, 'print');
+        $this->ctrl->setParameter($this, 'output', 'detailed_output_solutions');
+        $output_link_detailed = $this->ctrl->getLinkTarget($this, 'print');
+        $this->ctrl->setParameter($this, 'output', 'detailed_output_printview');
+        $output_link_printview = $this->ctrl->getLinkTarget($this, 'print');
 
-        $mode = new ilSelectInputGUI($this->lng->txt('output_mode'), 'output');
-        $mode->setOptions(
-            [
-                'overview' => $this->lng->txt('overview'),
-                'detailed' => $this->lng->txt('detailed_output_solutions'),
-                'detailed_printview' => $this->lng->txt('detailed_output_printview')
-            ]
-        );
+        $mode = $this->ui_factory->dropdown()->standard([
+            $this->ui_factory->button()->shy($this->lng->txt('overview'), $output_link),
+            $this->ui_factory->button()->shy($this->lng->txt('detailed_output_solutions'), $output_link_detailed),
+            $this->ui_factory->button()->shy($this->lng->txt('detailed_output_printview'), $output_link_printview)
+        ])->withLabel($this->lng->txt('output_mode'));
 
         $output = $this->qplrequest->raw('output') ?? '';
 
-        $mode->setValue(ilUtil::stripSlashes($output));
-
-        $ilToolbar->setFormName('printviewOptions');
-        $ilToolbar->addInputItem($mode, true);
-        $ilToolbar->addFormButton($this->lng->txt('submit'), 'print');
         $table_gui = new ilQuestionPoolPrintViewTableGUI($this, 'print', $output);
         $data = $this->object->getPrintviewQuestions();
         $totalPoints = 0;
@@ -1379,7 +1373,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table_gui->setTotalPoints($totalPoints);
         $table_gui->initColumns();
         $table_gui->setData($data);
-        $this->tpl->setContent($table_gui->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($mode) . $table_gui->getHTML());
     }
 
     public function updateObject(): void
@@ -1848,8 +1842,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     protected function getTable(): string
     {
-        $f = $this->ui->factory();
-        $r = $this->ui->renderer();
+        $f = $this->ui_factory;
+        $r = $this->ui_renderer;
 
         $table = new QuestionTable(
             $f,
