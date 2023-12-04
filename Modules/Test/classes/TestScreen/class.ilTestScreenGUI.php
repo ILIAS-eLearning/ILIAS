@@ -358,33 +358,32 @@ class ilTestScreenGUI
     {
         if ($result->isOK()) {
             $conditions_met = true;
+            $message = '';
             $access_settings_password = $this->main_settings->getAccessSettings()->getPassword();
             $anonymous = $this->user->isAnonymous();
             foreach ($result->value() as $key => $value) {
-                if (!$conditions_met) {
-                    break;
-                }
 
                 switch ($key) {
                     case 'exam_conditions':
                         $exam_conditions_value = (bool) $value;
-                        $conditions_met = $exam_conditions_value;
                         if (!$exam_conditions_value) {
-                            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_exam_conditions_not_checked_message'), true);
+                            $conditions_met = false;
+                            $message .= $this->lng->txt('tst_exam_conditions_not_checked_message') . '<br>';
                         }
                         break;
                     case 'exam_password':
                         $password = $value;
                         $exam_password_valid = ($password === $access_settings_password);
-                        $conditions_met = $exam_password_valid;
                         if (!$exam_password_valid) {
-                            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_exam_password_invalid_message'), true);
+                            $conditions_met = false;
+                            $message .= $this->lng->txt('tst_exam_password_invalid_message') . '<br>';
                         }
                         break;
                     case 'exam_access_code':
                         if ($anonymous && !empty($value)) {
                             $this->test_session->setAccessCodeToSession($value);
                         } else {
+                            $conditions_met = false;
                             $this->test_session->unsetAccessCodeInSession();
                         }
                         break;
@@ -392,6 +391,10 @@ class ilTestScreenGUI
                         $exam_use_previous_answers_value = (string) (int) $value;
                         break;
                 }
+            }
+
+            if ($message !== '') {
+                $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $message, true);
             }
 
             if (empty($result->value())) {
@@ -414,6 +417,8 @@ class ilTestScreenGUI
 
                 $this->ctrl->redirectByClass((new ilTestPlayerFactory($this->object))->getPlayerGUI()::class, ilTestPlayerCommands::INIT_TEST);
             }
+        } else {
+            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_exam_required_fields_not_filled_message'), true);
         }
     }
 
