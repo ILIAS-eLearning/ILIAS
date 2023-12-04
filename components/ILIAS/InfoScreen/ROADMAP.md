@@ -14,6 +14,10 @@
 
 Some components use the info screen as a starting screen into a workflow, e.g. the tests or surveys. This kind of use should be abandonded to make these workflows less dependent from the info screen, e.g. it should be possible to deactivate the info screen without disabling key features of components.
 
+### Remove interactive elements within the info section
+
+The core part of the info screen should not include any form-like elements. The content should be simplified to be ready for the KS transformation.
+
 ### Migrate to KS components
 
 The main layout of the info screen is rendered using a legacy template. This needs to be replaced by a KS component. Currently there is no suitable KS component, so this needs a UI concept first.

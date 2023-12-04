@@ -220,6 +220,9 @@ class ilInfoScreenGUI
         $this->section[$this->sec_nr]["hidden"] = $this->hidden;
     }
 
+    /**
+     * @deprecated
+     */
     public function setFormAction(string $a_form_action): void
     {
         $this->form_action = $a_form_action;
@@ -244,27 +247,6 @@ class ilInfoScreenGUI
                 "link" => $a_link);
     }
 
-    /**
-     * @deprecated
-     */
-    public function addPropertyCheckbox(
-        string $a_name,
-        string $a_checkbox_name,
-        string $a_checkbox_value,
-        string $a_checkbox_label = "",
-        bool $a_checkbox_checked = false
-    ): void {
-        $checkbox = "<input type=\"checkbox\" name=\"$a_checkbox_name\" value=\"$a_checkbox_value\" id=\"$a_checkbox_name$a_checkbox_value\"";
-        if ($a_checkbox_checked) {
-            $checkbox .= " checked=\"checked\"";
-        }
-        $checkbox .= " />";
-        if (strlen($a_checkbox_label)) {
-            $checkbox .= "&nbsp;<label for=\"$a_checkbox_name$a_checkbox_value\">$a_checkbox_label</label>";
-        }
-        $this->section[$this->sec_nr]["properties"][] =
-            array("name" => $a_name, "value" => $checkbox, "link" => "");
-    }
 
     /**
      * @deprecated
@@ -299,7 +281,7 @@ class ilInfoScreenGUI
     }
 
     /**
-     * @inheritDoc
+     * @deprecated
      */
     public function addButton(
         string $a_title,
