@@ -14947,6 +14947,10 @@ div.ilCOPGMediaPrint {
   padding: 0 15px;
 }
 
+#copg-table-top-actions .il-viewcontrol-mode {
+  margin-top: 12px;
+}
+
 .copg-edit-button-group {
   padding: 3px 15px;
 }
