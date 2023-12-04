@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Exercise\Assignment;
 
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
+use ILIAS\UI\Component\Button\Standard as StandardButton;
 
 class ItemBuilderUI
 {
@@ -89,7 +90,18 @@ class ItemBuilderUI
             $title
         )->withProperties($props)->withLeadText($pb->getLeadText() . " ");
         if (count($actions) > 0) {
-            $item = $item->withActions($this->ui_factory->dropdown()->standard($actions));
+            $ks_actions = [];
+            foreach ($actions as $act) {
+                if ($act instanceof StandardButton) {
+                    $ks_actions[] = $this->ui_factory->button()->shy(
+                        $act->getLabel(),
+                        $act->getAction()
+                    );
+                } else {
+                    $ks_actions[] = $act;
+                }
+            }
+            $item = $item->withActions($this->ui_factory->dropdown()->standard($ks_actions));
         }
         if ($main_action) {
             $item = $item->withMainAction($main_action);
