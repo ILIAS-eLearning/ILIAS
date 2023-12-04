@@ -74,7 +74,7 @@ class ItemBuilderUI
             }
         }
 
-        foreach ($pb->getSections() as $sec => $txt) {
+        foreach ($pb->getSections(true, true) as $sec => $txt) {
             foreach ($pb->getActions($sec) as $act) {
                 $actions[] = $act;
             }

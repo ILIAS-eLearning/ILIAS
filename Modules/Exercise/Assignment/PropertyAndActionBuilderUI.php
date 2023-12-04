@@ -38,6 +38,7 @@ class PropertyAndActionBuilderUI
     public const PROP_MARK = "mark";
 
     public const SEC_INSTRUCTIONS = "instructions";
+    public const SEC_INSTRUCTIONS_OV = "instructions_overview";
     public const SEC_FILES = "files";
     public const SEC_SCHEDULE = "schedule";
     public const SEC_TEAM = "team";
@@ -118,10 +119,13 @@ class PropertyAndActionBuilderUI
         $this->ass_builded = $ass->getId();
     }
 
-    public function getSections(bool $include_schedule = true): array
+    public function getSections(bool $include_schedule = true, bool $overview = false): array
     {
         $secs = [];
         $secs[self::SEC_INSTRUCTIONS] = $this->lng->txt("exc_instruction");
+        if ($overview) {
+            $secs[self::SEC_INSTRUCTIONS_OV] = "";
+        }
         if ($include_schedule) {
             $secs[self::SEC_SCHEDULE] = $this->lng->txt("exc_schedule");
         }
@@ -467,6 +471,14 @@ class PropertyAndActionBuilderUI
                 self::SEC_INSTRUCTIONS,
                 "",
                 $inst["instruction"]["value"]
+            );
+            $link = $this->gui->ui()->factory()->link()->standard(
+                $this->lng->txt("exc_show_instructions"),
+                $this->ctrl->getLinkTargetByClass(\ilAssignmentPresentationGUI::class, "")
+            );
+            $this->addAction(
+                self::SEC_INSTRUCTIONS_OV,
+                $link
             );
         }
     }

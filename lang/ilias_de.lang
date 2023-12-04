@@ -9481,6 +9481,7 @@ exc#:#exc_settings_feedback_mail#:#per Mail
 exc#:#exc_settings_feedback_mail_info#:#Rückmeldungen zur jeweiligen Abgabe werden in ein Mailformular eingegeben und von ILIAS versandt.
 exc#:#exc_settings_feedback_text#:#Texteingabe
 exc#:#exc_settings_feedback_text_info#:#Rückmeldungen zur jeweiligen Abgabe werden in ein Textfeld eingegeben und im Reiter „Übungseinheiten“ angezeigt. Zusätzlich erhalten Teilnehmerinnen und Teilnehmer eine Benachrichtigung per Mail.
+exc#:#exc_show_instructions#:#Arbeitsanweisung anzeigen
 exc#:#exc_show_peer_review#:#Peer-Feedback anzeigen
 exc#:#exc_show_submissions#:#Lösungsabgaben veröffentlichen
 exc#:#exc_show_submissions_info#:#Alle Lösungsabgaben einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
