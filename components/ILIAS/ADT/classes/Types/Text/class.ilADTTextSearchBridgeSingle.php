@@ -28,10 +28,20 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     public function addToForm(): void
     {
+        $this->addTextInputToForm(true);
+    }
+
+    public function addToFilterForm(): void
+    {
+        $this->addTextInputToForm(false);
+    }
+
+    protected function addTextInputToForm(bool $submit_on_enter): void
+    {
         $text = new ilTextInputGUI($this->getTitle(), $this->getElementId());
         $text->setSize(20);
         $text->setMaxLength(512);
-        $text->setSubmitFormOnEnter(true);
+        $text->setSubmitFormOnEnter($submit_on_enter);
 
         $text->setValue($this->getADT()->getText());
 
