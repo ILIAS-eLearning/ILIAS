@@ -9467,6 +9467,7 @@ exc#:#exc_settings_feedback_mail#:#By Mail
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
 exc#:#exc_settings_feedback_text#:#Text Input
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
+exc#:#exc_show_instructions#:#Show Work Instructions
 exc#:#exc_show_peer_review#:#Show Peer-Feedback
 exc#:#exc_show_submissions#:#Publish Submissions after Deadline
 exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.
