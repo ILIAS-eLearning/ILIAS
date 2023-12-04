@@ -45,23 +45,37 @@ function parameters()
                 ->keyValue((string)$idx, 'item' . $idx, 'some value');
             $out[] = $item;
         }
+
+        //this is cheating on the ModalContent ;)
+        $dialog_content = new class($out) implements DialogContent
+        {
+            public function __construct(
+                protected array $content
+            ) {}
+
+            public function getContent() {
+                return $this->content;
+            }
+            public function getDialogTitle() {
+                return 'This is a Simple Modal';
+            }
+            public function getDialogButtons() {
+                return [];
+            }
+        };
+
+        //wrap answer in Modal Response
+        $response = $factory->modal()->dialogResponse($dialog_content);
     }
 
-
-    //wrap answer in Modal Response
-    $response = $factory->modal()->dialogResponse(
-        'This is a Simple Modal',
-        ...$out
-    );
-
-
+/*
     if ($query->has($action_token->getName())) {
         //add a close-button to the Modal
         $response = $response->withButtons($response->getCloseButton('close this'));
         echo($renderer->renderAsync($response));
         exit();
     }
-
+*/
     if (!$query->has($endpointtoken->getName())) {
         $show_button = $factory->button()->standard('Show Simple Dialog', $modal->getShowSignal());
 

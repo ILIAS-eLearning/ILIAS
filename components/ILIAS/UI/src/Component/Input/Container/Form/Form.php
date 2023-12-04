@@ -25,11 +25,10 @@ use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Container;
 use ILIAS\UI\Component\Input\Input;
-use ILIAS\UI\Component\Modal\DialogContent;
 
 /**
  * This describes commonalities between all forms.
  */
-interface Form extends Container, DialogContent
+interface Form extends Container
 {
 }

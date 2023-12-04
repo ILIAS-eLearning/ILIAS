@@ -110,9 +110,8 @@ class Factory implements M\Factory
     }
 
     public function dialogResponse(
-        string $title = '',
-        ?\ILIAS\UI\Component\Component ...$content
+        ?\ILIAS\UI\Component\DialogContent ...$content
     ): DialogResponse {
-        return new DialogResponse($this->button_factory, $title, ...$content);
+        return new DialogResponse($this->button_factory, ...$content);
     }
 }

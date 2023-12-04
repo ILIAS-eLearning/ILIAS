@@ -22,9 +22,8 @@ namespace ILIAS\UI\Component\Listing;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Layout\Alignment\Block;
-use ILIAS\UI\Component\Modal\DialogContent;
 
-interface Listing extends Component, Block, DialogContent
+interface Listing extends Component, Block
 {
     /**
      * Sets the items to be listed
