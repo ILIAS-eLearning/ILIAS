@@ -504,6 +504,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                 $this->addHeaderAction();
                 $gui = new ilObjTestSettingsMainGUI(
+                    $this->tabs_gui,
                     $this->ctrl,
                     $this->access,
                     $this->lng,
