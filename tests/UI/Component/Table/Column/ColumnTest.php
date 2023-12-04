@@ -42,6 +42,7 @@ class ColumnTest extends ILIAS_UI_TestBase
         $this->assertTrue($col->isSortable());
         $this->assertFalse($col->withIsSortable(false)->isSortable());
         $this->assertTrue($col->withIsSortable(true)->isSortable());
+        $this->assertEquals([null, null], $col->getOrderingLabels());
 
         $this->assertFalse($col->isOptional());
         $this->assertTrue($col->withIsOptional(true)->isOptional());
@@ -176,6 +177,48 @@ class ColumnTest extends ILIAS_UI_TestBase
             $this->expectException(\InvalidArgumentException::class);
         }
         $this->assertEquals($value, $column->format($value));
+    }
+
+
+    public function testDataTableColumnLinkListingFormat(): void
+    {
+        $col = new Column\LinkListing('col');
+        $link = new Link\Standard('label', '#');
+        $linklisting = new Listing\Unordered([$link, $link, $link]);
+        $this->assertEquals($linklisting, $col->format($linklisting));
+    }
+
+    public function testDataTableColumnLinkListingFormatAcceptsOnlyLinkListings(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $col = new Column\LinkListing('col');
+        $linklisting_invalid = new Link\Standard('label', '#');
+        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
+    }
+
+    public function testDataTableColumnLinkListingItemsFormatAcceptsOnlyLinks(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $col = new Column\LinkListing('col');
+        $link = 'some string';
+        $linklisting_invalid = new Listing\Unordered([$link, $link, $link]);
+        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
+    }
+
+    public function testDataTableColumnCustomOrderingLabels(): void
+    {
+        $col = (new Column\LinkListing('col'))->withIsSortable(
+            true,
+            'custom label ASC',
+            'custom label DESC',
+        );
+        $this->assertEquals(
+            [
+                'custom label ASC',
+                'custom label DESC'
+            ],
+            $col->getOrderingLabels()
+        );
     }
 
 }

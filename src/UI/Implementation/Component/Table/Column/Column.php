@@ -33,6 +33,8 @@ abstract class Column implements C\Column
     protected bool $initially_visible = true;
     protected bool $highlighted = false;
     protected int $index;
+    protected ?string $asc_label = null;
+    protected ?string $desc_label = null;
 
     public function __construct(protected string $title)
     {
@@ -49,16 +51,29 @@ abstract class Column implements C\Column
         return array_pop($class);
     }
 
-    public function withIsSortable(bool $flag): self
-    {
+    public function withIsSortable(
+        bool $flag,
+        string $asc_label = null,
+        string $desc_label = null
+    ): self {
         $clone = clone $this;
         $clone->sortable = $flag;
+        $clone->asc_label = $asc_label;
+        $clone->desc_label = $desc_label;
         return $clone;
     }
 
     public function isSortable(): bool
     {
         return $this->sortable;
+    }
+
+    /**
+     * @return array<string|null>
+     */
+    public function getOrderingLabels(): array
+    {
+        return [$this->asc_label, $this->desc_label];
     }
 
     public function withIsOptional(bool $is_optional, bool $is_initially_visible = true): self

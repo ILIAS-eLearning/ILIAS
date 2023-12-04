@@ -46,9 +46,12 @@ class OrderOptionsBuilder
         $sort_options = [];
         foreach ($columns as $id => $col) {
             $title = $col->getTitle();
+            list($internal_label_asc, $internal_label_desc) = $col->getOrderingLabels();
             list($label_asc, $label_desc) = $this->getLabelsByColumn($col);
-            $sort_options[$title . ', ' . $label_asc] = $this->data_factory->order($id, 'ASC');
-            $sort_options[$title . ', ' . $label_desc] = $this->data_factory->order($id, 'DESC');
+            $asc = $internal_label_asc ?? $label_asc;
+            $desc = $internal_label_desc ?? $label_desc;
+            $sort_options[$title . ', ' . $asc] = $this->data_factory->order($id, 'ASC');
+            $sort_options[$title . ', ' . $desc] = $this->data_factory->order($id, 'DESC');
         }
         return $sort_options;
     }
