@@ -66,6 +66,7 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn('2018-09-10');
 
         $ilUtilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $ilUtilHelper->method('prepareFormOutput')
@@ -152,6 +153,7 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')

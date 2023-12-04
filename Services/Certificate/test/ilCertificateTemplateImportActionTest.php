@@ -48,6 +48,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->willReturn('crs');
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper
@@ -128,6 +129,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->willReturn('crs');
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper
@@ -197,6 +199,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper
@@ -262,6 +265,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper

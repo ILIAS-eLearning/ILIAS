@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Filesystem\Util\Convert\ImageConversionOptions;
 use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
 use ILIAS\Filesystem\Util\Convert\LegacyImages;
+use ILIAS\Filesystem\Filesystem;
 
 /**
  * Just a wrapper class to create Unit Test for other classes.
@@ -30,10 +31,15 @@ use ILIAS\Filesystem\Util\Convert\LegacyImages;
 class ilCertificateUtilHelper
 {
     private \ILIAS\Filesystem\Util\Convert\LegacyImages $image_converter;
+    private \ILIAS\Filesystem\Util\Archive\Archives $archives;
+    private \ILIAS\FileDelivery\Services $delivery;
 
     public function __construct()
     {
-        $this->image_converter = new LegacyImages();
+        global $DIC;
+        $this->image_converter = $DIC->fileConverters()->legacyImages();
+        $this->archives = $DIC->archives();
+        $this->delivery = $DIC->fileDelivery();
     }
 
     public function deliverData(string $data, string $fileName, string $mimeType): void
@@ -69,14 +75,12 @@ class ilCertificateUtilHelper
         return ilUtil::stripSlashes($string);
     }
 
-    public function zip(string $exportPath, string $zipPath): void
+    public function zipAndDeliver(array $streams, string $download_filename): void
     {
-        ilFileUtils::zip($exportPath, $zipPath);
-    }
-
-    public function deliverFile(string $zipPath, string $zipFileName, string $mime): void
-    {
-        ilFileDelivery::deliverFileLegacy($zipPath, $zipFileName, $mime);
+        $this->delivery->delivery()->attached(
+            $this->archives->zip($streams)->get(),
+            $download_filename
+        );
     }
 
     public function getDir(string $copyDirectory): array

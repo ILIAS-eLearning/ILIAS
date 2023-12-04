@@ -22,6 +22,7 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -65,32 +66,28 @@ class ilCertificateTemplateExportAction
 
         $exportPath = $this->certificatePath . $time . '__' . $installationId . '__' . $type . '__' . $certificateId . '__certificate/';
 
-        $this->filesystem->createDir($exportPath);
+        $streams = [];
 
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
-        $xslContent = $template->getCertificateContent();
-
-        $this->filesystem->put($exportPath . 'certificate.xml', $xslContent);
+        $streams['certificate.xml'] = Streams::ofString(
+            $template->getCertificateContent()
+        );
 
         $backgroundImagePath = $template->getBackgroundImagePath();
         if ($backgroundImagePath !== '' && $this->filesystem->has($backgroundImagePath)) {
-            $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
+            $streams['background.jpg'] = $this->filesystem->readStream($backgroundImagePath);
         }
 
         $thumbnailImagePath = $template->getThumbnailImagePath();
         if ($thumbnailImagePath !== '' && $this->filesystem->has($backgroundImagePath)) {
-            $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
+            $streams['thumbnail.svg'] = $this->filesystem->readStream($thumbnailImagePath);
         }
 
         $objectType = $this->objectHelper->lookupType($this->objectId);
 
         $zipFileName = $time . '__' . $installationId . '__' . $objectType . '__' . $this->objectId . '__certificate.zip';
 
-        $zipPath = $rootDir . $this->certificatePath . $zipFileName;
-        $this->utilHelper->zip($exportPath, $zipPath);
-        $this->filesystem->deleteDir($exportPath);
-
-        $this->utilHelper->deliverFile($zipPath, $zipFileName, 'application/zip');
+        $this->utilHelper->zipAndDeliver($streams, $zipFileName);
     }
 }

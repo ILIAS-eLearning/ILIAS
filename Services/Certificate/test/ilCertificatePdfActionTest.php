@@ -34,6 +34,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
             ->willReturn('Something');
 
         $ilUtilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $errorHandler = $this->getMockBuilder(ilErrorHandling::class)
@@ -66,6 +67,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
             ->willReturn('some_file_name.pdf');
 
         $ilUtilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $ilUtilHelper->method('deliverData')
@@ -104,6 +106,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
             ->willReturn('some_file_name.pdf');
 
         $ilUtilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $ilUtilHelper->method('deliverData')
