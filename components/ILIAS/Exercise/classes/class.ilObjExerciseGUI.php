@@ -75,7 +75,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         $lng->loadLanguageModule("exercise");
         $lng->loadLanguageModule("exc");
-        $this->ctrl->saveParameter($this, ["ass_id", "mode"]);
+        $this->ctrl->saveParameter($this, ["ass_id", "mode", "from_overview"]);
 
         $this->service = $DIC->exercise()->internal();
         $this->gui = $this->service->gui();
@@ -882,6 +882,7 @@ class ilObjExerciseGUI extends ilObjectGUI
      */
     public function showOverviewObject(): void
     {
+        $this->ctrl->setParameterByClass(self::class, "from_overview", "1");
         $user = $this->service->domain()->user();
         $toolbar = $this->service->gui()->toolbar();
         $tabs = $this->service->gui()->tabs();
@@ -968,6 +969,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         $this->tpl->setContent(
             $html
         );
+        $this->ctrl->setParameterByClass(self::class, "from_overview", null);
     }
 
     protected function getCurrentMode(): string

@@ -88,6 +88,7 @@ class ilAssignmentPresentationGUI
                 break;
 
             default:
+                $this->ctrl->setParameterByClass(ilObjExerciseGUI::class, "from_overview", null);
                 if (in_array($cmd, ["showAssignment"])) {
                     $this->$cmd();
                 }
@@ -107,7 +108,7 @@ class ilAssignmentPresentationGUI
     protected function setTabs(): void
     {
         $this->tabs->setBackTarget(
-            $this->lng->txt("back"),
+            $this->lng->txt("exc_assignment_list"),
             $this->ctrl->getLinkTargetByClass(ilObjExerciseGUI::class, "showOverview")
         );
         $ass = $this->ass_manager->get($this->ass_id);

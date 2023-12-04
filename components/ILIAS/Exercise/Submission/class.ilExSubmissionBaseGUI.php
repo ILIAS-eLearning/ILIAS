@@ -111,6 +111,9 @@ abstract class ilExSubmissionBaseGUI
 
     public function returnToParentObject(): void
     {
+        if ($this->request->getFromOverview()) {
+            $this->ctrl->redirectByClass(ilObjExerciseGUI::class, "showOverview");
+        }
         $this->ctrl->returnToParent($this);
     }
 

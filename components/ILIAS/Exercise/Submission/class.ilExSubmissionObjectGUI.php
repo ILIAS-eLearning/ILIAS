@@ -368,7 +368,11 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $this->submission->addResourceObject($node_id);
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_blog_created"), true);
-        $this->returnToParentObject();
+        $this->ctrl->setParameterByClass(ilObjBlogGUI::class, "wsp_id", $node_id);
+        $this->ctrl->redirectByClass(
+            [ilDashboardGUI::class, ilPersonalWorkspaceGUI::class, ilObjBlogGUI::class],
+            ""
+        );
     }
 
     /**
@@ -640,6 +644,35 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $this->submission->deleteResourceObject();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_portfolio_unlinked_from_assignment"), true);
+
+        $this->ctrl->redirect($this, "returnToParent");
+    }
+
+    protected function askUnlinkBlogObject(): void
+    {
+        $tpl = $this->tpl;
+
+        $conf = new ilConfirmationGUI();
+        $conf->setFormAction($this->ctrl->getFormAction($this, "unlinkBlog"));
+        $conf->setHeaderText($this->lng->txt("exc_sure_unlink_blog"));
+        $conf->setConfirm($this->lng->txt("confirm"), "unlinkBlog");
+        $conf->setCancel($this->lng->txt("cancel"), "returnToParent");
+
+        $submission = $this->submission->getSelectedObject();
+        $wstree = new ilWorkspaceTree($this->submission->getUserId());
+        $object_id = $wstree->lookupObjectId((int) $submission["filetitle"]);
+        $port = new ilObjBlog($object_id, false);
+
+        $conf->addItem("id[]", "", $port->getTitle(), ilUtil::getImagePath("standard/icon_blog.svg"));
+
+        $tpl->setContent($conf->getHTML());
+    }
+
+    protected function unlinkBlogObject(): void
+    {
+        $this->submission->deleteResourceObject();
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_blog_unlinked_from_assignment"), true);
 
         $this->ctrl->redirect($this, "returnToParent");
     }
