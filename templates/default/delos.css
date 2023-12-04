@@ -15497,6 +15497,7 @@ fieldset[disabled] .checkbox label {
 
 .ilFormFooter .ilFormCmds {
   text-align: right;
+  padding: 0;
 }
 
 /* jQuery ui autocomplete menu */
