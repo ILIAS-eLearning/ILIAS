@@ -28,7 +28,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     public const XML_SEPARATOR_TRANSLATIONS = "~|~";
     public const XML_SEPARATOR_TRANSLATION = '~+~';
 
-    protected int $max_length = 0;
+    protected ?int $max_length = null;
     protected bool $multi = false;
     protected bool $multilingual_value_support = true;
 
@@ -66,7 +66,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->getRecordId());
 
         $definition = ilADTFactory::getInstance()->getDefinitionInstanceByType(ilADTFactory::TYPE_LOCALIZED_TEXT);
-        $definition->setMaxLength($this->getMaxLength() ?? 0);
+        $definition->setMaxLength($this->getMaxLength());
         $definition->setActiveLanguages($field_translations->getActivatedLanguages($this->getFieldId(), true));
         $definition->setDefaultLanguage($field_translations->getDefaultLanguage());
         $definition->setMultilingualValueSupport($this->isMultilingualValueSupport());
@@ -84,23 +84,12 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         $this->multilingual_value_support = $multilingual_value_support;
     }
 
-    /**
-     * Set max length
-     * @param int $a_value
-     */
-    public function setMaxLength($a_value)
+    public function setMaxLength(?int $max_length)
     {
-        if ($a_value !== null) {
-            $a_value = (int) $a_value;
-        }
-        $this->max_length = (int) $a_value;
+        $this->max_length = $max_length;
     }
 
-    /**
-     * Get max length
-     * @return int
-     */
-    public function getMaxLength()
+    public function getMaxLength(): ?int
     {
         return $this->max_length;
     }
