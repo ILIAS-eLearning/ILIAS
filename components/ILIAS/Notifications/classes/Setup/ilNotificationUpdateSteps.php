@@ -176,7 +176,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
     {
         if (!$this->db->tableColumnExists('notification_osd', 'identification')) {
             $this->db->addTableColumn('notification_osd', 'identification', [
-                'type' => 'text',
+                'type' => ilDBConstants::T_TEXT,
                 'length' => 255,
                 'notnull' => true,
                 'default' => ''
@@ -189,9 +189,9 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
     public function step_11(): void
     {
         $this->db->insert('settings', [
-            'module' => ['text', 'notifications'],
-            'keyword' => ['text', 'enable_mail'],
-            'value' => ['text', '1']
+            'module' => [ilDBConstants::T_TEXT, 'notifications'],
+            'keyword' => [ilDBConstants::T_TEXT, 'enable_mail'],
+            'value' => [ilDBConstants::T_TEXT, '1']
         ]);
     }
 }
