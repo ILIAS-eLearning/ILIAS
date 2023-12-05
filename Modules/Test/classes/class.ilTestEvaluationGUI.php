@@ -1764,7 +1764,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->object->logAction($this->lng->txtlng("assessment", "log_deleted_pass", ilObjAssessmentFolder::_getLogLanguage()));
         }
 
-        $this->object->updateTestResultCache($active_fi);
+        $this->object->updateTestResultCache((int) $active_fi);
 
         $this->redirectToPassDeletionContext($context);
     }
