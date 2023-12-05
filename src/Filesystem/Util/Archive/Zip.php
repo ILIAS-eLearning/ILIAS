@@ -89,7 +89,15 @@ class Zip
 
     private function buildTempPath(): string
     {
-        return tempnam(sys_get_temp_dir(), 'zip');
+        $tempnam = tempnam(sys_get_temp_dir(), 'zip');
+        if (is_file($tempnam)) {
+            return $tempnam;
+        }
+        if (is_dir($tempnam)) {
+            rmdir($tempnam);
+            touch($tempnam);
+        }
+        return $tempnam;
     }
 
     private function registerShutdownFunction(\Closure $c): void
@@ -111,9 +119,11 @@ class Zip
             if ($path === 'php://memory') {
                 $this->zip->addFromString($path_inside_zip, (string) $stream);
                 $stream->close();
-            } else {
+            } elseif (is_file($path)) {
                 $this->zip->addFile($path, $path_inside_zip);
                 $stream->close();
+            } else {
+                continue;
             }
 
             if (
