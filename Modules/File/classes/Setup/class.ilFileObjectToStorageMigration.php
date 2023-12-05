@@ -71,6 +71,9 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             $irss_helper
         );
 
+        global $DIC;
+        $DIC['ilDB'] = $irss_helper->getDatabase(); // needed inside some method calls to ILIAS
+
         $storage_configuration = new LocalConfig($irss_helper->getClientDataDir());
         $f = new FlySystemFilesystemFactory();
 
