@@ -107,8 +107,11 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             if (!isset($data['osd']['enable_osd'])) {
                 global $DIC;
                 $DIC->notifications()->system()->clear('osd');
-                $settings->deleteAll();
                 $settings->set('enable_osd', '0');
+                $settings->delete('osd_interval');
+                $settings->delete('osd_vanish');
+                $settings->delete('osd_delay');
+                $settings->delete('osd_play_sound');
             } else {
                 $settings->set('enable_osd', '1');
                 $settings->set('osd_interval', ((string) $data['osd']['enable_osd']['osd_interval']));
