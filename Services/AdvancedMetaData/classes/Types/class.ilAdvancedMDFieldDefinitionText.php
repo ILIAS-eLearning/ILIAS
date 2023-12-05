@@ -207,7 +207,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = ''): void
     {
         $max = $a_form->getInput("max");
-        $this->setMaxLength(($max !== "") ? (int) $max : null);
+        $this->setMaxLength(($max !== "" && $max !== null) ? (int) $max : null);
         $this->setMulti($a_form->getInput("multi"));
         $this->setMultilingualValueSupport((bool) $a_form->getInput('multilingual'));
     }
