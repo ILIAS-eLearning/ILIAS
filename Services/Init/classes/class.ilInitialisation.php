@@ -1734,7 +1734,7 @@ class ilInitialisation
             $lang = "en";
             if ($ilUser) {
                 $lang = $ilUser->getLanguage();
-            } elseif ($_REQUEST["lang"]) {
+            } elseif (isset($_REQUEST["lang"])) {
                 $lang = (string) $_REQUEST["lang"];
             } elseif ($ilSetting) {
                 $lang = $ilSetting->get("language", '');
