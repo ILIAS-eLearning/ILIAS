@@ -4437,6 +4437,9 @@ hr.il-divider-with-label {
   background-color: white;
   color: #161616;
 }
+.il-standard-form .il-standard-form-footer {
+  padding-right: 12px;
+}
 .il-standard-form .il-standard-form-header + .il-section-input > .il-section-input-header {
   border-top: none;
 }
