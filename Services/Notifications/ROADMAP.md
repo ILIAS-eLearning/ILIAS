@@ -2,6 +2,9 @@
 
 ## Short Term
 
+Atm the notification mail channel is always acitvated and not configurable via UI.
+It should have its own checkbox within the notification administration.
+
 ### Refactoring
 
 * Get rid of time dependency in `\ILIAS\Notifications\Repository\ilNotificationOSDRepository`
