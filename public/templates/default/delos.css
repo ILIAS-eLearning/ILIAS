@@ -13099,6 +13099,12 @@ div.ilc_Page.readonly textarea[disabled] {
   vertical-align: top;
 }
 
+.ilc_question_MatchingQuestion #sourceArea {
+  height: fit-content;
+  position: sticky;
+  top: 40px;
+}
+
 #tst_output {
   display: flex;
 }
