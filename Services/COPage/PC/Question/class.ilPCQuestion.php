@@ -447,7 +447,7 @@ class ilPCQuestion extends ilPageContent
                     if ($q_id > 0) {
                         $question = null;
                         try {
-                            $question = assQuestion::_instantiateQuestion($q_id);
+                            $question = assQuestion::instantiateQuestion($q_id);
                         } catch (Exception $e) {
                         }
                         // check due to #16557
