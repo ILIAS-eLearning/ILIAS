@@ -555,6 +555,8 @@ a.nostyle:hover {
 }
 
 #ilPageEditLegend {
+	padding-left: $il-padding-xlarge-horizontal;
+	padding-right: $il-padding-xlarge-horizontal;
 	margin: 10px 0;
 	> div {
 		margin: 5px 0;
