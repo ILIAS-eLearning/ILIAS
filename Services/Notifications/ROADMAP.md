@@ -2,7 +2,8 @@
 
 ## Short Term
 
-### Refactoring
+Atm the notification mail channel is always acitvated and not configurable via UI.
+It should have its own checkbox within the notification administration.
 
 #### Update of Toast Interface
 
