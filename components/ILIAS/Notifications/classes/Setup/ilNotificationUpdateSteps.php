@@ -190,7 +190,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db->manipulateF(
             'DELETE FROM settings WHERE module = %s AND keyword = %s',
-            ['text', 'text'],
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
             ['notifications', 'enable_mail']
         );
         $this->db->insert('settings', [
