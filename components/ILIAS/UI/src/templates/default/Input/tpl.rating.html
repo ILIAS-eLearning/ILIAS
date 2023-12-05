@@ -5,11 +5,16 @@
 	</legend>
 	<!-- END txt -->
 	<div class="il-input-rating__stars" role="radiogroup">
+	
+		<div class="il-input-rating-none">
+			<label for="{NEUTRAL_ID}" aria-label="{NEUTRAL_LABEL}">{NEUTRAL_LABEL}</label>
+			<input aria-describedby="{DESCRIPTION_ID}" type="radio" id="{NEUTRAL_ID}" name="{NEUTRAL_NAME}" value="0" {DISABLED}{NEUTRAL_SELECTED}/>
+		</div>
 		<!-- BEGIN scaleoption -->
 		<input aria-describedby="{DESCRIPTION_ID}" type="radio" id="{OPT_ID}" name="{NAME}" value="{OPT_VALUE}" class="il-input-rating-scaleoption" {DISABLED}{SELECTED}/>
 		<label class="glyphicon-star il-input-rating-star" for="{OPT_ID}" aria-label="{ARIALABEL}"></label>
 		<!-- END scaleoption -->
 	</div>
-	<input aria-describedby="{RESET_DESCRIPTION_ID}" type="radio" id="{RESET_ID}" name="{RESET_NAME}" value="0" class="il-input-rating-scaleoption reset-option" {DISABLED}{RESET_SELECTED}/>
-	<label class="glyphicon-saltire il-input-rating-reset" for="{RESET_ID}" aria-label="{RESET_ARIALABEL}"></label>
+	
+
 </fieldset>

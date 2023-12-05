@@ -1071,16 +1071,16 @@ class Renderer extends AbstractComponentRenderer
             }
             $tpl->parseCurrentBlock();
         }
-        $tpl->setVariable('RESET_ID', $id . '-0');
-        $tpl->setVariable('RESET_NAME', $component->getName());
-        $tpl->setVariable('RESET_ARIALABEL', $this->txt('reset_stars'));
-        $tpl->setVariable('RESET_DESCRIPTION_ID', $aria_description_id);
+        $tpl->setVariable('NEUTRAL_ID', $id . '-0');
+        $tpl->setVariable('NEUTRAL_NAME', $component->getName());
+        $tpl->setVariable('NEUTRAL_LABEL', $this->txt('reset_stars'));
+        $tpl->setVariable('NEUTRAL_DESCRIPTION_ID', $aria_description_id);
 
         if ($component->getValue() === FiveStarRatingScale::NONE || is_null($component->getValue())) {
-            $tpl->setVariable('RESET_SELECTED', ' checked="checked"');
+            $tpl->setVariable('NEUTRAL_SELECTED', ' checked="checked"');
         }
 
-        if ($txt = $component->getQuestionText()) {
+        if ($txt = $component->getAdditionalText()) {
             $tpl->setVariable('TEXT', $txt);
         }
 

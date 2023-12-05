@@ -17033,7 +17033,7 @@ ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
 ui#:#presentation_table_collapse#:#alle minimieren
 ui#:#presentation_table_expand#:#alle zeigen
-ui#:#reset_stars#:#Bewertung zurücksetzen
+ui#:#reset_stars#:#neutral
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben

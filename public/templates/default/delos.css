@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/*
-* Dependencies
-*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -684,9 +681,8 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Normalize
-*/
-/* print less */
+* Dependencies
+*/ /* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -894,6 +890,9 @@ th {
   padding: 0;
 }
 
+/*
+* Normalize
+*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -2004,9 +2003,6 @@ th {
     display: none !important;
   }
 }
-/*
-* Elements
-*/
 * {
   box-sizing: border-box;
 }
@@ -2382,9 +2378,8 @@ code {
   }
 }
 /*
-* Components
+* Elements
 */
-/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -4427,10 +4422,6 @@ hr.il-divider-with-label {
   content: "☆";
 }
 
-.il-input-rating .glyphicon-saltire:before {
-  content: "☓";
-}
-
 .il-input-rating .il-input-rating-star {
   float: right;
   position: relative;
@@ -4441,11 +4432,13 @@ hr.il-divider-with-label {
   color: #e2e8ef;
 }
 
-.il-input-rating .il-input-rating-reset {
-  font-size: 120%;
-  margin-top: -8px;
-  font-weight: bold;
+.il-input-rating .il-input-rating-none {
+  float: right;
   color: #161616;
+  margin-left: 10px;
+}
+.il-input-rating .il-input-rating-none .none-option {
+  opacity: 100;
 }
 
 .il-input-rating .il-input-rating-scaleoption:checked ~ .il-input-rating-star {
@@ -4457,7 +4450,7 @@ hr.il-divider-with-label {
 .il-input-rating.disabled .il-input-rating-star:hover {
   color: #737373 !important;
 }
-.il-input-rating.disabled .il-input-rating-reset {
+.il-input-rating.disabled .il-input-rating-none {
   display: none;
 }
 
@@ -4467,42 +4460,20 @@ hr.il-divider-with-label {
 
 /* targets hovering in IE10+ */
 @media all and (hover), (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  .il-input-rating .il-input-rating-reset:hover,
   .il-input-rating .il-input-rating-star:hover,
   .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
     color: #3a4c65;
   }
-  /*
-  .il-input-rating:hover span.label,
-  .il-input-rating .il-input-rating-star:hover + span.label .il-input-rating-reset {
-    display: none;
-  }
-  .il-input-rating .il-input-rating-star:hover + span.label,
-  .il-input-rating span.label:hover {
-    display: block;
-  }
-  */
   .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
     display: block !important;
   }
 }
 /* targets hovering in FF and can't be combined with the query above */
 @-moz-document url-prefix() {
-  .il-input-rating .il-input-rating-reset:hover,
   .il-input-rating .il-input-rating-star:hover,
   .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
     color: #3a4c65;
   }
-  /*
-  .il-input-rating:hover span.label,
-  .il-input-rating .il-input-rating-star:hover + span.label .il-input-rating-reset {
-    display: none;
-  }
-  .il-input-rating .il-input-rating-star:hover + span.label,
-  .il-input-rating span.label:hover {
-    display: block;
-  }
-  */
   .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
     display: block !important;
   }
@@ -9594,7 +9565,6 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
-/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10287,7 +10257,6 @@ div.il_info {
   border-color: #dddddd;
 }
 
-/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -10915,7 +10884,6 @@ tbody.collapse.in {
   clip: auto;
 }
 
-/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -18608,6 +18576,13 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
+/*
+* Components
+*/
+/* UI Framework */
+/* Component parts from old delos.scss */
+/* Adapted from Bootstrap 3 */
+/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10

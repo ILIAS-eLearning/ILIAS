@@ -26,9 +26,6 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Custom\Transformation;
 use ILIAS\Data\FiveStarRatingScale;
 
-/**
- * This implements the Rating Input
- */
 class Rating extends FormInput implements C\Input\Field\Rating
 {
     protected ?string $text = null;
@@ -40,58 +37,46 @@ class Rating extends FormInput implements C\Input\Field\Rating
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation($this->getEnumTrafo());
+        $this->setAdditionalTransformation($this->getFiveStarRatingScaleTransformation());
     }
 
-    protected function getEnumTrafo(): Transformation
+    protected function getFiveStarRatingScaleTransformation(): Transformation
     {
         return $this->refinery->custom()->transformation(
             static function ($v): ?FiveStarRatingScale {
                 if(is_null($v) || $v instanceof FiveStarRatingScale) {
                     return $v;
                 }
-                if(is_string($v)) {
-                    $v = (int) $v;
-                    return FiveStarRatingScale::from($v);
-                }
+                return FiveStarRatingScale::from((int)$v);
             }
         );
     }
 
-    public function withQuestionText(?string $text): self
+    public function withAdditionalText(?string $text): static
     {
         $clone = clone $this;
         $clone->text = $text;
         return $clone;
     }
 
-    public function getQuestionText(): ?string
+    public function getAdditionalText(): ?string
     {
         return $this->text;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withValue($value): self
     {
         if(! $value instanceof FiveStarRatingScale) {
-            $value = $this->getEnumTrafo()->transform($value);
+            $value = $this->getFiveStarRatingScaleTransformation()->transform($value);
         }
         return parent::withValue($value);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isClientSideValueOk($value): bool
     {
         return is_null($value) || is_numeric($value) || $value instanceof FiveStarRatingScale;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getConstraintForRequirement(): ?Constraint
     {
         if ($this->requirement_constraint !== null) {
@@ -103,9 +88,6 @@ class Rating extends FormInput implements C\Input\Field\Rating
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUpdateOnLoadCode(): \Closure
     {
         return fn($id) => "$('#$id').on('input', function(event) {

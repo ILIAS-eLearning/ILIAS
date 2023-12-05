@@ -16,12 +16,12 @@ function base()
     $txt = "This allows for a preceding text and longer questions to ask.";
 
     $rating = $ui->input()->field()->rating("Rate with the Stars:", "change the rating")
-        ->withQuestionText($txt)
-        ->withValue(FiveStarRatingScale::OK);
+        ->withAdditionalText($txt)
+        ->withValue(FiveStarRatingScale::AVERAGE);
     $rating_required = $ui->input()->field()->rating("Rate with the Stars:", 'this is required')
         ->withRequired(true);
     $rating_disabled = $ui->input()->field()->rating("Rate with the Stars:", "this is disabled")
-        ->withValue(FiveStarRatingScale::LESS)
+        ->withValue(FiveStarRatingScale::BAD)
         ->withDisabled(true);
 
     $form = $ui->input()->container()->form()

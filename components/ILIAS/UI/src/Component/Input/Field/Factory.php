@@ -773,7 +773,7 @@ interface Factory
      *   effect: >
      *      When clicking a star it is highlighted as well as all prior/lower stars.
      *      The selection can be reset with a small "x" next to the input.
-     *      Values are fixed to 1-5 (and 0 for none) by the FiveStarRatingScale enum.
+     *      Values are fixed to 1-5 (and 0 for none) by the Five-Star Rating Scale enum.
      * context:
      *   - The Rating Input is used in UI-Forms.
      *
@@ -782,6 +782,15 @@ interface Factory
      *      1: >
      *        Label and Text for the Rating Input MUST suggest a scale where more
      *        stars express greater satisfaction/preference over less.
+     * accessibility:
+     *     1: >
+     *        Screenreaders MUST have a way of accessing
+     *          a) the currently selected option,
+     *          b) the amount of total options and
+     *          c) the control/option to reset the selection
+     *     2: >
+     *        The Rating Input MUST be operable by keyboard only.
+     *
      * ---
      * @param string      $label
      * @param string|null $byline

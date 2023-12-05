@@ -26,9 +26,9 @@ namespace ILIAS\Data;
 enum FiveStarRatingScale: int
 {
     case NONE = 0;
-    case BAD = 1;
-    case LESS = 2;
-    case OK = 3;
+    case TERRIBLE = 1;
+    case BAD = 2;
+    case AVERAGE = 3;
     case GOOD = 4;
-    case BEST = 5;
+    case EXCELLENT = 5;
 }
