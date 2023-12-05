@@ -23,12 +23,17 @@ function base()
     $rating_disabled = $ui->input()->field()->rating("Rate with the Stars:", "this is disabled")
         ->withValue(FiveStarRatingScale::BAD)
         ->withDisabled(true);
+    $rating_average = $ui->input()->field()->rating("Follow the Stars:", "the little line above shows the current average")
+        ->withValue(FiveStarRatingScale::TERRIBLE)
+        ->withCurrentAverage(3.5);
+
 
     $form = $ui->input()->container()->form()
         ->standard('#', [
             'rating_1' => $rating,
             'rating_2' => $rating_required,
-            'rating_3' => $rating_disabled
+            'rating_3' => $rating_disabled,
+            'rating_4' => $rating_average
         ]);
 
     if ($request->getMethod() == "POST") {

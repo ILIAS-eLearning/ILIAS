@@ -1087,6 +1087,14 @@ class Renderer extends AbstractComponentRenderer
         if ($component->isDisabled()) {
             $tpl->touchBlock('disabled');
         }
+        if ($average = $component->getCurrentAverage()) {
+
+            $average_title = sprintf($this->txt('rating_average'), $average);
+
+            $tpl->setVariable('AVERAGE_VALUE', $average_title);
+            $tpl->setVariable('AVERAGE_VALUE_PERCENT', $average / 5 * 100);
+        }
+
 
         return $this->wrapInFormContext($component, $tpl->get());
     }

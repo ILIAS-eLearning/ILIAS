@@ -31,5 +31,11 @@ interface Rating extends FormInput
      * This text is diplayed over the actual input/stars to describe the issue
      * to be rated (as opposed to the input's label, where there is less space).
      */
-    public function withAdditionalText(string $text): self;
+    public function withAdditionalText(string $text): static;
+
+    /**
+     * You may indicated an avarage value, e.g from former ratings.
+     * Give a value between 0 and 5.
+     */
+    public function withCurrentAverage(?float $current_average): static;
 }

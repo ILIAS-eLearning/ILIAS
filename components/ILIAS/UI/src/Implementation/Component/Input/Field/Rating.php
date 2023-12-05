@@ -29,6 +29,7 @@ use ILIAS\Data\FiveStarRatingScale;
 class Rating extends FormInput implements C\Input\Field\Rating
 {
     protected ?string $text = null;
+    protected ?float $current_average = null;
 
     public function __construct(
         DataFactory $data_factory,
@@ -95,4 +96,20 @@ class Rating extends FormInput implements C\Input\Field\Rating
             });
             il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
     }
+
+    public function withCurrentAverage(?float $current_average): static
+    {
+        if($current_average < 0 || $current_average > 5) {
+            throw new \InvalidArgumentException('current_average must be between 0 and 5');
+        }
+        $clone = clone $this;
+        $clone->current_average = $current_average;
+        return $clone;
+    }
+
+    public function getCurrentAverage(): ?float
+    {
+        return $this->current_average;
+    }
+
 }

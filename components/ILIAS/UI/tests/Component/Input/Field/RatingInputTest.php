@@ -81,25 +81,27 @@ class RatingInputTest extends ILIAS_UI_TestBase
                     <fieldset class="input-group il-input-rating" id="id_1">
                         <legend class="il-input-rating__text" id="id_1_desc"></legend>
                         <div class="il-input-rating__stars" role="radiogroup">
-                            <div class="il-input-rating-none">
+
+                            <div class="il-input-rating__options">
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" />
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5stars"></label>
+
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" />
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4stars"></label>
+
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" />
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3stars"></label>
+
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" />
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2stars"></label>
+
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" />
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1stars"></label>
+                            </div>
+                            <div class="il-input-rating__none">
                                 <label for="id_1-0" aria-label="reset_stars">reset_stars</label>
                                 <input aria-describedby="" type="radio" id="id_1-0" name="name_0" value="0" checked="checked"/>
                             </div>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" />
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5stars"></label>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" />
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4stars"></label>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" />
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3stars"></label>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" />
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2stars"></label>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" />
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1stars"></label>
                         </div>
                     </fieldset>
 
@@ -116,7 +118,8 @@ class RatingInputTest extends ILIAS_UI_TestBase
         $rating = $this->buildRating()
             ->withAdditionalText('question text')
             ->withDisabled(true)
-            ->withValue(FiveStarRatingScale::GOOD);
+            ->withValue(FiveStarRatingScale::GOOD)
+            ->withCurrentAverage(3);
 
         $expected = $this->brutallyTrimHTML(
             '<div class="form-group row">
@@ -124,29 +127,37 @@ class RatingInputTest extends ILIAS_UI_TestBase
                 <div class="col-sm-8 col-md-9 col-lg-10">
 
                     <fieldset class="input-group il-input-rating disabled" id="id_1">
-                        
                         <legend class="il-input-rating__text" id="id_1_desc">question text</legend>
-                        
+
                         <div class="il-input-rating__stars" role="radiogroup">
-                            <div class="il-input-rating-none">
+
+                            <div class="il-input-rating__options" title="rating_average">
+
+                                <div class="il-input-rating__average">
+                                    <div class="il-input-rating__average_value" style="width:60%;"></div>
+                                </div>
+
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" disabled="disabled"/>
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5stars"></label>
+
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" disabled="disabled" checked="checked"/>
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4stars"></label>
+
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" disabled="disabled"/>
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3stars"></label>
+
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" disabled="disabled"/>
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2stars"></label>
+
+                                <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" disabled="disabled"/>
+                                <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1stars"></label>
+                            </div>
+                        
+                            <div class="il-input-rating__none">
                                 <label for="id_1-0" aria-label="reset_stars">reset_stars</label>
                                 <input aria-describedby="" type="radio" id="id_1-0" name="name_0" value="0" />
                             </div>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" disabled="disabled"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5stars"></label>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" disabled="disabled" checked="checked"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4stars"></label>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" disabled="disabled"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3stars"></label>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" disabled="disabled"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2stars"></label>
-
-                            <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" disabled="disabled"/>
-                            <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1stars"></label>
+                        
                         </div>
                     </fieldset>
 
@@ -157,4 +168,19 @@ class RatingInputTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($expected, $this->brutallyTrimHTML($r->render($rating)));
     }
+
+    public function testRatingAverage(): void
+    {
+        $rating = $this->buildRating();
+        $this->assertNull($rating->getCurrentAverage());
+        $this->assertEquals(2.1, $rating->withCurrentAverage(2.1)->getCurrentAverage());
+    }
+
+    public function testRatingAverageException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $rating = $this->buildRating()->withCurrentAverage(7);
+    }
+
+
 }
