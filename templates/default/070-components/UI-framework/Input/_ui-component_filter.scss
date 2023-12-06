@@ -222,3 +222,6 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		width: $il-standard-filter-add-input-popover-list-button-width;
 	}
 }
+.il-popover-container {
+	position: relative !important;
+}
