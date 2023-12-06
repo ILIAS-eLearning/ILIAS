@@ -784,8 +784,9 @@ class ilPageObjectGUI
     {
         $xml = "";
         if ($this->getOutputMode() == "edit") {
+            $type = ilObject::_lookupType($this->getPageObject()->getId());
             foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
-                if ($plugin->isValidParentType($this->getPageObject()->getParentType())) {
+                if ($plugin->isValidParentType($type)) {
                     $xml .= '<ComponentPlugin Name="' . $plugin->getPluginName() .
                         '" InsertText="' . $plugin->txt(ilPageComponentPlugin::TXT_CMD_INSERT) . '" />';
                 }

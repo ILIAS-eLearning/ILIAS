@@ -23,6 +23,7 @@ use ILIAS\COPage\Editor\Server;
 use ILIAS\COPage\Editor\Components\Paragraph\ParagraphStyleSelector;
 use ILIAS\COPage\Editor\Components\Section\SectionStyleSelector;
 use ILIAS\COPage\Editor\Components\MediaObject\MediaObjectStyleSelector;
+use ilObject;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -143,9 +144,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         }
 
         // plugins
+        $type = ilObject::_lookupType($this->page_gui->getPageObject()->getId());
         foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
-            $commands["plug_" . $plugin->getPluginName()] =
-                $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
+            if ($plugin->isValidParentType($type)) {
+                $commands["plug_" . $plugin->getPluginName()] = $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
+            }
         }
         return $commands;
     }
