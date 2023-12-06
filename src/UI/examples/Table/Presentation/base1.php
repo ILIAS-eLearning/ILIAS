@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Table\Presentation;
 
 /**
- * You can also leave out "further fields", add one or more Blocks and Layouts
- * to the content of the row and add an leading image.
+ * You can also leave out "further fields" and use alignments instead,
+ * add one or more Blocks and Layouts to the content of the row and add an leading image.
  */
 function base1()
 {
     global $DIC;
-    $f = $DIC->ui()->factory();
+    $ui_factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $tpl = $DIC['tpl'];
+    $tpl->addCss('src/UI/examples/Table/Presentation/presentation_alignment_example.css');
 
     $actions = array("Alle" => "#", "Mehr als 5 Antworten" => "#");
     $aria_label = "filter entries";
     $view_controls = array(
-        $f->viewControl()->mode($actions, $aria_label)->withActive("Alle")
+        $ui_factory->viewControl()->mode($actions, $aria_label)->withActive("Alle")
     );
 
     $mapping_closure = function ($row, $record, $ui_factory, $environment) {
@@ -35,20 +37,25 @@ function base1()
             )
         )
         ->withContent(
-            $ui_factory->listing()->descriptive([
-                'Werte' => $environment['totals']($record['answers']),
-                'Beantwortet: ' => (string)$record['stats']['total'],
-                'Übersprungen' => (string)$record['stats']['skipped'],
-                'Häufigste Antwort: ' => $record['answers'][$record['stats']['most_common']]['title'],
-                'Anzahl Häufigste: ' => (string)$record['stats']['most_common_total'],
-                'Median: ' => $record['answers'][$record['stats']['median']]['title']
-            ])
+            $ui_factory->layout()->alignment()->horizontal()->dynamicallyDistributed(
+                $ui_factory->layout()->alignment()->vertical(
+                    $ui_factory->listing()->descriptive([
+                        'Werte' => $environment['totals']($record['answers'])
+                    ]),
+                    $ui_factory->listing()->descriptive([
+                        'Chart' => $environment['chart']($record['answers'])
+                    ])
+                ),
+                $ui_factory->listing()->descriptive([
+                    '' => $environment['stats']($record)
+                ])
+            )
         )
         ->withAction($ui_factory->button()->standard('zur Frage', '#'));
     };
 
-    $ptable = $f->table()->presentation(
-        'Presentation Table', //title
+    $ptable = $ui_factory->table()->presentation(
+        'Presentation Table with Alignments', //title
         $view_controls,
         $mapping_closure
     )
@@ -64,7 +71,7 @@ function base1()
 function environment()
 {
     $totals = function ($answers) {
-        $ret = '<table>';
+        $ret = '<div class="example_block content"><table>';
         $ret .= '<tr><td></td>'
             . '<td>Amount</td>'
             . '<td style="padding-left: 10px;">Proportion</td></tr>';
@@ -77,13 +84,12 @@ function environment()
                 . '</tr>';
         }
 
-        $ret .= '</table><br>';
+        $ret .= '</table></div>';
         return $ret;
     };
 
-
     $chart = function ($answers) {
-        $ret = '<table style="width:350px">';
+        $ret = '<div class="example_block content"><table style="width:100%">';
         foreach ($answers as $answer) {
             $ret .= '<tr style="border-bottom: 1px solid black;">'
                 . '<td style="width: 200px;">'
@@ -92,13 +98,37 @@ function environment()
                 . '<div style="background-color:grey; height:20px; width:' . $answer['proportion'] . '%;"></div>'
                 . '</td></tr>';
         }
-        $ret .= '</table>';
+        $ret .= '</table></div>';
         return $ret;
     };
 
-    return  array(
+    $stats = function ($answers) {
+        global $DIC;
+        $ui_factory = $DIC->ui()->factory();
+        $ui_renderer = $DIC->ui()->renderer();
+
+        $icon = $ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_ques.svg', '');
+
+        $ret = '<div class="example_block stats">';
+        $ret .= '<h5>' . $ui_renderer->render($icon) . ' ' . $answers['type'] . '</h5>';
+        $ret .= '<span class="c-stats--title">Beantwortet:</span> '
+            . $answers['stats']['total'] . '<br>'
+            . '<span class="c-stats--title">Übersprungen:</span> '
+            . $answers['stats']['skipped'] . '<br>'
+            . '<span class="c-stats--title">Häufigste Antwort:</span> '
+            . $answers['answers'][$answers['stats']['most_common']]['title'] . '<br>'
+            . '<span class="c-stats--title">Anzahl Häufigste:</span> '
+            . $answers['stats']['most_common_total'] . '<br>'
+            . '<span class="c-stats--title">Median:</span> '
+            . $answers['answers'][$answers['stats']['median']]['title'];
+        $ret .= '</div>';
+        return $ret;
+    };
+
+    return array(
         'totals' => $totals,
-        'chart' => $chart
+        'chart' => $chart,
+        'stats' => $stats
     );
 }
 
