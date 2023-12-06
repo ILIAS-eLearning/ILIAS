@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 /**
  * Builds the links to join/(re-)start the LearningSequence.
@@ -35,44 +34,23 @@ class ilLSLaunchlinksBuilder
     public const CMD_VIEW = ilObjLearningSequenceLearnerGUI::CMD_VIEW;
     public const CMD_UNSUBSCRIBE = ilObjLearningSequenceLearnerGUI::CMD_UNSUBSCRIBE;
 
-    protected ilLanguage $lng;
-    protected ilAccess $access;
-    protected ilCtrl $ctrl;
-    protected ILIAS\UI\Factory $ui_factory;
-    protected int $lso_ref_id;
-    protected int $usr_id;
-    protected $first_access;
-    protected ilLearningSequenceRoles $roles;
-    protected ilLSLearnerItemsQueries $ls_items;
-
     public function __construct(
-        ilLanguage $language,
-        ilAccess $access,
-        ilCtrl $ctrl,
-        ILIAS\UI\Factory $ui_factory,
-        int $lso_ref_id,
-        int $usr_id,
-        $first_access,
-        ilLearningSequenceRoles $roles,
-        ilLSLearnerItemsQueries $ls_items
+        protected ilLanguage $lng,
+        protected ilAccess $access,
+        protected ilCtrl $ctrl,
+        protected ILIAS\UI\Factory $ui_factory,
+        protected int $lso_ref_id,
+        protected int $usr_id,
+        protected $first_access,
+        protected ilLearningSequenceRoles $roles,
+        protected ilLSLearnerItemsQueries $ls_items
     ) {
-        $this->lng = $language;
-        $this->access = $access;
-        $this->ctrl = $ctrl;
-        $this->ui_factory = $ui_factory;
-
-        $this->lso_ref_id = $lso_ref_id;
-        $this->usr_id = $usr_id;
-        $this->first_access = $first_access;
-        $this->roles = $roles;
-        $this->ls_items = $ls_items;
     }
 
     protected function mayJoin(): bool
     {
         return $this->access->checkAccess(self::PERM_PARTICIPATE, '', $this->lso_ref_id);
     }
-
 
     public function currentUserMayUnparticipate(): bool
     {
@@ -165,8 +143,12 @@ class ilLSLaunchlinksBuilder
     {
         $buttons = [];
         foreach ($this->getLinks() as $idx => $entry) {
-            list($label, $link) = $entry;
-            $buttons[] = $this->ui_factory->button()->standard($label, $link);
+            list($label, $link, $primary) = $entry;
+            if ($primary) {
+                $buttons[] = $this->ui_factory->button()->primary($label, $link);
+            } else {
+                $buttons[] = $this->ui_factory->button()->standard($label, $link);
+            }
         }
         return $buttons;
     }

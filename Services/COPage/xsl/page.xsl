@@ -4362,7 +4362,7 @@
 <xsl:template match="Launcher">
 	<xsl:if test="$mode = 'edit'">
 		<div class="copg-content-placeholder-lso-startbutton il-lso-startbutton-container">
-			<button class="btn btn-default">Start Learning Sequence</button>
+			<button class="btn btn-primary">Start Learning Sequence</button>
 		</div>
 	</xsl:if>
 	<xsl:if test="$mode != 'edit'">
