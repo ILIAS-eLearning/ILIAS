@@ -736,11 +736,17 @@ class ilGlossaryPresentationGUI
     
             $ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $this->term_id);
             if (ilGlossaryTerm::_lookGlossaryID($this->term_id) == $this->glossary->getId()) {
-                $ilTabs->addNonTabbedLink(
-                    "editing_view",
-                    $lng->txt("glo_editing_view"),
-                    $ilCtrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui", "ilglossarytermgui"), "listDefinitions")
-                );
+                if ($this->access->checkAccess("write", "", (int) $this->requested_ref_id) ||
+                    $this->access->checkAccess("edit_content", "", (int) $this->requested_ref_id)) {
+                    $ilTabs->addNonTabbedLink(
+                        "editing_view",
+                        $lng->txt("glo_editing_view"),
+                        $ilCtrl->getLinkTargetByClass(array("ilglossaryeditorgui",
+                                                            "ilobjglossarygui",
+                                                            "ilglossarytermgui"
+                        ), "listDefinitions")
+                    );
+                }
                 //"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$this->requested_ref_id."&amp;edit_term=".$this->term_id);
             }
             $ilTabs->activateTab($a_act);
