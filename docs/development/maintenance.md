@@ -31,18 +31,18 @@ code also assume the responsibility for the corresponding functions.
 
 For the context of ILIAS, we define **four** different authorities:
 
-1. **Authority to Sign off Code Changes**The people listed here are
+1. **Authority to Sign off Conceptual Changes**: The people listed here are
+authorised to contribute directly to the code base of the ILIAS core. They are
+authorised to commit directly to the codebase of the ILIAS core and to merge
+Pull Requests. They are the ones deciding on the structure and quality of the
+code of a component.
+2. **Authority to Sign off Code Changes**The people listed here are
 authorised to decide on the future course of the component. Depending on the
 social organisation, this decision is taken collectively or individually. In any
 case a close coordination with the people holding *the Authority to Sign off
 Conceptual Changes* will be necessary. The people listed here are authorized to
 set the checked and attendance flag for features to be discussed at the Jour Fixe.
 They should be contacted first for changes to the functionality of a component.
-2. **Authority to Sign off Conceptual Changes**: The people listed here are
-authorised to contribute directly to the code base of the ILIAS core. They are
-authorised to commit directly to the codebase of the ILIAS core and to merge
-Pull Requests. They are the ones deciding on the structure and quality of the
-code of a component.
 3. **Authority to Curate Test Cases**: The people listed here are
 authorised to modify and delete existing test cases. They also have the final
 say on new test cases and can ask for modifications. They will be the ones
@@ -83,8 +83,8 @@ to make sure all issues receive a response within the defined time frame and are
 either fixed in a timely manner or postponed/closed with a solid explanation.
 * The people holding the **Authority to Sign off Code Changes** are responsible
 for pull requests to their component and get assigned related pull requests
-by the Technical Board according to the [Rules for Maintainers and Coordinators
-assigned to PRs](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#rules-for-maintainers-assigned-to-prs).
+according to the [Rules for Maintainers and Coordinators
+assigned to PRs](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#rules-for-community-members-assigned-to-prs).
 * The person/people holding the **Authority to (De-)Assign Authorities**
 coordinate assignments of authorities with the Product Manager and the Technical
 Board, who hold a vetoing power over these decisions.
@@ -110,12 +110,12 @@ Authorities are tracked in `maintenance.json` files placed in the root of the
 corresponding [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md)
 of ILIAS. The file contains the following fields:
 
-* **"Authority to Sign off Code Changes"**:
-    An array in the form [ `<username> (<userid>), <company> (<company_page>)` ]
-    pointing to valid users/companies on https://docu.ilias.de.
 * **"Authority to Sign off Conceptual Changes"**:
     An array in the form [ `<username> (<userid>, <company> (<company_page>)` ]
     pointing to valid users on https://docu.ilias.de.
+* **"Authority to Sign off Code Changes"**:
+    An array in the form [ `<username> (<userid>), <company> (<company_page>)` ]
+    pointing to valid users/companies on https://docu.ilias.de.
 * **"Authority to Sign off Testcase Changes"**:
     An array in the form [ `<username> (<userid>), <company> (<company_page>)` ]
     pointing to valid users on https://docu.ilias.de.
@@ -128,7 +128,7 @@ of ILIAS. The file contains the following fields:
 * **"testcase_writer"**:
     An array in the form [ `<username> (<userid>), <company> (<company_page>)` ]
     pointing to valid users on https://docu.ilias.de.
-* **"Units-pecific Guidelines, Rules, and Regulations"**:
+* **"Unit-specific Guidelines, Rules, and Regulations"**:
     Link to a file `COMMUNITY.md` in the root of the unity in the trunk branch on
     GitHub specifying the guidelines, rules, and regulations for collaboration.
 
@@ -137,8 +137,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ActiveRecord)
 
 * **ActiveRecord**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Authority to Sign off Conceptual Changes: [[fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes:[fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -150,9 +150,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Administration)
 
 * **Administration**
-	* Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
         , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
@@ -164,8 +164,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN AdministrativeNotifications)
 
 * **Administrative Notifications**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -176,8 +176,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN BackgroundTasks)
 
 * **BackgroundTasks**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -188,8 +188,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Badges)
 
 * **Badges**
-    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
@@ -200,8 +200,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN BibliographicListItem)
 
 * **Bibliographic List Item**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
@@ -212,8 +212,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Blog)
 
 * **Blog**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [PaBer](https://docu.ilias.de/goto_docu_usr_33766.html)
@@ -224,9 +224,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN BookingTool)
 
 * **Booking Tool**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off Testcase Changes: [e.coroian](https://docu.ilias.de/goto_docu_usr_37215.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [wolfganghuebsch](https://docu.ilias.de/goto_docu_usr_18455.html)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
@@ -236,9 +236,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Calendar)
 
 * **Calendar**
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
         , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
@@ -249,9 +249,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CategoryAndRepository)
 
 * **Category and Repository**
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
         ,  [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
@@ -262,8 +262,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Certificate)
 
 * **Certificate**
-    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [m-gregory-m](https://docu.ilias.de/goto_docu_usr_51332.html)
@@ -274,9 +274,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Chat)
 
 * **Chat**
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
         , [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
-    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
@@ -287,8 +287,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN cmi5AndxAPIObject)
 
 * **cmi5/xAPI Object**
-    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to Sign off Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)v
     * Authority to Sign off Testcase Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to (De-)Assign Authoritiees: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
 	* Tester: [EMok](https://docu.ilias.de/goto_docu_usr_80682.html)
@@ -298,8 +298,8 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (BEGIN Comments)
 * **Comments**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
@@ -310,9 +310,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CompetenceManagement)
 
 * **Competence Management**
+    * Authority to Sign off Conceptual Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
     * Authority to Sign off Code Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
         , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off Conceptual Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
     * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
     * Authority to (De-)Assign Authoritiees: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
 	* Tester: [ioanna.mitroulaki](https://docu.ilias.de/goto_docu_usr_72564.html)
@@ -323,9 +323,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Component)
 
 * **Component**
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
         ,  [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
@@ -336,8 +336,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Contacts)
 
 * **Contacts**
-    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -348,8 +348,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ContentPage)
 
 * **ContentPage**
-    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -360,9 +360,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CourseManagement)
 
 * **Course Management**
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
         , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [lauener](https://docu.ilias.de/goto_docu_usr_8474.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [lauener](https://docu.ilias.de/goto_docu_usr_8474.html)
@@ -374,8 +374,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CronService)
 
 * **Cron Service**
-    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
@@ -386,8 +386,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CSSAndTemplates)
 
 * **CSS / Templates**
-    * Authority to Sign off Code Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
     * Authority to Sign off Conceptual Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Code Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
     * Authority to Sign off Testcase Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
     * Authority to (De-)Assign Authoritiees: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
@@ -398,11 +398,11 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Dashboard)
 
 * **Dashboard**
+    * Authority to Sign off Conceptual Changes: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
+        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
     * Authority to Sign off Code Changes: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
         , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
         , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off Conceptual Changes: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
-        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
         , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
@@ -414,8 +414,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Data)
 
 * **Data**
-    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -426,9 +426,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN DataCollection)
 
 * **Data Collection**
-    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
-        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
     * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
+        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
         , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
     * Authority to Sign off Testcase Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
         , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
@@ -453,9 +453,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Database)
 
 * **Database**
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
         , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -466,8 +466,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN DidacticTemplates)
 
 * **Didactic Templates**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
@@ -478,8 +478,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ECSInterface)
 
 * **ECS Interface**
-    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
     * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
     * Authority to Sign off Testcase Changes: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/goto_docu_grp_7893.html)
     * Authority to (De-)Assign Authoritiees: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* Tester: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/goto_docu_grp_7893.html)
@@ -490,9 +490,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN EmployeeTalk)
 
 * **EmployeeTalk**
+    * Authority to Sign off Conceptual Changes: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
     * Authority to Sign off Code Changes: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
         , [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-    * Authority to Sign off Conceptual Changes: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
     * Authority to Sign off Testcase Changes: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
     * Authority to (De-)Assign Authoritiees: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
@@ -503,8 +503,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Exercise)
 
 * **Exercise**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [miriamwegener](https://docu.ilias.de/goto_docu_usr_23051.html)
@@ -515,8 +515,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Export)
 
 * **Export**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
@@ -527,8 +527,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Favourites)
 
 * **Favourites**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -539,9 +539,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN File)
 
 * **File**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off Testcase Changes: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: Heinz Winter, CaT
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
@@ -551,13 +551,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Forum)
 
 * **Forum**
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
         , [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
-    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: FH Aachen
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [e.coroian](https://docu.ilias.de/goto_docu_usr_37215.html)
-        , [anna.s.vogel](https://docu.ilias.de/goto_docu_usr_71954.html)
+	* Tester:[anna.s.vogel](https://docu.ilias.de/goto_docu_usr_71954.html)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Forum)
@@ -565,8 +564,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN GeneralKiosk-Mode)
 
 * **General Kiosk-Mode**
-    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -577,8 +576,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN GlobalCache)
 
 * **GlobalCache**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -589,8 +588,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN GlobalScreen)
 
 * **GlobalScreen**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -601,9 +600,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Glossary)
 
 * **Glossary**
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
         , [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
@@ -614,9 +613,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Group)
 
 * **Group**
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
         , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
@@ -627,8 +626,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN HTTP-Request)
 
 * **HTTP-Request**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -639,8 +638,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ILIASPageEditor)
 
 * **ILIAS Page Editor**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: FH Aachen
@@ -651,8 +650,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN IndividualAssessment)
 
 * **IndividualAssessment**
-    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -663,9 +662,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN InfoPage)
 
 * **Info Page**
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
         , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
@@ -676,9 +675,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN InitialisationService)
 
 * **Initialisation Service**
+    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
     * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
         , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
     * Authority to Sign off Testcase Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
     * Authority to (De-)Assign Authoritiees: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -689,8 +688,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ItemGroup)
 
 * **ItemGroup**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
@@ -701,9 +700,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LanguageHandling)
 
 * **Language Handling**
+    * Authority to Sign off Conceptual Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to Sign off Code Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
         , [katrin.grosskopf](https://docu.ilias.de/goto_docu_usr_68340.html)
-    * Authority to Sign off Conceptual Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
@@ -714,8 +713,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningHistory)
 
 * **Learning History**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
@@ -726,8 +725,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningModuleHTML)
 
 * **Learning Module HTML**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -738,8 +737,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningModuleILIAS)
 
 * **Learning Module ILIAS**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [Balliel](https://docu.ilias.de/goto_docu_usr_18365.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [Balliel](https://docu.ilias.de/goto_docu_usr_18365.html)
@@ -750,8 +749,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningModuleSCORM)
 
 * **Learning Module SCORM**
-    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to Sign off Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to Sign off Testcase Changes: n.n., Qualitus
     * Authority to (De-)Assign Authoritiees: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
 	* Tester: n.n., Qualitus
@@ -762,9 +761,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningSequence)
 
 * **Learning Sequence**
-    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off Testcase Changes: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [mglaubitz](https://docu.ilias.de/goto_docu_usr_28309.html)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
@@ -785,9 +784,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Like)
 
 * **Like**
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
         , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -798,8 +797,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Logging)
 
 * **Logging**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -810,9 +809,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LoginAuthAndRegistration)
 
 * **Login, Auth & Registration**
-    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
         , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
         , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
@@ -828,9 +827,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LTI)
 
 * **LTI**
+    * Authority to Sign off Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
         , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to Sign off Testcase Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to (De-)Assign Authoritiees: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
 	* Tester: [stv](https://docu.ilias.de/goto_docu_usr_45359.html)
@@ -841,8 +840,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LTIConsumer)
 
 * **LTI Consumer**
-    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to Sign off Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to Sign off Testcase Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
     * Authority to (De-)Assign Authoritiees: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
 	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
@@ -853,9 +852,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Mail)
 
 * **Mail**
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
         , [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
-    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: Till Lennart Vogt/Test-Team OWL
@@ -866,8 +865,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MainMenu)
 
 * **MainMenu**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
@@ -878,8 +877,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Maps)
 
 * **Maps**
-    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
@@ -890,8 +889,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MathJax)
 
 * **MathJax**
-    * Authority to Sign off Code Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
     * Authority to Sign off Conceptual Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
+    * Authority to Sign off Code Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
     * Authority to Sign off Testcase Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
     * Authority to (De-)Assign Authoritiees: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
 	* Tester: [resi](https://docu.ilias.de/goto_docu_usr_72790.html)
@@ -902,8 +901,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MediaObjects)
 
 * **Media Objects**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
@@ -914,8 +913,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MediaPool)
 
 * **Media Pool**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
@@ -926,8 +925,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MediaCast)
 
 * **MediaCast**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
@@ -938,8 +937,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Membership)
 
 * **Membership**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -950,9 +949,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Metadata)
 
 * **Metadata**
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
         , [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [daniela.weber](https://docu.ilias.de/goto_docu_usr_40672.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [daniela.weber](https://docu.ilias.de/goto_docu_usr_40672.html)
@@ -963,8 +962,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN News)
 
 * **News**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
@@ -975,8 +974,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN NotesAndComments)
 
 * **Notes and Comments**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
@@ -987,9 +986,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Notifications)
 
 * **Notifications**
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
         , [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
-    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1000,8 +999,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ObjectService)
 
 * **Object Service**
-    * Authority to Sign off Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
     * Authority to Sign off Conceptual Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
     * Authority to Sign off Testcase Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
     * Authority to (De-)Assign Authoritiees: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1012,9 +1011,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN OnlineHelp)
 
 * **Online Help**
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
         , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
@@ -1025,8 +1024,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN OpenIdConect)
 
 * **Open ID Connect**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1037,9 +1036,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN OrganisationalUnits)
 
 * **Organisational Units**
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
         , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Testcase Changes: [wischniak](https://docu.ilias.de/goto_docu_usr_21896.html)
     * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
@@ -1047,23 +1046,11 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END OrganisationalUnits)
 
-[//]: # (BEGIN PDF)
-
-* **PDF**
-    * Authority to Sign off Code Changes: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
-    * Authority to Sign off Conceptual Changes: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
-    * Authority to Sign off Testcase Changes: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
-    * Authority to (De-)Assign Authoritiees: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
-
-[//]: # (END PDF)
-
 [//]: # (BEGIN PersonalAndSharedResources)
 
 * **Personal and Shared Resources**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
@@ -1074,9 +1061,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Poll)
 
 * **Poll**
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
         , [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [Qndrs](https://docu.ilias.de/goto_docu_usr_42611.html)
@@ -1087,8 +1074,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Portfolio)
 
 * **Portfolio**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [KlausVorkauf](https://docu.ilias.de/goto_docu_usr_5890.html)
@@ -1099,8 +1086,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN PreconditionHandling)
 
 * **Precondition Handling**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [mkloes](https://docu.ilias.de/goto_docu_usr_22174.html)
@@ -1111,8 +1098,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Rating)
 
 * **Rating**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
@@ -1123,8 +1110,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN RBAC)
 
 * **RBAC / Access Control**
-    * Authority to Sign off Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
     * Authority to Sign off Conceptual Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
@@ -1135,9 +1122,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Refinery)
 
 * **Refinery**
-    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
@@ -1151,8 +1138,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN SAML)
 
 * **SAML**
-    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: Alexander Grundkötter, Qualitus
@@ -1163,8 +1150,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Search)
 
 * **Search**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [Qndrs](https://docu.ilias.de/goto_docu_usr_42611.html)
@@ -1175,8 +1162,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Session)
 
 * **Session**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
@@ -1187,8 +1174,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Setup)
 
 * **Setup**
-    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
@@ -1199,8 +1186,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ShibbolethAuthentication)
 
 * **Shibboleth Authentication**
-    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
@@ -1211,9 +1198,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Staff)
 
 * **Staff**
+    * Authority to Sign off Conceptual Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
     * Authority to Sign off Code Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
         , [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-    * Authority to Sign off Conceptual Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
     * Authority to Sign off Testcase Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
     * Authority to (De-)Assign Authoritiees: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
@@ -1224,8 +1211,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN StatisticsAndLearningProgress)
 
 * **Statistics and Learning Progress**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [suittenpointner](https://docu.ilias.de/goto_docu_usr_3458.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [suittenpointner](https://docu.ilias.de/goto_docu_usr_3458.html)
@@ -1236,9 +1223,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN StudyProgramme)
 
 * **Study Programme**
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
         , [shecken](https://docu.ilias.de/goto_docu_usr_45419.html)
-    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
     * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: Florence Seydoux, s+r
@@ -1249,8 +1236,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Survey)
 
 * **Survey**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
@@ -1261,8 +1248,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN SystemCheck)
 
 * **System Check**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1273,8 +1260,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Tagging)
 
 * **Tagging**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
@@ -1285,8 +1272,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Tasks)
 
 * **Tasks**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1297,8 +1284,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Taxonomy)
 
 * **Taxonomy**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: Tested separately in each module that supports taxonomies
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: Tested separately in each module that supports taxonomies
@@ -1309,9 +1296,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN TermsOfService)
 
 * **Terms of Services**
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html),
         [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
     * Authority to Sign off Testcase Changes: Stefania Akgül (CaT)
     * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: Heinz Winter (CaT)
@@ -1322,33 +1309,29 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN TestAndAssessment)
 
 * **Test & Assessment**
+	* Authority to Sign off Conceptual Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
     * Authority to Sign off Code Changes: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
         , [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* Authority to Sign off Conceptual Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
     * Authority to Sign off Testcase Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
     * Authority to (De-)Assign Authoritiees: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* Testcases: SIG E-Assessment
-	* Tester: Stefania Akgül (CaT), Stefanie Allmendinger (FAU)
-	  , [dehling](https://docu.ilias.de/goto_docu_usr_12725.html)
-          , [simon.lowe](https://docu.ilias.de/goto_docu_usr_79091.html)
-	  , [rabah](https://docu.ilias.de/goto_docu_usr_40218.html)
+	* Tester: [dehling](https://docu.ilias.de/goto_docu_usr_12725.html)
+        , Nadja Pfaffeicher
+        , [ksgrie](https://docu.ilias.de/goto_docu_usr_95947.html)
+        , [simon.lowe](https://docu.ilias.de/goto_docu_usr_79091.html)
+        , [rabah](https://docu.ilias.de/goto_docu_usr_40218.html)
+        , Testteam Uni Hohenheim
+        , Testteam Kröpelin
 
 [//]: # (END TestAndAssessment)
 
 [//]: # (BEGIN Tree)
 
 * **Tree**
-<<<<<<< HEAD
-    * Authority to Sign off Code Changes: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
     * Authority to Sign off Conceptual Changes: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+    * Authority to Sign off Code Changes: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
     * Authority to Sign off Testcase Changes: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
     * Authority to (De-)Assign Authoritiees: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-=======
-    * Authority to Sign off Code Changes: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-    * Authority to Sign off Conceptual Changes: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-    * Authority to Sign off Testcase Changes: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-    * Authority to (De-)Assign Authoritiees: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
->>>>>>> 69935403a01 (Docs: More Clean-Up in Maintenance.md)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
@@ -1357,8 +1340,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN UserService)
 
 * **User Service**
-    * Authority to Sign off Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
     * Authority to Sign off Conceptual Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
     * Authority to Sign off Testcase Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
     * Authority to (De-)Assign Authoritiees: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
@@ -1369,9 +1352,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN UICore)
 
 * **UICore**
+    * Authority to Sign off Conceptual Changes: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
     * Authority to Sign off Code Changes: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
         , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off Conceptual Changes: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
     * Authority to Sign off Testcase Changes: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
     * Authority to (De-)Assign Authoritiees: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
 	* Tester: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1382,10 +1365,10 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN UI-Service)
 
 * **UI-Service**
-    * Authority to Sign off Code Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Conceptual Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
       , [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-    * Authority to Sign off Conceptual Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Code Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
       , [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
     * Authority to Sign off Testcase Changes: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
@@ -1400,8 +1383,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN VirusScanner)
 
 * **Virus Scanner**
-    * Authority to Sign off Code Changes: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
     * Authority to Sign off Conceptual Changes: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
+    * Authority to Sign off Code Changes: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
     * Authority to Sign off Testcase Changes: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
     * Authority to (De-)Assign Authoritiees: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1412,9 +1395,9 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebAccessChecker)
 
 * **Web Access Checker**
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
         , [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Authority to Sign off Testcase Changes: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
     * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
@@ -1425,8 +1408,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebFeed)
 
 * **Web Feed**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
@@ -1437,8 +1420,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebDAV)
 
 * **WebDAV**
-    * Authority to Sign of Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
 	* Authority to Sign of Conceptual Changes: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
+    * Authority to Sign of Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
     * Authority to Sign of Testcase Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_70029.html)
     * Authority to (De-)Assign Authoritiees: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
 	* Testcases: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
@@ -1449,8 +1432,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Weblink)
 
 * **Weblink**
-    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
     * Authority to Sign off Testcase Changes: [nadine.bauser](https://docu.ilias.de/goto_docu_usr_34662.html)
     * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [nadine.bauser](https://docu.ilias.de/goto_docu_usr_34662.html)
@@ -1461,8 +1444,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Webservices)
 
 * **Webservices**
-    * Authority to Sign off Code Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
     * Authority to Sign off Conceptual Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
+    * Authority to Sign off Code Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
     * Authority to Sign off Testcase Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
     * Authority to (De-)Assign Authoritiees: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1473,8 +1456,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WhoIsOnline)
 
 * **Who is online?**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
@@ -1485,8 +1468,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Wiki)
 
 * **Wiki**
-    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
     * Authority to Sign off Testcase Changes: n.n., Uni Köln
     * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: n.n., Uni Köln
@@ -1497,8 +1480,8 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN xAPIAndcmi5)
 
 * **xAPI/cmi5**
-    * Authority to Sign off Code Changes: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
     * Authority to Sign off Conceptual Changes: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
+    * Authority to Sign off Code Changes: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
     * Authority to Sign off Testcase Changes: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
     * Authority to (De-)Assign Authoritiees: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)

@@ -8,9 +8,9 @@
 1. [How to contribute?](#how-to-contribute)
    1. [Pull Request to the Repositories](#pull-request-to-the-repositories)
       1. [Rules for Contributors](#rules-for-contributors)
-      1. [Rules for Maintainers assigned to PRs](#rules-for-maintainers-assigned-to-prs)
+      1. [List of Labels?](#list-of-labels)
+      1. [Rules for Community Members assigned to PRs](#rules-for-community-members-assigned-to-prs)
    1. [Want to Contribute Something else than Commits?](#want-to-contribute-something-else-than-commits)
-1. [List of Labels?](#list-of-labels)
 
 <!-- /MarkdownTOC -->
 
@@ -39,9 +39,9 @@ mail to the [Technical Board of the ILIAS society](mailto:tb@lists.ilias.de).
 <a name="pull-request-to-the-repositories"></a>
 ### Pull Request to the Repositories
 
-Pull requests (PRs) will be assigned by the [Technical Board
+Pull requests (PRs) without assignee will be assigned by the [Technical Board
 (TB)](https://docu.ilias.de/goto.php?target=grp_5089&client_id=docu) to the
-appropriate maintainer. The TB will also help to resolve problems with PRs and
+appropriate community member. The TB will also help to resolve problems with PRs and
 associated processes, if you require mediation, please write a comment mentioning
 via the Technical Board (`@ILIAS-eLearning/technical-board`) in the discussion
 of the PR.
@@ -69,7 +69,7 @@ code please make sure:
   reviewers as well
 * that your commit follows the [ILIAS coding
   guidelines](https://docu.ilias.de/goto_docu_pg_202_42.html) - this is a
-  bare minimun when it comes to style that we require for new code
+  bare minimum when it comes to style that we require for new code
 * you don't introduce new code violations which could have been easily found by
   importing and running our
   [PhpStorm PHP Inspection Profile](./inspection-configs/php-storm-php-inspections.xml)
@@ -91,7 +91,7 @@ summary with "WIP -"" for these kind of PRs to prevent them from being merged
 accidentally.
 
 <a name="list-of-labels"></a>
-## List of Labels
+#### List of Labels
 
 Currently, the following labels are used for Pull-Requests. These labels will
 be assigned by the Technical Board or Maintainers:
@@ -100,19 +100,23 @@ be assigned by the Technical Board or Maintainers:
 |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | bugfix          | PRs with the label `bugfix` propose a solution for a reported bug in the official Bugtracker https://mantis.ilias.de                                                      |
 | improvement     | The label `improvement` is used for PRs which propose a general improvement of code or documentation which is not related to a bug.                                       |
+| dependencies    | The label `dependecies` is used for PRs which propose new or updated dependencies. Please don't forget to also add the label `jour fixe`, when proposing new dependencies.|
+| documentation   | The label `documentation` has to be assigned to PRs adding or updating documentation.                                                                                     |
 | roadmap         | The label `roadmap` is assigned to PRs that contain strategical or tactical discussions of technical topics regarding the future of a component.                          |
+| php             | The label `php` has to be set for PRs changing PHP code.                                                                                                                  |
+| javascript      | The label `javascript` has to be set for PRs changing Javascript code.                                                                                                    |
 | jour fixe       | PRs which should be discussed during the next Jour Fixe are labeled with this `jour fixe`. Please set this label at least 2 days before the envisaged date of Jour Fixe.  |
 | kitchen sink    | All contributions to the Kitchen Sink Project are labeled accordingly.                                                                                                    |
 | technical board | This label is given for PRs which will be discussed in a meeting of the Technical Board. The label will be removed after the discussion.                                  |
 
-<a name="rules-for-maintainers-assigned-to-prs"></a>
+<a name="rules-for-community-members-assigned-to-prs"></a>
 #### Rules for Community Members assigned to PRs
 
 As an FOSS community, we should be glad that people want to contribute code to
 our project as this reflects usage of our project. To show this when handling
 PRs, please make sure
 
-* that you react to every PR assigned to you by the TB within 21 days - at least
+* that you react to every PR assigned to you within 21 days - at least
   with a thank you and a target date if your schedule is tight
 * that you give at least a brief statement why you close a PR if you reject one
 * that you merge the changes in the PR in other branches if required
