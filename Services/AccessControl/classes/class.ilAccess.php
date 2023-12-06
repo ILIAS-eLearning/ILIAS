@@ -651,7 +651,7 @@ class ilAccess implements ilAccessHandler
         }
 
         // if current permission is visible or leave and visible is set in activation
-        if ($a_permission === 'visible' || $a_permission === 'leave'
+        if (($a_permission === 'visible' || $a_permission === 'leave')
             && $item_data['visible']) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
