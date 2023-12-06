@@ -199,7 +199,7 @@ class ilExAssignmentMemberStatus
     {
         return array(
             "notice" => array("text", $this->getNotice())
-            ,"returned" => array("integer", $this->getReturned())
+            ,"returned" => array("integer", (int) $this->getReturned())
             ,"solved" => array("integer", $this->getSolved())
             ,"status_time" => array("timestamp", $this->getStatusTime())
             ,"sent" => array("integer", $this->getSent())
