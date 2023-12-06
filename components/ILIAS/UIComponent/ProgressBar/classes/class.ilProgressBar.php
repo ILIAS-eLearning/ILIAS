@@ -106,7 +106,7 @@ class ilProgressBar
 
     public function setCurrent(float $a_value): void
     {
-        $this->current = abs($a_value);
+        $this->current = (int) abs($a_value);
     }
 
     public function setAsyncStatusUrl(string $a_target): void
