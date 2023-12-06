@@ -19,7 +19,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -45,7 +45,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -99,7 +99,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -124,7 +124,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -170,7 +170,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);			
 		</Query>
@@ -195,7 +195,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);	
 		</Query>
@@ -241,7 +241,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);			
 		</Query>
@@ -266,7 +266,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);	
 		</Query>
@@ -312,7 +312,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);				
 		</Query>
@@ -337,7 +337,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);				
 		</Query>
@@ -383,7 +383,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);				
 		</Query>
@@ -408,7 +408,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);				
 		</Query>
@@ -454,7 +454,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -481,7 +481,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -531,7 +531,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -556,7 +556,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
