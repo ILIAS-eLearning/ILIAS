@@ -51,7 +51,8 @@
 		"league/commonmark": "^2.4",
 		"ramsey/uuid": "^4.4.0",
 		"geshi/geshi": "^1.0.9.1",
-		"james-heinrich/getid3": "^1.9.23"
+		"james-heinrich/getid3": "^1.9.23",
+		"mustache/mustache": "^2.14"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -212,6 +213,16 @@
 		"phpunit/phpunit" : {
 			"source" : "https://phpunit.de",
 			"used_version" : "v10.5",
+			"wrapped_by" : "",
+			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"mustache/mustache" : {
+			"source" : "https://github.com/bobthecow/mustache.php",
+			"used_version" : "v2.14",
 			"wrapped_by" : "",
 			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"last_update" : "",
