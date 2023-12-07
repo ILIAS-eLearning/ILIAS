@@ -55,7 +55,8 @@
 		"mustache/mustache": "^2.14",
 		"ifsnop/mysqldump-php": "^2.10",
 		"seld/jsonlint": "^1.10",
-		"symfony/console": "^7.0"
+		"symfony/console": "^7.0",
+		"pimple/pimple": "^3.0"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -256,6 +257,16 @@
 		"symfony/console" : {
 			"source" : "https://github.com/symfony/console",
 			"used_version" : "v7.0",
+			"wrapped_by" : "",
+			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"pimple/pimple" : {
+			"source" : "https://github.com/silexphp/Pimple",
+			"used_version" : "v3.0",
 			"wrapped_by" : "",
 			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"last_update" : "",
