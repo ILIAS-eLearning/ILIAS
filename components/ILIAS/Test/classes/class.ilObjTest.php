@@ -429,24 +429,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             );
 
             $this->test_id = $next_id;
-
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $this->logAction($this->lng->txtlng("assessment", "log_create_new_test", ilObjAssessmentFolder::_getLogLanguage()));
-            }
         } else {
-            // Modify existing dataset
-            $oldrow = [];
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $result = $this->db->queryF(
-                    "SELECT * FROM tst_tests WHERE test_id = %s",
-                    ['integer'],
-                    [$this->test_id]
-                );
-                if ($result->numRows() == 1) {
-                    $oldrow = $this->db->fetchAssoc($result);
-                }
-            }
-
             $this->db->update(
                 'tst_tests',
                 [
@@ -458,27 +441,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ]
             );
 
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $logresult = $this->db->queryF(
-                    "SELECT * FROM tst_tests WHERE test_id = %s",
-                    ['integer'],
-                    [$this->getTestId()]
-                );
-                $newrow = [];
-                if ($logresult->numRows() == 1) {
-                    $newrow = $this->db->fetchAssoc($logresult);
-                }
-                $changed_fields = [];
-                foreach ($oldrow as $key => $value) {
-                    if ($oldrow[$key] !== $newrow[$key]) {
-                        array_push($changed_fields, "$key: " . $oldrow[$key] . " => " . $newrow[$key]);
-                    }
-                }
-                $changes = join(", ", $changed_fields);
-                if (count($changed_fields) > 0) {
-                    $this->logAction($this->lng->txtlng("assessment", "log_modified_test", ilObjAssessmentFolder::_getLogLanguage()) . " [" . $changes . "]");
-                }
-            }
             if ($this->evalTotalPersons() > 0) {
                 // reset the finished status of participants if the nr of test passes did change
                 if ($this->getNrOfTries() > 0) {
@@ -545,19 +507,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function saveQuestionsToDb(): void
     {
-        $oldquestions = [];
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $result = $this->db->queryF(
-                "SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-                ['integer'],
-                [$this->getTestId()]
-            );
-            if ($result->numRows() > 0) {
-                while ($row = $this->db->fetchAssoc($result)) {
-                    array_push($oldquestions, $row["question_fi"]);
-                }
-            }
-        }
         // workaround for lost obligations
         // this method is called if a question is removed
         $currentQuestionsObligationsQuery = 'SELECT question_fi, obligatory FROM tst_test_question WHERE test_fi = %s';
@@ -588,34 +537,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 'obligatory' => ['integer', $obligatoryQuestionState[$value]],
                 'tstamp' => ['integer', time()]
             ]);
-        }
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $result = $this->db->queryF(
-                "SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-                ['integer'],
-                [$this->getTestId()]
-            );
-            $newquestions = [];
-            if ($result->numRows() > 0) {
-                while ($row = $this->db->fetchAssoc($result)) {
-                    array_push($newquestions, $row["question_fi"]);
-                }
-            }
-            foreach ($oldquestions as $index => $question_id) {
-                if (!isset($newquestions[$index]) || $newquestions[$index] !== $question_id) {
-                    $pos = array_search($question_id, $newquestions);
-                    if ($pos === false) {
-                        $this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
-                    } else {
-                        $this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($index + 1) . " => " . ($pos + 1), $question_id);
-                    }
-                }
-            }
-            foreach ($newquestions as $index => $question_id) {
-                if (array_search($question_id, $oldquestions) === false) {
-                    $this->logAction($this->lng->txtlng("assessment", "log_question_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($index + 1), $question_id);
-                }
-            }
         }
     }
 
@@ -1112,12 +1033,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         try {
             $question = self::_instanciateQuestion($question_id);
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $this->logAction(
-                    $this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()),
-                    $question_id
-                );
-            }
             $question->delete($question_id);
         } catch (InvalidArgumentException $e) {
             $this->log->error($e->getMessage());
@@ -1202,10 +1117,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             if (@is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id")) {
                 ilFileUtils::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
             }
-
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
-            }
         }
 
         ilAssQuestionHintTracking::deleteRequestsByActiveIds($activeIds);
@@ -1253,9 +1164,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ['integer','integer'],
                 [$data->sequence - 1, $data->test_question_id]
             );
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence - 1), $question_id);
-            }
         }
         $this->loadQuestions();
     }
@@ -1296,9 +1204,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ['integer','integer'],
                 [$data->sequence + 1, $data->test_question_id]
             );
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $this->logAction($this->lng->txtlng("assessment", "log_question_position_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . ($data->sequence) . " => " . ($data->sequence + 1), $question_id);
-            }
         }
         $this->loadQuestions();
     }
@@ -1351,11 +1256,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ['integer', 'integer','integer','integer','integer'],
             [$next_id, $this->getTestId(), $duplicate_id, $sequence, time()]
         );
-        if ($affectedRows == 1) {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $this->logAction($this->lng->txtlng("assessment", "log_question_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " . $sequence, $duplicate_id);
-            }
-        }
         // remove test_active entries, because test has changed
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM tst_active WHERE test_fi = %s",
@@ -3040,7 +2940,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $this->db);
             $processLockerFactory->setQuestionId($question->object->getId());
             $processLockerFactory->setUserId($this->user->getId());
-            $processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
+            $processLockerFactory->setAssessmentLogEnabled(ilObjTestFolder::_enabledAssessmentLogging());
             $question->object->setProcessLocker($processLockerFactory->getLocker());
         }
 
@@ -4608,22 +4508,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     }
 
     /**
-    * Logs an action into the Test&Assessment log
-    *
-    * @param string $logtext The log text
-    * @param integer $question_id If given, saves the question id to the database
-    * @access public
-    */
-    public function logAction($logtext = "", $question_id = 0)
-    {
-        $original_id = 0;
-        if ($question_id !== 0) {
-            $original_id = $this->questioninfo->getOriginalId($question_id);
-        }
-        ilObjAssessmentFolder::_addLog($this->user->getId(), $this->getId(), $logtext, $question_id, $original_id, true, $this->getRefId());
-    }
-
-    /**
     * Returns the ILIAS test object id for a given test id
     *
     * @param integer $test_id The test id
@@ -4891,7 +4775,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function getTestParticipantsForManualScoring($filter = null): array
     {
-        $scoring = ilObjAssessmentFolder::_getManualScoring();
+        $scoring = ilObjTestFolder::_getManualScoring();
         if (count($scoring) == 0) {
             return [];
         }
@@ -6697,10 +6581,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             );
 
             $this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized, $feedback_old);
-
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $this->logManualFeedback($active_id, $question_id, $feedback);
-            }
         }
 
         return true;
@@ -6743,28 +6623,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
 
         $this->db->insert('tst_manual_fb', $update_default);
-    }
-
-    /**
-     * Creates a log for the manual feedback
-     *
-     * @param integer $active_id Active ID of the user
-     * @param integer $question_id Question ID
-     * @param string  $feedback The feedback text
-     */
-    private function logManualFeedback($active_id, $question_id, $feedback)
-    {
-        $username = ilObjTestAccess::_getParticipantData($active_id);
-
-        $this->logAction(
-            sprintf(
-                $this->lng->txtlng('assessment', 'log_manual_feedback', ilObjAssessmentFolder::_getLogLanguage()),
-                $this->user->getFullname() . ' (' . $this->user->getLogin() . ')',
-                $username,
-                $this->questioninfo->getQuestionTitle($question_id),
-                $feedback
-            )
-        );
     }
 
     /**
@@ -7709,10 +7567,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ['integer','integer','integer'],
                 [$active_fi, $minutes, time()]
             );
-
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                $this->logAction(sprintf($this->lng->txtlng("assessment", "log_added_extratime", ilObjAssessmentFolder::_getLogLanguage()), $minutes, $active_id));
-            }
         }
     }
 

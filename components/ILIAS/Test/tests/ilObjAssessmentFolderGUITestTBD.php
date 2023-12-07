@@ -16,9 +16,9 @@
  *
  *********************************************************************/
 
-class ilObjAssessmentFolderGUITest extends ilTestBaseTestCase
+class ilObjTestFolderGUITest extends ilTestBaseTestCase
 {
-    private ilObjAssessmentFolderGUI $testObj;
+    private ilObjTestFolderGUI $testObj;
 
     protected function setUp(): void
     {
@@ -43,7 +43,7 @@ class ilObjAssessmentFolderGUITest extends ilTestBaseTestCase
                 $this->createMock(ilObject::class),
             );
 
-        //        $this->testObj = new ilObjAssessmentFolderGUI(
+        //        $this->testObj = new ilObjTestFolderGUI(
         //            null,
         //            1, // 0 is not allowed
         //            true,
@@ -53,7 +53,7 @@ class ilObjAssessmentFolderGUITest extends ilTestBaseTestCase
 
     //    public function testConstruct(): void
     //    {
-    //        $this->assertInstanceOf(ilObjAssessmentFolderGUI::class, $this->testObj);
+    //        $this->assertInstanceOf(ilObjTestFolderGUI::class, $this->testObj);
     //    }
 
     public function testSuppressWarning(): void

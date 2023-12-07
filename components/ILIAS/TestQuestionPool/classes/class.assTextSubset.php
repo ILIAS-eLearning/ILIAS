@@ -610,22 +610,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             }
         });
 
-        if ($entered_values) {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
-        } elseif (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            assQuestion::logAction($this->lng->txtlng(
-                "assessment",
-                "log_user_not_entered_values",
-                ilObjAssessmentFolder::_getLogLanguage()
-            ), $active_id, $this->getId());
-        }
-
         return true;
     }
 

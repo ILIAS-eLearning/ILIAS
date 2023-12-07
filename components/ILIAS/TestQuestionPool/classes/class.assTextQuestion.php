@@ -606,24 +606,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             }
         });
 
-        if ($entered_values) {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
-        } else {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
-        }
-
         return true;
     }
 
@@ -778,7 +760,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $worksheet->setCell($startrow + $i, $col, $this->lng->txt("result"));
         $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
 
-        $assessment_folder = new ilObjAssessmentFolder();
+        $assessment_folder = new ilObjTestFolder();
 
         $string_escaping_org_value = $worksheet->getStringEscaping();
         if ($assessment_folder->getExportEssayQuestionsWithHtml()) {

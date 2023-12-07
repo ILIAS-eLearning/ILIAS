@@ -71,7 +71,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         if ($template_id) {
             $this->settingsTemplate = new ilSettingsTemplate(
                 (int)$template_id,
-                ilObjAssessmentFolderGUI::getSettingsTemplateConfig()
+                ilObjTestFolderGUI::getSettingsTemplateConfig()
             );
         }
     }

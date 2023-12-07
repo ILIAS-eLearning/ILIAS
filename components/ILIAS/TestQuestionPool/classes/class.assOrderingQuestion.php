@@ -915,12 +915,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         );
 
-        if ($entered_values) {
-            $this->log($active_id, 'log_user_entered_values');
-        } else {
-            $this->log($active_id, 'log_user_not_entered_values');
-        }
-
         return true;
     }
 

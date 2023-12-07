@@ -94,7 +94,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         } else {
             $questions = $this->getParentObject()->getObject()->getPotentialRandomTestQuestions();
         }
-        $scoring = ilObjAssessmentFolder::_getManualScoring();
+        $scoring = ilObjTestFolder::_getManualScoring();
         foreach ($questions as $data) {
             $info = $this->questioninfo->getQuestionInfo($data['question_id']);
             $type = $info["question_type_fi"];

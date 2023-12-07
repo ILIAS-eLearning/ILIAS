@@ -877,7 +877,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function createQuestionObject(): void
     {
-        if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+        if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $addContEditMode = $_POST['add_quest_cont_edit_mode'];
         } else {
             $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE;
@@ -894,7 +894,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function createQuestionForTestObject(): void
     {
         if (!$this->qplrequest->raw('q_id')) {
-            if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+            if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
                 $add_cont_edit_mode = $this->qplrequest->raw('add_quest_cont_edit_mode');
             } else {
                 $add_cont_edit_mode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE;
@@ -1144,7 +1144,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $ilHelp->setScreenId('assQuestions');
 
-        if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+        if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $ilHelp->setSubScreenId('createQuestion_editMode');
         } else {
             $ilHelp->setSubScreenId('createQuestion');
@@ -1170,7 +1170,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $form->addItem($si);
 
-        if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+        if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $ri = new ilRadioGroupInputGUI($this->lng->txt('tst_add_quest_cont_edit_mode'), 'add_quest_cont_edit_mode');
 
             $option_ipe = new ilRadioOption(

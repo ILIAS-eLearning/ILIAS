@@ -113,7 +113,7 @@ class ilAssQuestionProcessLockerFactory
 
     private function getLockModeSettingValue(): ?string
     {
-        return $this->settings->get('ass_process_lock_mode', ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
+        return $this->settings->get('ass_process_lock_mode', ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE);
     }
 
     /**
@@ -122,19 +122,19 @@ class ilAssQuestionProcessLockerFactory
     public function getLocker()
     {
         switch ($this->getLockModeSettingValue()) {
-            case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE:
+            case ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE:
 
                 $locker = new ilAssQuestionProcessLockerNone();
                 break;
 
-            case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_FILE:
+            case ilObjTestFolder::ASS_PROC_LOCK_MODE_FILE:
                 $storage = new ilAssQuestionProcessLockFileStorage($this->getQuestionId(), $this->getUserId());
                 $storage->create();
 
                 $locker = new ilAssQuestionProcessLockerFile($storage);
                 break;
 
-            case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_DB:
+            case ilObjTestFolder::ASS_PROC_LOCK_MODE_DB:
 
                 $locker = new ilAssQuestionProcessLockerDb($this->db);
                 $locker->setAssessmentLogEnabled($this->isAssessmentLogEnabled());
