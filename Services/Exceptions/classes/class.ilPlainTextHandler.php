@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use Whoops\Handler\Handler;
+declare(strict_types=1);
+
 use Whoops\Exception\Formatter;
 
 /**
@@ -26,44 +25,24 @@ use Whoops\Exception\Formatter;
  * This is used for better coexistence with xdebug, see #16627.
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilPlainTextHandler extends Handler
+class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
 {
     protected const KEY_SPACE = 25;
 
-    /**
-     * Last missing method from HandlerInterface.
-     */
-    public function handle(): ?int
+    private function stripNullBytes(string $ret): string
     {
-        header("Content-Type: text/plain");
-        echo "<pre>\n";
-        echo $this->content();
-        echo "</pre>\n";
-        return null;
+        return str_replace("\0", '', $ret);
     }
 
-    /**
-     * Assemble the output for this handler.
-     */
-    protected function content(): string
+    public function generateResponse(): string
     {
-        return $this->pageHeader()
-            . $this->exceptionContent()
-            . $this->tablesContent();
-    }
-
-    /**
-     * Get the header for the page.
-     */
-    protected function pageHeader(): string
-    {
-        return "";
+        return $this->getExceptionOutput() . $this->tablesContent() . "\n";
     }
 
     /**
      * Get a short info about the exception.
      */
-    protected function exceptionContent(): string
+    protected function getExceptionOutput(): string
     {
         return Formatter::formatExceptionPlain($this->getInspector());
     }
@@ -104,7 +83,8 @@ class ilPlainTextHandler extends Handler
                 $ret .= "empty\n";
             }
         }
-        return $ret;
+
+        return $this->stripNullBytes($ret);
     }
 
     /**
