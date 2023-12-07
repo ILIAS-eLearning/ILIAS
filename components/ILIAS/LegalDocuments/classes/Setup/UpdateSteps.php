@@ -66,6 +66,11 @@ class UpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
+    public function step_2(): void
+    {
+        // Keep
+    }
+
     /**
      * @param array<string, mixed> $attributes
      */
