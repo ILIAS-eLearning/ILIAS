@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@uppy/tus": "^3.5.0",
+    "@yaireo/tagify": "^4.17.9",
     "chart.js": "^4.4.1",
     "dropzone": "^5.9.3",
     "jquery": "^3.6.0",
