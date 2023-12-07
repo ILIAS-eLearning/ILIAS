@@ -276,7 +276,7 @@ class ilDclFieldFactory
 
         if ($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
             if ($field->hasProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME)) {
-                if ($component_repository->getPluginSlotById(ilDclFieldTypePlugin::SLOT_ID)->hasPluginName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME))) {
+                if (!$component_repository->getPluginSlotById(ilDclFieldTypePlugin::SLOT_ID)->hasPluginName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME))) {
                     throw new ilDclException(
                         "Something went wrong by initializing the FieldHook-Plugin '"
                         . $field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME) . "' on Component '"
