@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Whoops\Handler\Handler;
+use Whoops\Handler\HandlerInterface;
 
 /**
  * A Whoops error handler that delegates calls on it self to another handler that is created only in the
@@ -34,6 +35,7 @@ use Whoops\Handler\Handler;
 final class ilDelegatingHandler extends Handler
 {
     private ilErrorHandling $error_handling;
+    private ?HandlerInterface $current_handler = null;
 
     public function __construct(ilErrorHandling $error_handling)
     {
@@ -94,11 +96,24 @@ final class ilDelegatingHandler extends Handler
 
         $_SERVER = $this->hideSensitiveData($_SERVER);
 
-        $handler = $this->error_handling->getHandler();
-        $handler->setRun($this->getRun());
-        $handler->setException($this->getException());
-        $handler->setInspector($this->getInspector());
-        $handler->handle();
-        return null;
+        $this->current_handler = $this->error_handling->getHandler();
+        $this->current_handler->setRun($this->getRun());
+        $this->current_handler->setException($this->getException());
+        $this->current_handler->setInspector($this->getInspector());
+        return $this->current_handler->handle();
+    }
+
+    /**
+     * This is an implicit interface method of the Whoops handlers
+     * @see: \Whoops\Run::handleException
+     */
+    public function contentType(): ?string
+    {
+        if ($this->current_handler === null ||
+            !method_exists($this->current_handler, 'contentType')) {
+            return null;
+        }
+
+        return $this->current_handler->contentType();
     }
 }
