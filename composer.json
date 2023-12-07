@@ -54,9 +54,7 @@
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^5.3",
 		"guzzlehttp/psr7": "^2.5",
-		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
-		"ralouphie/getallheaders": "^3.0",
 		"league/flysystem": "^3.0",
 		"james-heinrich/getid3": "^1.9.23",
 		"phpoffice/phpspreadsheet": "^1.29.0",
@@ -300,26 +298,6 @@
 			"wrapped_by": "",
 			"last_update": "2019-07-23",
 			"last_update_by": "Stefan Schneider <schneider@hrz.uni-marburg.de>",
-			"approved-by": "Jour Fixe",
-			"approved-date": "YYYY-MM-DD"
-		},
-		"ralouphie/getallheaders" : {
-			"source": "https://github.com/ralouphie/getallheaders",
-			"used_version": "v2.0.5",
-			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
-			"wrapped_by": null,
-			"last_update": "2016-12-16",
-			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
-			"approved-by": "Jour Fixe",
-			"approved-date": "YYYY-MM-DD"
-		},
-		"psr/http-message" : {
-			"source": "https://github.com/php-fig/http-message",
-			"used_version": "v1.0.1",
-			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
-			"wrapped_by": "",
-			"last_update": "2016-11-14",
-			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
