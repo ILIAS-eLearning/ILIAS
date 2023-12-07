@@ -1747,14 +1747,6 @@ class ilObjStudyProgramme extends ilContainer
         // We only use courses via crs_refs
         $type = ilObject::_lookupType($a_obj_id);
         if ($type == "crsr") {
-            require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
-            $crs_reference_obj_ids = ilContainerReference::_lookupSourceIds($a_obj_id);
-            foreach ($crs_reference_obj_ids as $obj_id) {
-                foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
-                    self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode((int) $ref_id, (int) $obj_id, $a_user_id);
-                }
-            }
-        } else {
             foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id) {
                 self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode((int) $ref_id, $a_obj_id, $a_user_id);
             }
