@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "@yaireo/tagify": "^4.17.9",
   },
   "devDependencies": {
   },
