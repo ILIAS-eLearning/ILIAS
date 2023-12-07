@@ -107,10 +107,12 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
             }
 
             //course contact
-            $contact_fields = false;
-            $str = "";
+            $contact_info = [];
             if ($crs->getContactName()) {
-                $str .= $crs->getContactName() . "<br>";
+                $contact_info[] = [
+                    'name' => $this->lng->txt('crs_contact_name'),
+                    'value' => $crs->getContactName()
+                ];
             }
 
             if ($crs->getContactEmail()) {
@@ -139,25 +141,40 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
                         )
                     );
                     $etpl->setVariable("CONTACT_EMAIL", $email);
-                    $str .= $etpl->get() . "<br />";
+                    $contact_info[] = [
+                        'name' => $this->lng->txt('crs_contact_email'),
+                        'value' => $etpl->get()
+                    ];
                 }
             }
 
             if ($crs->getContactPhone()) {
-                $str .= $this->lng->txt("crs_contact_phone") . ": " . $crs->getContactPhone() . "<br>";
+                $contact_info[] = [
+                    'name' => $this->lng->txt('crs_contact_phone'),
+                    'value' => $crs->getContactEmail()
+                ];
             }
             if ($crs->getContactResponsibility()) {
-                $str .= $crs->getContactResponsibility() . "<br>";
+                $contact_info[] = [
+                    'name' => $this->lng->txt('crs_contact_responsibility'),
+                    'value' => $crs->getContactResponsibility()
+                ];
             }
             if ($crs->getContactConsultation()) {
-                $str .= $crs->getContactConsultation() . "<br>";
+                $contact_info[] = [
+                    'name' => $this->lng->txt('crs_contact_consultation'),
+                    'value' => nl2br($crs->getContactConsultation())
+                ];
             }
-
-            if ($str != "") {
-                $this->addInfoProperty($this->lng->txt("crs_contact"), $str);
-                $this->addListItemProperty($this->lng->txt("crs_contact"), str_replace("<br>", ", ", $str));
+            if ($contact_info !== []) {
+                $this->addInfoSection($this->lng->txt('crs_contact'));
+                foreach ($contact_info as $info) {
+                    $this->addInfoProperty(
+                        $info['name'],
+                        $info['value']
+                    );
             }
-
+            }
             $this->addMetaData('crs', $cat_info['obj_id']);
 
             // last edited
