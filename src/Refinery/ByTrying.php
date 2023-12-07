@@ -22,6 +22,7 @@ namespace ILIAS\Refinery;
 
 use Exception;
 use ILIAS\Data;
+use ilLanguage;
 
 class ByTrying implements Transformation
 {
@@ -29,9 +30,6 @@ class ByTrying implements Transformation
     use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
-    /** @var Transformation[] */
-    private array $transformations;
-    private Data\Factory $data_factory;
     /** @var callable */
     private $error;
 
@@ -39,8 +37,13 @@ class ByTrying implements Transformation
      * @param Transformation[] $transformations
      * @param Data\Factory $data_factory
      */
-    public function __construct(array $transformations, Data\Factory $data_factory)
-    {
+    public function __construct(
+        private array $transformations,
+        private  Data\Factory $data_factory,
+        // $lng should not be null, however, there are circular dependencies.
+        // see ILIAS\Cache\Container\ActiveContainer::buildFinalTransformation
+        protected ?ilLanguage $lng = null
+    ) {
         $this->transformations = $transformations;
         $this->data_factory = $data_factory;
         $this->error = static function (): void {
