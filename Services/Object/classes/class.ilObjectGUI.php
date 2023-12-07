@@ -1977,16 +1977,14 @@ class ilObjectGUI implements ImplementsCreationCallback
                 ilSession::clear("il_rep_ref_id");
 
                 include_once "Services/Object/exceptions/class.ilObjectException.php";
-                throw new ilObjectException($this->lng->txt("permission_denied"));
-
-            /*
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
-            ilUtil::redirect("goto.php?target=".$type."_".$a_ref_id);
-            */
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_read'), true);
+                $parent_ref_id = $this->tree->getParentNodeData($this->object->getRefId())['ref_id'];
+                $this->ctrl->redirectToURL(ilLink::_getLink($parent_ref_id));
             }
             // we should never be here
             else {
-                die("Permission Denied.");
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_read'), true);
+                self::_gotoRepositoryRoot();
             }
         }
     }

@@ -499,7 +499,7 @@ class ilAccess implements ilAccessHandler
                 '%s::doRBACCheck(): No operations given! $a_ref_id: %s',
                 get_class($this),
                 $a_ref_id
-                );
+            );
             $ilLog->write($message, $ilLog->FATAL);
             $ilErr->raiseError($message, $ilErr->MESSAGE);
         }
@@ -587,18 +587,18 @@ class ilAccess implements ilAccessHandler
          */
         $objDefinition = $DIC['objDefinition'];
 
+        $cache_perm = 'other';
 
-        $cache_perm = ($a_permission == "visible")
-            ? "visible"
-            : "other";
-
+        if ($a_permission === 'visible' || $a_permission === 'leave') {
+            $cache_perm = $a_permission;
+        }
 
         if (isset($this->ac_cache[$cache_perm][$a_ref_id][$a_user_id])) {
             return $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id];
         }
 
         // nothings needs to be done if current permission is write permission
-        if ($a_permission == 'write') {
+        if ($a_permission === 'write') {
             return true;
         }
 
@@ -650,8 +650,9 @@ class ilAccess implements ilAccessHandler
             return true;
         }
 
-        // if current permission is visible and visible is set in activation
-        if ($a_permission == 'visible' and $item_data['visible']) {
+        // if current permission is visible or leave and visible is set in activation
+        if (($a_permission === 'visible' || $a_permission === 'leave')
+            && $item_data['visible']) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
         }
