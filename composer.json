@@ -48,7 +48,8 @@
 		"firebase/php-jwt": "^6.10",
 		"celtic/lti": "^5.0",
 		"apereo/phpcas": "^1.6.1",
-		"league/commonmark": "^2.4"
+		"league/commonmark": "^2.4",
+		"ramsey/uuid": "^4.4.0"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -159,6 +160,16 @@
 		"league/commonmark" : {
 			"source" : "https://github.com/thephpleague/commonmark",
 			"used_version" : "v1.6.1",
+			"wrapped_by" : "",
+			"added_by" : "Fabian Schmid <fabian@sr.solutions>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"ramsey/uuid" : {
+			"source" : "https://github.com/ramsey/uuid",
+			"used_version" : "v4.4.0",
 			"wrapped_by" : "",
 			"added_by" : "Fabian Schmid <fabian@sr.solutions>",
 			"last_update" : "",
