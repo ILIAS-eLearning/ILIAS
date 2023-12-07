@@ -52,7 +52,8 @@
 		"ifsnop/mysqldump-php": "2.10",
 		"seld/jsonlint": "^1.10",
 		"symfony/console": "^7.0",
-		"pimple/pimple": "^3.0"
+		"pimple/pimple": "^3.0",
+		"filp/whoops": "^2.15.4"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
