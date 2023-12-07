@@ -477,32 +477,6 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             }
         });
 
-        if ($entered_values) {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction(
-                    $this->lng->txtlng(
-                        "assessment",
-                        "log_user_entered_values",
-                        ilObjAssessmentFolder::_getLogLanguage()
-                    ),
-                    $active_id,
-                    $this->getId()
-                );
-            }
-        } else {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction(
-                    $this->lng->txtlng(
-                        "assessment",
-                        "log_user_not_entered_values",
-                        ilObjAssessmentFolder::_getLogLanguage()
-                    ),
-                    $active_id,
-                    $this->getId()
-                );
-            }
-        }
-
         return $returnvalue;
     }
 

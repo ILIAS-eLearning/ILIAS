@@ -585,7 +585,7 @@ class ilTestTabsManager
         }
 
         if ($this->checkScoreParticipantsTabAccess()) {
-            $scoring = ilObjAssessmentFolder::_getManualScoring();
+            $scoring = ilObjTestFolder::_getManualScoring();
             if (count($scoring)) {
                 // scoring tab
                 $this->tabs->addTarget(

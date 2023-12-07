@@ -1780,10 +1780,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
         }
 
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $this->object->logAction($this->lng->txtlng("assessment", "log_deleted_pass", ilObjAssessmentFolder::_getLogLanguage()));
-        }
-
         $this->object->updateTestResultCache((int) $active_fi);
 
         $this->redirectToPassDeletionContext($context);

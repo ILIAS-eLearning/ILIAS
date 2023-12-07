@@ -116,7 +116,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
             ilObjTestGUI::accessViolationRedirect();
         }
 
-        if (!ilObjAssessmentFolder::_mananuallyScoreableQuestionTypesExists()) {
+        if (!ilObjTestFolder::_mananuallyScoreableQuestionTypesExists()) {
             // allow only if at least one question type is marked for manual scoring
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("manscoring_not_allowed"), true);
             $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");

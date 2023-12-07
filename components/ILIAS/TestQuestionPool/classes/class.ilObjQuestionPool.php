@@ -1077,7 +1077,7 @@ class ilObjQuestionPool extends ilObject
         $lng = $DIC['lng'];
         $component_factory = $DIC['component.factory'];
 
-        $forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
+        $forbidden_types = ilObjTestFolder::_getForbiddenQuestionTypes();
         $lng->loadLanguageModule('assessment');
         $result = $ilDB->query('SELECT * FROM qpl_qst_type');
         $types = [];

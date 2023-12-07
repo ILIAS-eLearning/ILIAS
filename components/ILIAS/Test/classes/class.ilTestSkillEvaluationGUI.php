@@ -127,7 +127,7 @@ class ilTestSkillEvaluationGUI
 
         $skillEvaluation->setNumRequiredBookingsForSkillTriggering((int) $assSettings->get(
             'ass_skl_trig_num_answ_barrier',
-            ilObjAssessmentFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+            ilObjTestFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
         ));
 
         $skillEvaluation->init($this->getQuestionList());

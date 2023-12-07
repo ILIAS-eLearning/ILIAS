@@ -67,7 +67,7 @@ class ilTestPassFinishTasks
         $lp = ilLPStatus::_lookupStatus($this->obj_id, $this->test_session->getUserId());
         $debug = "finPass={$this->test_session->getLastFinishedPass()} / Lp={$lp}";
 
-        ilObjAssessmentFolder::_addLog(
+        ilObjTestFolder::_addLog(
             $this->test_session->getUserId(),
             $this->obj_id,
             "updateLearningProgressAfterPassFinishedIsWritten has been called from {$caller} ({$debug})",

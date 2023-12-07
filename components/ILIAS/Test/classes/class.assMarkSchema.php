@@ -89,21 +89,6 @@ class ASS_MarkSchema
 
     public function saveToDb(int $test_id): void
     {
-        $oldmarks = [];
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $result = $this->db->queryF(
-                "SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
-                array('integer'),
-                array($test_id)
-            );
-            if ($result->numRows()) {
-                /** @noinspection PhpAssignmentInConditionInspection */
-                while ($row = $this->db->fetchAssoc($result)) {
-                    $oldmarks[$row["minimum_level"]] = $row;
-                }
-            }
-        }
-
         if (!$test_id) {
             return;
         }
@@ -133,55 +118,6 @@ class ASS_MarkSchema
                     time()
                 )
             );
-        }
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $result = $this->db->queryF(
-                "SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
-                array('integer'),
-                array($test_id)
-            );
-            $newmarks = array();
-            if ($result->numRows()) {
-                /** @noinspection PhpAssignmentInConditionInspection */
-                while ($row = $this->db->fetchAssoc($result)) {
-                    $newmarks[$row["minimum_level"]] = $row;
-                }
-            }
-            foreach ($oldmarks as $level => $row) {
-                if (array_key_exists($level, $newmarks)) {
-                    $difffields = array();
-                    foreach ($row as $key => $value) {
-                        if ($value !== $newmarks[$level][$key]) {
-                            switch ($key) {
-                                case "mark_id":
-                                case "tstamp":
-                                    break;
-                                default:
-                                    array_push($difffields, "$key: $value => " . $newmarks[$level][$key]);
-                                    break;
-                            }
-                        }
-                    }
-                    if (count($difffields)) {
-                        $this->logAction($test_id, $this->lng->txtlng("assessment", "log_mark_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . join(", ", $difffields));
-                    }
-                } else {
-                    $this->logAction($test_id, $this->lng->txtlng("assessment", "log_mark_removed", ilObjAssessmentFolder::_getLogLanguage()) . ": " .
-                        $this->lng->txtlng("assessment", "tst_mark_minimum_level", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["minimum_level"] . ", " .
-                        $this->lng->txtlng("assessment", "tst_mark_short_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["short_name"] . ", " .
-                        $this->lng->txtlng("assessment", "tst_mark_official_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["official_name"] . ", " .
-                        $this->lng->txtlng("assessment", "tst_mark_passed", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["passed"]);
-                }
-            }
-            foreach ($newmarks as $level => $row) {
-                if (!array_key_exists($level, $oldmarks)) {
-                    $this->logAction($test_id, $this->lng->txtlng("assessment", "log_mark_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " .
-                        $this->lng->txtlng("assessment", "tst_mark_minimum_level", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["minimum_level"] . ", " .
-                        $this->lng->txtlng("assessment", "tst_mark_short_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["short_name"] . ", " .
-                        $this->lng->txtlng("assessment", "tst_mark_official_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["official_name"] . ", " .
-                        $this->lng->txtlng("assessment", "tst_mark_passed", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["passed"]);
-                }
-            }
         }
     }
 
@@ -337,13 +273,5 @@ class ASS_MarkSchema
     public function setMarkSteps(array $mark_steps): void
     {
         $this->mark_steps = $mark_steps;
-    }
-
-    /**
-     * Logs an action into the Test&Assessment log.
-     */
-    public function logAction($test_id, string $logtext = ""): void
-    {
-        ilObjAssessmentFolder::_addLog($this->current_user_id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", true);
     }
 }

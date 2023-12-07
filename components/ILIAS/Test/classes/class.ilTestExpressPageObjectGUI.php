@@ -257,7 +257,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             $questionType = $this->testrequest->raw('sel_question_types');
         }
 
-        if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+        if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $addContEditMode = $this->testrequest->raw('add_quest_cont_edit_mode');
         } else {
             $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE;
@@ -377,7 +377,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         }
 
         // content editing mode
-        if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+        if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $subScreenId[] = 'editMode';
 
             $ri = new ilRadioGroupInputGUI($this->lng->txt('tst_add_quest_cont_edit_mode'), 'add_quest_cont_edit_mode');

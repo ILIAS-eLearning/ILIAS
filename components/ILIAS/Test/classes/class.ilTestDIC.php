@@ -21,8 +21,10 @@ declare(strict_types=1);
 use Pimple\Container;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\Administration\TestGlobalSettingsRepository;
+use ILIAS\Test\Administration\TestLoggingSettings;
 
-class ilTestDIC
+class ilTestDIC extends Container
 {
     protected static ?Container $dic = null;
 
@@ -40,7 +42,7 @@ class ilTestDIC
         $dic = $DIC;
 
         $dic['shuffler'] = static fn($c): ilTestShuffler =>
-            new ilTestShuffler($dic['refinery']);
+            new ilTestShuffler($DIC['refinery']);
 
         $dic['factory.results'] = static fn($c): ilTestResultsFactory =>
             new ilTestResultsFactory(
@@ -51,25 +53,28 @@ class ilTestDIC
 
         $dic['factory.results_presentation'] = static fn($c): ilTestResultsPresentationFactory =>
            new ilTestResultsPresentationFactory(
-               $dic['ui.factory'],
-               $dic['ui.renderer'],
-               $dic['refinery'],
+               $DIC['ui.factory'],
+               $DIC['ui.renderer'],
+               $DIC['refinery'],
                new ILIAS\Data\Factory(),
-               $dic['http'],
-               $dic['lng']
+               $DIC['http'],
+               $DIC['lng']
            );
 
         $dic['main_settings_repository'] = static fn($c): ilObjTestMainSettingsDatabaseRepository =>
-            new ilObjTestMainSettingsDatabaseRepository($dic['ilDB']);
+            new ilObjTestMainSettingsDatabaseRepository($DIC['ilDB']);
 
         $dic['participantAccessFilterFactory'] = static fn($c): ilTestParticipantAccessFilterFactory =>
-            new ilTestParticipantAccessFilterFactory($dic['ilAccess']);
+            new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
 
         $dic['manScoringDoneHelper'] = static fn($c): TestManScoringDoneHelper =>
             new TestManScoringDoneHelper();
 
         $dic['request.internal'] = static fn($c): InternalRequestService =>
-            new InternalRequestService($dic['http'], $dic['refinery']);
+            new InternalRequestService($DIC['http'], $DIC['refinery']);
+
+        $dic['global_settings_repository'] = static fn($c): TestGlobalSettingsRepository =>
+                new TestGlobalSettingsRepository(new ilSetting('assessment'));
 
         return $dic;
     }

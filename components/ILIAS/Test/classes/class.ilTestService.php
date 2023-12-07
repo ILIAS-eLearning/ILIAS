@@ -119,7 +119,7 @@ class ilTestService
      */
     public function getManScoringQuestionGuiList(int $active_id, int $pass): array
     {
-        $manScoringQuestionTypes = ilObjAssessmentFolder::_getManualScoring();
+        $manScoringQuestionTypes = ilObjTestFolder::_getManualScoring();
 
         $testResultData = $this->object->getTestResult($active_id, $pass);
 

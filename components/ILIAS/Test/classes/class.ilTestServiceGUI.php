@@ -463,7 +463,7 @@ class ilTestServiceGUI
     public function getPassListOfAnswersWithScoring(&$result_array, $active_id, $pass, $show_solutions = false): string
     {
         $maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", true, true, "components/ILIAS/Test");
-        $scoring = ilObjAssessmentFolder::_getManualScoring();
+        $scoring = ilObjTestFolder::_getManualScoring();
 
         $counter = 1;
         // output of questions with solutions

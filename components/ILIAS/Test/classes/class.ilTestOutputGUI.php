@@ -894,7 +894,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     {
         $assSettings = new ilSetting('assessment');
 
-        $isAssessmentLogEnabled = ilObjAssessmentFolder::_enabledAssessmentLogging();
+        $isAssessmentLogEnabled = ilObjTestFolder::_enabledAssessmentLogging();
 
         $userSolutionAdopter = new ilAssQuestionUserSolutionAdopter($this->db, $assSettings, $isAssessmentLogEnabled);
 

@@ -19,22 +19,22 @@
 declare(strict_types=1);
 
 /**
- * Class ilObjAssessmentFolderAccessTest
+ * Class ilObjTestFolderAccessTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilObjAssessmentFolderAccessTest extends ilTestBaseTestCase
+class ilObjTestFolderAccessTest extends ilTestBaseTestCase
 {
-    private ilObjAssessmentFolderAccess $testObj;
+    private ilObjTestFolderAccess $testObj;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilObjAssessmentFolderAccess();
+        $this->testObj = new ilObjTestFolderAccess();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilObjAssessmentFolderAccess::class, $this->testObj);
+        $this->assertInstanceOf(ilObjTestFolderAccess::class, $this->testObj);
     }
 }

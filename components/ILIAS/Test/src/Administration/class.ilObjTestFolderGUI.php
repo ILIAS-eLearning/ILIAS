@@ -18,15 +18,21 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Administration\TestGlobalSettingsRepository;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\InternalRequestService;
+
 /**
- * Class ilObjAssessmentFolderGUI
  * @author Helmut Schottmüller <hschottm@gmx.de>
- * @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI, ilGlobalUnitConfigurationGUI
+ * @ilCtrl_Calls ilObjTestFolderGUI: ilPermissionGUI, ilGlobalUnitConfigurationGUI
  */
-class ilObjAssessmentFolderGUI extends ilObjectGUI
+class ilObjTestFolderGUI extends ilObjectGUI
 {
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
-    protected \ILIAS\Test\InternalRequestService $testrequest;
+    private QuestionInfoService $questioninfo;
+    private InternalRequestService $testrequest;
+
+    private TestGlobalSettingsRepository $global_settings_repository;
 
     public function __construct(
         $a_data,
@@ -38,6 +44,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
         $this->testrequest = $DIC->test()->internal()->request();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->global_settings_repository = (\ilTestDIC::dic())['global_settings_repository'];
         $this->type = "assf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
@@ -48,7 +55,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('assessment');
     }
 
-    private function getAssessmentFolder(): ilObjAssessmentFolder
+    private function getTestFolder(): ilObjTestFolder
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->object;
@@ -67,7 +74,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             case 'ilglobalunitconfigurationgui':
-                if (!$this->rbac_system->checkAccess('visible,read', $this->getAssessmentFolder()->getRefId())) {
+                if (!$this->rbac_system->checkAccess('visible,read', $this->getTestFolder()->getRefId())) {
                     $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
                 }
 
@@ -114,25 +121,25 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         // question process locking behaviour (e.g. on saving users working data)
         $chb = new ilCheckboxInputGUI($this->lng->txt('ass_process_lock'), 'ass_process_lock');
-        $chb->setChecked($this->getAssessmentFolder()->getAssessmentProcessLockMode() !== ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
+        $chb->setChecked($this->getTestFolder()->getAssessmentProcessLockMode() !== ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE);
         $chb->setInfo($this->lng->txt('ass_process_lock_desc'));
         $form->addItem($chb);
         $rg = new ilRadioGroupInputGUI($this->lng->txt('ass_process_lock_mode'), 'ass_process_lock_mode');
         $rg->setRequired(true);
         $opt = new ilRadioOption(
             $this->lng->txt('ass_process_lock_mode_file'),
-            ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_FILE
+            ilObjTestFolder::ASS_PROC_LOCK_MODE_FILE
         );
         $opt->setInfo($this->lng->txt('ass_process_lock_mode_file_desc'));
         $rg->addOption($opt);
         $opt = new ilRadioOption(
             $this->lng->txt('ass_process_lock_mode_db'),
-            ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_DB
+            ilObjTestFolder::ASS_PROC_LOCK_MODE_DB
         );
         $opt->setInfo($this->lng->txt('ass_process_lock_mode_db_desc'));
         $rg->addOption($opt);
-        if ($this->getAssessmentFolder()->getAssessmentProcessLockMode() !== ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE) {
-            $rg->setValue($this->getAssessmentFolder()->getAssessmentProcessLockMode());
+        if ($this->getTestFolder()->getAssessmentProcessLockMode() !== ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE) {
+            $rg->setValue($this->getTestFolder()->getAssessmentProcessLockMode());
         }
         $chb->addSubItem($rg);
 
@@ -175,11 +182,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $numRequiredAnswers->allowDecimals(false);
         $numRequiredAnswers->setMinValue(1);
         $numRequiredAnswers->setMinvalueShouldBeGreater(false);
-        $numRequiredAnswers->setValue($this->getAssessmentFolder()->getSkillTriggeringNumAnswersBarrier());
+        $numRequiredAnswers->setValue($this->getTestFolder()->getSkillTriggeringNumAnswersBarrier());
         $form->addItem($numRequiredAnswers);
 
         $ceeqwh = new ilCheckboxInputGUI($this->lng->txt('export_essay_qst_with_html'), 'export_essay_qst_with_html');
-        $ceeqwh->setChecked($this->getAssessmentFolder()->getExportEssayQuestionsWithHtml());
+        $ceeqwh->setChecked($this->getTestFolder()->getExportEssayQuestionsWithHtml());
         $ceeqwh->setInfo($this->lng->txt('export_essay_qst_with_html_desc'));
         $form->addItem($ceeqwh);
 
@@ -194,7 +201,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             "chb_allowed_questiontypes"
         );
         $questiontypes = ilObjQuestionPool::_getQuestionTypes(true);
-        $forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
+        $forbidden_types = ilObjTestFolder::_getForbiddenQuestionTypes();
         $allowedtypes = [];
         foreach ($questiontypes as $qt) {
             if (!in_array($qt['question_type_id'], $forbidden_types)) {
@@ -213,7 +220,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             $this->lng->txt('assessment_log_manual_scoring_activate'),
             "chb_manual_scoring"
         );
-        $manscoring = ilObjAssessmentFolder::_getManualScoring();
+        $manscoring = ilObjTestFolder::_getManualScoring();
         $manual->setValue($manscoring);
         foreach ($questiontypes as $type_name => $qtype) {
             $manual->addOption(new ilCheckboxOption($type_name, (string) $qtype["question_type_id"]));
@@ -226,7 +233,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             $this->lng->txt('assessment_scoring_adjust'),
             'chb_scoring_adjust'
         );
-        $scoring_activation->setChecked($this->getAssessmentFolder()->getScoringAdjustmentEnabled());
+        $scoring_activation->setChecked($this->getTestFolder()->getScoringAdjustmentEnabled());
         $scoring_activation->setInfo($this->lng->txt('assessment_scoring_adjust_desc'));
         $form->addItem($scoring_activation);
 
@@ -235,10 +242,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             $this->lng->txt('assessment_log_scoring_adjustment_activate'),
             "chb_scoring_adjustment"
         );
-        $scoring_active = $this->getAssessmentFolder()->getScoringAdjustableQuestions();
+        $scoring_active = $this->getTestFolder()->getScoringAdjustableQuestions();
         $scoring->setValue($scoring_active);
 
-        foreach ($this->getAssessmentFolder()->fetchScoringAdjustableTypes($questiontypes) as $type_name => $qtype) {
+        foreach ($this->getTestFolder()->fetchScoringAdjustableTypes($questiontypes) as $type_name => $qtype) {
             $scoring->addOption(
                 new ilCheckboxOption($type_name, (string) $qtype["question_type_id"])
             );
@@ -246,7 +253,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $scoring->setInfo($this->lng->txt('assessment_log_scoring_adjustment_desc'));
         $form->addItem($scoring);
 
-        if ($this->access->checkAccess("write", "", $this->getAssessmentFolder()->getRefId())) {
+        if ($this->access->checkAccess("write", "", $this->getTestFolder()->getRefId())) {
             $form->addCommandButton("saveSettings", $this->lng->txt("save"));
         }
 
@@ -258,7 +265,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
      */
     public function saveSettingsObject(): void
     {
-        if (!$this->access->checkAccess("write", "", $this->getAssessmentFolder()->getRefId())) {
+        if (!$this->access->checkAccess("write", "", $this->getTestFolder()->getRefId())) {
             $this->ctrl->redirect($this, 'settings');
         }
 
@@ -269,11 +276,12 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             return;
         }
 
-        $this->getAssessmentFolder()->setSkillTriggeringNumAnswersBarrier((int) $form->getInput('num_req_answers'));
-        $this->getAssessmentFolder()->setExportEssayQuestionsWithHtml(
+
+        $this->getTestFolder()->setSkillTriggeringNumAnswersBarrier();
+        $this->getTestFolder()->setExportEssayQuestionsWithHtml(
             (bool) ($form->getInput('export_essay_qst_with_html') ?? '0')
         );
-        $this->getAssessmentFolder()->_setManualScoring($form->getInput('chb_manual_scoring') ?? []);
+        $this->getTestFolder()->_setManualScoring((int) $form->getInput('num_req_answers'));
         $question_types = ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = [];
         foreach ($question_types as $name => $row) {
@@ -282,8 +290,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 $forbidden_types[] = (int) $row["question_type_id"];
             }
         }
-        $this->getAssessmentFolder()->_setForbiddenQuestionTypes($forbidden_types);
-        $this->getAssessmentFolder()->setScoringAdjustmentEnabled(
+        $this->getTestFolder()->_setForbiddenQuestionTypes($forbidden_types);
+        $this->getTestFolder()->setScoringAdjustmentEnabled(
             (bool) ($form->getInput('chb_scoring_adjust') ?? '0')
         );
         $scoring_types = [];
@@ -293,15 +301,15 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 $scoring_types[] = $row["question_type_id"];
             }
         }
-        $this->getAssessmentFolder()->setScoringAdjustableQuestions($scoring_types);
-        if (!$form->getInput('ass_process_lock')) {
-            $this->getAssessmentFolder()->setAssessmentProcessLockMode(ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
+        $this->getTestFolder()->setScoringAdjustableQuestions($scoring_types);
+        if (!$form->getInput('ass_process_lock'))) {
+            $this->getTestFolder()->setAssessmentProcessLockMode(ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE);
         } elseif (in_array(
             $form->getInput('ass_process_lock_mode'),
-            ilObjAssessmentFolder::getValidAssessmentProcessLockModes(),
+            ilObjTestFolder::getValidAssessmentProcessLockModes(),
             true
         )) {
-            $this->getAssessmentFolder()->setAssessmentProcessLockMode($form->getInput('ass_process_lock_mode'));
+            $this->getTestFolder()->setAssessmentProcessLockMode($form->getInput('ass_process_lock_mode'));
         }
 
         $assessmentSetting = new ilSetting('assessment');
@@ -355,7 +363,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         $available_tests = ilObjTest::_getAvailableTests(1);
         $csv[] = ilCSVUtil::processCSVRow($row, true, $separator);
-        $log_output = ilObjAssessmentFolder::getLog($from, $until, $test);
+        $log_output = ilObjTestFolder::getLog($from, $until, $test);
         $users = [];
         foreach ($log_output as $key => $log) {
             if (!array_key_exists($log["user_fi"], $users)) {
@@ -422,7 +430,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $sorted_options = [];
         foreach ($available_tests as $key => $value) {
             $sorted_options[] = [
-                'title' => ilLegacyFormElementsUtil::prepareFormOutput($value) . " [" . $this->getAssessmentFolder()->getNrOfLogEntries((int) $key) . " " . $this->lng->txt("assessment_log_log_entries") . "]",
+                'title' => ilLegacyFormElementsUtil::prepareFormOutput($value) . " [" . $this->getTestFolder()->getNrOfLogEntries((int) $key) . " " . $this->lng->txt("assessment_log_log_entries") . "]",
                 'key' => $key
             ];
         }
@@ -496,7 +504,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         if ($p_test) {
             $table_gui = new ilAssessmentFolderLogTableGUI($this, 'logs');
-            $log_output = ilObjAssessmentFolder::getLog($fromdate, $untildate, $p_test);
+            $log_output = ilObjTestFolder::getLog($fromdate, $untildate, $p_test);
 
             $self = $this;
             array_walk($log_output, static function (&$row) use ($self) {
@@ -528,10 +536,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         );
 
         if ($test_ids !== []) {
-            $this->getAssessmentFolder()->deleteLogEntries($test_ids);
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("ass_log_deleted"));
+            $this->getTestFolder()->deleteLogEntries($test_ids);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('ass_log_deleted'));
         } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("ass_log_delete_no_selection"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('ass_log_delete_no_selection'));
         }
 
         $this->logAdminObject();
@@ -544,7 +552,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab('logs');
 
-        $a_write_access = ($this->access->checkAccess("write", "", $this->getAssessmentFolder()->getRefId())) ? true : false;
+        $a_write_access = ($this->access->checkAccess("write", "", $this->getTestFolder()->getRefId())) ? true : false;
 
         $table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin', $a_write_access);
 
@@ -554,7 +562,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             $obj_id = ilObject::_lookupObjectId($ref_id);
             $data[] = [
                 "title" => $title,
-                "nr" => $this->getAssessmentFolder()->getNrOfLogEntries((int) $obj_id),
+                "nr" => $this->getTestFolder()->getNrOfLogEntries((int) $obj_id),
                 "id" => $obj_id,
                 "location_href" => ilLink::_getLink($ref_id, 'tst'),
                 "location_txt" => $this->lng->txt("perma_link")
@@ -610,7 +618,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 break;
         }
 
-        if ($this->rbac_system->checkAccess("visible,read", $this->getAssessmentFolder()->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->getTestFolder()->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
@@ -635,7 +643,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('edit_permission', $this->getAssessmentFolder()->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->getTestFolder()->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], "perm"),
@@ -648,19 +656,15 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @param ilPropertyFormGUI $form
      */
-    protected function showLogSettingsObject(ilPropertyFormGUI $form = null): void
+    protected function showLogSettingsObject(Form $form = null): void
     {
         $this->tabs_gui->activateTab('logs');
 
-        if (!($form instanceof ilPropertyFormGUI)) {
-            $form = $this->getLogSettingsForm();
-            $form->setValuesByArray([
-                'chb_assessment_logging' => ilObjAssessmentFolder::_enabledAssessmentLogging(),
-                'reporting_language' => ilObjAssessmentFolder::_getLogLanguage()
-            ]);
+        if ($form === null) {
+            $form = $this->buildLogSettingsForm();
         }
 
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     /**
@@ -668,53 +672,32 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
      */
     protected function saveLogSettingsObject(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->getAssessmentFolder()->getRefId())) {
+        if (!$this->access->checkAccess('write', '', $this->getTestFolder()->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->WARNING);
         }
 
-        $form = $this->getLogSettingsForm();
-        if ($form->checkInput()) {
-            $this->getAssessmentFolder()->_enableAssessmentLogging((bool) $form->getInput('chb_assessment_logging'));
-            $this->getAssessmentFolder()->_setLogLanguage((string) $form->getInput('reporting_language'));
-            $this->getAssessmentFolder()->update();
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
+        $form = $this->buildLogSettingsForm()->withRequest($this->request);
+        $data = $form->getData();
+        if ($data === null) {
+            $this->showLogSettingsObject($form);
         }
 
-        $form->setValuesByPost();
+        $this->global_settings_repository->storeLoggingSettings($data['logging']['activation']);
+
         $this->showLogSettingsObject($form);
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function getLogSettingsForm(): ilPropertyFormGUI
+    protected function buildLogSettingsForm(): Form
     {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveLogSettings'));
-        $form->setTitle($this->lng->txt('assessment_log_logging'));
-
-        $logging = new ilCheckboxInputGUI('', 'chb_assessment_logging');
-        $logging->setValue('1');
-        $logging->setOptionTitle($this->lng->txt('activate_assessment_logging'));
-        $form->addItem($logging);
-
-        $reporting = new ilSelectInputGUI(
-            $this->lng->txt('assessment_settings_reporting_language'),
-            'reporting_language'
+        $inputs = $this->global_settings_repository->getLoggingSettings()->toForm(
+            $this->ui_factory,
+            $this->refinery,
+            $this->lng
         );
-        $languages = $this->lng->getInstalledLanguages();
-        $this->lng->loadLanguageModule('meta');
-        $options = [];
-        foreach ($languages as $lang) {
-            $options[$lang] = $this->lng->txt('meta_l_' . $lang);
-        }
-        $reporting->setOptions($options);
-        $form->addItem($reporting);
 
-        if ($this->access->checkAccess('write', '', $this->getAssessmentFolder()->getRefId())) {
-            $form->addCommandButton('saveLogSettings', $this->lng->txt('save'));
-        }
-
-        return $form;
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveLogSettings'),
+            $inputs
+        );
     }
 }

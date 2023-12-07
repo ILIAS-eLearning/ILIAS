@@ -25,7 +25,7 @@ declare(strict_types=1);
 class ilAssessmentFolderLogAdministrationTableGUITest extends ilTestBaseTestCase
 {
     private ilAssessmentFolderLogAdministrationTableGUI $tableGui;
-    private ilObjAssessmentFolderGUI $parentObj_mock;
+    private ilObjTestFolderGUI $parentObj_mock;
 
     protected function setUp(): void
     {
@@ -47,7 +47,7 @@ class ilAssessmentFolderLogAdministrationTableGUITest extends ilTestBaseTestCase
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
-        $this->parentObj_mock = $this->getMockBuilder(ilObjAssessmentFolderGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
+        $this->parentObj_mock = $this->getMockBuilder(ilObjTestFolderGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
         $this->parentObj_mock->method('getObject')->willReturn($this->createMock(ilObjTest::class));
 
         $this->tableGui = new ilAssessmentFolderLogAdministrationTableGUI($this->parentObj_mock, "");

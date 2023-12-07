@@ -435,10 +435,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             }
         );
 
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $this->logUserAction($selected !== [], (int) $active_id);
-        }
-
         return true;
     }
 
@@ -446,16 +442,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $selection = $this->getAnswersFromRequest();
         $previewSession->setParticipantsSolution($selection);
-    }
-
-    private function logUserAction(bool $user_entered_values, int $active_id): void
-    {
-        $log_text = $this->lng->txtlng(
-            "assessment",
-            $user_entered_values ? 'log_user_entered_values' : 'log_user_not_entered_values',
-            ilObjAssessmentFolder::_getLogLanguage()
-        );
-        assQuestion::logAction($log_text, $active_id, $this->getId());
     }
 
     private function getAnswersFromRequest(): array

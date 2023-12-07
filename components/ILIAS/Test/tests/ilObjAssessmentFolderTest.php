@@ -19,12 +19,12 @@
 declare(strict_types=1);
 
 /**
- * Class ilObjAssessmentFolderTest
+ * Class ilObjTestFolderTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilObjAssessmentFolderTest extends ilTestBaseTestCase
+class ilObjTestFolderTest extends ilTestBaseTestCase
 {
-    private ilObjAssessmentFolder $testObj;
+    private ilObjTestFolder $testObj;
 
     protected function setUp(): void
     {
@@ -38,11 +38,11 @@ class ilObjAssessmentFolderTest extends ilTestBaseTestCase
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
 
-        $this->testObj = new ilObjAssessmentFolder();
+        $this->testObj = new ilObjTestFolder();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilObjAssessmentFolder::class, $this->testObj);
+        $this->assertInstanceOf(ilObjTestFolder::class, $this->testObj);
     }
 }

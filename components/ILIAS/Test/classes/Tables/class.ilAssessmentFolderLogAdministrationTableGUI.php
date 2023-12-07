@@ -25,7 +25,7 @@ declare(strict_types=1);
 class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 {
     public function __construct(
-        ilObjAssessmentFolderGUI $parent_obj,
+        ilObjTestFolderGUI $parent_obj,
         string $parent_cmd,
         bool $write_access = false
     ) {

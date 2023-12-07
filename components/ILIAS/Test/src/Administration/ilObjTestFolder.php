@@ -19,12 +19,12 @@
 declare(strict_types=1);
 
 /**
- * Class ilObjAssessmentFolder
+ * Class ilObjTestFolder
  * @author    Helmut Schottmüller <hschottm@gmx.de>
  * @author    Björn Heyser <bheyser@databay.de>
  * @ingroup components\ILIASTest
  */
-class ilObjAssessmentFolder extends ilObject
+class ilObjTestFolder extends ilObject
 {
     public const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED = 0;
     public const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_ENABLED = 1;
@@ -109,18 +109,6 @@ class ilObjAssessmentFolder extends ilObject
         }
 
         $setting->set('forbidden_questiontypes', $types);
-    }
-
-    public static function _getLogLanguage(): string
-    {
-        $setting = new ilSetting('assessment');
-
-        $lang = $setting->get('assessment_log_language', '');
-        if ($lang === '') {
-            $lang = 'en';
-        }
-
-        return $lang;
     }
 
     /**
@@ -218,63 +206,6 @@ class ilObjAssessmentFolder extends ilObject
     }
 
     /**
-     * Add an assessment log entry
-     * @param int    $user_id     The user id of the acting user
-     * @param int    $object_id   The database id of the modified test object
-     * @param string $logtext     The textual description for the log entry
-     * @param int    $question_id The database id of a modified question (optional)
-     * @param int    $original_id The database id of the original of a modified question (optional)
-     * @param bool   $test_only
-     * @param int    $test_ref_id
-     */
-    public static function _addLog(
-        $user_id,
-        $object_id,
-        $logtext,
-        $question_id = 0,
-        $original_id = 0,
-        $test_only = false,
-        $test_ref_id = 0
-    ): void {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilDB = $DIC['ilDB'];
-
-        $question_id = 0;
-        if (is_numeric($question_id)) {
-            $question_id = (int) $question_id;
-        }
-
-        $original_id = 0;
-        if (is_numeric($original_id)) {
-            $original_id = (int) $original_id;
-        }
-
-        $test_ref_id = 0;
-        if (is_numeric($test_ref_id)) {
-            $test_ref_id = (int) $test_ref_id;
-        }
-
-        $only = ($test_only === true) ? 1 : 0;
-        $next_id = $ilDB->nextId('ass_log');
-        $affectedRows = $ilDB->manipulateF(
-            "INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, test_only, ref_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-            ['integer', 'integer', 'integer', 'text', 'integer', 'integer', 'text', 'integer', 'integer'],
-            [
-                $next_id,
-                $user_id,
-                $object_id,
-                $logtext,
-                $question_id,
-                $original_id,
-                $only,
-                $test_ref_id,
-                time()
-            ]
-        );
-    }
-
-    /**
      * Retrieve assessment log datasets from the database
      * @param int $ts_from Timestamp of the starting date/time period
      * @param int $ts_to   Timestamp of the ending date/time period
@@ -313,62 +244,6 @@ class ilObjAssessmentFolder extends ilObject
             if (!array_key_exists($row["tstamp"], $log)) {
                 $log[$row["tstamp"]] = [];
             }
-            $log[$row["tstamp"]][] = $row;
-        }
-        krsort($log);
-        // flatten array
-        $log_array = [];
-        foreach ($log as $key => $value) {
-            foreach ($value as $index => $row) {
-                $log_array[] = $row;
-            }
-        }
-        return $log_array;
-    }
-
-    /**
-     * Retrieve assessment log datasets from the database
-     * @param int $ts_from Timestamp of the starting date/time period
-     * @param int $ts_to   Timestamp of the ending date/time period
-     * @param integer $test_id Database id of the ILIAS test object
-     * @return array<string, mixed>[] Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
-     */
-    public static function _getLog(int $ts_from, int $ts_to, int $test_id, bool $test_only = false): array
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $log = [];
-        if ($test_only === true) {
-            $result = $ilDB->queryF(
-                "SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s AND test_only = %s ORDER BY tstamp",
-                ['integer', 'integer', 'integer', 'text'],
-                [$test_id, $ts_from, $ts_to, 1]
-            );
-        } else {
-            $result = $ilDB->queryF(
-                "SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s ORDER BY tstamp",
-                ['integer', 'integer', 'integer'],
-                [$test_id, $ts_from, $ts_to]
-            );
-        }
-        while ($row = $ilDB->fetchAssoc($result)) {
-            if (!array_key_exists($row["tstamp"], $log)) {
-                $log[$row["tstamp"]] = [];
-            }
-            $type_href = "";
-            if (array_key_exists("ref_id", $row) && $row["ref_id"] > 0) {
-                $type = ilObject::_lookupType((int) $row['ref_id'], true);
-                switch ($type) {
-                    case "tst":
-                        $type_href = sprintf("goto.php?target=tst_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
-                        break;
-                    case "cat":
-                        $type_href = sprintf("goto.php?target=cat_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
-                        break;
-                }
-            }
-            $row["href"] = $type_href;
             $log[$row["tstamp"]][] = $row;
         }
         krsort($log);
