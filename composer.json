@@ -44,7 +44,8 @@
 		"ext-zip": "*",
 		"ext-imagick": "*",
 		"apereo/phpcas": "^1.6.1",
-		"league/commonmark": "^2.4"
+		"league/commonmark": "^2.4",
+		"ramsey/uuid": "^4.4.0"
 	},
 	"autoload": {
 		"psr-4" : {
