@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"pimple/pimple" : "^3.0",
 	},
 	"require-dev": {
 	},
