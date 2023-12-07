@@ -28,8 +28,12 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected \ILIAS\Test\InternalRequestService $testrequest;
 
-    public function __construct($a_data, int $a_id = 0, bool $a_call_by_reference = true, bool $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id = 0,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
         $this->testrequest = $DIC->test()->internal()->request();

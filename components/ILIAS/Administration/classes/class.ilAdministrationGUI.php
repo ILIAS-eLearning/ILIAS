@@ -38,7 +38,7 @@ use ILIAS\Administration\AdminGUIRequest;
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageFolderGUI, ilObjMailGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjObjectFolderGUI, ilObjRecoveryFolderGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSearchSettingsGUI, ilObjStyleSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjAssessmentFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjTestFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI, ilObjPrivacySecurityGUI, ilObjNewsSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjMediaCastGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageExtGUI, ilObjMDSettingsGUI, ilObjComponentSettingsGUI
