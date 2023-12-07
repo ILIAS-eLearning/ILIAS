@@ -9,7 +9,7 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			<!-- text global required -->
-			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value, vd.idx
 			FROM adv_md_values_enum val
 			JOIN adv_mdf_enum vd ON (val.field_id = vd.field_id AND value_index = idx)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
@@ -19,19 +19,19 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
 		<Param format="list" type="int" value="objId" />
-		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="idx" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>
 			<!-- text global optional -->
-			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value, vd.idx
 			FROM adv_md_values_enum val
 			JOIN adv_mdf_enum vd ON (val.field_id = vd.field_id AND value_index = idx)
 			JOIN object_data obj ON (obj.obj_id = val.obj_id)
@@ -45,19 +45,19 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
 		<Param format="list" type="int" value="objId" />
-		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="idx" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>
 			<!-- text local -->
-			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value, vd.idx
 			FROM adv_md_values_enum val
 			JOIN adv_mdf_enum vd ON (val.field_id = vd.field_id AND value_index = idx)
 			JOIN object_data obj ON (obj.obj_id = val.obj_id)
@@ -77,7 +77,7 @@
 		</Query>
 		<Param format="list" type="string" value="objType" />
 		<Param format="list" type="int" value="objId" />
-		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="idx" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
 
@@ -99,7 +99,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -124,7 +124,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -170,7 +170,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);			
 		</Query>
@@ -195,7 +195,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);	
 		</Query>
@@ -241,7 +241,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);			
 		</Query>
@@ -266,7 +266,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);	
 		</Query>
@@ -312,7 +312,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);				
 		</Query>
@@ -337,7 +337,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);				
 		</Query>
@@ -383,7 +383,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);				
 		</Query>
@@ -408,7 +408,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);				
 		</Query>
@@ -454,7 +454,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -481,7 +481,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -531,7 +531,7 @@
 			AND robj.sub_type = '-'
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>
@@ -556,7 +556,7 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?);
 		</Query>

@@ -14,7 +14,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
      */
     private array $active_languages = [];
     private string $default_language = '';
-    private int $max_length;
+    private ?int $max_length;
 
     private bool $multilingual_value_support = false;
 
@@ -23,7 +23,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
         return $this->max_length;
     }
 
-    public function setMaxLength(int $max_length): void
+    public function setMaxLength(?int $max_length): void
     {
         $this->max_length = $max_length;
     }
@@ -33,7 +33,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
         $this->multilingual_value_support = $status;
     }
 
-    public function getMultilingualValueSupport() : bool
+    public function getMultilingualValueSupport(): bool
     {
         return $this->multilingual_value_support;
     }
