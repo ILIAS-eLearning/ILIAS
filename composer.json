@@ -53,7 +53,8 @@
 		"geshi/geshi": "^1.0.9.1",
 		"james-heinrich/getid3": "^1.9.23",
 		"mustache/mustache": "^2.14",
-		"ifsnop/mysqldump-php": "^2.10"
+		"ifsnop/mysqldump-php": "^2.10",
+		"seld/jsonlint": "^1.10"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -234,6 +235,16 @@
 		"ifsnop/mysqldump-php" : {
 			"source" : "https://github.com/ifsnop/mysqldump-php",
 			"used_version" : "v2.10",
+			"wrapped_by" : "",
+			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"seld/jsonlint" : {
+			"source" : "https://github.com/Seldaek/jsonlint",
+			"used_version" : "v1.10",
 			"wrapped_by" : "",
 			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"last_update" : "",
