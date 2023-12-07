@@ -17,7 +17,7 @@
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT 'glo' type,term,glo_id,id,'term' metaSubType,id metaSubId
+				SELECT 'glo' objType,term,glo_id,id,'term' metaType,id metaObjId,glo_id metaRbacId
 				FROM glossary_term gt
 				WHERE glo_id IN (?)
 			</Query>
@@ -25,7 +25,7 @@
 			<Field store="YES" index="ANALYZED" column="term" type="text" name="propertyMedium" />
 			<Field store="YES" index="NOT_ANALYZED" column="id" type="integer" name="subItem" />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="glo_id" type="integer" name="objId"  />
-			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type"  />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="objType" type="text" name="type"  />
 			<xi:include href="../../Services/AdvancedMetaData/LuceneSubItemDataSource.xml" />
 			<DataSource type="JDBC" action="append">
 				<Query>

@@ -9,7 +9,7 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			<!-- text global required -->
-			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value, vd.idx
 			FROM adv_md_values_enum val
 			JOIN adv_mdf_enum vd ON (val.field_id = vd.field_id AND value_index = idx)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
@@ -25,13 +25,13 @@
 		</Query>
 		<Param format="list" type="string" value="objType" />
 		<Param format="list" type="int" value="objId" />
-		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="idx" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>
 			<!-- text global optional -->
-			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value, vd.idx
 			FROM adv_md_values_enum val
 			JOIN adv_mdf_enum vd ON (val.field_id = vd.field_id AND value_index = idx)
 			JOIN object_data obj ON (obj.obj_id = val.obj_id)
@@ -51,13 +51,13 @@
 		</Query>
 		<Param format="list" type="string" value="objType" />
 		<Param format="list" type="int" value="objId" />
-		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="idx" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>
 			<!-- text local -->
-			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value, vd.idx
 			FROM adv_md_values_enum val
 			JOIN adv_mdf_enum vd ON (val.field_id = vd.field_id AND value_index = idx)
 			JOIN object_data obj ON (obj.obj_id = val.obj_id)
@@ -77,7 +77,7 @@
 		</Query>
 		<Param format="list" type="string" value="objType" />
 		<Param format="list" type="int" value="objId" />
-		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="idx" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
 
