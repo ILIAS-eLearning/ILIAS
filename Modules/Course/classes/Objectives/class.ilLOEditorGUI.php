@@ -1120,7 +1120,7 @@ class ilLOEditorGUI
 
             $confirm->addItem(
                 'objective_ids[]',
-                $objective_id,
+                (string) $objective_id,
                 $name
             );
         }
