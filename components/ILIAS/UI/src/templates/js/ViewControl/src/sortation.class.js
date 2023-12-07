@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -60,22 +59,21 @@ export default class Sortation {
     dd.parentNode.classList.remove('open');
     dd.childNodes[0].data = `${signalData.triggerer.contents()[0].data} `;
 
-
     const label = signalData.triggerer.contents()[0].data;
     dd.dropdown('toggle');
-    dd.contents()[0].data = 
-      signalData.options.label_prefix
-      + ' '
-      + label
-      + ' ';
+    dd.contents()[0].data = `${signalData.options.label_prefix
+    } ${
+      label
+    } `;
     dd.parent().find('li').each(
-      function (idx, li) {
-        if(li.getElementsByTagName('button')[0].innerHTML === label) {
-          li.className = 'selected';
+      (idx, li) => {
+        const node = li;
+        if (node.getElementsByTagName('button')[0].innerHTML === label) {
+          node.className = 'selected';
         } else {
-          li.className = '';
+          node.className = '';
         }
-      } 
+      },
     );
 
     this.#eventDispatcher.dispatch(this.#component, signal, sigdata);
