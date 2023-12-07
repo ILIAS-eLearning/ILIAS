@@ -20,15 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use ILIAS\Refinery\ConstraintViolationException;
 
-class BooleanTransformation implements Transformation
+class BooleanTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
     private const BOOL_TRUE_STRING = 'true';
     private const BOOL_FALSE_STRING = 'false';
     private const BOOL_TRUE_NUMBER = 1;
@@ -36,10 +32,7 @@ class BooleanTransformation implements Transformation
     private const BOOL_TRUE_NUMBER_STRING = '1';
     private const BOOL_FALSE_NUMBER_STRING = '0';
 
-    /**
-     * @inheritDoc
-     */
-    public function transform($from): bool
+    public function transform($from)
     {
         if (is_bool($from)) {
             return $from;

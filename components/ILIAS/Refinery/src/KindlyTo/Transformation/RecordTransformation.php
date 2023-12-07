@@ -20,27 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use ILIAS\Refinery\ConstraintViolationException;
 
-class RecordTransformation implements Transformation
+class RecordTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
-    /** @var array<string, Transformation> */
+    /** @var array<string, Transformable> */
     private array $transformations;
 
     /**
-     * @param array<string, Transformation> $transformations
+     * @param array<string, Transformable> $transformations
      */
     public function __construct(array $transformations)
     {
         foreach ($transformations as $key => $transformation) {
-            if (!$transformation instanceof Transformation) {
-                $transformationClassName = Transformation::class;
+            if (!$transformation instanceof Transformable) {
+                $transformationClassName = Transformable::class;
 
                 throw new ConstraintViolationException(
                     sprintf('The array must contain only "%s" instances', $transformationClassName),
@@ -61,19 +56,17 @@ class RecordTransformation implements Transformation
     }
 
     /**
-     * @inheritDoc
      * @return array<string, mixed>
      */
-    public function transform($from): array
+    public function transform($from)
     {
-        if (!is_array($from)) {
+        if (!is_array($value)) {
             throw new ConstraintViolationException(
-                sprintf('The value "%s" is no array.', var_export($from, true)),
+                sprintf('The value "%s" is no array.', var_export($value, true)),
                 'value_is_no_array',
-                $from
+                $value
             );
         }
-
         $result = [];
         foreach ($this->transformations as $key => $transformation) {
             if (!array_key_exists($key, $from)) {

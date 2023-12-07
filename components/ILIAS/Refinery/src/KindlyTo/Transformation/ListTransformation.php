@@ -20,26 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 
-class ListTransformation implements Transformation
+class ListTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
+    private Transformable $transformation;
 
-    private Transformation $transformation;
-
-    public function __construct(Transformation $transformation)
+    public function __construct(Transformable $transformation)
     {
         $this->transformation = $transformation;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function transform($from): array
+    public function transform($from)
     {
         if (!is_array($from)) {
             $from = [$from];

@@ -20,78 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\ProblemBuilder;
-use UnexpectedValueException;
+use ILIAS\Refinery\Transformable;
 use DateTimeImmutable;
-use Exception;
 
 /**
  * Transform a string representing a datetime-value to php's DateTimeImmutable
  * see https://www.php.net/manual/de/datetime.formats.php
  */
-class DateTimeTransformation implements Constraint
+class DateTimeTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-    use ProblemBuilder;
-
-    private string $error = '';
-
-    /**
-     * @inheritDoc
-     */
     public function transform($from): DateTimeImmutable
     {
-        $this->check($from);
-        return new DateTimeImmutable($from);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getError(): string
-    {
-        return $this->error;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function check($value)
-    {
-        if (!$this->accepts($value)) {
-            throw new UnexpectedValueException($this->getErrorMessage($value));
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function accepts($value): bool
-    {
-        try {
-            new DateTimeImmutable($value);
-        } catch (Exception $e) {
-            $this->error = $e->getMessage();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function problemWith($value): ?string
-    {
-        if (!$this->accepts($value)) {
-            return $this->getErrorMessage($value);
-        }
-
-        return null;
+        return new DateTimeImmutable($value); // Let the error message bubble up.
     }
 }

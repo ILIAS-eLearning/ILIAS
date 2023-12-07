@@ -20,11 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\String;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use InvalidArgumentException;
 use LogicException;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 /**
  * Class CaseOfLabel
@@ -33,11 +31,8 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
  *
  * Throws a LogicException in the transform method, if a not supported language is passed
  */
-class CaseOfLabel implements Transformation
+class CaseOfLabel implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
     private string $language_key;
     /** @var array<string, string[]>  */
     protected array $not_capitalize = [

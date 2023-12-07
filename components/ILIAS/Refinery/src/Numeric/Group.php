@@ -20,23 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Numeric;
 
-use ILIAS\Data\Factory;
-use ILIAS\Refinery\Constraint;
-use ilLanguage;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 
 class Group
 {
-    private Factory $dataFactory;
-    private ilLanguage $language;
-
-    public function __construct(Factory $dataFactory, ilLanguage $language)
+    public function __construct(private readonly BuildTransformation $build_transformation)
     {
-        $this->dataFactory = $dataFactory;
-        $this->language = $language;
     }
 
-    public function isNumeric(): Constraint
+    public function isNumeric(): Transformation
     {
-        return new IsNumeric($this->dataFactory, $this->language);
+        return $this->build_transformation->fromTransformable(new IsNumeric());
     }
 }

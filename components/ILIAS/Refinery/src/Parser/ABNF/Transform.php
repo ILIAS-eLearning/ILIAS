@@ -24,7 +24,8 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
 use Closure;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
+use Exception;
 
 class Transform
 {
@@ -35,10 +36,10 @@ class Transform
      * $int = $DIC->refinery()->kindlyTo()->int();
      * $brick->apply($this->to($int, $brick->digit()), '4') => new Ok(4);
      */
-    public function to(Transformation $transformation, Closure $parse): Closure
+    public function to(Transformable $transformation, Closure $parse): Closure
     {
-        return $this->from(static fn ($value): Result => $transformation->applyTo(new Ok($value))->map(
-            static fn ($value): array => [$value]
+        return $this->from($this->protect($transformation)->map(
+            static fn($value): array => [$value]
         ), $parse);
     }
 
@@ -61,7 +62,7 @@ class Transform
     public function as(string $key, Closure $parse): Closure
     {
         return $this->from(
-            fn ($value): Result => new Ok([$key => $this->removeArrayLevel($value)]),
+            fn($value): Result => new Ok([$key => $this->removeArrayLevel($value)]),
             $parse
         );
     }
@@ -81,10 +82,10 @@ class Transform
 
     private function from(Closure $transform, Closure $parse): Closure
     {
-        return fn (Intermediate $previous, Closure $cc): Result => $parse(
+        return fn(Intermediate $previous, Closure $cc): Result => $parse(
             $previous->onlyTodo(),
-            fn (Result $child): Result => $child->then(
-                fn (Intermediate $child): Result =>
+            fn(Result $child): Result => $child->then(
+                fn(Intermediate $child): Result =>
                     $child->transform($transform)
                           ->then($this->combine($previous, $child, $cc))
                           ->except($this->error($cc))
@@ -94,7 +95,7 @@ class Transform
 
     private function combine(Intermediate $hasAccepted, Intermediate $hasTodos, Closure $cc): Closure
     {
-        return static fn (array $values): Result => $cc(new Ok(
+        return static fn(array $values): Result => $cc(new Ok(
             $hasTodos->onlyTodo()
                      ->push($hasAccepted->accepted())
                      ->push($values)
@@ -103,6 +104,17 @@ class Transform
 
     private function error(Closure $cc): Closure
     {
-        return static fn ($error): Result => $cc(new Error($error));
+        return static fn($error): Result => $cc(new Error($error));
+    }
+
+    private function protect(Transformable $transformable): Closure
+    {
+        return static function ($value) use ($transformable): Result {
+            try {
+                return new Ok($transformable->transform($value));
+            } catch (Exception $exception) {
+                return new Error($exception);
+            }
+        };
     }
 }

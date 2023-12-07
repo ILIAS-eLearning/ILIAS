@@ -20,58 +20,52 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Password;
 
-use ILIAS\Data\Factory;
-use ILIAS\Refinery\Constraint;
-use ilLanguage;
+use ILIAS\Refinery\BuildTransformation;
+use ILIAS\Refinery\Transformation;
 
 class Group
 {
-    protected Factory $data_factory;
-    protected ilLanguage $lng;
-
-    public function __construct(Factory $data_factory, ilLanguage $lng)
+    public function __construct(BuildTransformation $build_transformation)
     {
-        $this->data_factory = $data_factory;
-        $this->lng = $lng;
     }
 
     /**
      * Get the constraint that a password has a minimum length.
      */
-    public function hasMinLength(int $min_length): Constraint
+    public function hasMinLength(int $min_length): Transformation
     {
-        return new HasMinLength($min_length, $this->data_factory, $this->lng);
+        return $this->build_transformation->fromConstraint(new HasMinLength($min_length));
     }
 
     /**
      * Get the constraint that a password has upper case chars.
      */
-    public function hasUpperChars(): Constraint
+    public function hasUpperChars(): Transformation
     {
-        return new HasUpperChars($this->data_factory, $this->lng);
+        return $this->build_transformation->fromConstraint(new HasUpperChars());
     }
 
     /**
      * Get the constraint that a password has lower case chars.
      */
-    public function hasLowerChars(): Constraint
+    public function hasLowerChars(): Transformation
     {
-        return new HasLowerChars($this->data_factory, $this->lng);
+        return $this->build_transformation->fromConstraint(new HasLowerChars());
     }
 
     /**
      * Get the constraint that a password has numbers.
      */
-    public function hasNumbers(): Constraint
+    public function hasNumbers(): Transformation
     {
-        return new HasNumbers($this->data_factory, $this->lng);
+        return $this->build_transformation->fromConstraint(new HasNumbers());
     }
 
     /**
      * Get the constraint that a password has special chars.
      */
-    public function hasSpecialChars(): Constraint
+    public function hasSpecialChars(): Transformation
     {
-        return new HasSpecialChars($this->data_factory, $this->lng);
+        return $this->build_transformation->fromConstraint(new HasSpecialChars());
     }
 }

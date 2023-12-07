@@ -20,16 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Transformable;
 use InvalidArgumentException;
 
-class NewMethodTransformation implements Transformation
+class NewMethodTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
     private object $object;
     private string $method;
 
@@ -45,9 +40,6 @@ class NewMethodTransformation implements Transformation
         $this->method = $methodToCall;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function transform($from)
     {
         if (false === is_array($from)) {

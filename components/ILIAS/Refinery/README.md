@@ -31,7 +31,7 @@ interfaces to establish a way to secure input
 and transform values in a secure way.
 
 The initial concept for this library can be found
-[here](/docs/documentation/input-processing.md).
+[here](/docs/development/input-processing.md).
 
 These library also consists of sub-libraries,
 that can be used for transformations and
@@ -352,7 +352,7 @@ Just the `applyTo` method needs to be created in the new transformation class.
 
 ##### Error Handling
 
-Exceptions thrown inside the `applyTo` method will be
+Exceptions thrown inside the `applyTo` method will
 **not be** caught.
 On return of an [error result object (`Result\Error`)](/src/Data/README.md#result)
 the `transform` method will throw an exception.

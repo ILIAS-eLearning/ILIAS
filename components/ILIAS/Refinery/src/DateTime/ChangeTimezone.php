@@ -20,9 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\DateTime;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Transformable;
 use DateTimeZone;
 use InvalidArgumentException;
 use DateTimeImmutable;
@@ -31,11 +29,8 @@ use DateTimeImmutable;
  * Change the timezone (and only the timezone) of php's \DateTimeImmutable WITHOUT changing the date-value.
  * This will effectively be another point in time and space.
  */
-class ChangeTimezone implements Transformation
+class ChangeTimezone implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
     private DateTimeZone $timezone;
 
     public function __construct(string $timezone)
@@ -46,15 +41,11 @@ class ChangeTimezone implements Transformation
         $this->timezone = new DateTimeZone($timezone);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function transform($from): DateTimeImmutable
+    public function transform($from)
     {
-        if (!$from instanceof DateTimeImmutable) {
-            throw new InvalidArgumentException("$from is not a DateTimeImmutable-object", 1);
+        if (!$value instanceof DateTimeImmutable) {
+            throw new UnexpectedValueException("$value is not a DateTimeImmutable-object");
         }
-
         $ts = $from->format('Y-m-d H:i:s');
 
         return new DateTimeImmutable($ts, $this->timezone);

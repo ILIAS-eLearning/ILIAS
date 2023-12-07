@@ -24,7 +24,7 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
 use Closure;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use ILIAS\Refinery\Custom\Transformation as Custom;
 
 /**
@@ -44,8 +44,8 @@ class Brick
 
     public function apply(Closure $parse, string $input): Result
     {
-        return $this->consume($parse, new Intermediate($input))->then(static fn (Intermediate $x): Result => (
-            $x->transform(static fn ($value): Result => (
+        return $this->consume($parse, new Intermediate($input))->then(static fn(Intermediate $x): Result => (
+            $x->transform(static fn($value): Result => (
                 new Ok(is_array($value) && !is_string(key($value)) ? current($value) : $value)
             ))
         ));
@@ -53,11 +53,11 @@ class Brick
 
     /**
      * @param Parser $parse
-     * @return Transformation
+     * @return Transformable
      */
-    public function toTransformation(Closure $parse): Transformation
+    public function toTransformation(Closure $parse): Transformable
     {
-        return new Custom(fn ($input) => $this->apply($parse, $input)->value());
+        return new Custom(fn($input) => $this->apply($parse, $input)->value());
     }
 
     /**
@@ -67,7 +67,7 @@ class Brick
      */
     public function range(int $start, int $end): Closure
     {
-        return static fn (Intermediate $x, Closure $cc): Result => $cc(
+        return static fn(Intermediate $x, Closure $cc): Result => $cc(
             $x->value() >= $start && $x->value() <= $end ? $x->accept() : $x->reject()
         );
     }
@@ -123,11 +123,10 @@ class Brick
     }
 
     /**
-     * @param Transformation $transformation
      * @param Parser $parser
      * @return Parser
      */
-    public function transformation(Transformation $transformation, Closure $parse): Closure
+    public function transformation(Transformable $transformation, Closure $parse): Closure
     {
         return $this->transform->to($transformation, $parse);
     }
@@ -156,8 +155,8 @@ class Brick
      */
     private function consume(Closure $parse, Intermediate $intermediate): Result
     {
-        return $parse($intermediate, static fn (Result $x): Result => $x->then(
-            static fn (Intermediate $x): Result => $x->done() ? new Ok($x) : new Error('EOF not reached.')
+        return $parse($intermediate, static fn(Result $x): Result => $x->then(
+            static fn(Intermediate $x): Result => $x->done() ? new Ok($x) : new Error('EOF not reached.')
         ));
     }
 }

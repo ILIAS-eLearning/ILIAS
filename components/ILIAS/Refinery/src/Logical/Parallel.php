@@ -20,50 +20,34 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Refinery\Constraint;
+use Exception;
 
-class Parallel extends Constraint
+class Parallel implements Constraint
 {
     /**
-     * There's a test to show this state will never be visible
-     * ParallelTest::testCorrectErrorMessagesAfterMultiAccept
-     *
-     * @var Constraint[]
+     * @param Constraint[] $constraints
      */
-    protected array $failed_constraints;
+    public function __construct(private readonly array $constraints)
+    {
+    }
+
+    public function problemWith($value)
+    {
+        $problems = array_filter(array_map(fn($t) => $t->problemWith($value), $this->constraints));
+
+        if ([] === $problems) {
+            return null;
+        }
+
+        return new ExceptionCollection(array_map($this->ensureException(...), $problems));
+    }
 
     /**
-     * @param Constraint[] $constraints
-     * @param Data\Factory $data_factory
-     * @param ilLanguage $lng
+     * @param string|Exception
      */
-    public function __construct(array $constraints, Data\Factory $data_factory, ilLanguage $lng)
+    private function ensureException($exception): Exception
     {
-        parent::__construct(
-            function ($value) use ($constraints): bool {
-                $ret = true;
-                $this->failed_constraints = [];
-                foreach ($constraints as $constraint) {
-                    if (!$constraint->accepts($value)) {
-                        $this->failed_constraints[] = $constraint;
-                        $ret = false;
-                    }
-                }
-
-                return $ret;
-            },
-            function ($txt, $value): string {
-                $messages = [];
-                foreach ($this->failed_constraints as $constraint) {
-                    $messages[] = $constraint->getErrorMessage($value);
-                }
-
-                return implode(" ", $messages);
-            },
-            $data_factory,
-            $lng
-        );
+        return is_string($exception) ? new Exception($exception) : $exception;
     }
 }

@@ -21,11 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\URI;
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 
 class Group
 {
+    public function __construct(private readonly BuildTransformation $build_transformation)
+    {
+    }
+
     public function toString(): Transformation
     {
-        return new StringTransformation();
+        return $this->build_transformation->fromTransformable(new StringTransformation());
     }
 }

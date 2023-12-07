@@ -21,25 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\Custom;
 
 use ILIAS\Refinery\Constraint as ConstraintInterface;
-use ILIAS\Refinery\DeriveTransformFromApplyTo;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Data;
 use ILIAS\Data\Result;
-use ILIAS\Refinery\ProblemBuilder;
-use ilLanguage;
+use InvalidArgumentException;
 
 class Constraint implements ConstraintInterface
 {
-    use DeriveTransformFromApplyTo;
-    use DeriveInvokeFromTransform;
-    use ProblemBuilder;
-
-    protected Data\Factory $data_factory;
-    protected ilLanguage $lng;
-    /** @var callable */
-    protected $is_ok;
-    /** @var callable|string */
-    protected $error;
+    private readonly Closure $is_ok;
 
     /**
      * If $error is a callable it needs to take two parameters:
@@ -49,73 +37,18 @@ class Constraint implements ConstraintInterface
      *      - the $value for which the error message should be build.
      *
      * @param callable $is_ok
-     * @param string|callable $error
-     * @param Data\Factory $data_factory
-     * @param ilLanguage $lng
      */
-    public function __construct(callable $is_ok, $error, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(callable $is_ok)
     {
-        $this->is_ok = $is_ok;
-        $this->error = $error;
-        $this->data_factory = $data_factory;
-        $this->lng = $lng;
+        $this->is_ok = Closure::fromCallable($is_ok);
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function getError()
-    {
-        return $this->error;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final public function check($value)
-    {
-        if (!$this->accepts($value)) {
-            throw new \UnexpectedValueException($this->getErrorMessage($value));
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final public function accepts($value): bool
-    {
-        return call_user_func($this->is_ok, $value);
-    }
-
-    /**
-     * @inheritDoc
-     */
     final public function problemWith($value): ?string
     {
-        if (!$this->accepts($value)) {
-            return $this->getErrorMessage($value);
+        if (!($this->is_ok)($value)) {
+            return new InvalidArgumentException('Not ok');
         }
 
         return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final public function applyTo(Result $result): Result
-    {
-        if ($result->isError()) {
-            return $result;
-        }
-
-        $problem = $this->problemWith($result->value());
-        if ($problem !== null) {
-            $error = $this->data_factory->error($problem);
-            return $error;
-        }
-
-        return $result;
     }
 }

@@ -20,29 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
-use ILIAS\Data\Result;
-use ILIAS\Data\Result\Ok;
-use ILIAS\Data\Result\Error;
-use Exception;
-
-trait DeriveApplyToFromTransform
+/**
+ * @template A
+ * @template B
+ */
+interface Transformable
 {
     /**
-     * @inheritDoc
+     * @param A $from
+     * @return B
      */
-    abstract public function transform($from);
-
-    /**
-     * @inheritDoc
-     */
-    public function applyTo(Result $result): Result
-    {
-        return $result->then(function ($value): Result {
-            try {
-                return new Ok($this->transform($value));
-            } catch (Exception $exception) {
-                return new Error($exception);
-            }
-        });
-    }
+    public function transform($from);
 }

@@ -24,18 +24,19 @@ use ILIAS\Refinery\In;
 use ILIAS\Refinery\To;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ilLanguage;
+use ILIAS\Data\Factory as DataFactory;
 
 class Factory
 {
-    private \ILIAS\Data\Factory $dataFactory;
-    private ilLanguage $language;
+    private readonly DataFactory $dataFactory;
+    private readonly BuildTransformation $build_transformation;
 
-    public function __construct(\ILIAS\Data\Factory $dataFactory, ilLanguage $language)
+    public function __construct(DataFactory $dataFactory, ilLanguage $language)
     {
         $this->dataFactory = $dataFactory;
-        $this->language = $language;
+        $this->build_transformation = new BuildTransformation($language);
 
-        $this->language->loadLanguageModule('validation');
+        $language->loadLanguageModule('validation');
     }
 
     /**
@@ -44,7 +45,7 @@ class Factory
      */
     public function to(): To\Group
     {
-        return new To\Group($this->dataFactory);
+        return new To\Group($this->dataFactory, $this->build_transformation);
     }
 
     /**
@@ -58,7 +59,7 @@ class Factory
      */
     public function kindlyTo(): KindlyTo\Group
     {
-        return new KindlyTo\Group($this->dataFactory);
+        return new KindlyTo\Group($this->build_transformation);
     }
 
     /**
@@ -68,7 +69,7 @@ class Factory
      */
     public function in(): In\Group
     {
-        return new In\Group();
+        return new In\Group($this->build_transformation);
     }
 
     /**
@@ -77,7 +78,7 @@ class Factory
      */
     public function int(): Integer\Group
     {
-        return new Integer\Group($this->dataFactory, $this->language);
+        return new Integer\Group($this->build_transformation);
     }
 
     /**
@@ -85,7 +86,7 @@ class Factory
      */
     public function string(): String\Group
     {
-        return new String\Group($this->dataFactory, $this->language);
+        return new String\Group($this->build_transformation);
     }
 
     /**
@@ -93,7 +94,7 @@ class Factory
      */
     public function custom(): Custom\Group
     {
-        return new Custom\Group($this->dataFactory, $this->language);
+        return new Custom\Group($this->build_transformation);
     }
 
     /**
@@ -101,7 +102,7 @@ class Factory
      */
     public function container(): Container\Group
     {
-        return new Container\Group($this->dataFactory);
+        return new Container\Group($this->build_transformation);
     }
 
     /**
@@ -109,7 +110,7 @@ class Factory
      */
     public function password(): Password\Group
     {
-        return new Password\Group($this->dataFactory, $this->language);
+        return new Password\Group($this->build_transformation);
     }
 
     /**
@@ -117,15 +118,7 @@ class Factory
      */
     public function logical(): Logical\Group
     {
-        return new Logical\Group($this->dataFactory, $this->language);
-    }
-
-    /**
-     * Contains constraints for null types
-     */
-    public function null(): Constraint
-    {
-        return new IsNull($this->dataFactory, $this->language);
+        return new Logical\Group($this->build_transformation);
     }
 
     /**
@@ -133,7 +126,7 @@ class Factory
      */
     public function numeric(): Numeric\Group
     {
-        return new Numeric\Group($this->dataFactory, $this->language);
+        return new Numeric\Group($this->build_transformation);
     }
 
     /**
@@ -141,7 +134,7 @@ class Factory
      */
     public function dateTime(): DateTime\Group
     {
-        return new DateTime\Group();
+        return new DateTime\Group($this->build_transformation);
     }
 
     /**
@@ -149,30 +142,38 @@ class Factory
      */
     public function uri(): URI\Group
     {
-        return new URI\Group();
-    }
-
-    /**
-     * Accepts Transformations and uses first successful one.
-     * @param Transformation[] $transformations
-     */
-    public function byTrying(array $transformations): ByTrying
-    {
-        return new ByTrying($transformations, $this->dataFactory);
+        return new URI\Group($this->build_transformation);
     }
 
     public function random(): RandomGroup
     {
-        return new RandomGroup();
+        return new RandomGroup($this->build_transformation);
+    }
+
+    /**
+     * Contains constraints for null types
+     */
+    public function null(): Transformation
+    {
+        return $this->build_transformation->fromConstraint(new IsNull());
+    }
+
+    /**
+     * Accepts Transformations and uses first successful one.
+     * @param Transformable[] $transformations
+     */
+    public function byTrying(array $transformations): Transformation
+    {
+        return $this->build_transformation->fromTransformable(new ByTrying($transformations));
     }
 
     public function identity(): Transformation
     {
-        return new IdentityTransformation();
+        return $this->build_transformation->fromTransformable(new IdentityTransformation());
     }
 
     public function always($value): Transformation
     {
-        return new ConstantTransformation($value);
+        return $this->build_transformation->fromTransformable(new ConstantTransformation($value));
     }
 }

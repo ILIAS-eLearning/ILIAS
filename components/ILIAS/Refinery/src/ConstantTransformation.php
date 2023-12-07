@@ -20,21 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
-class ConstantTransformation implements Transformation
+class ConstantTransformation implements Transformable
 {
-    use DeriveInvokeFromTransform;
-    use DeriveApplyToFromTransform;
-
-    protected $value;
-
-    public function __construct($value)
+    public function __construct(private $value)
     {
-        $this->value = $value;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function transform($from)
     {
         return $this->value;

@@ -20,23 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Refinery\Constraint;
 
-class Not extends Constraint
+class Not implements Constraint
 {
-    public function __construct(Constraint $constraint, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(private readonly Transformable $constraint)
     {
-        parent::__construct(
-            static function ($value) use ($constraint) {
-                return !$constraint->accepts($value);
-            },
-            static function ($txt, $value) use ($constraint): string {
-                return (string) $txt("not_generic", $constraint->getErrorMessage($value));
-            },
-            $data_factory,
-            $lng
-        );
+    }
+
+    public function problemWith($value)
+    {
+        if ($this->constraint->problemWith($value) === null) {
+            return new ConstraintViolationException('Not the negation', 'not_generic', '');
+        }
     }
 }

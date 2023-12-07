@@ -20,20 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\String;
 
-use ILIAS\Data\Factory;
-use ilLanguage;
-use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\BuildTransformation;
 use ILIAS\Refinery\Transformation;
 
 class Group
 {
-    private Factory $dataFactory;
-    private ilLanguage $language;
-
-    public function __construct(Factory $dataFactory, ilLanguage $language)
+    public function __construct(private readonly BuildTransformation $build_transformation)
     {
-        $this->dataFactory = $dataFactory;
-        $this->language = $language;
     }
 
     /**
@@ -46,7 +39,7 @@ class Group
      */
     public function hasMinLength(int $minimum): Constraint
     {
-        return new HasMinLength($minimum, $this->dataFactory, $this->language);
+        return $this->build_trasformation->fromConstraint(new HasMinLength($minimum));
     }
 
     /**
@@ -59,7 +52,7 @@ class Group
      */
     public function hasMaxLength(int $maximum): Constraint
     {
-        return new HasMaxLength($maximum, $this->dataFactory, $this->language);
+        return $this->build_trasformation->fromConstraint(new HasMaxLength($maximum));
     }
 
     /**
@@ -68,7 +61,7 @@ class Group
      */
     public function splitString(string $delimiter): Transformation
     {
-        return new SplitString($delimiter, $this->dataFactory);
+        return $this->build_trasformation->fromTransformable(new SplitString($delimiter));
     }
 
 
@@ -79,7 +72,7 @@ class Group
      */
     public function stripTags(): Transformation
     {
-        return new StripTags();
+        return $this->build_trasformation->fromTransformable(new StripTags());
     }
 
     /**
@@ -89,7 +82,7 @@ class Group
      */
     public function caseOfLabel(string $language_key): Transformation
     {
-        return new CaseOfLabel($language_key);
+        return $this->build_trasformation->fromTransformable(new CaseOfLabel($language_key));
     }
 
     /**
@@ -103,7 +96,7 @@ class Group
      */
     public function estimatedReadingTime(bool $withImages = false): Transformation
     {
-        return new EstimatedReadingTime($withImages);
+        return $this->build_trasformation->fromTransformable(new EstimatedReadingTime($withImages));
     }
 
     /**
@@ -112,7 +105,7 @@ class Group
      */
     public function makeClickable(): Transformation
     {
-        return new MakeClickable();
+        return $this->build_trasformation->fromTransformable(new MakeClickable());
     }
 
     /**
@@ -124,7 +117,7 @@ class Group
      */
     public function levenshtein(): Levenshtein
     {
-        return new Levenshtein();
+        return new Levenshtein($this->build_trasformation);
     }
 
     /**
@@ -134,7 +127,7 @@ class Group
      */
     public function utfnormal(): UTFNormal
     {
-        return new UTFNormal();
+        return new UTFNormal($this->build_trasformation);
     }
 
     /**
@@ -143,6 +136,6 @@ class Group
      */
     public function markdown(): MarkdownFormattingToHTML
     {
-        return new MarkdownFormattingToHTML();
+        return new MarkdownFormattingToHTML($this->build_trasformation);
     }
 }

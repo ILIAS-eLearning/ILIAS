@@ -20,32 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Transformable;
 use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
-class RecordTransformation implements Constraint
+class RecordTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-    use ProblemBuilder;
-
-    private string $error = '';
-    /** @var array<string, Transformation> */
+    /** @var array<string, Transformable> */
     private array $transformations;
 
     /**
-     * @param array<string, Transformation> $transformations
+     * @param array<string, Transformable> $transformations
      */
     public function __construct(array $transformations)
     {
         foreach ($transformations as $key => $transformation) {
-            if (!$transformation instanceof Transformation) {
-                $transformationClassName = Transformation::class;
+            if (!$transformation instanceof Transformable) {
+                $transformationClassName = Transformable::class;
 
                 throw new ConstraintViolationException(
                     sprintf('The array MUST contain only "%s" instances', $transformationClassName),
@@ -66,7 +57,6 @@ class RecordTransformation implements Constraint
     }
 
     /**
-     * @inheritDoc
      * @return array<string, mixed>
      */
     public function transform($from): array
@@ -84,76 +74,32 @@ class RecordTransformation implements Constraint
         return $result;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getError(): string
+    private function check($value): void
     {
-        return $this->error;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function check($value)
-    {
-        if (!$this->accepts($value)) {
-            throw new UnexpectedValueException($this->getErrorMessage($value));
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function accepts($value): bool
-    {
-        if (!$this->validateValueLength($value)) {
-            return false;
-        }
+        $this->validateValueLength($value);
 
         foreach ($value as $key => $v) {
             if (!is_string($key)) {
-                $this->error = 'The array key MUST be a string';
-                return false;
+                throw new UnexpectedValueException('The array key MUST be a string');
             }
 
             if (!isset($this->transformations[$key])) {
-                $this->error = sprintf('Could not find transformation for array key "%s"', $key);
-                return false;
+                throw new UnexpectedValueException(sprintf('Could not find transformation for array key "%s"', $key));
             }
         }
-
-        return true;
     }
 
-    private function validateValueLength(array $values): bool
+    private function validateValueLength(array $values): void
     {
         $countOfValues = count($values);
         $countOfTransformations = count($this->transformations);
 
         if ($countOfValues !== $countOfTransformations) {
-            $this->error = sprintf(
+            throw new UnexpectedValueException(sprintf(
                 'The given values(count: "%s") does not match with the given transformations("%s")',
                 $countOfValues,
                 $countOfTransformations
-            );
-            return false;
+            ));
         }
-
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function problemWith($value): ?string
-    {
-        if (!$this->accepts($value)) {
-            return $this->getErrorMessage($value);
-        }
-
-        return null;
     }
 }

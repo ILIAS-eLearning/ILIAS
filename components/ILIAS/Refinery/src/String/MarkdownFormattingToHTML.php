@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 
 /**
  * This class provides a transformation that converts Markdown formatting to HTML using the `CommonMark` Library
@@ -29,7 +30,7 @@ class MarkdownFormattingToHTML
 {
     private \League\CommonMark\CommonMarkConverter $converter;
 
-    public function __construct()
+    public function __construct(private readonly BuildTransformation $build_transformation)
     {
         $this->converter = new \League\CommonMark\CommonMarkConverter();
     }
@@ -39,8 +40,8 @@ class MarkdownFormattingToHTML
      */
     public function toHTML(): Transformation
     {
-        return new \ILIAS\Refinery\Custom\Transformation(
-            fn ($value) => $this->converter->convert($value)->getContent()
-        );
+        return $this->build_transformation->fromTransformable(new \ILIAS\Refinery\Custom\Transformation(
+            fn($value) => $this->converter->convert($value)->getContent()
+        ));
     }
 }

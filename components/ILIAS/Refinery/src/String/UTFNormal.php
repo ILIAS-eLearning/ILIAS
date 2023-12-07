@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 use Symfony\Polyfill\Intl\Normalizer\Normalizer as PolyfillNormalizer;
 use Normalizer as NativeNormalizer;
 
@@ -30,6 +31,10 @@ class UTFNormal
     protected ?Transformation $form_d = null;
     protected ?Transformation $form_kc = null;
     protected ?Transformation $form_kd = null;
+
+    public function __construct(private readonly BuildTransformation $build_transformation)
+    {
+    }
 
     /**
      * Normalization Form C (NFC), also known as Canonical Decomposition followed by Canonical Composition.
@@ -82,12 +87,14 @@ class UTFNormal
     protected function getNormalizer($form): Transformation
     {
         if ($this->normalizerExists()) {
-            $normalizer = fn ($from) => NativeNormalizer::normalize($from, $form);
+            $normalizer = fn($from) => NativeNormalizer::normalize($from, $form);
         } else {
-            $normalizer = fn ($from) => PolyfillNormalizer::normalize($from, $form);
+            $normalizer = fn($from) => PolyfillNormalizer::normalize($from, $form);
         }
 
-        return new \ILIAS\Refinery\Custom\Transformation($normalizer);
+        return $this->build_transformation->fromTransformable(
+            new \ILIAS\Refinery\Custom\Transformation($normalizer)
+        );
     }
 
     protected function normalizerExists(): bool

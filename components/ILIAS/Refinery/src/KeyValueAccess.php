@@ -27,9 +27,9 @@ use Countable;
 class KeyValueAccess implements ArrayAccess, Countable
 {
     private array $raw_values;
-    private Transformation $trafo;
+    private Transformable $trafo;
 
-    public function __construct(array $raw_values, Transformation $trafo)
+    public function __construct(array $raw_values, Transformable $trafo)
     {
         $this->trafo = $trafo;
         $this->raw_values = $raw_values;

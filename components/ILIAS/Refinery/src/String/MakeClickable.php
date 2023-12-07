@@ -20,31 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\String;
 
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Transformable;
 use ILIAS\Refinery\ConstraintViolationException;
 use Closure;
 
-class MakeClickable implements Transformation
+class MakeClickable implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
     private const URL_PATTERN = '(^|[^[:alnum:]])(((https?:\/\/)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)';
 
-    private bool $open_in_new_tab;
-
-    public function __construct($open_in_new_tab = true)
+    public function __construct(private readonly bool $open_in_new_tab = true)
     {
-        $this->open_in_new_tab = $open_in_new_tab;
     }
 
     public function transform($from): string
     {
         $this->requireString($from);
 
-        return $this->replaceMatches($from, fn (int $startOfMatch, int $endOfMatch, string $url, string $protocol): string => (
+        return $this->replaceMatches($from, fn(int $startOfMatch, int $endOfMatch, string $url, string $protocol): string => (
             $this->shouldReplace($from, $startOfMatch, $endOfMatch) ?
                 $this->replace($url, $protocol) :
                 $url
@@ -58,7 +50,7 @@ class MakeClickable implements Transformation
 
         while (null !== ($matches = $this->match(self::URL_PATTERN, substr($from, $endOfLastMatch)))) {
             $startOfMatch = $endOfLastMatch + strpos(substr($from, $endOfLastMatch), $matches[0]);
-            $endOfMatch   = $startOfMatch   + strlen($matches[1] . $matches[2]);
+            $endOfMatch = $startOfMatch + strlen($matches[1] . $matches[2]);
 
             $stringParts[] = substr($from, $endOfLastMatch, $startOfMatch - $endOfLastMatch);
             $stringParts[] = $matches[1] . $replace($startOfMatch, $endOfMatch, $matches[2], $matches[4]);

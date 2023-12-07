@@ -21,56 +21,24 @@ declare(strict_types=1);
 namespace ILIAS\Refinery;
 
 use Exception;
-use ILIAS\Data;
 
-class ByTrying implements Transformation
+class ByTrying implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-    use ProblemBuilder;
-
-    /** @var Transformation[] */
-    private array $transformations;
-    private Data\Factory $data_factory;
-    /** @var callable */
-    private $error;
-
     /**
-     * @param Transformation[] $transformations
-     * @param Data\Factory $data_factory
+     * @param Transformable[] $transformations
      */
-    public function __construct(array $transformations, Data\Factory $data_factory)
+    public function __construct(private readonly array $transformations)
     {
-        $this->transformations = $transformations;
-        $this->data_factory = $data_factory;
-        $this->error = static function (): void {
-            throw new ConstraintViolationException(
-                'no valid constraints',
-                'no_valid_constraints'
-            );
-        };
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function getError(): callable
-    {
-        return $this->error;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function transform($from)
     {
         foreach ($this->transformations as $transformation) {
-            $result = $this->data_factory->ok($from);
-            $result = $transformation->applyTo($result);
+            $result = $transformation->applyTo(new Ok($result));
             if ($result->isOK()) {
                 return $result->value();
             }
         }
-        throw new Exception($this->getErrorMessage($from));
+        throw new Rejection($from, 'no valid constraints', 'no_valid_constraints');
     }
 }

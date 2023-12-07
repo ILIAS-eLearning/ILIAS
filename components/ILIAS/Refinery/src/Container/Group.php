@@ -20,16 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Container;
 
-use ILIAS\Data\Factory;
 use ILIAS\Refinery\Transformation;
 
 class Group
 {
-    private Factory $dataFactory;
-
-    public function __construct(Factory $dataFactory)
-    {
-        $this->dataFactory = $dataFactory;
+    public function __construct(
+        private readonly BuildTransformation $build_transformation
+    ) {
     }
 
     /**
@@ -39,7 +36,7 @@ class Group
      */
     public function addLabels(array $labels): Transformation
     {
-        return new AddLabels($labels, $this->dataFactory);
+        return $this->build_transformation->fromTransformable(new AddLabels($labels));
     }
 
     /**
@@ -48,6 +45,6 @@ class Group
      */
     public function mapValues(Transformation $trafo): Transformation
     {
-        return new MapValues($trafo);
+        return $this->build_transformation->fromTransformable(new MapValues($trafo));
     }
 }

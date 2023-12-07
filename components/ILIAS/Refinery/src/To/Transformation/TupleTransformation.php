@@ -20,32 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Transformable;
 use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
-class TupleTransformation implements Constraint
+class TupleTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-    use ProblemBuilder;
-
     private string $error = '';
-    /** @var Transformation[] */
+    /** @var Transformable[] */
     private array $transformations;
 
     /**
-     * @param Transformation[] $transformations
+     * @param Transformable[] $transformations
      */
     public function __construct(array $transformations)
     {
         foreach ($transformations as $transformation) {
-            if (!$transformation instanceof Transformation) {
-                $transformationClassName = Transformation::class;
+            if (!$transformation instanceof Transformable) {
+                $transformationClassName = Transformable::class;
 
                 throw new ConstraintViolationException(
                     sprintf('The array MUST contain only "%s" instances', $transformationClassName),
@@ -58,9 +50,6 @@ class TupleTransformation implements Constraint
         $this->transformations = $transformations;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function transform($from): array
     {
         $this->check($from);
@@ -74,70 +63,28 @@ class TupleTransformation implements Constraint
         return $result;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getError(): string
+    private function check($value): void
     {
-        return $this->error;
-    }
+        $this->validateLengthOfValueAndTransformationEqual($value);
 
-    /**
-     * @inheritDoc
-     */
-    public function check($value)
-    {
-        if (!$this->accepts($value)) {
-            throw new UnexpectedValueException($this->getErrorMessage($value));
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function accepts($value): bool
-    {
-        if (!$this->isLengthOfValueAndTransformationEqual($value)) {
-            return false;
-        }
-
-        return count(array_filter($value, function ($key): bool {
+        array_walk($value, function ($v, $key): bool {
             if (!array_key_exists($key, $this->transformations)) {
-                $this->error = sprintf('There is no entry "%s" defined in the transformation array', $key);
-                return true;
+                throw new UnexpectedValueException(sprintf('There is no entry "%s" defined in the transformation array', $key));
             }
-            return false;
-        }, ARRAY_FILTER_USE_KEY)) === 0;
+        });
     }
 
-    private function isLengthOfValueAndTransformationEqual($values): bool
+    private function validateLengthOfValueAndTransformationEqual($values): void
     {
         $countOfValues = count($values);
         $countOfTransformations = count($this->transformations);
 
         if ($countOfValues !== $countOfTransformations) {
-            $this->error = sprintf(
+            throw new UnexpectedValueException(sprintf(
                 'The given values(count: "%s") does not match with the given transformations("%s")',
                 $countOfValues,
                 $countOfTransformations
-            );
-            return false;
+            ));
         }
-
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function problemWith($value): ?string
-    {
-        if (!$this->accepts($value)) {
-            return $this->getErrorMessage($value);
-        }
-
-        return null;
     }
 }

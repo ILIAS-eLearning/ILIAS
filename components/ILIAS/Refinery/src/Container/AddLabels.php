@@ -20,69 +20,34 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Container;
 
-use ILIAS\Data\Factory;
-use ILIAS\Data\Result;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Transformable;
 use InvalidArgumentException;
 
 /**
  * Adds to any array keys for each value
  */
-class AddLabels implements Transformation
+class AddLabels implements Transformable
 {
-    use DeriveInvokeFromTransform;
-
-    /** @var string[]|int[] */
-    private array $labels;
-    private Factory $factory;
-
     /**
      * @param string[]|int[] $labels
-     * @param Factory $factory
      */
-    public function __construct(array $labels, Factory $factory)
+    public function __construct(private readonly array $labels)
     {
-        $this->labels = $labels;
-        $this->factory = $factory;
     }
 
     /**
-     * @inheritDoc
      * @return array<int|string, mixed>
      */
     public function transform($from): array
     {
-        if (!is_array($from)) {
+        if (!is_array($value)) {
             throw new InvalidArgumentException(__METHOD__ . " argument is not an array.");
         }
 
-        if (count($from) !== count($this->labels)) {
+        if (count($value) !== count($this->labels)) {
             throw new InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
         }
 
         return array_combine($this->labels, $from);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function applyTo(Result $result): Result
-    {
-        $dataValue = $result->value();
-        if (false === is_array($dataValue)) {
-            $exception = new InvalidArgumentException(__METHOD__ . " argument is not an array.");
-            return $this->factory->error($exception);
-        }
-
-        if (count($dataValue) !== count($this->labels)) {
-            $exception = new InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
-            return $this->factory->error($exception);
-        }
-
-        $value = array_combine($this->labels, $dataValue);
-        $result = $this->factory->ok($value);
-
-        return $result;
     }
 }

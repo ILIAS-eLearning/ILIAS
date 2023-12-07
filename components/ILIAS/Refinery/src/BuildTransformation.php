@@ -18,19 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Refinery\Integer;
+namespace ILIAS\Refinery;
 
-use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\ConstraintViolationException;
+use ilLanguage;
 
-class GreaterThan implements Constraint
+class BuildTransformation
 {
-    public function __construct(private readonly int $min)
-    {
+    public function __construct(
+        private readonly ilLanguage $language
+    ) {
     }
 
-    public function problemWith($value)
+    public function fromTransformable(Transformable $t): Transformation
     {
-        return $value > $this->min ? null : new ConstraintViolationException('Not greater than', 'not_greater_than', $value, $this->min);
+        return new Transformation($t, $this->language);
+    }
+
+    public function fromConstraint(Constraint $constraint): Transformation
+    {
+        return $this->fromTransformable(new UseConstraintAsTransformable(new Constraint($lector, $this->language)));
     }
 }

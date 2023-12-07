@@ -20,38 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Container;
 
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\Transformable;
 use InvalidArgumentException;
 
 /**
  * Adds to any array keys for each value
  */
-class MapValues implements Transformation
+class MapValues implements Transformable
 {
-    use DeriveInvokeFromTransform;
-    use DeriveApplyToFromTransform;
-
-    protected string $type;
-    private Transformation $trafo;
-
-    public function __construct(Transformation $trafo)
+    public function __construct(private readonly Transformable $trafo)
     {
-        $this->trafo = $trafo;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function transform($from): array
+    public function transform($from)
     {
-        if (!is_array($from)) {
-            throw new InvalidArgumentException(__METHOD__ . " argument is not an array.");
+        if (!is_array($value)) {
+            throw new InvalidArgumentException("Argument is not an array.");
         }
-
-        return array_map(function ($a) {
-            return $this->trafo->transform($a);
-        }, $from);
+        return array_map($this->trafo->transform(...), $from);
     }
 }

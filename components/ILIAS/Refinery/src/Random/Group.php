@@ -21,12 +21,17 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\Random;
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 use ILIAS\Refinery\Random\Seed\Seed;
 use ILIAS\Refinery\IdentityTransformation;
 
 class Group
 {
+    public function __construct(private readonly BuildTransformation $build_transformation)
+    {
+    }
+
     /**
      * Get a transformation which will shuffle a given array.
      * Only arrays can be supplied to the transformation.
@@ -38,7 +43,7 @@ class Group
      */
     public function shuffleArray(Seed $seed): Transformation
     {
-        return new ShuffleTransformation($seed);
+        return $this->build_transformation->fromTransformable(new ShuffleTransformation($seed));
     }
 
     /**
@@ -47,6 +52,6 @@ class Group
      */
     public function dontShuffle(): Transformation
     {
-        return new IdentityTransformation();
+        return $this->build_transformation->fromTransformable(new IdentityTransformation());
     }
 }

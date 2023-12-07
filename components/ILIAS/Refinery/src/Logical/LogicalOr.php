@@ -20,41 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Refinery\Constraint;
 
-class LogicalOr extends Constraint
+class LogicalOr extends Sequential
 {
-    /**
-     * LogicalOr constructor.
-     * @param Constraint[] $other
-     * @param Data\Factory $data_factory
-     * @param ilLanguage $lng
-     */
-    public function __construct(array $other, Data\Factory $data_factory, ilLanguage $lng)
-    {
-        parent::__construct(
-            static function ($value) use ($other): bool {
-                foreach ($other as $constraint) {
-                    if ($constraint->accepts($value)) {
-                        return true;
-                    }
-                }
-
-                return false;
-            },
-            static function ($value) use ($other): string {
-                $problems = [];
-
-                foreach ($other as $constraint) {
-                    $problems[] = $constraint->getErrorMessage($value);
-                }
-
-                return 'Please fix one of these: ' . implode(', ', array_filter($problems));
-            },
-            $data_factory,
-            $lng
-        );
-    }
 }

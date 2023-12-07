@@ -20,29 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\ProblemBuilder;
+use ILIAS\Refinery\Transformable;
 use UnexpectedValueException;
-use ILIAS\Refinery\Constraint;
 
-class ListTransformation implements Constraint
+class ListTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-    use ProblemBuilder;
+    private Transformable $transformation;
 
-    private Transformation $transformation;
-
-    public function __construct(Transformation $transformation)
+    public function __construct(Transformable $transformation)
     {
         $this->transformation = $transformation;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function transform($from): array
     {
         $this->check($from);
@@ -56,41 +45,10 @@ class ListTransformation implements Constraint
         return $result;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getError(): string
+    private function check($value)
     {
-        return 'The value MUST be of type array.';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function check($value)
-    {
-        if (!$this->accepts($value)) {
-            throw new UnexpectedValueException($this->getErrorMessage($value));
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function accepts($value): bool
-    {
-        return is_array($value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function problemWith($value): ?string
-    {
-        if (!$this->accepts($value)) {
-            return $this->getErrorMessage($value);
+        if (!is_array($value)) {
+            throw new UnexpectedValueException('The value MUST be of type array.');
         }
 
         return null;

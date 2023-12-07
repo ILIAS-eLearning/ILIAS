@@ -20,28 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\ProblemBuilder;
+use ILIAS\Refinery\Transformable;
 use UnexpectedValueException;
 
-class DictionaryTransformation implements Constraint
+class DictionaryTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-    use ProblemBuilder;
+    private Transformable $transformation;
 
-    private Transformation $transformation;
-
-    public function __construct(Transformation $transformation)
+    public function __construct(Transformable $transformation)
     {
         $this->transformation = $transformation;
     }
 
     /**
-     * @inheritDoc
      * @return array<string, mixed>
      */
     public function transform($from): array
@@ -57,49 +48,23 @@ class DictionaryTransformation implements Constraint
         return $result;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getError(): string
-    {
-        return 'The value MUST be an array with only string keys.';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function check($value)
+    private function check($value)
     {
         if (!$this->accepts($value)) {
-            throw new UnexpectedValueException($this->getErrorMessage($value));
+            throw new UnexpectedValueException('The value MUST be an array with only string keys.');
         }
-
-        return null;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function accepts($value): bool
+    private function accepts($value): bool
     {
         if (!is_array($value)) {
             return false;
         }
 
-        return count(array_filter($value, static function ($key): bool {
-            return !is_string($key);
-        }, ARRAY_FILTER_USE_KEY)) === 0;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function problemWith($value): ?string
-    {
-        if (!$this->accepts($value)) {
-            return $this->getErrorMessage($value);
-        }
-
-        return null;
+        return [] === array_filter(
+            $value,
+            static fn($key): bool => !is_string($key),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 }

@@ -20,23 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Integer;
 
-use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint;
-use ilLanguage;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\ConstraintViolationException;
 
-class LessThanOrEqual extends Constraint
+class LessThanOrEqual implements Constraint
 {
-    public function __construct(int $max, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(private readonly int $max)
     {
-        parent::__construct(
-            static function ($value) use ($max): bool {
-                return $value <= $max;
-            },
-            static function ($txt, $value) use ($max): string {
-                return (string) $txt("not_less_than_or_equal", $max);
-            },
-            $data_factory,
-            $lng
-        );
+    }
+
+    public function problemWith($value)
+    {
+        return $value <= $this->max ? null : new ConstraintViolationException('Not less than or equal', 'not_less_than_or_equal', $this->max);
     }
 }

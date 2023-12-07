@@ -21,55 +21,130 @@ declare(strict_types=1);
 namespace ILIAS\Refinery;
 
 use ILIAS\Data\Result;
-use InvalidArgumentException;
+use ILIAS\Data\Result\Ok;
+use ILIAS\Data\Result\Error;
+use Exception;
+use ilLanguage;
+use Closure;
 
 /**
- * A transformation is a function from one datatype to another.
- *
- * It MUST NOT perform any sideeffects, i.e. it must be morally impossible to observe
- * how often the transformation was actually performed. It MUST NOT touch the provided
- * value, i.e. it is allowed to create new values but not to modify existing values.
- * This would be an observable sideeffect.
+ * @template A
+ * @template B
+ * @implements Constraint<A>
+ * @implements Transformable<A, B>
  */
-interface Transformation
+class Transformation implements Transformable, Constraint
 {
     /**
-     * Perform the transformation.
-     * Please use this for transformations. It's more performant than calling invoke.
-     *
-     * @param mixed $from
-     * @return mixed
-     * @throws InvalidArgumentException  if the argument could not be transformed
+     * @var Closure(Closure(string): string, A, string): string
      */
-    public function transform($from);
+    private readonly ?Closure $builder;
 
     /**
-     * Perform the transformation and reify possible failures.
-     *
-     * If `$data->isError()`, the method MUST do nothing. It MUST transform the value
-     * in `$data` like it would transform $data provided to `transform`. It must reify
-     * every exception thrown in this process by returning a `Result` that `isError()`
-     * and contains the exception that happened.
-     *
-     * If you simply need to implement a transformation you most probably want to
-     * implement transform and derive this via the trait `DeriveTransformationInterface`.
-     *
-     * If you simply want to call the transformation, you most probably want to use
-     * `transform`, since it simply throws exceptions that occurred while doing the
-     * transformation.
-     *
-     * If you are implementing some entity that performs processing of input data at
-     * some boundary, the reification of exceptions might help you to write cleaner
-     * code.
+     * @param Transformable<A, B> $intern
      */
-    public function applyTo(Result $result): Result;
+    public function __construct(
+        private readonly Transformable $intern,
+        private readonly ilLanguage $language,
+        ?callable $builder = null
+    ) {
+        $this->builder = $builder === null ? null : Closure::fromCallable($builder);
+    }
 
     /**
-     * Transformations should be callable. This MUST do the same as transform.
-     *
-     * @param mixed $from
-     * @return mixed
-     * @throws InvalidArgumentException  if the argument could not be transformed
+     * @param A $from
+     * @return B
      */
-    public function __invoke($from);
+    public function transform($from)
+    {
+        return $this->applyTo(new Ok($from))->value();
+    }
+
+    /**
+     * @param Result<A> $result
+     * @return Result<B>
+     */
+    public function applyTo(Result $result): Result
+    {
+        return $result->then(function ($value): Result {
+            try {
+                return new Ok($this->intern->transform($value));
+            } catch (ConstraintViolationException $e) {
+                return $this->build($value, $e, fn() => $e->getTranslatedMessage($this->language->txt(...)));
+            } catch (Exception $exception) {
+                return $this->build($value, $e, fn() => $e);
+            }
+        });
+    }
+
+    /**
+     * @param A $from
+     * @return B
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
+
+    /**
+     * @param callable(Closure(string): string, A, string): string $builder
+     * @return Constraint<A>
+     */
+    public function withProblemBuilder(callable $builder): self
+    {
+        return new self($this->intern, $this->language, $builder);
+    }
+
+    /**
+     * @param A $value
+     * @throws Exception
+     */
+    public function check($value): void
+    {
+        $this->intern->transform($value);
+    }
+
+    /**
+     * @param A $value
+     */
+    public function accepts($value): bool
+    {
+        return $this->applyTo(new Ok($value))->isOK();
+    }
+
+    /**
+     * @param A $value
+     * @return null|Exception|string
+     */
+    public function problemWith($value)
+    {
+        return $this->applyTo(new Ok($value))
+                    ->map(fn() => null)
+                    ->except(fn($error) => new Ok($error))->value();
+    }
+
+    private function translate(string $lang_var, ...$args): string
+    {
+        $message = $this->language->txt($lang_var);
+        if ($args === []) {
+            return $message;
+        }
+        // @Todo: Check if this can be removed as this feature is currently used nowhere.
+        return sprintf($message, ...array_map(function ($v) {
+            if (is_array($v)) {
+                return "array";
+            } elseif (is_null($v)) {
+                return "null";
+            } elseif (is_object($v) && !method_exists($v, "__toString")) {
+                return get_class($v);
+            }
+            return $v;
+        }, $args));
+    }
+
+    private function build($value, Exception $exception, Closure $default): Result
+    {
+        $builder = $this->builder ?? $default;
+        return new Error($builder($this->translate(...), $value, $exception));
+    }
 }

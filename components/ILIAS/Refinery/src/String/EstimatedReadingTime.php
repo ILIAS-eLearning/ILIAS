@@ -21,9 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\String;
 
 use ErrorException;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use InvalidArgumentException;
 use DOMDocument;
 use DOMText;
@@ -31,11 +29,8 @@ use DOMCdataSection;
 use DOMXPath;
 use LibXMLError;
 
-class EstimatedReadingTime implements Transformation
+class EstimatedReadingTime implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
     private int $wordsPerMinute = 275;
     private bool $withImages;
     private bool $xmlErrorState = false;

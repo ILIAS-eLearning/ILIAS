@@ -20,22 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use ILIAS\Refinery\ConstraintViolationException;
 
-class FloatTransformation implements Transformation
+class FloatTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
     private const REG_STRING = '/^\s*(-?(0|([1-9]\d*)))([.,]\d*)?\s*$/';
     private const REG_STRING_FLOATING = '/^\s*-?\d+[eE]-?\d+\s*$/';
 
-    /**
-     * @inheritDoc
-     */
-    public function transform($from): float
+    public function transform($from)
     {
         if ($from !== INF && $from !== -INF && is_float($from) && !is_nan($from)) {
             return $from;

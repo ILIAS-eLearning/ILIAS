@@ -20,39 +20,29 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Custom;
 
-use ILIAS\Data\Factory;
-use ilLanguage;
 use ILIAS\Refinery\Constraint as ConstraintInterface;
 use ILIAS\Refinery\Transformation as TransformationInterface;
+use ILIAS\Refinery\BuildTransformation;
 
 class Group
 {
-    private Factory $dataFactory;
-    private ilLanguage $language;
-
-    public function __construct(Factory $dataFactory, ilLanguage $language)
+    public function __construct(private readonly BuildTransformation $build_transformation)
     {
-        $this->dataFactory = $dataFactory;
-        $this->language = $language;
     }
 
     /**
      * @param callable $callable
      * @param string|callable $error
-     * @return ConstraintInterface
      */
     public function constraint(callable $callable, $error): ConstraintInterface
     {
-        return new Constraint(
-            $callable,
-            $error,
-            $this->dataFactory,
-            $this->language
-        );
+        return $this->build_transformation->fromConstraint(new Constraint(
+            $callable
+        ))->withProblemBuilder(is_callable($error) ? $error : fn() => $error);
     }
 
     public function transformation(callable $transform): TransformationInterface
     {
-        return new Transformation($transform);
+        return $this->build_transformation->fromTransformable(new Transformation($transform));
     }
 }

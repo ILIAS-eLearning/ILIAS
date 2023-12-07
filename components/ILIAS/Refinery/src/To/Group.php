@@ -32,16 +32,16 @@ use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
 use ILIAS\Refinery\To\Transformation\DateTimeTransformation;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 use ILIAS\Data\Factory;
 use InvalidArgumentException;
 
 class Group
 {
-    private Factory $dataFactory;
-
-    public function __construct(Factory $dataFactory)
-    {
-        $this->dataFactory = $dataFactory;
+    public function __construct(
+        private readonly Factory $data_factory,
+        private readonly BuildTransformation $build_transformation
+    ) {
     }
 
     /**
@@ -50,7 +50,7 @@ class Group
      */
     public function string(): Transformation
     {
-        return new StringTransformation();
+        return $this->build_transformation->fromConstraint(new StringTransformation());
     }
 
     /**
@@ -59,7 +59,7 @@ class Group
      */
     public function int(): Transformation
     {
-        return new IntegerTransformation();
+        return $this->build_transformation->fromConstraint(new IntegerTransformation());
     }
 
     /**
@@ -68,7 +68,7 @@ class Group
      */
     public function float(): Transformation
     {
-        return new FloatTransformation();
+        return $this->build_transformation->fromConstraint(new FloatTransformation());
     }
 
     /**
@@ -77,7 +77,7 @@ class Group
      */
     public function bool(): Transformation
     {
-        return new BooleanTransformation();
+        return $this->build_transformation->fromConstraint(new BooleanTransformation());
     }
 
     /**
@@ -90,7 +90,7 @@ class Group
      */
     public function listOf(Transformation $transformation): Transformation
     {
-        return new ListTransformation($transformation);
+        return $this->build_transformation->fromTransformable(new ListTransformation($transformation));
     }
 
     /**
@@ -103,7 +103,7 @@ class Group
      */
     public function dictOf(Transformation $transformation): Transformation
     {
-        return new DictionaryTransformation($transformation);
+        return $this->build_transformation->fromTransformable(new DictionaryTransformation($transformation));
     }
 
     /**
@@ -112,17 +112,17 @@ class Group
      * The length of the array of transformations MUST be identical to the
      * array of values to transform.
      * The keys of the transformation array will be the same as the key
-     * from the value array e.g. Transformation on position 2 will transform
+     * from the value array e.g. Transformable on position 2 will transform
      * value on position 2 of the value array.
      *
      * Using `ILIAS\Refinery\Factory::to()` will check if the value is identical
      * to the value after the transformation.
-     * @param Transformation[] $transformation
+     * @param Transformable[] $transformation
      * @return Transformation
      */
     public function tupleOf(array $transformation): Transformation
     {
-        return new TupleTransformation($transformation);
+        return $this->build_transformation->fromTransformable(new TupleTransformation($transformation));
     }
 
     /**
@@ -133,17 +133,17 @@ class Group
      * The length of the array of transformations MUST be identical to the
      * array of values to transform.
      * The keys of the transformation array will be the same as the key
-     * from the value array e.g. Transformation with the key "hello" will transform
+     * from the value array e.g. Transformable with the key "hello" will transform
      * value with the key "hello" of the value array.
      *
      * Using `ILIAS\Refinery\Factory::to()` will check if the value is identical
      * to the value after the transformation.
-     * @param array<string, Transformation> $transformations
+     * @param array<string, Transformable> $transformations
      * @return Transformation
      */
     public function recordOf(array $transformations): Transformation
     {
-        return new RecordTransformation($transformations);
+        return $this->build_transformation->fromTransformable(new RecordTransformation($transformations));
     }
 
     /**
@@ -152,7 +152,6 @@ class Group
      * an transformation object to execute a certain method with variation of
      * parameters on the objects.
      * @param string|array{0: object, 1: string} $classNameOrArray
-     * @return Transformation
      */
     public function toNew($classNameOrArray): Transformation
     {
@@ -160,23 +159,22 @@ class Group
             if (2 !== count($classNameOrArray)) {
                 throw new InvalidArgumentException('The array MUST contain exactly two elements');
             }
-            return new NewMethodTransformation($classNameOrArray[0], $classNameOrArray[1]);
+            return $this->build_transformation->fromTransformable(new NewMethodTransformation($classNameOrArray[0], $classNameOrArray[1]));
         }
-        return new NewObjectTransformation($classNameOrArray);
+        return $this->build_transformation->fromTransformable(new NewObjectTransformation($classNameOrArray));
     }
 
     /**
      * @param string $dataType - Name of the data type, this value MUST much
      *                           with the methods provided by the `\ILIAS\Data\Factory`
-     * @return Transformation
      */
     public function data(string $dataType): Transformation
     {
-        return $this->toNew([$this->dataFactory, $dataType]);
+        return $this->toNew([$this->data_factory, $dataType]);
     }
 
     public function dateTime(): Transformation
     {
-        return new DateTimeTransformation();
+        return $this->build_transformation->fromTransformable(new DateTimeTransformation());
     }
 }

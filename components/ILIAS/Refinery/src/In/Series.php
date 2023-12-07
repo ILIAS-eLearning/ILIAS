@@ -20,27 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\In;
 
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Transformable;
 
-class Series implements Transformation
+class Series implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
-    /** @var Transformation[] */
+    /** @var Transformable[] */
     private array $transformationStrategies;
 
     /**
-     * @param Transformation[] $transformations
+     * @param Transformable[] $transformations
      */
     public function __construct(array $transformations)
     {
         foreach ($transformations as $transformation) {
-            if (!$transformation instanceof Transformation) {
-                $transformationClassName = Transformation::class;
+            if (!$transformation instanceof Transformable) {
+                $transformationClassName = Transformable::class;
 
                 throw new ConstraintViolationException(
                     sprintf('The array MUST contain only "%s" instances', $transformationClassName),

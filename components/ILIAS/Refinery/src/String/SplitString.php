@@ -20,53 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\String;
 
-use ILIAS\Data\Factory;
-use ILIAS\Data\Result;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Transformable;
 use InvalidArgumentException;
 
 /**
  * Split a string by delimiter into array
  */
-class SplitString implements Transformation
+class SplitString implements Transformable
 {
-    use DeriveInvokeFromTransform;
-
-    private string $delimiter;
-    private Factory $factory;
-
-    public function __construct(string $delimiter, Factory $factory)
+    public function __construct(private readonly string $delimiter)
     {
-        $this->delimiter = $delimiter;
-        $this->factory = $factory;
     }
 
     /**
-     * @inheritDoc
      * @return string[]
      */
     public function transform($from): array
     {
         if (!is_string($from)) {
-            throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+            throw new InvalidArgumentException("The argument is not a string.");
         }
 
         return explode($this->delimiter, $from);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function applyTo(Result $result): Result
-    {
-        $dataValue = $result->value();
-        if (false === is_string($dataValue)) {
-            $exception = new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
-            return $this->factory->error($exception);
-        }
-
-        $value = explode($this->delimiter, $dataValue);
-        return $this->factory->ok($value);
     }
 }

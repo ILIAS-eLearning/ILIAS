@@ -20,23 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
-use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Refinery\Constraint;
 
-class IsNull extends Constraint
+class IsNull implements Constraint
 {
-    public function __construct(Data\Factory $data_factory, ilLanguage $lng)
+    public function problemWith($value)
     {
-        parent::__construct(
-            static function ($value): bool {
-                return is_null($value);
-            },
-            static function ($txt, $value): string {
-                return $txt("not_a_null", gettype($value));
-            },
-            $data_factory,
-            $lng
-        );
+        return is_null($value) ? null : 'not_a_null';
     }
 }

@@ -21,10 +21,15 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 use ILIAS\Refinery\String\Transformation\LevenshteinTransformation;
 
 class Levenshtein
 {
+    public function __construct(private readonly BuildTransformation $build_transformation)
+    {
+    }
+
     /**
      * Creates an object of the Levenshtein class
      * This class calculates the levenshtein distance with a default value of 1.0 per insert, delete, replacement.
@@ -35,7 +40,9 @@ class Levenshtein
      */
     public function standard(string $str, int $maximumDistance): Transformation
     {
-        return new LevenshteinTransformation($str, $maximumDistance, 1.0, 1.0, 1.0);
+        return $this->build_transformation->fromTransformable(
+            new LevenshteinTransformation($str, $maximumDistance, 1.0, 1.0, 1.0)
+        );
     }
 
     /**
@@ -56,6 +63,8 @@ class Levenshtein
         float $cost_replacement,
         float $cost_deletion
     ): Transformation {
-        return new LevenshteinTransformation($str, $maximum_distance, $cost_insertion, $cost_replacement, $cost_deletion);
+        return $this->build_transformation->fromTransformable(
+            new LevenshteinTransformation($str, $maximum_distance, $cost_insertion, $cost_replacement, $cost_deletion)
+        );
     }
 }

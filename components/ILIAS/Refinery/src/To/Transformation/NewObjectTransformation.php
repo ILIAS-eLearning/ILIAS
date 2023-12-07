@@ -20,15 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use ReflectionClass;
 use ReflectionException;
 
-class NewObjectTransformation implements Transformation
+class NewObjectTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-
     private string $className;
 
     public function __construct(string $className)
@@ -37,7 +34,6 @@ class NewObjectTransformation implements Transformation
     }
 
     /**
-     * @inheritDoc
      * @throws ReflectionException
      */
     public function transform($from)
@@ -46,14 +42,5 @@ class NewObjectTransformation implements Transformation
         $instance = $class->newInstanceArgs($from);
 
         return $instance;
-    }
-
-    /**
-     * @inheritDoc
-     * @throws ReflectionException
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

@@ -20,27 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use ILIAS\Refinery\ConstraintViolationException;
 
-class TupleTransformation implements Transformation
+class TupleTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
-    /** @var Transformation[] */
+    /** @var Transformable[] */
     private array $transformations;
 
     /**
-     * @param Transformation[] $transformations;
+     * @param Transformable[] $transformations;
      */
     public function __construct(array $transformations)
     {
         foreach ($transformations as $transformation) {
-            if (!$transformation instanceof Transformation) {
-                $transformationClassName = Transformation::class;
+            if (!$transformation instanceof Transformable) {
+                $transformationClassName = Transformable::class;
 
                 throw new ConstraintViolationException(
                     sprintf('The array must contain only "%s" instances', $transformationClassName),
@@ -52,10 +47,7 @@ class TupleTransformation implements Transformation
         $this->transformations = $transformations;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function transform($from): array
+    public function transform($from)
     {
         if (!is_array($from)) {
             $from = [$from];

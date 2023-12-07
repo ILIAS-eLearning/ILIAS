@@ -20,17 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\String\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use InvalidArgumentException;
 use ilStr;
 
-class LevenshteinTransformation implements Transformation
+class LevenshteinTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
     private string $primary_string;
     private int $maximum_distance;
     private float $cost_insertion;

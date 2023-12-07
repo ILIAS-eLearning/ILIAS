@@ -20,44 +20,26 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Constraint;
-use ILIAS\Data;
-use ilLanguage;
 
-class Sequential extends CustomConstraint
+class Sequential implements Constraint
 {
     /**
-     * There's a test to show this state will never be visible
-     * SequentialTest::testCorrectErrorMessagesAfterMultiAccept
-     *
-     * @var Constraint
-     */
-    private Constraint $failed_constraint;
-
-    /**
      * @param Constraint[] $constraints
-     * @param Data\Factory $data_factory
-     * @param ilLanguage $lng
      */
-    public function __construct(array $constraints, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(private readonly array $other)
     {
-        parent::__construct(
-            function ($value) use ($constraints): bool {
-                foreach ($constraints as $constraint) {
-                    if (!$constraint->accepts($value)) {
-                        $this->failed_constraint = $constraint;
-                        return false;
-                    }
-                }
+    }
 
-                return true;
-            },
-            function ($txt, $value): string {
-                return $this->failed_constraint->getErrorMessage($value);
-            },
-            $data_factory,
-            $lng
-        );
+    public function problemWith($value)
+    {
+        foreach ($this->other as $constraint) {
+            $problem = $constraint->problemWith($value);
+            if ($problem !== null) {
+                return $problem;
+            }
+        }
+
+        return null;
     }
 }

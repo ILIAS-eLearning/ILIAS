@@ -20,62 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
 class FloatTransformation implements Constraint
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-    use ProblemBuilder;
-
-    /**
-     * @inheritDoc
-     */
-    public function transform($from): float
+    public function problemWith($value)
     {
-        $this->check($from);
-        return (float) $from;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getError(): string
-    {
-        return 'The value MUST be of type string.';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function check($value)
-    {
-        if (!$this->accepts($value)) {
-            throw new UnexpectedValueException($this->getErrorMessage($value));
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function accepts($value): bool
-    {
-        return is_float($value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function problemWith($value): ?string
-    {
-        if (!$this->accepts($value)) {
-            return $this->getErrorMessage($value);
+        if (!is_float($value)) {
+            return new UnexpectedValueException('The value MUST be of type string.');
         }
 
         return null;

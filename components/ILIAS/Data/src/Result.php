@@ -10,6 +10,8 @@ namespace ILIAS\Data;
  * A result encapsulates a value or an error and simplifies the handling of those.
  *
  * To be implemented as immutable object.
+ *
+ * @template A
  */
 interface Result
 {
@@ -21,7 +23,7 @@ interface Result
     /**
      * Get the encapsulated value.
      *
-     * @return mixed
+     * @return A
      * @throws \Exception    if !isOK, will either throw the contained exception or
      *                      a NotOKException if a string is contained as error.
      */
@@ -43,8 +45,8 @@ interface Result
     /**
      * Get the encapsulated value or the supplied default if result is an error.
      *
-     * @param mixed $default
-     * @return mixed
+     * @param A $default
+     * @return A
      */
     public function valueOr($default);
 
@@ -53,7 +55,10 @@ interface Result
      *
      * Does nothing if !isOK.
      *
-     * @param callable $f mixed -> mixed
+     * @template B
+     *
+     * @param callable(A): B $f
+     * @return Result<B>
      */
     public function map(callable $f): Result;
 
@@ -64,8 +69,11 @@ interface Result
      *
      * Does nothing if !isOK. This is monadic bind.
      *
-     * @param callable $f mixed -> Result|null
-     * @throws    \UnexpectedValueException    If callable returns no instance of Result
+     * @template B
+     *
+     * @param callable(A): ?Result<B> $f
+     * @return Result<B>
+     * @throws \UnexpectedValueException If callable returns no instance of Result
      */
     public function then(callable $f): Result;
 
@@ -77,8 +85,10 @@ interface Result
      *
      * Does nothing if !isError.
      *
-     * @param callable $f string|\Exception -> Result|null
-     * @throws    \UnexpectedValueException    If callable returns no instance of Result
+     * @template B
+     *
+     * @param callable(string|\Exception): ?Result<B> $f
+     * @throws \UnexpectedValueException If callable returns no instance of Result
      */
     public function except(callable $f): Result;
 }

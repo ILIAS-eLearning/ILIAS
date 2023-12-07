@@ -20,24 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\String;
 
-use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint;
-use ilLanguage;
+use ILIAS\Refinery\Constraint;
 
-class HasMinLength extends Constraint
+class HasMinLength implements Constraint
 {
-    public function __construct(int $min_length, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(private readonly int $min_length)
     {
-        parent::__construct(
-            static function ($value) use ($min_length): bool {
-                return strlen($value) >= $min_length;
-            },
-            static function ($txt, $value) use ($min_length): string {
-                $len = strlen($value);
-                return $txt("not_min_length", $len, $min_length);
-            },
-            $data_factory,
-            $lng
-        );
+    }
+
+    public function problemWith($from)
+    {
+        return strlen($value) >= $min_length ? null : "not_min_length";
     }
 }

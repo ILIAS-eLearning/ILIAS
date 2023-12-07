@@ -20,18 +20,25 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
-trait DeriveInvokeFromTransform
+/**
+ * @template A
+ * @implements Transformable<A, A>
+ */
+class ConstraintTransformable implements Transformable
 {
     /**
-     * @inheritDoc
+     * @param Constraint<A> $constraint
      */
-    abstract public function transform($from);
-
-    /**
-     * @inheritDoc
-     */
-    public function __invoke($from)
+    public function __construct(private readonly Constraint $constraint)
     {
-        return $this->transform($from);
+    }
+
+    public function transform($from)
+    {
+        $problem = $this->constraint->problemWith($from);
+        if (null !== $problem) {
+            throw (is_string($problem) ? new UnexpectedValueException($problem) : $problem);
+        }
+        return $from;
     }
 }

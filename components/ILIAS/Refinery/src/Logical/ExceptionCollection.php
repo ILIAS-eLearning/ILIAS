@@ -18,19 +18,22 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Refinery\Integer;
+namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\ConstraintViolationException;
+use Exception;
 
-class GreaterThan implements Constraint
+class ExceptionCollection extends Exception
 {
-    public function __construct(private readonly int $min)
+    /**
+     * @param list<Exception> $exceptions
+     */
+    public function __construct(private readonly array $exceptions)
     {
+        parent::__construct(join("\n", array_map(fn(Exception $e) => $e->getMessage(), $this->exceptions)));
     }
 
-    public function problemWith($value)
+    public function exceptions(): array
     {
-        return $value > $this->min ? null : new ConstraintViolationException('Not greater than', 'not_greater_than', $value, $this->min);
+        return $this->exceptions;
     }
 }

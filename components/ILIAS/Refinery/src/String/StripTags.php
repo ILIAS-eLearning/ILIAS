@@ -20,22 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\String;
 
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Transformable;
 use InvalidArgumentException;
 
 /**
  * Strip tags from a string.
  */
-class StripTags implements Transformation
+class StripTags implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
-    /**
-     * @inheritDoc
-     */
     public function transform($from): string
     {
         if (!is_string($from)) {

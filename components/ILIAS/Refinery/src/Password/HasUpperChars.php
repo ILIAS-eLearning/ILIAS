@@ -20,23 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Password;
 
-use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Data\Password;
 
-class HasUpperChars extends Constraint
+class HasUpperChars implements Constraint
 {
-    public function __construct(Data\Factory $data_factory, ilLanguage $lng)
+    public function problemWith($value)
     {
-        parent::__construct(
-            static function (Data\Password $value): bool {
-                return (bool) preg_match('/[A-Z]/', $value->toString());
-            },
-            static function ($value): string {
-                return "Password must contain upper-case characters.";
-            },
-            $data_factory,
-            $lng
-        );
+        return $this->password($value);
+    }
+
+    private function password(Password $value): ?string
+    {
+        if ((bool) preg_match('/[A-Z]/', $value->toString())) {
+            return null;
+        }
+        return "Password must contain upper-case characters.";
     }
 }

@@ -20,12 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\DateTime;
 
+use ILIAS\Refinery\BuildTransformation;
 use ILIAS\Refinery\Transformation;
 
 class Group
 {
+    public function __construct(private readonly BuildTransformation $build_transformation)
+    {
+    }
+
     public function changeTimezone(string $timezone): Transformation
     {
-        return new ChangeTimezone($timezone);
+        return $this->build_transformation->fromTransformable(new ChangeTimezone($timezone));
     }
 }

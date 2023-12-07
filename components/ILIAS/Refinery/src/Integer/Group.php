@@ -20,54 +20,48 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Integer;
 
-use ILIAS\Data\Factory;
-use ILIAS\Refinery\Constraint;
-use ilLanguage;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 
 class Group
 {
-    private Factory $dataFactory;
-    private ilLanguage $language;
-
-    public function __construct(Factory $dataFactory, ilLanguage $language)
+    public function __construct(private readonly BuildTransformation $build_transformation)
     {
-        $this->dataFactory = $dataFactory;
-        $this->language = $language;
     }
 
     /**
      * Creates a constraint that can be used to check if an integer value is
      * greater than the defined lower limit.
      */
-    public function isGreaterThan(int $minimum): Constraint
+    public function isGreaterThan(int $minimum): Transformation
     {
-        return new GreaterThan($minimum, $this->dataFactory, $this->language);
+        return $this->build_transformation->fromConstraint(new GreaterThan($minimum));
     }
 
     /**
      * Creates a constraint that can be used to check if an integer value is
      * less than the defined upper limit.
      */
-    public function isLessThan(int $maximum): Constraint
+    public function isLessThan(int $maximum): Transformation
     {
-        return new LessThan($maximum, $this->dataFactory, $this->language);
+        return $this->build_transformation->fromConstraint(new LessThan($maximum));
     }
 
     /**
      * Creates a constraint that can be used to check if an integer value is
      * greater than or equal the defined lower limit.
      */
-    public function isGreaterThanOrEqual(int $minimum): Constraint
+    public function isGreaterThanOrEqual(int $minimum): Transformation
     {
-        return new GreaterThanOrEqual($minimum, $this->dataFactory, $this->language);
+        return $this->build_transformation->fromConstraint(new GreaterThanOrEqual($minimum));
     }
 
     /**
      * Creates a constraint that can be used to check if an integer value is
      * less than or equal the defined upper limit.
      */
-    public function isLessThanOrEqual(int $maximum): Constraint
+    public function isLessThanOrEqual(int $maximum): Transformation
     {
-        return new LessThanOrEqual($maximum, $this->dataFactory, $this->language);
+        return $this->build_transformation->fromConstraint(new LessThanOrEqual($maximum));
     }
 }

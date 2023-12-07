@@ -31,7 +31,7 @@ use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\NullTransformation;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Data\Factory;
+use ILIAS\Refinery\BuildTransformation;
 
 /**
  * Transformations in this group transform data to primitive types to establish
@@ -46,11 +46,8 @@ use ILIAS\Data\Factory;
  */
 class Group
 {
-    private Factory $dataFactory;
-
-    public function __construct(Factory $dataFactory)
+    public function __construct(private readonly BuildTransformation $build_transformation)
     {
-        $this->dataFactory = $dataFactory;
     }
 
     /**
@@ -75,7 +72,7 @@ class Group
      */
     public function int(): Transformation
     {
-        return new IntegerTransformation();
+        return $this->build_transformation->fromTransformable(new IntegerTransformation());
     }
 
     /**
@@ -101,7 +98,7 @@ class Group
      */
     public function float(): Transformation
     {
-        return new FloatTransformation();
+        return $this->build_transformation->fromTransformable(new FloatTransformation());
     }
 
     /**
@@ -127,7 +124,7 @@ class Group
      */
     public function string(): Transformation
     {
-        return new StringTransformation();
+        return $this->build_transformation->fromTransformable(new StringTransformation());
     }
 
 
@@ -158,7 +155,7 @@ class Group
      */
     public function bool(): Transformation
     {
-        return new BooleanTransformation();
+        return $this->build_transformation->fromTransformable(new BooleanTransformation());
     }
 
     /**
@@ -173,7 +170,7 @@ class Group
      */
     public function dateTime(): Transformation
     {
-        return new DateTimeTransformation();
+        return $this->build_transformation->fromTransformable(new DateTimeTransformation());
     }
 
     /**
@@ -184,7 +181,7 @@ class Group
      */
     public function listOf(Transformation $transformation): Transformation
     {
-        return new ListTransformation($transformation);
+        return $this->build_transformation->fromTransformable(new ListTransformation($transformation));
     }
 
     /**
@@ -194,7 +191,7 @@ class Group
      */
     public function dictOf(Transformation $transformation): Transformation
     {
-        return new DictionaryTransformation($transformation);
+        return $this->build_transformation->fromTransformable(new DictionaryTransformation($transformation));
     }
 
     /**
@@ -208,7 +205,7 @@ class Group
      */
     public function tupleOf(array $transformation): Transformation
     {
-        return new TupleTransformation($transformation);
+        return $this->build_transformation->fromTransformable(new TupleTransformation($transformation));
     }
 
     /**
@@ -221,7 +218,7 @@ class Group
      */
     public function recordOf(array $transformations): Transformation
     {
-        return new RecordTransformation($transformations);
+        return $this->build_transformation->fromTransformable(new RecordTransformation($transformations));
     }
 
     /**
@@ -233,6 +230,6 @@ class Group
      */
     public function null(): Transformation
     {
-        return new NullTransformation();
+        return $this->build_transformation->fromTransformable(new NullTransformation());
     }
 }

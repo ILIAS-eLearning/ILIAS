@@ -21,9 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\In;
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 
 class Group
 {
+    public function __construct(private readonly BuildTransformation $build_transformation)
+    {
+    }
+
     /**
      * Takes an array of transformations and performs them one after
      * another on the result of the previous transformation
@@ -32,7 +37,7 @@ class Group
      */
     public function series(array $inTransformations): Transformation
     {
-        return new Series($inTransformations);
+        return $this->build_transformation->fromTransformable(new Series($inTransformations));
     }
 
     /**
@@ -43,6 +48,6 @@ class Group
      */
     public function parallel(array $inTransformations): Transformation
     {
-        return new Parallel($inTransformations);
+        return $this->build_transformation->fromTransformable(new Parallel($inTransformations));
     }
 }

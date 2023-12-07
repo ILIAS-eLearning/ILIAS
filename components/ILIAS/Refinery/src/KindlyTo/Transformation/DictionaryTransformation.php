@@ -20,19 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use ILIAS\Refinery\ConstraintViolationException;
 
-class DictionaryTransformation implements Transformation
+class DictionaryTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
+    private Transformable $transformation;
 
-    private Transformation $transformation;
-
-    public function __construct(Transformation $transformation)
+    public function __construct(Transformable $transformation)
     {
         $this->transformation = $transformation;
     }
@@ -41,13 +36,13 @@ class DictionaryTransformation implements Transformation
      * @inheritDoc
      * @return array<string, mixed>
      */
-    public function transform($from): array
+    public function transform($from)
     {
-        if (!is_array($from)) {
+        if (!is_array($value)) {
             throw new ConstraintViolationException(
-                sprintf('The value "%s" is no array.', var_export($from, true)),
+                sprintf('The value "%s" is no array.', var_export($value, true)),
                 'value_is_no_array',
-                $from
+                $value
             );
         }
 

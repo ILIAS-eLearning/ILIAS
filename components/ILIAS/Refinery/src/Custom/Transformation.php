@@ -20,18 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Custom;
 
-use ILIAS\Refinery\Transformation as TransformationInterface;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Transformable;
 
 /**
  * Transform values according to custom configuration
  */
-class Transformation implements TransformationInterface
+class Transformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
     /** @var callable */
     private $transformation;
 
@@ -40,11 +35,8 @@ class Transformation implements TransformationInterface
         $this->transformation = $transformation;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function transform($from)
     {
-        return call_user_func($this->transformation, $from);
+        return ($this->transformation)($from);
     }
 }

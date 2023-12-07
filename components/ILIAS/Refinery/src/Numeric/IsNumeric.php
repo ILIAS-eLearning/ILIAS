@@ -20,27 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Numeric;
 
-use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\ConstraintViolationException;
 
-class IsNumeric extends Constraint
+class IsNumeric implements Constraint
 {
-    public function __construct(Data\Factory $data_factory, ilLanguage $lng)
+    public function problemWith($value)
     {
-        parent::__construct(
-            static function ($value): bool {
-                return is_numeric($value);
-            },
-            static function ($txt, $value): string {
-                if ('' === $value) {
-                    return (string) $txt("not_numeric_empty_string");
-                }
-
-                return (string) $txt("not_numeric", $value);
-            },
-            $data_factory,
-            $lng
-        );
+        if ('' === $value) {
+            return new ConstraintViolationException('Not numeric (empty string)', 'not_numeric_empty_string');
+        }
+        return is_numeric($value) ? null : new ConstraintViolationException('Not numeric', 'not_numeric');
     }
 }

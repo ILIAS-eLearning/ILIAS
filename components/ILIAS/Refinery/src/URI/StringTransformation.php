@@ -22,18 +22,10 @@ namespace ILIAS\Refinery\URI;
 
 use ILIAS\Data\URI;
 use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Transformable;
 
-class StringTransformation implements Transformation
+class StringTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
-    /**
-     * @inheritDoc
-     */
     public function transform($from): string
     {
         if (false === $from instanceof URI) {

@@ -20,51 +20,41 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Data\Factory;
-use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Refinery\Constraint as ConstraintInterface;
-use ilLanguage;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\BuildTransformation;
 
 class Group
 {
-    private Factory $dataFactory;
-    private ilLanguage $language;
-
-    public function __construct(Factory $dataFactory, ilLanguage $language)
+    public function __construct(private readonly BuildTransformation $build_transformation)
     {
-        $this->dataFactory = $dataFactory;
-        $this->language = $language;
     }
 
     /**
-     * @param Constraint[] $other
-     * @return ConstraintInterface
+     * @param Transformation[] $other
      */
-    public function logicalOr(array $other): ConstraintInterface
+    public function logicalOr(array $other): Transformation
     {
-        return new LogicalOr($other, $this->dataFactory, $this->language);
+        return $this->build_transformation->fromConstraint(new LogicalOr($other));
     }
 
-    public function not(Constraint $constraint): ConstraintInterface
+    public function not(Constraint $constraint): Transformation
     {
-        return new Not($constraint, $this->dataFactory, $this->language);
-    }
-
-    /**
-     * @param Constraint[] $constraints
-     * @return ConstraintInterface
-     */
-    public function parallel(array $constraints): ConstraintInterface
-    {
-        return new Parallel($constraints, $this->dataFactory, $this->language);
+        return $this->build_transformation->fromConstraint(new Not($constraint, $this->dataFactory, $this->language));
     }
 
     /**
-     * @param Constraint[] $constraints
-     * @return ConstraintInterface
+     * @param Transformation[] $constraints
      */
-    public function sequential(array $constraints): ConstraintInterface
+    public function parallel(array $constraints): Transformation
     {
-        return new Sequential($constraints, $this->dataFactory, $this->language);
+        return $this->build_transformation->fromConstraint(new Parallel($constraints));
+    }
+
+    /**
+     * @param Transformation[] $constraints
+     */
+    public function sequential(array $constraints): Transformation
+    {
+        return $this->build_transformation->fromConstraint(new Sequential($constraints));
     }
 }

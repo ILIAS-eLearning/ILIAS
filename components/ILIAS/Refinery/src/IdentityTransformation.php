@@ -20,14 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
-class IdentityTransformation implements Transformation
+class IdentityTransformation implements Transformable
 {
-    use DeriveInvokeFromTransform;
-    use DeriveApplyToFromTransform;
-
-    /**
-     * @inheritDoc
-     */
     public function transform($from)
     {
         return $from;

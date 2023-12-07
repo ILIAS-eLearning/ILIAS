@@ -21,9 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformable;
 use DateTimeImmutable;
 use DateTimeInterface;
 
@@ -34,15 +32,9 @@ use DateTimeInterface;
  * - RFC850 format output on screen is the same as Cookie
  * - RFC1036, RFC1123, RFC2822 & RSS format output on screen is the same as RFC822
  */
-class DateTimeTransformation implements Transformation
+class DateTimeTransformation implements Transformable
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
-    /**
-     * @inheritDoc
-     */
-    public function transform($from): DateTimeImmutable
+    public function transform($from)
     {
         if ($from instanceof DateTimeImmutable) {
             return $from;

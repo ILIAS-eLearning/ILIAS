@@ -20,62 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
 class BooleanTransformation implements Constraint
 {
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-    use ProblemBuilder;
-
-    /**
-     * @inheritDoc
-     */
-    public function transform($from): bool
+    public function problemWith($value)
     {
-        $this->check($from);
-        return (bool) $from;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getError(): string
-    {
-        return 'The value MUST be of type boolean.';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function check($value)
-    {
-        if (!$this->accepts($value)) {
-            throw new UnexpectedValueException($this->getErrorMessage($value));
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function accepts($value): bool
-    {
-        return is_bool($value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function problemWith($value): ?string
-    {
-        if (!$this->accepts($value)) {
-            return $this->getErrorMessage($value);
+        if (!is_bool($value)) {
+            return new UnexpectedValueException('The value MUST be of type boolean.');
         }
 
         return null;
