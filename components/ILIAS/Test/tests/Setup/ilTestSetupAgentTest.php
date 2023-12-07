@@ -21,11 +21,9 @@ namespace Setup;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Objective\NullObjective;
-use ILIAS\Test\Setup\ilManScoringSettingsToOwnDbTableMigration;
-use ILIAS\Test\Setup\ilRemoveDynamicTestsAndCorrespondingDataMigration;
-use ILIAS\Test\Setup\ilSeparateQuestionListSettingMigration;
 use ilTestBaseTestCase;
-use ilTestSetupAgent;
+use ILIAS\Test\Setup\ilTestSetupAgent;
+use ILIAS\Setup\ObjectiveCollection;
 
 class ilTestSetupAgentTest extends ilTestBaseTestCase
 {
