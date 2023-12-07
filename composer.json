@@ -49,7 +49,8 @@
 		"geshi/geshi": "^1.0.9.1",
 		"james-heinrich/getid3": "^1.9.23",
 		"mustache/mustache": "^2.14",
-		"ifsnop/mysqldump-php": "2.10"
+		"ifsnop/mysqldump-php": "2.10",
+		"seld/jsonlint": "^1.10"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
