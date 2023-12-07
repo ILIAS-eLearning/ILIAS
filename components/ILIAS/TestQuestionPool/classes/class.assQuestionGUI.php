@@ -664,10 +664,10 @@ abstract class assQuestionGUI
     {
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
-        if (strlen($this->request->raw("return_to"))) {
+        if ($this->request->raw("return_to") !== '' && $this->request->raw("return_to") !== null) {
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
-        if (strlen($this->request->raw('return_to_fb'))) {
+        if ($this->request->raw('return_to_fb') !== '' && $this->request->raw('return_to_fb') !== null) {
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
         } else {
             if ($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer')) {
