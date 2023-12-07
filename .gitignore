@@ -68,3 +68,4 @@ components/ILIAS/ResourceStorage_/artifacts/flavour_data.php
 components/ILIAS/FileHandlingDemo
 components/ILIAS/FileDelivery/artifacts
 components/ILIAS/StaticURL/artifacts
+components/ILIAS/StaticURL/src/artifacts
