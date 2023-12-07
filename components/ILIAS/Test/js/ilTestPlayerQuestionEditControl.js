@@ -164,15 +164,18 @@ il.TestPlayerQuestionEditControl = new function() {
         $('#tst_discard_solution_action').click(showDiscardSolutionModal);
         $('#tst_cancel_discard_button').click(hideDiscardSolutionModal);
 
-        if( config.nextQuestionLocks )
-        {
-            // handle the buttons in next locks current answer confirmation modal
-            $('#tst_nav_next_changed_answer_button').click(saveWithNavigation);
-            $('#tst_cancel_next_changed_answer_button').click(hideFollowupQuestionLocksCurrentAnswerModal);
+        if (config.nextQuestionLocks) {
+          // handle the buttons in next locks current answer confirmation modal
+          document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(1)')
+            .addEventListener('click', saveWithNavigation);
+          document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(2)')
+            .addEventListener('click', hideFollowupQuestionLocksCurrentAnswerModal);
 
-            // handle the buttons in next locks empty answer confirmation modal
-            $('#tst_nav_next_empty_answer_button').click(saveWithNavigationEmptyAnswer);
-            $('#tst_cancel_next_empty_answer_button').click(hideFollowupQuestionLocksEmptyAnswerModal);
+          // handle the buttons in next locks empty answer confirmation modal
+          document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(1)')
+            .addEventListener('click', saveWithNavigationEmptyAnswer);
+          document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(2)')
+            .addEventListener('click', hideFollowupQuestionLocksEmptyAnswerModal);
         }
 
         // the checkbox 'use unchanged answer' is only needed for initial empty answers
@@ -445,7 +448,7 @@ il.TestPlayerQuestionEditControl = new function() {
             {
                 saveWithNavigation();
             }
-
+            e.preventDefault();
             return false; // prevent the default event handler
         }
 
@@ -468,6 +471,7 @@ il.TestPlayerQuestionEditControl = new function() {
             }
 
             // prevent the default event handler
+            e.preventDefault();
             return false;
         }
         else
