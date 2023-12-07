@@ -51,7 +51,8 @@
 		"mustache/mustache": "^2.14",
 		"ifsnop/mysqldump-php": "2.10",
 		"seld/jsonlint": "^1.10",
-		"symfony/console": "^7.0"
+		"symfony/console": "^7.0",
+		"pimple/pimple": "^3.0"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
