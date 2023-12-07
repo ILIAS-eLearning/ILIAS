@@ -191,6 +191,11 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
         );
 
         return $this->legal_documents->admin()->withFormData($form, function (array $data): void {
+            $no_documents = $this->config->legalDocuments()->document()->repository()->countAll() === 0;
+            if ($no_documents && isset($data['enabled'])) {
+                $this->tpl->setOnScreenMessage('failure', $this->ui->txt('no_documents_exist_cant_save'), true);
+                return;
+            }
             $type = $data['enabled']['type'] ?? false;
             $this->data_protection_settings->enabled()->update(isset($data['enabled']));
             $this->data_protection_settings->validateOnLogin()->update($type === 'eval_on_login');
