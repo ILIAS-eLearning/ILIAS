@@ -543,7 +543,7 @@ class ilAccess implements ilAccessHandler
         int $a_obj_id,
         string $a_type
     ): bool {
-        $cache_perm = ($a_permission == "visible")
+        $cache_perm = ($a_permission === "visible" || $a_permission === 'leave')
             ? "visible"
             : "other";
 
@@ -552,7 +552,7 @@ class ilAccess implements ilAccessHandler
         }
 
         // nothings needs to be done if current permission is write permission
-        if ($a_permission == 'write') {
+        if ($a_permission === 'write') {
             return true;
         }
 
@@ -600,8 +600,9 @@ class ilAccess implements ilAccessHandler
             return true;
         }
 
-        // if current permission is visible and visible is set in activation
-        if ($a_permission == 'visible' && $item_data['visible']) {
+        // if current permission is visible or leave and visible is set in activation
+        if (($a_permission === 'visible' || $a_permission === 'leave')
+            && $item_data['visible']) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
         }
