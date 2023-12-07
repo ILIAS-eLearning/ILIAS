@@ -90,7 +90,6 @@ $zoom-large: math.div($il-avatar-size-large, $il-avatar-size);
 	.il-avatar {
 		height: $il-avatar-inner-mobile-size;
 		width: $il-avatar-inner-mobile-size;
-		margin-top: auto;
 		border-width: $il-avatar-small-border-size;
 
 		&.il-avatar-picture {
@@ -103,7 +102,7 @@ $zoom-large: math.div($il-avatar-size-large, $il-avatar-size);
 		&.il-avatar-letter {
 			span.abbreviation {
 				font-size: calc($il-avatar-inner-mobile-size / 2);
-				top: calc($il-avatar-inner-mobile-size / 4);
+				top: calc($il-avatar-inner-mobile-size / 7);
 			}
 		}
 	}

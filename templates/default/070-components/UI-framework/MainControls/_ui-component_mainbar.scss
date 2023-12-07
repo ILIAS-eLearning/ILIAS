@@ -77,7 +77,7 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 .il-mainbar-triggers,
 .il-mainbar-tools-button,
 .il-mainbar-tool-trigger-item,
-.il-maincontrols-metabar {
+.il-maincontrols-metabar > li > {
 	.btn-bulky,
 	.il-link.link-bulky {
 		padding: $il-mainbar-btn-padding;
