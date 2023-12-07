@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d047dc6efb851401cb000820fe1e6ba5",
+    "content-hash": "a77933840faf514d0cc5361f3e431972",
     "packages": [
         {
             "name": "apereo/phpcas",
@@ -360,6 +360,65 @@
                 "source": "https://github.com/GeSHi/geshi-1.0/tree/v1.0.9.1"
             },
             "time": "2019-10-20T20:54:46+00:00"
+        },
+        {
+            "name": "ifsnop/mysqldump-php",
+            "version": "v2.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ifsnop/mysqldump-php.git",
+                "reference": "2d3a43fc0c49f23bf7dee392b0dd1f8c799f89d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ifsnop/mysqldump-php/zipball/2d3a43fc0c49f23bf7dee392b0dd1f8c799f89d3",
+                "reference": "2d3a43fc0c49f23bf7dee392b0dd1f8c799f89d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.36",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ifsnop\\": "src/Ifsnop/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Diego Torres",
+                    "homepage": "https://github.com/ifsnop",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP version of mysqldump cli that comes with MySQL",
+            "homepage": "https://github.com/ifsnop/mysqldump-php",
+            "keywords": [
+                "PHP7",
+                "database",
+                "hhvm",
+                "mariadb",
+                "mysql",
+                "mysql-backup",
+                "mysqldump",
+                "pdo",
+                "php",
+                "php5",
+                "sql"
+            ],
+            "support": {
+                "issues": "https://github.com/ifsnop/mysqldump-php/issues",
+                "source": "https://github.com/ifsnop/mysqldump-php/tree/v2.12"
+            },
+            "time": "2023-04-12T07:43:14+00:00"
         },
         {
             "name": "james-heinrich/getid3",
