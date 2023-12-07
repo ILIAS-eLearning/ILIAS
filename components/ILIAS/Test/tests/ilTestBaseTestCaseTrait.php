@@ -291,7 +291,7 @@ trait ilTestBaseTestCaseTrait
     protected function getTestObjMock(): ilObjTest
     {
         $test_mock = $this->createMock(ilObjTest::class);
-        $test_mock->method('getLocalDIC')->willReturn(ilTestDIC::dic());
+        $test_mock->method('getLocalDIC')->willReturn(ILIAS\Test\TestDIC::dic());
         return $test_mock;
     }
 }

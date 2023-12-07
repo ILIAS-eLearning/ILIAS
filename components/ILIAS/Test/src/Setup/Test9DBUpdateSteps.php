@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
-class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
-{
-    protected ilDBInterface $db;
+namespace ILIAS\Test\Setup;
 
-    public function prepare(ilDBInterface $db): void
+class Test9DBUpdateSteps implements \ilDatabaseUpdateSteps
+{
+    protected \ilDBInterface $db;
+
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
@@ -279,38 +281,44 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_16(): void
     {
-        $this->db->modifyTableColumn(
-            'tst_tests',
-            'show_cancel',
-            [
-                'type' => 'text',
-                'length' => 1,
-                'default' => '0'
-            ]
-        );
+        if ($this->db->tableColumnExists('tst_tests', 'show_cancel')) {
+            $this->db->modifyTableColumn(
+                'tst_tests',
+                'show_cancel',
+                [
+                    'type' => 'text',
+                    'length' => 1,
+                    'default' => '0'
+                ]
+            );
+        }
     }
 
     public function step_17(): void
     {
-        $this->db->modifyTableColumn(
-            'tst_tests',
-            'use_previous_answers',
-            [
-                'type' => 'text',
-                'length' => 1,
-                'default' => '0'
-            ]
-        );
+        if ($this->db->tableColumnExists('tst_tests', 'use_previous_answers')) {
+            $this->db->modifyTableColumn(
+                'tst_tests',
+                'use_previous_answers',
+                [
+                    'type' => 'text',
+                    'length' => 1,
+                    'default' => '0'
+                ]
+            );
+        }
     }
 
 
     public function step_18(): void
     {
-        $this->db->renameTableColumn(
-            'tst_tests',
-            'show_cancel',
-            'suspend_test_allowed'
-        );
+        if ($this->db->tableColumnExists('tst_tests', 'show_cancel')) {
+            $this->db->renameTableColumn(
+                'tst_tests',
+                'show_cancel',
+                'suspend_test_allowed'
+            );
+        }
     }
 
     public function step_19(): void

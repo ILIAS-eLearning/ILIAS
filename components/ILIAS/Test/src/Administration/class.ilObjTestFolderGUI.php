@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Administration\TestGlobalSettingsRepository;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\Test\InternalRequestService;
@@ -32,8 +31,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
     private QuestionInfoService $questioninfo;
     private InternalRequestService $testrequest;
 
-    private TestGlobalSettingsRepository $global_settings_repository;
-
     public function __construct(
         $a_data,
         int $a_id = 0,
@@ -44,7 +41,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
         $this->testrequest = $DIC->test()->internal()->request();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
-        $this->global_settings_repository = (\ilTestDIC::dic())['global_settings_repository'];
         $this->type = "assf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
@@ -363,7 +359,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
         $available_tests = ilObjTest::_getAvailableTests(1);
         $csv[] = ilCSVUtil::processCSVRow($row, true, $separator);
-        $log_output = ilObjTestFolder::getLog($from, $until, $test);
+        $log_output = $this->getTestFolder()->getTestLogger()->getLegacyLogsForObjId($test);
         $users = [];
         foreach ($log_output as $key => $log) {
             if (!array_key_exists($log["user_fi"], $users)) {
@@ -503,20 +499,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $template->setVariable("FORM", $form->getHTML());
 
         if ($p_test) {
-            $table_gui = new ilAssessmentFolderLogTableGUI($this, 'logs');
-            $log_output = ilObjTestFolder::getLog($fromdate, $untildate, $p_test);
-
-            $self = $this;
-            array_walk($log_output, static function (&$row) use ($self) {
-                $row['location_href'] = '';
-                $row['location_txt'] = '';
-                if (is_numeric($row['ref_id']) && $row['ref_id'] > 0) {
-                    $row['location_href'] = ilLink::_getLink((int) $row['ref_id'], 'tst');
-                    $row['location_txt'] = $self->lng->txt("perma_link");
-                }
-            });
-
-            $table_gui->setData($log_output);
+            $table_gui = $this->getTestFolder()->getTestLogViewer()->getLegacyLogTableForObjId($this, $p_test);
             $template->setVariable('LOG', $table_gui->getHTML());
         }
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
@@ -545,33 +528,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $this->logAdminObject();
     }
 
-    /**
-     * Administration output for assessment log files
-     */
-    public function logAdminObject(): void
-    {
-        $this->tabs_gui->activateTab('logs');
-
-        $a_write_access = ($this->access->checkAccess("write", "", $this->getTestFolder()->getRefId())) ? true : false;
-
-        $table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin', $a_write_access);
-
-        $available_tests = ilObjTest::_getAvailableTests(false);
-        $data = [];
-        foreach ($available_tests as $ref_id => $title) {
-            $obj_id = ilObject::_lookupObjectId($ref_id);
-            $data[] = [
-                "title" => $title,
-                "nr" => $this->getTestFolder()->getNrOfLogEntries((int) $obj_id),
-                "id" => $obj_id,
-                "location_href" => ilLink::_getLink($ref_id, 'tst'),
-                "location_txt" => $this->lng->txt("perma_link")
-            ];
-        }
-        $table_gui->setData($data);
-        $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
-    }
-
     public function getAdminTabs(): void
     {
         $this->getTabs();
@@ -593,15 +549,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
             ["logs", "showLog", "exportLog"],
             ""
         );
-
-        // log administration
-        $this->tabs_gui->addSubTabTarget(
-            "ass_log_admin",
-            $this->ctrl->getLinkTarget($this, "logAdmin"),
-            ["logAdmin", "deleteLog"],
-            "",
-            ""
-        );
     }
 
     protected function getTabs(): void
@@ -612,7 +559,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
             case "logs":
             case "showLog":
             case "exportLog":
-            case "logAdmin":
             case "deleteLog":
                 $this->getLogdataSubtabs();
                 break;
@@ -682,14 +628,15 @@ class ilObjTestFolderGUI extends ilObjectGUI
             $this->showLogSettingsObject($form);
         }
 
-        $this->global_settings_repository->storeLoggingSettings($data['logging']['activation']);
+        $this->getTestFolder()->getGlobalSettingsRepository()
+            ->storeLoggingSettings($data['logging']['activation']);
 
         $this->showLogSettingsObject($form);
     }
 
     protected function buildLogSettingsForm(): Form
     {
-        $inputs = $this->global_settings_repository->getLoggingSettings()->toForm(
+        $inputs = $this->getTestFolder()->getGlobalSettingsRepository()->getLoggingSettings()->toForm(
             $this->ui_factory,
             $this->refinery,
             $this->lng

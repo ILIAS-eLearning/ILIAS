@@ -16,18 +16,16 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\Container;
+namespace ILIAS\Test\Logging;
 
-class ilTestDICTest extends ilTestBaseTestCase
+/**
+ *
+ * @author skergomard
+ */
+interface TestUserInteraction
 {
-    public function testConstruct(): void
-    {
-        $ilTestDIC = new ilTestDIC();
-        $this->assertInstanceOf(ilTestDIC::class, $ilTestDIC);
-    }
-
-    public function testDic(): void
-    {
-        $this->assertInstanceOf(Container::class, ilTestDIC::dic());
-    }
+    public function getTestRefId(): int;
+    public function getModificationTimestamp(): int;
+    public function getLogEntryAsDataTableRow(): array;
+    public function getLogEntryAsCsvRow(): string;
 }
