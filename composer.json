@@ -199,6 +199,16 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "2023-12-22"
 		},
+		"friendsofphp/php-cs-fixer" : {
+			"source" : "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer",
+			"used_version" : "v3.40",
+			"wrapped_by" : "",
+			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
 		"patches": {
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "./vendor/composer/patches/phpmailer.patch"
@@ -210,5 +220,8 @@
 				"ILIAS LTI Patches": "./vendor/composer/patches/lti.patch"
 			}
 		}
+	},
+	"require-dev": {
+		"friendsofphp/php-cs-fixer": "^3.40"
 	}
 }
