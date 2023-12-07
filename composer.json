@@ -209,6 +209,16 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "2023-12-22"
 		},
+		"phpunit/phpunit" : {
+			"source" : "https://phpunit.de",
+			"used_version" : "v10.5",
+			"wrapped_by" : "",
+			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
 		"patches": {
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "./vendor/composer/patches/phpmailer.patch"
@@ -222,6 +232,7 @@
 		}
 	},
 	"require-dev": {
-		"friendsofphp/php-cs-fixer": "^3.40"
+		"friendsofphp/php-cs-fixer": "^3.40",
+		"phpunit/phpunit": "^10.5"
 	}
 }
