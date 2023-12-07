@@ -2132,10 +2132,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function historyObject()
     {
+        if ($this->getTestObject()->getTestLogger() === null) {
+            return;
+        }
         $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_HISTORY);
         $table_gui = new ilTestHistoryTableGUI($this, 'history');
         $table_gui->setTestObject($this->object);
-        $log = ilObjTestFolder::getLog(0, time(), $this->object->getId(), true);
+        $log = $this->getTestObject()->getTestLogger()->getLegacyLogsFor($this->object->getId(), true);
         $table_gui->setData($log);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }

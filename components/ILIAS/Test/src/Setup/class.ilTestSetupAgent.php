@@ -18,45 +18,47 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Setup;
+
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\Setup\Config;
 use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup\Agent\HasNoNamedObjective;
-use ILIAS\Setup\Metrics;
-use ILIAS\Setup\Config;
 use ILIAS\Refinery\Transformation;
 
 class ilTestSetupAgent extends NullAgent
 {
     use HasNoNamedObjective;
 
-    public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
         return new ObjectiveCollection(
-            'Database is updated for component/ILIAS/Test',
+            'Database is updated for ILIAS\Test',
             false,
-            new ilDatabaseUpdateStepsExecutedObjective(
-                new ilTest9DBUpdateSteps()
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new Test9DBUpdateSteps()
             ),
-            new ilDatabaseUpdateStepsExecutedObjective(
-                new ilTest10DBUpdateSteps()
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new Test10DBUpdateSteps()
             )
         );
     }
 
-    public function getStatusObjective(Metrics\Storage $storage): Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new ObjectiveCollection(
-            'Database is updated for component/ILIAS/Test',
+            'ILIAS\Test',
             true,
-            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
-                new ilTest9DBUpdateSteps()
+                new Test9DBUpdateSteps()
             ),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
-                new ilTest10DBUpdateSteps()
+                new Test10DBUpdateSteps()
             )
         );
     }

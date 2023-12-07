@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Administration\TestGlobalSettingsRepository;
+use ILIAS\Test\Logging\TestLogViewer;
+use ILIAS\Test\TestDIC;
+
 /**
  * Class ilObjTestFolder
  * @author    Helmut Schottmüller <hschottm@gmx.de>
@@ -36,13 +40,30 @@ class ilObjTestFolder extends ilObject
     private const SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER = 'ass_skl_trig_num_answ_barrier';
     public const DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER = '1';
 
+    private TestGlobalSettingsRepository $global_settings_repository;
+    private ?TestLogViewer $test_log_viewer = null;
+
     public ilSetting $setting;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->setting = new ilSetting('assessment');
         $this->type = 'assf';
+        $local_dic = TestDIC::dic();
+        $this->global_settings_repository = $local_dic['global_settings_repository'];
+        $this->test_log_viewer = $local_dic['test_log_viewer'];
+
         parent::__construct($a_id, $a_call_by_reference);
+    }
+
+    public function getGlobalSettingsRepository(): TestGlobalSettingsRepository
+    {
+        return $this->global_settings_repository;
+    }
+
+    public function getTestLogViewer(): TestLogViewer
+    {
+        return $this->test_log_viewer;
     }
 
     public static function getSkillTriggerAnswerNumberBarrier(): int
@@ -203,58 +224,6 @@ class ilObjTestFolder extends ilObject
     {
         $setting = new ilSetting('assessment');
         $setting->set('assessment_adjustments_enabled', (string) ((int) $active));
-    }
-
-    /**
-     * Retrieve assessment log datasets from the database
-     * @param int $ts_from Timestamp of the starting date/time period
-     * @param int $ts_to   Timestamp of the ending date/time period
-     * @param int $test_id Database id of the ILIAS test object
-     * @return array<string, mixed>[] Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
-     */
-    public static function getLog(int $ts_from, int $ts_to, int $test_id, bool $test_only = false): array
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $log = [];
-        if ($test_only === true) {
-            $result = $ilDB->queryF(
-                "SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s AND test_only = %s ORDER BY tstamp",
-                ['integer', 'integer', 'integer', 'text'],
-                [
-                    $test_id,
-                    $ts_from,
-                    $ts_to,
-                    1
-                ]
-            );
-        } else {
-            $result = $ilDB->queryF(
-                "SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s ORDER BY tstamp",
-                ['integer', 'integer', 'integer'],
-                [
-                    $test_id,
-                    $ts_from,
-                    $ts_to
-                ]
-            );
-        }
-        while ($row = $ilDB->fetchAssoc($result)) {
-            if (!array_key_exists($row["tstamp"], $log)) {
-                $log[$row["tstamp"]] = [];
-            }
-            $log[$row["tstamp"]][] = $row;
-        }
-        krsort($log);
-        // flatten array
-        $log_array = [];
-        foreach ($log as $key => $value) {
-            foreach ($value as $index => $row) {
-                $log_array[] = $row;
-            }
-        }
-        return $log_array;
     }
 
     /**
