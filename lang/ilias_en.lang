@@ -2919,6 +2919,7 @@ chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the 
 chatroom#:#chat_osc_user#:#User
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
 chatroom#:#chat_osc_write_a_msg#:#Write a Message ...
+chatroom#:#chat_select_room#:#Select Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_settings_functions_header#:#Chat Room Functions
 chatroom#:#chat_show_auto_messages#:#Show Status Messages
@@ -11163,10 +11164,14 @@ lti#:#user_provider_subtab#:#Providers Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Back to Folder
+mail#:#chat_users_have_been_invited#:#The following users have been invited:
+mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:
+mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
 mail#:#current_folder#:#Current Folder: %s
 mail#:#deleteTemplate#:#Delete
 mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
 mail#:#forward#:#Forward
+mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
@@ -11271,6 +11276,7 @@ mail#:#mail_incoming_mail#:#Incoming Mail
 mail#:#mail_incoming_smtp#:#Forward to E-Mail Address:
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
+mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_is_read#:#Read
 mail#:#mail_is_unread#:#Unread

@@ -50,6 +50,8 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         )->getMock();
         $user->method('getId')->willReturn(6);
 
+        $this->setGlobalVariable('ilObjDataCache', $this->createMock(ilObjectDataCache::class));
+
         $this->setGlobalVariable('ilUser', $user);
 
         $chatroomSettings = $this->createMock(ilDBStatement::class);
@@ -105,6 +107,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         )->getMock();
         $user->method('getId')->willReturn(6);
 
+        $this->setGlobalVariable('ilObjDataCache', $this->createMock(ilObjectDataCache::class));
         $this->setGlobalVariable('ilUser', $user);
 
         $chatroomSettings = $this->createMock(ilDBStatement::class);
