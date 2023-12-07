@@ -23,6 +23,7 @@
  */
 class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
 {
+    protected \ILIAS\Exercise\PermanentLink\PermanentLinkManager $link_manager;
     protected ilTaskService $task_service;
     protected ilExerciseDerivedTaskAction $task_action;
     protected ilAccess $access;
@@ -32,12 +33,14 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
         ilTaskService $task_service,
         ilAccess $access,
         ilLanguage $lng,
-        ilExerciseDerivedTaskAction $derived_task_action
+        ilExerciseDerivedTaskAction $derived_task_action,
+        \ILIAS\Exercise\PermanentLink\PermanentLinkManager $link_manager
     ) {
         $this->access = $access;
         $this->task_service = $task_service;
         $this->task_action = $derived_task_action;
         $this->lng = $lng;
+        $this->link_manager = $link_manager;
 
         $this->lng->loadLanguageModule("exc");
     }
@@ -70,7 +73,7 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
                 $ref_id,
                 $state->getOfficialDeadline(),
                 (int) $state->getGeneralStart()
-            );
+            )->withUrl($this->link_manager->getPermanentLink($ref_id, $ass->getId()));
         }
 
         // open peer feedbacks
