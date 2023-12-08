@@ -410,6 +410,20 @@ class ilBookingObject
         return 0;
     }
 
+    public function deleteReservationsAndCalEntries(int $object_id): void
+    {
+        $repo_fac = new ilBookingReservationDBRepositoryFactory();
+        $reservation_db = $repo_fac->getRepo();
+        $reservation_ids = $reservation_db->getReservationIdsByBookingObjectId($object_id);
+
+        foreach ($reservation_ids as $reservation_id) {
+            $reservation = new ilBookingReservation($reservation_id);
+            $entry = new ilCalendarEntry($reservation->getCalendarEntry());
+            $reservation_db->delete($reservation_id);
+            $entry->delete();
+        }
+    }
+
     /**
      * Get nr of available items for a set of object ids
      * @param int[] $a_obj_ids
