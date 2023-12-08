@@ -190,6 +190,9 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ilSetting = $this->settings;
         
         $new_type = $_REQUEST["new_type"];
+        $this->ctrl->saveParameter($this, "crtptrefid");
+        // use forced callback after object creation
+        $this->ctrl->saveParameter($this, "crtcb");
         if (!$ilAccess->checkAccess("create_" . $this->getReferenceType(), '', $_GET["ref_id"], $new_type)) {
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
