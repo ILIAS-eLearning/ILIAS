@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"james-heinrich/getid3": "^1.9.23"
 	},
 	"require-dev": {
 	},
