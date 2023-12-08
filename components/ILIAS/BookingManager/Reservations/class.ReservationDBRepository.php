@@ -331,4 +331,20 @@ class ReservationDBRepository
             return ($row["context_obj_id"] == $context_obj_id);
         });
     }
+
+    public function getReservationIdsByBookingObjectId(int $booking_object_id): array
+    {
+        $set = $this->db->queryF(
+            "SELECT booking_reservation_id FROM booking_reservation " .
+            " WHERE object_id = %s ",
+            ["integer"],
+            [$booking_object_id]
+        );
+        $ret = [];
+        while ($row = $this->db->fetchAssoc($set)) {
+            $ret[] = (int) $row['booking_reservation_id'];
+        }
+
+        return $ret;
+    }
 }
