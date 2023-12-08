@@ -122,12 +122,12 @@ class ilCalendarRemoteAccessHandler
         );
     }
 
-    protected function initLimitEnabled()
+    protected function initLimitEnabled(): void
     {
-        $this->limit_enabled = (bool) $_GET[self::LIMITED_QUERY_PARAM];
+        $this->limit_enabled = (bool) ($_GET[self::LIMITED_QUERY_PARAM] ?? false);
     }
 
-    protected function initIlias()
+    protected function initIlias(): void
     {
         include_once './Services/Context/classes/class.ilContext.php';
         ilContext::init(ilContext::CONTEXT_ICAL);
