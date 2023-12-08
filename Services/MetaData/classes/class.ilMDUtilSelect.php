@@ -278,6 +278,7 @@ class ilMDUtilSelect
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
+        $options = [];
         foreach ($prepend as $value => $translation) {
             $options[$value] = $translation;
         }
@@ -290,7 +291,7 @@ class ilMDUtilSelect
         if (!$res->numRows()) {
             return '';
         }
-        $options = [];
+
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (is_string($row->forma) && $row->forma !== '') {
                 $options[$row->forma] = substr($row->forma, 0, 48);
