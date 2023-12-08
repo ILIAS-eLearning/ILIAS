@@ -16,7 +16,8 @@
     "moment": "^2.29.4"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "rollup": "^2.18.0"
   },
   "scripts": {
     "test": "mocha --recursive"
