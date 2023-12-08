@@ -43,7 +43,8 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
-		"apereo/phpcas": "^1.6.1"
+		"apereo/phpcas": "^1.6.1",
+		"league/commonmark": "^2.4"
 	},
 	"autoload": {
 		"psr-4" : {
