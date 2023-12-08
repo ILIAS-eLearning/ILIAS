@@ -173,8 +173,8 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
             'type' => $this->radio('mode', [
                 'once' => 'once',
                 'eval_on_login' => 'reevaluate_on_login',
-                'no_acceptance' => 'no_acceptance'
-            ])->withRequired(true),
+                'no_acceptance' => 'no_acceptance',
+            ])->withValue('once')->withRequired(true),
         ]);
 
         $enabled = $enabled->withValue($this->data_protection_settings->enabled()->value() ? [
@@ -215,7 +215,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
         );
     }
 
-    private function radio(string $prefix, $options): Component
+    private function radio(string $prefix, array $options): Component
     {
         $field = $this->ui->create()->input()->field()->radio($this->ui->txt($prefix), $this->ui->txt($prefix . '_desc'));
         foreach ($options as $key => $label) {
