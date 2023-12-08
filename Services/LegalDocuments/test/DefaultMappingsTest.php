@@ -61,7 +61,9 @@ class DefaultMappingsTest extends TestCase
         $container->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
 
         $instance = new DefaultMappings('foo', $container);
-        $definitions = $instance->conditionDefinitions();
+        $result = $instance->conditionDefinitions();
+        $definitions = $result->choices();
+        $this->assertSame('usr_country', $result->defaultSelection());
         $this->assertSame(3, count($definitions));
         $this->assertInstanceOf(RoleDefinition::class, $definitions['usr_global_role']);
         $this->assertInstanceOf(UserLanguageDefinition::class, $definitions['usr_language']);

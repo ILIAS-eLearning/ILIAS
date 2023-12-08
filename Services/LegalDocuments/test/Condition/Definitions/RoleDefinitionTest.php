@@ -49,6 +49,10 @@ class RoleDefinitionTest extends TestCase
 
     public function testFormGroup(): void
     {
+        if (!defined('SYSTEM_ROLE_ID')) {
+            define('SYSTEM_ROLE_ID', 2);
+        }
+
         $instance = new RoleDefinition(
             $this->mock(UI::class),
             $this->mock(ilObjectDataCache::class),

@@ -46,12 +46,13 @@ class UserLanguageDefinition implements ConditionDefinition
     public function formGroup(array $arguments = []): Group
     {
         $languages = array_combine($this->installed_languages, array_map($this->translatedLanguage(...), $this->installed_languages));
+        $default = key($languages);
 
         return $this->ui->create()->input()->field()->group([
             'lng' => $this->radio(
                 $this->ui->txt('language'),
                 $languages,
-                $arguments['lng'] ?? null
+                $arguments['lng'] ?? $default
             )->withRequired(true, ($this->required)($languages))
         ], $this->ui->txt('crit_type_usr_language'), $this->ui->txt('crit_type_usr_language_info'));
     }

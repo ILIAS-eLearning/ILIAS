@@ -31,6 +31,7 @@ use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\SlotConstructor;
+use ILIAS\LegalDocuments\SelectionMap;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -58,7 +59,7 @@ class SlotConstructorTest extends TestCase
     public function testDocument(): void
     {
         $instance = new SlotConstructor('foo', $this->mock(Container::class), $this->mock(UserAction::class));
-        $this->assertInstanceOf(ProvideDocument::class, $instance->document($this->mock(DocumentRepository::class), [], []));
+        $this->assertInstanceOf(ProvideDocument::class, $instance->document($this->mock(DocumentRepository::class), new SelectionMap(), []));
     }
 
     public function testDocumentRepository(): void
