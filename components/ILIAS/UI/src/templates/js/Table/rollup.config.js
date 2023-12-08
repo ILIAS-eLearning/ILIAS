@@ -15,13 +15,13 @@
  ******************************************************************** */
 
 import terser from '@rollup/plugin-terser';
-import copyright from '../../../../../CI/Copyright-Checker/copyright';
-import preserveCopyright from '../../../../../CI/Copyright-Checker/preserveCopyright';
+import copyright from '../../../../../../../scripts/Copyright-Checker/copyright';
+import preserveCopyright from '../../../../../../../scripts/Copyright-Checker/preserveCopyright';
 
 export default {
   input: './src/table.js',
   output: {
-    file: './dist/table.min.js',
+    file: '../../../../../../../public/components/ILIAS/UI/src/templates/js/Table/table.min.js',
     format: 'iife',
     banner: copyright,
     plugins: [
