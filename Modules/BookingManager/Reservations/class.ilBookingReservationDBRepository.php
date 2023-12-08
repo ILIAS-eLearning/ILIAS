@@ -329,13 +329,16 @@ class ilBookingReservationDBRepository
         });
     }
 
-    public function getReservationIdByBookingObjectId(int $booking_object_id): array
+    public function getReservationIdsByBookingObjectId(int $booking_object_id): array
     {
-        $query = "SELECT booking_reservation_id FROM booking_reservation " . PHP_EOL
-            . " WHERE object_id = " . $this->db->quote($booking_object_id, "integer");
-        $res = $this->db->query($query);
+        $set = $this->db->queryF(
+            "SELECT booking_reservation_id FROM booking_reservation " .
+            " WHERE object_id = %s ",
+            ["integer"],
+            [$booking_object_id]
+        );
         $ret = [];
-        while ($row = $this->db->fetchAssoc($res)) {
+        while ($row = $this->db->fetchAssoc($set)) {
             $ret[] = (int) $row['booking_reservation_id'];
         }
 

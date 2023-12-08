@@ -410,11 +410,12 @@ class ilBookingObject
         return 0;
     }
 
-    public function deleteReservationAndCalEntry(int $object_id): void
+    public function deleteReservationsAndCalEntries(int $object_id): void
     {
-        $reservation_db = new ilBookingReservationDBRepository($this->db);
-        $reservation_ids = $reservation_db->getReservationIdByBookingObjectId($object_id);
-        
+        $repo_fac = new ilBookingReservationDBRepositoryFactory();
+        $reservation_db = $repo_fac->getRepo();
+        $reservation_ids = $reservation_db->getReservationIdsByBookingObjectId($object_id);
+
         foreach ($reservation_ids as $reservation_id) {
             $reservation = new ilBookingReservation($reservation_id);
             $entry = new ilCalendarEntry($reservation->getCalendarEntry());
