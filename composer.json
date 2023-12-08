@@ -49,7 +49,8 @@
 		"celtic/lti": "^5.0",
 		"apereo/phpcas": "^1.6.1",
 		"league/commonmark": "^2.4",
-		"ramsey/uuid": "^4.4.0"
+		"ramsey/uuid": "^4.4.0",
+		"geshi/geshi": "^1.0.9.1"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -172,6 +173,16 @@
 			"used_version" : "v4.4.0",
 			"wrapped_by" : "",
 			"added_by" : "Fabian Schmid <fabian@sr.solutions>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"geshi/geshi" : {
+			"source" : "https://github.com/GeSHi/geshi-1.0",
+			"used_version" : "v1.0.9.1",
+			"wrapped_by" : "",
+			"added_by" : "Alexander Killing",
 			"last_update" : "",
 			"last_update_by" : "",
 			"approved-by": "Jour Fixe",
