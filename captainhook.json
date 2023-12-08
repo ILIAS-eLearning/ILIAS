@@ -50,6 +50,20 @@
         ]
       },
       {
+        "action": "npx eslint --fix {$STAGED_FILES|of-type:js}",
+        "options": [],
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\Any",
+            "args": [
+              [
+                "*.js"
+              ]
+            ]
+          }
+        ]
+      },
+      {
         "action": "scripts/sort_langfile_entries.sh check",
         "options": [],
         "conditions": [
