@@ -45,7 +45,8 @@
 		"ext-imagick": "*",
 		"apereo/phpcas": "^1.6.1",
 		"league/commonmark": "^2.4",
-		"ramsey/uuid": "^4.4.0"
+		"ramsey/uuid": "^4.4.0",
+		"geshi/geshi": "^1.0.9.1"
 	},
 	"autoload": {
 		"psr-4" : {
