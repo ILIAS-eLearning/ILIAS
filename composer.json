@@ -60,7 +60,8 @@
 		"filp/whoops": "^2.15.4",
 		"cweagans/composer-patches": "^1.7",
 		"ezyang/htmlpurifier": "^4.17",
-		"phpmailer/phpmailer": "^6.8"
+		"phpmailer/phpmailer": "^6.8",
+		"symfony/yaml": "^7.0"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
@@ -361,6 +362,16 @@
 			"used_version" : "v6.8",
 			"wrapped_by" : "",
 			"added_by" : "mjansen <mjansen@databay.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"symfony/yaml" : {
+			"source" : "https://github.com/symfony/yaml",
+			"used_version" : "v7.0",
+			"wrapped_by" : "",
+			"added_by" : "Nils Haagen <nils.haagen@concepts-and-training.de>",
 			"last_update" : "",
 			"last_update_by" : "",
 			"approved-by": "Jour Fixe",
