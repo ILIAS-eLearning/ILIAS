@@ -36,7 +36,6 @@ class Factory
         $this->language = $language;
 
         $this->language->loadLanguageModule('validation');
-        $this->language->loadLanguageModule('ui');
     }
 
     /**
