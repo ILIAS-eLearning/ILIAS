@@ -11,6 +11,7 @@
     "@uppy/core": "^3.8.0",
     "@uppy/tus": "^3.5.0",
     "chart.js": "^4.4.1",
+    "dropzone": "^5.9.3",
     "jquery": "^3.6.0",
     "linkifyjs": "^4.1.3",
     "moment": "^2.29.4"
@@ -87,6 +88,13 @@
       "approved-by": "Jour Fixe",
       "developer": "tfamula",
       "purpose": "UI Bar Charts",
+      "last-update-for-ilias": "10.0"
+    },
+    "dropzone": {
+      "introduction-date": null,
+      "approved-by": "Jour Fixe",
+      "developer": "chfsx",
+      "purpose": "Handle file uploads on client-side (UI file input)",
       "last-update-for-ilias": "10.0"
     }
   }
