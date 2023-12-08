@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Utility class to form select boxed for fixed meta data attributes
@@ -37,8 +37,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -75,8 +74,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -112,8 +110,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -149,8 +146,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -204,8 +200,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -241,8 +236,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -278,13 +272,13 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
+        $options = [];
         foreach ($prepend as $value => $translation) {
             $options[$value] = $translation;
         }
@@ -297,7 +291,7 @@ class ilMDUtilSelect
         if (!$res->numRows()) {
             return '';
         }
-        $options = [];
+
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (is_string($row->forma) && $row->forma !== '') {
                 $options[$row->forma] = substr($row->forma, 0, 48);
@@ -359,8 +353,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -397,8 +390,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -492,8 +484,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -530,8 +521,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -567,8 +557,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -629,8 +618,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -729,8 +717,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -767,8 +754,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -805,8 +791,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
