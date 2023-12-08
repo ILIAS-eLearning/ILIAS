@@ -16,6 +16,7 @@
     "moment": "^2.29.4"
   },
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.3",
     "jest": "^29.7.0",
     "rollup": "^2.18.0"
   },
