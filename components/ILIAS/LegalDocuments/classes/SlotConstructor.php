@@ -60,10 +60,10 @@ class SlotConstructor
     }
 
     /**
-     * @param array<string, ConditionDefinition> $conditions
+     * @param SelectionMap<ConditionDefinition> $conditions
      * @param array<string, Closure(DocumentContent): Component $content_as_component
      */
-    public function document(DocumentRepository $document_repository, array $conditions, array $content_as_component): ProvideDocument
+    public function document(DocumentRepository $document_repository, SelectionMap $conditions, array $content_as_component): ProvideDocument
     {
         return new ProvideDocument($this->id(), $document_repository, $conditions, $content_as_component, $this->container);
     }
