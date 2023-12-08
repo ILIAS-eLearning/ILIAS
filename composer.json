@@ -46,7 +46,8 @@
 		"apereo/phpcas": "^1.6.1",
 		"league/commonmark": "^2.4",
 		"ramsey/uuid": "^4.4.0",
-		"geshi/geshi": "^1.0.9.1"
+		"geshi/geshi": "^1.0.9.1",
+		"james-heinrich/getid3": "^1.9.23"
 	},
 	"autoload": {
 		"psr-4" : {
