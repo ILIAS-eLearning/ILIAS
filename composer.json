@@ -47,7 +47,8 @@
 		"ext-imagick": "*",
 		"firebase/php-jwt": "^6.10",
 		"celtic/lti": "^5.0",
-		"apereo/phpcas": "^1.6.1"
+		"apereo/phpcas": "^1.6.1",
+		"league/commonmark": "^2.4"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -150,6 +151,16 @@
 			"used_version" : "v1.6.1",
 			"wrapped_by" : "",
 			"added_by" : "Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"league/commonmark" : {
+			"source" : "https://github.com/thephpleague/commonmark",
+			"used_version" : "v1.6.1",
+			"wrapped_by" : "",
+			"added_by" : "Fabian Schmid <fabian@sr.solutions>",
 			"last_update" : "",
 			"last_update_by" : "",
 			"approved-by": "Jour Fixe",
