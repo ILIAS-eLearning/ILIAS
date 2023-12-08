@@ -53,9 +53,9 @@ interface UseSlot
 
     /**
      * @param array<string, callable(DocumentContent): Component> $content_as_component
-     * @param array<string, ConditionDefinition> $available_conditions
+     * @param null|SelectionMap<ConditionDefinition> $available_conditions
      */
-    public function hasDocuments(array $content_as_component = [], array $available_conditions = []): self;
+    public function hasDocuments(array $content_as_component = [], ?SelectionMap $available_conditions = null): self;
 
     /**
      * @param callable(ilObjUser): array<string, string|ilNonEditableValueGUI> $fields
