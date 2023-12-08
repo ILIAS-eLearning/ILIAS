@@ -17062,9 +17062,7 @@ ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Edit
 ui#:#ui_md_input_view#:#View
-ui#:#ui_numeric_only#:#Please insert a whole number.
 ui#:#ui_table_no_records#:#No records
-ui#:#ui_tag_required#:#Please insert at least one tag.
 ui#:#ui_transcription#:#Transcript
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
@@ -17224,6 +17222,8 @@ validation#:#not_max_length#:#The entered text has a length more than '%s'.
 validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.
 validation#:#not_numeric#:#'%s' is not numeric.
 validation#:#not_numeric_empty_string#:#Your input is not numeric.
+validation#:#numeric_only#:#Please insert a whole number.
+validation#:#tag_required#:#Please insert at least one tag.
 violation#:#not_a_string#:#Given value is not a String
 webr#:#invalid_links_tbl#:#Invalid Links
 webr#:#webr_active#:#Active
