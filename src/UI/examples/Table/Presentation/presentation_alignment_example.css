@@ -1,0 +1,21 @@
+.example_block {
+    &.stats {
+        height: 100%;
+        font-size: 0.75rem;
+        min-height: 20px;
+        padding: 19px;
+        background-color: #caf5bc;
+        border: 1px solid rgb(62, 67, 69);
+        border-radius: 0px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+
+    &.content {
+        height: 100%;
+    }
+}
+
+.c-stats--title {
+    font-weight: bold;
+}
