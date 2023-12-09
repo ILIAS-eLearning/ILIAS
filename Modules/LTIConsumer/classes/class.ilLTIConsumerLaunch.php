@@ -66,7 +66,7 @@ class ilLTIConsumerLaunch
                         break;
                     }
 
-                    $this->context['id'] = $row['child'];
+                    $this->context['id'] = (string) $row['child'];
                     $this->context['title'] = $row['title'];
                     $this->context['type'] = $row['type'];
 
