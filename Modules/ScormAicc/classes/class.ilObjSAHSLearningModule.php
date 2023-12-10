@@ -1349,12 +1349,10 @@ class ilObjSAHSLearningModule extends ilObject
         return $studentName;
     }
 
-    //todo : replace LinkButton
-
     /**
      * get button for view
      */
-    public function getViewButton(): \ILIAS\UI\Component\Button\Primary
+    public function getViewButton(): ilLinkButton //\ILIAS\UI\Component\Button\Primary
     {
         $setUrl = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->getRefID();
         // $setUrl = $this->getLinkTargetByClass("ilsahspresentationgui", "")."&amp;ref_id=".$this->getRefID();
@@ -1369,17 +1367,18 @@ class ilObjSAHSLearningModule extends ilObject
             $setUrl = "javascript:void(0); onclick=startSAHS('" . $setUrl . "','ilContObj" . $this->getId() . "'," . $om . "," . $width . "," . $height . ");";
             $setTarget = "";
         }
-        //todo $setTarget ?
-        $button = $this->ui->factory()->button()->primary(
-            $this->lng->txt("view"),
-            $setUrl
-        );
 
-        //        $button = ilLinkButton::getInstance();
-        //        $button->setCaption("view");
-        //        $button->setPrimary(true);
-        //        $button->setUrl($setUrl);
-        //        $button->setTarget($setTarget);
+        //todo : replace LinkButton - but target needed
+        //        $button = $this->ui->factory()->button()->primary(
+        //            $this->lng->txt("view"),
+        //            $setUrl
+        //        );
+
+        $button = ilLinkButton::getInstance();
+        $button->setCaption("view");
+        $button->setPrimary(true);
+        $button->setUrl($setUrl);
+        $button->setTarget($setTarget);
         return $button;
     }
 }
