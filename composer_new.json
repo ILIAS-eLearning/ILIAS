@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"jumbojett/openid-connect-php": "^0.9.10"
 	},
 	"require-dev": {
 	},
