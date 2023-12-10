@@ -368,8 +368,8 @@ class ilSCORM13Package
                             break;
                         case 'writenormalizedmeasure': $names[] = 'writenormalmeasure';
                             break;
-                            //                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';
-                            //                            break;
+                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';
+                            break;
                         case 'primary': $names[] = 'c_primary';
                             break;
                             //                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
