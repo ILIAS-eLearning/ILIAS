@@ -7,9 +7,7 @@
 		"optimize-autoloader": true,
 		"vendor-dir": "./vendor/composer/vendor",
 		"allow-plugins": {
-			"simplesamlphp/composer-module-installer": true,
-			"cweagans/composer-patches": true,
-			"captainhook/plugin-composer": true
+			"simplesamlphp/composer-module-installer": true
 		}
 	},
 	"scripts": {
@@ -45,43 +43,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
-		"cweagans/composer-patches": "^1.7",
-		"filp/whoops": "^2.15.1",
-		"monolog/monolog": "^2.3.5",
-		"technosophos/libris": "^2.0.2",
-		"ezyang/htmlpurifier": "^4.16",
-		"phpmailer/phpmailer": "^6.8",
-		"geshi/geshi": "^1.0.9.1",
-		"pimple/pimple" : "^3.0",
-		"symfony/yaml": "^5.3",
-		"guzzlehttp/psr7": "^2.5",
-		"dflydev/fig-cookies": "^1.0",
-		"league/flysystem": "^3.0",
-		"james-heinrich/getid3": "^1.9.23",
-		"phpoffice/phpspreadsheet": "^1.29.0",
-		"jumbojett/openid-connect-php": "^0.9.5",
-		"sabre/dav": "^4.1",
-		"symfony/console" : "^5.0",
-		"slim/slim": "^3.11",
-		"ramsey/uuid": "4.4.0",
-		"enshrined/svg-sanitize": "^0.16.0",
-		"guzzlehttp/guzzle": "^7.0",
-		"simplesamlphp/simplesamlphp": "^1.19.8",
-		"seld/jsonlint": "^1.8",
-		"jasig/phpcas": "^1.4",
-		"league/commonmark": "^2.3",
-		"ifsnop/mysqldump-php": "2.10",
-		"mustache/mustache": "^2.14"
-	},
-	"require-dev": {
-		"mikey179/vfsstream": "^1.6",
-		"mockery/mockery": "^1.4",
-		"friendsofphp/php-cs-fixer": "^3.15",
-		"sebastian/environment": "^5.0",
-		"captainhook/captainhook": "^5.16",
-		"captainhook/plugin-composer": "^5.3",
-		"phpstan/phpstan": "^1.10",
-		"rector/rector": "^0.15.17"
+		"apereo/phpcas": "^1.6.1"
 	},
 	"autoload": {
 		"psr-4" : {
