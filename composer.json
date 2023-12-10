@@ -46,7 +46,8 @@
 		"ext-zip": "*",
 		"ext-imagick": "*",
 		"firebase/php-jwt": "^6.10",
-		"celtic/lti": "^5.0"
+		"celtic/lti": "^5.0",
+		"apereo/phpcas": "^1.6.1"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -139,6 +140,16 @@
 			"used_version" : "v5.0",
 			"wrapped_by" : "",
 			"added_by" : "Stefan Schneider <eqsoft4@gmail.com>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"apereo/phpcas" : {
+			"source" : "https://github.com/apereo/phpCAS",
+			"used_version" : "v1.6.1",
+			"wrapped_by" : "",
+			"added_by" : "Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>",
 			"last_update" : "",
 			"last_update_by" : "",
 			"approved-by": "Jour Fixe",
