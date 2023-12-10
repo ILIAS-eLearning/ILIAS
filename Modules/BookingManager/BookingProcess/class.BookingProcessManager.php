@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,7 +51,7 @@ class BookingProcessManager
         int $recurrence_weeks,
         int $requested_nr,
         \ilDate $until
-    ) : array {
+    ): array {
         $end = $until->get(IL_CAL_UNIX);
         $cut = 0;
         $cycle = $recurrence_weeks * 7;
@@ -59,7 +61,7 @@ class BookingProcessManager
             $check_slot_from = $this->addDaysStamp($slot_from, $cycle * $cut);
             $check_slot_to = $this->addDaysStamp($slot_to, $cycle * $cut);
             $available = \ilBookingReservation::getAvailableObject(array($obj_id), $check_slot_from, $check_slot_to, false, true);
-            $available = $available[$obj_id];
+            $available = $available[$obj_id] ?? 0;
             if ($available < $requested_nr) {
                 $booked_out_slots[] = [
                     "from" => $check_slot_from,
@@ -75,7 +77,7 @@ class BookingProcessManager
     protected function addDaysDate(
         string $a_date,
         int $a_days
-    ) : string {
+    ): string {
         $date = date_parse($a_date);
         $stamp = mktime(0, 0, 1, $date["month"], $date["day"] + $a_days, $date["year"]);
         return date("Y-m-d", $stamp);
@@ -84,7 +86,7 @@ class BookingProcessManager
     protected function addDaysStamp(
         int $a_stamp,
         int $a_days
-    ) : int {
+    ): int {
         $date = getdate($a_stamp);
         return mktime(
             $date["hours"],
@@ -107,7 +109,7 @@ class BookingProcessManager
         int $nr,
         ?\ilDateTime $until,
         string $message = ""
-    ) : array {
+    ): array {
         $reservation_repo = $this->repo->reservation();
 
         $rsv_ids = [];
@@ -162,7 +164,7 @@ class BookingProcessManager
         int $a_to = null,
         int $a_group_id = null,
         string $message = ""
-    ) : int {
+    ): int {
         $lng = $this->domain->lng();
 
         // add user to participants, if not existing
