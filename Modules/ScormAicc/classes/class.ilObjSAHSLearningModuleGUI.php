@@ -447,11 +447,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $newObj->setTitle($name);
         $newObj->setSubType($subType);
         $newObj->setDescription("");
-        $newObj->setOfflineStatus(false);
         $newObj->create(true);
         $newObj->createReference();
         $newObj->putInTree($refId);
         $newObj->setPermissions($refId);
+        $newObj->setOfflineStatus(false);
 
         // create data directory, copy file to directory
         $newObj->createDataDirectory();
@@ -462,7 +462,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $scormFilePath = $import_dirname . "/" . $scormFile;
                 $file_path = $newObj->getDataDirectory() . "/" . $scormFile;
                 ilFileUtils::rename($scormFilePath, $file_path);
-                ilFileUtils::unzip($file_path);
+                $DIC->legacyArchives()->unzip($file_path, $newObj->getDataDirectory(), false, false, false);
+                //                ilFileUtils::unzip($file_path);
                 unlink($file_path);
                 ilFileUtils::delDir($lmTempDir, false);
             } else {
@@ -473,14 +474,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     $_FILES["scormfile"]["name"],
                     $file_path
                 );
-                ilFileUtils::unzip($file_path);
+                $DIC->legacyArchives()->unzip($file_path, $newObj->getDataDirectory(), false, false, false);
+                //                ilFileUtils::unzip($file_path);
             }
         } else {
             // copy uploaded file to data directory
             $uploadedFile = $DIC->http()->wrapper()->post()->retrieve('uploaded_file', $DIC->refinery()->kindlyTo()->string());
             $file_path = $newObj->getDataDirectory() . "/" . $uploadedFile;
             ilUploadFiles::_copyUploadFile($uploadedFile, $file_path);
-            ilFileUtils::unzip($file_path);
+            $DIC->legacyArchives()->unzip($file_path, $newObj->getDataDirectory(), false, false, false);
+            //            ilFileUtils::unzip($file_path);
         }
         ilFileUtils::renameExecutables($newObj->getDataDirectory());
 
