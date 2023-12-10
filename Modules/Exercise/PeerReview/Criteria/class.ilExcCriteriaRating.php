@@ -97,11 +97,11 @@ class ilExcCriteriaRating extends ilExcCriteria
         $rating->setUserId($this->giver_id);
 
         $ajax_id = $this->getId()
-            ?: "'rating'";
+            ?: "rating";
 
         if (!$a_read_only) {
-            $html = '<div class="crit_widget">' .
-                $rating->getHTML(false, true, "il.ExcPeerReview.saveCrit(this, " . $this->peer_id . ", " . $ajax_id . ", %rating%)") .
+            $html = '<div class="crit_widget" data-crit-id="' . $ajax_id . '">' .
+                $rating->getHTML(false, true, "il.ExcPeerReview.saveCrit(this, " . $this->peer_id . ", '" . $ajax_id . "', %rating%)") .
             '</div>';
         } else {
             $html = $rating->getHTML(false, false);
