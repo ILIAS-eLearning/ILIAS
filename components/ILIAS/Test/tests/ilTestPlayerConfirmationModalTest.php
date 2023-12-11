@@ -74,27 +74,6 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
         $this->assertEquals($confirmationCheckboxLabel, $this->testObj->getConfirmationCheckboxLabel());
     }
 
-    public function testAddButton(): void
-    {
-        $this->addGlobal_lng();
-        $this->addGlobal_uiFactory();
-
-        $expected = [];
-
-        foreach ([51, 291, 15, 681] as $id) {
-            $button = ilLinkButton::getInstance();
-            $button->setId((string) $id);
-            $expected[] = $button;
-        }
-
-        $this->assertEquals([], $this->testObj->getButtons());
-        foreach ($expected as $button) {
-            $this->testObj->addButton($button);
-        }
-
-        $this->assertEquals($expected, $this->testObj->getButtons());
-    }
-
     public function testAddParameter(): void
     {
         $this->addGlobal_ilCtrl();
