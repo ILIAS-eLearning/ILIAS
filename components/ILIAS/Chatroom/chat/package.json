@@ -9,6 +9,7 @@
     "node-schedule": "^2.1.0",
     "node-uuid": "^1.4.8",
     "socket.io": "^4.6.1",
-    "socket.io-client": "^4.6.1"
+    "socket.io-client": "^4.6.1",
+    "winston": "^3.13.0"
   }
 }
