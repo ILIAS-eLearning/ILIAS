@@ -7146,11 +7146,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withResultsPage()
             ->withUserPages()
             ->getContent();
-        $file = ilFileUtils::ilTempnam();
-        $worksheet->writeToFile($file);
+        $temp_file_path = ilFileUtils::ilTempnam();
+        $delivered_file_name = 'result_' . $active_id . '.xlsx';
+        $worksheet->writeToFile($temp_file_path);
         $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $fd->copyAttachmentFile($file . 'xlsx', "result_" . $active_id . ".xlsx");
-        $file_names[] = "result_" . $active_id . ".xlsx";
+        $fd->copyAttachmentFile($temp_file_path . '.xlsx', $delivered_file_name);
+        $file_names[] = $delivered_file_name;
 
         $mail->sendAdvancedNotification($owner_id, $this->getTitle(), $usr_data, $file_names);
 
