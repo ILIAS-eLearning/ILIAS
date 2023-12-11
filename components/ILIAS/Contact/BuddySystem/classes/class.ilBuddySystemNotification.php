@@ -76,11 +76,6 @@ class ilBuddySystemNotification
                     ),
                     $personalProfileLink
                 );
-            } else {
-                $links[] = new ilNotificationLink(
-                    new ilNotificationParameter($recipientLanguage->txt('buddy_noti_cr_profile_not_published')),
-                    '#'
-                );
             }
             $links[] = new ilNotificationLink(
                 new ilNotificationParameter('buddy_notification_contact_request_link_osd', [], 'buddysystem'),
