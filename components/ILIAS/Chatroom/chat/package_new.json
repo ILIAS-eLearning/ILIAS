@@ -3,5 +3,6 @@
   "description": "ILIAS CHAT",
   "version": "2.0.0",
   "dependencies": {
+    "node-mysql": "^0.4.2"
   }
 }
