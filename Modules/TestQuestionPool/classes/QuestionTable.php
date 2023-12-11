@@ -163,11 +163,19 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             $lifecycle = ilAssQuestionLifecycle::getInstance($record['lifecycle']);
             $record['lifecycle'] = $lifecycle->getTranslation($this->lng);
 
+            $title = $record['title'];
             $to_question = $this->url_builder
                 ->withParameter($this->action_parameter_token, 'preview')
                 ->withParameter($this->row_id_token, $row_id)
                 ->buildURI()->__toString();
-            $record['title'] = $this->ui_factory->link()->standard($record['title'], $to_question);
+            if(!(bool)$record['complete']) {
+                $icon = $this->ui_factory->symbol()->icon()->custom(
+                    ilUtil::getImagePath("standard/icon_alert.svg"),
+                    $this->lng->txt("warning_question_not_complete")
+                );
+                $title = $this->ui_renderer->render($icon) . ' ' . $title;
+            }
+            $record['title'] = $this->ui_factory->link()->standard($title, $to_question);
 
             $taxonomies = [];
             foreach ($record['taxonomies'] as $taxonomy_id => $tax_data) {
