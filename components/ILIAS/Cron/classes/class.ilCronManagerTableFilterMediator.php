@@ -157,7 +157,7 @@ class ilCronManagerTableFilterMediator
                 is_string($filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE]) &&
                 $filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE] !== ''
             ) {
-                if ((int) $filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE] !== $entity->getEffectiveScheduleType()) {
+                if ((int) $filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE] !== $entity->getEffectiveScheduleType()->value) {
                     return false;
                 }
             }
