@@ -5572,7 +5572,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      * @return array Result array
      * @throws ilDateTimeException
      */
-    public function isExecutable($test_session, $user_id, $allowPassIncrease = false): array
+    public function isExecutable($test_session, $user_id, $allow_pass_increase = false): array
     {
         $result = [
             "executable" => true,
@@ -5592,28 +5592,27 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $active_id = $this->getActiveIdOfUser($user_id);
 
-        if ($this->getEnableProcessingTime()) {
-            if ($active_id > 0) {
-                $starting_time = $this->getStartingTimeOfUser($active_id);
-                if ($starting_time !== false) {
-                    if ($this->isMaxProcessingTimeReached($starting_time, $active_id)) {
-                        if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > (self::_getPass($active_id) + 1)))) {
-                            // a test pass was quitted because the maximum processing time was reached, but the time
-                            // will be resetted for future passes, so if there are more passes allowed, the participant may
-                            // start the test again.
-                            // This code block is only called when $allowPassIncrease is TRUE which only happens when
-                            // the test info page is opened. Otherwise this will lead to unexpected results!
-                            $test_session->increasePass();
-                            $test_session->setLastSequence(0);
-                            $test_session->saveToDb();
-                        } else {
-                            $result["executable"] = false;
-                            $result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
-                        }
-                        return $result;
-                    }
-                }
+        if ($this->getEnableProcessingTime()
+            && $active_id > 0
+            && ($starting_time = $this->getStartingTimeOfUser($active_id)) !== false
+            && $this->isMaxProcessingTimeReached($starting_time, $active_id)) {
+            if ($allow_pass_increase
+                    && $this->getResetProcessingTime()
+                    && (($this->getNrOfTries() === 0)
+                || ($this->getNrOfTries() > (self::_getPass($active_id) + 1)))) {
+                // a test pass was quitted because the maximum processing time was reached, but the time
+                // will be resetted for future passes, so if there are more passes allowed, the participant may
+                // start the test again.
+                // This code block is only called when $allowPassIncrease is TRUE which only happens when
+                // the test info page is opened. Otherwise this will lead to unexpected results!
+                $test_session->increasePass();
+                $test_session->setLastSequence(0);
+                $test_session->saveToDb();
+            } else {
+                $result["executable"] = false;
+                $result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
             }
+            return $result;
         }
 
         $testPassesSelector = new ilTestPassesSelector($this->db, $this);
@@ -5735,17 +5734,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function isMaxProcessingTimeReached(int $starting_time, int $active_id): bool
     {
-        if ($this->getEnableProcessingTime()) {
-            $processing_time = $this->getProcessingTimeInSeconds($active_id);
-            $now = time();
-            if ($now > ($starting_time + $processing_time)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        if (!$this->getEnableProcessingTime()) {
             return false;
         }
+
+        $processing_time = $this->getProcessingTimeInSeconds($active_id);
+        $now = time();
+        if ($now > ($starting_time + $processing_time)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function &getTestQuestions(): array
