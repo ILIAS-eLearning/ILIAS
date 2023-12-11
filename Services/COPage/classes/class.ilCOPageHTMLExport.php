@@ -597,6 +597,9 @@ class ilCOPageHTMLExport
     public function exportHTMLGlossaryTerms(): void
     {
         foreach ($this->glossary_terms as $term_id) {
+            if (!ilGlossaryTerm::_exists($term_id)) {
+                continue;
+            }
             $tpl = $this->initResourceTemplate("tpl.glossary_term_output.html");
 
             $term_gui = new ilGlossaryTermGUI($term_id);
