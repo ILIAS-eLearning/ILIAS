@@ -3,5 +3,6 @@
   "description": "ILIAS CHAT",
   "version": "2.0.0",
   "dependencies": {
+    "winston": "^2.4.1",
   }
 }
