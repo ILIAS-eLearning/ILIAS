@@ -442,7 +442,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
     public function showPage(): string
     {
-        if ($this->getOutputMode() === ilPageObjectGUI::PRESENTATION) {
+        if ($this->getOutputMode() === ilPageObjectGUI::PRESENTATION && !$this->getAbstractOnly()) {
             $this->initToolbar();
         }
         $this->setTemplateOutput(false);
