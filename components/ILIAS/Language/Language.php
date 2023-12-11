@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class Language implements Component\Component
+class Language_ implements Component\Component
 {
     public function init(
         array | \ArrayAccess &$define,
