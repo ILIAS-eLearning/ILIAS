@@ -6508,6 +6508,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $this->getMainSettingsRepository()->store($main_settings);
 
+        $reporting_date = $testsettings['ReportingDate'];
+        if (is_string($reporting_date)) {
+            $reporting_date = DateTimeImmutable($testsettings['ReportingDate']);
+        }
+
         $score_settings = $this->getScoreSettings();
         $score_settings = $score_settings
             ->withScoringSettings(
@@ -6522,11 +6527,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withShowGradingStatusEnabled((bool) $testsettings['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $testsettings['show_grading_mark'])
                 ->withScoreReporting((int) $testsettings['ScoreReporting'])
-                ->withReportingDate(
-                    $testsettings['ReportingDate'] !== null ?
-                        new DateTimeImmutable($testsettings['ReportingDate']) :
-                        null
-                )
+                ->withReportingDate($reporting_date)
             )
             ->withResultDetailsSettings(
                 $score_settings->getResultDetailsSettings()
