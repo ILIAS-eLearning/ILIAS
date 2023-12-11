@@ -4924,6 +4924,7 @@ common#:#obj_iass_duplicate#:#Copy Individual Assessment
 common#:#obj_iass_select#:#-- Please select one individual assessment --
 common#:#obj_itgr#:#Item Group
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
+common#:#obj_ldoc#:#Legal Documents
 common#:#obj_lhts#:#Learning History
 common#:#obj_lhts_desc#:#Learning history settings
 common#:#obj_lm#:#Learning Module ILIAS
@@ -4966,6 +4967,7 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#obj_page#:#Page
+common#:#obj_pdfg#:#PDF Generation
 common#:#obj_peac#:#Accordion
 common#:#obj_peadl#:#Advanced List
 common#:#obj_peadt#:#Advanced Table
@@ -5090,6 +5092,7 @@ common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#General settings for Web Links
 common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Copy Weblink list
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wfld#:#Folder
 common#:#obj_wiki#:#Wiki
 common#:#obj_wiki_duplicate#:#Copy Wiki

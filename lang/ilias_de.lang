@@ -4932,6 +4932,7 @@ common#:#obj_iass_duplicate#:#Individuelle Bewertung kopieren
 common#:#obj_iass_select#:#-- Wählen Sie eine Individuelle Bewertung aus --
 common#:#obj_itgr#:#Objekteblock
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
+common#:#obj_ldoc#:#Dokumente
 common#:#obj_lhts#:#Lernverlauf
 common#:#obj_lhts_desc#:#Lernverlauf administrieren
 common#:#obj_lm#:#Lernmodul ILIAS
@@ -4974,6 +4975,7 @@ common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_orgu#:#Organisationseinheit
 common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
 common#:#obj_page#:#Seite
+common#:#obj_pdfg#:#PDF Erstellung
 common#:#obj_peac#:#Akkordeon
 common#:#obj_peadl#:#Erweiterte Liste
 common#:#obj_peadt#:#Erweiterte Tabelle
@@ -5098,6 +5100,7 @@ common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Allgemeine Einstellungen für Weblinks
 common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Weblink-Sammlung kopieren
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wfld#:#Ordner
 common#:#obj_wiki#:#Wiki
 common#:#obj_wiki_duplicate#:#Wiki kopieren
