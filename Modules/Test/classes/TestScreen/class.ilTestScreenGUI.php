@@ -424,9 +424,19 @@ class ilTestScreenGUI
 
     private function isUserOutOfProcessingTime(): bool
     {
+        $test_behaviour_settings = $this->object->getMainSettings()->getTestBehaviourSettings();
+        if (!$test_behaviour_settings->getProcessingTimeEnabled()
+            || $test_behaviour_settings->getResetProcessingTime()) {
+            return false;
+        }
+
         $active_id = $this->test_passes_selector->getActiveId();
         $last_started_pass = $this->test_session->getLastStartedPass();
-        return $last_started_pass !== null && $this->object->isMaxProcessingTimeReached($this->object->getStartingTimeOfUser($active_id, $last_started_pass), $active_id);
+        return $last_started_pass !== null
+            && $this->object->isMaxProcessingTimeReached(
+                $this->object->getStartingTimeOfUser($active_id, $last_started_pass),
+                $active_id
+            );
     }
 
     private function hasUserPassedAlreadyAndCanRetake(): bool
