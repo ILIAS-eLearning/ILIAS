@@ -61,7 +61,8 @@
 		"cweagans/composer-patches": "^1.7",
 		"ezyang/htmlpurifier": "^4.17",
 		"phpmailer/phpmailer": "^6.8",
-		"symfony/yaml": "^7.0"
+		"symfony/yaml": "^7.0",
+		"guzzlehttp/psr7": "^2.6.1"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
@@ -372,6 +373,16 @@
 			"used_version" : "v7.0",
 			"wrapped_by" : "",
 			"added_by" : "Nils Haagen <nils.haagen@concepts-and-training.de>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"guzzlehttp/psr7" : {
+			"source" : "https://github.com/guzzle/psr7",
+			"used_version" : "v2.6.1",
+			"wrapped_by" : "",
+			"added_by" : "Fabian Schmid <fabian@sr.solutions>",
 			"last_update" : "",
 			"last_update_by" : "",
 			"approved-by": "Jour Fixe",
