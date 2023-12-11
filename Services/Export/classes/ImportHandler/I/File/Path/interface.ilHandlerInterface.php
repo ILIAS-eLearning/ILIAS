@@ -21,8 +21,8 @@ declare(strict_types=1);
 namespace ImportHandler\I\File\Path;
 
 use Countable;
-use Iterator;
 use ImportHandler\I\File\Path\Node\ilNodeInterface as ilFilePathNodeInterface;
+use Iterator;
 
 interface ilHandlerInterface extends Iterator, Countable
 {

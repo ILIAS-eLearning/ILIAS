@@ -55,15 +55,22 @@ class ilHandler implements ilParserPathHandlerInterface
 
     public function toString(): string
     {
-        $path_str = $this->with_start_at_root_enabled
-            ? '/'
-            : '//';
+        $first_separator = true;
+        $path_str = '';
         for ($i = 0; $i < count($this->nodes); $i++) {
             $node = $this->nodes[$i];
+            if (
+                ($node->requiresPathSeparator() && $first_separator && $this->with_start_at_root_enabled) ||
+                ($node->requiresPathSeparator() && !$first_separator)
+            ) {
+                $path_str .= '/';
+                $first_separator = false;
+            }
+            if ($node->requiresPathSeparator() && $first_separator && !$this->with_start_at_root_enabled) {
+                $path_str .= '//';
+                $first_separator = false;
+            }
             $path_str .= $node->toString();
-            $path_str .= $i < count($this->nodes) - 1
-                ? '/'
-                : '';
         }
         return $path_str;
     }

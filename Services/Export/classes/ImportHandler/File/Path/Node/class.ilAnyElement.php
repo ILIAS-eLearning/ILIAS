@@ -29,4 +29,9 @@ class ilAnyElement implements ilAnyElementFilePathNodeInterface
     {
         return '*';
     }
+
+    public function requiresPathSeparator(): bool
+    {
+        return true;
+    }
 }

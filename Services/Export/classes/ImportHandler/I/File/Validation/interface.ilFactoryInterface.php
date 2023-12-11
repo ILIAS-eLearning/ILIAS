@@ -21,9 +21,11 @@ declare(strict_types=1);
 namespace ImportHandler\I\File\Validation;
 
 use ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
-use ImportHandler\I\File\Validation\ilStreamHandlerInterface as ilFileStreamValidationHandlerInterface;
+use ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationPairFactoryInterface;
 
 interface ilFactoryInterface
 {
     public function handler(): ilFileValidationHandlerInterface;
+
+    public function set(): ilFileValidationPairFactoryInterface;
 }

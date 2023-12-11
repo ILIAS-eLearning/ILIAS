@@ -21,14 +21,14 @@ declare(strict_types=1);
 namespace ImportHandler\File\Path;
 
 use ilLogger;
-use ImportHandler\File\Path\ComparisonOperator as ilFilePathComparisonOperator;
-use ImportHandler\File\Path\ilComparison as ilFilePathComparison;
+use ImportHandler\File\Path\Comparison\ilHandler as ilFilePathComparison;
+use ImportHandler\File\Path\Comparison\Operator as ilFilePathComparisonOperator;
 use ImportHandler\File\Path\ilHandler as ilFilePathHandler;
 use ImportHandler\File\Path\Node\ilFactory as ilFilePathNodeFactory;
-use ImportHandler\I\File\Path\Node\ilFactoryInterface as ilFilePathNodeFactoryInterface;
-use ImportHandler\I\File\Path\ilComparisonInterface as ilFilePathComparisonInterface;
+use ImportHandler\I\File\Path\Comparison\ilHandlerInterface as ilFilePathComparisonInterface;
 use ImportHandler\I\File\Path\ilFactoryInterface as ilFilePAthFactoryInterface;
 use ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
+use ImportHandler\I\File\Path\Node\ilFactoryInterface as ilFilePathNodeFactoryInterface;
 
 class ilFactory implements ilFilePathFactoryInterface
 {

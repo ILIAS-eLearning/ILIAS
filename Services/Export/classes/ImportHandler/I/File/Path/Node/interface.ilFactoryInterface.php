@@ -23,8 +23,10 @@ namespace ImportHandler\I\File\Path\Node;
 use ImportHandler\I\File\Path\Node\ilSimpleInterface as ilSimpleFilePathNodeInterface;
 use ImportHandler\I\File\Path\Node\ilAnyElementInterface as ilAnyElementFilePathNodeInterface;
 use ImportHandler\I\File\Path\Node\ilAnyNodeInterface as ilAnyNodeFilePathNodeInterface;
-use ImportHandler\I\File\Path\Node\ilAttributableInterface as ilAttributableFilePathNodeInterface;
-use ImportHandler\I\File\Path\Node\ilIndexableInterface as ilIndexableFilePathNodeInterface;
+use ImportHandler\I\File\Path\Node\ilAttributeInterface as ilAttributeFilePathNodeInterface;
+use ImportHandler\I\File\Path\Node\ilIndexInterface as ilIndexFilePathNodeInterface;
+use ImportHandler\I\File\Path\Node\ilOpenRoundBrackedInterface as ilOpenRoundBrackedFilePathNodeInterface;
+use ImportHandler\I\File\Path\Node\ilCloseRoundBrackedInterface as ilCloseRoundBrackedFilePathNodeInterface;
 
 interface ilFactoryInterface
 {
@@ -32,9 +34,13 @@ interface ilFactoryInterface
 
     public function anyNode(): ilAnyNodeFilePathNodeInterface;
 
-    public function attributable(): ilAttributableFilePathNodeInterface;
+    public function attribute(): ilAttributeFilePathNodeInterface;
 
-    public function indexable(): ilIndexableFilePathNodeInterface;
+    public function index(): ilIndexFilePathNodeInterface;
 
     public function simple(): ilSimpleFilePathNodeInterface;
+
+    public function openRoundBracked(): ilOpenRoundBrackedFilePathNodeInterface;
+
+    public function closeRoundBracked(): ilCloseRoundBrackedFilePathNodeInterface;
 }

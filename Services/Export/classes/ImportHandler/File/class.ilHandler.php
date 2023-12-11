@@ -22,11 +22,35 @@ namespace ImportHandler\File;
 
 use ilImportException;
 use ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
+use ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
+use ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
+use ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
 use SplFileInfo;
 
 class ilHandler implements ilFileHandlerInterface
 {
     protected SplFileInfo $xml_file_info;
+    protected ilFileNamespaceFactoryInterface $namespace;
+    protected ilFileNamespaceCollectionInterface $namespaces;
+
+    public function __construct(
+        ilFileNamespaceFactoryInterface $namespace
+    ) {
+        $this->namespace = $namespace;
+        $this->namespaces = $namespace->collection();
+    }
+
+    public function withAdditionalNamespace(ilFileNamespaceHandlerInterface $namespace_handler): ilFileHandlerInterface
+    {
+        $clone = clone $this;
+        $clone->namespaces = $clone->namespaces->withElement($namespace_handler);
+        return $clone;
+    }
+
+    public function getNamespaces(): ilFileNamespaceCollectionInterface
+    {
+        return $this->namespaces;
+    }
 
     public function withFileInfo(SplFileInfo $file_info): ilFileHandlerInterface
     {

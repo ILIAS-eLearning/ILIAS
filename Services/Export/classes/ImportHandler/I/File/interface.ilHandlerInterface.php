@@ -21,9 +21,15 @@ declare(strict_types=1);
 namespace ImportHandler\I\File;
 
 use SplFileInfo;
+use ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
+use ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
 
 interface ilHandlerInterface
 {
+    public function withAdditionalNamespace(ilFileNamespaceHandlerInterface $namespace_handler): ilHandlerInterface;
+
+    public function getNamespaces(): ilFileNamespaceCollectionInterface;
+
     public function withFileInfo(SplFileInfo $file_info): ilHandlerInterface;
 
     public function getFileName(): string;
