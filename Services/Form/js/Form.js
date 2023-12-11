@@ -67,7 +67,7 @@ il.Form = {
   // hide sub forms
   hideSubForm(id) {
     id = il.Form.escapeSelector(id);
-    $(`#${id}`)./* css('overflow', 'hidden'). */css('height', '0px').css('display', 'none');
+    $(`#${id}`)./* css('overflow', 'hidden'). */css('height', 'auto').css('display', 'none');
   },
 
   // show Subform
