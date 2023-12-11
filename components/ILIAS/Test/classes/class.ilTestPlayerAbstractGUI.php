@@ -518,26 +518,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      * Redirect the user after an automatic save when the time limit is reached
      * @throws ilTestException
      */
-    public function redirectAfterAutosaveCmd()
+    public function redirectAfterAutosaveCmd(): void
     {
-        $this->performTestPassFinishedTasks();
-
-        $this->test_session->setLastFinishedPass($this->test_session->getPass());
-        $this->test_session->increaseTestPass();
-
-        $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED, '', false, false);
-
-        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "components/ILIAS/Test");
-        $this->tpl->setVariable("TEXT_REDIRECT", $this->lng->txt("redirectAfterSave"));
-        $this->tpl->setVariable("URL", $url);
+        $this->redirectAfterFinish();
     }
 
-    public function redirectAfterDashboardCmd()
+    public function redirectAfterDashboardCmd(): void
+    {
+        $this->redirectAfterFinish();
+    }
+
+    protected function redirectAfterFinish(): void
     {
         $this->performTestPassFinishedTasks();
-
-        $this->test_session->setLastFinishedPass($this->test_session->getPass());
-        $this->test_session->increaseTestPass();
 
         $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED, '', false, false);
 
@@ -724,21 +717,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // Non-last try finish
         if (ilSession::get('tst_pass_finish') === null) {
             ilSession::set('tst_pass_finish', 1);
-            if ($this->object->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification()) {
-                switch ($this->object->getMailNotification()) {
-                    case 1:
-                        $this->object->sendSimpleNotification($active_id);
-                        break;
-                    case 2:
-                        $this->object->sendAdvancedNotification($active_id);
-                        break;
-                }
-            }
         }
 
         // no redirect request loops after test pass finished tasks has been performed
 
         $this->performTestPassFinishedTasks();
+        $this->sendNewPassFinishedNotificationEmailIfActivated();
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
     }
@@ -750,6 +734,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->object->getId()
         );
         $finishTasks->performFinishTasks($this->processLocker);
+    }
+
+    protected function sendNewPassFinishedNotificationEmailIfActivated()
+    {
+        if ($this->object->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification()) {
+            return;
+        }
+
+        switch ($this->object->getMailNotification()) {
+            case 1:
+                $this->object->sendSimpleNotification($active_id);
+                break;
+            case 2:
+                $this->object->sendAdvancedNotification($active_id);
+                break;
+        }
     }
 
     protected function afterTestPassFinishedCmd()

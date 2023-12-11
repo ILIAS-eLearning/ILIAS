@@ -116,14 +116,11 @@ class ilTestSession
         $active = ilSession::get((string) $this->active_id);
         if (!isset($active['tst_last_increase_pass']) || $active['tst_last_increase_pass'] !== null) {
             $active['tst_last_increase_pass'] = 0;
-            //ilSession::set($this->active_id, $active);
-            //$_SESSION[$this->active_id]['tst_last_increase_pass'] = 0;
         }
 
         // there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
         if (time() - $active['tst_last_increase_pass'] > 10) {
             $active['tst_last_increase_pass'] = time();
-            //ilSession::set($this->active_id, $active);
             $this->tstamp = time();
             $submittedtimestamp = $this->getSubmittedTimestamp() !== null && $this->getSubmittedTimestamp() !== '' ? $this->getSubmittedTimestamp() : null;
             $this->db->update(
