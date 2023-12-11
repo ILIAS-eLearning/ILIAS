@@ -192,6 +192,120 @@ $a_mapping->addMapping("Services/MetaData", "md",
     "0:".$old_id.":mob", "0:".$newObj->getId().":mob");
 ```
 
+### Validation
+The import validation is only enabled if a schema file is available.
+It is important that the schema file is located in the directory 'xml/SchemaValidation'
+and that the naming convention is followed.
+
+#### Schema File Naming Convention
+Schema files have to follow the naming convention:
+
+ilias_{**type_string**}_{**version_string**}.xsd
+
+**'type_string'** can either be {type} or {type}_{subtype}.
+With 'type' beeing the component id found in the components corresponding module.xml or service.xml.
+The type of export xml files is set in the functions [getXmlExportTailDependencies()](#getxmlexportheaddependencies-and-getxmlexporttaildependencies) and [getXmlRepresentation()](#getxmlrepresentation).
+'type' corresponds to the attribute entity in the xml file.
+For example, the component id/type/entity value of Course is 'crs'.
+
+**'version_string'** follows the pattern: {major_version_number}_{minor_version_number}.
+The 'version_string' is defined in [getValidSchemaVersions()](#getvalidschemaversions).
+
+To determine the matching schema file for a given xml-export file,
+the value of 'type_string' is compared with the value of the attribute 'entity' of the 'exp:Export'-node
+and the value of 'version_string' is compared with the value of the attribute 'SchemaVersion'
+of the 'exp:Export'-Node.
+
+If the xml-export file contains a dataset, the 'entity' attribute of the 'ds:Rec'-nodes is used instead of the 'entity' attribtue of the 'exp:Export'-node.
+
+If the Version numbers do not match, the schema file with the highest version number is used.
+
+For example take a look at 'ilias_crs_objectives_9_0.xsd'.
+Here 'type_string' is 'crs_objectives' with type 'crs' and subtype 'objectives'.
+'version_string' is '9_0' with 'major_version_number' 9 and a 'minor_version_number' 0.
+
+#### Updating Schema File Versions
+During development xml file specifications may change, wich in consequence requires a new xsd.
+The first step is to create a new xsd and add it to the 'xml/SchemaValidation'-folder.
+After that an entry with the correct version string needs to be added to the components ilExporter [getValidSchemaVersions()](#getvalidschemaversions)-function.
+If the import of older xml files should no longer be possible, the old xsd-file needs to be removed from the 'xml/SchemaValdiation'-folder
+and the components ilExporter [getValidSchemaVersions()](#getvalidschemaversions)-function should be adjusted accoirdingly.
+
+#### Enable Import Validation
+Add the schema file to the 'xml/SchemaValidation'-folder.
+
+#### Disable Import Validation
+Remove the schema from in the 'xml/SchemaValidation'-folder.
+
+### Validation Code Examples
+#### Validate Xml File:
+```php
+// Get the xml SplFileInfo
+$xml_file_spl = new SplFileInfo('path to my xml file')
+
+// Get the xsd SplFileInfo
+$xsd_file_spl = new SplFileInfo('path to my xsd file')
+
+// Initialize a xml/xsd file handler
+$import = new \ImportHandler\ilFactory();
+$xml_file_handler = $import->file()->xml()->withFileInfo($xml_file_spl);
+$xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_file_spl);
+
+/** @var \ImportStatus\ilCollection $validation_results */
+// Validate
+$validation_results = $import->file()->validation()->handler()->validateXMLFile(
+    $xml_file_handler,
+    $xsd_file_handler
+);
+
+// Check if an import failure occured
+if ($validation_results->hasStatusType(\ImportStatus\StatusType::FAILED)) {
+    // Do something on failure
+}
+```
+#### Validate Xml at Xml Node:
+```php
+// Get the xml SplFileInfo
+$xml_file_spl = new SplFileInfo('path to my xml file')
+
+// Get the xsd SplFileInfo
+$xsd_file_spl = new SplFileInfo('path to my xsd file')
+
+// Initialize a xml/xsd file handler
+$import = new \ImportHandler\ilFactory();
+$xml_file_handler = $import->file()->xml()->withFileInfo($xml_file_spl);
+$xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_file_spl);
+
+// Build xPath to xml node
+// $path->toString() = '/RootElement/namespace:TargetElement'
+/** @var \ImportHandler\File\Path\ilHandler $path */
+$path = $import->file()->path()->handler()
+    ->withStartAtRoot(true)
+    ->withNode($import->file()->path()->node()->simple()->withName('RootElement'))
+    ->withNode($import->file()->path()->node()->simple()->withName('namespace:TargetElement'));
+
+// Because the path contains the namespace 'namespace' we have to add the namespace
+// info to the xml file handler
+$xml_file_handler = $xml_file_handler->withAdditionalNamespace(
+    $import->file()->namespace()->handler()
+        ->withNamespace('http://www.example.com/Dummy1/Dummy2/namespace/4_2')
+        ->withPrefix('namespace')
+)
+
+/** @var \ImportStatus\ilCollection $validation_results */
+// Validate
+$validation_results = $import->file()->validation()->handler()->validateXMLAtPath(
+    $xml_file_handler,
+    $xsd_file_handler,
+    $path
+);
+
+// Check if an import failure occured
+if ($validation_results->hasStatusType(\ImportStatus\StatusType::FAILED)) {
+    // Do something on failure
+}
+```
+
 ## Using Dataset Classes for Import/Export
 
 It is up to the component, how the XML for the export is created and imported. The component can, but does not need to, make use of dataset classes that create XML in a generic way without the need to use the ilXmlWriter class for export or individual sax import parsers classes.
