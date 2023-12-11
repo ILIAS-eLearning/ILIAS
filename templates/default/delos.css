@@ -5729,9 +5729,6 @@ footer {
     margin-top: 0;
     top: 6px;
   }
-  .il-metabar-slates .bulky-label {
-    margin-left: 10px;
-  }
   .il-metabar-slates .il-counter-spacer {
     margin-left: -18px;
   }
@@ -5746,6 +5743,9 @@ footer {
   }
   .il-metabar-slates .il-maincontrols-slate {
     min-width: 260px;
+  }
+  .il-metabar-slates .il-maincontrols-slate-content > .btn + .btn {
+    margin-left: 0;
   }
 }
 
@@ -5798,8 +5798,8 @@ footer {
 .il-mainbar-tools-button .il-link.link-bulky,
 .il-mainbar-tool-trigger-item .btn-bulky,
 .il-mainbar-tool-trigger-item .il-link.link-bulky,
-.il-maincontrols-metabar .btn-bulky,
-.il-maincontrols-metabar .il-link.link-bulky {
+.il-maincontrols-metabar > li > .btn-bulky,
+.il-maincontrols-metabar > li > .il-link.link-bulky {
   padding: 0;
   border: 0;
   border-bottom: 1px solid #dddddd;
@@ -5815,8 +5815,8 @@ footer {
 .il-mainbar-tools-button .il-link.link-bulky:focus-visible,
 .il-mainbar-tool-trigger-item .btn-bulky:focus-visible,
 .il-mainbar-tool-trigger-item .il-link.link-bulky:focus-visible,
-.il-maincontrols-metabar .btn-bulky:focus-visible,
-.il-maincontrols-metabar .il-link.link-bulky:focus-visible {
+.il-maincontrols-metabar > li > .btn-bulky:focus-visible,
+.il-maincontrols-metabar > li > .il-link.link-bulky:focus-visible {
   outline: none;
   border: 3px solid #0078D7;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
@@ -5827,8 +5827,8 @@ footer {
 .il-mainbar-tools-button .il-link.link-bulky .bulky-label,
 .il-mainbar-tool-trigger-item .btn-bulky .bulky-label,
 .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label,
-.il-maincontrols-metabar .btn-bulky .bulky-label,
-.il-maincontrols-metabar .il-link.link-bulky .bulky-label {
+.il-maincontrols-metabar > li > .btn-bulky .bulky-label,
+.il-maincontrols-metabar > li > .il-link.link-bulky .bulky-label {
   /* edge, chrome, safari go here... */
   /* may come with next firefox 68, https://caniuse.com/#search=clamp */
   word-break: break-word;
@@ -5843,8 +5843,8 @@ footer {
 .il-mainbar-tools-button .il-link.link-bulky .bulky-label,
 .il-mainbar-tool-trigger-item .btn-bulky .bulky-label,
 .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label,
-.il-maincontrols-metabar .btn-bulky .bulky-label,
-.il-maincontrols-metabar .il-link.link-bulky .bulky-label {
+.il-maincontrols-metabar > li > .btn-bulky .bulky-label,
+.il-maincontrols-metabar > li > .il-link.link-bulky .bulky-label {
   position: relative;
   max-height: 3em;
   overflow: hidden;
@@ -5856,8 +5856,8 @@ footer {
 .il-mainbar-tools-button .il-link.link-bulky .bulky-label:after,
 .il-mainbar-tool-trigger-item .btn-bulky .bulky-label:after,
 .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label:after,
-.il-maincontrols-metabar .btn-bulky .bulky-label:after,
-.il-maincontrols-metabar .il-link.link-bulky .bulky-label:after {
+.il-maincontrols-metabar > li > .btn-bulky .bulky-label:after,
+.il-maincontrols-metabar > li > .il-link.link-bulky .bulky-label:after {
   content: "";
   text-align: right;
   position: absolute;
@@ -5874,8 +5874,8 @@ footer {
   .il-mainbar-tools-button .il-link.link-bulky .bulky-label,
   .il-mainbar-tool-trigger-item .btn-bulky .bulky-label,
   .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label,
-  .il-maincontrols-metabar .btn-bulky .bulky-label,
-  .il-maincontrols-metabar .il-link.link-bulky .bulky-label {
+  .il-maincontrols-metabar > li > .btn-bulky .bulky-label,
+  .il-maincontrols-metabar > li > .il-link.link-bulky .bulky-label {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -5888,8 +5888,8 @@ footer {
   .il-mainbar-tools-button .il-link.link-bulky .bulky-label:after,
   .il-mainbar-tool-trigger-item .btn-bulky .bulky-label:after,
   .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label:after,
-  .il-maincontrols-metabar .btn-bulky .bulky-label:after,
-  .il-maincontrols-metabar .il-link.link-bulky .bulky-label:after {
+  .il-maincontrols-metabar > li > .btn-bulky .bulky-label:after,
+  .il-maincontrols-metabar > li > .il-link.link-bulky .bulky-label:after {
     display: none;
   }
 }
@@ -5900,8 +5900,8 @@ footer {
   .il-mainbar-tools-button .il-link.link-bulky .bulky-label,
   .il-mainbar-tool-trigger-item .btn-bulky .bulky-label,
   .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label,
-  .il-maincontrols-metabar .btn-bulky .bulky-label,
-  .il-maincontrols-metabar .il-link.link-bulky .bulky-label {
+  .il-maincontrols-metabar > li > .btn-bulky .bulky-label,
+  .il-maincontrols-metabar > li > .il-link.link-bulky .bulky-label {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -moz-box;
@@ -5914,8 +5914,8 @@ footer {
   .il-mainbar-tools-button .il-link.link-bulky .bulky-label:after,
   .il-mainbar-tool-trigger-item .btn-bulky .bulky-label:after,
   .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label:after,
-  .il-maincontrols-metabar .btn-bulky .bulky-label:after,
-  .il-maincontrols-metabar .il-link.link-bulky .bulky-label:after {
+  .il-maincontrols-metabar > li > .btn-bulky .bulky-label:after,
+  .il-maincontrols-metabar > li > .il-link.link-bulky .bulky-label:after {
     display: none;
   }
 }
@@ -8799,7 +8799,6 @@ div.alert ul > li:before {
   .il-avatar {
     height: 22.5px;
     width: 22.5px;
-    margin-top: auto;
     border-width: 0px;
   }
   .il-avatar.il-avatar-picture img {
@@ -8808,7 +8807,7 @@ div.alert ul > li:before {
   }
   .il-avatar.il-avatar-letter span.abbreviation {
     font-size: 11.25px;
-    top: 5.625px;
+    top: 3.2142857143px;
   }
 }
 .il-table-presentation-viewcontrols {
