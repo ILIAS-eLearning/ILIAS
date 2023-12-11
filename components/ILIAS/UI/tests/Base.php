@@ -19,7 +19,7 @@
 require_once(__DIR__ . '/../../../../vendor/composer/vendor/autoload.php');
 
 require_once(__DIR__ . '/Renderer/ilIndependentTemplate.php');
-require_once(__DIR__ . '/../../Language_/classes/class.ilLanguage.php');
+require_once(__DIR__ . '/../../Language/classes/class.ilLanguage.php');
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component as IComponent;

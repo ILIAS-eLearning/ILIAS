@@ -72,4 +72,14 @@ class ilObjectDBUpdateSteps implements \ilDatabaseUpdateSteps
 
         $this->db->manipulate($query);
     }
+
+    public function step_5(): void
+    {
+        $query = "UPDATE il_object_def SET " . PHP_EOL
+            . " component = REPLACE(component, 'Language_', 'Language'), " . PHP_EOL
+            . " location = REPLACE(location, '_/classes', '/classes')" . PHP_EOL
+            . " WHERE component LIKE ('%Language')";
+
+        $this->db->manipulate($query);
+    }
 }
