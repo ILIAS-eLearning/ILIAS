@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"guzzlehttp/psr7": "^2.6.1",
 	},
 	"require-dev": {
 	},
