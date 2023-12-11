@@ -108,11 +108,11 @@ class PageManager
             $t_page = $this->page_domain->getWikiPage($this->wiki_ref_id, $template_page, 0, $lang);
             $t_page->copy(
                 $page->getId(),
-                "",
-                0,
+                $page->getParentType(),
+                $page->getParentId(),
                 false,
                 0,
-                false
+                true
             );
 
             // #15718
