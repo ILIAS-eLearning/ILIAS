@@ -214,25 +214,6 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         }
         $sourcePoolDefinition->setOriginalTaxonomyFilter($filter);
 
-        #switch( true )
-        #{
-        #	case $this->getItemByPostVar('source_pool_filter_tax') === null:
-
-        #	case !in_array($this->getItemByPostVar('filter_tax')->getValue(), $availableTaxonomyIds):
-
-        #		$sourcePoolDefinition->setOriginalFilterTaxId(null);
-        #		$sourcePoolDefinition->setOriginalFilterTaxNodeId(null);
-        #		break;
-
-        #	default:
-
-        #		$taxId = $this->getItemByPostVar('filter_tax')->getValue();
-
-        #		$sourcePoolDefinition->setOriginalFilterTaxId( $taxId );
-
-        #		$sourcePoolDefinition->setOriginalFilterTaxNodeId( $this->getItemByPostVar("filter_tax_$taxId")->getValue() );
-        #}
-
         $filter = array();
         if ($this->getItemByPostVar("filter_type_enabled")->getChecked()) {
             $filter = $this->getItemByPostVar("filter_type")->getMultiValues();
@@ -248,7 +229,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         // fau.
 
         if ($this->questionSetConfig->isQuestionAmountConfigurationModePerPool()) {
-            $sourcePoolDefinition->setQuestionAmount($this->getItemByPostVar('question_amount_per_pool')->getValue());
+            $sourcePoolDefinition->setQuestionAmount(intval($this->getItemByPostVar('question_amount_per_pool')->getValue()));
         }
     }
 }
