@@ -288,7 +288,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             iljQueryUtil::initjQueryUI($page);
             ilLinkifyUtil::initLinkify($page);
 
-            $page->addJavaScript('./node_modules/jquery-outside-events/jquery.ba-outside-events.js');
             $page->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
             $page->addJavascript('./components/ILIAS/UIComponent/Modal/js/Modal.js');
             $page->addJavascript('./node_modules/moment/min/moment-with-locales.min.js');
