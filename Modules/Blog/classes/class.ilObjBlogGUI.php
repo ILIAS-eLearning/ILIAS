@@ -2555,6 +2555,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         foreach ($a_user_ids as $user_id) {
+            $user_id = (int) $user_id;
+            $a_user_type = (int) $a_user_type;
             if (!$rbacreview->isAssigned($user_id, $a_user_type)) {
                 $rbacadmin->assignUser($a_user_type, $user_id);
             }
