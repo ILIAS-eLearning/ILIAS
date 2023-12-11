@@ -290,7 +290,7 @@ class ilObjectTranslationGUI
             $this->lng->txt('confirm'),
             $this->lng->txt($text_tag),
             $this->ctrl->getLinkTargetByClass(self::class, self::CMD_DEACTIVATE_CONTENT_MULTILANG)
-        )->withActionButtonLabel('confirm');
+        )->withActionButtonLabel($this->lng->txt('confirm'));
     }
 
     private function getActivateMultilingualityModal(): Modal
