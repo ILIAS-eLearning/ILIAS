@@ -724,7 +724,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // no redirect request loops after test pass finished tasks has been performed
 
         $this->performTestPassFinishedTasks();
-        $this->sendNewPassFinishedNotificationEmailIfActivated();
+        $this->sendNewPassFinishedNotificationEmailIfActivated($active_id);
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
     }
@@ -738,7 +738,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $finishTasks->performFinishTasks($this->processLocker);
     }
 
-    protected function sendNewPassFinishedNotificationEmailIfActivated()
+    protected function sendNewPassFinishedNotificationEmailIfActivated(int $active_id)
     {
         if ($this->object->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification()) {
             return;
