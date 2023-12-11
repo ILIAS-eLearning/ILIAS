@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -659,7 +660,9 @@ class ilDclRecordEditGUI
 
         if ($create_mode) {
             $dispatchEvent = "create";
-            ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            $objDataCollection = new ilObjDataCollection($ref_id);
+            $objDataCollection->sendNotification("new_record", $this->table_id, $record_obj->getId());
         } else {
             $dispatchEventData['prev_record'] = $unchanged_obj;
         }

@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilObjDataCollection
@@ -129,46 +128,34 @@ class ilObjDataCollection extends ilObject2
      * @param      $a_table_id
      * @param null $a_record_id
      */
-    public static function sendNotification($a_action, $a_table_id, $a_record_id = null)
+    public function sendNotification($a_action, $a_table_id, $a_record_id = null)
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-        $http = $DIC->http();
-        $refinery = $DIC->refinery();
-
-        $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
+        $ilUser = $DIC->user();
 
         // If coming from trash, never send notifications and don't load dcl Object
-        if ($ref_id === SYSTEM_FOLDER_ID) {
+        if ($this->getRefId() === SYSTEM_FOLDER_ID) {
             return;
         }
 
-        $dclObj = new ilObjDataCollection($ref_id);
-
-        if ($dclObj->getNotification() != 1) {
+        if ($this->getNotification() != 1) {
             return;
         }
         $obj_table = ilDclCache::getTableCache($a_table_id);
-        $obj_dcl = $obj_table->getCollectionObject();
 
         // recipients
         $users = ilNotification::getNotificationsForObject(
             ilNotification::TYPE_DATA_COLLECTION,
-            $obj_dcl->getId(),
+            $this->getId(),
             true
         );
         if (!count($users)) {
             return;
         }
 
-        ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), $users);
+        ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $this->getId(), $users);
 
-        $http = $DIC->http();
-        $refinery = $DIC->refinery();
-        $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
-
-        $link = ilLink::_getLink($ref_id);
+        $link = ilLink::_getLink($this->getRefId());
 
         // prepare mail content
         // use language of recipient to compose message
@@ -186,11 +173,11 @@ class ilObjDataCollection extends ilObject2
                 $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
                 $ulng->loadLanguageModule('dcl');
 
-                $subject = sprintf($ulng->txt('dcl_change_notification_subject'), $obj_dcl->getTitle());
+                $subject = sprintf($ulng->txt('dcl_change_notification_subject'), $this->getTitle());
                 // update/delete
                 $message = $ulng->txt("dcl_hello") . " " . ilObjUser::_lookupFullname($user_id) . ",\n\n";
                 $message .= $ulng->txt('dcl_change_notification_dcl_' . $a_action) . ":\n\n";
-                $message .= $ulng->txt('obj_dcl') . ": " . $obj_dcl->getTitle() . "\n\n";
+                $message .= $ulng->txt('obj_dcl') . ": " . $this->getTitle() . "\n\n";
                 $message .= $ulng->txt('dcl_table') . ": " . $obj_table->getTitle() . "\n\n";
                 $message .= $ulng->txt('dcl_record') . ":\n";
                 $message .= "------------------------------------\n";
@@ -201,9 +188,7 @@ class ilObjDataCollection extends ilObject2
                     //					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
                     $t = "";
 
-                    $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
-
-                    if ($tableview_id = $record->getTable()->getFirstTableViewId($ref_id, $user_id)) {
+                    if ($tableview_id = $record->getTable()->getFirstTableViewId($this->getRefId(), $user_id)) {
                         $visible_fields = ilDclTableView::find($tableview_id)->getVisibleFields();
                         if (empty($visible_fields)) {
                             continue;
@@ -221,7 +206,7 @@ class ilObjDataCollection extends ilObject2
                             }
                         }
                     }
-                    $message .= $t;
+                    $message .= $this->prepareMessageText($t);
                 }
                 $message .= "------------------------------------\n";
                 $message .= $ulng->txt('dcl_changed_by') . ": " . $ilUser->getFullname() . " " . ilUserUtil::getNamePresentation($ilUser->getId())
@@ -470,5 +455,25 @@ class ilObjDataCollection extends ilObject2
     public function getStyleSheetId(): int
     {
         return 0;
+    }
+
+    public function prepareMessageText(string $body): string
+    {
+        if (preg_match_all('/<.*?br.*?>/', $body, $matches)) {
+            $matches = array_unique($matches[0]);
+            $brNewLineMatches = array_map(static function($match): string {
+                return $match . "\n";
+            }, $matches);
+
+            //Remove carriage return to guarantee all new line can be properly found
+            $body = str_replace("\r", '', $body);
+            //Replace occurrence of <br> + \n with a single \n
+            $body = str_replace($brNewLineMatches, "\n", $body);
+            //Replace additional <br> with a \”
+            $body = str_replace($matches, "\n", $body);
+            //Revert removal of carriage return
+            return str_replace("\n", "\r\n", $body);
+        }
+        return $body;
     }
 }

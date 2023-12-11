@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\Notes\Service;
 
@@ -108,7 +108,9 @@ class ilDclBaseRecordModel
 
         //TODO: add event raise
         if (!$omit_notification) {
-            ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            $objDataCollection = new ilObjDataCollection($ref_id);
+            $objDataCollection->sendNotification("update_record", $this->getTableId(), $this->id);
         }
     }
 
@@ -658,7 +660,9 @@ class ilDclBaseRecordModel
         $this->table->loadRecords();
 
         if (!$omit_notification) {
-            ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            $objDataCollection = new ilObjDataCollection($ref_id);
+            $objDataCollection->sendNotification("delete_record", $this->getTableId(), $this->getId());
 
             $this->event->raise(
                 'Modules/DataCollection',
