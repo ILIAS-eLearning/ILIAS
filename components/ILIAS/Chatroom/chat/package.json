@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "dependencies": {
     "mysql": "^2.18.1",
+    "node-mysql": "^0.4.2",
     "node-uuid": "^1.4.8"
   }
 }
