@@ -951,7 +951,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
             'Services/Calendar'
         );
 
-        $this->addConsultationHourButtons($panel_tpl);
         $this->addSubscriptionButton($panel_tpl);
 
         return $tpl->get() . $panel_tpl->get();
@@ -977,44 +976,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected function getNoItemFoundContent() : string
     {
         return $this->lng->txt("cal_no_events_block");
-    }
-
-
-    /**
-     * Add consultation hour buttons
-     */
-    protected function addConsultationHourButtons(ilTemplate $panel_template) : void
-    {
-        global $DIC;
-
-        $user = $DIC->user();
-
-        if (!$this->getRepositoryMode()) {
-            return;
-        }
-
-        $links = \ilConsultationHourUtils::getConsultationHourLinksForRepositoryObject(
-            (int) $_GET['ref_id'],
-            (int) $user->getId(),
-            $this->getTargetGUIClassPath()
-        );
-        $counter = 0;
-        foreach ($links as $link) {
-            $ui_factory = $DIC->ui()->factory();
-            $ui_renderer = $DIC->ui()->renderer();
-
-            $link_button = $ui_factory->button()->shy(
-                $link['txt'],
-                $link['link']
-            );
-            if ($counter) {
-                $panel_template->touchBlock('consultation_hour_buttons_multi');
-            }
-            $panel_template->setCurrentBlock('consultation_hour_buttons');
-            $panel_template->setVariable('SHY_BUTTON', $ui_renderer->render([$link_button]));
-            $panel_template->parseCurrentBlock();
-            $counter++;
-        }
     }
 
     /**
