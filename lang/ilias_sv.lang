@@ -674,6 +674,7 @@ assessment#:#err_unit_in_variables#:#Enheten kan inte raderas. Den används reda
 assessment#:#err_unit_is_baseunit#:#Enheten kan inte raderas. Den används som basenhet av andra enheter.
 assessment#:#err_wrong_categoryname#:#Kategorin finns redan.
 assessment#:#err_wrong_rating_advanced#:#Se till att summan av de utökade betygsalternativen är exakt 100 procent.
+assessment#:#error_creating_certificate_zip_empty#:#No data for export.###12 12 2023 new variable
 assessment#:#error_importing_question#:#Ett fel uppstod vid import av frågorna!
 assessment#:#error_open_image_file#:#Fel vid öppning av en bildfil!
 assessment#:#error_random_question_generation#:#Ett okänt fel uppstod när slumpmässiga frågor genererades. Vänligen kontakta din ILIAS-administration och vidarebefordra följande information
@@ -1277,6 +1278,7 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Tillåter formaterad text f
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Du har klarat testet. Testet kan inte påbörjas igen.
 assessment#:#tst_all_test_competences#:#Alla testfärdigheter
 assessment#:#tst_all_user_data_deleted#:#Uppgifterna för alla testdeltagare har raderats!
+assessment#:#tst_already_passed_cannot_retake#:#Test already passed. You cannot start the test again.###12 12 2023 new variable
 assessment#:#tst_already_submitted#:#Testet har redan genomförts och svaren har skickats iväg.
 assessment#:#tst_analysis#:#Analys
 assessment#:#tst_anonymity#:#Skydd av personuppgifter
@@ -9140,6 +9142,7 @@ exc#:#exc_all_new_files_offered_already#:#Alla nya filer har redan erbjudits fö
 exc#:#exc_ass_submission_zip#:#Skatter
 exc#:#exc_ass_team_wiki#:#Team Wiki
 exc#:#exc_assignment#:#Träningsenhet
+exc#:#exc_assignment_list#:#Assignments List###12 12 2023 new variable
 exc#:#exc_assignment_type#:#Typ av leverans
 exc#:#exc_assignment_view#:#Varje träningspass
 exc#:#exc_assignments#:#Träningsenheter
@@ -9452,6 +9455,7 @@ exc#:#exc_select_ass#:#Välj träningsenhet
 exc#:#exc_select_blog#:#Använd befintlig blogg
 exc#:#exc_select_blog_change#:#Använd andra bloggar
 exc#:#exc_select_blog_info#:#Välj en av dina bloggar att använda i detta övningstillfälle.
+exc#:#exc_select_blog_unlink#:#Remove Blog###12 12 2023 new variable
 exc#:#exc_select_part#:#Välj deltagare
 exc#:#exc_select_portfolio#:#Använd befintlig portfölj
 exc#:#exc_select_portfolio_change#:#Använd annan portfölj
@@ -9468,6 +9472,7 @@ exc#:#exc_settings_feedback_mail#:#per post
 exc#:#exc_settings_feedback_mail_info#:#Tutors anger sin feedback på inlämningen i ett e-postformulär. Mailet skickas till motsvarande deltagare.
 exc#:#exc_settings_feedback_text#:# Textinmatning
 exc#:#exc_settings_feedback_text_info#:#Tutorer anger sin feedback i ett textfält. Respektive deltagare får ett meddelande och texten visas i översikten över övningsenheten.
+exc#:#exc_show_instructions#:#Show Work Instructions###12 12 2023 new variable
 exc#:#exc_show_peer_review#:#Visa Peer feedback
 exc#:#exc_show_submissions#:#Publicera lösningsavgifter
 exc#:#exc_show_submissions_info#:#Alla inlämnade lösningar för en övningsenhet kan ses av alla deltagare efter tidsfristen för inlämning.
@@ -9490,6 +9495,7 @@ exc#:#exc_submissions_and_grades#:#Avgifter och betyg
 exc#:#exc_submit_anytime#:#Submit Anytime###21 11 2023 new variable
 exc#:#exc_submit_convenience_no_deadline#:#Lämna in efter avslutad övningsenhet. Det finns ingen fast deadline.
 exc#:#exc_submitted_files_deleted#:#De valda filerna har raderats.
+exc#:#exc_sure_unlink_blog#:#Are you sure to remove this blog form this assignment?###12 12 2023 new variable
 exc#:#exc_sure_unlink_portfolio#:#Vill du ta bort portföljen från denna övningsenhet?
 exc#:#exc_target_not_valid#:#Länkens destination är inte längre giltig.
 exc#:#exc_task_grading#:#Utvärdering av inlösenenheten "%1
@@ -10783,6 +10789,8 @@ lso#:#abstract_img#:#Bild för introduktionssidan
 lso#:#avail_time_period#:#Tidsperiod
 lso#:#completed_steps#:#Passerade steg
 lso#:#condition_always#:#Alltid
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###12 12 2023 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###12 12 2023 new variable
 lso#:#curriculum#:#Innehåll
 lso#:#delete_confirmation#:#Vill du verkligen ta bort följande objekt?
 lso#:#entries_deleted#:#Poster har raderats framgångsrikt.
@@ -11730,7 +11738,6 @@ meta#:#md_delete_cp_sure#:#Vill du verkligen ta bort de valda standardvärdena?
 meta#:#md_delimiter#:#Separator
 meta#:#md_delimiter_info#:#Separatorn används vid snabb redigering av metadata för att separera flera poster. Standardtecknet är ','.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
 meta#:#md_fields#:#Fält
-meta#:#md_general_settings#:#Inställningar
 meta#:#md_months#:#Månader
 meta#:#md_obj_types#:# Tilldelade objekt
 meta#:#md_record_export_table#:#Exportera filer
@@ -17433,6 +17440,7 @@ wiki#:#wiki_wiki_page#:#Wiki-sida
 wiki#:#wiki_wiki_search#:#Sök i wikin
 wiki#:#wiki_wpg#:#Wiki-sida
 wopi#:#activate_wopi#:#Activate WOPI###21 11 2023 new variable
+wopi#:#close_wopi_editor#:#Close Editor###12 12 2023 new variable
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.###21 11 2023 new variable
 wopi#:#msg_wopi_settings_modified#:#Settings stored###21 11 2023 new variable
 wopi#:#open_external_editor#:#Open in external Editor###21 11 2023 new variable

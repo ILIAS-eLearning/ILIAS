@@ -1803,8 +1803,6 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Eine Meldung im Reiter "
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
 assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
 assessment#:#tst_results_print_best_solution_info#:#Den eigenen Antworten werden die bestmöglichen Lösungen gegenübergestellt.
-assessment#:#tst_results_print_best_solution_singlepage#:#Bestmögliche Lösung
-assessment#:#tst_results_print_best_solution_singlepage_info#:#Zusätzlich wird für jede Frage die bestmögliche Lösung angezeigt.
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguration Fragenauswahl
@@ -1850,6 +1848,8 @@ assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter 'Maximale Bearbeitungsdauer' festgelegte Bearbeitungszeit an.
 assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse
+assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Attempt upon Selected Point in Time###12 12 2023 new variable
+assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test attempt. <br> Other than that the table will be displayed after the last test attempt possible (setting in link ‘General’, option ‘Limit Number of Test Attempts) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.###12 12 2023 new variable
 assessment#:#tst_show_results#:#Testergebnisse
 assessment#:#tst_show_side_list#:#Fragenliste an
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
@@ -2505,7 +2505,6 @@ book#:#book_cal_entry#:#Buchung von:
 book#:#book_confirm_booking#:#Buchung vornehmen
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
-book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Objekte.
 book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung stornieren möchten?
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 book#:#book_confirm_delete#:#Wollen Sie wirklich die nachfolgende Objekte löschen?
@@ -2609,6 +2608,7 @@ book#:#book_schedule_slot#:#Zeitraum
 book#:#book_schedule_type#:#Buchungsmodus
 book#:#book_schedule_type_fixed#:#Buchung zu Terminen
 book#:#book_schedule_type_fixed_info#:#Geeignet für Buchungen von Dingen für einen bestimmten Zeitraum, wie Räume, Dienstleistungen oder Geräte.
+book#:#book_schedule_type_none#:#No Schedule###12 12 2023 new variable
 book#:#book_schedule_type_none_direct#:#Buchung ohne Termine
 book#:#book_schedule_type_none_direct_info#:#Teilnehmer können direkt buchen. Der Modus ist geeignet für Referatsthemen oder Seminarplätze, die ohne Termin vergeben werden.
 book#:#book_schedule_type_none_info#:#Dieser Buchungsmodus ist geeignet für die Vergabe von Referatsthemen, Seminarplätzen oder vergleichbaren Angeboten.
@@ -3109,11 +3109,8 @@ cmix#:#completed_info#:#Die Aktivität wurde normal beendet oder abgeschlossen.
 cmix#:#completed_label#:#Statements mit dem Verb 'completed'
 cmix#:#conf_availability#:#Verwendbarkeit
 cmix#:#conf_availability_0#:#nicht verwendbar / deaktiviert
-cmix#:#conf_availability_0_info#:#Bestehende xAPI/cmi5-Objekte, die diesen LRS-Typ verwenden, sind nicht mehr benutzbar.
 cmix#:#conf_availability_1#:#ausschließlich in bestehenden Objekten
-cmix#:#conf_availability_1_info#:#Dieser LRS-Typ wird beim Anlegen neuer xAPI/cmi5-Objekte nicht angeboten. Bestehende xAPI/cmi5-Objekte, die diesen Typ verwenden, können weiterhin Daten schreiben oder lesen. Nutzen Sie diese Option, um zu einem späteren Zeitpunkt Daten im angebundenen LRS löschen zu können.
 cmix#:#conf_availability_2#:#in neuen und bestehenden Objekten
-cmix#:#conf_availability_2_info#:#Dieser LRS-Typ kann beim Anlegen von xAPI/cmi5-Objekten ausgewählt werden.
 cmix#:#conf_bypass_proxy#:#Erkennung des Lernfortschritts
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy, um sofort Daten zu erhalten.
 cmix#:#conf_bypass_proxy_enabled#:#CronJob zur Abfrage des Learning Record Store
@@ -3232,6 +3229,7 @@ cmix#:#highscore_top_table#:#Bestenliste
 cmix#:#highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
 cmix#:#highscore_wtime#:#Dauer
 cmix#:#highscore_wtime_description#:#Eine Spalte mit der Dauer wird in die Rangliste aufgenommen.
+cmix#:#info_availability#:#Hereby you can operate the availability of the LRS-type within the magazine. All types can set on "allow existing ones" instead of being deleted.###12 12 2023 new variable
 cmix#:#info_description#:#Diese Beschreibung wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt.
 cmix#:#info_external_lrs#:#Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
 cmix#:#info_lrs_endpoint#:#URL des Endpoints ohne „/“ am Ende
@@ -3668,8 +3666,6 @@ common#:#change_assignment#:#Zuweisung ändern
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_owner#:#Speichern###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#change_sort_direction#:#Sortierrichtung ändern
-common#:#change_sort_direction_to_asc#:#Change sort direction to ascending
-common#:#change_sort_direction_to_desc#:#Change sort direction to descending
 common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#changed_to#:#gewechselt zu
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Anmeldenamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
@@ -3929,8 +3925,6 @@ common#:#dpro_withdraw_consent_description_internal#:#Bitte loggen Sie sich wied
 common#:#dpro_withdraw_consent_header#:#Einverständnis zur Datenschutzerklärung widerrufen
 common#:#dpro_withdraw_consent_info#:#Widerrufen der Zustimmung zu der Datenschutzerklärung
 common#:#dpro_withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
-common#:#dpro_withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu der Datenschutzerklärung widerrufen möchten?
-common#:#dpro_withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu der Datenschutzerklärung widerrufen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#drafts#:#Entwürfe
 common#:#drag_file_here#:#Ziehen Sie die Datei in diesen Bereich
 common#:#drag_files_here#:#Ziehen Sie die Dateien in diesen Bereich
@@ -4196,9 +4190,7 @@ common#:#glo_added#:#Glossar angelegt
 common#:#glo_import#:#Glossar importieren
 common#:#glo_mode#:#Modus
 common#:#glo_mode_desc#:#Ein Sammelglossar funktioniert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich auch in nachfolgenden Ebenen befinden (ganzer Teilbaum).
-common#:#glo_mode_level#:#Nur aktuelle Magazinebene
 common#:#glo_mode_normal#:#Normales Glossar
-common#:#glo_mode_subtree#:#Aktuelle und untergeordnete Magazinebenen
 common#:#glo_new#:#Neues Glossar anlegen
 common#:#global#:#Global
 common#:#global_default#:#Standard-Stylesheet (global)
@@ -5753,8 +5745,6 @@ common#:#tos_withdraw_consent_description_internal#:#Bitte loggen Sie sich wiede
 common#:#tos_withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
 common#:#tos_withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsvereinbarungen
 common#:#tos_withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
-common#:#tos_withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
-common#:#tos_withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#total#:#Gesamt
 common#:#tracking_settings#:#Einstellungen
 common#:#translation#:#Übersetzung
@@ -5992,6 +5982,8 @@ common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur 
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_mail_text#:#Guten Tag,[BR][BR]hiermit widerrufe ich mein Einverständnis zur Nutzungsvereinbarung Ihrer ILIAS-Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Anmeldename: %2$s[BR]Externes Konto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
+common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of your consent?###12 12 2023 new variable
+common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted.###12 12 2023 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
@@ -6067,7 +6059,6 @@ cont#:#cont_skill_really_remove_profile_from_list#:#Soll das Profil wirklich aus
 cont#:#cont_skill_really_remove_profiles_from_list#:#Sollen die Profile wirklich aus der Liste entfernt werden?
 cont#:#cont_skill_records#:#Kompetenzeinträge
 cont#:#cont_skill_removal_not_possible#:#Das Entfernen von lokalen Kompetenzprofilen ist nicht möglich. Bitte wählen Sie ausschließlich globale Kompetenzprofile aus.
-cont#:#cont_skill_show#:#Anzeigen
 cont#:#cont_std_filter_title_1#:#Titel
 cont#:#cont_std_filter_title_2#:#Beschreibung
 cont#:#cont_std_filter_title_3#:#Titel/Beschreibung
@@ -7190,6 +7181,7 @@ content#:#cont_update_section#:#Block bearbeiten
 content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
+content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###12 12 2023 new variable
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 content#:#cont_uploaded_file#:#Vorhandene Datei
@@ -7235,9 +7227,7 @@ content#:#glo_full_definitions#:#Liste
 content#:#glo_full_definitions_info#:#Alle Begriffe und Definitionen werden vollständig untereinander angezeigt.
 content#:#glo_hide_taxonomy#:#Taxonomie ausblenden
 content#:#glo_list_usages#:#Nutzung
-content#:#glo_mode_level_info#:#Nur Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene befinden, werden eingefügt.
 content#:#glo_mode_normal_info#:#Das Glossar beinhaltet alle Begriffe, die im Glossar angelegt wurden.
-content#:#glo_mode_subtree_info#:#Auch Begriffe aus Glossaren auf untergeordneten Magazinebenen werden eingefügt.
 content#:#glo_online_info#:#Nur wenn das Glossar online geschaltet ist, können Benutzer das Glossar sehen und benutzen.
 content#:#glo_presentation_mode#:#Ansicht
 content#:#glo_presentation_view#:#Präsentationsansicht
@@ -7273,6 +7263,7 @@ content#:#lm_rate_page#:#Seite bewerten
 content#:#lm_rating#:#Lernmodul bewerten
 content#:#mep_folder_created#:#Ordner wurde angelegt.
 content#:#mob_upload_dir#:#Upload-Verzeichnis
+content#:#mob_upload_dir_info#:#Server directory from which multiple files can be used to create media objects in media pools. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###12 12 2023 new variable
 content#:#msg_entry_added#:#Menüeintrag gespeichert
 content#:#msg_entry_removed#:#Menüeintrag entfernt
 content#:#msg_entry_updated#:#Menüeintrag aktualisiert
@@ -12651,8 +12642,6 @@ notes#:#notes_add_comment#:#Kommentar hinzufügen
 notes#:#notes_add_edit_comment#:#Kommentar hinzufügen/editieren
 notes#:#notes_add_edit_message#:#Mitteilung hinzufügen/editieren
 notes#:#notes_add_edit_note#:#Notiz hinzufügen/editieren
-notes#:#notes_add_message#:#Mitteilung hinzufügen
-notes#:#notes_add_note#:#Notiz hinzufügen
 notes#:#notes_all_comments#:#Alle Kommentare
 notes#:#notes_comment#:#Kommentar
 notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht
@@ -12928,6 +12917,8 @@ pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil,
 pd#:#pd_ended#:#Beendet
 pd#:#pd_export_profile#:#Persönliche Daten exportieren
 pd#:#pd_import_personal_data#:#Persönliche Daten importieren
+pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships###12 12 2023 new variable
+pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.###12 12 2023 new variable
 pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
 pd#:#pd_not_dated#:#Nicht datiert
 pd#:#pd_ongoing#:#Aktuell
@@ -13031,6 +13022,7 @@ prg#:#cont_ed_insert_prgstatusinfo#:#Studienprogamm Statusinformation einfügen
 prg#:#content_automation#:#Inhaltsautomatisierung
 prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
 prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
+prg#:#crs_affiliation_to_prg#:#Affiliation to study programmes###12 12 2023 new variable
 prg#:#deadline#:#Stichtag
 prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
 prg#:#deadline_updated#:#Stichtag aktualisiert
@@ -13084,6 +13076,7 @@ prg#:#msg_update_individual_plan_failed#:#Fehler beim Aktualisieren:
 prg#:#no_permission_to_update_certificate#:#Sie haben keine Berechtigung Zertifikate zu aktualisieren.
 prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
 prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
+prg#:#obj_prg_select#:#-- Please select a study programme --###12 12 2023 new variable
 prg#:#optgrp_label_restart#:#Wiederaufnahme
 prg#:#optgrp_label_validity#:#Ablauf
 prg#:#orgu#:#Organisationseinheit
@@ -13129,6 +13122,7 @@ prg#:#prg_completed_by_subnodes#:#Unterprogramm(e)
 prg#:#prg_completion_by#:#Abgeschlossen durch
 prg#:#prg_completion_date#:#Abschlussdatum
 prg#:#prg_confirm_delete#:#Löschen
+prg#:#prg_copy_threads_info#:#Please decide which Study Programme elements are to be copied, linked or omitted.###12 12 2023 new variable
 prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
@@ -13291,7 +13285,6 @@ prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
 prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
 prg#:#prg_view#:#Anzeigen
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
-prg#:#qualification_prg_finalization_error#:#Ein Abschluss des Qualifizierungsprogramms ist für den/die zugewiesene*n Benutzer*in bei den jetzigen Einstellungen nicht möglich.
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
 prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
@@ -14646,6 +14639,8 @@ rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
 rep#:#rep_breadcr_crs_config#:#Konfiguration
 rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
 rep#:#rep_breadcr_crs_overwrite_not#:#Brotkrumendarstellung kann im Kurs nicht konfiguriert werden.
+rep#:#rep_breadcr_crs_overwrite_settings#:#Allow Exceptions###12 12 2023 new variable
+rep#:#rep_breadcr_crs_overwrite_with_default#:#Setting is changeable on course level, with this as default###12 12 2023 new variable
 rep#:#rep_configure#:#Konfigurieren
 rep#:#rep_crs_default_shortened#:#Standardvorgabe: Gekürzte Brotkrumen
 rep#:#rep_custom_icons#:#Angepasste Icons
@@ -14658,6 +14653,7 @@ rep#:#rep_export_limitation#:#Container-Exportbegrenzung
 rep#:#rep_export_limitation_disabled#:#Container-Export deaktiviert
 rep#:#rep_export_limitation_info#:#Begrenzt die Anzahl an exportierten Unterobjekten beim Export von Containern (Kategorien, Kurse, ...) im Magazin.
 rep#:#rep_export_limitation_limited#:#Limit
+rep#:#rep_export_limitation_unlimited#:#Unlimited Export###12 12 2023 new variable
 rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht mehr an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Für diese Objekte können Sie nur die Option "Wiederherstellen (neuer Ort)" verwenden.
 rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:
 rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
