@@ -18,6 +18,8 @@
 
 namespace ILIAS\ResourceStorage\Revision;
 
+require_once(__DIR__ . "/../AbstractBaseTest.php");
+
 use ILIAS\ResourceStorage\AbstractBaseTest;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
