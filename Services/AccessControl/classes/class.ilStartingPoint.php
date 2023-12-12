@@ -321,6 +321,9 @@ class ilStartingPoint
 
         $roles = array();
         foreach ($ids_roles_without_sp as $roleid) {
+            if ($roleid === ANONYMOUS_ROLE_ID) {
+                continue;
+            }
             $role_obj = new ilObjRole($roleid);
             $roles[] = array(
                 "id" => $role_obj->getId(),
