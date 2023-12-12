@@ -15947,6 +15947,9 @@ $ilDB->addIndex("il_cert_template", $in_fields, "i3", false);
 $in_fields = array("obj_type");
 $ilDB->addIndex("il_cert_template", $in_fields, "i4", false);
 
+$in_fields = array("background_image_path","currently_active");
+$ilDB->addIndex("il_cert_template", $in_fields, "i5", false);
+
 $ilDB->createSequence("il_cert_template", 1);
 
 
@@ -16077,6 +16080,9 @@ $ilDB->addIndex("il_cert_user_cert", $in_fields, "i5", false);
 
 $in_fields = array("user_id","obj_id","currently_active");
 $ilDB->addIndex("il_cert_user_cert", $in_fields, "i6", false);
+
+$in_fields = array("background_image_path","currently_active");
+$ilDB->addIndex("il_cert_user_cert", $in_fields, "i7", false);
 
 $ilDB->createSequence("il_cert_user_cert", 1);
 
@@ -25515,6 +25521,12 @@ $ilDB->createTable("loc_settings", $fields);
 
 $pk_fields = array("obj_id");
 $ilDB->addPrimaryKey("loc_settings", $pk_fields);
+
+$in_fields = array("itest");
+$ilDB->addIndex("loc_settings", $in_fields, "i1", false);
+
+$in_fields = array("qtest");
+$ilDB->addIndex("loc_settings", $in_fields, "i2", false);
 
 
 //
@@ -47346,7 +47358,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_3'), 'value' => array('clob', '18')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '106')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '108')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));
