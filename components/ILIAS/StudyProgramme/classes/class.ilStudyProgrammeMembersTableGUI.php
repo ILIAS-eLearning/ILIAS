@@ -48,7 +48,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         string $parent_cmd = '',
         string $template_context = ''
     ) {
-        $this->setId("sp_member_list");
+        $this->setId("sp_member_list_" . $prg_obj_id);
         $this->prg_obj_id = $prg_obj_id;
         $this->prg_user_table = $prg_user_table;
         $this->custom_filter = $custom_filter;
