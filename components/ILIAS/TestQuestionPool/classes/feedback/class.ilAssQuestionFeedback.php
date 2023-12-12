@@ -268,8 +268,8 @@ abstract class ilAssQuestionFeedback
     {
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s AND correctness = %s",
-            array('integer', 'text'),
-            array($question_id, (int) $solution_completed)
+            ['integer', 'text'],
+            [$question_id, (int) $solution_completed]
         );
 
         $feedback_content = '';
@@ -318,7 +318,7 @@ abstract class ilAssQuestionFeedback
     {
         $feedbackId = $this->getGenericFeedbackId($question_id, $solution_completed);
 
-        if (strlen($feedback_content)) {
+        if ($feedback_content !== '') {
             $feedback_content = $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($feedback_content);
             $feedback_content = ilRTE::_replaceMediaObjectImageSrc($feedback_content, 0);
         }
@@ -326,24 +326,24 @@ abstract class ilAssQuestionFeedback
         if ($feedbackId != -1) {
             $this->db->update(
                 $this->getGenericFeedbackTableName(),
-                array(
-                    'feedback' => array('clob', $feedback_content),
-                    'tstamp' => array('integer', time())
-                ),
-                array(
-                    'feedback_id' => array('integer', $feedbackId)
-                )
+                [
+                    'feedback' => ['clob', $feedback_content],
+                    'tstamp' => ['integer', time()]
+                ],
+                [
+                    'feedback_id' => ['integer', $feedbackId]
+                ]
             );
         } else {
             $feedbackId = $this->db->nextId($this->getGenericFeedbackTableName());
 
-            $this->db->insert($this->getGenericFeedbackTableName(), array(
-                'feedback_id' => array('integer', $feedbackId),
-                'question_fi' => array('integer', $question_id),
-                'correctness' => array('text', (int) $solution_completed), // text ?
-                'feedback' => array('clob', $feedback_content),
-                'tstamp' => array('integer', time())
-            ));
+            $this->db->insert($this->getGenericFeedbackTableName(), [
+                'feedback_id' => ['integer', $feedbackId],
+                'question_fi' => ['integer', $question_id],
+                'correctness' => ['text', (int) $solution_completed], // text ?
+                'feedback' => ['clob', $feedback_content],
+                'tstamp' => ['integer', time()]
+            ]);
         }
 
         return $feedbackId;
@@ -371,8 +371,8 @@ abstract class ilAssQuestionFeedback
 
         $this->db->manipulateF(
             "DELETE FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
     }
 
@@ -396,20 +396,20 @@ abstract class ilAssQuestionFeedback
     {
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($originalQuestionId)
+            ['integer'],
+            [$originalQuestionId]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
             $feedbackId = $this->db->nextId($this->getGenericFeedbackTableName());
 
-            $this->db->insert($this->getGenericFeedbackTableName(), array(
-                'feedback_id' => array('integer', $feedbackId),
-                'question_fi' => array('integer', $duplicateQuestionId),
-                'correctness' => array('text', $row['correctness']),
-                'feedback' => array('clob', $row['feedback']),
-                'tstamp' => array('integer', time())
-            ));
+            $this->db->insert($this->getGenericFeedbackTableName(), [
+                'feedback_id' => ['integer', $feedbackId],
+                'question_fi' => ['integer', $duplicateQuestionId],
+                'correctness' => ['text', $row['correctness']],
+                'feedback' => ['clob', $row['feedback']],
+                'tstamp' => ['integer', time()]
+            ]);
 
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $page_object_type = $this->getGenericFeedbackPageObjectType();
@@ -441,28 +441,28 @@ abstract class ilAssQuestionFeedback
         // delete generic feedback of the original question
         $this->db->manipulateF(
             "DELETE FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($originalQuestionId)
+            ['integer'],
+            [$originalQuestionId]
         );
 
         // get generic feedback of the actual (duplicated) question
         $result = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($duplicateQuestionId)
+            ['integer'],
+            [$duplicateQuestionId]
         );
 
         // save generic feedback to the original question
         while ($row = $this->db->fetchAssoc($result)) {
             $nextId = $this->db->nextId($this->getGenericFeedbackTableName());
 
-            $this->db->insert($this->getGenericFeedbackTableName(), array(
-                'feedback_id' => array('integer', $nextId),
-                'question_fi' => array('integer', $originalQuestionId),
-                'correctness' => array('text', $row['correctness']),
-                'feedback' => array('clob', $row['feedback']),
-                'tstamp' => array('integer', time())
-            ));
+            $this->db->insert($this->getGenericFeedbackTableName(), [
+                'feedback_id' => ['integer', $nextId],
+                'question_fi' => ['integer', $originalQuestionId],
+                'correctness' => ['text', $row['correctness']],
+                'feedback' => ['clob', $row['feedback']],
+                'tstamp' => ['integer', time()]
+            ]);
         }
     }
 
@@ -473,8 +473,8 @@ abstract class ilAssQuestionFeedback
     {
         $res = $this->db->queryF(
             "SELECT feedback_id FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s AND correctness = %s",
-            array('integer','text'),
-            array($question_id, (int) $solution_completed)
+            ['integer','text'],
+            [$question_id, (int) $solution_completed]
         );
 
         $feedbackId = -1;
@@ -491,8 +491,8 @@ abstract class ilAssQuestionFeedback
         $row = $this->db->fetchAssoc($this->db->queryF(
             "SELECT COUNT(feedback_id) cnt FROM {$this->getGenericFeedbackTableName()}
 					WHERE question_fi = %s AND feedback_id = %s",
-            array('integer','integer'),
-            array($this->questionOBJ->getId(), $feedbackId)
+            ['integer','integer'],
+            [$this->questionOBJ->getId(), $feedbackId]
         ));
 
 

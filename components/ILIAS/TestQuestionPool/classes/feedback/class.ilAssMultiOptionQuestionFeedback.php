@@ -381,8 +381,6 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
     public function specificAnswerFeedbackExists(): bool
     {
-        return (bool) strlen(
-            $this->getAllSpecificAnswerFeedbackContents($this->questionOBJ->getId())
-        );
+        return $this->getAllSpecificAnswerFeedbackContents($this->questionOBJ->getId()) !== '';
     }
 }

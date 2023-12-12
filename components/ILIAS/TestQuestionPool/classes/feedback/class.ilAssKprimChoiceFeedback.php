@@ -38,9 +38,9 @@ class ilAssKprimChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedb
      */
     protected function buildAnswerOptionLabel(int $index, $answer): string
     {
-        $label = array();
+        $label = [];
 
-        if (strlen($answer->getImageFile())) {
+        if ($answer->getImageFile() !== null) {
             if ($this->questionOBJ->getThumbSize()) {
                 $src = $answer->getThumbWebPath();
             } else {
@@ -50,7 +50,8 @@ class ilAssKprimChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedb
             $label[] = "<img src='{$src}' />";
         }
 
-        if (strlen($answer->getAnswertext())) {
+        if ($answer->getAnswertext() !== null
+            && $answer->getAnswertext() !== '') {
             $label[] = $answer->getAnswertext();
         }
 

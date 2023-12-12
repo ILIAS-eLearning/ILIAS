@@ -38,9 +38,9 @@ class ilAssSingleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeed
 
     protected function buildAnswerOptionLabel(int $index, $answer): string
     {
-        $label = array();
+        $label = [];
 
-        if (strlen($answer->getImage())) {
+        if ($answer->getImage() !== null) {
             if ($this->questionOBJ->getThumbSize()) {
                 $src = $this->questionOBJ->getImagePathWeb() . $this->questionOBJ->getThumbPrefix() . $answer->getImage();
             } else {
@@ -50,7 +50,8 @@ class ilAssSingleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeed
             $label[] = "<img src='{$src}' />";
         }
 
-        if (strlen($answer->getAnswertext())) {
+        if ($answer->getAnswertext() !== null
+            && $answer->getAnswertext() !== '') {
             $label[] = $answer->getAnswertext();
         }
 
