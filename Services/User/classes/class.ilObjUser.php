@@ -3689,7 +3689,6 @@ class ilObjUser extends ilObject
         $webspace_dir = ilUtil::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $store_file = "usr_" . $obj_id . "." . "jpg";
-        $target_file = $image_dir . "/$store_file";
 
         chmod($tmp_file, 0770);
 
@@ -3701,15 +3700,15 @@ class ilObjUser extends ilObject
         $xxthumb_file = "$image_dir/usr_" . $obj_id . "_xxsmall.jpg";
 
         if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
-            ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file);
-            ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file);
-            ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file);
-            ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file);
+            ilUtil::execConvert($tmp_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file);
+            ilUtil::execConvert($tmp_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file);
+            ilUtil::execConvert($tmp_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file);
+            ilUtil::execConvert($tmp_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file);
         } else {
-            ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-            ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-            ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-            ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+            ilUtil::execConvert($tmp_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
+            ilUtil::execConvert($tmp_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+            ilUtil::execConvert($tmp_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
+            ilUtil::execConvert($tmp_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
         }
 
         // store filename
