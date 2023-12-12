@@ -783,24 +783,23 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         $this->db->manipulate("DELETE FROM {$this->getSpecificFeedbackTableName()} WHERE {$IN_feedbackIds}");
     }
 
-    public function determineTestOutputGapFeedback(int $gapIndex, int $answerIndex): string
+    public function determineTestOutputGapFeedback(int $gap_index, int $answer_index): string
     {
-        if ($this->questionOBJ->getFeedbackMode() == self::FB_MODE_GAP_QUESTION) {
+        if ($this->questionOBJ->getFeedbackMode() === self::FB_MODE_GAP_QUESTION) {
             return $this->getSpecificAnswerFeedbackTestPresentation(
                 $this->questionOBJ->getId(),
-                $gapIndex,
+                $gap_index,
                 self::SINGLE_GAP_FB_ANSWER_INDEX
             );
         }
 
-        return $this->getSpecificAnswerFeedbackTestPresentation($this->questionOBJ->getId(), $gapIndex, $answerIndex);
+        return $this->getSpecificAnswerFeedbackTestPresentation($this->questionOBJ->getId(), $gap_index, $answer_index);
     }
 
     public function determineAnswerIndexForAnswerValue(assClozeGap $gap, string $answerValue): int
     {
         switch ($gap->getType()) {
             case assClozeGap::TYPE_TEXT:
-
                 if (!strlen($answerValue)) {
                     return self::FB_TEXT_GAP_EMPTY_INDEX;
                 }
@@ -818,7 +817,6 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 return self::FB_TEXT_GAP_NOMATCH_INDEX;
 
             case assClozeGap::TYPE_SELECT:
-
                 if (strlen($answerValue)) {
                     return $answerValue;
                 }
@@ -827,7 +825,6 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 
             default:
             case assClozeGap::TYPE_NUMERIC:
-
                 if (!strlen($answerValue)) {
                     return self::FB_NUMERIC_GAP_EMPTY_INDEX;
                 }
