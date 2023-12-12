@@ -726,7 +726,7 @@ class ilObjectCopyGUI
         $back_cmd = "";
         switch ($this->getMode()) {
             case self::SOURCE_SELECTION:
-                $back_cmd = 'showSourceSelectionTree';
+                $back_cmd = 'adoptContent';
                 break;
 
             case self::TARGET_SELECTION:
