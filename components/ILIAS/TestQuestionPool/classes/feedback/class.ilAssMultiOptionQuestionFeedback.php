@@ -145,7 +145,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
     public function getAllSpecificAnswerFeedbackContents(int $question_id): string
     {
         $res = $this->db->queryF(
-            "SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+            "SELECT feedback FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
             ['integer'],
             [$question_id]
         );
@@ -287,6 +287,25 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
         $row = $this->db->fetchAssoc($res);
         return $row['feedback_id'] ?? -1;
+    }
+
+    /**
+     *
+     * @param array<int> $feedback_ids
+     * @return array<int, string>
+     */
+    protected function getSpecificFeedbackContentForFeedbackIds(array $feedback_ids): array
+    {
+        $res = $this->db->query(
+            "SELECT feedback_id, feedback FROM {$this->getSpecificFeedbackTableName()} WHERE "
+                . $this->db->in('feedback_id', $feedback_ids, false, ilDBConstants::T_INTEGER)
+        );
+
+        $content = [];
+        while($row = $this->db->fetchAssoc($res)) {
+            $content[$row['feedback_id']] = $row['feedback'];
+        }
+        return $content;
     }
 
     protected function isSpecificAnswerFeedbackId(int $feedback_id): bool
