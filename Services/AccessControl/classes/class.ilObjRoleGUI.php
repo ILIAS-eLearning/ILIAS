@@ -603,8 +603,9 @@ class ilObjRoleGUI extends ilObjectGUI
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-
         $output = [];
+
+        $this->tabs_gui->clearTargets();
 
         $parent_role_ids = $rbacreview->getParentRoleIds($this->obj_ref_id, true);
         $ids = [];
@@ -645,6 +646,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
+
+        $this->tabs_gui->clearTargets();
 
         if (!$this->checkAccess('visible,write', 'edit_permission')) {
             $this->tpl->setOnScreenMessage('msg_no_perm_perm', $this->lng->txt('permission_denied'), true);
@@ -1207,7 +1210,6 @@ class ilObjRoleGUI extends ilObjectGUI
         $ilHelp = $DIC['ilHelp'];
 
         $base_role_container = $rbacreview->getFoldersAssignedToRole($this->object->getId(), true);
-
 
         $activate_role_edit = false;
 
