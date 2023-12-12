@@ -1060,7 +1060,9 @@ class ilObjQuestionPool extends ilObject
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
         if ($cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOfflineStatus(true);
+            $new_obj->getObjectProperties()->storePropertyIsOnline(
+                $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()
+            );
         }
 
         $new_obj->update();
