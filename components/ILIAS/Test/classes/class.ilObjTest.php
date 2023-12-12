@@ -3395,7 +3395,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackGenericEnabled((bool) $metadata["entry"]);
                     break;
                 case 'instant_feedback_specific':
-                    $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackSolutionEnabled((bool) $metadata['entry']);
+                    $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackSpecificEnabled((bool) $metadata['entry']);
                     break;
                 case "instant_verification":
                     $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackSolutionEnabled((bool) $metadata["entry"]);
@@ -3884,10 +3884,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSolutionEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // answer specific feedback
+        // generic feedback
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "answer_feedback");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackGenericEnabled()));
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        // answer specific feedback
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // answer specific feedback of reached points
@@ -4094,7 +4100,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         //instant_feedback_specific
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         //instant_feedback_answer_fixation
