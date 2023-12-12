@@ -58,15 +58,15 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
             "WHERE filter_changeable is null"
         );
         $this->db->modifyTableColumn("il_dcl_tview_set", "in_filter", [
-            'notnull' => true,
+            'notnull' => 1,
             'default' => 0
         ]);
         $this->db->modifyTableColumn("il_dcl_tview_set", "visible", [
-            'notnull' => true,
+            'notnull' => 1,
             'default' => 0
         ]);
         $this->db->modifyTableColumn("il_dcl_tview_set", "filter_changeable", [
-            'notnull' => true,
+            'notnull' => 1,
             'default' => 0
         ]);
     }
@@ -79,7 +79,7 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
             "WHERE exportable is null"
         );
         $this->db->modifyTableColumn("il_dcl_tfield_set", "exportable", [
-            'notnull' => true,
+            'notnull' => 1,
             'default' => 0
         ]);
     }

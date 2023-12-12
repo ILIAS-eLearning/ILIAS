@@ -564,7 +564,7 @@ class ilDclBaseFieldModel
         $this->setTitle($original->getTitle());
         $this->setDatatypeId($original->getDatatypeId());
         $this->setDescription($original->getDescription());
-        $this->setOrder((string)$original->getOrder());
+        $this->setOrder($original->getOrder());
         $this->setUnique($original->isUnique());
         $this->setExportable($original->getExportable());
         $this->doCreate();

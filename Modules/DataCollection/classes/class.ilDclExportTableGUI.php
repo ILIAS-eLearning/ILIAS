@@ -97,7 +97,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         ) . ".xlsx" : $a_set['file'];
         $this->tpl->setVariable('VAL_FILE', $filename);
 
-        $this->tpl->setVariable('VAL_SIZE', ilUtil::formatSize($a_set['size']));
+        $this->tpl->setVariable('VAL_SIZE', ilUtil::formatSize((int)$a_set['size']));
         $this->tpl->setVariable(
             'VAL_DATE',
             ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX))

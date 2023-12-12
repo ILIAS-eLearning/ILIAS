@@ -10789,6 +10789,8 @@ lso#:#abstract_img#:#Image for Abstract
 lso#:#avail_time_period#:#Period
 lso#:#completed_steps#:#Passed Steps
 lso#:#condition_always#:#Always
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button
 lso#:#curriculum#:#Content
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
 lso#:#entries_deleted#:#Successfully deleted entries.

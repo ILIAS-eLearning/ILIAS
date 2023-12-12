@@ -239,7 +239,7 @@ class ilDclTableListGUI
         $conf->setHeaderText($this->lng->txt('dcl_tables_confirm_delete'));
 
         foreach ($tables as $table_id) {
-            $conf->addItem('dcl_table_ids[]', $table_id, ilDclCache::getTableCache($table_id)->getTitle());
+            $conf->addItem('dcl_table_ids[]', (string)$table_id, ilDclCache::getTableCache($table_id)->getTitle());
         }
         $conf->setConfirm($this->lng->txt('delete'), 'deleteTables');
         $conf->setCancel($this->lng->txt('cancel'), 'listTables');
