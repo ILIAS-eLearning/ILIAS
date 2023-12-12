@@ -616,6 +616,7 @@ assessment#:#circle_click_center#:#Kliknij w środek wskazanego pola.
 assessment#:#circle_click_circle#:#Kliknij na punkt okręgu wybranego obszaru.
 assessment#:#clientip#:#IP klienta
 assessment#:#close_text_hint#:#Możesz zdefiniować lukę podając [gap][/gap] na wybranej pozycji tekstu. Naciśnij przycisk 'Twórz lukę' dla dodania pola edytowalnego.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###12 12 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Długość pola tekstowego
 assessment#:#cloze_fixed_textlength_description#:#Jeśli wpiszesz tutaj wartość, zostaną utworzone luki w tekście, które nie mają określonej maksymalnej długości, oraz luki numeryczne o tej długości, dzięki czemu nie będzie możliwości wprowadzić większej liczby znaków. W przypadku luk numerycznych należy również pamiętać, że przy liczeniu uwzględniany jest separator dziesiętny.
 assessment#:#cloze_gap_size_info#:#Jeśli wpisana wartość jest większa niż 0, ta przerwa generowane jest o tutaj wpisanej długości. Jeśli nie podano żadnej wartości, ta przerwa zostanie wygenerowana o długości pola tekstowego podanej globalnie.
@@ -8190,6 +8191,7 @@ dateplaner#:#cal_grp_others#:#Inne
 dateplaner#:#cal_grp_personal#:#Osobiste
 dateplaner#:#cal_ical_infoscreen#:#Abonuj
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###12 12 2023 new variable
 dateplaner#:#cal_import_appointments#:#Importuj pojęcia
 dateplaner#:#cal_import_file#:#Plik importowy
 dateplaner#:#cal_import_file_info#:#Wybierz plik, który zawiera Twoje terminy.
@@ -11740,6 +11742,7 @@ mme#:#move_to_top_item#:#Move to Top Items###30 04 2021 new variable
 mme#:#msg_languages_added#:#Added languages
 mme#:#msg_moved#:#Item successfully moved###30 04 2021 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###30 04 2021 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###12 12 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###07 02 2020 new variable
 mme#:#msg_restored#:#Main Menu completely reset###07 02 2020 new variable
 mme#:#msg_subitem_deleted#:#Item deleted.

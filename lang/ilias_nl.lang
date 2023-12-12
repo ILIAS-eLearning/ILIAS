@@ -616,6 +616,7 @@ assessment#:#circle_click_center#:#Klik in het midden van het gewenst gebied.
 assessment#:#circle_click_circle#:#Klik op een cirkelpunt van het gewenste gebied.
 assessment#:#clientip#:# Klant IP
 assessment#:#close_text_hint#:#U kunt een invulruimte maken door [gap][/gap] te gebruiken op de gewenste positie. Klik op de 'Aanmaken invulruimtes' knop om een formulier toe te voegen voor ieder antwoord.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###12 12 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Tekst veldlengte
 assessment#:#cloze_fixed_textlength_description#:#Als je een waarde hoger dan 0 ingeeft, dan zullen alle tekst en numerieke velden een lengte krijgen van deze waarde.
 assessment#:#cloze_gap_size_info#:#Als je een waarde groter dan 0 ingeeft, zal dit gap tekstveld worden aangemaakt met deze lengte. Als je geen waarde ingeeft, zal het gap tekstveld worden aangemaakt met de waarde van het globale vaste lengte.
@@ -8190,6 +8191,7 @@ dateplaner#:#cal_grp_others#:#Others###31 08 2017 new variable
 dateplaner#:#cal_grp_personal#:#Personal###31 08 2017 new variable
 dateplaner#:#cal_ical_infoscreen#:#Subscribe
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###12 12 2023 new variable
 dateplaner#:#cal_import_appointments#:#Afspraken importeren
 dateplaner#:#cal_import_file#:#Import File
 dateplaner#:#cal_import_file_info#:#Kies het bestand dat je agenda afspraken bevat
@@ -11740,6 +11742,7 @@ mme#:#move_to_top_item#:#Move to Top Items###30 04 2021 new variable
 mme#:#msg_languages_added#:#Added languages###10 11 2018 new variable
 mme#:#msg_moved#:#Item successfully moved###30 04 2021 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###30 04 2021 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###12 12 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###07 02 2020 new variable
 mme#:#msg_restored#:#Main Menu completely reset###07 02 2020 new variable
 mme#:#msg_subitem_deleted#:#Item deleted.###10 11 2018 new variable

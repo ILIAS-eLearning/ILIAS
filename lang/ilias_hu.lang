@@ -630,6 +630,7 @@ assessment#:#circle_click_center#:#Kattintson a kívánt terület középpontjá
 assessment#:#circle_click_circle#:#Kattintson a kívánt terület körvonalának egy pontjára.
 assessment#:#clientip#:#Kliens-IP
 assessment#:#close_text_hint#:#Új kitöltendő hely létrehozásához vigye a kurzort a kívánt helyre, majd használja a 'Szöveghely' legördülőt. A megfelelő szerkesztési szakaszok megjelennek alatta. A kitöltendő helyeket szerkesztheti úgy is, hogy kitöltendő részen belül a kitöltendő szövegre kattint.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###12 12 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Szövegmező hossza
 assessment#:#cloze_fixed_textlength_description#:#Ha megad egy értéket, akkor az összes szöveg- és szám mező evvel a rögzített hosszal kerül létrehozásra, így nincs lehetőség a több karakter bevitelére. Szövegmezőknek lehet saját korlátjuk a karakterszámra. Számmezők esetén a tizedesvessző is egy karakternek számít.
 assessment#:#cloze_gap_size_info#:#Ha 0-nál nagyobb értéked ad meg, ilyen hosszúságú lesz a szövegmező. Amennyiben nem ad meg értéket, a globális hossz lesz ez az érték.
@@ -8204,6 +8205,7 @@ dateplaner#:#cal_grp_others#:#További
 dateplaner#:#cal_grp_personal#:#Személyes
 dateplaner#:#cal_ical_infoscreen#:#Feliratkozás
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###12 12 2023 new variable
 dateplaner#:#cal_import_appointments#:#Események importja
 dateplaner#:#cal_import_file#:#Fájl importja
 dateplaner#:#cal_import_file_info#:#Válassza ki a naptárjának eseményeit tartalmazó fájlt.
@@ -11754,6 +11756,7 @@ mme#:#move_to_top_item#:#Mozgatás a felső elemekhez
 mme#:#msg_languages_added#:#Hozzáadott nyelvek
 mme#:#msg_moved#:#Az elemet sikeresen mozgatta
 mme#:#msg_not_moved#:#Az elem mozgatása sikertelen, érvényes szülőt válasszon.
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###12 12 2023 new variable
 mme#:#msg_restore_confirm#:#Az összes egyéni elembeállítást és fordítást töröl, és az összes standard elem visszaáll annak alapértékére. Az összes személyre szabás elveszik.
 mme#:#msg_restored#:#A Főmenüt alapértékeit sikeresen visszaállította
 mme#:#msg_subitem_deleted#:#Az elemet sikeresen törölte.

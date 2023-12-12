@@ -616,6 +616,7 @@ assessment#:#circle_click_center#:#Ju lutem klikoni në qendër të zonës së d
 assessment#:#circle_click_circle#:#Ju lutem klikoni në kornizën e zonës së dëshiruar.
 assessment#:#clientip#:#Client IP ### 2006-8-11 --- Add new translation here.
 assessment#:#close_text_hint#:#Mund të definoni zbrazëtirë duke shkruar [gap][/gap] në tekst sipas zgjedhjes së juaj. Shtyp butonin 'Krijo zbrazëtirë' për të shtuar një form të që mund të editohet për çdo zbrazëtirë
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###12 12 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Text Field Length###02 04 2007 new variable
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value greater than 0, all text and numeric gap text fields will be created with the fixed length of this value.###02 04 2007 new variable
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value the gap text fiel will be created with the value of the global fixed length.###26 09 2014 new variable
@@ -8190,6 +8191,7 @@ dateplaner#:#cal_grp_others#:#Others###31 08 2017 new variable
 dateplaner#:#cal_grp_personal#:#Personal###31 08 2017 new variable
 dateplaner#:#cal_ical_infoscreen#:#Subscribe###28 08 2012 new variable
 dateplaner#:#cal_ical_url#:#iCal-URL###14 05 2014 new variable
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###12 12 2023 new variable
 dateplaner#:#cal_import_appointments#:#Import Appointments###28 08 2012 new variable
 dateplaner#:#cal_import_file#:#Import File###28 08 2012 new variable
 dateplaner#:#cal_import_file_info#:#Choose the file, that contains your calendar appointments.###28 08 2012 new variable
@@ -11740,6 +11742,7 @@ mme#:#move_to_top_item#:#Move to Top Items###30 04 2021 new variable
 mme#:#msg_languages_added#:#Added languages###10 11 2018 new variable
 mme#:#msg_moved#:#Item successfully moved###30 04 2021 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###30 04 2021 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###12 12 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###07 02 2020 new variable
 mme#:#msg_restored#:#Main Menu completely reset###07 02 2020 new variable
 mme#:#msg_subitem_deleted#:#Item deleted.###10 11 2018 new variable

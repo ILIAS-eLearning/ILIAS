@@ -616,6 +616,7 @@ assessment#:#circle_click_center#:#Molimo kliknite na središte željenog podru�
 assessment#:#circle_click_circle#:#Molimo kliknite na točku u željenom području.
 assessment#:#clientip#:#IP klijenta
 assessment#:#close_text_hint#:#Za umetanje praznina u tekstu, pomaknite pokazivač na željeni položaj i pritisnite uklopnu površinu ‘praznina u tekstu’. Nakon toga će niže biti dostupna odgovarajuća područja za uređivanje. Također možete kliknuti izravno na praznine kako biste ih obradili u tekstu s prazninama.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###12 12 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Duljina tekstualnog polja
 assessment#:#cloze_fixed_textlength_description#:#Ako ovdje unesete vrijednost, generiraju se praznine u tekstu koje ne definiraju vlastitu vrijednost za maksimalnu duljinu kao i numeričke praznine te duljine, tako da nije moguće upisati veći broj znakova od dopuštenog. Kod numeričkih praznina također treba voditi računa da se decimalni separator također računa kao znak.
 assessment#:#cloze_gap_size_info#:#Ako je upisana vrijednost veća od 0, to se tekstualno polje s prazninom generira s ovdje navedenom duljinom. Ako nije upisana vrijednost, to se tekstualno polje s prazninom generira s globalno određenom duljinom polja za tekst.
@@ -8190,6 +8191,7 @@ dateplaner#:#cal_grp_others#:#Drugi
 dateplaner#:#cal_grp_personal#:#Osobno
 dateplaner#:#cal_ical_infoscreen#:#Pretplati se
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###12 12 2023 new variable
 dateplaner#:#cal_import_appointments#:#Uvezi sastanke
 dateplaner#:#cal_import_file#:#Uvezi datoteku
 dateplaner#:#cal_import_file_info#:#Odaberi datoteku koja sadrži vaše sastanke iz kalendara.
@@ -11740,6 +11742,7 @@ mme#:#move_to_top_item#:#Move to Top Items###04 06 2021 new variable
 mme#:#msg_languages_added#:#Dodani jezici
 mme#:#msg_moved#:#Item successfully moved###04 06 2021 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###04 06 2021 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###12 12 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###04 06 2021 new variable
 mme#:#msg_restored#:#Main Menu completely reset###04 06 2021 new variable
 mme#:#msg_subitem_deleted#:#Stavka je izbrisana.

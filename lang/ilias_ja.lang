@@ -616,6 +616,7 @@ assessment#:#circle_click_center#:#希望範囲の中心をクリックしてく
 assessment#:#circle_click_circle#:#希望範囲の円の部分をクリックしてください。
 assessment#:#clientip#:#クライアントのIP
 assessment#:#close_text_hint#:#新しくギャップを追加するには選択の位置にカーソルをセットして"ギャップを挿入"ボタンをクリックします。対応する編集セクションが下に表示されます。ギャップはギャップテキスト内のギャップをクリックして編集することもできます。
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###12 12 2023 new variable
 assessment#:#cloze_fixed_textlength#:#テキスト欄の長さ
 assessment#:#cloze_fixed_textlength_description#:#0以上の値を入力すると全てのテキストと数値穴埋めテキストフィールドがこの値の固定長で作成されます。
 assessment#:#cloze_gap_size_info#:#0以上を入力するとこのギャップテキストフィールドはこの値の固定長で作成されます。値を入力しない場合はギャップテキストフィールドはグローバル固定長で作成されます。
@@ -8190,6 +8191,7 @@ dateplaner#:#cal_grp_others#:#その他
 dateplaner#:#cal_grp_personal#:#パーソナル
 dateplaner#:#cal_ical_infoscreen#:#購読
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###12 12 2023 new variable
 dateplaner#:#cal_import_appointments#:#アポイントをインポート
 dateplaner#:#cal_import_file#:#ファイルをインポート
 dateplaner#:#cal_import_file_info#:#カレンダアポイントの入ったファイルを選択します。
@@ -11740,6 +11742,7 @@ mme#:#move_to_top_item#:#トップアイテムへ移動
 mme#:#msg_languages_added#:#言語を追加しました
 mme#:#msg_moved#:#アイテムは正しく移動されました。
 mme#:#msg_not_moved#:#アイテムを移動できませんでしたので有効な親を選択してください。
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###12 12 2023 new variable
 mme#:#msg_restore_confirm#:#全カスタム項目と翻訳は削除されて全標準項目が工場出荷値へリセットされます。カスタマイズ化全ては消去されます。
 mme#:#msg_restored#:#メインメニューを完全にリセット
 mme#:#msg_subitem_deleted#:#アイテムを削除しました。

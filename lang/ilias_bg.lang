@@ -616,6 +616,7 @@ assessment#:#circle_click_center#:#Моля, кликнете в центъра 
 assessment#:#circle_click_circle#:#Моля, кликнете на точка от кръга на желаната област.
 assessment#:#clientip#:#Клиенски IP адрес
 assessment#:#close_text_hint#:#Можете да дефинирате празнина, като въведете <gap></gap> в избраната от вас позиция в текста. Натиснете бутона "Създаване на празнини", за да добавите форма за редактиране за всяка от празнините.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###12 12 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Дължина на текстовото поле
 assessment#:#cloze_fixed_textlength_description#:#Ако въведете стойност, по-голяма от 0, всички текстови полета и текстови полета с цифрова разлика ще бъдат създадени с фиксираната дължина на тази стойност.
 assessment#:#cloze_gap_size_info#:#Ако въведете стойност, по-голяма от 0, това текстово поле за празнина ще бъде създадено с фиксираната дължина на тази стойност. Ако не въведете стойност, текстовото поле за празнина ще бъде създадено със стойността на глобалната фиксирана дължина.
@@ -8190,6 +8191,7 @@ dateplaner#:#cal_grp_others#:#Others
 dateplaner#:#cal_grp_personal#:#Personal
 dateplaner#:#cal_ical_infoscreen#:#Subscribe
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###12 12 2023 new variable
 dateplaner#:#cal_import_appointments#:#Import Appointments
 dateplaner#:#cal_import_file#:#Файл за импортиране
 dateplaner#:#cal_import_file_info#:#Изберете файла, който съдържа срещите от календара ви.
@@ -11740,6 +11742,7 @@ mme#:#move_to_top_item#:#Преместване в основните елеме
 mme#:#msg_languages_added#:#Прибавени езици
 mme#:#msg_moved#:#Елементът е преместен успешно###22 06 2022 new variable
 mme#:#msg_not_moved#:#Елементът не можа да бъде преместен, моля, изберете валиден родител.###22 06 2022 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###12 12 2023 new variable
 mme#:#msg_restore_confirm#:#Всички потребителски елементи и преводи ще бъдат изтрити, всички стандартни елементи ще бъдат възстановени до фабричните настройки по подразбиране. Всички персонализации ще бъдат загубени.
 mme#:#msg_restored#:#Пълно възстановяване на главното меню
 mme#:#msg_subitem_deleted#:#Изтрит елемент.

@@ -618,6 +618,7 @@ assessment#:#circle_click_center#:#Por favor haga click en el centro del área d
 assessment#:#circle_click_circle#:#Por favor haga click en un punto del círculo del área deseada.
 assessment#:#clientip#:#IP Cliente
 assessment#:#close_text_hint#:#Puede definir un hueco introduciendo [gap][/gap] en la posición del texto a tu elección. Presiona el botón 'Crear huecos' para añadir un formulario editable para cada hueco.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###12 12 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Longitud de Campo de Texto
 assessment#:#cloze_fixed_textlength_description#:#Si introduce un valor mayor que 0, todos los campos de texto y de huecos numéricos serán creados con la longitud prefijada por este valor.
 assessment#:#cloze_gap_size_info#:#Si se introduce un valor mayor que 0, este hueco para texto se creará con esta longitud fija. Si no se introduce un valor, su longitud será la del valor prefijado de forma global.
@@ -8192,6 +8193,7 @@ dateplaner#:#cal_grp_others#:#otros
 dateplaner#:#cal_grp_personal#:#Personal
 dateplaner#:#cal_ical_infoscreen#:#Suscribirse
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###12 12 2023 new variable
 dateplaner#:#cal_import_appointments#:#Importar citas
 dateplaner#:#cal_import_file#:#Importar fichero
 dateplaner#:#cal_import_file_info#:#Escoger el fichero que contiene tu calendario de citas
@@ -11742,6 +11744,7 @@ mme#:#move_to_top_item#:#Move to Top Items###30 04 2021 new variable
 mme#:#msg_languages_added#:#Added languages
 mme#:#msg_moved#:#Item successfully moved###30 04 2021 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###30 04 2021 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###12 12 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###07 02 2020 new variable
 mme#:#msg_restored#:#Main Menu completely reset###07 02 2020 new variable
 mme#:#msg_subitem_deleted#:#Item deleted.
