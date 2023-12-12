@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Link\Link;
@@ -145,7 +145,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
                 continue;
             }
             [$title, $link] = $this->getItemPath($ref_id);
-            $usr = $this->getUserRepresentation($ac->getLastEditorId());
+            $usr = $this->getUserRepresentation($ac->getLastEditorId()) ?? $this->ui_factory->legacy('-');
             $modal = $this->getModal($ref_id);
             $collected_modals[] = $modal;
             $actions = $this->getItemAction(
@@ -400,9 +400,12 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         return $this->ui_factory->dropdown()->standard($items);
     }
 
-    protected function getUserRepresentation(int $usr_id): Link
+    protected function getUserRepresentation(int $usr_id): ?Link
     {
         $username = ilObjUser::_lookupName($usr_id);
+        if(array_filter($username) === []) {
+            return null;
+        }
         $editor = implode(' ', [
             $username['firstname'],
             $username['lastname'],
