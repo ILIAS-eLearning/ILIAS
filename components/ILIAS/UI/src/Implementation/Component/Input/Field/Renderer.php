@@ -77,6 +77,8 @@ class Renderer extends AbstractComponentRenderer
      */
     protected const FILE_UPLOAD_CHUNK_SIZE_FACTOR = 0.9;
 
+    private const CENTUM = 100;
+
     /**
      * @inheritdoc
      */
@@ -1055,7 +1057,9 @@ class Renderer extends AbstractComponentRenderer
         $aria_description_id = $id . '_desc';
         $tpl->setVariable('DESCRIPTION_SRC_ID', $aria_description_id);
 
-        foreach (range(5, 1, -1) as $option) {
+        $option_count = count(FiveStarRatingScale::cases()) - 1;
+
+        foreach (range($option_count, 1, -1) as $option) {
             $tpl->setCurrentBlock('scaleoption');
             $tpl->setVariable('ARIALABEL', $this->txt($option . 'stars'));
             $tpl->setVariable('OPT_VALUE', (string)$option);
@@ -1071,13 +1075,16 @@ class Renderer extends AbstractComponentRenderer
             }
             $tpl->parseCurrentBlock();
         }
-        $tpl->setVariable('NEUTRAL_ID', $id . '-0');
-        $tpl->setVariable('NEUTRAL_NAME', $component->getName());
-        $tpl->setVariable('NEUTRAL_LABEL', $this->txt('reset_stars'));
-        $tpl->setVariable('NEUTRAL_DESCRIPTION_ID', $aria_description_id);
 
-        if ($component->getValue() === FiveStarRatingScale::NONE || is_null($component->getValue())) {
-            $tpl->setVariable('NEUTRAL_SELECTED', ' checked="checked"');
+        if(!$component->isRequired()) {
+            $tpl->setVariable('NEUTRAL_ID', $id . '-0');
+            $tpl->setVariable('NEUTRAL_NAME', $component->getName());
+            $tpl->setVariable('NEUTRAL_LABEL', $this->txt('reset_stars'));
+            $tpl->setVariable('NEUTRAL_DESCRIPTION_ID', $aria_description_id);
+
+            if ($component->getValue() === FiveStarRatingScale::NONE || is_null($component->getValue())) {
+                $tpl->setVariable('NEUTRAL_SELECTED', ' checked="checked"');
+            }
         }
 
         if ($txt = $component->getAdditionalText()) {
@@ -1092,7 +1099,7 @@ class Renderer extends AbstractComponentRenderer
             $average_title = sprintf($this->txt('rating_average'), $average);
 
             $tpl->setVariable('AVERAGE_VALUE', $average_title);
-            $tpl->setVariable('AVERAGE_VALUE_PERCENT', $average / 5 * 100);
+            $tpl->setVariable('AVERAGE_VALUE_PERCENT', $average / $option_count * self::CENTUM);
         }
 
 

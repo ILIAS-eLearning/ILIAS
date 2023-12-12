@@ -772,8 +772,8 @@ interface Factory
      *      five stars to select. A preceding text may be used to describe the issue to be rated.
      *   effect: >
      *      When clicking a star it is highlighted as well as all prior/lower stars.
-     *      The selection can be reset with a small "x" next to the input.
-     *      Values are fixed to 1-5 (and 0 for none) by the Five-Star Rating Scale enum.
+     *      If the input i not required, the selection can be reset with a further option.
+     *      Values are currently fixed to 1-5 (and 0 for none) by the Five-Star Rating Scale enum.
      * context:
      *   - The Rating Input is used in UI-Forms.
      *

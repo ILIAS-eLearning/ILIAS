@@ -67,7 +67,7 @@ class Rating extends FormInput implements C\Input\Field\Rating
 
     public function withValue($value): self
     {
-        if(! $value instanceof FiveStarRatingScale) {
+        if(!$value instanceof FiveStarRatingScale) {
             $value = $this->getFiveStarRatingScaleTransformation()->transform($value);
         }
         return parent::withValue($value);
@@ -99,8 +99,9 @@ class Rating extends FormInput implements C\Input\Field\Rating
 
     public function withCurrentAverage(?float $current_average): static
     {
-        if($current_average < 0 || $current_average > 5) {
-            throw new \InvalidArgumentException('current_average must be between 0 and 5');
+        $max = count(FiveStarRatingScale::cases()) - 1;
+        if($current_average < 0 || $current_average > $max) {
+            throw new \InvalidArgumentException('current_average must be between 0 and ' . $max);
         }
         $clone = clone $this;
         $clone->current_average = $current_average;
