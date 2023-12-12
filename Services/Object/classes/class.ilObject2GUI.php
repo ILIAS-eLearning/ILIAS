@@ -494,10 +494,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         parent::showPossibleSubObjects();
     }
-    final public function cancelDelete(): void
-    {
-        parent::cancelDeleteObject();
-    }
+
     final protected function redirectToRefId(int $ref_id, string $cmd = ""): void
     {
         parent::redirectToRefId($ref_id, $cmd);
