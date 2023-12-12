@@ -183,7 +183,16 @@ class ilAssQuestionPreviewGUI
 
         switch ($nextClass) {
             case 'ilassquestionhintrequestgui':
-                $gui = new ilAssQuestionHintRequestGUI($this, self::CMD_SHOW, $this->questionGUI, $this->hintTracking);
+                $gui = new ilAssQuestionHintRequestGUI(
+                    $this,
+                    self::CMD_SHOW,
+                    $this->questionGUI,
+                    $this->hintTracking,
+                    $this->ctrl,
+                    $this->lng,
+                    $this->tpl,
+                    $this->tabs
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
             case 'ilassspecfeedbackpagegui':
