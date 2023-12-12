@@ -1263,7 +1263,7 @@ JS;
         return $pageoutput;
     }
 
-    public function getSpecificFeedbackOutput(array $userSolution): string
+    public function getSpecificFeedbackOutput(array $user_solution): string
     {
         if (!$this->object->feedbackOBJ->isSpecificAnswerFeedbackAvailable($this->object->getId())) {
             return '';
@@ -1271,15 +1271,16 @@ JS;
 
         $feedback = '<table class="test_specific_feedback"><tbody>';
 
-        foreach ($this->object->gaps as $gapIndex => $gap) {
-            $answerValue = $this->object->fetchAnswerValueForGap($userSolution, $gapIndex);
-            if ($answerValue === '') {
+        foreach ($this->object->gaps as $gap_index => $gap) {
+            $answer_value = $this->object->fetchAnswerValueForGap($user_solution, $gap_index);
+            if ($gap->getType() !== assClozeGap::TYPE_TEXT
+                && $answer_value === '') {
                 continue;
             }
-            $answerIndex = $this->object->feedbackOBJ->determineAnswerIndexForAnswerValue($gap, $answerValue);
-            $fb = $this->object->feedbackOBJ->determineTestOutputGapFeedback($gapIndex, $answerIndex);
+            $answer_index = $this->object->feedbackOBJ->determineAnswerIndexForAnswerValue($gap, $answer_value);
+            $fb = $this->object->feedbackOBJ->determineTestOutputGapFeedback($gap_index, $answer_index);
 
-            $caption = $this->lng->txt('gap') . ' ' . ($gapIndex + 1) . ': ';
+            $caption = $this->lng->txt('gap') . ' ' . ($gap_index + 1) . ': ';
             $feedback .= '<tr><td>';
             $feedback .= $caption . '</td><td>';
             $feedback .= $fb . '</td> </tr>';
