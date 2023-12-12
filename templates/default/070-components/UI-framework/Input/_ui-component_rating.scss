@@ -17,7 +17,7 @@
   opacity: 0;
 }
 .il-input-rating .glyphicon-star:before {
-  content: "\2605" !important;
+  content: "\2605";
 }
 .il-input-rating .glyphicon-star-empty:before {
   content: "\2606";
@@ -50,7 +50,7 @@
   .il-input-rating-scaleoption:checked ~ .il-input-rating-star,
   .il-input-rating-star:hover ~ .il-input-rating-star,
   .il-input-rating-star:hover {
-    color: $il-neutral-light-color !important;
+    color: $il-neutral-light-color;
   }
 
   .il-input-rating__none {
@@ -69,7 +69,7 @@
     color: $il-link-hover-color;
   }
   .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
-    display: block !important;
+    display: block;
   }
 }
 
@@ -80,7 +80,7 @@
     color: $il-link-hover-color;
   }
   .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
-    display: block !important;
+    display: block;
   }
 }
 
