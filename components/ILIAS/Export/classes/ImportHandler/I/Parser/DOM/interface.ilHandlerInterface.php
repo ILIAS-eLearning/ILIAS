@@ -18,14 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Path;
+namespace ImportHandler\I\Parser\DOM;
 
-use ImportHandler\I\File\Path\ilComparisonInterface;
+use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ImportHandler\I\Parser\ilHandlerInterface as ilParserHandlerInterface;
 
-class ilComparisonDummy implements ilComparisonInterface
+interface ilHandlerInterface extends ilParserHandlerInterface
 {
-    public function toString()
-    {
-        return '';
-    }
+    public function withFileHandler(ilXMLFileHandlerInterface $file_handler): ilHandlerInterface;
 }

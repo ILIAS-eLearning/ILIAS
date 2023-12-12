@@ -18,16 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Path\Node;
+namespace ImportHandler\I\File\XML\Export\Component;
 
-use ImportHandler\I\File\Path\ilComparisonInterface as ilFilePathComparisonInterface;
-use ImportHandler\I\File\Path\Node\ilSimpleInterface as ilSimpleFilePathNodeInterface;
+use ImportHandler\I\File\XML\Export\Component\ilHandlerInterface as ilComponentXMLExportFileHandlerInterface;
 
-interface ilAttributableInterface extends ilSimpleFilePathNodeInterface
+interface ilFactoryInterface
 {
-    public function withAttribute(string $attribute): ilAttributableInterface;
-
-    public function withComparison(ilFilePathComparisonInterface $comparison): ilAttributableInterface;
-
-    public function withAnyAttributeEnabled(bool $enabled): ilAttributableInterface;
+    public function handler(): ilComponentXMLExportFileHandlerInterface;
 }

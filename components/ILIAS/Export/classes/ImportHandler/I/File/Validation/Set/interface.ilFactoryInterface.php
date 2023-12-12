@@ -18,16 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Path\Node;
+namespace ImportHandler\I\File\Validation\Set;
 
-use ImportHandler\I\File\Path\ilComparisonInterface as ilFilePathComparisonInterface;
-use ImportHandler\I\File\Path\Node\ilSimpleInterface as ilSimpleFilePathNodeInterface;
+use ImportHandler\I\File\Validation\Set\ilHandlerInterface as ilFileValidationSetInterface;
+use ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
 
-interface ilIndexableInterface extends ilSimpleFilePathNodeInterface
+interface ilFactoryInterface
 {
-    public function withIndex(int $index): ilIndexableInterface;
+    public function handler(): ilFileValidationSetInterface;
 
-    public function withComparison(ilFilePathComparisonInterface $comparison): ilIndexableInterface;
-
-    public function withIndexingFromEndEnabled(bool $enabled): ilIndexableInterface;
+    public function collection(): ilFileValidationSetCollectionInterface;
 }

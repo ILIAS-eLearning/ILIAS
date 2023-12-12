@@ -20,48 +20,38 @@ declare(strict_types=1);
 
 namespace ImportHandler\File\Path\Node;
 
-use ImportHandler\I\File\Path\Node\ilIndexableInterface as ilIndexableFilePathNodeInterface;
-use ImportHandler\File\Path\ilComparisonDummy;
-use ImportHandler\I\File\Path\ilComparisonInterface;
-use XMLReader;
+use ImportHandler\File\Path\Comparison\ilHandlerDummy;
+use ImportHandler\I\File\Path\Comparison\ilHandlerInterface;
+use ImportHandler\I\File\Path\Node\ilIndexInterface as ilIndexFilePathNodeInterface;
 
-class ilIndexable implements ilIndexableFilePathNodeInterface
+class ilIndex implements ilIndexFilePathNodeInterface
 {
-    protected ilComparisonInterface $comparison;
-    protected string $node_name;
+    protected ilHandlerInterface $comparison;
     protected int $index;
     protected bool $indexing_from_end_enabled;
 
     public function __construct()
     {
-        $this->comparison = new ilComparisonDummy();
-        $this->node_name = '';
+        $this->comparison = new ilHandlerDummy();
         $this->index = 0;
         $this->indexing_from_end_enabled = false;
     }
 
-    public function withName(string $node_name): ilIndexableFilePathNodeInterface
-    {
-        $clone = clone $this;
-        $clone->node_name = $node_name;
-        return $clone;
-    }
-
-    public function withIndex(int $index): ilIndexableFilePathNodeInterface
+    public function withIndex(int $index): ilIndexFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->index = $index;
         return $clone;
     }
 
-    public function withComparison(ilComparisonInterface $comparison): ilIndexableFilePathNodeInterface
+    public function withComparison(ilHandlerInterface $comparison): ilIndexFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->comparison = $comparison;
         return $clone;
     }
 
-    public function withIndexingFromEndEnabled(bool $enabled): ilIndexableFilePathNodeInterface
+    public function withIndexingFromEndEnabled(bool $enabled): ilIndexFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->indexing_from_end_enabled = $enabled;
@@ -72,7 +62,7 @@ class ilIndexable implements ilIndexableFilePathNodeInterface
     {
         $indexing = '';
 
-        if ($this->comparison instanceof ilComparisonDummy) {
+        if ($this->comparison instanceof ilHandlerDummy) {
             $indexing = $this->indexing_from_end_enabled
                 ? '(last)-' . $this->index
                 : $this->index;
@@ -80,6 +70,11 @@ class ilIndexable implements ilIndexableFilePathNodeInterface
             $indexing = 'position()' . $this->comparison->toString();
         }
 
-        return $this->node_name . '[' . $indexing . ']';
+        return '[' . $indexing . ']';
+    }
+
+    public function requiresPathSeparator(): bool
+    {
+        return false;
     }
 }

@@ -24,11 +24,17 @@ use DOMDocument;
 use ILIAS\DI\Exceptions\Exception;
 use ilImportException;
 use ImportHandler\File\ilHandler as ilFileHandler;
+use ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
+use ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
+use ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
+use ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
 use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
 use ImportStatus\Exception\ilException as ilImportStatusException;
 use ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
 use ImportStatus\I\ilCollectionInterface as ilImportStatusCollectioninterface;
 use ImportStatus\StatusType;
+use Schema\ilXmlSchemaFactory;
 use SplFileInfo;
 
 class ilHandler extends ilFileHandler implements ilXMLFileHandlerInterface
@@ -36,8 +42,10 @@ class ilHandler extends ilFileHandler implements ilXMLFileHandlerInterface
     protected ilImportStatusFactoryInterface $status;
 
     public function __construct(
+        ilFileNamespaceFactoryInterface $namespace,
         ilImportStatusFactoryInterface $status
     ) {
+        parent::__construct($namespace);
         $this->status = $status;
     }
 
@@ -45,6 +53,13 @@ class ilHandler extends ilFileHandler implements ilXMLFileHandlerInterface
     {
         $clone = clone $this;
         $clone->xml_file_info = $file_info;
+        return $clone;
+    }
+
+    public function withAdditionalNamespace(ilFileNamespaceHandlerInterface $namespace_handler): ilHandler
+    {
+        $clone = clone $this;
+        $clone->namespaces = $clone->namespaces->withElement($namespace_handler);
         return $clone;
     }
 

@@ -18,16 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Reader\Path;
+namespace ImportHandler\File\Path\Node;
 
-use ImportHandler\I\File\Path\ilHandlerInterface as ilParserPathHandlerInterface;
-use XMLReader;
+use ImportHandler\I\File\Path\Node\ilOpenRoundBrackedInterface as ilOpenRoundBrackedFilePathNodeInterface;
 
-interface ilHandlerInterface
+class ilOpenRoundBracked implements ilOpenRoundBrackedFilePathNodeInterface
 {
-    public function continueAlongPath(XMLReader $reader): bool;
+    public function toString(): string
+    {
+        return '(';
+    }
 
-    public function withPath(ilParserPathHandlerInterface $path_handler): ilHandlerInterface;
-
-    public function finished(): bool;
+    public function requiresPathSeparator(): bool
+    {
+        return false;
+    }
 }

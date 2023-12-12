@@ -18,11 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Reader\Path;
+namespace ImportHandler\I\Parser\DOM;
 
-use ImportHandler\I\File\XML\Reader\Path\ilHandlerInterface as ilXMLFileReaderPathHandlerInterface;
+use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ImportHandler\I\Parser\DOM\ilHandlerInterface as ilDOMParserHandlerInterface;
 
 interface ilFactoryInterface
 {
-    public function handler(): ilXMLFileReaderPathHandlerInterface;
+    public function withFileHandler(ilXMLFileHandlerInterface $file_handler): ilDOMParserHandlerInterface;
 }

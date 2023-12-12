@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Validation;
+namespace ImportHandler\I\File\Path\Node;
 
-use ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
+use ImportHandler\I\File\Path\Node\ilNodeInterface as ilFilePathNodeInterface;
 
-interface ilStreamHandlerInterface extends ilFileValidationHandlerInterface
+interface ilCloseRoundBrackedInterface extends ilFilePathNodeInterface
 {
 }

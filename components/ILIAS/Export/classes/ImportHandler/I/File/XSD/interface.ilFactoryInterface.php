@@ -21,8 +21,9 @@ declare(strict_types=1);
 namespace ImportHandler\I\File\XSD;
 
 use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
+use SplFileInfo;
 
 interface ilFactoryInterface
 {
-    public function handler(): ilXSDFileHandlerInterface;
+    public function withFileInfo(SplFileInfo $file_info): ilXSDFileHandlerInterface;
 }

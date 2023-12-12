@@ -18,11 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Reader;
+namespace ImportHandler\I\File\Namespace;
 
-use ImportHandler\I\File\XML\Reader\Path\ilFactoryInterface as ilXMLFileReaderPathFactoryInterface;
+use ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
+use ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
 
 interface ilFactoryInterface
 {
-    public function path(): ilXMLFileReaderPathFactoryInterface;
+    public function handler(): ilFileNamespaceHandlerInterface;
+
+    public function collection(): ilFileNamespaceCollectionInterface;
 }

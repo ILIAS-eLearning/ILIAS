@@ -25,23 +25,23 @@ use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
 use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
 use ImportHandler\I\File\XML\Node\Info\ilTreeInterface as ilXMLFileNodeInfoTreeInterface;
 use ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
+use ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
+use ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
 use SplFileInfo;
 
 interface ilHandlerInterface extends ilXMLFileHandlerInterface
 {
-    public function getXSDFileHandler(): ilXSDFileHandlerInterface|null;
+    public function getValidationSets(): ilFileValidationSetCollectionInterface;
 
-    public function getVersion(): Version;
+    public function buildValidationSets(): ilImportStatusCollectionInterface;
 
-    public function getType(): string;
-
-    public function getSubType(): string;
+    public function getPathToComponentRootNodes(): ilFilePathHandlerInterface;
 
     public function getILIASPath(ilXMLFileNodeInfoTreeInterface $component_tree): string;
 
     public function withFileInfo(SplFileInfo $file_info): ilHandlerInterface;
 
-    public function loadExportInfo(): ilImportStatusCollectionInterface;
-
     public function isContainerExportXML(): bool;
+
+    public function hasComponentRootNode(): bool;
 }

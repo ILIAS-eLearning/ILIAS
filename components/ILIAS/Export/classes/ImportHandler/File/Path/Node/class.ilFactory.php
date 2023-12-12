@@ -23,16 +23,20 @@ namespace ImportHandler\File\Path\Node;
 use ilLogger;
 use ImportHandler\I\File\Path\Node\ilAnyElementInterface as ilAnyElementFilePathNodeInterface;
 use ImportHandler\I\File\Path\Node\ilAnyNodeInterface as ilAnyNodeFilePathNodeInterface;
-use ImportHandler\I\File\Path\Node\ilAttributableInterface as ilAttributableFilePathNodeInterface;
+use ImportHandler\I\File\Path\Node\ilAttributeInterface as ilAttributeFilePathNodeInterface;
+use ImportHandler\I\File\Path\Node\ilCloseRoundBrackedInterface as ilCloseRoundBrackedFilePathNodeInterface;
 use ImportHandler\I\File\Path\Node\ilFactoryInterface as ilFilePathNodeFactoryInterface;
-use ImportHandler\I\File\Path\Node\ilIndexableInterface as ilIndexableFilePathNodeInterface;
+use ImportHandler\I\File\Path\Node\ilIndexInterface as ilIndexFilePathNodeInterface;
+use ImportHandler\I\File\Path\Node\ilOpenRoundBrackedInterface as ilOpenRoundBrackedFilePathNodeInterface;
 use ImportHandler\I\File\Path\Node\ilSimpleInterface as ilSimpleFilePathNodeInterface;
 use ImportHandler\File\Path\Node\ilAnyElement as ilAnyElementFilePathNode;
 use ImportHandler\File\Path\Node\ilAnyNode as ilAnyNodeFilePathNode;
-use ImportHandler\File\Path\Node\ilAttributable as ilAttributableFilePathNode;
+use ImportHandler\File\Path\Node\ilAttribute as ilAttributeFilePathNode;
 use ImportHandler\File\Path\Node\ilFactory as ilFilePathNodeFactory;
-use ImportHandler\File\Path\Node\ilIndexable as ilIndexableFilePathNode;
+use ImportHandler\File\Path\Node\ilIndex as ilIndexFilePathNode;
 use ImportHandler\File\Path\Node\ilSimple as ilSimpleFilePathNode;
+use ImportHandler\File\Path\Node\ilOpenRoundBracked as ilOpenRoundBrackedFilePathNode;
+use ImportHandler\File\Path\Node\ilCloseRoundBracked as ilCloseRoundBrackedFilePathNode;
 
 class ilFactory implements ilFilePathNodeFactoryInterface
 {
@@ -53,18 +57,28 @@ class ilFactory implements ilFilePathNodeFactoryInterface
         return new ilAnyNodeFilePathNode();
     }
 
-    public function attributable(): ilAttributableFilePathNodeInterface
+    public function attribute(): ilAttributeFilePathNodeInterface
     {
-        return new ilAttributableFilePathNode();
+        return new ilAttributeFilePathNode();
     }
 
-    public function indexable(): ilIndexableFilePathNodeInterface
+    public function index(): ilIndexFilePathNodeInterface
     {
-        return new ilIndexableFilePathNode();
+        return new ilIndexFilePathNode();
     }
 
     public function simple(): ilSimpleFilePathNodeInterface
     {
-        return new ilSimpleFilePathNode($this->logger);
+        return new ilSimpleFilePathNode();
+    }
+
+    public function openRoundBracked(): ilOpenRoundBrackedFilePathNodeInterface
+    {
+        return new ilOpenRoundBrackedFilePathNode();
+    }
+
+    public function closeRoundBracked(): ilCloseRoundBrackedFilePathNodeInterface
+    {
+        return new ilCloseRoundBrackedFilePathNode();
     }
 }

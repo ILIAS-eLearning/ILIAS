@@ -29,4 +29,9 @@ class ilAnyNode implements ilAnyNodeFilePathNodeInterface
     {
         return 'node()';
     }
+
+    public function requiresPathSeparator(): bool
+    {
+        return true;
+    }
 }

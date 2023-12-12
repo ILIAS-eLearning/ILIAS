@@ -18,23 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Path;
+namespace ImportHandler\I\File\XML\Export\DataSet;
 
-use ImportHandler\I\File\Path\ilComparisonInterface;
+use ImportHandler\I\File\XML\Export\DataSet\ilHandlerInterface as ilDatasetXMLExportFileHandlerInterface;
 
-class ilComparison implements ilComparisonInterface
+interface ilFactoryInterface
 {
-    protected ComparisonOperator $operator;
-    protected string $value;
-
-    public function __construct(ComparisonOperator $operator, string $value)
-    {
-        $this->operator = $operator;
-        $this->value = $value;
-    }
-
-    public function toString()
-    {
-        return ComparisonOperator::toString($this->operator) . $this->value;
-    }
+    public function handler(): ilDatasetXMLExportFileHandlerInterface;
 }

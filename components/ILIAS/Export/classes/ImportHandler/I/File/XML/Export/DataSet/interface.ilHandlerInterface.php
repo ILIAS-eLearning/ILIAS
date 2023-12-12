@@ -18,24 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Path;
+namespace ImportHandler\I\File\XML\Export\DataSet;
 
-enum ComparisonOperator
+use ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
+use SplFileInfo;
+
+interface ilHandlerInterface extends ilXMLExportFileHandlerInterface
 {
-    case EQUAL;
-    case LOWER;
-    case GREATER;
-    case GREATER_EQUAL;
-    case LOWER_EQUAL;
-
-    public static function toString(ComparisonOperator $operator): string
-    {
-        return match ($operator) {
-            ComparisonOperator::EQUAL => '=',
-            ComparisonOperator::LOWER => '<',
-            ComparisonOperator::GREATER => '>',
-            ComparisonOperator::GREATER_EQUAL => '>=',
-            ComparisonOperator::LOWER_EQUAL => '<=',
-        };
-    }
+    public function withFileInfo(SplFileInfo $file_info): ilHandlerInterface;
 }

@@ -18,16 +18,16 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Node\Info;
+namespace ImportHandler\File\XML\Node\Info\DOM;
 
 use DOMAttr;
 use DOMNode;
 use ilImportException;
-use ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
+use ImportHandler\I\File\XML\Node\Info\DOM\ilHandlerInterface as ilXMLFileNodeInfoilDOMNodeHandlerInterface;
 use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
 use ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
 
-class ilHandler implements ilXMLFileNodeInfoInterface
+class ilHandler implements ilXMLFileNodeInfoilDOMNodeHandlerInterface
 {
     /**
      * @var array<string, string>
@@ -54,7 +54,7 @@ class ilHandler implements ilXMLFileNodeInfoInterface
         }
     }
 
-    public function withDOMNode(DOMNode $node): ilXMLFileNodeInfoInterface
+    public function withDOMNode(DOMNode $node): ilHandler
     {
         $clone = clone $this;
         $clone->node = $node;
@@ -80,39 +80,20 @@ class ilHandler implements ilXMLFileNodeInfoInterface
         return $this->attributes[$attribute_name];
     }
 
-    public function getAttributePath(
-        string $attribute_name,
-        string $path_separator,
-        bool $skip_nodes_without_attribute = true
-    ): string {
-        $path_str = '';
-        $current_node = $this;
-        while (!is_null($current_node)) {
-            if($skip_nodes_without_attribute && !$current_node->hasAttribute($attribute_name)) {
-                break;
-            }
-            $path_str = $current_node->hasAttribute($attribute_name)
-                ? $path_separator . $current_node->getValueOfAttribute($attribute_name) . $path_str
-                : $path_separator . '..' . $path_str;
-            $current_node = $current_node->getParent();
-        }
-        return $path_str;
-    }
-
     public function getChildren(): ilXMLFileNodeInfoCollectionInterface
     {
         $collection = $this->info->collection();
         $children = $this->node->childNodes;
         foreach ($children as $child) {
-            $collection = $collection->withElement($this->info->handler()->withDOMNode($child));
+            $collection = $collection->withElement($this->info->DOM()->withDOMNode($child));
         }
         return $collection;
     }
 
-    public function getParent(): ilXMLFileNodeInfoInterface|null
+    public function getParent(): ilHandler|null
     {
         if(!is_null($this->node->parentNode)) {
-            return $this->info->handler()->withDOMNode($this->node->parentNode);
+            return $this->info->DOM()->withDOMNode($this->node->parentNode);
         }
         return null;
     }
