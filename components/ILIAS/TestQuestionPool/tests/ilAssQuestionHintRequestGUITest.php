@@ -38,7 +38,16 @@ class ilAssQuestionHintRequestGUITest extends assBaseTestCase
         $assQuestionGUI = $this->createMock(assQuestionGUI::class);
         $assQuestionGUI->object = $this->createMock(assQuestion::class);
 
-        $this->object = new ilAssQuestionHintRequestGUI(null, '', $assQuestionGUI, null);
+        $this->object = new ilAssQuestionHintRequestGUI(
+            $this->createMock(ilTestOutputGUI::class),
+            '',
+            $assQuestionGUI,
+            null,
+            $this->createMock(ilCtrl::class),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilGlobalTemplateInterface::class),
+            $this->createMock(ilTabsGUI::class)
+        );
     }
 
     public function testConstruct(): void

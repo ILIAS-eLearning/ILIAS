@@ -29,302 +29,204 @@
  */
 class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 {
-    /**
-     * command constants
-     */
     public const CMD_SHOW_LIST = 'showList';
     public const CMD_SHOW_HINT = 'showHint';
     public const CMD_CONFIRM_REQUEST = 'confirmRequest';
     public const CMD_PERFORM_REQUEST = 'performRequest';
     public const CMD_BACK_TO_QUESTION = 'backToQuestion';
 
-    /**
-     * @var mixed
-     */
-    protected $parentGUI = null;
+    public function __construct(
+        private ilTestOutputGUI|ilAssQuestionPreviewGUI $parent_gui,
+        private string $parent_cmd,
+        assQuestionGUI $question_gui,
+        private $question_hint_tracking,
+        private ilCtrl $ctrl,
+        private ilLanguage $lng,
+        private ilGlobalTemplateInterface $tpl,
+        protected ilTabsGUI $tabs,
+    ) {
 
-    /**
-     * @var string
-     */
-    protected $parentCMD = null;
-
-    /**
-     * @var mixed
-     */
-    protected $questionHintTracking = null;
-
-    /**
-     * Constructor
-     */
-    public function __construct($parentGUI, $parentCMD, assQuestionGUI $questionGUI, $questionHintTracking)
-    {
-        $this->parentGUI = $parentGUI;
-        $this->parentCMD = $parentCMD;
-        $this->questionHintTracking = $questionHintTracking;
-
-        parent::__construct($questionGUI);
+        parent::__construct($question_gui);
     }
 
     public function executeCommand()
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
+        $cmd = $this->ctrl->getCmd(self::CMD_SHOW_LIST);
+        $next_class = $this->ctrl->getNextClass($this);
 
-        $cmd = $ilCtrl->getCmd(self::CMD_SHOW_LIST);
-        $nextClass = $ilCtrl->getNextClass($this);
-
-        switch ($nextClass) {
+        switch ($next_class) {
             case 'ilasshintpagegui':
-                $forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
+                $forwarder = new ilAssQuestionHintPageObjectCommandForwarder(
+                    $this->questionOBJ,
+                    $this->ctrl,
+                    $this->tabs,
+                    $this->lng
+                );
                 $forwarder->setPresentationMode(ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_REQUEST);
                 $forwarder->forward();
-                break;
+                return '';
 
             default:
                 $cmd .= 'Cmd';
                 return $this->$cmd();
-                break;
         }
-        return '';
     }
 
-    /**
-     * shows the list of allready requested hints
-     *
-     * @access	private
-     */
     private function showListCmd(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-
-        $questionHintList = $this->questionHintTracking->getRequestedHintsList();
+        $question_hint_list = $this->question_hint_tracking->getRequestedHintsList();
 
         $table = new ilAssQuestionHintsTableGUI(
             $this->questionOBJ,
-            $questionHintList,
+            $question_hint_list,
             $this,
             self::CMD_SHOW_LIST
         );
 
-        $this->populateContent($ilCtrl->getHtml($table), $tpl);
+        $this->populateContent($this->ctrl->getHtml($table), $this->tpl);
     }
 
-    /**
-     * shows an allready requested hint
-     *
-     * @access	private
-     * @global	ilCtrl $ilCtrl
-     * @global	ilTemplate $tpl
-     * @global	ilLanguage $lng
-     */
     private function showHintCmd(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-
-        if (!$this->request->isset('hintId') || !(int) $this->request->raw('hintId')) {
+        if (!$this->request->isset('hintId') || $this->request->int('hintId') === 0) {
             throw new ilTestException('no hint id given');
         }
 
-        $isRequested = $this->questionHintTracking->isRequested((int) $this->request->raw('hintId'));
+        $is_requested = $this->question_hint_tracking->isRequested($this->request->int('hintId'));
 
-        if (!$isRequested) {
+        if (!$is_requested) {
             throw new ilTestException('hint with given id is not yet requested for given testactive and testpass');
         }
 
-        $questionHint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
+        $question_hint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
 
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTableWidth('100%');
         $form->setTitle(sprintf(
-            $lng->txt('tst_question_hints_form_header_edit'),
-            $questionHint->getIndex(),
+            $this->lng->txt('tst_question_hints_form_header_edit'),
+            $question_hint->getIndex(),
             $this->questionOBJ->getTitle()
         ));
-        $form->addCommandButton(self::CMD_BACK_TO_QUESTION, $lng->txt('tst_question_hints_back_to_question'));
+        $form->addCommandButton(self::CMD_BACK_TO_QUESTION, $this->lng->txt('tst_question_hints_back_to_question'));
 
-        $numExistingRequests = $this->questionHintTracking->getNumExistingRequests();
+        $num_existing_requests = $this->question_hint_tracking->getNumExistingRequests();
 
-        if ($numExistingRequests > 1) {
-            $form->addCommandButton(self::CMD_SHOW_LIST, $lng->txt('button_show_requested_question_hints'));
+        if ($num_existing_requests > 1) {
+            $form->addCommandButton(self::CMD_SHOW_LIST, $this->lng->txt('button_show_requested_question_hints'));
         }
 
         // form input: hint text
 
-        $nonEditableHintText = new ilNonEditableValueGUI($lng->txt('tst_question_hints_form_label_hint_text'), 'hint_text', true);
-        $nonEditableHintText->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($questionHint->getText(), true));
-        $form->addItem($nonEditableHintText);
+        $non_editable_hint_text = new ilNonEditableValueGUI($this->lng->txt('tst_question_hints_form_label_hint_text'), 'hint_text', true);
+        $non_editable_hint_text->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($question_hint->getText(), true));
+        $form->addItem($non_editable_hint_text);
 
         // form input: hint points
 
-        $nonEditableHintPoints = new ilNonEditableValueGUI($lng->txt('tst_question_hints_form_label_hint_points'), 'hint_points');
-        $nonEditableHintPoints->setValue($questionHint->getPoints());
-        $form->addItem($nonEditableHintPoints);
+        $non_editable_hint_point = new ilNonEditableValueGUI($this->lng->txt('tst_question_hints_form_label_hint_points'), 'hint_points');
+        $non_editable_hint_point->setValue($question_hint->getPoints());
+        $form->addItem($non_editable_hint_point);
 
-        $this->populateContent($ilCtrl->getHtml($form), $tpl);
+        $this->populateContent($this->ctrl->getHtml($form), $this->tpl);
     }
 
-    /**
-     * shows a confirmation screen for a hint request
-     *
-     * @access	private
-     * @global	ilCtrl $ilCtrl
-     * @global	ilTemplate $tpl
-     * @global	ilLanguage $lng
-     */
     private function confirmRequestCmd(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-
         try {
-            $nextRequestableHint = $this->questionHintTracking->getNextRequestableHint();
+            $next_requestable_hint = $this->question_hint_tracking->getNextRequestableHint();
         } catch (ilTestNoNextRequestableHintExistsException $e) {
-            $ilCtrl->redirect($this, self::CMD_BACK_TO_QUESTION);
+            $this->c->redirect($this, self::CMD_BACK_TO_QUESTION);
         }
-
 
         $confirmation = new ilConfirmationGUI();
 
-        $formAction = ilUtil::appendUrlParameterString(
-            $ilCtrl->getFormAction($this),
-            "hintId={$nextRequestableHint->getId()}"
+        $form_action = ilUtil::appendUrlParameterString(
+            $this->ctrl->getFormAction($this),
+            "hintId={$next_requestable_hint->getId()}"
         );
 
-        $confirmation->setFormAction($formAction);
+        $confirmation->setFormAction($form_action);
 
-        $confirmation->setConfirm($lng->txt('tst_question_hints_confirm_request'), self::CMD_PERFORM_REQUEST);
-        $confirmation->setCancel($lng->txt('tst_question_hints_cancel_request'), self::CMD_BACK_TO_QUESTION);
+        $confirmation->setConfirm($this->lng->txt('tst_question_hints_confirm_request'), self::CMD_PERFORM_REQUEST);
+        $confirmation->setCancel($this->lng->txt('tst_question_hints_cancel_request'), self::CMD_BACK_TO_QUESTION);
 
-        if ($nextRequestableHint->getPoints() == 0.0) {
-            $confirmation->setHeaderText($lng->txt('tst_question_hints_request_confirmation_no_deduction'));
+        if ($next_requestable_hint->getPoints() == 0.0) {
+            $confirmation->setHeaderText($this->lng->txt('tst_question_hints_request_confirmation_no_deduction'));
         } else {
             $confirmation->setHeaderText(sprintf(
-                $lng->txt('tst_question_hints_request_confirmation'),
-                $nextRequestableHint->getIndex(),
-                $nextRequestableHint->getPoints()
+                $this->lng->txt('tst_question_hints_request_confirmation'),
+                $next_requestable_hint->getIndex(),
+                $next_requestable_hint->getPoints()
             ));
         }
 
-        $this->populateContent($ilCtrl->getHtml($confirmation), $tpl);
+        $this->populateContent($this->ctrl->getHtml($confirmation), $this->tpl);
     }
 
-    /**
-     * Performs a hint request and invokes the (re-)saving the question solution.
-     * Redirects to local showHint command
-     *
-     * @access	private
-     * @global	ilCtrl $ilCtrl
-     */
     private function performRequestCmd(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         if (!$this->request->isset('hintId') || !(int) $this->request->raw('hintId')) {
             throw new ilTestException('no hint id given');
         }
 
         try {
-            $nextRequestableHint = $this->questionHintTracking->getNextRequestableHint();
+            $next_requestable_hint = $this->question_hint_tracking->getNextRequestableHint();
         } catch (ilTestNoNextRequestableHintExistsException $e) {
-            $ilCtrl->redirect($this, self::CMD_BACK_TO_QUESTION);
+            $this->ctrl->redirect($this, self::CMD_BACK_TO_QUESTION);
         }
 
-        if ($nextRequestableHint->getId() != (int) $this->request->raw('hintId')) {
+        if ($next_requestable_hint->getId() != (int) $this->request->raw('hintId')) {
             throw new ilTestException('given hint id does not relate to the next requestable hint');
         }
 
-        $this->questionHintTracking->storeRequest($nextRequestableHint);
+        $this->question_hint_tracking->storeRequest($next_requestable_hint);
 
-        $redirectTarget = $this->getHintPresentationLinkTarget($nextRequestableHint->getId(), false);
+        $redirectTarget = $this->getHintPresentationLinkTarget($next_requestable_hint->getId(), false);
 
         ilUtil::redirect($redirectTarget);
     }
 
-    /**
-     * gateway command method to jump back to test session output
-     *
-     * @access	private
-     * @global	ilCtrl $ilCtrl
-     */
     private function backToQuestionCmd(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $ilCtrl->redirect($this->parentGUI, $this->parentCMD);
+        $this->ctrl->redirect($this->parent_gui, $this->parent_cmd);
     }
 
-    /**
-     * populates the rendered questin hint relating output content to global template
-     * depending on possibly active kiosk mode
-     *
-     * @global ilTemplate $tpl
-     * @param string $content
-     */
     private function populateContent($content, $tpl): void
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-
-        if (!$this->isQuestionPreview() && $this->parentGUI->object->getKioskMode()) {
-            $tpl->hideFooter();
-
-            $tpl->addBlockFile(
-                'CONTENT',
-                'kiosk_content',
-                'tpl.il_tst_question_hints_kiosk_page.html',
-                'components/ILIAS/TestQuestionPool'
-            );
-
-            $tpl->setVariable('KIOSK_HEAD', $this->parentGUI->getKioskHead());
-
-            $tpl->setVariable('KIOSK_CONTENT', $content);
-        } else {
+        if ($this->isQuestionPreview() || !$this->parent_gui->getObject()->getKioskMode()) {
             $tpl->setContent($content);
+            return;
         }
+
+        $tpl->hideFooter();
+        $tpl->addBlockFile(
+            'CONTENT',
+            'kiosk_content',
+            'tpl.il_tst_question_hints_kiosk_page.html',
+            'components/ILIAS/TestQuestionPool'
+        );
+        $tpl->setVariable('KIOSK_HEAD', $this->parent_gui->getKioskHead());
+        $tpl->setVariable('KIOSK_CONTENT', $content);
     }
 
     private function isQuestionPreview(): bool
     {
-        if ($this->questionHintTracking instanceof ilAssQuestionPreviewHintTracking) {
+        if ($this->question_hint_tracking instanceof ilAssQuestionPreviewHintTracking) {
             return true;
         }
 
         return false;
     }
 
-    /**
-     * returns the link target for hint request presentation
-     *
-     * @global ilCtrl $ilCtrl
-     * @param integer $hintId
-     * @param boolean $xmlStyle
-     * @return string $linkTarget
-     */
-    public function getHintPresentationLinkTarget($hintId, $xmlStyle = true): string
+    public function getHintPresentationLinkTarget($hint_id, $xml_style = true): string
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $ilCtrl->setParameterByClass('ilasshintpagegui', 'hint_id', $hintId);
-            $linkTarget = $ilCtrl->getLinkTargetByClass('ilAssHintPageGUI', '', '', false, $xmlStyle);
-        } else {
-            $ilCtrl->setParameter($this, 'hintId', $hintId);
-            $linkTarget = $ilCtrl->getLinkTarget($this, self::CMD_SHOW_HINT, '', false, $xmlStyle);
+            $this->ctrl->setParameterByClass('ilasshintpagegui', 'hint_id', $hint_id);
+            return $this->ctrl->getLinkTargetByClass('ilAssHintPageGUI', '', '', false, $xml_style);
         }
 
-        return $linkTarget;
+        $this->ctrl->setParameter($this, 'hintId', $hint_id);
+        return $this->ctrl->getLinkTarget($this, self::CMD_SHOW_HINT, '', false, $xml_style);
     }
 }
