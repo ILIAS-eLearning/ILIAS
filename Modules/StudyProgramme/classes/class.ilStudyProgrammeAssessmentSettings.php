@@ -92,6 +92,7 @@ class ilStudyProgrammeAssessmentSettings
             ->withValue($this->getPoints())
             ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
             ->withAdditionalTransformation($refinery->int()->isLessThanOrEqual(2147483647))
+            ->withAdditionalTransformation($refinery->numeric()->isNumeric())
         ;
         $select = $input
             ->select(
