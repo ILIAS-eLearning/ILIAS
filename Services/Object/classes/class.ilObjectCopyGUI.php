@@ -486,12 +486,10 @@ class ilObjectCopyGUI
      */
     public function showSourceSelectionTree()
     {
-        $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
         $tree = $this->tree;
         $tpl = $this->tpl;
-        $objDefinition = $this->obj_definition;
 
         $this->tpl = $tpl;
         $this->tpl->addBlockfile(
@@ -951,7 +949,7 @@ class ilObjectCopyGUI
 
         switch ($this->getMode()) {
             case self::SOURCE_SELECTION:
-                $back_cmd = 'showSourceSelectionTree';
+                $back_cmd = 'adoptContent';
                 break;
 
             case self::TARGET_SELECTION:
