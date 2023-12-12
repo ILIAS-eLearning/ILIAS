@@ -66,7 +66,7 @@ class ilDAVFile implements IFile
     /**
      * @param string|resource $data
      */
-    public function put($data): ?string
+    public function put($data, string $name = null): ?string
     {
         if (!$this->repo_helper->checkAccess('write', $this->obj->getRefId())) {
             throw new Forbidden("Permission denied. No write access for this file");
@@ -90,22 +90,21 @@ class ilDAVFile implements IFile
             $obj_id = $this->obj->getId();
             $this->repo_helper->deleteObject($this->obj->getRefId());
             $file_obj = new ilObjFile();
-            $file_obj->setTitle($this->getName());
-            $file_obj->setFileName($this->getName());
+            $file_obj->setTitle($this->obj->getTitle());
 
             $file_dav = $this->dav_factory->createDAVObject($file_obj, $parent_ref_id);
             $file_dav->noSizeCheckNeeded();
             $this->repo_helper->updateLocksAfterResettingObject($obj_id, $file_obj->getId());
-            return $file_dav->put($data);
+            return $file_dav->put($data, $name);
         }
 
         $stream = Streams::ofResource($data);
 
         if ($this->versioning_enabled === true ||
             $this->obj->getVersion() === 0 && $this->obj->getMaxVersion() === 0) {
-            $this->obj->appendStream($stream, $this->obj->getTitle());
+            $this->obj->appendStream($stream, $name ?? $this->getName());
         } else {
-            $this->obj->replaceWithStream($stream, $this->obj->getTitle());
+            $this->obj->replaceWithStream($stream, $name ?? $this->getName());
         }
 
         $stream->close();
@@ -132,7 +131,7 @@ class ilDAVFile implements IFile
 
     public function getName(): string
     {
-        return ilFileUtils::getValidFilename($this->obj->getTitle());
+        return ilFileUtils::getValidFilename($this->obj->getFileName());
     }
 
     public function getContentType(): ?string
