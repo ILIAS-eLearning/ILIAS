@@ -172,7 +172,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         require_once 'Services/RTE/classes/class.ilRTE.php';
 
         $res = $this->db->queryF(
-            "SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+            "SELECT feedback FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
             array('integer'),
             array($questionId)
         );
@@ -358,10 +358,28 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
     }
 
     /**
+    * @param array<int> $feedback_ids
+    * @return array<int, string>
+    */
+    protected function getSpecificFeedbackContentForFeedbackIds(array $feedback_ids) : array
+    {
+        $res = $this->db->query(
+            "SELECT feedback_id, feedback FROM {$this->getSpecificFeedbackTableName()} WHERE "
+                . $this->db->in('feedback_id', $feedback_ids, false, ilDBConstants::T_INTEGER)
+        );
+
+        $content = [];
+        while ($row = $this->db->fetchAssoc($res)) {
+            $content[$row['feedback_id']] = $row['feedback'];
+        }
+        return $content;
+    }
+
+    /**
      * @param int $feedbackId
      * @return bool
      */
-    protected function isSpecificAnswerFeedbackId($feedbackId)
+    protected function isSpecificAnswerFeedbackId($feedbackId) : bool
     {
         $row = $this->db->fetchAssoc($this->db->queryF(
             "SELECT COUNT(feedback_id) cnt FROM {$this->getSpecificFeedbackTableName()}
