@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.6.7-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.6.12-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: ilias_trunk
+-- Host: localhost    Database: ilias_release
 -- ------------------------------------------------------
--- Server version	10.6.7-MariaDB-2ubuntu1
+-- Server version	10.6.12-MariaDB-0ubuntu0.22.04.1
 
 --
 -- Table structure for table `acc_access_key`
@@ -13,7 +13,7 @@ CREATE TABLE `acc_access_key` (
   `function_id` int(11) NOT NULL DEFAULT 0,
   `access_key` char(1) DEFAULT NULL,
   PRIMARY KEY (`lang_key`,`function_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `acc_access_key`
@@ -29,7 +29,7 @@ CREATE TABLE `acc_cache` (
   `time` int(11) NOT NULL DEFAULT 0,
   `result` longtext DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `acc_cache`
@@ -50,7 +50,7 @@ CREATE TABLE `acc_criterion_to_doc` (
   `owner_usr_id` int(11) NOT NULL DEFAULT 0,
   `last_modified_usr_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `acc_criterion_to_doc`
@@ -64,7 +64,7 @@ CREATE TABLE `acc_criterion_to_doc` (
 CREATE TABLE `acc_criterion_to_doc_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `acc_criterion_to_doc_seq`
@@ -85,7 +85,7 @@ CREATE TABLE `acc_documents` (
   `last_modified_usr_id` int(11) NOT NULL DEFAULT 0,
   `text` longtext DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `acc_documents`
@@ -99,7 +99,7 @@ CREATE TABLE `acc_documents` (
 CREATE TABLE `acc_documents_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `acc_documents_seq`
@@ -115,7 +115,7 @@ CREATE TABLE `acc_user_access_key` (
   `function_id` smallint(6) NOT NULL DEFAULT 0,
   `access_key` char(1) DEFAULT NULL,
   PRIMARY KEY (`user_id`,`function_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `acc_user_access_key`
@@ -132,7 +132,7 @@ CREATE TABLE `acl_ws` (
   `extended_data` varchar(200) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`node_id`,`object_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `acl_ws`
@@ -153,7 +153,7 @@ CREATE TABLE `addressbook_mlist` (
   `lmode` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ml_id`),
   KEY `i1_idx` (`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `addressbook_mlist`
@@ -171,7 +171,7 @@ CREATE TABLE `addressbook_mlist_ass` (
   PRIMARY KEY (`a_id`),
   KEY `i1_idx` (`ml_id`),
   KEY `i2_idx` (`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `addressbook_mlist_ass`
@@ -185,7 +185,7 @@ CREATE TABLE `addressbook_mlist_ass` (
 CREATE TABLE `addressbook_mlist_ass_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `addressbook_mlist_ass_seq`
@@ -199,7 +199,7 @@ CREATE TABLE `addressbook_mlist_ass_seq` (
 CREATE TABLE `addressbook_mlist_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `addressbook_mlist_seq`
@@ -217,7 +217,7 @@ CREATE TABLE `adl_shared_data` (
   `store` longtext DEFAULT NULL,
   `cp_node_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cp_node_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adl_shared_data`
@@ -232,7 +232,7 @@ CREATE TABLE `adm_set_templ_hide_tab` (
   `template_id` int(11) NOT NULL DEFAULT 0,
   `tab_id` varchar(80) NOT NULL DEFAULT '',
   PRIMARY KEY (`template_id`,`tab_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adm_set_templ_hide_tab`
@@ -249,7 +249,7 @@ CREATE TABLE `adm_set_templ_value` (
   `value` varchar(4000) DEFAULT NULL,
   `hide` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`template_id`,`setting`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adm_set_templ_value`
@@ -257,41 +257,6 @@ CREATE TABLE `adm_set_templ_value` (
 
 INSERT INTO `adm_set_templ_value` VALUES (1,'pass_scoring','0',1);
 INSERT INTO `adm_set_templ_value` VALUES (2,'pass_scoring','0',1);
-
---
--- Table structure for table `adm_settings_template`
---
-
-CREATE TABLE `adm_settings_template` (
-  `id` int(11) NOT NULL DEFAULT 0,
-  `type` varchar(5) NOT NULL DEFAULT '',
-  `title` varchar(100) NOT NULL DEFAULT '',
-  `description` longtext DEFAULT NULL,
-  `auto_generated` tinyint(4) DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `adm_settings_template`
---
-
-INSERT INTO `adm_settings_template` VALUES (1,'tst','il_astpl_loc_initial','il_astpl_loc_initial_desc',1);
-INSERT INTO `adm_settings_template` VALUES (2,'tst','il_astpl_loc_qualified','il_astpl_loc_qualified_desc',1);
-
---
--- Table structure for table `adm_settings_template_seq`
---
-
-CREATE TABLE `adm_settings_template_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=3;
-
---
--- Dumping data for table `adm_settings_template_seq`
---
-
-INSERT INTO `adm_settings_template_seq` VALUES (2);
 
 --
 -- Table structure for table `adv_md_field_int`
@@ -303,7 +268,7 @@ CREATE TABLE `adv_md_field_int` (
   `description` varchar(4000) DEFAULT NULL,
   `lang_code` varchar(5) NOT NULL,
   PRIMARY KEY (`field_id`,`lang_code`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_field_int`
@@ -319,7 +284,7 @@ CREATE TABLE `adv_md_obj_rec_select` (
   `sub_type` varchar(10) NOT NULL DEFAULT '-',
   `rec_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`rec_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_obj_rec_select`
@@ -340,7 +305,7 @@ CREATE TABLE `adv_md_record` (
   `gpos` int(11) DEFAULT NULL,
   `lang_default` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`record_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_record`
@@ -357,7 +322,7 @@ CREATE TABLE `adv_md_record_int` (
   `description` varchar(4000) DEFAULT NULL,
   `lang_code` varchar(5) NOT NULL,
   PRIMARY KEY (`record_id`,`lang_code`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_record_int`
@@ -373,7 +338,7 @@ CREATE TABLE `adv_md_record_obj_ord` (
   `obj_id` int(11) NOT NULL,
   `position` int(11) NOT NULL,
   PRIMARY KEY (`record_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_record_obj_ord`
@@ -390,7 +355,7 @@ CREATE TABLE `adv_md_record_objs` (
   `sub_type` varchar(10) NOT NULL DEFAULT '-',
   `optional` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`record_id`,`obj_type`,`sub_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_record_objs`
@@ -406,7 +371,7 @@ CREATE TABLE `adv_md_record_scope` (
   `record_id` int(11) NOT NULL,
   `ref_id` int(11) NOT NULL,
   PRIMARY KEY (`scope_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_record_scope`
@@ -420,7 +385,7 @@ CREATE TABLE `adv_md_record_scope` (
 CREATE TABLE `adv_md_record_scope_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_record_scope_seq`
@@ -434,7 +399,7 @@ CREATE TABLE `adv_md_record_scope_seq` (
 CREATE TABLE `adv_md_record_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_record_seq`
@@ -451,7 +416,7 @@ CREATE TABLE `adv_md_substitutions` (
   `hide_description` tinyint(4) NOT NULL DEFAULT 0,
   `hide_field_names` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_substitutions`
@@ -470,7 +435,7 @@ CREATE TABLE `adv_md_values_date` (
   `value` date DEFAULT NULL,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_date`
@@ -489,7 +454,7 @@ CREATE TABLE `adv_md_values_datetime` (
   `value` datetime DEFAULT NULL,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_datetime`
@@ -508,7 +473,7 @@ CREATE TABLE `adv_md_values_enum` (
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   `value_index` varchar(16) NOT NULL,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`,`value_index`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_enum`
@@ -528,7 +493,7 @@ CREATE TABLE `adv_md_values_extlink` (
   `title` varchar(500) DEFAULT NULL,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_extlink`
@@ -547,7 +512,7 @@ CREATE TABLE `adv_md_values_float` (
   `value` double DEFAULT NULL,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_float`
@@ -566,7 +531,7 @@ CREATE TABLE `adv_md_values_int` (
   `value` int(11) DEFAULT NULL,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_int`
@@ -585,7 +550,7 @@ CREATE TABLE `adv_md_values_intlink` (
   `value` int(11) NOT NULL,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_intlink`
@@ -606,7 +571,7 @@ CREATE TABLE `adv_md_values_location` (
   `loc_zoom` tinyint(4) DEFAULT NULL,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_location`
@@ -626,7 +591,7 @@ CREATE TABLE `adv_md_values_ltext` (
   `value` varchar(4000) DEFAULT NULL,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`,`value_index`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_ltext`
@@ -646,7 +611,7 @@ CREATE TABLE `adv_md_values_text` (
   `sub_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`field_id`,`sub_type`,`sub_id`),
   KEY `i1_idx` (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_md_values_text`
@@ -663,13 +628,13 @@ CREATE TABLE `adv_mdf_definition` (
   `import_id` varchar(32) DEFAULT NULL,
   `position` int(11) NOT NULL DEFAULT 0,
   `field_type` tinyint(4) NOT NULL DEFAULT 0,
-  `field_values` varchar(4000) DEFAULT NULL,
+  `field_values` text DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(2000) DEFAULT NULL,
   `searchable` tinyint(4) NOT NULL DEFAULT 0,
   `required` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_mdf_definition`
@@ -683,7 +648,7 @@ CREATE TABLE `adv_mdf_definition` (
 CREATE TABLE `adv_mdf_definition_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_mdf_definition_seq`
@@ -700,7 +665,7 @@ CREATE TABLE `adv_mdf_enum` (
   `idx` int(11) NOT NULL,
   `value` varchar(4000) NOT NULL,
   PRIMARY KEY (`field_id`,`lang_code`,`idx`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `adv_mdf_enum`
@@ -728,7 +693,7 @@ CREATE TABLE `aicc_course` (
   `max_normal` tinyint(4) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `aicc_course`
@@ -749,7 +714,7 @@ CREATE TABLE `aicc_object` (
   `c_type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`slm_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `aicc_object`
@@ -763,7 +728,7 @@ CREATE TABLE `aicc_object` (
 CREATE TABLE `aicc_object_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `aicc_object_seq`
@@ -788,7 +753,7 @@ CREATE TABLE `aicc_units` (
   `web_launch` varchar(255) DEFAULT NULL,
   `au_password` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `aicc_units`
@@ -802,7 +767,7 @@ CREATE TABLE `aicc_units` (
 CREATE TABLE `aicc_units_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `aicc_units_seq`
@@ -826,7 +791,7 @@ CREATE TABLE `ass_log` (
   PRIMARY KEY (`ass_log_id`),
   KEY `i1_idx` (`user_fi`,`obj_fi`),
   KEY `i2_idx` (`obj_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ass_log`
@@ -840,7 +805,7 @@ CREATE TABLE `ass_log` (
 CREATE TABLE `ass_log_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ass_log_seq`
@@ -858,7 +823,7 @@ CREATE TABLE `auth_ext_attr_mapping` (
   `update_automatically` tinyint(4) NOT NULL DEFAULT 0,
   `auth_mode` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`auth_mode`,`auth_src_id`,`attribute`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `auth_ext_attr_mapping`
@@ -879,7 +844,7 @@ CREATE TABLE `background_task` (
   `status` varchar(100) DEFAULT NULL,
   `params` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `background_task`
@@ -893,7 +858,7 @@ CREATE TABLE `background_task` (
 CREATE TABLE `background_task_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `background_task_seq`
@@ -916,7 +881,7 @@ CREATE TABLE `badge_badge` (
   `valid` varchar(255) DEFAULT NULL,
   `crit` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `badge_badge`
@@ -930,7 +895,7 @@ CREATE TABLE `badge_badge` (
 CREATE TABLE `badge_badge_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `badge_badge_seq`
@@ -945,7 +910,7 @@ CREATE TABLE `badge_image_templ_type` (
   `tmpl_id` int(11) NOT NULL DEFAULT 0,
   `type_id` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`tmpl_id`,`type_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `badge_image_templ_type`
@@ -961,7 +926,7 @@ CREATE TABLE `badge_image_template` (
   `title` varchar(255) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `badge_image_template`
@@ -975,7 +940,7 @@ CREATE TABLE `badge_image_template` (
 CREATE TABLE `badge_image_template_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `badge_image_template_seq`
@@ -993,7 +958,7 @@ CREATE TABLE `badge_user_badge` (
   `awarded_by` int(11) DEFAULT NULL,
   `pos` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`badge_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `badge_user_badge`
@@ -1013,7 +978,7 @@ CREATE TABLE `benchmark` (
   `sql_stmt` longtext DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`module`,`benchmark`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `benchmark`
@@ -1027,7 +992,7 @@ CREATE TABLE `benchmark` (
 CREATE TABLE `benchmark_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `benchmark_seq`
@@ -1042,10 +1007,26 @@ CREATE TABLE `book_obj_use_book` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `book_ref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`book_ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `book_obj_use_book`
+--
+
+
+--
+-- Table structure for table `book_sel_object`
+--
+
+CREATE TABLE `book_sel_object` (
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `object_id` int(11) NOT NULL DEFAULT 0,
+  `pool_id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`user_id`,`object_id`)
+) ;
+
+--
+-- Dumping data for table `book_sel_object`
 --
 
 
@@ -1061,7 +1042,7 @@ CREATE TABLE `booking_entry` (
   `target_obj_id` int(11) DEFAULT NULL,
   `booking_group` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`booking_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_entry`
@@ -1075,7 +1056,7 @@ CREATE TABLE `booking_entry` (
 CREATE TABLE `booking_entry_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_entry_seq`
@@ -1092,7 +1073,7 @@ CREATE TABLE `booking_member` (
   `booking_pool_id` varchar(255) NOT NULL,
   `assigner_user_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`participant_id`,`user_id`,`booking_pool_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_member`
@@ -1106,7 +1087,7 @@ CREATE TABLE `booking_member` (
 CREATE TABLE `booking_member_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_member_seq`
@@ -1121,7 +1102,7 @@ CREATE TABLE `booking_obj_assignment` (
   `booking_id` int(11) NOT NULL DEFAULT 0,
   `target_obj_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`booking_id`,`target_obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_obj_assignment`
@@ -1143,8 +1124,9 @@ CREATE TABLE `booking_object` (
   `post_text` varchar(4000) DEFAULT NULL,
   `post_file` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`booking_object_id`),
-  KEY `i1_idx` (`pool_id`)
-) ENGINE=InnoDB;
+  KEY `i1_idx` (`pool_id`),
+  KEY `i2_idx` (`schedule_id`)
+) ;
 
 --
 -- Dumping data for table `booking_object`
@@ -1158,7 +1140,7 @@ CREATE TABLE `booking_object` (
 CREATE TABLE `booking_object_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_object_seq`
@@ -1174,7 +1156,7 @@ CREATE TABLE `booking_preferences` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `book_obj_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`book_pool_id`,`user_id`,`book_obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_preferences`
@@ -1195,12 +1177,14 @@ CREATE TABLE `booking_reservation` (
   `group_id` int(11) DEFAULT NULL,
   `assigner_id` int(11) NOT NULL DEFAULT 0,
   `context_obj_id` int(11) DEFAULT 0,
+  `message` varchar(4000) NOT NULL DEFAULT '',
   PRIMARY KEY (`booking_reservation_id`),
   KEY `i1_idx` (`user_id`),
   KEY `i2_idx` (`object_id`),
   KEY `i3_idx` (`date_from`),
-  KEY `i4_idx` (`date_to`)
-) ENGINE=InnoDB;
+  KEY `i4_idx` (`date_to`),
+  KEY `i5_idx` (`context_obj_id`)
+) ;
 
 --
 -- Dumping data for table `booking_reservation`
@@ -1214,7 +1198,7 @@ CREATE TABLE `booking_reservation` (
 CREATE TABLE `booking_reservation_group_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_reservation_group_seq`
@@ -1228,7 +1212,7 @@ CREATE TABLE `booking_reservation_group_seq` (
 CREATE TABLE `booking_reservation_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_reservation_seq`
@@ -1250,8 +1234,9 @@ CREATE TABLE `booking_schedule` (
   `auto_break` int(11) DEFAULT NULL,
   `av_from` int(11) DEFAULT NULL,
   `av_to` int(11) DEFAULT NULL,
-  PRIMARY KEY (`booking_schedule_id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`booking_schedule_id`),
+  KEY `i1_idx` (`pool_id`)
+) ;
 
 --
 -- Dumping data for table `booking_schedule`
@@ -1265,7 +1250,7 @@ CREATE TABLE `booking_schedule` (
 CREATE TABLE `booking_schedule_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_schedule_seq`
@@ -1282,7 +1267,7 @@ CREATE TABLE `booking_schedule_slot` (
   `slot_id` tinyint(4) NOT NULL DEFAULT 0,
   `times` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`booking_schedule_id`,`day_id`,`slot_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_schedule_slot`
@@ -1307,8 +1292,9 @@ CREATE TABLE `booking_settings` (
   `preference_nr` int(11) NOT NULL DEFAULT 0,
   `pref_deadline` int(11) NOT NULL DEFAULT 0,
   `pref_booking_hash` varchar(23) NOT NULL DEFAULT '0',
+  `messages` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`booking_pool_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_settings`
@@ -1326,7 +1312,7 @@ CREATE TABLE `booking_user` (
   `booking_message` varchar(1024) DEFAULT NULL,
   `notification_sent` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`entry_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `booking_user`
@@ -1345,7 +1331,7 @@ CREATE TABLE `bookmark_data` (
   `target` varchar(200) DEFAULT NULL,
   `type` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `bookmark_data`
@@ -1360,7 +1346,7 @@ INSERT INTO `bookmark_data` VALUES (1,0,'dummy_folder','','','bmf');
 CREATE TABLE `bookmark_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `bookmark_data_seq`
@@ -1383,7 +1369,7 @@ CREATE TABLE `bookmark_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`child`,`tree`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `bookmark_tree`
@@ -1400,7 +1386,7 @@ CREATE TABLE `buddylist` (
   `buddy_usr_id` int(11) NOT NULL DEFAULT 0,
   `ts` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`,`buddy_usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `buddylist`
@@ -1418,7 +1404,7 @@ CREATE TABLE `buddylist_requests` (
   `ts` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`,`buddy_usr_id`),
   KEY `i1_idx` (`buddy_usr_id`,`ignored`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `buddylist_requests`
@@ -1443,7 +1429,7 @@ CREATE TABLE `cache_clob` (
   PRIMARY KEY (`component`,`name`,`entry_id`),
   KEY `et_idx` (`expire_time`),
   KEY `iv_idx` (`ilias_version`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cache_clob`
@@ -1468,7 +1454,7 @@ CREATE TABLE `cache_text` (
   PRIMARY KEY (`component`,`name`,`entry_id`),
   KEY `et_idx` (`expire_time`),
   KEY `iv_idx` (`ilias_version`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cache_text`
@@ -1488,7 +1474,7 @@ CREATE TABLE `cal_auth_token` (
   `c_time` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`hash`),
   KEY `i1_idx` (`hash`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_auth_token`
@@ -1504,7 +1490,7 @@ CREATE TABLE `cal_cat_assignments` (
   `cat_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cal_id`,`cat_id`),
   KEY `i2_idx` (`cat_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_cat_assignments`
@@ -1522,7 +1508,7 @@ CREATE TABLE `cal_cat_visibility` (
   `visible` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`cat_id`,`obj_id`),
   KEY `i1_idx` (`cat_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_cat_visibility`
@@ -1547,7 +1533,7 @@ CREATE TABLE `cal_categories` (
   PRIMARY KEY (`cat_id`),
   KEY `i2_idx` (`obj_id`),
   KEY `i3_idx` (`type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_categories`
@@ -1561,7 +1547,7 @@ CREATE TABLE `cal_categories` (
 CREATE TABLE `cal_categories_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_categories_seq`
@@ -1578,7 +1564,7 @@ CREATE TABLE `cal_ch_group` (
   `multiple_assignments` tinyint(4) NOT NULL DEFAULT 0,
   `title` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`grp_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_ch_group`
@@ -1592,7 +1578,7 @@ CREATE TABLE `cal_ch_group` (
 CREATE TABLE `cal_ch_group_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_ch_group_seq`
@@ -1607,7 +1593,7 @@ CREATE TABLE `cal_ch_settings` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `admin_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`admin_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_ch_settings`
@@ -1632,14 +1618,14 @@ CREATE TABLE `cal_entries` (
   `auto_generated` tinyint(4) NOT NULL DEFAULT 0,
   `context_id` int(11) NOT NULL DEFAULT 0,
   `translation_type` tinyint(4) NOT NULL DEFAULT 0,
-  `is_milestone` tinyint(4) NOT NULL DEFAULT 0,
-  `completion` int(11) NOT NULL DEFAULT 0,
   `notification` tinyint(4) NOT NULL DEFAULT 0,
   `context_info` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`cal_id`),
   KEY `i1_idx` (`last_update`),
-  KEY `i2_idx` (`context_id`)
-) ENGINE=InnoDB;
+  KEY `i2_idx` (`context_id`),
+  KEY `i3_idx` (`starta`),
+  KEY `i4_idx` (`enda`)
+) ;
 
 --
 -- Dumping data for table `cal_entries`
@@ -1653,25 +1639,10 @@ CREATE TABLE `cal_entries` (
 CREATE TABLE `cal_entries_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_entries_seq`
---
-
-
---
--- Table structure for table `cal_entry_responsible`
---
-
-CREATE TABLE `cal_entry_responsible` (
-  `cal_id` int(11) NOT NULL DEFAULT 0,
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`cal_id`,`user_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `cal_entry_responsible`
 --
 
 
@@ -1687,7 +1658,7 @@ CREATE TABLE `cal_notification` (
   `email` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`notification_id`),
   KEY `i1_idx` (`cal_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_notification`
@@ -1701,7 +1672,7 @@ CREATE TABLE `cal_notification` (
 CREATE TABLE `cal_notification_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_notification_seq`
@@ -1718,7 +1689,7 @@ CREATE TABLE `cal_rec_exclusion` (
   `excl_date` date DEFAULT NULL,
   PRIMARY KEY (`excl_id`),
   KEY `i1_idx` (`cal_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_rec_exclusion`
@@ -1732,7 +1703,7 @@ CREATE TABLE `cal_rec_exclusion` (
 CREATE TABLE `cal_rec_exclusion_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_rec_exclusion_seq`
@@ -1760,7 +1731,7 @@ CREATE TABLE `cal_recurrence_rules` (
   `weekstart` char(2) DEFAULT NULL,
   PRIMARY KEY (`rule_id`),
   KEY `i1_idx` (`cal_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_recurrence_rules`
@@ -1774,7 +1745,7 @@ CREATE TABLE `cal_recurrence_rules` (
 CREATE TABLE `cal_recurrence_rules_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_recurrence_rules_seq`
@@ -1791,7 +1762,7 @@ CREATE TABLE `cal_registrations` (
   `dstart` int(11) NOT NULL DEFAULT 0,
   `dend` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cal_id`,`usr_id`,`dstart`,`dend`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_registrations`
@@ -1810,7 +1781,7 @@ CREATE TABLE `cal_shared` (
   `writable` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`cal_id`,`obj_id`),
   KEY `i1_idx` (`obj_id`,`obj_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_shared`
@@ -1826,7 +1797,7 @@ CREATE TABLE `cal_shared_status` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cal_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cal_shared_status`
@@ -1842,7 +1813,7 @@ CREATE TABLE `catch_write_events` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `ts` datetime DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `catch_write_events`
@@ -1859,7 +1830,7 @@ CREATE TABLE `chatroom_admconfig` (
   `default_config` tinyint(4) NOT NULL DEFAULT 0,
   `client_settings` varchar(1000) NOT NULL DEFAULT '',
   PRIMARY KEY (`instance_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_admconfig`
@@ -1873,7 +1844,7 @@ CREATE TABLE `chatroom_admconfig` (
 CREATE TABLE `chatroom_admconfig_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_admconfig_seq`
@@ -1891,7 +1862,7 @@ CREATE TABLE `chatroom_bans` (
   `remark` varchar(1000) DEFAULT NULL,
   `actor_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`room_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_bans`
@@ -1907,10 +1878,9 @@ CREATE TABLE `chatroom_history` (
   `room_id` int(11) NOT NULL DEFAULT 0,
   `message` varchar(4000) DEFAULT NULL,
   `timestamp` int(11) NOT NULL DEFAULT 0,
-  `sub_room` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`hist_id`),
-  KEY `i1_idx` (`room_id`,`sub_room`)
-) ENGINE=InnoDB;
+  KEY `i1_idx` (`room_id`)
+) ;
 
 --
 -- Dumping data for table `chatroom_history`
@@ -1924,95 +1894,10 @@ CREATE TABLE `chatroom_history` (
 CREATE TABLE `chatroom_history_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_history_seq`
---
-
-
---
--- Table structure for table `chatroom_proomaccess`
---
-
-CREATE TABLE `chatroom_proomaccess` (
-  `proom_id` int(11) NOT NULL DEFAULT 0,
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`proom_id`,`user_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `chatroom_proomaccess`
---
-
-
---
--- Table structure for table `chatroom_prooms`
---
-
-CREATE TABLE `chatroom_prooms` (
-  `proom_id` int(11) NOT NULL DEFAULT 0,
-  `parent_id` int(11) NOT NULL DEFAULT 0,
-  `title` varchar(200) NOT NULL DEFAULT '0',
-  `owner` int(11) NOT NULL DEFAULT 0,
-  `created` int(11) NOT NULL DEFAULT 0,
-  `closed` int(11) DEFAULT 0,
-  `is_public` tinyint(4) DEFAULT 1,
-  PRIMARY KEY (`proom_id`),
-  KEY `i1_idx` (`parent_id`),
-  KEY `i2_idx` (`owner`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `chatroom_prooms`
---
-
-
---
--- Table structure for table `chatroom_prooms_seq`
---
-
-CREATE TABLE `chatroom_prooms_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `chatroom_prooms_seq`
---
-
-
---
--- Table structure for table `chatroom_psessions`
---
-
-CREATE TABLE `chatroom_psessions` (
-  `psess_id` bigint(20) NOT NULL DEFAULT 0,
-  `proom_id` int(11) NOT NULL DEFAULT 0,
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  `connected` int(11) NOT NULL DEFAULT 0,
-  `disconnected` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`psess_id`),
-  KEY `i1_idx` (`proom_id`,`user_id`),
-  KEY `i2_idx` (`disconnected`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `chatroom_psessions`
---
-
-
---
--- Table structure for table `chatroom_psessions_seq`
---
-
-CREATE TABLE `chatroom_psessions_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `chatroom_psessions_seq`
 --
 
 
@@ -2031,7 +1916,7 @@ CREATE TABLE `chatroom_sessions` (
   KEY `i1_idx` (`room_id`,`user_id`),
   KEY `i2_idx` (`disconnected`),
   KEY `i3_idx` (`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_sessions`
@@ -2045,7 +1930,7 @@ CREATE TABLE `chatroom_sessions` (
 CREATE TABLE `chatroom_sessions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_sessions_seq`
@@ -2063,20 +1948,17 @@ CREATE TABLE `chatroom_settings` (
   `allow_anonymous` tinyint(4) DEFAULT 0,
   `allow_custom_usernames` tinyint(4) DEFAULT 0,
   `enable_history` tinyint(4) DEFAULT 0,
-  `restrict_history` tinyint(4) DEFAULT 0,
   `autogen_usernames` varchar(50) DEFAULT 'Anonymous #',
-  `allow_private_rooms` tinyint(4) DEFAULT 0,
   `display_past_msgs` int(11) NOT NULL DEFAULT 0,
-  `private_rooms_enabled` int(11) NOT NULL DEFAULT 0,
   `online_status` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`room_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_settings`
 --
 
-INSERT INTO `chatroom_settings` VALUES (2,185,'default',0,0,0,0,'Anonymous #',1,0,1,1);
+INSERT INTO `chatroom_settings` VALUES (2,185,'default',0,0,0,'Anonymous #',0,1);
 
 --
 -- Table structure for table `chatroom_settings_seq`
@@ -2085,43 +1967,13 @@ INSERT INTO `chatroom_settings` VALUES (2,185,'default',0,0,0,0,'Anonymous #',1,
 CREATE TABLE `chatroom_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=3;
+)  AUTO_INCREMENT=3;
 
 --
 -- Dumping data for table `chatroom_settings_seq`
 --
 
 INSERT INTO `chatroom_settings_seq` VALUES (2);
-
---
--- Table structure for table `chatroom_smilies`
---
-
-CREATE TABLE `chatroom_smilies` (
-  `smiley_id` int(11) NOT NULL DEFAULT 0,
-  `smiley_keywords` varchar(100) DEFAULT NULL,
-  `smiley_path` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`smiley_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `chatroom_smilies`
---
-
-
---
--- Table structure for table `chatroom_smilies_seq`
---
-
-CREATE TABLE `chatroom_smilies_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `chatroom_smilies_seq`
---
-
 
 --
 -- Table structure for table `chatroom_uploads`
@@ -2135,7 +1987,7 @@ CREATE TABLE `chatroom_uploads` (
   `filetype` varchar(200) NOT NULL DEFAULT '',
   `timestamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`upload_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_uploads`
@@ -2149,7 +2001,7 @@ CREATE TABLE `chatroom_uploads` (
 CREATE TABLE `chatroom_uploads_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_uploads_seq`
@@ -2166,7 +2018,7 @@ CREATE TABLE `chatroom_users` (
   `userdata` varchar(4000) NOT NULL DEFAULT '',
   `connected` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`room_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `chatroom_users`
@@ -2186,7 +2038,7 @@ CREATE TABLE `cmi_comment` (
   `sourceislms` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`cmi_comment_id`),
   KEY `i2_idx` (`cmi_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_comment`
@@ -2200,7 +2052,7 @@ CREATE TABLE `cmi_comment` (
 CREATE TABLE `cmi_comment_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_comment_seq`
@@ -2217,7 +2069,7 @@ CREATE TABLE `cmi_correct_response` (
   `pattern` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`cmi_correct_resp_id`),
   KEY `i1_idx` (`cmi_interaction_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_correct_response`
@@ -2231,7 +2083,7 @@ CREATE TABLE `cmi_correct_response` (
 CREATE TABLE `cmi_correct_response_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_correct_response_seq`
@@ -2250,7 +2102,7 @@ CREATE TABLE `cmi_custom` (
   `rvalue` varchar(255) DEFAULT NULL,
   `c_timestamp` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`,`lvalue`,`obj_id`,`sco_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_custom`
@@ -2275,7 +2127,7 @@ CREATE TABLE `cmi_gobjective` (
   `completion_status` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`user_id`,`scope_id`,`objective_id`),
   KEY `i2_idx` (`scope_id`,`objective_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_gobjective`
@@ -2301,7 +2153,7 @@ CREATE TABLE `cmi_interaction` (
   KEY `i2_idx` (`id`),
   KEY `i3_idx` (`c_type`),
   KEY `i4_idx` (`cmi_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_interaction`
@@ -2315,7 +2167,7 @@ CREATE TABLE `cmi_interaction` (
 CREATE TABLE `cmi_interaction_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_interaction_seq`
@@ -2376,7 +2228,7 @@ CREATE TABLE `cmi_node` (
   KEY `i2_idx` (`completion_status`),
   KEY `i3_idx` (`credit`),
   KEY `i5_idx` (`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_node`
@@ -2390,7 +2242,7 @@ CREATE TABLE `cmi_node` (
 CREATE TABLE `cmi_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_node_seq`
@@ -2418,7 +2270,7 @@ CREATE TABLE `cmi_objective` (
   PRIMARY KEY (`cmi_objective_id`),
   KEY `i2_idx` (`cmi_interaction_id`),
   KEY `i4_idx` (`success_status`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_objective`
@@ -2432,10 +2284,44 @@ CREATE TABLE `cmi_objective` (
 CREATE TABLE `cmi_objective_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmi_objective_seq`
+--
+
+
+--
+-- Table structure for table `cmix_del_object`
+--
+
+CREATE TABLE `cmix_del_object` (
+  `obj_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `activity_id` varchar(128) NOT NULL,
+  `added` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`obj_id`,`type_id`,`activity_id`)
+) ;
+
+--
+-- Dumping data for table `cmix_del_object`
+--
+
+
+--
+-- Table structure for table `cmix_del_user`
+--
+
+CREATE TABLE `cmix_del_user` (
+  `usr_id` int(11) NOT NULL,
+  `added` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`usr_id`)
+) ;
+
+--
+-- Dumping data for table `cmix_del_user`
 --
 
 
@@ -2473,8 +2359,9 @@ CREATE TABLE `cmix_lrs_types` (
   `no_substatements` tinyint(4) NOT NULL DEFAULT 0,
   `privacy_ident` smallint(6) NOT NULL DEFAULT 0,
   `privacy_name` smallint(6) NOT NULL DEFAULT 0,
+  `delete_data` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmix_lrs_types`
@@ -2488,7 +2375,7 @@ CREATE TABLE `cmix_lrs_types` (
 CREATE TABLE `cmix_lrs_types_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmix_lrs_types_seq`
@@ -2509,7 +2396,7 @@ CREATE TABLE `cmix_results` (
   `last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmix_results`
@@ -2523,7 +2410,7 @@ CREATE TABLE `cmix_results` (
 CREATE TABLE `cmix_results_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmix_results_seq`
@@ -2576,8 +2463,15 @@ CREATE TABLE `cmix_settings` (
   `no_substatements` tinyint(4) NOT NULL DEFAULT 0,
   `privacy_ident` smallint(6) NOT NULL DEFAULT 0,
   `privacy_name` smallint(6) NOT NULL DEFAULT 0,
+  `publisher_id` varchar(255) NOT NULL DEFAULT '',
+  `anonymous_homepage` tinyint(4) NOT NULL DEFAULT 1,
+  `moveon` varchar(32) NOT NULL DEFAULT '',
+  `launch_parameters` varchar(255) NOT NULL DEFAULT '',
+  `entitlement_key` varchar(255) NOT NULL DEFAULT '',
+  `switch_to_review` tinyint(4) NOT NULL DEFAULT 1,
+  `delete_data` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmix_settings`
@@ -2595,10 +2489,13 @@ CREATE TABLE `cmix_token` (
   `ref_id` int(11) NOT NULL DEFAULT 0,
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `usr_id` int(11) NOT NULL DEFAULT 0,
+  `cmi5_session` varchar(255) NOT NULL DEFAULT '',
+  `returned_for_cmi5_session` varchar(255) NOT NULL DEFAULT '',
+  `cmi5_session_data` longtext DEFAULT NULL,
   PRIMARY KEY (`token`),
   UNIQUE KEY `c1_idx` (`obj_id`,`usr_id`),
   KEY `i1_idx` (`token`,`valid_until`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmix_token`
@@ -2616,8 +2513,10 @@ CREATE TABLE `cmix_users` (
   `fetched_until` datetime DEFAULT NULL,
   `usr_ident` varchar(255) DEFAULT NULL,
   `privacy_ident` smallint(6) NOT NULL DEFAULT 0,
+  `registration` varchar(255) NOT NULL DEFAULT '',
+  `satisfied` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`usr_id`,`privacy_ident`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cmix_users`
@@ -2645,7 +2544,7 @@ CREATE TABLE `conditions` (
   PRIMARY KEY (`condition_id`),
   KEY `tot_idx` (`target_obj_id`,`target_type`),
   KEY `i1_idx` (`target_obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `conditions`
@@ -2659,7 +2558,7 @@ CREATE TABLE `conditions` (
 CREATE TABLE `conditions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `conditions_seq`
@@ -2674,7 +2573,7 @@ CREATE TABLE `cont_filter_field` (
   `ref_id` int(11) NOT NULL DEFAULT 0,
   `record_set_id` int(11) NOT NULL DEFAULT 0,
   `field_id` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cont_filter_field`
@@ -2693,7 +2592,7 @@ CREATE TABLE `cont_member_skills` (
   `level_id` int(11) NOT NULL DEFAULT 0,
   `published` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`user_id`,`skill_id`,`tref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cont_member_skills`
@@ -2709,7 +2608,7 @@ CREATE TABLE `cont_skills` (
   `skill_id` int(11) NOT NULL DEFAULT 0,
   `tref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`,`skill_id`,`tref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cont_skills`
@@ -2726,7 +2625,7 @@ CREATE TABLE `container_reference` (
   `title_type` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`obj_id`,`target_obj_id`),
   KEY `i1_idx` (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `container_reference`
@@ -2742,7 +2641,7 @@ CREATE TABLE `container_settings` (
   `keyword` char(40) NOT NULL DEFAULT '',
   `value` char(50) DEFAULT NULL,
   PRIMARY KEY (`id`,`keyword`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `container_settings`
@@ -2760,7 +2659,7 @@ CREATE TABLE `container_sorting` (
   `parent_type` varchar(5) DEFAULT NULL,
   `parent_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`child_id`,`parent_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `container_sorting`
@@ -2775,7 +2674,7 @@ CREATE TABLE `container_sorting_bl` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `block_ids` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `container_sorting_bl`
@@ -2793,7 +2692,7 @@ CREATE TABLE `container_sorting_set` (
   `new_items_position` tinyint(4) NOT NULL DEFAULT 1,
   `new_items_order` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `container_sorting_set`
@@ -2835,8 +2734,10 @@ CREATE TABLE `content_object` (
   `store_tries` tinyint(4) NOT NULL DEFAULT 0,
   `restrict_forw_nav` tinyint(4) NOT NULL DEFAULT 0,
   `for_translation` tinyint(4) NOT NULL DEFAULT 0,
+  `act_est_reading_time` tinyint(4) NOT NULL DEFAULT 0,
+  `est_reading_time` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `content_object`
@@ -2851,7 +2752,7 @@ CREATE TABLE `content_page_data` (
   `content_page_id` int(11) NOT NULL DEFAULT 0,
   `stylesheet` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`content_page_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `content_page_data`
@@ -2868,7 +2769,7 @@ CREATE TABLE `content_page_metrics` (
   `lang` varchar(2) NOT NULL DEFAULT '-',
   `reading_time` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`content_page_id`,`page_id`,`lang`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `content_page_metrics`
@@ -2884,7 +2785,7 @@ CREATE TABLE `copg_multilang` (
   `parent_id` int(11) NOT NULL DEFAULT 0,
   `master_lang` varchar(2) NOT NULL DEFAULT '',
   PRIMARY KEY (`parent_type`,`parent_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `copg_multilang`
@@ -2900,7 +2801,7 @@ CREATE TABLE `copg_multilang_lang` (
   `parent_id` int(11) NOT NULL DEFAULT 0,
   `lang` varchar(2) NOT NULL DEFAULT '',
   PRIMARY KEY (`parent_type`,`parent_id`,`lang`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `copg_multilang_lang`
@@ -2921,46 +2822,53 @@ CREATE TABLE `copg_pc_def` (
   `component` varchar(40) DEFAULT NULL,
   `def_enabled` tinyint(4) DEFAULT 0,
   `top_item` tinyint(4) NOT NULL DEFAULT 0,
-  `order_nr` tinyint(4) NOT NULL DEFAULT 0,
+  `order_nr` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`pc_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `copg_pc_def`
 --
 
-INSERT INTO `copg_pc_def` VALUES ('amdpl','AMDPageList','classes',0,0,0,'Modules/Wiki',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('blog','Blog','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('cach','ConsultationHours','classes',0,0,0,'Modules/Portfolio',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('dtab','DataTable','classes',0,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('flit','FileItem','classes',0,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('flst','FileList','classes',0,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('gcell','GridCell','classes',0,0,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('grid','Grid','classes',0,0,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('iim','InteractiveImage','classes',1,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('incl','ContentInclude','classes',1,1,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('li','ListItem','classes',0,0,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('list','List','classes',0,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('lpe','LoginPageElement','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('map','Map','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('mcrs','MyCourses','classes',0,0,0,'Modules/Portfolio',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('media','MediaObject','classes',0,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('par','Paragraph','classes',1,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('pcqst','Question','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('plach','PlaceHolder','classes',0,1,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('plug','Plugged','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('prof','Profile','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('qover','QuestionOverview','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('repobj','Resources','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('sec','Section','classes',0,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('skills','Skills','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('src','SourceCode','classes',0,0,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('tab','Table','classes',0,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('tabs','Tabs','classes',0,1,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('tabstab','Tab','classes',0,0,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('td','TableData','classes',0,0,0,'Services/COPage',1,0,0);
-INSERT INTO `copg_pc_def` VALUES ('templ','ContentTemplate','classes',0,0,0,'Services/COPage',0,0,0);
-INSERT INTO `copg_pc_def` VALUES ('vrfc','Verification','classes',0,0,0,'Services/COPage',0,0,0);
+INSERT INTO `copg_pc_def` VALUES ('amdfrm','AMDForm','Page',0,0,0,'Modules/Portfolio',0,1,139);
+INSERT INTO `copg_pc_def` VALUES ('amdpl','AMDPageList','classes',0,0,0,'Modules/Wiki',0,1,240);
+INSERT INTO `copg_pc_def` VALUES ('blog','Blog','PC/Blog',0,0,0,'Services/COPage',0,1,100);
+INSERT INTO `copg_pc_def` VALUES ('cach','ConsultationHours','Page',0,0,0,'Modules/Portfolio',0,1,138);
+INSERT INTO `copg_pc_def` VALUES ('contpop','ContentPopup','PC/InteractiveImage',0,0,0,'Services/COPage',1,0,0);
+INSERT INTO `copg_pc_def` VALUES ('dtab','DataTable','PC/Table',0,1,0,'Services/COPage',1,1,50);
+INSERT INTO `copg_pc_def` VALUES ('flit','FileItem','PC/FileList',0,1,0,'Services/COPage',1,0,0);
+INSERT INTO `copg_pc_def` VALUES ('flst','FileList','PC/FileList',0,1,0,'Services/COPage',1,1,40);
+INSERT INTO `copg_pc_def` VALUES ('gcell','GridCell','PC/Grid',0,0,0,'Services/COPage',1,0,0);
+INSERT INTO `copg_pc_def` VALUES ('grid','Grid','PC/Grid',0,0,0,'Services/COPage',1,1,67);
+INSERT INTO `copg_pc_def` VALUES ('iim','InteractiveImage','classes',1,1,0,'Services/COPage',1,1,100);
+INSERT INTO `copg_pc_def` VALUES ('incl','ContentInclude','PC/ContentInclude',1,1,0,'Services/COPage',0,1,110);
+INSERT INTO `copg_pc_def` VALUES ('lay','LayoutTemplate','PC/LayoutTemplate',0,0,0,'Services/COPage',0,1,195);
+INSERT INTO `copg_pc_def` VALUES ('lhist','LearningHistory','classes',0,0,0,'Services/LearningHistory',0,1,136);
+INSERT INTO `copg_pc_def` VALUES ('li','ListItem','PC/List',0,0,0,'Services/COPage',1,0,0);
+INSERT INTO `copg_pc_def` VALUES ('list','List','PC/List',0,1,0,'Services/COPage',1,1,220);
+INSERT INTO `copg_pc_def` VALUES ('lpe','LoginPageElement','PC/Login',0,0,0,'Services/COPage',0,1,120);
+INSERT INTO `copg_pc_def` VALUES ('lsocurriculum','Curriculum','classes/PageEditor',0,0,0,'Modules/LearningSequence',0,1,127);
+INSERT INTO `copg_pc_def` VALUES ('lsostartbutton','Launcher','classes/PageEditor',0,0,0,'Modules/LearningSequence',0,1,127);
+INSERT INTO `copg_pc_def` VALUES ('map','Map','PC/Map',0,0,0,'Services/COPage',0,1,280);
+INSERT INTO `copg_pc_def` VALUES ('mcrs','MyCourses','Page',0,0,0,'Modules/Portfolio',0,1,137);
+INSERT INTO `copg_pc_def` VALUES ('media','MediaObject','PC/MediaObject',0,1,0,'Services/COPage',1,1,20);
+INSERT INTO `copg_pc_def` VALUES ('par','Paragraph','PC/Paragraph',1,1,0,'Services/COPage',1,1,10);
+INSERT INTO `copg_pc_def` VALUES ('pcqst','Question','PC/Question',0,0,0,'Services/COPage',0,1,55);
+INSERT INTO `copg_pc_def` VALUES ('plach','PlaceHolder','PC/PlaceHolder',0,1,0,'Services/COPage',0,1,5);
+INSERT INTO `copg_pc_def` VALUES ('plug','Plugged','classes',0,0,0,'Services/COPage',0,1,210);
+INSERT INTO `copg_pc_def` VALUES ('prgactionnote','PRGActionNote','classes/PageEditor',0,0,0,'Modules/StudyProgramme',0,1,128);
+INSERT INTO `copg_pc_def` VALUES ('prgstatusinfo','PRGStatusInfo','classes/PageEditor',0,0,0,'Modules/StudyProgramme',0,1,127);
+INSERT INTO `copg_pc_def` VALUES ('prof','Profile','PC/Profile',0,0,0,'Services/COPage',0,1,130);
+INSERT INTO `copg_pc_def` VALUES ('repobj','Resources','PC/Resources',0,0,0,'Services/COPage',0,1,150);
+INSERT INTO `copg_pc_def` VALUES ('sec','Section','PC/Section',0,1,0,'Services/COPage',1,1,60);
+INSERT INTO `copg_pc_def` VALUES ('skills','Skills','PC/Skills',0,0,0,'Services/COPage',0,1,160);
+INSERT INTO `copg_pc_def` VALUES ('src','SourceCode','PC/SourceCode',0,0,0,'Services/COPage',1,1,190);
+INSERT INTO `copg_pc_def` VALUES ('tab','Table','PC/Table',0,1,0,'Services/COPage',1,1,200);
+INSERT INTO `copg_pc_def` VALUES ('tabs','Tabs','PC/Tabs',0,1,0,'Services/COPage',1,1,65);
+INSERT INTO `copg_pc_def` VALUES ('tabstab','Tab','PC/Tabs',0,0,0,'Services/COPage',1,0,0);
+INSERT INTO `copg_pc_def` VALUES ('td','TableData','PC/Table',0,0,0,'Services/COPage',1,0,0);
+INSERT INTO `copg_pc_def` VALUES ('templ','ContentTemplate','PC/ContentTemplate',0,0,0,'Services/COPage',0,1,200);
+INSERT INTO `copg_pc_def` VALUES ('vrfc','Verification','PC/Verification',0,0,0,'Services/COPage',0,1,180);
 
 --
 -- Table structure for table `copg_pobj_def`
@@ -2972,7 +2880,7 @@ CREATE TABLE `copg_pobj_def` (
   `directory` varchar(40) DEFAULT NULL,
   `component` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`parent_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `copg_pobj_def`
@@ -2980,22 +2888,26 @@ CREATE TABLE `copg_pobj_def` (
 
 INSERT INTO `copg_pobj_def` VALUES ('auth','ilLoginPage','classes','Services/Authentication');
 INSERT INTO `copg_pobj_def` VALUES ('blp','ilBlogPosting','classes','Modules/Blog');
-INSERT INTO `copg_pobj_def` VALUES ('cont','ilContainerPage','classes','Services/Container');
-INSERT INTO `copg_pobj_def` VALUES ('cstr','ilContainerStartObjectsPage','classes','Services/Container');
+INSERT INTO `copg_pobj_def` VALUES ('cont','ilContainerPage','Page','Services/Container');
+INSERT INTO `copg_pobj_def` VALUES ('copa','ilContentPagePage','classes','Modules/ContentPage');
+INSERT INTO `copg_pobj_def` VALUES ('cstr','ilContainerStartObjectsPage','StartObjects','Services/Container');
 INSERT INTO `copg_pobj_def` VALUES ('dclf','ilDclDetailedViewDefinition','classes/DetailedView','Modules/DataCollection');
-INSERT INTO `copg_pobj_def` VALUES ('gdf','ilGlossaryDefPage','classes','Modules/Glossary');
+INSERT INTO `copg_pobj_def` VALUES ('frm','ilForumPage','classes/CoPage','Modules/Forum');
 INSERT INTO `copg_pobj_def` VALUES ('impr','ilImprint','classes','Services/Imprint');
 INSERT INTO `copg_pobj_def` VALUES ('lm','ilLMPage','classes','Modules/LearningModule');
 INSERT INTO `copg_pobj_def` VALUES ('lobj','ilLOPage','classes/Objectives','Modules/Course');
 INSERT INTO `copg_pobj_def` VALUES ('mep','ilMediaPoolPage','classes','Modules/MediaPool');
-INSERT INTO `copg_pobj_def` VALUES ('prtf','ilPortfolioPage','classes','Modules/Portfolio');
-INSERT INTO `copg_pobj_def` VALUES ('prtt','ilPortfolioTemplatePage','classes','Modules/Portfolio');
+INSERT INTO `copg_pobj_def` VALUES ('prg','ilContainerPage','classes','Modules/StudyProgramme');
+INSERT INTO `copg_pobj_def` VALUES ('prtf','ilPortfolioPage','Page','Modules/Portfolio');
+INSERT INTO `copg_pobj_def` VALUES ('prtt','ilPortfolioTemplatePage','Template','Modules/Portfolio');
 INSERT INTO `copg_pobj_def` VALUES ('qfbg','ilAssGenFeedbackPage','classes/feedback','Modules/TestQuestionPool');
 INSERT INTO `copg_pobj_def` VALUES ('qfbs','ilAssSpecFeedbackPage','classes/feedback','Modules/TestQuestionPool');
 INSERT INTO `copg_pobj_def` VALUES ('qht','ilAssHintPage','classes','Modules/TestQuestionPool');
 INSERT INTO `copg_pobj_def` VALUES ('qpl','ilAssQuestionPage','classes','Modules/TestQuestionPool');
 INSERT INTO `copg_pobj_def` VALUES ('sahs','ilSCORM2004Page','classes','Modules/Scorm2004');
 INSERT INTO `copg_pobj_def` VALUES ('stys','ilPageLayoutPage','Layout/classes','Services/COPage');
+INSERT INTO `copg_pobj_def` VALUES ('term','ilGlossaryDefPage','classes','Modules/Glossary');
+INSERT INTO `copg_pobj_def` VALUES ('tst','ilTestPage','classes/PageEditor','Modules/Test');
 INSERT INTO `copg_pobj_def` VALUES ('wpg','ilWikiPage','classes','Modules/Wiki');
 
 --
@@ -3007,7 +2919,7 @@ CREATE TABLE `copg_section_timings` (
   `parent_type` varchar(10) NOT NULL DEFAULT '',
   `unix_ts` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`page_id`,`parent_type`,`unix_ts`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `copg_section_timings`
@@ -3023,7 +2935,7 @@ CREATE TABLE `copy_wizard_options` (
   `source_id` int(11) NOT NULL DEFAULT 0,
   `options` longtext DEFAULT NULL,
   PRIMARY KEY (`copy_id`,`source_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `copy_wizard_options`
@@ -3039,7 +2951,7 @@ CREATE TABLE `cp_auxilaryresource` (
   `cp_node_id` int(11) NOT NULL DEFAULT 0,
   `purpose` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_auxilaryresource`
@@ -3057,7 +2969,7 @@ CREATE TABLE `cp_condition` (
   `c_operator` varchar(50) DEFAULT NULL,
   `referencedobjective` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_condition`
@@ -3076,7 +2988,7 @@ CREATE TABLE `cp_datamap` (
   `read_shared_data` tinyint(4) DEFAULT 1,
   `write_shared_data` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`cp_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_datamap`
@@ -3092,7 +3004,7 @@ CREATE TABLE `cp_dependency` (
   `resourceid` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i2_idx` (`resourceid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_dependency`
@@ -3107,7 +3019,7 @@ CREATE TABLE `cp_file` (
   `cp_node_id` int(11) NOT NULL DEFAULT 0,
   `href` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_file`
@@ -3123,7 +3035,7 @@ CREATE TABLE `cp_hidelmsui` (
   `value` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`value`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_hidelmsui`
@@ -3150,7 +3062,7 @@ CREATE TABLE `cp_item` (
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`),
   KEY `i2_idx` (`sequencingid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_item`
@@ -3171,7 +3083,7 @@ CREATE TABLE `cp_manifest` (
   `version` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_manifest`
@@ -3191,7 +3103,7 @@ CREATE TABLE `cp_mapinfo` (
   `writesatisfiedstatus` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`targetobjectiveid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_mapinfo`
@@ -3209,7 +3121,7 @@ CREATE TABLE `cp_node` (
   PRIMARY KEY (`cp_node_id`),
   KEY `i2_idx` (`nodename`),
   KEY `i3_idx` (`slm_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_node`
@@ -3223,7 +3135,7 @@ CREATE TABLE `cp_node` (
 CREATE TABLE `cp_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_node_seq`
@@ -3241,7 +3153,7 @@ CREATE TABLE `cp_objective` (
   `c_primary` tinyint(4) DEFAULT NULL,
   `satisfiedbymeasure` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_objective`
@@ -3262,7 +3174,7 @@ CREATE TABLE `cp_organization` (
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`),
   KEY `i2_idx` (`sequencingid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_organization`
@@ -3287,7 +3199,7 @@ CREATE TABLE `cp_package` (
   `shared_data_global_to_system` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`c_identifier`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_package`
@@ -3307,7 +3219,7 @@ CREATE TABLE `cp_resource` (
   `c_type` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_resource`
@@ -3327,7 +3239,7 @@ CREATE TABLE `cp_rule` (
   `minimumpercent` varchar(50) DEFAULT NULL,
   `c_type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_rule`
@@ -3374,7 +3286,7 @@ CREATE TABLE `cp_sequencing` (
   `usecurattemptproginfo` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_sequencing`
@@ -3390,7 +3302,7 @@ CREATE TABLE `cp_suspend` (
   `user_id` int(11) NOT NULL,
   `obj_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_suspend`
@@ -3412,7 +3324,7 @@ CREATE TABLE `cp_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`obj_id`),
   KEY `i3_idx` (`parent`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cp_tree`
@@ -3444,34 +3356,52 @@ CREATE TABLE `cron_job` (
   `job_result_dur` int(11) DEFAULT NULL,
   `alive_ts` int(11) DEFAULT NULL,
   PRIMARY KEY (`job_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `cron_job`
 --
 
+INSERT INTO `cron_job` VALUES ('auth_destroy_expired_sessions','Services/Authentication',3,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilAuthDestroyExpiredSessionsCron',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('book_notification','Modules/BookingManager',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilBookCronNotification',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('book_pref_book','Modules/BookingManager',1,NULL,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilBookingPrefBookCron',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('cal_consultation','Services/Calendar',0,0,0,0,0,0,0,0,'','',0,0,'ilConsultationHourCron','Services/Calendar/classes/ConsultationHours/',0,0,0);
-INSERT INTO `cron_job` VALUES ('exc_feedback_notification','Modules/Exercise',0,0,1,0,0,1381511097,0,0,'','',0,0,'ilExcCronFeedbackNotification','',0,0,0);
-INSERT INTO `cron_job` VALUES ('finish_unfinished_passes','Modules/Test',1,0,0,0,0,0,0,0,'','',0,0,'ilCronFinishUnfinishedTestPasses','',0,0,0);
-INSERT INTO `cron_job` VALUES ('frm_notification','Modules/Forum',3,1,0,0,0,0,0,0,'','',0,0,'ilForumCronNotification','',0,0,0);
-INSERT INTO `cron_job` VALUES ('ldap_sync','Services/LDAP',0,0,0,0,0,0,0,0,'','',0,0,'ilLDAPCronSynchronization','',0,0,0);
-INSERT INTO `cron_job` VALUES ('lm_link_check','Modules/LearningModule',0,0,0,0,0,0,0,0,'','',0,0,'ilLearningModuleCronLinkCheck','',0,0,0);
+INSERT INTO `cron_job` VALUES ('cal_remote_reader','Services/Calendar',2,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilCalendarCronRemoteReader','Services/Calendar/classes/Cron/',NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('certificate','Services/Certificate',2,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilCertificateCron',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('copg_history_cleanup','Services/COPage',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilCleanCOPageHistoryCronjob','Services/COPage/Cron',NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('crs_timings_reminder','Modules/Course',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilTimingsCronReminder',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('ecs_task_handler','Services/WebServices',3,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilCronEcsTaskScheduler',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('exc_feedback_notification','Modules/Exercise',0,0,1,0,0,1381511097,0,0,'','',0,0,'ilExcCronFeedbackNotification',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('exc_reminders','Modules/Exercise',1,NULL,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilExcCronReminders',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('file_system_clean_temp_dir','Services/FileSystem',1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilFileSystemCleanTempDirCron',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('finish_unfinished_passes','Modules/Test',1,0,0,0,0,0,0,0,'','',0,0,'ilCronFinishUnfinishedTestPasses',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('frm_notification','Modules/Forum',3,1,0,0,0,0,0,0,'','',0,0,'ilForumCronNotification',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('ldap_sync','Services/LDAP',0,0,0,0,0,0,0,0,'','',0,0,'ilLDAPCronSynchronization',NULL,0,0,0);
 INSERT INTO `cron_job` VALUES ('log_error_file_cleanup','Services/Logging',4,10,0,0,0,0,0,0,'','',0,0,'ilLoggerCronCleanErrorFiles','Services/Logging/classes/error/',0,0,0);
-INSERT INTO `cron_job` VALUES ('lp_object_statistics','Services/Tracking',0,0,1,0,0,1381511103,0,0,'','',0,0,'ilLPCronObjectStatistics','',0,0,0);
+INSERT INTO `cron_job` VALUES ('lp_object_statistics','Services/Tracking',0,0,1,0,0,1381511103,0,0,'','',0,0,'ilLPCronObjectStatistics',NULL,0,0,0);
 INSERT INTO `cron_job` VALUES ('lti_outcome','Services/LTI',2,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilLTICronOutcomeService',NULL,NULL,NULL,NULL);
-INSERT INTO `cron_job` VALUES ('mail_notification','Services/Mail',0,0,1,6,1,1481898063,NULL,6,'job_manual_reset','Cron job re-activated by admin',1,0,'ilMailCronNotification','',0,0,0);
-INSERT INTO `cron_job` VALUES ('mail_orphaned_mails','Services/Mail',0,0,0,0,0,0,0,0,'','',0,0,'ilMailCronOrphanedMails','',0,0,0);
-INSERT INTO `cron_job` VALUES ('mem_min_members','Services/Membership',0,0,1,0,0,1443610661,0,0,'','',0,0,'ilMembershipCronMinMembers','',0,0,0);
-INSERT INTO `cron_job` VALUES ('mem_notification','Services/Membership',1,0,0,0,0,0,0,0,'','',0,0,'ilMembershipCronNotifications','',0,0,0);
-INSERT INTO `cron_job` VALUES ('orgunit_paths','Modules/OrgUnit',1,0,1,0,0,1472816001,0,0,'','',0,0,'ilCronUpdateOrgUnitPaths','',0,0,0);
+INSERT INTO `cron_job` VALUES ('mail_notification','Services/Mail',0,0,1,6,1,1481898063,NULL,6,'job_manual_reset','Cron job re-activated by admin',1,0,'ilMailCronNotification',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('mail_orphaned_mails','Services/Mail',1,1,0,0,0,0,0,0,'','',0,0,'ilMailCronOrphanedMails',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('mem_min_members','Services/Membership',0,0,1,0,0,1443610661,0,0,'','',0,0,'ilMembershipCronMinMembers','Services/Membership/classes/Cron',0,0,0);
+INSERT INTO `cron_job` VALUES ('mem_notification','Services/Membership',1,0,0,0,0,0,0,0,'','',0,0,'ilMembershipCronNotifications','Services/Membership/classes/Cron',0,0,0);
+INSERT INTO `cron_job` VALUES ('meta_oer_harvester','Services/MetaData',1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilCronOerHarvester',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('orgunit_paths','Modules/OrgUnit',1,0,1,0,0,1472816001,0,0,'','',0,0,'ilCronUpdateOrgUnitPaths',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('prg_invalidate_expired_progresses','Modules/StudyProgramme',4,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilPrgInvalidateExpiredProgressesCronJob',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('prg_restart_assignments_temporal_progress','Modules/StudyProgramme',4,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilPrgRestartAssignmentsCronJob',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('prg_update_progress','Modules/StudyProgramme',4,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilPrgUpdateProgressCronJob',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('prg_user_not_restarted','Modules/StudyProgramme',4,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilPrgUserNotRestartedCronJob',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('prg_user_risky_to_fail','Modules/StudyProgramme',4,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilPrgUserRiskyToFailCronJob',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('skll_notification','Services/Skill',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilSkillNotifications',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('src_lucene_indexer','Services/Search',1,0,0,0,0,0,0,0,'','',0,0,'ilLuceneIndexer','Services/Search/classes/Lucene/',0,0,0);
-INSERT INTO `cron_job` VALUES ('survey_notification','Modules/Survey',0,0,1,0,0,1381511099,0,0,'','',0,0,'ilSurveyCronNotification','',0,0,0);
-INSERT INTO `cron_job` VALUES ('sysc_trash','Services/SystemCheck',5,1,0,0,0,0,0,0,'','',0,0,'ilSCCronTrash','',0,0,0);
-INSERT INTO `cron_job` VALUES ('user_check_accounts','Services/User',0,0,0,0,0,0,0,0,'','',0,0,'ilUserCronCheckAccounts','',0,0,0);
-INSERT INTO `cron_job` VALUES ('user_inactivated','Services/User',1,0,0,0,0,0,0,0,'','',0,0,'ilCronDeleteInactivatedUserAccounts','',0,0,0);
-INSERT INTO `cron_job` VALUES ('user_inactive','Services/User',1,0,0,0,0,0,0,0,'','',0,0,'ilCronDeleteInactiveUserAccounts','',0,0,0);
-INSERT INTO `cron_job` VALUES ('webr_link_check','Modules/WebResource',1,0,0,0,0,0,0,0,'','',0,0,'ilWebResourceCronLinkCheck','',0,0,0);
+INSERT INTO `cron_job` VALUES ('survey_notification','Modules/Survey',0,0,1,0,0,1381511099,0,0,'','',0,0,'ilSurveyCronNotification',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('sysc_trash','Services/SystemCheck',5,1,0,0,0,0,0,0,'','',0,0,'ilSCCronTrash',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('user_check_accounts','Services/User',0,0,0,0,0,0,0,0,'','',0,0,'ilUserCronCheckAccounts',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('user_inactivated','Services/User',1,0,0,0,0,0,0,0,'','',0,0,'ilCronDeleteInactivatedUserAccounts',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('user_inactive','Services/User',1,0,0,0,0,0,0,0,'','',0,0,'ilCronDeleteInactiveUserAccounts',NULL,0,0,0);
+INSERT INTO `cron_job` VALUES ('user_never_logged_in','Services/User',1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilCronDeleteNeverLoggedInUserAccounts',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('wopi_crawler','Services/WOPI',5,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilWOPICrawler',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('xapi_deletion_cron','Modules/CmiXapi',1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilCmiXapiDelCron',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('xapi_results_evaluation','Modules/CmiXapi',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilXapiResultsCronjob',NULL,NULL,NULL,NULL);
 
 --
 -- Table structure for table `crs_archives`
@@ -3486,7 +3416,7 @@ CREATE TABLE `crs_archives` (
   `archive_size` int(11) DEFAULT NULL,
   `archive_lang` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`archive_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_archives`
@@ -3500,7 +3430,7 @@ CREATE TABLE `crs_archives` (
 CREATE TABLE `crs_archives_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_archives_seq`
@@ -3520,7 +3450,7 @@ CREATE TABLE `crs_f_definitions` (
   `field_required` tinyint(4) NOT NULL DEFAULT 0,
   `field_values_opt` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_f_definitions`
@@ -3534,7 +3464,7 @@ CREATE TABLE `crs_f_definitions` (
 CREATE TABLE `crs_f_definitions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_f_definitions_seq`
@@ -3552,7 +3482,7 @@ CREATE TABLE `crs_file` (
   `file_type` char(64) DEFAULT NULL,
   `file_size` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_file`
@@ -3566,7 +3496,7 @@ CREATE TABLE `crs_file` (
 CREATE TABLE `crs_file_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_file_seq`
@@ -3584,7 +3514,7 @@ CREATE TABLE `crs_groupings` (
   `unique_field` char(32) DEFAULT NULL,
   PRIMARY KEY (`crs_grp_id`),
   KEY `i1_idx` (`crs_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_groupings`
@@ -3610,7 +3540,7 @@ CREATE TABLE `crs_items` (
   `suggestion_end_rel` int(11) DEFAULT 0,
   PRIMARY KEY (`parent_id`,`obj_id`),
   KEY `ob_idx` (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_items`
@@ -3648,7 +3578,7 @@ CREATE TABLE `crs_lm_history` (
   `lm_page_id` int(11) NOT NULL DEFAULT 0,
   `last_access` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`,`crs_ref_id`,`lm_ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_lm_history`
@@ -3667,7 +3597,7 @@ CREATE TABLE `crs_objective_lm` (
   `type` char(6) DEFAULT NULL,
   `position` int(11) DEFAULT 0,
   PRIMARY KEY (`lm_ass_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objective_lm`
@@ -3681,7 +3611,7 @@ CREATE TABLE `crs_objective_lm` (
 CREATE TABLE `crs_objective_lm_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objective_lm_seq`
@@ -3699,7 +3629,7 @@ CREATE TABLE `crs_objective_qst` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `question_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`qst_ass_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objective_qst`
@@ -3713,7 +3643,7 @@ CREATE TABLE `crs_objective_qst` (
 CREATE TABLE `crs_objective_qst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objective_qst_seq`
@@ -3729,7 +3659,7 @@ CREATE TABLE `crs_objective_status` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `status` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`objective_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objective_status`
@@ -3744,7 +3674,7 @@ CREATE TABLE `crs_objective_status_p` (
   `objective_id` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`objective_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objective_status_p`
@@ -3764,7 +3694,7 @@ CREATE TABLE `crs_objective_tst` (
   `tst_limit` tinyint(4) DEFAULT NULL,
   `tst_limit_p` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`test_objective_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objective_tst`
@@ -3778,7 +3708,7 @@ CREATE TABLE `crs_objective_tst` (
 CREATE TABLE `crs_objective_tst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objective_tst_seq`
@@ -3800,7 +3730,7 @@ CREATE TABLE `crs_objectives` (
   `passes` smallint(6) DEFAULT 0,
   PRIMARY KEY (`objective_id`),
   KEY `i1_idx` (`crs_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objectives`
@@ -3814,7 +3744,7 @@ CREATE TABLE `crs_objectives` (
 CREATE TABLE `crs_objectives_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_objectives_seq`
@@ -3828,7 +3758,7 @@ CREATE TABLE `crs_objectives_seq` (
 CREATE TABLE `crs_reference_settings` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `member_update` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_reference_settings`
@@ -3891,7 +3821,7 @@ CREATE TABLE `crs_settings` (
   `period_time_indication` int(11) NOT NULL DEFAULT 0,
   `target_group` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_settings`
@@ -3909,7 +3839,7 @@ CREATE TABLE `crs_start` (
   `pos` int(11) DEFAULT NULL,
   PRIMARY KEY (`crs_start_id`),
   KEY `i1_idx` (`crs_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_start`
@@ -3923,7 +3853,7 @@ CREATE TABLE `crs_start` (
 CREATE TABLE `crs_start_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_start_seq`
@@ -3939,7 +3869,7 @@ CREATE TABLE `crs_timings_exceeded` (
   `ref_id` int(11) NOT NULL DEFAULT 0,
   `sent` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_timings_exceeded`
@@ -3956,7 +3886,7 @@ CREATE TABLE `crs_timings_planed` (
   `planed_start` int(11) NOT NULL DEFAULT 0,
   `planed_end` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`item_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_timings_planed`
@@ -3972,7 +3902,7 @@ CREATE TABLE `crs_timings_started` (
   `ref_id` int(11) NOT NULL DEFAULT 0,
   `sent` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_timings_started`
@@ -3989,7 +3919,7 @@ CREATE TABLE `crs_timings_user` (
   `sstart` int(11) NOT NULL DEFAULT 0,
   `ssend` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ref_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_timings_user`
@@ -4007,7 +3937,7 @@ CREATE TABLE `crs_timings_usr_accept` (
   `remark` varchar(4000) DEFAULT NULL,
   `visible` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`crs_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_timings_usr_accept`
@@ -4023,7 +3953,7 @@ CREATE TABLE `crs_user_data` (
   `field_id` int(11) NOT NULL DEFAULT 0,
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_user_data`
@@ -4039,62 +3969,10 @@ CREATE TABLE `crs_waiting_list` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `sub_time` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `crs_waiting_list`
---
-
-
---
--- Table structure for table `ctrl_calls`
---
-
-CREATE TABLE `ctrl_calls` (
-  `parent` varchar(100) NOT NULL DEFAULT '',
-  `child` varchar(100) NOT NULL DEFAULT '',
-  `comp_prefix` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`parent`,`child`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `ctrl_calls`
---
-
-
---
--- Table structure for table `ctrl_classfile`
---
-
-CREATE TABLE `ctrl_classfile` (
-  `class` varchar(100) NOT NULL DEFAULT ' ',
-  `filename` varchar(250) DEFAULT NULL,
-  `comp_prefix` varchar(50) DEFAULT NULL,
-  `plugin_path` varchar(250) DEFAULT NULL,
-  `cid` varchar(4) DEFAULT NULL,
-  PRIMARY KEY (`class`),
-  KEY `i1_idx` (`cid`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `ctrl_classfile`
---
-
-
---
--- Table structure for table `ctrl_structure`
---
-
-CREATE TABLE `ctrl_structure` (
-  `root_class` varchar(40) NOT NULL DEFAULT ' ',
-  `call_node` longtext DEFAULT NULL,
-  `forward` longtext DEFAULT NULL,
-  `parent` longtext DEFAULT NULL,
-  PRIMARY KEY (`root_class`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `ctrl_structure`
 --
 
 
@@ -4107,7 +3985,7 @@ CREATE TABLE `data_cache` (
   `keyword` varchar(50) NOT NULL DEFAULT ' ',
   `value` longtext DEFAULT NULL,
   PRIMARY KEY (`module`,`keyword`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `data_cache`
@@ -4133,7 +4011,7 @@ CREATE TABLE `dav_lock` (
   KEY `i1_idx` (`obj_id`,`node_id`),
   KEY `i2_idx` (`obj_id`,`node_id`,`token`),
   KEY `i3_idx` (`expires`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `dav_lock`
@@ -4152,7 +4030,7 @@ CREATE TABLE `dav_property` (
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`node_id`,`name`,`ns`),
   KEY `i1_idx` (`obj_id`,`node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `dav_property`
@@ -4167,7 +4045,7 @@ CREATE TABLE `dbk_translations` (
   `id` int(11) NOT NULL DEFAULT 0,
   `tr_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`,`tr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `dbk_translations`
@@ -4184,7 +4062,7 @@ CREATE TABLE `desktop_item` (
   `type` varchar(4) DEFAULT NULL,
   `parameters` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`user_id`,`item_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `desktop_item`
@@ -4200,7 +4078,7 @@ CREATE TABLE `didactic_tpl_a` (
   `tpl_id` int(11) NOT NULL DEFAULT 0,
   `type_id` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `didactic_tpl_a`
@@ -4216,7 +4094,7 @@ INSERT INTO `didactic_tpl_a` VALUES (2,2,1);
 CREATE TABLE `didactic_tpl_a_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=3;
+)  AUTO_INCREMENT=3;
 
 --
 -- Dumping data for table `didactic_tpl_a_seq`
@@ -4232,7 +4110,7 @@ CREATE TABLE `didactic_tpl_abr` (
   `action_id` int(11) NOT NULL DEFAULT 0,
   `filter_type` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`action_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `didactic_tpl_abr`
@@ -4249,7 +4127,7 @@ CREATE TABLE `didactic_tpl_alp` (
   `template_type` tinyint(4) NOT NULL DEFAULT 0,
   `template_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`action_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `didactic_tpl_alp`
@@ -4266,7 +4144,7 @@ CREATE TABLE `didactic_tpl_alr` (
   `action_id` int(11) NOT NULL DEFAULT 0,
   `role_template_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`action_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `didactic_tpl_alr`
@@ -4281,7 +4159,7 @@ CREATE TABLE `didactic_tpl_en` (
   `id` int(11) NOT NULL DEFAULT 0,
   `node` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`,`node`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `didactic_tpl_en`
@@ -4300,7 +4178,7 @@ CREATE TABLE `didactic_tpl_fp` (
   `parent_id` int(11) NOT NULL DEFAULT 0,
   `parent_type` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`pattern_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `didactic_tpl_fp`
@@ -4316,7 +4194,7 @@ INSERT INTO `didactic_tpl_fp` VALUES (2,1,1,'.*',2,'action');
 CREATE TABLE `didactic_tpl_fp_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=3;
+)  AUTO_INCREMENT=3;
 
 --
 -- Dumping data for table `didactic_tpl_fp_seq`
@@ -4333,7 +4211,7 @@ CREATE TABLE `didactic_tpl_objs` (
   `tpl_id` int(11) NOT NULL DEFAULT 0,
   `ref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ref_id`,`tpl_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `didactic_tpl_objs`
@@ -4348,7 +4226,7 @@ CREATE TABLE `didactic_tpl_sa` (
   `id` int(11) NOT NULL DEFAULT 0,
   `obj_type` varchar(8) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`,`obj_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `didactic_tpl_sa`
@@ -4372,7 +4250,7 @@ CREATE TABLE `didactic_tpl_settings` (
   `exclusive_tpl` tinyint(4) NOT NULL DEFAULT 0,
   `icon_ide` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `didactic_tpl_settings`
@@ -4388,7 +4266,7 @@ INSERT INTO `didactic_tpl_settings` VALUES (2,1,1,'sess_closed','sess_closed_inf
 CREATE TABLE `didactic_tpl_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=3;
+)  AUTO_INCREMENT=3;
 
 --
 -- Dumping data for table `didactic_tpl_settings_seq`
@@ -4412,7 +4290,7 @@ CREATE TABLE `ecs_cmap_rule` (
   `subdir_type` tinyint(4) NOT NULL DEFAULT 0,
   `directory` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`rid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_cmap_rule`
@@ -4426,7 +4304,7 @@ CREATE TABLE `ecs_cmap_rule` (
 CREATE TABLE `ecs_cmap_rule_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_cmap_rule_seq`
@@ -4448,7 +4326,7 @@ CREATE TABLE `ecs_cms_data` (
   `deleted` tinyint(4) NOT NULL DEFAULT 0,
   `cms_id` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_cms_data`
@@ -4462,7 +4340,7 @@ CREATE TABLE `ecs_cms_data` (
 CREATE TABLE `ecs_cms_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_cms_data_seq`
@@ -4481,7 +4359,7 @@ CREATE TABLE `ecs_cms_tree` (
   `rgt` int(11) DEFAULT NULL,
   `depth` int(11) DEFAULT NULL,
   PRIMARY KEY (`tree`,`child`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_cms_tree`
@@ -4499,7 +4377,7 @@ CREATE TABLE `ecs_community` (
   `cname` varchar(255) DEFAULT NULL,
   `mids` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`sid`,`cid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_community`
@@ -4519,7 +4397,7 @@ CREATE TABLE `ecs_container_mapping` (
   `date_range_start` int(11) NOT NULL DEFAULT 0,
   `date_range_end` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`mapping_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_container_mapping`
@@ -4533,7 +4411,7 @@ CREATE TABLE `ecs_container_mapping` (
 CREATE TABLE `ecs_container_mapping_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_container_mapping_seq`
@@ -4554,7 +4432,7 @@ CREATE TABLE `ecs_course_assignments` (
   `status` tinyint(4) NOT NULL DEFAULT 0,
   `cms_sub_id` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_course_assignments`
@@ -4568,7 +4446,7 @@ CREATE TABLE `ecs_course_assignments` (
 CREATE TABLE `ecs_course_assignments_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_course_assignments_seq`
@@ -4585,7 +4463,7 @@ CREATE TABLE `ecs_crs_mapping_atts` (
   `mid` int(11) NOT NULL DEFAULT 0,
   `name` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_crs_mapping_atts`
@@ -4599,7 +4477,7 @@ CREATE TABLE `ecs_crs_mapping_atts` (
 CREATE TABLE `ecs_crs_mapping_atts_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_crs_mapping_atts_seq`
@@ -4616,7 +4494,7 @@ CREATE TABLE `ecs_data_mapping` (
   `ecs_field` varchar(32) NOT NULL DEFAULT '',
   `advmd_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`sid`,`mapping_type`,`ecs_field`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_data_mapping`
@@ -4634,7 +4512,7 @@ CREATE TABLE `ecs_events` (
   `op` char(32) DEFAULT NULL,
   `server_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`event_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_events`
@@ -4648,7 +4526,7 @@ CREATE TABLE `ecs_events` (
 CREATE TABLE `ecs_events_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_events_seq`
@@ -4664,7 +4542,7 @@ CREATE TABLE `ecs_export` (
   `econtent_id` int(11) NOT NULL DEFAULT 0,
   `server_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`server_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_export`
@@ -4684,7 +4562,7 @@ CREATE TABLE `ecs_import` (
   `content_id` varchar(255) DEFAULT NULL,
   `econtent_id` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`server_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_import`
@@ -4706,7 +4584,7 @@ CREATE TABLE `ecs_node_mapping_a` (
   `position_update` tinyint(4) DEFAULT NULL,
   `tree_update` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`server_id`,`mid`,`cs_root`,`cs_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_node_mapping_a`
@@ -4729,8 +4607,12 @@ CREATE TABLE `ecs_part_settings` (
   `export_types` varchar(4000) DEFAULT NULL,
   `import_types` varchar(4000) DEFAULT NULL,
   `dtoken` tinyint(4) NOT NULL DEFAULT 1,
+  `username_placeholders` varchar(500) DEFAULT NULL,
+  `incoming_auth_type` varchar(1) NOT NULL DEFAULT '0',
+  `incoming_local_accounts` tinyint(4) NOT NULL DEFAULT 1,
+  `outgoing_auth_modes` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`sid`,`mid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_part_settings`
@@ -4748,7 +4630,7 @@ CREATE TABLE `ecs_remote_user` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `remote_usr_id` char(50) DEFAULT NULL,
   PRIMARY KEY (`eru_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_remote_user`
@@ -4762,7 +4644,7 @@ CREATE TABLE `ecs_remote_user` (
 CREATE TABLE `ecs_remote_user_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_remote_user_seq`
@@ -4785,7 +4667,6 @@ CREATE TABLE `ecs_server` (
   `key_path` varchar(512) DEFAULT NULL,
   `key_password` varchar(32) DEFAULT NULL,
   `cert_serial` varchar(32) DEFAULT NULL,
-  `polling_time` int(11) DEFAULT 0,
   `import_id` int(11) DEFAULT 0,
   `global_role` int(11) DEFAULT 0,
   `econtent_rcp` varchar(512) DEFAULT NULL,
@@ -4796,7 +4677,7 @@ CREATE TABLE `ecs_server` (
   `auth_user` varchar(32) DEFAULT NULL,
   `auth_pass` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`server_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_server`
@@ -4810,10 +4691,66 @@ CREATE TABLE `ecs_server` (
 CREATE TABLE `ecs_server_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ecs_server_seq`
+--
+
+
+--
+-- Table structure for table `ecs_user_consent`
+--
+
+CREATE TABLE `ecs_user_consent` (
+  `usr_id` int(11) NOT NULL,
+  `mid` int(11) NOT NULL,
+  `server_id` int(11) NOT NULL,
+  PRIMARY KEY (`usr_id`,`mid`)
+) ;
+
+--
+-- Dumping data for table `ecs_user_consent`
+--
+
+
+--
+-- Table structure for table `etal_data`
+--
+
+CREATE TABLE `etal_data` (
+  `object_id` bigint(20) NOT NULL,
+  `series_id` char(36) NOT NULL,
+  `start_date` bigint(20) NOT NULL,
+  `end_date` bigint(20) NOT NULL,
+  `all_day` tinyint(4) NOT NULL,
+  `employee` bigint(20) NOT NULL,
+  `location` varchar(200) DEFAULT NULL,
+  `completed` tinyint(4) NOT NULL,
+  `standalone_date` tinyint(4) NOT NULL DEFAULT 0,
+  `template_id` bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`object_id`),
+  KEY `ser_idx` (`series_id`),
+  KEY `emp_idx` (`employee`)
+) ;
+
+--
+-- Dumping data for table `etal_data`
+--
+
+
+--
+-- Table structure for table `etal_serie`
+--
+
+CREATE TABLE `etal_serie` (
+  `id` bigint(20) NOT NULL,
+  `editing_locked` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `etal_serie`
 --
 
 
@@ -4846,7 +4783,7 @@ CREATE TABLE `event` (
   `show_cannot_part` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`event_id`),
   KEY `i1_idx` (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `event`
@@ -4865,8 +4802,9 @@ CREATE TABLE `event_appointment` (
   `starting_time` int(11) NOT NULL DEFAULT 0,
   `ending_time` int(11) NOT NULL DEFAULT 0,
   `fulltime` tinyint(4) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`appointment_id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`appointment_id`),
+  KEY `i1_idx` (`event_id`)
+) ;
 
 --
 -- Dumping data for table `event_appointment`
@@ -4880,42 +4818,10 @@ CREATE TABLE `event_appointment` (
 CREATE TABLE `event_appointment_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `event_appointment_seq`
---
-
-
---
--- Table structure for table `event_file`
---
-
-CREATE TABLE `event_file` (
-  `file_id` int(11) NOT NULL DEFAULT 0,
-  `event_id` int(11) NOT NULL DEFAULT 0,
-  `file_name` char(64) DEFAULT NULL,
-  `file_type` char(64) DEFAULT NULL,
-  `file_size` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `event_file`
---
-
-
---
--- Table structure for table `event_file_seq`
---
-
-CREATE TABLE `event_file_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `event_file_seq`
 --
 
 
@@ -4928,7 +4834,7 @@ CREATE TABLE `event_items` (
   `item_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`event_id`,`item_id`),
   KEY `i1_idx` (`event_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `event_items`
@@ -4950,7 +4856,7 @@ CREATE TABLE `event_participants` (
   `notification_enabled` int(11) NOT NULL DEFAULT 0,
   `excused` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`event_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `event_participants`
@@ -4964,7 +4870,7 @@ CREATE TABLE `event_participants` (
 CREATE TABLE `event_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `event_seq`
@@ -4980,8 +4886,9 @@ CREATE TABLE `exc_ass_file_order` (
   `assignment_id` int(11) NOT NULL DEFAULT 0,
   `filename` varchar(150) NOT NULL,
   `order_nr` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`assignment_id`)
+) ;
 
 --
 -- Dumping data for table `exc_ass_file_order`
@@ -4995,7 +4902,7 @@ CREATE TABLE `exc_ass_file_order` (
 CREATE TABLE `exc_ass_file_order_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_ass_file_order_seq`
@@ -5018,7 +4925,7 @@ CREATE TABLE `exc_ass_reminders` (
   `template_id` int(11) DEFAULT NULL,
   `last_send_day` date DEFAULT NULL,
   PRIMARY KEY (`ass_id`,`exc_id`,`type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_ass_reminders`
@@ -5034,7 +4941,7 @@ CREATE TABLE `exc_ass_wiki_team` (
   `container_ref_id` int(11) NOT NULL DEFAULT 0,
   `template_ref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_ass_wiki_team`
@@ -5092,8 +4999,12 @@ CREATE TABLE `exc_assignment` (
   `deadline_mode` tinyint(4) DEFAULT 0,
   `relative_deadline` int(11) DEFAULT 0,
   `rel_deadline_last_subm` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+  `if_rcid` varchar(64) DEFAULT NULL,
+  `solution_rid` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`exc_id`),
+  KEY `i2_idx` (`deadline_mode`,`exc_id`)
+) ;
 
 --
 -- Dumping data for table `exc_assignment`
@@ -5111,11 +5022,28 @@ CREATE TABLE `exc_assignment_peer` (
   `tstamp` datetime DEFAULT NULL,
   `pcomment` longtext DEFAULT NULL,
   `is_valid` tinyint(4) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`ass_id`,`giver_id`,`peer_id`)
-) ENGINE=InnoDB;
+  `id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `c1_idx` (`ass_id`,`giver_id`,`peer_id`),
+  KEY `i1_idx` (`ass_id`)
+) ;
 
 --
 -- Dumping data for table `exc_assignment_peer`
+--
+
+
+--
+-- Table structure for table `exc_assignment_peer_seq`
+--
+
+CREATE TABLE `exc_assignment_peer_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `exc_assignment_peer_seq`
 --
 
 
@@ -5126,7 +5054,7 @@ CREATE TABLE `exc_assignment_peer` (
 CREATE TABLE `exc_assignment_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_assignment_seq`
@@ -5147,7 +5075,7 @@ CREATE TABLE `exc_crit` (
   `required` tinyint(4) NOT NULL DEFAULT 0,
   `def` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_crit`
@@ -5164,7 +5092,7 @@ CREATE TABLE `exc_crit_cat` (
   `title` varchar(255) DEFAULT NULL,
   `pos` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_crit_cat`
@@ -5178,7 +5106,7 @@ CREATE TABLE `exc_crit_cat` (
 CREATE TABLE `exc_crit_cat_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_crit_cat_seq`
@@ -5192,7 +5120,7 @@ CREATE TABLE `exc_crit_cat_seq` (
 CREATE TABLE `exc_crit_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_crit_seq`
@@ -5215,7 +5143,7 @@ CREATE TABLE `exc_data` (
   `tfeedback` tinyint(4) NOT NULL DEFAULT 7,
   `nr_mandatory_random` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_data`
@@ -5232,8 +5160,9 @@ CREATE TABLE `exc_idl` (
   `is_team` tinyint(4) NOT NULL DEFAULT 0,
   `tstamp` int(11) DEFAULT 0,
   `starting_ts` int(11) DEFAULT 0,
+  `requested` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ass_id`,`member_id`,`is_team`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_idl`
@@ -5249,7 +5178,7 @@ CREATE TABLE `exc_mandatory_random` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `ass_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`exc_id`,`usr_id`,`ass_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_mandatory_random`
@@ -5274,8 +5203,9 @@ CREATE TABLE `exc_mem_ass_status` (
   `status` char(9) DEFAULT 'notgraded',
   `mark` varchar(32) DEFAULT NULL,
   `u_comment` varchar(4000) DEFAULT NULL,
+  `feedback_rcid` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`ass_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_mem_ass_status`
@@ -5299,8 +5229,9 @@ CREATE TABLE `exc_members` (
   `feedback` tinyint(4) NOT NULL DEFAULT 0,
   `status` char(9) DEFAULT 'notgraded',
   PRIMARY KEY (`obj_id`,`usr_id`),
-  KEY `ob_idx` (`obj_id`)
-) ENGINE=InnoDB;
+  KEY `ob_idx` (`obj_id`),
+  KEY `i1_idx` (`usr_id`)
+) ;
 
 --
 -- Dumping data for table `exc_members`
@@ -5328,7 +5259,7 @@ CREATE TABLE `exc_returned` (
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`user_id`),
   KEY `i3_idx` (`filetitle`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_returned`
@@ -5342,10 +5273,25 @@ CREATE TABLE `exc_returned` (
 CREATE TABLE `exc_returned_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_returned_seq`
+--
+
+
+--
+-- Table structure for table `exc_team_data`
+--
+
+CREATE TABLE `exc_team_data` (
+  `id` int(11) NOT NULL,
+  `feedback_rcid` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `exc_team_data`
 --
 
 
@@ -5361,7 +5307,7 @@ CREATE TABLE `exc_usr_tutor` (
   `ass_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ass_id`,`usr_id`,`tutor_id`),
   KEY `ob_idx` (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `exc_usr_tutor`
@@ -5381,7 +5327,7 @@ CREATE TABLE `export_file_info` (
   `filename` varchar(64) NOT NULL DEFAULT '',
   PRIMARY KEY (`obj_id`,`export_type`,`filename`),
   KEY `i1_idx` (`create_date`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `export_file_info`
@@ -5400,7 +5346,7 @@ CREATE TABLE `export_options` (
   `value` varchar(32) DEFAULT NULL,
   `pos` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`export_id`,`keyword`,`ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `export_options`
@@ -5414,7 +5360,7 @@ CREATE TABLE `export_options` (
 CREATE TABLE `feedback_items_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `feedback_items_seq`
@@ -5432,7 +5378,7 @@ CREATE TABLE `file_based_lm` (
   `show_lic` tinyint(4) DEFAULT NULL,
   `show_bib` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `file_based_lm`
@@ -5453,9 +5399,13 @@ CREATE TABLE `file_data` (
   `rating` tinyint(4) NOT NULL DEFAULT 0,
   `page_count` bigint(20) DEFAULT NULL,
   `max_version` int(11) DEFAULT NULL,
-  `rid` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB;
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `on_click_mode` tinyint(4) NOT NULL DEFAULT 1,
+  `downloads` bigint(20) DEFAULT 0,
+  `important_info` longblob DEFAULT NULL,
+  PRIMARY KEY (`file_id`),
+  KEY `i1_idx` (`rid`)
+) ;
 
 --
 -- Dumping data for table `file_data`
@@ -5473,7 +5423,7 @@ CREATE TABLE `file_usage` (
   `usage_hist_nr` int(11) NOT NULL DEFAULT 0,
   `usage_lang` varchar(2) NOT NULL DEFAULT '-',
   PRIMARY KEY (`id`,`usage_type`,`usage_id`,`usage_hist_nr`,`usage_lang`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `file_usage`
@@ -5500,7 +5450,7 @@ CREATE TABLE `frm_data` (
   `top_usr_id` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`top_pk`),
   KEY `i1_idx` (`top_frm_fk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_data`
@@ -5514,7 +5464,7 @@ CREATE TABLE `frm_data` (
 CREATE TABLE `frm_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_data_seq`
@@ -5533,7 +5483,7 @@ CREATE TABLE `frm_drafts_history` (
   `draft_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   PRIMARY KEY (`history_id`),
   KEY `i1_idx` (`draft_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_drafts_history`
@@ -5547,7 +5497,7 @@ CREATE TABLE `frm_drafts_history` (
 CREATE TABLE `frm_drafts_history_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_drafts_history_seq`
@@ -5569,7 +5519,7 @@ CREATE TABLE `frm_notification` (
   `interested_events` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`notification_id`),
   KEY `i1_idx` (`user_id`,`thread_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_notification`
@@ -5583,7 +5533,7 @@ CREATE TABLE `frm_notification` (
 CREATE TABLE `frm_notification_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_notification_seq`
@@ -5614,12 +5564,13 @@ CREATE TABLE `frm_posts` (
   `is_author_moderator` tinyint(4) DEFAULT NULL,
   `pos_cens_date` datetime DEFAULT NULL,
   `pos_activation_date` datetime DEFAULT NULL,
+  `rcid` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`pos_pk`),
   KEY `i1_idx` (`pos_thr_fk`),
   KEY `i2_idx` (`pos_top_fk`),
   KEY `i3_idx` (`pos_date`),
   KEY `i5_idx` (`pos_thr_fk`,`pos_date`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_posts`
@@ -5647,7 +5598,7 @@ CREATE TABLE `frm_posts_deleted` (
   `pos_usr_alias` varchar(255) DEFAULT NULL,
   `is_thread_deleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`deleted_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_posts_deleted`
@@ -5661,7 +5612,7 @@ CREATE TABLE `frm_posts_deleted` (
 CREATE TABLE `frm_posts_deleted_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_posts_deleted_seq`
@@ -5687,11 +5638,12 @@ CREATE TABLE `frm_posts_drafts` (
   `post_user_alias` varchar(255) DEFAULT NULL,
   `pos_display_usr_id` int(11) NOT NULL DEFAULT 0,
   `notify` tinyint(4) NOT NULL DEFAULT 0,
+  `rcid` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`draft_id`),
   KEY `i1_idx` (`post_id`),
   KEY `i2_idx` (`thread_id`),
   KEY `i3_idx` (`forum_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_posts_drafts`
@@ -5705,7 +5657,7 @@ CREATE TABLE `frm_posts_drafts` (
 CREATE TABLE `frm_posts_drafts_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_posts_drafts_seq`
@@ -5719,7 +5671,7 @@ CREATE TABLE `frm_posts_drafts_seq` (
 CREATE TABLE `frm_posts_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_posts_seq`
@@ -5743,7 +5695,7 @@ CREATE TABLE `frm_posts_tree` (
   KEY `i1_idx` (`thr_fk`),
   KEY `i2_idx` (`pos_fk`),
   KEY `i3_idx` (`parent_pos`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_posts_tree`
@@ -5757,7 +5709,7 @@ CREATE TABLE `frm_posts_tree` (
 CREATE TABLE `frm_posts_tree_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_posts_tree_seq`
@@ -5780,36 +5732,16 @@ CREATE TABLE `frm_settings` (
   `notification_type` varchar(10) DEFAULT NULL,
   `add_re_subject` tinyint(4) NOT NULL DEFAULT 0,
   `mark_mod_posts` tinyint(4) NOT NULL DEFAULT 0,
-  `thread_sorting` int(11) NOT NULL DEFAULT 0,
   `thread_rating` tinyint(4) NOT NULL DEFAULT 0,
   `file_upload_allowed` tinyint(4) NOT NULL DEFAULT 0,
   `interested_events` tinyint(4) NOT NULL DEFAULT 0,
   `lp_req_num_postings` int(11) DEFAULT NULL,
+  `stylesheet` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_settings`
---
-
-
---
--- Table structure for table `frm_thread_access`
---
-
-CREATE TABLE `frm_thread_access` (
-  `usr_id` int(11) NOT NULL DEFAULT 0,
-  `obj_id` int(11) NOT NULL DEFAULT 0,
-  `thread_id` int(11) NOT NULL DEFAULT 0,
-  `access_old` int(11) NOT NULL DEFAULT 0,
-  `access_last` int(11) NOT NULL DEFAULT 0,
-  `access_old_ts` datetime DEFAULT NULL,
-  PRIMARY KEY (`usr_id`,`obj_id`,`thread_id`),
-  KEY `i1_idx` (`access_last`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `frm_thread_access`
 --
 
 
@@ -5830,13 +5762,12 @@ CREATE TABLE `frm_threads` (
   `import_name` varchar(4000) DEFAULT NULL,
   `is_sticky` tinyint(4) NOT NULL DEFAULT 0,
   `is_closed` tinyint(4) NOT NULL DEFAULT 0,
-  `thread_sorting` int(11) NOT NULL DEFAULT 0,
   `avg_rating` double NOT NULL DEFAULT 0,
   `thr_author_id` int(11) NOT NULL DEFAULT 0,
   `thr_display_user_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`thr_pk`),
   KEY `i2_idx` (`thr_top_fk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_threads`
@@ -5850,7 +5781,7 @@ CREATE TABLE `frm_threads` (
 CREATE TABLE `frm_threads_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_threads_seq`
@@ -5868,7 +5799,7 @@ CREATE TABLE `frm_user_read` (
   `post_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`,`obj_id`,`thread_id`,`post_id`),
   KEY `i1_idx` (`usr_id`,`post_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `frm_user_read`
@@ -5884,10 +5815,45 @@ CREATE TABLE `glo_advmd_col_order` (
   `field_id` int(11) NOT NULL DEFAULT 0,
   `order_nr` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`glo_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `glo_advmd_col_order`
+--
+
+
+--
+-- Table structure for table `glo_flashcard_box`
+--
+
+CREATE TABLE `glo_flashcard_box` (
+  `box_nr` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `glo_id` int(11) NOT NULL DEFAULT 0,
+  `last_access` datetime DEFAULT NULL,
+  PRIMARY KEY (`box_nr`,`user_id`,`glo_id`)
+) ;
+
+--
+-- Dumping data for table `glo_flashcard_box`
+--
+
+
+--
+-- Table structure for table `glo_flashcard_term`
+--
+
+CREATE TABLE `glo_flashcard_term` (
+  `term_id` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `glo_id` int(11) NOT NULL DEFAULT 0,
+  `last_access` datetime DEFAULT NULL,
+  `box_nr` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`term_id`,`user_id`,`glo_id`)
+) ;
+
+--
+-- Dumping data for table `glo_flashcard_term`
 --
 
 
@@ -5899,7 +5865,7 @@ CREATE TABLE `glo_glossaries` (
   `id` int(11) NOT NULL DEFAULT 0,
   `glo_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`,`glo_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `glo_glossaries`
@@ -5914,7 +5880,7 @@ CREATE TABLE `glo_term_reference` (
   `glo_id` int(11) NOT NULL DEFAULT 0,
   `term_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`glo_id`,`term_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `glo_term_reference`
@@ -5936,11 +5902,28 @@ CREATE TABLE `glossary` (
   `pres_mode` varchar(10) NOT NULL DEFAULT 'table',
   `snippet_length` int(11) NOT NULL DEFAULT 200,
   `show_tax` tinyint(4) NOT NULL DEFAULT 0,
+  `flash_active` varchar(1) NOT NULL DEFAULT 'n',
+  `flash_mode` varchar(10) NOT NULL DEFAULT 'term',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `glossary`
+--
+
+
+--
+-- Table structure for table `glossary_collection`
+--
+
+CREATE TABLE `glossary_collection` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `glo_id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`,`glo_id`)
+) ;
+
+--
+-- Dumping data for table `glossary_collection`
 --
 
 
@@ -5954,8 +5937,9 @@ CREATE TABLE `glossary_definition` (
   `short_text` varchar(4000) DEFAULT NULL,
   `nr` int(11) NOT NULL DEFAULT 0,
   `short_text_dirty` int(11) NOT NULL DEFAULT 0,
+  `migration` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `glossary_definition`
@@ -5969,7 +5953,7 @@ CREATE TABLE `glossary_definition` (
 CREATE TABLE `glossary_definition_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `glossary_definition_seq`
@@ -5988,9 +5972,11 @@ CREATE TABLE `glossary_term` (
   `import_id` varchar(50) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `last_update` datetime DEFAULT NULL,
+  `short_text` varchar(4000) DEFAULT NULL,
+  `short_text_dirty` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`glo_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `glossary_term`
@@ -6004,7 +5990,7 @@ CREATE TABLE `glossary_term` (
 CREATE TABLE `glossary_term_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `glossary_term_seq`
@@ -6050,7 +6036,7 @@ CREATE TABLE `grp_settings` (
   `session_prev` bigint(20) NOT NULL DEFAULT -1,
   `session_next` bigint(20) NOT NULL DEFAULT -1,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `grp_settings`
@@ -6071,7 +6057,7 @@ CREATE TABLE `help_map` (
   PRIMARY KEY (`component`,`screen_id`,`screen_sub_id`,`chap`,`perm`,`module_id`),
   KEY `sc_idx` (`screen_id`),
   KEY `ch_idx` (`chap`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `help_map`
@@ -6085,8 +6071,10 @@ CREATE TABLE `help_map` (
 CREATE TABLE `help_module` (
   `id` int(11) NOT NULL DEFAULT 0,
   `lm_id` int(11) NOT NULL DEFAULT 0,
+  `order_nr` int(11) NOT NULL DEFAULT 0,
+  `active` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `help_module`
@@ -6100,7 +6088,7 @@ CREATE TABLE `help_module` (
 CREATE TABLE `help_module_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `help_module_seq`
@@ -6120,7 +6108,7 @@ CREATE TABLE `help_tooltip` (
   `module_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`tt_id`,`module_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `help_tooltip`
@@ -6134,7 +6122,7 @@ CREATE TABLE `help_tooltip` (
 CREATE TABLE `help_tooltip_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `help_tooltip_seq`
@@ -6156,7 +6144,7 @@ CREATE TABLE `history` (
   `user_comment` longtext DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`obj_id`,`obj_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `history`
@@ -6170,7 +6158,7 @@ CREATE TABLE `history` (
 CREATE TABLE `history_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `history_seq`
@@ -6189,7 +6177,7 @@ CREATE TABLE `iass_info_settings` (
   `mails` text DEFAULT NULL,
   `consultation_hours` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `iass_info_settings`
@@ -6203,7 +6191,7 @@ CREATE TABLE `iass_info_settings` (
 CREATE TABLE `iass_members` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `usr_id` int(11) NOT NULL DEFAULT 0,
-  `examiner_id` int(11) DEFAULT 0,
+  `examiner_id` int(11) DEFAULT NULL,
   `record` text DEFAULT NULL,
   `internal_note` text DEFAULT NULL,
   `notify` tinyint(4) NOT NULL DEFAULT 0,
@@ -6217,7 +6205,7 @@ CREATE TABLE `iass_members` (
   `changer_id` int(11) DEFAULT NULL,
   `change_time` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `iass_members`
@@ -6235,7 +6223,7 @@ CREATE TABLE `iass_settings` (
   `event_time_place_required` tinyint(4) NOT NULL DEFAULT 0,
   `file_required` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `iass_settings`
@@ -6251,7 +6239,7 @@ CREATE TABLE `il_adn_dismiss` (
   `usr_id` bigint(20) DEFAULT NULL,
   `notification_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_adn_dismiss`
@@ -6265,7 +6253,7 @@ CREATE TABLE `il_adn_dismiss` (
 CREATE TABLE `il_adn_dismiss_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_adn_dismiss_seq`
@@ -6301,8 +6289,10 @@ CREATE TABLE `il_adn_notifications` (
   `display_end` bigint(20) DEFAULT 0,
   `create_date` bigint(20) DEFAULT 0,
   `last_update` bigint(20) DEFAULT 0,
+  `has_language_limitation` tinyint(4) NOT NULL DEFAULT 0,
+  `limited_to_languages` varchar(256) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_adn_notifications`
@@ -6316,7 +6306,7 @@ CREATE TABLE `il_adn_notifications` (
 CREATE TABLE `il_adn_notifications_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_adn_notifications_seq`
@@ -6333,7 +6323,7 @@ CREATE TABLE `il_bibl_attribute` (
   `value` varchar(4000) DEFAULT NULL,
   `id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_attribute`
@@ -6347,7 +6337,7 @@ CREATE TABLE `il_bibl_attribute` (
 CREATE TABLE `il_bibl_attribute_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_attribute_seq`
@@ -6361,11 +6351,10 @@ CREATE TABLE `il_bibl_attribute_seq` (
 CREATE TABLE `il_bibl_data` (
   `id` int(11) NOT NULL DEFAULT 0,
   `filename` varchar(256) DEFAULT NULL,
-  `is_online` tinyint(4) DEFAULT NULL,
   `file_type` tinyint(4) NOT NULL DEFAULT 1,
   `rid` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_data`
@@ -6381,7 +6370,7 @@ CREATE TABLE `il_bibl_entry` (
   `id` int(11) NOT NULL DEFAULT 0,
   `type` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_entry`
@@ -6395,7 +6384,7 @@ CREATE TABLE `il_bibl_entry` (
 CREATE TABLE `il_bibl_entry_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_entry_seq`
@@ -6412,9 +6401,8 @@ CREATE TABLE `il_bibl_field` (
   `data_type` tinyint(4) NOT NULL,
   `position` int(11) DEFAULT NULL,
   `is_standard_field` tinyint(4) NOT NULL,
-  `object_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_field`
@@ -6428,7 +6416,7 @@ CREATE TABLE `il_bibl_field` (
 CREATE TABLE `il_bibl_field_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_field_seq`
@@ -6445,7 +6433,7 @@ CREATE TABLE `il_bibl_filter` (
   `object_id` int(11) NOT NULL,
   `filter_type` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_filter`
@@ -6459,7 +6447,7 @@ CREATE TABLE `il_bibl_filter` (
 CREATE TABLE `il_bibl_filter_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_filter_seq`
@@ -6476,7 +6464,7 @@ CREATE TABLE `il_bibl_overview_model` (
   `pattern` varchar(512) DEFAULT NULL,
   `file_type_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`ovm_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_overview_model`
@@ -6496,7 +6484,7 @@ CREATE TABLE `il_bibl_settings` (
   `img` varchar(128) DEFAULT NULL,
   `show_in_list` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_settings`
@@ -6510,7 +6498,7 @@ CREATE TABLE `il_bibl_settings` (
 CREATE TABLE `il_bibl_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_settings_seq`
@@ -6528,7 +6516,7 @@ CREATE TABLE `il_bibl_translation` (
   `translation` varchar(256) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_translation`
@@ -6542,7 +6530,7 @@ CREATE TABLE `il_bibl_translation` (
 CREATE TABLE `il_bibl_translation_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bibl_translation_seq`
@@ -6560,7 +6548,7 @@ CREATE TABLE `il_block_setting` (
   `setting` varchar(40) NOT NULL DEFAULT ' ',
   `value` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`type`,`user_id`,`block_id`,`setting`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_block_setting`
@@ -6592,8 +6580,9 @@ CREATE TABLE `il_blog` (
   `ov_post` smallint(6) DEFAULT 0,
   `nav_order` varchar(255) DEFAULT NULL,
   `nav_list_mon_with_post` int(11) DEFAULT 3,
+  `act_est_reading_time` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_blog`
@@ -6614,7 +6603,7 @@ CREATE TABLE `il_blog_posting` (
   `last_withdrawn` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`created`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_blog_posting`
@@ -6628,7 +6617,7 @@ CREATE TABLE `il_blog_posting` (
 CREATE TABLE `il_blog_posting_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_blog_posting_seq`
@@ -6651,7 +6640,7 @@ CREATE TABLE `il_bt_bucket` (
   `description` varchar(255) DEFAULT NULL,
   `last_heartbeat` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bt_bucket`
@@ -6665,7 +6654,7 @@ CREATE TABLE `il_bt_bucket` (
 CREATE TABLE `il_bt_bucket_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bt_bucket_seq`
@@ -6683,7 +6672,7 @@ CREATE TABLE `il_bt_task` (
   `class_name` varchar(256) DEFAULT NULL,
   `bucket_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bt_task`
@@ -6697,7 +6686,7 @@ CREATE TABLE `il_bt_task` (
 CREATE TABLE `il_bt_task_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bt_task_seq`
@@ -6721,7 +6710,7 @@ CREATE TABLE `il_bt_value` (
   `position` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`bucket_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bt_value`
@@ -6735,7 +6724,7 @@ CREATE TABLE `il_bt_value` (
 CREATE TABLE `il_bt_value_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bt_value_seq`
@@ -6755,7 +6744,7 @@ CREATE TABLE `il_bt_value_to_task` (
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`task_id`),
   KEY `i2_idx` (`value_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bt_value_to_task`
@@ -6769,48 +6758,10 @@ CREATE TABLE `il_bt_value_to_task` (
 CREATE TABLE `il_bt_value_to_task_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_bt_value_to_task_seq`
---
-
-
---
--- Table structure for table `il_cert_bgtask_migr`
---
-
-CREATE TABLE `il_cert_bgtask_migr` (
-  `id` int(11) NOT NULL DEFAULT 0,
-  `usr_id` int(11) NOT NULL DEFAULT 0,
-  `lock` int(11) NOT NULL DEFAULT 0,
-  `found_items` int(11) NOT NULL DEFAULT 0,
-  `processed_items` int(11) NOT NULL DEFAULT 0,
-  `migrated_items` int(11) NOT NULL DEFAULT 0,
-  `progress` int(11) NOT NULL DEFAULT 0,
-  `state` varchar(255) NOT NULL,
-  `started_ts` int(11) DEFAULT 0,
-  `finished_ts` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `con_idx` (`id`,`usr_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `il_cert_bgtask_migr`
---
-
-
---
--- Table structure for table `il_cert_bgtask_migr_seq`
---
-
-CREATE TABLE `il_cert_bgtask_migr_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `il_cert_bgtask_migr_seq`
 --
 
 
@@ -6828,7 +6779,7 @@ CREATE TABLE `il_cert_cron_queue` (
   `template_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_cert_cron_queue`
@@ -6842,7 +6793,7 @@ CREATE TABLE `il_cert_cron_queue` (
 CREATE TABLE `il_cert_cron_queue_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_cert_cron_queue_seq`
@@ -6867,13 +6818,13 @@ CREATE TABLE `il_cert_template` (
   `currently_active` tinyint(4) NOT NULL DEFAULT 0,
   `deleted` tinyint(4) NOT NULL DEFAULT 0,
   `thumbnail_image_path` varchar(255) DEFAULT NULL,
-  `certificate_content_bu` longtext NOT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`obj_id`,`deleted`),
   KEY `i3_idx` (`obj_id`,`currently_active`,`deleted`),
-  KEY `i4_idx` (`obj_type`)
-) ENGINE=InnoDB;
+  KEY `i4_idx` (`obj_type`),
+  KEY `i5_idx` (`background_image_path`,`currently_active`)
+) ;
 
 --
 -- Dumping data for table `il_cert_template`
@@ -6887,7 +6838,7 @@ CREATE TABLE `il_cert_template` (
 CREATE TABLE `il_cert_template_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_cert_template_seq`
@@ -6903,7 +6854,7 @@ CREATE TABLE `il_cert_user_cert` (
   `pattern_certificate_id` int(11) NOT NULL DEFAULT 0,
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `obj_type` varchar(255) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL DEFAULT 0,
+  `usr_id` int(11) NOT NULL DEFAULT 0,
   `user_name` varchar(255) NOT NULL DEFAULT '0',
   `acquired_timestamp` int(11) NOT NULL DEFAULT 0,
   `certificate_content` longtext NOT NULL,
@@ -6914,15 +6865,15 @@ CREATE TABLE `il_cert_user_cert` (
   `ilias_version` varchar(255) NOT NULL DEFAULT 'v5.4.0',
   `currently_active` tinyint(4) NOT NULL DEFAULT 0,
   `thumbnail_image_path` varchar(255) DEFAULT NULL,
-  `certificate_content_bu` longtext NOT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`obj_id`,`pattern_certificate_id`),
-  KEY `i2_idx` (`user_id`,`currently_active`),
-  KEY `i3_idx` (`user_id`,`currently_active`,`acquired_timestamp`),
-  KEY `i4_idx` (`user_id`,`obj_type`,`currently_active`),
+  KEY `i2_idx` (`usr_id`,`currently_active`),
+  KEY `i3_idx` (`usr_id`,`currently_active`,`acquired_timestamp`),
+  KEY `i4_idx` (`usr_id`,`obj_type`,`currently_active`),
   KEY `i5_idx` (`obj_id`,`currently_active`),
-  KEY `i6_idx` (`user_id`,`obj_id`,`currently_active`)
-) ENGINE=InnoDB;
+  KEY `i6_idx` (`usr_id`,`obj_id`,`currently_active`),
+  KEY `i7_idx` (`background_image_path`,`currently_active`)
+) ;
 
 --
 -- Dumping data for table `il_cert_user_cert`
@@ -6936,7 +6887,7 @@ CREATE TABLE `il_cert_user_cert` (
 CREATE TABLE `il_cert_user_cert_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_cert_user_cert_seq`
@@ -6950,7 +6901,7 @@ CREATE TABLE `il_cert_user_cert_seq` (
 CREATE TABLE `il_certificate` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_certificate`
@@ -6970,143 +6921,12 @@ CREATE TABLE `il_cld_data` (
   `owner_id` bigint(20) NOT NULL DEFAULT 0,
   `auth_complete` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_cld_data`
 --
 
-
---
--- Table structure for table `il_component`
---
-
-CREATE TABLE `il_component` (
-  `type` char(10) NOT NULL DEFAULT '',
-  `name` varchar(200) DEFAULT NULL,
-  `id` char(10) NOT NULL DEFAULT '',
-  PRIMARY KEY (`type`,`id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `il_component`
---
-
-INSERT INTO `il_component` VALUES ('Modules','SystemFolder','adm');
-INSERT INTO `il_component` VALUES ('Modules','Bibliographic','bibl');
-INSERT INTO `il_component` VALUES ('Modules','Blog','blog');
-INSERT INTO `il_component` VALUES ('Modules','BookingManager','book');
-INSERT INTO `il_component` VALUES ('Modules','Category','cat');
-INSERT INTO `il_component` VALUES ('Modules','CategoryReference','catr');
-INSERT INTO `il_component` VALUES ('Modules','Chatroom','chtr');
-INSERT INTO `il_component` VALUES ('Modules','Cloud','cld');
-INSERT INTO `il_component` VALUES ('Modules','Course','crs');
-INSERT INTO `il_component` VALUES ('Modules','CourseReference','crsr');
-INSERT INTO `il_component` VALUES ('Modules','DataCollection','dcl');
-INSERT INTO `il_component` VALUES ('Modules','Exercise','exc');
-INSERT INTO `il_component` VALUES ('Modules','ExternalFeed','feed');
-INSERT INTO `il_component` VALUES ('Modules','File','file');
-INSERT INTO `il_component` VALUES ('Modules','Folder','fold');
-INSERT INTO `il_component` VALUES ('Modules','Forum','frm');
-INSERT INTO `il_component` VALUES ('Modules','Glossary','glo');
-INSERT INTO `il_component` VALUES ('Modules','Group','grp');
-INSERT INTO `il_component` VALUES ('Modules','GroupReference','grpr');
-INSERT INTO `il_component` VALUES ('Modules','HTMLLearningModule','htlm');
-INSERT INTO `il_component` VALUES ('Modules','IndividualAssessment','iass');
-INSERT INTO `il_component` VALUES ('Modules','ItemGroup','itgr');
-INSERT INTO `il_component` VALUES ('Modules','LearningModule','lm');
-INSERT INTO `il_component` VALUES ('Modules','MediaCast','mcst');
-INSERT INTO `il_component` VALUES ('Modules','MediaPool','mep');
-INSERT INTO `il_component` VALUES ('Modules','OrgUnit','orgu');
-INSERT INTO `il_component` VALUES ('Modules','Poll','poll');
-INSERT INTO `il_component` VALUES ('Modules','StudyProgramme','prg');
-INSERT INTO `il_component` VALUES ('Modules','Portfolio','prtf');
-INSERT INTO `il_component` VALUES ('Modules','TestQuestionPool','qpl');
-INSERT INTO `il_component` VALUES ('Modules','RemoteCategory','rcat');
-INSERT INTO `il_component` VALUES ('Modules','RemoteCourse','rcrs');
-INSERT INTO `il_component` VALUES ('Modules','RemoteFile','rfil');
-INSERT INTO `il_component` VALUES ('Modules','RemoteGlossary','rglo');
-INSERT INTO `il_component` VALUES ('Modules','RemoteGroup','rgrp');
-INSERT INTO `il_component` VALUES ('Modules','RemoteLearningModule','rlm');
-INSERT INTO `il_component` VALUES ('Modules','RootFolder','root');
-INSERT INTO `il_component` VALUES ('Modules','RemoteTest','rtst');
-INSERT INTO `il_component` VALUES ('Modules','RemoteWiki','rwik');
-INSERT INTO `il_component` VALUES ('Modules','ScormAicc','sahs');
-INSERT INTO `il_component` VALUES ('Modules','Scorm2004','sc13');
-INSERT INTO `il_component` VALUES ('Modules','Session','sess');
-INSERT INTO `il_component` VALUES ('Modules','SurveyQuestionPool','spl');
-INSERT INTO `il_component` VALUES ('Modules','Survey','svy');
-INSERT INTO `il_component` VALUES ('Modules','Test','tst');
-INSERT INTO `il_component` VALUES ('Modules','WebResource','webr');
-INSERT INTO `il_component` VALUES ('Modules','WorkspaceFolder','wfld');
-INSERT INTO `il_component` VALUES ('Modules','Wiki','wiki');
-INSERT INTO `il_component` VALUES ('Modules','WorkspaceRootFolder','wsrt');
-INSERT INTO `il_component` VALUES ('Services','AccessControl','ac');
-INSERT INTO `il_component` VALUES ('Services','Accessibility','acc');
-INSERT INTO `il_component` VALUES ('Services','Accordion','accrdn');
-INSERT INTO `il_component` VALUES ('Services','Administration','adm');
-INSERT INTO `il_component` VALUES ('Services','AdvancedEditing','adve');
-INSERT INTO `il_component` VALUES ('Services','AdvancedMetaData','amet');
-INSERT INTO `il_component` VALUES ('Services','Authentication','auth');
-INSERT INTO `il_component` VALUES ('Services','Awareness','awrn');
-INSERT INTO `il_component` VALUES ('Services','Badge','badge');
-INSERT INTO `il_component` VALUES ('Services','BackgroundTasks','bgtk');
-INSERT INTO `il_component` VALUES ('Services','Bookmarks','bkm');
-INSERT INTO `il_component` VALUES ('Services','BackgroundTask','btsk');
-INSERT INTO `il_component` VALUES ('Services','Calendar','cal');
-INSERT INTO `il_component` VALUES ('Services','Certificate','cert');
-INSERT INTO `il_component` VALUES ('Services','ContainerReference','cntr');
-INSERT INTO `il_component` VALUES ('Services','Component','comp');
-INSERT INTO `il_component` VALUES ('Services','Container','cont');
-INSERT INTO `il_component` VALUES ('Services','Contact','contact');
-INSERT INTO `il_component` VALUES ('Services','COPage','copg');
-INSERT INTO `il_component` VALUES ('Services','Cron','cron');
-INSERT INTO `il_component` VALUES ('Services','Database','db');
-INSERT INTO `il_component` VALUES ('Services','DataSet','ds');
-INSERT INTO `il_component` VALUES ('Services','EventHandling','evnt');
-INSERT INTO `il_component` VALUES ('Services','Export','exp');
-INSERT INTO `il_component` VALUES ('Services','Help','help');
-INSERT INTO `il_component` VALUES ('Services','Imprint','impr');
-INSERT INTO `il_component` VALUES ('Services','Init','init');
-INSERT INTO `il_component` VALUES ('Services','Language','lang');
-INSERT INTO `il_component` VALUES ('Services','LinkChecker','lchk');
-INSERT INTO `il_component` VALUES ('Services','LDAP','ldap');
-INSERT INTO `il_component` VALUES ('Services','Link','link');
-INSERT INTO `il_component` VALUES ('Services','Logging','log');
-INSERT INTO `il_component` VALUES ('Services','LTI','lti');
-INSERT INTO `il_component` VALUES ('Services','Mail','mail');
-INSERT INTO `il_component` VALUES ('Services','MetaData','meta');
-INSERT INTO `il_component` VALUES ('Services','Membership','mmbr');
-INSERT INTO `il_component` VALUES ('Services','MediaObjects','mob');
-INSERT INTO `il_component` VALUES ('Services','Navigation','navh');
-INSERT INTO `il_component` VALUES ('Services','News','news');
-INSERT INTO `il_component` VALUES ('Services','Notifications','nota');
-INSERT INTO `il_component` VALUES ('Services','Notification','noti');
-INSERT INTO `il_component` VALUES ('Services','Object','obj');
-INSERT INTO `il_component` VALUES ('Services','OnScreenChat','osch');
-INSERT INTO `il_component` VALUES ('Services','DidacticTemplate','otpl');
-INSERT INTO `il_component` VALUES ('Services','PDFGeneration','pdfg');
-INSERT INTO `il_component` VALUES ('Services','PersonalDesktop','pdsk');
-INSERT INTO `il_component` VALUES ('Services','Preview','prvw');
-INSERT INTO `il_component` VALUES ('Services','PrivacySecurity','ps');
-INSERT INTO `il_component` VALUES ('Services','PersonalWorkspace','pwsp');
-INSERT INTO `il_component` VALUES ('Services','Repository','rep');
-INSERT INTO `il_component` VALUES ('Services','AuthShibboleth','shiba');
-INSERT INTO `il_component` VALUES ('Services','Skill','skll');
-INSERT INTO `il_component` VALUES ('Services','Search','src');
-INSERT INTO `il_component` VALUES ('Services','Style','styl');
-INSERT INTO `il_component` VALUES ('Services','SystemCheck','sysc');
-INSERT INTO `il_component` VALUES ('Services','Table','table');
-INSERT INTO `il_component` VALUES ('Services','Tagging','tag');
-INSERT INTO `il_component` VALUES ('Services','Taxonomy','tax');
-INSERT INTO `il_component` VALUES ('Services','TermsOfService','tos');
-INSERT INTO `il_component` VALUES ('Services','Tracking','trac');
-INSERT INTO `il_component` VALUES ('Services','Tree','tree');
-INSERT INTO `il_component` VALUES ('Services','UIComponent','ui');
-INSERT INTO `il_component` VALUES ('Services','User','user');
-INSERT INTO `il_component` VALUES ('Services','WebDAV','wbdv');
-INSERT INTO `il_component` VALUES ('Services','WorkflowEngine','wfe');
-INSERT INTO `il_component` VALUES ('Services','WebServices','wsrv');
 
 --
 -- Table structure for table `il_custom_block`
@@ -7121,7 +6941,7 @@ CREATE TABLE `il_custom_block` (
   `type` varchar(20) DEFAULT NULL,
   `title` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_custom_block`
@@ -7135,7 +6955,7 @@ CREATE TABLE `il_custom_block` (
 CREATE TABLE `il_custom_block_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_custom_block_seq`
@@ -7153,12 +6973,375 @@ CREATE TABLE `il_db_steps` (
   `finished` varchar(26) DEFAULT NULL,
   PRIMARY KEY (`class`,`step`),
   KEY `i1_idx` (`class`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_db_steps`
 --
 
+INSERT INTO `il_db_steps` VALUES ('ilAccessControl8DBUpdateSteps',1,'2023-12-12 16:39:39.316416','2023-12-12 16:39:39.330104');
+INSERT INTO `il_db_steps` VALUES ('ilAccessRBACDeleteDbkSteps',1,'2023-12-12 16:39:39.331118','2023-12-12 16:39:39.333780');
+INSERT INTO `il_db_steps` VALUES ('ilAccessRBACDeleteDbkSteps',2,'2023-12-12 16:39:39.334376','2023-12-12 16:39:39.337374');
+INSERT INTO `il_db_steps` VALUES ('ilAccessRBACDeleteDbkSteps',3,'2023-12-12 16:39:39.337997','2023-12-12 16:39:39.339521');
+INSERT INTO `il_db_steps` VALUES ('ilADNDatabaseObjective',1,'2023-12-12 16:39:39.302966','2023-12-12 16:39:39.315435');
+INSERT INTO `il_db_steps` VALUES ('ilAuthenticationDatabaseUpdateSteps8',1,'2023-12-12 16:39:39.340519','2023-12-12 16:39:39.348635');
+INSERT INTO `il_db_steps` VALUES ('ilBibliograficDB80',1,'2023-12-12 16:39:39.349499','2023-12-12 16:39:39.355083');
+INSERT INTO `il_db_steps` VALUES ('ilBibliograficDB80',2,'2023-12-12 16:39:39.355665','2023-12-12 16:39:39.362170');
+INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps9',1,'2023-12-12 16:39:39.363138','2023-12-12 16:39:39.376860');
+INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps9',2,'2023-12-12 16:39:39.377487','2023-12-12 16:39:39.399312');
+INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',1,'2023-12-12 16:39:39.400161','2023-12-12 16:39:39.413347');
+INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',2,'2023-12-12 16:39:39.413839','2023-12-12 16:39:39.417098');
+INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',3,'2023-12-12 16:39:39.417587','2023-12-12 16:39:39.426976');
+INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',4,'2023-12-12 16:39:39.427494','2023-12-12 16:39:39.434428');
+INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',5,'2023-12-12 16:39:39.434913','2023-12-12 16:39:39.449215');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',1,'2023-12-12 16:39:39.512934','2023-12-12 16:39:39.518282');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',2,'2023-12-12 16:39:39.518877','2023-12-12 16:39:39.524618');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',3,'2023-12-12 16:39:39.525224','2023-12-12 16:39:39.530839');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',4,'2023-12-12 16:39:39.531436','2023-12-12 16:39:39.537017');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',5,'2023-12-12 16:39:39.537600','2023-12-12 16:39:39.543189');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',6,'2023-12-12 16:39:39.543862','2023-12-12 16:39:39.554877');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',7,'2023-12-12 16:39:39.555474','2023-12-12 16:39:39.561056');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',8,'2023-12-12 16:39:39.561671','2023-12-12 16:39:39.567169');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',9,'2023-12-12 16:39:39.567787','2023-12-12 16:39:39.573091');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',10,'2023-12-12 16:39:39.573688','2023-12-12 16:39:39.579211');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',11,'2023-12-12 16:39:39.579878','2023-12-12 16:39:39.585585');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',12,'2023-12-12 16:39:39.586191','2023-12-12 16:39:39.586832');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',13,'2023-12-12 16:39:39.587451','2023-12-12 16:39:39.593034');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',14,'2023-12-12 16:39:39.593639','2023-12-12 16:39:39.599431');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',15,'2023-12-12 16:39:39.600090','2023-12-12 16:39:39.611849');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',16,'2023-12-12 16:39:39.612522','2023-12-12 16:39:39.624741');
+INSERT INTO `il_db_steps` VALUES ('ilContentPageUpdateSteps',1,'2023-12-12 16:39:39.689885','2023-12-12 16:39:39.690424');
+INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',1,'2023-12-12 16:39:39.691358','2023-12-12 16:39:39.698495');
+INSERT INTO `il_db_steps` VALUES ('ilCourseObjectiveDBUpdateSteps',2,'2023-12-12 16:39:39.699161','2023-12-12 16:39:39.705726');
+INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',1,'2023-12-12 16:39:41.316207','2023-12-12 16:39:41.325405');
+INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',2,'2023-12-12 16:39:41.326018','2023-12-12 16:39:41.340462');
+INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',3,'2023-12-12 16:39:41.341252','2023-12-12 16:39:41.349406');
+INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',4,'2023-12-12 16:39:41.349953','2023-12-12 16:39:41.357146');
+INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',5,'2023-12-12 16:39:41.357629','2023-12-12 16:39:41.364305');
+INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',6,'2023-12-12 16:39:41.364838','2023-12-12 16:39:41.371618');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',1,'2023-12-12 16:39:39.706792','2023-12-12 16:39:39.715602');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',2,'2023-12-12 16:39:39.716246','2023-12-12 16:39:39.739058');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',3,'2023-12-12 16:39:39.739786','2023-12-12 16:39:39.748476');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',4,'2023-12-12 16:39:39.749114','2023-12-12 16:39:39.757937');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',5,'2023-12-12 16:39:39.758567','2023-12-12 16:39:39.771869');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',6,'2023-12-12 16:39:39.772568','2023-12-12 16:39:39.773403');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',7,'2023-12-12 16:39:39.773989','2023-12-12 16:39:39.774820');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',8,'2023-12-12 16:39:39.775403','2023-12-12 16:39:39.781016');
+INSERT INTO `il_db_steps` VALUES ('ilECSDBUpdateSteps',1,'2023-12-12 16:39:39.782084','2023-12-12 16:39:39.788234');
+INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',1,'2023-12-12 16:39:41.504023','2023-12-12 16:39:41.515769');
+INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',2,'2023-12-12 16:39:41.516395','2023-12-12 16:39:41.521923');
+INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',3,'2023-12-12 16:39:41.522527','2023-12-12 16:39:41.528127');
+INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',4,'2023-12-12 16:39:41.528772','2023-12-12 16:39:41.534227');
+INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',5,'2023-12-12 16:39:41.534847','2023-12-12 16:39:41.540300');
+INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',6,'2023-12-12 16:39:41.540918','2023-12-12 16:39:41.547675');
+INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',7,'2023-12-12 16:39:41.548340','2023-12-12 16:39:41.553727');
+INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',1,'2023-12-12 16:39:39.914414','2023-12-12 16:39:39.920671');
+INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',2,'2023-12-12 16:39:39.921276','2023-12-12 16:39:39.928502');
+INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',3,'2023-12-12 16:39:39.929117','2023-12-12 16:39:39.929997');
+INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',4,'2023-12-12 16:39:39.930587','2023-12-12 16:39:39.940527');
+INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',5,'2023-12-12 16:39:39.941189','2023-12-12 16:39:39.941882');
+INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',6,'2023-12-12 16:39:39.942672','2023-12-12 16:39:39.949521');
+INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',7,'2023-12-12 16:39:39.950136','2023-12-12 16:39:39.950687');
+INSERT INTO `il_db_steps` VALUES ('ilFileObjectRBACDatabaseSteps',1,'2023-12-12 16:39:40.132129','2023-12-12 16:39:40.132786');
+INSERT INTO `il_db_steps` VALUES ('ilFileObjectRBACDatabaseSteps',2,'2023-12-12 16:39:40.133332','2023-12-12 16:39:40.135571');
+INSERT INTO `il_db_steps` VALUES ('ilFileServicesDatabaseObjective',1,'2023-12-12 16:39:38.029979','2023-12-12 16:39:38.038271');
+INSERT INTO `il_db_steps` VALUES ('ilForumDatabaseUpdateSteps',1,'2023-12-12 16:39:40.136549','2023-12-12 16:39:40.144064');
+INSERT INTO `il_db_steps` VALUES ('ilForumDatabaseUpdateSteps',2,'2023-12-12 16:39:40.144602','2023-12-12 16:39:40.145078');
+INSERT INTO `il_db_steps` VALUES ('ilForumDatabaseUpdateSteps',3,'2023-12-12 16:39:40.145597','2023-12-12 16:39:40.151569');
+INSERT INTO `il_db_steps` VALUES ('ilForumDatabaseUpdateSteps',4,'2023-12-12 16:39:40.152226','2023-12-12 16:39:40.160037');
+INSERT INTO `il_db_steps` VALUES ('ilForumDatabaseUpdateSteps',5,'2023-12-12 16:39:40.160566','2023-12-12 16:39:40.162235');
+INSERT INTO `il_db_steps` VALUES ('ilForumDatabaseUpdateSteps',6,'2023-12-12 16:39:40.162719','2023-12-12 16:39:40.167926');
+INSERT INTO `il_db_steps` VALUES ('ilForumDatabaseUpdateSteps9',1,'2023-12-12 16:39:40.168707','2023-12-12 16:39:40.175252');
+INSERT INTO `il_db_steps` VALUES ('ilForumDatabaseUpdateSteps9',2,'2023-12-12 16:39:40.175770','2023-12-12 16:39:40.182283');
+INSERT INTO `il_db_steps` VALUES ('ilGlossaryDBUpdateSteps',1,'2023-12-12 16:39:40.183155','2023-12-12 16:39:40.196432');
+INSERT INTO `il_db_steps` VALUES ('ilGlossaryDBUpdateSteps',2,'2023-12-12 16:39:40.197085','2023-12-12 16:39:40.202493');
+INSERT INTO `il_db_steps` VALUES ('ilGlossaryDBUpdateSteps',3,'2023-12-12 16:39:40.203145','2023-12-12 16:39:40.215012');
+INSERT INTO `il_db_steps` VALUES ('ilGlossaryDBUpdateSteps',4,'2023-12-12 16:39:40.215687','2023-12-12 16:39:40.227487');
+INSERT INTO `il_db_steps` VALUES ('ilGlossaryDBUpdateSteps',5,'2023-12-12 16:39:40.228164','2023-12-12 16:39:40.238518');
+INSERT INTO `il_db_steps` VALUES ('ilGlossaryDBUpdateSteps',6,'2023-12-12 16:39:40.239153','2023-12-12 16:39:40.250834');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Administration\\Setup\\ilAdministrationDBUpdateSteps',1,'2023-12-12 16:39:38.661190','2023-12-12 16:39:38.661665');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Administration\\Setup\\ilAdministrationDBUpdateSteps',2,'2023-12-12 16:39:38.662245','2023-12-12 16:39:38.676688');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Administration\\Setup\\ilAdministrationDBUpdateSteps',3,'2023-12-12 16:39:38.677408','2023-12-12 16:39:38.710199');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Administration\\Setup\\ilAdministrationDBUpdateSteps',4,'2023-12-12 16:39:38.710871','2023-12-12 16:39:38.711794');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\AdvancedMetaData\\Setup\\DBUpdateSteps8',1,'2023-12-12 16:39:38.712839','2023-12-12 16:39:38.721799');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\AdvancedMetaData\\Setup\\DBUpdateSteps8',2,'2023-12-12 16:39:38.722433','2023-12-12 16:39:38.727867');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\AdvancedMetaData\\Setup\\DBUpdateSteps8',3,'2023-12-12 16:39:38.728492','2023-12-12 16:39:38.729626');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Blog\\Setup\\BlogDBUpdateSteps',1,'2023-12-12 16:39:38.730712','2023-12-12 16:39:38.736204');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Blog\\Setup\\BlogDBUpdateSteps',2,'2023-12-12 16:39:38.736861','2023-12-12 16:39:38.737915');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',1,'2023-12-12 16:39:38.738873','2023-12-12 16:39:38.746442');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',2,'2023-12-12 16:39:38.747069','2023-12-12 16:39:38.753419');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',3,'2023-12-12 16:39:38.754020','2023-12-12 16:39:38.760822');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',4,'2023-12-12 16:39:38.761441','2023-12-12 16:39:38.773305');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',5,'2023-12-12 16:39:38.774036','2023-12-12 16:39:38.779556');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',6,'2023-12-12 16:39:38.780215','2023-12-12 16:39:38.785707');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',7,'2023-12-12 16:39:38.786336','2023-12-12 16:39:38.797865');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',1,'2023-12-12 16:39:39.450025','2023-12-12 16:39:39.490305');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',2,'2023-12-12 16:39:39.490976','2023-12-12 16:39:39.502927');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',3,'2023-12-12 16:39:39.503552','2023-12-12 16:39:39.510145');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',4,'2023-12-12 16:39:39.510759','2023-12-12 16:39:39.511899');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',1,'2023-12-12 16:39:37.399454','2023-12-12 16:39:37.408012');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',2,'2023-12-12 16:39:37.408541','2023-12-12 16:39:37.422711');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',3,'2023-12-12 16:39:37.423333','2023-12-12 16:39:37.425736');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',4,'2023-12-12 16:39:37.426343','2023-12-12 16:39:37.431884');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',5,'2023-12-12 16:39:37.432512','2023-12-12 16:39:37.433734');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',6,'2023-12-12 16:39:37.434361','2023-12-12 16:39:37.434807');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',7,'2023-12-12 16:39:37.435380','2023-12-12 16:39:37.436265');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',8,'2023-12-12 16:39:37.436849','2023-12-12 16:39:37.437726');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',9,'2023-12-12 16:39:37.438294','2023-12-12 16:39:37.439166');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',10,'2023-12-12 16:39:37.439832','2023-12-12 16:39:37.440784');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',11,'2023-12-12 16:39:37.441392','2023-12-12 16:39:37.442291');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',12,'2023-12-12 16:39:37.442881','2023-12-12 16:39:37.445224');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Dashboard\\Setup\\ilDashboardUpdateSteps',1,'2023-12-12 16:39:38.799015','2023-12-12 16:39:38.800401');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Dashboard\\Setup\\ilDashboardUpdateSteps',2,'2023-12-12 16:39:38.800987','2023-12-12 16:39:38.809540');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',1,'2023-12-12 16:39:38.816858','2023-12-12 16:39:38.817317');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',2,'2023-12-12 16:39:38.817979','2023-12-12 16:39:38.841591');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',3,'2023-12-12 16:39:38.842258','2023-12-12 16:39:38.847709');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',4,'2023-12-12 16:39:38.848329','2023-12-12 16:39:38.848771');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',5,'2023-12-12 16:39:38.849355','2023-12-12 16:39:38.861092');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',6,'2023-12-12 16:39:38.861704','2023-12-12 16:39:38.867089');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',1,'2023-12-12 16:39:39.798148','2023-12-12 16:39:39.804867');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',2,'2023-12-12 16:39:39.805502','2023-12-12 16:39:39.812537');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',3,'2023-12-12 16:39:39.813214','2023-12-12 16:39:39.820004');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',4,'2023-12-12 16:39:39.820636','2023-12-12 16:39:39.826826');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',5,'2023-12-12 16:39:39.827442','2023-12-12 16:39:39.833671');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',6,'2023-12-12 16:39:39.834305','2023-12-12 16:39:39.839961');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',7,'2023-12-12 16:39:39.840608','2023-12-12 16:39:39.849303');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',8,'2023-12-12 16:39:39.849936','2023-12-12 16:39:39.850592');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',9,'2023-12-12 16:39:39.851188','2023-12-12 16:39:39.865679');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',10,'2023-12-12 16:39:39.866319','2023-12-12 16:39:39.872521');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',11,'2023-12-12 16:39:39.873152','2023-12-12 16:39:39.879330');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',12,'2023-12-12 16:39:39.879965','2023-12-12 16:39:39.885563');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',13,'2023-12-12 16:39:39.886245','2023-12-12 16:39:39.892015');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',14,'2023-12-12 16:39:39.892704','2023-12-12 16:39:39.898466');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',15,'2023-12-12 16:39:39.899113','2023-12-12 16:39:39.911924');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',16,'2023-12-12 16:39:39.912625','2023-12-12 16:39:39.913394');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',1,'2023-12-12 16:39:38.874568','2023-12-12 16:39:38.880049');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',2,'2023-12-12 16:39:38.880668','2023-12-12 16:39:38.886115');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',3,'2023-12-12 16:39:38.886720','2023-12-12 16:39:38.887276');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',1,'2023-12-12 16:39:38.894598','2023-12-12 16:39:38.900233');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',2,'2023-12-12 16:39:38.900874','2023-12-12 16:39:38.906340');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',1,'2023-12-12 16:39:38.907450','2023-12-12 16:39:38.912966');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',2,'2023-12-12 16:39:38.913604','2023-12-12 16:39:38.919087');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\LegalDocuments\\Setup\\UpdateSteps',1,'2023-12-12 16:39:38.920097','2023-12-12 16:39:38.970055');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\LegalDocuments\\Setup\\UpdateSteps',2,'2023-12-12 16:39:38.970741','2023-12-12 16:39:38.971244');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Link\\Setup\\LinkDBUpdateSteps',1,'2023-12-12 16:39:38.972279','2023-12-12 16:39:38.980246');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Link\\Setup\\LinkDBUpdateSteps',2,'2023-12-12 16:39:38.980881','2023-12-12 16:39:38.981557');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaCast\\Setup\\ilMediaCastDBUpdateSteps',1,'2023-12-12 16:39:38.982512','2023-12-12 16:39:38.988267');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaCast\\Setup\\ilMediaCastDBUpdateSteps',2,'2023-12-12 16:39:38.988894','2023-12-12 16:39:38.994316');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaCast\\Setup\\ilMediaCastDBUpdateSteps',3,'2023-12-12 16:39:38.994925','2023-12-12 16:39:39.000555');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaCast\\Setup\\ilMediaCastDBUpdateSteps',4,'2023-12-12 16:39:39.001272','2023-12-12 16:39:39.004364');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaObjects\\Setup\\ilMediaObjectsDBUpdateSteps',1,'2023-12-12 16:39:39.005516','2023-12-12 16:39:39.006631');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Notes\\Setup\\ilNotesDBUpdateSteps',1,'2023-12-12 16:39:39.007597','2023-12-12 16:39:39.013002');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Object\\Setup\\ilObject9DBUpdateSteps',1,'2023-12-12 16:39:39.019667','2023-12-12 16:39:39.024275');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Object\\Setup\\ilObject9DBUpdateSteps',2,'2023-12-12 16:39:39.024758','2023-12-12 16:39:39.092466');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Object\\Setup\\ilObjectDBUpdateSteps',1,'2023-12-12 16:39:39.013957','2023-12-12 16:39:39.018894');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Portfolio\\Setup\\ilPortfolioDBUpdateSteps',1,'2023-12-12 16:39:39.093581','2023-12-12 16:39:39.105685');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Repository\\Setup\\RepositoryDBUpdateSteps',1,'2023-12-12 16:39:39.106736','2023-12-12 16:39:39.107544');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',1,'2023-12-12 16:39:39.108632','2023-12-12 16:39:39.120662');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',2,'2023-12-12 16:39:39.121328','2023-12-12 16:39:39.146185');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',3,'2023-12-12 16:39:39.146860','2023-12-12 16:39:39.152866');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',4,'2023-12-12 16:39:39.153637','2023-12-12 16:39:39.159526');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',5,'2023-12-12 16:39:39.160105','2023-12-12 16:39:39.164979');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',6,'2023-12-12 16:39:39.165526','2023-12-12 16:39:39.176173');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',7,'2023-12-12 16:39:39.176665','2023-12-12 16:39:39.177236');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',8,'2023-12-12 16:39:39.177705','2023-12-12 16:39:39.178231');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',9,'2023-12-12 16:39:39.178728','2023-12-12 16:39:39.183344');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',10,'2023-12-12 16:39:39.183836','2023-12-12 16:39:39.184355');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',11,'2023-12-12 16:39:39.184826','2023-12-12 16:39:39.190503');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',12,'2023-12-12 16:39:39.190996','2023-12-12 16:39:39.196765');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',1,'2023-12-12 16:39:39.203953','2023-12-12 16:39:39.239197');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',2,'2023-12-12 16:39:39.239904','2023-12-12 16:39:39.245378');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',3,'2023-12-12 16:39:39.245988','2023-12-12 16:39:39.259866');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',4,'2023-12-12 16:39:39.260560','2023-12-12 16:39:39.280185');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',5,'2023-12-12 16:39:39.280812','2023-12-12 16:39:39.301898');
+INSERT INTO `il_db_steps` VALUES ('ilIndividualAssessmentRectifyMembersTableDBUpdateSteps',1,'2023-12-12 16:39:40.251946','2023-12-12 16:39:40.257004');
+INSERT INTO `il_db_steps` VALUES ('ilIndividualAssessmentRectifyMembersTableDBUpdateSteps',2,'2023-12-12 16:39:40.257656','2023-12-12 16:39:40.258318');
+INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',1,'2023-12-12 16:39:39.625922','2023-12-12 16:39:39.633814');
+INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',2,'2023-12-12 16:39:39.634423','2023-12-12 16:39:39.642084');
+INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',3,'2023-12-12 16:39:39.642678','2023-12-12 16:39:39.643189');
+INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',4,'2023-12-12 16:39:39.643787','2023-12-12 16:39:39.660457');
+INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',5,'2023-12-12 16:39:39.661137','2023-12-12 16:39:39.667384');
+INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',6,'2023-12-12 16:39:39.668074','2023-12-12 16:39:39.674546');
+INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',7,'2023-12-12 16:39:39.675172','2023-12-12 16:39:39.682053');
+INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',8,'2023-12-12 16:39:39.682739','2023-12-12 16:39:39.688813');
+INSERT INTO `il_db_steps` VALUES ('ilIntroduceEventHandlingArtifactDBUpdateSteps',1,'2023-12-12 16:39:39.789218','2023-12-12 16:39:39.797080');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps',1,'2023-12-12 16:39:40.445426','2023-12-12 16:39:40.460126');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps',2,'2023-12-12 16:39:40.460745','2023-12-12 16:39:40.469096');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps',3,'2023-12-12 16:39:40.469737','2023-12-12 16:39:40.470737');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRegisterNotificationType',1,'2023-12-12 16:39:40.471781','2023-12-12 16:39:40.472617');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRegisterNotificationType',2,'2023-12-12 16:39:40.473202','2023-12-12 16:39:40.474079');
+INSERT INTO `il_db_steps` VALUES ('ilLoggingUpdateSteps8',1,'2023-12-12 16:39:40.475061','2023-12-12 16:39:40.475900');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',1,'2023-12-12 16:39:40.259312','2023-12-12 16:39:40.265030');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',2,'2023-12-12 16:39:40.265647','2023-12-12 16:39:40.271342');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',3,'2023-12-12 16:39:40.271999','2023-12-12 16:39:40.277873');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',4,'2023-12-12 16:39:40.278484','2023-12-12 16:39:40.284092');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',5,'2023-12-12 16:39:40.284732','2023-12-12 16:39:40.290336');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',6,'2023-12-12 16:39:40.290982','2023-12-12 16:39:40.296595');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',7,'2023-12-12 16:39:40.297211','2023-12-12 16:39:40.302845');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',8,'2023-12-12 16:39:40.303494','2023-12-12 16:39:40.309589');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',9,'2023-12-12 16:39:40.310207','2023-12-12 16:39:40.315960');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',10,'2023-12-12 16:39:40.316586','2023-12-12 16:39:40.322306');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',11,'2023-12-12 16:39:40.322920','2023-12-12 16:39:40.328713');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',12,'2023-12-12 16:39:40.329332','2023-12-12 16:39:40.335168');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',13,'2023-12-12 16:39:40.335799','2023-12-12 16:39:40.341702');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',14,'2023-12-12 16:39:40.342328','2023-12-12 16:39:40.347680');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',15,'2023-12-12 16:39:40.348311','2023-12-12 16:39:40.368952');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',1,'2023-12-12 16:39:40.370010','2023-12-12 16:39:40.376439');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',2,'2023-12-12 16:39:40.377073','2023-12-12 16:39:40.383219');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',3,'2023-12-12 16:39:40.383847','2023-12-12 16:39:40.392769');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',4,'2023-12-12 16:39:40.393390','2023-12-12 16:39:40.399362');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',5,'2023-12-12 16:39:40.399988','2023-12-12 16:39:40.405337');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',6,'2023-12-12 16:39:40.405914','2023-12-12 16:39:40.411265');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',7,'2023-12-12 16:39:40.411887','2023-12-12 16:39:40.417318');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',8,'2023-12-12 16:39:40.418019','2023-12-12 16:39:40.435272');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',9,'2023-12-12 16:39:40.435922','2023-12-12 16:39:40.444322');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',1,'2023-12-12 16:39:40.663356','2023-12-12 16:39:40.671293');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',2,'2023-12-12 16:39:40.671949','2023-12-12 16:39:40.672918');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',3,'2023-12-12 16:39:40.673495','2023-12-12 16:39:40.674173');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',4,'2023-12-12 16:39:40.674772','2023-12-12 16:39:40.675455');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',5,'2023-12-12 16:39:40.676087','2023-12-12 16:39:40.686900');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',6,'2023-12-12 16:39:40.687535','2023-12-12 16:39:40.693141');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',7,'2023-12-12 16:39:40.693741','2023-12-12 16:39:40.699091');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',8,'2023-12-12 16:39:40.699748','2023-12-12 16:39:40.705271');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',9,'2023-12-12 16:39:40.705882','2023-12-12 16:39:40.711450');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',10,'2023-12-12 16:39:40.712067','2023-12-12 16:39:40.717425');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',11,'2023-12-12 16:39:40.718029','2023-12-12 16:39:40.729740');
+INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',12,'2023-12-12 16:39:40.730356','2023-12-12 16:39:40.731892');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',1,'2023-12-12 16:39:40.621835','2023-12-12 16:39:40.627401');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',2,'2023-12-12 16:39:40.628041','2023-12-12 16:39:40.633497');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',3,'2023-12-12 16:39:40.634103','2023-12-12 16:39:40.639372');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',4,'2023-12-12 16:39:40.639987','2023-12-12 16:39:40.645401');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',5,'2023-12-12 16:39:40.645992','2023-12-12 16:39:40.651340');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',6,'2023-12-12 16:39:40.651967','2023-12-12 16:39:40.657337');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',7,'2023-12-12 16:39:40.658051','2023-12-12 16:39:40.659947');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',8,'2023-12-12 16:39:40.660599','2023-12-12 16:39:40.662327');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',1,'2023-12-12 16:39:40.476845','2023-12-12 16:39:40.482604');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',2,'2023-12-12 16:39:40.483210','2023-12-12 16:39:40.493505');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',3,'2023-12-12 16:39:40.494133','2023-12-12 16:39:40.504527');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',4,'2023-12-12 16:39:40.505181','2023-12-12 16:39:40.515657');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',5,'2023-12-12 16:39:40.516306','2023-12-12 16:39:40.526976');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',6,'2023-12-12 16:39:40.527629','2023-12-12 16:39:40.542589');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',7,'2023-12-12 16:39:40.543237','2023-12-12 16:39:40.558219');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',8,'2023-12-12 16:39:40.558863','2023-12-12 16:39:40.573725');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',9,'2023-12-12 16:39:40.574348','2023-12-12 16:39:40.589676');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',10,'2023-12-12 16:39:40.590295','2023-12-12 16:39:40.605243');
+INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',11,'2023-12-12 16:39:40.605852','2023-12-12 16:39:40.620681');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',1,'2023-12-12 16:39:40.745514','2023-12-12 16:39:40.746045');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',2,'2023-12-12 16:39:40.746642','2023-12-12 16:39:40.747782');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',3,'2023-12-12 16:39:40.748371','2023-12-12 16:39:40.749597');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',4,'2023-12-12 16:39:40.750183','2023-12-12 16:39:40.751779');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',5,'2023-12-12 16:39:40.752382','2023-12-12 16:39:40.753632');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',6,'2023-12-12 16:39:40.754372','2023-12-12 16:39:40.755632');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',7,'2023-12-12 16:39:40.756273','2023-12-12 16:39:40.757139');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',8,'2023-12-12 16:39:40.757727','2023-12-12 16:39:40.764151');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',9,'2023-12-12 16:39:40.764798','2023-12-12 16:39:40.766089');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',10,'2023-12-12 16:39:40.766605','2023-12-12 16:39:40.774578');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',11,'2023-12-12 16:39:40.775108','2023-12-12 16:39:40.776339');
+INSERT INTO `il_db_steps` VALUES ('ilObjCloudModuleProgressTableUpdateSteps',1,'2023-12-12 16:39:40.777271','2023-12-12 16:39:40.778064');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',1,'2023-12-12 16:39:40.778896','2023-12-12 16:39:40.789544');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',2,'2023-12-12 16:39:40.790049','2023-12-12 16:39:40.799836');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',3,'2023-12-12 16:39:40.800336','2023-12-12 16:39:40.809509');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',4,'2023-12-12 16:39:40.810009','2023-12-12 16:39:40.819202');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',5,'2023-12-12 16:39:40.819725','2023-12-12 16:39:40.828889');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',6,'2023-12-12 16:39:40.829380','2023-12-12 16:39:40.830736');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',7,'2023-12-12 16:39:40.831240','2023-12-12 16:39:40.832631');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',8,'2023-12-12 16:39:40.833116','2023-12-12 16:39:40.834456');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',9,'2023-12-12 16:39:40.834934','2023-12-12 16:39:40.836311');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',10,'2023-12-12 16:39:40.836855','2023-12-12 16:39:40.838152');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',11,'2023-12-12 16:39:40.838623','2023-12-12 16:39:40.839346');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',12,'2023-12-12 16:39:40.839825','2023-12-12 16:39:40.840539');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',13,'2023-12-12 16:39:40.841100','2023-12-12 16:39:40.842378');
+INSERT INTO `il_db_steps` VALUES ('ilPDFGenerationDB90',14,'2023-12-12 16:39:40.842860','2023-12-12 16:39:40.843572');
+INSERT INTO `il_db_steps` VALUES ('ilRadiusDBUpdateSteps',1,'2023-12-12 16:39:40.844445','2023-12-12 16:39:40.844895');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',1,'2023-12-12 16:39:38.338173','2023-12-12 16:39:38.367464');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',2,'2023-12-12 16:39:38.368013','2023-12-12 16:39:38.388821');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',3,'2023-12-12 16:39:38.389366','2023-12-12 16:39:38.429636');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',4,'2023-12-12 16:39:38.430303','2023-12-12 16:39:38.437061');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',5,'2023-12-12 16:39:38.437660','2023-12-12 16:39:38.471262');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',6,'2023-12-12 16:39:38.471788','2023-12-12 16:39:38.519138');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',7,'2023-12-12 16:39:38.519862','2023-12-12 16:39:38.526648');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',8,'2023-12-12 16:39:38.527269','2023-12-12 16:39:38.556170');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',9,'2023-12-12 16:39:38.556806','2023-12-12 16:39:38.566584');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',10,'2023-12-12 16:39:38.567201','2023-12-12 16:39:38.580806');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',11,'2023-12-12 16:39:38.581452','2023-12-12 16:39:38.598519');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',12,'2023-12-12 16:39:38.599143','2023-12-12 16:39:38.604883');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB90',1,'2023-12-12 16:39:39.951730','2023-12-12 16:39:39.994214');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB90',2,'2023-12-12 16:39:39.994875','2023-12-12 16:39:40.021210');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB90',3,'2023-12-12 16:39:40.021888','2023-12-12 16:39:40.027049');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB90',4,'2023-12-12 16:39:40.027697','2023-12-12 16:39:40.032367');
+INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',1,'2023-12-12 16:39:40.848750','2023-12-12 16:39:40.854713');
+INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',2,'2023-12-12 16:39:40.855241','2023-12-12 16:39:40.869825');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',1,'2023-12-12 16:39:40.893060','2023-12-12 16:39:40.913834');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',2,'2023-12-12 16:39:40.914360','2023-12-12 16:39:40.919452');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',3,'2023-12-12 16:39:40.919946','2023-12-12 16:39:40.924695');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',4,'2023-12-12 16:39:40.925205','2023-12-12 16:39:40.925597');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',5,'2023-12-12 16:39:40.926110','2023-12-12 16:39:40.926514');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',6,'2023-12-12 16:39:40.927018','2023-12-12 16:39:40.927831');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',7,'2023-12-12 16:39:40.928349','2023-12-12 16:39:40.929305');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',8,'2023-12-12 16:39:40.929848','2023-12-12 16:39:40.935168');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',9,'2023-12-12 16:39:40.935805','2023-12-12 16:39:40.936593');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',10,'2023-12-12 16:39:40.937203','2023-12-12 16:39:40.944921');
+INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',11,'2023-12-12 16:39:40.945559','2023-12-12 16:39:40.957641');
+INSERT INTO `il_db_steps` VALUES ('ilStudyProgrammeAssignmentTableUpdateSteps',1,'2023-12-12 16:39:40.978569','2023-12-12 16:39:40.986575');
+INSERT INTO `il_db_steps` VALUES ('ilStudyProgrammeAutoCategoryTableUpdateSteps',1,'2023-12-12 16:39:41.008416','2023-12-12 16:39:41.014561');
+INSERT INTO `il_db_steps` VALUES ('ilStudyProgrammePCStatusInfoUpdateSteps',1,'2023-12-12 16:39:41.015560','2023-12-12 16:39:41.016387');
+INSERT INTO `il_db_steps` VALUES ('ilStudyProgrammeProgressTableUpdateSteps',1,'2023-12-12 16:39:40.958801','2023-12-12 16:39:40.964559');
+INSERT INTO `il_db_steps` VALUES ('ilStudyProgrammeProgressTableUpdateSteps',2,'2023-12-12 16:39:40.965178','2023-12-12 16:39:40.971470');
+INSERT INTO `il_db_steps` VALUES ('ilStudyProgrammeProgressTableUpdateSteps',3,'2023-12-12 16:39:40.972111','2023-12-12 16:39:40.977513');
+INSERT INTO `il_db_steps` VALUES ('ilStudyProgrammeSettingsTableUpdateSteps',1,'2023-12-12 16:39:40.987952','2023-12-12 16:39:40.993671');
+INSERT INTO `il_db_steps` VALUES ('ilStudyProgrammeSettingsTableUpdateSteps',2,'2023-12-12 16:39:40.994296','2023-12-12 16:39:41.007392');
+INSERT INTO `il_db_steps` VALUES ('ilStudyProgrammeUDFDefinitionUpdateSteps',1,'2023-12-12 16:39:41.017295','2023-12-12 16:39:41.022663');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',1,'2023-12-12 16:39:41.096769','2023-12-12 16:39:41.103656');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',2,'2023-12-12 16:39:41.104286','2023-12-12 16:39:41.115799');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',3,'2023-12-12 16:39:41.116433','2023-12-12 16:39:41.118700');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',4,'2023-12-12 16:39:41.119314','2023-12-12 16:39:41.132294');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',5,'2023-12-12 16:39:41.132920','2023-12-12 16:39:41.173231');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',6,'2023-12-12 16:39:41.173872','2023-12-12 16:39:41.194216');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',7,'2023-12-12 16:39:41.194841','2023-12-12 16:39:41.227543');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',8,'2023-12-12 16:39:41.228136','2023-12-12 16:39:41.233772');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',9,'2023-12-12 16:39:41.234280','2023-12-12 16:39:41.240277');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',10,'2023-12-12 16:39:41.240874','2023-12-12 16:39:41.247449');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',11,'2023-12-12 16:39:41.248082','2023-12-12 16:39:41.254525');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',12,'2023-12-12 16:39:41.255153','2023-12-12 16:39:41.256499');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',13,'2023-12-12 16:39:41.257140','2023-12-12 16:39:41.270051');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',14,'2023-12-12 16:39:41.270683','2023-12-12 16:39:41.282114');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',15,'2023-12-12 16:39:41.282746','2023-12-12 16:39:41.289702');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',16,'2023-12-12 16:39:41.290328','2023-12-12 16:39:41.295496');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',17,'2023-12-12 16:39:41.296140','2023-12-12 16:39:41.301432');
+INSERT INTO `il_db_steps` VALUES ('ilTest9DBUpdateSteps',18,'2023-12-12 16:39:41.302072','2023-12-12 16:39:41.307756');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',1,'2023-12-12 16:39:41.023770','2023-12-12 16:39:41.025028');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',2,'2023-12-12 16:39:41.025620','2023-12-12 16:39:41.031146');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',3,'2023-12-12 16:39:41.031863','2023-12-12 16:39:41.038435');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',4,'2023-12-12 16:39:41.039062','2023-12-12 16:39:41.045485');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',5,'2023-12-12 16:39:41.046098','2023-12-12 16:39:41.059436');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',6,'2023-12-12 16:39:41.060098','2023-12-12 16:39:41.065553');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',7,'2023-12-12 16:39:41.066180','2023-12-12 16:39:41.071725');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool9DBUpdateSteps',1,'2023-12-12 16:39:41.072787','2023-12-12 16:39:41.078929');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool9DBUpdateSteps',2,'2023-12-12 16:39:41.079544','2023-12-12 16:39:41.085869');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool9DBUpdateSteps',3,'2023-12-12 16:39:41.086494','2023-12-12 16:39:41.088653');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool9DBUpdateSteps',4,'2023-12-12 16:39:41.089278','2023-12-12 16:39:41.095717');
+INSERT INTO `il_db_steps` VALUES ('ilTreeDBUpdateSteps8',1,'2023-12-12 16:39:41.308875','2023-12-12 16:39:41.315183');
+INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',1,'2023-12-12 16:39:41.372439','2023-12-12 16:39:41.392529');
+INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',2,'2023-12-12 16:39:41.393125','2023-12-12 16:39:41.414590');
+INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',3,'2023-12-12 16:39:41.415252','2023-12-12 16:39:41.420387');
+INSERT INTO `il_db_steps` VALUES ('ilUserDB90',1,'2023-12-12 16:39:41.421460','2023-12-12 16:39:41.427774');
+INSERT INTO `il_db_steps` VALUES ('ilUserDB90',2,'2023-12-12 16:39:41.428399','2023-12-12 16:39:41.440313');
+INSERT INTO `il_db_steps` VALUES ('ilUserDB90',3,'2023-12-12 16:39:41.441020','2023-12-12 16:39:41.446411');
+INSERT INTO `il_db_steps` VALUES ('ilUserDB90',4,'2023-12-12 16:39:41.447095','2023-12-12 16:39:41.447652');
+INSERT INTO `il_db_steps` VALUES ('ilUserDB90',5,'2023-12-12 16:39:41.448240','2023-12-12 16:39:41.453864');
+INSERT INTO `il_db_steps` VALUES ('ilUserDB90',6,'2023-12-12 16:39:41.454487','2023-12-12 16:39:41.459460');
+INSERT INTO `il_db_steps` VALUES ('ilUserDB90',7,'2023-12-12 16:39:41.460101','2023-12-12 16:39:41.470891');
+INSERT INTO `il_db_steps` VALUES ('ilWebResourceDBUpdateSteps',1,'2023-12-12 16:39:41.472042','2023-12-12 16:39:41.478899');
+INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',1,'2023-12-12 16:39:41.479938','2023-12-12 16:39:41.486502');
+INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',2,'2023-12-12 16:39:41.487110','2023-12-12 16:39:41.493529');
+INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',3,'2023-12-12 16:39:41.494136','2023-12-12 16:39:41.500293');
+INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',4,'2023-12-12 16:39:41.500904','2023-12-12 16:39:41.502972');
+INSERT INTO `il_db_steps` VALUES ('ilWOPIDB90',1,'2023-12-12 16:39:38.616248','2023-12-12 16:39:38.629801');
+INSERT INTO `il_db_steps` VALUES ('ilWOPIDB90',2,'2023-12-12 16:39:38.630407','2023-12-12 16:39:38.650076');
+INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',1,'2023-12-12 16:39:41.554740','2023-12-12 16:39:41.555315');
+INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',2,'2023-12-12 16:39:41.555897','2023-12-12 16:39:41.595930');
+INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',3,'2023-12-12 16:39:41.596587','2023-12-12 16:39:41.597086');
+INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',4,'2023-12-12 16:39:41.597674','2023-12-12 16:39:41.601575');
 
 --
 -- Table structure for table `il_dcl_data`
@@ -7172,7 +7355,7 @@ CREATE TABLE `il_dcl_data` (
   `approval` tinyint(4) DEFAULT NULL,
   `notification` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_data`
@@ -7186,7 +7369,7 @@ CREATE TABLE `il_dcl_data` (
 CREATE TABLE `il_dcl_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_data_seq`
@@ -7204,7 +7387,7 @@ CREATE TABLE `il_dcl_datatype` (
   `storage_location` int(11) NOT NULL DEFAULT 0,
   `sort` smallint(6) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_datatype`
@@ -7215,7 +7398,6 @@ INSERT INTO `il_dcl_datatype` VALUES (2,'text','text',1,0);
 INSERT INTO `il_dcl_datatype` VALUES (3,'reference','text',1,80);
 INSERT INTO `il_dcl_datatype` VALUES (4,'boolean','integer',2,30);
 INSERT INTO `il_dcl_datatype` VALUES (5,'datetime','date',3,40);
-INSERT INTO `il_dcl_datatype` VALUES (6,'fileupload','integer',2,70);
 INSERT INTO `il_dcl_datatype` VALUES (7,'rating','integer',0,100);
 INSERT INTO `il_dcl_datatype` VALUES (8,'ilias_reference','integer',2,90);
 INSERT INTO `il_dcl_datatype` VALUES (9,'mob','integer',2,60);
@@ -7223,6 +7405,7 @@ INSERT INTO `il_dcl_datatype` VALUES (11,'formula','text',0,110);
 INSERT INTO `il_dcl_datatype` VALUES (12,'plugin','text',0,120);
 INSERT INTO `il_dcl_datatype` VALUES (14,'text_selection','text',1,10);
 INSERT INTO `il_dcl_datatype` VALUES (15,'date_selection','text',1,50);
+INSERT INTO `il_dcl_datatype` VALUES (16,'file','text',1,75);
 
 --
 -- Table structure for table `il_dcl_datatype_prop`
@@ -7234,7 +7417,7 @@ CREATE TABLE `il_dcl_datatype_prop` (
   `title` varchar(256) DEFAULT NULL,
   `inputformat` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_datatype_prop`
@@ -7270,7 +7453,7 @@ CREATE TABLE `il_dcl_field` (
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`datatype_id`),
   KEY `i2_idx` (`table_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_field`
@@ -7286,8 +7469,9 @@ CREATE TABLE `il_dcl_field_prop` (
   `field_id` bigint(20) NOT NULL DEFAULT 0,
   `name` varchar(4000) NOT NULL DEFAULT '',
   `value` varchar(4000) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`id`,`field_id`)
+) ;
 
 --
 -- Dumping data for table `il_dcl_field_prop`
@@ -7306,7 +7490,7 @@ CREATE TABLE `il_dcl_field_prop_b` (
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`field_id`),
   KEY `i2_idx` (`datatype_prop_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_field_prop_b`
@@ -7320,7 +7504,7 @@ CREATE TABLE `il_dcl_field_prop_b` (
 CREATE TABLE `il_dcl_field_prop_s_b` (
   `sequence` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_field_prop_s_b`
@@ -7334,7 +7518,7 @@ CREATE TABLE `il_dcl_field_prop_s_b` (
 CREATE TABLE `il_dcl_field_prop_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_field_prop_seq`
@@ -7348,7 +7532,7 @@ CREATE TABLE `il_dcl_field_prop_seq` (
 CREATE TABLE `il_dcl_field_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_field_seq`
@@ -7368,7 +7552,7 @@ CREATE TABLE `il_dcl_record` (
   `last_edit_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`table_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_record`
@@ -7386,7 +7570,7 @@ CREATE TABLE `il_dcl_record_field` (
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`record_id`),
   KEY `i2_idx` (`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_record_field`
@@ -7400,7 +7584,7 @@ CREATE TABLE `il_dcl_record_field` (
 CREATE TABLE `il_dcl_record_field_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_record_field_seq`
@@ -7414,7 +7598,7 @@ CREATE TABLE `il_dcl_record_field_seq` (
 CREATE TABLE `il_dcl_record_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_record_seq`
@@ -7430,9 +7614,9 @@ CREATE TABLE `il_dcl_sel_opts` (
   `field_id` bigint(20) NOT NULL,
   `opt_id` bigint(20) NOT NULL,
   `sorting` bigint(20) NOT NULL,
-  `value` varchar(128) NOT NULL,
+  `value` varchar(4000) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_sel_opts`
@@ -7446,7 +7630,7 @@ CREATE TABLE `il_dcl_sel_opts` (
 CREATE TABLE `il_dcl_sel_opts_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_sel_opts_seq`
@@ -7462,7 +7646,7 @@ CREATE TABLE `il_dcl_stloc1_default` (
   `tview_set_id` int(11) DEFAULT NULL,
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc1_default`
@@ -7476,7 +7660,7 @@ CREATE TABLE `il_dcl_stloc1_default` (
 CREATE TABLE `il_dcl_stloc1_default_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc1_default_seq`
@@ -7493,7 +7677,7 @@ CREATE TABLE `il_dcl_stloc1_value` (
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`record_field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc1_value`
@@ -7507,7 +7691,7 @@ CREATE TABLE `il_dcl_stloc1_value` (
 CREATE TABLE `il_dcl_stloc1_value_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc1_value_seq`
@@ -7523,7 +7707,7 @@ CREATE TABLE `il_dcl_stloc2_default` (
   `tview_set_id` int(11) DEFAULT NULL,
   `value` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc2_default`
@@ -7537,7 +7721,7 @@ CREATE TABLE `il_dcl_stloc2_default` (
 CREATE TABLE `il_dcl_stloc2_default_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc2_default_seq`
@@ -7554,7 +7738,7 @@ CREATE TABLE `il_dcl_stloc2_value` (
   `value` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`record_field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc2_value`
@@ -7568,7 +7752,7 @@ CREATE TABLE `il_dcl_stloc2_value` (
 CREATE TABLE `il_dcl_stloc2_value_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc2_value_seq`
@@ -7584,7 +7768,7 @@ CREATE TABLE `il_dcl_stloc3_default` (
   `tview_set_id` int(11) NOT NULL,
   `value` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc3_default`
@@ -7598,7 +7782,7 @@ CREATE TABLE `il_dcl_stloc3_default` (
 CREATE TABLE `il_dcl_stloc3_default_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc3_default_seq`
@@ -7612,10 +7796,10 @@ CREATE TABLE `il_dcl_stloc3_default_seq` (
 CREATE TABLE `il_dcl_stloc3_value` (
   `id` int(11) NOT NULL DEFAULT 0,
   `record_field_id` int(11) NOT NULL DEFAULT 0,
-  `value` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `value` datetime DEFAULT '1970-01-01 00:00:00',
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`record_field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc3_value`
@@ -7629,7 +7813,7 @@ CREATE TABLE `il_dcl_stloc3_value` (
 CREATE TABLE `il_dcl_stloc3_value_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_stloc3_value_seq`
@@ -7664,7 +7848,7 @@ CREATE TABLE `il_dcl_table` (
   `table_order` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_table`
@@ -7678,7 +7862,7 @@ CREATE TABLE `il_dcl_table` (
 CREATE TABLE `il_dcl_table_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_table_seq`
@@ -7694,7 +7878,7 @@ CREATE TABLE `il_dcl_tableview` (
   `table_id` bigint(20) NOT NULL DEFAULT 0,
   `title` varchar(128) NOT NULL DEFAULT '',
   `roles` longtext DEFAULT NULL,
-  `description` varchar(128) DEFAULT NULL,
+  `description` varchar(128) NOT NULL DEFAULT '',
   `tableview_order` bigint(20) DEFAULT NULL,
   `step_vs` tinyint(4) NOT NULL DEFAULT 1,
   `step_c` tinyint(4) NOT NULL DEFAULT 0,
@@ -7703,7 +7887,7 @@ CREATE TABLE `il_dcl_tableview` (
   `step_s` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `t1_idx` (`table_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_tableview`
@@ -7717,7 +7901,7 @@ CREATE TABLE `il_dcl_tableview` (
 CREATE TABLE `il_dcl_tableview_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_tableview_seq`
@@ -7733,10 +7917,10 @@ CREATE TABLE `il_dcl_tfield_set` (
   `table_id` bigint(20) NOT NULL DEFAULT 0,
   `field` varchar(128) NOT NULL DEFAULT '',
   `field_order` bigint(20) DEFAULT NULL,
-  `exportable` tinyint(4) DEFAULT NULL,
+  `exportable` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `t2_idx` (`table_id`,`field`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_tfield_set`
@@ -7750,7 +7934,7 @@ CREATE TABLE `il_dcl_tfield_set` (
 CREATE TABLE `il_dcl_tfield_set_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_tfield_set_seq`
@@ -7765,10 +7949,10 @@ CREATE TABLE `il_dcl_tview_set` (
   `id` bigint(20) NOT NULL DEFAULT 0,
   `tableview_id` bigint(20) NOT NULL DEFAULT 0,
   `field` varchar(128) NOT NULL DEFAULT '',
-  `visible` tinyint(4) DEFAULT NULL,
-  `in_filter` tinyint(4) DEFAULT NULL,
+  `visible` tinyint(4) NOT NULL DEFAULT 0,
+  `in_filter` tinyint(4) NOT NULL DEFAULT 0,
   `filter_value` longtext DEFAULT NULL,
-  `filter_changeable` tinyint(4) DEFAULT NULL,
+  `filter_changeable` tinyint(4) NOT NULL DEFAULT 0,
   `default_value` varchar(255) DEFAULT NULL,
   `required_create` tinyint(4) NOT NULL DEFAULT 0,
   `locked_create` tinyint(4) NOT NULL DEFAULT 0,
@@ -7776,8 +7960,9 @@ CREATE TABLE `il_dcl_tview_set` (
   `visible_edit` tinyint(4) NOT NULL DEFAULT 1,
   `required_edit` tinyint(4) NOT NULL DEFAULT 0,
   `locked_edit` tinyint(4) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`tableview_id`)
+) ;
 
 --
 -- Dumping data for table `il_dcl_tview_set`
@@ -7791,7 +7976,7 @@ CREATE TABLE `il_dcl_tview_set` (
 CREATE TABLE `il_dcl_tview_set_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_tview_set_seq`
@@ -7805,113 +7990,12 @@ CREATE TABLE `il_dcl_tview_set_seq` (
 CREATE TABLE `il_dcl_view_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_dcl_view_seq`
 --
 
-
---
--- Table structure for table `il_event_handling`
---
-
-CREATE TABLE `il_event_handling` (
-  `component` varchar(50) NOT NULL DEFAULT '',
-  `type` varchar(10) NOT NULL DEFAULT '',
-  `id` varchar(100) NOT NULL DEFAULT '',
-  PRIMARY KEY (`component`,`type`,`id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `il_event_handling`
---
-
-INSERT INTO `il_event_handling` VALUES ('Modules/Category','raise','delete');
-INSERT INTO `il_event_handling` VALUES ('Modules/Course','listen','Services/AccessControl');
-INSERT INTO `il_event_handling` VALUES ('Modules/Course','listen','Services/Tracking');
-INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','addParticipant');
-INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','addSubscriber');
-INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','addToWaitingList');
-INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','create');
-INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','delete');
-INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','deleteParticipant');
-INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','update');
-INSERT INTO `il_event_handling` VALUES ('Modules/Exercise','raise','createAssignment');
-INSERT INTO `il_event_handling` VALUES ('Modules/Exercise','raise','delete');
-INSERT INTO `il_event_handling` VALUES ('Modules/Exercise','raise','deleteAssignment');
-INSERT INTO `il_event_handling` VALUES ('Modules/Exercise','raise','updateAssignment');
-INSERT INTO `il_event_handling` VALUES ('Modules/Forum','listen','Modules/Course');
-INSERT INTO `il_event_handling` VALUES ('Modules/Forum','listen','Modules/Forum');
-INSERT INTO `il_event_handling` VALUES ('Modules/Forum','listen','Modules/Group');
-INSERT INTO `il_event_handling` VALUES ('Modules/Forum','listen','Services/News');
-INSERT INTO `il_event_handling` VALUES ('Modules/Forum','raise','censoredPost');
-INSERT INTO `il_event_handling` VALUES ('Modules/Forum','raise','createdPost');
-INSERT INTO `il_event_handling` VALUES ('Modules/Forum','raise','deletedPost');
-INSERT INTO `il_event_handling` VALUES ('Modules/Forum','raise','updatedPost');
-INSERT INTO `il_event_handling` VALUES ('Modules/Group','listen','Services/AccessControl');
-INSERT INTO `il_event_handling` VALUES ('Modules/Group','raise','addParticipant');
-INSERT INTO `il_event_handling` VALUES ('Modules/Group','raise','addSubscriber');
-INSERT INTO `il_event_handling` VALUES ('Modules/Group','raise','addToWaitingList');
-INSERT INTO `il_event_handling` VALUES ('Modules/Group','raise','create');
-INSERT INTO `il_event_handling` VALUES ('Modules/Group','raise','delete');
-INSERT INTO `il_event_handling` VALUES ('Modules/Group','raise','deleteParticipant');
-INSERT INTO `il_event_handling` VALUES ('Modules/Group','raise','update');
-INSERT INTO `il_event_handling` VALUES ('Modules/MediaPool','listen','Services/Object');
-INSERT INTO `il_event_handling` VALUES ('Modules/OrgUnit','listen','Services/Tree');
-INSERT INTO `il_event_handling` VALUES ('Modules/OrgUnit','raise','delete');
-INSERT INTO `il_event_handling` VALUES ('Modules/Session','raise','addSubscriber');
-INSERT INTO `il_event_handling` VALUES ('Modules/Session','raise','addToWaitingList');
-INSERT INTO `il_event_handling` VALUES ('Modules/Session','raise','create');
-INSERT INTO `il_event_handling` VALUES ('Modules/Session','raise','delete');
-INSERT INTO `il_event_handling` VALUES ('Modules/Session','raise','update');
-INSERT INTO `il_event_handling` VALUES ('Modules/StudyProgramme','listen','Services/Object');
-INSERT INTO `il_event_handling` VALUES ('Modules/StudyProgramme','listen','Services/Tracking');
-INSERT INTO `il_event_handling` VALUES ('Modules/StudyProgramme','listen','Services/Tree');
-INSERT INTO `il_event_handling` VALUES ('Modules/StudyProgramme','listen','Services/User');
-INSERT INTO `il_event_handling` VALUES ('Modules/StudyProgramme','raise','userAssigned');
-INSERT INTO `il_event_handling` VALUES ('Modules/StudyProgramme','raise','userDeassigned');
-INSERT INTO `il_event_handling` VALUES ('Modules/StudyProgramme','raise','userSuccessful');
-INSERT INTO `il_event_handling` VALUES ('Services/AccessControl','raise','assignUser');
-INSERT INTO `il_event_handling` VALUES ('Services/AccessControl','raise','deassignUser');
-INSERT INTO `il_event_handling` VALUES ('Services/Authentication','raise','afterLogin');
-INSERT INTO `il_event_handling` VALUES ('Services/Authentication','raise','expiredSessionDetected');
-INSERT INTO `il_event_handling` VALUES ('Services/Authentication','raise','reachedSessionPoolLimit');
-INSERT INTO `il_event_handling` VALUES ('Services/Badge','listen','Services/Tracking');
-INSERT INTO `il_event_handling` VALUES ('Services/Badge','listen','Services/User');
-INSERT INTO `il_event_handling` VALUES ('Services/Calendar','listen','Modules/Course');
-INSERT INTO `il_event_handling` VALUES ('Services/Calendar','listen','Modules/Exercise');
-INSERT INTO `il_event_handling` VALUES ('Services/Calendar','listen','Modules/Group');
-INSERT INTO `il_event_handling` VALUES ('Services/Calendar','listen','Modules/Session');
-INSERT INTO `il_event_handling` VALUES ('Services/Contact','listen','Services/Contact');
-INSERT INTO `il_event_handling` VALUES ('Services/Contact','listen','Services/User');
-INSERT INTO `il_event_handling` VALUES ('Services/Contact','raise','contactRequested');
-INSERT INTO `il_event_handling` VALUES ('Services/ContainerReference','listen','Modules/Category');
-INSERT INTO `il_event_handling` VALUES ('Services/ContainerReference','listen','Modules/Course');
-INSERT INTO `il_event_handling` VALUES ('Services/News','raise','readNews');
-INSERT INTO `il_event_handling` VALUES ('Services/News','raise','unreadNews');
-INSERT INTO `il_event_handling` VALUES ('Services/Notification','listen','Service/Object');
-INSERT INTO `il_event_handling` VALUES ('Services/Object','raise','create');
-INSERT INTO `il_event_handling` VALUES ('Services/Object','raise','delete');
-INSERT INTO `il_event_handling` VALUES ('Services/Object','raise','toTrash');
-INSERT INTO `il_event_handling` VALUES ('Services/Object','raise','undelete');
-INSERT INTO `il_event_handling` VALUES ('Services/Object','raise','update');
-INSERT INTO `il_event_handling` VALUES ('Services/OnScreenChat','listen','Services/User');
-INSERT INTO `il_event_handling` VALUES ('Services/Search','listen','Services/Object');
-INSERT INTO `il_event_handling` VALUES ('Services/Skill','listen','Services/Tracking');
-INSERT INTO `il_event_handling` VALUES ('Services/Tagging','listen','Services/Object');
-INSERT INTO `il_event_handling` VALUES ('Services/TermsOfService','listen','Services/User');
-INSERT INTO `il_event_handling` VALUES ('Services/Tracking','listen','Services/Object');
-INSERT INTO `il_event_handling` VALUES ('Services/Tracking','listen','Services/Tree');
-INSERT INTO `il_event_handling` VALUES ('Services/Tracking','raise','updateStatus');
-INSERT INTO `il_event_handling` VALUES ('Services/Tree','raise','deleteNode');
-INSERT INTO `il_event_handling` VALUES ('Services/User','raise','afterCreate');
-INSERT INTO `il_event_handling` VALUES ('Services/User','raise','afterUpdate');
-INSERT INTO `il_event_handling` VALUES ('Services/User','raise','deleteUser');
-INSERT INTO `il_event_handling` VALUES ('Services/WebServices','raise','newEcsEvent');
-INSERT INTO `il_event_handling` VALUES ('Services/WebServices/ECS','listen','Modules/Course');
-INSERT INTO `il_event_handling` VALUES ('Services/WebServices/ECS','listen','Modules/Group');
-INSERT INTO `il_event_handling` VALUES ('Services/WebServices/ECS','listen','Services/User');
 
 --
 -- Table structure for table `il_exc_team`
@@ -7921,8 +8005,9 @@ CREATE TABLE `il_exc_team` (
   `id` int(11) NOT NULL DEFAULT 0,
   `ass_id` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`ass_id`,`user_id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`ass_id`,`user_id`),
+  KEY `i1_idx` (`id`)
+) ;
 
 --
 -- Dumping data for table `il_exc_team`
@@ -7942,7 +8027,7 @@ CREATE TABLE `il_exc_team_log` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`log_id`),
   KEY `i1_idx` (`team_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_exc_team_log`
@@ -7956,7 +8041,7 @@ CREATE TABLE `il_exc_team_log` (
 CREATE TABLE `il_exc_team_log_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_exc_team_log_seq`
@@ -7970,7 +8055,7 @@ CREATE TABLE `il_exc_team_log_seq` (
 CREATE TABLE `il_exc_team_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_exc_team_seq`
@@ -7985,7 +8070,7 @@ CREATE TABLE `il_external_feed_block` (
   `id` int(11) NOT NULL DEFAULT 0,
   `feed_url` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_external_feed_block`
@@ -7999,12 +8084,93 @@ CREATE TABLE `il_external_feed_block` (
 CREATE TABLE `il_external_feed_block_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_external_feed_block_seq`
 --
 
+
+--
+-- Table structure for table `il_file_icon`
+--
+
+CREATE TABLE `il_file_icon` (
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `active` tinyint(4) DEFAULT 0,
+  `is_default_icon` tinyint(4) DEFAULT 0
+) ;
+
+--
+-- Dumping data for table `il_file_icon`
+--
+
+INSERT INTO `il_file_icon` VALUES ('d53194df-8a3e-4471-9676-3e62ece3dfa4',1,1);
+INSERT INTO `il_file_icon` VALUES ('a2f53c97-c1b5-453d-893e-1409f031b6d8',1,1);
+INSERT INTO `il_file_icon` VALUES ('0656f6b5-a74c-422c-b263-fbaf7d28469a',1,1);
+INSERT INTO `il_file_icon` VALUES ('e8b73278-7cb6-4fcc-93c4-971abd04ffed',1,1);
+INSERT INTO `il_file_icon` VALUES ('88ad4ffb-f891-443a-b570-526ce59447a7',1,1);
+INSERT INTO `il_file_icon` VALUES ('582493f2-a1b5-4b9c-99bf-b6225cca777e',1,1);
+INSERT INTO `il_file_icon` VALUES ('eb4eb7a4-af64-43ba-a485-ed74ae36b917',1,1);
+INSERT INTO `il_file_icon` VALUES ('15b77530-376c-4565-aebb-4fd9f81b7406',1,1);
+INSERT INTO `il_file_icon` VALUES ('ddc3f919-c08b-4bd9-8149-aaa106ac8419',1,1);
+INSERT INTO `il_file_icon` VALUES ('25ffc93d-4e2f-4544-9978-f6afd9faaafc',1,1);
+INSERT INTO `il_file_icon` VALUES ('f9d619a1-e359-433b-a338-0e5b744f90ed',1,1);
+INSERT INTO `il_file_icon` VALUES ('d3b44a21-7b2f-4f6f-bd9c-6e5f28275e7e',1,1);
+INSERT INTO `il_file_icon` VALUES ('907de3d5-797c-4b43-ad56-3284ace25a67',1,1);
+INSERT INTO `il_file_icon` VALUES ('d2300b0c-7cdd-4979-b748-c28eb6b02b6b',1,1);
+INSERT INTO `il_file_icon` VALUES ('e954badf-5f25-45e2-8f00-41dd0c9611d4',1,1);
+INSERT INTO `il_file_icon` VALUES ('84292ec7-c6f2-4e06-9921-16e19019602a',1,1);
+INSERT INTO `il_file_icon` VALUES ('6e6f130c-e504-48e5-b2e2-274a964fb88a',1,1);
+INSERT INTO `il_file_icon` VALUES ('3132880a-4691-4252-bd0e-fb35a2c03669',1,1);
+INSERT INTO `il_file_icon` VALUES ('a99277be-66ea-4c60-89fb-2fc86e9f1301',1,1);
+INSERT INTO `il_file_icon` VALUES ('e9f692d3-c8b3-4eda-b74f-2b182c44aebd',1,1);
+INSERT INTO `il_file_icon` VALUES ('fd4756bd-20db-4a27-beb1-b87866ada9b0',1,1);
+INSERT INTO `il_file_icon` VALUES ('d1bcba58-4773-43e0-9fce-839558dbd509',1,1);
+INSERT INTO `il_file_icon` VALUES ('542265be-b570-40ea-904c-7f830e3c7e28',1,1);
+INSERT INTO `il_file_icon` VALUES ('8d479113-78e5-4fdf-bd3b-b0e7e95006d9',1,1);
+INSERT INTO `il_file_icon` VALUES ('5361c298-6383-4f3c-93ba-6e5df61268d7',1,1);
+INSERT INTO `il_file_icon` VALUES ('7ada888f-283b-4161-b3a7-bb69f207deb0',1,1);
+
+--
+-- Table structure for table `il_file_icon_suffixes`
+--
+
+CREATE TABLE `il_file_icon_suffixes` (
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `suffix` varchar(32) DEFAULT NULL
+) ;
+
+--
+-- Dumping data for table `il_file_icon_suffixes`
+--
+
+INSERT INTO `il_file_icon_suffixes` VALUES ('d53194df-8a3e-4471-9676-3e62ece3dfa4','avi');
+INSERT INTO `il_file_icon_suffixes` VALUES ('a2f53c97-c1b5-453d-893e-1409f031b6d8','bmp');
+INSERT INTO `il_file_icon_suffixes` VALUES ('0656f6b5-a74c-422c-b263-fbaf7d28469a','csv');
+INSERT INTO `il_file_icon_suffixes` VALUES ('e8b73278-7cb6-4fcc-93c4-971abd04ffed','docx');
+INSERT INTO `il_file_icon_suffixes` VALUES ('88ad4ffb-f891-443a-b570-526ce59447a7','flv');
+INSERT INTO `il_file_icon_suffixes` VALUES ('582493f2-a1b5-4b9c-99bf-b6225cca777e','gif');
+INSERT INTO `il_file_icon_suffixes` VALUES ('eb4eb7a4-af64-43ba-a485-ed74ae36b917','ico');
+INSERT INTO `il_file_icon_suffixes` VALUES ('15b77530-376c-4565-aebb-4fd9f81b7406','jpg');
+INSERT INTO `il_file_icon_suffixes` VALUES ('ddc3f919-c08b-4bd9-8149-aaa106ac8419','md');
+INSERT INTO `il_file_icon_suffixes` VALUES ('25ffc93d-4e2f-4544-9978-f6afd9faaafc','mov');
+INSERT INTO `il_file_icon_suffixes` VALUES ('f9d619a1-e359-433b-a338-0e5b744f90ed','mp3');
+INSERT INTO `il_file_icon_suffixes` VALUES ('d3b44a21-7b2f-4f6f-bd9c-6e5f28275e7e','mp4');
+INSERT INTO `il_file_icon_suffixes` VALUES ('907de3d5-797c-4b43-ad56-3284ace25a67','odp');
+INSERT INTO `il_file_icon_suffixes` VALUES ('d2300b0c-7cdd-4979-b748-c28eb6b02b6b','ods');
+INSERT INTO `il_file_icon_suffixes` VALUES ('e954badf-5f25-45e2-8f00-41dd0c9611d4','odt');
+INSERT INTO `il_file_icon_suffixes` VALUES ('84292ec7-c6f2-4e06-9921-16e19019602a','pdf');
+INSERT INTO `il_file_icon_suffixes` VALUES ('6e6f130c-e504-48e5-b2e2-274a964fb88a','png');
+INSERT INTO `il_file_icon_suffixes` VALUES ('3132880a-4691-4252-bd0e-fb35a2c03669','pptx');
+INSERT INTO `il_file_icon_suffixes` VALUES ('a99277be-66ea-4c60-89fb-2fc86e9f1301','rtf');
+INSERT INTO `il_file_icon_suffixes` VALUES ('e9f692d3-c8b3-4eda-b74f-2b182c44aebd','svg');
+INSERT INTO `il_file_icon_suffixes` VALUES ('fd4756bd-20db-4a27-beb1-b87866ada9b0','tiff');
+INSERT INTO `il_file_icon_suffixes` VALUES ('d1bcba58-4773-43e0-9fce-839558dbd509','txt');
+INSERT INTO `il_file_icon_suffixes` VALUES ('542265be-b570-40ea-904c-7f830e3c7e28','wav');
+INSERT INTO `il_file_icon_suffixes` VALUES ('8d479113-78e5-4fdf-bd3b-b0e7e95006d9','wma');
+INSERT INTO `il_file_icon_suffixes` VALUES ('5361c298-6383-4f3c-93ba-6e5df61268d7','xlsx');
+INSERT INTO `il_file_icon_suffixes` VALUES ('7ada888f-283b-4161-b3a7-bb69f207deb0','xml');
 
 --
 -- Table structure for table `il_gc_memcache_server`
@@ -8018,7 +8184,7 @@ CREATE TABLE `il_gc_memcache_server` (
   `weight` smallint(6) DEFAULT NULL,
   `flush_needed` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_gc_memcache_server`
@@ -8032,7 +8198,7 @@ CREATE TABLE `il_gc_memcache_server` (
 CREATE TABLE `il_gc_memcache_server_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_gc_memcache_server_seq`
@@ -8047,7 +8213,7 @@ CREATE TABLE `il_html_block` (
   `id` int(11) NOT NULL DEFAULT 0,
   `content` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_html_block`
@@ -8069,20 +8235,27 @@ CREATE TABLE `il_md_cpr_selections` (
   `is_default` tinyint(4) NOT NULL DEFAULT 0,
   `outdated` tinyint(4) NOT NULL DEFAULT 0,
   `position` tinyint(4) NOT NULL DEFAULT 0,
+  `full_name` longtext DEFAULT NULL,
+  `link` longtext DEFAULT NULL,
+  `image_link` longtext DEFAULT NULL,
+  `alt_text` longtext DEFAULT NULL,
+  `migrated` int(11) DEFAULT 0,
+  `image_file` longtext DEFAULT NULL,
   PRIMARY KEY (`entry_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_md_cpr_selections`
 --
 
-INSERT INTO `il_md_cpr_selections` VALUES (1,'Attribution Non-commercial No Derivatives (by-nc-nd)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0);
-INSERT INTO `il_md_cpr_selections` VALUES (2,'Attribution Non-commercial Share Alike (by-nc-sa)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0);
-INSERT INTO `il_md_cpr_selections` VALUES (3,'Attribution Non-commercial (by-nc)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\">Creative Commons Attribution-NonCommercial 4.0 International License</a>.','en',0,1,0,0,0);
-INSERT INTO `il_md_cpr_selections` VALUES (4,'Attribution No Derivatives (by-nd)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\">Creative Commons Attribution-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0);
-INSERT INTO `il_md_cpr_selections` VALUES (5,'Attribution Share Alike (by-sa)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">Creative Commons Attribution-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0);
-INSERT INTO `il_md_cpr_selections` VALUES (6,'Attribution (by)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License</a>.','en',0,1,0,0,0);
-INSERT INTO `il_md_cpr_selections` VALUES (7,'All rights reserved','','This work has all rights reserved by the owner.','en',0,1,1,0,0);
+INSERT INTO `il_md_cpr_selections` VALUES (1,'Attribution Non-commercial No Derivatives (by-nc-nd)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (2,'Attribution Non-commercial Share Alike (by-nc-sa)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (3,'Attribution Non-commercial (by-nc)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\">Creative Commons Attribution-NonCommercial 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (4,'Attribution No Derivatives (by-nd)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\">Creative Commons Attribution-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (5,'Attribution Share Alike (by-sa)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">Creative Commons Attribution-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (6,'Attribution (by)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (7,'All rights reserved','','This work has all rights reserved by the owner.','en',0,1,1,0,0,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (8,'Public Domain','',NULL,NULL,0,1,0,0,1,'This work is free of known copyright restrictions.','http://creativecommons.org/publicdomain/zero/1.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg','CC0',1,'');
 
 --
 -- Table structure for table `il_md_cpr_selections_seq`
@@ -8091,13 +8264,13 @@ INSERT INTO `il_md_cpr_selections` VALUES (7,'All rights reserved','','This work
 CREATE TABLE `il_md_cpr_selections_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=8;
+)  AUTO_INCREMENT=10;
 
 --
 -- Dumping data for table `il_md_cpr_selections_seq`
 --
 
-INSERT INTO `il_md_cpr_selections_seq` VALUES (7);
+INSERT INTO `il_md_cpr_selections_seq` VALUES (9);
 
 --
 -- Table structure for table `il_media_cast_data`
@@ -8111,8 +8284,11 @@ CREATE TABLE `il_media_cast_data` (
   `def_access` tinyint(4) DEFAULT 0,
   `sortmode` tinyint(4) DEFAULT 3,
   `viewmode` varchar(20) DEFAULT NULL,
+  `autoplaymode` tinyint(4) NOT NULL DEFAULT 0,
+  `nr_initial_videos` tinyint(4) NOT NULL DEFAULT 0,
+  `new_items_in_lp` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_media_cast_data`
@@ -8128,7 +8304,7 @@ CREATE TABLE `il_media_cast_data_ord` (
   `item_id` int(11) NOT NULL DEFAULT 0,
   `pos` mediumint(9) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`item_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_media_cast_data_ord`
@@ -8148,9 +8324,11 @@ CREATE TABLE `il_meta_annotation` (
   `a_date` longtext DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   `description_language` char(2) DEFAULT NULL,
+  `a_date_descr` longtext DEFAULT NULL,
+  `date_descr_lang` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`meta_annotation_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_annotation`
@@ -8164,7 +8342,7 @@ CREATE TABLE `il_meta_annotation` (
 CREATE TABLE `il_meta_annotation_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_annotation_seq`
@@ -8185,7 +8363,7 @@ CREATE TABLE `il_meta_classification` (
   `description_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_classification_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_classification`
@@ -8199,10 +8377,44 @@ CREATE TABLE `il_meta_classification` (
 CREATE TABLE `il_meta_classification_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_classification_seq`
+--
+
+
+--
+-- Table structure for table `il_meta_context`
+--
+
+CREATE TABLE `il_meta_context` (
+  `meta_context_id` int(11) NOT NULL DEFAULT 0,
+  `rbac_id` int(11) DEFAULT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  `obj_type` varchar(6) DEFAULT NULL,
+  `parent_type` varchar(16) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `context` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`meta_context_id`)
+) ;
+
+--
+-- Dumping data for table `il_meta_context`
+--
+
+
+--
+-- Table structure for table `il_meta_context_seq`
+--
+
+CREATE TABLE `il_meta_context_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `il_meta_context_seq`
 --
 
 
@@ -8219,9 +8431,11 @@ CREATE TABLE `il_meta_contribute` (
   `parent_id` int(11) DEFAULT NULL,
   `role` varchar(32) DEFAULT NULL,
   `c_date` varchar(4000) DEFAULT NULL,
+  `c_date_descr` longtext DEFAULT NULL,
+  `descr_lang` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`meta_contribute_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_contribute`
@@ -8235,10 +8449,45 @@ CREATE TABLE `il_meta_contribute` (
 CREATE TABLE `il_meta_contribute_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_contribute_seq`
+--
+
+
+--
+-- Table structure for table `il_meta_coverage`
+--
+
+CREATE TABLE `il_meta_coverage` (
+  `meta_coverage_id` int(11) NOT NULL DEFAULT 0,
+  `rbac_id` int(11) DEFAULT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  `obj_type` varchar(6) DEFAULT NULL,
+  `parent_type` varchar(16) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `coverage` varchar(4000) DEFAULT NULL,
+  `coverage_language` char(2) DEFAULT NULL,
+  PRIMARY KEY (`meta_coverage_id`)
+) ;
+
+--
+-- Dumping data for table `il_meta_coverage`
+--
+
+
+--
+-- Table structure for table `il_meta_coverage_seq`
+--
+
+CREATE TABLE `il_meta_coverage_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `il_meta_coverage_seq`
 --
 
 
@@ -8257,7 +8506,7 @@ CREATE TABLE `il_meta_description` (
   `description_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_description_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_description`
@@ -8271,7 +8520,7 @@ CREATE TABLE `il_meta_description` (
 CREATE TABLE `il_meta_description_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_description_seq`
@@ -8295,9 +8544,11 @@ CREATE TABLE `il_meta_educational` (
   `context` varchar(16) DEFAULT NULL,
   `difficulty` varchar(16) DEFAULT NULL,
   `typical_learning_time` varchar(4000) DEFAULT NULL,
+  `tlt_descr` longtext DEFAULT NULL,
+  `tlt_descr_lang` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`meta_educational_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_educational`
@@ -8311,10 +8562,44 @@ CREATE TABLE `il_meta_educational` (
 CREATE TABLE `il_meta_educational_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_educational_seq`
+--
+
+
+--
+-- Table structure for table `il_meta_end_usr_role`
+--
+
+CREATE TABLE `il_meta_end_usr_role` (
+  `meta_end_usr_role_id` int(11) NOT NULL DEFAULT 0,
+  `rbac_id` int(11) DEFAULT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  `obj_type` varchar(6) DEFAULT NULL,
+  `parent_type` varchar(16) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `intended_end_user_role` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`meta_end_usr_role_id`)
+) ;
+
+--
+-- Dumping data for table `il_meta_end_usr_role`
+--
+
+
+--
+-- Table structure for table `il_meta_end_usr_role_seq`
+--
+
+CREATE TABLE `il_meta_end_usr_role_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `il_meta_end_usr_role_seq`
 --
 
 
@@ -8332,7 +8617,7 @@ CREATE TABLE `il_meta_entity` (
   `entity` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_entity_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_entity`
@@ -8346,7 +8631,7 @@ CREATE TABLE `il_meta_entity` (
 CREATE TABLE `il_meta_entity_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_entity_seq`
@@ -8366,7 +8651,7 @@ CREATE TABLE `il_meta_format` (
   PRIMARY KEY (`meta_format_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`),
   KEY `i2_idx` (`format`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_format`
@@ -8380,7 +8665,7 @@ CREATE TABLE `il_meta_format` (
 CREATE TABLE `il_meta_format_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_format_seq`
@@ -8401,9 +8686,10 @@ CREATE TABLE `il_meta_general` (
   `title_language` char(2) DEFAULT NULL,
   `coverage` varchar(4000) DEFAULT NULL,
   `coverage_language` char(2) DEFAULT NULL,
+  `general_aggl` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`meta_general_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_general`
@@ -8417,7 +8703,7 @@ CREATE TABLE `il_meta_general` (
 CREATE TABLE `il_meta_general_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_general_seq`
@@ -8439,7 +8725,7 @@ CREATE TABLE `il_meta_identifier` (
   `entry` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_identifier_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_identifier`
@@ -8461,7 +8747,7 @@ CREATE TABLE `il_meta_identifier_` (
   `entry` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_identifier__id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_identifier_`
@@ -8475,7 +8761,7 @@ CREATE TABLE `il_meta_identifier_` (
 CREATE TABLE `il_meta_identifier__seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_identifier__seq`
@@ -8489,7 +8775,7 @@ CREATE TABLE `il_meta_identifier__seq` (
 CREATE TABLE `il_meta_identifier_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_identifier_seq`
@@ -8511,7 +8797,7 @@ CREATE TABLE `il_meta_keyword` (
   `keyword_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_keyword_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_keyword`
@@ -8525,7 +8811,7 @@ CREATE TABLE `il_meta_keyword` (
 CREATE TABLE `il_meta_keyword_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_keyword_seq`
@@ -8546,7 +8832,7 @@ CREATE TABLE `il_meta_language` (
   `language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_language_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_language`
@@ -8560,7 +8846,7 @@ CREATE TABLE `il_meta_language` (
 CREATE TABLE `il_meta_language_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_language_seq`
@@ -8581,7 +8867,7 @@ CREATE TABLE `il_meta_lifecycle` (
   `version_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_lifecycle_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_lifecycle`
@@ -8595,7 +8881,7 @@ CREATE TABLE `il_meta_lifecycle` (
 CREATE TABLE `il_meta_lifecycle_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_lifecycle_seq`
@@ -8617,7 +8903,7 @@ CREATE TABLE `il_meta_location` (
   `location_type` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`meta_location_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_location`
@@ -8631,10 +8917,44 @@ CREATE TABLE `il_meta_location` (
 CREATE TABLE `il_meta_location_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_location_seq`
+--
+
+
+--
+-- Table structure for table `il_meta_lr_type`
+--
+
+CREATE TABLE `il_meta_lr_type` (
+  `meta_lr_type_id` int(11) NOT NULL DEFAULT 0,
+  `rbac_id` int(11) DEFAULT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  `obj_type` varchar(6) DEFAULT NULL,
+  `parent_type` varchar(16) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `learning_resource_type` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`meta_lr_type_id`)
+) ;
+
+--
+-- Dumping data for table `il_meta_lr_type`
+--
+
+
+--
+-- Table structure for table `il_meta_lr_type_seq`
+--
+
+CREATE TABLE `il_meta_lr_type_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `il_meta_lr_type_seq`
 --
 
 
@@ -8651,7 +8971,7 @@ CREATE TABLE `il_meta_meta_data` (
   `language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_meta_data_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_meta_data`
@@ -8665,10 +8985,44 @@ CREATE TABLE `il_meta_meta_data` (
 CREATE TABLE `il_meta_meta_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_meta_data_seq`
+--
+
+
+--
+-- Table structure for table `il_meta_meta_schema`
+--
+
+CREATE TABLE `il_meta_meta_schema` (
+  `meta_meta_schema_id` int(11) NOT NULL DEFAULT 0,
+  `rbac_id` int(11) DEFAULT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  `obj_type` varchar(6) DEFAULT NULL,
+  `parent_type` varchar(16) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `meta_data_schema` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`meta_meta_schema_id`)
+) ;
+
+--
+-- Dumping data for table `il_meta_meta_schema`
+--
+
+
+--
+-- Table structure for table `il_meta_meta_schema_seq`
+--
+
+CREATE TABLE `il_meta_meta_schema_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `il_meta_meta_schema_seq`
 --
 
 
@@ -8681,10 +9035,47 @@ CREATE TABLE `il_meta_oer_stat` (
   `href_id` int(11) NOT NULL,
   `blocked` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_oer_stat`
+--
+
+
+--
+-- Table structure for table `il_meta_or_composite`
+--
+
+CREATE TABLE `il_meta_or_composite` (
+  `meta_or_composite_id` int(11) NOT NULL DEFAULT 0,
+  `rbac_id` int(11) DEFAULT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  `obj_type` varchar(6) DEFAULT NULL,
+  `parent_type` varchar(16) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `min_version` varchar(255) DEFAULT NULL,
+  `max_version` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`meta_or_composite_id`)
+) ;
+
+--
+-- Dumping data for table `il_meta_or_composite`
+--
+
+
+--
+-- Table structure for table `il_meta_or_composite_seq`
+--
+
+CREATE TABLE `il_meta_or_composite_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `il_meta_or_composite_seq`
 --
 
 
@@ -8700,7 +9091,7 @@ CREATE TABLE `il_meta_relation` (
   `kind` char(16) DEFAULT NULL,
   PRIMARY KEY (`meta_relation_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_relation`
@@ -8714,7 +9105,7 @@ CREATE TABLE `il_meta_relation` (
 CREATE TABLE `il_meta_relation_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_relation_seq`
@@ -8741,7 +9132,7 @@ CREATE TABLE `il_meta_requirement` (
   `or_composite_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`meta_requirement_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_requirement`
@@ -8755,7 +9146,7 @@ CREATE TABLE `il_meta_requirement` (
 CREATE TABLE `il_meta_requirement_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_requirement_seq`
@@ -8777,7 +9168,7 @@ CREATE TABLE `il_meta_rights` (
   `description_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_rights_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_rights`
@@ -8791,7 +9182,7 @@ CREATE TABLE `il_meta_rights` (
 CREATE TABLE `il_meta_rights_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_rights_seq`
@@ -8815,7 +9206,7 @@ CREATE TABLE `il_meta_tar` (
   `tar_max` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_tar_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_tar`
@@ -8829,7 +9220,7 @@ CREATE TABLE `il_meta_tar` (
 CREATE TABLE `il_meta_tar_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_tar_seq`
@@ -8852,7 +9243,7 @@ CREATE TABLE `il_meta_taxon` (
   `taxon_id` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_taxon_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_taxon`
@@ -8874,7 +9265,7 @@ CREATE TABLE `il_meta_taxon_path` (
   `source_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_taxon_path_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_taxon_path`
@@ -8888,7 +9279,7 @@ CREATE TABLE `il_meta_taxon_path` (
 CREATE TABLE `il_meta_taxon_path_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_taxon_path_seq`
@@ -8902,7 +9293,7 @@ CREATE TABLE `il_meta_taxon_path_seq` (
 CREATE TABLE `il_meta_taxon_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_taxon_seq`
@@ -8924,9 +9315,11 @@ CREATE TABLE `il_meta_technical` (
   `opr` varchar(4000) DEFAULT NULL,
   `opr_language` char(2) DEFAULT NULL,
   `duration` varchar(4000) DEFAULT NULL,
+  `duration_descr` longtext DEFAULT NULL,
+  `duration_descr_lang` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`meta_technical_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_technical`
@@ -8940,7 +9333,7 @@ CREATE TABLE `il_meta_technical` (
 CREATE TABLE `il_meta_technical_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_meta_technical_seq`
@@ -8956,7 +9349,7 @@ CREATE TABLE `il_mm_actions` (
   `action` varchar(4000) DEFAULT NULL,
   `external` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`identification`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_mm_actions`
@@ -8976,7 +9369,7 @@ CREATE TABLE `il_mm_custom_items` (
   `role_based_visibility` tinyint(4) DEFAULT 0,
   `global_role_ids` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`identifier`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_mm_custom_items`
@@ -8994,7 +9387,7 @@ CREATE TABLE `il_mm_items` (
   `parent_identification` varchar(255) DEFAULT NULL,
   `icon_id` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`identification`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_mm_items`
@@ -9011,7 +9404,7 @@ CREATE TABLE `il_mm_translation` (
   `translation` varchar(4000) DEFAULT NULL,
   `language_key` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_mm_translation`
@@ -9028,7 +9421,7 @@ CREATE TABLE `il_new_item_grp` (
   `pos` smallint(6) NOT NULL DEFAULT 0,
   `type` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_new_item_grp`
@@ -9042,7 +9435,7 @@ CREATE TABLE `il_new_item_grp` (
 CREATE TABLE `il_new_item_grp_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_new_item_grp_seq`
@@ -9082,7 +9475,7 @@ CREATE TABLE `il_news_item` (
   KEY `i1_idx` (`context_obj_id`),
   KEY `i2_idx` (`creation_date`),
   KEY `mo_idx` (`mob_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_news_item`
@@ -9096,7 +9489,7 @@ CREATE TABLE `il_news_item` (
 CREATE TABLE `il_news_item_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_news_item_seq`
@@ -9113,7 +9506,7 @@ CREATE TABLE `il_news_read` (
   PRIMARY KEY (`user_id`,`news_id`),
   KEY `i1_idx` (`user_id`),
   KEY `i2_idx` (`news_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_news_read`
@@ -9128,7 +9521,7 @@ CREATE TABLE `il_news_subscription` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `ref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_news_subscription`
@@ -9165,7 +9558,7 @@ CREATE TABLE `il_object_def` (
   `lti_provider` tinyint(4) NOT NULL DEFAULT 0,
   `offline_handling` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_object_def`
@@ -9173,6 +9566,7 @@ CREATE TABLE `il_object_def` (
 
 INSERT INTO `il_object_def` VALUES ('accs','AccessibilitySettings','Services/Accessibility','Services/Accessibility/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('adm','SystemFolder','Modules/SystemFolder','Modules/SystemFolder/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('adn','AdministrativeNotification','Services/AdministrativeNotification','Services/AdministrativeNotification/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('adve','AdvancedEditing','Services/AdvancedEditing','Services/AdvancedEditing/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('assf','AssessmentFolder','Modules/Test','Modules/Test/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('auth','AuthSettings','Services/Authentication','Services/Authentication/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
@@ -9189,60 +9583,77 @@ INSERT INTO `il_object_def` VALUES ('cat','Category','Modules/Category','Modules
 INSERT INTO `il_object_def` VALUES ('catr','CategoryReference','Modules/CategoryReference','Modules/CategoryReference/classes',1,0,'0',0,0,1,1,0,0,15,'cat',10,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('cert','CertificateSettings','Services/Certificate','Services/Certificate/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('chta','ChatroomAdmin','Modules/Chatroom','Modules/Chatroom/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('chtr','Chatroom','Modules/Chatroom','Modules/Chatroom/classes',1,0,'0',0,1,1,1,0,0,90,NULL,150,0,1,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('cld','Cloud','Modules/Cloud','Modules/Cloud/classes',1,1,'0',0,1,0,1,0,0,440,NULL,440,0,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('chtr','Chatroom','Modules/Chatroom','Modules/Chatroom/classes',1,0,'0',0,1,1,1,0,0,90,NULL,150,0,1,0,0,0,0,0,1);
+INSERT INTO `il_object_def` VALUES ('cld','Cloud','Modules/Cloud','Modules/Cloud/classes',1,1,'0',0,1,0,1,0,0,440,NULL,440,0,0,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('cmis','CmiXapiAdministration','Modules/CmiXapi','Modules/CmiXapi/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('cmix','CmiXapi','Modules/CmiXapi','Modules/CmiXapi/classes',1,1,'db',0,1,1,1,0,0,120,'lres',0,1,1,0,0,0,0,0,1);
 INSERT INTO `il_object_def` VALUES ('cmps','ComponentSettings','Services/Component','Services/Component/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('crs','Course','Modules/Course','Modules/Course/classes',1,1,'0',0,0,1,1,0,0,20,'crs',30,1,1,0,0,1,1,1,0);
+INSERT INTO `il_object_def` VALUES ('cmxv','CmiXapiVerification','Modules/CmiXapi','Modules/CmiXapi/classes/Verification',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('coms','CommentsSettings','Services/Notes','Services/Notes/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('copa','ContentPage','Modules/ContentPage','Modules/ContentPage/classes',1,1,'db',0,1,1,1,0,0,340,NULL,340,1,1,0,0,0,0,0,1);
+INSERT INTO `il_object_def` VALUES ('cpad','ContentPageAdministration','Modules/ContentPage','Modules/ContentPage/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('crs','Course','Modules/Course','Modules/Course/classes',1,1,'db',0,0,1,1,0,0,20,'crs',30,1,1,0,0,1,1,1,1);
 INSERT INTO `il_object_def` VALUES ('crsr','CourseReference','Modules/CourseReference','Modules/CourseReference/classes',1,0,'0',0,0,1,1,0,0,25,'crs',20,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('crss','CourseAdministration','Modules/Course','Modules/Course/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('crsv','CourseVerification','Modules/Course','Modules/Course/classes/Verification',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,1,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('crsv','CourseVerification','Modules/Course','Modules/Course/classes/Verification',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('dcl','DataCollection','Modules/DataCollection','Modules/DataCollection/classes',1,1,'0',0,1,1,1,0,0,340,NULL,340,1,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('dpro','DataProtection','Services/DataProtection','Services/DataProtection/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('dshs','DashboardSettings','Services/Dashboard','Services/Dashboard/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('ecss','ECSSettings','Services/WebServices','Services/WebServices/ECS/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('exc','Exercise','Modules/Exercise','Modules/Exercise/classes',1,1,NULL,0,1,1,1,0,0,170,NULL,160,1,1,0,0,0,1,0,0);
+INSERT INTO `il_object_def` VALUES ('etal','EmployeeTalk','Modules/EmployeeTalk','Modules/EmployeeTalk/classes/Talk',1,1,'db',0,0,0,0,0,0,10,'tala',10,0,0,0,1,0,1,0,0);
+INSERT INTO `il_object_def` VALUES ('exc','Exercise','Modules/Exercise','Modules/Exercise/classes',1,1,NULL,0,1,1,1,0,0,170,NULL,160,1,1,0,0,1,1,0,0);
 INSERT INTO `il_object_def` VALUES ('excs','ExerciseAdministration','Modules/Exercise','Modules/Exercise/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('excv','ExerciseVerification','Modules/Exercise','Modules/Exercise/classes',0,0,'0',0,0,0,0,0,0,100,NULL,160,0,0,1,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('excv','ExerciseVerification','Modules/Exercise','Modules/Exercise/classes',0,0,'0',0,0,0,0,0,0,100,NULL,160,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('extt','ExternalToolsSettings','Services/Administration','Services/Administration/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('facs','FileAccessSettings','Services/WebDAV','Services/WebDAV/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('feed','ExternalFeed','Modules/ExternalFeed','Modules/ExternalFeed/classes',1,1,NULL,0,1,1,1,0,1,80,NULL,0,1,1,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('file','File','Modules/File','Modules/File/classes',1,0,'0',0,1,1,1,0,0,90,NULL,150,1,1,1,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('fold','Folder','Modules/Folder','Modules/Folder/classes',1,1,'0',0,0,1,1,0,0,40,NULL,20,1,1,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('frm','Forum','Modules/Forum','Modules/Forum/classes',1,1,'0',0,1,1,1,0,0,70,NULL,90,1,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('facs','FileAccessSettings','Modules/File','Modules/File/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('file','File','Modules/File','Modules/File/classes',1,0,'0',0,1,1,1,0,0,90,NULL,150,1,1,1,0,1,0,0,0);
+INSERT INTO `il_object_def` VALUES ('fils','FileServices','Services/FileServices','Services/FileServices/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('fold','Folder','Modules/Folder','Modules/Folder/classes',1,1,'db',0,0,1,1,0,0,40,NULL,20,1,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('frm','Forum','Modules/Forum','Modules/Forum/classes',1,1,'0',0,1,1,1,0,0,70,NULL,90,1,1,0,0,0,0,0,1);
 INSERT INTO `il_object_def` VALUES ('frma','ForumAdministration','Modules/Forum','Modules/Forum/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('glo','Glossary','Modules/Glossary','Modules/Glossary/classes',1,1,'0',0,1,1,1,0,0,160,NULL,110,1,1,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('grp','Group','Modules/Group','Modules/Group/classes',1,1,'0',0,0,1,1,0,0,50,NULL,70,1,1,0,0,0,1,1,0);
+INSERT INTO `il_object_def` VALUES ('grp','Group','Modules/Group','Modules/Group/classes',1,1,'db',0,0,1,1,0,0,50,NULL,70,1,1,0,0,1,1,1,0);
 INSERT INTO `il_object_def` VALUES ('grpr','GroupReference','Modules/GroupReference','Modules/GroupReference/classes',1,0,'0',0,0,1,1,0,0,51,'grp',20,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('grps','GroupAdministration','Modules/Group','Modules/Group/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('hlps','HelpSettings','Services/Help','Services/Help/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('htlm','FileBasedLM','Modules/HTMLLearningModule','Modules/HTMLLearningModule/classes',1,1,'0',0,1,1,1,0,0,130,'lres',0,1,1,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('iass','IndividualAssessment','Modules/IndividualAssessment','Modules/IndividualAssessment/classes',1,1,'0',0,1,1,1,0,0,190,NULL,190,0,1,0,0,0,1,0,0);
-INSERT INTO `il_object_def` VALUES ('itgr','ItemGroup','Modules/ItemGroup','Modules/ItemGroup/classes',1,0,'0',0,0,1,1,0,0,45,NULL,5,1,1,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('lm','LearningModule','Modules/LearningModule','Modules/LearningModule/classes',1,1,'db',0,1,1,1,0,0,120,'lres',0,1,1,0,0,0,0,1,0);
+INSERT INTO `il_object_def` VALUES ('htlm','FileBasedLM','Modules/HTMLLearningModule','Modules/HTMLLearningModule/classes',1,1,'0',0,1,1,1,0,0,130,'lres',0,1,1,0,0,0,0,0,1);
+INSERT INTO `il_object_def` VALUES ('iass','IndividualAssessment','Modules/IndividualAssessment','Modules/IndividualAssessment/classes',1,1,'0',0,1,1,1,0,0,190,NULL,190,1,1,0,0,1,1,0,1);
+INSERT INTO `il_object_def` VALUES ('impr','LegalNotice','Services/Imprint','Services/Imprint/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('itgr','ItemGroup','Modules/ItemGroup','Modules/ItemGroup/classes',1,0,'db',0,0,1,1,0,0,45,NULL,5,1,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('lhts','LearningHistorySettings','Services/LearningHistory','Services/LearningHistory/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('lm','LearningModule','Modules/LearningModule','Modules/LearningModule/classes',1,1,'db',0,1,1,1,0,0,120,'lres',0,1,1,0,0,0,0,1,1);
 INSERT INTO `il_object_def` VALUES ('lng','Language','Services/Language','Services/Language/classes',1,0,'0',0,0,0,0,0,0,0,NULL,0,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('lngf','LanguageFolder','Services/Language','Services/Language/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('logs','LoggingSettings','Services/Logging','Services/Logging/classes',0,1,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('lrss','LearningResourcesSettings','Modules/LearningModule','Modules/LearningModule/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('lso','LearningSequence','Modules/LearningSequence','Modules/LearningSequence/classes',1,1,'0',0,0,1,1,0,0,30,'lso',300,1,1,0,0,0,0,0,1);
+INSERT INTO `il_object_def` VALUES ('lsos','LearningSequenceAdmin','Modules/LearningSequence','Modules/LearningSequence/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('lti','LTIConsumer','Modules/LTIConsumer','Modules/LTIConsumer/classes',1,1,'db',0,1,0,1,0,0,120,'lres',0,0,1,0,0,0,0,0,1);
 INSERT INTO `il_object_def` VALUES ('ltis','LTIAdministration','Services/LTI','Services/LTI/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('ltiv','LTIConsumerVerification','Modules/LTIConsumer','Modules/LTIConsumer/classes/Verification',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('mail','Mail','Services/Mail','Services/Mail/classes',0,0,'sys',0,0,0,1,0,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('mcst','MediaCast','Modules/MediaCast','Modules/MediaCast/classes',1,1,NULL,0,1,1,1,0,0,110,NULL,130,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('mcts','MediaCastSettings','Modules/MediaCast','Modules/MediaCast/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('mds','MDSettings','Services/MetaData','Services/MetaData/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('mep','MediaPool','Modules/MediaPool','Modules/MediaPool/classes',1,1,'db',0,1,1,1,0,0,200,NULL,190,1,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('mme','MainMenu','Services/MainMenu','Services/MainMenu/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('mobs','MediaObjectsSettings','Services/MediaObjects','Services/MediaObjects/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('nota','NotificationAdmin','Services/Notifications','Services/Notifications/classes',0,0,'sys',0,0,0,0,1,0,0,NULL,0,0,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('nota','NotificationAdmin','Services/Notifications','Services/Notifications/classes',0,0,'sys',0,0,0,0,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('nots','NotesSettings','Services/Notes','Services/Notes/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('nwss','NewsSettings','Services/News','Services/News/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('objf','ObjectFolder','Services/Object','Services/Object/classes',0,0,'sys',1,0,0,1,1,0,0,NULL,0,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('orgu','OrgUnit','Modules/OrgUnit','Modules/OrgUnit/classes',1,1,'db',0,0,0,1,0,0,10,'orgu',10,1,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('otpl','ObjectTemplateAdministration','Services/DidacticTemplate','Services/DidacticTemplate/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('pdfg','PDFGeneration','Services/PDFGeneration','Services/PDFGeneration/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('pdts','PersonalDesktopSettings','Services/PersonalDesktop','Services/PersonalDesktop/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('poll','Poll','Modules/Poll','Modules/Poll/classes',1,1,'0',0,1,1,1,0,1,350,NULL,350,1,1,1,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('prfa','PortfolioAdministration','Modules/Portfolio','Modules/Portfolio/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('prg','StudyProgramme','Modules/StudyProgramme','Modules/StudyProgramme/classes',1,1,'0',0,0,1,1,0,0,30,NULL,30,0,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('poll','Poll','Modules/Poll','Modules/Poll/classes',1,1,'0',0,1,1,1,0,1,350,NULL,350,1,1,1,0,0,0,0,1);
+INSERT INTO `il_object_def` VALUES ('prfa','PortfolioAdministration','Modules/Portfolio','Modules/Portfolio/Administration',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('prg','StudyProgramme','Modules/StudyProgramme','Modules/StudyProgramme/classes',1,1,'db',0,0,1,1,0,0,30,NULL,30,0,1,0,0,0,1,0,0);
+INSERT INTO `il_object_def` VALUES ('prgr','StudyProgrammeReference','Modules/StudyProgrammeReference','Modules/StudyProgrammeReference/classes',1,0,'0',0,1,1,1,0,0,25,'prg',20,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('prgs','StudyProgrammeAdmin','Modules/StudyProgramme','Modules/StudyProgramme/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('prss','PersonalWorkspaceSettings','Services/PersonalWorkspace','Services/PersonalWorkspace/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('prtf','Portfolio','Modules/Portfolio','Modules/Portfolio/classes',0,0,'0',0,0,0,0,0,0,0,NULL,0,0,0,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('prtt','PortfolioTemplate','Modules/Portfolio','Modules/Portfolio/classes',0,0,'0',0,1,1,1,0,0,500,NULL,500,1,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('prtt','PortfolioTemplate','Modules/Portfolio','Modules/Portfolio/Template',0,0,'0',0,1,1,1,0,0,500,NULL,500,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('ps','PrivacySecurity','Services/PrivacySecurity','Services/PrivacySecurity/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('qpl','QuestionPool','Modules/TestQuestionPool','Modules/TestQuestionPool/classes',1,1,'0',0,1,1,1,0,0,210,NULL,200,1,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('qpl','QuestionPool','Modules/TestQuestionPool','Modules/TestQuestionPool/classes',1,1,'0',0,1,1,1,0,0,210,NULL,200,1,1,0,0,0,0,0,1);
 INSERT INTO `il_object_def` VALUES ('rcat','RemoteCategory','Modules/RemoteCategory','Modules/RemoteCategory/classes',1,0,'0',0,1,1,1,0,0,30,'cat',40,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('rcrs','RemoteCourse','Modules/RemoteCourse','Modules/RemoteCourse/classes',1,0,'0',0,1,1,1,0,0,30,'crs',40,0,0,0,0,1,0,0,0);
 INSERT INTO `il_object_def` VALUES ('recf','RecoveryFolder','Services/Administration','Services/Administration/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
@@ -9251,37 +9662,42 @@ INSERT INTO `il_object_def` VALUES ('rfil','RemoteFile','Modules/RemoteFile','Mo
 INSERT INTO `il_object_def` VALUES ('rglo','RemoteGlossary','Modules/RemoteGlossary','Modules/RemoteGlossary/classes',1,0,'0',0,1,1,1,0,0,30,'glo',40,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('rgrp','RemoteGroup','Modules/RemoteGroup','Modules/RemoteGroup/classes',1,0,'0',0,1,1,1,0,0,30,'grp',40,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('rlm','RemoteLearningModule','Modules/RemoteLearningModule','Modules/RemoteLearningModule/classes',1,0,'0',0,1,1,1,0,0,30,'lres',40,0,0,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('role','Role','Services/AccessControl','Services/AccessControl/classes',1,0,'0',0,0,0,0,0,0,0,NULL,0,0,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('role','Role','Services/AccessControl','Services/AccessControl/classes',1,0,'0',0,0,0,0,0,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('rolf','RoleFolder','Services/AccessControl','Services/AccessControl/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('rolt','RoleTemplate','Services/AccessControl','Services/AccessControl/classes',1,0,'0',0,0,0,0,0,0,0,NULL,0,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('root','RootFolder','Modules/RootFolder','Modules/RootFolder/classes',0,0,'0',0,0,0,1,1,0,0,NULL,0,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('rtst','RemoteTest','Modules/RemoteTest','Modules/RemoteTest/classes',1,0,'0',0,1,1,1,0,0,30,'tst',40,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('rwik','RemoteWiki','Modules/RemoteWiki','Modules/RemoteWiki/classes',1,0,'0',0,1,1,1,0,0,30,'wiki',40,0,0,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('sahs','SAHSLearningModule','Modules/ScormAicc','Modules/ScormAicc/classes',1,1,'0',0,1,1,1,0,0,140,'lres',0,1,1,0,0,0,0,1,0);
-INSERT INTO `il_object_def` VALUES ('scov','SCORMVerification','Modules/ScormAicc','Modules/ScormAicc/classes/Verification',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,1,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('sahs','SAHSLearningModule','Modules/ScormAicc','Modules/ScormAicc/classes',1,1,'0',0,1,1,1,0,0,140,'lres',0,1,1,0,0,0,0,1,1);
+INSERT INTO `il_object_def` VALUES ('scov','SCORMVerification','Modules/ScormAicc','Modules/ScormAicc/classes/Verification',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('seas','SearchSettings','Services/Search','Services/Search/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('sess','Session','Modules/Session','Modules/Session/classes',1,0,'0',0,0,1,1,0,0,15,NULL,15,1,1,0,0,1,0,0,0);
+INSERT INTO `il_object_def` VALUES ('skee','SkillTree','Services/Skill','Services/Skill/Tree/classes',0,0,'0',0,0,0,1,0,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('skmg','SkillManagement','Services/Skill','Services/Skill/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('spl','SurveyQuestionPool','Modules/SurveyQuestionPool','Modules/SurveyQuestionPool/classes',1,1,'0',0,1,1,1,0,0,220,NULL,210,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('sty','StyleSheet','Services/Style','Services/Style/Content/classes',1,0,'0',0,0,0,0,0,0,0,NULL,0,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('stys','StyleSettings','Services/Style','Services/Style/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('svy','Survey','Modules/Survey','Modules/Survey/classes',1,1,'0',0,1,1,1,0,0,190,NULL,180,1,1,0,0,0,0,1,0);
+INSERT INTO `il_object_def` VALUES ('svy','Survey','Modules/Survey','Modules/Survey/classes',1,1,'0',0,1,1,1,0,0,190,NULL,180,1,1,0,0,0,1,1,1);
 INSERT INTO `il_object_def` VALUES ('svyf','SurveyAdministration','Modules/Survey','Modules/Survey/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('sysc','SystemCheck','Services/SystemCheck','Services/SystemCheck/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('tags','TaggingSettings','Services/Tagging','Services/Tagging/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('tala','TalkTemplateAdministration','Modules/EmployeeTalk','Modules/EmployeeTalk/classes',0,0,'sys',0,0,0,1,1,0,0,'tala',0,0,0,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('tals','EmployeeTalkSeries','Modules/EmployeeTalk','Modules/EmployeeTalk/classes/TalkSeries',1,1,'db',0,0,0,0,0,0,10,'tala',10,0,0,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('talt','TalkTemplate','Modules/EmployeeTalk','Modules/EmployeeTalk/classes',1,1,'db',0,0,0,1,0,0,10,'tala',10,0,0,0,1,0,0,0,1);
 INSERT INTO `il_object_def` VALUES ('tax','Taxonomy','Services/Taxonomy','Services/Taxonomy/classes',1,0,'0',0,0,0,0,0,0,0,NULL,0,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('taxs','TaxonomyAdministration','Services/Taxonomy','Services/Taxonomy/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('tos','TermsOfService','Services/TermsOfService','Services/TermsOfService/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('trac','UserTracking','Services/Tracking','Services/Tracking/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('tst','Test','Modules/Test','Modules/Test/classes',1,1,'0',0,1,1,1,0,0,180,NULL,170,1,1,0,0,0,0,1,0);
-INSERT INTO `il_object_def` VALUES ('tstv','TestVerification','Modules/Test','Modules/Test/classes',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,1,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('tst','Test','Modules/Test','Modules/Test/classes',1,1,'0',0,1,1,1,0,0,180,NULL,170,1,1,0,0,0,1,1,1);
+INSERT INTO `il_object_def` VALUES ('tstv','TestVerification','Modules/Test','Modules/Test/classes',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('usr','User','Services/User','Services/User/classes',1,0,'0',0,0,0,0,0,0,0,NULL,0,0,1,0,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('usrf','UserFolder','Services/User','Services/User/classes',0,1,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('usrf','UserFolder','Services/User','Services/User/classes',0,1,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,1,0,0);
+INSERT INTO `il_object_def` VALUES ('wbdv','WebDAV','Services/WebDAV','Services/WebDAV/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('wbrs','WebResourceAdministration','Modules/WebResource','Modules/WebResource/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('webr','LinkResource','Modules/WebResource','Modules/WebResource/classes',1,0,'0',0,1,1,1,0,0,100,NULL,120,1,1,1,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('wfe','WorkflowEngine','Services/WorkflowEngine','Services/WorkflowEngine/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('wfld','WorkspaceFolder','Modules/WorkspaceFolder','Modules/WorkspaceFolder/classes',1,1,'0',0,0,0,0,0,0,300,NULL,300,0,0,1,0,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('wiki','Wiki','Modules/Wiki','Modules/Wiki/classes',1,1,NULL,0,1,1,1,0,0,115,NULL,140,1,1,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('wiki','Wiki','Modules/Wiki','Modules/Wiki/classes',1,1,NULL,0,1,1,1,0,0,115,NULL,140,1,1,0,0,0,0,1,0);
 INSERT INTO `il_object_def` VALUES ('wiks','WikiSettings','Modules/Wiki','Modules/Wiki/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('wsrt','WorkspaceRootFolder','Modules/WorkspaceRootFolder','Modules/WorkspaceRootFolder/classes',0,0,'0',0,0,0,0,1,0,0,NULL,0,0,0,1,0,0,0,0,0);
 
@@ -9294,7 +9710,7 @@ CREATE TABLE `il_object_group` (
   `name` varchar(200) DEFAULT NULL,
   `default_pres_pos` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_object_group`
@@ -9307,8 +9723,10 @@ INSERT INTO `il_object_group` VALUES ('glo','Glossaries',110);
 INSERT INTO `il_object_group` VALUES ('grp','Groups',70);
 INSERT INTO `il_object_group` VALUES ('iass','IndividualAssessment',170);
 INSERT INTO `il_object_group` VALUES ('lres','LearningResources',100);
+INSERT INTO `il_object_group` VALUES ('lso','LearningSequence',300);
 INSERT INTO `il_object_group` VALUES ('orgu','Organisational Unit',10);
 INSERT INTO `il_object_group` VALUES ('prg','StudyProgramme',30);
+INSERT INTO `il_object_group` VALUES ('tala','Employee Talk Templates',10);
 INSERT INTO `il_object_group` VALUES ('tst','Tests',170);
 INSERT INTO `il_object_group` VALUES ('wiki','Wikis',140);
 
@@ -9321,7 +9739,7 @@ CREATE TABLE `il_object_sub_type` (
   `sub_type` varchar(10) NOT NULL DEFAULT '',
   `amet` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_type`,`sub_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_object_sub_type`
@@ -9329,8 +9747,14 @@ CREATE TABLE `il_object_sub_type` (
 
 INSERT INTO `il_object_sub_type` VALUES ('book','bobj',1);
 INSERT INTO `il_object_sub_type` VALUES ('glo','term',1);
+INSERT INTO `il_object_sub_type` VALUES ('mep','mob',1);
+INSERT INTO `il_object_sub_type` VALUES ('mep','mpg',1);
 INSERT INTO `il_object_sub_type` VALUES ('orgu','orgu_type',1);
 INSERT INTO `il_object_sub_type` VALUES ('prg','prg_type',1);
+INSERT INTO `il_object_sub_type` VALUES ('prtf','pfpg',1);
+INSERT INTO `il_object_sub_type` VALUES ('prtt','pfpg',1);
+INSERT INTO `il_object_sub_type` VALUES ('tals','etal',1);
+INSERT INTO `il_object_sub_type` VALUES ('talt','etal',1);
 INSERT INTO `il_object_sub_type` VALUES ('wiki','wpg',1);
 
 --
@@ -9343,13 +9767,14 @@ CREATE TABLE `il_object_subobj` (
   `mmax` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`parent`,`subobj`),
   KEY `i1_idx` (`subobj`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_object_subobj`
 --
 
 INSERT INTO `il_object_subobj` VALUES ('adm','accs',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','adn',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','adve',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','assf',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','auth',1);
@@ -9361,32 +9786,42 @@ INSERT INTO `il_object_subobj` VALUES ('adm','cadm',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','cals',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','cert',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','chta',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','cmis',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','cmps',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','coms',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','cpad',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','crss',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','dpro',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','dshs',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','ecss',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','excs',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','extt',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','facs',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','fils',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','frma',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','grps',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','hlps',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','impr',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','lhts',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','lngf',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','logs',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','lrss',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','lsos',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','ltis',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','mail',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','mcts',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','mds',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','mme',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','mobs',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','nota',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','nots',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','nwss',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','objf',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','orgu',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','otpl',1);
-INSERT INTO `il_object_subobj` VALUES ('adm','pdfg',1);
-INSERT INTO `il_object_subobj` VALUES ('adm','pdts',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','prfa',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','prgs',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','prss',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','ps',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','recf',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','reps',1);
@@ -9397,10 +9832,12 @@ INSERT INTO `il_object_subobj` VALUES ('adm','stys',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','svyf',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','sysc',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','tags',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','tala',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','taxs',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','tos',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','trac',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','usrf',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','wbdv',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','wbrs',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','wfe',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','wiks',1);
@@ -9411,11 +9848,12 @@ INSERT INTO `il_object_subobj` VALUES ('cat','cat',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','catr',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','chtr',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','cld',0);
+INSERT INTO `il_object_subobj` VALUES ('cat','cmix',0);
+INSERT INTO `il_object_subobj` VALUES ('cat','copa',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','crs',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','crsr',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','dcl',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','exc',0);
-INSERT INTO `il_object_subobj` VALUES ('cat','feed',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','file',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','frm',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','glo',0);
@@ -9425,10 +9863,13 @@ INSERT INTO `il_object_subobj` VALUES ('cat','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','iass',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','lm',0);
+INSERT INTO `il_object_subobj` VALUES ('cat','lso',0);
+INSERT INTO `il_object_subobj` VALUES ('cat','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','mep',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','poll',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','prg',0);
+INSERT INTO `il_object_subobj` VALUES ('cat','prgr',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','prtt',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','qpl',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','rcat',0);
@@ -9451,10 +9892,11 @@ INSERT INTO `il_object_subobj` VALUES ('crs','book',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','catr',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','chtr',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','cld',0);
+INSERT INTO `il_object_subobj` VALUES ('crs','cmix',0);
+INSERT INTO `il_object_subobj` VALUES ('crs','copa',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','crsr',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','dcl',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','exc',0);
-INSERT INTO `il_object_subobj` VALUES ('crs','feed',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','file',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','fold',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','frm',0);
@@ -9465,6 +9907,8 @@ INSERT INTO `il_object_subobj` VALUES ('crs','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','iass',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','lm',0);
+INSERT INTO `il_object_subobj` VALUES ('crs','lso',0);
+INSERT INTO `il_object_subobj` VALUES ('crs','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','mep',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','poll',0);
@@ -9485,6 +9929,8 @@ INSERT INTO `il_object_subobj` VALUES ('fold','blog',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','book',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','chtr',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','cld',0);
+INSERT INTO `il_object_subobj` VALUES ('fold','cmix',0);
+INSERT INTO `il_object_subobj` VALUES ('fold','copa',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','dcl',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','exc',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','file',0);
@@ -9496,6 +9942,8 @@ INSERT INTO `il_object_subobj` VALUES ('fold','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','iass',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','lm',0);
+INSERT INTO `il_object_subobj` VALUES ('fold','lso',0);
+INSERT INTO `il_object_subobj` VALUES ('fold','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','mep',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','poll',0);
@@ -9514,10 +9962,11 @@ INSERT INTO `il_object_subobj` VALUES ('grp','book',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','catr',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','chtr',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','cld',0);
+INSERT INTO `il_object_subobj` VALUES ('grp','cmix',0);
+INSERT INTO `il_object_subobj` VALUES ('grp','copa',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','crsr',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','dcl',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','exc',0);
-INSERT INTO `il_object_subobj` VALUES ('grp','feed',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','file',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','fold',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','frm',0);
@@ -9528,6 +9977,8 @@ INSERT INTO `il_object_subobj` VALUES ('grp','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','iass',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','lm',0);
+INSERT INTO `il_object_subobj` VALUES ('grp','lso',0);
+INSERT INTO `il_object_subobj` VALUES ('grp','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','mep',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','poll',0);
@@ -9544,9 +9995,20 @@ INSERT INTO `il_object_subobj` VALUES ('grp','tst',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','webr',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','wiki',0);
 INSERT INTO `il_object_subobj` VALUES ('lngf','lng',0);
+INSERT INTO `il_object_subobj` VALUES ('lso','copa',0);
+INSERT INTO `il_object_subobj` VALUES ('lso','exc',0);
+INSERT INTO `il_object_subobj` VALUES ('lso','file',0);
+INSERT INTO `il_object_subobj` VALUES ('lso','htlm',0);
+INSERT INTO `il_object_subobj` VALUES ('lso','iass',0);
+INSERT INTO `il_object_subobj` VALUES ('lso','lm',0);
+INSERT INTO `il_object_subobj` VALUES ('lso','rolf',1);
+INSERT INTO `il_object_subobj` VALUES ('lso','sahs',0);
+INSERT INTO `il_object_subobj` VALUES ('lso','svy',0);
+INSERT INTO `il_object_subobj` VALUES ('lso','tst',0);
 INSERT INTO `il_object_subobj` VALUES ('orgu','orgu',0);
 INSERT INTO `il_object_subobj` VALUES ('prg','crsr',1);
 INSERT INTO `il_object_subobj` VALUES ('prg','prg',0);
+INSERT INTO `il_object_subobj` VALUES ('prg','prgr',0);
 INSERT INTO `il_object_subobj` VALUES ('prg','rolf',1);
 INSERT INTO `il_object_subobj` VALUES ('recf','bibl',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','blog',0);
@@ -9554,6 +10016,8 @@ INSERT INTO `il_object_subobj` VALUES ('recf','cat',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','catr',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','chtr',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','cld',0);
+INSERT INTO `il_object_subobj` VALUES ('recf','cmix',0);
+INSERT INTO `il_object_subobj` VALUES ('recf','copa',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','crs',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','crsr',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','dcl',0);
@@ -9567,10 +10031,12 @@ INSERT INTO `il_object_subobj` VALUES ('recf','grpr',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','lm',0);
+INSERT INTO `il_object_subobj` VALUES ('recf','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','mep',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','poll',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','prg',0);
+INSERT INTO `il_object_subobj` VALUES ('recf','prgr',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','prtt',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','qpl',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','sahs',0);
@@ -9590,11 +10056,12 @@ INSERT INTO `il_object_subobj` VALUES ('root','cat',0);
 INSERT INTO `il_object_subobj` VALUES ('root','catr',0);
 INSERT INTO `il_object_subobj` VALUES ('root','chtr',0);
 INSERT INTO `il_object_subobj` VALUES ('root','cld',0);
+INSERT INTO `il_object_subobj` VALUES ('root','cmix',0);
+INSERT INTO `il_object_subobj` VALUES ('root','copa',0);
 INSERT INTO `il_object_subobj` VALUES ('root','crs',0);
 INSERT INTO `il_object_subobj` VALUES ('root','crsr',0);
 INSERT INTO `il_object_subobj` VALUES ('root','dcl',0);
 INSERT INTO `il_object_subobj` VALUES ('root','exc',0);
-INSERT INTO `il_object_subobj` VALUES ('root','feed',0);
 INSERT INTO `il_object_subobj` VALUES ('root','file',0);
 INSERT INTO `il_object_subobj` VALUES ('root','frm',0);
 INSERT INTO `il_object_subobj` VALUES ('root','glo',0);
@@ -9604,10 +10071,13 @@ INSERT INTO `il_object_subobj` VALUES ('root','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('root','iass',0);
 INSERT INTO `il_object_subobj` VALUES ('root','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('root','lm',0);
+INSERT INTO `il_object_subobj` VALUES ('root','lso',0);
+INSERT INTO `il_object_subobj` VALUES ('root','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('root','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('root','mep',0);
 INSERT INTO `il_object_subobj` VALUES ('root','poll',0);
 INSERT INTO `il_object_subobj` VALUES ('root','prg',0);
+INSERT INTO `il_object_subobj` VALUES ('root','prgr',0);
 INSERT INTO `il_object_subobj` VALUES ('root','prtt',0);
 INSERT INTO `il_object_subobj` VALUES ('root','qpl',0);
 INSERT INTO `il_object_subobj` VALUES ('root','rcat',0);
@@ -9624,20 +10094,28 @@ INSERT INTO `il_object_subobj` VALUES ('root','svy',0);
 INSERT INTO `il_object_subobj` VALUES ('root','tst',0);
 INSERT INTO `il_object_subobj` VALUES ('root','webr',0);
 INSERT INTO `il_object_subobj` VALUES ('root','wiki',0);
+INSERT INTO `il_object_subobj` VALUES ('skmg','skee',1);
 INSERT INTO `il_object_subobj` VALUES ('stys','sty',0);
+INSERT INTO `il_object_subobj` VALUES ('tala','tals',0);
+INSERT INTO `il_object_subobj` VALUES ('tala','talt',0);
+INSERT INTO `il_object_subobj` VALUES ('tals','etal',0);
 INSERT INTO `il_object_subobj` VALUES ('usrf','usr',0);
 INSERT INTO `il_object_subobj` VALUES ('wfld','blog',0);
+INSERT INTO `il_object_subobj` VALUES ('wfld','cmxv',0);
 INSERT INTO `il_object_subobj` VALUES ('wfld','crsv',0);
 INSERT INTO `il_object_subobj` VALUES ('wfld','excv',0);
 INSERT INTO `il_object_subobj` VALUES ('wfld','file',0);
+INSERT INTO `il_object_subobj` VALUES ('wfld','ltiv',0);
 INSERT INTO `il_object_subobj` VALUES ('wfld','scov',0);
 INSERT INTO `il_object_subobj` VALUES ('wfld','tstv',0);
 INSERT INTO `il_object_subobj` VALUES ('wfld','webr',0);
 INSERT INTO `il_object_subobj` VALUES ('wfld','wfld',0);
 INSERT INTO `il_object_subobj` VALUES ('wsrt','blog',0);
+INSERT INTO `il_object_subobj` VALUES ('wsrt','cmxv',0);
 INSERT INTO `il_object_subobj` VALUES ('wsrt','crsv',0);
 INSERT INTO `il_object_subobj` VALUES ('wsrt','excv',0);
 INSERT INTO `il_object_subobj` VALUES ('wsrt','file',0);
+INSERT INTO `il_object_subobj` VALUES ('wsrt','ltiv',0);
 INSERT INTO `il_object_subobj` VALUES ('wsrt','scov',0);
 INSERT INTO `il_object_subobj` VALUES ('wsrt','tstv',0);
 INSERT INTO `il_object_subobj` VALUES ('wsrt','webr',0);
@@ -9653,7 +10131,7 @@ CREATE TABLE `il_orgu_authority` (
   `scope` tinyint(4) DEFAULT NULL,
   `position_id` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_orgu_authority`
@@ -9668,7 +10146,7 @@ INSERT INTO `il_orgu_authority` VALUES (1,1,1,2);
 CREATE TABLE `il_orgu_authority_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `il_orgu_authority_seq`
@@ -9685,7 +10163,7 @@ CREATE TABLE `il_orgu_op_contexts` (
   `context` varchar(16) DEFAULT NULL,
   `parent_context_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_orgu_op_contexts`
@@ -9700,6 +10178,7 @@ INSERT INTO `il_orgu_op_contexts` VALUES (6,'exc',1);
 INSERT INTO `il_orgu_op_contexts` VALUES (7,'svy',1);
 INSERT INTO `il_orgu_op_contexts` VALUES (8,'prg',1);
 INSERT INTO `il_orgu_op_contexts` VALUES (9,'usrf',1);
+INSERT INTO `il_orgu_op_contexts` VALUES (10,'etal',1);
 
 --
 -- Table structure for table `il_orgu_op_contexts_seq`
@@ -9708,13 +10187,13 @@ INSERT INTO `il_orgu_op_contexts` VALUES (9,'usrf',1);
 CREATE TABLE `il_orgu_op_contexts_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=10;
+)  AUTO_INCREMENT=11;
 
 --
 -- Dumping data for table `il_orgu_op_contexts_seq`
 --
 
-INSERT INTO `il_orgu_op_contexts_seq` VALUES (9);
+INSERT INTO `il_orgu_op_contexts_seq` VALUES (10);
 
 --
 -- Table structure for table `il_orgu_operations`
@@ -9730,7 +10209,7 @@ CREATE TABLE `il_orgu_operations` (
   KEY `i1_idx` (`operation_string`),
   KEY `i3_idx` (`list_order`),
   KEY `i4_idx` (`context_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_orgu_operations`
@@ -9764,6 +10243,9 @@ INSERT INTO `il_orgu_operations` VALUES (25,'view_competences','Read the compete
 INSERT INTO `il_orgu_operations` VALUES (26,'view_competences','Read the competences of a User',0,4);
 INSERT INTO `il_orgu_operations` VALUES (27,'view_competences','Read the competences of a User',0,3);
 INSERT INTO `il_orgu_operations` VALUES (28,'view_competences','Read the competences of a User',0,7);
+INSERT INTO `il_orgu_operations` VALUES (29,'read_employee_talk','Read Employee Talk',0,10);
+INSERT INTO `il_orgu_operations` VALUES (30,'create_employee_talk','Create Employee Talk',0,10);
+INSERT INTO `il_orgu_operations` VALUES (31,'edit_employee_talk','Edit Employee Talk (not only own)',0,10);
 
 --
 -- Table structure for table `il_orgu_operations_seq`
@@ -9772,13 +10254,13 @@ INSERT INTO `il_orgu_operations` VALUES (28,'view_competences','Read the compete
 CREATE TABLE `il_orgu_operations_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=29;
+)  AUTO_INCREMENT=32;
 
 --
 -- Dumping data for table `il_orgu_operations_seq`
 --
 
-INSERT INTO `il_orgu_operations_seq` VALUES (28);
+INSERT INTO `il_orgu_operations_seq` VALUES (31);
 
 --
 -- Table structure for table `il_orgu_permissions`
@@ -9794,7 +10276,7 @@ CREATE TABLE `il_orgu_permissions` (
   PRIMARY KEY (`id`),
   KEY `co_idx` (`context_id`),
   KEY `po_idx` (`position_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_orgu_permissions`
@@ -9808,7 +10290,7 @@ CREATE TABLE `il_orgu_permissions` (
 CREATE TABLE `il_orgu_permissions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_orgu_permissions_seq`
@@ -9826,7 +10308,7 @@ CREATE TABLE `il_orgu_positions` (
   `core_position` tinyint(4) DEFAULT NULL,
   `core_identifier` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_orgu_positions`
@@ -9842,7 +10324,7 @@ INSERT INTO `il_orgu_positions` VALUES (2,'Superiors','Superiors of a OrgUnit',1
 CREATE TABLE `il_orgu_positions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=3;
+)  AUTO_INCREMENT=3;
 
 --
 -- Dumping data for table `il_orgu_positions_seq`
@@ -9865,7 +10347,7 @@ CREATE TABLE `il_orgu_ua` (
   KEY `oi_idx` (`orgu_id`),
   KEY `po_idx` (`position_id`,`orgu_id`),
   KEY `pu_idx` (`position_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_orgu_ua`
@@ -9879,7 +10361,7 @@ CREATE TABLE `il_orgu_ua` (
 CREATE TABLE `il_orgu_ua_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_orgu_ua_seq`
@@ -9891,61 +10373,17 @@ CREATE TABLE `il_orgu_ua_seq` (
 --
 
 CREATE TABLE `il_plugin` (
-  `component_type` char(10) NOT NULL DEFAULT '',
-  `component_name` varchar(90) NOT NULL DEFAULT ' ',
-  `slot_id` char(10) NOT NULL DEFAULT '',
-  `name` varchar(40) NOT NULL DEFAULT ' ',
   `last_update_version` char(10) DEFAULT NULL,
   `active` tinyint(4) DEFAULT NULL,
   `db_version` int(11) NOT NULL DEFAULT 0,
-  `plugin_id` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`component_type`,`component_name`,`slot_id`,`name`)
-) ENGINE=InnoDB;
+  `plugin_id` varchar(20) NOT NULL,
+  PRIMARY KEY (`plugin_id`)
+) ;
 
 --
 -- Dumping data for table `il_plugin`
 --
 
-
---
--- Table structure for table `il_pluginslot`
---
-
-CREATE TABLE `il_pluginslot` (
-  `component` varchar(200) NOT NULL DEFAULT ' ',
-  `id` char(10) NOT NULL DEFAULT '',
-  `name` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`component`,`id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `il_pluginslot`
---
-
-INSERT INTO `il_pluginslot` VALUES ('Modules/Cloud','cldh','CloudHook');
-INSERT INTO `il_pluginslot` VALUES ('Modules/DataCollection','dclfth','FieldTypeHook');
-INSERT INTO `il_pluginslot` VALUES ('Modules/OrgUnit','orguext','OrgUnitExtension');
-INSERT INTO `il_pluginslot` VALUES ('Modules/OrgUnit','orgutypehk','OrgUnitTypeHook');
-INSERT INTO `il_pluginslot` VALUES ('Modules/SurveyQuestionPool','svyq','SurveyQuestions');
-INSERT INTO `il_pluginslot` VALUES ('Modules/Test','texp','Export');
-INSERT INTO `il_pluginslot` VALUES ('Modules/Test','tsig','Signature');
-INSERT INTO `il_pluginslot` VALUES ('Modules/TestQuestionPool','qst','Questions');
-INSERT INTO `il_pluginslot` VALUES ('Services/AdvancedMetaData','amdc','AdvancedMDClaiming');
-INSERT INTO `il_pluginslot` VALUES ('Services/Authentication','authhk','AuthenticationHook');
-INSERT INTO `il_pluginslot` VALUES ('Services/AuthShibboleth','shibhk','ShibbolethAuthenticationHook');
-INSERT INTO `il_pluginslot` VALUES ('Services/Calendar','capg','AppointmentCustomGrid');
-INSERT INTO `il_pluginslot` VALUES ('Services/Calendar','capm','AppointmentCustomModal');
-INSERT INTO `il_pluginslot` VALUES ('Services/COPage','pgcp','PageComponent');
-INSERT INTO `il_pluginslot` VALUES ('Services/Cron','crnhk','CronHook');
-INSERT INTO `il_pluginslot` VALUES ('Services/EventHandling','evhk','EventHook');
-INSERT INTO `il_pluginslot` VALUES ('Services/LDAP','ldaphk','LDAPHook');
-INSERT INTO `il_pluginslot` VALUES ('Services/PDFGeneration','renderer','Renderer');
-INSERT INTO `il_pluginslot` VALUES ('Services/PersonalDesktop','pdhk','PersonalDesktopHook');
-INSERT INTO `il_pluginslot` VALUES ('Services/Repository','robj','RepositoryObject');
-INSERT INTO `il_pluginslot` VALUES ('Services/UIComponent','uihk','UserInterfaceHook');
-INSERT INTO `il_pluginslot` VALUES ('Services/User','udfc','UDFClaiming');
-INSERT INTO `il_pluginslot` VALUES ('Services/WebServices','soaphk','SoapHook');
-INSERT INTO `il_pluginslot` VALUES ('Services/WorkflowEngine','wfeCG','ComplexGateway');
 
 --
 -- Table structure for table `il_poll`
@@ -9964,7 +10402,7 @@ CREATE TABLE `il_poll` (
   `non_anon` tinyint(4) NOT NULL DEFAULT 0,
   `show_results_as` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_poll`
@@ -9981,7 +10419,7 @@ CREATE TABLE `il_poll_answer` (
   `answer` varchar(1000) DEFAULT NULL,
   `pos` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_poll_answer`
@@ -9995,7 +10433,7 @@ CREATE TABLE `il_poll_answer` (
 CREATE TABLE `il_poll_answer_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_poll_answer_seq`
@@ -10011,7 +10449,7 @@ CREATE TABLE `il_poll_vote` (
   `poll_id` int(11) NOT NULL DEFAULT 0,
   `answer_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`poll_id`,`answer_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_poll_vote`
@@ -10041,7 +10479,7 @@ CREATE TABLE `il_qpl_qst_fq_res` (
   `range_min_txt` varchar(4000) DEFAULT NULL,
   `range_max_txt` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`result_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_res`
@@ -10055,7 +10493,7 @@ CREATE TABLE `il_qpl_qst_fq_res` (
 CREATE TABLE `il_qpl_qst_fq_res_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_res_seq`
@@ -10073,7 +10511,7 @@ CREATE TABLE `il_qpl_qst_fq_res_unit` (
   `unit_fi` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`result_unit_id`),
   KEY `i1_idx` (`question_fi`,`unit_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_res_unit`
@@ -10087,7 +10525,7 @@ CREATE TABLE `il_qpl_qst_fq_res_unit` (
 CREATE TABLE `il_qpl_qst_fq_res_unit_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_res_unit_seq`
@@ -10103,7 +10541,7 @@ CREATE TABLE `il_qpl_qst_fq_ucat` (
   `category` varchar(255) DEFAULT NULL,
   `question_fi` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_ucat`
@@ -10117,7 +10555,7 @@ CREATE TABLE `il_qpl_qst_fq_ucat` (
 CREATE TABLE `il_qpl_qst_fq_ucat_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_ucat_seq`
@@ -10138,7 +10576,7 @@ CREATE TABLE `il_qpl_qst_fq_unit` (
   `question_fi` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`unit_id`),
   KEY `i2_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_unit`
@@ -10152,7 +10590,7 @@ CREATE TABLE `il_qpl_qst_fq_unit` (
 CREATE TABLE `il_qpl_qst_fq_unit_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_unit_seq`
@@ -10177,7 +10615,7 @@ CREATE TABLE `il_qpl_qst_fq_var` (
   `range_min_txt` varchar(4000) DEFAULT NULL,
   `range_max_txt` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`variable_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_var`
@@ -10191,7 +10629,7 @@ CREATE TABLE `il_qpl_qst_fq_var` (
 CREATE TABLE `il_qpl_qst_fq_var_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_qpl_qst_fq_var_seq`
@@ -10213,7 +10651,7 @@ CREATE TABLE `il_rating` (
   `tstamp` int(11) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`obj_type`,`sub_obj_id`,`sub_obj_type`,`user_id`,`category_id`),
   KEY `obj_idx` (`obj_id`,`obj_type`,`sub_obj_id`,`sub_obj_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_rating`
@@ -10231,7 +10669,7 @@ CREATE TABLE `il_rating_cat` (
   `description` varchar(1000) DEFAULT NULL,
   `pos` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_rating_cat`
@@ -10245,7 +10683,7 @@ CREATE TABLE `il_rating_cat` (
 CREATE TABLE `il_rating_cat_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_rating_cat_seq`
@@ -10253,39 +10691,65 @@ CREATE TABLE `il_rating_cat_seq` (
 
 
 --
--- Table structure for table `il_request_token`
---
-
-CREATE TABLE `il_request_token` (
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  `token` char(64) NOT NULL DEFAULT '',
-  `stamp` datetime DEFAULT NULL,
-  `session_id` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`token`),
-  KEY `i1_idx` (`user_id`,`session_id`),
-  KEY `i2_idx` (`user_id`,`stamp`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `il_request_token`
---
-
-INSERT INTO `il_request_token` VALUES (6,'a0d2d5b51feec3dcf1842e6fd80092bc','2016-12-21 13:55:17','ssev5rsqvp335hermt971ieuj6');
-INSERT INTO `il_request_token` VALUES (6,'e94abe3044958d2cf4bebff6e68f6a52','2016-12-16 14:39:53','2tfi6g36pme1ivd1tu7nencp41');
-
---
 -- Table structure for table `il_resource`
 --
 
 CREATE TABLE `il_resource` (
-  `identification` varchar(250) NOT NULL,
-  `storage_id` varchar(8) DEFAULT NULL,
-  PRIMARY KEY (`identification`),
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `storage_id` varchar(8) NOT NULL DEFAULT '',
+  `rtype` tinyint(4) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`rid`),
   KEY `i1_idx` (`storage_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_resource`
+--
+
+INSERT INTO `il_resource` VALUES ('0656f6b5-a74c-422c-b263-fbaf7d28469a','fsv2',1);
+INSERT INTO `il_resource` VALUES ('15b77530-376c-4565-aebb-4fd9f81b7406','fsv2',1);
+INSERT INTO `il_resource` VALUES ('25ffc93d-4e2f-4544-9978-f6afd9faaafc','fsv2',1);
+INSERT INTO `il_resource` VALUES ('3132880a-4691-4252-bd0e-fb35a2c03669','fsv2',1);
+INSERT INTO `il_resource` VALUES ('5361c298-6383-4f3c-93ba-6e5df61268d7','fsv2',1);
+INSERT INTO `il_resource` VALUES ('542265be-b570-40ea-904c-7f830e3c7e28','fsv2',1);
+INSERT INTO `il_resource` VALUES ('582493f2-a1b5-4b9c-99bf-b6225cca777e','fsv2',1);
+INSERT INTO `il_resource` VALUES ('6e6f130c-e504-48e5-b2e2-274a964fb88a','fsv2',1);
+INSERT INTO `il_resource` VALUES ('7ada888f-283b-4161-b3a7-bb69f207deb0','fsv2',1);
+INSERT INTO `il_resource` VALUES ('84292ec7-c6f2-4e06-9921-16e19019602a','fsv2',1);
+INSERT INTO `il_resource` VALUES ('88ad4ffb-f891-443a-b570-526ce59447a7','fsv2',1);
+INSERT INTO `il_resource` VALUES ('8d479113-78e5-4fdf-bd3b-b0e7e95006d9','fsv2',1);
+INSERT INTO `il_resource` VALUES ('907de3d5-797c-4b43-ad56-3284ace25a67','fsv2',1);
+INSERT INTO `il_resource` VALUES ('a2f53c97-c1b5-453d-893e-1409f031b6d8','fsv2',1);
+INSERT INTO `il_resource` VALUES ('a99277be-66ea-4c60-89fb-2fc86e9f1301','fsv2',1);
+INSERT INTO `il_resource` VALUES ('d1bcba58-4773-43e0-9fce-839558dbd509','fsv2',1);
+INSERT INTO `il_resource` VALUES ('d2300b0c-7cdd-4979-b748-c28eb6b02b6b','fsv2',1);
+INSERT INTO `il_resource` VALUES ('d3b44a21-7b2f-4f6f-bd9c-6e5f28275e7e','fsv2',1);
+INSERT INTO `il_resource` VALUES ('d53194df-8a3e-4471-9676-3e62ece3dfa4','fsv2',1);
+INSERT INTO `il_resource` VALUES ('ddc3f919-c08b-4bd9-8149-aaa106ac8419','fsv2',1);
+INSERT INTO `il_resource` VALUES ('e8b73278-7cb6-4fcc-93c4-971abd04ffed','fsv2',1);
+INSERT INTO `il_resource` VALUES ('e954badf-5f25-45e2-8f00-41dd0c9611d4','fsv2',1);
+INSERT INTO `il_resource` VALUES ('e9f692d3-c8b3-4eda-b74f-2b182c44aebd','fsv2',1);
+INSERT INTO `il_resource` VALUES ('eb4eb7a4-af64-43ba-a485-ed74ae36b917','fsv2',1);
+INSERT INTO `il_resource` VALUES ('f9d619a1-e359-433b-a338-0e5b744f90ed','fsv2',1);
+INSERT INTO `il_resource` VALUES ('fd4756bd-20db-4a27-beb1-b87866ada9b0','fsv2',1);
+
+--
+-- Table structure for table `il_resource_flavour`
+--
+
+CREATE TABLE `il_resource_flavour` (
+  `rid` varchar(64) NOT NULL,
+  `revision` bigint(20) NOT NULL,
+  `definition_id` varchar(64) NOT NULL,
+  `variant` varchar(768) NOT NULL,
+  PRIMARY KEY (`rid`,`revision`,`definition_id`,`variant`),
+  KEY `i1_idx` (`rid`),
+  KEY `i3_idx` (`definition_id`),
+  KEY `i4_idx` (`variant`)
+) ;
+
+--
+-- Dumping data for table `il_resource_flavour`
 --
 
 
@@ -10294,19 +10758,76 @@ CREATE TABLE `il_resource` (
 --
 
 CREATE TABLE `il_resource_info` (
-  `internal` varchar(250) NOT NULL,
-  `identification` varchar(250) DEFAULT NULL,
-  `title` varchar(250) DEFAULT NULL,
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
   `suffix` varchar(64) DEFAULT NULL,
   `mime_type` varchar(250) DEFAULT NULL,
-  `size` bigint(20) DEFAULT NULL,
-  `creation_date` bigint(20) DEFAULT 0,
-  PRIMARY KEY (`internal`),
-  KEY `i1_idx` (`identification`)
-) ENGINE=InnoDB;
+  `size` bigint(20) NOT NULL DEFAULT 0,
+  `creation_date` bigint(20) NOT NULL DEFAULT 0,
+  `version_number` bigint(20) NOT NULL,
+  PRIMARY KEY (`rid`,`version_number`)
+) ;
 
 --
 -- Dumping data for table `il_resource_info`
+--
+
+INSERT INTO `il_resource_info` VALUES ('0656f6b5-a74c-422c-b263-fbaf7d28469a','icon_file_csv.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('15b77530-376c-4565-aebb-4fd9f81b7406','icon_file_jpg.svg','svg','image/svg+xml',3145,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('25ffc93d-4e2f-4544-9978-f6afd9faaafc','icon_file_mov.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('3132880a-4691-4252-bd0e-fb35a2c03669','icon_file_pptx.svg','svg','image/svg+xml',3145,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('5361c298-6383-4f3c-93ba-6e5df61268d7','icon_file_xlsx.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('542265be-b570-40ea-904c-7f830e3c7e28','icon_file_wav.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('582493f2-a1b5-4b9c-99bf-b6225cca777e','icon_file_gif.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('6e6f130c-e504-48e5-b2e2-274a964fb88a','icon_file_png.svg','svg','image/svg+xml',3145,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('7ada888f-283b-4161-b3a7-bb69f207deb0','icon_file_xml.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('84292ec7-c6f2-4e06-9921-16e19019602a','icon_file_pdf.svg','svg','image/svg+xml',3145,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('88ad4ffb-f891-443a-b570-526ce59447a7','icon_file_flv.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('8d479113-78e5-4fdf-bd3b-b0e7e95006d9','icon_file_wma.svg','svg','image/svg+xml',3145,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('907de3d5-797c-4b43-ad56-3284ace25a67','icon_file_odp.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('a2f53c97-c1b5-453d-893e-1409f031b6d8','icon_file_bmp.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('a99277be-66ea-4c60-89fb-2fc86e9f1301','icon_file_rtf.svg','svg','image/svg+xml',3145,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('d1bcba58-4773-43e0-9fce-839558dbd509','icon_file_txt.svg','svg','image/svg+xml',3145,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('d2300b0c-7cdd-4979-b748-c28eb6b02b6b','icon_file_ods.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('d3b44a21-7b2f-4f6f-bd9c-6e5f28275e7e','icon_file_mp4.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('d53194df-8a3e-4471-9676-3e62ece3dfa4','icon_file_avi.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('ddc3f919-c08b-4bd9-8149-aaa106ac8419','icon_file_md.svg','svg','image/svg+xml',3143,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('e8b73278-7cb6-4fcc-93c4-971abd04ffed','icon_file_docx.svg','svg','image/svg+xml',3150,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('e954badf-5f25-45e2-8f00-41dd0c9611d4','icon_file_odt.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('e9f692d3-c8b3-4eda-b74f-2b182c44aebd','icon_file_svg.svg','svg','image/svg+xml',3145,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('eb4eb7a4-af64-43ba-a485-ed74ae36b917','icon_file_ico.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('f9d619a1-e359-433b-a338-0e5b744f90ed','icon_file_mp3.svg','svg','image/svg+xml',3146,1702399180,1);
+INSERT INTO `il_resource_info` VALUES ('fd4756bd-20db-4a27-beb1-b87866ada9b0','icon_file_tiff.svg','svg','image/svg+xml',3147,1702399180,1);
+
+--
+-- Table structure for table `il_resource_rc`
+--
+
+CREATE TABLE `il_resource_rc` (
+  `rcid` varchar(64) NOT NULL DEFAULT '',
+  `title` varchar(4000) DEFAULT NULL,
+  `owner_id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`rcid`)
+) ;
+
+--
+-- Dumping data for table `il_resource_rc`
+--
+
+
+--
+-- Table structure for table `il_resource_rca`
+--
+
+CREATE TABLE `il_resource_rca` (
+  `rcid` varchar(64) NOT NULL DEFAULT '',
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `position` bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`rcid`,`rid`)
+) ;
+
+--
+-- Dumping data for table `il_resource_rca`
 --
 
 
@@ -10315,39 +10836,102 @@ CREATE TABLE `il_resource_info` (
 --
 
 CREATE TABLE `il_resource_revision` (
-  `internal` varchar(250) NOT NULL,
-  `identification` varchar(250) DEFAULT NULL,
-  `available` tinyint(4) DEFAULT NULL,
-  `version_number` bigint(20) DEFAULT NULL,
-  `owner_id` bigint(20) DEFAULT 0,
-  `title` varchar(255) DEFAULT '-',
-  PRIMARY KEY (`internal`),
-  KEY `i1_idx` (`identification`)
-) ENGINE=InnoDB;
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `available` tinyint(4) DEFAULT 1,
+  `version_number` bigint(20) NOT NULL,
+  `owner_id` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `status` int(11) NOT NULL DEFAULT 10,
+  PRIMARY KEY (`rid`,`version_number`)
+) ;
 
 --
 -- Dumping data for table `il_resource_revision`
 --
 
+INSERT INTO `il_resource_revision` VALUES ('0656f6b5-a74c-422c-b263-fbaf7d28469a',1,1,6,'icon_file_csv.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('15b77530-376c-4565-aebb-4fd9f81b7406',1,1,6,'icon_file_jpg.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('25ffc93d-4e2f-4544-9978-f6afd9faaafc',1,1,6,'icon_file_mov.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('3132880a-4691-4252-bd0e-fb35a2c03669',1,1,6,'icon_file_pptx.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('5361c298-6383-4f3c-93ba-6e5df61268d7',1,1,6,'icon_file_xlsx.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('542265be-b570-40ea-904c-7f830e3c7e28',1,1,6,'icon_file_wav.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('582493f2-a1b5-4b9c-99bf-b6225cca777e',1,1,6,'icon_file_gif.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('6e6f130c-e504-48e5-b2e2-274a964fb88a',1,1,6,'icon_file_png.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('7ada888f-283b-4161-b3a7-bb69f207deb0',1,1,6,'icon_file_xml.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('84292ec7-c6f2-4e06-9921-16e19019602a',1,1,6,'icon_file_pdf.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('88ad4ffb-f891-443a-b570-526ce59447a7',1,1,6,'icon_file_flv.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('8d479113-78e5-4fdf-bd3b-b0e7e95006d9',1,1,6,'icon_file_wma.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('907de3d5-797c-4b43-ad56-3284ace25a67',1,1,6,'icon_file_odp.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('a2f53c97-c1b5-453d-893e-1409f031b6d8',1,1,6,'icon_file_bmp.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('a99277be-66ea-4c60-89fb-2fc86e9f1301',1,1,6,'icon_file_rtf.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('d1bcba58-4773-43e0-9fce-839558dbd509',1,1,6,'icon_file_txt.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('d2300b0c-7cdd-4979-b748-c28eb6b02b6b',1,1,6,'icon_file_ods.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('d3b44a21-7b2f-4f6f-bd9c-6e5f28275e7e',1,1,6,'icon_file_mp4.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('d53194df-8a3e-4471-9676-3e62ece3dfa4',1,1,6,'icon_file_avi.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('ddc3f919-c08b-4bd9-8149-aaa106ac8419',1,1,6,'icon_file_md.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('e8b73278-7cb6-4fcc-93c4-971abd04ffed',1,1,6,'icon_file_docx.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('e954badf-5f25-45e2-8f00-41dd0c9611d4',1,1,6,'icon_file_odt.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('e9f692d3-c8b3-4eda-b74f-2b182c44aebd',1,1,6,'icon_file_svg.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('eb4eb7a4-af64-43ba-a485-ed74ae36b917',1,1,6,'icon_file_ico.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('f9d619a1-e359-433b-a338-0e5b744f90ed',1,1,6,'icon_file_mp3.svg',10);
+INSERT INTO `il_resource_revision` VALUES ('fd4756bd-20db-4a27-beb1-b87866ada9b0',1,1,6,'icon_file_tiff.svg',10);
 
 --
--- Table structure for table `il_resource_stakeh`
+-- Table structure for table `il_resource_stkh`
 --
 
-CREATE TABLE `il_resource_stakeh` (
-  `internal` varchar(255) NOT NULL,
-  `identification` varchar(255) DEFAULT NULL,
-  `stakeholder_id` varchar(255) DEFAULT NULL,
-  `stakeholder_class` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`internal`),
-  KEY `i1_idx` (`identification`),
+CREATE TABLE `il_resource_stkh` (
+  `id` varchar(64) NOT NULL DEFAULT '',
+  `class_name` varchar(250) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `il_resource_stkh`
+--
+
+INSERT INTO `il_resource_stkh` VALUES ('file_icon','ILIAS\\File\\Icon\\ilObjFileIconStakeholder');
+
+--
+-- Table structure for table `il_resource_stkh_u`
+--
+
+CREATE TABLE `il_resource_stkh_u` (
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `stakeholder_id` varchar(64) DEFAULT NULL,
   KEY `i2_idx` (`stakeholder_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
--- Dumping data for table `il_resource_stakeh`
+-- Dumping data for table `il_resource_stkh_u`
 --
 
+INSERT INTO `il_resource_stkh_u` VALUES ('d53194df-8a3e-4471-9676-3e62ece3dfa4','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('a2f53c97-c1b5-453d-893e-1409f031b6d8','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('0656f6b5-a74c-422c-b263-fbaf7d28469a','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('e8b73278-7cb6-4fcc-93c4-971abd04ffed','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('88ad4ffb-f891-443a-b570-526ce59447a7','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('582493f2-a1b5-4b9c-99bf-b6225cca777e','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('eb4eb7a4-af64-43ba-a485-ed74ae36b917','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('15b77530-376c-4565-aebb-4fd9f81b7406','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('ddc3f919-c08b-4bd9-8149-aaa106ac8419','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('25ffc93d-4e2f-4544-9978-f6afd9faaafc','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('f9d619a1-e359-433b-a338-0e5b744f90ed','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('d3b44a21-7b2f-4f6f-bd9c-6e5f28275e7e','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('907de3d5-797c-4b43-ad56-3284ace25a67','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('d2300b0c-7cdd-4979-b748-c28eb6b02b6b','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('e954badf-5f25-45e2-8f00-41dd0c9611d4','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('84292ec7-c6f2-4e06-9921-16e19019602a','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('6e6f130c-e504-48e5-b2e2-274a964fb88a','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('3132880a-4691-4252-bd0e-fb35a2c03669','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('a99277be-66ea-4c60-89fb-2fc86e9f1301','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('e9f692d3-c8b3-4eda-b74f-2b182c44aebd','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('fd4756bd-20db-4a27-beb1-b87866ada9b0','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('d1bcba58-4773-43e0-9fce-839558dbd509','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('542265be-b570-40ea-904c-7f830e3c7e28','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('8d479113-78e5-4fdf-bd3b-b0e7e95006d9','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('5361c298-6383-4f3c-93ba-6e5df61268d7','file_icon');
+INSERT INTO `il_resource_stkh_u` VALUES ('7ada888f-283b-4161-b3a7-bb69f207deb0','file_icon');
 
 --
 -- Table structure for table `il_subscribers`
@@ -10359,7 +10943,7 @@ CREATE TABLE `il_subscribers` (
   `subject` varchar(4000) DEFAULT NULL,
   `sub_time` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_subscribers`
@@ -10382,7 +10966,7 @@ CREATE TABLE `il_tag` (
   KEY `i1_idx` (`obj_id`,`obj_type`,`sub_obj_id`,`sub_obj_type`),
   KEY `i2_idx` (`tag`),
   KEY `i3_idx` (`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_tag`
@@ -10401,10 +10985,48 @@ CREATE TABLE `il_translations` (
   `description` varchar(512) DEFAULT NULL,
   `lang_default` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`,`id_type`,`lang_code`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_translations`
+--
+
+
+--
+-- Table structure for table `il_upload_policy`
+--
+
+CREATE TABLE `il_upload_policy` (
+  `policy_id` bigint(20) NOT NULL,
+  `title` varchar(256) NOT NULL,
+  `upload_limit_in_mb` bigint(20) NOT NULL,
+  `audience` varchar(512) NOT NULL,
+  `audience_type` smallint(6) NOT NULL,
+  `scope_definition` varchar(512) NOT NULL,
+  `active` tinyint(4) NOT NULL,
+  `valid_from` date DEFAULT NULL,
+  `valid_until` date DEFAULT NULL,
+  `owner` bigint(20) NOT NULL,
+  `create_date` datetime NOT NULL,
+  `last_update` datetime NOT NULL
+) ;
+
+--
+-- Dumping data for table `il_upload_policy`
+--
+
+
+--
+-- Table structure for table `il_upload_policy_seq`
+--
+
+CREATE TABLE `il_upload_policy_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `il_upload_policy_seq`
 --
 
 
@@ -10418,7 +11040,7 @@ CREATE TABLE `il_verification` (
   `parameters` varchar(1000) DEFAULT NULL,
   `raw_data` longtext DEFAULT NULL,
   PRIMARY KEY (`id`,`type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_verification`
@@ -10435,7 +11057,7 @@ CREATE TABLE `il_wac_secure_path` (
   `checking_class` varchar(256) DEFAULT NULL,
   `in_sec_folder` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`path`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_wac_secure_path`
@@ -10452,7 +11074,7 @@ CREATE TABLE `il_wiki_contributor` (
   `status` int(11) DEFAULT NULL,
   `status_time` datetime DEFAULT NULL,
   PRIMARY KEY (`wiki_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_wiki_contributor`
@@ -10480,7 +11102,7 @@ CREATE TABLE `il_wiki_data` (
   `empty_page_templ` tinyint(4) NOT NULL DEFAULT 1,
   `link_md_values` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_wiki_data`
@@ -10497,7 +11119,7 @@ CREATE TABLE `il_wiki_imp_pages` (
   `indent` tinyint(4) NOT NULL DEFAULT 0,
   `page_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`wiki_id`,`page_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_wiki_imp_pages`
@@ -10512,9 +11134,10 @@ CREATE TABLE `il_wiki_missing_page` (
   `wiki_id` int(11) NOT NULL DEFAULT 0,
   `source_id` int(11) NOT NULL DEFAULT 0,
   `target_name` varchar(200) NOT NULL DEFAULT '',
-  PRIMARY KEY (`wiki_id`,`source_id`,`target_name`),
+  `lang` varchar(5) NOT NULL DEFAULT '-',
+  PRIMARY KEY (`wiki_id`,`source_id`,`target_name`,`lang`),
   KEY `i1_idx` (`wiki_id`,`target_name`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_wiki_missing_page`
@@ -10532,8 +11155,9 @@ CREATE TABLE `il_wiki_page` (
   `blocked` tinyint(4) DEFAULT NULL,
   `rating` tinyint(4) NOT NULL DEFAULT 0,
   `hide_adv_md` tinyint(4) DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+  `lang` varchar(10) NOT NULL DEFAULT '-',
+  PRIMARY KEY (`id`,`lang`)
+) ;
 
 --
 -- Dumping data for table `il_wiki_page`
@@ -10547,7 +11171,7 @@ CREATE TABLE `il_wiki_page` (
 CREATE TABLE `il_wiki_page_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `il_wiki_page_seq`
@@ -10561,14 +11185,14 @@ CREATE TABLE `il_wiki_page_seq` (
 CREATE TABLE `int_link` (
   `source_type` varchar(10) NOT NULL DEFAULT ' ',
   `source_id` int(11) NOT NULL DEFAULT 0,
-  `target_type` varchar(4) NOT NULL DEFAULT ' ',
+  `target_type` varchar(10) NOT NULL DEFAULT ' ',
   `target_id` int(11) NOT NULL DEFAULT 0,
   `target_inst` int(11) NOT NULL DEFAULT 0,
   `source_lang` varchar(2) NOT NULL DEFAULT '-',
   PRIMARY KEY (`source_type`,`source_id`,`source_lang`,`target_type`,`target_id`,`target_inst`),
   KEY `ta_idx` (`target_type`,`target_id`,`target_inst`),
   KEY `so_idx` (`source_type`,`source_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `int_link`
@@ -10583,7 +11207,7 @@ CREATE TABLE `item_group_item` (
   `item_group_id` int(11) NOT NULL DEFAULT 0,
   `item_ref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`item_group_id`,`item_ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `item_group_item`
@@ -10598,8 +11222,10 @@ CREATE TABLE `itgr_data` (
   `id` int(11) NOT NULL DEFAULT 0,
   `hide_title` tinyint(4) NOT NULL DEFAULT 0,
   `behaviour` tinyint(4) DEFAULT 0,
+  `list_presentation` varchar(10) DEFAULT NULL,
+  `tile_size` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `itgr_data`
@@ -10618,7 +11244,7 @@ CREATE TABLE `last_visited` (
   `sub_obj_id` varchar(40) DEFAULT NULL,
   `goto_link` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`user_id`,`nr`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `last_visited`
@@ -10636,7 +11262,7 @@ CREATE TABLE `ldap_attribute_mapping` (
   `perform_update` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`server_id`,`keyword`),
   KEY `i1_idx` (`server_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ldap_attribute_mapping`
@@ -10658,7 +11284,7 @@ CREATE TABLE `ldap_rg_mapping` (
   `mapping_info` varchar(4000) DEFAULT NULL,
   `mapping_info_type` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`mapping_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ldap_rg_mapping`
@@ -10672,7 +11298,7 @@ CREATE TABLE `ldap_rg_mapping` (
 CREATE TABLE `ldap_rg_mapping_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ldap_rg_mapping_seq`
@@ -10697,7 +11323,7 @@ CREATE TABLE `ldap_role_assignments` (
   `remove_on_update` tinyint(4) DEFAULT NULL,
   `plugin_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`server_id`,`rule_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ldap_role_assignments`
@@ -10711,7 +11337,7 @@ CREATE TABLE `ldap_role_assignments` (
 CREATE TABLE `ldap_role_assignments_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ldap_role_assignments_seq`
@@ -10758,7 +11384,7 @@ CREATE TABLE `ldap_server_settings` (
   `username_filter` varchar(255) DEFAULT NULL,
   `escape_dn` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`server_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ldap_server_settings`
@@ -10772,10 +11398,150 @@ CREATE TABLE `ldap_server_settings` (
 CREATE TABLE `ldap_server_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ldap_server_settings_seq`
+--
+
+
+--
+-- Table structure for table `ldoc_acceptance_track`
+--
+
+CREATE TABLE `ldoc_acceptance_track` (
+  `tosv_id` int(11) NOT NULL DEFAULT 0,
+  `usr_id` int(11) NOT NULL DEFAULT 0,
+  `ts` int(11) NOT NULL DEFAULT 0,
+  `criteria` longtext DEFAULT NULL,
+  PRIMARY KEY (`tosv_id`,`usr_id`,`ts`),
+  KEY `i1_idx` (`usr_id`,`ts`)
+) ;
+
+--
+-- Dumping data for table `ldoc_acceptance_track`
+--
+
+
+--
+-- Table structure for table `ldoc_acceptance_track_seq`
+--
+
+CREATE TABLE `ldoc_acceptance_track_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `ldoc_acceptance_track_seq`
+--
+
+
+--
+-- Table structure for table `ldoc_criteria`
+--
+
+CREATE TABLE `ldoc_criteria` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `doc_id` int(11) NOT NULL DEFAULT 0,
+  `criterion_id` varchar(50) NOT NULL,
+  `criterion_value` varchar(255) DEFAULT NULL,
+  `assigned_ts` int(11) NOT NULL DEFAULT 0,
+  `modification_ts` int(11) NOT NULL DEFAULT 0,
+  `owner_usr_id` int(11) NOT NULL DEFAULT 0,
+  `last_modified_usr_id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `ldoc_criteria`
+--
+
+
+--
+-- Table structure for table `ldoc_criteria_seq`
+--
+
+CREATE TABLE `ldoc_criteria_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `ldoc_criteria_seq`
+--
+
+
+--
+-- Table structure for table `ldoc_documents`
+--
+
+CREATE TABLE `ldoc_documents` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(255) DEFAULT NULL,
+  `creation_ts` int(11) NOT NULL DEFAULT 0,
+  `modification_ts` int(11) NOT NULL DEFAULT 0,
+  `sorting` int(11) NOT NULL DEFAULT 0,
+  `owner_usr_id` int(11) NOT NULL DEFAULT 0,
+  `last_modified_usr_id` int(11) NOT NULL DEFAULT 0,
+  `text` longtext DEFAULT NULL,
+  `provider` varchar(255) NOT NULL DEFAULT 'tos',
+  `hash` varchar(255) NOT NULL DEFAULT '',
+  `type` varchar(255) NOT NULL DEFAULT 'html',
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `ldoc_documents`
+--
+
+
+--
+-- Table structure for table `ldoc_documents_seq`
+--
+
+CREATE TABLE `ldoc_documents_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `ldoc_documents_seq`
+--
+
+
+--
+-- Table structure for table `ldoc_versions`
+--
+
+CREATE TABLE `ldoc_versions` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `text` longtext DEFAULT NULL,
+  `hash` varchar(32) DEFAULT NULL,
+  `ts` int(11) NOT NULL DEFAULT 0,
+  `doc_id` int(11) NOT NULL DEFAULT 0,
+  `title` text DEFAULT NULL,
+  `type` varchar(255) NOT NULL DEFAULT 'html',
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`hash`,`doc_id`)
+) ;
+
+--
+-- Dumping data for table `ldoc_versions`
+--
+
+
+--
+-- Table structure for table `ldoc_versions_seq`
+--
+
+CREATE TABLE `ldoc_versions_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `ldoc_versions_seq`
 --
 
 
@@ -10794,7 +11560,7 @@ CREATE TABLE `like_data` (
   `exp_ts` datetime NOT NULL,
   PRIMARY KEY (`user_id`,`obj_id`,`obj_type`,`sub_obj_id`,`sub_obj_type`,`news_id`,`like_type`),
   KEY `i1_idx` (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `like_data`
@@ -10815,7 +11581,7 @@ CREATE TABLE `link_check` (
   `last_check` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `link_check`
@@ -10830,7 +11596,7 @@ CREATE TABLE `link_check_report` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `usr_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `link_check_report`
@@ -10844,7 +11610,7 @@ CREATE TABLE `link_check_report` (
 CREATE TABLE `link_check_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `link_check_seq`
@@ -10871,7 +11637,7 @@ CREATE TABLE `lm_data` (
   KEY `i1_idx` (`lm_id`),
   KEY `i2_idx` (`type`),
   KEY `im_idx` (`import_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lm_data`
@@ -10886,7 +11652,7 @@ INSERT INTO `lm_data` VALUES (1,'dummy','du',0,'','n',NULL,NULL,'y','',NULL);
 CREATE TABLE `lm_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `lm_data_seq`
@@ -10906,7 +11672,7 @@ CREATE TABLE `lm_data_transl` (
   `last_update` datetime DEFAULT NULL,
   `short_title` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`,`lang`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lm_data_transl`
@@ -10921,7 +11687,7 @@ CREATE TABLE `lm_glossaries` (
   `lm_id` int(11) NOT NULL DEFAULT 0,
   `glo_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`lm_id`,`glo_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lm_glossaries`
@@ -10944,7 +11710,7 @@ CREATE TABLE `lm_menu` (
   KEY `i1_idx` (`link_type`),
   KEY `i2_idx` (`lm_id`),
   KEY `i3_idx` (`active`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lm_menu`
@@ -10958,7 +11724,7 @@ CREATE TABLE `lm_menu` (
 CREATE TABLE `lm_menu_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lm_menu_seq`
@@ -10976,7 +11742,7 @@ CREATE TABLE `lm_read_event` (
   `spent_seconds` int(11) NOT NULL DEFAULT 0,
   `last_access` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lm_read_event`
@@ -10998,7 +11764,7 @@ CREATE TABLE `lm_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`lm_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lm_tree`
@@ -11020,7 +11786,7 @@ CREATE TABLE `lng_data` (
   KEY `i1_idx` (`module`),
   KEY `i2_idx` (`lang_key`),
   KEY `i3_idx` (`local_change`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lng_data`
@@ -11035,7 +11801,7 @@ CREATE TABLE `lng_log` (
   `module` varchar(30) NOT NULL DEFAULT '',
   `identifier` varchar(200) NOT NULL DEFAULT ' ',
   PRIMARY KEY (`module`,`identifier`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lng_log`
@@ -11051,7 +11817,7 @@ CREATE TABLE `lng_modules` (
   `lang_key` char(2) NOT NULL DEFAULT '',
   `lang_array` longtext DEFAULT NULL,
   PRIMARY KEY (`module`,`lang_key`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lng_modules`
@@ -11069,7 +11835,7 @@ CREATE TABLE `lo_access` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `lm_title` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`lm_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lo_access`
@@ -11088,7 +11854,7 @@ CREATE TABLE `loc_rnd_qpl` (
   `qp_seq` int(11) NOT NULL DEFAULT 0,
   `percentage` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`container_id`,`objective_id`,`tst_type`,`tst_id`,`qp_seq`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `loc_rnd_qpl`
@@ -11112,8 +11878,10 @@ CREATE TABLE `loc_settings` (
   `it_start` tinyint(4) DEFAULT 1,
   `qt_start` tinyint(4) DEFAULT 1,
   `passed_obj_mode` tinyint(4) DEFAULT 1,
-  PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`obj_id`),
+  KEY `i1_idx` (`itest`),
+  KEY `i2_idx` (`qtest`)
+) ;
 
 --
 -- Dumping data for table `loc_settings`
@@ -11131,7 +11899,7 @@ CREATE TABLE `loc_tst_assignments` (
   `objective_id` int(11) NOT NULL DEFAULT 0,
   `tst_ref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`assignment_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `loc_tst_assignments`
@@ -11145,7 +11913,7 @@ CREATE TABLE `loc_tst_assignments` (
 CREATE TABLE `loc_tst_assignments_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `loc_tst_assignments_seq`
@@ -11164,7 +11932,7 @@ CREATE TABLE `loc_tst_run` (
   `max_points` int(11) DEFAULT 0,
   `questions` varchar(1000) DEFAULT '0',
   PRIMARY KEY (`container_id`,`user_id`,`test_id`,`objective_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `loc_tst_run`
@@ -11187,7 +11955,7 @@ CREATE TABLE `loc_user_results` (
   `is_final` tinyint(4) DEFAULT 0,
   `tstamp` int(11) DEFAULT 0,
   PRIMARY KEY (`user_id`,`course_id`,`objective_id`,`type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `loc_user_results`
@@ -11202,56 +11970,85 @@ CREATE TABLE `log_components` (
   `component_id` varchar(20) NOT NULL DEFAULT '',
   `log_level` int(11) DEFAULT NULL,
   PRIMARY KEY (`component_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `log_components`
 --
 
 INSERT INTO `log_components` VALUES ('ac',0);
+INSERT INTO `log_components` VALUES ('adms',NULL);
+INSERT INTO `log_components` VALUES ('adn',NULL);
 INSERT INTO `log_components` VALUES ('amet',NULL);
 INSERT INTO `log_components` VALUES ('auth',0);
 INSERT INTO `log_components` VALUES ('awrn',0);
 INSERT INTO `log_components` VALUES ('bgtk',NULL);
+INSERT INTO `log_components` VALUES ('book',NULL);
 INSERT INTO `log_components` VALUES ('cal',NULL);
 INSERT INTO `log_components` VALUES ('cat',NULL);
+INSERT INTO `log_components` VALUES ('cert',NULL);
 INSERT INTO `log_components` VALUES ('chtr',0);
+INSERT INTO `log_components` VALUES ('cmix',NULL);
 INSERT INTO `log_components` VALUES ('cont',NULL);
 INSERT INTO `log_components` VALUES ('contact',0);
 INSERT INTO `log_components` VALUES ('copg',0);
+INSERT INTO `log_components` VALUES ('cron',NULL);
 INSERT INTO `log_components` VALUES ('crs',0);
+INSERT INTO `log_components` VALUES ('crsr',NULL);
+INSERT INTO `log_components` VALUES ('data_pro',NULL);
 INSERT INTO `log_components` VALUES ('db',0);
 INSERT INTO `log_components` VALUES ('ds',NULL);
+INSERT INTO `log_components` VALUES ('evnt',NULL);
+INSERT INTO `log_components` VALUES ('exc',NULL);
 INSERT INTO `log_components` VALUES ('exp',0);
 INSERT INTO `log_components` VALUES ('file',0);
+INSERT INTO `log_components` VALUES ('fils',NULL);
 INSERT INTO `log_components` VALUES ('frm',NULL);
 INSERT INTO `log_components` VALUES ('glo',0);
 INSERT INTO `log_components` VALUES ('grp',0);
 INSERT INTO `log_components` VALUES ('init',0);
-INSERT INTO `log_components` VALUES ('lchk',0);
+INSERT INTO `log_components` VALUES ('lang',NULL);
+INSERT INTO `log_components` VALUES ('ldoc',NULL);
+INSERT INTO `log_components` VALUES ('lhist',NULL);
 INSERT INTO `log_components` VALUES ('lm',0);
 INSERT INTO `log_components` VALUES ('log',0);
 INSERT INTO `log_components` VALUES ('log_root',0);
 INSERT INTO `log_components` VALUES ('lti',NULL);
+INSERT INTO `log_components` VALUES ('ltis',NULL);
 INSERT INTO `log_components` VALUES ('mail',0);
+INSERT INTO `log_components` VALUES ('mcst',NULL);
+INSERT INTO `log_components` VALUES ('mep',NULL);
 INSERT INTO `log_components` VALUES ('meta',NULL);
 INSERT INTO `log_components` VALUES ('mmbr',NULL);
+INSERT INTO `log_components` VALUES ('mme',NULL);
 INSERT INTO `log_components` VALUES ('mob',0);
+INSERT INTO `log_components` VALUES ('news',NULL);
+INSERT INTO `log_components` VALUES ('nota',NULL);
+INSERT INTO `log_components` VALUES ('note',NULL);
+INSERT INTO `log_components` VALUES ('noti',NULL);
 INSERT INTO `log_components` VALUES ('obj',0);
+INSERT INTO `log_components` VALUES ('osch',NULL);
 INSERT INTO `log_components` VALUES ('otpl',0);
 INSERT INTO `log_components` VALUES ('pdfg',NULL);
+INSERT INTO `log_components` VALUES ('pwsp',NULL);
 INSERT INTO `log_components` VALUES ('rep',0);
+INSERT INTO `log_components` VALUES ('rnd',NULL);
 INSERT INTO `log_components` VALUES ('sc13',NULL);
+INSERT INTO `log_components` VALUES ('sess',NULL);
 INSERT INTO `log_components` VALUES ('skll',0);
 INSERT INTO `log_components` VALUES ('spl',NULL);
 INSERT INTO `log_components` VALUES ('src',0);
 INSERT INTO `log_components` VALUES ('styl',NULL);
 INSERT INTO `log_components` VALUES ('svy',NULL);
+INSERT INTO `log_components` VALUES ('sysc',NULL);
+INSERT INTO `log_components` VALUES ('tos',NULL);
 INSERT INTO `log_components` VALUES ('trac',NULL);
 INSERT INTO `log_components` VALUES ('tree',0);
 INSERT INTO `log_components` VALUES ('user',0);
+INSERT INTO `log_components` VALUES ('wbdv',NULL);
 INSERT INTO `log_components` VALUES ('webr',0);
 INSERT INTO `log_components` VALUES ('wiki',NULL);
+INSERT INTO `log_components` VALUES ('wopi',NULL);
 INSERT INTO `log_components` VALUES ('wsrv',0);
 
 --
@@ -11263,7 +12060,7 @@ CREATE TABLE `loginname_history` (
   `login` varchar(80) NOT NULL DEFAULT '',
   `history_date` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`,`login`,`history_date`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `loginname_history`
@@ -11281,7 +12078,7 @@ CREATE TABLE `lso_activation` (
   `activation_start_ts` int(11) DEFAULT NULL,
   `activation_end_ts` int(11) DEFAULT NULL,
   PRIMARY KEY (`ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lso_activation`
@@ -11300,7 +12097,7 @@ CREATE TABLE `lso_settings` (
   `extro_image` varchar(128) DEFAULT NULL,
   `gallery` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lso_settings`
@@ -11319,10 +12116,29 @@ CREATE TABLE `lso_states` (
   `first_access` varchar(32) DEFAULT NULL,
   `last_access` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`lso_ref_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lso_states`
+--
+
+
+--
+-- Table structure for table `lti2_access_token`
+--
+
+CREATE TABLE `lti2_access_token` (
+  `consumer_pk` int(11) NOT NULL,
+  `scopes` longtext NOT NULL,
+  `token` varchar(2000) NOT NULL DEFAULT '',
+  `expires` datetime NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY (`consumer_pk`)
+) ;
+
+--
+-- Dumping data for table `lti2_access_token`
 --
 
 
@@ -11333,8 +12149,7 @@ CREATE TABLE `lso_states` (
 CREATE TABLE `lti2_consumer` (
   `consumer_pk` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `consumer_key256` varchar(256) NOT NULL,
-  `consumer_key` longblob DEFAULT NULL,
+  `consumer_key` varchar(255) DEFAULT NULL,
   `secret` varchar(1024) NOT NULL,
   `lti_version` varchar(10) DEFAULT NULL,
   `consumer_name` varchar(255) DEFAULT NULL,
@@ -11342,7 +12157,7 @@ CREATE TABLE `lti2_consumer` (
   `consumer_guid` varchar(1024) DEFAULT NULL,
   `profile` longblob DEFAULT NULL,
   `tool_proxy` longblob DEFAULT NULL,
-  `settings` longblob DEFAULT NULL,
+  `settings` longtext DEFAULT NULL,
   `protected` tinyint(4) NOT NULL,
   `enabled` tinyint(4) NOT NULL,
   `enable_from` datetime DEFAULT NULL,
@@ -11353,8 +12168,12 @@ CREATE TABLE `lti2_consumer` (
   `ext_consumer_id` int(11) NOT NULL,
   `ref_id` int(11) NOT NULL,
   `signature_method` varchar(15) NOT NULL DEFAULT 'HMAC-SHA1',
+  `platform_id` varchar(255) DEFAULT NULL,
+  `client_id` varchar(255) DEFAULT NULL,
+  `deployment_id` varchar(255) DEFAULT NULL,
+  `public_key` longtext DEFAULT NULL,
   PRIMARY KEY (`consumer_pk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_consumer`
@@ -11368,7 +12187,7 @@ CREATE TABLE `lti2_consumer` (
 CREATE TABLE `lti2_consumer_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_consumer_seq`
@@ -11390,7 +12209,7 @@ CREATE TABLE `lti2_context` (
   `type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`context_pk`),
   KEY `i1_idx` (`consumer_pk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_context`
@@ -11404,7 +12223,7 @@ CREATE TABLE `lti2_context` (
 CREATE TABLE `lti2_context_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_context_seq`
@@ -11420,7 +12239,7 @@ CREATE TABLE `lti2_nonce` (
   `value` varchar(50) NOT NULL DEFAULT '',
   `expires` datetime NOT NULL,
   PRIMARY KEY (`consumer_pk`,`value`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_nonce`
@@ -11445,7 +12264,7 @@ CREATE TABLE `lti2_resource_link` (
   PRIMARY KEY (`resource_link_pk`),
   KEY `i1_idx` (`consumer_pk`),
   KEY `i2_idx` (`context_pk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_resource_link`
@@ -11459,7 +12278,7 @@ CREATE TABLE `lti2_resource_link` (
 CREATE TABLE `lti2_resource_link_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_resource_link_seq`
@@ -11477,7 +12296,7 @@ CREATE TABLE `lti2_share_key` (
   `expires` datetime NOT NULL,
   PRIMARY KEY (`share_key_id`),
   KEY `i1_idx` (`resource_link_pk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_share_key`
@@ -11498,7 +12317,7 @@ CREATE TABLE `lti2_tool_proxy` (
   PRIMARY KEY (`tool_proxy_pk`),
   UNIQUE KEY `u1_idx` (`tool_proxy_id`),
   KEY `i1_idx` (`consumer_pk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_tool_proxy`
@@ -11512,7 +12331,7 @@ CREATE TABLE `lti2_tool_proxy` (
 CREATE TABLE `lti2_tool_proxy_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_tool_proxy_seq`
@@ -11532,7 +12351,7 @@ CREATE TABLE `lti2_user_result` (
   `updated` datetime NOT NULL,
   PRIMARY KEY (`user_pk`),
   KEY `i1_idx` (`resource_link_pk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_user_result`
@@ -11546,10 +12365,47 @@ CREATE TABLE `lti2_user_result` (
 CREATE TABLE `lti2_user_result_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti2_user_result_seq`
+--
+
+
+--
+-- Table structure for table `lti_consumer_grades`
+--
+
+CREATE TABLE `lti_consumer_grades` (
+  `id` int(11) NOT NULL,
+  `obj_id` int(11) NOT NULL,
+  `usr_id` int(11) NOT NULL,
+  `score_given` double DEFAULT NULL,
+  `score_maximum` double DEFAULT NULL,
+  `activity_progress` varchar(20) NOT NULL,
+  `grading_progress` varchar(20) NOT NULL,
+  `lti_timestamp` datetime DEFAULT NULL,
+  `stored` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`obj_id`,`usr_id`)
+) ;
+
+--
+-- Dumping data for table `lti_consumer_grades`
+--
+
+
+--
+-- Table structure for table `lti_consumer_grades_seq`
+--
+
+CREATE TABLE `lti_consumer_grades_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `lti_consumer_grades_seq`
 --
 
 
@@ -11564,7 +12420,7 @@ CREATE TABLE `lti_consumer_results` (
   `result` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti_consumer_results`
@@ -11578,7 +12434,7 @@ CREATE TABLE `lti_consumer_results` (
 CREATE TABLE `lti_consumer_results_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti_consumer_results_seq`
@@ -11608,8 +12464,9 @@ CREATE TABLE `lti_consumer_settings` (
   `activity_id` varchar(128) DEFAULT NULL,
   `launch_key` varchar(255) DEFAULT NULL,
   `launch_secret` varchar(255) DEFAULT NULL,
+  `custom_params` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti_consumer_settings`
@@ -11631,7 +12488,7 @@ CREATE TABLE `lti_ext_consumer` (
   `default_skin` varchar(50) DEFAULT NULL,
   `active` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti_ext_consumer`
@@ -11646,7 +12503,7 @@ CREATE TABLE `lti_ext_consumer_otype` (
   `consumer_id` int(11) NOT NULL DEFAULT 0,
   `object_type` varchar(255) NOT NULL,
   PRIMARY KEY (`consumer_id`,`object_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti_ext_consumer_otype`
@@ -11660,7 +12517,7 @@ CREATE TABLE `lti_ext_consumer_otype` (
 CREATE TABLE `lti_ext_consumer_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti_ext_consumer_seq`
@@ -11706,8 +12563,21 @@ CREATE TABLE `lti_ext_provider` (
   `category` varchar(16) NOT NULL DEFAULT '',
   `privacy_ident` smallint(6) NOT NULL DEFAULT 0,
   `privacy_name` smallint(6) NOT NULL DEFAULT 0,
+  `instructor_send_name` tinyint(4) NOT NULL DEFAULT 0,
+  `instructor_send_email` tinyint(4) NOT NULL DEFAULT 0,
+  `client_id` varchar(255) DEFAULT NULL,
+  `enabled_capability` longtext DEFAULT NULL,
+  `key_type` varchar(16) DEFAULT NULL,
+  `public_key` longtext DEFAULT NULL,
+  `public_keyset` varchar(255) DEFAULT NULL,
+  `initiate_login` varchar(255) DEFAULT NULL,
+  `redirection_uris` varchar(510) DEFAULT NULL,
+  `content_item` tinyint(4) NOT NULL DEFAULT 0,
+  `content_item_url` varchar(510) DEFAULT NULL,
+  `grade_synchronization` tinyint(4) NOT NULL DEFAULT 0,
+  `lti_version` varchar(10) NOT NULL DEFAULT 'LTI-1p0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti_ext_provider`
@@ -11721,7 +12591,7 @@ CREATE TABLE `lti_ext_provider` (
 CREATE TABLE `lti_ext_provider_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti_ext_provider_seq`
@@ -11739,7 +12609,7 @@ CREATE TABLE `lti_int_provider_obj` (
   `tutor` int(11) DEFAULT NULL,
   `member` int(11) DEFAULT NULL,
   PRIMARY KEY (`ref_id`,`ext_consumer_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `lti_int_provider_obj`
@@ -11757,7 +12627,6 @@ CREATE TABLE `mail` (
   `sender_id` int(11) DEFAULT NULL,
   `send_time` datetime DEFAULT NULL,
   `m_status` varchar(16) DEFAULT NULL,
-  `m_email` tinyint(4) DEFAULT NULL,
   `m_subject` varchar(255) DEFAULT NULL,
   `import_name` varchar(4000) DEFAULT NULL,
   `use_placeholders` tinyint(4) NOT NULL DEFAULT 0,
@@ -11773,7 +12642,7 @@ CREATE TABLE `mail` (
   KEY `i2_idx` (`folder_id`),
   KEY `i3_idx` (`m_status`),
   KEY `i4_idx` (`sender_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail`
@@ -11789,10 +12658,26 @@ CREATE TABLE `mail_attachment` (
   `path` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`mail_id`),
   KEY `i1_idx` (`path`(255))
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_attachment`
+--
+
+
+--
+-- Table structure for table `mail_auto_responder`
+--
+
+CREATE TABLE `mail_auto_responder` (
+  `sender_id` bigint(20) NOT NULL,
+  `receiver_id` bigint(20) NOT NULL,
+  `sent_time` datetime NOT NULL,
+  PRIMARY KEY (`sender_id`,`receiver_id`)
+) ;
+
+--
+-- Dumping data for table `mail_auto_responder`
 --
 
 
@@ -11805,7 +12690,7 @@ CREATE TABLE `mail_cron_orphaned` (
   `folder_id` int(11) NOT NULL DEFAULT 0,
   `ts_do_delete` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`mail_id`,`folder_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_cron_orphaned`
@@ -11826,7 +12711,7 @@ CREATE TABLE `mail_man_tpl` (
   `is_default` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`tpl_id`),
   KEY `i1_idx` (`context`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_man_tpl`
@@ -11840,7 +12725,7 @@ CREATE TABLE `mail_man_tpl` (
 CREATE TABLE `mail_man_tpl_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_man_tpl_seq`
@@ -11859,7 +12744,7 @@ CREATE TABLE `mail_obj_data` (
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`user_id`,`m_type`),
   KEY `i2_idx` (`obj_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_obj_data`
@@ -11879,7 +12764,7 @@ INSERT INTO `mail_obj_data` VALUES (7,6,'z_local','local');
 CREATE TABLE `mail_obj_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=9;
+)  AUTO_INCREMENT=9;
 
 --
 -- Dumping data for table `mail_obj_data_seq`
@@ -11893,20 +12778,24 @@ INSERT INTO `mail_obj_data_seq` VALUES (8);
 
 CREATE TABLE `mail_options` (
   `user_id` int(11) NOT NULL DEFAULT 0,
-  `linebreak` tinyint(4) NOT NULL DEFAULT 0,
   `signature` varchar(4000) DEFAULT NULL,
   `incoming_type` tinyint(4) DEFAULT NULL,
   `cronjob_notification` tinyint(4) NOT NULL DEFAULT 0,
   `mail_address_option` tinyint(4) NOT NULL DEFAULT 3,
+  `absence_status` tinyint(4) NOT NULL DEFAULT 0,
+  `absent_from` bigint(20) NOT NULL DEFAULT 0,
+  `absent_until` bigint(20) NOT NULL DEFAULT 0,
+  `absence_ar_body` longtext DEFAULT NULL,
+  `absence_ar_subject` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
-  KEY `i1_idx` (`user_id`,`linebreak`)
-) ENGINE=InnoDB;
+  KEY `i1_idx` (`user_id`)
+) ;
 
 --
 -- Dumping data for table `mail_options`
 --
 
-INSERT INTO `mail_options` VALUES (6,60,'',0,0,3);
+INSERT INTO `mail_options` VALUES (6,'',0,0,3,0,0,0,NULL,NULL);
 
 --
 -- Table structure for table `mail_saved`
@@ -11925,7 +12814,7 @@ CREATE TABLE `mail_saved` (
   `tpl_ctx_id` varchar(100) DEFAULT NULL,
   `tpl_ctx_params` longblob DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_saved`
@@ -11939,7 +12828,7 @@ CREATE TABLE `mail_saved` (
 CREATE TABLE `mail_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_seq`
@@ -11960,7 +12849,7 @@ CREATE TABLE `mail_template` (
   `type` varchar(4) NOT NULL DEFAULT ' ',
   `att_file` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`type`,`lang`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_template`
@@ -11977,17 +12866,23 @@ CREATE TABLE `mail_tpl_ctx` (
   `class` varchar(100) NOT NULL DEFAULT '',
   `path` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_tpl_ctx`
 --
 
-INSERT INTO `mail_tpl_ctx` VALUES ('crs_context_member_manual','Modules/Course','ilCourseMailTemplateMemberContext','');
-INSERT INTO `mail_tpl_ctx` VALUES ('crs_context_tutor_manual','Modules/Course','ilCourseMailTemplateTutorContext','');
-INSERT INTO `mail_tpl_ctx` VALUES ('mail_template_generic','Services/Mail','ilMailTemplateGenericContext','');
-INSERT INTO `mail_tpl_ctx` VALUES ('sahs_context_lp','Modules/ScormAicc','ilScormMailTemplateLPContext','');
-INSERT INTO `mail_tpl_ctx` VALUES ('svy_context_rmd','Modules/Survey','ilSurveyMailTemplateReminderContext','');
+INSERT INTO `mail_tpl_ctx` VALUES ('crs_context_member_manual','Modules/Course','ilCourseMailTemplateMemberContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('crs_context_tutor_manual','Modules/Course','ilCourseMailTemplateTutorContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('exc_context_grade_rmd','Modules/Exercise','ilExcMailTemplateGradeReminderContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('exc_context_peer_rmd','Modules/Exercise','ilExcMailTemplatePeerReminderContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('exc_context_submit_rmd','Modules/Exercise','ilExcMailTemplateSubmitReminderContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('mail_template_generic','Services/Mail','ilMailTemplateGenericContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('prg_context_manual','Modules/StudyProgramme','ilStudyProgrammeMailTemplateContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('sahs_context_lp','Modules/ScormAicc','ilScormMailTemplateLPContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('sess_context_participant_manual','Modules/Session','ilSessionMailTemplateParticipantContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('svy_context_rmd','Modules/Survey','ilSurveyMailTemplateReminderContext',NULL);
+INSERT INTO `mail_tpl_ctx` VALUES ('svy_rater_inv','Modules/Survey','ilSurveyMailTemplateRaterInvitationContext',NULL);
 
 --
 -- Table structure for table `mail_tree`
@@ -12003,7 +12898,7 @@ CREATE TABLE `mail_tree` (
   PRIMARY KEY (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`tree`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mail_tree`
@@ -12015,6 +12910,21 @@ INSERT INTO `mail_tree` VALUES (6,4,2,4,5,2);
 INSERT INTO `mail_tree` VALUES (6,5,2,6,7,2);
 INSERT INTO `mail_tree` VALUES (6,6,2,8,9,2);
 INSERT INTO `mail_tree` VALUES (6,7,2,10,11,2);
+
+--
+-- Table structure for table `manscoring_done`
+--
+
+CREATE TABLE `manscoring_done` (
+  `active_id` bigint(20) NOT NULL,
+  `done` tinyint(4) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`active_id`)
+) ;
+
+--
+-- Dumping data for table `manscoring_done`
+--
+
 
 --
 -- Table structure for table `map_area`
@@ -12035,7 +12945,7 @@ CREATE TABLE `map_area` (
   `highlight_class` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`item_id`,`nr`),
   KEY `lt_idx` (`link_type`,`target`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `map_area`
@@ -12064,7 +12974,7 @@ CREATE TABLE `media_item` (
   `upload_hash` varchar(100) DEFAULT NULL,
   `duration` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `media_item`
@@ -12078,7 +12988,7 @@ CREATE TABLE `media_item` (
 CREATE TABLE `media_item_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `media_item_seq`
@@ -12095,7 +13005,7 @@ CREATE TABLE `member_agreement` (
   `accepted` tinyint(4) NOT NULL DEFAULT 0,
   `acceptance_time` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `member_agreement`
@@ -12110,7 +13020,7 @@ CREATE TABLE `member_noti` (
   `ref_id` int(11) NOT NULL DEFAULT 0,
   `nmode` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `member_noti`
@@ -12126,7 +13036,7 @@ CREATE TABLE `member_noti_user` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `status` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ref_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `member_noti_user`
@@ -12143,7 +13053,7 @@ CREATE TABLE `mep_data` (
   `default_height` int(11) DEFAULT NULL,
   `for_translation` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mep_data`
@@ -12162,7 +13072,7 @@ CREATE TABLE `mep_item` (
   `import_id` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`obj_id`),
   KEY `ft_idx` (`foreign_id`,`type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mep_item`
@@ -12177,7 +13087,7 @@ INSERT INTO `mep_item` VALUES (1,'dummy','Dummy',1,'');
 CREATE TABLE `mep_item_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `mep_item_seq`
@@ -12200,7 +13110,7 @@ CREATE TABLE `mep_tree` (
   KEY `ch_idx` (`child`),
   KEY `pa_idx` (`parent`),
   KEY `me_idx` (`mep_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mep_tree`
@@ -12216,7 +13126,7 @@ CREATE TABLE `mob_parameter` (
   `name` varchar(50) NOT NULL DEFAULT '',
   `value` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`med_item_id`,`name`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mob_parameter`
@@ -12236,62 +13146,12 @@ CREATE TABLE `mob_usage` (
   PRIMARY KEY (`id`,`usage_type`,`usage_id`,`usage_hist_nr`,`usage_lang`),
   KEY `mi_idx` (`id`),
   KEY `i1_idx` (`usage_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `mob_usage`
 --
 
-
---
--- Table structure for table `module_class`
---
-
-CREATE TABLE `module_class` (
-  `class` varchar(100) NOT NULL DEFAULT ' ',
-  `module` varchar(100) DEFAULT NULL,
-  `dir` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`class`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `module_class`
---
-
-INSERT INTO `module_class` VALUES ('ilExerciseHandlerGUI','Exercise','classes');
-INSERT INTO `module_class` VALUES ('ilGlossaryEditorGUI','Glossary','classes');
-INSERT INTO `module_class` VALUES ('ilGlossaryPresentationGUI','Glossary','classes');
-INSERT INTO `module_class` VALUES ('ilHTLMEditorGUI','HTMLLearningModule','classes');
-INSERT INTO `module_class` VALUES ('ilHTLMPresentationGUI','HTMLLearningModule','classes');
-INSERT INTO `module_class` VALUES ('ilLinkResourceHandlerGUI','WebResource','classes');
-INSERT INTO `module_class` VALUES ('ilLMEditorGUI','LearningModule','classes');
-INSERT INTO `module_class` VALUES ('ilLMPresentationGUI','LearningModule','classes');
-INSERT INTO `module_class` VALUES ('ilMediaCastHandlerGUI','MediaCast','classes');
-INSERT INTO `module_class` VALUES ('ilMediaPoolPresentationGUI','MediaPool','classes');
-INSERT INTO `module_class` VALUES ('ilObjCategoryReferenceGUI','CategoryReference','classes');
-INSERT INTO `module_class` VALUES ('ilObjChatroomAdminGUI','Chatroom','classes');
-INSERT INTO `module_class` VALUES ('ilObjChatroomGUI','Chatroom','classes');
-INSERT INTO `module_class` VALUES ('ilObjCourseReferenceGUI','CourseReference','classes');
-INSERT INTO `module_class` VALUES ('ilObjGroupReferenceGUI','GroupReference','classes');
-INSERT INTO `module_class` VALUES ('ilObjIndividualAssessmentGUI','IndividualAssessment','classes');
-INSERT INTO `module_class` VALUES ('ilObjPortfolioGUI','Portfolio','classes');
-INSERT INTO `module_class` VALUES ('ilObjQuestionPoolGUI','TestQuestionPool','classes');
-INSERT INTO `module_class` VALUES ('ilObjRemoteCategoryGUI','RemoteCategory','classes');
-INSERT INTO `module_class` VALUES ('ilObjRemoteCourseGUI','RemoteCourse','classes');
-INSERT INTO `module_class` VALUES ('ilObjRemoteFileGUI','RemoteFile','classes');
-INSERT INTO `module_class` VALUES ('ilObjRemoteGlossaryGUI','RemoteGlossary','classes');
-INSERT INTO `module_class` VALUES ('ilObjRemoteGroupGUI','RemoteGroup','classes');
-INSERT INTO `module_class` VALUES ('ilObjRemoteLearningModuleGUI','RemoteLearningModule','classes');
-INSERT INTO `module_class` VALUES ('ilObjRemoteTestGUI','RemoteTest','classes');
-INSERT INTO `module_class` VALUES ('ilObjRemoteWikiGUI','RemoteWiki','classes');
-INSERT INTO `module_class` VALUES ('ilObjSurveyGUI','Survey','classes');
-INSERT INTO `module_class` VALUES ('ilObjSurveyQuestionPoolGUI','SurveyQuestionPool','classes');
-INSERT INTO `module_class` VALUES ('ilObjTestGUI','Test','classes');
-INSERT INTO `module_class` VALUES ('ilPortfolioRepositoryGUI','Portfolio','classes');
-INSERT INTO `module_class` VALUES ('ilSAHSEditGUI','ScormAicc','classes');
-INSERT INTO `module_class` VALUES ('ilSAHSPresentationGUI','ScormAicc','classes');
-INSERT INTO `module_class` VALUES ('ilSystemSupportContactsGUI','SystemFolder','classes');
-INSERT INTO `module_class` VALUES ('ilWikiHandlerGUI','Wiki','classes');
 
 --
 -- Table structure for table `note`
@@ -12311,10 +13171,11 @@ CREATE TABLE `note` (
   `subject` varchar(200) DEFAULT NULL,
   `no_repository` tinyint(4) DEFAULT 0,
   `news_id` int(11) NOT NULL DEFAULT 0,
+  `recipient` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`author`),
   KEY `i2_idx` (`rep_obj_id`,`obj_id`,`obj_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `note`
@@ -12328,7 +13189,7 @@ CREATE TABLE `note` (
 CREATE TABLE `note_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `note_seq`
@@ -12345,7 +13206,7 @@ CREATE TABLE `note_settings` (
   `obj_type` varchar(10) NOT NULL DEFAULT '-',
   `activated` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`rep_obj_id`,`obj_id`,`obj_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `note_settings`
@@ -12364,7 +13225,7 @@ CREATE TABLE `notification` (
   `page_id` int(11) DEFAULT 0,
   `activated` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`type`,`id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `notification`
@@ -12383,7 +13244,7 @@ CREATE TABLE `notification_channels` (
   `include` varchar(100) NOT NULL DEFAULT '',
   `config_type` varchar(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`channel_name`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `notification_channels`
@@ -12400,7 +13261,7 @@ CREATE TABLE `notification_data` (
   `notification_id` int(11) NOT NULL DEFAULT 0,
   `serialized` varchar(4000) NOT NULL DEFAULT '',
   PRIMARY KEY (`notification_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `notification_data`
@@ -12414,7 +13275,7 @@ CREATE TABLE `notification_data` (
 CREATE TABLE `notification_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `notification_data_seq`
@@ -12431,7 +13292,7 @@ CREATE TABLE `notification_listener` (
   `sender_id` int(11) NOT NULL DEFAULT 0,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`,`module`,`sender_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `notification_listener`
@@ -12450,8 +13311,10 @@ CREATE TABLE `notification_osd` (
   `time_added` int(11) NOT NULL DEFAULT 0,
   `type` varchar(100) NOT NULL DEFAULT '',
   `visible_for` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`notification_osd_id`)
-) ENGINE=InnoDB;
+  `identification` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`notification_osd_id`),
+  KEY `i1_idx` (`usr_id`,`type`,`time_added`)
+) ;
 
 --
 -- Dumping data for table `notification_osd`
@@ -12465,7 +13328,7 @@ CREATE TABLE `notification_osd` (
 CREATE TABLE `notification_osd_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `notification_osd_seq`
@@ -12481,7 +13344,7 @@ CREATE TABLE `notification_queue` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `valid_until` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`notification_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `notification_queue`
@@ -12499,14 +13362,18 @@ CREATE TABLE `notification_types` (
   `notification_group` varchar(100) NOT NULL DEFAULT '',
   `config_type` varchar(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`type_name`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `notification_types`
 --
 
+INSERT INTO `notification_types` VALUES ('badge_received','badge_received','badge_received_desc','achievement','set_by_admin');
+INSERT INTO `notification_types` VALUES ('buddysystem_request','buddysystem_request','buddysystem_request_desc','contact','set_by_admin');
 INSERT INTO `notification_types` VALUES ('chat_invitation','chat_invitation','chat_invitation_description','chat','set_by_admin');
+INSERT INTO `notification_types` VALUES ('lso_completion','lso_completion','lso_completion_description','lso','set_by_admin');
 INSERT INTO `notification_types` VALUES ('osd_maint','osd_maint','osd_maint_description','osd_notification','set_by_admin');
+INSERT INTO `notification_types` VALUES ('who_is_online','who_is_online','who_is_online_desc','user','set_by_admin');
 
 --
 -- Table structure for table `notification_usercfg`
@@ -12517,17 +13384,19 @@ CREATE TABLE `notification_usercfg` (
   `module` varchar(100) NOT NULL DEFAULT '',
   `channel` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`usr_id`,`module`,`channel`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `notification_usercfg`
 --
 
+INSERT INTO `notification_usercfg` VALUES (-1,'badge_received','osd');
 INSERT INTO `notification_usercfg` VALUES (-1,'buddysystem_request','mail');
 INSERT INTO `notification_usercfg` VALUES (-1,'buddysystem_request','osd');
 INSERT INTO `notification_usercfg` VALUES (-1,'chat_invitation','mail');
 INSERT INTO `notification_usercfg` VALUES (-1,'chat_invitation','osd');
-INSERT INTO `notification_usercfg` VALUES (-1,'osd_main','osd');
+INSERT INTO `notification_usercfg` VALUES (-1,'lso_completion','osd');
+INSERT INTO `notification_usercfg` VALUES (-1,'who_is_online','osd');
 
 --
 -- Table structure for table `obj_content_master_lng`
@@ -12538,7 +13407,7 @@ CREATE TABLE `obj_content_master_lng` (
   `master_lang` varchar(2) NOT NULL DEFAULT '',
   `fallback_lang` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_content_master_lng`
@@ -12562,7 +13431,7 @@ CREATE TABLE `obj_lp_stat` (
   `failed` int(11) DEFAULT NULL,
   `not_attempted` int(11) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`fulldate`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_lp_stat`
@@ -12587,7 +13456,7 @@ CREATE TABLE `obj_members` (
   `member` smallint(6) DEFAULT 0,
   PRIMARY KEY (`obj_id`,`usr_id`),
   KEY `i1_idx` (`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_members`
@@ -12602,7 +13471,7 @@ CREATE TABLE `obj_noti_settings` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `noti_mode` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_noti_settings`
@@ -12625,7 +13494,7 @@ CREATE TABLE `obj_stat` (
   `spent_seconds` int(11) DEFAULT NULL,
   `childs_spent_seconds` int(11) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`yyyy`,`mm`,`dd`,`hh`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_stat`
@@ -12651,7 +13520,7 @@ CREATE TABLE `obj_stat_log` (
   `childs_spent_seconds` int(11) DEFAULT NULL,
   PRIMARY KEY (`log_id`),
   KEY `i1_idx` (`tstamp`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_stat_log`
@@ -12665,7 +13534,7 @@ CREATE TABLE `obj_stat_log` (
 CREATE TABLE `obj_stat_log_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_stat_log_seq`
@@ -12691,7 +13560,7 @@ CREATE TABLE `obj_stat_tmp` (
   `childs_spent_seconds` int(11) DEFAULT NULL,
   PRIMARY KEY (`log_id`),
   KEY `i1_idx` (`obj_id`,`obj_type`,`yyyy`,`mm`,`dd`,`hh`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_stat_tmp`
@@ -12712,7 +13581,7 @@ CREATE TABLE `obj_type_stat` (
   `cnt_objects` int(11) DEFAULT NULL,
   `cnt_deleted` int(11) DEFAULT NULL,
   PRIMARY KEY (`type`,`fulldate`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_type_stat`
@@ -12729,7 +13598,7 @@ CREATE TABLE `obj_user_data_hist` (
   `update_user` int(11) NOT NULL DEFAULT 0,
   `editing_time` datetime DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_user_data_hist`
@@ -12748,7 +13617,7 @@ CREATE TABLE `obj_user_stat` (
   `fulldate` int(11) NOT NULL DEFAULT 0,
   `counter` int(11) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`fulldate`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `obj_user_stat`
@@ -12761,274 +13630,280 @@ CREATE TABLE `obj_user_stat` (
 
 CREATE TABLE `object_data` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
-  `type` char(4) DEFAULT 'none',
-  `title` char(255) DEFAULT NULL,
-  `description` char(128) DEFAULT NULL,
+  `type` char(4) NOT NULL DEFAULT 'none',
+  `title` char(255) NOT NULL DEFAULT '',
+  `description` char(128) NOT NULL DEFAULT '',
   `owner` int(11) NOT NULL DEFAULT 0,
   `create_date` datetime DEFAULT NULL,
   `last_update` datetime DEFAULT NULL,
   `import_id` char(50) DEFAULT NULL,
   `offline` tinyint(4) DEFAULT NULL,
+  `tile_image_rid` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`type`),
   KEY `i2_idx` (`title`),
   KEY `i4_idx` (`import_id`),
   KEY `i5_idx` (`owner`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `object_data`
 --
 
-INSERT INTO `object_data` VALUES (1,'root','ILIAS','This is the root node of the system!!!',-1,'2002-06-24 15:15:03','2004-01-20 12:24:12','',NULL);
-INSERT INTO `object_data` VALUES (2,'role','Administrator','Role for systemadministrators. This role grants access to everything!',-1,'2002-01-16 15:31:45','2003-08-15 13:18:57','',NULL);
-INSERT INTO `object_data` VALUES (3,'rolt','Author','Role template for authors with write & create permissions.',-1,'2002-01-16 15:32:50','2016-12-16 14:58:27','',NULL);
-INSERT INTO `object_data` VALUES (4,'role','User','Standard role for registered users. Grants read access to most objects.',-1,'2002-01-16 15:34:00','2016-12-16 14:56:25','',NULL);
-INSERT INTO `object_data` VALUES (5,'role','Guest','Role grants only a few visible & read permissions.',-1,'2002-01-16 15:34:46','2016-12-16 14:54:14','',NULL);
-INSERT INTO `object_data` VALUES (6,'usr','root user','ilias@yourserver.com',-1,'2002-01-16 16:09:22','2016-12-14 14:44:49','',NULL);
-INSERT INTO `object_data` VALUES (7,'usrf','User accounts','Manage user accounts here.',-1,'2002-06-27 09:24:06','2004-01-20 12:23:47','',NULL);
-INSERT INTO `object_data` VALUES (8,'rolf','Roles','Manage your roles here.',-1,'2002-06-27 09:24:06','2004-01-20 12:23:40','',NULL);
-INSERT INTO `object_data` VALUES (9,'adm','System Settings','Folder contains the systems settings',-1,'2002-07-15 12:37:33','2002-07-15 12:37:33','',NULL);
-INSERT INTO `object_data` VALUES (10,'objf','Objectdefinitions','Manage ILIAS object types and object permissions. (only for experts!)',-1,'2002-07-15 12:36:56','2004-01-20 12:23:53','',NULL);
-INSERT INTO `object_data` VALUES (11,'lngf','Languages','Manage your system languages here.',-1,'2002-07-15 15:52:51','2004-01-20 12:24:06','',NULL);
-INSERT INTO `object_data` VALUES (12,'mail','Mail Settings','Configure global mail settings here.',-1,'2003-08-15 10:07:28','2004-01-20 12:24:00','',NULL);
-INSERT INTO `object_data` VALUES (13,'usr','Anonymous','Anonymous user account. DO NOT DELETE!',-1,'2003-08-15 10:07:30','2003-08-15 10:07:30','',NULL);
-INSERT INTO `object_data` VALUES (14,'role','Anonymous','Default role for anonymous users (with no account)',-1,'2003-08-15 12:06:19','2005-07-20 15:15:06','',NULL);
-INSERT INTO `object_data` VALUES (15,'typ','grp','Group object',-1,'2002-07-15 15:54:37','2002-07-15 15:54:37','',NULL);
-INSERT INTO `object_data` VALUES (16,'typ','cat','Category object',-1,'2002-07-15 15:54:54','2002-07-15 15:54:54','',NULL);
-INSERT INTO `object_data` VALUES (17,'typ','crs','Course object',-1,'2002-07-15 15:55:08','2002-07-15 15:55:08','',NULL);
-INSERT INTO `object_data` VALUES (18,'typ','mob','Multimedia object',-1,NULL,'2003-08-15 12:03:20','',NULL);
-INSERT INTO `object_data` VALUES (19,'typ','mail','Mailmodule object',-1,'2002-07-15 15:55:49','2002-07-15 15:55:49','',NULL);
-INSERT INTO `object_data` VALUES (20,'typ','sahs','SCORM/AICC Learning Module',-1,'2003-08-15 10:07:28','2003-08-15 12:23:10','',NULL);
-INSERT INTO `object_data` VALUES (21,'typ','adm','Administration Panel object',-1,'2002-07-15 15:56:38','2002-07-15 15:56:38','',NULL);
-INSERT INTO `object_data` VALUES (22,'typ','usrf','User Folder object',-1,'2002-07-15 15:56:52','2002-07-15 15:56:52','',NULL);
-INSERT INTO `object_data` VALUES (23,'typ','rolf','Role Folder object',-1,'2002-07-15 15:57:06','2002-07-15 15:57:06','',NULL);
-INSERT INTO `object_data` VALUES (24,'typ','objf','Object-Type Folder object',-1,'2002-07-15 15:57:17','2002-07-15 15:57:17','',NULL);
-INSERT INTO `object_data` VALUES (25,'typ','usr','User object',-1,'2002-07-15 15:53:37','2003-08-15 12:30:56','',NULL);
-INSERT INTO `object_data` VALUES (26,'typ','typ','Object Type Definition object',-1,'2002-07-15 15:58:16','2002-07-15 15:58:16','',NULL);
-INSERT INTO `object_data` VALUES (27,'typ','rolt','Role template object',-1,'2002-07-15 15:58:16','2002-07-15 15:58:16','',NULL);
-INSERT INTO `object_data` VALUES (28,'typ','lngf','Language Folder object',-1,'2002-08-28 14:22:01','2002-08-28 14:22:01','',NULL);
-INSERT INTO `object_data` VALUES (29,'typ','lng','Language object',-1,'2002-08-30 10:18:29','2002-08-30 10:18:29','',NULL);
-INSERT INTO `object_data` VALUES (30,'typ','role','Role Object',-1,'2002-08-30 10:21:37','2002-08-30 10:21:37','',NULL);
-INSERT INTO `object_data` VALUES (31,'typ','dbk','Digilib Book',-1,'2003-08-15 10:07:29','2003-08-15 12:30:19','',NULL);
-INSERT INTO `object_data` VALUES (32,'typ','glo','Glossary',-1,'2003-08-15 10:07:30','2003-08-15 12:29:54','',NULL);
-INSERT INTO `object_data` VALUES (33,'typ','root','Root Folder Object',-1,'2002-12-21 00:04:00','2003-08-15 12:04:20','',NULL);
-INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'2002-07-15 15:54:04','2003-08-15 12:33:04','',NULL);
-INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
-INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
-INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2018-06-20 17:44:52','',NULL);
-INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
-INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
-INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
-INSERT INTO `object_data` VALUES (80,'rolt','il_grp_admin','Administrator role template of groups',-1,'2003-08-15 10:07:28','2016-12-16 15:05:30','',NULL);
-INSERT INTO `object_data` VALUES (81,'rolt','il_grp_member','Member role template of groups',-1,'2003-08-15 10:07:28','2016-12-16 15:06:38','',NULL);
-INSERT INTO `object_data` VALUES (82,'rolt','il_grp_status_closed','Group role template',-1,'2003-08-15 10:07:29','2003-08-15 13:21:38','',NULL);
-INSERT INTO `object_data` VALUES (83,'rolt','il_grp_status_open','Group role template',-1,'2003-08-15 10:07:29','2003-08-15 13:21:25','',NULL);
-INSERT INTO `object_data` VALUES (84,'typ','exc','Exercise object',-1,'2003-11-30 21:22:49','2003-11-30 21:22:49','',NULL);
-INSERT INTO `object_data` VALUES (85,'typ','auth','Authentication settings',-1,'2003-11-30 21:22:49','2003-11-30 21:22:49','',NULL);
-INSERT INTO `object_data` VALUES (86,'auth','Authentication settings','Select and configure authentication mode for all user accounts',-1,'2003-11-30 21:22:49','2003-11-30 21:22:49','',NULL);
-INSERT INTO `object_data` VALUES (87,'typ','fold','Folder object',-1,'2003-11-30 21:22:50','2003-11-30 21:22:50','',NULL);
-INSERT INTO `object_data` VALUES (88,'typ','file','File object',-1,'2003-11-30 21:22:50','2003-11-30 21:22:50','',NULL);
-INSERT INTO `object_data` VALUES (89,'lng','fr','not_installed',6,'2004-01-20 12:22:17','2004-01-20 12:22:17','',NULL);
-INSERT INTO `object_data` VALUES (90,'lng','nl','not_installed',6,'2004-01-20 12:22:17','2004-01-20 12:22:17','',NULL);
-INSERT INTO `object_data` VALUES (91,'lng','pl','not_installed',6,'2004-01-20 12:22:17','2004-01-20 12:22:17','',NULL);
-INSERT INTO `object_data` VALUES (93,'lng','zh','not_installed',6,'2004-01-20 12:22:17','2004-01-20 12:22:17','',NULL);
-INSERT INTO `object_data` VALUES (94,'typ','tst','Test object',-1,'2004-02-18 21:17:40','2004-02-18 21:17:40','',NULL);
-INSERT INTO `object_data` VALUES (95,'typ','qpl','Question pool object',-1,'2004-02-18 21:17:40','2004-02-18 21:17:40','',NULL);
-INSERT INTO `object_data` VALUES (99,'typ','recf','RecoveryFolder object',-1,'2004-03-09 18:13:16','2004-03-09 18:13:16','',NULL);
-INSERT INTO `object_data` VALUES (100,'recf','__Restored Objects','Contains objects restored by recovery tool',-1,'2004-03-09 18:13:16','2004-03-09 18:13:16','',NULL);
-INSERT INTO `object_data` VALUES (101,'typ','mep','Media pool object',-1,'2004-04-19 00:09:14','2004-04-19 00:09:14','',NULL);
-INSERT INTO `object_data` VALUES (102,'typ','htlm','HTML LM object',-1,'2004-04-19 00:09:15','2004-04-19 00:09:15','',NULL);
-INSERT INTO `object_data` VALUES (103,'typ','svy','Survey object',-1,'2004-05-15 01:18:59','2004-05-15 01:18:59','',NULL);
-INSERT INTO `object_data` VALUES (104,'typ','spl','Question pool object (Survey)',-1,'2004-05-15 01:18:59','2004-05-15 01:18:59','',NULL);
-INSERT INTO `object_data` VALUES (106,'typ','cals','Calendar Settings',-1,'2004-06-21 01:27:18','2004-06-21 01:27:18','',NULL);
-INSERT INTO `object_data` VALUES (107,'cals','Calendar Settings','Configure Calendar Settings here',-1,'2004-06-21 01:27:18','2004-06-21 01:27:18','',NULL);
-INSERT INTO `object_data` VALUES (108,'typ','trac','UserTracking object',-1,'2004-07-11 01:03:12','2004-07-11 01:03:12','',NULL);
-INSERT INTO `object_data` VALUES (109,'trac','__User Tracking','System user tracking',-1,'2004-07-11 01:03:12','2004-07-11 01:03:12','',NULL);
-INSERT INTO `object_data` VALUES (110,'rolt','il_crs_admin','Administrator template for course admins',-1,'2004-09-02 09:49:43','2016-12-16 15:00:10','',NULL);
-INSERT INTO `object_data` VALUES (111,'rolt','il_crs_tutor','Tutor template for course tutors',-1,'2004-09-02 09:49:43','2016-12-16 15:03:56','',NULL);
-INSERT INTO `object_data` VALUES (112,'rolt','il_crs_member','Member template for course members',-1,'2004-09-02 09:49:43','2016-12-16 15:00:53','',NULL);
-INSERT INTO `object_data` VALUES (115,'typ','assf','AssessmentFolder object',-1,'2005-01-07 17:21:15','2005-01-07 17:21:15','',NULL);
-INSERT INTO `object_data` VALUES (116,'assf','__Test&Assessment','Test&Assessment Administration',-1,'2005-01-07 17:21:15','2005-01-07 17:21:15','',NULL);
-INSERT INTO `object_data` VALUES (117,'typ','stys','Style Settings',-1,'2005-03-02 08:59:01','2005-03-02 08:59:01','',NULL);
-INSERT INTO `object_data` VALUES (118,'stys','System Style Settings','Manage system skin and style settings here',-1,'2005-03-02 08:59:01','2005-03-02 08:59:01','',NULL);
-INSERT INTO `object_data` VALUES (121,'typ','crsg','Course grouping object',-1,'2005-03-02 08:59:02','2005-03-02 08:59:02','',NULL);
-INSERT INTO `object_data` VALUES (122,'typ','webr','Link resource object',-1,'2005-03-13 22:41:38','2005-03-13 22:41:38','',NULL);
-INSERT INTO `object_data` VALUES (123,'typ','seas','Search settings',-1,'2005-06-20 09:50:00','2005-06-20 09:50:00','',NULL);
-INSERT INTO `object_data` VALUES (124,'seas','Search settings','Search settings',-1,'2005-06-20 09:50:00','2005-06-20 09:50:00','',NULL);
-INSERT INTO `object_data` VALUES (125,'rolt','Local Administrator','Role template for local administrators.',6,'2005-07-20 15:33:13','2016-12-16 15:09:46','',NULL);
-INSERT INTO `object_data` VALUES (127,'typ','extt','external tools settings',-1,'2005-07-20 18:10:04','2005-07-20 18:10:04','',NULL);
-INSERT INTO `object_data` VALUES (128,'extt','External tools settings','Configuring external tools',-1,'2005-07-20 18:10:04','2005-07-20 18:10:04','',NULL);
-INSERT INTO `object_data` VALUES (131,'rolt','il_crs_non_member','Non-member template for course object',-1,'2005-11-07 12:41:21','2015-12-22 15:35:30','',NULL);
-INSERT INTO `object_data` VALUES (135,'typ','adve','Advanced editing object',-1,'2006-07-11 18:43:23','2006-07-11 18:43:23','',NULL);
-INSERT INTO `object_data` VALUES (136,'adve','__AdvancedEditing','Advanced Editing',-1,'2006-07-11 18:43:23','2006-07-11 18:43:23','',NULL);
-INSERT INTO `object_data` VALUES (137,'typ','ps','Privacy security settings',-1,'2007-02-26 17:58:49','2007-02-26 17:58:49','',NULL);
-INSERT INTO `object_data` VALUES (138,'ps','__PrivacySecurity','Privacy and Security',-1,'2007-02-26 17:58:49','2007-02-26 17:58:49','',NULL);
-INSERT INTO `object_data` VALUES (139,'typ','nwss','News settings',-1,'2007-02-26 17:58:50','2007-02-26 17:58:50','',NULL);
-INSERT INTO `object_data` VALUES (140,'nwss','__NewsSettings','News Settings',-1,'2007-02-26 17:58:50','2007-02-26 17:58:50','',NULL);
-INSERT INTO `object_data` VALUES (141,'typ','feed','External Feed',-1,'2007-02-26 17:58:50','2007-02-26 17:58:50','',NULL);
-INSERT INTO `object_data` VALUES (142,'typ','mcst','Media Cast',-1,'2007-04-03 13:43:46','2007-04-03 13:43:46','',NULL);
-INSERT INTO `object_data` VALUES (143,'typ','dshs','Dashboard Settings',-1,'2007-04-03 13:43:47','2007-04-03 13:43:47','',NULL);
-INSERT INTO `object_data` VALUES (144,'dshs','__DashboardSettings','Dashboard Settings',-1,'2007-04-03 13:43:47','2007-04-03 13:43:47','',NULL);
-INSERT INTO `object_data` VALUES (145,'typ','rcrs','Remote Course Object',-1,'2007-09-25 19:47:53','2007-09-25 19:47:53','',NULL);
-INSERT INTO `object_data` VALUES (146,'typ','mds','Meta Data settings',-1,'2007-09-25 19:47:53','2007-09-25 19:47:53','',NULL);
-INSERT INTO `object_data` VALUES (147,'mds','__MetaDataSettings','Meta Data Settings',-1,'2007-09-25 19:47:53','2007-09-25 19:47:53','',NULL);
-INSERT INTO `object_data` VALUES (148,'rolt','il_frm_moderator','Moderator template for forum moderators',-1,'2007-11-27 14:43:12','2007-11-27 14:43:12','',NULL);
-INSERT INTO `object_data` VALUES (149,'typ','cmps','Component settings',-1,'2008-06-02 16:08:54','2008-06-02 16:08:54','',NULL);
-INSERT INTO `object_data` VALUES (150,'cmps','__ComponentSettings','Component Settings',-1,'2008-06-02 16:08:54','2008-06-02 16:08:54','',NULL);
-INSERT INTO `object_data` VALUES (151,'typ','facs','File Access settings object',-1,'2008-06-02 16:08:55','2008-06-02 16:08:55','',NULL);
-INSERT INTO `object_data` VALUES (152,'facs','Files','Settings for files and file handling',-1,'2008-06-02 16:08:55','2016-12-16 15:43:54','',NULL);
-INSERT INTO `object_data` VALUES (153,'typ','svyf','Survey Settings',-1,'2008-06-02 16:08:55','2008-06-02 16:08:55','',NULL);
-INSERT INTO `object_data` VALUES (154,'svyf','__SurveySettings','Survey Settings',-1,'2008-06-02 16:08:55','2008-06-02 16:08:55','',NULL);
-INSERT INTO `object_data` VALUES (155,'typ','sess','Session object',-1,'2008-06-02 16:08:55','2008-06-02 16:08:55','',NULL);
-INSERT INTO `object_data` VALUES (156,'typ','mcts','Mediacast settings',-1,'2008-06-02 16:08:56','2008-06-02 16:08:56','',NULL);
-INSERT INTO `object_data` VALUES (157,'mcts','__MediacastSettings','Mediacast Settings',-1,'2008-06-02 16:08:56','2008-06-02 16:08:56','',NULL);
-INSERT INTO `object_data` VALUES (158,'typ','wiki','Wiki',-1,'2008-06-02 16:08:57','2008-06-02 16:08:57','',NULL);
-INSERT INTO `object_data` VALUES (159,'typ','crsr','Course Reference Object',-1,'2008-09-23 19:24:09','2008-09-23 19:24:09','',NULL);
-INSERT INTO `object_data` VALUES (160,'typ','catr','Category Reference Object',-1,'2008-09-23 19:24:09','2008-09-23 19:24:09','',NULL);
-INSERT INTO `object_data` VALUES (161,'typ','tags','Tagging settings',-1,'2008-09-23 19:24:09','2008-09-23 19:24:09','',NULL);
-INSERT INTO `object_data` VALUES (162,'tags','__TaggingSettings','Tagging Settings',-1,'2008-09-23 19:24:09','2008-09-23 19:24:09','',NULL);
-INSERT INTO `object_data` VALUES (163,'typ','cert','Certificate settings',-1,'2009-07-20 13:03:21','2009-07-20 13:03:21','',NULL);
-INSERT INTO `object_data` VALUES (164,'cert','__CertificateSettings','Certificate Settings',-1,'2009-07-20 13:03:21','2009-07-20 13:03:21','',NULL);
-INSERT INTO `object_data` VALUES (165,'typ','lrss','Learning resources settings',-1,'2009-07-20 13:03:21','2009-07-20 13:03:21','',NULL);
-INSERT INTO `object_data` VALUES (166,'lrss','__LearningResourcesSettings','Learning Resources Settings',-1,'2009-07-20 13:03:21','2009-07-20 13:03:21','',NULL);
-INSERT INTO `object_data` VALUES (167,'typ','accs','Accessibility settings',-1,'2009-07-20 13:07:28','2009-07-20 13:07:28','',NULL);
-INSERT INTO `object_data` VALUES (168,'accs','__AccessibilitySettings','Accessibility Settings',-1,'2009-07-20 13:07:28','2009-07-20 13:07:28','',NULL);
-INSERT INTO `object_data` VALUES (169,'typ','mobs','Media Object/Pool settings',-1,'2009-07-20 13:08:42','2009-07-20 13:08:42','',NULL);
-INSERT INTO `object_data` VALUES (170,'mobs','__MediaObjectSettings','Media Object/Pool Settings',-1,'2009-07-20 13:08:42','2009-07-20 13:08:42','',NULL);
-INSERT INTO `object_data` VALUES (171,'typ','frma','Forum administration',-1,'2010-07-19 16:42:55','2010-07-19 16:42:55','',NULL);
-INSERT INTO `object_data` VALUES (172,'frma','__ForumAdministration','Forum Administration',-1,'2010-07-19 16:42:55','2010-07-19 16:42:55','',NULL);
-INSERT INTO `object_data` VALUES (173,'typ','book','Booking Manager',-1,'2010-07-19 16:43:10','2010-07-19 16:43:10','',NULL);
-INSERT INTO `object_data` VALUES (174,'typ','skmg','Skill Management',-1,'2011-08-07 11:39:00','2011-08-07 11:39:00','',NULL);
-INSERT INTO `object_data` VALUES (175,'skmg','__SkillManagement','Skill Management',-1,'2011-08-07 11:39:00','2011-08-07 11:39:00','',NULL);
-INSERT INTO `object_data` VALUES (176,'typ','blga','Blog administration',-1,'2011-08-07 11:39:04','2011-08-07 11:39:04','',NULL);
-INSERT INTO `object_data` VALUES (177,'blga','__BlogAdministration','Blog Administration',-1,'2011-08-07 11:39:04','2011-08-07 11:39:04','',NULL);
-INSERT INTO `object_data` VALUES (178,'typ','prfa','Portfolio administration',-1,'2011-08-07 11:39:04','2011-08-07 11:39:04','',NULL);
-INSERT INTO `object_data` VALUES (179,'prfa','__PortfolioAdministration','Portfolio Administration',-1,'2011-08-07 11:39:04','2011-08-07 11:39:04','',NULL);
-INSERT INTO `object_data` VALUES (180,'typ','chtr','Chatroom Object',-1,'2011-08-07 11:39:06','2011-08-07 11:39:06','',NULL);
-INSERT INTO `object_data` VALUES (181,'chta','Chatroom Admin','Chatroom General Settings',-1,'2011-08-07 11:39:06','2011-08-07 11:39:06','',NULL);
-INSERT INTO `object_data` VALUES (182,'typ','chta','Chatroom Administration Type',-1,'2011-08-07 11:39:08','2011-08-07 11:39:08','',NULL);
-INSERT INTO `object_data` VALUES (183,'typ','otpl','Object Template administration',-1,'2011-10-04 16:53:24','2011-10-04 16:53:24','',NULL);
-INSERT INTO `object_data` VALUES (184,'otpl','__ObjectTemplateAdministration','Object Template Administration',-1,'2011-10-04 16:53:24','2011-10-04 16:53:24','',NULL);
-INSERT INTO `object_data` VALUES (185,'chtr','Public Chatroom','Public Chatroom',-1,'2011-10-04 16:53:25','2011-10-04 16:53:25','',NULL);
-INSERT INTO `object_data` VALUES (186,'rolf','185','(ref_id )',-1,'2011-10-04 16:53:25','2011-10-04 16:53:25','',NULL);
-INSERT INTO `object_data` VALUES (187,'role','il_chat_moderator_46','Moderator of chat obj_no.185',-1,'2011-10-04 16:53:25','2011-10-04 16:53:25','',NULL);
-INSERT INTO `object_data` VALUES (188,'rolt','il_chat_moderator','Moderator template for chat moderators',-1,'2011-10-04 16:53:25','2011-10-04 16:53:25','',NULL);
-INSERT INTO `object_data` VALUES (189,'typ','blog','Blog Object',-1,'2012-09-04 14:25:29','2012-09-04 14:25:29','',NULL);
-INSERT INTO `object_data` VALUES (190,'typ','dcl','Data Collection Object',-1,'2012-09-04 14:25:30','2012-09-04 14:25:30','',NULL);
-INSERT INTO `object_data` VALUES (191,'typ','poll','Poll Object',-1,'2012-09-04 14:25:41','2012-09-04 14:25:41','',NULL);
-INSERT INTO `object_data` VALUES (192,'typ','hlps','Help Settings',-1,'2012-09-04 14:25:48','2012-09-04 14:25:48','',NULL);
-INSERT INTO `object_data` VALUES (193,'hlps','HelpSettings','Help Settings',-1,'2012-09-04 14:25:48','2012-09-04 14:25:48','',NULL);
-INSERT INTO `object_data` VALUES (194,'typ','itgr','Item Group',-1,'2012-09-04 14:25:52','2012-09-04 14:25:52','',NULL);
-INSERT INTO `object_data` VALUES (195,'typ','rcat','Remote Category Object',-1,'2012-09-04 14:26:14','2012-09-04 14:26:14','',NULL);
-INSERT INTO `object_data` VALUES (196,'typ','rwik','Remote Wiki Object',-1,'2012-09-04 14:26:14','2012-09-04 14:26:14','',NULL);
-INSERT INTO `object_data` VALUES (197,'typ','rlm','Remote Learning Module Object',-1,'2012-09-04 14:26:15','2012-09-04 14:26:15','',NULL);
-INSERT INTO `object_data` VALUES (198,'typ','rglo','Remote Glossary Object',-1,'2012-09-04 14:26:15','2012-09-04 14:26:15','',NULL);
-INSERT INTO `object_data` VALUES (199,'typ','rfil','Remote File Object',-1,'2012-09-04 14:26:16','2012-09-04 14:26:16','',NULL);
-INSERT INTO `object_data` VALUES (200,'typ','rgrp','Remote Group Object',-1,'2012-09-04 14:26:16','2012-09-04 14:26:16','',NULL);
-INSERT INTO `object_data` VALUES (201,'typ','rtst','Remote Test Object',-1,'2012-09-04 14:26:17','2012-09-04 14:26:17','',NULL);
-INSERT INTO `object_data` VALUES (202,'rolt','il_blog_contributor','Contributor template for blogs',-1,'2012-10-27 19:30:37','2012-10-27 19:30:37','',NULL);
-INSERT INTO `object_data` VALUES (203,'typ','ecss','ECS Administration',-1,'2012-11-23 17:12:57','2012-11-23 17:12:57','',NULL);
-INSERT INTO `object_data` VALUES (204,'ecss','__ECSSettings','ECS Administration',-1,'2012-11-23 17:12:57','2012-11-23 17:12:57','',NULL);
-INSERT INTO `object_data` VALUES (205,'typ','tos','Terms of Service',-1,'2013-10-11 18:59:35','2013-10-11 18:59:35','',NULL);
-INSERT INTO `object_data` VALUES (206,'tos','Terms of Service','Terms of Service: Settings',-1,'2013-10-11 18:59:35','2013-10-11 18:59:35','',NULL);
-INSERT INTO `object_data` VALUES (207,'typ','bibl','Bibliographic Object',-1,'2013-10-11 18:59:37','2013-10-11 18:59:37','',NULL);
-INSERT INTO `object_data` VALUES (208,'typ','sysc','System Check',-1,'2013-10-11 18:59:40','2013-10-11 18:59:40','',NULL);
-INSERT INTO `object_data` VALUES (209,'sysc','System Check','System Check',-1,'2013-10-11 18:59:40','2013-10-11 18:59:40','',NULL);
-INSERT INTO `object_data` VALUES (210,'typ','cld','Cloud Folder',-1,'2013-10-11 18:59:40','2013-10-11 18:59:40','',NULL);
-INSERT INTO `object_data` VALUES (211,'typ','reps','Repository Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL);
-INSERT INTO `object_data` VALUES (212,'reps','Repository Settings','Repository Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL);
-INSERT INTO `object_data` VALUES (213,'typ','crss','Course Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL);
-INSERT INTO `object_data` VALUES (214,'crss','Course Settings','Course Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL);
-INSERT INTO `object_data` VALUES (215,'typ','grps','Group Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL);
-INSERT INTO `object_data` VALUES (216,'grps','Group Settings','Group Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL);
-INSERT INTO `object_data` VALUES (217,'typ','wbrs','WebResource Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL);
-INSERT INTO `object_data` VALUES (218,'wbrs','WebResource Settings','WebResource Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL);
-INSERT INTO `object_data` VALUES (219,'typ','prtt','Portfolio Template Object',-1,'2013-10-11 19:04:51','2013-10-11 19:04:51','',NULL);
-INSERT INTO `object_data` VALUES (220,'typ','orgu','Organisational Unit',-1,'2013-10-11 19:04:52','2013-10-11 19:04:52','',NULL);
-INSERT INTO `object_data` VALUES (221,'orgu','__OrgUnitAdministration','Organisationsal Units',-1,'2013-10-11 19:04:52','2013-10-11 19:04:52','',NULL);
-INSERT INTO `object_data` VALUES (222,'rolt','il_orgu_superior','OrgUnit Superior Role Template',-1,'2013-10-11 19:04:52','2013-10-11 19:04:52','',NULL);
-INSERT INTO `object_data` VALUES (223,'typ','wiks','Wiki Settings',-1,'2013-11-06 17:13:57','2013-11-06 17:13:57','',NULL);
-INSERT INTO `object_data` VALUES (224,'wiks','Wiki Settings','Wiki Settings',-1,'2013-11-06 17:13:57','2013-11-06 17:13:57','',NULL);
-INSERT INTO `object_data` VALUES (225,'typ','excs','Exercise Settings',-1,'2014-09-23 21:48:42','2014-09-23 21:48:42','',NULL);
-INSERT INTO `object_data` VALUES (226,'excs','Exercise Settings','Exercise Settings',-1,'2014-09-23 21:48:42','2014-09-23 21:48:42','',NULL);
-INSERT INTO `object_data` VALUES (227,'typ','taxs','Taxonomy Settings',-1,'2014-09-23 21:48:42','2014-09-23 21:48:42','',NULL);
-INSERT INTO `object_data` VALUES (228,'taxs','Taxonomy Settings','Taxonomy Settings',-1,'2014-09-23 21:48:42','2014-09-23 21:48:42','',NULL);
-INSERT INTO `object_data` VALUES (229,'typ','bibs','BibliographicAdmin',-1,'2014-09-23 21:48:55','2014-09-23 21:48:55','',NULL);
-INSERT INTO `object_data` VALUES (230,'bibs','BibliographicAdmin','BibliographicAdmin',-1,'2014-09-23 21:48:55','2014-09-23 21:48:55','',NULL);
-INSERT INTO `object_data` VALUES (231,'rolt','il_blog_editor','Editor template for blogs',-1,'2015-09-30 12:57:25','2015-12-22 15:28:30','',NULL);
-INSERT INTO `object_data` VALUES (232,'typ','awra','Awareness Tool Administration',-1,'2015-09-30 12:57:29','2015-09-30 12:57:29','',NULL);
-INSERT INTO `object_data` VALUES (233,'awra','__AwarenessToolAdministration','Awareness Tool Administration',-1,'2015-09-30 12:57:29','2015-09-30 12:57:29','',NULL);
-INSERT INTO `object_data` VALUES (234,'typ','logs','Logging Administration',-1,'2015-09-30 12:57:31','2015-09-30 12:57:31','',NULL);
-INSERT INTO `object_data` VALUES (235,'logs','__LoggingSettings','Logging Administration',-1,'2015-09-30 12:57:31','2015-09-30 12:57:31','',NULL);
-INSERT INTO `object_data` VALUES (236,'typ','prg','StudyProgramme',-1,'2015-09-30 12:57:34','2015-09-30 12:57:34','',NULL);
-INSERT INTO `object_data` VALUES (237,'typ','prgs','StudyProgrammeAdmin',-1,'2015-09-30 12:57:35','2015-09-30 12:57:35','',NULL);
-INSERT INTO `object_data` VALUES (238,'prgs','StudyProgrammeAdmin','StudyProgrammeAdmin',-1,'2015-09-30 12:57:35','2015-09-30 12:57:35','',NULL);
-INSERT INTO `object_data` VALUES (239,'typ','cadm','Contact',-1,'2015-11-17 15:20:05','2015-11-17 15:20:05','',NULL);
-INSERT INTO `object_data` VALUES (240,'cadm','Contact','Contact',-1,'2015-11-17 15:20:05','2015-11-17 15:20:05','',NULL);
-INSERT INTO `object_data` VALUES (241,'lng','ka','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (242,'lng','ar','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (243,'lng','bg','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (244,'lng','sq','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (245,'lng','ro','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (246,'lng','sk','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (247,'lng','da','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (248,'lng','hu','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (249,'lng','uk','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (250,'lng','fa','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (251,'lng','sr','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (252,'lng','pt','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (253,'lng','ja','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (254,'lng','vi','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (255,'lng','ru','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (256,'lng','et','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (257,'lng','lt','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (258,'lng','cs','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (259,'lng','tr','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (260,'lng','el','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL);
-INSERT INTO `object_data` VALUES (261,'typ','grpr','Group Reference Object',-1,'2016-09-02 13:26:19','2016-09-02 13:26:19','',NULL);
-INSERT INTO `object_data` VALUES (262,'typ','bdga','Badge Settings',-1,'2016-09-02 13:26:21','2016-09-02 13:26:21','',NULL);
-INSERT INTO `object_data` VALUES (263,'bdga','Badge Settings','Badge Settings',-1,'2016-09-02 13:26:21','2016-09-02 13:26:21','',NULL);
-INSERT INTO `object_data` VALUES (264,'typ','wfe','WorkflowEngine',-1,'2016-09-02 13:33:13','2016-09-02 13:33:13','',NULL);
-INSERT INTO `object_data` VALUES (265,'wfe','WorkflowEngine','WorkflowEngine',-1,'2016-09-02 13:33:13','2016-09-02 13:33:13','',NULL);
-INSERT INTO `object_data` VALUES (266,'typ','iass','Individual Assessment',-1,'2016-09-02 13:33:17','2016-09-02 13:33:17','',NULL);
-INSERT INTO `object_data` VALUES (267,'rolt','il_iass_member','Member of a manual assessment object',-1,'2016-09-02 13:33:17','2016-09-02 13:33:17','',NULL);
-INSERT INTO `object_data` VALUES (268,'rolt','il_sess_participant','Session participant template',-1,'2018-01-25 08:42:46','2018-01-25 08:42:46',NULL,NULL);
-INSERT INTO `object_data` VALUES (269,'rolt','il_sess_status_closed','Closed session template',0,'2018-01-25 08:42:46','2018-01-25 08:42:46',NULL,NULL);
-INSERT INTO `object_data` VALUES (270,'typ','pdfg','PDFGeneration',-1,'2018-01-25 08:42:49','2018-01-25 08:42:49',NULL,NULL);
-INSERT INTO `object_data` VALUES (271,'pdfg','PDFGeneration','PDFGeneration',-1,'2018-01-25 08:42:49','2018-01-25 08:42:49',NULL,NULL);
-INSERT INTO `object_data` VALUES (272,'typ','ltis','LTI Settings',-1,'2018-01-25 08:42:57','2018-01-25 08:42:57',NULL,NULL);
-INSERT INTO `object_data` VALUES (273,'ltis','LTI Settings','LTI Settings',-1,'2018-01-25 08:42:57','2018-01-25 08:42:57',NULL,NULL);
-INSERT INTO `object_data` VALUES (274,'typ','copa','Content Page Object',-1,'2022-06-07 13:46:08','2022-06-07 13:46:08',NULL,NULL);
-INSERT INTO `object_data` VALUES (275,'typ','mme','Main Menu',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL);
-INSERT INTO `object_data` VALUES (276,'mme','Main Menu','Main Menu',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL);
-INSERT INTO `object_data` VALUES (277,'typ','lso','Learning Sequence',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL);
-INSERT INTO `object_data` VALUES (278,'rolt','il_lso_admin','Admin template for learning sequences',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL);
-INSERT INTO `object_data` VALUES (279,'rolt','il_lso_member','Member template for learning sequences',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL);
-INSERT INTO `object_data` VALUES (280,'typ','lti','LTI Consumer Object',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (281,'typ','cmix','cmi5/xAPI Object',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (282,'typ','cmis','cmi5/xAPI Administration',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (283,'cmis','cmi5/xAPI Administration','cmi5/xAPI Administration',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (284,'typ','nots','Notes Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (285,'nots','Notes Settings','Notes Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (286,'typ','coms','Comments Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (287,'coms','Comments Settings','Comments Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (288,'typ','lhts','Learning History Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (289,'lhts','Learning History Settings','Learning History Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (290,'typ','prss','Personal Resources Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (291,'prss','Personal Resources Settings','Personal Resources Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL);
-INSERT INTO `object_data` VALUES (292,'typ','prgr','Study Programme Reference',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL);
-INSERT INTO `object_data` VALUES (293,'typ','lsos','LearningSequenceAdmin',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL);
-INSERT INTO `object_data` VALUES (294,'lsos','LearningSequenceAdmin','LearningSequenceAdmin',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL);
-INSERT INTO `object_data` VALUES (295,'typ','cpad','ContentPageAdministration',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL);
-INSERT INTO `object_data` VALUES (296,'cpad','ContentPageAdministration','ContentPageAdministration',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL);
-INSERT INTO `object_data` VALUES (297,'typ','fils','File Services',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL);
-INSERT INTO `object_data` VALUES (298,'fils','File Services','File Services',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL);
-INSERT INTO `object_data` VALUES (299,'typ','wbdv','WebDAV',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL);
-INSERT INTO `object_data` VALUES (300,'wbdv','WebDAV','WebDAV',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL);
-INSERT INTO `object_data` VALUES (301,'typ','adn','Administrative Notifications',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL);
-INSERT INTO `object_data` VALUES (302,'adn','Administrative Notifications','Administrative Notifications',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL);
+INSERT INTO `object_data` VALUES (1,'root','ILIAS','This is the root node of the system!!!',-1,'2002-06-24 15:15:03','2004-01-20 12:24:12','',NULL,NULL);
+INSERT INTO `object_data` VALUES (2,'role','Administrator','Role for systemadministrators. This role grants access to everything!',-1,'2002-01-16 15:31:45','2003-08-15 13:18:57','',NULL,NULL);
+INSERT INTO `object_data` VALUES (3,'rolt','Author','Role template for authors with write & create permissions.',-1,'2002-01-16 15:32:50','2016-12-16 14:58:27','',NULL,NULL);
+INSERT INTO `object_data` VALUES (4,'role','User','Standard role for registered users. Grants read access to most objects.',-1,'2002-01-16 15:34:00','2016-12-16 14:56:25','',NULL,NULL);
+INSERT INTO `object_data` VALUES (5,'role','Guest','Role grants only a few visible & read permissions.',-1,'2002-01-16 15:34:46','2016-12-16 14:54:14','',NULL,NULL);
+INSERT INTO `object_data` VALUES (6,'usr','root user','ilias@yourserver.com',-1,'2002-01-16 16:09:22','2016-12-14 14:44:49','',NULL,NULL);
+INSERT INTO `object_data` VALUES (7,'usrf','User accounts','Manage user accounts here.',-1,'2002-06-27 09:24:06','2004-01-20 12:23:47','',NULL,NULL);
+INSERT INTO `object_data` VALUES (8,'rolf','Roles','Manage your roles here.',-1,'2002-06-27 09:24:06','2004-01-20 12:23:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (9,'adm','System Settings','Folder contains the systems settings',-1,'2002-07-15 12:37:33','2002-07-15 12:37:33','',NULL,NULL);
+INSERT INTO `object_data` VALUES (10,'objf','Objectdefinitions','Manage ILIAS object types and object permissions. (only for experts!)',-1,'2002-07-15 12:36:56','2004-01-20 12:23:53','',NULL,NULL);
+INSERT INTO `object_data` VALUES (11,'lngf','Languages','Manage your system languages here.',-1,'2002-07-15 15:52:51','2004-01-20 12:24:06','',NULL,NULL);
+INSERT INTO `object_data` VALUES (12,'mail','Mail Settings','Configure global mail settings here.',-1,'2003-08-15 10:07:28','2004-01-20 12:24:00','',NULL,NULL);
+INSERT INTO `object_data` VALUES (13,'usr','Anonymous','Anonymous user account. DO NOT DELETE!',-1,'2003-08-15 10:07:30','2003-08-15 10:07:30','',NULL,NULL);
+INSERT INTO `object_data` VALUES (14,'role','Anonymous','Default role for anonymous users (with no account)',-1,'2003-08-15 12:06:19','2005-07-20 15:15:06','',NULL,NULL);
+INSERT INTO `object_data` VALUES (15,'typ','grp','Group object',-1,'2002-07-15 15:54:37','2002-07-15 15:54:37','',NULL,NULL);
+INSERT INTO `object_data` VALUES (16,'typ','cat','Category object',-1,'2002-07-15 15:54:54','2002-07-15 15:54:54','',NULL,NULL);
+INSERT INTO `object_data` VALUES (17,'typ','crs','Course object',-1,'2002-07-15 15:55:08','2002-07-15 15:55:08','',NULL,NULL);
+INSERT INTO `object_data` VALUES (18,'typ','mob','Multimedia object',-1,NULL,'2003-08-15 12:03:20','',NULL,NULL);
+INSERT INTO `object_data` VALUES (19,'typ','mail','Mailmodule object',-1,'2002-07-15 15:55:49','2002-07-15 15:55:49','',NULL,NULL);
+INSERT INTO `object_data` VALUES (20,'typ','sahs','SCORM/AICC Learning Module',-1,'2003-08-15 10:07:28','2003-08-15 12:23:10','',NULL,NULL);
+INSERT INTO `object_data` VALUES (21,'typ','adm','Administration Panel object',-1,'2002-07-15 15:56:38','2002-07-15 15:56:38','',NULL,NULL);
+INSERT INTO `object_data` VALUES (22,'typ','usrf','User Folder object',-1,'2002-07-15 15:56:52','2002-07-15 15:56:52','',NULL,NULL);
+INSERT INTO `object_data` VALUES (23,'typ','rolf','Role Folder object',-1,'2002-07-15 15:57:06','2002-07-15 15:57:06','',NULL,NULL);
+INSERT INTO `object_data` VALUES (24,'typ','objf','Object-Type Folder object',-1,'2002-07-15 15:57:17','2002-07-15 15:57:17','',NULL,NULL);
+INSERT INTO `object_data` VALUES (25,'typ','usr','User object',-1,'2002-07-15 15:53:37','2003-08-15 12:30:56','',NULL,NULL);
+INSERT INTO `object_data` VALUES (26,'typ','typ','Object Type Definition object',-1,'2002-07-15 15:58:16','2002-07-15 15:58:16','',NULL,NULL);
+INSERT INTO `object_data` VALUES (27,'typ','rolt','Role template object',-1,'2002-07-15 15:58:16','2002-07-15 15:58:16','',NULL,NULL);
+INSERT INTO `object_data` VALUES (28,'typ','lngf','Language Folder object',-1,'2002-08-28 14:22:01','2002-08-28 14:22:01','',NULL,NULL);
+INSERT INTO `object_data` VALUES (29,'typ','lng','Language object',-1,'2002-08-30 10:18:29','2002-08-30 10:18:29','',NULL,NULL);
+INSERT INTO `object_data` VALUES (30,'typ','role','Role Object',-1,'2002-08-30 10:21:37','2002-08-30 10:21:37','',NULL,NULL);
+INSERT INTO `object_data` VALUES (32,'typ','glo','Glossary',-1,'2003-08-15 10:07:30','2003-08-15 12:29:54','',NULL,NULL);
+INSERT INTO `object_data` VALUES (33,'typ','root','Root Folder Object',-1,'2002-12-21 00:04:00','2003-08-15 12:04:20','',NULL,NULL);
+INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'2002-07-15 15:54:04','2003-08-15 12:33:04','',NULL,NULL);
+INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
+INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
+INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-12-12 17:39:38','',NULL,NULL);
+INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
+INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
+INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
+INSERT INTO `object_data` VALUES (80,'rolt','il_grp_admin','Administrator role template of groups',-1,'2003-08-15 10:07:28','2016-12-16 15:05:30','',NULL,NULL);
+INSERT INTO `object_data` VALUES (81,'rolt','il_grp_member','Member role template of groups',-1,'2003-08-15 10:07:28','2016-12-16 15:06:38','',NULL,NULL);
+INSERT INTO `object_data` VALUES (82,'rolt','il_grp_status_closed','Group role template',-1,'2003-08-15 10:07:29','2003-08-15 13:21:38','',NULL,NULL);
+INSERT INTO `object_data` VALUES (83,'rolt','il_grp_status_open','Group role template',-1,'2003-08-15 10:07:29','2003-08-15 13:21:25','',NULL,NULL);
+INSERT INTO `object_data` VALUES (84,'typ','exc','Exercise object',-1,'2003-11-30 21:22:49','2003-11-30 21:22:49','',NULL,NULL);
+INSERT INTO `object_data` VALUES (85,'typ','auth','Authentication settings',-1,'2003-11-30 21:22:49','2003-11-30 21:22:49','',NULL,NULL);
+INSERT INTO `object_data` VALUES (86,'auth','Authentication settings','Select and configure authentication mode for all user accounts',-1,'2003-11-30 21:22:49','2003-11-30 21:22:49','',NULL,NULL);
+INSERT INTO `object_data` VALUES (87,'typ','fold','Folder object',-1,'2003-11-30 21:22:50','2003-11-30 21:22:50','',NULL,NULL);
+INSERT INTO `object_data` VALUES (88,'typ','file','File object',-1,'2003-11-30 21:22:50','2003-11-30 21:22:50','',NULL,NULL);
+INSERT INTO `object_data` VALUES (89,'lng','fr','not_installed',6,'2004-01-20 12:22:17','2004-01-20 12:22:17','',NULL,NULL);
+INSERT INTO `object_data` VALUES (90,'lng','nl','not_installed',6,'2004-01-20 12:22:17','2004-01-20 12:22:17','',NULL,NULL);
+INSERT INTO `object_data` VALUES (91,'lng','pl','not_installed',6,'2004-01-20 12:22:17','2004-01-20 12:22:17','',NULL,NULL);
+INSERT INTO `object_data` VALUES (93,'lng','zh','not_installed',6,'2004-01-20 12:22:17','2004-01-20 12:22:17','',NULL,NULL);
+INSERT INTO `object_data` VALUES (94,'typ','tst','Test object',-1,'2004-02-18 21:17:40','2004-02-18 21:17:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (95,'typ','qpl','Question pool object',-1,'2004-02-18 21:17:40','2004-02-18 21:17:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (99,'typ','recf','RecoveryFolder object',-1,'2004-03-09 18:13:16','2004-03-09 18:13:16','',NULL,NULL);
+INSERT INTO `object_data` VALUES (100,'recf','__Restored Objects','Contains objects restored by recovery tool',-1,'2004-03-09 18:13:16','2004-03-09 18:13:16','',NULL,NULL);
+INSERT INTO `object_data` VALUES (101,'typ','mep','Media pool object',-1,'2004-04-19 00:09:14','2004-04-19 00:09:14','',NULL,NULL);
+INSERT INTO `object_data` VALUES (102,'typ','htlm','HTML LM object',-1,'2004-04-19 00:09:15','2004-04-19 00:09:15','',NULL,NULL);
+INSERT INTO `object_data` VALUES (103,'typ','svy','Survey object',-1,'2004-05-15 01:18:59','2004-05-15 01:18:59','',NULL,NULL);
+INSERT INTO `object_data` VALUES (104,'typ','spl','Question pool object (Survey)',-1,'2004-05-15 01:18:59','2004-05-15 01:18:59','',NULL,NULL);
+INSERT INTO `object_data` VALUES (106,'typ','cals','Calendar Settings',-1,'2004-06-21 01:27:18','2004-06-21 01:27:18','',NULL,NULL);
+INSERT INTO `object_data` VALUES (107,'cals','Calendar Settings','Configure Calendar Settings here',-1,'2004-06-21 01:27:18','2004-06-21 01:27:18','',NULL,NULL);
+INSERT INTO `object_data` VALUES (108,'typ','trac','UserTracking object',-1,'2004-07-11 01:03:12','2004-07-11 01:03:12','',NULL,NULL);
+INSERT INTO `object_data` VALUES (109,'trac','__User Tracking','System user tracking',-1,'2004-07-11 01:03:12','2004-07-11 01:03:12','',NULL,NULL);
+INSERT INTO `object_data` VALUES (110,'rolt','il_crs_admin','Administrator template for course admins',-1,'2004-09-02 09:49:43','2016-12-16 15:00:10','',NULL,NULL);
+INSERT INTO `object_data` VALUES (111,'rolt','il_crs_tutor','Tutor template for course tutors',-1,'2004-09-02 09:49:43','2016-12-16 15:03:56','',NULL,NULL);
+INSERT INTO `object_data` VALUES (112,'rolt','il_crs_member','Member template for course members',-1,'2004-09-02 09:49:43','2016-12-16 15:00:53','',NULL,NULL);
+INSERT INTO `object_data` VALUES (115,'typ','assf','AssessmentFolder object',-1,'2005-01-07 17:21:15','2005-01-07 17:21:15','',NULL,NULL);
+INSERT INTO `object_data` VALUES (116,'assf','__Test&Assessment','Test&Assessment Administration',-1,'2005-01-07 17:21:15','2005-01-07 17:21:15','',NULL,NULL);
+INSERT INTO `object_data` VALUES (117,'typ','stys','Style Settings',-1,'2005-03-02 08:59:01','2005-03-02 08:59:01','',NULL,NULL);
+INSERT INTO `object_data` VALUES (118,'stys','System Style Settings','Manage system skin and style settings here',-1,'2005-03-02 08:59:01','2005-03-02 08:59:01','',NULL,NULL);
+INSERT INTO `object_data` VALUES (121,'typ','crsg','Course grouping object',-1,'2005-03-02 08:59:02','2005-03-02 08:59:02','',NULL,NULL);
+INSERT INTO `object_data` VALUES (122,'typ','webr','Link resource object',-1,'2005-03-13 22:41:38','2005-03-13 22:41:38','',NULL,NULL);
+INSERT INTO `object_data` VALUES (123,'typ','seas','Search settings',-1,'2005-06-20 09:50:00','2005-06-20 09:50:00','',NULL,NULL);
+INSERT INTO `object_data` VALUES (124,'seas','Search settings','Search settings',-1,'2005-06-20 09:50:00','2005-06-20 09:50:00','',NULL,NULL);
+INSERT INTO `object_data` VALUES (125,'rolt','Local Administrator','Role template for local administrators.',6,'2005-07-20 15:33:13','2016-12-16 15:09:46','',NULL,NULL);
+INSERT INTO `object_data` VALUES (127,'typ','extt','external tools settings',-1,'2005-07-20 18:10:04','2005-07-20 18:10:04','',NULL,NULL);
+INSERT INTO `object_data` VALUES (128,'extt','External tools settings','Configuring external tools',-1,'2005-07-20 18:10:04','2005-07-20 18:10:04','',NULL,NULL);
+INSERT INTO `object_data` VALUES (131,'rolt','il_crs_non_member','Non-member template for course object',-1,'2005-11-07 12:41:21','2015-12-22 15:35:30','',NULL,NULL);
+INSERT INTO `object_data` VALUES (135,'typ','adve','Advanced editing object',-1,'2006-07-11 18:43:23','2006-07-11 18:43:23','',NULL,NULL);
+INSERT INTO `object_data` VALUES (136,'adve','__AdvancedEditing','Advanced Editing',-1,'2006-07-11 18:43:23','2006-07-11 18:43:23','',NULL,NULL);
+INSERT INTO `object_data` VALUES (137,'typ','ps','Privacy security settings',-1,'2007-02-26 17:58:49','2007-02-26 17:58:49','',NULL,NULL);
+INSERT INTO `object_data` VALUES (138,'ps','__PrivacySecurity','Privacy and Security',-1,'2007-02-26 17:58:49','2007-02-26 17:58:49','',NULL,NULL);
+INSERT INTO `object_data` VALUES (139,'typ','nwss','News settings',-1,'2007-02-26 17:58:50','2007-02-26 17:58:50','',NULL,NULL);
+INSERT INTO `object_data` VALUES (140,'nwss','__NewsSettings','News Settings',-1,'2007-02-26 17:58:50','2007-02-26 17:58:50','',NULL,NULL);
+INSERT INTO `object_data` VALUES (141,'typ','feed','External Feed',-1,'2007-02-26 17:58:50','2007-02-26 17:58:50','',NULL,NULL);
+INSERT INTO `object_data` VALUES (142,'typ','mcst','Media Cast',-1,'2007-04-03 13:43:46','2007-04-03 13:43:46','',NULL,NULL);
+INSERT INTO `object_data` VALUES (143,'typ','dshs','Dashboard Settings',-1,'2007-04-03 13:43:47','2007-04-03 13:43:47','',NULL,NULL);
+INSERT INTO `object_data` VALUES (144,'dshs','__DashboardSettings','Dashboard Settings',-1,'2007-04-03 13:43:47','2007-04-03 13:43:47','',NULL,NULL);
+INSERT INTO `object_data` VALUES (145,'typ','rcrs','Remote Course Object',-1,'2007-09-25 19:47:53','2007-09-25 19:47:53','',NULL,NULL);
+INSERT INTO `object_data` VALUES (146,'typ','mds','Meta Data settings',-1,'2007-09-25 19:47:53','2007-09-25 19:47:53','',NULL,NULL);
+INSERT INTO `object_data` VALUES (147,'mds','__MetaDataSettings','Meta Data Settings',-1,'2007-09-25 19:47:53','2007-09-25 19:47:53','',NULL,NULL);
+INSERT INTO `object_data` VALUES (148,'rolt','il_frm_moderator','Moderator template for forum moderators',-1,'2007-11-27 14:43:12','2007-11-27 14:43:12','',NULL,NULL);
+INSERT INTO `object_data` VALUES (149,'typ','cmps','Component settings',-1,'2008-06-02 16:08:54','2008-06-02 16:08:54','',NULL,NULL);
+INSERT INTO `object_data` VALUES (150,'cmps','__ComponentSettings','Component Settings',-1,'2008-06-02 16:08:54','2008-06-02 16:08:54','',NULL,NULL);
+INSERT INTO `object_data` VALUES (151,'typ','facs','File Access settings object',-1,'2008-06-02 16:08:55','2008-06-02 16:08:55','',NULL,NULL);
+INSERT INTO `object_data` VALUES (152,'facs','Files','Settings for files and file handling',-1,'2008-06-02 16:08:55','2016-12-16 15:43:54','',NULL,NULL);
+INSERT INTO `object_data` VALUES (153,'typ','svyf','Survey Settings',-1,'2008-06-02 16:08:55','2008-06-02 16:08:55','',NULL,NULL);
+INSERT INTO `object_data` VALUES (154,'svyf','__SurveySettings','Survey Settings',-1,'2008-06-02 16:08:55','2008-06-02 16:08:55','',NULL,NULL);
+INSERT INTO `object_data` VALUES (155,'typ','sess','Session object',-1,'2008-06-02 16:08:55','2008-06-02 16:08:55','',NULL,NULL);
+INSERT INTO `object_data` VALUES (156,'typ','mcts','Mediacast settings',-1,'2008-06-02 16:08:56','2008-06-02 16:08:56','',NULL,NULL);
+INSERT INTO `object_data` VALUES (157,'mcts','__MediacastSettings','Mediacast Settings',-1,'2008-06-02 16:08:56','2008-06-02 16:08:56','',NULL,NULL);
+INSERT INTO `object_data` VALUES (158,'typ','wiki','Wiki',-1,'2008-06-02 16:08:57','2008-06-02 16:08:57','',NULL,NULL);
+INSERT INTO `object_data` VALUES (159,'typ','crsr','Course Reference Object',-1,'2008-09-23 19:24:09','2008-09-23 19:24:09','',NULL,NULL);
+INSERT INTO `object_data` VALUES (160,'typ','catr','Category Reference Object',-1,'2008-09-23 19:24:09','2008-09-23 19:24:09','',NULL,NULL);
+INSERT INTO `object_data` VALUES (161,'typ','tags','Tagging settings',-1,'2008-09-23 19:24:09','2008-09-23 19:24:09','',NULL,NULL);
+INSERT INTO `object_data` VALUES (162,'tags','__TaggingSettings','Tagging Settings',-1,'2008-09-23 19:24:09','2008-09-23 19:24:09','',NULL,NULL);
+INSERT INTO `object_data` VALUES (163,'typ','cert','Certificate settings',-1,'2009-07-20 13:03:21','2009-07-20 13:03:21','',NULL,NULL);
+INSERT INTO `object_data` VALUES (164,'cert','__CertificateSettings','Certificate Settings',-1,'2009-07-20 13:03:21','2009-07-20 13:03:21','',NULL,NULL);
+INSERT INTO `object_data` VALUES (165,'typ','lrss','Learning resources settings',-1,'2009-07-20 13:03:21','2009-07-20 13:03:21','',NULL,NULL);
+INSERT INTO `object_data` VALUES (166,'lrss','__LearningResourcesSettings','Learning Resources Settings',-1,'2009-07-20 13:03:21','2009-07-20 13:03:21','',NULL,NULL);
+INSERT INTO `object_data` VALUES (167,'typ','accs','Accessibility settings',-1,'2009-07-20 13:07:28','2009-07-20 13:07:28','',NULL,NULL);
+INSERT INTO `object_data` VALUES (168,'accs','__AccessibilitySettings','Accessibility Settings',-1,'2009-07-20 13:07:28','2009-07-20 13:07:28','',NULL,NULL);
+INSERT INTO `object_data` VALUES (169,'typ','mobs','Media Object/Pool settings',-1,'2009-07-20 13:08:42','2009-07-20 13:08:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (170,'mobs','__MediaObjectSettings','Media Object/Pool Settings',-1,'2009-07-20 13:08:42','2009-07-20 13:08:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (171,'typ','frma','Forum administration',-1,'2010-07-19 16:42:55','2010-07-19 16:42:55','',NULL,NULL);
+INSERT INTO `object_data` VALUES (172,'frma','__ForumAdministration','Forum Administration',-1,'2010-07-19 16:42:55','2010-07-19 16:42:55','',NULL,NULL);
+INSERT INTO `object_data` VALUES (173,'typ','book','Booking Manager',-1,'2010-07-19 16:43:10','2010-07-19 16:43:10','',NULL,NULL);
+INSERT INTO `object_data` VALUES (174,'typ','skmg','Skill Management',-1,'2011-08-07 11:39:00','2011-08-07 11:39:00','',NULL,NULL);
+INSERT INTO `object_data` VALUES (175,'skmg','__SkillManagement','Skill Management',-1,'2011-08-07 11:39:00','2011-08-07 11:39:00','',NULL,NULL);
+INSERT INTO `object_data` VALUES (176,'typ','blga','Blog administration',-1,'2011-08-07 11:39:04','2011-08-07 11:39:04','',NULL,NULL);
+INSERT INTO `object_data` VALUES (177,'blga','__BlogAdministration','Blog Administration',-1,'2011-08-07 11:39:04','2011-08-07 11:39:04','',NULL,NULL);
+INSERT INTO `object_data` VALUES (178,'typ','prfa','Portfolio administration',-1,'2011-08-07 11:39:04','2011-08-07 11:39:04','',NULL,NULL);
+INSERT INTO `object_data` VALUES (179,'prfa','__PortfolioAdministration','Portfolio Administration',-1,'2011-08-07 11:39:04','2011-08-07 11:39:04','',NULL,NULL);
+INSERT INTO `object_data` VALUES (180,'typ','chtr','Chatroom Object',-1,'2011-08-07 11:39:06','2011-08-07 11:39:06','',NULL,NULL);
+INSERT INTO `object_data` VALUES (181,'chta','Chatroom Admin','Chatroom General Settings',-1,'2011-08-07 11:39:06','2011-08-07 11:39:06','',NULL,NULL);
+INSERT INTO `object_data` VALUES (182,'typ','chta','Chatroom Administration Type',-1,'2011-08-07 11:39:08','2011-08-07 11:39:08','',NULL,NULL);
+INSERT INTO `object_data` VALUES (183,'typ','otpl','Object Template administration',-1,'2011-10-04 16:53:24','2011-10-04 16:53:24','',NULL,NULL);
+INSERT INTO `object_data` VALUES (184,'otpl','__ObjectTemplateAdministration','Object Template Administration',-1,'2011-10-04 16:53:24','2011-10-04 16:53:24','',NULL,NULL);
+INSERT INTO `object_data` VALUES (185,'chtr','Public Chatroom','Public Chatroom',-1,'2011-10-04 16:53:25','2011-10-04 16:53:25','',0,NULL);
+INSERT INTO `object_data` VALUES (186,'rolf','185','(ref_id )',-1,'2011-10-04 16:53:25','2011-10-04 16:53:25','',NULL,NULL);
+INSERT INTO `object_data` VALUES (187,'role','il_chat_moderator_46','Moderator of chat obj_no.185',-1,'2011-10-04 16:53:25','2011-10-04 16:53:25','',NULL,NULL);
+INSERT INTO `object_data` VALUES (188,'rolt','il_chat_moderator','Moderator template for chat moderators',-1,'2011-10-04 16:53:25','2011-10-04 16:53:25','',NULL,NULL);
+INSERT INTO `object_data` VALUES (189,'typ','blog','Blog Object',-1,'2012-09-04 14:25:29','2012-09-04 14:25:29','',NULL,NULL);
+INSERT INTO `object_data` VALUES (190,'typ','dcl','Data Collection Object',-1,'2012-09-04 14:25:30','2012-09-04 14:25:30','',NULL,NULL);
+INSERT INTO `object_data` VALUES (191,'typ','poll','Poll Object',-1,'2012-09-04 14:25:41','2012-09-04 14:25:41','',NULL,NULL);
+INSERT INTO `object_data` VALUES (192,'typ','hlps','Help Settings',-1,'2012-09-04 14:25:48','2012-09-04 14:25:48','',NULL,NULL);
+INSERT INTO `object_data` VALUES (193,'hlps','HelpSettings','Help Settings',-1,'2012-09-04 14:25:48','2012-09-04 14:25:48','',NULL,NULL);
+INSERT INTO `object_data` VALUES (194,'typ','itgr','Item Group',-1,'2012-09-04 14:25:52','2012-09-04 14:25:52','',NULL,NULL);
+INSERT INTO `object_data` VALUES (195,'typ','rcat','Remote Category Object',-1,'2012-09-04 14:26:14','2012-09-04 14:26:14','',NULL,NULL);
+INSERT INTO `object_data` VALUES (196,'typ','rwik','Remote Wiki Object',-1,'2012-09-04 14:26:14','2012-09-04 14:26:14','',NULL,NULL);
+INSERT INTO `object_data` VALUES (197,'typ','rlm','Remote Learning Module Object',-1,'2012-09-04 14:26:15','2012-09-04 14:26:15','',NULL,NULL);
+INSERT INTO `object_data` VALUES (198,'typ','rglo','Remote Glossary Object',-1,'2012-09-04 14:26:15','2012-09-04 14:26:15','',NULL,NULL);
+INSERT INTO `object_data` VALUES (199,'typ','rfil','Remote File Object',-1,'2012-09-04 14:26:16','2012-09-04 14:26:16','',NULL,NULL);
+INSERT INTO `object_data` VALUES (200,'typ','rgrp','Remote Group Object',-1,'2012-09-04 14:26:16','2012-09-04 14:26:16','',NULL,NULL);
+INSERT INTO `object_data` VALUES (201,'typ','rtst','Remote Test Object',-1,'2012-09-04 14:26:17','2012-09-04 14:26:17','',NULL,NULL);
+INSERT INTO `object_data` VALUES (202,'rolt','il_blog_contributor','Contributor template for blogs',-1,'2012-10-27 19:30:37','2012-10-27 19:30:37','',NULL,NULL);
+INSERT INTO `object_data` VALUES (203,'typ','ecss','ECS Administration',-1,'2012-11-23 17:12:57','2012-11-23 17:12:57','',NULL,NULL);
+INSERT INTO `object_data` VALUES (204,'ecss','__ECSSettings','ECS Administration',-1,'2012-11-23 17:12:57','2012-11-23 17:12:57','',NULL,NULL);
+INSERT INTO `object_data` VALUES (205,'typ','tos','Terms of Service',-1,'2013-10-11 18:59:35','2013-10-11 18:59:35','',NULL,NULL);
+INSERT INTO `object_data` VALUES (206,'tos','Terms of Service','Terms of Service: Settings',-1,'2013-10-11 18:59:35','2013-10-11 18:59:35','',NULL,NULL);
+INSERT INTO `object_data` VALUES (207,'typ','bibl','Bibliographic Object',-1,'2013-10-11 18:59:37','2013-10-11 18:59:37','',NULL,NULL);
+INSERT INTO `object_data` VALUES (208,'typ','sysc','System Check',-1,'2013-10-11 18:59:40','2013-10-11 18:59:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (209,'sysc','System Check','System Check',-1,'2013-10-11 18:59:40','2013-10-11 18:59:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (210,'typ','cld','Cloud Folder',-1,'2013-10-11 18:59:40','2013-10-11 18:59:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (211,'typ','reps','Repository Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (212,'reps','Repository Settings','Repository Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (213,'typ','crss','Course Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (214,'crss','Course Settings','Course Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (215,'typ','grps','Group Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (216,'grps','Group Settings','Group Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (217,'typ','wbrs','WebResource Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (218,'wbrs','WebResource Settings','WebResource Settings',-1,'2013-10-11 18:59:42','2013-10-11 18:59:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (219,'typ','prtt','Portfolio Template Object',-1,'2013-10-11 19:04:51','2013-10-11 19:04:51','',NULL,NULL);
+INSERT INTO `object_data` VALUES (220,'typ','orgu','Organisational Unit',-1,'2013-10-11 19:04:52','2013-10-11 19:04:52','',NULL,NULL);
+INSERT INTO `object_data` VALUES (221,'orgu','__OrgUnitAdministration','Organisationsal Units',-1,'2013-10-11 19:04:52','2013-10-11 19:04:52','',NULL,NULL);
+INSERT INTO `object_data` VALUES (222,'rolt','il_orgu_superior','OrgUnit Superior Role Template',-1,'2013-10-11 19:04:52','2013-10-11 19:04:52','',NULL,NULL);
+INSERT INTO `object_data` VALUES (223,'typ','wiks','Wiki Settings',-1,'2013-11-06 17:13:57','2013-11-06 17:13:57','',NULL,NULL);
+INSERT INTO `object_data` VALUES (224,'wiks','Wiki Settings','Wiki Settings',-1,'2013-11-06 17:13:57','2013-11-06 17:13:57','',NULL,NULL);
+INSERT INTO `object_data` VALUES (225,'typ','excs','Exercise Settings',-1,'2014-09-23 21:48:42','2014-09-23 21:48:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (226,'excs','Exercise Settings','Exercise Settings',-1,'2014-09-23 21:48:42','2014-09-23 21:48:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (227,'typ','taxs','Taxonomy Settings',-1,'2014-09-23 21:48:42','2014-09-23 21:48:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (228,'taxs','Taxonomy Settings','Taxonomy Settings',-1,'2014-09-23 21:48:42','2014-09-23 21:48:42','',NULL,NULL);
+INSERT INTO `object_data` VALUES (229,'typ','bibs','BibliographicAdmin',-1,'2014-09-23 21:48:55','2014-09-23 21:48:55','',NULL,NULL);
+INSERT INTO `object_data` VALUES (230,'bibs','BibliographicAdmin','BibliographicAdmin',-1,'2014-09-23 21:48:55','2014-09-23 21:48:55','',NULL,NULL);
+INSERT INTO `object_data` VALUES (231,'rolt','il_blog_editor','Editor template for blogs',-1,'2015-09-30 12:57:25','2015-12-22 15:28:30','',NULL,NULL);
+INSERT INTO `object_data` VALUES (232,'typ','awra','Awareness Tool Administration',-1,'2015-09-30 12:57:29','2015-09-30 12:57:29','',NULL,NULL);
+INSERT INTO `object_data` VALUES (233,'awra','__AwarenessToolAdministration','Awareness Tool Administration',-1,'2015-09-30 12:57:29','2015-09-30 12:57:29','',NULL,NULL);
+INSERT INTO `object_data` VALUES (234,'typ','logs','Logging Administration',-1,'2015-09-30 12:57:31','2015-09-30 12:57:31','',NULL,NULL);
+INSERT INTO `object_data` VALUES (235,'logs','__LoggingSettings','Logging Administration',-1,'2015-09-30 12:57:31','2015-09-30 12:57:31','',NULL,NULL);
+INSERT INTO `object_data` VALUES (236,'typ','prg','StudyProgramme',-1,'2015-09-30 12:57:34','2015-09-30 12:57:34','',NULL,NULL);
+INSERT INTO `object_data` VALUES (237,'typ','prgs','StudyProgrammeAdmin',-1,'2015-09-30 12:57:35','2015-09-30 12:57:35','',NULL,NULL);
+INSERT INTO `object_data` VALUES (238,'prgs','StudyProgrammeAdmin','StudyProgrammeAdmin',-1,'2015-09-30 12:57:35','2015-09-30 12:57:35','',NULL,NULL);
+INSERT INTO `object_data` VALUES (239,'typ','cadm','Contact',-1,'2015-11-17 15:20:05','2015-11-17 15:20:05','',NULL,NULL);
+INSERT INTO `object_data` VALUES (240,'cadm','Contact','Contact',-1,'2015-11-17 15:20:05','2015-11-17 15:20:05','',NULL,NULL);
+INSERT INTO `object_data` VALUES (241,'lng','ka','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (242,'lng','ar','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (243,'lng','bg','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (244,'lng','sq','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (245,'lng','ro','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (246,'lng','sk','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (247,'lng','da','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (248,'lng','hu','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (249,'lng','uk','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (250,'lng','fa','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (251,'lng','sr','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (252,'lng','pt','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (253,'lng','ja','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (254,'lng','vi','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (255,'lng','ru','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (256,'lng','et','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (257,'lng','lt','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (258,'lng','cs','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (259,'lng','tr','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (260,'lng','el','not_installed',6,'2015-12-22 14:32:40','2015-12-22 14:32:40','',NULL,NULL);
+INSERT INTO `object_data` VALUES (261,'typ','grpr','Group Reference Object',-1,'2016-09-02 13:26:19','2016-09-02 13:26:19','',NULL,NULL);
+INSERT INTO `object_data` VALUES (262,'typ','bdga','Badge Settings',-1,'2016-09-02 13:26:21','2016-09-02 13:26:21','',NULL,NULL);
+INSERT INTO `object_data` VALUES (263,'bdga','Badge Settings','Badge Settings',-1,'2016-09-02 13:26:21','2016-09-02 13:26:21','',NULL,NULL);
+INSERT INTO `object_data` VALUES (266,'typ','iass','Individual Assessment',-1,'2016-09-02 13:33:17','2016-09-02 13:33:17','',NULL,NULL);
+INSERT INTO `object_data` VALUES (267,'rolt','il_iass_member','Member of a manual assessment object',-1,'2016-09-02 13:33:17','2016-09-02 13:33:17','',NULL,NULL);
+INSERT INTO `object_data` VALUES (268,'rolt','il_sess_participant','Session participant template',-1,'2018-01-25 08:42:46','2018-01-25 08:42:46',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (269,'rolt','il_sess_status_closed','Closed session template',0,'2018-01-25 08:42:46','2018-01-25 08:42:46',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (272,'typ','ltis','LTI Settings',-1,'2018-01-25 08:42:57','2018-01-25 08:42:57',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (273,'ltis','LTI Settings','LTI Settings',-1,'2018-01-25 08:42:57','2018-01-25 08:42:57',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (274,'typ','copa','Content Page Object',-1,'2022-06-07 13:46:08','2022-06-07 13:46:08',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (275,'typ','mme','Main Menu',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (276,'mme','Main Menu','Main Menu',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (277,'typ','lso','Learning Sequence',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (278,'rolt','il_lso_admin','Admin template for learning sequences',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (279,'rolt','il_lso_member','Member template for learning sequences',-1,'2022-06-07 13:46:09','2022-06-07 13:46:09',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (280,'typ','lti','LTI Consumer Object',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (281,'typ','cmix','cmi5/xAPI Object',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (282,'typ','cmis','cmi5/xAPI Administration',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (283,'cmis','cmi5/xAPI Administration','cmi5/xAPI Administration',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (284,'typ','nots','Notes Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (285,'nots','Notes Settings','Notes Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (286,'typ','coms','Comments Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (287,'coms','Comments Settings','Comments Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (288,'typ','lhts','Learning History Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (289,'lhts','Learning History Settings','Learning History Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (290,'typ','prss','Personal Resources Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (291,'prss','Personal Resources Settings','Personal Resources Settings',-1,'2022-06-07 13:46:11','2022-06-07 13:46:11',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (292,'typ','prgr','Study Programme Reference',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (293,'typ','lsos','LearningSequenceAdmin',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (294,'lsos','LearningSequenceAdmin','LearningSequenceAdmin',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (295,'typ','cpad','ContentPageAdministration',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (296,'cpad','ContentPageAdministration','ContentPageAdministration',-1,'2022-06-07 13:46:12','2022-06-07 13:46:12',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (297,'typ','fils','File Services',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (298,'fils','File Services','File Services',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (299,'typ','wbdv','WebDAV',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (300,'wbdv','WebDAV','WebDAV',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (301,'typ','adn','Administrative Notifications',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (302,'adn','Administrative Notifications','Administrative Notifications',-1,'2022-06-07 13:46:13','2022-06-07 13:46:13',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (303,'typ','tala','__TalkTemplateAdministration',-1,'2023-12-12 16:39:37','2023-12-12 16:39:37',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (304,'tala','__TalkTemplateAdministration','__TalkTemplateAdministration',-1,'2023-12-12 16:39:37','2023-12-12 16:39:37',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (305,'typ','dpro','DataProtection',-1,'2023-12-12 16:39:38','2023-12-12 16:39:38',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (306,'dpro','DataProtection','DataProtection',-1,'2023-12-12 16:39:38','2023-12-12 16:39:38',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (307,'typ','impr','Legal Notice',-1,'2023-12-12 16:39:38','2023-12-12 16:39:38',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (308,'impr','Legal Notice','Legal Notice',-1,'2023-12-12 16:39:38','2023-12-12 16:39:38',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (309,'typ','nota','Notification Service Administration Object',-1,'2023-12-12 16:39:40','2023-12-12 16:39:40',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (310,'nota','Notification Service Administration Object','Notification Service Administration Object',-1,'2023-12-12 16:39:40','2023-12-12 16:39:40',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (311,'typ','skee','Skill Tree',-1,'2023-12-12 16:39:40','2023-12-12 16:39:40',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (312,'skee','Default','',-1,'2023-12-12 16:39:40','2023-12-12 16:39:40',NULL,NULL,NULL);
 
 --
 -- Table structure for table `object_data_del`
@@ -13041,7 +13916,7 @@ CREATE TABLE `object_data_del` (
   `type` char(4) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `object_data_del`
@@ -13055,13 +13930,13 @@ CREATE TABLE `object_data_del` (
 CREATE TABLE `object_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=303;
+)  AUTO_INCREMENT=313;
 
 --
 -- Dumping data for table `object_data_seq`
 --
 
-INSERT INTO `object_data_seq` VALUES (302);
+INSERT INTO `object_data_seq` VALUES (312);
 
 --
 -- Table structure for table `object_description`
@@ -13071,7 +13946,7 @@ CREATE TABLE `object_description` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `description` longtext DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `object_description`
@@ -13091,7 +13966,7 @@ CREATE TABLE `object_reference` (
   PRIMARY KEY (`ref_id`),
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`deleted`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `object_reference`
@@ -13153,7 +14028,6 @@ INSERT INTO `object_reference` VALUES (62,235,NULL,0);
 INSERT INTO `object_reference` VALUES (63,238,NULL,0);
 INSERT INTO `object_reference` VALUES (64,240,NULL,0);
 INSERT INTO `object_reference` VALUES (65,263,NULL,0);
-INSERT INTO `object_reference` VALUES (66,265,NULL,0);
 INSERT INTO `object_reference` VALUES (67,271,NULL,0);
 INSERT INTO `object_reference` VALUES (68,273,NULL,0);
 INSERT INTO `object_reference` VALUES (69,276,NULL,0);
@@ -13167,6 +14041,11 @@ INSERT INTO `object_reference` VALUES (76,296,NULL,0);
 INSERT INTO `object_reference` VALUES (77,298,NULL,0);
 INSERT INTO `object_reference` VALUES (78,300,NULL,0);
 INSERT INTO `object_reference` VALUES (79,302,NULL,0);
+INSERT INTO `object_reference` VALUES (80,304,NULL,0);
+INSERT INTO `object_reference` VALUES (81,306,NULL,0);
+INSERT INTO `object_reference` VALUES (82,308,NULL,0);
+INSERT INTO `object_reference` VALUES (83,310,NULL,0);
+INSERT INTO `object_reference` VALUES (84,312,NULL,0);
 
 --
 -- Table structure for table `object_reference_seq`
@@ -13175,13 +14054,13 @@ INSERT INTO `object_reference` VALUES (79,302,NULL,0);
 CREATE TABLE `object_reference_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=80;
+)  AUTO_INCREMENT=85;
 
 --
 -- Dumping data for table `object_reference_seq`
 --
 
-INSERT INTO `object_reference_seq` VALUES (79);
+INSERT INTO `object_reference_seq` VALUES (84);
 
 --
 -- Table structure for table `object_reference_ws`
@@ -13194,7 +14073,7 @@ CREATE TABLE `object_reference_ws` (
   PRIMARY KEY (`wsp_id`),
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`deleted`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `object_reference_ws`
@@ -13208,7 +14087,7 @@ CREATE TABLE `object_reference_ws` (
 CREATE TABLE `object_reference_ws_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `object_reference_ws_seq`
@@ -13221,12 +14100,12 @@ CREATE TABLE `object_reference_ws_seq` (
 
 CREATE TABLE `object_translation` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
-  `title` varchar(128) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
   `description` varchar(4000) DEFAULT NULL,
   `lang_code` char(2) NOT NULL DEFAULT '',
   `lang_default` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`lang_code`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `object_translation`
@@ -13245,7 +14124,7 @@ CREATE TABLE `openid_provider` (
   `url` varchar(512) DEFAULT NULL,
   `image` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`provider_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `openid_provider`
@@ -13260,7 +14139,7 @@ INSERT INTO `openid_provider` VALUES (1,1,'MyOpenID','http://%s.myopenid.com',1)
 CREATE TABLE `openid_provider_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `openid_provider_seq`
@@ -13276,7 +14155,7 @@ CREATE TABLE `orgu_data` (
   `orgu_id` int(11) NOT NULL DEFAULT 0,
   `orgu_type_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`orgu_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `orgu_data`
@@ -13291,7 +14170,7 @@ CREATE TABLE `orgu_obj_pos_settings` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `active` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `orgu_obj_pos_settings`
@@ -13308,7 +14187,7 @@ CREATE TABLE `orgu_obj_type_settings` (
   `activation_default` tinyint(4) DEFAULT 0,
   `changeable` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`obj_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `orgu_obj_type_settings`
@@ -13324,7 +14203,7 @@ CREATE TABLE `orgu_path_storage` (
   `obj_id` bigint(20) DEFAULT NULL,
   `path` longtext DEFAULT NULL,
   PRIMARY KEY (`ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `orgu_path_storage`
@@ -13343,7 +14222,7 @@ CREATE TABLE `orgu_types` (
   `create_date` datetime DEFAULT NULL,
   `last_update` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `orgu_types`
@@ -13358,7 +14237,7 @@ CREATE TABLE `orgu_types_adv_md_rec` (
   `type_id` int(11) NOT NULL DEFAULT 0,
   `rec_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`type_id`,`rec_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `orgu_types_adv_md_rec`
@@ -13372,7 +14251,7 @@ CREATE TABLE `orgu_types_adv_md_rec` (
 CREATE TABLE `orgu_types_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `orgu_types_seq`
@@ -13389,7 +14268,7 @@ CREATE TABLE `orgu_types_trans` (
   `member` varchar(32) NOT NULL DEFAULT '',
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`orgu_type_id`,`lang`,`member`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `orgu_types_trans`
@@ -13406,7 +14285,7 @@ CREATE TABLE `osc_activity` (
   `timestamp` bigint(20) NOT NULL DEFAULT 0,
   `is_closed` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`conversation_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `osc_activity`
@@ -13422,7 +14301,7 @@ CREATE TABLE `osc_conversation` (
   `is_group` tinyint(4) NOT NULL DEFAULT 0,
   `participants` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `osc_conversation`
@@ -13443,7 +14322,7 @@ CREATE TABLE `osc_messages` (
   KEY `i1_idx` (`user_id`),
   KEY `i2_idx` (`conversation_id`),
   KEY `i3_idx` (`conversation_id`,`user_id`,`timestamp`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `osc_messages`
@@ -13460,7 +14339,7 @@ CREATE TABLE `page_anchor` (
   `anchor_name` varchar(120) NOT NULL DEFAULT ' ',
   `page_lang` varchar(2) NOT NULL DEFAULT '-',
   PRIMARY KEY (`page_parent_type`,`page_id`,`page_lang`,`anchor_name`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_anchor`
@@ -13476,7 +14355,7 @@ CREATE TABLE `page_editor_settings` (
   `name` varchar(30) NOT NULL DEFAULT '',
   `value` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`settings_grp`,`name`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_editor_settings`
@@ -13512,7 +14391,7 @@ CREATE TABLE `page_history` (
   PRIMARY KEY (`page_id`,`parent_type`,`hdate`,`lang`),
   KEY `i1_idx` (`page_id`),
   KEY `i2_idx` (`parent_id`,`parent_type`,`hdate`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_history`
@@ -13535,17 +14414,18 @@ CREATE TABLE `page_layout` (
   `mod_portfolio` tinyint(4) DEFAULT NULL,
   `mod_lm` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`layout_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_layout`
 --
 
-INSERT INTO `page_layout` VALUES (1,'','1A Simple text page with accompanying media','Example description',1,0,0,1,0,NULL);
-INSERT INTO `page_layout` VALUES (2,'','1C Text page with accompanying media and test','',1,0,0,1,0,NULL);
-INSERT INTO `page_layout` VALUES (3,'','1E Text page with accompanying media followed by test and text','',1,0,0,1,0,NULL);
-INSERT INTO `page_layout` VALUES (4,'','2C Simple media page with accompanying text and test','',1,0,0,1,0,NULL);
-INSERT INTO `page_layout` VALUES (5,'','7C Vertical component navigation page with media and text','',1,0,0,1,0,NULL);
+INSERT INTO `page_layout` VALUES (1,'','Text page with accompanying media','Example description',1,0,0,1,0,NULL);
+INSERT INTO `page_layout` VALUES (2,'','Text page with accompanying media and test','',1,0,0,1,0,NULL);
+INSERT INTO `page_layout` VALUES (3,'','Text page with accompanying media followed by test and text','',1,0,0,1,0,NULL);
+INSERT INTO `page_layout` VALUES (4,'','Media page with accompanying text and test','',1,0,0,1,0,NULL);
+INSERT INTO `page_layout` VALUES (5,'','Vertical component navigation page with media and text	','',1,0,0,1,0,NULL);
+INSERT INTO `page_layout` VALUES (6,'','Leading image with text','',1,0,0,1,NULL,NULL);
 
 --
 -- Table structure for table `page_layout_seq`
@@ -13554,13 +14434,13 @@ INSERT INTO `page_layout` VALUES (5,'','7C Vertical component navigation page wi
 CREATE TABLE `page_layout_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=6;
+)  AUTO_INCREMENT=7;
 
 --
 -- Dumping data for table `page_layout_seq`
 --
 
-INSERT INTO `page_layout_seq` VALUES (5);
+INSERT INTO `page_layout_seq` VALUES (6);
 
 --
 -- Table structure for table `page_object`
@@ -13589,20 +14469,22 @@ CREATE TABLE `page_object` (
   `lang` varchar(2) NOT NULL DEFAULT '-',
   `edit_lock_user` int(11) DEFAULT NULL,
   `edit_lock_ts` int(11) NOT NULL DEFAULT 0,
+  `est_reading_time` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`page_id`,`parent_type`,`lang`),
   KEY `i3_idx` (`parent_id`,`parent_type`,`last_change`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_object`
 --
 
-INSERT INTO `page_object` VALUES (1,NULL,'<PageObject></PageObject>','impr',6,0,'2016-12-16 15:25:17','2016-12-16 15:25:17',6,'52bee1212f8a154aac268a0c20b77437','<a class=\"small\" id=\"ilPageShowAdvContent\" style=\"display:none; text-align:right;\" href=\"#\"><span>{{{{{LV_show_adv}}}}}</span><span>{{{{{LV_hide_adv}}}}}</span></a><h1 class=\"ilc_page_title_PageTitle\">Legal Notice</h1><!--COPage-PageTop-->\n<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" style=\"clear:both;\"><!--Break--></div>\n','2016-12-16 15:25:17',NULL,NULL,1,0,0,0,0,'-',NULL,0);
-INSERT INTO `page_object` VALUES (1,0,'<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"500px\"/></PageContent></TableData><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0);
-INSERT INTO `page_object` VALUES (2,0,'<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent></TableData><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0);
-INSERT INTO `page_object` VALUES (3,0,'<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent><PageContent PCID=\"9b77eb1d8a478197d69b99d938fea8f\"><PlaceHolder ContentClass=\"Text\" Height=\"200px\"/></PageContent></TableData><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0);
-INSERT INTO `page_object` VALUES (4,0,'<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent></TableData></TableRow></Table></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0);
-INSERT INTO `page_object` VALUES (5,0,'<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"100%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent></TableData> </TableRow><TableRow PCID=\"efade08caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"100%\"><PageContent PCID=\"124d24457cbc90ea1bf1a1323d7c3b89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"dfade09caf9fd13e8c7012f29c9510be\"><TableData PCID=\"e4e417c08feebeafb1487e60a2e245a5\" Width=\"33%\"><PageContent PCID=\"3e77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Media\" Height=\"150px\"/></PageContent><PageContent PCID=\"4e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Text\" Height=\"250px\"/></PageContent></TableData><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a5\" Width=\"33%\"><PageContent PCID=\"3a77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Media\" Height=\"150px\"/></PageContent><PageContent PCID=\"4ea7eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Text\" Height=\"250px\"/></PageContent></TableData><TableData PCID=\"b4e417c08feebeafb1487e60a2e245a5\" Width=\"33%\"><PageContent PCID=\"3b77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Media\" Height=\"150px\"/></PageContent><PageContent PCID=\"4b77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Text\" Height=\"250px\"/></PageContent></TableData></TableRow></Table></PageContent></TableData></TableRow></Table></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0);
+INSERT INTO `page_object` VALUES (1,NULL,'<PageObject></PageObject>','impr',6,0,'2016-12-16 15:25:17','2016-12-16 15:25:17',6,'52bee1212f8a154aac268a0c20b77437','<a class=\"small\" id=\"ilPageShowAdvContent\" style=\"display:none; text-align:right;\" href=\"#\"><span>{{{{{LV_show_adv}}}}}</span><span>{{{{{LV_hide_adv}}}}}</span></a><h1 class=\"ilc_page_title_PageTitle\">Legal Notice</h1><!--COPage-PageTop-->\n<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" style=\"clear:both;\"><!--Break--></div>\n','2016-12-16 15:25:17',NULL,NULL,1,0,0,0,0,'-',NULL,0,0);
+INSERT INTO `page_object` VALUES (1,0,'<PageObject><PageContent PCID=\"0568f23f59f828dd532cd77c66dcea97\"><Grid><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"7\" WIDTH_L=\"8\" WIDTH_XL=\"8\" PCID=\"2fe139a171c9276193832c2d64f5822b\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"500px\"/></PageContent></GridCell><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"5\" WIDTH_L=\"4\" WIDTH_XL=\"4\" PCID=\"010960eb5296c409d0b5070e186f033e\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"500px\"/></PageContent></GridCell></Grid></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0,0);
+INSERT INTO `page_object` VALUES (2,0,'<PageObject><PageContent PCID=\"336db62153bc33b955c8eab6b4ba1331\"><Grid><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"7\" WIDTH_L=\"8\" WIDTH_XL=\"8\" PCID=\"18772b9425070318d27bb2fdaf6b6bdf\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent></GridCell><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"5\" WIDTH_L=\"4\" WIDTH_XL=\"4\" PCID=\"4309720c697857f55946691119fd7f10\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></GridCell></Grid></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0,0);
+INSERT INTO `page_object` VALUES (3,0,'<PageObject><PageContent PCID=\"6239da5ab9497f14774a2cceb5525c3d\"><Grid><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"5\" WIDTH_L=\"4\" WIDTH_XL=\"4\" PCID=\"2f9835a738e7c83dbef27915816b0f5a\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"500px\"/></PageContent></GridCell><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"7\" WIDTH_L=\"8\" WIDTH_XL=\"8\" PCID=\"1d74da9bf94b63e8c85a451399b624d9\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"500px\"/></PageContent></GridCell></Grid></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0,0);
+INSERT INTO `page_object` VALUES (4,0,'<PageObject><PageContent PCID=\"906a03fd9999c5c83a7166e9f9744fec\"><Grid><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"5\" WIDTH_L=\"4\" WIDTH_XL=\"4\" PCID=\"a27f25a9b1d8746d1cf3820759f37096\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></GridCell><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"7\" WIDTH_L=\"8\" WIDTH_XL=\"8\" PCID=\"8e769877102068dca417222215defaa9\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent></GridCell></Grid></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0,0);
+INSERT INTO `page_object` VALUES (5,0,'<PageObject><PageContent PCID=\"0fb0511a01dcb9b83d9f21eb0d588a19\"><Grid><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"4\" WIDTH_L=\"4\" WIDTH_XL=\"4\" PCID=\"b241816c4270ec842782a664cbe72979\"><PageContent PCID=\"428c956f8035dc8ac59a9412bc19f955\"><PlaceHolder Height=\"250px\" ContentClass=\"Media\"/></PageContent><PageContent PCID=\"6d0291683f92aa84920755184b0da66c\"><PlaceHolder Height=\"250px\" ContentClass=\"Text\"/></PageContent></GridCell><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"4\" WIDTH_L=\"4\" WIDTH_XL=\"4\" PCID=\"375c6f40533390645bd1bb58259bec54\"><PageContent PCID=\"41f4e5a703244309231c2d6be0c49231\"><PlaceHolder Height=\"250px\" ContentClass=\"Media\"/></PageContent><PageContent PCID=\"325dac9e34424f129a4e4f9a0c4e37c4\"><PlaceHolder Height=\"250px\" ContentClass=\"Text\"/></PageContent></GridCell><GridCell WIDTH_XS=\"\" WIDTH_S=\"12\" WIDTH_M=\"4\" WIDTH_L=\"4\" WIDTH_XL=\"4\" PCID=\"d8379b454401c9b7071d32efb69cc028\"><PageContent PCID=\"5e744ec7c8784471e4668bcbc5e4b405\"><PlaceHolder Height=\"250px\" ContentClass=\"Media\"/></PageContent><PageContent PCID=\"0ba252ad3ab834e2c8fba58708dc1995\"><PlaceHolder Height=\"250px\" ContentClass=\"Text\"/></PageContent></GridCell></Grid></PageContent></PageObject>','stys',0,0,NULL,NULL,0,'','',NULL,NULL,NULL,1,0,0,0,0,'-',0,0,0);
+INSERT INTO `page_object` VALUES (6,NULL,'<PageObject><PageContent PCID=\"6b1a4e68d752380bf108afff7fa66595\"><PlaceHolder Height=\"300px\" ContentClass=\"Media\"/></PageContent><PageContent PCID=\"8535f59bec330f1cc30286898a36356f\"><PlaceHolder Height=\"200px\" ContentClass=\"Text\"/></PageContent></PageObject>','stys',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,0,0,0,0,'-',NULL,0,0);
 
 --
 -- Table structure for table `page_pc_usage`
@@ -13616,7 +14498,7 @@ CREATE TABLE `page_pc_usage` (
   `usage_hist_nr` int(11) NOT NULL DEFAULT 0,
   `usage_lang` varchar(2) NOT NULL DEFAULT '-',
   PRIMARY KEY (`pc_type`,`pc_id`,`usage_type`,`usage_id`,`usage_hist_nr`,`usage_lang`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_pc_usage`
@@ -13635,7 +14517,7 @@ CREATE TABLE `page_qst_answer` (
   `points` double NOT NULL DEFAULT 0,
   `unlocked` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`qst_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_qst_answer`
@@ -13654,7 +14536,7 @@ CREATE TABLE `page_question` (
   PRIMARY KEY (`page_parent_type`,`page_id`,`question_id`,`page_lang`),
   KEY `i1_idx` (`page_parent_type`,`page_id`,`page_lang`),
   KEY `i2_idx` (`question_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_question`
@@ -13676,7 +14558,7 @@ CREATE TABLE `page_style_usage` (
   `page_lang` varchar(2) NOT NULL DEFAULT '-',
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`page_id`,`page_type`,`page_lang`,`page_nr`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_style_usage`
@@ -13690,190 +14572,12 @@ CREATE TABLE `page_style_usage` (
 CREATE TABLE `page_style_usage_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `page_style_usage_seq`
 --
 
-
---
--- Table structure for table `pdfgen_conf`
---
-
-CREATE TABLE `pdfgen_conf` (
-  `conf_id` int(11) NOT NULL,
-  `renderer` varchar(255) NOT NULL,
-  `service` varchar(255) NOT NULL,
-  `purpose` varchar(255) NOT NULL,
-  `config` longtext DEFAULT NULL,
-  PRIMARY KEY (`conf_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `pdfgen_conf`
---
-
-
---
--- Table structure for table `pdfgen_conf_seq`
---
-
-CREATE TABLE `pdfgen_conf_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `pdfgen_conf_seq`
---
-
-
---
--- Table structure for table `pdfgen_map`
---
-
-CREATE TABLE `pdfgen_map` (
-  `map_id` int(11) NOT NULL,
-  `service` varchar(255) NOT NULL,
-  `purpose` varchar(255) NOT NULL,
-  `preferred` varchar(255) NOT NULL,
-  `selected` varchar(255) NOT NULL,
-  PRIMARY KEY (`map_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `pdfgen_map`
---
-
-INSERT INTO `pdfgen_map` VALUES (1,'Test','PrintViewOfQuestions','WkhtmlToPdf','WkhtmlToPdf');
-INSERT INTO `pdfgen_map` VALUES (2,'Test','UserResult','WkhtmlToPdf','WkhtmlToPdf');
-INSERT INTO `pdfgen_map` VALUES (3,'Wiki','ContentExport','WkhtmlToPdf','WkhtmlToPdf');
-INSERT INTO `pdfgen_map` VALUES (4,'Portfolio','ContentExport','WkhtmlToPdf','WkhtmlToPdf');
-INSERT INTO `pdfgen_map` VALUES (5,'Survey','Results','WkhtmlToPdf','WkhtmlToPdf');
-
---
--- Table structure for table `pdfgen_map_seq`
---
-
-CREATE TABLE `pdfgen_map_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=6;
-
---
--- Dumping data for table `pdfgen_map_seq`
---
-
-INSERT INTO `pdfgen_map_seq` VALUES (5);
-
---
--- Table structure for table `pdfgen_purposes`
---
-
-CREATE TABLE `pdfgen_purposes` (
-  `purpose_id` int(11) NOT NULL,
-  `service` varchar(255) NOT NULL,
-  `purpose` varchar(255) NOT NULL,
-  PRIMARY KEY (`purpose_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `pdfgen_purposes`
---
-
-INSERT INTO `pdfgen_purposes` VALUES (1,'Test','PrintViewOfQuestions');
-INSERT INTO `pdfgen_purposes` VALUES (2,'Test','UserResult');
-INSERT INTO `pdfgen_purposes` VALUES (3,'Wiki','ContentExport');
-INSERT INTO `pdfgen_purposes` VALUES (4,'Portfolio','ContentExport');
-INSERT INTO `pdfgen_purposes` VALUES (5,'Survey','Results');
-
---
--- Table structure for table `pdfgen_purposes_seq`
---
-
-CREATE TABLE `pdfgen_purposes_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=6;
-
---
--- Dumping data for table `pdfgen_purposes_seq`
---
-
-INSERT INTO `pdfgen_purposes_seq` VALUES (5);
-
---
--- Table structure for table `pdfgen_renderer`
---
-
-CREATE TABLE `pdfgen_renderer` (
-  `renderer_id` int(11) NOT NULL,
-  `renderer` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  PRIMARY KEY (`renderer_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `pdfgen_renderer`
---
-
-INSERT INTO `pdfgen_renderer` VALUES (1,'TCPDF','Services/PDFGeneration/classes/renderer/tcpdf/class.ilTCPDFRenderer.php');
-INSERT INTO `pdfgen_renderer` VALUES (4,'WkhtmlToPdf','Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php');
-
---
--- Table structure for table `pdfgen_renderer_avail`
---
-
-CREATE TABLE `pdfgen_renderer_avail` (
-  `availability_id` int(11) NOT NULL,
-  `service` varchar(255) NOT NULL,
-  `purpose` varchar(255) NOT NULL,
-  `renderer` varchar(255) NOT NULL,
-  PRIMARY KEY (`availability_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `pdfgen_renderer_avail`
---
-
-INSERT INTO `pdfgen_renderer_avail` VALUES (3,'Test','PrintViewOfQuestions','TCPDF');
-INSERT INTO `pdfgen_renderer_avail` VALUES (4,'Test','UserResult','TCPDF');
-INSERT INTO `pdfgen_renderer_avail` VALUES (5,'Wiki','ContentExport','WkhtmlToPdf');
-INSERT INTO `pdfgen_renderer_avail` VALUES (6,'Portfolio','ContentExport','WkhtmlToPdf');
-INSERT INTO `pdfgen_renderer_avail` VALUES (9,'Test','UserResult','WkhtmlToPdf');
-INSERT INTO `pdfgen_renderer_avail` VALUES (10,'Test','PrintViewOfQuestions','WkhtmlToPdf');
-INSERT INTO `pdfgen_renderer_avail` VALUES (12,'Survey','Results','WkhtmlToPdf');
-
---
--- Table structure for table `pdfgen_renderer_avail_seq`
---
-
-CREATE TABLE `pdfgen_renderer_avail_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=13;
-
---
--- Dumping data for table `pdfgen_renderer_avail_seq`
---
-
-INSERT INTO `pdfgen_renderer_avail_seq` VALUES (12);
-
---
--- Table structure for table `pdfgen_renderer_seq`
---
-
-CREATE TABLE `pdfgen_renderer_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=5;
-
---
--- Dumping data for table `pdfgen_renderer_seq`
---
-
-INSERT INTO `pdfgen_renderer_seq` VALUES (4);
 
 --
 -- Table structure for table `personal_clipboard`
@@ -13889,7 +14593,7 @@ CREATE TABLE `personal_clipboard` (
   `order_nr` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`item_id`,`type`),
   KEY `it_idx` (`item_id`,`type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `personal_clipboard`
@@ -13907,7 +14611,7 @@ CREATE TABLE `personal_pc_clipboard` (
   `order_nr` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`insert_time`,`order_nr`),
   KEY `i1_idx` (`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `personal_pc_clipboard`
@@ -13922,8 +14626,9 @@ CREATE TABLE `pg_amd_page_list` (
   `id` int(11) NOT NULL DEFAULT 0,
   `field_id` int(11) NOT NULL DEFAULT 0,
   `data` varchar(4000) DEFAULT NULL,
+  `sdata` longtext DEFAULT NULL,
   PRIMARY KEY (`id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `pg_amd_page_list`
@@ -13937,7 +14642,7 @@ CREATE TABLE `pg_amd_page_list` (
 CREATE TABLE `pg_amd_page_list_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `pg_amd_page_list_seq`
@@ -13950,10 +14655,10 @@ CREATE TABLE `pg_amd_page_list_seq` (
 
 CREATE TABLE `post_conditions` (
   `ref_id` int(11) NOT NULL,
-  `value` int(11) NOT NULL,
+  `value` varchar(255) DEFAULT NULL,
   `condition_operator` varchar(32) NOT NULL,
-  PRIMARY KEY (`ref_id`,`condition_operator`,`value`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`ref_id`)
+) ;
 
 --
 -- Dumping data for table `post_conditions`
@@ -13969,7 +14674,7 @@ CREATE TABLE `preview_data` (
   `render_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   `render_status` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `preview_data`
@@ -13983,11 +14688,10 @@ CREATE TABLE `preview_data` (
 CREATE TABLE `prg_auto_content` (
   `prg_obj_id` int(11) NOT NULL,
   `cat_ref_id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
   `last_usr_id` int(11) NOT NULL,
   `last_edited` datetime DEFAULT NULL,
   PRIMARY KEY (`prg_obj_id`,`cat_ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_auto_content`
@@ -14006,7 +14710,7 @@ CREATE TABLE `prg_auto_membership` (
   `last_usr_id` int(11) NOT NULL,
   `last_edited` datetime DEFAULT NULL,
   PRIMARY KEY (`prg_obj_id`,`source_type`,`source_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_auto_membership`
@@ -14034,8 +14738,9 @@ CREATE TABLE `prg_settings` (
   `send_re_assigned_mail` tinyint(4) DEFAULT 0,
   `send_info_to_re_assign_mail` tinyint(4) DEFAULT 0,
   `send_risky_to_fail_mail` tinyint(4) DEFAULT 0,
+  `vq_restart_recheck` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_settings`
@@ -14049,7 +14754,7 @@ CREATE TABLE `prg_settings` (
 CREATE TABLE `prg_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_settings_seq`
@@ -14067,7 +14772,7 @@ CREATE TABLE `prg_translations` (
   `member` varchar(32) DEFAULT NULL,
   `value` varchar(3500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_translations`
@@ -14081,7 +14786,7 @@ CREATE TABLE `prg_translations` (
 CREATE TABLE `prg_translations_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_translations_seq`
@@ -14100,7 +14805,7 @@ CREATE TABLE `prg_type` (
   `last_update` datetime DEFAULT NULL,
   `icon` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_type`
@@ -14116,7 +14821,7 @@ CREATE TABLE `prg_type_adv_md_rec` (
   `type_id` int(11) DEFAULT NULL,
   `rec_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_type_adv_md_rec`
@@ -14130,7 +14835,7 @@ CREATE TABLE `prg_type_adv_md_rec` (
 CREATE TABLE `prg_type_adv_md_rec_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_type_adv_md_rec_seq`
@@ -14144,7 +14849,7 @@ CREATE TABLE `prg_type_adv_md_rec_seq` (
 CREATE TABLE `prg_type_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_type_seq`
@@ -14164,8 +14869,9 @@ CREATE TABLE `prg_usr_assignments` (
   `restart_date` datetime DEFAULT NULL,
   `restarted_assignment_id` int(11) NOT NULL DEFAULT -1,
   `restart_mail_send` datetime DEFAULT NULL,
+  `assigned_manually` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_usr_assignments`
@@ -14179,7 +14885,7 @@ CREATE TABLE `prg_usr_assignments` (
 CREATE TABLE `prg_usr_assignments_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_usr_assignments_seq`
@@ -14206,10 +14912,12 @@ CREATE TABLE `prg_usr_progress` (
   `completion_date` datetime DEFAULT NULL,
   `vq_date` datetime DEFAULT NULL,
   `invalidated` tinyint(4) DEFAULT NULL,
-  `risky_to_fail_mail_send` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `sent_mail_risky_to_fail` datetime DEFAULT NULL,
+  `individual` tinyint(4) NOT NULL DEFAULT 0,
+  `sent_mail_expires` datetime DEFAULT NULL,
+  PRIMARY KEY (`assignment_id`,`prg_id`,`usr_id`),
   UNIQUE KEY `con_idx` (`assignment_id`,`prg_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_usr_progress`
@@ -14223,10 +14931,25 @@ CREATE TABLE `prg_usr_progress` (
 CREATE TABLE `prg_usr_progress_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `prg_usr_progress_seq`
+--
+
+
+--
+-- Table structure for table `prtf_role_assignment`
+--
+
+CREATE TABLE `prtf_role_assignment` (
+  `role_id` int(11) NOT NULL DEFAULT 0,
+  `template_ref_id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`role_id`,`template_ref_id`)
+) ;
+
+--
+-- Dumping data for table `prtf_role_assignment`
 --
 
 
@@ -14248,8 +14971,9 @@ CREATE TABLE `qpl_a_cloze` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   `gap_size` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`answer_id`),
-  KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+  KEY `i1_idx` (`question_fi`),
+  KEY `i2_idx` (`gap_id`)
+) ;
 
 --
 -- Dumping data for table `qpl_a_cloze`
@@ -14268,8 +14992,9 @@ CREATE TABLE `qpl_a_cloze_combi_res` (
   `points` double DEFAULT NULL,
   `best_solution` tinyint(4) DEFAULT NULL,
   `row_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`combination_id`,`question_fi`,`gap_fi`,`row_id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`combination_id`,`question_fi`,`gap_fi`,`row_id`),
+  KEY `i1_idx` (`gap_fi`,`question_fi`)
+) ;
 
 --
 -- Dumping data for table `qpl_a_cloze_combi_res`
@@ -14283,7 +15008,7 @@ CREATE TABLE `qpl_a_cloze_combi_res` (
 CREATE TABLE `qpl_a_cloze_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_cloze_seq`
@@ -14301,9 +15026,10 @@ CREATE TABLE `qpl_a_errortext` (
   `text_correct` varchar(150) DEFAULT NULL,
   `points` double NOT NULL DEFAULT 0,
   `sequence` smallint(6) NOT NULL DEFAULT 0,
+  `position` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_errortext`
@@ -14317,7 +15043,7 @@ CREATE TABLE `qpl_a_errortext` (
 CREATE TABLE `qpl_a_errortext_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_errortext_seq`
@@ -14334,7 +15060,7 @@ CREATE TABLE `qpl_a_essay` (
   `answertext` varchar(1000) DEFAULT NULL,
   `points` double DEFAULT NULL,
   PRIMARY KEY (`answer_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_essay`
@@ -14348,7 +15074,7 @@ CREATE TABLE `qpl_a_essay` (
 CREATE TABLE `qpl_a_essay_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_essay_seq`
@@ -14371,7 +15097,7 @@ CREATE TABLE `qpl_a_imagemap` (
   `points_unchecked` double NOT NULL DEFAULT 0,
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_imagemap`
@@ -14385,7 +15111,7 @@ CREATE TABLE `qpl_a_imagemap` (
 CREATE TABLE `qpl_a_imagemap_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_imagemap_seq`
@@ -14404,7 +15130,7 @@ CREATE TABLE `qpl_a_kprim` (
   `correctness` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`question_fi`,`position`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_kprim`
@@ -14423,7 +15149,7 @@ CREATE TABLE `qpl_a_lome` (
   `points` double DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   PRIMARY KEY (`question_fi`,`gap_number`,`position`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_lome`
@@ -14443,7 +15169,7 @@ CREATE TABLE `qpl_a_matching` (
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`term_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_matching`
@@ -14457,7 +15183,7 @@ CREATE TABLE `qpl_a_matching` (
 CREATE TABLE `qpl_a_matching_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_matching_seq`
@@ -14479,7 +15205,7 @@ CREATE TABLE `qpl_a_mc` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_mc`
@@ -14493,7 +15219,7 @@ CREATE TABLE `qpl_a_mc` (
 CREATE TABLE `qpl_a_mc_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_mc_seq`
@@ -14512,7 +15238,7 @@ CREATE TABLE `qpl_a_mdef` (
   `picture` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`def_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_mdef`
@@ -14526,7 +15252,7 @@ CREATE TABLE `qpl_a_mdef` (
 CREATE TABLE `qpl_a_mdef_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_mdef_seq`
@@ -14545,7 +15271,7 @@ CREATE TABLE `qpl_a_mterm` (
   `ident` int(11) DEFAULT NULL,
   PRIMARY KEY (`term_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_mterm`
@@ -14559,7 +15285,7 @@ CREATE TABLE `qpl_a_mterm` (
 CREATE TABLE `qpl_a_mterm_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_mterm_seq`
@@ -14581,7 +15307,7 @@ CREATE TABLE `qpl_a_ordering` (
   `position` mediumint(9) DEFAULT NULL,
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_ordering`
@@ -14595,7 +15321,7 @@ CREATE TABLE `qpl_a_ordering` (
 CREATE TABLE `qpl_a_ordering_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_ordering_seq`
@@ -14616,7 +15342,7 @@ CREATE TABLE `qpl_a_sc` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_sc`
@@ -14630,7 +15356,7 @@ CREATE TABLE `qpl_a_sc` (
 CREATE TABLE `qpl_a_sc_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_sc_seq`
@@ -14650,7 +15376,7 @@ CREATE TABLE `qpl_a_textsubset` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_textsubset`
@@ -14664,7 +15390,7 @@ CREATE TABLE `qpl_a_textsubset` (
 CREATE TABLE `qpl_a_textsubset_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_a_textsubset_seq`
@@ -14683,7 +15409,7 @@ CREATE TABLE `qpl_fb_generic` (
   `feedback` longtext DEFAULT NULL,
   PRIMARY KEY (`feedback_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_fb_generic`
@@ -14697,7 +15423,7 @@ CREATE TABLE `qpl_fb_generic` (
 CREATE TABLE `qpl_fb_generic_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_fb_generic_seq`
@@ -14718,7 +15444,7 @@ CREATE TABLE `qpl_fb_specific` (
   PRIMARY KEY (`feedback_id`),
   UNIQUE KEY `con_idx` (`question_fi`,`question`,`answer`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_fb_specific`
@@ -14732,7 +15458,7 @@ CREATE TABLE `qpl_fb_specific` (
 CREATE TABLE `qpl_fb_specific_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_fb_specific_seq`
@@ -14750,7 +15476,7 @@ CREATE TABLE `qpl_hint_tracking` (
   `qhtr_question_fi` int(11) NOT NULL DEFAULT 0,
   `qhtr_hint_fi` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`qhtr_track_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_hint_tracking`
@@ -14764,7 +15490,7 @@ CREATE TABLE `qpl_hint_tracking` (
 CREATE TABLE `qpl_hint_tracking_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_hint_tracking_seq`
@@ -14782,7 +15508,7 @@ CREATE TABLE `qpl_hints` (
   `qht_hint_points` double NOT NULL DEFAULT 0,
   `qht_hint_text` longtext DEFAULT NULL,
   PRIMARY KEY (`qht_hint_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_hints`
@@ -14796,7 +15522,7 @@ CREATE TABLE `qpl_hints` (
 CREATE TABLE `qpl_hints_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_hints_seq`
@@ -14815,8 +15541,9 @@ CREATE TABLE `qpl_num_range` (
   `aorder` int(11) NOT NULL DEFAULT 0,
   `question_fi` int(11) NOT NULL DEFAULT 0,
   `tstamp` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`range_id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`range_id`),
+  KEY `i6_idx` (`question_fi`)
+) ;
 
 --
 -- Dumping data for table `qpl_num_range`
@@ -14830,7 +15557,7 @@ CREATE TABLE `qpl_num_range` (
 CREATE TABLE `qpl_num_range_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_num_range_seq`
@@ -14849,7 +15576,7 @@ CREATE TABLE `qpl_qst_cloze` (
   `cloze_text` longtext DEFAULT NULL,
   `feedback_mode` varchar(16) NOT NULL DEFAULT 'gapQuestion',
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_cloze`
@@ -14865,8 +15592,9 @@ CREATE TABLE `qpl_qst_errortext` (
   `errortext` varchar(4000) NOT NULL DEFAULT '',
   `textsize` double NOT NULL DEFAULT 100,
   `points_wrong` double NOT NULL DEFAULT -1,
+  `parsed_errortext` longtext DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_errortext`
@@ -14886,7 +15614,7 @@ CREATE TABLE `qpl_qst_essay` (
   `keyword_relation` varchar(3) NOT NULL DEFAULT 'any',
   `word_cnt_enabled` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_essay`
@@ -14903,7 +15631,7 @@ CREATE TABLE `qpl_qst_fileupload` (
   `maxsize` double DEFAULT NULL,
   `compl_by_submission` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_fileupload`
@@ -14921,7 +15649,7 @@ CREATE TABLE `qpl_qst_flash` (
   `width` int(11) NOT NULL DEFAULT 550,
   `height` int(11) NOT NULL DEFAULT 400,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_flash`
@@ -14937,7 +15665,7 @@ CREATE TABLE `qpl_qst_horder` (
   `ordertext` varchar(2000) DEFAULT NULL,
   `textsize` double DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_horder`
@@ -14953,7 +15681,7 @@ CREATE TABLE `qpl_qst_imagemap` (
   `image_file` varchar(100) DEFAULT NULL,
   `is_multiple_choice` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_imagemap`
@@ -14969,7 +15697,7 @@ CREATE TABLE `qpl_qst_javaapplet` (
   `image_file` varchar(100) DEFAULT NULL,
   `params` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_javaapplet`
@@ -14991,7 +15719,7 @@ CREATE TABLE `qpl_qst_kprim` (
   `score_partsol` tinyint(4) NOT NULL DEFAULT 0,
   `feedback_setting` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_kprim`
@@ -15011,7 +15739,7 @@ CREATE TABLE `qpl_qst_lome` (
   `min_auto_complete` tinyint(4) DEFAULT 3,
   `identical_scoring` tinyint(4) DEFAULT 1,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_lome`
@@ -15029,7 +15757,7 @@ CREATE TABLE `qpl_qst_matching` (
   `thumb_geometry` int(11) NOT NULL DEFAULT 100,
   `matching_mode` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_matching`
@@ -15049,7 +15777,7 @@ CREATE TABLE `qpl_qst_mc` (
   `feedback_setting` tinyint(4) NOT NULL DEFAULT 1,
   `selection_limit` int(11) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_mc`
@@ -15064,7 +15792,7 @@ CREATE TABLE `qpl_qst_numeric` (
   `question_fi` int(11) NOT NULL DEFAULT 0,
   `maxnumofchars` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_numeric`
@@ -15083,7 +15811,7 @@ CREATE TABLE `qpl_qst_ordering` (
   `scoring_type` mediumint(9) NOT NULL DEFAULT 0,
   `reduced_points` double NOT NULL DEFAULT 0,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_ordering`
@@ -15102,7 +15830,7 @@ CREATE TABLE `qpl_qst_sc` (
   `thumb_size` smallint(6) DEFAULT NULL,
   `feedback_setting` tinyint(4) DEFAULT 2,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_sc`
@@ -15121,7 +15849,7 @@ CREATE TABLE `qpl_qst_skl_assigns` (
   `skill_points` int(11) NOT NULL DEFAULT 0,
   `eval_mode` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`obj_fi`,`question_fi`,`skill_base_fi`,`skill_tref_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_skl_assigns`
@@ -15140,7 +15868,7 @@ CREATE TABLE `qpl_qst_skl_sol_expr` (
   `expression` varchar(255) NOT NULL DEFAULT ' ',
   `points` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`question_fi`,`skill_base_fi`,`skill_tref_fi`,`order_index`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_skl_sol_expr`
@@ -15156,7 +15884,7 @@ CREATE TABLE `qpl_qst_textsubset` (
   `textgap_rating` varchar(2) DEFAULT NULL,
   `correctanswers` int(11) DEFAULT 0,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_textsubset`
@@ -15173,7 +15901,7 @@ CREATE TABLE `qpl_qst_type` (
   `plugin` tinyint(4) NOT NULL DEFAULT 0,
   `plugin_name` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`question_type_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_qst_type`
@@ -15185,11 +15913,9 @@ INSERT INTO `qpl_qst_type` VALUES (3,'assClozeTest',0,NULL);
 INSERT INTO `qpl_qst_type` VALUES (4,'assMatchingQuestion',0,NULL);
 INSERT INTO `qpl_qst_type` VALUES (5,'assOrderingQuestion',0,NULL);
 INSERT INTO `qpl_qst_type` VALUES (6,'assImagemapQuestion',0,NULL);
-INSERT INTO `qpl_qst_type` VALUES (7,'assJavaApplet',0,NULL);
 INSERT INTO `qpl_qst_type` VALUES (8,'assTextQuestion',0,NULL);
 INSERT INTO `qpl_qst_type` VALUES (9,'assNumeric',0,NULL);
 INSERT INTO `qpl_qst_type` VALUES (10,'assTextSubset',0,NULL);
-INSERT INTO `qpl_qst_type` VALUES (12,'assFlashQuestion',0,NULL);
 INSERT INTO `qpl_qst_type` VALUES (13,'assOrderingHorizontal',0,NULL);
 INSERT INTO `qpl_qst_type` VALUES (14,'assFileUpload',0,NULL);
 INSERT INTO `qpl_qst_type` VALUES (15,'assErrorText',0,NULL);
@@ -15204,15 +15930,13 @@ INSERT INTO `qpl_qst_type` VALUES (18,'assLongMenu',0,NULL);
 CREATE TABLE `qpl_questionpool` (
   `id_questionpool` int(11) NOT NULL DEFAULT 0,
   `obj_fi` int(11) NOT NULL DEFAULT 0,
-  `isonline` varchar(1) DEFAULT '0',
   `questioncount` int(11) NOT NULL DEFAULT 0,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   `show_taxonomies` tinyint(4) NOT NULL DEFAULT 0,
-  `nav_taxonomy` int(11) DEFAULT NULL,
   `skill_service` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id_questionpool`),
   KEY `i1_idx` (`obj_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_questionpool`
@@ -15226,7 +15950,7 @@ CREATE TABLE `qpl_questionpool` (
 CREATE TABLE `qpl_questionpool_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_questionpool_seq`
@@ -15245,7 +15969,6 @@ CREATE TABLE `qpl_questions` (
   `description` varchar(1000) DEFAULT NULL,
   `author` varchar(50) DEFAULT NULL,
   `owner` int(11) NOT NULL DEFAULT 0,
-  `working_time` varchar(8) DEFAULT '00:00:00',
   `points` double DEFAULT NULL,
   `complete` varchar(1) DEFAULT '1',
   `original_id` int(11) DEFAULT NULL,
@@ -15260,8 +15983,9 @@ CREATE TABLE `qpl_questions` (
   KEY `i1_idx` (`question_type_fi`),
   KEY `i2_idx` (`original_id`),
   KEY `i3_idx` (`obj_fi`),
-  KEY `i4_idx` (`title`)
-) ENGINE=InnoDB;
+  KEY `i4_idx` (`title`),
+  KEY `i5_idx` (`owner`)
+) ;
 
 --
 -- Dumping data for table `qpl_questions`
@@ -15275,7 +15999,7 @@ CREATE TABLE `qpl_questions` (
 CREATE TABLE `qpl_questions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_questions_seq`
@@ -15297,7 +16021,7 @@ CREATE TABLE `qpl_sol_sug` (
   `value` longtext DEFAULT NULL,
   PRIMARY KEY (`suggested_solution_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_sol_sug`
@@ -15311,7 +16035,7 @@ CREATE TABLE `qpl_sol_sug` (
 CREATE TABLE `qpl_sol_sug_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `qpl_sol_sug_seq`
@@ -15329,8 +16053,10 @@ CREATE TABLE `rbac_fa` (
   `protected` char(1) DEFAULT 'n',
   `blocked` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`rol_id`,`parent`),
-  KEY `i1_idx` (`parent`)
-) ENGINE=InnoDB;
+  KEY `i1_idx` (`parent`),
+  KEY `i2_idx` (`assign`,`rol_id`),
+  KEY `i3_idx` (`assign`,`parent`)
+) ;
 
 --
 -- Dumping data for table `rbac_fa`
@@ -15376,7 +16102,7 @@ CREATE TABLE `rbac_log` (
   PRIMARY KEY (`log_id`),
   KEY `i1_idx` (`ref_id`),
   KEY `i2_idx` (`created`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rbac_log`
@@ -15390,7 +16116,7 @@ CREATE TABLE `rbac_log` (
 CREATE TABLE `rbac_log_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rbac_log_seq`
@@ -15409,7 +16135,7 @@ CREATE TABLE `rbac_operations` (
   `op_order` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`ops_id`),
   KEY `i1_idx` (`operation`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rbac_operations`
@@ -15435,7 +16161,6 @@ INSERT INTO `rbac_operations` VALUES (19,'create_crs','create new course','creat
 INSERT INTO `rbac_operations` VALUES (20,'create_lm','create new learning module','create',9999);
 INSERT INTO `rbac_operations` VALUES (21,'create_sahs','create new SCORM/AICC learning module','create',9999);
 INSERT INTO `rbac_operations` VALUES (22,'create_glo','create new glossary','create',9999);
-INSERT INTO `rbac_operations` VALUES (23,'create_dbk','create new digibook','create',9999);
 INSERT INTO `rbac_operations` VALUES (24,'create_exc','create new exercise','create',9999);
 INSERT INTO `rbac_operations` VALUES (25,'create_file','upload new file','create',9999);
 INSERT INTO `rbac_operations` VALUES (26,'create_fold','create new folder','create',9999);
@@ -15529,6 +16254,14 @@ INSERT INTO `rbac_operations` VALUES (126,'create_lti','Create LTI Consumer Obje
 INSERT INTO `rbac_operations` VALUES (127,'create_cmix','Create cmi5/xAPI Object','create',9999);
 INSERT INTO `rbac_operations` VALUES (128,'add_consume_provider','Allow Add Own Provider','object',3510);
 INSERT INTO `rbac_operations` VALUES (129,'create_prgr','Create Study Programme Reference','create',9999);
+INSERT INTO `rbac_operations` VALUES (130,'add_pages','Create Pages','object',3070);
+INSERT INTO `rbac_operations` VALUES (131,'edit_file','Edit File','object',5990);
+INSERT INTO `rbac_operations` VALUES (132,'read_comp','Read Competences','object',6500);
+INSERT INTO `rbac_operations` VALUES (133,'read_profiles','Read Competence Profiles','object',6510);
+INSERT INTO `rbac_operations` VALUES (134,'manage_comp','Manage Competences','object',8500);
+INSERT INTO `rbac_operations` VALUES (135,'manage_comp_temp','Manage Competence Templates','object',8510);
+INSERT INTO `rbac_operations` VALUES (136,'manage_profiles','Manage Competence Profiles','object',8520);
+INSERT INTO `rbac_operations` VALUES (137,'create_skee','Create Skill Tree','create',9999);
 
 --
 -- Table structure for table `rbac_operations_seq`
@@ -15537,13 +16270,13 @@ INSERT INTO `rbac_operations` VALUES (129,'create_prgr','Create Study Programme 
 CREATE TABLE `rbac_operations_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=130;
+)  AUTO_INCREMENT=138;
 
 --
 -- Dumping data for table `rbac_operations_seq`
 --
 
-INSERT INTO `rbac_operations_seq` VALUES (129);
+INSERT INTO `rbac_operations_seq` VALUES (137);
 
 --
 -- Table structure for table `rbac_pa`
@@ -15555,7 +16288,7 @@ CREATE TABLE `rbac_pa` (
   `ref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`rol_id`,`ref_id`),
   KEY `i1_idx` (`ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rbac_pa`
@@ -15591,7 +16324,7 @@ CREATE TABLE `rbac_ta` (
   `typ_id` int(11) NOT NULL DEFAULT 0,
   `ops_id` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`typ_id`,`ops_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rbac_ta`
@@ -15609,7 +16342,6 @@ INSERT INTO `rbac_ta` VALUES (15,18);
 INSERT INTO `rbac_ta` VALUES (15,20);
 INSERT INTO `rbac_ta` VALUES (15,21);
 INSERT INTO `rbac_ta` VALUES (15,22);
-INSERT INTO `rbac_ta` VALUES (15,23);
 INSERT INTO `rbac_ta` VALUES (15,24);
 INSERT INTO `rbac_ta` VALUES (15,25);
 INSERT INTO `rbac_ta` VALUES (15,26);
@@ -15659,7 +16391,6 @@ INSERT INTO `rbac_ta` VALUES (16,19);
 INSERT INTO `rbac_ta` VALUES (16,20);
 INSERT INTO `rbac_ta` VALUES (16,21);
 INSERT INTO `rbac_ta` VALUES (16,22);
-INSERT INTO `rbac_ta` VALUES (16,23);
 INSERT INTO `rbac_ta` VALUES (16,24);
 INSERT INTO `rbac_ta` VALUES (16,25);
 INSERT INTO `rbac_ta` VALUES (16,27);
@@ -15706,7 +16437,6 @@ INSERT INTO `rbac_ta` VALUES (17,18);
 INSERT INTO `rbac_ta` VALUES (17,20);
 INSERT INTO `rbac_ta` VALUES (17,21);
 INSERT INTO `rbac_ta` VALUES (17,22);
-INSERT INTO `rbac_ta` VALUES (17,23);
 INSERT INTO `rbac_ta` VALUES (17,24);
 INSERT INTO `rbac_ta` VALUES (17,25);
 INSERT INTO `rbac_ta` VALUES (17,26);
@@ -15789,13 +16519,6 @@ INSERT INTO `rbac_ta` VALUES (28,1);
 INSERT INTO `rbac_ta` VALUES (28,2);
 INSERT INTO `rbac_ta` VALUES (28,3);
 INSERT INTO `rbac_ta` VALUES (28,4);
-INSERT INTO `rbac_ta` VALUES (31,1);
-INSERT INTO `rbac_ta` VALUES (31,2);
-INSERT INTO `rbac_ta` VALUES (31,3);
-INSERT INTO `rbac_ta` VALUES (31,4);
-INSERT INTO `rbac_ta` VALUES (31,6);
-INSERT INTO `rbac_ta` VALUES (31,55);
-INSERT INTO `rbac_ta` VALUES (31,58);
 INSERT INTO `rbac_ta` VALUES (32,1);
 INSERT INTO `rbac_ta` VALUES (32,2);
 INSERT INTO `rbac_ta` VALUES (32,3);
@@ -15814,7 +16537,6 @@ INSERT INTO `rbac_ta` VALUES (33,19);
 INSERT INTO `rbac_ta` VALUES (33,20);
 INSERT INTO `rbac_ta` VALUES (33,21);
 INSERT INTO `rbac_ta` VALUES (33,22);
-INSERT INTO `rbac_ta` VALUES (33,23);
 INSERT INTO `rbac_ta` VALUES (33,24);
 INSERT INTO `rbac_ta` VALUES (33,25);
 INSERT INTO `rbac_ta` VALUES (33,27);
@@ -15889,7 +16611,6 @@ INSERT INTO `rbac_ta` VALUES (87,18);
 INSERT INTO `rbac_ta` VALUES (87,20);
 INSERT INTO `rbac_ta` VALUES (87,21);
 INSERT INTO `rbac_ta` VALUES (87,22);
-INSERT INTO `rbac_ta` VALUES (87,23);
 INSERT INTO `rbac_ta` VALUES (87,24);
 INSERT INTO `rbac_ta` VALUES (87,25);
 INSERT INTO `rbac_ta` VALUES (87,26);
@@ -15928,6 +16649,7 @@ INSERT INTO `rbac_ta` VALUES (88,6);
 INSERT INTO `rbac_ta` VALUES (88,55);
 INSERT INTO `rbac_ta` VALUES (88,58);
 INSERT INTO `rbac_ta` VALUES (88,95);
+INSERT INTO `rbac_ta` VALUES (88,131);
 INSERT INTO `rbac_ta` VALUES (94,1);
 INSERT INTO `rbac_ta` VALUES (94,2);
 INSERT INTO `rbac_ta` VALUES (94,3);
@@ -16108,6 +16830,7 @@ INSERT INTO `rbac_ta` VALUES (158,98);
 INSERT INTO `rbac_ta` VALUES (158,99);
 INSERT INTO `rbac_ta` VALUES (158,100);
 INSERT INTO `rbac_ta` VALUES (158,112);
+INSERT INTO `rbac_ta` VALUES (158,130);
 INSERT INTO `rbac_ta` VALUES (159,1);
 INSERT INTO `rbac_ta` VALUES (159,2);
 INSERT INTO `rbac_ta` VALUES (159,4);
@@ -16154,6 +16877,7 @@ INSERT INTO `rbac_ta` VALUES (174,1);
 INSERT INTO `rbac_ta` VALUES (174,2);
 INSERT INTO `rbac_ta` VALUES (174,3);
 INSERT INTO `rbac_ta` VALUES (174,4);
+INSERT INTO `rbac_ta` VALUES (174,137);
 INSERT INTO `rbac_ta` VALUES (176,1);
 INSERT INTO `rbac_ta` VALUES (176,2);
 INSERT INTO `rbac_ta` VALUES (176,3);
@@ -16356,10 +17080,6 @@ INSERT INTO `rbac_ta` VALUES (262,1);
 INSERT INTO `rbac_ta` VALUES (262,2);
 INSERT INTO `rbac_ta` VALUES (262,3);
 INSERT INTO `rbac_ta` VALUES (262,4);
-INSERT INTO `rbac_ta` VALUES (264,1);
-INSERT INTO `rbac_ta` VALUES (264,2);
-INSERT INTO `rbac_ta` VALUES (264,3);
-INSERT INTO `rbac_ta` VALUES (264,4);
 INSERT INTO `rbac_ta` VALUES (266,1);
 INSERT INTO `rbac_ta` VALUES (266,2);
 INSERT INTO `rbac_ta` VALUES (266,3);
@@ -16370,10 +17090,6 @@ INSERT INTO `rbac_ta` VALUES (266,58);
 INSERT INTO `rbac_ta` VALUES (266,95);
 INSERT INTO `rbac_ta` VALUES (266,109);
 INSERT INTO `rbac_ta` VALUES (266,110);
-INSERT INTO `rbac_ta` VALUES (270,1);
-INSERT INTO `rbac_ta` VALUES (270,2);
-INSERT INTO `rbac_ta` VALUES (270,3);
-INSERT INTO `rbac_ta` VALUES (270,4);
 INSERT INTO `rbac_ta` VALUES (272,1);
 INSERT INTO `rbac_ta` VALUES (272,2);
 INSERT INTO `rbac_ta` VALUES (272,3);
@@ -16466,6 +17182,33 @@ INSERT INTO `rbac_ta` VALUES (301,1);
 INSERT INTO `rbac_ta` VALUES (301,2);
 INSERT INTO `rbac_ta` VALUES (301,3);
 INSERT INTO `rbac_ta` VALUES (301,4);
+INSERT INTO `rbac_ta` VALUES (303,1);
+INSERT INTO `rbac_ta` VALUES (303,2);
+INSERT INTO `rbac_ta` VALUES (303,3);
+INSERT INTO `rbac_ta` VALUES (303,4);
+INSERT INTO `rbac_ta` VALUES (305,1);
+INSERT INTO `rbac_ta` VALUES (305,2);
+INSERT INTO `rbac_ta` VALUES (305,3);
+INSERT INTO `rbac_ta` VALUES (305,4);
+INSERT INTO `rbac_ta` VALUES (307,1);
+INSERT INTO `rbac_ta` VALUES (307,2);
+INSERT INTO `rbac_ta` VALUES (307,3);
+INSERT INTO `rbac_ta` VALUES (307,4);
+INSERT INTO `rbac_ta` VALUES (309,1);
+INSERT INTO `rbac_ta` VALUES (309,2);
+INSERT INTO `rbac_ta` VALUES (309,3);
+INSERT INTO `rbac_ta` VALUES (309,4);
+INSERT INTO `rbac_ta` VALUES (311,1);
+INSERT INTO `rbac_ta` VALUES (311,2);
+INSERT INTO `rbac_ta` VALUES (311,3);
+INSERT INTO `rbac_ta` VALUES (311,4);
+INSERT INTO `rbac_ta` VALUES (311,6);
+INSERT INTO `rbac_ta` VALUES (311,58);
+INSERT INTO `rbac_ta` VALUES (311,132);
+INSERT INTO `rbac_ta` VALUES (311,133);
+INSERT INTO `rbac_ta` VALUES (311,134);
+INSERT INTO `rbac_ta` VALUES (311,135);
+INSERT INTO `rbac_ta` VALUES (311,136);
 
 --
 -- Table structure for table `rbac_templates`
@@ -16477,7 +17220,7 @@ CREATE TABLE `rbac_templates` (
   `ops_id` int(11) NOT NULL DEFAULT 0,
   `parent` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`rol_id`,`parent`,`type`,`ops_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rbac_templates`
@@ -16673,6 +17416,7 @@ INSERT INTO `rbac_templates` VALUES (3,'file',6,8);
 INSERT INTO `rbac_templates` VALUES (3,'file',55,8);
 INSERT INTO `rbac_templates` VALUES (3,'file',58,8);
 INSERT INTO `rbac_templates` VALUES (3,'file',95,8);
+INSERT INTO `rbac_templates` VALUES (3,'file',131,8);
 INSERT INTO `rbac_templates` VALUES (3,'fold',1,8);
 INSERT INTO `rbac_templates` VALUES (3,'fold',2,8);
 INSERT INTO `rbac_templates` VALUES (3,'fold',3,8);
@@ -16743,7 +17487,6 @@ INSERT INTO `rbac_templates` VALUES (3,'grp',18,8);
 INSERT INTO `rbac_templates` VALUES (3,'grp',20,8);
 INSERT INTO `rbac_templates` VALUES (3,'grp',21,8);
 INSERT INTO `rbac_templates` VALUES (3,'grp',22,8);
-INSERT INTO `rbac_templates` VALUES (3,'grp',23,8);
 INSERT INTO `rbac_templates` VALUES (3,'grp',24,8);
 INSERT INTO `rbac_templates` VALUES (3,'grp',25,8);
 INSERT INTO `rbac_templates` VALUES (3,'grp',26,8);
@@ -16940,6 +17683,7 @@ INSERT INTO `rbac_templates` VALUES (3,'wiki',98,8);
 INSERT INTO `rbac_templates` VALUES (3,'wiki',99,8);
 INSERT INTO `rbac_templates` VALUES (3,'wiki',100,8);
 INSERT INTO `rbac_templates` VALUES (3,'wiki',112,8);
+INSERT INTO `rbac_templates` VALUES (3,'wiki',130,8);
 INSERT INTO `rbac_templates` VALUES (4,'bibl',2,8);
 INSERT INTO `rbac_templates` VALUES (4,'bibl',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'blog',2,8);
@@ -16958,8 +17702,6 @@ INSERT INTO `rbac_templates` VALUES (4,'copa',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'crs',2,8);
 INSERT INTO `rbac_templates` VALUES (4,'crs',7,8);
 INSERT INTO `rbac_templates` VALUES (4,'crsr',2,8);
-INSERT INTO `rbac_templates` VALUES (4,'dbk',2,8);
-INSERT INTO `rbac_templates` VALUES (4,'dbk',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'dcl',2,8);
 INSERT INTO `rbac_templates` VALUES (4,'dcl',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'exc',2,8);
@@ -17012,6 +17754,7 @@ INSERT INTO `rbac_templates` VALUES (4,'webr',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'wiki',2,8);
 INSERT INTO `rbac_templates` VALUES (4,'wiki',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'wiki',64,8);
+INSERT INTO `rbac_templates` VALUES (4,'wiki',130,8);
 INSERT INTO `rbac_templates` VALUES (5,'bibl',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'blog',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'book',2,8);
@@ -17020,7 +17763,6 @@ INSERT INTO `rbac_templates` VALUES (5,'catr',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'chtr',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'crs',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'crsr',2,8);
-INSERT INTO `rbac_templates` VALUES (5,'dbk',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'dcl',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'exc',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'feed',3,8);
@@ -17132,6 +17874,7 @@ INSERT INTO `rbac_templates` VALUES (80,'file',6,8);
 INSERT INTO `rbac_templates` VALUES (80,'file',55,8);
 INSERT INTO `rbac_templates` VALUES (80,'file',58,8);
 INSERT INTO `rbac_templates` VALUES (80,'file',95,8);
+INSERT INTO `rbac_templates` VALUES (80,'file',131,8);
 INSERT INTO `rbac_templates` VALUES (80,'fold',1,8);
 INSERT INTO `rbac_templates` VALUES (80,'fold',2,8);
 INSERT INTO `rbac_templates` VALUES (80,'fold',3,8);
@@ -17401,6 +18144,7 @@ INSERT INTO `rbac_templates` VALUES (80,'wiki',98,8);
 INSERT INTO `rbac_templates` VALUES (80,'wiki',99,8);
 INSERT INTO `rbac_templates` VALUES (80,'wiki',100,8);
 INSERT INTO `rbac_templates` VALUES (80,'wiki',112,8);
+INSERT INTO `rbac_templates` VALUES (80,'wiki',130,8);
 INSERT INTO `rbac_templates` VALUES (81,'bibl',2,8);
 INSERT INTO `rbac_templates` VALUES (81,'bibl',3,8);
 INSERT INTO `rbac_templates` VALUES (81,'blog',2,8);
@@ -17466,6 +18210,7 @@ INSERT INTO `rbac_templates` VALUES (81,'webr',3,8);
 INSERT INTO `rbac_templates` VALUES (81,'wiki',2,8);
 INSERT INTO `rbac_templates` VALUES (81,'wiki',3,8);
 INSERT INTO `rbac_templates` VALUES (81,'wiki',64,8);
+INSERT INTO `rbac_templates` VALUES (81,'wiki',130,8);
 INSERT INTO `rbac_templates` VALUES (83,'grp',2,8);
 INSERT INTO `rbac_templates` VALUES (83,'grp',7,8);
 INSERT INTO `rbac_templates` VALUES (110,'bibl',1,8);
@@ -17604,6 +18349,7 @@ INSERT INTO `rbac_templates` VALUES (110,'file',6,8);
 INSERT INTO `rbac_templates` VALUES (110,'file',55,8);
 INSERT INTO `rbac_templates` VALUES (110,'file',58,8);
 INSERT INTO `rbac_templates` VALUES (110,'file',95,8);
+INSERT INTO `rbac_templates` VALUES (110,'file',131,8);
 INSERT INTO `rbac_templates` VALUES (110,'fold',1,8);
 INSERT INTO `rbac_templates` VALUES (110,'fold',2,8);
 INSERT INTO `rbac_templates` VALUES (110,'fold',3,8);
@@ -17873,6 +18619,7 @@ INSERT INTO `rbac_templates` VALUES (110,'wiki',98,8);
 INSERT INTO `rbac_templates` VALUES (110,'wiki',99,8);
 INSERT INTO `rbac_templates` VALUES (110,'wiki',100,8);
 INSERT INTO `rbac_templates` VALUES (110,'wiki',112,8);
+INSERT INTO `rbac_templates` VALUES (110,'wiki',130,8);
 INSERT INTO `rbac_templates` VALUES (111,'bibl',2,8);
 INSERT INTO `rbac_templates` VALUES (111,'bibl',3,8);
 INSERT INTO `rbac_templates` VALUES (111,'bibl',4,8);
@@ -17977,6 +18724,7 @@ INSERT INTO `rbac_templates` VALUES (111,'file',4,8);
 INSERT INTO `rbac_templates` VALUES (111,'file',55,8);
 INSERT INTO `rbac_templates` VALUES (111,'file',58,8);
 INSERT INTO `rbac_templates` VALUES (111,'file',95,8);
+INSERT INTO `rbac_templates` VALUES (111,'file',131,8);
 INSERT INTO `rbac_templates` VALUES (111,'fold',2,8);
 INSERT INTO `rbac_templates` VALUES (111,'fold',3,8);
 INSERT INTO `rbac_templates` VALUES (111,'fold',4,8);
@@ -18142,6 +18890,7 @@ INSERT INTO `rbac_templates` VALUES (111,'wiki',98,8);
 INSERT INTO `rbac_templates` VALUES (111,'wiki',99,8);
 INSERT INTO `rbac_templates` VALUES (111,'wiki',100,8);
 INSERT INTO `rbac_templates` VALUES (111,'wiki',112,8);
+INSERT INTO `rbac_templates` VALUES (111,'wiki',130,8);
 INSERT INTO `rbac_templates` VALUES (112,'bibl',2,8);
 INSERT INTO `rbac_templates` VALUES (112,'bibl',3,8);
 INSERT INTO `rbac_templates` VALUES (112,'blog',2,8);
@@ -18210,6 +18959,7 @@ INSERT INTO `rbac_templates` VALUES (112,'webr',3,8);
 INSERT INTO `rbac_templates` VALUES (112,'wiki',2,8);
 INSERT INTO `rbac_templates` VALUES (112,'wiki',3,8);
 INSERT INTO `rbac_templates` VALUES (112,'wiki',64,8);
+INSERT INTO `rbac_templates` VALUES (112,'wiki',130,8);
 INSERT INTO `rbac_templates` VALUES (125,'bibl',1,8);
 INSERT INTO `rbac_templates` VALUES (125,'bibl',2,8);
 INSERT INTO `rbac_templates` VALUES (125,'bibl',3,8);
@@ -18541,7 +19291,7 @@ CREATE TABLE `rbac_ua` (
   PRIMARY KEY (`usr_id`,`rol_id`),
   KEY `i1_idx` (`usr_id`),
   KEY `i2_idx` (`rol_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rbac_ua`
@@ -18561,7 +19311,7 @@ CREATE TABLE `rcat_settings` (
   `local_information` varchar(4000) DEFAULT NULL,
   `remote_link` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rcat_settings`
@@ -18583,7 +19333,7 @@ CREATE TABLE `read_event` (
   `childs_spent_seconds` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`usr_id`),
   KEY `i1_idx` (`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `read_event`
@@ -18601,7 +19351,7 @@ CREATE TABLE `reg_access_limit` (
   `limit_relative_m` int(11) DEFAULT NULL,
   `limit_mode` char(16) DEFAULT 'absolute',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `reg_access_limit`
@@ -18617,7 +19367,7 @@ CREATE TABLE `reg_er_assignments` (
   `domain` varchar(128) DEFAULT NULL,
   `role` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`assignment_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `reg_er_assignments`
@@ -18632,7 +19382,7 @@ INSERT INTO `reg_er_assignments` VALUES (1,'',0);
 CREATE TABLE `reg_er_assignments_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `reg_er_assignments_seq`
@@ -18657,7 +19407,7 @@ CREATE TABLE `reg_registration_codes` (
   `ext_enabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`code_id`),
   KEY `i1_idx` (`code`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `reg_registration_codes`
@@ -18671,7 +19421,7 @@ CREATE TABLE `reg_registration_codes` (
 CREATE TABLE `reg_registration_codes_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `reg_registration_codes_seq`
@@ -18692,7 +19442,7 @@ CREATE TABLE `remote_course_settings` (
   `mid` int(11) NOT NULL DEFAULT 0,
   `organization` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `remote_course_settings`
@@ -18707,7 +19457,7 @@ CREATE TABLE `rep_rec_content_obj` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `ref_id` int(11) NOT NULL DEFAULT 0,
   `declined` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rep_rec_content_obj`
@@ -18723,7 +19473,7 @@ CREATE TABLE `rep_rec_content_role` (
   `ref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`role_id`,`ref_id`),
   KEY `i1_idx` (`role_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rep_rec_content_role`
@@ -18737,7 +19487,7 @@ CREATE TABLE `rep_rec_content_role` (
 CREATE TABLE `rep_rec_content_role_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rep_rec_content_role_seq`
@@ -18757,7 +19507,7 @@ CREATE TABLE `rfil_settings` (
   `version` smallint(6) NOT NULL DEFAULT 1,
   `version_tstamp` int(11) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rfil_settings`
@@ -18776,7 +19526,7 @@ CREATE TABLE `rglo_settings` (
   `remote_link` varchar(400) DEFAULT NULL,
   `availability_type` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rglo_settings`
@@ -18797,7 +19547,7 @@ CREATE TABLE `rgrp_settings` (
   `availability_start` int(11) DEFAULT NULL,
   `availability_end` int(11) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rgrp_settings`
@@ -18816,7 +19566,7 @@ CREATE TABLE `rlm_settings` (
   `remote_link` varchar(400) DEFAULT NULL,
   `availability_type` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rlm_settings`
@@ -18834,7 +19584,7 @@ CREATE TABLE `role_data` (
   `auth_mode` char(16) DEFAULT 'default',
   PRIMARY KEY (`role_id`),
   KEY `i1_idx` (`auth_mode`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `role_data`
@@ -18862,7 +19612,7 @@ CREATE TABLE `rtst_settings` (
   `availability_start` int(11) DEFAULT NULL,
   `availability_end` int(11) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rtst_settings`
@@ -18881,7 +19631,7 @@ CREATE TABLE `rwik_settings` (
   `remote_link` varchar(400) DEFAULT NULL,
   `availability_type` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `rwik_settings`
@@ -18936,7 +19686,7 @@ CREATE TABLE `sahs_lm` (
   `id_setting` tinyint(4) NOT NULL DEFAULT 0,
   `name_setting` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_lm`
@@ -18951,7 +19701,7 @@ CREATE TABLE `sahs_sc13_sco` (
   `id` int(11) NOT NULL DEFAULT 0,
   `hide_obj_page` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_sco`
@@ -18966,7 +19716,7 @@ CREATE TABLE `sahs_sc13_seq_assign` (
   `identifier` varchar(50) DEFAULT NULL,
   `sahs_sc13_tree_node_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`sahs_sc13_tree_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_assign`
@@ -18984,7 +19734,7 @@ CREATE TABLE `sahs_sc13_seq_cond` (
   `operator` varchar(50) DEFAULT NULL,
   `referencedobjective` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`seqnodeid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_cond`
@@ -19001,7 +19751,7 @@ CREATE TABLE `sahs_sc13_seq_course` (
   `forwardonly` tinyint(4) DEFAULT 0,
   `obj_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_course`
@@ -19024,7 +19774,7 @@ CREATE TABLE `sahs_sc13_seq_item` (
   `rootlevel` tinyint(4) NOT NULL DEFAULT 0,
   `importseqxml` longtext DEFAULT NULL,
   PRIMARY KEY (`sahs_sc13_tree_node_id`,`rootlevel`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_item`
@@ -19044,7 +19794,7 @@ CREATE TABLE `sahs_sc13_seq_mapinfo` (
   `writesatisfiedstatus` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`seqnodeid`),
   KEY `i1_idx` (`targetobjectiveid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_mapinfo`
@@ -19062,7 +19812,7 @@ CREATE TABLE `sahs_sc13_seq_node` (
   PRIMARY KEY (`seqnodeid`),
   KEY `i2_idx` (`tree_node_id`),
   KEY `i3_idx` (`nodename`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_node`
@@ -19076,7 +19826,7 @@ CREATE TABLE `sahs_sc13_seq_node` (
 CREATE TABLE `sahs_sc13_seq_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_node_seq`
@@ -19095,7 +19845,7 @@ CREATE TABLE `sahs_sc13_seq_obj` (
   `satisfiedbymeasure` tinyint(4) DEFAULT NULL,
   `import_objective_id` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`seqnodeid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_obj`
@@ -19115,7 +19865,7 @@ CREATE TABLE `sahs_sc13_seq_rule` (
   `minimumpercent` varchar(50) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`seqnodeid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_rule`
@@ -19131,7 +19881,7 @@ CREATE TABLE `sahs_sc13_seq_templ` (
   `id` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`seqnodeid`,`id`),
   KEY `i1_idx` (`seqnodeid`,`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_templ`
@@ -19147,7 +19897,7 @@ CREATE TABLE `sahs_sc13_seq_templts` (
   `filename` varchar(50) DEFAULT NULL,
   `id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_templts`
@@ -19165,7 +19915,7 @@ INSERT INTO `sahs_sc13_seq_templts` VALUES ('mandatoryoptions','mandatory_option
 CREATE TABLE `sahs_sc13_seq_templts_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=5;
+)  AUTO_INCREMENT=5;
 
 --
 -- Dumping data for table `sahs_sc13_seq_templts_seq`
@@ -19188,7 +19938,7 @@ CREATE TABLE `sahs_sc13_seq_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`importid`),
   KEY `i3_idx` (`parent`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_seq_tree`
@@ -19210,7 +19960,7 @@ CREATE TABLE `sahs_sc13_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`slm_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_tree`
@@ -19232,7 +19982,7 @@ CREATE TABLE `sahs_sc13_tree_node` (
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`slm_id`),
   KEY `i2_idx` (`type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_sc13_tree_node`
@@ -19247,7 +19997,7 @@ INSERT INTO `sahs_sc13_tree_node` VALUES (1,'Dummy top node for all trees.','',0
 CREATE TABLE `sahs_sc13_tree_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `sahs_sc13_tree_node_seq`
@@ -19276,7 +20026,7 @@ CREATE TABLE `sahs_user` (
   `first_access` datetime DEFAULT NULL,
   `last_status_change` datetime DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sahs_user`
@@ -19298,7 +20048,7 @@ CREATE TABLE `saml_idp_settings` (
   `account_migr_status` tinyint(4) NOT NULL DEFAULT 0,
   `entity_id` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`idp_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `saml_idp_settings`
@@ -19312,7 +20062,7 @@ CREATE TABLE `saml_idp_settings` (
 CREATE TABLE `saml_idp_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `saml_idp_settings_seq`
@@ -19336,7 +20086,7 @@ CREATE TABLE `sc_item` (
   `datafromlms` longtext DEFAULT NULL,
   `masteryscore` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_item`
@@ -19353,7 +20103,7 @@ CREATE TABLE `sc_manifest` (
   `version` varchar(200) DEFAULT NULL,
   `xml_base` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_manifest`
@@ -19369,7 +20119,7 @@ CREATE TABLE `sc_organization` (
   `import_id` varchar(200) DEFAULT NULL,
   `structure` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_organization`
@@ -19384,7 +20134,7 @@ CREATE TABLE `sc_organizations` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `default_organization` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_organizations`
@@ -19404,7 +20154,7 @@ CREATE TABLE `sc_resource` (
   `xml_base` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`import_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_resource`
@@ -19421,7 +20171,7 @@ CREATE TABLE `sc_resource_dependen` (
   `identifierref` varchar(200) DEFAULT NULL,
   `nr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_resource_dependen`
@@ -19435,7 +20185,7 @@ CREATE TABLE `sc_resource_dependen` (
 CREATE TABLE `sc_resource_dependen_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_resource_dependen_seq`
@@ -19452,7 +20202,7 @@ CREATE TABLE `sc_resource_file` (
   `href` varchar(4000) DEFAULT NULL,
   `nr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_resource_file`
@@ -19466,7 +20216,7 @@ CREATE TABLE `sc_resource_file` (
 CREATE TABLE `sc_resource_file_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_resource_file_seq`
@@ -19481,7 +20231,7 @@ CREATE TABLE `sc_resources` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `xml_base` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sc_resources`
@@ -19498,7 +20248,7 @@ CREATE TABLE `scorm_object` (
   `c_type` char(3) DEFAULT NULL,
   `slm_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `scorm_object`
@@ -19512,7 +20262,7 @@ CREATE TABLE `scorm_object` (
 CREATE TABLE `scorm_object_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `scorm_object_seq`
@@ -19532,7 +20282,7 @@ CREATE TABLE `scorm_tracking` (
   `rvalue` longtext DEFAULT NULL,
   PRIMARY KEY (`user_id`,`sco_id`,`lvalue`,`obj_id`),
   KEY `i2_idx` (`obj_id`,`sco_id`,`lvalue`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `scorm_tracking`
@@ -19553,7 +20303,7 @@ CREATE TABLE `scorm_tree` (
   PRIMARY KEY (`slm_id`,`child`),
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `scorm_tree`
@@ -19573,7 +20323,7 @@ CREATE TABLE `search_command_queue` (
   `last_update` datetime DEFAULT NULL,
   `finished` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`obj_type`,`sub_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `search_command_queue`
@@ -19591,7 +20341,7 @@ CREATE TABLE `search_data` (
   `target` varchar(4000) DEFAULT NULL,
   `type` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `search_data`
@@ -19605,52 +20355,12 @@ CREATE TABLE `search_data` (
 CREATE TABLE `search_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `search_data_seq`
 --
 
-
---
--- Table structure for table `service_class`
---
-
-CREATE TABLE `service_class` (
-  `class` varchar(100) NOT NULL DEFAULT ' ',
-  `service` varchar(100) DEFAULT NULL,
-  `dir` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`class`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `service_class`
---
-
-INSERT INTO `service_class` VALUES ('ilAccordionPropertiesStorage','Accordion','classes');
-INSERT INTO `service_class` VALUES ('ilAdministrationGUI','Administration','classes');
-INSERT INTO `service_class` VALUES ('ilAwarenessGUI','Awareness','classes');
-INSERT INTO `service_class` VALUES ('ilBadgeHandlerGUI','Badge','classes');
-INSERT INTO `service_class` VALUES ('ilBTControllerGUI','BackgroundTasks','classes');
-INSERT INTO `service_class` VALUES ('ilContainerBlockPropertiesStorage','Container','classes');
-INSERT INTO `service_class` VALUES ('ilCronManagerGUI','Cron','classes');
-INSERT INTO `service_class` VALUES ('ilHelpGUI','Help','classes');
-INSERT INTO `service_class` VALUES ('ilImprintGUI','Imprint','classes');
-INSERT INTO `service_class` VALUES ('ilLTIRouterGUI','LTI','classes');
-INSERT INTO `service_class` VALUES ('ilMailGUI','Mail','classes');
-INSERT INTO `service_class` VALUES ('ilNavigationHistoryGUI','Navigation','classes');
-INSERT INTO `service_class` VALUES ('ilNotificationGUI','Notifications','classes');
-INSERT INTO `service_class` VALUES ('ilObjPluginDispatchGUI','Repository','classes');
-INSERT INTO `service_class` VALUES ('ilOnScreenChatGUI','OnScreenChat','classes');
-INSERT INTO `service_class` VALUES ('ilPersonalDesktopGUI','PersonalDesktop','classes');
-INSERT INTO `service_class` VALUES ('ilPreviewGUI','Preview','classes');
-INSERT INTO `service_class` VALUES ('ilPublicUserProfileGUI','User','classes');
-INSERT INTO `service_class` VALUES ('ilRepositoryGUI','Repository','classes');
-INSERT INTO `service_class` VALUES ('ilSearchController','Search','classes');
-INSERT INTO `service_class` VALUES ('ilSharedResourceGUI','PersonalWorkspace','classes');
-INSERT INTO `service_class` VALUES ('ilStartUpGUI','Init','classes');
-INSERT INTO `service_class` VALUES ('ilTablePropertiesStorage','Table','classes');
-INSERT INTO `service_class` VALUES ('ilUIPluginRouterGUI','UIComponent','classes');
 
 --
 -- Table structure for table `settings`
@@ -19659,9 +20369,9 @@ INSERT INTO `service_class` VALUES ('ilUIPluginRouterGUI','UIComponent','classes
 CREATE TABLE `settings` (
   `module` varchar(50) NOT NULL DEFAULT 'common',
   `keyword` varchar(50) NOT NULL DEFAULT ' ',
-  `value` longtext DEFAULT NULL,
+  `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`module`,`keyword`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `settings`
@@ -19705,7 +20415,6 @@ INSERT INTO `settings` VALUES ('calendar','default_timezone','Europe/Berlin');
 INSERT INTO `settings` VALUES ('calendar','default_time_format','1');
 INSERT INTO `settings` VALUES ('calendar','default_week_start','1');
 INSERT INTO `settings` VALUES ('calendar','enabled','1');
-INSERT INTO `settings` VALUES ('calendar','enable_grp_milestones','0');
 INSERT INTO `settings` VALUES ('calendar','group_cal','1');
 INSERT INTO `settings` VALUES ('calendar','notification','0');
 INSERT INTO `settings` VALUES ('calendar','notification_user','0');
@@ -19717,10 +20426,21 @@ INSERT INTO `settings` VALUES ('certificate','persisting_cers_introduced_ts','16
 INSERT INTO `settings` VALUES ('chatroom','conversation_idle_state_in_minutes','1');
 INSERT INTO `settings` VALUES ('chatroom','public_room_ref','46');
 INSERT INTO `settings` VALUES ('cmix','ilias_uuid','20a27720-3338-4b46-8b3f-669d61110a30');
+INSERT INTO `settings` VALUES ('common','admin_city','');
+INSERT INTO `settings` VALUES ('common','admin_country','');
+INSERT INTO `settings` VALUES ('common','admin_email','wolf@ilias.de');
+INSERT INTO `settings` VALUES ('common','admin_firstname','Fabian');
+INSERT INTO `settings` VALUES ('common','admin_institution','');
+INSERT INTO `settings` VALUES ('common','admin_lastname','Wolf');
+INSERT INTO `settings` VALUES ('common','admin_phone','');
+INSERT INTO `settings` VALUES ('common','admin_position','');
+INSERT INTO `settings` VALUES ('common','admin_street','');
+INSERT INTO `settings` VALUES ('common','admin_title','');
+INSERT INTO `settings` VALUES ('common','admin_zipcode','');
 INSERT INTO `settings` VALUES ('common','allow_change_loginname','0');
 INSERT INTO `settings` VALUES ('common','anonymous_role_id','14');
 INSERT INTO `settings` VALUES ('common','anonymous_user_id','13');
-INSERT INTO `settings` VALUES ('common','approve_recipient','');
+INSERT INTO `settings` VALUES ('common','approve_recipient','a:0:{}');
 INSERT INTO `settings` VALUES ('common','auth_mode','1');
 INSERT INTO `settings` VALUES ('common','auto_complete_length','10');
 INSERT INTO `settings` VALUES ('common','auto_registration','1');
@@ -19752,9 +20472,12 @@ INSERT INTO `settings` VALUES ('common','disable_bookmarks','0');
 INSERT INTO `settings` VALUES ('common','disable_comments','0');
 INSERT INTO `settings` VALUES ('common','disable_contacts','0');
 INSERT INTO `settings` VALUES ('common','disable_contacts_require_mail','1');
+INSERT INTO `settings` VALUES ('common','disable_learning_sequences','0');
 INSERT INTO `settings` VALUES ('common','disable_my_memberships','0');
 INSERT INTO `settings` VALUES ('common','disable_my_offers','0');
 INSERT INTO `settings` VALUES ('common','disable_notes','0');
+INSERT INTO `settings` VALUES ('common','disable_recommended_content','0');
+INSERT INTO `settings` VALUES ('common','disable_study_programmes','0');
 INSERT INTO `settings` VALUES ('common','dummy','dummy');
 INSERT INTO `settings` VALUES ('common','enable_anonymous_fora','');
 INSERT INTO `settings` VALUES ('common','enable_bench','0');
@@ -19779,7 +20502,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.0.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','9.0.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -19792,7 +20515,7 @@ INSERT INTO `settings` VALUES ('common','iltosobjinstall','1');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
 INSERT INTO `settings` VALUES ('common','inst_info','');
 INSERT INTO `settings` VALUES ('common','inst_institution','');
-INSERT INTO `settings` VALUES ('common','inst_name','DBTemplate');
+INSERT INTO `settings` VALUES ('common','inst_name','');
 INSERT INTO `settings` VALUES ('common','java_path','');
 INSERT INTO `settings` VALUES ('common','language','en');
 INSERT INTO `settings` VALUES ('common','ldap_basedn','');
@@ -19828,7 +20551,7 @@ INSERT INTO `settings` VALUES ('common','mail_system_sys_env_from_addr','');
 INSERT INTO `settings` VALUES ('common','mail_system_sys_from_addr','');
 INSERT INTO `settings` VALUES ('common','mail_system_sys_from_name','');
 INSERT INTO `settings` VALUES ('common','mail_system_sys_reply_to_addr','');
-INSERT INTO `settings` VALUES ('common','mail_system_sys_signature','\n\n* * * * *\n[CLIENT_NAME]\n[CLIENT_DESC]\n[CLIENT_URL]\n');
+INSERT INTO `settings` VALUES ('common','mail_system_sys_signature','\n\n* * * * *\n{{INSTALLATION_NAME}}\n{{INSTALLATION_DESC}}\n{{ILIAS_URL}}\n');
 INSERT INTO `settings` VALUES ('common','mail_system_usr_env_from_addr','');
 INSERT INTO `settings` VALUES ('common','mail_system_usr_from_addr','');
 INSERT INTO `settings` VALUES ('common','mail_system_usr_from_name','');
@@ -19948,12 +20671,26 @@ INSERT INTO `settings` VALUES ('common','obj_dis_creation_wiki','');
 INSERT INTO `settings` VALUES ('common','password_assistance','1');
 INSERT INTO `settings` VALUES ('common','pd_active_pres_view_0','a:2:{i:0;s:4:\"list\";i:1;s:4:\"tile\";}');
 INSERT INTO `settings` VALUES ('common','pd_active_pres_view_1','a:2:{i:0;s:4:\"list\";i:1;s:4:\"tile\";}');
+INSERT INTO `settings` VALUES ('common','pd_active_pres_view_2','a:2:{i:0;s:4:\"list\";i:1;s:4:\"tile\";}');
+INSERT INTO `settings` VALUES ('common','pd_active_pres_view_3','a:2:{i:0;s:4:\"list\";i:1;s:4:\"tile\";}');
+INSERT INTO `settings` VALUES ('common','pd_active_pres_view_4','a:2:{i:0;s:4:\"list\";i:1;s:4:\"tile\";}');
 INSERT INTO `settings` VALUES ('common','pd_active_sort_view_0','a:2:{i:0;s:8:\"location\";i:1;s:4:\"type\";}');
 INSERT INTO `settings` VALUES ('common','pd_active_sort_view_1','a:3:{i:0;s:8:\"location\";i:1;s:4:\"type\";i:2;s:10:\"start_date\";}');
+INSERT INTO `settings` VALUES ('common','pd_active_sort_view_3','a:2:{i:0;s:8:\"location\";i:1;s:8:\"alphabet\";}');
+INSERT INTO `settings` VALUES ('common','pd_active_sort_view_4','a:2:{i:0;s:8:\"location\";i:1;s:8:\"alphabet\";}');
 INSERT INTO `settings` VALUES ('common','pd_def_pres_view_0','list');
 INSERT INTO `settings` VALUES ('common','pd_def_pres_view_1','list');
+INSERT INTO `settings` VALUES ('common','pd_def_pres_view_2','list');
+INSERT INTO `settings` VALUES ('common','pd_def_pres_view_3','list');
+INSERT INTO `settings` VALUES ('common','pd_def_pres_view_4','list');
+INSERT INTO `settings` VALUES ('common','pd_def_sort_view_1','location');
+INSERT INTO `settings` VALUES ('common','pd_def_sort_view_3','location');
+INSERT INTO `settings` VALUES ('common','pd_def_sort_view_4','location');
 INSERT INTO `settings` VALUES ('common','personal_items_default_view','0');
 INSERT INTO `settings` VALUES ('common','preview_learner','1');
+INSERT INTO `settings` VALUES ('common','proxy_host','');
+INSERT INTO `settings` VALUES ('common','proxy_port','');
+INSERT INTO `settings` VALUES ('common','proxy_status','');
 INSERT INTO `settings` VALUES ('common','ps_access_times','');
 INSERT INTO `settings` VALUES ('common','ps_account_security_mode','2');
 INSERT INTO `settings` VALUES ('common','ps_crs_access_times','');
@@ -20004,6 +20741,8 @@ INSERT INTO `settings` VALUES ('common','require_referral_comment','');
 INSERT INTO `settings` VALUES ('common','require_street','');
 INSERT INTO `settings` VALUES ('common','require_zipcode','');
 INSERT INTO `settings` VALUES ('common','reuse_of_loginnames','1');
+INSERT INTO `settings` VALUES ('common','rpc_server_host','');
+INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','save_user_related_data','0');
 INSERT INTO `settings` VALUES ('common','search_date_filter','');
 INSERT INTO `settings` VALUES ('common','search_enabled_firstname','0');
@@ -20034,6 +20773,10 @@ INSERT INTO `settings` VALUES ('common','shib_federation_name','Shibboleth');
 INSERT INTO `settings` VALUES ('common','shib_hos_type','external_wayf');
 INSERT INTO `settings` VALUES ('common','shib_idp_list','');
 INSERT INTO `settings` VALUES ('common','show_user_activity','1');
+INSERT INTO `settings` VALUES ('common','soap_connect_timeout','10');
+INSERT INTO `settings` VALUES ('common','soap_response_timeout','5');
+INSERT INTO `settings` VALUES ('common','soap_user_administration','0');
+INSERT INTO `settings` VALUES ('common','soap_wsdl_path','');
 INSERT INTO `settings` VALUES ('common','sty_media_cont_mig','1');
 INSERT INTO `settings` VALUES ('common','system_role_id','2');
 INSERT INTO `settings` VALUES ('common','system_user_id','6');
@@ -20162,6 +20905,7 @@ INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_zipcode','1');
 INSERT INTO `settings` VALUES ('common','usr_starting_point','1');
 INSERT INTO `settings` VALUES ('common','zip_path','');
 INSERT INTO `settings` VALUES ('file_access','inline_file_extensions','gif jpg jpeg mp3 pdf png');
+INSERT INTO `settings` VALUES ('file_access','show_amount_of_downloads','1');
 INSERT INTO `settings` VALUES ('fold','bgtask_download','');
 INSERT INTO `settings` VALUES ('fold','enable_download_folder','');
 INSERT INTO `settings` VALUES ('fold','enable_multi_download','');
@@ -20197,7 +20941,18 @@ INSERT INTO `settings` VALUES ('lucene_adv_search','lom_structure','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_taxon','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_user_role','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_version','0');
-INSERT INTO `settings` VALUES ('MathJax','path_to_mathjax','https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
+INSERT INTO `settings` VALUES ('MathJax','dummy','dummy');
+INSERT INTO `settings` VALUES ('MathJax','enable','');
+INSERT INTO `settings` VALUES ('MathJax','enable_server','');
+INSERT INTO `settings` VALUES ('MathJax','limiter','0');
+INSERT INTO `settings` VALUES ('MathJax','path_to_mathjax','https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe');
+INSERT INTO `settings` VALUES ('MathJax','path_to_polyfill','');
+INSERT INTO `settings` VALUES ('MathJax','server_address','');
+INSERT INTO `settings` VALUES ('MathJax','server_for_browser','');
+INSERT INTO `settings` VALUES ('MathJax','server_for_export','');
+INSERT INTO `settings` VALUES ('MathJax','server_for_pdf','');
+INSERT INTO `settings` VALUES ('MathJax','server_timeout','5');
+INSERT INTO `settings` VALUES ('mcst','video_threshold','80');
 INSERT INTO `settings` VALUES ('mobs','black_list_file_types','html');
 INSERT INTO `settings` VALUES ('mobs','file_manager_always','');
 INSERT INTO `settings` VALUES ('mobs','mep_activate_pages','1');
@@ -20206,7 +20961,8 @@ INSERT INTO `settings` VALUES ('mobs','upload_dir','');
 INSERT INTO `settings` VALUES ('news','acc_cache_mins','10');
 INSERT INTO `settings` VALUES ('notifications','enable_mail','1');
 INSERT INTO `settings` VALUES ('notifications','enable_osd','1');
-INSERT INTO `settings` VALUES ('pd','enable_block_moving','1');
+INSERT INTO `settings` VALUES ('notifications','osd_delay','500');
+INSERT INTO `settings` VALUES ('notifications','osd_vanish','5000');
 INSERT INTO `settings` VALUES ('pd','user_activity_time','0');
 INSERT INTO `settings` VALUES ('preview','max_previews_per_object','5');
 INSERT INTO `settings` VALUES ('preview','preview_enabled','1');
@@ -20223,6 +20979,7 @@ INSERT INTO `settings` VALUES ('user_account','lua_enabled','');
 INSERT INTO `settings` VALUES ('webdav','custom_webfolder_instructions','');
 INSERT INTO `settings` VALUES ('webdav','custom_webfolder_instructions_enabled','0');
 INSERT INTO `settings` VALUES ('webdav','webdav_enabled','0');
+INSERT INTO `settings` VALUES ('wiki','copied_perm_edit_content_add_pages','1');
 
 --
 -- Table structure for table `settings_deactivated_s`
@@ -20232,7 +20989,7 @@ CREATE TABLE `settings_deactivated_s` (
   `skin` varchar(100) NOT NULL DEFAULT ' ',
   `style` varchar(100) NOT NULL DEFAULT ' ',
   PRIMARY KEY (`skin`,`style`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `settings_deactivated_s`
@@ -20253,7 +21010,7 @@ CREATE TABLE `shib_role_assignment` (
   `add_on_update` tinyint(4) NOT NULL DEFAULT 0,
   `remove_on_update` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`rule_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `shib_role_assignment`
@@ -20267,7 +21024,7 @@ CREATE TABLE `shib_role_assignment` (
 CREATE TABLE `shib_role_assignment_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `shib_role_assignment_seq`
@@ -20286,7 +21043,7 @@ CREATE TABLE `skl_assigned_material` (
   `wsp_id` int(11) NOT NULL DEFAULT 0,
   `tref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`top_skill_id`,`tref_id`,`skill_id`,`level_id`,`wsp_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_assigned_material`
@@ -20308,7 +21065,7 @@ CREATE TABLE `skl_level` (
   `creation_date` datetime DEFAULT NULL,
   `import_id` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_level`
@@ -20322,7 +21079,7 @@ CREATE TABLE `skl_level` (
 CREATE TABLE `skl_level_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_level_seq`
@@ -20337,7 +21094,7 @@ CREATE TABLE `skl_personal_skill` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `skill_node_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`skill_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_personal_skill`
@@ -20353,11 +21110,30 @@ CREATE TABLE `skl_profile` (
   `title` varchar(200) DEFAULT NULL,
   `description` varchar(4000) DEFAULT NULL,
   `ref_id` int(11) NOT NULL DEFAULT 0,
+  `skill_tree_id` int(11) NOT NULL DEFAULT 0,
+  `image_id` varchar(4000) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_profile`
+--
+
+
+--
+-- Table structure for table `skl_profile_completion`
+--
+
+CREATE TABLE `skl_profile_completion` (
+  `profile_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `fulfilled` tinyint(4) NOT NULL,
+  PRIMARY KEY (`profile_id`,`user_id`,`date`)
+) ;
+
+--
+-- Dumping data for table `skl_profile_completion`
 --
 
 
@@ -20372,7 +21148,7 @@ CREATE TABLE `skl_profile_level` (
   `level_id` int(11) NOT NULL DEFAULT 0,
   `order_nr` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`profile_id`,`tref_id`,`base_skill_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_profile_level`
@@ -20387,7 +21163,7 @@ CREATE TABLE `skl_profile_role` (
   `profile_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   PRIMARY KEY (`profile_id`,`role_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_profile_role`
@@ -20401,7 +21177,7 @@ CREATE TABLE `skl_profile_role` (
 CREATE TABLE `skl_profile_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_profile_seq`
@@ -20416,61 +21192,10 @@ CREATE TABLE `skl_profile_user` (
   `profile_id` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`profile_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_profile_user`
---
-
-
---
--- Table structure for table `skl_self_eval`
---
-
-CREATE TABLE `skl_self_eval` (
-  `id` int(11) NOT NULL DEFAULT 0,
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  `top_skill_id` int(11) NOT NULL DEFAULT 0,
-  `created` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
-  `last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `skl_self_eval`
---
-
-
---
--- Table structure for table `skl_self_eval_level`
---
-
-CREATE TABLE `skl_self_eval_level` (
-  `skill_id` int(11) NOT NULL DEFAULT 0,
-  `level_id` int(11) NOT NULL DEFAULT 0,
-  `tref_id` int(11) NOT NULL DEFAULT 0,
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  `top_skill_id` int(11) NOT NULL DEFAULT 0,
-  `last_update` datetime DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`top_skill_id`,`tref_id`,`skill_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `skl_self_eval_level`
---
-
-
---
--- Table structure for table `skl_self_eval_seq`
---
-
-CREATE TABLE `skl_self_eval_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `skl_self_eval_seq`
 --
 
 
@@ -20486,7 +21211,7 @@ CREATE TABLE `skl_skill_resource` (
   `imparting` tinyint(4) NOT NULL DEFAULT 0,
   `ltrigger` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`base_skill_id`,`tref_id`,`level_id`,`rep_ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_skill_resource`
@@ -20501,7 +21226,7 @@ CREATE TABLE `skl_templ_ref` (
   `skl_node_id` int(11) NOT NULL DEFAULT 0,
   `templ_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`skl_node_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_templ_ref`
@@ -20520,13 +21245,13 @@ CREATE TABLE `skl_tree` (
   `rgt` int(11) NOT NULL DEFAULT 0,
   `depth` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`skl_tree_id`,`child`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_tree`
 --
 
-INSERT INTO `skl_tree` VALUES (1,1,0,1,2,1);
+INSERT INTO `skl_tree` VALUES (312,1,0,1,2,1);
 
 --
 -- Table structure for table `skl_tree_node`
@@ -20545,7 +21270,7 @@ CREATE TABLE `skl_tree_node` (
   `import_id` varchar(50) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_tree_node`
@@ -20560,7 +21285,7 @@ INSERT INTO `skl_tree_node` VALUES (1,'Skill Tree Root Node','skrt','2011-08-07 
 CREATE TABLE `skl_tree_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `skl_tree_node_seq`
@@ -20577,7 +21302,7 @@ CREATE TABLE `skl_usage` (
   `skill_id` int(11) NOT NULL DEFAULT 0,
   `tref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`skill_id`,`tref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_usage`
@@ -20600,8 +21325,9 @@ CREATE TABLE `skl_user_has_level` (
   `trigger_obj_type` varchar(4) DEFAULT 'crs',
   `self_eval` tinyint(4) NOT NULL DEFAULT 0,
   `next_level_fulfilment` double NOT NULL DEFAULT 0,
+  `trigger_user_id` varchar(20) NOT NULL DEFAULT '-',
   PRIMARY KEY (`level_id`,`user_id`,`trigger_obj_id`,`tref_id`,`self_eval`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_user_has_level`
@@ -20627,6 +21353,7 @@ CREATE TABLE `skl_user_skill_level` (
   `self_eval` tinyint(4) NOT NULL DEFAULT 0,
   `unique_identifier` varchar(80) DEFAULT NULL,
   `next_level_fulfilment` double NOT NULL DEFAULT 0,
+  `trigger_user_id` varchar(20) NOT NULL DEFAULT '-',
   PRIMARY KEY (`skill_id`,`tref_id`,`user_id`,`status_date`,`status`,`trigger_obj_id`,`self_eval`),
   KEY `isk_idx` (`skill_id`),
   KEY `ilv_idx` (`level_id`),
@@ -20634,7 +21361,7 @@ CREATE TABLE `skl_user_skill_level` (
   KEY `isd_idx` (`status_date`),
   KEY `ist_idx` (`status`),
   KEY `ivl_idx` (`valid`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `skl_user_skill_level`
@@ -20651,7 +21378,7 @@ CREATE TABLE `sty_media_query` (
   `order_nr` int(11) NOT NULL DEFAULT 0,
   `mquery` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sty_media_query`
@@ -20665,10 +21392,25 @@ CREATE TABLE `sty_media_query` (
 CREATE TABLE `sty_media_query_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sty_media_query_seq`
+--
+
+
+--
+-- Table structure for table `sty_rep_container`
+--
+
+CREATE TABLE `sty_rep_container` (
+  `ref_id` int(11) NOT NULL DEFAULT 0,
+  `reuse` tinyint(4) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`ref_id`)
+) ;
+
+--
+-- Dumping data for table `sty_rep_container`
 --
 
 
@@ -20681,12 +21423,32 @@ CREATE TABLE `style_char` (
   `type` varchar(30) NOT NULL DEFAULT ' ',
   `characteristic` varchar(30) NOT NULL DEFAULT ' ',
   `hide` tinyint(4) NOT NULL DEFAULT 0,
+  `order_nr` int(11) NOT NULL DEFAULT 0,
+  `outdated` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`style_id`,`type`,`characteristic`),
   KEY `i1_idx` (`style_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `style_char`
+--
+
+
+--
+-- Table structure for table `style_char_title`
+--
+
+CREATE TABLE `style_char_title` (
+  `type` varchar(30) NOT NULL,
+  `characteristic` varchar(30) NOT NULL,
+  `lang` varchar(2) NOT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `style_id` int(11) NOT NULL,
+  PRIMARY KEY (`style_id`,`type`,`characteristic`,`lang`)
+) ;
+
+--
+-- Dumping data for table `style_char_title`
 --
 
 
@@ -20699,7 +21461,7 @@ CREATE TABLE `style_color` (
   `color_name` varchar(30) NOT NULL DEFAULT '.',
   `color_code` char(10) DEFAULT NULL,
   PRIMARY KEY (`style_id`,`color_name`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `style_color`
@@ -20716,8 +21478,9 @@ CREATE TABLE `style_data` (
   `standard` tinyint(4) DEFAULT 0,
   `category` int(11) DEFAULT NULL,
   `active` tinyint(4) DEFAULT 1,
+  `owner_obj` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `style_data`
@@ -20732,7 +21495,7 @@ CREATE TABLE `style_folder_styles` (
   `folder_id` int(11) NOT NULL DEFAULT 0,
   `style_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`folder_id`,`style_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `style_folder_styles`
@@ -20755,7 +21518,7 @@ CREATE TABLE `style_parameter` (
   `custom` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`style_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `style_parameter`
@@ -20769,7 +21532,7 @@ CREATE TABLE `style_parameter` (
 CREATE TABLE `style_parameter_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `style_parameter_seq`
@@ -20785,7 +21548,7 @@ CREATE TABLE `style_setting` (
   `name` varchar(30) NOT NULL DEFAULT '',
   `value` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`style_id`,`name`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `style_setting`
@@ -20802,8 +21565,9 @@ CREATE TABLE `style_template` (
   `name` varchar(30) NOT NULL DEFAULT '',
   `preview` varchar(4000) DEFAULT NULL,
   `temp_type` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`style_id`)
+) ;
 
 --
 -- Dumping data for table `style_template`
@@ -20819,7 +21583,7 @@ CREATE TABLE `style_template_class` (
   `class_type` char(30) NOT NULL DEFAULT '',
   `class` char(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`template_id`,`class_type`,`class`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `style_template_class`
@@ -20833,7 +21597,7 @@ CREATE TABLE `style_template_class` (
 CREATE TABLE `style_template_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `style_template_seq`
@@ -20847,8 +21611,9 @@ CREATE TABLE `style_template_seq` (
 CREATE TABLE `style_usage` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `style_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`obj_id`),
+  KEY `i1_idx` (`style_id`)
+) ;
 
 --
 -- Dumping data for table `style_usage`
@@ -20864,7 +21629,7 @@ CREATE TABLE `svy_360_appr` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `has_closed` int(11) DEFAULT 0,
   PRIMARY KEY (`obj_id`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_360_appr`
@@ -20882,7 +21647,7 @@ CREATE TABLE `svy_360_rater` (
   `anonymous_id` int(11) NOT NULL DEFAULT 0,
   `mail_sent` int(11) DEFAULT 0,
   PRIMARY KEY (`obj_id`,`appr_id`,`user_id`,`anonymous_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_360_rater`
@@ -20905,7 +21670,7 @@ CREATE TABLE `svy_anonymous` (
   KEY `i1_idx` (`survey_key`,`survey_fi`),
   KEY `i2_idx` (`survey_fi`),
   KEY `i3_idx` (`sent`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_anonymous`
@@ -20919,7 +21684,7 @@ CREATE TABLE `svy_anonymous` (
 CREATE TABLE `svy_anonymous_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_anonymous_seq`
@@ -20941,7 +21706,7 @@ CREATE TABLE `svy_answer` (
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`active_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_answer`
@@ -20955,7 +21720,7 @@ CREATE TABLE `svy_answer` (
 CREATE TABLE `svy_answer_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_answer_seq`
@@ -20975,7 +21740,7 @@ CREATE TABLE `svy_category` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`category_id`),
   KEY `i1_idx` (`owner_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_category`
@@ -21024,7 +21789,7 @@ INSERT INTO `svy_category` VALUES (35,'dc_mostcertainlynot','1',0,'0',1085190181
 CREATE TABLE `svy_category_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=36;
+)  AUTO_INCREMENT=36;
 
 --
 -- Dumping data for table `svy_category_seq`
@@ -21045,7 +21810,7 @@ CREATE TABLE `svy_constraint` (
   PRIMARY KEY (`constraint_id`),
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`relation_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_constraint`
@@ -21059,7 +21824,7 @@ CREATE TABLE `svy_constraint` (
 CREATE TABLE `svy_constraint_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_constraint_seq`
@@ -21083,7 +21848,7 @@ CREATE TABLE `svy_finished` (
   KEY `i1_idx` (`survey_fi`),
   KEY `i2_idx` (`user_fi`),
   KEY `i3_idx` (`anonymous_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_finished`
@@ -21097,7 +21862,7 @@ CREATE TABLE `svy_finished` (
 CREATE TABLE `svy_finished_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_finished_seq`
@@ -21112,7 +21877,7 @@ CREATE TABLE `svy_invitation` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `survey_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`survey_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_invitation`
@@ -21136,7 +21901,7 @@ CREATE TABLE `svy_material` (
   `material_type` int(11) DEFAULT 0,
   PRIMARY KEY (`material_id`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_material`
@@ -21150,7 +21915,7 @@ CREATE TABLE `svy_material` (
 CREATE TABLE `svy_material_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_material_seq`
@@ -21169,7 +21934,7 @@ CREATE TABLE `svy_phrase` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`phrase_id`),
   KEY `i1_idx` (`owner_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_phrase`
@@ -21212,7 +21977,7 @@ CREATE TABLE `svy_phrase_cat` (
   PRIMARY KEY (`phrase_category_id`),
   KEY `i1_idx` (`phrase_fi`),
   KEY `i2_idx` (`category_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_phrase_cat`
@@ -21296,7 +22061,7 @@ INSERT INTO `svy_phrase_cat` VALUES (70,21,35,5,0,0);
 CREATE TABLE `svy_phrase_cat_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=71;
+)  AUTO_INCREMENT=71;
 
 --
 -- Dumping data for table `svy_phrase_cat_seq`
@@ -21311,7 +22076,7 @@ INSERT INTO `svy_phrase_cat_seq` VALUES (70);
 CREATE TABLE `svy_phrase_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=23;
+)  AUTO_INCREMENT=23;
 
 --
 -- Dumping data for table `svy_phrase_seq`
@@ -21333,7 +22098,7 @@ CREATE TABLE `svy_qblk` (
   `compress_view` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`questionblock_id`),
   KEY `i1_idx` (`owner_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qblk`
@@ -21353,7 +22118,7 @@ CREATE TABLE `svy_qblk_qst` (
   KEY `i1_idx` (`survey_fi`),
   KEY `i2_idx` (`questionblock_fi`),
   KEY `i3_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qblk_qst`
@@ -21367,7 +22132,7 @@ CREATE TABLE `svy_qblk_qst` (
 CREATE TABLE `svy_qblk_qst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qblk_qst_seq`
@@ -21381,7 +22146,7 @@ CREATE TABLE `svy_qblk_qst_seq` (
 CREATE TABLE `svy_qblk_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qblk_seq`
@@ -21399,7 +22164,7 @@ CREATE TABLE `svy_qpl` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_questionpool`),
   KEY `i1_idx` (`obj_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qpl`
@@ -21413,7 +22178,7 @@ CREATE TABLE `svy_qpl` (
 CREATE TABLE `svy_qpl_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qpl_seq`
@@ -21433,7 +22198,7 @@ CREATE TABLE `svy_qst_constraint` (
   KEY `i1_idx` (`survey_fi`),
   KEY `i2_idx` (`question_fi`),
   KEY `i3_idx` (`constraint_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_constraint`
@@ -21447,7 +22212,7 @@ CREATE TABLE `svy_qst_constraint` (
 CREATE TABLE `svy_qst_constraint_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_constraint_seq`
@@ -21478,7 +22243,7 @@ CREATE TABLE `svy_qst_matrix` (
   `layout` varchar(4000) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_matrix`
@@ -21498,7 +22263,7 @@ CREATE TABLE `svy_qst_matrixrows` (
   `label` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_svy_qst_matrixrows`),
   KEY `i1_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_matrixrows`
@@ -21512,7 +22277,7 @@ CREATE TABLE `svy_qst_matrixrows` (
 CREATE TABLE `svy_qst_matrixrows_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_matrixrows_seq`
@@ -21530,7 +22295,7 @@ CREATE TABLE `svy_qst_mc` (
   `nr_min_answers` smallint(6) DEFAULT NULL,
   `nr_max_answers` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_mc`
@@ -21545,7 +22310,7 @@ CREATE TABLE `svy_qst_metric` (
   `question_fi` int(11) NOT NULL DEFAULT 0,
   `subtype` varchar(1) DEFAULT '3',
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_metric`
@@ -21564,7 +22329,7 @@ CREATE TABLE `svy_qst_oblig` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`question_obligatory_id`),
   KEY `i1_idx` (`survey_fi`,`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_oblig`
@@ -21578,7 +22343,7 @@ CREATE TABLE `svy_qst_oblig` (
 CREATE TABLE `svy_qst_oblig_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_oblig_seq`
@@ -21593,7 +22358,7 @@ CREATE TABLE `svy_qst_sc` (
   `question_fi` int(11) NOT NULL DEFAULT 0,
   `orientation` varchar(1) DEFAULT '0',
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_sc`
@@ -21610,7 +22375,7 @@ CREATE TABLE `svy_qst_text` (
   `width` int(11) NOT NULL DEFAULT 50,
   `height` int(11) NOT NULL DEFAULT 5,
   PRIMARY KEY (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qst_text`
@@ -21626,7 +22391,7 @@ CREATE TABLE `svy_qtype` (
   `type_tag` varchar(30) DEFAULT NULL,
   `plugin` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`questiontype_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_qtype`
@@ -21645,7 +22410,7 @@ INSERT INTO `svy_qtype` VALUES (5,'SurveyMatrixQuestion',0);
 CREATE TABLE `svy_qtype_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=6;
+)  AUTO_INCREMENT=6;
 
 --
 -- Dumping data for table `svy_qtype_seq`
@@ -21663,7 +22428,7 @@ CREATE TABLE `svy_quest_skill` (
   `base_skill_id` int(11) NOT NULL DEFAULT 0,
   `tref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`q_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_quest_skill`
@@ -21692,7 +22457,7 @@ CREATE TABLE `svy_question` (
   PRIMARY KEY (`question_id`),
   KEY `i1_idx` (`obj_fi`),
   KEY `i2_idx` (`owner_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_question`
@@ -21706,7 +22471,7 @@ CREATE TABLE `svy_question` (
 CREATE TABLE `svy_question_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_question_seq`
@@ -21723,7 +22488,7 @@ CREATE TABLE `svy_relation` (
   `shortname` varchar(2) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`relation_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_relation`
@@ -21743,7 +22508,7 @@ INSERT INTO `svy_relation` VALUES (6,'more','>',1084867143);
 CREATE TABLE `svy_relation_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=7;
+)  AUTO_INCREMENT=7;
 
 --
 -- Dumping data for table `svy_relation_seq`
@@ -21763,7 +22528,7 @@ CREATE TABLE `svy_settings` (
   `value` longtext DEFAULT NULL,
   PRIMARY KEY (`settings_id`),
   KEY `i1_idx` (`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_settings`
@@ -21777,7 +22542,7 @@ CREATE TABLE `svy_settings` (
 CREATE TABLE `svy_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_settings_seq`
@@ -21795,7 +22560,7 @@ CREATE TABLE `svy_skill_threshold` (
   `level_id` int(11) NOT NULL DEFAULT 0,
   `threshold` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`survey_id`,`base_skill_id`,`tref_id`,`level_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_skill_threshold`
@@ -21855,7 +22620,7 @@ CREATE TABLE `svy_svy` (
   `calculate_sum_score` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`survey_id`),
   KEY `i1_idx` (`obj_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_svy`
@@ -21876,7 +22641,7 @@ CREATE TABLE `svy_svy_qst` (
   PRIMARY KEY (`survey_question_id`),
   KEY `i1_idx` (`survey_fi`),
   KEY `i2_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_svy_qst`
@@ -21890,7 +22655,7 @@ CREATE TABLE `svy_svy_qst` (
 CREATE TABLE `svy_svy_qst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_svy_qst_seq`
@@ -21904,7 +22669,7 @@ CREATE TABLE `svy_svy_qst_seq` (
 CREATE TABLE `svy_svy_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_svy_seq`
@@ -21923,7 +22688,7 @@ CREATE TABLE `svy_times` (
   `first_question` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`finished_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_times`
@@ -21937,7 +22702,7 @@ CREATE TABLE `svy_times` (
 CREATE TABLE `svy_times_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_times_seq`
@@ -21961,7 +22726,7 @@ CREATE TABLE `svy_variable` (
   PRIMARY KEY (`variable_id`),
   KEY `i1_idx` (`category_fi`),
   KEY `i2_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_variable`
@@ -21975,7 +22740,7 @@ CREATE TABLE `svy_variable` (
 CREATE TABLE `svy_variable_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `svy_variable_seq`
@@ -21992,7 +22757,7 @@ CREATE TABLE `sysc_groups` (
   `last_update` datetime DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sysc_groups`
@@ -22007,7 +22772,7 @@ INSERT INTO `sysc_groups` VALUES (1,'tree',NULL,0);
 CREATE TABLE `sysc_groups_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `sysc_groups_seq`
@@ -22026,7 +22791,7 @@ CREATE TABLE `sysc_tasks` (
   `status` tinyint(4) NOT NULL DEFAULT 0,
   `identifier` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `sysc_tasks`
@@ -22045,7 +22810,7 @@ INSERT INTO `sysc_tasks` VALUES (5,1,NULL,0,'duplicates');
 CREATE TABLE `sysc_tasks_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=6;
+)  AUTO_INCREMENT=6;
 
 --
 -- Dumping data for table `sysc_tasks_seq`
@@ -22063,7 +22828,7 @@ CREATE TABLE `syst_style_cat` (
   `substyle` varchar(50) NOT NULL DEFAULT '',
   `category_ref_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`skin_id`,`style_id`,`substyle`,`category_ref_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `syst_style_cat`
@@ -22080,125 +22845,12 @@ CREATE TABLE `table_properties` (
   `property` varchar(20) NOT NULL DEFAULT '',
   `value` varchar(4000) NOT NULL DEFAULT ' ',
   PRIMARY KEY (`table_id`,`user_id`,`property`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `table_properties`
 --
 
-INSERT INTO `table_properties` VALUES ('admsettemptst',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('bibl_libraries_tbl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('crnmng',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('crnmng',6,'order','status');
-INSERT INTO `table_properties` VALUES ('objroleperm_32',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('repmodtbl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('repnwitgrptbl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_options__134',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_options__14',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_options__4',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_options__5',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_accs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_adm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_adve',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_assf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_auth',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_awra',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_bibl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_bibs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_blga',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_blog',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_book',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cadm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cals',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cat',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_catr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cert',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_chta',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_chtr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cmps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_crs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_crsr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_crss',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_dcl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_ecss',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_exc',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_excs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_extt',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_facs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_feed',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_file',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_fold',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_frm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_frma',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_glo',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_grp',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_grpr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_grps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_hlps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_htlm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_iass',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_itgr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_lm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_lngf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_logs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_lrss',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mail',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mcst',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mcts',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mds',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mep',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mobs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_nwss',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_orgu',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_otpl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_pays',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_pdts',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_poll',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_prfa',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_prg',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_prgs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_prtt',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_ps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_qpl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rcat',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rcrs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_recf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_reps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rfil',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rglo',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rgrp',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rlm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rolf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_root',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rtst',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rwik',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_sahs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_seas',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_sess',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_skmg',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_spl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_stys',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_svy',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_svyf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_sysc',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_tags',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_taxs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_tos',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_trac',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_tst',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_usrf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_wbrs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_webr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_wiki',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_wiks',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('rolf_role_tbl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('rolf_role_tbl',6,'order','title');
-INSERT INTO `table_properties` VALUES ('rolf_role_tbl',6,'rows','50');
-INSERT INTO `table_properties` VALUES ('tbl_didactic_tpl_settings',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('tbl_didactic_tpl_settings',6,'order','title');
-INSERT INTO `table_properties` VALUES ('user7',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('user7',6,'order','login');
-INSERT INTO `table_properties` VALUES ('user7',6,'selfields','a:24:{s:9:\"firstname\";b:1;s:8:\"lastname\";b:1;s:12:\"access_until\";b:1;s:10:\"last_login\";b:1;s:11:\"create_date\";b:0;s:12:\"approve_date\";b:0;s:10:\"agree_date\";b:0;s:5:\"email\";b:1;s:5:\"title\";b:0;s:8:\"birthday\";b:0;s:6:\"gender\";b:0;s:9:\"org_units\";b:0;s:11:\"institution\";b:0;s:10:\"department\";b:0;s:6:\"street\";b:0;s:7:\"zipcode\";b:0;s:4:\"city\";b:0;s:7:\"country\";b:0;s:11:\"sel_country\";b:0;s:12:\"phone_office\";b:0;s:10:\"phone_home\";b:0;s:12:\"phone_mobile\";b:0;s:3:\"fax\";b:0;s:13:\"matriculation\";b:0;}');
 
 --
 -- Table structure for table `table_templates`
@@ -22210,7 +22862,7 @@ CREATE TABLE `table_templates` (
   `context` varchar(128) NOT NULL DEFAULT '',
   `value` longtext DEFAULT NULL,
   PRIMARY KEY (`name`,`user_id`,`context`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `table_templates`
@@ -22226,7 +22878,7 @@ CREATE TABLE `tax_data` (
   `sorting_mode` int(11) NOT NULL DEFAULT 0,
   `item_sorting` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tax_data`
@@ -22246,7 +22898,7 @@ CREATE TABLE `tax_node` (
   `tax_id` int(11) NOT NULL DEFAULT 0,
   `order_nr` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tax_node`
@@ -22268,7 +22920,7 @@ CREATE TABLE `tax_node_assignment` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`node_id`,`component`,`obj_id`,`item_type`,`item_id`),
   KEY `i1_idx` (`component`,`item_type`,`item_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tax_node_assignment`
@@ -22282,7 +22934,7 @@ CREATE TABLE `tax_node_assignment` (
 CREATE TABLE `tax_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=2;
+)  AUTO_INCREMENT=2;
 
 --
 -- Dumping data for table `tax_node_seq`
@@ -22303,7 +22955,7 @@ CREATE TABLE `tax_tree` (
   `depth` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`tax_tree_id`,`child`),
   KEY `i1_idx` (`child`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tax_tree`
@@ -22318,146 +22970,10 @@ CREATE TABLE `tax_usage` (
   `tax_id` int(11) NOT NULL DEFAULT 0,
   `obj_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`tax_id`,`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tax_usage`
---
-
-
---
--- Table structure for table `tos_acceptance_track`
---
-
-CREATE TABLE `tos_acceptance_track` (
-  `tosv_id` int(11) NOT NULL DEFAULT 0,
-  `usr_id` int(11) NOT NULL DEFAULT 0,
-  `ts` int(11) NOT NULL DEFAULT 0,
-  `criteria` longtext DEFAULT NULL,
-  PRIMARY KEY (`tosv_id`,`usr_id`,`ts`),
-  KEY `i1_idx` (`usr_id`,`ts`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tos_acceptance_track`
---
-
-
---
--- Table structure for table `tos_acceptance_track_seq`
---
-
-CREATE TABLE `tos_acceptance_track_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tos_acceptance_track_seq`
---
-
-
---
--- Table structure for table `tos_criterion_to_doc`
---
-
-CREATE TABLE `tos_criterion_to_doc` (
-  `id` int(11) NOT NULL DEFAULT 0,
-  `doc_id` int(11) NOT NULL DEFAULT 0,
-  `criterion_id` varchar(50) NOT NULL,
-  `criterion_value` varchar(255) DEFAULT NULL,
-  `assigned_ts` int(11) NOT NULL DEFAULT 0,
-  `modification_ts` int(11) NOT NULL DEFAULT 0,
-  `owner_usr_id` int(11) NOT NULL DEFAULT 0,
-  `last_modified_usr_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tos_criterion_to_doc`
---
-
-
---
--- Table structure for table `tos_criterion_to_doc_seq`
---
-
-CREATE TABLE `tos_criterion_to_doc_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tos_criterion_to_doc_seq`
---
-
-
---
--- Table structure for table `tos_documents`
---
-
-CREATE TABLE `tos_documents` (
-  `id` int(11) NOT NULL DEFAULT 0,
-  `title` varchar(255) DEFAULT NULL,
-  `creation_ts` int(11) NOT NULL DEFAULT 0,
-  `modification_ts` int(11) NOT NULL DEFAULT 0,
-  `sorting` int(11) NOT NULL DEFAULT 0,
-  `owner_usr_id` int(11) NOT NULL DEFAULT 0,
-  `last_modified_usr_id` int(11) NOT NULL DEFAULT 0,
-  `text` longtext DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tos_documents`
---
-
-
---
--- Table structure for table `tos_documents_seq`
---
-
-CREATE TABLE `tos_documents_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tos_documents_seq`
---
-
-
---
--- Table structure for table `tos_versions`
---
-
-CREATE TABLE `tos_versions` (
-  `id` int(11) NOT NULL DEFAULT 0,
-  `text` longtext DEFAULT NULL,
-  `hash` varchar(32) DEFAULT NULL,
-  `ts` int(11) NOT NULL DEFAULT 0,
-  `doc_id` int(11) NOT NULL DEFAULT 0,
-  `title` text DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `i1_idx` (`hash`,`doc_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tos_versions`
---
-
-
---
--- Table structure for table `tos_versions_seq`
---
-
-CREATE TABLE `tos_versions_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tos_versions_seq`
 --
 
 
@@ -22474,11 +22990,10 @@ CREATE TABLE `tree` (
   `depth` smallint(6) NOT NULL DEFAULT 0,
   `path` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`child`),
-  KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`tree`),
   KEY `i4_idx` (`path`(255))
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tree`
@@ -22540,7 +23055,6 @@ INSERT INTO `tree` VALUES (1,62,9,309,310,3,'1.9.62');
 INSERT INTO `tree` VALUES (1,63,9,311,312,3,'1.9.63');
 INSERT INTO `tree` VALUES (1,64,9,313,314,3,'1.9.64');
 INSERT INTO `tree` VALUES (1,65,9,315,316,3,'1.9.65');
-INSERT INTO `tree` VALUES (1,66,9,317,318,3,'1.9.66');
 INSERT INTO `tree` VALUES (1,67,9,0,0,3,'1.9.67');
 INSERT INTO `tree` VALUES (1,68,9,0,0,3,'1.9.68');
 INSERT INTO `tree` VALUES (1,69,9,0,0,3,'1.9.69');
@@ -22554,6 +23068,11 @@ INSERT INTO `tree` VALUES (1,76,9,0,0,3,'1.9.76');
 INSERT INTO `tree` VALUES (1,77,9,0,0,3,'1.9.77');
 INSERT INTO `tree` VALUES (1,78,9,0,0,3,'1.9.78');
 INSERT INTO `tree` VALUES (1,79,9,0,0,3,'1.9.79');
+INSERT INTO `tree` VALUES (1,80,9,0,0,3,'1.9.80');
+INSERT INTO `tree` VALUES (1,81,9,0,0,3,'1.9.81');
+INSERT INTO `tree` VALUES (1,82,9,0,0,3,'1.9.82');
+INSERT INTO `tree` VALUES (1,83,9,0,0,3,'1.9.83');
+INSERT INTO `tree` VALUES (1,84,41,0,0,4,'1.9.41.84');
 
 --
 -- Table structure for table `tree_workspace`
@@ -22569,7 +23088,7 @@ CREATE TABLE `tree_workspace` (
   PRIMARY KEY (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`tree`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tree_workspace`
@@ -22603,7 +23122,7 @@ CREATE TABLE `tst_active` (
   KEY `i1_idx` (`user_fi`),
   KEY `i2_idx` (`test_fi`),
   KEY `i3_idx` (`anonymous_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_active`
@@ -22617,7 +23136,7 @@ CREATE TABLE `tst_active` (
 CREATE TABLE `tst_active_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_active_seq`
@@ -22633,29 +23152,10 @@ CREATE TABLE `tst_addtime` (
   `additionaltime` bigint(20) NOT NULL DEFAULT 0,
   `tstamp` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`active_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_addtime`
---
-
-
---
--- Table structure for table `tst_dyn_quest_set_cfg`
---
-
-CREATE TABLE `tst_dyn_quest_set_cfg` (
-  `test_fi` int(11) NOT NULL DEFAULT 0,
-  `source_qpl_fi` int(11) NOT NULL DEFAULT 0,
-  `tax_filter_enabled` tinyint(4) NOT NULL DEFAULT 0,
-  `order_tax` int(11) DEFAULT NULL,
-  `source_qpl_title` varchar(255) DEFAULT NULL,
-  `answer_filter_enabled` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`test_fi`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tst_dyn_quest_set_cfg`
 --
 
 
@@ -22669,7 +23169,7 @@ CREATE TABLE `tst_invited_user` (
   `clientip` varchar(255) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`test_fi`,`user_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_invited_user`
@@ -22694,7 +23194,7 @@ CREATE TABLE `tst_manual_fb` (
   KEY `i1_idx` (`active_fi`),
   KEY `i2_idx` (`question_fi`),
   KEY `i3_idx` (`pass`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_manual_fb`
@@ -22708,7 +23208,7 @@ CREATE TABLE `tst_manual_fb` (
 CREATE TABLE `tst_manual_fb_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_manual_fb_seq`
@@ -22729,7 +23229,7 @@ CREATE TABLE `tst_mark` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`mark_id`),
   KEY `i1_idx` (`test_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_mark`
@@ -22743,7 +23243,7 @@ CREATE TABLE `tst_mark` (
 CREATE TABLE `tst_mark_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_mark_seq`
@@ -22768,7 +23268,7 @@ CREATE TABLE `tst_pass_result` (
   `obligations_answered` tinyint(4) NOT NULL DEFAULT 1,
   `exam_id` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`active_fi`,`pass`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_pass_result`
@@ -22784,7 +23284,7 @@ CREATE TABLE `tst_qst_solved` (
   `question_fi` int(11) NOT NULL DEFAULT 0,
   `solved` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`active_fi`,`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_qst_solved`
@@ -22810,7 +23310,7 @@ CREATE TABLE `tst_result_cache` (
   `obligations_answered` tinyint(4) NOT NULL DEFAULT 1,
   `passed_once` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`active_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_result_cache`
@@ -22830,7 +23330,7 @@ CREATE TABLE `tst_rnd_cpy` (
   KEY `i1_idx` (`qst_fi`),
   KEY `i2_idx` (`qpl_fi`),
   KEY `i3_idx` (`tst_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_rnd_cpy`
@@ -22844,7 +23344,7 @@ CREATE TABLE `tst_rnd_cpy` (
 CREATE TABLE `tst_rnd_cpy_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_rnd_cpy_seq`
@@ -22863,7 +23363,7 @@ CREATE TABLE `tst_rnd_qpl_title` (
   PRIMARY KEY (`title_id`),
   KEY `i1_idx` (`qpl_fi`),
   KEY `i2_idx` (`tst_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_rnd_qpl_title`
@@ -22877,7 +23377,7 @@ CREATE TABLE `tst_rnd_qpl_title` (
 CREATE TABLE `tst_rnd_qpl_title_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_rnd_qpl_title_seq`
@@ -22895,7 +23395,7 @@ CREATE TABLE `tst_rnd_quest_set_cfg` (
   `quest_amount_per_test` int(11) DEFAULT NULL,
   `quest_sync_timestamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`test_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_rnd_quest_set_cfg`
@@ -22923,8 +23423,9 @@ CREATE TABLE `tst_rnd_quest_set_qpls` (
   `mapped_tax_filter` varchar(4000) DEFAULT NULL,
   `type_filter` varchar(250) DEFAULT NULL,
   `lifecycle_filter` varchar(250) DEFAULT NULL,
+  `pool_ref_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`def_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_rnd_quest_set_qpls`
@@ -22938,29 +23439,10 @@ CREATE TABLE `tst_rnd_quest_set_qpls` (
 CREATE TABLE `tst_rnd_quest_set_qpls_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_rnd_quest_set_qpls_seq`
---
-
-
---
--- Table structure for table `tst_seq_qst_answstatus`
---
-
-CREATE TABLE `tst_seq_qst_answstatus` (
-  `active_fi` int(11) NOT NULL DEFAULT 0,
-  `pass` int(11) NOT NULL DEFAULT 0,
-  `question_fi` int(11) NOT NULL DEFAULT 0,
-  `correctness` tinyint(4) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`active_fi`,`pass`,`question_fi`),
-  KEY `i1_idx` (`active_fi`,`pass`),
-  KEY `i2_idx` (`active_fi`,`question_fi`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tst_seq_qst_answstatus`
 --
 
 
@@ -22973,7 +23455,7 @@ CREATE TABLE `tst_seq_qst_checked` (
   `pass` int(11) NOT NULL DEFAULT 0,
   `question_fi` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`active_fi`,`pass`,`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_seq_qst_checked`
@@ -22989,29 +23471,10 @@ CREATE TABLE `tst_seq_qst_optional` (
   `pass` int(11) NOT NULL DEFAULT 0,
   `question_fi` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`active_fi`,`pass`,`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_seq_qst_optional`
---
-
-
---
--- Table structure for table `tst_seq_qst_postponed`
---
-
-CREATE TABLE `tst_seq_qst_postponed` (
-  `active_fi` int(11) NOT NULL DEFAULT 0,
-  `pass` int(11) NOT NULL DEFAULT 0,
-  `question_fi` int(11) NOT NULL DEFAULT 0,
-  `cnt` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`active_fi`,`pass`,`question_fi`),
-  KEY `i1_idx` (`active_fi`,`pass`),
-  KEY `i2_idx` (`active_fi`,`question_fi`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tst_seq_qst_postponed`
 --
 
 
@@ -23024,30 +23487,10 @@ CREATE TABLE `tst_seq_qst_presented` (
   `pass` int(11) NOT NULL DEFAULT 0,
   `question_fi` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`active_fi`,`pass`,`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_seq_qst_presented`
---
-
-
---
--- Table structure for table `tst_seq_qst_tracking`
---
-
-CREATE TABLE `tst_seq_qst_tracking` (
-  `active_fi` int(11) NOT NULL DEFAULT 0,
-  `pass` int(11) NOT NULL DEFAULT 0,
-  `question_fi` int(11) NOT NULL DEFAULT 0,
-  `status` varchar(16) DEFAULT NULL,
-  `orderindex` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`active_fi`,`pass`,`question_fi`),
-  KEY `i1_idx` (`active_fi`,`pass`),
-  KEY `i2_idx` (`active_fi`,`question_fi`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `tst_seq_qst_tracking`
 --
 
 
@@ -23064,7 +23507,7 @@ CREATE TABLE `tst_sequence` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   `ans_opt_confirmed` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`active_fi`,`pass`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_sequence`
@@ -23082,7 +23525,7 @@ CREATE TABLE `tst_skl_thresholds` (
   `skill_level_fi` int(11) NOT NULL DEFAULT 0,
   `threshold` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`test_fi`,`skill_base_fi`,`skill_tref_fi`,`skill_level_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_skl_thresholds`
@@ -23107,7 +23550,7 @@ CREATE TABLE `tst_solutions` (
   PRIMARY KEY (`solution_id`),
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`active_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_solutions`
@@ -23121,7 +23564,7 @@ CREATE TABLE `tst_solutions` (
 CREATE TABLE `tst_solutions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_solutions_seq`
@@ -23141,7 +23584,7 @@ CREATE TABLE `tst_test_defaults` (
   `defaults` longtext DEFAULT NULL,
   PRIMARY KEY (`test_defaults_id`),
   KEY `i1_idx` (`user_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_test_defaults`
@@ -23155,7 +23598,7 @@ CREATE TABLE `tst_test_defaults` (
 CREATE TABLE `tst_test_defaults_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_test_defaults_seq`
@@ -23176,7 +23619,7 @@ CREATE TABLE `tst_test_question` (
   PRIMARY KEY (`test_question_id`),
   KEY `i1_idx` (`test_fi`),
   KEY `i2_idx` (`question_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_test_question`
@@ -23190,7 +23633,7 @@ CREATE TABLE `tst_test_question` (
 CREATE TABLE `tst_test_question_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_test_question_seq`
@@ -23217,7 +23660,7 @@ CREATE TABLE `tst_test_result` (
   KEY `i1_idx` (`active_fi`),
   KEY `i2_idx` (`question_fi`),
   KEY `i3_idx` (`pass`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_test_result`
@@ -23231,7 +23674,7 @@ CREATE TABLE `tst_test_result` (
 CREATE TABLE `tst_test_result_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_test_result_seq`
@@ -23254,7 +23697,7 @@ CREATE TABLE `tst_test_rnd_qst` (
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`active_fi`),
   KEY `i3_idx` (`pass`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_test_rnd_qst`
@@ -23268,7 +23711,7 @@ CREATE TABLE `tst_test_rnd_qst` (
 CREATE TABLE `tst_test_rnd_qst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_test_rnd_qst_seq`
@@ -23290,10 +23733,10 @@ CREATE TABLE `tst_tests` (
   `answer_feedback` varchar(1) DEFAULT '0',
   `answer_feedback_points` varchar(1) DEFAULT '0',
   `fixed_participants` varchar(1) DEFAULT '0',
-  `show_cancel` varchar(1) DEFAULT '1',
+  `suspend_test_allowed` varchar(1) DEFAULT '0',
   `anonymity` varchar(1) DEFAULT '0',
   `nr_of_tries` smallint(6) NOT NULL DEFAULT 0,
-  `use_previous_answers` varchar(1) DEFAULT '1',
+  `use_previous_answers` varchar(1) DEFAULT '0',
   `title_output` varchar(1) DEFAULT '0',
   `processing_time` varchar(8) DEFAULT NULL,
   `enable_processing_time` varchar(1) DEFAULT '0',
@@ -23314,10 +23757,8 @@ CREATE TABLE `tst_tests` (
   `score_cutting` varchar(1) DEFAULT '0',
   `pass_scoring` varchar(1) DEFAULT '0',
   `password` varchar(20) DEFAULT NULL,
-  `allowedusers` int(11) DEFAULT NULL,
-  `alloweduserstimegap` int(11) DEFAULT NULL,
   `results_presentation` int(11) NOT NULL DEFAULT 3,
-  `show_summary` int(11) NOT NULL DEFAULT 0,
+  `usr_pass_overview_mode` int(11) NOT NULL DEFAULT 0,
   `show_question_titles` varchar(1) DEFAULT '1',
   `certificate_visibility` varchar(1) DEFAULT '0',
   `show_marker` tinyint(4) NOT NULL DEFAULT 0,
@@ -23325,15 +23766,11 @@ CREATE TABLE `tst_tests` (
   `resultoutput` int(11) NOT NULL DEFAULT 0,
   `finalstatement` varchar(4000) DEFAULT NULL,
   `showfinalstatement` int(11) NOT NULL DEFAULT 0,
-  `showinfo` int(11) NOT NULL DEFAULT 1,
-  `forcejs` int(11) NOT NULL DEFAULT 0,
-  `customstyle` varchar(128) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   `created` int(11) NOT NULL DEFAULT 0,
   `mailnotification` tinyint(4) DEFAULT 0,
   `mailnottype` smallint(6) NOT NULL DEFAULT 0,
   `exportsettings` int(11) NOT NULL DEFAULT 0,
-  `enabled_view_mode` varchar(20) DEFAULT '0',
   `template_id` int(11) DEFAULT NULL,
   `pool_usage` tinyint(4) DEFAULT NULL,
   `online_status` tinyint(4) NOT NULL DEFAULT 0,
@@ -23355,17 +23792,12 @@ CREATE TABLE `tst_tests` (
   `autosave_ival` int(11) NOT NULL DEFAULT 0,
   `pass_deletion_allowed` int(11) NOT NULL DEFAULT 0,
   `redirection_mode` int(11) NOT NULL DEFAULT 0,
-  `redirection_url` varchar(128) DEFAULT NULL,
+  `redirection_url` varchar(4000) DEFAULT NULL,
   `examid_in_test_pass` int(11) NOT NULL DEFAULT 0,
   `examid_in_test_res` int(11) NOT NULL DEFAULT 0,
   `enable_examview` tinyint(4) DEFAULT NULL,
-  `show_examview_html` tinyint(4) DEFAULT NULL,
-  `show_examview_pdf` tinyint(4) DEFAULT NULL,
-  `enable_archiving` tinyint(4) DEFAULT NULL,
   `question_set_type` varchar(32) NOT NULL DEFAULT 'FIXED_QUEST_SET',
-  `sign_submission` int(11) NOT NULL DEFAULT 0,
   `skill_service` tinyint(4) DEFAULT NULL,
-  `result_tax_filters` varchar(255) DEFAULT NULL,
   `show_grading_status` tinyint(4) DEFAULT 0,
   `show_grading_mark` tinyint(4) DEFAULT 0,
   `inst_fb_answer_fixation` tinyint(4) DEFAULT NULL,
@@ -23373,7 +23805,6 @@ CREATE TABLE `tst_tests` (
   `starting_time_enabled` tinyint(4) DEFAULT NULL,
   `ending_time_enabled` tinyint(4) DEFAULT NULL,
   `password_enabled` tinyint(4) DEFAULT NULL,
-  `limit_users_enabled` tinyint(4) DEFAULT NULL,
   `broken` tinyint(4) DEFAULT NULL,
   `force_inst_fb` tinyint(4) DEFAULT 0,
   `starting_time` int(11) NOT NULL DEFAULT 0,
@@ -23382,9 +23813,14 @@ CREATE TABLE `tst_tests` (
   `follow_qst_answer_fixation` tinyint(4) DEFAULT 0,
   `block_after_passed` tinyint(4) DEFAULT 0,
   `info_screen` tinyint(4) DEFAULT NULL,
+  `introduction_page_id` bigint(20) DEFAULT NULL,
+  `concluding_remarks_page_id` bigint(20) DEFAULT NULL,
+  `show_questionlist` tinyint(4) DEFAULT NULL,
+  `hide_info_tab` tinyint(4) NOT NULL DEFAULT 0,
+  `conditions_checkbox_enabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`test_id`),
   KEY `i1_idx` (`obj_fi`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_tests`
@@ -23398,7 +23834,7 @@ CREATE TABLE `tst_tests` (
 CREATE TABLE `tst_tests_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_tests_seq`
@@ -23419,7 +23855,7 @@ CREATE TABLE `tst_times` (
   PRIMARY KEY (`times_id`),
   KEY `i1_idx` (`active_fi`),
   KEY `i2_idx` (`pass`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_times`
@@ -23433,7 +23869,7 @@ CREATE TABLE `tst_times` (
 CREATE TABLE `tst_times_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `tst_times_seq`
@@ -23449,7 +23885,7 @@ CREATE TABLE `udf_clob` (
   `field_id` int(11) NOT NULL DEFAULT 0,
   `value` longtext DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `udf_clob`
@@ -23463,7 +23899,7 @@ CREATE TABLE `udf_clob` (
 CREATE TABLE `udf_data` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `udf_data`
@@ -23492,8 +23928,9 @@ CREATE TABLE `udf_definition` (
   `changeable_lua` tinyint(4) NOT NULL DEFAULT 0,
   `group_export` tinyint(4) DEFAULT 0,
   `certificate` tinyint(4) NOT NULL DEFAULT 0,
+  `prg_export` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `udf_definition`
@@ -23507,7 +23944,7 @@ CREATE TABLE `udf_definition` (
 CREATE TABLE `udf_definition_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `udf_definition_seq`
@@ -23523,7 +23960,7 @@ CREATE TABLE `udf_text` (
   `field_id` int(11) NOT NULL DEFAULT 0,
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`field_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `udf_text`
@@ -23541,7 +23978,7 @@ CREATE TABLE `user_action_activation` (
   `action_type` varchar(30) NOT NULL DEFAULT '',
   `active` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`context_comp`,`context_id`,`action_comp`,`action_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `user_action_activation`
@@ -23566,7 +24003,7 @@ CREATE TABLE `usr_account_codes` (
   `used` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`code_id`),
   KEY `i1_idx` (`code`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_account_codes`
@@ -23580,10 +24017,25 @@ CREATE TABLE `usr_account_codes` (
 CREATE TABLE `usr_account_codes_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_account_codes_seq`
+--
+
+
+--
+-- Table structure for table `usr_change_email_token`
+--
+
+CREATE TABLE `usr_change_email_token` (
+  `token` varchar(32) DEFAULT NULL,
+  `new_email` varchar(256) DEFAULT NULL,
+  `valid_until` bigint(20) DEFAULT NULL
+) ;
+
+--
+-- Dumping data for table `usr_change_email_token`
 --
 
 
@@ -23595,7 +24047,7 @@ CREATE TABLE `usr_cron_mail_reminder` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `ts` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_cron_mail_reminder`
@@ -23609,12 +24061,12 @@ CREATE TABLE `usr_cron_mail_reminder` (
 CREATE TABLE `usr_data` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `login` varchar(190) DEFAULT NULL,
-  `passwd` varchar(80) DEFAULT NULL,
-  `firstname` varchar(32) DEFAULT NULL,
-  `lastname` varchar(32) DEFAULT NULL,
+  `passwd` varchar(100) DEFAULT NULL,
+  `firstname` varchar(128) DEFAULT NULL,
+  `lastname` varchar(128) DEFAULT NULL,
   `title` varchar(32) DEFAULT NULL,
   `gender` char(1) DEFAULT 'm',
-  `email` varchar(80) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
   `institution` varchar(80) DEFAULT NULL,
   `street` varchar(40) DEFAULT NULL,
   `city` varchar(40) DEFAULT NULL,
@@ -23631,8 +24083,8 @@ CREATE TABLE `usr_data` (
   `fax` varchar(40) DEFAULT NULL,
   `time_limit_owner` int(11) DEFAULT 0,
   `time_limit_unlimited` int(11) DEFAULT 0,
-  `time_limit_from` int(11) DEFAULT 0,
-  `time_limit_until` int(11) DEFAULT 0,
+  `time_limit_from` bigint(20) DEFAULT 0,
+  `time_limit_until` bigint(20) DEFAULT 0,
   `time_limit_message` int(11) DEFAULT 0,
   `referral_comment` varchar(250) DEFAULT NULL,
   `matriculation` varchar(40) DEFAULT NULL,
@@ -23661,18 +24113,19 @@ CREATE TABLE `usr_data` (
   `first_login` datetime DEFAULT NULL,
   `last_profile_prompt` datetime DEFAULT NULL,
   `passwd_policy_reset` tinyint(4) NOT NULL DEFAULT 0,
+  `rid` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`usr_id`),
   UNIQUE KEY `uc1_idx` (`login`),
   KEY `i1_idx` (`login`,`passwd`),
   KEY `i2_idx` (`ext_account`,`auth_mode`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_data`
 --
 
-INSERT INTO `usr_data` VALUES (6,'root','$2y$09$uhSHx5YHS6G1zv0gdTZfx.VNK482euQm2HmPd6cBhmOn3lgPd.NSC','root','user','','m','ilias@yourserver.com','','','','','','','2016-12-21 13:55:17','2016-12-14 14:44:49',NULL,'','','','','',7,1,1450795200,1450795200,0,'','',1,NULL,NULL,'','local',0,NULL,'',NULL,NULL,0,0,1481723089,'',NULL,'','',NULL,0,'bcryptphp',NULL,NULL,'2016-12-21 13:55:17',NULL,0);
-INSERT INTO `usr_data` VALUES (13,'anonymous','294de3557d9d00b3d2d8a1e6aab028cf','anonymous','anonymous','','m','nomail','','','','','','','2003-08-15 11:03:36','2003-08-15 10:07:30','2003-08-15 10:07:30','','','','','',7,1,0,0,0,'','',1,NULL,NULL,'','local',0,'','','','',0,0,1217068076,'',NULL,'','',NULL,0,'md5','',NULL,'2003-08-15 11:03:36',NULL,0);
+INSERT INTO `usr_data` VALUES (6,'root','$2y$09$uhSHx5YHS6G1zv0gdTZfx.VNK482euQm2HmPd6cBhmOn3lgPd.NSC','root','user','','m','ilias@yourserver.com','','','','','','','2016-12-21 13:55:17','2016-12-14 14:44:49',NULL,'','','','','',7,1,1450795200,1450795200,0,'','',1,NULL,NULL,'','local',0,NULL,'',NULL,NULL,0,0,1481723089,'',NULL,'','',NULL,0,'bcryptphp',NULL,NULL,'2016-12-21 13:55:17',NULL,0,NULL);
+INSERT INTO `usr_data` VALUES (13,'anonymous','294de3557d9d00b3d2d8a1e6aab028cf','anonymous','anonymous','','m','nomail','','','','','','','2003-08-15 11:03:36','2003-08-15 10:07:30','2003-08-15 10:07:30','','','','','',7,1,0,0,0,'','',1,NULL,NULL,'','local',0,'','','','',0,0,1217068076,'',NULL,'','',NULL,0,'md5','',NULL,'2003-08-15 11:03:36',NULL,0,NULL);
 
 --
 -- Table structure for table `usr_data_multi`
@@ -23685,7 +24138,7 @@ CREATE TABLE `usr_data_multi` (
   `value` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_data_multi`
@@ -23699,7 +24152,7 @@ CREATE TABLE `usr_data_multi` (
 CREATE TABLE `usr_data_multi_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_data_multi_seq`
@@ -23716,7 +24169,7 @@ CREATE TABLE `usr_ext_profile_page` (
   `order_nr` int(11) NOT NULL DEFAULT 0,
   `title` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_ext_profile_page`
@@ -23730,7 +24183,7 @@ CREATE TABLE `usr_ext_profile_page` (
 CREATE TABLE `usr_ext_profile_page_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_ext_profile_page_seq`
@@ -23746,7 +24199,7 @@ CREATE TABLE `usr_form_settings` (
   `id` varchar(50) NOT NULL DEFAULT '',
   `settings` varchar(4000) NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`,`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_form_settings`
@@ -23763,7 +24216,7 @@ CREATE TABLE `usr_portf_acl` (
   `extended_data` varchar(200) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`node_id`,`object_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_portf_acl`
@@ -23783,7 +24236,7 @@ CREATE TABLE `usr_portfolio` (
   `img` varchar(255) DEFAULT NULL,
   `ppic` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_portfolio`
@@ -23801,7 +24254,7 @@ CREATE TABLE `usr_portfolio_page` (
   `order_nr` int(11) NOT NULL DEFAULT 0,
   `type` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_portfolio_page`
@@ -23815,7 +24268,7 @@ CREATE TABLE `usr_portfolio_page` (
 CREATE TABLE `usr_portfolio_page_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_portfolio_page_seq`
@@ -23831,7 +24284,7 @@ CREATE TABLE `usr_pref` (
   `keyword` char(40) NOT NULL DEFAULT '',
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`keyword`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_pref`
@@ -23879,7 +24332,7 @@ CREATE TABLE `usr_pwassist` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`pwassist_id`),
   UNIQUE KEY `c1_idx` (`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_pwassist`
@@ -23903,7 +24356,7 @@ CREATE TABLE `usr_search` (
   `mime_filter` varchar(1000) DEFAULT NULL,
   `creation_filter` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`search_type`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_search`
@@ -23915,12 +24368,12 @@ CREATE TABLE `usr_search` (
 --
 
 CREATE TABLE `usr_sess_istorage` (
-  `session_id` varchar(80) NOT NULL DEFAULT '',
+  `session_id` varchar(256) NOT NULL DEFAULT '',
   `component_id` varchar(30) NOT NULL DEFAULT '',
   `vkey` varchar(50) NOT NULL DEFAULT '',
   `value` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`session_id`,`component_id`,`vkey`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_sess_istorage`
@@ -23932,7 +24385,7 @@ CREATE TABLE `usr_sess_istorage` (
 --
 
 CREATE TABLE `usr_session` (
-  `session_id` varchar(250) NOT NULL DEFAULT ' ',
+  `session_id` varchar(256) NOT NULL DEFAULT ' ',
   `expires` int(11) NOT NULL DEFAULT 0,
   `data` longtext DEFAULT NULL,
   `ctime` int(11) NOT NULL DEFAULT 0,
@@ -23945,13 +24398,12 @@ CREATE TABLE `usr_session` (
   PRIMARY KEY (`session_id`),
   KEY `i1_idx` (`expires`),
   KEY `i2_idx` (`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_session`
 --
 
-INSERT INTO `usr_session` VALUES ('5njb41mi9rab408j7eag8mn8tk',1654604658,'',1654602858,0,0,0,1654602558,NULL,'ilContextWeb');
 
 --
 -- Table structure for table `usr_session_log`
@@ -23962,7 +24414,7 @@ CREATE TABLE `usr_session_log` (
   `maxval` mediumint(9) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`tstamp`,`maxval`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_session_log`
@@ -23991,7 +24443,7 @@ CREATE TABLE `usr_session_stats` (
   `closed_misc` int(11) DEFAULT 0,
   PRIMARY KEY (`slot_begin`),
   KEY `i1_idx` (`slot_end`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_session_stats`
@@ -24003,14 +24455,15 @@ CREATE TABLE `usr_session_stats` (
 --
 
 CREATE TABLE `usr_session_stats_raw` (
-  `session_id` varchar(80) NOT NULL DEFAULT '',
+  `session_id` varchar(256) NOT NULL DEFAULT '',
   `type` smallint(6) NOT NULL DEFAULT 0,
   `start_time` int(11) NOT NULL DEFAULT 0,
   `end_time` int(11) DEFAULT NULL,
   `end_context` smallint(6) DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`session_id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`session_id`),
+  KEY `i1_idx` (`start_time`)
+) ;
 
 --
 -- Dumping data for table `usr_session_stats_raw`
@@ -24031,7 +24484,7 @@ CREATE TABLE `usr_starting_point` (
   `calendar_view` int(11) NOT NULL DEFAULT 0,
   `calendar_period` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_starting_point`
@@ -24045,7 +24498,7 @@ CREATE TABLE `usr_starting_point` (
 CREATE TABLE `usr_starting_point_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `usr_starting_point_seq`
@@ -24063,7 +24516,7 @@ CREATE TABLE `ut_lp_coll_manual` (
   `completed` tinyint(4) NOT NULL DEFAULT 0,
   `last_change` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`usr_id`,`subitem_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ut_lp_coll_manual`
@@ -24082,7 +24535,7 @@ CREATE TABLE `ut_lp_collections` (
   `active` tinyint(4) NOT NULL DEFAULT 1,
   `lpmode` tinyint(4) DEFAULT 5,
   PRIMARY KEY (`obj_id`,`item_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ut_lp_collections`
@@ -24097,7 +24550,7 @@ CREATE TABLE `ut_lp_defaults` (
   `type_id` varchar(10) NOT NULL DEFAULT '',
   `lp_mode` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ut_lp_defaults`
@@ -24119,7 +24572,7 @@ CREATE TABLE `ut_lp_marks` (
   `status_dirty` tinyint(4) NOT NULL DEFAULT 0,
   `percentage` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ut_lp_marks`
@@ -24136,7 +24589,7 @@ CREATE TABLE `ut_lp_settings` (
   `u_mode` tinyint(4) NOT NULL DEFAULT 0,
   `visits` int(11) DEFAULT 0,
   PRIMARY KEY (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ut_lp_settings`
@@ -24155,7 +24608,7 @@ CREATE TABLE `ut_lp_user_status` (
   PRIMARY KEY (`obj_id`,`usr_id`),
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ut_lp_user_status`
@@ -24171,7 +24624,7 @@ CREATE TABLE `ut_online` (
   `online_time` int(11) NOT NULL DEFAULT 0,
   `access_time` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`usr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `ut_online`
@@ -24195,7 +24648,7 @@ CREATE TABLE `webdav_instructions` (
   `last_modification_usr_id` int(11) DEFAULT NULL,
   `sorting` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `webdav_instructions`
@@ -24209,7 +24662,7 @@ CREATE TABLE `webdav_instructions` (
 CREATE TABLE `webdav_instructions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `webdav_instructions_seq`
@@ -24227,15 +24680,13 @@ CREATE TABLE `webr_items` (
   `description` varchar(4000) DEFAULT NULL,
   `target` varchar(4000) DEFAULT NULL,
   `active` tinyint(4) DEFAULT NULL,
-  `disable_check` tinyint(4) DEFAULT NULL,
   `create_date` int(11) NOT NULL DEFAULT 0,
   `last_update` int(11) NOT NULL DEFAULT 0,
-  `last_check` int(11) DEFAULT NULL,
-  `valid` tinyint(4) NOT NULL DEFAULT 0,
   `internal` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`link_id`),
-  KEY `i1_idx` (`link_id`,`webr_id`)
-) ENGINE=InnoDB;
+  KEY `i1_idx` (`link_id`,`webr_id`),
+  KEY `i3_idx` (`webr_id`)
+) ;
 
 --
 -- Dumping data for table `webr_items`
@@ -24249,7 +24700,7 @@ CREATE TABLE `webr_items` (
 CREATE TABLE `webr_items_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `webr_items_seq`
@@ -24267,7 +24718,7 @@ CREATE TABLE `webr_lists` (
   `create_date` int(11) NOT NULL DEFAULT 0,
   `last_update` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`webr_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `webr_lists`
@@ -24286,7 +24737,7 @@ CREATE TABLE `webr_params` (
   `value` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`param_id`),
   KEY `i1_idx` (`link_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `webr_params`
@@ -24300,151 +24751,10 @@ CREATE TABLE `webr_params` (
 CREATE TABLE `webr_params_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `webr_params_seq`
---
-
-
---
--- Table structure for table `wfe_det_listening`
---
-
-CREATE TABLE `wfe_det_listening` (
-  `detector_id` int(11) NOT NULL DEFAULT 0,
-  `workflow_id` int(11) NOT NULL DEFAULT 0,
-  `type` varchar(255) DEFAULT NULL,
-  `content` varchar(255) DEFAULT NULL,
-  `subject_type` varchar(30) DEFAULT NULL,
-  `subject_id` int(11) DEFAULT NULL,
-  `context_type` varchar(30) DEFAULT NULL,
-  `context_id` int(11) DEFAULT NULL,
-  `listening_start` int(11) DEFAULT NULL,
-  `listening_end` int(11) DEFAULT NULL,
-  PRIMARY KEY (`detector_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `wfe_det_listening`
---
-
-
---
--- Table structure for table `wfe_det_listening_seq`
---
-
-CREATE TABLE `wfe_det_listening_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `wfe_det_listening_seq`
---
-
-
---
--- Table structure for table `wfe_startup_events`
---
-
-CREATE TABLE `wfe_startup_events` (
-  `event_id` int(11) NOT NULL DEFAULT 0,
-  `workflow_id` varchar(60) NOT NULL DEFAULT '',
-  `type` varchar(255) DEFAULT NULL,
-  `content` varchar(255) DEFAULT NULL,
-  `subject_type` varchar(30) DEFAULT NULL,
-  `subject_id` int(11) DEFAULT NULL,
-  `context_type` varchar(30) DEFAULT NULL,
-  `context_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`event_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `wfe_startup_events`
---
-
-
---
--- Table structure for table `wfe_startup_events_seq`
---
-
-CREATE TABLE `wfe_startup_events_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `wfe_startup_events_seq`
---
-
-
---
--- Table structure for table `wfe_static_inputs`
---
-
-CREATE TABLE `wfe_static_inputs` (
-  `input_id` int(11) NOT NULL DEFAULT 0,
-  `event_id` int(11) NOT NULL DEFAULT 0,
-  `name` varchar(255) DEFAULT NULL,
-  `value` longtext DEFAULT NULL,
-  PRIMARY KEY (`input_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `wfe_static_inputs`
---
-
-
---
--- Table structure for table `wfe_static_inputs_seq`
---
-
-CREATE TABLE `wfe_static_inputs_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `wfe_static_inputs_seq`
---
-
-
---
--- Table structure for table `wfe_workflows`
---
-
-CREATE TABLE `wfe_workflows` (
-  `workflow_id` int(11) NOT NULL DEFAULT 0,
-  `workflow_type` varchar(255) DEFAULT NULL,
-  `workflow_content` varchar(255) DEFAULT NULL,
-  `workflow_class` varchar(255) DEFAULT NULL,
-  `workflow_location` varchar(255) DEFAULT NULL,
-  `subject_type` varchar(30) DEFAULT NULL,
-  `subject_id` int(11) DEFAULT NULL,
-  `context_type` varchar(30) DEFAULT NULL,
-  `context_id` int(11) DEFAULT NULL,
-  `workflow_instance` longtext DEFAULT NULL,
-  `active` int(11) DEFAULT NULL,
-  PRIMARY KEY (`workflow_id`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `wfe_workflows`
---
-
-
---
--- Table structure for table `wfe_workflows_seq`
---
-
-CREATE TABLE `wfe_workflows_seq` (
-  `sequence` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
-
---
--- Dumping data for table `wfe_workflows_seq`
 --
 
 
@@ -24457,7 +24767,7 @@ CREATE TABLE `wfld_user_setting` (
   `wfld_id` int(11) NOT NULL DEFAULT 0,
   `sortation` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`,`wfld_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `wfld_user_setting`
@@ -24474,7 +24784,7 @@ CREATE TABLE `wiki_page_template` (
   `new_pages` tinyint(4) NOT NULL DEFAULT 0,
   `add_to_page` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`wiki_id`,`wpage_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `wiki_page_template`
@@ -24494,7 +24804,7 @@ CREATE TABLE `wiki_stat` (
   `ts_day` char(10) DEFAULT NULL,
   `ts_hour` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`wiki_id`,`ts`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `wiki_stat`
@@ -24518,9 +24828,9 @@ CREATE TABLE `wiki_stat_page` (
   `avg_rating` int(11) NOT NULL DEFAULT 0,
   `ts_day` char(10) DEFAULT NULL,
   `ts_hour` tinyint(4) DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL DEFAULT 0,
+  `deleted` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`wiki_id`,`page_id`,`ts`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `wiki_stat_page`
@@ -24541,7 +24851,7 @@ CREATE TABLE `wiki_stat_page_user` (
   `ts_day` char(10) DEFAULT NULL,
   `ts_hour` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`wiki_id`,`page_id`,`ts`,`user_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `wiki_stat_page_user`
@@ -24560,7 +24870,7 @@ CREATE TABLE `wiki_stat_user` (
   `ts_day` char(10) DEFAULT NULL,
   `ts_hour` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`wiki_id`,`user_id`,`ts`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `wiki_stat_user`
@@ -24579,10 +24889,73 @@ CREATE TABLE `wiki_user_html_export` (
   `status` tinyint(4) NOT NULL DEFAULT 0,
   `with_comments` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`wiki_id`,`with_comments`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `wiki_user_html_export`
+--
+
+
+--
+-- Table structure for table `wopi_action`
+--
+
+CREATE TABLE `wopi_action` (
+  `id` int(11) NOT NULL,
+  `app_id` int(11) NOT NULL,
+  `name` varchar(256) NOT NULL,
+  `ext` varchar(256) NOT NULL,
+  `urlsrc` varchar(2048) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`app_id`)
+) ;
+
+--
+-- Dumping data for table `wopi_action`
+--
+
+
+--
+-- Table structure for table `wopi_action_seq`
+--
+
+CREATE TABLE `wopi_action_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `wopi_action_seq`
+--
+
+
+--
+-- Table structure for table `wopi_app`
+--
+
+CREATE TABLE `wopi_app` (
+  `id` int(11) NOT NULL,
+  `name` varchar(256) NOT NULL,
+  `favicon` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `wopi_app`
+--
+
+
+--
+-- Table structure for table `wopi_app_seq`
+--
+
+CREATE TABLE `wopi_app_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `wopi_app_seq`
 --
 
 
@@ -24600,7 +24973,7 @@ CREATE TABLE `write_event` (
   PRIMARY KEY (`write_id`),
   KEY `i1_idx` (`parent_obj_id`,`ts`),
   KEY `i2_idx` (`obj_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `write_event`
@@ -24637,7 +25010,7 @@ INSERT INTO `write_event` VALUES (152,9,-1,'create','2008-06-02 06:08:55',25);
 CREATE TABLE `write_event_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=26;
+)  AUTO_INCREMENT=26;
 
 --
 -- Dumping data for table `write_event_seq`
@@ -24654,7 +25027,7 @@ CREATE TABLE `xhtml_page` (
   `content` longtext DEFAULT NULL,
   `save_content` longtext DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xhtml_page`
@@ -24668,7 +25041,7 @@ CREATE TABLE `xhtml_page` (
 CREATE TABLE `xhtml_page_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xhtml_page_seq`
@@ -24691,7 +25064,7 @@ CREATE TABLE `xmlnestedset` (
   KEY `i2_idx` (`ns_l`),
   KEY `i3_idx` (`ns_r`),
   KEY `i4_idx` (`ns_book_fk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xmlnestedset`
@@ -24705,7 +25078,7 @@ CREATE TABLE `xmlnestedset` (
 CREATE TABLE `xmlnestedset_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xmlnestedset_seq`
@@ -24730,7 +25103,7 @@ CREATE TABLE `xmlnestedsettmp` (
   KEY `i3_idx` (`ns_r`),
   KEY `i4_idx` (`ns_book_fk`),
   KEY `i5_idx` (`ns_unique_id`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xmlnestedsettmp`
@@ -24744,7 +25117,7 @@ CREATE TABLE `xmlnestedsettmp` (
 CREATE TABLE `xmlnestedsettmp_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xmlnestedsettmp_seq`
@@ -24760,7 +25133,7 @@ CREATE TABLE `xmlparam` (
   `param_name` char(50) NOT NULL DEFAULT '',
   `param_value` char(255) DEFAULT NULL,
   PRIMARY KEY (`tag_fk`,`param_name`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xmlparam`
@@ -24776,7 +25149,7 @@ CREATE TABLE `xmltags` (
   `tag_depth` int(11) NOT NULL DEFAULT 0,
   `tag_name` char(50) DEFAULT NULL,
   PRIMARY KEY (`tag_pk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xmltags`
@@ -24790,7 +25163,7 @@ CREATE TABLE `xmltags` (
 CREATE TABLE `xmltags_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xmltags_seq`
@@ -24807,7 +25180,7 @@ CREATE TABLE `xmlvalue` (
   `tag_value` longtext DEFAULT NULL,
   PRIMARY KEY (`tag_value_pk`),
   KEY `i1_idx` (`tag_fk`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xmlvalue`
@@ -24821,7 +25194,7 @@ CREATE TABLE `xmlvalue` (
 CREATE TABLE `xmlvalue_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) ENGINE=InnoDB;
+) ;
 
 --
 -- Dumping data for table `xmlvalue_seq`
@@ -24829,4 +25202,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2022-06-07 13:55:04
+-- Dump completed on 2023-12-12 17:39:42
