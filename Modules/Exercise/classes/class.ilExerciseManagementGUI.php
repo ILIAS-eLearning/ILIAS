@@ -2147,9 +2147,11 @@ class ilExerciseManagementGUI
 
         // e.g. /<datadir>/<clientid>/ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
         $zip_original_full_path = $this->getSubmissionZipFilePath($submission, $print_version);
+        $this->log->debug("zip original full path: " . $zip_original_full_path);
 
         // e.g. ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
         $zip_internal_path = $this->getWebFilePathFromExternalFilePath($zip_original_full_path);
+        $this->log->debug("zip internal path: " . $zip_internal_path);
 
         $arr = explode("_", basename($zip_original_full_path));
         $obj_date = $arr[0];
@@ -2175,6 +2177,7 @@ class ilExerciseManagementGUI
             $obj_dir .
             DIRECTORY_SEPARATOR .
             "index.html";
+        $this->log->debug("index html file: " . $index_html_file);
 
         ilWACSignedPath::signFolderOfStartFile($index_html_file);
 
@@ -2185,10 +2188,12 @@ class ilExerciseManagementGUI
         $error_msg = "";
         if ($zip_original_full_path) {
             $file_copied = $this->copyFileToWebDir($zip_internal_path);
+            $this->log->debug("file copied: " . $file_copied);
 
             if ($file_copied) {
                 ilFileUtils::unzip($file_copied, true);
                 $web_filesystem->delete($zip_internal_path);
+                $this->log->debug("deleting: " . $zip_internal_path);
 
                 $submission_repository = $this->service->repo()->submission();
                 $submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
@@ -2246,11 +2251,13 @@ class ilExerciseManagementGUI
         $zip_file = basename($internal_file_path);
 
         if ($data_filesystem->has($internal_file_path)) {
+            $this->log->debug("internal file path: " . $internal_file_path);
             if (!$web_filesystem->hasDir($internal_dirs)) {
                 $web_filesystem->createDir($internal_dirs);
             }
 
             if (!$web_filesystem->has($internal_file_path)) {
+                $this->log->debug("writing: " . $internal_file_path);
                 $stream = $data_filesystem->readStream($internal_file_path);
                 $web_filesystem->writeStream($internal_file_path, $stream);
 
