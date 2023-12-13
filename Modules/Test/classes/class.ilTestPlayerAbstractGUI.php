@@ -702,29 +702,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return;
         }
 
-        $active_id = $this->test_session->getActiveId();
-        $actualpass = $this->test_session->getPass();
-        // Last try in limited tries & confirmed?
-        if ($actualpass === $this->object->getNrOfTries() - 1) {
-            switch ($this->object->getMailNotification()) {
-                case 1:
-                    $this->object->sendSimpleNotification($active_id);
-                    break;
-                case 2:
-                    $this->object->sendAdvancedNotification($active_id);
-                    break;
-            }
-        }
-
         // Non-last try finish
         if (ilSession::get('tst_pass_finish') === null) {
             ilSession::set('tst_pass_finish', 1);
         }
 
-        // no redirect request loops after test pass finished tasks has been performed
+        $this->sendNewPassFinishedNotificationEmailIfActivated(
+            $this->test_session->getActiveId(),
+            $this->test_session->getPass()
+        );
 
         $this->performTestPassFinishedTasks();
-        $this->sendNewPassFinishedNotificationEmailIfActivated($active_id);
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
     }
@@ -738,13 +726,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $finishTasks->performFinishTasks($this->processLocker);
     }
 
-    protected function sendNewPassFinishedNotificationEmailIfActivated(int $active_id)
+    protected function sendNewPassFinishedNotificationEmailIfActivated(int $active_id, int $pass)
     {
-        if ($this->object->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification()) {
+        $notification_type = $this->object->getMainSettings()->getFinishingSettings()->getMailNotificationContentType();
+
+        if ($notification_type === 0
+            || !$this->object->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification()
+                && $pass !== $this->object->getNrOfTries() - 1) {
             return;
         }
 
-        switch ($this->object->getMailNotification()) {
+        switch ($this->object->getMainSettings()->getFinishingSettings()->getMailNotificationContentType()) {
             case 1:
                 $this->object->sendSimpleNotification($active_id);
                 break;
