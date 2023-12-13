@@ -1051,6 +1051,9 @@ class ilCalendarCategoryGUI
                     $this->importable = true;
                 } elseif (isset($shared[$cat->getCategoryID()])) {
                     $this->visible = true;
+                    $shared_cal = new ilCalendarShared($cat->getCategoryID());
+                    $this->editable = $shared_cal->isEditableForUser($this->user->getId());
+                    $this->importable = $shared_cal->isEditableForUser($this->user->getId());
                 }
                 break;
 
