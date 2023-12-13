@@ -125,8 +125,9 @@ class Wiring implements UseSlot
         return $this->addTo('use-soap-api', $constraint);
     }
 
-    public function hasDocuments(array $content_as_component = [], array $available_conditions = []): self
+    public function hasDocuments(array $content_as_component = [], ?SelectionMap $available_conditions = null): self
     {
+        $available_conditions = $available_conditions ?? new SelectionMap();
         $repository = $this->slot->documentRepository();
         $document = $this->slot->document($this->slot->readOnlyDocuments($repository), $available_conditions, $content_as_component);
 

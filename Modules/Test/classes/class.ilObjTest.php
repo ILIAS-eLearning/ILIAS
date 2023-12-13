@@ -3394,7 +3394,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackGenericEnabled((bool) $metadata["entry"]);
                     break;
                 case 'instant_feedback_specific':
-                    $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackSolutionEnabled((bool) $metadata['entry']);
+                    $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackSpecificEnabled((bool) $metadata['entry']);
                     break;
                 case "instant_verification":
                     $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackSolutionEnabled((bool) $metadata["entry"]);
@@ -3883,10 +3883,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSolutionEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // answer specific feedback
+        // generic feedback
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "answer_feedback");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackGenericEnabled()));
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        // answer specific feedback
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // answer specific feedback of reached points
@@ -4093,7 +4099,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         //instant_feedback_specific
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         //instant_feedback_answer_fixation
@@ -4586,7 +4592,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
         if ($cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOfflineStatus(true);
+            $new_obj->getObjectProperties()->storePropertyIsOnline(
+                $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()
+            );
         }
 
         $new_obj->saveToDb();
@@ -5572,7 +5580,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      * @return array Result array
      * @throws ilDateTimeException
      */
-    public function isExecutable($test_session, $user_id, $allowPassIncrease = false): array
+    public function isExecutable($test_session, $user_id, $allow_pass_increase = false): array
     {
         $result = [
             "executable" => true,
@@ -5592,28 +5600,27 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $active_id = $this->getActiveIdOfUser($user_id);
 
-        if ($this->getEnableProcessingTime()) {
-            if ($active_id > 0) {
-                $starting_time = $this->getStartingTimeOfUser($active_id);
-                if ($starting_time !== false) {
-                    if ($this->isMaxProcessingTimeReached($starting_time, $active_id)) {
-                        if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > (self::_getPass($active_id) + 1)))) {
-                            // a test pass was quitted because the maximum processing time was reached, but the time
-                            // will be resetted for future passes, so if there are more passes allowed, the participant may
-                            // start the test again.
-                            // This code block is only called when $allowPassIncrease is TRUE which only happens when
-                            // the test info page is opened. Otherwise this will lead to unexpected results!
-                            $test_session->increasePass();
-                            $test_session->setLastSequence(0);
-                            $test_session->saveToDb();
-                        } else {
-                            $result["executable"] = false;
-                            $result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
-                        }
-                        return $result;
-                    }
-                }
+        if ($this->getEnableProcessingTime()
+            && $active_id > 0
+            && ($starting_time = $this->getStartingTimeOfUser($active_id)) !== false
+            && $this->isMaxProcessingTimeReached($starting_time, $active_id)) {
+            if ($allow_pass_increase
+                    && $this->getResetProcessingTime()
+                    && (($this->getNrOfTries() === 0)
+                || ($this->getNrOfTries() > (self::_getPass($active_id) + 1)))) {
+                // a test pass was quitted because the maximum processing time was reached, but the time
+                // will be resetted for future passes, so if there are more passes allowed, the participant may
+                // start the test again.
+                // This code block is only called when $allowPassIncrease is TRUE which only happens when
+                // the test info page is opened. Otherwise this will lead to unexpected results!
+                $test_session->increasePass();
+                $test_session->setLastSequence(0);
+                $test_session->saveToDb();
+            } else {
+                $result["executable"] = false;
+                $result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
             }
+            return $result;
         }
 
         $testPassesSelector = new ilTestPassesSelector($this->db, $this);
@@ -5735,17 +5742,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function isMaxProcessingTimeReached(int $starting_time, int $active_id): bool
     {
-        if ($this->getEnableProcessingTime()) {
-            $processing_time = $this->getProcessingTimeInSeconds($active_id);
-            $now = time();
-            if ($now > ($starting_time + $processing_time)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        if (!$this->getEnableProcessingTime()) {
             return false;
         }
+
+        $processing_time = $this->getProcessingTimeInSeconds($active_id);
+        $now = time();
+        if ($now > ($starting_time + $processing_time)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function &getTestQuestions(): array
@@ -6509,6 +6516,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $this->getMainSettingsRepository()->store($main_settings);
 
+        $reporting_date = $testsettings['ReportingDate'];
+        if (is_string($reporting_date)) {
+            $reporting_date = DateTimeImmutable($testsettings['ReportingDate']);
+        }
+
         $score_settings = $this->getScoreSettings();
         $score_settings = $score_settings
             ->withScoringSettings(
@@ -6523,11 +6535,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withShowGradingStatusEnabled((bool) $testsettings['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $testsettings['show_grading_mark'])
                 ->withScoreReporting((int) $testsettings['ScoreReporting'])
-                ->withReportingDate(
-                    $testsettings['ReportingDate'] !== null ?
-                        new DateTimeImmutable($testsettings['ReportingDate']) :
-                        null
-                )
+                ->withReportingDate($reporting_date)
             )
             ->withResultDetailsSettings(
                 $score_settings->getResultDetailsSettings()
@@ -7146,11 +7154,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withResultsPage()
             ->withUserPages()
             ->getContent();
-        $file = ilFileUtils::ilTempnam();
-        $worksheet->writeToFile($file);
+        $temp_file_path = ilFileUtils::ilTempnam();
+        $delivered_file_name = 'result_' . $active_id . '.xlsx';
+        $worksheet->writeToFile($temp_file_path);
         $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $fd->copyAttachmentFile($file . 'xlsx', "result_" . $active_id . ".xlsx");
-        $file_names[] = "result_" . $active_id . ".xlsx";
+        $fd->copyAttachmentFile($temp_file_path . '.xlsx', $delivered_file_name);
+        $file_names[] = $delivered_file_name;
 
         $mail->sendAdvancedNotification($owner_id, $this->getTitle(), $usr_data, $file_names);
 

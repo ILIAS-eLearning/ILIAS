@@ -85,19 +85,19 @@ abstract class ilAssQuestionFeedback
      * returns the html of GENERIC feedback for the given question id for test presentation
      * (either for the complete solution or for the incomplete solution)
      */
-    public function getGenericFeedbackTestPresentation(int $questionId, bool $solutionCompleted): string
+    public function getGenericFeedbackTestPresentation(int $question_id, bool $solution_completed): string
     {
         if ($this->page_obj_output_mode == "edit") {
             return "";
         }
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $genericFeedbackTestPresentationHTML = $this->getPageObjectContent(
+            $generic_feedback_test_presentation_html = $this->getPageObjectContent(
                 $this->getGenericFeedbackPageObjectType(),
-                $this->getGenericFeedbackPageObjectId($questionId, $solutionCompleted)
+                $this->getGenericFeedbackPageObjectId($question_id, $solution_completed)
             );
 
             $doc = new DOMDocument('1.0', 'UTF-8');
-            if (@$doc->loadHTML('<html><body>' . $genericFeedbackTestPresentationHTML . '</body></html>')) {
+            if (@$doc->loadHTML('<html><body>' . $generic_feedback_test_presentation_html . '</body></html>')) {
                 $xpath = new DOMXPath($doc);
                 $nodes_after_comments = $xpath->query('//comment()/following-sibling::*[1]');
                 foreach ($nodes_after_comments as $node_after_comments) {
@@ -107,9 +107,9 @@ abstract class ilAssQuestionFeedback
                 }
             }
         } else {
-            $genericFeedbackTestPresentationHTML = $this->getGenericFeedbackContent($questionId, $solutionCompleted);
+            $generic_feedback_test_presentation_html = $this->getGenericFeedbackContent($question_id, $solution_completed);
         }
-        return $genericFeedbackTestPresentationHTML;
+        return $generic_feedback_test_presentation_html;
     }
 
     /**
@@ -118,12 +118,12 @@ abstract class ilAssQuestionFeedback
      *
      * @abstract
      * @access public
-     * @param integer $questionId
-     * @param integer $questionIndex
-     * @param integer $answerIndex
+     * @param integer $question_id
+     * @param integer $question_index
+     * @param integer $answer_index
      * @return string $specificAnswerFeedbackTestPresentationHTML
      */
-    abstract public function getSpecificAnswerFeedbackTestPresentation(int $questionId, int $questionIndex, int $answerIndex): string;
+    abstract public function getSpecificAnswerFeedbackTestPresentation(int $question_id, int $question_index, int $answer_index): string;
 
     /**
      * completes a given form object with the GENERIC form properties
@@ -161,31 +161,31 @@ abstract class ilAssQuestionFeedback
     final public function initGenericFormProperties(ilPropertyFormGUI $form): void
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $pageObjectType = $this->getGenericFeedbackPageObjectType();
+            $page_object_type = $this->getGenericFeedbackPageObjectType();
 
-            $valueFeedbackSolutionComplete = $this->getPageObjectNonEditableValueHTML(
-                $pageObjectType,
+            $value_feedback_solution_complete = $this->getPageObjectNonEditableValueHTML(
+                $page_object_type,
                 $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), true)
             );
 
-            $valueFeedbackSolutionIncomplete = $this->getPageObjectNonEditableValueHTML(
-                $pageObjectType,
+            $value_feedback_solution_incomplete = $this->getPageObjectNonEditableValueHTML(
+                $page_object_type,
                 $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), false)
             );
         } else {
-            $valueFeedbackSolutionComplete = $this->getGenericFeedbackContent(
+            $value_feedback_solution_complete = $this->getGenericFeedbackContent(
                 $this->questionOBJ->getId(),
                 true
             );
 
-            $valueFeedbackSolutionIncomplete = $this->getGenericFeedbackContent(
+            $value_feedback_solution_incomplete = $this->getGenericFeedbackContent(
                 $this->questionOBJ->getId(),
                 false
             );
         }
 
-        $form->getItemByPostVar('feedback_complete')->setValue($valueFeedbackSolutionComplete);
-        $form->getItemByPostVar('feedback_incomplete')->setValue($valueFeedbackSolutionIncomplete);
+        $form->getItemByPostVar('feedback_complete')->setValue($value_feedback_solution_complete);
+        $form->getItemByPostVar('feedback_incomplete')->setValue($value_feedback_solution_incomplete);
     }
 
     /**
@@ -230,12 +230,12 @@ abstract class ilAssQuestionFeedback
      * - textarea input gui
      * @return ilTextAreaInputGUI|ilNonEditableValueGUI
      */
-    final protected function buildFeedbackContentFormProperty(string $label, string $postVar, bool $asNonEditable): ilSubEnabledFormPropertyGUI
+    final protected function buildFeedbackContentFormProperty(string $label, string $post_var, bool $as_non_editable): ilSubEnabledFormPropertyGUI
     {
-        if ($asNonEditable) {
-            $property = new ilNonEditableValueGUI($label, $postVar, true);
+        if ($as_non_editable) {
+            $property = new ilNonEditableValueGUI($label, $post_var, true);
         } else {
-            $property = new ilTextAreaInputGUI($label, $postVar);
+            $property = new ilTextAreaInputGUI($label, $post_var);
             $property->setRequired(false);
             $property->setRows(10);
             $property->setCols(80);
@@ -264,49 +264,49 @@ abstract class ilAssQuestionFeedback
      * the state is either the completed solution (all answers correct)
      * of the question or at least one incorrect answer.
      */
-    final public function getGenericFeedbackContent(int $questionId, bool $solutionCompleted): string
+    final public function getGenericFeedbackContent(int $question_id, bool $solution_completed): string
     {
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s AND correctness = %s",
-            array('integer', 'text'),
-            array($questionId, (int) $solutionCompleted)
+            ['integer', 'text'],
+            [$question_id, (int) $solution_completed]
         );
 
-        $feedbackContent = '';
+        $feedback_content = '';
 
         if ($this->db->numRows($res) > 0) {
             $row = $this->db->fetchAssoc($res);
-            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc(
+            $feedback_content = ilRTE::_replaceMediaObjectImageSrc(
                 $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($row['feedback'] ?? ''),
                 1
             );
         }
-        return $feedbackContent;
+        return $feedback_content;
     }
 
-    abstract public function getSpecificAnswerFeedbackContent(int $questionId, int $questionIndex, int $answerIndex): string;
+    abstract public function getSpecificAnswerFeedbackContent(int $question_id, int $question_index, int $answer_index): string;
 
-    abstract public function getAllSpecificAnswerFeedbackContents(int $questionId): string;
+    abstract public function getAllSpecificAnswerFeedbackContents(int $question_id): string;
 
-    public function isSpecificAnswerFeedbackAvailable(int $questionId): bool
+    public function isSpecificAnswerFeedbackAvailable(int $question_id): bool
     {
         $res = $this->db->queryF(
             "SELECT answer FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
             ['integer'],
-            [$questionId]
+            [$question_id]
         );
 
-        $allFeedbackContents = '';
+        $all_feedback_contents = '';
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $allFeedbackContents .= $this->getSpecificAnswerFeedbackExportPresentation(
+            $all_feedback_contents .= $this->getSpecificAnswerFeedbackExportPresentation(
                 $this->questionOBJ->getId(),
                 0,
                 $row['answer']
             );
         }
 
-        return (bool) strlen(trim(strip_tags($allFeedbackContents)));
+        return trim(strip_tags($all_feedback_contents)) !== '';
     }
 
     /**
@@ -314,69 +314,69 @@ abstract class ilAssQuestionFeedback
      * Generic feedback is either feedback for the completed solution (all answers correct)
      * of the question or at least onen incorrect answer.
      */
-    final public function saveGenericFeedbackContent(int $questionId, bool $solutionCompleted, string $feedbackContent): int
+    final public function saveGenericFeedbackContent(int $question_id, bool $solution_completed, string $feedback_content): int
     {
-        $feedbackId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
+        $feedbackId = $this->getGenericFeedbackId($question_id, $solution_completed);
 
-        if (strlen($feedbackContent)) {
-            $feedbackContent = $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($feedbackContent);
-            $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($feedbackContent, 0);
+        if ($feedback_content !== '') {
+            $feedback_content = $this->questionOBJ->getHtmlQuestionContentPurifier()->purify($feedback_content);
+            $feedback_content = ilRTE::_replaceMediaObjectImageSrc($feedback_content, 0);
         }
 
         if ($feedbackId != -1) {
             $this->db->update(
                 $this->getGenericFeedbackTableName(),
-                array(
-                    'feedback' => array('clob', $feedbackContent),
-                    'tstamp' => array('integer', time())
-                ),
-                array(
-                    'feedback_id' => array('integer', $feedbackId)
-                )
+                [
+                    'feedback' => ['clob', $feedback_content],
+                    'tstamp' => ['integer', time()]
+                ],
+                [
+                    'feedback_id' => ['integer', $feedbackId]
+                ]
             );
         } else {
             $feedbackId = $this->db->nextId($this->getGenericFeedbackTableName());
 
-            $this->db->insert($this->getGenericFeedbackTableName(), array(
-                'feedback_id' => array('integer', $feedbackId),
-                'question_fi' => array('integer', $questionId),
-                'correctness' => array('text', (int) $solutionCompleted), // text ?
-                'feedback' => array('clob', $feedbackContent),
-                'tstamp' => array('integer', time())
-            ));
+            $this->db->insert($this->getGenericFeedbackTableName(), [
+                'feedback_id' => ['integer', $feedbackId],
+                'question_fi' => ['integer', $question_id],
+                'correctness' => ['text', (int) $solution_completed], // text ?
+                'feedback' => ['clob', $feedback_content],
+                'tstamp' => ['integer', time()]
+            ]);
         }
 
         return $feedbackId;
     }
 
-    abstract public function saveSpecificAnswerFeedbackContent(int $questionId, int $questionIndex, int $answerIndex, string $feedbackContent): int;
+    abstract public function saveSpecificAnswerFeedbackContent(int $question_id, int $question_index, int $answer_index, string $feedback_content): int;
 
     /**
      * deletes all GENERIC feedback contents (and page objects if required)
      * for the given question id
      */
-    final public function deleteGenericFeedbacks(int $questionId, bool $isAdditionalContentEditingModePageObject): void
+    final public function deleteGenericFeedbacks(int $question_id, bool $isAdditionalContentEditingModePageObject): void
     {
         if ($isAdditionalContentEditingModePageObject) {
             $this->ensurePageObjectDeleted(
                 $this->getGenericFeedbackPageObjectType(),
-                $this->getGenericFeedbackPageObjectId($questionId, true)
+                $this->getGenericFeedbackPageObjectId($question_id, true)
             );
 
             $this->ensurePageObjectDeleted(
                 $this->getGenericFeedbackPageObjectType(),
-                $this->getGenericFeedbackPageObjectId($questionId, false)
+                $this->getGenericFeedbackPageObjectId($question_id, false)
             );
         }
 
         $this->db->manipulateF(
             "DELETE FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($questionId)
+            ['integer'],
+            [$question_id]
         );
     }
 
-    abstract public function deleteSpecificAnswerFeedbacks(int $questionId, bool $isAdditionalContentEditingModePageObject): void;
+    abstract public function deleteSpecificAnswerFeedbacks(int $question_id, bool $isAdditionalContentEditingModePageObject): void;
 
     /**
      * duplicates the feedback relating to the given original question id
@@ -396,24 +396,24 @@ abstract class ilAssQuestionFeedback
     {
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($originalQuestionId)
+            ['integer'],
+            [$originalQuestionId]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
             $feedbackId = $this->db->nextId($this->getGenericFeedbackTableName());
 
-            $this->db->insert($this->getGenericFeedbackTableName(), array(
-                'feedback_id' => array('integer', $feedbackId),
-                'question_fi' => array('integer', $duplicateQuestionId),
-                'correctness' => array('text', $row['correctness']),
-                'feedback' => array('clob', $row['feedback']),
-                'tstamp' => array('integer', time())
-            ));
+            $this->db->insert($this->getGenericFeedbackTableName(), [
+                'feedback_id' => ['integer', $feedbackId],
+                'question_fi' => ['integer', $duplicateQuestionId],
+                'correctness' => ['text', $row['correctness']],
+                'feedback' => ['clob', $row['feedback']],
+                'tstamp' => ['integer', time()]
+            ]);
 
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-                $pageObjectType = $this->getGenericFeedbackPageObjectType();
-                $this->duplicatePageObject($pageObjectType, $row['feedback_id'], $feedbackId, $duplicateQuestionId);
+                $page_object_type = $this->getGenericFeedbackPageObjectType();
+                $this->duplicatePageObject($page_object_type, $row['feedback_id'], $feedbackId, $duplicateQuestionId);
             }
         }
     }
@@ -441,40 +441,40 @@ abstract class ilAssQuestionFeedback
         // delete generic feedback of the original question
         $this->db->manipulateF(
             "DELETE FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($originalQuestionId)
+            ['integer'],
+            [$originalQuestionId]
         );
 
         // get generic feedback of the actual (duplicated) question
         $result = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($duplicateQuestionId)
+            ['integer'],
+            [$duplicateQuestionId]
         );
 
         // save generic feedback to the original question
         while ($row = $this->db->fetchAssoc($result)) {
             $nextId = $this->db->nextId($this->getGenericFeedbackTableName());
 
-            $this->db->insert($this->getGenericFeedbackTableName(), array(
-                'feedback_id' => array('integer', $nextId),
-                'question_fi' => array('integer', $originalQuestionId),
-                'correctness' => array('text', $row['correctness']),
-                'feedback' => array('clob', $row['feedback']),
-                'tstamp' => array('integer', time())
-            ));
+            $this->db->insert($this->getGenericFeedbackTableName(), [
+                'feedback_id' => ['integer', $nextId],
+                'question_fi' => ['integer', $originalQuestionId],
+                'correctness' => ['text', $row['correctness']],
+                'feedback' => ['clob', $row['feedback']],
+                'tstamp' => ['integer', time()]
+            ]);
         }
     }
 
     /**
      * returns the SPECIFIC answer feedback ID for a given question id and answer index.
      */
-    final protected function getGenericFeedbackId(int $questionId, bool $solutionCompleted): int
+    final protected function getGenericFeedbackId(int $question_id, bool $solution_completed): int
     {
         $res = $this->db->queryF(
             "SELECT feedback_id FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s AND correctness = %s",
-            array('integer','text'),
-            array($questionId, (int) $solutionCompleted)
+            ['integer','text'],
+            [$question_id, (int) $solution_completed]
         );
 
         $feedbackId = -1;
@@ -491,8 +491,8 @@ abstract class ilAssQuestionFeedback
         $row = $this->db->fetchAssoc($this->db->queryF(
             "SELECT COUNT(feedback_id) cnt FROM {$this->getGenericFeedbackTableName()}
 					WHERE question_fi = %s AND feedback_id = %s",
-            array('integer','integer'),
-            array($this->questionOBJ->getId(), $feedbackId)
+            ['integer','integer'],
+            [$this->questionOBJ->getId(), $feedbackId]
         ));
 
 
@@ -528,10 +528,10 @@ abstract class ilAssQuestionFeedback
      * returns html content to be used as value for non editable value form properties
      * in feedback editing form
      */
-    final protected function getPageObjectNonEditableValueHTML(string $pageObjectType, int $pageObjectId): string
+    final protected function getPageObjectNonEditableValueHTML(string $page_object_type, int $page_object_id): string
     {
-        $link = $this->getPageObjectEditingLink($pageObjectType, $pageObjectId);
-        $content = $this->getPageObjectContent($pageObjectType, $pageObjectId);
+        $link = $this->getPageObjectEditingLink($page_object_type, $page_object_id);
+        $content = $this->getPageObjectContent($page_object_type, $page_object_id);
 
         return "$link<br /><br />$content";
     }
@@ -548,11 +548,11 @@ abstract class ilAssQuestionFeedback
         return "ilAssSpecFeedbackPage" . $gui;
     }
 
-    private function getPageObjectEditingLink(string $pageObjectType, int $pageObjectId): string
+    private function getPageObjectEditingLink(string $page_object_type, int $page_object_id): string
     {
-        $cl = $this->getClassNameByType($pageObjectType, true);
-        $this->ctrl->setParameterByClass($cl, 'feedback_type', $pageObjectType);
-        $this->ctrl->setParameterByClass($cl, 'feedback_id', $pageObjectId);
+        $cl = $this->getClassNameByType($page_object_type, true);
+        $this->ctrl->setParameterByClass($cl, 'feedback_type', $page_object_type);
+        $this->ctrl->setParameterByClass($cl, 'feedback_id', $page_object_id);
 
         $linkHREF = $this->ctrl->getLinkTargetByClass($cl, 'edit');
         $linkTEXT = $this->lng->txt('tst_question_feedback_edit_page');
@@ -570,82 +570,82 @@ abstract class ilAssQuestionFeedback
         return $this->page_obj_output_mode;
     }
 
-    final protected function getPageObjectContent(string $pageObjectType, int $pageObjectId): string
+    final protected function getPageObjectContent(string $page_object_type, int $page_object_id): string
     {
-        $cl = $this->getClassNameByType($pageObjectType, true);
+        $cl = $this->getClassNameByType($page_object_type, true);
 
-        $this->ensurePageObjectExists($pageObjectType, $pageObjectId);
+        $this->ensurePageObjectExists($page_object_type, $page_object_id);
 
         $mode = ($this->ctrl->isAsynch()) ? "presentation" : $this->getPageObjectOutputMode();
 
-        $pageObjectGUI = new $cl($pageObjectId);
+        $pageObjectGUI = new $cl($page_object_id);
         $pageObjectGUI->setOutputMode($mode);
 
         return $pageObjectGUI->presentation($mode);
     }
 
-    final protected function getPageObjectXML(string $pageObjectType, int $pageObjectId): string
+    final protected function getPageObjectXML(string $page_object_type, int $page_object_id): string
     {
-        $cl = $this->getClassNameByType($pageObjectType);
+        $cl = $this->getClassNameByType($page_object_type);
 
-        $this->ensurePageObjectExists($pageObjectType, $pageObjectId);
+        $this->ensurePageObjectExists($page_object_type, $page_object_id);
 
-        $pageObject = new $cl($pageObjectId);
+        $pageObject = new $cl($page_object_id);
         return $pageObject->getXMLContent();
     }
 
-    private function ensurePageObjectExists(string $pageObjectType, int $pageObjectId): void
+    private function ensurePageObjectExists(string $page_object_type, int $page_object_id): void
     {
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK
-            && !ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId, '', true)) {
+        if ($page_object_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK
+            && !ilAssGenFeedbackPage::_exists($page_object_type, $page_object_id, '', true)) {
             $pageObject = new ilAssGenFeedbackPage();
             $pageObject->setParentId($this->questionOBJ->getId());
-            $pageObject->setId($pageObjectId);
+            $pageObject->setId($page_object_id);
             $pageObject->createFromXML();
         }
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK
-            && !ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId, '', true)) {
+        if ($page_object_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK
+            && !ilAssSpecFeedbackPage::_exists($page_object_type, $page_object_id, '', true)) {
             $pageObject = new ilAssSpecFeedbackPage();
             $pageObject->setParentId($this->questionOBJ->getId());
-            $pageObject->setId($pageObjectId);
+            $pageObject->setId($page_object_id);
             $pageObject->createFromXML();
         }
     }
 
-    final protected function createPageObject(string $pageObjectType, int $pageObjectId, string $pageObjectContent): void
+    final protected function createPageObject(string $page_object_type, int $page_object_id, string $page_object_content): void
     {
-        $cl = $this->getClassNameByType($pageObjectType);
+        $cl = $this->getClassNameByType($page_object_type);
 
         $pageObject = new $cl();
         $pageObject->setParentId($this->questionOBJ->getId());
-        $pageObject->setId($pageObjectId);
-        $pageObject->setXMLContent($pageObjectContent);
+        $pageObject->setId($page_object_id);
+        $pageObject->setXMLContent($page_object_content);
         $pageObject->createFromXML();
     }
 
-    final protected function duplicatePageObject(string $pageObjectType, int $originalPageObjectId, int $duplicatePageObjectId, int $duplicatePageObjectParentId): void
+    final protected function duplicatePageObject(string $page_object_type, int $original_page_object_id, int $duplicate_page_object_id, int $duplicate_page_object_parent_id): void
     {
-        $this->ensurePageObjectExists($pageObjectType, $originalPageObjectId);
+        $this->ensurePageObjectExists($page_object_type, $original_page_object_id);
 
-        $cl = $this->getClassNameByType($pageObjectType);
+        $cl = $this->getClassNameByType($page_object_type);
 
-        $pageObject = new $cl($originalPageObjectId);
-        $pageObject->setParentId($duplicatePageObjectParentId);
-        $pageObject->setId($duplicatePageObjectId);
+        $pageObject = new $cl($original_page_object_id);
+        $pageObject->setParentId($duplicate_page_object_parent_id);
+        $pageObject->setId($duplicate_page_object_id);
         $pageObject->createFromXML();
     }
 
-    final protected function ensurePageObjectDeleted(string $pageObjectType, int $pageObjectId): void
+    final protected function ensurePageObjectDeleted(string $page_object_type, int $page_object_id): void
     {
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            if (ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
-                $pageObject = new ilAssGenFeedbackPage($pageObjectId);
+        if ($page_object_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
+            if (ilAssGenFeedbackPage::_exists($page_object_type, $page_object_id)) {
+                $pageObject = new ilAssGenFeedbackPage($page_object_id);
                 $pageObject->delete();
             }
         }
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            if (ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
-                $pageObject = new ilAssSpecFeedbackPage($pageObjectId);
+        if ($page_object_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
+            if (ilAssSpecFeedbackPage::_exists($page_object_type, $page_object_id)) {
+                $pageObject = new ilAssSpecFeedbackPage($page_object_id);
                 $pageObject->delete();
             }
         }
@@ -681,30 +681,30 @@ abstract class ilAssQuestionFeedback
      * for the given question id for either the complete or incomplete solution
      * (using the id sequence of non page object generic feedback)
      */
-    final protected function getGenericFeedbackPageObjectId(int $questionId, bool $solutionCompleted): int
+    final protected function getGenericFeedbackPageObjectId(int $question_id, bool $solution_completed): int
     {
-        $pageObjectId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
+        $page_object_id = $this->getGenericFeedbackId($question_id, $solution_completed);
 
-        if ($pageObjectId == -1) {
-            $pageObjectId = $this->saveGenericFeedbackContent($questionId, $solutionCompleted, '');
+        if ($page_object_id == -1) {
+            $page_object_id = $this->saveGenericFeedbackContent($question_id, $solution_completed, '');
         }
 
-        return $pageObjectId;
+        return $page_object_id;
     }
 
     /**
      * returns the generic feedback export presentation for given question id
      * either for solution completed or incompleted
      */
-    public function getGenericFeedbackExportPresentation(int $questionId, bool $solutionCompleted): string
+    public function getGenericFeedbackExportPresentation(int $question_id, bool $solution_completed): string
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $genericFeedbackExportPresentation = $this->getPageObjectXML(
                 $this->getGenericFeedbackPageObjectType(),
-                $this->getGenericFeedbackPageObjectId($questionId, $solutionCompleted)
+                $this->getGenericFeedbackPageObjectId($question_id, $solution_completed)
             );
         } else {
-            $genericFeedbackExportPresentation = $this->getGenericFeedbackContent($questionId, $solutionCompleted);
+            $genericFeedbackExportPresentation = $this->getGenericFeedbackContent($question_id, $solution_completed);
         }
 
         return $genericFeedbackExportPresentation;
@@ -714,34 +714,34 @@ abstract class ilAssQuestionFeedback
      * returns the generic feedback export presentation for given question id
      * either for solution completed or incompleted
      */
-    abstract public function getSpecificAnswerFeedbackExportPresentation(int $questionId, int $questionIndex, int $answerIndex): string;
+    abstract public function getSpecificAnswerFeedbackExportPresentation(int $question_id, int $question_index, int $answer_index): string;
 
     /**
      * imports the given feedback content as generic feedback for the given question id
      * for either the complete or incomplete solution
      */
-    public function importGenericFeedback(int $questionId, bool $solutionCompleted, string $feedbackContent): void
+    public function importGenericFeedback(int $question_id, bool $solution_completed, string $feedback_content): void
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $pageObjectId = $this->getGenericFeedbackPageObjectId($questionId, $solutionCompleted);
-            $pageObjectType = $this->getGenericFeedbackPageObjectType();
+            $page_object_id = $this->getGenericFeedbackPageObjectId($question_id, $solution_completed);
+            $page_object_type = $this->getGenericFeedbackPageObjectType();
 
-            $this->createPageObject($pageObjectType, $pageObjectId, $feedbackContent);
+            $this->createPageObject($page_object_type, $page_object_id, $feedback_content);
         } else {
-            $this->saveGenericFeedbackContent($questionId, $solutionCompleted, $feedbackContent);
+            $this->saveGenericFeedbackContent($question_id, $solution_completed, $feedback_content);
         }
     }
 
-    abstract public function importSpecificAnswerFeedback(int $questionId, int $questionIndex, int $answerIndex, string $feedbackContent): void;
+    abstract public function importSpecificAnswerFeedback(int $question_id, int $question_index, int $answer_index, string $feedback_content): void;
 
-    public function migrateContentForLearningModule(ilAssSelfAssessmentMigrator $migrator, int $questionId): void
+    public function migrateContentForLearningModule(ilAssSelfAssessmentMigrator $migrator, int $question_id): void
     {
-        $this->saveGenericFeedbackContent($questionId, true, $migrator->migrateToLmContent(
-            $this->getGenericFeedbackContent($questionId, true)
+        $this->saveGenericFeedbackContent($question_id, true, $migrator->migrateToLmContent(
+            $this->getGenericFeedbackContent($question_id, true)
         ));
 
-        $this->saveGenericFeedbackContent($questionId, false, $migrator->migrateToLmContent(
-            $this->getGenericFeedbackContent($questionId, false)
+        $this->saveGenericFeedbackContent($question_id, false, $migrator->migrateToLmContent(
+            $this->getGenericFeedbackContent($question_id, false)
         ));
     }
 }

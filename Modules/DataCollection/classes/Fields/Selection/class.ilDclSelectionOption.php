@@ -129,7 +129,7 @@ class ilDclSelectionOption extends ActiveRecord
             $option = new self();
         }
         $option->setFieldId($field_id);
-        $option->setOptId($opt_id);
+        $option->setOptId((int)$opt_id);
         $option->setSorting($sorting);
         $option->setValue($value);
         $option->store();

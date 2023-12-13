@@ -43,4 +43,11 @@ interface ilTreeInterface
     public function getFirstNodeWith(
         ilXMLFileNodeInfoAttributePairCollectionInterface $attribute_pairs
     ): ilXMLFileNodeInfoInterface|null;
+
+    public function getAttributePath(
+        ilXMLFileNodeInfoInterface $startNode,
+        string $attribute_name,
+        string $path_separator,
+        bool $skip_nodes_without_attribute = true
+    ): string;
 }

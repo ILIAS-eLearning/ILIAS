@@ -691,7 +691,7 @@ class ilWikiPage extends ilPageObject
         $a_new_name = trim(preg_replace('!\s+!', ' ', $a_new_name));
 
         $page_title = ilWikiUtil::makeDbTitle($a_new_name);
-        $pg_id = self::_getPageIdForWikiTitle($this->getWikiId(), $page_title);
+        $pg_id = self::getPageIdForTitle($this->getWikiId(), $page_title, $this->getLanguage());
 
         $xml_new_name = str_replace("&", "&amp;", $a_new_name);
 
@@ -702,6 +702,7 @@ class ilWikiPage extends ilPageObject
             foreach ($sources as $s) {
                 if ($s["type"] === "wpg:pg" && ilPageObject::_exists("wpg", $s["id"])) {
                     $wpage = new ilWikiPage($s["id"], 0, $s["lang"]);
+                    $wpage->setWikiRefId($this->getWikiRefId());
 
                     $wiki_id = ilWikiPage::lookupWikiId($s["id"]);
                     $col = ilWikiUtil::collectInternalLinks(

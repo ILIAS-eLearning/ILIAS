@@ -27,6 +27,7 @@ use ImportHandler\File\XML\Manifest\ilFactory as ilManifestFileFactory;
 use ImportHandler\File\XSD\ilFactory as ilXSDFileFactory;
 use ImportHandler\I\File\ilFactoryInterface as ilFileFactory;
 use ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
+use ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
 use ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
 use ImportHandler\I\File\Validation\ilFactoryInterface as ilFileValidationFactoryInterface;
 use ImportHandler\I\File\XML\ilFactoryInterface as ilXMLFileFactoryInterface;
@@ -34,6 +35,7 @@ use ImportHandler\I\File\XML\Manifest\ilFactoryInterface as ilManifestFileFactor
 use ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileFactoryInterface;
 use ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
 use ImportHandler\File\Path\ilFactory as ilFilePathFactory;
+use ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
 
 class ilFactory implements ilFileFactory
 {
@@ -66,7 +68,7 @@ class ilFactory implements ilFileFactory
     {
         return new ilFileValidationFactory(
             $this->logger,
-            $this->parser->handler(),
+            $this->parser,
             new ilFilePathFactory($this->logger)
         );
     }
@@ -74,5 +76,10 @@ class ilFactory implements ilFileFactory
     public function path(): ilFilePathFactoryInterface
     {
         return new ilFilePathFactory($this->logger);
+    }
+
+    public function namespace(): ilFileNamespaceFactoryInterface
+    {
+        return new ilFileNamespaceFactory();
     }
 }

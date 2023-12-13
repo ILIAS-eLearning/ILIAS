@@ -35,7 +35,11 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
     public const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
+    public const REUSE_FILES_LANGVAR = 'ass_file_upload_reuse_btn';
+    public const REUSE_FILES_ACTION = 'reuse';
     public const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
+    public const DELETE_FILES_LANGVAR = 'delete';
+    public const DELETE_FILES_ACTION = 'delete';
     private const HANDLE_FILE_UPLOAD = 'handleFileUpload';
 
     /**
@@ -328,8 +332,11 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             );
             $table_gui->setData($files);
             // hey: prevPassSolutions - support file reuse with table
+
+            list($lang_var, $cmd) = $this->getCommandButtonLangVarAndAction();
             $table_gui->initCommand(
-                $this->buildFileTableDeleteButtonInstance(),
+                $lang_var,
+                $cmd,
                 assFileUpload::DELETE_FILES_TBL_POSTVAR
             );
             // hey.
@@ -357,9 +364,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         return $questionoutput;
     }
 
-    // hey: prevPassSolutions - pass will be always available from now on
     public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false): string
-    // hey.
     {
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html", true, true, "Modules/TestQuestionPool");
@@ -374,9 +379,11 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                 $this->lng->txt('already_delivered_files')
             );
             $table_gui->setData($files);
-            // hey: prevPassSolutions - support file reuse with table
+
+            list($lang_var, $cmd) = $this->getCommandButtonLangVarAndAction();
             $table_gui->initCommand(
-                $this->buildTestPresentationFileTableCommandButtonInstance(),
+                $lang_var,
+                $cmd,
                 $this->getTestPresentationFileTablePostVar()
             );
             // hey.
@@ -404,6 +411,14 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
         return $pageoutput;
+    }
+
+    private function getCommandButtonLangVarAndAction(): array
+    {
+        if ($this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {
+            return [self::REUSE_FILES_LANGVAR, self::REUSE_FILES_ACTION];
+        }
+        return [self::DELETE_FILES_LANGVAR, self::DELETE_FILES_ACTION];
     }
 
     public function getSpecificFeedbackOutput(array $userSolution): string
@@ -436,35 +451,6 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     {
         // Empty implementation here since a feasible way to aggregate answer is not known.
         return ''; //print_r($relevant_answers,true);
-    }
-
-    // hey: prevPassSolutions - shown files needs to be chosen so upload can replace or complete fileset
-    /**
-     * @return ilAssFileUploadFileTableDeleteButton
-     */
-    protected function buildFileTableDeleteButtonInstance(): ilAssFileUploadFileTableDeleteButton
-    {
-        return ilAssFileUploadFileTableDeleteButton::getInstance();
-    }
-
-    /**
-     * @return ilAssFileUploadFileTableReuseButton
-     */
-    protected function buildFileTableReuseButtonInstance(): ilAssFileUploadFileTableReuseButton
-    {
-        return ilAssFileUploadFileTableReuseButton::getInstance();
-    }
-
-    /**
-     * @return ilAssFileUploadFileTableCommandButton
-     */
-    protected function buildTestPresentationFileTableCommandButtonInstance()
-    {
-        if ($this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {
-            return $this->buildFileTableReuseButtonInstance();
-        }
-
-        return $this->buildFileTableDeleteButtonInstance();
     }
 
     protected function getTestPresentationFileTablePostVar(): string

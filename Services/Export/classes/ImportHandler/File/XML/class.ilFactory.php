@@ -32,10 +32,11 @@ use ImportHandler\I\File\XML\Manifest\ilFactoryInterface as ilManifestFileFactor
 use ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
 use ImportHandler\I\File\XML\Node\ilFactoryInterface as ilXMLFileNodeFactoryInterface;
 use ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
-use ImportHandler\I\File\XML\Reader\ilFactoryInterface as ilXMLFileReaderFactoryInterface;
 use ImportStatus\ilFactory as ilStatusFactory;
 use ImportHandler\File\XML\Node\ilFactory as ilXMLFileNodeFactory;
 use ImportHandler\File\XML\Export\ilFactory as ilXMLExportFileFactory;
+use ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use SplFileInfo;
 
 class ilFactory implements ilXMLFileFactoryInterface
 {
@@ -53,11 +54,20 @@ class ilFactory implements ilXMLFileFactoryInterface
         $this->parser = $parser;
     }
 
-    public function handler(): ilXMLFileHanlderInterface
+    /*public function handler(): ilXMLFileHanlderInterface
     {
         return new ilXMLFileHanlder(
+            new ilFileNamespaceFactory(),
             new ilStatusFactory()
         );
+    }*/
+
+    public function withFileInfo(SplFileInfo $file_info): ilXMLFileHanlderInterface
+    {
+        return (new ilXMLFileHanlder(
+            new ilFileNamespaceFactory(),
+            new ilStatusFactory()
+        ))->withFileInfo($file_info);
     }
 
     public function collection(): ilXMLFileHanlderCollectionInterface

@@ -54,9 +54,7 @@ class assOrderingQuestionImport extends assQuestionImport
 
         $presentation = $item->getPresentation();
         $shuffle = 0;
-        $now = getdate();
         $foundimage = false;
-        $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
         $answers = [];
         $type = OQ_TERMS;
 
@@ -128,7 +126,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
-                $ident = "";
+                $ident = '';
                 $correctness = 1;
                 $conditionvar = $respcondition->getConditionvar();
                 foreach ($conditionvar->order as $order) {
@@ -143,48 +141,43 @@ class assOrderingQuestionImport extends assQuestionImport
                     }
                 }
                 foreach ($respcondition->setvar as $setvar) {
-                    if (strcmp($ident, "") != 0) {
-                        $answers[$ident]["solutionorder"] = $orderindex;
-                        $answers[$ident]["action"] = $setvar->getAction();
-                        $answers[$ident]["points"] = $setvar->getContent();
+                    if ($ident !== '') {
+                        $answers[$ident]['solutionorder'] = $orderindex;
+                        $answers[$ident]['action'] = $setvar->getAction();
+                        $answers[$ident]['points'] = $setvar->getContent();
                     }
                 }
-                if (count($respcondition->displayfeedback)) {
-                    foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                        if (strlen($feedbackpointer->getLinkrefid())) {
-                            foreach ($item->itemfeedback as $ifb) {
-                                if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
-                                    // found a feedback for the identifier
-                                    if (count($ifb->material)) {
-                                        foreach ($ifb->material as $material) {
-                                            $feedbacksgeneric[1] = $material;
-                                        }
-                                    }
-                                    if ((count($ifb->flow_mat) > 0)) {
-                                        foreach ($ifb->flow_mat as $fmat) {
-                                            if (count($fmat->material)) {
-                                                foreach ($fmat->material as $material) {
-                                                    $feedbacksgeneric[1] = $material;
-                                                }
-                                            }
-                                        }
-                                    }
-                                } elseif (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0) {
-                                    // found a feedback for the identifier
-                                    if (count($ifb->material)) {
-                                        foreach ($ifb->material as $material) {
-                                            $feedbacksgeneric[0] = $material;
-                                        }
-                                    }
-                                    if ((count($ifb->flow_mat) > 0)) {
-                                        foreach ($ifb->flow_mat as $fmat) {
-                                            if (count($fmat->material)) {
-                                                foreach ($fmat->material as $material) {
-                                                    $feedbacksgeneric[0] = $material;
-                                                }
-                                            }
-                                        }
-                                    }
+                if (!is_array($respcondition->displayfeedback)) {
+                    continue;
+                }
+
+                foreach ($respcondition->displayfeedback as $feedbackpointer) {
+                    if ($feedbackpointer->getLinkrefid() === '') {
+                        continue;
+                    }
+
+                    foreach ($item->itemfeedback as $ifb) {
+                        if ($ifb->getIdent() === 'response_allcorrect') {
+                            // found a feedback for the identifier
+                            foreach ($ifb->material as $material) {
+                                $feedbacksgeneric[1] = $material;
+                            }
+                            foreach ($ifb->flow_mat as $fmat) {
+                                foreach ($fmat->material as $material) {
+                                    $feedbacksgeneric[1] = $material;
+                                }
+                            }
+                            continue;
+                        }
+
+                        if ($ifb->getIdent() === 'response_onenotcorrect') {
+                            // found a feedback for the identifier
+                            foreach ($ifb->material as $material) {
+                                $feedbacksgeneric[0] = $material;
+                            }
+                            foreach ($ifb->flow_mat as $fmat) {
+                                foreach ($fmat->material as $material) {
+                                    $feedbacksgeneric[0] = $material;
                                 }
                             }
                         }
@@ -216,7 +209,9 @@ class assOrderingQuestionImport extends assQuestionImport
         $solanswers = [];
 
         foreach ($answers as $answer) {
-            $solanswers[$answer["solutionorder"] ?? null] = $answer;
+            if (isset($answer["solutionorder"])) {
+                $solanswers[$answer["solutionorder"]] = $answer;
+            }
         }
         ksort($solanswers);
         $position = 0;
@@ -247,7 +242,7 @@ class assOrderingQuestionImport extends assQuestionImport
             $element_list->addElement($element);
         }
         $this->object->setOrderingElementList($element_list);
-        $points = ($item->getMetadataEntry("points") > 0) ? $item->getMetadataEntry("points") : $points;
+        $points = ($item->getMetadataEntry("points") > 0) ? $item->getMetadataEntry('points') : $points;
         $this->object->setPoints($points);
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(

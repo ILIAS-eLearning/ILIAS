@@ -31,6 +31,7 @@ use ILIAS\LegalDocuments\Map;
 use ILIAS\LegalDocuments\SlotConstructor;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Wiring;
+use ILIAS\LegalDocuments\SelectionMap;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -161,7 +162,7 @@ class WiringTest extends TestCase
     public function testHasDocuments(): void
     {
         $instance = new Wiring($this->mock(SlotConstructor::class), new Map());
-        $map = $instance->hasDocuments([], [])->map()->value();
+        $map = $instance->hasDocuments([], new SelectionMap())->map()->value();
 
         $this->assertSame([
             'document',

@@ -25,4 +25,6 @@ use XMLReader;
 interface ilNodeInterface
 {
     public function toString(): string;
+
+    public function requiresPathSeparator(): bool;
 }

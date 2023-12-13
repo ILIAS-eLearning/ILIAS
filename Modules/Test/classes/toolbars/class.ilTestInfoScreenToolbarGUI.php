@@ -124,15 +124,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         }
     }
 
-    public function addButtonInstance(ilButtonBase $a_button): void
-    {
-        if ($this->global_toolbar instanceof parent) {
-            $this->global_toolbar->addButtonInstance($a_button);
-        } else {
-            parent::addButtonInstance($a_button);
-        }
-    }
-
     public function setCloseFormTag(bool $a_val): void
     {
         if ($this->global_toolbar instanceof parent) {

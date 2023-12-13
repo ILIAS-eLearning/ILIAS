@@ -23,11 +23,13 @@ namespace ImportHandler\File\XSD;
 use ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileHandlerFactoryInterface;
 use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
 use ImportHandler\File\XSD\ilHandler as ilXSDFileHandler;
+use ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use SplFileInfo;
 
 class ilFactory implements ilXSDFileHandlerFactoryInterface
 {
-    public function handler(): ilXSDFileHandlerInterface
+    public function withFileInfo(SplFileInfo $file_info): ilXSDFileHandlerInterface
     {
-        return new ilXSDFileHandler();
+        return (new ilXSDFileHandler(new ilFileNamespaceFactory()))->withFileInfo($file_info);
     }
 }

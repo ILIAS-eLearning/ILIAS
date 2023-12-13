@@ -66,7 +66,7 @@ class ilTree implements ilXMLFileNodeInfoTreeInterface
     ): ilXMLFileNodeInfoTreeInterface {
         $clone = clone $this;
         $clone->xml = $xml_handler;
-        $items = $this->parser->handler()->withFileHandler($xml_handler)->getNodeInfoAt($path_handler);
+        $items = $this->parser->DOM()->withFileHandler($xml_handler)->getNodeInfoAt($path_handler);
         if ($items->count() === 0) {
             unset($clone->root);
         }
@@ -82,23 +82,16 @@ class ilTree implements ilXMLFileNodeInfoTreeInterface
         if(!isset($this->root)) {
             return $this->info->collection();
         }
-        $msg = "\n\n\n";
-        $msg .= "ROOT: " . $this->root->getNodeName();
-        $msg .= "XML: " . $this->xml->getFilePath();
         $nodes = $this->info->collection()->withMerged($this->root->getChildren());
-
         $found = $this->info->collection();
         while (count($nodes) > 0) {
-            $msg .= "\nNodeCount: " . count($nodes);
             $current_node = $nodes->getFirst();
             $nodes = $nodes->removeFirst();
             $nodes = $nodes->withMerged($current_node->getChildren());
-            $msg .= "\nNode: " . $current_node->toString();
             if ($attribute_pairs->matches($current_node)) {
                 $found = $found->withElement($current_node);
             }
         }
-        $this->logger->debug($msg . "\n\n");
         return $found;
     }
 
@@ -107,5 +100,25 @@ class ilTree implements ilXMLFileNodeInfoTreeInterface
     ): ilXMLFileNodeInfoInterface|null {
         $nodes = $this->getNodesWith($attribute_pairs);
         return count($nodes) === 0 ? null : $nodes->getFirst();
+    }
+
+    public function getAttributePath(
+        ilXMLFileNodeInfoInterface $startNode,
+        string $attribute_name,
+        string $path_separator,
+        bool $skip_nodes_without_attribute = true
+    ): string {
+        $path_str = '';
+        $current_node = $startNode;
+        while (!is_null($current_node)) {
+            if($skip_nodes_without_attribute && !$current_node->hasAttribute($attribute_name)) {
+                break;
+            }
+            $path_str = $current_node->hasAttribute($attribute_name)
+                ? $path_separator . $current_node->getValueOfAttribute($attribute_name) . $path_str
+                : $path_separator . '..' . $path_str;
+            $current_node = $current_node->getParent();
+        }
+        return $path_str;
     }
 }

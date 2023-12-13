@@ -92,17 +92,17 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     // hey.
 
     // hey: prevPassSolutions - support file reuse with table
-    public function initCommand(ilAssFileUploadFileTableCommandButton $commandButton, $postVar): void
+    public function initCommand(string $lang_var, string $cmd, string $post_var): void
     {
         if (count($this->getData())) {
             $this->enable('select_all');
 
-            $this->setSelectAllCheckbox($postVar);
-            $this->setPrefix($postVar);
-            $this->setPostVar($postVar);
+            $this->setSelectAllCheckbox($post_var);
+            $this->setPrefix($post_var);
+            $this->setPostVar($post_var);
 
-            $commandButton->setCommand($this->parent_cmd);
-            $this->addCommandButtonInstance($commandButton);
+            $on_click = "return (function(e){ e.name += '[{$cmd}]';})(this);";
+            $this->addCommandButton($this->parent_cmd, $this->lng->txt($lang_var), $on_click);
         }
     }
     // hey.

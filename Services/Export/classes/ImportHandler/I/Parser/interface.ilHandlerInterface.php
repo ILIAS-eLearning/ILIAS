@@ -23,7 +23,6 @@ namespace ImportHandler\I\Parser;
 use ImportHandler\I\File\Path\ilHandlerInterface as ilParserPathHandlerInterface;
 use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
 use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
 
 interface ilHandlerInterface
 {

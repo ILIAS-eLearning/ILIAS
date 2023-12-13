@@ -561,6 +561,7 @@ assessment#:#circle_click_center#:#Veuillez cliquer au centre de la zone désir�
 assessment#:#circle_click_circle#:#Veuillez cliquer sur un point du cercle de la zone désirée
 assessment#:#clientip#:#Adresse IP
 assessment#:#close_text_hint#:#Vous pouvez définir un trou en saisissant les balises [gap] et [/gap] avant et après le ou les mots de votre choix dans le texte.  Cliquez sur le bouton 'Créer les trous' pour ajouter un formulaire modifiable pour chaque trou.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###12 12 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Longueur du Champ Texte
 assessment#:#cloze_fixed_textlength_description#:#Si une valeur supérieure à  zéro est saisie , tous les champs de texte seront créés avec cette valeur comme longueur de champ.
 assessment#:#cloze_gap_size_info#:#Si vous entrez une valeur supérieure à  0, ce champ de texte d'écart sera créé avec la longueur fixe de cette valeur. Si vous n'entrez pas de valeur, le champ de texte d'écart sera créé avec la valeur de la longueur fixe globale.
@@ -658,6 +659,7 @@ assessment#:#err_unit_in_variables#:#L'unité ne peut pas être supprimée. Elle
 assessment#:#err_unit_is_baseunit#:#L'unité ne peut pas être supprimée. Elle est utilisée comme unité de base par d'autres unités.
 assessment#:#err_wrong_categoryname#:#La catégorie existe déjà.
 assessment#:#err_wrong_rating_advanced#:#Veuillez vous assurer que la somme des notations est égale à 100%.
+assessment#:#error_creating_certificate_zip_empty#:#No data for export.###12 12 2023 new variable
 assessment#:#error_importing_question#:#Il y a eu une erreur lors de l'importation de la (des) question(s) depuis le fichier spécifié
 assessment#:#error_open_image_file#:#Erreur à l'ouverture d'un fichier image
 assessment#:#error_random_question_generation#:#Une erreur fatale s'est produite pendant la création des questions aléatoires du test. Veuillez contacter l'administrateur et lui transmettre les informations suivantes : Le système n'a pas pu créer un ID actif pour l'identifiant utilisateur %s et l'ID du test %s.
@@ -1261,6 +1263,7 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#Tous les tests de compétence
 assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites
+assessment#:#tst_already_passed_cannot_retake#:#Test already passed. You cannot start the test again.###12 12 2023 new variable
 assessment#:#tst_already_submitted#:#Le test a déjà été passé et enregistré.
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Anonymat
@@ -1521,6 +1524,7 @@ assessment#:#tst_mark_minimum_level#:#Niveau Minimum (en %)
 assessment#:#tst_mark_official_form#:#Forme Officielle
 assessment#:#tst_mark_passed#:#Valid&eacute;
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Créer une Echelle d'Evaluation Simple
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###12 12 2023 new variable
 assessment#:#tst_mark_short_form#:#Forme Courte
 assessment#:#tst_max_comp_points#:#Points de compétence max.
 assessment#:#tst_maximum_points#:#Points Max.
@@ -2450,6 +2454,7 @@ blog#:#blog_settings#:#Administration des Blogs
 blog#:#blog_settings_navigation#:#Colonne de navigation
 blog#:#blog_show_latest#:#Montrer les dernier(ière)s publications/brouillons
 blog#:#blog_show_print_view#:#Show Print View###31 10 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###12 12 2023 new variable
 blog#:#blog_style#:#Style du Blog
 blog#:#blog_task_publishing_draft_title#:#Publication de brouillon "%s"
 blog#:#blog_toggle_draft#:#Enregistrer comme Brouillon
@@ -2901,6 +2906,7 @@ chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Êtes-vous sûr de vouloir quitter 
 chatroom#:#chat_osc_user#:#Utilisateur
 chatroom#:#chat_osc_user_left_grp_conv#:#L’utilisateur «%s» a quitté la discussion de groupe.
 chatroom#:#chat_osc_write_a_msg#:#Écrire un message...
+chatroom#:#chat_select_room#:#Select Chat Room###12 12 2023 new variable
 chatroom#:#chat_settings#:#Paramètres du Chat
 chatroom#:#chat_settings_functions_header#:#Chat Room Functions###31 10 2023 new variable
 chatroom#:#chat_show_auto_messages#:#Show Status Messages###31 10 2023 new variable
@@ -3971,6 +3977,7 @@ common#:#err_auth_mode_inactive#:#Votre méthode d'authentification a été dés
 common#:#err_auth_soap_no_ilias_user#:#La connexion a échoué. L'authentification au serveur SOAP a réussi, mais aucun compte utilisateur correspondant sur ILIAS n'existe. Veuillez prendre contact avec l'administrateur de la plate-forme ILIAS.
 common#:#err_check_input#:#Les paramètres ne peuvent être enregistrés. Veuillez vérifier votre saisie.
 common#:#err_count_param#:#Raison : nombre de paramètre invalide
+common#:#err_double_entries#:#Reason: Duplicate Entries###12 12 2023 new variable
 common#:#err_in_line#:#Erreur ligne
 common#:#err_inactive#:#Ce compte n'a pas été activé. Veuillez contacter l'administrateur système pour y accéder
 common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account.
@@ -5130,6 +5137,7 @@ common#:#objs_rtst#:#Tests ECS
 common#:#objs_rwik#:#Wikis ECS
 common#:#objs_sahs#:#Modules SCORM/AICC
 common#:#objs_sess#:#Sessions
+common#:#objs_skee#:#Competence Trees###12 12 2023 new variable
 common#:#objs_spl#:#Banques de questions (Enquête)
 common#:#objs_st#:#Chapitres
 common#:#objs_svy#:#Enquêtes
@@ -7321,6 +7329,7 @@ copg#:#copg_list_style#:#List###31 10 2023 new variable
 copg#:#copg_list_styles#:#List Formats###31 10 2023 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###12 12 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Les questions ne sont pas supportées dans ce contexte.
 copg#:#copg_reload_page#:#Reload Page
 copg#:#copg_sec_link_info#:#Si vous définissez un lien sur toute la section, veuillez vous assurer qu’aucun autre élément interactif n’est inclus dans la section. Autrement, son comportement peut être irrégulier.
@@ -8264,6 +8273,7 @@ dateplaner#:#cal_edit_category#:#Modifier l'agenda
 dateplaner#:#cal_edit_milestone#:#Modifier étape
 dateplaner#:#cal_edit_recurrences#:#Editer tous les Rendez-Vous
 dateplaner#:#cal_edit_single#:#Editer ce Rendez-Vous
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###12 12 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Activer étapes
 dateplaner#:#cal_enable_group_milestones_desc#:#Cette option active le planning par étape dans l'agenda.
 dateplaner#:#cal_err_invalid_notification_rcps#:#La liste des destinataires n'est pas valide. Veuillez choisir uniquement des noms d'utilisateur ILIAS ou adresses email valides.
@@ -8808,6 +8818,8 @@ dpro#:#dpro_last_reset_date#:#The Data Protection were reset on %s. Only reset t
 dpro#:#dpro_mode#:#Mode###31 10 2023 new variable
 dpro#:#dpro_mode_desc#:#Please configure when and how the Data Protection should be accepted.###31 10 2023 new variable
 dpro#:#dpro_no_acceptance#:#Never, only informative###31 10 2023 new variable
+dpro#:#dpro_no_documents_exist#:#There are currently no Declaration of Data Protection documents available.###12 12 2023 new variable
+dpro#:#dpro_no_documents_exist_cant_save#:#There are currently no Declaration of Data Protection documents available. Please add at least one document in order to activate this service.###12 12 2023 new variable
 dpro#:#dpro_once#:#Accept once###31 10 2023 new variable
 dpro#:#dpro_reset_for_all_users#:#Reset Data Protection###31 10 2023 new variable
 dpro#:#dpro_status_enable#:#Enable Data Protection###31 10 2023 new variable
@@ -9115,6 +9127,7 @@ exc#:#exc_all_new_files_offered_already#:#Le téléchargement de tous les nouvea
 exc#:#exc_ass_submission_zip#:#Submissions
 exc#:#exc_ass_team_wiki#:#Assignment Team Wiki
 exc#:#exc_assignment#:#Tâches
+exc#:#exc_assignment_list#:#Assignments List###12 12 2023 new variable
 exc#:#exc_assignment_type#:#Type de Présentation
 exc#:#exc_assignment_view#:#Vue tà¢che
 exc#:#exc_assignments#:#Tà¢ches
@@ -9220,6 +9233,7 @@ exc#:#exc_individual_deadline#:#Délai individuel
 exc#:#exc_individual_deadline_action#:#Définir un délai individuel
 exc#:#exc_individual_deadline_before_global#:#La date doit être postérieure au (dernier) délai: %s.
 exc#:#exc_instruction_files#:#Fichiers Instructions
+exc#:#exc_instruction_migration_not_run#:#The instruction file migration has not been finished yet. Please contact your system administrator.###12 12 2023 new variable
 exc#:#exc_late_submission#:#Soumission tardive
 exc#:#exc_late_submission_warning#:#Les soumissions reçues après %s sont marqués comme tardives.
 exc#:#exc_lead_request_idl#:#Request Deadline###31 10 2023 new variable
@@ -9426,6 +9440,7 @@ exc#:#exc_select_ass#:#Sélectionner tâche
 exc#:#exc_select_blog#:#Utiliser un Blog Existant
 exc#:#exc_select_blog_change#:#Utiliser un autre Blog
 exc#:#exc_select_blog_info#:#Sélectionner un de vos Blog pour l'utiliser dans cette activité.
+exc#:#exc_select_blog_unlink#:#Remove Blog###12 12 2023 new variable
 exc#:#exc_select_part#:#Sélectionner un participant
 exc#:#exc_select_portfolio#:#Utiliser un Portfolio Existant
 exc#:#exc_select_portfolio_change#:#Utiliser un autre Portfolio
@@ -9442,6 +9457,7 @@ exc#:#exc_settings_feedback_mail#:#Par e-mail
 exc#:#exc_settings_feedback_mail_info#:#Les tuteurs entrent leurs évaluations sous forme de mail. L’évaluation est envoyée aux participants.
 exc#:#exc_settings_feedback_text#:#Textinput
 exc#:#exc_settings_feedback_text_info#:#Les tuteurs tapent leurs évaluations dans un champ de texte. Le participant reçoit une notification à ce propos et peut accéder au fichier dans l’aperçu des affectations.
+exc#:#exc_show_instructions#:#Show Work Instructions###12 12 2023 new variable
 exc#:#exc_show_peer_review#:#Afficher les Retours des Pairs
 exc#:#exc_show_submissions#:#Publier les propositions après la date limite
 exc#:#exc_show_submissions_info#:#Publier toutes les propositions de tous les apprenants après la date limite.
@@ -9464,6 +9480,7 @@ exc#:#exc_submissions_and_grades#:#Propositions & évaluations
 exc#:#exc_submit_anytime#:#Submit Anytime###31 10 2023 new variable
 exc#:#exc_submit_convenience_no_deadline#:#Soumettez la tâche à votre convenance. Il n’y a pas de délai spécifique.
 exc#:#exc_submitted_files_deleted#:#Les fichiers sélectionnés ont été supprimés.
+exc#:#exc_sure_unlink_blog#:#Are you sure to remove this blog form this assignment?###12 12 2023 new variable
 exc#:#exc_sure_unlink_portfolio#:#Êtes-vous sûr de vouloir retirer ce portfolio de cette affectation?
 exc#:#exc_target_not_valid#:#La cible demandée n’est pas valide ou incomplète.
 exc#:#exc_task_grading#:#Grading of Assignment "%1"
@@ -10710,7 +10727,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###31 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###31 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 10 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 10 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###12 12 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page
+lm#:#lm_pages_added#:#Pages have been added.###12 12 2023 new variable
 lm#:#lm_save_titles#:#Titres sauvegardés.
 lng#:#language_detection#:#Détection de la langue
 lng#:#lng_disable_language_detection#:#Désactiver la Détection de la Langue
@@ -10755,6 +10774,8 @@ lso#:#abstract_img#:#Image for Abstract
 lso#:#avail_time_period#:#Period
 lso#:#completed_steps#:#Passed Steps
 lso#:#condition_always#:#Always
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###12 12 2023 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###12 12 2023 new variable
 lso#:#curriculum#:#Curriculum
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
 lso#:#entries_deleted#:#Successfuly delete entries
@@ -11134,10 +11155,14 @@ lti#:#user_provider_subtab#:#Providers Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Retour au dossier
+mail#:#chat_users_have_been_invited#:#The following users have been invited:###12 12 2023 new variable
+mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:###12 12 2023 new variable
+mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:###12 12 2023 new variable
 mail#:#current_folder#:#Dossier actuel: %s
 mail#:#deleteTemplate#:#Delete###31 10 2023 new variable
 mail#:#first_email_missing_info#:#Sélection impossible car aucune adresse mail n’a été entrée
 mail#:#forward#:#Transférer
+mail#:#goto_invitation_chat#:#Open Chat Room###12 12 2023 new variable
 mail#:#invite_to_chat#:#Inviter à un Chat
 mail#:#link_check_affected_links#:#Liens affectés
 mail#:#link_check_introduction#:#Les liens Web suivants ne sont pas valides:
@@ -11242,6 +11267,7 @@ mail#:#mail_incoming_mail#:#Courrier entrant
 mail#:#mail_incoming_smtp#:#Redirection vers l'adresse e-mail externe
 mail#:#mail_insert_folder_name#:#Veuillez saisir un nom de dossier
 mail#:#mail_insert_query#:#Veuillez saisir une requête
+mail#:#mail_invite_users_to_chat#:#Invite Users to Chat###12 12 2023 new variable
 mail#:#mail_is_read#:#gelesen
 mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#Lister les membres
@@ -11697,7 +11723,6 @@ meta#:#md_delete_cp_sure#:#Désirez vous réellement supprimer les entrées suiv
 meta#:#md_delimiter#:#Délimitateur
 meta#:#md_delimiter_info#:#Le délimitateur est utilisé par l'écran de saisie rapide pour la séparation des mots-clés et auteurs. Par défaut ','.
 meta#:#md_fields#:#Zones
-meta#:#md_general_settings#:#Paramètres Généraux
 meta#:#md_months#:#Mois :
 meta#:#md_obj_types#:#Objets assignés
 meta#:#md_record_export_table#:#Fichiers d'Export
@@ -12671,6 +12696,7 @@ obj#:#obj_activation#:#Activation
 obj#:#obj_activation_list_gui#:#Disponibilité
 obj#:#obj_add_languages#:#Ajouter Langues
 obj#:#obj_additional_langs#:#Langues Additionnelles
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###12 12 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#La traduction pour l'édition des pages a été désactivée.
 obj#:#obj_copy_progress#:#Progression de la Copie
 obj#:#obj_deactivate_content_lang#:#Désactiver la Traduction pour l'Edition des Pages
@@ -14170,6 +14196,7 @@ rbac#:#rbac_create_role#:#Créer Nouveau Rôle
 rbac#:#rbac_create_rolt#:#Créer Nouveau Modèle de Rôle
 rbac#:#rbac_create_sahs#:#Créer un Module SCORM/AICC
 rbac#:#rbac_create_sess#:#Créer une Session
+rbac#:#rbac_create_skee#:#Create Competence Tree###12 12 2023 new variable
 rbac#:#rbac_create_spl#:#Créer une Banque de Questions (Enquêtes)
 rbac#:#rbac_create_svy#:#Créer une Enquête
 rbac#:#rbac_create_tst#:#Créer un Test
@@ -14345,6 +14372,17 @@ rbac#:#sess_read#:#Lire l'activité session
 rbac#:#sess_read_learning_progress#:#L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs
 rbac#:#sess_visible#:#Les sessions sont visibles
 rbac#:#sess_write#:#Modifier sessions
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###12 12 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###12 12 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###12 12 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###12 12 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###12 12 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###12 12 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###12 12 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###12 12 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###12 12 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###12 12 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###12 12 2023 new variable
 rbac#:#skmg_edit_permission#:#Permissions d'administration modifiables
 rbac#:#skmg_read#:#Panneau d'administration accessible
 rbac#:#skmg_visible#:#Panneau d'administration visible
@@ -15312,7 +15350,6 @@ skmg#:#skmg_new_sktr#:#Nouvelle Référence à Modèle de Compétence
 skmg#:#skmg_next_step#:#Etape Suivante
 skmg#:#skmg_no_nodes_selectable#:#Il n'y a actuellement aucune compétence sélectionnable.
 skmg#:#skmg_no_skill_entries#:#You do not have any entries for this competence yet.###31 10 2023 new variable
-skmg#:#skmg_no_skills#:#Pas de Compétence
 skmg#:#skmg_no_skills_selected_info#:#Vous n'avez pas encore sélectionné ou rempli de compétences. Cliquez sur le bouton "Ajouter une compétence" pour sélectionner une compétence. Vous pouvez ajouter autant de compétences que vous le souhaitez. Si vous remplissez des compétences en éditant des contenus didactiques, elles seront automatiquement listées ici.
 skmg#:#skmg_no_trigger#:#Pas de Déclencheur
 skmg#:#skmg_nr#:#Ordre
@@ -16485,6 +16522,7 @@ survey#:#svy_mail_send_confirmation#:#Envoyer une confirmation de participation
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Les paramètres de colonnes ne totalisent pas à 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 survey#:#svy_neutral_answer#:#Texte pour réponse neutre ("Ne sait pas", "Sans opinion", etc.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###12 12 2023 new variable
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
@@ -17123,6 +17161,7 @@ user#:#user_prompting_recurrence#:#Prompting Recurrence
 user#:#user_prompting_settings#:#Prompting Settings
 user#:#user_public_profile_info#:#Veuillez cocher les données que vous souhaitez rendre visibles dans votre profil.
 user#:#user_publish_options#:#Publier le profil
+user#:#user_role_selection#:#Role Selection###12 12 2023 new variable
 user#:#user_role_starting_point#:#Utilisateur - Point de départ
 user#:#user_save_continue#:#Sauver et continuer
 user#:#user_save_ordering_and_titles#:#Enregistrer l'ordre et les titres
@@ -17386,6 +17425,7 @@ wiki#:#wiki_wiki_page#:#Page de Wiki
 wiki#:#wiki_wiki_search#:#Recherche dans le Wiki
 wiki#:#wiki_wpg#:#Page Wiki
 wopi#:#activate_wopi#:#Activate WOPI###31 10 2023 new variable
+wopi#:#close_wopi_editor#:#Close Editor###12 12 2023 new variable
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.###31 10 2023 new variable
 wopi#:#msg_wopi_settings_modified#:#Settings stored###31 10 2023 new variable
 wopi#:#open_external_editor#:#Open in external Editor###31 10 2023 new variable

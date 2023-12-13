@@ -138,7 +138,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                     $this,
                     ilTestPlayerCommands::SHOW_QUESTION,
                     $questionGUI,
-                    $questionHintTracking
+                    $questionHintTracking,
+                    $this->ctrl,
+                    $this->lng,
+                    $this->tpl,
+                    $this->tabs
                 );
 
                 // fau: testNav - save the 'answer changed' status for viewing hint requests

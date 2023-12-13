@@ -226,10 +226,12 @@ class Administration
     public function criterionForm(string $url, $criterion = null)
     {
         $groups = $this->config->legalDocuments()->document()->conditionGroups($criterion);
-        $group = $this->ui->create()->input()->field()->switchableGroup($groups, $this->ui->txt('form_criterion'));
-        if ($criterion) {
-            $group = $group->withValue($criterion->type());
+        $group = $this->ui->create()->input()->field()->switchableGroup($groups->choices(), $this->ui->txt('form_criterion'));
+        $value = $criterion ? $criterion->type() : $groups->defaultSelection();
+        if ($value) {
+            $group = $group->withValue($value);
         }
+
         return $this->ui->create()->input()->container()->form()->standard($url, [
             'content' => $group,
         ]);

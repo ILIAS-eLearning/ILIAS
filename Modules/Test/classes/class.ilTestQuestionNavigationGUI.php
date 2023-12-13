@@ -606,9 +606,10 @@ class ilTestQuestionNavigationGUI
         string $command,
         string $label
     ): void {
+        $on_load_code = $this->getOnLoadCode($command);
         $this->renderButtonInstance(
             $tpl,
-            $this->ui_factory->button()->standard($label, $command)
+            $this->ui_factory->button()->standard($label, '')->withAdditionalOnLoadCode($on_load_code)
         );
     }
 

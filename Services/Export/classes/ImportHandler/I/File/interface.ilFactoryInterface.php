@@ -24,6 +24,7 @@ use ImportHandler\I\File\Validation\ilFactoryInterface as ilFileValidationFactor
 use ImportHandler\I\File\XML\ilFactoryInterface as ilXMLFileFactoryInterface;
 use ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileFactoryInterface;
 use ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
+use ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
 
 interface ilFactoryInterface
 {
@@ -34,4 +35,6 @@ interface ilFactoryInterface
     public function validation(): ilFileValidationFactoryInterface;
 
     public function path(): ilFilePathFactoryInterface;
+
+    public function namespace(): ilFileNamespaceFactoryInterface;
 }
