@@ -1066,6 +1066,9 @@ class ilObjExerciseGUI extends ilObjectGUI
                 $idl->setRequested(true);
                 $idl->save();
                 $this->notification->sendDeadlineRequestNotification($this->ass->getId());
+                /** @var ilObjExercise $exc */
+                $exc = $this->object;
+                $exc->members_obj->assignMembers([$user->getId()]);
             }
         }
 

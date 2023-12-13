@@ -68,7 +68,7 @@ class ilExerciseMailNotification extends ilMailNotification
                 $this->appendBody("\n\n");
                 $this->appendBody(sprintf(
                     $this->getLanguageText('exc_submission_open_notification_link'),
-                    $this->createPermanentLink(array(), "_" . $this->getAssignmentId() . "_" . $this->user->getId() . "_opensubmission")
+                    $this->permanent_link->getOpenSubmissionsLink($this->ref_id, $this->getAssignmentId(), $this->user->getId())
                 ));
             }
         }
@@ -129,7 +129,7 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('exc_mail_permanent_link'));
                     $this->appendBody("\n");
-                    $this->appendBody($this->createPermanentLink([], $perma->getDefaultAppend($this->getAssignmentId())));
+                    $this->appendBody($this->permanent_link->getPermanentLink($this->ref_id, $this->getAssignmentId()));
                     $this->getMail()->appendInstallationSignature(true);
 
                     $this->sendMail(array($rcp));
@@ -165,7 +165,7 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody(sprintf(
                         $this->getLanguageText('exc_submission_notification_link'),
-                        $this->createPermanentLink()
+                        $this->permanent_link->getPermanentLink($this->ref_id, $this->getAssignmentId())
                     ));
 
                     if (ilExAssignment::lookupType($this->getAssignmentId()) == ilExAssignment::TYPE_UPLOAD) {
@@ -180,7 +180,7 @@ class ilExerciseMailNotification extends ilMailNotification
                         //{
                         $this->appendBody(sprintf(
                             $this->getLanguageText('exc_submission_downloads_notification_link'),
-                            $this->createPermanentLink([], $perma->getDownloadSubmissionAppend($this->getAssignmentId(), $ilUser->getId()))
+                            $this->permanent_link->getDownloadSubmissionLink($this->ref_id, $this->getAssignmentId(), $ilUser->getId())
                         ));
                         //}
                         //else
@@ -194,7 +194,7 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody(sprintf(
                         $this->getLanguageText('exc_submission_and_grades_notification_link'),
-                        $this->createPermanentLink([], $perma->getGradesAppend($this->getAssignmentId()))
+                        $this->permanent_link->getGradesLink($this->ref_id, $this->getAssignmentId())
                     ));
 
                     $this->getMail()->appendInstallationSignature(true);
@@ -231,7 +231,7 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('exc_mail_permanent_link'));
                     $this->appendBody("\n");
-                    $this->appendBody($this->createPermanentLink(array(), $perma->getDefaultAppend($this->getAssignmentId())));
+                    $this->appendBody($this->permanent_link->getPermanentLink($this->ref_id, $this->getAssignmentId()));
                     $this->getMail()->appendInstallationSignature(true);
 
                     $this->sendMail(array($rcp));
@@ -269,8 +269,7 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('exc_mail_permanent_link'));
                     $this->appendBody("\n");
-                    $this->appendBody($this->createPermanentLink(array(), '_' . $this->getAssignmentId()) .
-                        '#fb' . $this->getAssignmentId());
+                    $this->appendBody($this->permanent_link->getPermanentLink($this->ref_id, $this->getAssignmentId()));
                     $this->getMail()->appendInstallationSignature(true);
 
                     $this->sendMail(array($rcp));
@@ -289,7 +288,7 @@ class ilExerciseMailNotification extends ilMailNotification
                         ),
                         $this->getLanguageText('exc_msg_new_message_from_pf_giver2') .
                         "\n\n" . $this->getAdditionalText(),
-                        $perma->getReceivedFeedbackAppend($this->getAssignmentId())
+                        $perma->getPermanentLink($this->ref_id, $this->getAssignmentId())
                     );
                 }
                 break;
@@ -306,7 +305,7 @@ class ilExerciseMailNotification extends ilMailNotification
                         ),
                         $this->getLanguageText('exc_msg_new_message_from_pf_recipient2') .
                         "\n\n" . $this->getAdditionalText(),
-                        $perma->getGivenFeedbackAppend($this->getAssignmentId(), $this->getPeerId())
+                        $perma->getGivenFeedbackLink($this->ref_id, $this->getAssignmentId(), $this->getPeerId())
                     );
                 }
                 break;
@@ -323,7 +322,7 @@ class ilExerciseMailNotification extends ilMailNotification
                         $this->getLanguageText('exc_msg_deadline_request_body') .
                         "\n\n" . $this->getLanguageText('user') . ": " .
                             $ilUser->getFullname(),
-                        $perma->getGradesAppend($this->getAssignmentId())
+                        $perma->getGradesLink($this->ref_id, $this->getAssignmentId())
                     );
                 }
                 break;
@@ -338,7 +337,7 @@ class ilExerciseMailNotification extends ilMailNotification
                             $this->getObjectTitle(true)
                         ),
                         $this->getLanguageText('exc_msg_idl_set_body'),
-                        $perma->getDefaultAppend($this->getAssignmentId())
+                        $perma->getPermanentLink($this->ref_id, $this->getAssignmentId())
                     );
                 }
                 break;
@@ -350,7 +349,7 @@ class ilExerciseMailNotification extends ilMailNotification
         int $rcp,
         string $subject,
         string $text,
-        string $link_append = ""
+        string $link = ""
     ): void {
         $this->initLanguage($rcp);
         $this->initMail();
@@ -370,7 +369,7 @@ class ilExerciseMailNotification extends ilMailNotification
         $this->appendBody("\n\n");
         $this->appendBody($this->getLanguageText('exc_mail_permanent_link'));
         $this->appendBody("\n");
-        $this->appendBody($this->createPermanentLink(array(), $link_append));
+        $this->appendBody($link);
         $this->getMail()->appendInstallationSignature(true);
         $this->sendMail(array($rcp));
     }
