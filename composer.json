@@ -6,6 +6,7 @@
 	"config": {
 		"optimize-autoloader": true,
 		"vendor-dir": "./vendor/composer/vendor",
+		"cache-dir": "./.cache",
 		"allow-plugins": {
 			"simplesamlphp/composer-module-installer": true,
 			"cweagans/composer-patches": true,
