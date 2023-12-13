@@ -161,7 +161,7 @@ class ilDclTableViewGUI
         $conf->setHeaderText($this->lng->txt('dcl_tableviews_confirm_delete'));
 
         foreach ($tableviews as $tableview_id) {
-            $conf->addItem('dcl_tableview_ids[]', $tableview_id, ilDclTableView::find($tableview_id)->getTitle());
+            $conf->addItem('dcl_tableview_ids[]', (string)$tableview_id, ilDclTableView::find($tableview_id)->getTitle());
         }
         $conf->setConfirm($this->lng->txt('delete'), 'deleteTableviews');
         $conf->setCancel($this->lng->txt('cancel'), 'show');
