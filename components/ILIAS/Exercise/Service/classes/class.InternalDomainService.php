@@ -27,6 +27,7 @@ use ILIAS\Exercise\Notification\NotificationManager;
 use ILIAS\Refinery\Logical\Not;
 use ILIAS\Exercise\InstructionFile\InstructionFileManager;
 use ILIAS\Exercise\Team\TeamManager;
+use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
 
 class InternalDomainService
 {
@@ -87,6 +88,11 @@ class InternalDomainService
             $this->repo,
             $this
         );
+    }
+
+    public function individualDeadline(): IndividualDeadlineManager
+    {
+        return new IndividualDeadlineManager();
     }
 
 }

@@ -201,6 +201,11 @@ class PermanentLinkManager
     public function getPermanentLink(int $ref_id, int $ass_id): string
     {
         $append = $this->getDefaultAppend($ass_id);
+        return $this->_getPermanentLink($ref_id, $append);
+    }
+
+    protected function _getPermanentLink(int $ref_id, array $append): string
+    {
         $uri = $this->static_url->builder()->build(
             'exc', // namespace
             $ref_id > 0 ? new ReferenceId($ref_id) : null, // ref_id
@@ -210,11 +215,9 @@ class PermanentLinkManager
         return (string) $uri;
     }
 
-
-
-    public function getDownloadSubmissionAppend(int $ass_id, int $user_id): array
+    public function getDownloadSubmissionLink(int $ref_id, int $ass_id, int $user_id): string
     {
-        return [$ass_id, $user_id, "setdownload"];
+        return $this->_getPermanentLink($ref_id, [$ass_id, $user_id, "setdownload"]);
     }
 
     public function setGradesPermanentLink(): void
@@ -225,6 +228,11 @@ class PermanentLinkManager
                 $request->getAssId()
             )
         );
+    }
+
+    public function getGradesLink(int $ref_id, int $ass_id): string
+    {
+        return $this->_getPermanentLink($ref_id, [$ass_id, "grades"]);
     }
 
     public function getGradesAppend(int $ass_id): array
@@ -241,6 +249,11 @@ class PermanentLinkManager
                 $request->getPeerId()
             )
         );
+    }
+
+    public function getGivenFeedbackLink(int $ref_id, int $ass_id, int $peer_id): string
+    {
+        return $this->_getPermanentLink($ref_id, [$ass_id, $peer_id, "given"]);
     }
 
     public function getGivenFeedbackAppend(int $ass_id, int $peer_id): array
@@ -261,6 +274,11 @@ class PermanentLinkManager
     public function getReceivedFeedbackAppend(int $ass_id): array
     {
         return [$ass_id, "received"];
+    }
+
+    public function getOpenSubmissionsLink(int $ref_id, int $ass_id, int $user_id): string
+    {
+        return $this->_getPermanentLink($ref_id, [$ass_id, $user_id, "opensubmission"]);
     }
 
 }
