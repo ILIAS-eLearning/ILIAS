@@ -2966,13 +2966,18 @@ abstract class assQuestion
 
     public function getQuestionForHTMLOutput(): string
     {
-        $question_text = $this->getHtmlQuestionContentPurifier()->purify($this->question);
+        return $this->purifyAndPrepareTextAreaOutput($this->question);
+    }
+
+    protected function purifyAndPrepareTextAreaOutput(string $content) : string
+    {
+        $purified_content = $this->getHtmlQuestionContentPurifier()->purify($content);
         if ($this->isAdditionalContentEditingModePageObject()
             || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
-            $question_text = nl2br($question_text);
+            $purified_content = nl2br($purified_content);
         }
         return $this->prepareTextareaOutput(
-            $question_text,
+            $purified_content,
             true,
             true
         );
