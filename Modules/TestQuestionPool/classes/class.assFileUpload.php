@@ -1129,7 +1129,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     protected function isFileDeletionAction(): bool
     {
-        return $this->getQuestionAction() == ilAssFileUploadFileTableDeleteButton::ACTION;
+        return $this->getQuestionAction() == assFileUploadGUI::DELETE_FILES_ACTION;
     }
 
     protected function isFileDeletionSubmitAvailable(): bool

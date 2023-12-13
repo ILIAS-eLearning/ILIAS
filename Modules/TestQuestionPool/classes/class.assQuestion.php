@@ -227,7 +227,7 @@ abstract class assQuestion
             return '';
         }
 
-        if (!is_array($_POST['cmd'][$this->questionActionCmd]) || !count($_POST['cmd'][$this->questionActionCmd])) {
+        if (!is_array($_POST['cmd'][$this->questionActionCmd]) || $_POST['cmd'][$this->questionActionCmd] === []) {
             return '';
         }
 
