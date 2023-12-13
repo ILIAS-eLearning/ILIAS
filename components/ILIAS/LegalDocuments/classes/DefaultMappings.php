@@ -35,7 +35,10 @@ class DefaultMappings
     ) {
     }
 
-    public function conditionDefinitions(): array
+    /**
+     * @return SelectionMap<ConditionDefinition>
+     */
+    public function conditionDefinitions(): SelectionMap
     {
         $ui = new UI(
             $this->id,
@@ -52,11 +55,11 @@ class DefaultMappings
             static fn(): string => $ui->txt('msg_input_is_required')
         );
 
-        return [
+        return new SelectionMap([
             'usr_global_role' => new RoleDefinition($ui, $this->container['ilObjDataCache'], $this->container->rbac()->review(), $required),
             'usr_language' => new UserLanguageDefinition($ui, $this->container->language()->getInstalledLanguages(), $required),
             'usr_country' => new UserCountryDefinition($ui, $required),
-        ];
+        ], 'usr_country');
     }
 
     public function contentAsComponent(): array

@@ -3395,7 +3395,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackGenericEnabled((bool) $metadata["entry"]);
                     break;
                 case 'instant_feedback_specific':
-                    $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackSolutionEnabled((bool) $metadata['entry']);
+                    $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackSpecificEnabled((bool) $metadata['entry']);
                     break;
                 case "instant_verification":
                     $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackSolutionEnabled((bool) $metadata["entry"]);
@@ -3884,10 +3884,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSolutionEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // answer specific feedback
+        // generic feedback
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "answer_feedback");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackGenericEnabled()));
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        // answer specific feedback
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // answer specific feedback of reached points
@@ -4094,7 +4100,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         //instant_feedback_specific
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         //instant_feedback_answer_fixation
@@ -4587,7 +4593,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
         if ($cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOfflineStatus(true);
+            $new_obj->getObjectProperties()->storePropertyIsOnline(
+                $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()
+            );
         }
 
         $new_obj->saveToDb();
@@ -6509,6 +6517,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $this->getMainSettingsRepository()->store($main_settings);
 
+        $reporting_date = $testsettings['ReportingDate'];
+        if (is_string($reporting_date)) {
+            $reporting_date = DateTimeImmutable($testsettings['ReportingDate']);
+        }
+
         $score_settings = $this->getScoreSettings();
         $score_settings = $score_settings
             ->withScoringSettings(
@@ -6523,11 +6536,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withShowGradingStatusEnabled((bool) $testsettings['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $testsettings['show_grading_mark'])
                 ->withScoreReporting((int) $testsettings['ScoreReporting'])
-                ->withReportingDate(
-                    $testsettings['ReportingDate'] !== null ?
-                        new DateTimeImmutable($testsettings['ReportingDate']) :
-                        null
-                )
+                ->withReportingDate($reporting_date)
             )
             ->withResultDetailsSettings(
                 $score_settings->getResultDetailsSettings()
@@ -7146,11 +7155,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withResultsPage()
             ->withUserPages()
             ->getContent();
-        $file = ilFileUtils::ilTempnam();
-        $worksheet->writeToFile($file);
+        $temp_file_path = ilFileUtils::ilTempnam();
+        $delivered_file_name = 'result_' . $active_id . '.xlsx';
+        $worksheet->writeToFile($temp_file_path);
         $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $fd->copyAttachmentFile($file . 'xlsx', "result_" . $active_id . ".xlsx");
-        $file_names[] = "result_" . $active_id . ".xlsx";
+        $fd->copyAttachmentFile($temp_file_path . '.xlsx', $delivered_file_name);
+        $file_names[] = $delivered_file_name;
 
         $mail->sendAdvancedNotification($owner_id, $this->getTitle(), $usr_data, $file_names);
 

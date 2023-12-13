@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a location property in a property form.
@@ -101,8 +101,10 @@ class ilLocationInputGUI extends ilFormPropertyGUI
         $lng = $this->lng;
 
         $val = $this->strArray($this->getPostVar());
-        if ($this->getRequired() &&
-            (trim($val["latitude"]) == "" || trim($val["longitude"]) == "")) {
+        if ($this->getRequired() && (
+            !isset($val["latitude"]) || trim($val["latitude"]) == "" ||
+            !isset($val["longitude"]) || trim($val["longitude"]) == ""
+        )) {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
@@ -113,8 +115,8 @@ class ilLocationInputGUI extends ilFormPropertyGUI
     {
         $val = $this->strArray($this->getPostVar());
         return [
-            "latitude" => (float) $val["latitude"],
-            "longitude" => (float) $val["longitude"],
+            "latitude" => (float) ($val["latitude"] ?? 0),
+            "longitude" => (float) ($val["longitude"] ?? 0),
             "zoom" => (int) ($val["zoom"] ?? 0),
             "address" => ($val["address"] ?? "")
         ];

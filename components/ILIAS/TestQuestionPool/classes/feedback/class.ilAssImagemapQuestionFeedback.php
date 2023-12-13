@@ -38,7 +38,8 @@ class ilAssImagemapQuestionFeedback extends ilAssMultiOptionQuestionFeedback
     protected function buildAnswerOptionLabel(int $index, $answer): string
     {
         $text = $this->lng->txt('region') . " " . ($index + 1);
-        if (strlen($answer->getAnswertext())) {
+        if ($answer->getAnswertext() !== null
+            && $answer->getAnswertext() !== '') {
             $text = $answer->getAnswertext() . ": " . $text;
         }
         return $text;

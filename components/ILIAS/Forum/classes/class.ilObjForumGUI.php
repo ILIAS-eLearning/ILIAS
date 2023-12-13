@@ -2203,13 +2203,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         if ($this->objCurrentTopic->isNotificationEnabled($this->user->getId())) {
             $this->objCurrentTopic->disableNotification($this->user->getId());
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_notification_disabled'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_notification_disabled'), true);
         } else {
             $this->objCurrentTopic->enableNotification($this->user->getId());
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_notification_enabled'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_notification_enabled'), true);
         }
 
-        $this->viewThreadObject();
+        $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+        $this->ctrl->redirect($this, 'viewThread');
     }
 
     protected function toggleStickinessObject(): void

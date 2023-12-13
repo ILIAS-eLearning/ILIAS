@@ -74,8 +74,8 @@ il.WOPI.save = function () {
 };
 
 il.WOPI.windowResize = function () {
+  const iframeHeight = document.getElementById('mainspacekeeper').clientHeight - 5;
   const iframeWidth = this.editorFrame.parentElement.offsetWidth - 0;
-  const iframeHeight = document.getElementsByClassName('il-layout-page-content')[0].clientHeight - document.getElementsByClassName('il_HeaderInner')[0].clientHeight - document.getElementsByTagName('footer')[0].clientHeight - 100;
 
   this.editorFrame.setAttribute('width', iframeWidth);
   this.editorFrame.setAttribute('height', iframeHeight);
@@ -84,6 +84,12 @@ il.WOPI.windowResize = function () {
 il.WOPI.init = function () {
   // BUILD IFRAME
   const frameholder = document.getElementById('c-embedded-wopi');
+  frameholder.parentElement.style.position = 'absolute';
+  frameholder.parentElement.style.top = '0';
+  frameholder.parentElement.style.left = '0';
+  frameholder.parentElement.style.width = '100%';
+  frameholder.parentElement.style.margin = '0';
+  frameholder.parentElement.style.padding = '0';
 
   // read ttl, token and editor URL from data attributes
   const token = frameholder.getAttribute('data-token');
@@ -113,6 +119,7 @@ il.WOPI.init = function () {
   form.method = 'POST';
   form.action = editorUrl;
   form.target = 'editor_frame';
+  form.style.display = 'none';
 
   tokenInput.name = 'access_token';
   tokenInput.value = token;

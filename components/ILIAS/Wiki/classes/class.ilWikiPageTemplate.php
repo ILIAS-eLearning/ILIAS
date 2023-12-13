@@ -43,6 +43,9 @@ class ilWikiPageTemplate
         int $a_type = self::TYPE_ALL,
         string $lang = "-"
     ): array {
+        if ($lang === "") {
+            $lang = "-";
+        }
         $and = "";
         if ($a_type === self::TYPE_NEW_PAGES) {
             $and = " AND t.new_pages = " . $this->db->quote(1, "integer");

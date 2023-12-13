@@ -247,7 +247,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             );
             $dropdown_items[] = $this->ui_factory->link()->standard(
                 $this->lng->txt('delete'),
-                $this->ctrl->getLinkTargetByClass(ilDclTableEditGUI::class, 'confirmDelete')
+                $this->ctrl->getLinkTargetByClass(ilDclTableViewEditGUI::class, 'confirmDelete')
             );
             $dropdown = $this->ui_factory->dropdown()->standard($dropdown_items)->withLabel($this->lng->txt('actions'));
 

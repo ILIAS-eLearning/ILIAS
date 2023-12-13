@@ -46,6 +46,8 @@ use ILIAS\LegalDocuments\Table\DocumentModal;
 use ILIAS\LegalDocuments\ConditionDefinition;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Table as TableInterface;
+use ILIAS\LegalDocuments\SelectionMap;
+use ILIAS\UI\Component\Input\Field\Group;
 use ilObjUser;
 
 class ProvideDocument
@@ -58,13 +60,13 @@ class ProvideDocument
 
     /**
      * @param null|Closure(object, string, TableInterface): Table $create_table_gui
-     * @param array<string, ConditionDefinition> $conditions
+     * @param array<ConditionDefinition> $conditions
      * @param array<string, Closure(CriterionContent): Component $content_as_component
      */
     public function __construct(
         private readonly string $id,
         private readonly DocumentRepository $document_repository,
-        private readonly array $conditions,
+        private readonly SelectionMap $conditions,
         private readonly array $content_as_component,
         private readonly Container $container,
         ?Closure $create_table_gui = null
@@ -112,20 +114,26 @@ class ProvideDocument
 
     public function toCondition(CriterionContent $content): Condition
     {
-        return $this->conditions[$content->type()]->withCriterion($content);
+        return $this->conditions->choices()[$content->type()]->withCriterion($content);
     }
 
-    public function conditionGroups(?CriterionContent $criterion = null): array
+    /**
+     * @return SelectionMap<Group>
+     */
+    public function conditionGroups(?CriterionContent $criterion = null): SelectionMap
     {
         $selected = $criterion ? [
             $criterion->type() => $criterion->arguments()
         ] : [];
 
-        return array_combine(array_keys($this->conditions), array_map(
+        $choices = $this->conditions->choices();
+        $groups = array_combine(array_keys($choices), array_map(
             fn(ConditionDefinition $condition, string $key) => $condition->formGroup($selected[$key] ?? []),
-            array_values($this->conditions),
-            array_keys($this->conditions)
+            array_values($choices),
+            array_keys($choices)
         ));
+
+        return new SelectionMap($groups, $this->conditions->defaultSelection());
     }
 
     /**

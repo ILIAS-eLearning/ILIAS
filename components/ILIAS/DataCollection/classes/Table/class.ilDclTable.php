@@ -1068,7 +1068,7 @@ class ilDclTable
             }
         }
 
-        $this->setDefaultSortField($default_sort_field);
+        $this->setDefaultSortField((string)$default_sort_field);
         $this->doUpdate();
 
         // Clone Records with recordfields

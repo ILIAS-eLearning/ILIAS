@@ -43,9 +43,9 @@ class ilAssMultipleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFe
 
     protected function buildAnswerOptionLabel(int $index, $answer): string
     {
-        $label = array();
+        $label = [];
 
-        if (strlen($answer->getImage())) {
+        if ($answer->getImage() !== null) {
             if ($this->questionOBJ->getThumbSize()) {
                 $src = $this->questionOBJ->getImagePathWeb() . $this->questionOBJ->getThumbPrefix() . $answer->getImage();
             } else {
@@ -55,7 +55,8 @@ class ilAssMultipleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFe
             $label[] = "<img src='{$src}' />";
         }
 
-        if (strlen($answer->getAnswertext())) {
+        if ($answer->getAnswertext() !== null
+            && $answer->getAnswertext() !== '') {
             $label[] = $answer->getAnswertext();
         }
 
