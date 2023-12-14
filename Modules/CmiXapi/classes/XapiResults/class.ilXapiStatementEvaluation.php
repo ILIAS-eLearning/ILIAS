@@ -135,9 +135,12 @@ class ilXapiStatementEvaluation
                     if (($xapiVerb == ilCmiXapiVerbList::COMPLETED || $xapiVerb == ilCmiXapiVerbList::PASSED) && $this->isLpModeInterestedInResultStatus($newResultStatus, false)) {
                         // it is possible to check against authToken usrId!
                         $cmixUser = $this->getCmixUser($xapiStatement);
-                        $cmixUser->setSatisfied(true);
-                        $cmixUser->save();
-                        $this->sendSatisfiedStatement($cmixUser);
+                        // avoid multiple satisfied
+                        if (!$cmixUser->getSatisfied()) {
+                            $cmixUser->setSatisfied(true);
+                            $cmixUser->save();
+                            $this->sendSatisfiedStatement($cmixUser);
+                        }
                     }
                 }
             }
