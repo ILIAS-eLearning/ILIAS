@@ -90,8 +90,6 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         $statusOptions[ilTestScoringGUI::PART_FILTER_ALL_USERS] = $this->lng->txt("all_users");
         $statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_NONE] = $this->lng->txt("manscoring_none");
         $statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_DONE] = $this->lng->txt("manscoring_done");
-        $statusOptions[ilTestScoringGUI::PART_FILTER_ACTIVE_ONLY] = $this->lng->txt("usr_active_only");
-        $statusOptions[ilTestScoringGUI::PART_FILTER_INACTIVE_ONLY] = $this->lng->txt("usr_inactive_only");
 
         $participantStatus->setOptions($statusOptions);
 

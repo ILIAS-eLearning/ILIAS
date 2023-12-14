@@ -27,8 +27,6 @@ declare(strict_types=1);
 */
 class ilTestScoringGUI extends ilTestServiceGUI
 {
-    public const PART_FILTER_ACTIVE_ONLY = 1;
-    public const PART_FILTER_INACTIVE_ONLY = 2;
     public const PART_FILTER_ALL_USERS = 3; // default
     public const PART_FILTER_MANSCORING_DONE = 4;
     public const PART_FILTER_MANSCORING_NONE = 5;

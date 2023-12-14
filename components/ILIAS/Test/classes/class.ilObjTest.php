@@ -5012,16 +5012,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
             if ($count > 0) {
                 switch ($filter) {
-                    case 1: // only active users
-                        if ($participant['active']) {
-                            $filtered_participants[$active_id] = $participant;
-                        }
-                        break;
-                    case 2: // only inactive users
-                        if (!$participant['active']) {
-                            $filtered_participants[$active_id] = $participant;
-                        }
-                        break;
                     case 3: // all users
                         $filtered_participants[$active_id] = $participant;
                         break;
