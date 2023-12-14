@@ -380,27 +380,31 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 
         if (!$this->getDisabled()) {
-            $config = [
-                'fieldContainerSelector' => '.ilWzdContainerImage',
-                'reindexingRequiredElementsSelectors' => [
-                    'input:hidden[name*="[' . self::ITERATOR_SUBFIELD_NAME . ']"]',
-                    'input:file[id*="__' . self::IMAGE_UPLOAD_SUBFIELD_NAME . '__"]',
-                    'input:submit[name*="[' . $this->getImageUploadCommand() . ']"]',
-                    'input:submit[name*="[' . $this->getImageRemovalCommand() . ']"]',
-                    'button'
-                ],
-                'handleRowCleanUpCallback' => 'function(rowElem)
-                    {
-                        $(rowElem).find("div.imagepresentation").remove();
-                        $(rowElem).find("input[type=text]").val("");
-                    }'
-            ];
+            $iterator_subfield_name = self::ITERATOR_SUBFIELD_NAME;
+            $image_upload_subfield_name = self::IMAGE_UPLOAD_SUBFIELD_NAME;
+
+            $init_code = <<<JS
+$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init(
+    {
+        'fieldContainerSelector': '.ilWzdContainerImage',
+        'reindexingRequiredElementsSelectors': [
+            'input:hidden[name*="[{$iterator_subfield_name}]"]',
+            'input:file[id*="__{$image_upload_subfield_name}__"]',
+            'input:submit[name*="[{$this->getImageUploadCommand()}]"]',
+            'input:submit[name*="[{$this->getImageRemovalCommand()}]"]',
+            'button'
+        ],
+        'handleRowCleanUpCallback': function(rowElem) {
+            $(rowElem).find('div.imagepresentation').remove();
+            $(rowElem).find('input[type=text]').val('');
+        }
+    }
+);
+JS;
 
             $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
             $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/identifiedwizardinput.js");
-            $this->tpl->addOnLoadCode("$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init("
-                . json_encode($config)
-                . ");");
+            $this->tpl->addOnLoadCode($init_code);
         }
 
         return $tpl->get();
