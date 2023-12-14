@@ -9940,7 +9940,7 @@ forum#:#frm_noti_message#:#Message:
 forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".
 forum#:#frm_noti_obj_crs#:#course
 forum#:#frm_noti_obj_grp#:#group
-forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_act_post#:#Activate posting in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s"%2$s, thread "%3$s"
