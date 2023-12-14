@@ -88,7 +88,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
     {
         return match ($column) {
             'filecreatedate' => ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX)),
-            'filesize' => ilUtil::formatSize((int) $value),
+            'filesize' => ilUtil::formatSize((int) $value, 'long'),
             default => $value,
         };
     }
