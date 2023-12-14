@@ -53,7 +53,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('dcl_description'), '', 'auto');
         $this->addColumn($this->lng->txt('dcl_field_datatype'), '', 'auto');
         $this->addColumn($this->lng->txt('dcl_unique'), '', 'auto');
-        $this->addColumn($this->lng->txt('actions'), '', '30px');
+        $this->addColumn($this->lng->txt('actions'), '', '');
         // Only add mutli command for custom fields
         if (count($this->table->getRecordFields())) {
             $this->setSelectAllCheckbox('dcl_field_ids[]');

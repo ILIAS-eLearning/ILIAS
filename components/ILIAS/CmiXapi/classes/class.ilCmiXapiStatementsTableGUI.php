@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Modal\RoundTrip;
 
@@ -85,7 +85,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->addColumn($this->language->txt('tbl_statements_verb'), 'verb');
         $this->addColumn($this->language->txt('tbl_statements_object'), 'object');
 
-        $this->addColumn('', '', '1%');
+        $this->addColumn('', '', '');
     }
 
     public function initFilter(): void
