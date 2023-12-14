@@ -143,7 +143,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected function addActionRowIfNeeded(): void
     {
         if ($this->needsActionRow()) {
-            $this->addColumn($this->lng->txt("actions"), "", "30px");
+            $this->addColumn($this->lng->txt("actions"), "", "");
         }
     }
 

@@ -50,7 +50,7 @@ class ilDclTableListTableGUI extends ilTable2GUI
             '',
             $this->lng->txt('dcl_public_comments_desc')
         );
-        $this->addColumn($this->lng->txt('actions'), "", '30px');
+        $this->addColumn($this->lng->txt('actions'), "", '');
 
         $this->setSelectAllCheckbox('dcl_table_ids[]');
         $this->addMultiCommand('confirmDeleteTables', $this->lng->txt('dcl_delete_tables'));
