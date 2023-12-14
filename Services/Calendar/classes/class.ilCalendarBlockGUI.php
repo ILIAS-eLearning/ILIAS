@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\ViewControl\Section as Section;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -877,7 +877,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
             'Services/Calendar'
         );
 
-        $this->addConsultationHourButtons($panel_tpl);
         $this->addSubscriptionButton($panel_tpl);
 
         return $tpl->get() . $panel_tpl->get();
@@ -906,43 +905,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
     public function getNoItemFoundContent(): string
     {
         return $this->lng->txt("cal_no_events_block");
-    }
-
-    /**
-     * Add consultation hour buttons
-     */
-    protected function addConsultationHourButtons(ilTemplate $panel_template): void
-    {
-        global $DIC;
-
-        $user = $DIC->user();
-
-        if (!$this->getRepositoryMode()) {
-            return;
-        }
-
-        $links = \ilConsultationHourUtils::getConsultationHourLinksForRepositoryObject(
-            (int) $this->requested_ref_id,
-            $user->getId(),
-            $this->getTargetGUIClassPath()
-        );
-        $counter = 0;
-        foreach ($links as $link) {
-            $ui_factory = $DIC->ui()->factory();
-            $ui_renderer = $DIC->ui()->renderer();
-
-            $link_button = $ui_factory->button()->shy(
-                $link['txt'],
-                $link['link']
-            );
-            if ($counter) {
-                $panel_template->touchBlock('consultation_hour_buttons_multi');
-            }
-            $panel_template->setCurrentBlock('consultation_hour_buttons');
-            $panel_template->setVariable('SHY_BUTTON', $ui_renderer->render([$link_button]));
-            $panel_template->parseCurrentBlock();
-            $counter++;
-        }
     }
 
     /**
