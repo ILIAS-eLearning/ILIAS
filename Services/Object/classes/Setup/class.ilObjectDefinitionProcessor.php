@@ -69,10 +69,10 @@ class ilObjectDefinitionProcessor implements ilComponentDefinitionProcessor
                     "default_pres_pos,sideblock,grp," . $this->db->quoteIdentifier("system") . ",export,repository,workspace,administration," .
                     "amet,orgunit_permissions,lti_provider,offline_handling) VALUES " .
                     "(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                    array("text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
+                    ["text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
                         "integer","integer","integer","integer", "text", "integer", "integer", "integer", "integer",
-                        'integer','integer','integer','integer','integer'),
-                    array(
+                        'integer','integer','integer','integer','integer'],
+                    [
                         $attributes["id"],
                         $attributes["class_name"],
                         $this->component,
@@ -97,31 +97,31 @@ class ilObjectDefinitionProcessor implements ilComponentDefinitionProcessor
                         (int) ($attributes['orgunit_permissions'] ?? null),
                         (int) ($attributes['lti_provider'] ?? null),
                         (int) ($attributes['offline_handling'] ?? null)
-                    )
+                    ]
                 );
                 break;
 
             case "subobj":
                 $this->db->manipulateF(
                     "INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (%s,%s,%s)",
-                    array("text", "text", "integer"),
-                    array($this->current_object, $attributes["id"], (int) ($attributes["max"] ?? null))
+                    ["text", "text", "integer"],
+                    [$this->current_object, $attributes["id"], (int) ($attributes["max"] ?? null)]
                 );
                 break;
 
             case "parent":
                 $this->db->manipulateF(
                     "INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (%s,%s,%s)",
-                    array("text", "text", "integer"),
-                    array($attributes["id"], $this->current_object, (int) ($attributes["max"] ?? null))
+                    ["text", "text", "integer"],
+                    [$attributes["id"], $this->current_object, (int) ($attributes["max"] ?? null)]
                 );
                 break;
 
             case "objectgroup":
                 $this->db->manipulateF(
                     "INSERT INTO il_object_group (id, name, default_pres_pos) VALUES (%s,%s,%s)",
-                    array("text", "text", "integer"),
-                    array($attributes["id"], $attributes["name"], $attributes["default_pres_pos"])
+                    ["text", "text", "integer"],
+                    [$attributes["id"], $attributes["name"], $attributes["default_pres_pos"]]
                 );
                 break;
             case "sub_type":

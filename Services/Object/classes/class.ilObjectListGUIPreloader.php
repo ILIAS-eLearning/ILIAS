@@ -100,7 +100,7 @@ class ilObjectListGUIPreloader
                 $full_class = "ilObj" . $class . "Access";
                 if (class_exists($full_class)) {
                     call_user_func(
-                        array($full_class, "_preloadData"),
+                        [$full_class, "_preloadData"],
                         $this->obj_ids_by_type[$type] ?? [],
                         $this->ref_ids_by_type[$type] ?? []
                     );

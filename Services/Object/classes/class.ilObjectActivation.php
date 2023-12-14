@@ -33,7 +33,7 @@ class ilObjectActivation
     public const TIMINGS_PRESETTING = 2;
     public const TIMINGS_FIXED = 3; // session only => obsolete?
 
-    protected static array $preloaded_data = array();
+    protected static array $preloaded_data = [];
 
     protected ilErrorHandling $error;
     protected ilLanguage $lng;
@@ -345,7 +345,7 @@ class ilObjectActivation
             if (!$db->numRows($set)) {
                 $now = time();
 
-                $item = array();
+                $item = [];
                 $item["timing_type"] = self::TIMINGS_DEACTIVATED;
                 $item["timing_start"] = $now;
                 $item["timing_end"] = $now;
@@ -476,7 +476,7 @@ class ilObjectActivation
         $db = $DIC->database();
 
         $subtree = $tree->getSubTree($tree->getNodeData($ref_id));
-        $ref_ids = array();
+        $ref_ids = [];
         foreach ($subtree as $node) {
             $ref_ids[] = $node['ref_id'];
         }
@@ -502,7 +502,7 @@ class ilObjectActivation
         $db = $DIC->database();
 
         $subtree = $tree->getSubTree($tree->getNodeData($ref_id));
-        $ref_ids = array();
+        $ref_ids = [];
         foreach ($subtree as $node) {
             $ref_ids[] = $node['ref_id'];
         }
@@ -527,7 +527,7 @@ class ilObjectActivation
 
         $tree = $DIC->repositoryTree();
 
-        $res = array();
+        $res = [];
 
         foreach (array_map('intval', $ref_ids) as $item_ref_id) {
             if ($tree->isDeleted($item_ref_id)) {
@@ -589,9 +589,9 @@ class ilObjectActivation
 
         $tree = $DIC->repositoryTree();
 
-        $items = array();
+        $items = [];
 
-        $ref_ids = array();
+        $ref_ids = [];
         foreach ($tree->getChilds($parent_id) as $item) {
             if ($item['type'] !== 'rolf') {
                 $items[] = $item;
@@ -647,7 +647,7 @@ class ilObjectActivation
 
         $objDefinition = $DIC["objDefinition"];
 
-        $filtered = array();
+        $filtered = [];
 
         $event_items = ilEventItems::_getItemsOfContainer($container_ref_id);
         foreach (self::getTimingsAdministrationItems($container_ref_id) as $item) {

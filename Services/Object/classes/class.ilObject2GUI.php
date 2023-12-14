@@ -75,7 +75,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
     protected int $object_id;
     protected ?int $node_id = null;
-    protected array $creation_forms = array();
+    protected array $creation_forms = [];
     /**
      * @var ilDummyAccessHandler|ilPortfolioAccessHandler|ilWorkspaceAccessHandler|mixed
      */
@@ -131,7 +131,7 @@ abstract class ilObject2GUI extends ilObjectGUI
             );
         }
 
-        $params = array();
+        $params = [];
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
                 $this->node_id = $id;
@@ -314,8 +314,8 @@ abstract class ilObject2GUI extends ilObjectGUI
                     );
                     $this->locator->addItem(
                         $this->lng->txt("role"),
-                        $this->ctrl->getLinkTargetByClass(array("ilpermissiongui",
-                            "ilobjrolegui"), "perm")
+                        $this->ctrl->getLinkTargetByClass(["ilpermissiongui",
+                            "ilobjrolegui"], "perm")
                     );
                 }
 
@@ -403,7 +403,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         }
 
         // #18797 - because of parent/child relations gather all nodes first
-        $del_nodes = array();
+        $del_nodes = [];
         foreach ($ids as $node_id) {
             $del_nodes[$node_id] = $this->tree->getNodeData($node_id);
         }
@@ -547,7 +547,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                     $this->tabs_gui->addTab(
                         "id_permissions",
                         $this->lng->txt("perm_settings"),
-                        $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilpermissiongui"), "perm")
+                        $this->ctrl->getLinkTargetByClass([get_class($this), "ilpermissiongui"], "perm")
                     );
                 }
                 break;
@@ -557,13 +557,13 @@ abstract class ilObject2GUI extends ilObjectGUI
                 // only files and blogs can be shared for now
                 if (
                     $this->checkPermissionBool("edit_permission") &&
-                    in_array($this->type, array("file", "blog")) &&
+                    in_array($this->type, ["file", "blog"]) &&
                     $this->node_id
                 ) {
                     $this->tabs_gui->addTab(
                         "id_permissions",
                         $this->lng->txt("wsp_permissions"),
-                        $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilworkspaceaccessgui"), "share")
+                        $this->ctrl->getLinkTargetByClass([get_class($this), "ilworkspaceaccessgui"], "share")
                     );
                 }
                 break;

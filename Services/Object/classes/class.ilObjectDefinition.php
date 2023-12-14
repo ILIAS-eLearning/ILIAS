@@ -116,10 +116,10 @@ class ilObjectDefinition
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
             if (!isset($grouped_obj[$pl_id])) {
-                $grouped_obj[$pl_id] = array(
+                $grouped_obj[$pl_id] = [
                     "pos" => "99992000", // "unassigned" group
-                    "objs" => array(0 => $pl_id)
-                );
+                    "objs" => [0 => $pl_id]
+                ];
             }
         }
         return $grouped_obj;
@@ -643,7 +643,7 @@ class ilObjectDefinition
         $ilDB = $DIC->database();
 
         $set = $ilDB->query("SELECT * FROM il_object_group");
-        $groups = array();
+        $groups = [];
         while ($gr_rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $groups[$gr_rec["id"]] = $gr_rec;
         }
@@ -652,7 +652,7 @@ class ilObjectDefinition
 
         $recs = $global_cache->lookupGroupedRepObj($parent_obj_type);
 
-        $grouped_obj = array();
+        $grouped_obj = [];
         foreach ((array) $recs as $rec) {
             if ($rec["grp"] != "") {
                 $grouped_obj[$rec["grp"]]["pos"] = (int) $groups[$rec["grp"]]["default_pres_pos"];

@@ -53,7 +53,7 @@ class ilObjectLP
      */
     public static function getInstance(int $obj_id)
     {
-        static $instances = array();
+        static $instances = [];
 
         if (!isset($instances[$obj_id])) {
             $type = ilObject::_lookupType($obj_id);
@@ -421,7 +421,7 @@ class ilObjectLP
         ;
         $result = $this->db->query($sql);
         while ($row = $this->db->fetchAssoc($result)) {
-            if (in_array(ilObject::_lookupType((int) $row["obj_id"]), array("crs", "grp", "fold"))) {
+            if (in_array(ilObject::_lookupType((int) $row["obj_id"]), ["crs", "grp", "fold"])) {
                 // remove from parent collection
                 $sql =
                     "DELETE FROM ut_lp_collections" . PHP_EOL
@@ -458,7 +458,7 @@ class ilObjectLP
 
         $tree = $DIC->repositoryTree();
 
-        $found = array();
+        $found = [];
 
         // walk path to find course or group object and check members of that object
         $path = $tree->getPathId($parent_ref_id);
@@ -467,8 +467,8 @@ class ilObjectLP
             if ($type == "crs" || $type == "grp") {
                 $class = self::getTypeClass($type);
                 $path_ob_id = ilObject::_lookupObjId($path_ref_id);
-                $chk = array();
-                $class::isLPMember($chk, $usr_id, array($path_ob_id));
+                $chk = [];
+                $class::isLPMember($chk, $usr_id, [$path_ob_id]);
                 if (!$mapped_ref_ids) {
                     // we found a grp/crs in path of (single) parent - mark all objects
                     foreach ($obj_ids as $obj_id) {
@@ -646,7 +646,7 @@ class ilObjectLP
      */
     public static function getDefaultModes(bool $lp_active): array
     {
-        return array(ilLPObjSettings::LP_MODE_UNDEFINED);
+        return [ilLPObjSettings::LP_MODE_UNDEFINED];
     }
 
     protected static function getTypeDefaultFromDB(string $type): ?int

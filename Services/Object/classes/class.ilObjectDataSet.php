@@ -49,7 +49,7 @@ class ilObjectDataSet extends ilDataSet
     }
     public function getSupportedVersions(): array
     {
-        return array("4.4.0", "5.1.0", "5.2.0", "5.4.0");
+        return ["4.4.0", "5.1.0", "5.2.0", "5.4.0"];
     }
 
     protected function getXmlNamespace(string $entity, string $schema_version): string
