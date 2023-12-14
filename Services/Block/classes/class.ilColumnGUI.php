@@ -74,6 +74,7 @@ class ilColumnGUI
         "ilNewsForContextBlockGUI" => "Services/News/",
         "ilCalendarBlockGUI" => "Services/Calendar/",
         "ilPDCalendarBlockGUI" => "Services/Calendar/",
+        "ilConsultationHoursCalendarBlockGUI" => "Services/Calendar/",
         "ilPDTasksBlockGUI" => "Services/Tasks/",
         "ilPDMailBlockGUI" => "Services/Mail/",
         "ilSelectedItemsBlockGUI" => "Services/Dashboard/Block/",
@@ -91,6 +92,7 @@ class ilColumnGUI
         "ilNewsForContextBlockGUI" => "news",
         "ilCalendarBlockGUI" => "cal",
         "ilPDCalendarBlockGUI" => 'pd' . ilDashboardSidePanelSettingsRepository::CALENDAR,
+        "ilConsultationHoursCalendarBlockGUI" => "chcal",
         "ilSelectedItemsBlockGUI" => "pditems",
         'ilPollBlockGUI' => 'poll',
         'ilClassificationBlockGUI' => 'clsfct',
@@ -107,11 +109,13 @@ class ilColumnGUI
         "crs" => array(
             "ilNewsForContextBlockGUI" => IL_COL_RIGHT,
             "ilCalendarBlockGUI" => IL_COL_RIGHT,
+            "ilConsultationHoursCalendarBlockGUI" => IL_COL_RIGHT,
             "ilClassificationBlockGUI" => IL_COL_RIGHT
             ),
         "grp" => array(
             "ilNewsForContextBlockGUI" => IL_COL_RIGHT,
             "ilCalendarBlockGUI" => IL_COL_RIGHT,
+            "ilConsultationHoursCalendarBlockGUI" => IL_COL_RIGHT,
             "ilClassificationBlockGUI" => IL_COL_RIGHT
             ),
         "frm" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
@@ -147,6 +151,7 @@ class ilColumnGUI
     protected array $check_global_activation =
         array("news" => true,
             "cal" => true,
+            "chcal" => true,
             "pd" . ilDashboardSidePanelSettingsRepository::CALENDAR => true,
             "pd" . ilDashboardSidePanelSettingsRepository::NEWS => true,
             "pdtag" => true,
@@ -581,6 +586,9 @@ class ilColumnGUI
                     if ($type == "cal") {
                         $nr = -8;
                     }
+                    if ($type == "chcal") {         // consultation hours always directly below calendar
+                        $nr = -7;
+                    }
                     if ($type == "pdfeedb") {		// always show feedback request second
                         $nr = -10;
                     }
@@ -734,7 +742,7 @@ class ilColumnGUI
                     );
             } elseif ($ilSetting->get("block_activated_" . $a_type)) {
                 return true;
-            } elseif ($a_type == 'cal') {
+            } elseif ($a_type == 'cal' || $a_type == 'chcal') {
                 return ilCalendarSettings::lookupCalendarContentPresentationEnabled($ilCtrl->getContextObjId());
             } elseif ($a_type === 'pd' . ilDashboardSidePanelSettingsRepository::CALENDAR) {
                 if (!$this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::CALENDAR)) {
