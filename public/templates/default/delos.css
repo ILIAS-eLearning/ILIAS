@@ -4088,13 +4088,14 @@ hr.il-divider-with-label {
   border: none;
   box-shadow: none;
   outline: none;
-  padding: 0 0px 4px;
   line-height: 1.428571429;
   font-weight: 600 !important;
-  margin-bottom: 6.6px;
 }
 .il-input-tag-container .il-input-tag .tagify__tag {
   margin-top: 0;
+}
+.il-input-tag-container .il-input-tag .tagify__input {
+  margin: 0;
 }
 
 .il-input-tag-container.disabled {
@@ -15207,6 +15208,10 @@ input[type=checkbox]:focus-visible::after {
   cursor: not-allowed;
 }
 textarea .form-control {
+  height: auto;
+}
+
+.form-control.form-control-sm.il-input-tag-container {
   height: auto;
 }
 

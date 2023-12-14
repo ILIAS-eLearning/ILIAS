@@ -28,14 +28,16 @@ $il-input-tag-color-disabled: #EEEEEE;
 		border:      none;
 		box-shadow:  none;
 		outline:     none;
-		padding:     0 0px $il-padding-base-vertical + 1;
 		line-height: $il-line-height-base;
 		font-weight: $il-font-weight-bold !important;
-		margin-bottom: ($il-margin-base-vertical * 2.2);
 	}
 
 	.il-input-tag .tagify__tag {
 		margin-top: 0;
+	}
+
+	.il-input-tag .tagify__input {
+		margin: 0;
 	}
 }
 
