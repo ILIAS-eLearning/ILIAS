@@ -58,11 +58,11 @@ il.UI = il.UI || {};
             var triggererId = (showSignal in initializedPopovers) ? initializedPopovers[showSignal] : 0;
             if (!triggererId) return;
 
-			var url = signalData.options.url;
-			var $triggerer = $('#' + triggererId);
-			var id = $triggerer.attr('data-target');
+            var url = signalData.options.url;
+            var $triggerer = $('#' + triggererId);
+            var id = $triggerer.attr('data-target');
 
-			il.UI.core.replaceContent(id, url, "content");
+            il.UI.core.replaceContent(id, url, "content");
         };
 
         /**
@@ -82,10 +82,11 @@ il.UI = il.UI || {};
             // If given we use this element as a container for the popover
             var container;
             if (container = $('#' + $triggerer.attr('id')).parents(".il-popover-container")[0]) {
-				options = $.extend({}, {container: container}, options);
+                container = 'body';
+                options = $.extend({}, {container: container}, options);
             }
-			options = $.extend({}, {onShow: function($el) {
-					$el.trigger("il.ui.popover.show");}}, options);
+            options = $.extend({}, {onShow: function($el) {
+                    $el.trigger("il.ui.popover.show");}}, options);
 
             options = $.extend({}, defaultOptions, options);
             // Extend options with data from the signal

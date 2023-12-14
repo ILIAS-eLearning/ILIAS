@@ -12,18 +12,18 @@ $il-standard-filter-bar-glyph-padding-right: 0.3em;
 $il-standard-filter-bar-toggle-padding-left: 10px;
 
 //** Input Fields Area
-$il-standard-filter-input-section-border-top: 1px solid $il-main-border-color;
+$il-standard-filter-input-section-border-top: none;
 $il-standard-filter-input-section-padding-bottom: 40px;
 $il-standard-filter-input-section-margin: 0;
 $il-standard-filter-input-section-multiselect-margin: 0.8em;
 $il-standard-filter-input-group-width: 100%;
-$il-standard-filter-input-group-height: 25px;
+$il-standard-filter-input-group-height: 33px;
 $il-standard-filter-select-input-border: 1px solid $il-main-border-dark-color;
 $il-standard-filter-label-width: 30%;
 $il-standard-filter-input-remove-width: 10%;
 $il-standard-filter-font-color-disabled: $il-text-light-color;
 $il-standard-filter-controls-bottom: 0px;
-$il-standard-filter-controls-padding-left: 15px;
+$il-standard-filter-controls-padding-left: $il-padding-base-horizontal;
 $il-standard-filter-controls-padding-bottom: 6px;
 
 //** Division with active inputs under Filter Bar
@@ -73,9 +73,23 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 			background-color: $il-main-bg;
 		}
 
+		input {
+			height: $il-standard-filter-input-group-height;
+		}
+
+		.form-control {
+			height: $il-standard-filter-input-group-height;
+			padding: $il-standard-filter-controls-padding-bottom;
+		}
+
 		.btn-bulky {
 			background-color: $il-main-darker-bg;
 		}
+	}
+
+	.btn-bulky {
+		min-height: 0;
+		border: none;
 	}
 
 	.leftaddon {
@@ -95,22 +109,30 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 			top: 0;
 		}
 	}
+
+	.il-popover-container {
+		padding-left: $il-standard-filter-controls-padding-left;
+	}
 }
 
 .il-filter-bar {
 	display: flex;
-	padding: $il-padding-small-vertical $il-padding-large-horizontal;
+	padding: $il-padding-small-vertical $il-standard-filter-controls-padding-left;
 	background-color: $il-main-dark-bg;
 
 	.il-filter-bar-opener {
 		flex: 1;
 
+		&:hover {
+			background-color: $il-main-darker-bg;
+		}
+
 		.btn-bulky {
 			min-height: 0px;
-			display: inline-flex;
 			width: $il-standard-filter-input-group-width;
 			background-color: initial;
 			font-size: $il-standard-filter-bar-btn-font-size;
+			justify-content: left;
 
 			.glyph {
 				padding-right: $il-standard-filter-bar-glyph-padding-right;
@@ -119,7 +141,6 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 	}
 
 	.il-filter-bar-toggle {
-		float: right;
 		padding-left: $il-standard-filter-bar-toggle-padding-left;
 	}
 }
@@ -133,6 +154,10 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		width: auto;
 		background-color: initial;
 		font-size: $il-font-size-base;
+
+		&:hover {
+			background-color: $il-main-darker-bg;
+		}
 	}
 }
 
@@ -145,12 +170,12 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 
 .il-filter-inputs-active {
 	background-color: $il-main-dark-bg;
-	padding: $il-padding-small-vertical $il-padding-base-horizontal;
+	padding: $il-padding-small-vertical $il-standard-filter-controls-padding-left;
 
 	span {
 		display: inline-block;
 		margin: $il-margin-small-vertical $il-margin-base-horizontal $il-margin-small-vertical $il-standard-filter-active-inputs-margin-left;
-		padding: $il-standard-filter-active-inputs-padding-vertical $il-padding-base-horizontal;
+		padding: $il-standard-filter-active-inputs-padding-vertical $il-standard-filter-controls-padding-left;
 		float: left;
 		background-color: $il-main-bg;
 		font-size: $il-standard-filter-active-inputs-font-size;
@@ -164,7 +189,7 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 .il-filter-input-section {
 	border-top: $il-standard-filter-input-section-border-top;
 	position: relative;
-	padding-right: $il-padding-large-horizontal;
+	padding-right: $il-padding-base-horizontal;
 	margin: $il-standard-filter-input-section-margin;
 	background: $il-main-dark-bg;
 
@@ -217,7 +242,7 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 	padding: $il-standard-filter-add-input-popover-list-padding;
 
 	li > button {
-		padding: $il-padding-large-vertical $il-padding-large-horizontal;
+		padding: $il-padding-large-vertical $il-standard-filter-controls-padding-left;
 		display: block;
 		width: $il-standard-filter-add-input-popover-list-button-width;
 	}
