@@ -18,6 +18,9 @@
 
 use ILIAS\UI\Component\Item\Item;
 
+/**
+ * @ilCtrl_IsCalledBy ilConsultationHoursCalendarBlockGUI: ilColumnGUI
+ */
 class ilConsultationHoursCalendarBlockGUI extends ilBlockGUI
 {
     protected $new_rendering = true;
