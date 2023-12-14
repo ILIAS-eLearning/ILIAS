@@ -175,40 +175,40 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                     switch ($error) {
                         case UPLOAD_ERR_FORM_SIZE:
                         case UPLOAD_ERR_INI_SIZE:
-                        $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
-                        return false;
-                        break;
+                            $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
+                            return false;
+                            break;
 
                         case UPLOAD_ERR_PARTIAL:
-                        $this->setAlert($this->lng->txt("form_msg_file_partially_uploaded"));
-                        return false;
-                        break;
-
-                    case UPLOAD_ERR_NO_FILE:
-                        if (!$this->getRequired()) {
+                            $this->setAlert($this->lng->txt("form_msg_file_partially_uploaded"));
+                            return false;
                             break;
-                        } elseif (isset($F[self::FILE_DATA_INDEX_DODGING_FILE][$index]) && $F[self::FILE_DATA_INDEX_DODGING_FILE][$index] !== '') {
+
+                        case UPLOAD_ERR_NO_FILE:
+                            if (!$this->getRequired()) {
+                                break;
+                            } elseif (isset($F[self::FILE_DATA_INDEX_DODGING_FILE][$index]) && $F[self::FILE_DATA_INDEX_DODGING_FILE][$index] !== '') {
+                                break;
+                            }
+                            $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
+                            return false;
                             break;
-                        }
-                        $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
-                        return false;
-                        break;
 
-                    case UPLOAD_ERR_NO_TMP_DIR:
-                        $this->setAlert($this->lng->txt("form_msg_file_missing_tmp_dir"));
-                        return false;
-                        break;
+                        case UPLOAD_ERR_NO_TMP_DIR:
+                            $this->setAlert($this->lng->txt("form_msg_file_missing_tmp_dir"));
+                            return false;
+                            break;
 
-                    case UPLOAD_ERR_CANT_WRITE:
-                        $this->setAlert($this->lng->txt("form_msg_file_cannot_write_to_disk"));
-                        return false;
-                        break;
+                        case UPLOAD_ERR_CANT_WRITE:
+                            $this->setAlert($this->lng->txt("form_msg_file_cannot_write_to_disk"));
+                            return false;
+                            break;
 
-                    case UPLOAD_ERR_EXTENSION:
-                        $this->setAlert($this->lng->txt("form_msg_file_upload_stopped_ext"));
-                        return false;
-                        break;
-                }
+                        case UPLOAD_ERR_EXTENSION:
+                            $this->setAlert($this->lng->txt("form_msg_file_upload_stopped_ext"));
+                            return false;
+                            break;
+                    }
                 }
             }
         }
@@ -338,27 +338,31 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 
         if (!$this->getDisabled()) {
-            $config = [
-                'fieldContainerSelector' => '.ilWzdContainerImage',
-                'reindexingRequiredElementsSelectors' => [
-                    'input:hidden[name*="[' . self::ITERATOR_SUBFIELD_NAME . ']"]',
-                    'input:file[id*="__' . self::IMAGE_UPLOAD_SUBFIELD_NAME . '__"]',
-                    'input:submit[name*="[' . $this->getImageUploadCommand() . ']"]',
-                    'input:submit[name*="[' . $this->getImageRemovalCommand() . ']"]',
-                    'button'
-                ],
-                'handleRowCleanUpCallback' => 'function(rowElem)
-                    {
-                        $(rowElem).find("div.imagepresentation").remove();
-                        $(rowElem).find("input[type=text]").val("");
-                    }'
-            ];
+            $iterator_subfield_name = self::ITERATOR_SUBFIELD_NAME;
+            $image_upload_subfield_name = self::IMAGE_UPLOAD_SUBFIELD_NAME;
+
+            $init_code = <<<JS
+$.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init(
+    {
+        'fieldContainerSelector': '.ilWzdContainerImage',
+        'reindexingRequiredElementsSelectors': [
+            'input:hidden[name*="[{$iterator_subfield_name}]"]',
+            'input:file[id*="__{$image_upload_subfield_name}__"]',
+            'input:submit[name*="[{$this->getImageUploadCommand()}]"]',
+            'input:submit[name*="[{$this->getImageRemovalCommand()}]"]',
+            'button'
+        ],
+        'handleRowCleanUpCallback': function(rowElem) {
+            $(rowElem).find('div.imagepresentation').remove();
+            $(rowElem).find('input[type=text]').val('');
+        }
+    }
+);
+JS;
 
             $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
             $this->tpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
-            $this->tpl->addOnLoadCode("$.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init("
-                . json_encode($config)
-                . ");");
+            $this->tpl->addOnLoadCode($init_code);
         }
 
         return $tpl->get();
