@@ -32,17 +32,17 @@ code also assume the responsibility for the corresponding functions.
 For the context of ILIAS, we define **four** different authorities:
 
 1. **Authority to Sign off Conceptual Changes**: The people listed here are
-authorised to contribute directly to the code base of the ILIAS core. They are
-authorised to commit directly to the codebase of the ILIAS core and to merge
-Pull Requests. They are the ones deciding on the structure and quality of the
-code of a component.
-2. **Authority to Sign off Code Changes**The people listed here are
 authorised to decide on the future course of the component. Depending on the
 social organisation, this decision is taken collectively or individually. In any
 case a close coordination with the people holding *the Authority to Sign off
 Conceptual Changes* will be necessary. The people listed here are authorized to
 set the checked and attendance flag for features to be discussed at the Jour Fixe.
 They should be contacted first for changes to the functionality of a component.
+2. **Authority to Sign off Code Changes**: The people listed here are
+authorised to contribute directly to the code base of the ILIAS core. They are
+authorised to commit directly to the codebase of the ILIAS core and to merge
+Pull Requests. They are the ones deciding on the structure and quality of the
+code of a component.
 3. **Authority to Curate Test Cases**: The people listed here are
 authorised to modify and delete existing test cases. They also have the final
 say on new test cases and can ask for modifications. They will be the ones
