@@ -26,7 +26,7 @@ class Letter extends Avatar implements C\Symbol\Avatar\Letter
 {
     public function getAbbreviation(): string
     {
-        return (substr($this->getUsername(), 0, 2));
+        return (mb_substr($this->getUsername(), 0, 2));
     }
 
     public function getBackgroundColorVariant(): int
