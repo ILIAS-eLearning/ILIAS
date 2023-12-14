@@ -173,7 +173,10 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
                     ilUtil::getImagePath("standard/icon_alert.svg"),
                     $this->lng->txt("warning_question_not_complete")
                 );
-                $title = $this->ui_renderer->render($icon) . ' ' . $title;
+                $title = $this->ui_renderer->render($icon)
+                    . ' '
+                    . $title
+                    . ' (' . $this->lng->txt('warning_question_not_complete') . ')';
             }
             $record['title'] = $this->ui_factory->link()->standard($title, $to_question);
 
