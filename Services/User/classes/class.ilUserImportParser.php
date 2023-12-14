@@ -417,11 +417,11 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case "PersonalPicture":
-                $this->personalPicture = array(
+                $this->personalPicture = [
                     "encoding" => $a_attribs["encoding"],
                     "imagetype" => $a_attribs["imagetype"],
                     "content" => ""
-                );
+                ];
                 break;
 
             case "Look":
@@ -2004,7 +2004,7 @@ class ilUserImportParser extends ilSaxParser
         int $userid,
         string $action
     ): void {
-        $this->user_mapping[$userid] = array("login" => $aLogin, "action" => $action, "message" => "successful");
+        $this->user_mapping[$userid] = ["login" => $aLogin, "action" => $action, "message" => "successful"];
     }
 
 
@@ -2203,27 +2203,27 @@ class ilUserImportParser extends ilSaxParser
             case 'chat_osc_accept_msg':
             case 'chat_broadcast_typing':
             case 'hide_own_online_status':
-                if (!in_array($value, array('y', 'n'))) {
+                if (!in_array($value, ['y', 'n'])) {
                     $this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");
                 }
                 break;
             case 'public_profile':
-                if (!in_array($value, array('y', 'n', 'g'))) {
+                if (!in_array($value, ['y', 'n', 'g'])) {
                     $this->logFailure("---", "Wrong value '$value': Value 'y', 'g' or 'n' expected for preference $key.");
                 }
                 break;
             case 'show_users_online':
-                if (!in_array($value, array('y', 'n', 'associated'))) {
+                if (!in_array($value, ['y', 'n', 'associated'])) {
                     $this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' or 'associated' expected for preference $key.");
                 }
                 break;
             case 'mail_incoming_type':
-                if (!in_array((int) $value, array("0","1","2"))) {
+                if (!in_array((int) $value, ["0","1","2"])) {
                     $this->logFailure("---", "Wrong value '$value': Value \"0\" (LOCAL),\"1\" (EMAIL) or \"2\" (BOTH) expected for preference $key.");
                 }
                 break;
             case 'weekstart':
-                if (!in_array($value, array("0","1"))) {
+                if (!in_array($value, ["0","1"])) {
                     $this->logFailure("---", "Wrong value '$value': Value \"0\" (Sunday) or \"1\" (Monday) expected for preference $key.");
                 }
                 break;

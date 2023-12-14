@@ -28,7 +28,7 @@ class ilUserCreationContext
     public const CONTEXT_SHIB = 6;
 
     private static ?ilUserCreationContext $instance = null;
-    private array $contexts = array(); // Missing array type.
+    private array $contexts = []; // Missing array type.
 
     protected function __construct()
     {
@@ -44,13 +44,13 @@ class ilUserCreationContext
 
     public function getValidContexts(): array // Missing array type.
     {
-        return array(
+        return [
             self::CONTEXT_REGISTRATION,
             self::CONTEXT_ADMINISTRATION,
             self::CONTEXT_SOAP,
             self::CONTEXT_LDAP,
             self::CONTEXT_SHIB
-        );
+        ];
     }
 
     public function getCurrentContexts(): array // Missing array type.

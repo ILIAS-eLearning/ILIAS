@@ -43,7 +43,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
         $a_form->addItem($fields);
 
         $gui = new ilPersonalProfileGUI();
-        $gui->showPublicProfileFields($a_form, array(), $fields, true);
+        $gui->showPublicProfileFields($a_form, [], $fields, true);
     }
 
     public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config): void // Missing array type.
@@ -63,14 +63,14 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
 
     public function getConfigFromForm(ilPropertyFormGUI $a_form): array // Missing array type.
     {
-        $fields = array();
+        $fields = [];
         foreach (array_keys($this->request->getParsedBody()) as $id) {
             if (strpos($id, "chk_") === 0) {
                 $fields[] = $id;
             }
         }
 
-        return array("profile" => $fields);
+        return ["profile" => $fields];
     }
 
     public function validateForm(ilPropertyFormGUI $a_form): bool

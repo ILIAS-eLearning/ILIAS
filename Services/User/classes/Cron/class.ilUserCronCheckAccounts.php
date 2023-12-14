@@ -171,8 +171,8 @@ class ilUserCronCheckAccounts extends ilCronJob
                . 'AND create_date < %s';
         $res = $this->db->queryF(
             $query,
-            array('text', 'integer', 'timestamp'),
-            array('', 0, date('Y-m-d H:i:s', time() - $registration_settings->getRegistrationHashLifetime()))
+            ['text', 'integer', 'timestamp'],
+            ['', 0, date('Y-m-d H:i:s', time() - $registration_settings->getRegistrationHashLifetime())]
         );
         while ($row = $this->db->fetchAssoc($res)) {
             $user = ilObjectFactory::getInstanceByObjId((int) $row['usr_id']);

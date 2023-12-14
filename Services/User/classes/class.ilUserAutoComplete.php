@@ -30,7 +30,7 @@ class ilUserAutoComplete
     private ?ilLogger $logger = null;
     private bool $searchable_check = false;
     private bool $user_access_check = true;
-    private array $possible_fields = array(); // Missing array type.
+    private array $possible_fields = []; // Missing array type.
     private string $result_field;
     private int $search_type;
     private int $privacy_mode;
@@ -170,7 +170,7 @@ class ilUserAutoComplete
         if (!$this->isFieldSearchableCheckEnabled()) {
             return $this->getSearchFields();
         }
-        $available_fields = array();
+        $available_fields = [];
         foreach ($this->getSearchFields() as $field) {
             if (ilUserSearchOptions::_isEnabled($field)) {
                 $available_fields[] = $field;
@@ -208,12 +208,12 @@ class ilUserAutoComplete
         $select_part = $this->getSelectPart();
         $where_part = $this->getWherePart($parsed_query);
         $order_by_part = $this->getOrderByPart();
-        $query = implode(" ", array(
+        $query = implode(" ", [
             'SELECT ' . $select_part,
             'FROM ' . $this->getFromPart(),
             $where_part ? 'WHERE ' . $where_part : '',
             $order_by_part ? 'ORDER BY ' . $order_by_part : ''
-        ));
+        ]);
 
         $this->logger->debug('Query: ' . $query);
 
@@ -233,9 +233,9 @@ class ilUserAutoComplete
         $max = $this->getLimit() ?: ilSearchSettings::getInstance()->getAutoCompleteLength();
         $cnt = 0;
         $more_results = false;
-        $result = array();
-        $recs = array();
-        $usrIds = array();
+        $result = [];
+        $recs = [];
+        $usrIds = [];
         while (($rec = $ilDB->fetchAssoc($res)) && $cnt < ($max + 1)) {
             if ($cnt >= $max && $this->isMoreLinkAvailable()) {
                 $more_results = true;
@@ -281,14 +281,14 @@ class ilUserAutoComplete
 
     protected function getSelectPart(): string
     {
-        $fields = array(
+        $fields = [
             'ud.usr_id',
             'ud.login',
             'ud.firstname',
             'ud.lastname',
             'ud.email',
             'ud.second_email'
-        );
+        ];
 
         if (self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode()) {
             $fields[] = 'profpref.value profile_value';
@@ -305,7 +305,7 @@ class ilUserAutoComplete
 
         $ilDB = $DIC->database();
 
-        $joins = array();
+        $joins = [];
 
         if (self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode()) {
             $joins[] = 'LEFT JOIN usr_pref profpref
@@ -335,7 +335,7 @@ class ilUserAutoComplete
         $ilDB = $DIC->database();
         $ilSetting = $DIC->settings();
 
-        $outer_conditions = array();
+        $outer_conditions = [];
 
         // In 'anonymous' context with respected user privacy, only users with globally published profiles should be found.
         if (self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode() &&
@@ -353,21 +353,21 @@ class ilUserAutoComplete
 
         $outer_conditions[] = 'ud.usr_id != ' . $ilDB->quote(ANONYMOUS_USER_ID, 'integer');
 
-        $field_conditions = array();
+        $field_conditions = [];
         foreach ($this->getFields() as $field) {
             $field_condition = $this->getQueryConditionByFieldAndValue($field, $search_query);
 
             if ('email' == $field && self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode()) {
                 // If privacy should be respected, the profile setting of every user concerning the email address has to be
                 // respected (in every user context, no matter if the user is 'logged in' or 'anonymous').
-                $email_query = array();
+                $email_query = [];
                 $email_query[] = $field_condition;
                 $email_query[] = 'pubemail.value = ' . $ilDB->quote('y', 'text');
                 $field_conditions[] = '(' . implode(' AND ', $email_query) . ')';
             } elseif ('second_email' == $field && self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode()) {
                 // If privacy should be respected, the profile setting of every user concerning the email address has to be
                 // respected (in every user context, no matter if the user is 'logged in' or 'anonymous').
-                $email_query = array();
+                $email_query = [];
                 $email_query[] = $field_condition;
                 $email_query[] = 'pubsecondemail.value = ' . $ilDB->quote('y', 'text');
                 $field_conditions[] = '(' . implode(' AND ', $email_query) . ')';
@@ -387,10 +387,10 @@ class ilUserAutoComplete
             $fields = '(' . implode(' OR ', $field_conditions) . ')';
 
             $field_conditions = [
-                '(' . implode(' AND ', array(
+                '(' . implode(' AND ', [
                 $fields,
-                $ilDB->in('profpref.value', array('y', 'g'), false, 'text')
-                )) . ')'
+                $ilDB->in('profpref.value', ['y', 'g'], false, 'text')
+                ]) . ')'
             ];
         }
 
@@ -434,10 +434,10 @@ class ilUserAutoComplete
 
         $ilDB = $DIC->database();
 
-        $query_strings = array($query['query']);
+        $query_strings = [$query['query']];
 
         if (array_key_exists($field, $query)) {
-            $query_strings = array($query[$field]);
+            $query_strings = [$query[$field]];
         } elseif (array_key_exists('parts', $query)) {
             $query_strings = $query['parts'];
         }
@@ -492,7 +492,7 @@ class ilUserAutoComplete
      */
     public function parseQueryString(string $a_query): array // Missing array type.
     {
-        $query = array();
+        $query = [];
 
         if (strpos($a_query, '\\') === false) {
             $a_query = str_replace(['%', '_'], ['\%', '\_'], $a_query);

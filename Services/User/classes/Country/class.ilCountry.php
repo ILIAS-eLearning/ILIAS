@@ -28,7 +28,7 @@ class ilCountry
      */
     public static function getCountryCodes(): array
     {
-        $cntcodes = array(
+        $cntcodes = [
             "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AN",
             "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX",
             "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH",
@@ -59,7 +59,7 @@ class ilCountry
             "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV",
             "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ",
             "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF",
-            "WS", "YE", "YT", "ZA", "ZM", "ZW", "XK");
+            "WS", "YE", "YT", "ZA", "ZM", "ZW", "XK"];
         return $cntcodes;
     }
 }

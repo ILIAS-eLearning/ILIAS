@@ -24,7 +24,7 @@ class ilUserFormSettings
     protected ilDBInterface $db;
     protected int $user_id;
     protected string $id;
-    protected array $settings = array(); // Missing array type.
+    protected array $settings = []; // Missing array type.
     private bool $has_stored_entry = false;
 
     public function __construct(
@@ -65,7 +65,7 @@ class ilUserFormSettings
 
     public function reset(): void
     {
-        $this->settings = array();
+        $this->settings = [];
     }
 
     /**

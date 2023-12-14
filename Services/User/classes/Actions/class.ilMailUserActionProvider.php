@@ -22,7 +22,7 @@
  */
 class ilMailUserActionProvider extends ilUserActionProvider
 {
-    public static array $user_access = array();
+    public static array $user_access = [];
 
     public function checkUserMailAccess(int $a_user_id): bool
     {
@@ -47,9 +47,9 @@ class ilMailUserActionProvider extends ilUserActionProvider
      */
     public function getActionTypes(): array
     {
-        return array(
+        return [
             "compose" => $this->lng->txt("mail")
-        );
+        ];
     }
 
     public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
@@ -67,7 +67,7 @@ class ilMailUserActionProvider extends ilUserActionProvider
             $f->setType("compose");
             $f->setText($this->lng->txt("mail"));
             $tn = ilObjUser::_lookupName($a_target_user);
-            $f->setHref(ilMailFormCall::getLinkTarget("", '', array(), array('type' => 'new', 'rcp_to' => $tn["login"])));
+            $f->setHref(ilMailFormCall::getLinkTarget("", '', [], ['type' => 'new', 'rcp_to' => $tn["login"]]));
             $coll->addAction($f);
         }
 

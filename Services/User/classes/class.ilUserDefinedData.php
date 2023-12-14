@@ -23,7 +23,7 @@
 class ilUserDefinedData
 {
     public ?ilDBInterface $db = null;
-    public array $user_data = array(); // Missing array type.
+    public array $user_data = []; // Missing array type.
     public ?int $usr_id = null;
 
     public function __construct(int $a_usr_id)
@@ -52,7 +52,7 @@ class ilUserDefinedData
             'AND ' . $ilDB->in('field_id', $a_field_ids, false, 'integer');
         $res = $ilDB->query($query);
 
-        $udfd = array();
+        $udfd = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $udfd[$row['usr_id']][$row['field_id']] = $row['value'];
         }
@@ -101,22 +101,22 @@ class ilUserDefinedData
             if ($definition["field_type"] == UDF_TYPE_WYSIWYG) {
                 $ilDB->replace(
                     "udf_clob",
-                    array(
-                        "usr_id" => array("integer", $this->getUserId()),
-                        "field_id" => array("integer", $definition['field_id'])),
-                    array(
-                        "value" => array("clob", $this->get("f_" . $definition['field_id']))
-                        )
+                    [
+                        "usr_id" => ["integer", $this->getUserId()],
+                        "field_id" => ["integer", $definition['field_id']]],
+                    [
+                        "value" => ["clob", $this->get("f_" . $definition['field_id'])]
+                        ]
                 );
             } else {
                 $ilDB->replace(
                     "udf_text",
-                    array(
-                        "usr_id" => array("integer", $this->getUserId()),
-                        "field_id" => array("integer", $definition['field_id'])),
-                    array(
-                        "value" => array("text", $this->get("f_" . $definition['field_id']))
-                        )
+                    [
+                        "usr_id" => ["integer", $this->getUserId()],
+                        "field_id" => ["integer", $definition['field_id']]],
+                    [
+                        "value" => ["text", $this->get("f_" . $definition['field_id'])]
+                        ]
                 );
             }
         }
@@ -195,8 +195,8 @@ class ilUserDefinedData
             if ($definition["export"] != false) {
                 $xml_writer->xmlElement(
                     'UserDefinedField',
-                    array('Id' => $definition['il_id'],
-                                          'Name' => $definition['field_name']),
+                    ['Id' => $definition['il_id'],
+                                          'Name' => $definition['field_name']],
                     (string) ($this->user_data['f_' . (int) $definition['field_id']] ?? '')
                 );
             }
@@ -206,7 +206,7 @@ class ilUserDefinedData
     // Private
     public function __read(): void
     {
-        $this->user_data = array();
+        $this->user_data = [];
         $query = "SELECT * FROM udf_text " .
             "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer');
         $res = $this->db->query($query);

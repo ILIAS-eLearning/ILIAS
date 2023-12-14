@@ -24,7 +24,7 @@ class ilUserClipboard
 {
     public const SESSION_KEYWORD = 'usr_clipboard';
     private static ?ilUserClipboard $instance = null;
-    private array $clipboard = array(); // Missing array type.
+    private array $clipboard = []; // Missing array type.
 
     protected function __construct(int $a_user_id)
     {
@@ -60,7 +60,7 @@ class ilUserClipboard
      */
     public function getValidatedContent(): array // Missing array type.
     {
-        $valid = array();
+        $valid = [];
         foreach ($this->clipboard as $usr_id) {
             if (strlen(ilObjUser::_lookupLogin($usr_id))) {
                 $valid[] = $usr_id;
@@ -82,7 +82,7 @@ class ilUserClipboard
      */
     public function delete(array $a_usr_ids): void // Missing array type.
     {
-        $remaining = array();
+        $remaining = [];
         foreach ($this->get() as $usr_id) {
             if (!in_array($usr_id, $a_usr_ids)) {
                 $remaining[] = $usr_id;
@@ -101,7 +101,7 @@ class ilUserClipboard
 
     public function clear(): void
     {
-        $this->clipboard = array();
+        $this->clipboard = [];
     }
 
     /**
