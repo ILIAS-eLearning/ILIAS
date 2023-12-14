@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -90,7 +90,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
                 return ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
 
             case 'filesize':
-                return ilUtil::formatSize((int) $value);
+                return ilUtil::formatSize((int) $value, 'long');
 
             default:
                 return $value;
