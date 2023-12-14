@@ -985,7 +985,9 @@ class ilPersonalProfileGUI
     private function emailChanged() : bool
     {
         $email_input = $this->form->getItemByPostVar('usr_email');
-        if ($email_input !== null && !$email_input->getDisabled()
+        if ($email_input !== null
+            && $email_input !== false
+            && !$email_input->getDisabled()
             && $this->form->getInput('usr_email') !== $this->user->getEmail()) {
             return true;
         }
