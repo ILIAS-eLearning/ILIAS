@@ -9942,7 +9942,7 @@ forum#:#frm_noti_message#:#Nachricht:
 forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
 forum#:#frm_noti_obj_crs#:#Kurs
 forum#:#frm_noti_obj_grp#:#Gruppe
-forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" aktiviert
+forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" freischalten
 forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" beantwortet
 forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" zensiert
 forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s"%2$s zum Thema "%3$s" gelöscht
