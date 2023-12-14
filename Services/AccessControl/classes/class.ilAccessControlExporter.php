@@ -53,7 +53,7 @@ class ilAccessControlExporter extends ilXmlExporter
         $eo->read();
 
         $rolf = $eo->getOptionByObjId((int) $a_id, ilExportOptions::KEY_ROOT);
-        $writer->setRoles(array((int) $a_id => (int) $rolf));
+        $writer->setRoles([(int) $a_id => (int) $rolf]);
         $writer->write();
         return $writer->xmlDumpMem(false);
     }
@@ -65,14 +65,14 @@ class ilAccessControlExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            "4.3.0" => array(
+        return [
+            "4.3.0" => [
                 "namespace" => "http://www.ilias.de/AccessControl/Role/role/4_3",
                 "xsd_file" => "ilias_role_4_3.xsd",
                 "uses_dataset" => false,
                 "min" => "4.3.0",
                 "max" => ""
-            )
-        );
+            ]
+        ];
     }
 }

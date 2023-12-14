@@ -44,7 +44,7 @@ class ilRbacLog
         global $DIC;
 
         $rbacreview = $DIC->rbac()->review();
-        $result = array();
+        $result = [];
 
         // #10946 - if result is written to log directly we need to add an "action" dimension
         // if result is used as input to diffFaPa() we need "raw" data
@@ -74,7 +74,7 @@ class ilRbacLog
 
     public static function diffFaPa(array $a_old, array $a_new): array
     {
-        $result = array();
+        $result = [];
 
         // roles
         foreach ((array) $a_old["ops"] as $role_id => $ops) {
@@ -117,7 +117,7 @@ class ilRbacLog
 
     public static function diffTemplate(array $a_old, array $a_new): array
     {
-        $result = array();
+        $result = [];
         $types = array_unique(array_merge(array_keys($a_old), array_keys($a_new)));
         foreach ($types as $type) {
             if (!isset($a_old[$type])) {
@@ -219,7 +219,7 @@ class ilRbacLog
         $ilDB->setLimit($a_limit, $a_offset);
         $set = $ilDB->query("SELECT * FROM rbac_log WHERE ref_id = " . $ilDB->quote($a_ref_id, "integer") .
             implode('', $where) . " ORDER BY created DESC");
-        $result = array();
+        $result = [];
         while ($row = $ilDB->fetchAssoc($set)) {
             $row["data"] = unserialize($row["data"]);
             $result[] = $row;

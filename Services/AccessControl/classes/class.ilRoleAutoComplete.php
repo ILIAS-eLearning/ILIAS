@@ -47,7 +47,7 @@ class ilRoleAutoComplete
 
         $res = $ilDB->query($query);
         $counter = 0;
-        $result = array();
+        $result = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $result[$counter] = new stdClass();
             $result[$counter]->value = $row->role;
@@ -72,7 +72,7 @@ class ilRoleAutoComplete
         $rbacreview = $DIC->rbac()->review();
         $ilDB = $DIC->database();
 
-        $result = array();
+        $result = [];
 
         if (strpos($a_str, '@') !== 0) {
             return json_encode($result, JSON_THROW_ON_ERROR);

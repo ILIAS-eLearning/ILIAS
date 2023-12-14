@@ -67,7 +67,7 @@ class ilAccess implements ilAccessHandler
         $this->user = $DIC->user();
         $this->db = $DIC->database();
         $this->rbacsystem = $rbacsystem;
-        $this->results = array();
+        $this->results = [];
         $this->current_info = new ilAccessInfo();
         $this->repositoryTree = $DIC->repositoryTree();
         $this->language = $DIC->language();
@@ -163,11 +163,11 @@ class ilAccess implements ilAccessHandler
         $query = "DELETE FROM acc_cache WHERE user_id = " . $this->db->quote($this->user->getId(), 'integer');
         $res = $this->db->manipulate($query);
 
-        $this->db->insert('acc_cache', array(
-            'user_id' => array('integer', $this->user->getId()),
-            'time' => array('integer', time()),
-            'result' => array('clob', serialize($this->results))
-        ));
+        $this->db->insert('acc_cache', [
+            'user_id' => ['integer', $this->user->getId()],
+            'time' => ['integer', time()],
+            'result' => ['clob', serialize($this->results)]
+        ]);
     }
 
     /**
@@ -357,7 +357,7 @@ class ilAccess implements ilAccessHandler
      */
     public function getInfo(): array
     {
-        return is_object($this->last_info) ? $this->last_info->getInfoItems() : array();
+        return is_object($this->last_info) ? $this->last_info->getInfoItems() : [];
     }
 
     /**
@@ -707,7 +707,7 @@ class ilAccess implements ilAccessHandler
         $full_class = new $full_class();
 
         $obj_access = call_user_func(
-            array($full_class, "_checkAccess"),
+            [$full_class, "_checkAccess"],
             $a_cmd,
             $a_permission,
             $a_ref_id,
@@ -730,7 +730,7 @@ class ilAccess implements ilAccessHandler
      */
     public function clear(): void
     {
-        $this->results = array();
+        $this->results = [];
         $this->last_result = [];
         $this->current_info = new ilAccessInfo();
         $this->stored_rbac_access = [];

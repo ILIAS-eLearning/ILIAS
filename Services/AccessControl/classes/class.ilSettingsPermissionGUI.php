@@ -27,11 +27,11 @@ declare(strict_types=1);
  */
 class ilSettingsPermissionGUI
 {
-    protected array $permissions = array();            // permissions selected by context
-    protected array $base_permissions = array();        // base permissions of the object type (ops_id -> permission)
-    protected array $base_permissions_by_op = array();// base permissions of the object type (permission -> ops_id)
-    protected array $role_required_permissions = array();
-    protected array $role_prohibited_permissions = array();
+    protected array $permissions = [];            // permissions selected by context
+    protected array $base_permissions = [];        // base permissions of the object type (ops_id -> permission)
+    protected array $base_permissions_by_op = [];// base permissions of the object type (permission -> ops_id)
+    protected array $role_required_permissions = [];
+    protected array $role_prohibited_permissions = [];
     protected array $base_roles = [];
 
     private object $obj;
@@ -67,7 +67,7 @@ class ilSettingsPermissionGUI
      */
     public function determineRoles(): array
     {
-        $roles = array();
+        $roles = [];
         foreach ($this->base_roles as $k => $r) {
             $ops = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), (int) $r["rol_id"]);
             $use = true;
@@ -165,7 +165,7 @@ class ilSettingsPermissionGUI
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd("showForm");
-        if (in_array($cmd, array("showForm", "save"))) {
+        if (in_array($cmd, ["showForm", "save"])) {
             $this->$cmd();
         }
     }
@@ -186,13 +186,13 @@ class ilSettingsPermissionGUI
     {
         $form = new ilPropertyFormGUI();
         $roles = $this->determineRoles();
-        $ops = array();
+        $ops = [];
         foreach ($roles as $r) {
             $ops[(int) $r["rol_id"]] = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), (int) $r["rol_id"]);
         }
 
         // for each permission, collect all roles that have the permission activated
-        $perm_roles = array();
+        $perm_roles = [];
         foreach ($ops as $r => $o2) {
             foreach ($o2 as $o) {
                 $perm_roles[$o][] = $r;
@@ -239,7 +239,7 @@ class ilSettingsPermissionGUI
                 foreach ($this->getPermissions() as $p) {
                     $roles = $form->getInput($p);
                     if (!is_array($roles)) {
-                        $roles = array();
+                        $roles = [];
                     }
                     $o = $this->base_permissions_by_op[$p];
 

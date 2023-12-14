@@ -159,13 +159,13 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         }
 
         $roles->setOptions(
-            array(
+            [
                 self::ROLE_FILTER_ALL => $this->lng->txt('filter_all_roles'),
                 self::ROLE_FILTER_GLOBAL => $this->lng->txt('filter_global_roles'),
                 self::ROLE_FILTER_LOCAL => $this->lng->txt('filter_local_roles'),
                 self::ROLE_FILTER_LOCAL_POLICY => $this->lng->txt('filter_roles_local_policy'),
                 self::ROLE_FILTER_LOCAL_OBJECT => $this->lng->txt('filter_local_roles_object')
-            )
+            ]
         );
     }
 
@@ -357,12 +357,12 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $roles = [];
             $local_roles = $this->review->getRolesOfObject($this->getRefId());
             foreach ($this->getVisibleRoles() as $role_data) {
-                $roles[$role_data['obj_id']] = array(
+                $roles[$role_data['obj_id']] = [
                     'blocked' => $role_data['blocked'],
                     'protected' => $role_data['protected'],
                     'local_policy' => in_array($role_data['obj_id'], $local_roles),
                     'isLocal' => ($this->getRefId() == $role_data['parent']) && $role_data['assign'] == 'y'
-                );
+                ];
             }
             $perms[$counter]['roles'] = $roles;
             $perms[$counter]['show_local_policy_row'] = 1;
@@ -374,12 +374,12 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         if (ilPermissionGUI::hasContainerCommands($this->getObjType())) {
             $roles = [];
             foreach ($this->getVisibleRoles() as $role_data) {
-                $roles[$role_data['obj_id']] = array(
+                $roles[$role_data['obj_id']] = [
                     'blocked' => $role_data['blocked'],
                     'protected_allowed' => $this->review->isAssignable($role_data['obj_id'], $this->getRefId()),
                     'protected_status' => $this->review->isProtected($role_data['parent'], $role_data['obj_id']),
                     'isLocal' => ($this->getRefId() == $role_data['parent']) && $role_data['assign'] == 'y'
-                );
+                ];
             }
             $perms[$counter]['roles'] = $roles;
             $perms[$counter]['show_protected_row'] = 1;
@@ -404,12 +404,12 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $roles = [];
             foreach ($this->getVisibleRoles() as $role_data) {
                 $roles[$role_data['obj_id']] =
-                    array(
+                    [
                         'blocked' => $role_data['blocked'],
                         'protected' => $role_data['protected'],
                         'permission_set' => in_array($operation, (array) $operations[$role_data['obj_id']]),
                         'isLocal' => ($this->getRefId() == $role_data['parent']) && $role_data['assign'] == 'y'
-                    );
+                    ];
             }
 
             $op = $this->review->getOperation($operation);
@@ -450,13 +450,13 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $roles = [];
             foreach ($this->getVisibleRoles() as $role_data) {
                 $roles[$role_data['obj_id']] =
-                    array(
+                    [
                         'blocked' => $role_data['blocked'],
                         'protected' => $role_data['protected'],
                         'permission_set' => in_array($ops_id, (array) $operations[$role_data['obj_id']]),
                         'isLocal' => ($this->getRefId() == $role_data['parent']) && $role_data['assign'] == 'y'
 
-                    );
+                    ];
             }
 
             $op = $this->review->getOperation($ops_id);
@@ -571,10 +571,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 
         $reduced_path_hierarchy = array_diff(
             $path_hierarchy,
-            array(
+            [
                 $this->getRefId(),
                 $this->review->getObjectReferenceOfRole($role['obj_id'])
-            )
+            ]
         );
 
         // Inheritance

@@ -227,7 +227,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
         $operations = $this->getPermissions($this->getTemplateType());
 
         // Object permissions
-        $rows = array();
+        $rows = [];
         foreach ($this->review->getOperationsByTypeAndClass($this->getTemplateType(), 'object') as $ops_id) {
             $operations = $this->getPermissions($this->getTemplateType());
 
@@ -264,7 +264,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             !$this->show_admin_permissions &&
             $this->getShowChangeExistingObjects()
         ) {
-            $rows[] = array('show_ce' => 1);
+            $rows[] = ['show_ce' => 1];
         }
         $this->setData($rows);
     }
