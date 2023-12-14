@@ -5282,7 +5282,7 @@ common#:#private_notes#:#یادداشت های شخصی
 common#:#pro#:#Pro
 common#:#proceed#:#Proceed
 common#:#profile#:#نمایه
-common#:#profile_changed#:#ILIAS eLearning - Your profile has changed
+common#:#profile_changed#:#Your profile has changed
 common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.
 common#:#profile_of#:#Profile of
 common#:#properties#:#ویژگیها
@@ -5341,8 +5341,8 @@ common#:#reg_mail_body_salutation#:#سلام
 common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
 common#:#reg_mail_body_text2#:#To access ILIAS use the following data:
 common#:#reg_mail_body_text3#:#Further personal information:
-common#:#reg_mail_subject#:#ILIAS eLearning - Your access data
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmation Link
+common#:#reg_mail_subject#:#Your access data
+common#:#reg_mail_subject_confirmation#:#Your Confirmation Link
 common#:#reg_passwd_via_mail#:#Your password will be sent to your e-mail address given below.
 common#:#register#:#Register
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

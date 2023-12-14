@@ -5282,7 +5282,7 @@ common#:#private_notes#:#Privatne bilješke
 common#:#pro#:#Pro
 common#:#proceed#:#Nastavi
 common#:#profile#:#Profil
-common#:#profile_changed#:#ILIAS eLearning - Vaš profil je promijenjen
+common#:#profile_changed#:#Vaš profil je promijenjen
 common#:#profile_incomplete#:#Vaš je profil nepotpun. Molimo ispunite sve potrebne podatke.
 common#:#profile_of#:#Profil korisnika
 common#:#properties#:#Svojstva
@@ -5341,8 +5341,8 @@ common#:#reg_mail_body_salutation#:#Dobar dan
 common#:#reg_mail_body_text1#:#Dobrodošli u ILIAS eLearning!
 common#:#reg_mail_body_text2#:#Za pristup ILIAS-u koristite sljedeće podatke:
 common#:#reg_mail_body_text3#:#Ostali osobni podaci:
-common#:#reg_mail_subject#:#ILIAS eLearning - Vaši pristupni podaci
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Vaša povezica za potvrdu
+common#:#reg_mail_subject#:#Vaši pristupni podaci
+common#:#reg_mail_subject_confirmation#:#Vaša povezica za potvrdu
 common#:#reg_passwd_via_mail#:#Vaša lozinka bit će poslana na vašu adresu e-pošte navedenu u nastavku.
 common#:#register#:#Registariraj se
 common#:#register_notification#:#"%s" has applied for session "%s".###04 06 2021 new variable

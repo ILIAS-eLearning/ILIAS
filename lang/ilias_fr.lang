@@ -5342,7 +5342,7 @@ common#:#reg_mail_body_text1#:#Bienvenue sur MediaEcole, votre compte a été cr
 common#:#reg_mail_body_text2#:#Pour vous connecter, cliquer sur : http://p-form.intradef.gouv.fr/login.php?client_id=mediaecole
 common#:#reg_mail_body_text3#:#Informations personnelles supplémentaires :
 common#:#reg_mail_subject#:#MediaEcole - Vos données d'accès
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Votre lien de confirmation
+common#:#reg_mail_subject_confirmation#:#Votre lien de confirmation
 common#:#reg_passwd_via_mail#:#Votre mot de passe sera envoyé à  l'adresse email précisée ci-dessous.
 common#:#register#:#Créer un Compte
 common#:#register_notification#:#"%s" has applied for session "%s".

@@ -5342,7 +5342,7 @@ common#:#reg_mail_body_text1#:#Dobro došli na ILIAS eUcenje!
 common#:#reg_mail_body_text2#:#Da biste pristupili ILIAS-u upotrebite sledece podatke:###10 Jul 2006 content changed
 common#:#reg_mail_body_text3#:#Sledeci licni podaci:
 common#:#reg_mail_subject#:#ILIAS eUcenje - Vadi podaci za pristup
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+common#:#reg_mail_subject_confirmation#:#Your Confirmationlink###24 07 2009 new variable
 common#:#reg_passwd_via_mail#:#Vaša lozinka ce biti poslata na dole naznacenu adresu elektronske pošte.
 common#:#register#:#Registruj
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

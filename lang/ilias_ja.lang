@@ -5282,7 +5282,7 @@ common#:#private_notes#:#プライベートメモ
 common#:#pro#:#いいね
 common#:#proceed#:#続ける
 common#:#profile#:#プロファイル
-common#:#profile_changed#:#ILIAS eLearning - プロファイルが変更されました
+common#:#profile_changed#:#プロファイルが変更されました
 common#:#profile_incomplete#:#プロファイル作成が未完了です。必要事項を記入してください
 common#:#profile_of#:#プロファイル
 common#:#properties#:#プロパティ
@@ -5341,8 +5341,8 @@ common#:#reg_mail_body_salutation#:#こんにちは
 common#:#reg_mail_body_text1#:#学習管理システムILIASのご利用ありがとうございます。
 common#:#reg_mail_body_text2#:#LIASへアクセスするには次のURIを使用します:
 common#:#reg_mail_body_text3#:#詳細情報
-common#:#reg_mail_subject#:#ILIAS eLearning - アクセス情報
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - リンク 確認用
+common#:#reg_mail_subject#:#アクセス情報
+common#:#reg_mail_subject_confirmation#:#リンク 確認用
 common#:#reg_passwd_via_mail#:#パスワードは以下のemailアドレスへ送信されます。
 common#:#register#:#登録
 common#:#register_notification#:#%s がセッション "%s"へ適用されました。

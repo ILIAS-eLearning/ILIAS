@@ -5342,7 +5342,7 @@ common#:#reg_mail_body_text1#:#Bine ati venit la  ILIAS eLearning!
 common#:#reg_mail_body_text2#:#Pentru a accesa ILIAs folositi urmatoarele date:###10 Jul 2006 content changed
 common#:#reg_mail_body_text3#:#Mai multe informatii personale:
 common#:#reg_mail_subject#:#ILIAS eLearning â€“ Datele dumneavoastra de acces
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+common#:#reg_mail_subject_confirmation#:#Your Confirmationlink###24 07 2009 new variable
 common#:#reg_passwd_via_mail#:#Parola va va fi trimisa la adresa de mail de mai jos.
 common#:#register#:#Inregistrare
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

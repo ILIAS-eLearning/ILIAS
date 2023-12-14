@@ -5282,7 +5282,7 @@ common#:#private_notes#:#Özel Notlar
 common#:#pro#:#Pro
 common#:#proceed#:#Devam
 common#:#profile#:#Profil
-common#:#profile_changed#:#ILIAS eLearning - profiliniz değişti
+common#:#profile_changed#:#profiliniz değişti
 common#:#profile_incomplete#:#Profiliniz eksiktir. Gerekli tüm bilgileri doldurun.
 common#:#profile_of#:#Profili
 common#:#properties#:#Özellikleri
@@ -5341,8 +5341,8 @@ common#:#reg_mail_body_salutation#:#Merhaba
 common#:#reg_mail_body_text1#:#ILIAS eLearning Hoş geldiniz!
 common#:#reg_mail_body_text2#:#ILIAS'a erişmek için aşağıdaki verileri kullanın :
 common#:#reg_mail_body_text3#:#Ayrıntılı kişisel bilgiler:
-common#:#reg_mail_subject#:#ILIAS eLearning - Erişim veriniz
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Onay Linkiniz
+common#:#reg_mail_subject#:#Erişim veriniz
+common#:#reg_mail_subject_confirmation#:#Onay Linkiniz
 common#:#reg_passwd_via_mail#:#Şifrenizi aşağıda verilen e-posta adresine gönderilecektir.
 common#:#register#:#Kayıt
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

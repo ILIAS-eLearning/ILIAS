@@ -5342,7 +5342,7 @@ common#:#reg_mail_body_text1#:#teretulemast e-õppe keskkonda ILIAS!
 common#:#reg_mail_body_text2#:#ILIASesse sisenemiseks kasuta järgnevaid andmeid:
 common#:#reg_mail_body_text3#:#Muu isiklik info:
 common#:#reg_mail_subject#:#ILIAS - sinu salasõna
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmation Link
+common#:#reg_mail_subject_confirmation#:#Your Confirmation Link
 common#:#reg_passwd_via_mail#:#Sinu salasõna saadetakse sinu e-posti aadressile - seetõttu peab e-posti aadress olema korrektselt sisestatud. NB! Hot.ee, hotmail.com, mail.ee, gmail.com jm e-posti rakendused võivad ILIASe süsteemi kirju spämmiks lugeda ja need kustutada. Palume võimalusel kasutada ametiaadressi.
 common#:#register#:#Registreeru
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

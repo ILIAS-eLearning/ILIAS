@@ -5343,8 +5343,8 @@ common#:#reg_mail_body_salutation#:#Xin chào
 common#:#reg_mail_body_text1#:#Chào mừng đến với ILIAS eLearning Đại học Sư phạm Hà Nội!
 common#:#reg_mail_body_text2#:#Để truy cập ILIAS hãy sử dụng các thông tin sau:
 common#:#reg_mail_body_text3#:#Thông tin cá nhân bổ sung:
-common#:#reg_mail_subject#:#ILIAS eLearning - Thông tin truy cập của bạn
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+common#:#reg_mail_subject#:#Thông tin truy cập của bạn
+common#:#reg_mail_subject_confirmation#:#Your Confirmationlink###24 07 2009 new variable
 common#:#reg_passwd_via_mail#:#mật khẩu của bạn sẽ được gửi tới hòm thư của bạn ở phía dưới.
 common#:#register#:#Đăng ký
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

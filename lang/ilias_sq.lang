@@ -5341,8 +5341,8 @@ common#:#reg_mail_body_salutation#:#Tungjatjeta
 common#:#reg_mail_body_text1#:#Mirë se vini në ILIAS eLearning!
 common#:#reg_mail_body_text2#:#Për tu qasur në ILIAS përdorni shënimet vijuese:###10 Jul 2006 content changed
 common#:#reg_mail_body_text3#:#Informacione personale të mëtejshme:
-common#:#reg_mail_subject#:#ILIAS eLearning - Të dhënat për qasjen tuaj
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+common#:#reg_mail_subject#:#Të dhënat për qasjen tuaj
+common#:#reg_mail_subject_confirmation#:#Your Confirmationlink###24 07 2009 new variable
 common#:#reg_passwd_via_mail#:#Parulla do tu dërgohet në e-mail adresën e dhënë më poshtë.
 common#:#register#:#Regjistrimi
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

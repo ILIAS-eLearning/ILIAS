@@ -5296,7 +5296,7 @@ common#:#private_notes#:#Zasebne opombe
 common#:#pro#:#Pro
 common#:#proceed#:#Nadaljuj
 common#:#profile#:#Profile
-common#:#profile_changed#:#ILIAS eLearning - Vaši profilni podatki so bili spremenjeni
+common#:#profile_changed#:#Vaši profilni podatki so bili spremenjeni
 common#:#profile_incomplete#:#Vaš profil ni popoln. Vnesite vse zahtevane podatke
 common#:#profile_of#:#Profil od
 common#:#properties#:#Lastnosti
@@ -5355,8 +5355,8 @@ common#:#reg_mail_body_salutation#:#Pozdravljeni
 common#:#reg_mail_body_text1#:#Dobrodošli v eLearning platformi ILIAS!
 common#:#reg_mail_body_text2#:#Vaši dostopni podatki:
 common#:#reg_mail_body_text3#:#Nadaljnji osebni podatki:
-common#:#reg_mail_subject#:#ILIAS eLearning - Vaši dostopni podatki
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Vaša povezava za potrditev
+common#:#reg_mail_subject#:#Vaši dostopni podatki
+common#:#reg_mail_subject_confirmation#:#Vaša povezava za potrditev
 common#:#reg_passwd_via_mail#:#Geslo bo poslano na spodaj navedeni e-poštni naslov.
 common#:#register#:#Registriracija
 common#:#register_notification#:#"%s" has applied for session "%s".

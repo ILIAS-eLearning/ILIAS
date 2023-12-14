@@ -5341,8 +5341,8 @@ common#:#reg_mail_body_salutation#:#Здравейте
 common#:#reg_mail_body_text1#:#Добре дошли в ILIAS eLearning!
 common#:#reg_mail_body_text2#:#За достъп в ILIAS използвайте следните данни:
 common#:#reg_mail_body_text3#:#Допълнителна лична информация:
-common#:#reg_mail_subject#:#ILIAS eLearning - Вашите данни за достъп
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Вашата връзка за потвърждение
+common#:#reg_mail_subject#:#Вашите данни за достъп
+common#:#reg_mail_subject_confirmation#:#Вашата връзка за потвърждение
 common#:#reg_passwd_via_mail#:#Вашата парола ще бъде изпратена на вашия имейл адрес, даден по-долу.
 common#:#register#:#Регистриране
 common#:#register_notification#:#"%s" е кандидатствал за сесия "%s".

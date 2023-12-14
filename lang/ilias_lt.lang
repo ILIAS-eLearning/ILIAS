@@ -5342,7 +5342,7 @@ common#:#reg_mail_body_text1#:#Sveiki atvykę į ILIAS eMokymo sistemą!
 common#:#reg_mail_body_text2#:#Norėdami prisijungti prie ILIAS naudokite šiuos duomenis:
 common#:#reg_mail_body_text3#:#Daugiau asmeninės informacijos:
 common#:#reg_mail_subject#:#ILIAS eMokymas - Jūsų prisijungimo duomenys
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+common#:#reg_mail_subject_confirmation#:#Your Confirmationlink###24 07 2009 new variable
 common#:#reg_passwd_via_mail#:#Jūsų slaptažodis bus išsiųstas žemiau nurodytu el. pašto adresu.
 common#:#register#:#Registruotis
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

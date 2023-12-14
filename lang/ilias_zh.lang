@@ -5340,8 +5340,8 @@ common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#欢迎来到ILIAS学习！
 common#:#reg_mail_body_text2#:#使用以下数据访问ILIAS：
 common#:#reg_mail_body_text3#:#更多的个人信息：
-common#:#reg_mail_subject#:#ILIAS eLearning - 您的访问数据
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - 您的确认链接
+common#:#reg_mail_subject#:#您的访问数据
+common#:#reg_mail_subject_confirmation#:#您的确认链接
 common#:#reg_passwd_via_mail#:#您的密码将会发送到下面您的电子邮箱地址中。
 common#:#register#:#注册
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

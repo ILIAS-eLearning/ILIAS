@@ -5341,8 +5341,8 @@ common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Welkom bij ILIAS!
 common#:#reg_mail_body_text2#:#Om ILIAS te bereiken gebruik je volgende gegevens:<br />
 common#:#reg_mail_body_text3#:#Persoonlijke informatie:
-common#:#reg_mail_subject#:#ILIAS eLearning - Je toegangsgegevens
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Je bevestigingslink
+common#:#reg_mail_subject#:#Je toegangsgegevens
+common#:#reg_mail_subject_confirmation#:#Je bevestigingslink
 common#:#reg_passwd_via_mail#:#Je wachtwoord zal worden verzonden naar je e-mailadres.
 common#:#register#:#Registreer
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

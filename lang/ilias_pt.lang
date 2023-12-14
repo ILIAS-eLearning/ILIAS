@@ -4822,11 +4822,11 @@ common#:#obj_cals#:#Calendário
 common#:#obj_cals_desc#:#Definições gerais de calendário.
 common#:#obj_cat#:#Informações pessoais adicionais:
 common#:#obj_cat_duplicate#:#Copiar categoria
-common#:#obj_catr#:#ILIAS eLearning - Os seus dados de acesso
+common#:#obj_catr#:#Os seus dados de acesso
 common#:#obj_cert#:#Certificados
 common#:#obj_cert_desc#:#Definições para certificados
 common#:#obj_chap#:#Capítulo
-common#:#obj_chta#:#ILIAS eLearning - O seu link de confirmação
+common#:#obj_chta#:#O seu link de confirmação
 common#:#obj_chtr#:#A sua palavra-passe será enviada para o seu endereço de e-mail em baixo.
 common#:#obj_chtr_duplicate#:#Copy Chat Room###09 03 2022 new variable
 common#:#obj_cld#:#Objeto da cloud
@@ -5086,7 +5086,7 @@ common#:#objs_crsr#:#Per
 common#:#objs_dcl#:#Coleções de dados
 common#:#objs_etal#:#Employee Talks###31 03 2023 new variable
 common#:#objs_exc#:#Perfil
-common#:#objs_file#:#ILIAS eLearning - O seu perfil mudou
+common#:#objs_file#:#O seu perfil mudou
 common#:#objs_fold#:#O seu perfil está incompleto. Preencha todos os dados necessários.
 common#:#objs_frm#:#Perfil de
 common#:#objs_glo#:#Propriedades

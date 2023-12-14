@@ -5341,8 +5341,8 @@ common#:#reg_mail_body_salutation#:#Привет
 common#:#reg_mail_body_text1#:#Добро пожаловать в ILIAS eLearning!
 common#:#reg_mail_body_text2#:#ILIAS использует доступ к следующим данным:
 common#:#reg_mail_body_text3#:#Дополнительная персональная информация:
-common#:#reg_mail_subject#:#ILIAS eLearning - Ваши данные доступа
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink
+common#:#reg_mail_subject#:#Ваши данные доступа
+common#:#reg_mail_subject_confirmation#:#Your Confirmationlink
 common#:#reg_passwd_via_mail#:#Ваш пароль будет послан по е-майл адресу приведенному ниже.
 common#:#register#:#Регистрация
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

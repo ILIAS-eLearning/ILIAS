@@ -5282,7 +5282,7 @@ common#:#private_notes#:#Osobní poznámky
 common#:#pro#:#Pro
 common#:#proceed#:#Postoupit
 common#:#profile#:#Profil
-common#:#profile_changed#:#ILIAS eLearning - Váš profil byl změněn
+common#:#profile_changed#:#Váš profil byl změněn
 common#:#profile_incomplete#:#Váš profil je nekompletní. Vyplňte prosím všechna požadovaná data.
 common#:#profile_of#:#Profil pro
 common#:#properties#:#Vlastnosti
@@ -5342,7 +5342,7 @@ common#:#reg_mail_body_text1#:#Vítejte v e-learningu ILIAS!
 common#:#reg_mail_body_text2#:#K přístupu do ILIAS použijte následující údaje:
 common#:#reg_mail_body_text3#:#Další osobní informace:
 common#:#reg_mail_subject#:#E-learning ILIAS - Vaše přístupové údaje
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink
+common#:#reg_mail_subject_confirmation#:#Your Confirmationlink
 common#:#reg_passwd_via_mail#:#Vaše heslo bude zasláno na Vaši e-mail adresu uvedenou níže.
 common#:#register#:#Zaregistrovat
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

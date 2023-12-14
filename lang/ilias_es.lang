@@ -5344,7 +5344,7 @@ common#:#reg_mail_body_text1#:#¡Bienvenido a ILIAS!
 common#:#reg_mail_body_text2#:#Para acceder a ILIAS use los siguientes datos:
 common#:#reg_mail_body_text3#:#Información personal detallada:
 common#:#reg_mail_subject#:#ILIAS - Sus datos de acceso
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Su enlace de confirmación
+common#:#reg_mail_subject_confirmation#:#Su enlace de confirmación
 common#:#reg_passwd_via_mail#:#Su contraseña será enviada a su dirección de e-mail mostrada abajo.
 common#:#register#:#Registrarse
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

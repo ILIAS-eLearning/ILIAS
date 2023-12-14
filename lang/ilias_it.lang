@@ -5355,8 +5355,8 @@ common#:#reg_mail_body_salutation#:#Ciao
 common#:#reg_mail_body_text1#:#Benvenuto in ILIAS eLearning!
 common#:#reg_mail_body_text2#:#Per accedere ad ILIAS utilizza i seguenti dati:
 common#:#reg_mail_body_text3#:#Ulteriori informazioni personali:
-common#:#reg_mail_subject#:#ILIAS eLearning - I tuoi dati di accesso
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Link di Conferma
+common#:#reg_mail_subject#:#I tuoi dati di accesso
+common#:#reg_mail_subject_confirmation#:#Link di Conferma
 common#:#reg_passwd_via_mail#:#La password verrà inviata al tuo indirizzo e-mail indicato di seguito.
 common#:#register#:#Registrati
 common#:#register_notification#:#"%s" ha fatto domanda per la sessione "%s".
