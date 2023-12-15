@@ -340,6 +340,7 @@ class ilDidacticTemplateSettingsGUI
             $setting = $this->initTemplateFromRequest();
         } else {
             $setting = ($this->setting = new ilDidacticTemplateSetting($template_id));
+            $this->ctrl->setParameter($this, 'tplid', $template_id);
         }
         if (!$setting instanceof ilDidacticTemplateSetting) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
