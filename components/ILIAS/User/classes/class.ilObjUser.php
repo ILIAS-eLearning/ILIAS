@@ -2233,7 +2233,7 @@ class ilObjUser extends ilObject
                     break;
                 case 4:
                     $session_data = ilSession::get('user_filter_data');
-                    $date = strftime('%Y-%m-%d %H:%I:%S', mktime(0, 0, 0, $session_data['m'], $session_data['d'], $session_data['y']));
+                    $date = date('Y-m-d H:i:s', mktime(0, 0, 0, $session_data['m'], $session_data['d'], $session_data['y']));
                     $q .= ' AND last_login < ' . $ilDB->quote($date, 'timestamp');
                     break;
                 case 5:
