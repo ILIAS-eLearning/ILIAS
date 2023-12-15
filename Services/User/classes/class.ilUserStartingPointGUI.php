@@ -151,34 +151,32 @@ class ilUserStartingPointGUI
         $spoint_id = $this->user_request->getStartingPointId();
         $req_role_id = $this->user_request->getRoleId();
 
-        //edit no default
-        if ($spoint_id > 0 && $spoint_id != 'default') {
-            $st_point = new ilStartingPoint($spoint_id);
+        if ($spoint_id === 'default') {
+            $starting_point = ilUserUtil::getStartingPoint();
+        } elseif (is_numeric($spoint_id) && intval($spoint_id) > 0) {
+            $st_point = new ilStartingPoint((int) $spoint_id);
 
             //starting point role based
-            if ($st_point->getRuleType() == ilStartingPoint::ROLE_BASED && $req_role_id) {
-                $rolid = $req_role_id;
-                if ($role = new ilObjRole($rolid)) {
-                    $options[$rolid] = $role->getTitle();
-                    $starting_point = $st_point->getStartingPoint();
+            if ($st_point->getRuleType() === ilStartingPoint::ROLE_BASED
+                && is_numeric($req_role_id) && intval($req_role_id) > 0
+                && ($role = new ilObjRole((int) $req_role_id))) {
+                $options[$req_role_id] = $role->getTitle();
+                $starting_point = $st_point->getStartingPoint();
 
-                    // role title, non editable
-                    $ne = new ilNonEditableValueGUI($this->lng->txt("editing_this_role"), 'role_disabled');
-                    $ne->setValue($role->getTitle());
-                    $form->addItem($ne);
+                // role title, non editable
+                $ne = new ilNonEditableValueGUI($this->lng->txt("editing_this_role"), 'role_disabled');
+                $ne->setValue($role->getTitle());
+                $form->addItem($ne);
 
-                    $hi = new ilHiddenInputGUI("role");
-                    $hi->setValue($rolid);
-                    $form->addItem($hi);
+                $hi = new ilHiddenInputGUI("role");
+                $hi->setValue($req_role_id);
+                $form->addItem($hi);
 
-                    $hidde_sp_id = new ilHiddenInputGUI("start_point_id");
-                    $hidde_sp_id->setValue($spoint_id);
-                    $form->addItem($hidde_sp_id);
-                }
+                $hidde_sp_id = new ilHiddenInputGUI("start_point_id");
+                $hidde_sp_id->setValue($spoint_id);
+                $form->addItem($hidde_sp_id);
             }
-        }
-        //create
-        elseif (!$spoint_id || $spoint_id != 'default') {
+        } else {
             //starting point role based
             if (ilStartingPoint::ROLE_BASED) {
                 $roles = ilStartingPoint::getGlobalRolesWithoutStartingPoint();
@@ -204,8 +202,6 @@ class ilUserStartingPointGUI
                 $role_search->setSize(40);
                 $op2->addSubItem($role_search);
             }
-        } else {
-            $starting_point = ilUserUtil::getStartingPoint();
         }
 
         // starting point

@@ -81,7 +81,7 @@ class StandardGUIRequest
     public function getStartingPointId(): string
     {
         $id = $this->str("spid");
-        if ($id == 0) {
+        if ($id === '0' || $id === '') {
             $id = $this->str("start_point_id");
         }
         return $id;
@@ -90,7 +90,7 @@ class StandardGUIRequest
     public function getRoleId(): string
     {
         $role_id = $this->str("rolid");
-        if ($role_id == 0) {
+        if ($role_id === '0' || $role_id === '') {
             $role_id = $this->str("role_id");
         }
         return $role_id;
