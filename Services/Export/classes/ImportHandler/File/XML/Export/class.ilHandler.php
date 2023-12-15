@@ -107,8 +107,13 @@ abstract class ilHandler extends ilXMLFileHandler implements ilXMLExportFileHand
 
     public function hasComponentRootNode(): bool
     {
+        $xml = $this->withAdditionalNamespace(
+            $this->namespace->handler()
+                ->withNamespace('http://www.ilias.de/Services/DataSet/ds/4_3')
+                ->withPrefix('ds')
+        );
         try {
-            $nodes = $this->parser->DOM()->withFileHandler($this)->getNodeInfoAt($this->getPathToComponentRootNodes());
+            $nodes = $this->parser->DOM()->withFileHandler($xml)->getNodeInfoAt($this->getPathToComponentRootNodes());
         } catch (ilImportStatusException $e) {
             return false;
         }
