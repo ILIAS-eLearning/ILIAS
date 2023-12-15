@@ -26,8 +26,8 @@ class ilRoleXmlExport extends ilXmlWriter
 {
     public const MODE_DTPL = 1;
 
-    private array $roles = array();
-    private array $operations = array();
+    private array $roles = [];
+    private array $operations = [];
     private int $mode = 0;
 
     protected ilRbacReview $rbacreview;
@@ -106,21 +106,21 @@ class ilRoleXmlExport extends ilXmlWriter
      */
     private function writeRole(int $a_role_id, int $a_rolf): void
     {
-        $attributes = array(
+        $attributes = [
             'type' => ilObject::_lookupType($a_role_id),
             'id' => 'il_' . IL_INST_ID . '_' . ilObject::_lookupType($a_role_id) . '_' . $a_role_id,
             'protected' => ($GLOBALS['DIC']['rbacreview']->isProtected($a_rolf, $a_role_id) ? 1 : 0)
-        );
+        ];
 
         $this->xmlStartTag('role', $attributes);
 
-        $this->xmlElement('title', array(), ilObject::_lookupTitle($a_role_id));
-        $this->xmlElement('description', array(), ilObject::_lookupDescription($a_role_id));
+        $this->xmlElement('title', [], ilObject::_lookupTitle($a_role_id));
+        $this->xmlElement('description', [], ilObject::_lookupDescription($a_role_id));
 
         $this->xmlStartTag('operations');
         foreach ($this->rbacreview->getAllOperationsOfRole($a_role_id, $a_rolf) as $obj_group => $operations) {
             foreach ($operations as $ops_id) {
-                $this->xmlElement('operation', array('group' => $obj_group), trim($this->operations[$ops_id]));
+                $this->xmlElement('operation', ['group' => $obj_group], trim($this->operations[$ops_id]));
             }
         }
         $this->xmlEndTag('operations');

@@ -92,7 +92,7 @@ class ilAccessRBACOperationClonedObjective implements Setup\Objective
         }
 
         // rbac_templates
-        $tmp = array();
+        $tmp = [];
         $sql =
             "SELECT rol_id, parent, ops_id" . PHP_EOL
             . "FROM rbac_templates" . PHP_EOL

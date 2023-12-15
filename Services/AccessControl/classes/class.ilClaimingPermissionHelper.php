@@ -51,7 +51,7 @@ abstract class ilClaimingPermissionHelper
      */
     public function reset(): void
     {
-        $this->context_ids = array();
+        $this->context_ids = [];
     }
 
 
@@ -164,7 +164,7 @@ abstract class ilClaimingPermissionHelper
      */
     public function hasPermissions(int $a_context_type, string $a_context_id, array $a_action_ids): array
     {
-        $res = array();
+        $res = [];
 
         foreach ($a_action_ids as $action_id) {
             if (is_array($action_id)) {
@@ -245,7 +245,7 @@ abstract class ilClaimingPermissionHelper
         $obj_def = new ilObjectDefinition();
         $adv_md_types = $obj_def->getAdvancedMetaDataTypes();
 
-        $valid_accepted_types = array();
+        $valid_accepted_types = [];
         foreach ($adv_md_types as $value) {
             if (in_array($value['obj_type'], $accepted_types) || in_array($value['sub_type'], $accepted_types)) {
                 array_push($valid_accepted_types, $value['obj_type']);

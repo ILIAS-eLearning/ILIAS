@@ -173,7 +173,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             case 'ilrepositorysearchgui':
 
                 if (!$this->access->checkRbacOrPositionPermissionAccess(
-                    'read_users',
+                    'read',
                     \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                     USER_FOLDER_ID
                 )) {
@@ -302,13 +302,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
         }
 
-        if (
-            !$this->access->checkAccess(
-                'read_users',
-                '',
-                USER_FOLDER_ID
-            ) &&
-            $this->access->checkRbacOrPositionPermissionAccess(
+        if (!$this->access->checkAccess('read_users', '', USER_FOLDER_ID)
+            && $this->access->checkRbacOrPositionPermissionAccess(
                 'read_users',
                 \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID
@@ -3268,7 +3263,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         if ($this->access->checkRbacOrPositionPermissionAccess(
-            'read_users',
+            'read',
             \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
             USER_FOLDER_ID
         )) {
@@ -3285,7 +3280,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         if ($this->rbac_system->checkAccess(
-            'write,read_users',
+            'write',
             $this->object->getRefId()
         )) {
             $this->tabs_gui->addTarget(

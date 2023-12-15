@@ -678,10 +678,10 @@ class ilObject
             $this->app_event_handler->raise(
                 'Services/Object',
                 'update',
-                array('obj_id' => $this->getId(),
+                ['obj_id' => $this->getId(),
                       'obj_type' => $this->getType(),
                       'ref_id' => $this->getRefId()
-                )
+                ]
             );
 
             // Update Title and description
@@ -852,7 +852,7 @@ class ilObject
 
         $result = $db->query($sql);
 
-        $ref = array();
+        $ref = [];
         while ($row = $db->fetchAssoc($result)) {
             $ref[(int) $row["ref_id"]] = (int) $row["ref_id"];
         }
@@ -1171,7 +1171,7 @@ class ilObject
         ;
         $result = $db->query($sql);
 
-        $objects = array();
+        $objects = [];
         while ($row = $db->fetchAssoc($result)) {
             if ((!$omit_trash) || ilObject::_hasUntrashedReference((int) $row["obj_id"])) {
                 $objects[$row["title"] . "." . $row["obj_id"]] = [
@@ -1586,7 +1586,7 @@ class ilObject
 
             $options[$row->child] = $title;
         }
-        return $options ?: array();
+        return $options ?: [];
     }
 
     /**
@@ -1799,7 +1799,7 @@ class ilObject
                     $class_name = "il" . $objDefinition->getClassName($type) . 'Plugin';
                     $location = $objDefinition->getLocation($type);
                     if (is_file($location . "/class." . $class_name . ".php")) {
-                        return call_user_func(array($class_name, "_getIcon"), $type, $size, $obj_id);
+                        return call_user_func([$class_name, "_getIcon"], $type, $size, $obj_id);
                     }
                 }
                 return ilUtil::getImagePath("standard/icon_cmps.svg");
@@ -1844,7 +1844,7 @@ class ilObject
         $ref_id = $this->getRefId();
         $type = $this->type;
 
-        if (!$ref_id || !in_array($type, array("file", "lm", "wiki"))) {
+        if (!$ref_id || !in_array($type, ["file", "lm", "wiki"])) {
             return false;
         }
 
@@ -1886,14 +1886,14 @@ class ilObject
         $tree = $DIC->repositoryTree();
 
         if ($depth == 0) {
-            $deps["dep"] = array();
+            $deps["dep"] = [];
         }
 
         $deps["del_ids"][$obj_id] = $obj_id;
 
         if (!$objDefinition->isPluginTypeName($type)) {
             $class_name = "ilObj" . $objDefinition->getClassName($type);
-            $odeps = call_user_func(array($class_name, "getDeletionDependencies"), $obj_id);
+            $odeps = call_user_func([$class_name, "getDeletionDependencies"], $obj_id);
             if (is_array($odeps)) {
                 foreach ($odeps as $id => $message) {
                     $deps["dep"][$id][$obj_id][] = $message;
@@ -1935,7 +1935,7 @@ class ilObject
         ;
         $result = $db->query($sql);
 
-        $all = array();
+        $all = [];
         while ($row = $db->fetchAssoc($result)) {
             $all[$row["obj_id"]] = $row["description"];
         }
@@ -1993,12 +1993,12 @@ class ilObject
         global $DIC;
         $db = $DIC->database();
 
-        if (!in_array($type, array("catr", "crsr", "sess", "grpr", "prgr"))) {
+        if (!in_array($type, ["catr", "crsr", "sess", "grpr", "prgr"])) {
             return;
         }
 
         // any missing titles?
-        $missing_obj_ids = array();
+        $missing_obj_ids = [];
         foreach ($obj_title_map as $obj_id => $title) {
             if (!trim($title)) {
                 $missing_obj_ids[] = $obj_id;

@@ -1,12 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Task\TaskFactory as TaskFactory;
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Description of class class
@@ -79,7 +93,7 @@ class ilDownloadFilesBackgroundTask
 
     public function run(): bool
     {
-        $definition = new ilCalendarCopyDefinition();
+        $definition = new ilCalendarRessourceStorageCopyDefinition();
         $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $definition->setTempDir($normalized_name);
 
@@ -117,7 +131,7 @@ class ilDownloadFilesBackgroundTask
         return true;
     }
 
-    private function collectFiles(ilCalendarCopyDefinition $def): void
+    private function collectFiles(ilCalendarRessourceStorageCopyDefinition $def): void
     {
         //filter here the objects, don't repeat the object Id
         $object_ids = [];
@@ -164,16 +178,16 @@ class ilDownloadFilesBackgroundTask
                 $this->logger->dump($files);
                 foreach ($files as $idx => $file_property) {
                     $this->logger->debug('Filename:' . $file_property->getFileName());
-                    $this->logger->debug('Absolute path: ' . $file_property->getAbsolutePath());
+                    $this->logger->debug('Ressource Id: ' . $file_property->getFileRId());
 
                     $def->addCopyDefinition(
-                        $file_property->getAbsolutePath(),
+                        $file_property->getFileRId(),
                         $folder_date . '/' . $folder_app . '/' . $file_property->getFileName()
                     );
                     $this->logger->debug(
                         'Added new copy definition: ' .
                         $folder_date . '/' . $folder_app . '/' . $file_property->getFileName() . ' => ' .
-                        $file_property->getAbsolutePath()
+                        $file_property->getFileRId()
                     );
                 }
             } else {

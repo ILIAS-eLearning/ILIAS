@@ -202,7 +202,7 @@ class ilCachedObjectDefinition implements Request
                 return $this->cached_results['subop_par'][$index];
             }
 
-            $return = array();
+            $return = [];
             foreach ($parent as $p) {
                 if (isset($this->subobj_for_parent[$p]) && is_array($this->subobj_for_parent[$p])) {
                     foreach ($this->subobj_for_parent[$p] as $rec) {
@@ -241,8 +241,8 @@ class ilCachedObjectDefinition implements Request
                 return $this->cached_results['grpd_repo'][$index];
             }
 
-            $return = array();
-            $sids = array();
+            $return = [];
+            $sids = [];
             foreach ($parent as $p) {
                 $s = $this->grouped_rep_obj_types[$p];
                 foreach ($s as $child) {

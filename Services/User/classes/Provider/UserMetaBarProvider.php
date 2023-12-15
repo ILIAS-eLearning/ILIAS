@@ -44,7 +44,7 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
             return $this->if->identifier($id);
         };
 
-        $children = array();
+        $children = [];
         $children[] = $mb->linkItem($id('personal_profile'))
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToProfile")
             ->withTitle($txt("personal_profile"))

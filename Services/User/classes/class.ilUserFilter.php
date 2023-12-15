@@ -22,7 +22,7 @@
 class ilUserFilter
 {
     private static ?ilUserFilter $instance = null;
-    private array $folder_ids = array(); // Missing array type.
+    private array $folder_ids = []; // Missing array type.
 
     protected function __construct()
     {
@@ -55,7 +55,7 @@ class ilUserFilter
             "AND " . $ilDB->in('usr_id', $a_user_ids, false, 'integer');
         $res = $ilDB->query($query);
 
-        $filtered = array();
+        $filtered = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $filtered[] = $row['usr_id'];
         }

@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -17,7 +31,6 @@ class ilConsultationHourUtils
         global $DIC;
 
         $ctrl = $DIC->ctrl();
-        $lng = $DIC->language();
         $logger = $DIC->logger()->cal();
         $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed', '');
         $ctrl->setParameterByClass(end($ctrl_class_structure), 'category_id', '');
@@ -63,11 +76,7 @@ class ilConsultationHourUtils
             }
             $current_link = [
                 'link' => $ctrl->getLinkTargetByClass($ctrl_class_structure, 'selectCHCalendarOfUser'),
-                'txt' => str_replace(
-                    "%1",
-                    ilObjUser::_lookupFullname($user_id),
-                    $lng->txt("cal_consultation_hours_for_user")
-                )
+                'txt' => ilObjUser::_lookupFullname($user_id)
             ];
             $links[] = $current_link;
         }

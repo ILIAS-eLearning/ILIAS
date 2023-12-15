@@ -283,7 +283,7 @@ class ilCommonActionDispatcherGUI
      */
     public function setRatingCallback(object $gui, string $cmd): void
     {
-        $this->rating_callback = array($gui, $cmd);
+        $this->rating_callback = [$gui, $cmd];
     }
 
     /**

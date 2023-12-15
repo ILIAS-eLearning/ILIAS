@@ -38,14 +38,14 @@ class ilUserQuery
     private int $crs_grp = 0;
     private int $role = 0;
     private ?array $user_folder = null; // Missing array type.
-    private array $additional_fields = array(); // Missing array type.
-    private array $users = array(); // Missing array type.
+    private array $additional_fields = []; // Missing array type.
+    private array $users = []; // Missing array type.
     private string $first_letter = '';
     private bool $has_access = false;
     private string $authentication_method = '';
-    protected array $udf_filter = array(); // Missing array type.
+    protected array $udf_filter = []; // Missing array type.
     /** @var string[] */
-    private array $default_fields = array(
+    private array $default_fields = [
         "usr_id",
         "login",
         "firstname",
@@ -57,7 +57,7 @@ class ilUserQuery
         "time_limit_owner",
         "last_login",
         "active"
-    );
+    ];
 
     public function __construct()
     {
@@ -241,7 +241,7 @@ class ilUserQuery
         $ilDB = $DIC['ilDB'];
 
 
-        $udf_fields = array();
+        $udf_fields = [];
         $usr_ids = [];
 
         $join = "";
@@ -262,7 +262,7 @@ class ilUserQuery
         }
 
         // if udf fields are involved we need the definitions
-        $udf_def = array();
+        $udf_def = [];
         if (count($udf_fields) > 0) {
             $udf_def = ilUserDefinedFields::_getInstance()->getDefinitions();
         }
@@ -279,10 +279,10 @@ class ilUserQuery
         $count_query = "SELECT count(usr_data.usr_id) cnt" .
             " FROM usr_data";
 
-        $all_multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
-        $multi_fields = array();
+        $all_multi_fields = ["interests_general", "interests_help_offered", "interests_help_looking"];
+        $multi_fields = [];
 
-        $sql_fields = array();
+        $sql_fields = [];
         foreach ($this->default_fields as $idx => $field) {
             if (!$field) {
                 continue;
@@ -504,12 +504,12 @@ class ilUserQuery
         $ilDB->setLimit($limit, $offset);
 
         if (count($multi_fields)) {
-            $usr_ids = array();
+            $usr_ids = [];
         }
 
         // set query
         $set = $ilDB->query($query);
-        $result = array();
+        $result = [];
 
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec;
@@ -520,7 +520,7 @@ class ilUserQuery
 
         // add multi-field-values to user-data
         if (count($multi_fields) && count($usr_ids)) {
-            $usr_multi = array();
+            $usr_multi = [];
             $set = $ilDB->query("SELECT * FROM usr_data_multi" .
                 " WHERE " . $ilDB->in("usr_id", $usr_ids, "", "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
@@ -532,7 +532,7 @@ class ilUserQuery
                 }
             }
         }
-        return array("cnt" => $cnt, "set" => $result);
+        return ["cnt" => $cnt, "set" => $result];
     }
 
 

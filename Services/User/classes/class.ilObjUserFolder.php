@@ -84,14 +84,14 @@ class ilObjUserFolder extends ilObject
         // quit if export dir not available
         if (!is_dir($dir) or
             !is_writable($dir)) {
-            return array();
+            return [];
         }
 
         // open directory
         $dir = dir($dir);
 
         // initialize array
-        $file = array();
+        $file = [];
 
         // get files and save the in the array
         while ($entry = $dir->read()) {
@@ -152,11 +152,11 @@ class ilObjUserFolder extends ilObject
     {
         $udf_obj = ilUserDefinedFields::_getInstance();
 
-        $udf_ex_fields = array();
+        $udf_ex_fields = [];
         foreach ($udf_obj->getDefinitions() as $definition) {
             if ($definition["export"] != false) {
-                $udf_ex_fields[] = array("name" => $definition["field_name"],
-                    "id" => $definition["field_id"]);
+                $udf_ex_fields[] = ["name" => $definition["field_name"],
+                    "id" => $definition["field_id"]];
             }
         }
 
@@ -169,7 +169,7 @@ class ilObjUserFolder extends ilObject
         string $filename
     ): void {
         // header
-        $headerrow = array();
+        $headerrow = [];
         $udf_ex_fields = $this->getUserDefinedExportFields();
         foreach ($settings as $value) {	// standard fields
             $headerrow[] = $this->lng->txt($value);
@@ -183,7 +183,7 @@ class ilObjUserFolder extends ilObject
         $formattedrow = &ilCSVUtil::processCSVRow($headerrow, true, $separator);
         fwrite($file, implode($separator, $formattedrow) . "\n");
         foreach ($data as $row) {
-            $csvrow = array();
+            $csvrow = [];
             foreach ($settings as $header) {	// standard fields
                 // multi-text
                 if (isset($row[$header]) && is_array($row[$header])) {
@@ -306,7 +306,7 @@ class ilObjUserFolder extends ilObject
 
         $ilDB = $DIC['ilDB'];
 
-        $db_settings = array();
+        $db_settings = [];
 
         $up = new ilUserProfile();
         $up->skipField("roles");
@@ -322,7 +322,7 @@ class ilObjUserFolder extends ilObject
                 }
             }
         }
-        $export_settings = array();
+        $export_settings = [];
         foreach ($profile_fields as $key => $value) {
             if (in_array($key, $db_settings)) {
                 if (strcmp($key, "password") == 0) {
@@ -383,13 +383,13 @@ class ilObjUserFolder extends ilObject
         // user languages
         $query = "SELECT * FROM usr_pref WHERE keyword = " . $ilDB->quote('language', 'text');
         $res = $ilDB->query($query);
-        $languages = array();
+        $languages = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $languages[$row['usr_id']] = $row['value'];
         }
 
         // multi-text
-        $multi = array();
+        $multi = [];
         $set = $ilDB->query("SELECT * FROM usr_data_multi");
         while ($row = $ilDB->fetchAssoc($set)) {
             if (!is_array($user_data_filter) ||
@@ -398,7 +398,7 @@ class ilObjUserFolder extends ilObject
             }
         }
 
-        $data = array();
+        $data = [];
         $query = "SELECT usr_data.* FROM usr_data  " .
             " ORDER BY usr_data.lastname, usr_data.firstname";
         $result = $ilDB->query($query);
@@ -493,28 +493,28 @@ class ilObjUserFolder extends ilObject
         $ilDB = $DIC['ilDB'];
 
         if (self::_lookupNewAccountMail($a_lang)) {
-            $values = array(
-                'subject' => array('text',$a_subject),
-                'body' => array('clob',$a_body),
-                'sal_g' => array('text',$a_sal_g),
-                'sal_f' => array('text',$a_sal_f),
-                'sal_m' => array('text',$a_sal_m)
-                );
+            $values = [
+                'subject' => ['text',$a_subject],
+                'body' => ['clob',$a_body],
+                'sal_g' => ['text',$a_sal_g],
+                'sal_f' => ['text',$a_sal_f],
+                'sal_m' => ['text',$a_sal_m]
+                ];
             $ilDB->update(
                 'mail_template',
                 $values,
-                array('lang' => array('text',$a_lang), 'type' => array('text','nacc'))
+                ['lang' => ['text',$a_lang], 'type' => ['text','nacc']]
             );
         } else {
-            $values = array(
-                'subject' => array('text',$a_subject),
-                'body' => array('clob',$a_body),
-                'sal_g' => array('text',$a_sal_g),
-                'sal_f' => array('text',$a_sal_f),
-                'sal_m' => array('text',$a_sal_m),
-                'lang' => array('text',$a_lang),
-                'type' => array('text','nacc')
-                );
+            $values = [
+                'subject' => ['text',$a_subject],
+                'body' => ['clob',$a_body],
+                'sal_g' => ['text',$a_sal_g],
+                'sal_f' => ['text',$a_sal_f],
+                'sal_m' => ['text',$a_sal_m],
+                'lang' => ['text',$a_lang],
+                'type' => ['text','nacc']
+                ];
             $ilDB->insert('mail_template', $values);
         }
     }
@@ -540,8 +540,8 @@ class ilObjUserFolder extends ilObject
 
         $ilDB->update(
             'mail_template',
-            array('att_file' => array('text', $a_name)),
-            array('lang' => array('text',$a_lang), 'type' => array('text','nacc'))
+            ['att_file' => ['text', $a_name]],
+            ['lang' => ['text',$a_lang], 'type' => ['text','nacc']]
         );
     }
 
@@ -564,8 +564,8 @@ class ilObjUserFolder extends ilObject
 
         $ilDB->update(
             'mail_template',
-            array('att_file' => array('text', '')),
-            array('lang' => array('text',$a_lang), 'type' => array('text','nacc'))
+            ['att_file' => ['text', '']],
+            ['lang' => ['text',$a_lang], 'type' => ['text','nacc']]
         );
     }
 

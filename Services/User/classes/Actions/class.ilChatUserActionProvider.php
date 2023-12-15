@@ -23,9 +23,9 @@
 class ilChatUserActionProvider extends ilUserActionProvider
 {
     /** @var array<int, bool> */
-    protected static array $user_access = array();
+    protected static array $user_access = [];
     /** @var array<int, bool> */
-    protected static array $accepts_messages_cache = array();
+    protected static array $accepts_messages_cache = [];
     protected int $pub_ref_id = 0;
     protected bool $chat_enabled = false;
     protected bool $osc_enabled = false;
@@ -53,10 +53,10 @@ class ilChatUserActionProvider extends ilUserActionProvider
      */
     public function getActionTypes(): array
     {
-        return array(
+        return [
             "invite" => $this->lng->txt('chat_user_action_invite_public_room'),
             "invite_osd" => $this->lng->txt('chat_user_action_invite_osd')
-        );
+        ];
     }
 
     protected function checkUserChatAccess(int $a_user_id): bool
@@ -106,15 +106,15 @@ class ilChatUserActionProvider extends ilUserActionProvider
             $f->setType("invite_osd");
             if ($this->acceptsMessages($a_target_user)) {
                 $f->setText($this->lng->txt('chat_osc_start_conversation'));
-                $f->setData(array(
+                $f->setData([
                     'onscreenchat-userid' => $a_target_user,
                     'onscreenchat-username' => ilObjUser::_lookupLogin($a_target_user)
-                ));
+                ]);
             } else {
                 $f->setText($this->lng->txt('chat_osc_doesnt_accept_msg'));
-                $f->setData(array(
+                $f->setData([
                     'onscreenchat-inact-userid' => $a_target_user
-                ));
+                ]);
             }
             $coll->addAction($f);
         }

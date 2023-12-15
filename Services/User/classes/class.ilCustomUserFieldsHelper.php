@@ -51,11 +51,11 @@ class ilCustomUserFieldsHelper
      */
     public function getUDFTypes(): array
     {
-        $types = array(
+        $types = [
             UDF_TYPE_TEXT => $this->lng->txt('udf_type_text'),
             UDF_TYPE_SELECT => $this->lng->txt('udf_type_select'),
             UDF_TYPE_WYSIWYG => $this->lng->txt('udf_type_wysiwyg')
-        );
+        ];
         foreach ($this->getActivePlugins() as $plugin) {
             $types[$plugin->getDefinitionType()] = $plugin->getDefinitionTypeName();
         }

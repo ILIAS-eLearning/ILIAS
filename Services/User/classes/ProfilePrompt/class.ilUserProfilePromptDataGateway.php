@@ -76,8 +76,8 @@ class ilUserProfilePromptDataGateway
         $set = $db->queryF(
             "SELECT first_login, last_profile_prompt FROM usr_data " .
             " WHERE usr_id = %s ",
-            array("integer"),
-            array($user_id)
+            ["integer"],
+            [$user_id]
         );
         if ($rec = $db->fetchAssoc($set)) {
             return new ilProfileUserPrompt($user_id, $rec["last_profile_prompt"], $rec["first_login"]);
@@ -93,10 +93,10 @@ class ilUserProfilePromptDataGateway
             $last_profile_prompt = ilUtil::now();
         }
 
-        $db->update("usr_data", array(
-                "last_profile_prompt" => array("timestamp", $last_profile_prompt)
-            ), array(	// where
-                "usr_id" => array("integer", $user_id)
-            ));
+        $db->update("usr_data", [
+                "last_profile_prompt" => ["timestamp", $last_profile_prompt]
+            ], [	// where
+                "usr_id" => ["integer", $user_id]
+            ]);
     }
 }

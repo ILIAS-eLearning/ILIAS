@@ -32,9 +32,9 @@ class ilUserUserActionProvider extends ilUserActionProvider
      */
     public function getActionTypes(): array
     {
-        return array(
+        return [
             "profile" => $this->lng->txt("profile")
-        );
+        ];
     }
 
     public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
@@ -43,7 +43,7 @@ class ilUserUserActionProvider extends ilUserActionProvider
 
         if (!in_array(
             ilObjUser::_lookupPref($a_target_user, "public_profile"),
-            array("y", "g")
+            ["y", "g"]
         )) {
             return $coll;
         }

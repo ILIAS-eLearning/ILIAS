@@ -100,7 +100,7 @@ class ilObjectAddNewItemGUI
         $lng = $this->lng;
         $ilSetting = $this->settings;
 
-        $this->sub_objects = array();
+        $this->sub_objects = [];
 
         $settings_map = [
             'blog' => 'blogs',
@@ -116,9 +116,9 @@ class ilObjectAddNewItemGUI
                     continue;
                 }
 
-                $this->sub_objects[] = array("type" => "object",
+                $this->sub_objects[] = ["type" => "object",
                     "value" => $type,
-                    "title" => $lng->txt("wsp_type_" . $type));
+                    "title" => $lng->txt("wsp_type_" . $type)];
             }
         }
 
@@ -136,10 +136,10 @@ class ilObjectAddNewItemGUI
         $lng = $this->lng;
         $ilAccess = $this->access;
 
-        $this->sub_objects = array();
+        $this->sub_objects = [];
 
         if (!is_array($this->disabled_object_types)) {
-            $this->disabled_object_types = array();
+            $this->disabled_object_types = [];
         }
         $this->disabled_object_types[] = "rolf";
 
@@ -148,7 +148,7 @@ class ilObjectAddNewItemGUI
         if (count($subtypes) > 0) {
             // grouping of object types
 
-            $grp_map = $pos_group_map = array();
+            $grp_map = $pos_group_map = [];
 
             $groups = ilObjRepositorySettings::getNewItemGroups();
 
@@ -188,9 +188,9 @@ class ilObjectAddNewItemGUI
                 }
             }
 
-            $group_separators = array();
+            $group_separators = [];
             $pos_group_map[0] = $lng->txt("rep_new_item_group_other");
-            $old_grp_ids = array();
+            $old_grp_ids = [];
             foreach ($groups as $item) {
                 if ($item["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP) {
                     $pos_group_map[$item["id"]] = $item["title"];
@@ -219,7 +219,7 @@ class ilObjectAddNewItemGUI
                                     if ($current_grp && !in_array($obj_grp_id, $spath)) {
                                         // 1 only separator between groups
                                         if (!$sdone) {
-                                            $this->sub_objects[] = array("type" => "column_separator");
+                                            $this->sub_objects[] = ["type" => "column_separator"];
                                             $sdone = true;
                                         }
                                         unset($group_separators[$idx]);
@@ -228,8 +228,8 @@ class ilObjectAddNewItemGUI
 
                                 $title = $pos_group_map[$obj_grp_id];
 
-                                $this->sub_objects[] = array("type" => "group",
-                                    "title" => $title);
+                                $this->sub_objects[] = ["type" => "group",
+                                    "title" => $title];
 
                                 $current_grp = $obj_grp_id;
                             }
@@ -242,9 +242,9 @@ class ilObjectAddNewItemGUI
                             $title = $lng->txt("obj_" . $type);
                         }
 
-                        $this->sub_objects[] = array("type" => "object",
+                        $this->sub_objects[] = ["type" => "object",
                             "value" => $type,
-                            "title" => $title);
+                            "title" => $title];
                     }
                 }
             }

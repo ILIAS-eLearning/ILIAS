@@ -35,7 +35,7 @@ class ilUserDataSet extends ilDataSet
 
     public function getSupportedVersions(): array // Missing array type.
     {
-        return array("4.3.0", "4.5.0", "5.1.0", "5.2.0", "5.3.0");
+        return ["4.3.0", "4.5.0", "5.1.0", "5.2.0", "5.3.0"];
     }
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
@@ -53,7 +53,7 @@ class ilUserDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
-                    return array(
+                    return [
                         "Id" => "integer",
                         "Username" => "text",
                         "Firstname" => "text",
@@ -81,7 +81,7 @@ class ilUserDataSet extends ilDataSet
                         "Longitude" => "text",
                         "LocZoom" => "text",
                         "Picture" => "directory"
-                        );
+                        ];
             }
         }
 
@@ -92,11 +92,11 @@ class ilUserDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
-                    return array(
+                    return [
                         "UserId" => "integer",
                         "Keyword" => "text",
                         "Value" => "text"
-                    );
+                    ];
             }
         }
 
@@ -107,9 +107,9 @@ class ilUserDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
-                    return array(
+                    return [
                         "Id" => "integer"
-                    );
+                    ];
             }
         }
 
@@ -119,11 +119,11 @@ class ilUserDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
-                    return array(
+                    return [
                         "UserId" => "integer",
                         "FieldId" => "text",
                         "Value" => "text"
-                    );
+                    ];
             }
         }
         return [];
@@ -174,7 +174,7 @@ class ilUserDataSet extends ilDataSet
         $ilDB = $DIC['ilDB'];
 
         if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
+            $a_ids = [$a_ids];
         }
 
         if ($a_entity == "personal_data") {
@@ -184,9 +184,9 @@ class ilUserDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
-                    $this->data = array();
+                    $this->data = [];
                     foreach ($a_ids as $id) {
-                        $this->data[] = array("Id" => $id);
+                        $this->data[] = ["Id" => $id];
                     }
                     break;
             }
@@ -235,7 +235,7 @@ class ilUserDataSet extends ilDataSet
                 case "5.2.0":
                 case "5.3.0":
                     // for all user ids get data from usr_pref and mail options, create records user_id/name/value
-                    $prefs = array("date_format", "day_end", "day_start", "bs_allow_to_contact_me", "chat_osc_accept_msg", "hide_own_online_status", "hits_per_page", "language",
+                    $prefs = ["date_format", "day_end", "day_start", "bs_allow_to_contact_me", "chat_osc_accept_msg", "hide_own_online_status", "hits_per_page", "language",
                         "public_birthday", "puplic_city", "public_country", "public_delicious", "public_department", "public_email", "public_second_email",
                         "public_fax", "public_gender", "public_hobby", "public_im_aim", "public_im_icq", "public_im_jabber",
                         "public_im_msn", "public_im_skype", "public_im_voip", "public_im_yahoo", "public_institution", "public_location",
@@ -244,7 +244,7 @@ class ilUserDataSet extends ilDataSet
                         "screen_reader_optimization", "show_users_online",
                         "store_last_visited", "time_format", "user_tz", "weekstart",
                         "session_reminder_enabled", "session_reminder_lead_time", "usr_starting_point",
-                        "chat_broadcast_typing");
+                        "chat_broadcast_typing"];
 
                     if (version_compare($a_version, '5.2.0', '>=')) {
                         unset(
@@ -254,12 +254,12 @@ class ilUserDataSet extends ilDataSet
                         );
                     }
 
-                    $this->data = array();
+                    $this->data = [];
                     $set = $ilDB->query("SELECT * FROM usr_pref " .
                         " WHERE " . $ilDB->in("keyword", $prefs, false, "text") .
                         " AND " . $ilDB->in("usr_id", $a_ids, false, "integer"));
                     while ($rec = $ilDB->fetchAssoc($set)) {
-                        $this->data[] = array("UserId" => $rec["usr_id"], "Keyword" => $rec["keyword"], "Value" => $rec["value"]);
+                        $this->data[] = ["UserId" => $rec["usr_id"], "Keyword" => $rec["keyword"], "Value" => $rec["value"]];
                     }
                     break;
             }
@@ -271,11 +271,11 @@ class ilUserDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
-                    $this->data = array();
+                    $this->data = [];
                     $set = $ilDB->query("SELECT * FROM usr_data_multi" .
                         " WHERE " . $ilDB->in("usr_id", $a_ids, false, "integer"));
                     while ($rec = $ilDB->fetchAssoc($set)) {
-                        $this->data[] = array("UserId" => $rec["usr_id"], "FieldId" => $rec["field_id"], "Value" => $rec["value"]);
+                        $this->data[] = ["UserId" => $rec["usr_id"], "FieldId" => $rec["field_id"], "Value" => $rec["value"]];
                     }
                     break;
             }

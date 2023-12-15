@@ -37,35 +37,35 @@ class ilUserExporter extends ilXmlExporter
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array // Missing array type.
     {
         if ($a_entity == "personal_data") {
-            $cal_ids = array();
+            $cal_ids = [];
             foreach ($a_ids as $user_id) {
                 foreach (ilCalendarCategories::lookupPrivateCategories($user_id) as $ct) {
                     $cal_ids[] = $ct["cat_id"];
                 }
             }
 
-            return array(
-                array(
+            return [
+                [
                     "component" => "Services/User",
                     "entity" => "usr_profile",
-                    "ids" => $a_ids),
-                array(
+                    "ids" => $a_ids],
+                [
                     "component" => "Services/User",
                     "entity" => "usr_multi",
-                    "ids" => $a_ids),
-                array(
+                    "ids" => $a_ids],
+                [
                     "component" => "Services/User",
                     "entity" => "usr_setting",
-                    "ids" => $a_ids),
-                array(
+                    "ids" => $a_ids],
+                [
                     "component" => "Services/Notes",
                     "entity" => "user_notes",
-                    "ids" => $a_ids),
-                array(
+                    "ids" => $a_ids],
+                [
                     "component" => "Services/Calendar",
                     "entity" => "calendar",
-                    "ids" => $cal_ids)
-                );
+                    "ids" => $cal_ids]
+                ];
         }
 
         return parent::getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids);
@@ -79,31 +79,31 @@ class ilUserExporter extends ilXmlExporter
 
     public function getValidSchemaVersions(string $a_entity): array // Missing array type.
     {
-        return array(
-            "4.3.0" => array(
+        return [
+            "4.3.0" => [
                 "namespace" => "https://www.ilias.de/Services/User/usr/4_3",
                 "xsd_file" => "ilias_usr_4_3.xsd",
                 "uses_dataset" => true,
                 "min" => "4.3.0",
-                "max" => "4.4.99"),
-            "5.1.0" => array(
+                "max" => "4.4.99"],
+            "5.1.0" => [
                 "namespace" => "https://www.ilias.de/Services/User/usr/5_1",
                 "xsd_file" => "ilias_usr_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
-                "max" => "5.1.99"),
-            "5.2.0" => array(
+                "max" => "5.1.99"],
+            "5.2.0" => [
                 "namespace" => "https://www.ilias.de/Services/User/usr/5_2",
                 "xsd_file" => "ilias_usr_5_2.xsd",
                 "uses_dataset" => true,
                 "min" => "5.2.0",
-                "max" => "5.2.99"),
-            "5.3.0" => array(
+                "max" => "5.2.99"],
+            "5.3.0" => [
                 "namespace" => "https://www.ilias.de/Services/User/usr/5_3",
                 "xsd_file" => "ilias_usr_5_3.xsd",
                 "uses_dataset" => true,
                 "min" => "5.3.0",
-                "max" => "")
-        );
+                "max" => ""]
+        ];
     }
 }

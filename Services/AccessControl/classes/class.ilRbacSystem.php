@@ -153,7 +153,7 @@ class ilRbacSystem
         // Create the PA cache if it does not exist yet
         $paCacheKey = $a_user_id . ':' . $a_ref_id;
         if (!is_array(self::$_paCache)) {
-            self::$_paCache = array();
+            self::$_paCache = [];
         }
 
         if (array_key_exists($paCacheKey, self::$_paCache)) {
@@ -364,7 +364,7 @@ class ilRbacSystem
         } else {
             $this->mem_view['active'] = true;
             $this->mem_view['items'] = $this->tree->getSubTreeIds($settings->getContainer());
-            $this->mem_view['items'] = array_merge($this->mem_view['items'], array($settings->getContainer()));
+            $this->mem_view['items'] = array_merge($this->mem_view['items'], [$settings->getContainer()]);
             $this->mem_view['role'] = ilParticipants::getDefaultMemberRole($settings->getContainer());
         }
     }

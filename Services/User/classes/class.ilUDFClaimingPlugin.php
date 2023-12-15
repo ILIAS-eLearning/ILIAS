@@ -75,7 +75,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
      */
     protected static function isValidFieldType(int $a_field_type): bool
     {
-        $valid = array(UDF_TYPE_TEXT, UDF_TYPE_SELECT, UDF_TYPE_WYSIWYG);
+        $valid = [UDF_TYPE_TEXT, UDF_TYPE_SELECT, UDF_TYPE_WYSIWYG];
         return in_array($a_field_type, $valid);
     }
 
@@ -87,16 +87,16 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
         ?array $a_access = null,
         ?array $a_existing = null
     ): void {
-        $map = array("visible", "changeable", "searchable", "required", "export",
+        $map = ["visible", "changeable", "searchable", "required", "export",
             "course_export", "group_export", "registration_visible", "visible_lua",
-            "changeable_lua", "certificate");
+            "changeable_lua", "certificate"];
         foreach ($map as $prop) {
             if (isset($a_access[$prop])) {
-                $fields[$prop] = array("integer", (int) $a_access[$prop]);
+                $fields[$prop] = ["integer", (int) $a_access[$prop]];
             } elseif (isset($a_existing[$prop])) {
-                $fields[$prop] = array("integer", (int) $a_existing[$prop]);
+                $fields[$prop] = ["integer", (int) $a_existing[$prop]];
             } else {
-                $fields[$prop] = array("integer", 0);
+                $fields[$prop] = ["integer", 0];
             }
         }
     }
@@ -127,12 +127,12 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
 
         // :TODO: check unique title?
 
-        $fields = array(
-            "field_id" => array("integer", $field_id),
-            "field_type" => array("integer", $a_type),
-            "field_name" => array("text", trim($a_title)),
-            "field_values" => array("text", serialize((array) $a_options))
-        );
+        $fields = [
+            "field_id" => ["integer", $field_id],
+            "field_type" => ["integer", $a_type],
+            "field_name" => ["text", trim($a_title)],
+            "field_values" => ["text", serialize((array) $a_options)]
+        ];
 
         self::handleAccesss($fields, $a_access);
 
@@ -161,17 +161,17 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
                 $a_options = null;
             }
 
-            $fields = array(
-                "field_name" => array("text", trim($a_title)),
-                "field_values" => array("text", serialize((array) $a_options))
-            );
+            $fields = [
+                "field_name" => ["text", trim($a_title)],
+                "field_values" => ["text", serialize((array) $a_options)]
+            ];
 
             self::handleAccesss($fields, $a_access, $old);
 
             $ilDB->update(
                 "udf_definition",
                 $fields,
-                array("field_id" => array("integer", $a_field_id))
+                ["field_id" => ["integer", $a_field_id]]
             );
             return true;
         }

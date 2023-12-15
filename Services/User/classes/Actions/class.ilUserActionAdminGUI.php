@@ -69,7 +69,7 @@ class ilUserActionAdminGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("show", "save"))) {
+                if (in_array($cmd, ["show", "save"])) {
                     $this->$cmd();
                 }
         }

@@ -46,9 +46,9 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
      */
     public function getActionTypes(): array
     {
-        return array(
+        return [
             "shared_res" => $this->lng->txt("wsp_shared_resources")
-        );
+        ];
     }
 
     public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
@@ -69,7 +69,7 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
         $f->setText($lng->txt("wsp_shared_resources"));
         $ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "user", ilObjUser::_lookupLogin($a_target_user));
         $f->setHref($ilCtrl->getLinkTargetByClass(
-            array("ildashboardgui", "ilpersonalworkspacegui", "ilobjworkspacerootfoldergui"),
+            ["ildashboardgui", "ilpersonalworkspacegui", "ilobjworkspacerootfoldergui"],
             "listSharedResourcesOfOtherUser"
         ));
 

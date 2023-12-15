@@ -5310,7 +5310,7 @@ common#:#private_notes#:#Private Notizen
 common#:#pro#:#Pro
 common#:#proceed#:#Fortfahren
 common#:#profile#:#Profil
-common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert
+common#:#profile_changed#:#Ihre Profildaten wurden geändert
 common#:#profile_incomplete#:#Ihr Profil ist nicht vollständig. Bitte geben Sie alle erforderlichen Daten an.
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
@@ -5368,8 +5368,8 @@ common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
-common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
+common#:#reg_mail_subject#:#Ihre Zugangsdaten
+common#:#reg_mail_subject_confirmation#:#Ihr Bestätigungslink
 common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebene E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
 common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" beantragt.
@@ -8450,6 +8450,7 @@ dateplaner#:#cal_weekly#:#Wöchentlich
 dateplaner#:#cal_where#:#Ort
 dateplaner#:#cal_year_s#:#Jahr(e)
 dateplaner#:#cal_yearly#:#Jährlich
+dateplaner#:#consultation_hours_block_title#:#Sprechstunden
 dateplaner#:#created#:#erstellt am
 dateplaner#:#crs_cal_activation_end#:#Kursende
 dateplaner#:#crs_cal_activation_start#:#Kursbeginn
