@@ -1099,8 +1099,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $r = $DIC->ui()->renderer();
         $refinery = $DIC->refinery();
 
+        $dic_copy = $DIC;
+
         $metric = $this->getServerStatusInfo($refinery);
         $report = $metric->toUIReport($f, $this->lng->txt("installation_status"));
+
+        $DIC = $dic_copy;
 
         $this->tpl->setContent($r->render($report));
     }
