@@ -124,8 +124,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->action_parameter_token = $action_parameter_token;
         $this->row_id_token = $row_id_token;
 
-        $this->tpl->addJavascript('Services/Notes/js/ilNotes.js');
-        $this->tpl->addJavascript('Services/UIComponent/Modal/js/Modal.js');
+        $this->notes_service->gui()->initJavascript();
     }
 
     protected function getQueryParamString(string $param): ?string
@@ -480,6 +479,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 break;
 
+
             case 'ilobjquestionpoolgui':
             case '':
 
@@ -548,7 +548,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                             break;
                         case 'comments':
                             $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
-                                1,
+                                ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
                                 $this->object->getRefId(),
                                 'quest',
                                 $this->object->getId(),
@@ -557,7 +557,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                             );
                             echo ''
                                 . '<script>'
-                                . ilNoteGUI::getListCommentsJSCall($ajax_hash, '')
+                                . ilNoteGUI::getListCommentsJSCall($ajax_hash)
                                 . '</script>'
                             ;
                             exit();
@@ -1875,6 +1875,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->component_repository,
             $this->rbac_system,
             $this->taxonomy->domain(),
+            $this->notes_service,
             $this->object->getId(),
             (int)$this->qplrequest->getRefId()
         );
@@ -1889,21 +1890,27 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $filter_params = $this->ui_service->filter()->getData($filter);
         if ($filter_params) {
             foreach (array_filter($filter_params) as $item => $value) {
-                if($item === 'taxonomies') {
-                    if($value === 'null') {
-                        $table->addTaxonomyFilterNoTaxonomySet(true);
-                    } else {
-                        $tax_nodes = explode('-', $value);
-                        $tax_id = array_shift($tax_nodes);
-                        $table->addTaxonomyFilter(
-                            $tax_id,
-                            $tax_nodes,
-                            $this->object->getId(),
-                            $this->object->getType()
-                        );
-                    }
-                } else {
-                    $table->addFieldFilter($item, $value);
+
+                switch ($item) {
+                    case 'taxonomies':
+                        if($value === 'null') {
+                            $table->addTaxonomyFilterNoTaxonomySet(true);
+                        } else {
+                            $tax_nodes = explode('-', $value);
+                            $tax_id = array_shift($tax_nodes);
+                            $table->addTaxonomyFilter(
+                                $tax_id,
+                                $tax_nodes,
+                                $this->object->getId(),
+                                $this->object->getType()
+                            );
+                        }
+                        break;
+                    case 'commented':
+                        $table->setCommentFilter($value);
+                        break;
+                    default:
+                        $table->addFieldFilter($item, $value);
                 }
             }
         }

@@ -29,6 +29,7 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Taxonomy\DomainService as TaxonomyService;
+use ILIAS\Notes\Service as NotesService;
 
 class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
 {
@@ -44,10 +45,12 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         protected ilComponentRepository $component_repository,
         protected ilRbacSystem $rbac,
         protected TaxonomyService $taxonomy,
+        NotesService $notes_service,
         protected int $parent_obj_id,
         protected int $request_ref_id
     ) {
-        parent::__construct($db, $lng, $component_repository);
+        $lng->loadLanguageModule('qpl');
+        parent::__construct($db, $lng, $component_repository, $notes_service);
         $this->setAvailableTaxonomyIds($taxonomy->getUsageOfObject($parent_obj_id));
     }
 
@@ -106,7 +109,13 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             'author' => $field_factory->text($this->lng->txt("author")),
             'lifecycle' => $field_factory->select($this->lng->txt("qst_lifecycle"), $lifecycle_options),
             'type' => $field_factory->select($this->lng->txt("type"), $question_type_options),
-            'commented' => $field_factory->select($this->lng->txt("ass_commented_questions_only"), ['1' => $this->lng->txt('yes'), '0' => $this->lng->txt('no')]),
+            'commented' => $field_factory->select(
+                $this->lng->txt("ass_comments"),
+                [
+                    ilAssQuestionList::QUESTION_COMMENTED_ONLY => $this->lng->txt('qpl_filter_commented_only'),
+                    ilAssQuestionList::QUESTION_COMMENTED_EXCLUDED => $this->lng->txt('qpl_filter_commented_exclude')
+                ]
+            ),
             'taxonomies' => $field_factory->select($this->lng->txt("tax_filter"), $tax_filter_options),
         ];
 
@@ -144,6 +153,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             'hints' => $f->boolean($this->lng->txt('hints'), $icon_yes, $icon_no)->withIsOptional(true, true),
             'created' => $f->date($this->lng->txt('create_date'), $date_format)->withIsOptional(true, true),
             'tstamp' => $f->date($this->lng->txt('last_update'), $date_format)->withIsOptional(true, true),
+            'comments' => $f->number($this->lng->txt('comments'))->withIsOptional(true, false),
         ];
     }
 
