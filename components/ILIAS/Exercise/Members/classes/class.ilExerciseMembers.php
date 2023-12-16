@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
+
 /**
  * Class ilExerciseMembers
  *
@@ -23,6 +25,7 @@
  */
 class ilExerciseMembers
 {
+    protected IndividualDeadlineManager $individual_deadlines;
     protected ilDBInterface $db;
     public int $ref_id;
     public int $obj_id;
@@ -41,6 +44,7 @@ class ilExerciseMembers
         $this->ref_id = $a_exc->getRefId();
         $this->read();
         $this->recommended_content_manager = new ilRecommendedContentManager();
+        $this->individual_deadlines = $DIC->exercise()->internal()->domain()->individualDeadline();
     }
 
     // Get exercise ref id
@@ -135,6 +139,7 @@ class ilExerciseMembers
         $ilDB = $this->db;
 
         $this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->getRefId());
+        $this->individual_deadlines->deleteAllOfUserInExercise($this->getObjId(), $a_usr_id, false);
 
         $query = "DELETE FROM exc_members " .
             "WHERE obj_id = " . $ilDB->quote($this->getObjId(), "integer") . " " .

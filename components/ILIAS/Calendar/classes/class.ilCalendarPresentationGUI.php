@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
@@ -661,6 +660,9 @@ class ilCalendarPresentationGUI
         } else {
             $this->addStandardTabs();
         }
+
+        // #0035566
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_cal.svg"));
 
         // if we are in single calendar view
         if ($this->category_id > 0) {

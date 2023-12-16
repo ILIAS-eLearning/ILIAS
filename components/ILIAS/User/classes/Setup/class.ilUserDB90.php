@@ -110,4 +110,9 @@ class ilUserDB90 implements ilDatabaseUpdateSteps
         $query = 'ALTER TABLE ' . self::USER_DATA_TABLE_NAME . ' MODIFY email VARCHAR(128);';
         $this->db->manipulate($query);
     }
+    public function step_8(): void
+    {
+        $query = 'DELETE FROM rbac_ta WHERE typ_id=22 AND ops_id=48 ;';
+        $this->db->manipulate($query);
+    }
 }

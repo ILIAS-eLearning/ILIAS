@@ -16,25 +16,25 @@
  *
  *********************************************************************/
 
-/**
- * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
- *
- * @package components\ILIAS/TestQuestionPool
- */
-class ilAssFileUploadFileTableReuseButton extends ilAssFileUploadFileTableCommandButton
-{
-    public const ACTION = 'reuse';
+declare(strict_types=1);
 
-    public function __construct($type)
+namespace ILIAS\Exercise\IndividualDeadline;
+
+class IndividualDeadlineManager
+{
+    public function __construct()
     {
-        parent::__construct($type);
-        $this->setAction(self::ACTION);
-        $this->setCaption($this->lng()->txt('ass_file_upload_reuse_btn'), false);
     }
 
-    public static function getInstance(): self
+    public function deleteAllOfUserInExercise(int $exc_id, int $part_or_team_id, bool $is_team = false): void
     {
-        return new self(self::TYPE_SUBMIT);
+        foreach (\ilExAssignment::getInstancesByExercise($exc_id) as $ass) {
+            $idl = \ilExcIndividualDeadline::getInstance(
+                $ass->getId(),
+                $part_or_team_id,
+                $is_team
+            );
+            $idl->delete();
+        }
     }
 }

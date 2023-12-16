@@ -5316,7 +5316,7 @@ common#:#private_notes#:#Private Notizen
 common#:#pro#:#Pro
 common#:#proceed#:#Fortfahren
 common#:#profile#:#Profil
-common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert
+common#:#profile_changed#:#Ihre Profildaten wurden geändert
 common#:#profile_incomplete#:#Ihr Profil ist nicht vollständig. Bitte geben Sie alle erforderlichen Daten an.
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
@@ -5374,8 +5374,8 @@ common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
-common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
+common#:#reg_mail_subject#:#Ihre Zugangsdaten
+common#:#reg_mail_subject_confirmation#:#Ihr Bestätigungslink
 common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebene E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
 common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" beantragt.
@@ -8457,6 +8457,7 @@ dateplaner#:#cal_weekly#:#Wöchentlich
 dateplaner#:#cal_where#:#Ort
 dateplaner#:#cal_year_s#:#Jahr(e)
 dateplaner#:#cal_yearly#:#Jährlich
+dateplaner#:#consultation_hours_block_title#:#Sprechstunden
 dateplaner#:#created#:#erstellt am
 dateplaner#:#crs_cal_activation_end#:#Kursende
 dateplaner#:#crs_cal_activation_start#:#Kursbeginn
@@ -9895,7 +9896,7 @@ forum#:#forums_notification_show_post#:#Zum Beitrag gehen: %s
 forum#:#forums_post_activation_mail#:#In einem von Ihnen moderierten Forum wurde der nachfolgende Eintrag erstellt. Der Beitrag bleibt solange unsichtbar, bis Sie ihn freischalten.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
-forum#:#forums_post_needs_to_be_activated#:#Der Beitrag wurde erstellt,, muss aber von der Moderation freigeschaltet werden.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#forums_post_needs_to_be_activated#:#Der Beitrag wurde erstellt, muss aber von der Moderation freigeschaltet werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#forums_post_was_activated#:#Der Beitrag wurde freigeschaltet.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#forums_posts#:#Alle Beiträge
@@ -9949,7 +9950,7 @@ forum#:#frm_noti_message#:#Nachricht:
 forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
 forum#:#frm_noti_obj_crs#:#Kurs
 forum#:#frm_noti_obj_grp#:#Gruppe
-forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" aktiviert
+forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" freischalten
 forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" beantwortet
 forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s%2$s zum Thema "%3$s" zensiert
 forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s"%2$s zum Thema "%3$s" gelöscht

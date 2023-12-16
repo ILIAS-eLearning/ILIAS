@@ -5185,7 +5185,7 @@ common#:#reg_mail_body_text1#:#Добре дошли в ILIAS eLearning!
 common#:#reg_mail_body_text2#:#За достъп в ILIAS използвайте следните данни:
 common#:#reg_mail_body_text3#:#Допълнителна лична информация:
 common#:#reg_mail_subject#:#ILIAS eLearning – Вашите данни за достъп
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+common#:#reg_mail_subject_confirmation#:#Your Confirmationlink###24 07 2009 new variable
 common#:#reg_passwd_via_mail#:#Вашата парола ще бъде изпратена на вашия email адрес, даден по-долу.
 common#:#register#:#Регистриране
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable

@@ -5308,7 +5308,7 @@ common#:#private_notes#:#Private Notes
 common#:#pro#:#Pro
 common#:#proceed#:#Proceed
 common#:#profile#:#Profile
-common#:#profile_changed#:#ILIAS eLearning - Your profile has changed
+common#:#profile_changed#:#Your profile has changed
 common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.
 common#:#profile_of#:#Profile of
 common#:#properties#:#Properties
@@ -5366,8 +5366,8 @@ common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
 common#:#reg_mail_body_text2#:#To access ILIAS use the following data:
 common#:#reg_mail_body_text3#:#Further personal information:
-common#:#reg_mail_subject#:#ILIAS eLearning - Your access data
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmation Link
+common#:#reg_mail_subject#:#Your access data
+common#:#reg_mail_subject_confirmation#:#Your Confirmation Link
 common#:#reg_passwd_via_mail#:#Your password will be sent to your e-mail address given below.
 common#:#register#:#Register
 common#:#register_notification#:#"%s" has applied for session "%s".
@@ -8448,6 +8448,7 @@ dateplaner#:#cal_weekly#:#Weekly
 dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours
 dateplaner#:#created#:#Created
 dateplaner#:#crs_cal_activation_end#:#Course Availability ends
 dateplaner#:#crs_cal_activation_start#:#Course Availability starts
@@ -9940,7 +9941,7 @@ forum#:#frm_noti_message#:#Message:
 forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".
 forum#:#frm_noti_obj_crs#:#course
 forum#:#frm_noti_obj_grp#:#group
-forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_act_post#:#Activate posting in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s"%2$s, thread "%3$s"

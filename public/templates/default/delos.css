@@ -4088,13 +4088,14 @@ hr.il-divider-with-label {
   border: none;
   box-shadow: none;
   outline: none;
-  padding: 0 0px 4px;
   line-height: 1.428571429;
   font-weight: 600 !important;
-  margin-bottom: 6.6px;
 }
 .il-input-tag-container .il-input-tag .tagify__tag {
   margin-top: 0;
+}
+.il-input-tag-container .il-input-tag .tagify__input {
+  margin: 0;
 }
 
 .il-input-tag-container.disabled {
@@ -4164,17 +4165,28 @@ hr.il-divider-with-label {
 }
 .il-filter .input-group {
   width: 100%;
-  height: 25px;
+  height: 33px;
   table-layout: fixed;
 }
 .il-filter .input-group select {
   width: 100%;
-  height: 25px;
+  height: 33px;
   border: 1px solid #757575;
   background-color: white;
 }
+.il-filter .input-group input {
+  height: 33px;
+}
+.il-filter .input-group .form-control {
+  height: 33px;
+  padding: 6px;
+}
 .il-filter .input-group .btn-bulky {
   background-color: #f0f0f0;
+}
+.il-filter .btn-bulky {
+  min-height: 0;
+  border: none;
 }
 .il-filter .leftaddon {
   overflow: hidden;
@@ -4191,39 +4203,47 @@ hr.il-divider-with-label {
 .il-filter .rightaddon .glyphicon {
   top: 0;
 }
+.il-filter .il-popover-container {
+  padding-left: 9px;
+}
 
 .il-filter-bar {
   display: flex;
-  padding: 3px 12px;
+  padding: 3px 9px;
   background-color: #f9f9f9;
 }
 .il-filter-bar .il-filter-bar-opener {
   flex: 1;
 }
+.il-filter-bar .il-filter-bar-opener:hover {
+  background-color: #f0f0f0;
+}
 .il-filter-bar .il-filter-bar-opener .btn-bulky {
   min-height: 0px;
-  display: inline-flex;
   width: 100%;
   background-color: initial;
   font-size: 0.875rem;
+  justify-content: left;
 }
 .il-filter-bar .il-filter-bar-opener .btn-bulky .glyph {
   padding-right: 0.3em;
 }
 .il-filter-bar .il-filter-bar-toggle {
-  float: right;
   padding-left: 10px;
 }
 
 .il-filter-controls {
   bottom: 0px;
-  padding-left: 15px;
+  padding-left: 9px;
   padding-bottom: 6px;
 }
 .il-filter-controls .btn-bulky {
   width: auto;
   background-color: initial;
   font-size: 0.875rem;
+}
+.il-filter-controls .btn-bulky:hover {
+  background-color: #f0f0f0;
 }
 
 .il-filter .glyphicon {
@@ -4248,9 +4268,9 @@ hr.il-divider-with-label {
 }
 
 .il-filter-input-section {
-  border-top: 1px solid #dddddd;
+  border-top: none;
   position: relative;
-  padding-right: 12px;
+  padding-right: 9px;
   margin: 0;
   background: #f9f9f9;
 }
@@ -4294,7 +4314,7 @@ hr.il-divider-with-label {
   padding: 0;
 }
 .il-filter-add-list ul li > button {
-  padding: 6px 12px;
+  padding: 6px 9px;
   display: block;
   width: 100%;
 }
@@ -11314,7 +11334,6 @@ div.editLink {
 
 /* Modules/DataCollection */
 td.dcl_actions {
-  text-align: right;
   padding-right: 5px;
 }
 
@@ -15208,6 +15227,10 @@ input[type=checkbox]:focus-visible::after {
   cursor: not-allowed;
 }
 textarea .form-control {
+  height: auto;
+}
+
+.form-control.form-control-sm.il-input-tag-container {
   height: auto;
 }
 

@@ -48,7 +48,7 @@ class ilCertificateScormPdfFilename implements ilCertificateFilename
         }
 
         return implode('_', array_filter([
-            strftime('%y%m%d', time()),
+            date('ymd'),
             $fileNameParts,
             $fileName
         ]));

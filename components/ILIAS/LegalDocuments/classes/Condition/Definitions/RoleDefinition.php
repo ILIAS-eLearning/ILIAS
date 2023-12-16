@@ -48,13 +48,13 @@ class RoleDefinition implements ConditionDefinition
     {
         $roles = $this->review->getGlobalRoles();
         $roles = array_combine($roles, array_map($this->translatedRole(...), $roles));
-
+        $default_role = isset($roles[SYSTEM_ROLE_ID]) ? SYSTEM_ROLE_ID : key($roles);
 
         return $this->ui->create()->input()->field()->group([
             'role_id' => $this->radio(
                 $this->ui->txt('perm_global_role'),
                 $roles,
-                $arguments['role_id'] ?? null
+                $arguments['role_id'] ?? $default_role
             )->withRequired(true, ($this->required)($roles)),
         ], $this->ui->txt('crit_type_usr_global_role'), $this->ui->txt('crit_type_usr_global_role_info'));
     }
