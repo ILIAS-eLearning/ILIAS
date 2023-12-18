@@ -140,7 +140,7 @@ class ilDidacticTemplateSettingsTableDataRetrieval implements DataRetrieval
         }
         $selected_records = array_slice(
             $records,
-            $range->getStart() * $range->getLength(),
+            $range->getStart(),
             $range->getLength()
         );
         return $selected_records;
