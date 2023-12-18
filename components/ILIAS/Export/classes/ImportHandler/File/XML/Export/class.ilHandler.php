@@ -89,7 +89,12 @@ abstract class ilHandler extends ilXMLFileHandler implements ilXMLExportFileHand
         $matches = [];
         $pattern = '/([0-9]+)__([0-9]+)__([a-z_]+)_([0-9]+)/';
         $path_part = $this->getSubPathToDirBeginningAtPathEnd('temp')->getPathPart($pattern);
-        preg_match($pattern, $path_part, $matches);
+        if (
+            is_null($path_part) ||
+            preg_match($pattern, $path_part, $matches) !== 1
+        ) {
+            return 'No path found';
+        };
         $node = $component_tree->getFirstNodeWith(
             $this->attribute->collection()
                 ->withElement($this->attribute->pair()->withValue($matches[4])->withKey('Id'))
