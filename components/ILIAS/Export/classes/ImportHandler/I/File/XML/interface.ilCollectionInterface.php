@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML;
+namespace ILIAS\Export\ImportHandler\I\File\XML;
 
 use Countable;
 use Iterator;

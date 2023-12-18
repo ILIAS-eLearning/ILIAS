@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML;
+namespace ILIAS\Export\ImportHandler\I\File\XML;
 
-use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHanlderInterface;
-use ImportHandler\I\File\XML\ilCollectionInterface as ilXMLFileHanlderCollectionInterface;
-use ImportHandler\I\File\XML\Manifest\ilFactoryInterface as ilManifestFileFactoryInterface;
-use ImportHandler\I\File\XML\Node\ilFactoryInterface as ilXMLFileNodeFactoryInterface;
-use ImportHandler\I\File\XML\Export\ilFactoryInterface as ilXMLExportFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHanlderInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilCollectionInterface as ilXMLFileHanlderCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilFactoryInterface as ilManifestFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\ilFactoryInterface as ilXMLFileNodeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\ilFactoryInterface as ilXMLExportFileFactoryInterface;
 use SplFileInfo;
 
 interface ilFactoryInterface

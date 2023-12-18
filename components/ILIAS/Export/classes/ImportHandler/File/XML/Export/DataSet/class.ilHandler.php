@@ -18,30 +18,30 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Export\DataSet;
+namespace ILIAS\Export\ImportHandler\File\XML\Export\DataSet;
 
-use ImportHandler\I\File\XML\Export\DataSet\ilHandlerInterface as ilDataSetXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\ilHandlerInterface as ilDataSetXMLExportFileHandlerInterface;
 use ilLogger;
-use ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
-use ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
-use ImportHandler\I\File\XML\Export\Component\ilHandlerInterface as ilComponentXMLExportFileHandlerInterface;
-use ImportHandler\File\XML\Export\ilHandler as ilXMLExportFileHandler;
-use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
-use ImportHandler\File\XML\ilHandler as ilXMLFileHandler;
-use ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
-use ImportHandler\I\File\XML\Node\Info\ilTreeInterface as ilXMLFileNodeInfoTreeInterface;
-use ImportStatus\Exception\ilException as ilImportStatusException;
-use ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
-use ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
-use ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileFactoryInterface;
-use ImportStatus\StatusType;
-use ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
-use ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMlFileInfoNodeAttributeFactoryInterface;
-use ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
-use ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceHandlerInterface;
-use ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationSetFactoryInterface;
-use Schema\ilXmlSchemaFactory;
+use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\ilHandlerInterface as ilComponentXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\File\XML\Export\ilHandler as ilXMLExportFileHandler;
+use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
+use ILIAS\Export\ImportHandler\File\XML\ilHandler as ilXMLFileHandler;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilTreeInterface as ilXMLFileNodeInfoTreeInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileFactoryInterface;
+use ILIAS\Export\ImportStatus\StatusType;
+use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMlFileInfoNodeAttributeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationSetFactoryInterface;
+use ILIAS\Export\Schema\ilXmlSchemaFactory;
 use SplFileInfo;
 use ILIAS\Data\Version;
 

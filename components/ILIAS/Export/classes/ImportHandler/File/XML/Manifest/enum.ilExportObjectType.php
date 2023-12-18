@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Manifest;
+namespace ILIAS\Export\ImportHandler\File\XML\Manifest;
 
 enum ilExportObjectType
 {

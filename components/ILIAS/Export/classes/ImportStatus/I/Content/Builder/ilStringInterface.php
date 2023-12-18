@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus\I\Content\Builder;
+namespace ILIAS\Export\ImportStatus\I\Content\Builder;
 
-use ImportStatus\I\Content\ilHandlerInterface as ilImportStatusContentHandlerInterface;
+use ILIAS\Export\ImportStatus\I\Content\ilHandlerInterface as ilImportStatusContentHandlerInterface;
 
 interface ilStringInterface extends ilImportStatusContentHandlerInterface
 {

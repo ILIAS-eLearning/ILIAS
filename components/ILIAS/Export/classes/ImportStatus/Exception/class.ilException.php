@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus\Exception;
+namespace ILIAS\Export\ImportStatus\Exception;
 
 use Exception;
-use ImportStatus\I\Exception\ilExceptionInterface as ilImportStatusExceptionInterface;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
+use ILIAS\Export\ImportStatus\I\Exception\ilExceptionInterface as ilImportStatusExceptionInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
 
 class ilException extends Exception implements ilImportStatusExceptionInterface
 {

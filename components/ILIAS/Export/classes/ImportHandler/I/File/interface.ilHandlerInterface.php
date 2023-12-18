@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File;
+namespace ILIAS\Export\ImportHandler\I\File;
 
 use SplFileInfo;
-use ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
-use ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
 
 interface ilHandlerInterface
 {

@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Export\Component;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Export\Component;
 
-use ImportHandler\I\File\XML\Export\Component\ilHandlerInterface as ilComponentXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\ilHandlerInterface as ilComponentXMLExportFileHandlerInterface;
 
 interface ilFactoryInterface
 {

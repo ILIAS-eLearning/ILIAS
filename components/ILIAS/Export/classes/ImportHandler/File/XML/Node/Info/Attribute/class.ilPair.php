@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Node\Info\Attribute;
+namespace ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute;
 
-use ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
 
 class ilPair implements ilXMLFileNodeInfoAttributePairInterface
 {

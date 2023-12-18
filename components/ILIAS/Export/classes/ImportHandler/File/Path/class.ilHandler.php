@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Path;
+namespace ILIAS\Export\ImportHandler\File\Path;
 
-use ImportHandler\I\File\Path\Node\ilNodeInterface as ilFilePathNodeInterface;
-use ImportHandler\I\File\Path\ilHandlerInterface as ilParserPathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilNodeInterface as ilFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilParserPathHandlerInterface;
 
 class ilHandler implements ilParserPathHandlerInterface
 {
