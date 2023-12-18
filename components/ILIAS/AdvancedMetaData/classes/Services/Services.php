@@ -55,13 +55,13 @@ class Services implements ServicesInterface
     public function forSubObjects(
         string $type,
         int $ref_id,
-        SubObjectIDInterface ...$sub_object_ids
+        string ...$sub_types
     ): SubObjectModesInterface {
         return new SubObjectModes(
             $this->dic,
             $type,
             $ref_id,
-            ...$sub_object_ids
+            ...$sub_types
         );
     }
 

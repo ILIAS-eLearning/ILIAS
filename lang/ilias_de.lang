@@ -2474,119 +2474,119 @@ blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 blog#:#blog_toggle_final#:#Beitrag veröffentlichen
 blog#:#blog_whole_blog#:#Gesamtes Blog
-book#:#X_reservations_of#:#%s Reservierungen von
+book#:#X_reservations_of#:#%s Buchungen von
 book#:#book_add#:#Buchungspool anlegen
-book#:#book_add_object#:#Objekt hinzufügen
-book#:#book_add_schedule#:#Zeitraster hinzufügen
+book#:#book_add_object#:#Angebot hinzufügen
+book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
 book#:#book_all#:#Alle anzeigen
-book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle zugeordneten Buchungspools benötigen mindestens einen Zeitplan.
+book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle ausgewählten Buchungspools benötigen mindestens einen Zeitplan.
 book#:#book_all_users#:#Alle Teilnehmer
-book#:#book_assign#:#Zuweisen
-book#:#book_assign_object#:#Buchungsobjekt zuweisen
-book#:#book_assign_participant#:#Teilnehmer zuweisen
+book#:#book_assign#:#Buchen
+book#:#book_assign_object#:#Für Teilnehmer buchen
+book#:#book_assign_participant#:#Für andere Teilnehmer buchen
 book#:#book_back_to_list#:#Zurück zur Liste
-book#:#book_bobj#:#Buchungsobjekt
+book#:#book_bobj#:#Angebote
 book#:#book_book#:#Buchen
 book#:#book_book_available#:#Verfügbare Termine buchen
 book#:#book_book_recurrence#:#Wiederholungen buchen
 book#:#book_booked_in#:#Gebucht in
 book#:#book_booking#:#Buchung
 book#:#book_booking_information#:#Information
-book#:#book_booking_objects#:#Buchungsobjekte
-book#:#book_booking_reminders#:#Anstehende Reservierungen
+book#:#book_booking_objects#:#Angebote
+book#:#book_booking_reminders#:#Anstehende Buchungen
 book#:#book_bookings_per_user#:#Buchungen je Benutzer
 book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
 book#:#book_bulk_creation#:#Massenerstellung
-book#:#book_bulk_data#:#Objektdaten
-book#:#book_cal_entry#:#Buchung von:
+book#:#book_bulk_data#:#Daten zu Angeboten
+book#:#book_cal_entry#:#Buchung:
 book#:#book_confirm_booking#:#Buchung vornehmen
-book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
+book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Angebot buchen wollen?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
-book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Objekte.
-book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung stornieren möchten?
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.
+book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Buchungen stornieren möchten?
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
-book#:#book_confirm_delete#:#Wollen Sie wirklich die nachfolgende Objekte löschen?
+book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen?
 book#:#book_copy#:#Buchungspool kopieren
-book#:#book_create_objects#:#Objekte erstellen
-book#:#book_deadline#:#Zeitspanne
+book#:#book_create_objects#:#Angebote erstellen
+book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
 book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_slot_end#:#Bis zum Ende des Zeitfensters
 book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
-book#:#book_deassign#:#Zuweisung aufheben
+book#:#book_deassign#:#Buchungen bearbeiten
 book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen
-book#:#book_edit#:#Belegungsplan bearbeiten
-book#:#book_edit_object#:#Objekt ändern
-book#:#book_edit_schedule#:#Zeitplan editieren
-book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
+book#:#book_edit#:#Buchungspool bearbeiten
+book#:#book_edit_object#:#Angebot bearbeiten
+book#:#book_edit_schedule#:#Zeitplan bearbeiten
+book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
 book#:#book_fromto#:#Datumsbereich
-book#:#book_hours#:#Stunden
+book#:#book_hours#:#Stunden vor Beginn des Zeitfensters
 book#:#book_is_used#:#In Benutzung
-book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#book_limit_objects_available#:#Dieses Angebot können Sie nicht für %s Teilnehmer buchen. "%s" ist nur %s Mal verfügbar.
 book#:#book_list#:#Liste
-book#:#book_log#:#Reservierungen
+book#:#book_log#:#Buchungen
 book#:#book_mail_permanent_link#:#Link zum Buchungspool
 book#:#book_mail_to_booker#:#Mail an den Buchenden
 book#:#book_message#:#Mitteilung
 book#:#book_message_info#:#Sie können hier eine Mitteilung an den Organisator des Buchungspools eingeben.
 book#:#book_messages#:#Mitteilungen
-book#:#book_messages_info#:#Buchende können einer Reservierung eine Mitteilung mitgeben.
+book#:#book_messages_info#:#Buchende können einer Buchung eine Mitteilung mitgeben.
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
 book#:#book_missing_items#:#Es fehlen $1.
 book#:#book_new#:#Neuen Buchungspool anlegen
-book#:#book_no_bookings_for_you#:#Es wurden keine Reservierungen für Sie durchgeführt.
-book#:#book_no_objects#:#Keine Zuweisung
-book#:#book_no_of_objects#:#Anzahl Objekte
+book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
+book#:#book_no_objects#:#Keine Buchungen
+book#:#book_no_of_objects#:#Anzahl Angebote
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
-book#:#book_no_recurrence#:#nur diesen Termin buchen
+book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_cron_not_active#:#Achtung: Der notwendige Cron-Job "Benachrichtigungen über Reservierungen" ist zurzeit nicht aktiviert.
-book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
+book#:#book_notification_info#:#Sendet eine Liste der Buchungen des nächsten Tages an den jeweiligen Teilnehmer (nur eigene) und – wenn aktiviert – an die Administratoren.
 book#:#book_nr_of_preferences#:#Anzahl
-book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben darf.
+book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben muss.
 book#:#book_nr_preferences#:#Präferenzen
 book#:#book_obj_select#:#Auswählen
-book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
-book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
-book#:#book_object_selection#:#Objektauswahl
-book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
-book#:#book_objects_available#:#Verfügbare Objekte: %s
+book#:#book_object_added#:#Ein Angebot wurde hinzugefügt.
+book#:#book_object_deleted#:#Das Angebot wurde gelöscht.
+book#:#book_object_selection#:#Angebotsauswahl
+book#:#book_object_updated#:#Das Angebot wurde geändert.
+book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Begrenzung
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
 book#:#book_participant_already_assigned#:#Ein oder mehrere Teilnehmer waren bereits zugewiesen.
-book#:#book_participant_assigned#:#Teilnehmer wurde/n zugewiesen.
+book#:#book_participant_assigned#:#Teilnehmer wurde/n hinzugefügt.
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_pool_selection#:#Auswahl Buchungspool
 book#:#book_post_booking_file#:#Datei
-book#:#book_post_booking_information#:#Reservierungsinformationen
+book#:#book_post_booking_information#:#Informationen zur Buchung
 book#:#book_post_booking_text#:#Text
-book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Buchungsobjekt ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
+book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Angebot ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
 book#:#book_pref_book_cron#:#Buchung mit Präferenzen
-book#:#book_pref_book_cron_info#:#Automatische Buchung von Buchungen mit Präferenzen nach der Frist.
-book#:#book_pref_deadline#:#Enddatum
+book#:#book_pref_book_cron_info#:#Automatische Zuweisung von Buchungen auf der Grundlage von Präferenzen nach Ablauf der Frist.
+book#:#book_pref_deadline#:#Deadline
 book#:#book_pref_deadline_info#:#Bis zu diesem Zeitpunkt können Präferenzen abgegeben werden.
 book#:#book_pref_overview#:#Übersicht
 book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenz(en) bis %2. Nach der Frist werden die Zuordnungen auf der Basis der Präferenzen aller Teilnehmer automatisch durchgeführt.
 book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
-book#:#book_public_log#:#Benutzer sehen alle Reservierungen
-book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
+book#:#book_public_log#:#Benutzer sehen alle Buchungen
+book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Buchungen“ auch Buchungen anderer Benutzer einsehen.
 book#:#book_recurrence#:#Wiederholung
 book#:#book_refresh#:#Aktualisieren
-book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
+book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Buchungen.
 book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
 book#:#book_reminder_day#:#Versenden
-book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Reservierungen und zusätzlich eine Gesamtliste an Benutzer mit Schreibrechten.
-book#:#book_reminder_days#:#Tage vor der Reservierung
+book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Buchungen und zusätzlich eine Gesamtliste an Benutzenden mit dem Recht „Einstellungen bearbeiten“. Bitte beachten Sie: um Benachrichtigungen zu erhalten, müssen Teilnehmer diese über das Menü „Aktionen" oben rechts im Buchungspool „Benachrichtigungen“ aktiviert haben.
+book#:#book_reminder_days#:#Tage vor der Buchung
 book#:#book_reminder_setting#:#Teilnehmer an Reservierung erinnern
 book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
-book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle Reservierungen entfernen um Mehrfachzuweisungen zu verhindern.
+book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern. 
 book#:#book_reservation_available#:#%s verfügbar
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.

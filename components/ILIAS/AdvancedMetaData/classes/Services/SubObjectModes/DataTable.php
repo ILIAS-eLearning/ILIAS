@@ -34,6 +34,9 @@ class DataTable implements DataTableInterface
     protected DataFactory $data_factory;
     protected StaticURL $static_url;
 
+    protected string $type;
+    protected int $ref_id;
+
     /**
      * @var Column[]
      */
@@ -47,13 +50,15 @@ class DataTable implements DataTableInterface
         StaticURL $static_url,
         string $type,
         int $ref_id,
-        SubObjectIDInterface ...$sub_object_ids
+        string ...$sub_types
     ) {
         $this->user = $user;
         $this->ui_factory = $ui_factory;
         $this->data_factory = $data_factory;
         $this->static_url = $static_url;
-        $this->initColumnsAndData($type, $ref_id, ...$sub_object_ids);
+        $this->type = $type;
+        $this->ref_id = $ref_id;
+        $this->initColumns(...$sub_types);
     }
 
     /**
@@ -64,16 +69,8 @@ class DataTable implements DataTableInterface
         return $this->columns;
     }
 
-    public function getData(SubObjectIDInterface $sub_object_id): array
+    public function loadData(SubObjectIDInterface ...$sub_object_ids): void
     {
-        return $this->data[$sub_object_id->subtype()][$sub_object_id->objID()][$sub_object_id->subID()] ?? [];
-    }
-
-    protected function initColumnsAndData(
-        string $type,
-        int $ref_id,
-        SubObjectIDInterface ...$sub_object_ids
-    ): void {
         $ids = [];
         foreach ($sub_object_ids as $sub_object_id) {
             $ids[$sub_object_id->subtype()][$sub_object_id->objID()][] = [
@@ -86,8 +83,8 @@ class DataTable implements DataTableInterface
             $values = [];
             foreach ($id as $obj_id => $records) {
                 $values = array_merge($values, \ilAdvancedMDValues::queryForRecords(
-                    $ref_id,
-                    $type,
+                    $this->ref_id,
+                    $this->type,
                     $sub_type,
                     [$obj_id],
                     $sub_type,
@@ -97,18 +94,10 @@ class DataTable implements DataTableInterface
                 ));
             }
 
-            foreach (\ilAdvancedMDRecord::_getSelectedRecordsByObject(
-                $type,
-                $ref_id,
-                $sub_type,
-                $ref_id !== 0
-            ) as $record_obj) {
-                $record_id = $record_obj->getRecordId();
-                $translations = \ilAdvancedMDFieldTranslations::getInstanceByRecordId($record_id);
+            foreach ($this->getRecordIds($sub_type) as $record_id) {
                 $defs = \ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_id);
                 foreach ($defs as $def) {
                     $key = Constants::ID_PREFIX . $def->getFieldId();
-                    $this->columns[$key] = $this->initColumn($translations, $def);
                     foreach ($values as $value) {
                         $obj_id = $value['obj_id'];
                         $sub_id = $value['sub_id'];
@@ -118,6 +107,26 @@ class DataTable implements DataTableInterface
                         }
                         $this->data[$sub_type][$obj_id][$sub_id][$key] = $this->initData($def, $presentation);
                     }
+                }
+            }
+        }
+    }
+
+    public function getData(SubObjectIDInterface $sub_object_id): array
+    {
+        return $this->data[$sub_object_id->subtype()][$sub_object_id->objID()][$sub_object_id->subID()] ?? [];
+    }
+
+    protected function initColumns(
+        string ...$sub_types
+    ): void {
+        foreach ($sub_types as $sub_type) {
+            foreach ($this->getRecordIds($sub_type) as $record_id) {
+                $translations = \ilAdvancedMDFieldTranslations::getInstanceByRecordId($record_id);
+                $defs = \ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_id);
+                foreach ($defs as $def) {
+                    $key = Constants::ID_PREFIX . $def->getFieldId();
+                    $this->columns[$key] = $this->initColumn($translations, $def);
                 }
             }
         }
@@ -222,5 +231,22 @@ class DataTable implements DataTableInterface
         }
 
         return $val;
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function getRecordIds(string $sub_type): array
+    {
+        $ids = [];
+        foreach (\ilAdvancedMDRecord::_getSelectedRecordsByObject(
+            $this->type,
+            $this->ref_id,
+            $sub_type,
+            $this->ref_id !== 0
+        ) as $record_obj) {
+            $ids[] = $record_obj->getRecordId();
+        }
+        return $ids;
     }
 }
