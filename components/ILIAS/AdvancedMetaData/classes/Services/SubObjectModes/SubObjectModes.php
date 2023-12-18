@@ -32,20 +32,20 @@ class SubObjectModes implements SubObjectModesInterface
     protected int $ref_id;
 
     /**
-     * @var SubObjectIDInterface[]
+     * @var string[]
      */
-    protected array $sub_object_ids;
+    protected array $sub_types;
 
     public function __construct(
         Container $dic,
         string $type,
         int $ref_id,
-        SubObjectIDInterface ...$sub_object_ids
+        string ...$sub_types
     ) {
         $this->dic = $dic;
         $this->type = $type;
         $this->ref_id = $ref_id;
-        $this->sub_object_ids = $sub_object_ids;
+        $this->sub_types = $sub_types;
     }
     public function inDataTable(): DataTableInterface
     {
@@ -56,7 +56,7 @@ class SubObjectModes implements SubObjectModesInterface
             $this->dic['static_url'],
             $this->type,
             $this->ref_id,
-            ...$this->sub_object_ids
+            ...$this->sub_types
         );
     }
 }

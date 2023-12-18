@@ -35,7 +35,7 @@ interface ServicesInterface
     public function forSubObjects(
         string $type,
         int $ref_id,
-        SubObjectIDInterface ...$sub_object_ids
+        string ...$sub_types
     ): SubObjectModesInterface;
 
     public function getSubObjectID(

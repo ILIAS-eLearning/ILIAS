@@ -30,5 +30,7 @@ interface DataTableInterface
      */
     public function getColumns(): array;
 
+    public function loadData(SubObjectIDInterface ...$sub_object_ids): void;
+
     public function getData(SubObjectIDInterface $sub_object_id): array;
 }
