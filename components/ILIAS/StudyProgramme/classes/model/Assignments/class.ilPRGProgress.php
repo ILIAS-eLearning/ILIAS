@@ -409,6 +409,8 @@ class ilPRGProgress extends Node
             ->withLastChange($acting_usr_id, $date)
             ->withValidityOfQualification(null)
             ->withDeadline(null)
+            ->withCompletion(null, null)
+            ->withCurrentAmountOfPoints(0)
             ->withIndividualModifications(true);
     }
 
