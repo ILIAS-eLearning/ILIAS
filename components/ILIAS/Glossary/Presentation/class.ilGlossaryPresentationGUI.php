@@ -16,11 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\Glossary\Presentation;
-
 /**
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilPresentationListTableGUI, ilGlossaryDefPageGUI
+ * @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilGlossaryDefPageGUI
  * @ilCtrl_Calls ilGlossaryPresentationGUI: ilPresentationFullGUI, ilGlossaryFlashcardGUI, ilGlossaryFlashcardBoxGUI
  */
 class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
@@ -230,10 +228,11 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($full_gui);
                 break;
 
-            case "ilpresentationlisttablegui":
-                $prtab = $this->getPresentationTable();
-                $this->ctrl->forwardCommand($prtab);
-                return;
+                //TODO: Do we need to to handle this?
+                /*case "ilpresentationlisttablegui":
+                    $prtab = $this->getPresentationTable();
+                    $this->ctrl->forwardCommand($prtab);
+                    return;*/
 
             case "ilglossarydefpagegui":
                 $page_gui = new ilGlossaryDefPageGUI($this->requested_def_page_id);
@@ -368,12 +367,14 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         // load template for table
         //		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 
-        $table = $this->getPresentationTable();
+        $table = $this->getPresentationTable()->getComponent();
 
         if (!$this->offlineMode()) {
-            $tpl->setContent($ilCtrl->getHTML($table));
+            //$tpl->setContent($ilCtrl->getHTML($table));
+            $tpl->setContent($this->ui_ren->render($table));
         } else {
-            $this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
+            //$this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
+            $this->tpl->setVariable("ADM_CONTENT", $this->ui_ren->render($table));
             return $this->tpl->printToString();
         }
         return "";
@@ -405,33 +406,10 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     /**
      * Get presentation table
      */
-    public function getPresentationTable(): ilPresentationListTableGUI
+    public function getPresentationTable(): \ILIAS\components\ILIAS\Glossary\Table\PresentationListTable
     {
-        $table = new ilPresentationListTableGUI(
-            $this,
-            "listTerms",
-            $this->glossary,
-            $this->offlineMode(),
-            $this->tax_node,
-            $this->glossary->getTaxonomyId()
-        );
+        $table = $this->domain->table()->getPresentationListTable($this->glossary, $this->offlineMode(), $this->tax_node);
         return $table;
-    }
-
-    public function applyFilter(): void
-    {
-        $prtab = $this->getPresentationTable();
-        $prtab->resetOffset();
-        $prtab->writeFilterToSession();
-        $this->listTerms();
-    }
-
-    public function resetFilter(): void
-    {
-        $prtab = $this->getPresentationTable();
-        $prtab->resetOffset();
-        $prtab->resetFilter();
-        $this->listTerms();
     }
 
     /**

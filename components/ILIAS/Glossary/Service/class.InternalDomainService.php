@@ -27,6 +27,7 @@ use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Glossary\Flashcard\FlashcardShuffleManager;
 use ILIAS\Glossary\Presentation\PresentationManager;
 use ILIAS\Glossary\Taxonomy\TaxonomyManager;
+use ILIAS\components\ILIAS\Glossary\Table\TableManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -103,5 +104,10 @@ class InternalDomainService
             $this->DIC->taxonomy()->domain(),
             $glossary
         );
+    }
+
+    public function table(): TableManager
+    {
+        return new TableManager();
     }
 }

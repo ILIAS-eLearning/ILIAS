@@ -55,6 +55,11 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
     protected \ILIAS\UI\Factory $ui_fac;
     protected \ILIAS\UI\Renderer $ui_ren;
     protected array $modals_to_render = [];
+    protected string $requested_table_glossary_term_list_action = "";
+    /**
+     * @var string[]
+     */
+    protected array $requested_table_glossary_term_list_ids = [];
 
     public function __construct(
         $a_data,
@@ -87,6 +92,8 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
         $this->edit_request = $gui->editing()->request();
         $this->term_perm = ilGlossaryTermPermission::getInstance();
+        $this->requested_table_glossary_term_list_action = $this->edit_request->getTableGlossaryTermListAction();
+        $this->requested_table_glossary_term_list_ids = $this->edit_request->getTableGlossaryTermListIds();
 
         $this->ctrl->saveParameter($this, array("ref_id"));
         $this->lng->loadLanguageModule("content");
@@ -97,12 +104,19 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
         // determine term id and check whether it is valid (belongs to
         // current glossary)
-        $this->term_id = $this->edit_request->getTermId();
+        if (($this->requested_table_glossary_term_list_action == "editTerm"
+            || $this->requested_table_glossary_term_list_action == "editDefinition")
+            && !empty($this->requested_table_glossary_term_list_ids)) {
+            $this->term_id = $this->requested_table_glossary_term_list_ids[0];
+        } else {
+            $this->term_id = $this->edit_request->getTermId();
+        }
         $term_glo_id = ilGlossaryTerm::_lookGlossaryID($this->term_id);
         if ($this->term_id > 0 && $term_glo_id != $this->object->getId()
             && !ilGlossaryTermReferences::isReferenced([$this->object->getId()], $this->term_id)) {
             $this->term_id = 0;
         }
+        $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $this->term_id);
 
         $this->tax_id = $this->object->getTaxonomyId();
         if ($this->tax_id > 0) {
@@ -165,7 +179,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                     throw new ilGlossaryException("No permission.");
                 }
                 $this->getTemplate();
-                //				$this->quickList();
                 $this->ctrl->setReturn($this, "listTerms");
                 $term_gui = new ilGlossaryTermGUI($this->term_id);
                 $term_gui->setGlossary($this->getGlossary());
@@ -279,20 +292,18 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 if (($cmd == "create") && ($this->edit_request->getNewType() == "term")) {
                     $this->ctrl->redirectByClass(ilGlossaryTermGUI::class, "create");
                 } else {
-                    if ($cmd != "quickList") {
-                        if ($this->in_administration ||
-                            $this->getCreationMode() == true) {
-                            $this->prepareOutput();
-                            $cmd .= "Object";
-                        } else {
-                            $this->getTemplate();
-                            $this->setTabs();
-                            $this->setLocator();
-                            $this->addHeaderAction();
+                    if ($this->in_administration ||
+                        $this->getCreationMode() == true) {
+                        $this->prepareOutput();
+                        $cmd .= "Object";
+                    } else {
+                        $this->getTemplate();
+                        $this->setTabs();
+                        $this->setLocator();
+                        $this->addHeaderAction();
 
-                            if ($cmd == "redrawHeaderAction") {
-                                $cmd = "redrawHeaderActionObject";
-                            }
+                        if ($cmd == "redrawHeaderAction") {
+                            $cmd = "redrawHeaderActionObject";
                         }
                     }
                     $this->$cmd();
@@ -300,12 +311,8 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 break;
         }
 
-        if ($cmd != "quickList") {
-            if (!$this->in_administration && !$this->getCreationMode()) {
-                $this->tpl->printToStdout();
-            }
-        } else {
-            $this->tpl->printToStdout(false);
+        if (!$this->in_administration && !$this->getCreationMode()) {
+            $this->tpl->printToStdout();
         }
     }
 
@@ -768,8 +775,8 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             $modals = $this->ui_ren->render($this->getModalsToRender());
         } else {
             $this->showToolbarForStandard();
-            $tab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
-            $tab_html = $tab->getHTML();
+            $table = $this->domain->table()->getTermListTable($this->object, $this->tax_node)->getComponent();
+            $tab_html = $this->ui_ren->render($table);
         }
 
         $this->tpl->setContent($panel_html . $modals . $tab_html);
@@ -928,7 +935,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
     public function removeGlossaryFromCollection(): void
     {
-        $glo_id = $this->edit_request->getInterruptiveItemIds()[0];
+        $glo_id = $this->edit_request->getGlossaryIdInModal();
         $this->object->removeGlossaryFromCollection($glo_id);
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("glo_removed_from_collection_info"), true);
         $this->ctrl->redirect($this, "listTerms");
@@ -1022,77 +1029,22 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         $this->ctrl->redirectByClass("ilexportgui", "");
     }
 
-    public function confirmTermDeletion(): void
-    {
-        $ids = $this->edit_request->getIds();
-        if (count($ids) == 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, "listTerms");
-        }
-
-        // check ids
-        foreach ($ids as $term_id) {
-            $term_glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
-            if ($term_glo_id != $this->object->getId() && !ilGlossaryTermReferences::isReferenced([$this->object->getId()], $term_id)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("glo_term_must_belong_to_glo"), true);
-                $this->ctrl->redirect($this, "listTerms");
-            }
-        }
-
-        // display confirmation message
-        $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
-        $cgui->setCancel($this->lng->txt("cancel"), "cancelTermDeletion");
-        $cgui->setConfirm($this->lng->txt("confirm"), "deleteTerms");
-
-        foreach ($ids as $id) {
-            $term = new ilGlossaryTerm($id);
-
-            $add = "";
-            $nr = ilGlossaryTerm::getNumberOfUsages($id);
-            if ($nr > 0) {
-                $this->ctrl->setParameterByClass(
-                    "ilglossarytermgui",
-                    "term_id",
-                    $id
-                );
-
-                if (ilGlossaryTermReferences::isReferenced([$this->object->getId()], $id)) {
-                    $add = " (" . $this->lng->txt("glo_term_reference") . ")";
-                } else {
-                    $link = "[<a href='" .
-                        $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listUsages") .
-                        "'>" . $this->lng->txt("glo_list_usages") . "</a>]";
-                    $add = "<div class='small'>" .
-                        sprintf($this->lng->txt("glo_term_is_used_n_times"), $nr) . " " . $link . "</div>";
-                }
-            }
-
-            $cgui->addItem("id[]", $id, $term->getTerm() . $add);
-        }
-
-        $this->tpl->setContent($cgui->getHTML());
-    }
-
-    public function cancelTermDeletion(): void
-    {
-        $this->ctrl->redirect($this, "listTerms");
-    }
-
     public function deleteTerms(): void
     {
-        $ids = $this->edit_request->getIds();
-        foreach ($ids as $id) {
-            if (ilGlossaryTermReferences::isReferenced([$this->object->getId()], $id)) {
-                $refs = new ilGlossaryTermReferences($this->object->getId());
-                $refs->deleteTerm($id);
-                $refs->update();
-            } else {
-                $term = new ilGlossaryTerm($id);
-                $term->delete();
+        if (!empty($this->edit_request->getTermIdsInModal())
+            && $ids = $this->edit_request->getTermIdsInModal()) {
+            foreach ($ids as $id) {
+                if (ilGlossaryTermReferences::isReferenced([$this->object->getId()], $id)) {
+                    $refs = new ilGlossaryTermReferences($this->object->getId());
+                    $refs->deleteTerm($id);
+                    $refs->update();
+                } else {
+                    $term = new ilGlossaryTerm($id);
+                    $term->delete();
+                }
             }
         }
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "listTerms");
     }
 
@@ -1280,22 +1232,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         throw new ilPermissionException($lng->txt("no_permission"));
     }
 
-    public function applyFilter(): void
-    {
-        $prtab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
-        $prtab->resetOffset();
-        $prtab->writeFilterToSession();
-        $this->listTerms();
-    }
-
-    public function resetFilter(): void
-    {
-        $prtab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
-        $prtab->resetOffset();
-        $prtab->resetFilter();
-        $this->listTerms();
-    }
-
 
     ////
     //// Style related functions
@@ -1381,9 +1317,9 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             $this->ctrl->getLinkTarget($this, "showGlossarySelector")
         );
 
-        $tab = new ilGlossaryAutoLinkTableGUI($this->getGlossary(), $this, "editGlossaries");
+        $table = $this->domain->table()->getGlossaryAutoLinkTable($this->getGlossary())->getComponent();
 
-        $this->tpl->setContent($tab->getHTML());
+        $this->tpl->setContent($this->ui_ren->render($table));
     }
 
     /**
@@ -1450,7 +1386,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
     public function removeGlossary(): void
     {
-        $this->object->removeAutoGlossary($this->edit_request->getGlossaryId());
+        $this->object->removeAutoGlossary($this->edit_request->getGlossaryIdInModal());
         $this->object->update();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
@@ -1462,27 +1398,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
      */
     public function copyTerms(): void
     {
-        $items = $this->edit_request->getIds();
-        if (count($items) == 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, "listTerms");
-        }
-
-        $this->user->clipboardDeleteObjectsOfType("term");
-
-        // put them into the clipboard
-        $time = date("Y-m-d H:i:s");
-        $order = 0;
-        foreach ($items as $id) {
-            $this->user->addObjectToClipboard(
-                $id,
-                "term",
-                ilGlossaryTerm::_lookGlossaryTerm($id),
-                0,
-                $time,
-                $order
-            );
-        }
+        $this->putTermsIntoClipBoard();
 
         ilEditClipboard::setAction("copy");
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("glo_selected_terms_have_been_copied"), true);
@@ -1494,31 +1410,61 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
      */
     public function referenceTerms(): void
     {
-        $items = $this->edit_request->getIds();
-        if (count($items) == 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, "listTerms");
-        }
-
-        $this->user->clipboardDeleteObjectsOfType("term");
-
-        // put them into the clipboard
-        $time = date("Y-m-d H:i:s");
-        $order = 0;
-        foreach ($items as $id) {
-            $this->user->addObjectToClipboard(
-                $id,
-                "term",
-                ilGlossaryTerm::_lookGlossaryTerm($id),
-                0,
-                $time,
-                $order
-            );
-        }
+        $this->putTermsIntoClipBoard();
 
         ilEditClipboard::setAction("link");
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("glo_selected_terms_have_been_copied"), true);
         $this->ctrl->redirect($this, "listTerms");
+    }
+
+    protected function putTermsIntoClipBoard(): void
+    {
+        $this->user->clipboardDeleteObjectsOfType("term");
+        $time = date("Y-m-d H:i:s");
+        $order = 0;
+        if (($this->requested_table_glossary_term_list_action === "copyTerms"
+                || $this->requested_table_glossary_term_list_action === "referenceTerms")
+            && !empty($this->requested_table_glossary_term_list_ids)
+            && $this->requested_table_glossary_term_list_ids[0] === "ALL_OBJECTS"
+        ) {
+            $terms = $this->object->getTermList(
+                "",
+                "",
+                "",
+                $this->tax_node,
+                true,
+                true,
+                null,
+                false,
+                true
+            );
+            foreach ($terms as $term) {
+                $this->user->addObjectToClipboard(
+                    (int) $term["id"],
+                    "term",
+                    ilGlossaryTerm::_lookGlossaryTerm((int) $term["id"]),
+                    0,
+                    $time,
+                    $order
+                );
+            }
+        } elseif ($this->requested_table_glossary_term_list_action === "copyTerms"
+            || $this->requested_table_glossary_term_list_action === "referenceTerms") {
+            foreach ($this->requested_table_glossary_term_list_ids as $term_id) {
+                $this->user->addObjectToClipboard(
+                    (int) $term_id,
+                    "term",
+                    ilGlossaryTerm::_lookGlossaryTerm((int) $term_id),
+                    0,
+                    $time,
+                    $order
+                );
+            }
+        }
+        if (empty($this->requested_table_glossary_term_list_ids)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "listTerms");
+        }
     }
 
 

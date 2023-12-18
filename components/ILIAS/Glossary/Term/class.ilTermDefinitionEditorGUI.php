@@ -55,7 +55,13 @@ class ilTermDefinitionEditorGUI
 
 
         $this->glossary = new ilObjGlossary($this->request->getRefId(), true);
-        $this->term = new ilGlossaryTerm($this->request->getTermId());
+        if (($this->request->getTableGlossaryTermListAction() == "editDefinition")
+            && !empty($this->request->getTableGlossaryTermListIds())) {
+            $term_id = (int) $this->request->getTableGlossaryTermListIds()[0];
+            $this->term = new ilGlossaryTerm($term_id);
+        } else {
+            $this->term = new ilGlossaryTerm($this->request->getTermId());
+        }
         $this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($this->term->getId()), false);
         $this->tabs_gui = $ilTabs;
 
@@ -154,7 +160,7 @@ class ilTermDefinitionEditorGUI
 
                 $page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass(
                     "ilobjglossarygui",
-                    "quickList",
+                    "",
                     "",
                     false,
                     false

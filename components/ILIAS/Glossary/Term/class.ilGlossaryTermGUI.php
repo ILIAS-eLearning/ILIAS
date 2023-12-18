@@ -41,6 +41,8 @@ class ilGlossaryTermGUI
     protected ilToolbarGUI $toolbar;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
+    protected \ILIAS\Glossary\InternalDomainService $domain;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct(
         int $a_id = 0
@@ -63,6 +65,8 @@ class ilGlossaryTermGUI
             ->gui()
             ->editing()
             ->request();
+        $this->domain = $DIC->glossary()->internal()->domain();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->log = ilLoggerFactory::getLogger('glo');
 
@@ -96,7 +100,6 @@ class ilGlossaryTermGUI
             case "iltermdefinitioneditorgui":
                 $def_edit = new ilTermDefinitionEditorGUI();
                 $this->ctrl->forwardCommand($def_edit);
-                $this->quickList();
                 break;
 
             case "ilpropertyformgui":
@@ -113,7 +116,6 @@ class ilGlossaryTermGUI
                     $this->term->getId()
                 );
                 $this->ctrl->forwardCommand($md_gui);
-                $this->quickList();
                 break;
 
             default:
@@ -165,8 +167,6 @@ class ilGlossaryTermGUI
         }
 
         $this->tpl->setContent($ilCtrl->getHTML($a_form));
-
-        $this->quickList();
     }
 
     public function getEditTermForm(): ilPropertyFormGUI
@@ -355,7 +355,14 @@ class ilGlossaryTermGUI
 
         $ilHelp->setScreenIdComponent("glo_term");
 
-        if ($this->request->getTermId() > 0) {
+        $term_id = 0;
+        if (!empty($this->request->getTableGlossaryTermListIds())
+            && $this->request->getTableGlossaryTermListIds()[0] > 0) {
+            $term_id = $this->request->getTableGlossaryTermListIds()[0];
+        } elseif ($this->request->getTermId() > 0) {
+            $term_id = $this->request->getTermId();
+        }
+        if ($term_id > 0) {
             $this->tabs_gui->addTab(
                 "properties",
                 $lng->txt("term"),
@@ -364,7 +371,7 @@ class ilGlossaryTermGUI
 
             $this->tabs_gui->addTab(
                 "usage",
-                $lng->txt("cont_usage") . " (" . ilGlossaryTerm::getNumberOfUsages($this->request->getTermId()) . ")",
+                $lng->txt("cont_usage") . " (" . ilGlossaryTerm::getNumberOfUsages($term_id) . ")",
                 $this->ctrl->getLinkTarget($this, "listUsages")
             );
 
@@ -388,7 +395,7 @@ class ilGlossaryTermGUI
                 ILIAS_HTTP_PATH .
                 "/goto.php?target=" .
                 "git" .
-                "_" . $this->request->getTermId() . "_" . $this->request->getRefId() . "&client_id=" . CLIENT_ID,
+                "_" . $term_id . "_" . $this->request->getRefId() . "&client_id=" . CLIENT_ID,
                 "_top"
             );
         }
@@ -454,21 +461,8 @@ class ilGlossaryTermGUI
         $this->tpl->setTitle($this->lng->txt("cont_term") . ": " . $this->term->getTerm());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
 
-        $tab = new ilTermUsagesTableGUI($this, "listUsages", $this->request->getTermId());
+        $table = $this->domain->table()->getTermUsagesTable($this->request->getTermId())->getComponent();
 
-        $tpl->setContent($tab->getHTML());
-
-        $this->quickList();
-    }
-
-    /**
-     * Set quick term list cmd into left navigation URL
-     */
-    public function quickList(): void
-    {
-        $tpl = $this->tpl;
-
-        $tab = new ilTermQuickListTableGUI($this, "editTerm");
-        $tpl->setLeftNavContent($tab->getHTML());
+        $tpl->setContent($this->ui_ren->render($table));
     }
 }

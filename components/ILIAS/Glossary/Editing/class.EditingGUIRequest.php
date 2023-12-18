@@ -77,9 +77,9 @@ class EditingGUIRequest
         return $this->int("search_root_expand");
     }
 
-    public function getGlossaryId(): int
+    public function getGlossaryIdInModal(): int
     {
-        return $this->int("glo_id");
+        return $this->getInterruptiveItemIds()[0];
     }
 
     public function getForeignGlossaryRefId(): int
@@ -121,14 +121,6 @@ class EditingGUIRequest
     /**
      * @return int[]
      */
-    public function getTermIds(): array
-    {
-        return $this->intArray("term_id");
-    }
-
-    /**
-     * @return int[]
-     */
     public function getTaxNodes(): array
     {
         return $this->intArray("tax_node");
@@ -150,5 +142,65 @@ class EditingGUIRequest
     public function getBulkCreationData(): string
     {
         return $this->str("bulk_data");
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getTableIds(string $key): array
+    {
+        return $this->strArray($key);
+    }
+
+    protected function getTableAction(string $key): string
+    {
+        return $this->str($key);
+    }
+
+    public function getTableGlossaryAutoLinkAction(): string
+    {
+        return $this->getTableAction("glo_auto_link_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableGlossaryAutoLinkIds(): array
+    {
+        return $this->getTableIds("glo_auto_link_table_glo_ids");
+    }
+
+    public function getTableGlossaryForeignTermAction(): string
+    {
+        return $this->getTableAction("glo_foreign_term_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableGlossaryForeignTermIds(): array
+    {
+        return $this->getTableIds("glo_foreign_term_table_term_ids");
+    }
+
+    public function getTableGlossaryTermListAction(): string
+    {
+        return $this->getTableAction("glo_term_list_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableGlossaryTermListIds(): array
+    {
+        return $this->getTableIds("glo_term_list_table_term_ids");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getTermIdsInModal(): array
+    {
+        return $this->getInterruptiveItemIds();
     }
 }

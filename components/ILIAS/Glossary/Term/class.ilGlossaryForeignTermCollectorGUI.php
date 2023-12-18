@@ -25,6 +25,7 @@ class ilGlossaryForeignTermCollectorGUI
     protected ilObjGlossary $foreign_glossary;
     protected \ILIAS\Glossary\Editing\EditingGUIRequest $request;
     protected \ILIAS\Glossary\Term\TermManager $term_manager;
+    protected \ILIAS\components\ILIAS\Glossary\Table\TableManager $table_manager;
     protected ilObjGlossaryGUI $glossary_gui;
     protected ilObjGlossary $glossary;
     protected int $fglo_ref_id;
@@ -32,6 +33,13 @@ class ilGlossaryForeignTermCollectorGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjUser $user;
+    protected \ILIAS\UI\Renderer $ui_ren;
+    protected string $requested_table_glossary_foreign_term_action = "";
+
+    /**
+     * @var string[]
+     */
+    protected array $requested_table_glossary_foreign_term_ids = [];
 
     protected function __construct(
         ilObjGlossaryGUI $a_glossary_gui
@@ -42,6 +50,7 @@ class ilGlossaryForeignTermCollectorGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->glossary_gui = $a_glossary_gui;
         /** @var ilObjGlossary $glossary */
@@ -55,11 +64,17 @@ class ilGlossaryForeignTermCollectorGUI
                 $this->glossary,
                 $this->user->getId()
             );
+        $this->table_manager = $DIC->glossary()
+            ->internal()
+            ->domain()
+            ->table();
         $this->request = $DIC->glossary()
             ->internal()
             ->gui()
             ->editing()
             ->request();
+        $this->requested_table_glossary_foreign_term_action = $this->request->getTableGlossaryForeignTermAction();
+        $this->requested_table_glossary_foreign_term_ids = $this->request->getTableGlossaryForeignTermIds();
 
         $this->fglo_ref_id = $this->request->getForeignGlossaryRefId();
         if ($this->fglo_ref_id > 0 && ilObject::_lookupType($this->fglo_ref_id, true) == "glo") {
@@ -121,42 +136,61 @@ class ilGlossaryForeignTermCollectorGUI
 
     public function showTerms(): void
     {
-        $t = new ilGlossaryForeignTermTableGUI($this, "showTerms", $this->foreign_glossary);
+        $table = $this->table_manager->getGlossaryForeignTermTable($this->foreign_glossary)->getComponent();
 
-        $this->tpl->setContent($t->getHTML());
+        $this->tpl->setContent($this->ui_ren->render($table));
     }
 
     public function copyTerms(): void
     {
-        $term_ids = $this->request->getTermIds();
-        if (count($term_ids) == 0) {
+        if ($this->requested_table_glossary_foreign_term_action === "copyTerms"
+            && !empty($this->requested_table_glossary_foreign_term_ids)
+            && $this->requested_table_glossary_foreign_term_ids[0] === "ALL_OBJECTS"
+        ) {
+            foreach ($this->foreign_glossary->getTermList() as $term) {
+                $this->term_manager->copyTermFromOtherGlossary(
+                    $this->foreign_glossary->getRefId(),
+                    (int) $term["id"]
+                );
+            }
+        } elseif ($this->requested_table_glossary_foreign_term_action === "copyTerms") {
+            foreach ($this->requested_table_glossary_foreign_term_ids as $term_id) {
+                $this->term_manager->copyTermFromOtherGlossary(
+                    $this->foreign_glossary->getRefId(),
+                    (int) $term_id
+                );
+            }
+        }
+        if (empty($this->requested_table_glossary_foreign_term_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "showTerms");
         }
-        foreach ($term_ids as $id) {
-            $this->term_manager->copyTermFromOtherGlossary(
-                $this->foreign_glossary->getRefId(),
-                $id
-            );
-        }
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->returnToParent($this);
     }
 
     public function referenceTerms(): void
     {
-        $term_ids = $this->request->getTermIds();
-        if (count($term_ids) == 0) {
+        $term_ids = [];
+        if ($this->requested_table_glossary_foreign_term_action === "referenceTerms"
+            && !empty($this->requested_table_glossary_foreign_term_ids)
+            && $this->requested_table_glossary_foreign_term_ids[0] === "ALL_OBJECTS"
+        ) {
+            foreach ($this->foreign_glossary->getTermList() as $term) {
+                $term_ids[] = (int) $term["id"];
+            }
+        } elseif ($this->requested_table_glossary_foreign_term_action === "referenceTerms") {
+            $term_ids = array_map("intval", $this->requested_table_glossary_foreign_term_ids);
+        }
+        if (empty($term_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "showTerms");
         }
-        $terms = array();
-        foreach ($term_ids as $id) {
-            $terms[] = $id;
-        }
+
         $this->term_manager->referenceTermsFromOtherGlossary(
             $this->foreign_glossary->getRefId(),
-            $terms
+            $term_ids
         );
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
