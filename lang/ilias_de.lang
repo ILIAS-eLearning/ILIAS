@@ -12791,7 +12791,7 @@ orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
 orgu#:#edit_translations#:#Titel und Beschreibung
 orgu#:#employee#:#Mitarbeiter
 orgu#:#ext_id#:#Externe ID
-orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Daten anonymisiert gespeichert werden.
+orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich aktualisiert.
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#import_failed#:#Der Import ist fehlgeschlagen. Stellen Sie sicher, dass die Datei im XML-Format geschrieben ist und eine valide Struktur aufweist.
 orgu#:#import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu erstellt: %s, Bearbeitet/Verschoben: %s, Gelöscht: %s.
