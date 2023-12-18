@@ -2476,64 +2476,65 @@ blog#:#blog_toggle_draft#:#Withdraw Publication
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_toggle_final#:#Publish Posting
 blog#:#blog_whole_blog#:#Whole Blog
-book#:#X_reservations_of#:#%s reservations of
+book#:#X_reservations_of#:#%s booking(s) of
 book#:#book_add#:#Add Booking Pool
-book#:#book_add_object#:#Add Object
+book#:#book_add_object#:#Add Item
 book#:#book_add_schedule#:#Add Schedule
 book#:#book_additional_info_file#:#Additional Description
 book#:#book_all#:#Show all
-book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.
+book#:#book_all_pools_need_schedules#:#Settings not saved. All selected booking pools need to have at least one schedule.
 book#:#book_all_users#:#All Participants
-book#:#book_assign#:#Assign
-book#:#book_assign_object#:#Assign Booking Object
-book#:#book_assign_participant#:#Assign to Participant
+book#:#book_assign#:#Book
+book#:#book_assign_object#:#Book Items for Participant
+book#:#book_assign_participant#:#Book for Other Participant(s)
 book#:#book_back_to_list#:#Back to List
-book#:#book_bobj#:#Booking Object
+book#:#book_bobj#:#Booked Items
 book#:#book_book#:#Book
 book#:#book_book_available#:#Book Available Dates
 book#:#book_book_recurrence#:#Book multiple dates
-book#:#book_booked_in#:#Booked in
+book#:#book_booked_in#:#Booked In
 book#:#book_booking#:#Booking
 book#:#book_booking_information#:#Information
-book#:#book_booking_objects#:#Booking Objects
-book#:#book_booking_reminders#:#Upcoming reservations
+book#:#book_booking_objects#:#Bookable Items
+book#:#book_booking_reminders#:#Upcoming Bookings
 book#:#book_bookings_per_user#:#Bookings per User
-book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.
+book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.
 book#:#book_bulk_creation#:#Bulk Creation
-book#:#book_bulk_data#:#Object Data
-book#:#book_cal_entry#:#Booking of:
+book#:#book_bulk_data#:#Item Data
+book#:#book_cal_entry#:#Booking:
 book#:#book_confirm_booking#:#Confirm Booking
-book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?
+book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following item?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
-book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservations?
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following booking(s)?
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
-book#:#book_confirm_delete#:#Do you really want to delete the following items?
+book#:#book_confirm_delete#:#Are you sure you want to delete the following items?
 book#:#book_copy#:#Copy Booking Pool
-book#:#book_create_objects#:#Create Objects
+book#:#book_create_objects#:#Create Items
 book#:#book_deadline#:#Deadline
-book#:#book_deadline_hours#:#X hours prior to booking period
+book#:#book_deadline_hours#:#X hours before time slot begins
 book#:#book_deadline_info#:#Minimum time between booking and booked period
-book#:#book_deadline_options#:#Booking deadline
-book#:#book_deadline_slot_end#:#Until end of booking period
-book#:#book_deadline_slot_start#:#Until begin of booking period
-book#:#book_deassign#:#Deassign
+book#:#book_deadline_options#:#Bookings Can Be Made Until:
+book#:#book_deadline_slot_end#:#Time slot ends
+book#:#book_deadline_slot_start#:#Time slot begins
+book#:#book_deassign#:#Edit Bookings
 book#:#book_download_info#:#Download Additional Description
 book#:#book_edit#:#Edit Booking Pool
-book#:#book_edit_object#:#Edit Object
+book#:#book_edit_object#:#Edit Bookable Item
 book#:#book_edit_schedule#:#Edit Schedule
-book#:#book_filter_past_reservations#:#Show past reservations
+book#:#book_filter_past_reservations#:#Show Past Bookings
 book#:#book_fromto#:#Date Range
-book#:#book_hours#:#Hours
-book#:#book_is_used#:#Is Used
-book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
+book#:#book_hours#:#Hours before start of timeslot.
+book#:#book_is_used#:#In Use
+book#:#book_limit_objects_available#:#You cannot book this item for %s participants. ‘%s’ is only available %s times.
 book#:#book_list#:#List
-book#:#book_log#:#Reservations
+book#:#book_log#:#Bookings
 book#:#book_mail_permanent_link#:#Link to Booking Pool
 book#:#book_mail_to_booker#:#Mail to User
 book#:#book_message#:#Message
-book#:#book_message_info#:#You may enter a message for the booking organisator here.
+book#:#book_message_info#:#You may enter a message for the booking organiser here.
 book#:#book_messages#:#Messages
-book#:#book_messages_info#:#Users may add a message when booking an object.
+book#:#book_messages_info#:#Allow users to add a message when booking an item.
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.
 book#:#book_missing_items#:#$1 missing item(s).
 book#:#book_new#:#New Booking Pool

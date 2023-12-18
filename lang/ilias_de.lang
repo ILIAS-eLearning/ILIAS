@@ -2476,64 +2476,65 @@ blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 blog#:#blog_toggle_final#:#Beitrag veröffentlichen
 blog#:#blog_whole_blog#:#Gesamtes Blog
-book#:#X_reservations_of#:#%s Reservierungen von
+book#:#X_reservations_of#:#%s Buchungen von
 book#:#book_add#:#Buchungspool anlegen
-book#:#book_add_object#:#Objekt hinzufügen
-book#:#book_add_schedule#:#Zeitraster hinzufügen
+book#:#book_add_object#:#Angebot hinzufügen
+book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
 book#:#book_all#:#Alle anzeigen
-book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle zugeordneten Buchungspools benötigen mindestens einen Zeitplan.
+book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle ausgewählten Buchungspools benötigen mindestens einen Zeitplan.
 book#:#book_all_users#:#Alle Teilnehmer
-book#:#book_assign#:#Zuweisen
-book#:#book_assign_object#:#Buchungsobjekt zuweisen
-book#:#book_assign_participant#:#Teilnehmer zuweisen
+book#:#book_assign#:#Buchen
+book#:#book_assign_object#:#Für Teilnehmer buchen
+book#:#book_assign_participant#:#Für andere Teilnehmer buchen
 book#:#book_back_to_list#:#Zurück zur Liste
-book#:#book_bobj#:#Buchungsobjekt
+book#:#book_bobj#:#Angebote
 book#:#book_book#:#Buchen
 book#:#book_book_available#:#Verfügbare Termine buchen
 book#:#book_book_recurrence#:#Wiederholungen buchen
 book#:#book_booked_in#:#Gebucht in
 book#:#book_booking#:#Buchung
 book#:#book_booking_information#:#Information
-book#:#book_booking_objects#:#Buchungsobjekte
-book#:#book_booking_reminders#:#Anstehende Reservierungen
+book#:#book_booking_objects#:#Angebote
+book#:#book_booking_reminders#:#Anstehende Buchungen
 book#:#book_bookings_per_user#:#Buchungen je Benutzer
 book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
 book#:#book_bulk_creation#:#Massenerstellung
-book#:#book_bulk_data#:#Objektdaten
-book#:#book_cal_entry#:#Buchung von:
+book#:#book_bulk_data#:#Daten zu Angeboten
+book#:#book_cal_entry#:#Buchung:
 book#:#book_confirm_booking#:#Buchung vornehmen
-book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
+book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Angebot buchen wollen?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
-book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung stornieren möchten?
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.
+book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Buchungen stornieren möchten?
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
-book#:#book_confirm_delete#:#Wollen Sie wirklich die nachfolgende Objekte löschen?
+book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen?
 book#:#book_copy#:#Buchungspool kopieren
-book#:#book_create_objects#:#Objekte erstellen
-book#:#book_deadline#:#Zeitspanne
+book#:#book_create_objects#:#Angebote erstellen
+book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
 book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_slot_end#:#Bis zum Ende des Zeitfensters
 book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
-book#:#book_deassign#:#Zuweisung aufheben
+book#:#book_deassign#:#Buchungen bearbeiten
 book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen
-book#:#book_edit#:#Belegungsplan bearbeiten
-book#:#book_edit_object#:#Objekt ändern
-book#:#book_edit_schedule#:#Zeitplan editieren
-book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
+book#:#book_edit#:#Buchungspool bearbeiten
+book#:#book_edit_object#:#Angebot bearbeiten
+book#:#book_edit_schedule#:#Zeitplan bearbeiten
+book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
 book#:#book_fromto#:#Datumsbereich
-book#:#book_hours#:#Stunden
+book#:#book_hours#:#Stunden vor Beginn des Zeitfensters
 book#:#book_is_used#:#In Benutzung
-book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#book_limit_objects_available#:#Dieses Angebot können Sie nicht für %s Teilnehmer buchen. "%s" ist nur %s Mal verfügbar.
 book#:#book_list#:#Liste
-book#:#book_log#:#Reservierungen
+book#:#book_log#:#Buchungen
 book#:#book_mail_permanent_link#:#Link zum Buchungspool
 book#:#book_mail_to_booker#:#Mail an den Buchenden
 book#:#book_message#:#Mitteilung
 book#:#book_message_info#:#Sie können hier eine Mitteilung an den Organisator des Buchungspools eingeben.
 book#:#book_messages#:#Mitteilungen
-book#:#book_messages_info#:#Buchende können einer Reservierung eine Mitteilung mitgeben.
+book#:#book_messages_info#:#Buchende können einer Buchung eine Mitteilung mitgeben.
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
 book#:#book_missing_items#:#Es fehlen $1.
 book#:#book_new#:#Neuen Buchungspool anlegen
