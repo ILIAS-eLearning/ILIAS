@@ -3514,7 +3514,7 @@ common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
 common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragetypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragetypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragetypen entfernen.
 common#:#assf_questiontypes#:#Frageneinstellungen
-common#:#assign#:#Zuweisen
+common#:#assign#:#Antrag annehmen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assigned_members#:#Zugeordnete Teilnehmer
