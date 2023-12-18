@@ -952,7 +952,7 @@ assessment#:#parseQuestion#:#Frage analysieren
 assessment#:#part_received_a_of_b_points#:#Der Teilnehmer hat %s von %s möglichen Punkten erreicht.
 assessment#:#participants#:#Teilnehmer
 assessment#:#participants_invitation#:#Nur ausgewählte Teilnehmer
-assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Dashboard" hinzugefügt wurden.
+assessment#:#participants_invitation_description#:#Der Test kann nur von Personen durchgeführt werden, deren ILIAS-Konto zuvor im Reiter „Teilnehmer“ hinzugefügt wurde.
 assessment#:#participants_results_subtab#:#Alle Teilnehmer
 assessment#:#pass#:#Durchlauf
 assessment#:#pass_finished#:#%s Durchlauf
@@ -1664,7 +1664,7 @@ assessment#:#tst_previous_access_code_not_available#:#Kein vorheriger Code verf�
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_proceed#:#Fortfahren
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
-assessment#:#tst_processing_time_desc#:#Nutzen Sie diese Einstellung für E-Klausuren/Fernklausuren, damit Teilnehmer einen festen Zeitraum für die Bearbeitung des Tests bekommen. Die Zeit läuft für jeden Teilnehmer ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Dashboard“ eine Funktion, um Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
+assessment#:#tst_processing_time_desc#:#Teilnehmer dürfen den Test nur während eines vorgegebenen Zeitraums bearbeiten. Die Zeit läuft für jede Person ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Teilnehmer“ eine Funktion, um einzelnen Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
 assessment#:#tst_processing_time_duration#:#Bearbeitungsdauer in Minuten
 assessment#:#tst_processing_time_duration_desc#:#Maximal zur Verfügung stehende Zeit zur Durchführung des Tests
 assessment#:#tst_qbt_filter_question_title#:#Fragentitel
