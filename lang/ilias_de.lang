@@ -2536,57 +2536,57 @@ book#:#book_messages_info#:#Buchende können einer Buchung eine Mitteilung mitge
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
 book#:#book_missing_items#:#Es fehlen $1.
 book#:#book_new#:#Neuen Buchungspool anlegen
-book#:#book_no_bookings_for_you#:#Es wurden keine Reservierungen für Sie durchgeführt.
-book#:#book_no_objects#:#Keine Zuweisung
-book#:#book_no_of_objects#:#Anzahl Objekte
+book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
+book#:#book_no_objects#:#Keine Buchungen
+book#:#book_no_of_objects#:#Anzahl Angebote
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
-book#:#book_no_recurrence#:#nur diesen Termin buchen
+book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_cron_not_active#:#Achtung: Der notwendige Cron-Job "Benachrichtigungen über Reservierungen" ist zurzeit nicht aktiviert.
-book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
+book#:#book_notification_info#:#Sendet eine Liste der Buchungen des nächsten Tages an den jeweiligen Teilnehmer (nur eigene) und – wenn aktiviert – an die Administratoren.
 book#:#book_nr_of_preferences#:#Anzahl
-book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben darf.
+book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben muss.
 book#:#book_nr_preferences#:#Präferenzen
 book#:#book_obj_select#:#Auswählen
-book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
-book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
-book#:#book_object_selection#:#Objektauswahl
-book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
-book#:#book_objects_available#:#Verfügbare Objekte: %s
+book#:#book_object_added#:#Ein Angebot wurde hinzugefügt.
+book#:#book_object_deleted#:#Das Angebot wurde gelöscht.
+book#:#book_object_selection#:#Angebotsauswahl
+book#:#book_object_updated#:#Das Angebot wurde geändert.
+book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Begrenzung
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
 book#:#book_participant_already_assigned#:#Ein oder mehrere Teilnehmer waren bereits zugewiesen.
-book#:#book_participant_assigned#:#Teilnehmer wurde/n zugewiesen.
+book#:#book_participant_assigned#:#Teilnehmer wurde/n hinzugefügt.
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_pool_selection#:#Auswahl Buchungspool
 book#:#book_post_booking_file#:#Datei
-book#:#book_post_booking_information#:#Reservierungsinformationen
+book#:#book_post_booking_information#:#Informationen zur Buchung
 book#:#book_post_booking_text#:#Text
-book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Buchungsobjekt ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
+book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Angebot ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
 book#:#book_pref_book_cron#:#Buchung mit Präferenzen
-book#:#book_pref_book_cron_info#:#Automatische Buchung von Buchungen mit Präferenzen nach der Frist.
-book#:#book_pref_deadline#:#Enddatum
+book#:#book_pref_book_cron_info#:#Automatische Zuweisung von Buchungen auf der Grundlage von Präferenzen nach Ablauf der Frist.
+book#:#book_pref_deadline#:#Deadline
 book#:#book_pref_deadline_info#:#Bis zu diesem Zeitpunkt können Präferenzen abgegeben werden.
 book#:#book_pref_overview#:#Übersicht
 book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenz(en) bis %2. Nach der Frist werden die Zuordnungen auf der Basis der Präferenzen aller Teilnehmer automatisch durchgeführt.
 book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
-book#:#book_public_log#:#Benutzer sehen alle Reservierungen
-book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
+book#:#book_public_log#:#Benutzer sehen alle Buchungen
+book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Buchungen“ auch Buchungen anderer Benutzer einsehen.
 book#:#book_recurrence#:#Wiederholung
 book#:#book_refresh#:#Aktualisieren
-book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
+book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Buchungen.
 book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
 book#:#book_reminder_day#:#Versenden
-book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Reservierungen und zusätzlich eine Gesamtliste an Benutzer mit Schreibrechten.
-book#:#book_reminder_days#:#Tage vor der Reservierung
+book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Buchungen und zusätzlich eine Gesamtliste an Benutzenden mit dem Recht „Einstellungen bearbeiten“. Bitte beachten Sie: um Benachrichtigungen zu erhalten, müssen Teilnehmer diese über das Menü „Aktionen" oben rechts im Buchungspool „Benachrichtigungen“ aktiviert haben.
+book#:#book_reminder_days#:#Tage vor der Buchung
 book#:#book_reminder_setting#:#Teilnehmer an Reservierung erinnern
 book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
-book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle Reservierungen entfernen um Mehrfachzuweisungen zu verhindern.
+book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern. 
 book#:#book_reservation_available#:#%s verfügbar
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
