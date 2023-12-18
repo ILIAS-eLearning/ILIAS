@@ -3512,7 +3512,7 @@ common#:#assessment_settings_reporting_language#:#Reporting language
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_questiontypes#:#Question Settings
-common#:#assign#:#Assign
+common#:#assign#:#Accept Request
 common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_local_role#:#Assign to Local Role
 common#:#assigned_members#:#Assigned Members
@@ -5357,7 +5357,7 @@ common#:#reference_of#:#Reference of:
 common#:#referral_comment#:#How did you hear about ILIAS?
 common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh All Languages
-common#:#refuse#:#Refuse
+common#:#refuse#:#Refuse Request
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 common#:#reg_mail_body_2_confirmation#:#This link is only valid for %s. After this period has passed, the link will expire and you will have to restart the registration process from the beginning.
