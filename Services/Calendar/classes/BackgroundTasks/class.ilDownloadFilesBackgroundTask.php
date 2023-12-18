@@ -178,16 +178,21 @@ class ilDownloadFilesBackgroundTask
                 $this->logger->dump($files);
                 foreach ($files as $idx => $file_property) {
                     $this->logger->debug('Filename:' . $file_property->getFileName());
-                    $this->logger->debug('Ressource Id: ' . $file_property->getFileRId());
-
-                    $def->addCopyDefinition(
-                        $file_property->getFileRId(),
-                        $folder_date . '/' . $folder_app . '/' . $file_property->getFileName()
-                    );
+                    $ressource = '';
+                    $target = $folder_date . '/' . $folder_app . '/' . $file_property->getFileName();
+                    if (!is_null($file_property->getFileRId())) {
+                        $this->logger->debug('Ressource Id: ' . $file_property->getFileRId());
+                        $ressource = $file_property->getFileRId();
+                        $def->addCopyDefinitionRId($file_property->getFileRId(), $target);
+                    } else {
+                        $this->logger->debug('Absolute Path: ' . $file_property->getAbsolutePath());
+                        $ressource = $file_property->getAbsolutePath();
+                        $def->addCopyDefinition($file_property->getAbsolutePath(), $target);
+                    }
                     $this->logger->debug(
                         'Added new copy definition: ' .
                         $folder_date . '/' . $folder_app . '/' . $file_property->getFileName() . ' => ' .
-                        $file_property->getFileRId()
+                        $ressource
                     );
                 }
             } else {
