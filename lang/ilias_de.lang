@@ -13042,6 +13042,7 @@ prg#:#edit_participants#:#Zuweisungen bearbeiten
 prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
 prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
 prg#:#export_memberships#:#Zuweisungen exportieren
+prg#:#foreign_assignment#:#Nicht oberste Programmebene
 prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
 prg#:#header_remove_certificate#:#Wollen Sie das Zertifikat von den ausgewählten Benutzern wirklich entfernen?
 prg#:#header_update_certificate#:#Wollen Sie das Zertifikat wirklich aktualisieren?
@@ -13056,6 +13057,7 @@ prg#:#label_role#:#Rollenname
 prg#:#last_edited#:#Zuletzt bearbeitet
 prg#:#last_edited_by#:#Zuletzt bearbeitet von
 prg#:#mail_assignments#:#Mail an zugewiesene Benutzer
+prg#:#mails_foreign_assignment_failed#:#Die ausgewählten Zuweisungen sind nicht im aktuellen Kontext; Mails sollten nur auf der obersten Ebene des Studienprogramms verschickt werden:
 prg#:#manage_assignments#:#Zuweisungen verwalten
 prg#:#membership_source_id#:#Id
 prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-Id</b>
