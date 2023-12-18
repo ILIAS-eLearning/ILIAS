@@ -57,7 +57,7 @@ class ilFileProperty
         $this->file_rid = $file_rid;
     }
 
-    public function getFileRId(): string|null
+    public function getFileRId(): ?string
     {
         return $this->file_rid ?? null;
     }

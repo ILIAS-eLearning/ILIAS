@@ -167,27 +167,19 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 
     protected function copyWithAbsolutePath(string $tmpdir, array $copy_task)
     {
-        if (!file_exists($copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR])) {
-            $this->logger->notice('Cannot find file: ' . $copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR]);
+        $absolute_path = $copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_ABSOLUTE_PATH];
+        $target_dir = $copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_TARGET_DIR];
+
+        if (!file_exists($absolute_path)) {
+            $this->logger->notice('Cannot find file: ' . $absolute_path);
             return;
         }
 
-        $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR]));
-        ilFileUtils::makeDirParents(
-            $tmpdir . '/' . dirname($copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR])
-        );
+        $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($target_dir));
+        ilFileUtils::makeDirParents($tmpdir . '/' . dirname($target_dir));
+        $this->logger->debug('Copying from: ' . $absolute_path . ' to ' . $tmpdir . '/' . $target_dir);
 
-        $this->logger->debug(
-            'Copying from: ' .
-            $copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR] .
-            ' to ' .
-            $tmpdir . '/' . $copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR]
-        );
-
-        copy(
-            $copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR],
-            $tmpdir . '/' . $copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR]
-        );
+        copy($absolute_path, $tmpdir . '/' . $target_dir);
     }
 
     /**
