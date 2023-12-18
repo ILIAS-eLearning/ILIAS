@@ -851,9 +851,6 @@ class ilInitialisation
             // init console log handler
             ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
             \ilOnlineTracking::updateAccess($DIC->user());
-
-            unset($DIC['refinery']);
-            self::initRefinery($DIC);
         } else {
             if (is_object($GLOBALS['ilLog'])) {
                 $GLOBALS['ilLog']->logStack();
@@ -1008,6 +1005,9 @@ class ilInitialisation
                 $DIC->offsetUnset('lng');
             }
             self::initGlobal('lng', ilLanguage::getGlobalInstance());
+            //re-init refinery with the user's language
+            unset($DIC['refinery']);
+            self::initRefinery($DIC);
         } else {
             self::initGlobal('lng', ilLanguage::getFallbackInstance());
         }
