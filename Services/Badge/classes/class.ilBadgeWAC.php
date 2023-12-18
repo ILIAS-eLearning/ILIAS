@@ -23,6 +23,14 @@ class ilBadgeWAC implements ilWACCheckingClass
 {
     public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
-        return true;
+        if (strpos($ilWACPath->getPath(), '..') !== false) {
+            return false;
+        }
+
+        if (preg_match('@ilBadge\/badge(.*?)\/@ui', $ilWACPath->getPath())) {
+            return true;
+        }
+
+        return false;
     }
 }
