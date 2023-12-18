@@ -86,6 +86,8 @@ class ilWACPath
 
     public function __construct(string $path)
     {
+        $path = $this->normalizePath($path);
+
         $this->setOriginalRequest($path);
         $re = '/' . self::REGEX . '/';
         preg_match($re, $path, $result);
@@ -226,6 +228,24 @@ class ilWACPath
     public static function setVideoSuffixes(array $video_suffixes): void
     {
         self::$video_suffixes = $video_suffixes;
+    }
+
+    protected function normalizePath(string $path): string
+    {
+        $original_path = parse_url($path, PHP_URL_PATH);
+        $query = parse_url($path, PHP_URL_QUERY);
+        $base_path = strstr(realpath("." . $original_path), '/' . self::DIR_DATA . '/', true) . '/';
+        $realpath = realpath("." . $original_path);
+        if ($realpath === false) {
+            return $path;
+        }
+        $normalized_path = str_replace(
+            $base_path,
+            '',
+            $realpath
+        );
+
+        return "/" . $normalized_path . (!empty($query) ? '?' . $query : '');
     }
 
     public function getPrefix(): string
