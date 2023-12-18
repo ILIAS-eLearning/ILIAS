@@ -110,8 +110,17 @@ class ilStudyProgrammeDIC
                  $DIC['ilAccess'],
                  $DIC->http()->wrapper(),
                  $DIC->refinery(),
-                 $dic['permissionhelper']
+                 $dic['permissionhelper'],
+                 $prg->getId(),
+                 $dic['PRGMessages']
              );
+
+        $dic['PRGMessages'] = static fn($dic): ilPRGMessagePrinter =>
+            new ilPRGMessagePrinter(
+                new ilPRGMessageCollection(),
+                $DIC['lng'],
+                $DIC['tpl']
+            );
 
         $dic['DataFactory'] = static fn($dic) => new \ILIAS\Data\Factory();
 
@@ -299,16 +308,7 @@ class ilStudyProgrammeDIC
             new \ILIAS\Data\Factory();
         $dic['ilOrgUnitObjectTypePositionSetting'] = static fn($dic) =>
             new ilOrgUnitObjectTypePositionSetting('prg');
-        $dic['ilStudyProgrammeMailMemberSearchGUI'] = static fn($dic) =>
-            new ilStudyProgrammeMailMemberSearchGUI(
-                $DIC['ilCtrl'],
-                $DIC['tpl'],
-                $DIC['lng'],
-                $DIC['ilAccess'],
-                $DIC->http()->wrapper(),
-                $DIC->refinery(),
-                $dic['permissionhelper']
-            );
+
         $dic['ilStudyProgrammeChangeExpireDateGUI'] = static fn($dic) =>
             new ilStudyProgrammeChangeExpireDateGUI(
                 $DIC['ilCtrl'],
