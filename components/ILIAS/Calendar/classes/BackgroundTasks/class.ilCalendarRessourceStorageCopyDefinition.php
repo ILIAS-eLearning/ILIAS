@@ -24,6 +24,7 @@ use ILIAS\BackgroundTasks\Value;
 class ilCalendarRessourceStorageCopyDefinition extends AbstractValue
 {
     public const COPY_RESSOURCE_ID = 'ressource_id';
+    public const COPY_ABSOLUTE_PATH = 'absolute_path';
     public const COPY_TARGET_DIR = 'target';
 
     private array $copy_definitions = [];
@@ -73,11 +74,22 @@ class ilCalendarRessourceStorageCopyDefinition extends AbstractValue
     /**
      * Add copy definition
      */
-    public function addCopyDefinition(string $a_ressource_id, string $a_target): void
+    public function addCopyDefinition(string $a_path, string $a_target): void
+    {
+        $this->copy_definitions[] =
+            [
+                self::COPY_RESSOURCE_ID => null,
+                self::COPY_ABSOLUTE_PATH => $a_path,
+                self::COPY_TARGET_DIR => $a_target
+            ];
+    }
+
+    public function addCopyDefinitionRId(string $a_ressource_id, string $a_target): void
     {
         $this->copy_definitions[] =
             [
                 self::COPY_RESSOURCE_ID => $a_ressource_id,
+                self::COPY_ABSOLUTE_PATH => null,
                 self::COPY_TARGET_DIR => $a_target
             ];
     }
