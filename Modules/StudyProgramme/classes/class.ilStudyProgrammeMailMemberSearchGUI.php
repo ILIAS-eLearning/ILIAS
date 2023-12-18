@@ -39,7 +39,9 @@ class ilStudyProgrammeMailMemberSearchGUI
         ilAccessHandler $access,
         ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
         ILIAS\Refinery\Factory $refinery,
-        ilPRGPermissionsHelper $permission_helper
+        ilPRGPermissionsHelper $permission_helper,
+        protected int $context_prg_obj_id,
+        protected ilPRGMessagePrinter $messages,
     ) {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
@@ -112,31 +114,42 @@ class ilStudyProgrammeMailMemberSearchGUI
     protected function getProcessData(): array
     {
         $data = [];
-
+        $usr_ids = [];
         foreach ($this->getAssignments() as $assignment) {
-            $user_id = $assignment->getUserId();
-            $name = ilObjUser::_lookupName($user_id);
-            $login = ilObjUser::_lookupLogin($user_id);
-
+            $usr_id = $assignment->getUserId();
+            $name = ilObjUser::_lookupName($usr_id);
+            $login = ilObjUser::_lookupLogin($usr_id);
             $publicName = $name['lastname'] . ', ' . $name['firstname'];
-
-            $data[$user_id]['user_id'] = $user_id;
-            $data[$user_id]['login'] = $login;
-            $data[$user_id]['name'] = $publicName;
+            $data[] = [
+                'user_id' => $usr_id,
+                'login' => $login,
+                'name' => $publicName,
+                'root_id' => $assignment->getRootId()
+            ];
+            $usr_ids[] = $usr_id;
         }
 
         $allowed_user_ids = $this->permission_helper->filterUserIds(
-            array_keys($data),
+            array_unique($usr_ids),
             ilOrgUnitOperation::OP_MANAGE_MEMBERS
         );
 
         $ret = [];
-        foreach ($data as $usr_id => $entry) {
-            if (in_array($usr_id, $allowed_user_ids)) {
-                $ret[$usr_id] = $entry;
+        $foreign = $this->messages->getMessageCollection('mails_foreign_assignment');
+
+        foreach($data as  $entry) {
+            if($entry['root_id'] === $this->context_prg_obj_id) {
+                $ret[$entry['user_id']] = $entry;
+            } else {
+                $foreign->add(false, 'foreign_assignment', $entry['name']);
             }
         }
-        
+
+        if($foreign->hasErrors()) {
+            $this->messages->showMessages($foreign);
+        }
+
+
         return $ret;
     }
 
