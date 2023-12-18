@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Node\Info\DOM;
+namespace ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM;
 
 use DOMAttr;
 use DOMNode;
 use ilImportException;
-use ImportHandler\I\File\XML\Node\Info\DOM\ilHandlerInterface as ilXMLFileNodeInfoilDOMNodeHandlerInterface;
-use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
-use ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\DOM\ilHandlerInterface as ilXMLFileNodeInfoilDOMNodeHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
 
 class ilHandler implements ilXMLFileNodeInfoilDOMNodeHandlerInterface
 {

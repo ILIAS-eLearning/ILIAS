@@ -18,23 +18,23 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML;
+namespace ILIAS\Export\ImportHandler\File\XML;
 
 use DOMDocument;
 use ILIAS\DI\Exceptions\Exception;
 use ilImportException;
-use ImportHandler\File\ilHandler as ilFileHandler;
-use ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
-use ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
-use ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
-use ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
-use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
-use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
-use ImportStatus\Exception\ilException as ilImportStatusException;
-use ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusCollectioninterface;
-use ImportStatus\StatusType;
-use Schema\ilXmlSchemaFactory;
+use ILIAS\Export\ImportHandler\File\ilHandler as ilFileHandler;
+use ILIAS\Export\ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectioninterface;
+use ILIAS\Export\ImportStatus\StatusType;
+use ILIAS\Export\Schema\ilXmlSchemaFactory;
 use SplFileInfo;
 
 class ilHandler extends ilFileHandler implements ilXMLFileHandlerInterface

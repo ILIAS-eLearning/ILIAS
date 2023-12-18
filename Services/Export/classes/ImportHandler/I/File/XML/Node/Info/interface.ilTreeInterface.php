@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Node\Info;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Node\Info;
 
-use ImportHandler\I\File\Path\ilHandlerInterface as ilXMLFilePathHandlerInterface;
-use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
-use ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
-use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
-use ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
-use ImportHandler\I\File\XML\Node\Info\Attribute\ilCollectionInterface as ilXMLFileNodeInfoAttributePairCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilXMLFilePathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilCollectionInterface as ilXMLFileNodeInfoAttributePairCollectionInterface;
 
 interface ilTreeInterface
 {

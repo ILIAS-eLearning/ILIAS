@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace Test\ImportHandler\File\Path\Node;
 
 use PHPUnit\Framework\TestCase;
-use ImportHandler\File\Path\Node\ilAnyNode as ilAnyNodeFilePathNode;
+use ILIAS\Export\ImportHandler\File\Path\Node\ilAnyNode as ilAnyNodeFilePathNode;
 
 class ilAnyNodeTest extends TestCase
 {

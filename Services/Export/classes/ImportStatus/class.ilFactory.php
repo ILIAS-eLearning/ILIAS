@@ -18,17 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus;
+namespace ILIAS\Export\ImportStatus;
 
-use ImportStatus\I\Content\ilFactoryInterface as ilImportStatusContentFactoryInterface;
-use ImportStatus\I\Exception\ilExceptionInterface as ilImportStatusExceptionInterface;
-use ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
-use ImportStatus\Content\ilFactory as ilImportStatusContentFactory;
-use ImportStatus\ilCollection as ilImportStatusHandlerCollection;
-use ImportStatus\ilHandler as ilImportStatusHandler;
-use ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportStatus\I\Content\ilFactoryInterface as ilImportStatusContentFactoryInterface;
+use ILIAS\Export\ImportStatus\I\Exception\ilExceptionInterface as ilImportStatusExceptionInterface;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
+use ILIAS\Export\ImportStatus\Content\ilFactory as ilImportStatusContentFactory;
+use ILIAS\Export\ImportStatus\ilCollection as ilImportStatusHandlerCollection;
+use ILIAS\Export\ImportStatus\ilHandler as ilImportStatusHandler;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
 
 class ilFactory implements ilImportStatusFactoryInterface
 {

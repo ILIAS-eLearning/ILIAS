@@ -18,15 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Path\Node;
+namespace ILIAS\Export\ImportHandler\I\File\Path\Node;
 
-use ImportHandler\I\File\Path\Node\ilSimpleInterface as ilSimpleFilePathNodeInterface;
-use ImportHandler\I\File\Path\Node\ilAnyElementInterface as ilAnyElementFilePathNodeInterface;
-use ImportHandler\I\File\Path\Node\ilAnyNodeInterface as ilAnyNodeFilePathNodeInterface;
-use ImportHandler\I\File\Path\Node\ilAttributeInterface as ilAttributeFilePathNodeInterface;
-use ImportHandler\I\File\Path\Node\ilIndexInterface as ilIndexFilePathNodeInterface;
-use ImportHandler\I\File\Path\Node\ilOpenRoundBrackedInterface as ilOpenRoundBrackedFilePathNodeInterface;
-use ImportHandler\I\File\Path\Node\ilCloseRoundBrackedInterface as ilCloseRoundBrackedFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilSimpleInterface as ilSimpleFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilAnyElementInterface as ilAnyElementFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilAnyNodeInterface as ilAnyNodeFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilAttributeInterface as ilAttributeFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilIndexInterface as ilIndexFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilOpenRoundBrackedInterface as ilOpenRoundBrackedFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilCloseRoundBrackedInterface as ilCloseRoundBrackedFilePathNodeInterface;
 
 interface ilFactoryInterface
 {

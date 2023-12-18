@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Node\Info\DOM;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Node\Info\DOM;
 
 use DOMNode;
-use ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoHandlerInterface;
 
 interface ilHandlerInterface extends ilXMLFileNodeInfoHandlerInterface
 {

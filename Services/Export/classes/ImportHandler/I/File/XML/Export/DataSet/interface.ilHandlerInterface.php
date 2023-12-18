@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Export\DataSet;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet;
 
-use ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
 use SplFileInfo;
 
 interface ilHandlerInterface extends ilXMLExportFileHandlerInterface

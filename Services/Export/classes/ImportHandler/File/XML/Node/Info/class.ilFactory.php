@@ -18,20 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Node\Info;
+namespace ILIAS\Export\ImportHandler\File\XML\Node\Info;
 
 use DOMNode;
 use ilLogger;
-use ImportHandler\File\XML\Node\Info\Attribute\ilFactory as ilXMLFileNodeInfoAttributeFactory;
-use ImportHandler\File\XML\Node\Info\ilCollection as ilFileNodeInfoCollection;
-use ImportHandler\File\XML\Node\Info\ilTree as ilXMLFileNodeInfoTree;
-use ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMLFileNodeInfoAttributeFactoryInterface;
-use ImportHandler\I\File\XML\Node\Info\DOM\ilFactoryInterface as ilXMLFileDOMNodeInfoFactoryInterface;
-use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
-use ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
-use ImportHandler\I\File\XML\Node\Info\ilTreeInterface as ilXMLFileNodeInfoTreeInterface;
-use ImportHandler\Parser\ilFactory as ilParserFactory;
-use ImportHandler\File\XML\Node\Info\DOM\ilFactory as ilXMLFileDOMNodeInfoFactory;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilFactory as ilXMLFileNodeInfoAttributeFactory;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\ilCollection as ilFileNodeInfoCollection;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\ilTree as ilXMLFileNodeInfoTree;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMLFileNodeInfoAttributeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\DOM\ilFactoryInterface as ilXMLFileDOMNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilTreeInterface as ilXMLFileNodeInfoTreeInterface;
+use ILIAS\Export\ImportHandler\Parser\ilFactory as ilParserFactory;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM\ilFactory as ilXMLFileDOMNodeInfoFactory;
 
 class ilFactory implements ilXMLFileNodeInfoFactoryInterface
 {

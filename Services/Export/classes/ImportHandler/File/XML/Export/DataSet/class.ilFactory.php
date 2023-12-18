@@ -18,20 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Export\DataSet;
+namespace ILIAS\Export\ImportHandler\File\XML\Export\DataSet;
 
 use ilLogger;
-use ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
-use ImportHandler\File\Path\ilFactory as ilFilePathFactory;
-use ImportHandler\File\XML\Node\Info\Attribute\ilFactory as ilXMLNodeInfoAttributeFactory;
-use ImportHandler\File\XSD\ilFactory as ilXSDFileFactory;
-use ImportHandler\I\File\XML\Export\DataSet\ilFactoryInterface as ilDataSetXMLExportFileFactoryInterface;
-use ImportHandler\I\File\XML\Export\DataSet\ilHandlerInterface as ilDatasetXMLExportFileHandlerInterface;
-use ImportHandler\File\XML\Export\DataSet\ilHandler as ilDatasetXMLExportFileHandler;
-use ImportHandler\Parser\ilFactory as ilParserFactory;
-use ImportStatus\ilFactory as ilImportStatusFactory;
-use ImportHandler\File\Validation\Set\ilFactory as ilFileValidationSetFactory;
-use Schema\ilXmlSchemaFactory;
+use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use ILIAS\Export\ImportHandler\File\Path\ilFactory as ilFilePathFactory;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilFactory as ilXMLNodeInfoAttributeFactory;
+use ILIAS\Export\ImportHandler\File\XSD\ilFactory as ilXSDFileFactory;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\ilFactoryInterface as ilDataSetXMLExportFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\ilHandlerInterface as ilDatasetXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\File\XML\Export\DataSet\ilHandler as ilDatasetXMLExportFileHandler;
+use ILIAS\Export\ImportHandler\Parser\ilFactory as ilParserFactory;
+use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\ImportHandler\File\Validation\Set\ilFactory as ilFileValidationSetFactory;
+use ILIAS\Export\Schema\ilXmlSchemaFactory;
 
 class ilFactory implements ilDataSetXMLExportFileFactoryInterface
 {

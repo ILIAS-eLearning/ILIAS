@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Namespace;
+namespace ILIAS\Export\ImportHandler\File\Namespace;
 
-use ImportHandler\I\File\Namespace\ilCollectionInterface as ilParserNamespaceCollectionInterface;
-use ImportHandler\I\File\Namespace\ilHandlerInterface as ilParserNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilCollectionInterface as ilParserNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilHandlerInterface as ilParserNamespaceHandlerInterface;
 
 class ilCollection implements ilParserNamespaceCollectionInterface
 {

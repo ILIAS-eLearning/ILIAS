@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Node\Info\Attribute;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute;
 
 interface ilPairInterface
 {

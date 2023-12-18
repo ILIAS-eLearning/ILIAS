@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I;
+namespace ILIAS\Export\ImportHandler\I;
 
-use ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
-use ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
 
 interface ilFactoryInterface
 {

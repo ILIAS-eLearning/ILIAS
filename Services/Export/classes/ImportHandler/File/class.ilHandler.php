@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File;
+namespace ILIAS\Export\ImportHandler\File;
 
 use ilImportException;
-use ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
-use ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
-use ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
-use ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
 use SplFileInfo;
 
 class ilHandler implements ilFileHandlerInterface

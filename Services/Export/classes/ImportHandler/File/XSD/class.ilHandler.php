@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XSD;
+namespace ILIAS\Export\ImportHandler\File\XSD;
 
-use ImportHandler\File\ilHandler as ilFileHandler;
-use ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
-use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
+use ILIAS\Export\ImportHandler\File\ilHandler as ilFileHandler;
+use ILIAS\Export\ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
 use SplFileInfo;
 
 class ilHandler extends ilFileHandler implements ilXSDFileHandlerInterface
