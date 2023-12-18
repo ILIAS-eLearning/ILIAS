@@ -2588,26 +2588,26 @@ book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Buchungen 
 book#:#book_reminder_days#:#Tage vor der Buchung
 book#:#book_reminder_setting#:#Teilnehmer an Reservierung erinnern
 book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
-book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern. 
+book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern.
 book#:#book_reservation_available#:#%s verfügbar
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
-book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das Objekt nicht mehr verfügbar ist.
+book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das betreffende Angebot nicht mehr verfügbar ist.
 book#:#book_reservation_filter_period#:#Voreinstellung für den Filter „Datumsbereich“
-book#:#book_reservation_filter_period_info#:#Im Reiter Reservierungen wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
-book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
-book#:#book_reservation_overview#:#Reservierungen aller Benutzer
+book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
+book#:#book_reservation_fix_info#:#Buchungen können nur für die Zeitfenster durchgeführt werden, die unten als verfügbar angegeben werden.
+book#:#book_reservation_overview#:#Buchungen aller Benutzer
 book#:#book_reservation_status_5#:#Storniert
 book#:#book_reservation_title#:#Buchungsanfrage für
-book#:#book_reservations_list#:#Reservierungen
+book#:#book_reservations_list#:#Buchungen
 book#:#book_schedule#:#Zeitplan
 book#:#book_schedule_added#:#Ein Zeitplan wurde hinzugefügt.
-book#:#book_schedule_days#:#Wochentage
+book#:#book_schedule_days#:#Zeitfenster
 book#:#book_schedule_days_info#:#Gültige Zeiten für jeden Tag (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Der Zeitplan wurde gelöscht.
-book#:#book_schedule_slot#:#Zeitraum
+book#:#book_schedule_slot#:#Zeitfenster
 book#:#book_schedule_type#:#Buchungsmodus
-book#:#book_schedule_type_fixed#:#Buchung zu Terminen
+book#:#book_schedule_type_fixed#:#Buchung nach festem Zeitplan
 book#:#book_schedule_type_fixed_info#:#Geeignet für Buchungen von Dingen für einen bestimmten Zeitraum, wie Räume, Dienstleistungen oder Geräte.
 book#:#book_schedule_type_none#:#No Schedule###12 12 2023 new variable
 book#:#book_schedule_type_none_direct#:#Buchung ohne Termine
@@ -2616,7 +2616,7 @@ book#:#book_schedule_type_none_info#:#Dieser Buchungsmodus ist geeignet für die
 book#:#book_schedule_type_none_preference#:#Automatisch nach Präferenzen verteilen
 book#:#book_schedule_type_none_preference_info#:#Teilnehmer benennen zunächst Präferenzen. Zu einem gewählten Enddatum werden dann die Buchungen automatisch vorgenommen. Der Buchungsmodus ist geeignet für Referatsthemen oder Seminarplätze, die ohne Termin vergeben werden.
 book#:#book_schedule_updated#:#Der Zeitplan wurde geändert.
-book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden (oder der Typ des Buchungspools geändert werden).
+book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden. Alternativ wählen Sie einen anderen Typ für den Buchungspool.
 book#:#book_schedules#:#Zeitpläne
 book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
@@ -2625,16 +2625,16 @@ book#:#book_show_message#:#Mitteilung anzeigen
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
-book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.
+book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
 book#:#book_week#:#Wochenansicht
-book#:#book_your_bookings#:#Ihre Reservierungen
+book#:#book_your_bookings#:#Ihre Buchungen
 book#:#book_your_preferences#:#Ihre Präferenzen
-book#:#book_your_reservations#:#Ihre Reservierungen
+book#:#book_your_reservations#:#Ihre Buchungen
 book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
 book#:#booking_nr_of_items#:#Anzahl
 book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Teilnehmer
-book#:#reservation_deleted#:#Reservierung gelöscht
+book#:#reservation_deleted#:#Buchung gelöscht
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
