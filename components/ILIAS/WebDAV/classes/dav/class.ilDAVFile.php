@@ -179,7 +179,7 @@ class ilDAVFile implements IFile
 
         if ($this->isDAVableObjTitle($name) &&
             $name === $this->obj->checkFileExtension($this->getName(), $name)) {
-            $this->obj->setTitle(substr($name, 0, strrpos($name, '.')));
+            $this->obj->setTitle(mb_substr($name, 0, strrpos($name, '.')));
             $this->obj->update();
         } else {
             throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE);
