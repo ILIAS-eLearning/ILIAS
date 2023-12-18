@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ImportHandler\File\XML\Export;
 
+use ilDataSet;
 use ILIAS\BookingManager\getObjectSettingsCommand;
 use ilLogger;
 use ImportHandler\File\XML\ilHandler as ilXMLFileHandler;
@@ -109,8 +110,8 @@ abstract class ilHandler extends ilXMLFileHandler implements ilXMLExportFileHand
     {
         $xml = $this->withAdditionalNamespace(
             $this->namespace->handler()
-                ->withNamespace('http://www.ilias.de/Services/DataSet/ds/4_3')
-                ->withPrefix('ds')
+                ->withNamespace(ilDataSet::DATASET_NS)
+                ->withPrefix(ilDataSet::DATASET_NS_PREFIX)
         );
         try {
             $nodes = $this->parser->DOM()->withFileHandler($xml)->getNodeInfoAt($this->getPathToComponentRootNodes());

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ImportHandler\File\XML\Export\DataSet;
 
+use ilDataSet;
 use ImportHandler\I\File\XML\Export\DataSet\ilHandlerInterface as ilDataSetXMLExportFileHandlerInterface;
 use ilLogger;
 use ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
@@ -82,8 +83,8 @@ class ilHandler extends ilXMLExportFileHandler implements ilDataSetXMLExportFile
         $statuses = $this->status->collection();
         $xml = $this->withAdditionalNamespace(
             $this->namespace->handler()
-                ->withNamespace('http://www.ilias.de/Services/DataSet/ds/4_3')
-                ->withPrefix('ds')
+                ->withNamespace(ilDataSet::DATASET_NS)
+                ->withPrefix(ilDataSet::DATASET_NS_PREFIX)
         );
         try {
             $sets = $this->set->collection();
