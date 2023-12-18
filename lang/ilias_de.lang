@@ -12079,7 +12079,7 @@ orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
 orgu#:#edit_translations#:#Titel und Beschreibung
 orgu#:#employee#:#Mitarbeiter
 orgu#:#ext_id#:#Externe ID
-orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Daten anonymisiert gespeichert werden.
+orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich aktualisiert.
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#il_orgu_employee#:#Mitarbeiter
 orgu#:#il_orgu_superior#:#Vorgesetzte
