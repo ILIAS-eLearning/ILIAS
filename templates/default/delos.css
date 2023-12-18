@@ -2662,8 +2662,8 @@ input.btn, input.il-link.link-bulky,
   font-size: inherit;
   font-weight: 400;
   text-decoration: none;
-  min-height: 2.6rem;
-  min-width: 2.6rem;
+  min-height: 2.2rem;
+  min-width: 2.2rem;
   font-size: 0.75rem;
   padding: 3px 6px;
   gap: 6px;
@@ -6849,10 +6849,27 @@ div.alert ul > li:before {
   color: #161616;
   font-size: 0.875rem;
 }
-.panel .panel-viewcontrols:not(:empty) {
-  justify-content: center;
-  margin: 15px 15px;
-  margin-bottom: 6px;
+@media screen and (max-width: 768px) {
+  .panel .panel-viewcontrols {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media screen and (min-width: 769px) {
+  .panel .panel-viewcontrols {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media screen and (min-width: 993px) {
+  .panel .panel-viewcontrols {
+    order: 2;
+    width: auto;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
 }
 .panel .panel-body {
   padding: 15px 15px;
@@ -6873,20 +6890,35 @@ div.alert ul > li:before {
 }
 
 .panel-flex .panel-heading {
-  display: grid;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
 }
 .panel-flex .panel-title {
-  margin-right: auto;
+  flex-shrink: 0;
+  order: 1;
 }
 .panel-flex .panel-controls {
-  margin-left: auto;
-  float: right;
   display: flex;
   gap: 9px;
   justify-content: flex-end;
+  margin-left: auto;
 }
-.panel-flex .ilHeader {
-  display: flex;
+@media screen and (max-width: 768px) {
+  .panel-flex .panel-controls {
+    order: 2;
+  }
+}
+@media screen and (min-width: 769px) {
+  .panel-flex .panel-controls {
+    order: 2;
+  }
+}
+@media screen and (min-width: 993px) {
+  .panel-flex .panel-controls {
+    order: 3;
+  }
 }
 .panel-flex h2.ilHeader {
   flex-grow: 99;
@@ -9222,8 +9254,8 @@ td.c-table-data__cell--highlighted {
 .il-viewcontrol-pagination,
 .il-viewcontrol-mode {
   width: fit-content;
-  min-height: 2.6rem;
-  min-width: 2.6rem;
+  min-height: 2.2rem;
+  min-width: 2.2rem;
   border: 1px solid #e2e8ef;
   padding: 3px;
   background-color: #e2e8ef;
@@ -9407,8 +9439,8 @@ td.c-table-data__cell--highlighted {
 .il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-link,
 .il-viewcontrol-mode > .btn-default,
 .il-viewcontrol-mode > .btn-link {
-  min-height: 1.9rem;
-  min-width: 1.9rem;
+  min-height: 1.7rem;
+  min-width: 1.7rem;
   border-radius: 10px;
 }
 

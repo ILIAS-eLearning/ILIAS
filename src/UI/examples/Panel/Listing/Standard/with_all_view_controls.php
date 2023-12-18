@@ -61,6 +61,7 @@ function with_all_view_controls(): string
         ->withTargetURL($url, "page")
         ->withTotalEntries(98)
         ->withPageSize(10)
+        ->withMaxPaginationButtons(1)
         ->withCurrentPage($current_page);
 
     $view_controls = [

@@ -384,17 +384,17 @@ EOT;
 <div class="panel panel-primary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
-        <div class="panel-controls"></div>
-    </div>
-    <div class="panel-viewcontrols l-bar__container">
-        <div class="il-viewcontrol-sortation l-bar__element" id="id_1">
-            <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_4"  aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu"><span class="caret"></span></button>
-                <ul id="id_4_menu" class="dropdown-menu">
-                   <li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
-                   <li><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
-                </ul>
+        <div class="panel-viewcontrols l-bar__container">
+            <div class="il-viewcontrol-sortation l-bar__element" id="id_1">
+                <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_4"  aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu"><span class="caret"></span></button>
+                    <ul id="id_4_menu" class="dropdown-menu">
+                       <li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
+                       <li><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
+                    </ul>
+                </div>
             </div>
         </div>
+        <div class="panel-controls"></div>
     </div>
     <div class="panel-body"></div>
 </div>
@@ -426,26 +426,26 @@ EOT;
 <div class="panel panel-primary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
-        <div class="panel-controls"></div>
-    </div>
-    <div class="panel-viewcontrols l-bar__container">
-		<div class="il-viewcontrol-pagination l-bar__element">
-                <span class="btn btn-ctrl browse previous">
-                    <a tabindex="0" class="glyph" href="http://ilias.de?page=0" aria-label="back">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <div class="panel-viewcontrols l-bar__container">
+            <div class="il-viewcontrol-pagination l-bar__element">
+                    <span class="btn btn-ctrl browse previous">
+                        <a tabindex="0" class="glyph" href="http://ilias.de?page=0" aria-label="back">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </a>
+                    </span>
+                    <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
+                    <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_2">2</button>
+                    <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_3">3</button>
+                    <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
+                    <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
+                    <span class="btn btn-ctrl browse next">
+                    <a tabindex="0" class="glyph" href="http://ilias.de?page=2" aria-label="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     </a>
                 </span>
-                <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
-                <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_2">2</button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_3">3</button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
-                <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
-                <span class="btn btn-ctrl browse next">
-                <a tabindex="0" class="glyph" href="http://ilias.de?page=2" aria-label="next">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                </a>
-            </span>
+            </div>
         </div>
+        <div class="panel-controls"></div>
     </div>
     <div class="panel-body"></div>
 </div>
