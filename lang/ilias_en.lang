@@ -2589,50 +2589,50 @@ book#:#book_rerun_assignments#:#Run Allocation Process
 book#:#book_rerun_confirmation#:#Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process.
 book#:#book_reservation_available#:#%s available
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.
-book#:#book_reservation_failed#:#Your booking has failed.
-book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
-book#:#book_reservation_filter_period#:#Period for the reservation list
-book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.
-book#:#book_reservation_fix_info#:#The reservation can only be done for fixed hours.
-book#:#book_reservation_overview#:#Reservation Overview
+book#:#book_reservation_failed#:#It was not possible to confirm your booking.
+book#:#book_reservation_failed_overbooked#:#Your booking failed because the bookable item in question is no longer available.
+book#:#book_reservation_filter_period#:#Default Value for ‘Date Range’ Filter
+book#:#book_reservation_filter_period_info#:#The default value for the ‘Date Range’ filter in the ‘Bookings’ tab (in days from the current date).
+book#:#book_reservation_fix_info#:#Bookings can only be made for the time slots shown as available below.
+book#:#book_reservation_overview#:#Bookings Overview
 book#:#book_reservation_status_5#:#Cancelled
 book#:#book_reservation_title#:#Booking Reservation for
-book#:#book_reservations_list#:#Reservations
+book#:#book_reservations_list#:#Bookings
 book#:#book_schedule#:#Schedule
-book#:#book_schedule_added#:#A booking schedule has been added.
-book#:#book_schedule_days#:#Weekdays
+book#:#book_schedule_added#:#Booking schedule added.
+book#:#book_schedule_days#:#Time Slots
 book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)
-book#:#book_schedule_deleted#:#The booking schedule has been deleted.
-book#:#book_schedule_slot#:#Slot
+book#:#book_schedule_deleted#:#Booking schedule deleted.
+book#:#book_schedule_slot#:#Time Slot
 book#:#book_schedule_type#:#Booking Mode
 book#:#book_schedule_type_fixed#:#Fixed Schedule
-book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, video projectors and such.
+book#:#book_schedule_type_fixed_info#:#This booking mode can be used for things that can be booked for specific periods of time, such as rooms, services and equipment.
 book#:#book_schedule_type_none#:#No Schedule
 book#:#book_schedule_type_none_direct#:#No Schedule, Direct Booking
-book#:#book_schedule_type_none_direct_info#:#This type can be used for seminar papers, seminar places and such. Participants can book items directly.
+book#:#book_schedule_type_none_direct_info#:#This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis.
 book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such.
 book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
-book#:#book_schedule_type_none_preference_info#:#This type can be used for seminar papers, seminar places and such. Participants will indicate their preferences. Items will be assigned automatically after the preferences deadline.
-book#:#book_schedule_updated#:#The booking schedule has been updated.
-book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking (or switch to a different type of pool).
+book#:#book_schedule_type_none_preference_info#:#This booking mode is ideal for presentation topics, places in seminars or similar. Participants get to indicate their preferences in terms of which items they are most interested in. Items will then be allocated automatically after the preferences deadline has passed.
+book#:#book_schedule_updated#:#Booking schedule updated.
+book#:#book_schedule_warning_edit#:#Your booking pool currently does not have a schedule available. To use the booking pool you either need to create a schedule or select a ‘no schedule’ booking mode in the ‘Booking Mode’ section of the ‘Settings’ tab).
 book#:#book_schedules#:#Schedules
 book#:#book_select_pool#:#Select Pool
-book#:#book_set_cancel#:#Cancel Reservation
-book#:#book_set_delete#:#Delete
+book#:#book_set_cancel#:#Cancel Booking
+book#:#book_set_delete#:#Delete Booking
 book#:#book_show_message#:#Show Message
-book#:#book_title_description_nr#:#Title; Description; Number of Objects
+book#:#book_title_description_nr#:#Title; Description; Number of Units
 book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.
-book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
-book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
+book#:#book_too_many_preferences#:#You have selected too many preferences. Your preferences have not been saved.
+book#:#book_type_warning#:#There are currently no bookable items available. Please create some bookable items to be able to use this booking pool.
 book#:#book_week#:#Week
-book#:#book_your_bookings#:#Your Reservations
+book#:#book_your_bookings#:#Your Bookings
 book#:#book_your_preferences#:#Your Preferences
-book#:#book_your_reservations#:#Your Reservations
-book#:#booking_multiple_succesfully#:#Bookings created successfully.
-book#:#booking_nr_of_items#:#Nr of Items
+book#:#book_your_reservations#:#Your Bookings
+book#:#booking_multiple_succesfully#:#Bookings successfully carried out.
+book#:#booking_nr_of_items#:#Number of Items
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
-book#:#reservation_deleted#:#Reservation deleted
+book#:#reservation_deleted#:#Booking deleted.
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
 buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
