@@ -186,6 +186,9 @@ class ilCalendarExport
                 $time_now = new ilDateTime(time(), IL_CAL_UNIX);
                 $str_time_now = $time_now->get(IL_CAL_FKT_DATE, 'Ymd', ilTimeZone::UTC);
                 $str_time_start = $a->getStart()->get(IL_CAL_FKT_DATE, 'Ymd', $this->il_user->getTimeZone());
+                if ($str_time_start === null) {
+                    return false;
+                }
                 $start = new DateTimeImmutable($str_time_start);
                 $now = new DateTimeImmutable($str_time_now);
                 $lower_bound = $now->sub(new DateInterval('P30D'));
