@@ -729,7 +729,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         );
 
         if (!$this->isParticipantsAnswerFixed($questionId)) {
-            if ($this->saveQuestionSolution(true)) {
+            if ($this->saveQuestionSolution($this->getAnswerChangedParameter())) {
                 $this->removeIntermediateSolution();
                 $this->setAnswerChangedParameter(false);
             } else {
