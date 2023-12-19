@@ -157,6 +157,13 @@ th.c-table-data__cell {
         &.c-table-data__header__rowselection {
             padding: $il-padding-xxlarge-vertical $il-padding-large-horizontal;
             text-align: center;
+            // row selection also sticks to the left
+            position: sticky;
+            left: -2px; // so text doesn't glitch through on left edge
+            z-index: 4;
+            // gradient to fade row selection into header text
+            background: rgb(255,255,255);
+            background: linear-gradient(90deg, rgba(255,255,255,1) 85%, rgba(255,255,255,0) 100%);
         }
     }
 }
@@ -224,19 +231,23 @@ th.c-table-data__cell:after {
 }
 
 //
-// Multiaction Dropdown below table
+// Column rowselection
 //
-
-.c-table-data__multiaction-triggerer {
-    width: fit-content;
-}
 
 .c-table-data__rowselection,
 .c-table-data__multiaction-triggerer {
     position: -webkit-sticky;
     position: sticky;
-    left: 0;
+    left: -1px; // so text doesn't glitch through on left edge
     z-index: 2;
+}
+
+//
+// Multiaction Dropdown below table
+//
+
+.c-table-data__multiaction-triggerer {
+    width: fit-content;
 }
 
 .c-table-data__multiaction-triggerer {
