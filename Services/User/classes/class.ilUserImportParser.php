@@ -391,7 +391,7 @@ class ilUserImportParser extends ilSaxParser
                 if (($internal_id = ilUtil::__extractId($current_role_id, (int) IL_INST_ID)) > 0) {
                     $current_role_id = $internal_id;
                 }
-                $this->current_role_id = $current_role_id;
+                $this->current_role_id = (int) $current_role_id;
                 $this->current_role_type = $a_attribs["Type"];
                 break;
         }
