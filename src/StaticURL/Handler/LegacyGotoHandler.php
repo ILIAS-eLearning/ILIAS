@@ -158,7 +158,7 @@ class LegacyGotoHandler implements Handler
                 // exception, must be kept for now
             case "git":
                 $target_ref_id = $target_arr[2] ?? 0;
-                \ilGlossaryTermGUI::_goto($target_id, $target_ref_id);
+                \ilGlossaryTermGUI::_goto($target_id, (int) $target_ref_id);
                 break;
 
                 // please migrate to default branch implementation
