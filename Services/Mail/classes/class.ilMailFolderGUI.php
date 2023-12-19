@@ -235,10 +235,12 @@ class ilMailFolderGUI
 
         $isTrashFolder = $this->currentFolderId === $this->mbox->getTrashFolder();
 
+        $selected_mail_ids = $this->getMailIdsFromRequest(true);
         if (!$this->errorDelete && $isTrashFolder && 'deleteMails' === $this->parseCommand($this->ctrl->getCmd())) {
             $confirmationGui = new ilConfirmationGUI();
             $confirmationGui->setHeaderText($this->lng->txt('mail_sure_delete'));
-            foreach ($this->getMailIdsFromRequest() as $mailId) {
+            $selected_mail_ids = $this->getMailIdsFromRequest();
+            foreach ($selected_mail_ids as $mailId) {
                 $confirmationGui->addHiddenItem('mail_id[]', (string) $mailId);
             }
             $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
@@ -264,7 +266,7 @@ class ilMailFolderGUI
         }
 
         $mailtable = $this->getMailFolderTable();
-        $mailtable->setSelectedItems($this->getMailIdsFromRequest(true));
+        $mailtable->setSelectedItems($selected_mail_ids);
 
         try {
             $mailtable->prepareHTML();
@@ -780,16 +782,14 @@ class ilMailFolderGUI
                 $folder['obj_id'] !== $mailData['folder_id']) {
                 $folder_name = $folder['title'];
                 if ($folder['type'] !== 'user_folder') {
-                    $folder_name = $this->lng->txt(
-                        'mail_' . $folder['title']
-                    ) . ($folder['type'] === 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
+                    $folder_name = $this->lng->txt('mail_' . $folder['title']);
                 }
 
                 $move_links[] = $this->ui_factory->button()->shy(
                     sprintf(
                         $this->lng->txt('mail_move_to_folder_x'),
                         $folder_name
-                    ),
+                    ) . ($folder['type'] === 'trash' ? ' (' . $this->lng->txt('delete') . ')' : ''),
                     '#',
                 )->withOnLoadCode(static fn($id): string => "
                         document.getElementById('$id').addEventListener('click', function(e) {
@@ -813,6 +813,28 @@ class ilMailFolderGUI
                             return false;
                         });");
             }
+        }
+
+        if ($isTrashFolder) {
+            $deleteBtn = $this->ui_factory->button()
+                                          ->standard($this->lng->txt('delete'), '#')
+                                          ->withOnLoadCode(static fn($id): string => "
+                    document.getElementById('$id').addEventListener('click', function() {
+                        const frm = this.closest('form'),
+                            action = new URL(frm.action),
+                            action_params = new URLSearchParams(action.search);
+    
+                        action_params.delete('cmd');
+                        action_params.append('cmd', 'deleteMails');
+    
+                        action.search = action_params.toString();
+    
+                        frm.action = action.href;
+                        frm.submit();
+                        return false;
+                    });
+                ");
+            $this->toolbar->addComponent($deleteBtn);
         }
 
         if ($move_links !== []) {
