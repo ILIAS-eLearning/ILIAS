@@ -80,6 +80,7 @@ header {
 .breadcrumbs {
 	position: sticky;
 	top: 0;
+	min-height: $il-standard-page-breadcrumbs-height;
 	align-items: center;
 	background-color: $il-standard-page-breadcrumbs-bg-color;
 	display: flex;
