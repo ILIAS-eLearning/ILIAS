@@ -18,19 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\AdvancedMetaData\Services\SubObjectModes;
+namespace ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable;
 
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\AdvancedMetaData\Services\SubObjectIDInterface;
 
-interface DataTableInterface
+interface SupplierInterface
 {
     /**
      * @return Column[];
      */
     public function getColumns(): array;
 
-    public function loadData(SubObjectIDInterface ...$sub_object_ids): void;
-
-    public function getData(SubObjectIDInterface $sub_object_id): array;
+    public function getData(SubObjectIDInterface ...$sub_object_ids): DataInterface;
 }

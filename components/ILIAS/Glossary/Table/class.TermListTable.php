@@ -42,7 +42,7 @@ class TermListTable
     protected int $tax_node;
     protected \ilGlossaryTermPermission $term_perm;
     protected array $adv_cols_order = [];
-    protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTableInterface $adv_term_mode;
+    protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\SupplierInterface $adv_term_mode;
     protected EditingGUIRequest $edit_gui_request;
     protected string $requested_table_term_list_action = "";
 
@@ -335,7 +335,7 @@ class TermListTable
                 protected \ilObjGlossary $glossary,
                 protected int $tax_node,
                 protected array $adv_cols_order,
-                protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTableInterface $adv_term_mode,
+                protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\SupplierInterface $adv_term_mode,
                 protected UI\Factory $ui_fac,
                 protected Data\Factory $df,
                 protected \ilLanguage $lng,
@@ -406,7 +406,7 @@ class TermListTable
                         "term"
                     );
                 }
-                $this->adv_term_mode->loadData(...$term_ids);
+                $adv_md_data = $this->adv_term_mode->getData(...$term_ids);
 
                 $records = [];
                 $i = 0;
@@ -483,7 +483,7 @@ class TermListTable
 
                     // advanced metadata
                     $sub_obj_id = $term_ids[$term_id];
-                    $adv_data = $this->adv_term_mode->getData($sub_obj_id);
+                    $adv_data = $adv_md_data->dataForSubObject($sub_obj_id);
                     foreach ($adv_data as $key => $val) {
                         $records[$i][$key] = $val;
                     }

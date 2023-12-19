@@ -41,7 +41,7 @@ class PresentationListTable
     protected int $tax_node;
     protected \ilPageConfig $page_config;
     protected array $adv_cols_order = [];
-    protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTableInterface $adv_term_mode;
+    protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\SupplierInterface $adv_term_mode;
 
     public function __construct(\ilObjGlossary $glossary, bool $offline, int $tax_node)
     {
@@ -138,7 +138,7 @@ class PresentationListTable
                 protected PresentationGUIRequest $pres_gui_request,
                 protected \ilPageConfig $page_config,
                 protected array $adv_cols_order,
-                protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTableInterface $adv_term_mode,
+                protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\SupplierInterface $adv_term_mode,
                 protected UI\Factory $ui_fac,
                 protected Data\Factory $df
             ) {
@@ -215,7 +215,7 @@ class PresentationListTable
                         "term"
                     );
                 }
-                $this->adv_term_mode->loadData(...$term_ids);
+                $adv_md_data = $this->adv_term_mode->getData(...$term_ids);
 
                 $records = [];
                 $i = 0;
@@ -274,7 +274,7 @@ class PresentationListTable
 
                     // advanced metadata
                     $sub_obj_id = $term_ids[$term_id];
-                    $adv_data = $this->adv_term_mode->getData($sub_obj_id);
+                    $adv_data = $adv_md_data->dataForSubObject($sub_obj_id);
                     foreach ($adv_data as $key => $val) {
                         $records[$i][$key] = $val;
                     }

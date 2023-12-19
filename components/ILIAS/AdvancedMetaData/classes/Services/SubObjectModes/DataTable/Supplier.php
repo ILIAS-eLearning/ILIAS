@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\AdvancedMetaData\Services\SubObjectModes;
+namespace ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable;
 
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Factory as UIFactory;
@@ -27,7 +27,7 @@ use ILIAS\AdvancedMetaData\Services\SubObjectIDInterface;
 use ILIAS\StaticURL\Services as StaticURL;
 use ILIAS\AdvancedMetaData\Services\Constants;
 
-class DataTable implements DataTableInterface
+class Supplier implements SupplierInterface
 {
     protected \ilObjUser $user;
     protected UIFactory $ui_factory;
@@ -41,7 +41,6 @@ class DataTable implements DataTableInterface
      * @var Column[]
      */
     protected array $columns = [];
-    protected array $data = [];
 
     public function __construct(
         \ilObjUser $user,
@@ -69,7 +68,7 @@ class DataTable implements DataTableInterface
         return $this->columns;
     }
 
-    public function loadData(SubObjectIDInterface ...$sub_object_ids): void
+    public function getData(SubObjectIDInterface ...$sub_object_ids): DataInterface
     {
         $ids = [];
         foreach ($sub_object_ids as $sub_object_id) {
@@ -79,6 +78,7 @@ class DataTable implements DataTableInterface
             ];
         }
 
+        $data_array = [];
         foreach ($ids as $sub_type => $id) {
             $values = [];
             foreach ($id as $obj_id => $records) {
@@ -105,16 +105,13 @@ class DataTable implements DataTableInterface
                         if (!$presentation) {
                             continue;
                         }
-                        $this->data[$sub_type][$obj_id][$sub_id][$key] = $this->initData($def, $presentation);
+                        $data_array[$sub_type][$obj_id][$sub_id][$key] = $this->initData($def, $presentation);
                     }
                 }
             }
         }
-    }
 
-    public function getData(SubObjectIDInterface $sub_object_id): array
-    {
-        return $this->data[$sub_object_id->subtype()][$sub_object_id->objID()][$sub_object_id->subID()] ?? [];
+        return new Data($data_array);
     }
 
     protected function initColumns(
