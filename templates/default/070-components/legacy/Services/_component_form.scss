@@ -478,6 +478,10 @@ input[type="checkbox"] {
     	line-height: normal;
 	}
 
+	.row > div,span {
+		padding-left: 0;
+	}
+
 	// Account for padding we're adding to ensure the alignment and of help text
 	// and other content below items
 	.radio,
@@ -488,6 +492,7 @@ input[type="checkbox"] {
 	label {
 		color: $il-standard-form-label-color;
 		font-size: 100%;
+		padding-right: $il-padding-xlarge-horizontal*2;
 	}
 
 	.control-label {
