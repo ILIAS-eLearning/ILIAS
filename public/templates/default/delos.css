@@ -15445,6 +15445,9 @@ fieldset[disabled] .checkbox label {
   padding-top: 0;
   line-height: normal;
 }
+.form-horizontal .row > div, .form-horizontal span {
+  padding-left: 0;
+}
 .form-horizontal .radio,
 .form-horizontal .checkbox {
   min-height: 24px;
@@ -15452,6 +15455,7 @@ fieldset[disabled] .checkbox label {
 .form-horizontal label {
   color: #161616;
   font-size: 100%;
+  padding-right: 30px;
 }
 .form-horizontal .control-label {
   text-align: left;
