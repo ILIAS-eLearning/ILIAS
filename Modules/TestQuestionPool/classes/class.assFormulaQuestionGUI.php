@@ -948,10 +948,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $user_solution[$matches[1]] = $solution_value["value2"];
             }
         }
-        // fau.
 
-        if (!$this->object->hasRequiredVariableSolutionValues($user_solution)) {
-            foreach ($this->object->getInitialVariableSolutionValues() as $val1 => $val2) {
+        $init_solutions = $this->object->getInitialVariableSolutionValues();
+        if ($user_solution !== [] &&
+            !$this->object->hasRequiredVariableSolutionValues($user_solution)
+        ) {
+            foreach ($init_solutions as $val1 => $val2) {
                 $this->object->saveCurrentSolution($active_id, $pass, $val1, $val2, true);
             }
         }
