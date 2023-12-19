@@ -206,10 +206,12 @@ class Tooltip {
  * @see https://html.spec.whatwg.org/multipage/grouping-content.html#the-main-element
  */
 function getVisibleMainElement(document) {
-    const main_elements = document.getElementsByTagName("main");
-    const visible_main = main_elements.find((element) => !element.hasOwnProperty('hidden'));
+  const mainElements = document.getElementsByTagName('main');
+  const visibleMain = Array.from(mainElements).find(
+    (element) => Object.prototype.hasOwnProperty.call(element, 'hidden') === false,
+  );
 
-    return (undefined !== visible_main) ? visible_main : null;
+  return (undefined !== visibleMain) ? visibleMain : null;
 }
 
 export default Tooltip;
