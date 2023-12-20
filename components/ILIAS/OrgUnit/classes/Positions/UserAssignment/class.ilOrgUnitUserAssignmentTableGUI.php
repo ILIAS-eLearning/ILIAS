@@ -81,7 +81,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
      */
     private function parseRows(array $user_ids): array
     {
-        $data = array();
+        $data = [];
         foreach ($user_ids as $user_id) {
             $data[] = $this->getRowForUser($user_id);
         }
@@ -106,6 +106,10 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("LOGIN", $a_set["login"]);
         $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
         $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
+
+        if($a_set["active"] === false) {
+            $this->tpl->setVariable("INACTIVE", $this->lng->txt('usr_account_inactive'));
+        }
 
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $a_set["user_id"]);
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id', $this->ilOrgUnitPosition->getId());

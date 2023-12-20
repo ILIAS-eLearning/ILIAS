@@ -129,6 +129,9 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                 }
                 $data[$usr_id]['orgu_assignments'][] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
                 $data[$usr_id]['view_lp'] = $permission_view_lp || $data[$usr_id]['view_lp'];
+                if(! array_key_exists('active', $data[$usr_id])) {
+                    $data[$usr_id]["active"] = \ilObjUser::_lookupActive($usr_id);
+                }
             }
         }
 
@@ -168,6 +171,10 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("LOGIN", $a_set["login"]);
         $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
         $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
+        if($a_set["active"] === false) {
+            $this->tpl->setVariable("INACTIVE", $this->lng->txt('usr_account_inactive'));
+        }
+
         $orgus = $a_set['orgu_assignments'];
         sort($orgus);
         $this->tpl->setVariable("ORG_UNITS", implode(',', $orgus));
