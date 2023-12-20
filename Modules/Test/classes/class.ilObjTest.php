@@ -3100,7 +3100,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public static function _instanciateQuestion($question_id): ?assQuestion
     {
         if (strcmp((string) $question_id, "") !== 0) {
-            return assQuestion::instantiateQuestion($question_id);
+            return assQuestion::instantiateQuestion((int) $question_id);
         }
 
         return null;
