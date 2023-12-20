@@ -23,14 +23,14 @@ namespace ILIAS\Test\Logging;
 class TestError implements TestUserInteraction
 {
     public function __construct(
-        private \ilLanguage $lng,
-        private int $test_ref_id,
-        private ?int $question_id,
-        private ?\ilObjUser $administrator,
-        private ?\ilObjUser $participant,
-        private TestErrorTypes $interaction_types,
-        private int $modification_timestamp,
-        private string $error_message
+        private readonly \ilLanguage $lng,
+        private readonly int $test_ref_id,
+        private readonly ?int $question_id,
+        private readonly ?\ilObjUser $administrator,
+        private readonly ?\ilObjUser $participant,
+        private readonly TestErrorTypes $interaction_types,
+        private readonly int $modification_timestamp,
+        private readonly string $error_message
     ) {
 
     }
@@ -73,5 +73,18 @@ class TestError implements TestUserInteraction
     public function getLogEntryAsCsvRow(): string
     {
 
+    }
+
+    public function toStorage(): array
+    {
+        return [
+            'ref_id' => [\ilDBConstants::T_INTEGER , $this->getTestRefId()],
+            'qst_id' => [\ilDBConstants::T_INTEGER , $this->getQuestionId()],
+            'admin_id' => [\ilDBConstants::T_INTEGER , $this->getAdministratorId()],
+            'pax_id' => [\ilDBConstants::T_INTEGER , $this->getParticipantId()],
+            'interaction_type' => [\ilDBConstants::T_TEXT , $this->getInteractionType()->value],
+            'modification_ts' => [\ilDBConstants::T_INTEGER , $this->getModificationTimestamp()],
+            'error_message' => [\ilDBConstants::T_TEXT , $this->error_message]
+        ];
     }
 }

@@ -44,7 +44,6 @@ class ilTestPlayerRandomQuestionSetGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilUser();
         $this->addGlobal_refinery();
         $this->addGlobal_ilHelp();
-        $this->addGlobal_ilLog();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilSetting();
         $this->addGlobal_ilToolbar();

@@ -32,7 +32,6 @@ class ilObjTestFolderTest extends ilTestBaseTestCase
 
         $this->addGlobal_ilDB();
         $this->addGlobal_ilias();
-        $this->addGlobal_ilLog();
         $this->addGlobal_ilErr();
         $this->addGlobal_tree();
         $this->addGlobal_ilAppEventHandler();

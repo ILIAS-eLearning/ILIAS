@@ -28,4 +28,5 @@ interface TestUserInteraction
     public function getModificationTimestamp(): int;
     public function getLogEntryAsDataTableRow(): array;
     public function getLogEntryAsCsvRow(): string;
+    public function toStorage(): array;
 }

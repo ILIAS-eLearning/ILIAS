@@ -23,10 +23,13 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\GlobalScreen\Services as GlobalScreenServices;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\InternalRequestService;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
+
+use ILIAS\Test\TestDIC;
+use ILIAS\Test\InternalRequestService;
+use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
 * Service GUI class for tests. This class is the parent class for all
@@ -44,14 +47,14 @@ use ILIAS\Skill\Service\SkillService;
 */
 class ilTestServiceGUI
 {
-    protected InternalRequestService $testrequest;
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected readonly InternalRequestService $testrequest;
+    protected readonly QuestionInfoService $questioninfo;
     protected ?ilTestService $service = null;
-    protected ilDBInterface $db;
-    protected ilLanguage $lng;
-    protected LoggingServices $logging_services;
-    protected ilHelpGUI $help;
-    protected ilRbacSystem $rbac_system;
+    protected readonly ilDBInterface $db;
+    protected readonly ilLanguage $lng;
+    protected readonly TestLogger $logger;
+    protected readonly ilHelpGUI $help;
+    protected readonly ilRbacSystem $rbac_system;
 
     /**
      * sk 2023-08-01: We need this union type, even if it is wrong! To change this
@@ -59,29 +62,29 @@ class ilTestServiceGUI
      * `ilTestPlayerAbstractGUI::populateIntantResponseModal()`.
      */
     protected ilGlobalTemplateInterface|ilTemplate $tpl;
-    protected ilErrorHandling $error;
+    protected readonly ilErrorHandling $error;
     protected ilAccess $access;
-    protected HTTPServices $http;
-    protected ilCtrl $ctrl;
-    protected ilToolbarGUI $toolbar;
-    protected ilTabsGUI $tabs;
-    protected ilObjectDataCache $obj_cache;
-    protected ilComponentRepository $component_repository;
-    protected ilObjUser $user;
-    protected ArrayBasedRequestWrapper $post_wrapper;
-    protected ilNavigationHistory $navigation_history;
-    protected Refinery $refinery;
-    protected UIFactory $ui_factory;
-    protected UIRenderer $ui_renderer;
-    protected SkillService $skills_service;
-    protected ilTestShuffler $shuffler;
-    protected ilTestResultsFactory $results_factory;
-    protected ilTestResultsPresentationFactory $results_presentation_factory;
+    protected readonly HTTPServices $http;
+    protected readonly ilCtrl $ctrl;
+    protected readonly ilToolbarGUI $toolbar;
+    protected readonly ilTabsGUI $tabs;
+    protected readonly ilObjectDataCache $obj_cache;
+    protected readonly ilComponentRepository $component_repository;
+    protected readonly ilObjUser $user;
+    protected readonly ArrayBasedRequestWrapper $post_wrapper;
+    protected readonly ilNavigationHistory $navigation_history;
+    protected readonly Refinery $refinery;
+    protected readonly UIFactory $ui_factory;
+    protected readonly UIRenderer $ui_renderer;
+    protected readonly SkillService $skills_service;
+    protected readonly ilTestShuffler $shuffler;
+    protected readonly ilTestResultsFactory $results_factory;
+    protected readonly ilTestResultsPresentationFactory $results_presentation_factory;
 
-    protected ILIAS $ilias;
-    protected ilSetting $settings;
-    protected GlobalScreenServices $global_screen;
-    protected ilTree $tree;
+    protected readonly ILIAS $ilias;
+    protected readonly ilSetting $settings;
+    protected readonly GlobalScreenServices $global_screen;
+    protected readonly ilTree $tree;
     protected int $ref_id;
 
     protected ?ilTestSessionFactory $testSessionFactory = null;
@@ -131,7 +134,7 @@ class ilTestServiceGUI
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->tabs = $DIC['ilTabs'];
         $this->toolbar = $DIC['ilToolbar'];
-        $this->logging_services = $DIC->logger();
+        $this->logger = TestDIC::dic()['test_logger'];
         $this->help = $DIC['ilHelp'];
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC['ui.factory'];

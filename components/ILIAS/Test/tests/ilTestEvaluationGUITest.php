@@ -36,7 +36,6 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilCtrl();
         $this->addGlobal_ilias();
         $this->addGlobal_ilUser();
-        $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();

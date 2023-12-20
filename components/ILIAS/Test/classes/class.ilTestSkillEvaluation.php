@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillProfileService;
 use ILIAS\Skill\Service\SkillPersonalService;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * Logic for determining a learner’s competences based on the results of a test.
@@ -47,7 +47,7 @@ class ilTestSkillEvaluation
 
     public function __construct(
         private ilDBInterface $db,
-        private LoggingServices $logging_services,
+        private TestLogger $logger,
         int $test_id,
         private int $refId,
         private SkillProfileService $skill_profile_service,
@@ -322,7 +322,7 @@ class ilTestSkillEvaluation
             (string) $this->getPass()
         );
 
-        $this->logging_services->root()->info(
+        $this->logger->info(
             "refId={$this->refId} / usrId={$this->getUserId()} / levelId={$skillLevelId} / trefId={$skillTrefId}"
         );
 

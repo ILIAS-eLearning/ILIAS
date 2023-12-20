@@ -1643,7 +1643,7 @@ JS;
 
         $skillEvaluation = new ilTestSkillEvaluation(
             $this->db,
-            $this->logging_services,
+            $this->logger,
             $this->object->getTestId(),
             $this->object->getRefId(),
             $this->skills_service->profile(),
@@ -2199,14 +2199,12 @@ JS;
 
     protected function handleTearsAndAngerQuestionIsNull(int $question_id, $sequence_element): void
     {
-        $this->logging_services->root()->write(
+        $this->logger->error(
             "INV SEQ:"
             . "active={$this->test_session->getActiveId()} "
             . "qId=$question_id seq=$sequence_element "
             . serialize($this->testSequence)
         );
-
-        $this->logging_services->root()->logStack(ilLogLevel::ERROR);
 
         $this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);

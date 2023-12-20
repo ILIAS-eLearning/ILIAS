@@ -42,7 +42,6 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilHelp();
-        $this->addGlobal_ilLog();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilSetting();
         $this->addGlobal_ilToolbar();

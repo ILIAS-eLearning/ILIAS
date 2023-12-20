@@ -37,12 +37,12 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
         $this->addGlobal_ilTabs();
-        $this->addGlobal_ilLog();
         $this->addGlobal_tree();
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_objDefinition();
         $this->addGlobal_ilObjDataCache();
 
+        $test_logger = $this->createMock(ILIAS\Test\Logging\TestLogger::class);
         $this->testObj = new ilTestRandomQuestionSetConfigGUI(
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
             $DIC['ilCtrl'],
@@ -52,7 +52,7 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
             $DIC['ui.renderer'],
             $DIC['ilTabs'],
             $DIC['lng'],
-            $DIC['ilLog'],
+            $test_logger,
             $DIC['tpl'],
             $DIC['ilDB'],
             $DIC['tree'],

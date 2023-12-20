@@ -35,7 +35,6 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilAccess();
         $this->addGlobal_ilUser();
         $this->addGlobal_lng();
-        $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilToolbar();

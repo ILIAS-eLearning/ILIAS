@@ -71,4 +71,16 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
     {
 
     }
+
+    public function toStorage(): array
+    {
+        return [
+            'ref_id' => [\ilDBConstants::T_INTEGER , $this->getTestRefId()],
+            'qst_id' => [\ilDBConstants::T_INTEGER , $this->getQuestionId()],
+            'admin_id' => [\ilDBConstants::T_INTEGER , $this->getAdministratorId()],
+            'interaction_type' => [\ilDBConstants::T_TEXT , $this->getInteractionType()->value],
+            'modification_ts' => [\ilDBConstants::T_INTEGER , $this->getModificationTimestamp()],
+            'additional_data' => [\ilDBConstants::T_CLOB , serialize($this->additional_data)]
+        ];
+    }
 }

@@ -23,7 +23,9 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
-use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -53,19 +55,19 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     private array $filter = [];
 
     public function __construct(
-        private ilTabsGUI $tabs,
-        private ilTree $tree,
-        private ilDBInterface $db,
-        private ilLogger $log,
-        private ilComponentRepository $component_repository,
-        private ilObjTest $test_obj,
-        private ilAccessHandler $access,
-        private GlobalHttpState $http_state,
-        private Refinery $refinery,
-        private UIFactory $ui_factory,
-        private UIRenderer $ui_renderer,
-        private InternalRequestService $testrequest,
-        private ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+        private readonly ilTabsGUI $tabs,
+        private readonly ilTree $tree,
+        private readonly ilDBInterface $db,
+        private readonly TestLogger $logger,
+        private readonly ilComponentRepository $component_repository,
+        private readonly ilObjTest $test_obj,
+        private readonly ilAccessHandler $access,
+        private readonly GlobalHttpState $http_state,
+        private readonly Refinery $refinery,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly InternalRequestService $testrequest,
+        private readonly QuestionInfoService $questioninfo
     ) {
         $this->setId('qpl_brows_tabl_' . $this->test_obj->getId());
 
@@ -471,7 +473,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             $this->tree,
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->component_repository,
             $this->test_obj,
             $this->questioninfo

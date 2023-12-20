@@ -50,7 +50,6 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_tpl();
         $this->addGlobal_ilDB();
         $this->addGlobal_ilias();
-        $this->addGlobal_ilLog();
         $this->addGlobal_ilErr();
         $this->addGlobal_tree();
         $this->addGlobal_lng();

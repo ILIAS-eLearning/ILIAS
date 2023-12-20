@@ -24,7 +24,6 @@ class ilECSTestSettingsTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_ilRbacAdmin();
 
         $this->testObj = new ilECSTestSettings($this->createMock(ilObject::class));

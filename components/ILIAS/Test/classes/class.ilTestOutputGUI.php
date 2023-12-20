@@ -779,7 +779,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     {
         if ($this->test_session->getActiveId() > 0) {
             if ($this->testSequence->hasRandomQuestionsForPass($this->test_session->getActiveId(), $this->test_session->getPass()) > 0) {
-                $this->logging_services->root()->write(
+                $this->logger->info(
                     __METHOD__ . ' Random Questions allready exists for user ' .
                     $this->user->getId() . ' in test ' . $this->object->getTestId()
                 );
@@ -787,7 +787,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 return true;
             }
         } else {
-            $this->logging_services->root()->write(__METHOD__ . ' ' . sprintf(
+            $this->logger->info(__METHOD__ . ' ' . sprintf(
                 $this->lng->txt("error_random_question_generation"),
                 $this->user->getId(),
                 $this->object->getTestId()
@@ -805,7 +805,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->tree,
             $this->db,
             $this->lng,
-            $this->logging_services->root(),
+            $this->logger,
             $this->component_repository,
             $this->object,
             $this->questioninfo
@@ -824,7 +824,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 $questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance(
                     $this->db,
                     $this->lng,
-                    $this->logging_services->root(),
+                    $this->logger,
                     $this->object,
                     $questionSetConfig,
                     $sourcePoolDefinitionList,

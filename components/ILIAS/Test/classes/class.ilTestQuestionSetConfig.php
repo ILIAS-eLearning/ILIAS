@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
  * abstract parent class that manages/holds the data for a question set configuration
  * @author		Björn Heyser <bheyser@databay.de>
@@ -26,13 +29,13 @@ declare(strict_types=1);
 abstract class ilTestQuestionSetConfig
 {
     public function __construct(
-        protected ilTree $tree,
-        protected ilDBInterface $db,
-        protected ilLanguage $lng,
-        protected ilLogger $log,
-        protected ilComponentRepository $component_repository,
-        protected ilObjTest $test_obj,
-        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+        protected readonly ilTree $tree,
+        protected readonly ilDBInterface $db,
+        protected readonly ilLanguage $lng,
+        protected readonly TestLogger $logger,
+        protected readonly ilComponentRepository $component_repository,
+        protected readonly ilObjTest $test_obj,
+        protected readonly QuestionInfoService $questioninfo
     ) {
     }
 

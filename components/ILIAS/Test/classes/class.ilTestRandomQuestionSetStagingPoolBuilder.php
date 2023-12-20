@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -27,9 +29,9 @@ declare(strict_types=1);
 class ilTestRandomQuestionSetStagingPoolBuilder
 {
     public function __construct(
-        private ilDBInterface $db,
-        private ilLogger $log,
-        private ilObjTest $test_obj
+        private readonly ilDBInterface $db,
+        private readonly TestLogger $logger,
+        private readonly ilObjTest $test_obj
     ) {
     }
 
@@ -70,7 +72,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             try {
                 $question = assQuestion::instantiateQuestion($row['qst_fi']);
             } catch (InvalidArgumentException $ex) {
-                $this->log->warning(
+                $this->logger->warning(
                     "could not delete staged random question (ref={$this->test_obj->getRefId()} / qst={$row['qst_fi']})"
                 );
                 return;

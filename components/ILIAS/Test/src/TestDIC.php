@@ -90,7 +90,7 @@ class TestDIC extends Container
             new TestLoggingDatabaseRepository($DIC['ilDB']);
 
         $dic['test_logger'] = static fn($c): TestLogger =>
-            new TestLogger($DIC['ilLog'], $c['test_logging_repository']);
+            new TestLogger($c['logging_settings'], $c['test_logging_repository'], \ilLoggerFactory::getLogger('tst'), $DIC['lng']);
 
         $dic['test_log_viewer'] = static fn($c): TestLogViewer =>
             new TestLogViewer($c['test_logging_repository']);

@@ -27,7 +27,7 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
     protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     public function __construct(
-        ilObjTestFolderGUI $parent_obj,
+        ilObjTestGUI|ilObjTestFolderGUI $parent_obj,
         string $parent_cmd
     ) {
         global $DIC;

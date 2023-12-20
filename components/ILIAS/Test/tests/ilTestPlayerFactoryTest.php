@@ -37,35 +37,4 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestPlayerFactory::class, $this->testObj);
     }
-
-    /*public function testGetPlayerGUI(): void
-    {
-        $this->addGlobal_ilUser();
-        $this->addGlobal_lng();
-        $this->addGlobal_ilias();
-        $this->addGlobal_ilDB();
-        $this->addGlobal_ilLog();
-        $this->addGlobal_ilErr();
-        $this->addGlobal_tree();
-        $this->addGlobal_ilAppEventHandler();
-        $this->addGlobal_objDefinition();
-        $this->addGlobal_tpl();
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilComponentRepository();
-        $this->addGlobal_ilTabs();
-        $this->addGlobal_ilObjDataCache();
-        $this->addGlobal_rbacsystem();
-        $this->addGlobal_refinery();
-        $this->addGlobal_filesystem();
-
-        $objTest = new ilObjTest();
-
-        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);
-        $testObj = new ilTestPlayerFactory($objTest);
-        $this->assertInstanceOf(ilTestPlayerFixedQuestionSetGUI::class, $testObj->getPlayerGUI());
-
-        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
-        $testObj = new ilTestPlayerFactory($objTest);
-        $this->assertInstanceOf(ilTestPlayerRandomQuestionSetGUI::class, $testObj->getPlayerGUI());
-    }*/
 }

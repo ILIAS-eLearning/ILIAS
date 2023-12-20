@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -29,12 +30,12 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 class ilTestExportFactory
 {
     public function __construct(
-        private ilObjTest $test_obj,
-        private ilLanguage $lng,
-        private ilLogger $logger,
-        private ilTree $tree,
-        private ilComponentRepository $component_repository,
-        private QuestionInfoService $questioninfo
+        private readonly ilObjTest $test_obj,
+        private readonly ilLanguage $lng,
+        private readonly TestLogger $logger,
+        private readonly ilTree $tree,
+        private readonly ilComponentRepository $component_repository,
+        private readonly QuestionInfoService $questioninfo
     ) {
     }
 

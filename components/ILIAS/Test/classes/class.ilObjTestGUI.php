@@ -23,7 +23,6 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
@@ -32,6 +31,7 @@ use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Test\QuestionIdentifiers;
 use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * Class ilObjTestGUI
@@ -94,7 +94,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
     protected ilDBInterface $db;
-    protected LoggingServices $logging_services;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     protected HTTPServices $http;
@@ -125,7 +124,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->http = $DIC['http'];
         $this->error = $DIC['ilErr'];
         $this->db = $DIC['ilDB'];
-        $this->logging_services = $DIC->logger();
         $this->help = $DIC['ilHelp'];
         $this->global_screen = $DIC['global_screen'];
         $this->obj_data_cache = $DIC['ilObjDataCache'];
@@ -145,56 +143,41 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $this->lng->loadLanguageModule('assessment');
 
-        if ($this->object instanceof ilObjTest) {
-            /**
-            * 2023-08-08, sk: We check this here to avoid a crash of
-            * Dynamic-Tests when the migration was not run. The check can go with ILIAS 10.
-            * @todo: Remove check with ILIAS 10
-            */
-            if (!$this->object->isFixedTest() && !$this->object->isRandomTest()) {
-                $this->tpl->setOnScreenMessage('failure', sprintf(
-                    'You tried to access a Dynamic Test. This is not possible anymore with ILIAS 9. '
-                     . 'Please tell your administrator to run the corresponding migration to remove this Test completely.',
-                    $this->object->getTitle()
-                ), true);
-                $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
-                $this->ctrl->redirectByClass('ilrepositorygui');
-            }
-
-            $this->test_question_set_config_factory = new ilTestQuestionSetConfigFactory(
-                $this->tree,
-                $this->db,
-                $this->lng,
-                $this->logging_services->root(),
-                $this->component_repository,
-                $this->object,
-                $this->questioninfo
-            );
-
-            $this->test_player_factory = new ilTestPlayerFactory($this->object);
-            $this->test_session_factory = new ilTestSessionFactory($this->object, $this->db, $this->user);
-            $this->setTestAccess(new ilTestAccess($this->ref_id));
-        } else {
-            $this->setCreationMode(true); // I think?
-        }
         $this->objective_oriented_container = new ilTestObjectiveOrientedContainer();
 
-        if ($this->object instanceof ilObjTest) {
-            $tabs_manager = new ilTestTabsManager(
-                $this->tabs_gui,
-                $this->lng,
-                $this->ctrl,
-                $this->request_wrapper,
-                $this->refinery,
-                $this->access,
-                $this->test_access,
-                $this->objective_oriented_container
-            );
-            $tabs_manager->setTestOBJ($this->object);
-            $tabs_manager->setTestSession($this->test_session_factory->getSession());
-            $tabs_manager->setTestQuestionSetConfig($this->test_question_set_config_factory->getQuestionSetConfig());
-            $this->setTabsManager($tabs_manager);
+        if (!($this->object instanceof ilObjTest)) {
+            $this->setCreationMode(true);
+            return;
         }
+
+        $this->test_question_set_config_factory = new ilTestQuestionSetConfigFactory(
+            $this->tree,
+            $this->db,
+            $this->lng,
+            $this->getTestObject()->getTestlogger(),
+            $this->component_repository,
+            $this->object,
+            $this->questioninfo
+        );
+
+        $this->test_player_factory = new ilTestPlayerFactory($this->object);
+        $this->test_session_factory = new ilTestSessionFactory($this->object, $this->db, $this->user);
+        $this->setTestAccess(new ilTestAccess($this->ref_id, $this->object->getTestId()));
+
+        $tabs_manager = new ilTestTabsManager(
+            $this->tabs_gui,
+            $this->lng,
+            $this->ctrl,
+            $this->request_wrapper,
+            $this->refinery,
+            $this->access,
+            $this->test_access,
+            $this->objective_oriented_container
+        );
+        $tabs_manager->setTestOBJ($this->object);
+        $tabs_manager->setTestSession($this->test_session_factory->getSession());
+        $tabs_manager->setTestQuestionSetConfig($this->test_question_set_config_factory->getQuestionSetConfig());
+        $this->setTabsManager($tabs_manager);
     }
 
     /**
@@ -291,7 +274,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $export_gui = new ilTestExportGUI(
                     $this,
                     $this->db,
-                    $this->logging_services->root(),
+                    $this->getTestObject()->getTestlogger(),
                     $this->obj_data_cache,
                     $this->component_repository,
                     $this->component_factory->getActivePluginsInSlot('texp'),
@@ -378,7 +361,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->refinery,
                     $this->user,
                     $this->lng,
-                    $this->logging_services,
+                    $this->getTestObject()->getTestlogger(),
                     $this->component_repository,
                     $this->tabs_gui,
                     $this->toolbar,
@@ -591,7 +574,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_renderer,
                     $this->tabs_gui,
                     $this->lng,
-                    $this->logging_services->root(),
+                    $this->getTestObject()->getTestlogger(),
                     $this->tpl,
                     $this->db,
                     $this->tree,
@@ -615,7 +598,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->tabs_gui,
                     $this->tree,
                     $this->db,
-                    $this->logging_services->root(),
+                    $this->getTestObject()->getTestlogger(),
                     $this->component_repository,
                     $this->getTestObject(),
                     $this->access,
@@ -645,7 +628,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->lng,
                     $this->refinery,
                     $this->db,
-                    $this->logging_services->root(),
+                    $this->getTestObject()->getTestlogger(),
                     $this->tree,
                     $this->component_repository,
                     $this->getTestObject(),
@@ -1365,7 +1348,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                         ilSession::get("tst_import_results_file"),
                         $new_obj,
                         $this->db,
-                        $this->logging_services->root()
+                        $this->getTestObject()->getTestlogger()
                     );
                     $results->setQuestionIdMapping($qtiParser->getQuestionIdMapping());
                     $results->startParsing();
@@ -2136,10 +2119,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
         $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_HISTORY);
-        $table_gui = new ilTestHistoryTableGUI($this, 'history');
-        $table_gui->setTestObject($this->object);
-        $log = $this->getTestObject()->getTestLogger()->getLegacyLogsFor($this->object->getId(), true);
-        $table_gui->setData($log);
+        $table_gui = $this->getTestObject()->getTestLogViewer()->getLegacyLogTableForObjId($this, $this->object->getId());
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
 
