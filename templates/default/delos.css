@@ -17875,7 +17875,30 @@ a.ilMediaLightboxClose:hover {
   padding: 0;
   margin: 3px 0;
   border: 0 none;
-  border-bottom: 2px solid #2c2c2c;
+  border-bottom: 2px solid #161616;
+}
+#ilTab > li {
+  float: left;
+  margin: 0 3px 0 0;
+}
+#ilTab > li > a {
+  margin: 0;
+  margin-right: 2px;
+  font-size: 0.875rem;
+  line-height: 1.428571429;
+  padding: 6px 15px 3px;
+  border: 0 none;
+  border-radius: 0px 0px 0 0;
+}
+#ilTab > li > a:hover {
+  border-color: white white white;
+}
+#ilTab > li.active > a, #ilTab > li.active > a:hover, #ilTab > li.active > a:focus {
+  color: white;
+  cursor: default;
+  background-color: #161616;
+  border: 0 none;
+  border-bottom-color: transparent;
 }
 
 #ilTab a:focus-visible {
@@ -17888,11 +17911,14 @@ a.ilMediaLightboxClose:hover {
   margin: 0;
 }
 #ilSubTab > li:first-child > a {
-  margin-left: 3px;
+  padding-left: 12px;
+}
+#ilSubTab > li {
+  float: left;
 }
 #ilSubTab > li > a {
   border-radius: 0;
-  padding: 3px 12px;
+  padding: 3px 6px;
   font-size: 0.75rem;
 }
 #ilSubTab > li > a:hover {
@@ -17954,47 +17980,6 @@ a.ilMediaLightboxClose:hover {
 }
 .nav > li > a > img {
   max-width: none;
-}
-
-.nav-tabs {
-  border-bottom: 1px solid #dddddd;
-}
-.nav-tabs > li {
-  float: left;
-  margin: 0 3px 0 0;
-}
-.nav-tabs > li > a {
-  margin: 0;
-  margin-right: 2px;
-  font-size: 0.875rem;
-  line-height: 1.428571429;
-  padding: 6px 15px 3px;
-  border: 0 none;
-  border-radius: 0px 0px 0 0;
-}
-.nav-tabs > li > a:hover {
-  border-color: white white white;
-}
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  color: white;
-  cursor: default;
-  background-color: #161616;
-  border: 0 none;
-  border-bottom-color: transparent;
-}
-
-.nav-pills > li {
-  float: left;
-}
-.nav-pills > li > a {
-  border-radius: 0px;
-}
-.nav-pills > li + li {
-  margin-left: 2px;
-}
-.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-  color: white;
-  background-color: #4c6586;
 }
 
 .nav-tabs .dropdown-menu {
