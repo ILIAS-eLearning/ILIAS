@@ -70,7 +70,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
      */
     private function parseRows(array $user_ids): array
     {
-        $data = array();
+        $data = [];
         foreach ($user_ids as $user_id) {
             $data[] = $this->getRowForUser($user_id);
         }
@@ -79,13 +79,23 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
 
     private function getRowForUser(int $user_id): array
     {
-        $user = new ilObjUser($user_id);
-        $set = [];
-        $set["login"] = $user->getLogin();
-        $set["first_name"] = $user->getFirstname();
-        $set["last_name"] = $user->getLastname();
-        $set["user_object"] = $user;
-        $set["user_id"] = $user_id;
+        $set = [
+            'login' => " - ",
+            'first_name' => '',
+            'last_name' => '',
+            'user_object' => null,
+            'user_id' => $user_id,
+            'active' => false,
+        ];
+        if(\ilObjUser::_lookupLogin($user_id) !== '') {
+            $user = new ilObjUser($user_id);
+            $set["login"] = $user->getLogin();
+            $set["first_name"] = $user->getFirstname();
+            $set["last_name"] = $user->getLastname();
+            $set["user_object"] = $user;
+            $set["active"] = $user->getActive();
+        }
+
         return $set;
     }
 
@@ -98,8 +108,11 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("LOGIN", $a_set["login"]);
         $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
         $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
-        //		$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "obj_id", $set["user_id"]);
-        //		$this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, "obj_id", $set["user_id"]);
+
+        if($a_set["active"] === false) {
+            $this->tpl->setVariable("INACTIVE", $this->lng->txt('usr_account_inactive'));
+        }
+
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $a_set["user_id"]);
         $this->ctrl->setParameterByClass(
             ilOrgUnitUserAssignmentGUI::class,
