@@ -38,6 +38,7 @@ class ilForumModeratorsGUI
     private ilAccessHandler $access;
     private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
     private \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -57,6 +58,7 @@ class ilForumModeratorsGUI
         $this->lng->loadLanguageModule('search');
         $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         if ($this->http_wrapper->query()->has('ref_id')) {
             $this->ref_id = $this->http_wrapper->query()->retrieve(
@@ -125,10 +127,10 @@ class ilForumModeratorsGUI
     public function detachModeratorRole(): void
     {
         $usr_ids = [];
-        if ($this->http_wrapper->post()->has('usr_id')) {
-            $usr_ids = $this->http_wrapper->post()->retrieve(
-                'usr_id',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        if ($this->http_wrapper->query()->has('frm_moderators_table_usr_ids')) {
+            $usr_ids = $this->http_wrapper->query()->retrieve(
+                'frm_moderators_table_usr_ids',
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
             );
         }
 
@@ -182,32 +184,9 @@ class ilForumModeratorsGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $tbl = new ilForumModeratorsTableGUI($this, 'showModerators', $this->ref_id);
 
-        $entries = $this->oForumModerators->getCurrentModerators();
-        $num = count($entries);
-        $result = [];
-        $i = 0;
-        foreach ($entries as $usr_id) {
-            /** @var ilObjUser $user */
-            $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
-            if (!($user instanceof ilObjUser)) {
-                $this->oForumModerators->detachModeratorRole($usr_id);
-                continue;
-            }
-
-            if ($num > 1) {
-                $result[$i]['check'] = ilLegacyFormElementsUtil::formCheckbox(false, 'usr_id[]', (string) $user->getId());
-            } else {
-                $result[$i]['check'] = '';
-            }
-            $result[$i]['login'] = $user->getLogin();
-            $result[$i]['firstname'] = $user->getFirstname();
-            $result[$i]['lastname'] = $user->getLastname();
-            ++$i;
-        }
-
-        $tbl->setData($result);
-        $this->tpl->setContent($tbl->getHTML());
+        $tbl = new ForumModeratorsTable($this->oForumModerators);
+        $tbl_html = $this->ui_renderer->render($tbl->getComponent());
+        $this->tpl->setContent($tbl_html);
     }
 }
