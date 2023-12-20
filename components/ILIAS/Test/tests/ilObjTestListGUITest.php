@@ -29,7 +29,6 @@ class ilObjTestListGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilSetting();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_filesystem();
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilObjDataCache();

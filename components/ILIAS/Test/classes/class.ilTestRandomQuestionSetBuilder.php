@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -31,7 +33,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     protected function __construct(
         protected ilDBInterface $db,
         protected ilLanguage $lng,
-        protected ilLogger $log,
+        protected TestLogger $logger,
         protected ilObjTest $testOBJ,
         protected ilTestRandomQuestionSetConfig $questionSetConfig,
         protected ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList,
@@ -215,7 +217,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     final public static function getInstance(
         ilDBInterface $db,
         ilLanguage $lng,
-        ilLogger $log,
+        TestLogger $logger,
         ilObjTest $testOBJ,
         ilTestRandomQuestionSetConfig $questionSetConfig,
         ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList,
@@ -225,7 +227,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
             return new ilTestRandomQuestionSetBuilderWithAmountPerPool(
                 $db,
                 $lng,
-                $log,
+                $logger,
                 $testOBJ,
                 $questionSetConfig,
                 $sourcePoolDefinitionList,
@@ -236,7 +238,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
         return new ilTestRandomQuestionSetBuilderWithAmountPerTest(
             $db,
             $lng,
-            $log,
+            $logger,
             $testOBJ,
             $questionSetConfig,
             $sourcePoolDefinitionList,

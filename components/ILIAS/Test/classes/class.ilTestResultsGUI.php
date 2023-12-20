@@ -21,12 +21,11 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\DI\LoggingServices;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * Class ilTestResultsGUI
@@ -53,27 +52,26 @@ class ilTestResultsGUI
     protected ilTestTabsManager $testTabs;
     protected ilTestObjectiveOrientedContainer $objectiveParent;
 
-
     public function __construct(
-        private ilObjTest $testObj,
-        private ilTestQuestionSetConfig $question_set_config,
-        private ilCtrl $ctrl,
-        private ilAccess $access,
-        private ilDBInterface $db,
-        private Refinery $refinery,
-        private ilObjUser $user,
-        private ilLanguage $lng,
-        private LoggingServices $logging_services,
-        private ilComponentRepository $component_repository,
-        private ilTabsGUI $tabs,
-        private ilToolbarGUI $toolbar,
-        private ilGlobalTemplateInterface $main_tpl,
-        private UIFactory $ui_factory,
-        private UIRenderer $ui_renderer,
-        private SkillService $skills_service,
-        private InternalRequestService $testrequest,
-        private QuestionInfoService $questioninfo,
-        private GlobalHttpState $http
+        private readonly ilObjTest $testObj,
+        private readonly ilTestQuestionSetConfig $question_set_config,
+        private readonly ilCtrl $ctrl,
+        private readonly ilAccess $access,
+        private readonly ilDBInterface $db,
+        private readonly Refinery $refinery,
+        private readonly ilObjUser $user,
+        private readonly ilLanguage $lng,
+        private readonly TestLogger $logger,
+        private readonly ilComponentRepository $component_repository,
+        private readonly ilTabsGUI $tabs,
+        private readonly ilToolbarGUI $toolbar,
+        private readonly ilGlobalTemplateInterface $main_tpl,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly SkillService $skills_service,
+        private readonly InternalRequestService $testrequest,
+        private readonly QuestionInfoService $questioninfo,
+        private readonly GlobalHttpState $http
     ) {
     }
 
@@ -262,7 +260,7 @@ class ilTestResultsGUI
                     $this->main_tpl,
                     $this->lng,
                     $this->db,
-                    $this->logging_services,
+                    $this->logger,
                     $this->skills_service,
                     $this->testrequest
                 );

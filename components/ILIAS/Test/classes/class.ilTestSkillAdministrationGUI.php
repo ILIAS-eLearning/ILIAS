@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\Logging\TestLogger;
 
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -41,7 +42,7 @@ class ilTestSkillAdministrationGUI
         private ilLanguage $lng,
         private Refinery $refinery,
         private ilDBInterface $db,
-        private ilLogger $log,
+        private TestLogger $logger,
         private ilTree $tree,
         private ilComponentRepository $component_repository,
         private ilObjTest $test_obj,
@@ -168,7 +169,7 @@ class ilTestSkillAdministrationGUI
             $this->tree,
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->component_repository,
             $this->test_obj,
             $this->questioninfo

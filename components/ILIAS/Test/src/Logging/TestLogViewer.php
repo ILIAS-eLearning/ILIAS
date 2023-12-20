@@ -23,7 +23,7 @@ namespace ILIAS\Test\Logging;
 class TestLogViewer
 {
     public function __construct(
-        private TestLoggingRepository $logging_repository
+        private readonly TestLoggingRepository $logging_repository
     ) {
     }
 

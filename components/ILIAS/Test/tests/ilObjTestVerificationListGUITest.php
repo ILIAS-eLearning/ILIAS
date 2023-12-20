@@ -30,7 +30,6 @@ class ilObjTestVerificationListGUITest extends ilTestBaseTestCase
         $this->addGlobal_filesystem();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilObjDataCache();
 
@@ -45,7 +44,7 @@ class ilObjTestVerificationListGUITest extends ilTestBaseTestCase
     {
         $this->assertNull($this->testObj->init());
 
-        $reflection  = new ReflectionObject($this->testObj);
+        $reflection = new ReflectionObject($this->testObj);
 
         $delete_enabled_property = $reflection->getProperty('delete_enabled');
         $this->assertTrue($delete_enabled_property->getValue($this->testObj));
@@ -80,7 +79,8 @@ class ilObjTestVerificationListGUITest extends ilTestBaseTestCase
 
     public function testGetProperties(): void
     {
-        $this->assertEquals([[
+        $this->assertEquals(
+            [[
             'alert' => false,
             'property' => '',
             'value' => ''

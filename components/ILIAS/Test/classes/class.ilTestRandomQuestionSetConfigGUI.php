@@ -22,6 +22,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * GUI class that manages the question set configuration for continues tests
@@ -64,30 +65,30 @@ class ilTestRandomQuestionSetConfigGUI
     protected ilTestRandomQuestionSetConfigStateMessageHandler $configStateMessageHandler;
 
     public function __construct(
-        private ilObjTest $test_obj,
-        private ilCtrl $ctrl,
-        private ilObjUser $user,
-        private ilAccessHandler $access,
-        private UIFactory $ui_factory,
-        private UIRenderer $ui_renderer,
-        private ilTabsGUI $tabs,
-        private ilLanguage $lng,
-        private ilLogger $log,
-        private ilGlobalTemplateInterface $tpl,
-        private ilDBInterface $db,
-        private ilTree $tree,
-        private ilComponentRepository $component_repository,
-        private ilObjectDefinition $obj_definition,
-        private ilObjectDataCache $obj_cache,
-        private ilTestProcessLockerFactory $processLockerFactory,
-        private InternalRequestService $testrequest,
-        private QuestionInfoService $questioninfo
+        private readonly ilObjTest $test_obj,
+        private readonly ilCtrl $ctrl,
+        private readonly ilObjUser $user,
+        private readonly ilAccessHandler $access,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly ilTabsGUI $tabs,
+        private readonly ilLanguage $lng,
+        private readonly TestLogger $logger,
+        private readonly ilGlobalTemplateInterface $tpl,
+        private readonly ilDBInterface $db,
+        private readonly ilTree $tree,
+        private readonly ilComponentRepository $component_repository,
+        private readonly ilObjectDefinition $obj_definition,
+        private readonly ilObjectDataCache $obj_cache,
+        private readonly ilTestProcessLockerFactory $processLockerFactory,
+        private readonly InternalRequestService $testrequest,
+        private readonly QuestionInfoService $questioninfo
     ) {
         $this->question_set_config = new ilTestRandomQuestionSetConfig(
             $this->tree,
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->component_repository,
             $this->test_obj,
             $this->questioninfo
@@ -109,7 +110,7 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder(
             $this->db,
-            $this->log,
+            $this->logger,
             $this->test_obj
         );
 

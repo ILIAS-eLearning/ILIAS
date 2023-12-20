@@ -31,33 +31,33 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
 
     public function __construct(
-        private \ilDBInterface $db
+        private readonly \ilDBInterface $db
     ) {
     }
 
     public function storeTestAdministrationInteraction(TestAdministrationInteraction $interaction): void
     {
-
+        $this->db->insert(self::TEST_ADMINISTRATION_LOG_TABLE, $interaction->toStorage());
     }
 
     public function storeQuestionAdministrationInteraction(TestQuestionAdministrationInteraction $interaction): void
     {
-
+        $this->db->insert(self::QUESTION_ADMINISTRATION_LOG_TABLE, $interaction->toStorage());
     }
 
     public function storeParticipantInteraction(TestParticipantInteraction $interaction): void
     {
-
+        $this->db->insert(self::PARTICIPANT_LOG_TABLE, $interaction->toStorage());
     }
 
     public function storeMarkingInteraction(TestMarkingInteraction $interaction): void
     {
-
+        $this->db->insert(self::MARKING_LOG_TABLE, $interaction->toStorage());
     }
 
     public function storeError(TestError $interaction): void
     {
-
+        $this->db->insert(self::ERROR_LOG_TABLE, $interaction->toStorage());
     }
 
     /**

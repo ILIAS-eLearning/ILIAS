@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\InternalRequestService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * Export User Interface Class
@@ -37,14 +37,14 @@ class ilTestExportGUI extends ilExportGUI
 {
     public function __construct(
         ilObjTestGUI $parent_gui,
-        private ilDBInterface $db,
-        private ilLogger $logger,
-        private ilObjectDataCache $obj_cache,
-        private ilComponentRepository $component_repository,
-        Generator $active_export_plugins,
-        private ilTestHTMLGenerator $html_generator,
-        private array $selected_files,
-        private QuestionInfoService $questioninfo,
+        private readonly ilDBInterface $db,
+        private readonly TestLogger $logger,
+        private readonly ilObjectDataCache $obj_cache,
+        private readonly ilComponentRepository $component_repository,
+        private readonly Generator $active_export_plugins,
+        private readonly ilTestHTMLGenerator $html_generator,
+        private readonly array $selected_files,
+        private readonly QuestionInfoService $questioninfo,
     ) {
         parent::__construct($parent_gui, null);
 

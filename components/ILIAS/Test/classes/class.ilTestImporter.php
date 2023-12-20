@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+use ILIAS\Test\TestDIC;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * Importer class for files
@@ -35,13 +37,13 @@ class ilTestImporter extends ilXmlImporter
      */
     public static $finallyProcessedTestsRegistry = [];
 
-    private ilLogger $log;
-    private ilDBInterface $db;
+    private readonly TestLogger $logger;
+    private readonly ilDBInterface $db;
 
     public function __construct()
     {
         global $DIC;
-        $this->log = $DIC['ilLog'];
+        $this->logger = TestDIC::dic()['test_logger'];
         $this->db = $DIC['ilDB'];
 
         parent::__construct();
@@ -155,7 +157,7 @@ class ilTestImporter extends ilXmlImporter
         $results_file_path = ilSession::get("tst_import_results_file");
         // import test results
         if ($results_file_path !== null && file_exists($results_file_path)) {
-            $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->log);
+            $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->logger);
             $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'quest'));
             $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'rnd_src_pool_def'));
             $results->startParsing();
@@ -285,6 +287,36 @@ class ilTestImporter extends ilXmlImporter
         }
 
         return $newMappedFilter;
+    }
+
+    /**
+     * Create qti and xml file name
+     * @return array
+     */
+    protected function parseXmlFileNames(): array
+    {
+        $this->logger->info(__METHOD__ . ': ' . $this->getImportDirectory());
+
+        $basename = basename($this->getImportDirectory());
+
+        $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
+        $qti = $this->getImportDirectory() . '/' . preg_replace('/test|tst/', 'qti', $basename) . '.xml';
+
+        return [$xml,$qti];
+    }
+
+    private function getImportDirectoryContainer(): string
+    {
+        $dir = $this->getImportDirectory();
+        $dir = dirname($dir);
+        return $dir;
+    }
+
+    private function getImportPackageName(): string
+    {
+        $dir = $this->getImportDirectory();
+        $name = basename($dir);
+        return $name;
     }
 
     protected function importRandomQuestionSetConfig(ilObjTest $test_obj, $xmlFile, $a_mapping)

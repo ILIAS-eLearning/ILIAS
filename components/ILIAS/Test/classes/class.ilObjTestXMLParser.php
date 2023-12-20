@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\TestDIC;
+use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -26,13 +30,14 @@ declare(strict_types=1);
  */
 class ilObjTestXMLParser extends ilSaxParser
 {
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
-    protected ?ilObjTest $test_obj = null;
+    private readonly QuestionInfoService $questioninfo;
 
-    private ilDBInterface $db;
-    private ilLogger $log;
-    private ilTree $tree;
-    private ilComponentRepository $component_repository;
+    private readonly ilDBInterface $db;
+    private readonly TestLogger $logger;
+    private readonly ilTree $tree;
+    private readonly ilComponentRepository $component_repository;
+
+    protected ?ilObjTest $test_obj = null;
 
     protected ?ilImportMapping $import_mapping = null;
 
@@ -51,7 +56,7 @@ class ilObjTestXMLParser extends ilSaxParser
     ) {
         global $DIC;
         $this->db = $DIC['ilDB'];
-        $this->log = $DIC['ilLog'];
+        $this->logger = TestDIC::dic()['test_logger'];
         $this->tree = $DIC['tree'];
         $this->component_repository = $DIC['component.repository'];
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
@@ -224,7 +229,7 @@ class ilObjTestXMLParser extends ilSaxParser
             $this->tree,
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->component_repository,
             $this->test_obj,
             $this->questioninfo

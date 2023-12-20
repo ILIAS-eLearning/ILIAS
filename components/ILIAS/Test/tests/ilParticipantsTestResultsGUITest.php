@@ -32,7 +32,6 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_tpl();
-        $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_http();
         $this->addGlobal_refinery();
         $this->addGlobal_ilCtrl();

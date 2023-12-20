@@ -359,7 +359,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
         $available_tests = ilObjTest::_getAvailableTests(1);
         $csv[] = ilCSVUtil::processCSVRow($row, true, $separator);
-        $log_output = $this->getTestFolder()->getTestLogger()->getLegacyLogsForObjId($test);
+        $log_output = $this->getTestFolder()->getTestLogViewer()->getLegacyLogsForObjId($test);
         $users = [];
         foreach ($log_output as $key => $log) {
             if (!array_key_exists($log["user_fi"], $users)) {

@@ -22,8 +22,8 @@ use ILIAS\Test\TestDIC;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\MainSettingsRepository;
-use ILIAS\Test\Administration\TestLoggingSettings;
 use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Stream\Streams;
@@ -109,13 +109,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     protected ilBenchmark $bench;
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
-    protected TestLoggingSettings $logging_settings;
     protected ?ilObjTestMainSettings $main_settings = null;
     protected ?MainSettingsRepository $main_settings_repo = null;
     protected ?ilObjTestScoreSettings $score_settings = null;
     protected ?ScoreSettingsRepository $score_settings_repo = null;
 
-    protected ?TestLogger $test_logger = null;
+    protected TestLogger $logger;
+    protected TestLogViewer $log_viewer;
     protected ilTestQuestionSetConfigFactory $question_set_config_factory;
 
     private ilComponentRepository $component_repository;
@@ -148,10 +148,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $local_dic = $this->getLocalDIC();
         $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
         $this->test_man_scoring_done_helper = $local_dic['manScoringDoneHelper'];
-        $this->logging_settings = $local_dic['logging_settings'];
-        if ($this->logging_settings->getLoggingEnabled()) {
-            $this->test_logger['test_logger'];
-        }
+        $this->logger = $local_dic['test_logger'];
+        $this->log_viewer = $local_dic['test_log_viewer'];
 
         $this->mark_schema = new ASS_MarkSchema($DIC['ilDB'], $DIC['lng'], $DIC['ilUser']->getId());
         $this->mark_schema->createSimpleSchema(
@@ -175,7 +173,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $this->tree,
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->component_repository,
             $this,
             $this->questioninfo
@@ -187,9 +185,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return TestDIC::dic();
     }
 
-    public function getTestLogger(): ?TestLogger
+    public function getTestLogger(): TestLogger
     {
-        return $this->test_logger;
+        return $this->logger;
+    }
+
+    public function getTestLogViewer(): TestLogViewer
+    {
+        return $this->log_viewer;
     }
 
     public function getQuestionSetConfig(): ilTestQuestionSetConfig
@@ -1050,8 +1053,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $question = self::_instanciateQuestion($question_id);
             $question->delete($question_id);
         } catch (InvalidArgumentException $e) {
-            $this->log->error($e->getMessage());
-            $this->log->error($e->getTraceAsString());
+            $this->logger->error($e->getMessage());
+            $this->logger->error($e->getTraceAsString());
         }
     }
 
@@ -4483,7 +4486,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 $this->tree,
                 $this->db,
                 $this->lng,
-                $this->log,
+                $this->logger,
                 $this->component_repository,
                 $this,
                 $this->questioninfo
@@ -5919,7 +5922,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $result = $decoded_result;
         }
 
-        $this->log->write(print_r(ilSession::get('import_mob_xhtml'), true));
+        $this->logger->info(print_r(ilSession::get('import_mob_xhtml'), true));
         return [
             'text' => $result,
             'mobs' => $mobs
@@ -6492,7 +6495,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             );
             return true;
         } catch (Exception $e) {
-            $this->log->write(__METHOD__ . ': ' . $e->getMessage());
+            $this->logger->info(__METHOD__ . ': ' . $e->getMessage());
             return false;
         }
     }
@@ -6900,7 +6903,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function getXMLZip(): string
     {
-        $expFactory = new ilTestExportFactory($this, $this->lng, $this->log, $this->tree, $this->component_repository, $this->questioninfo);
+        $expFactory = new ilTestExportFactory(
+            $this,
+            $this->lng,
+            $this->logger,
+            $this->tree,
+            $this->component_repository,
+            $this->questioninfo
+        );
         $test_exp = $expFactory->getExporter('xml');
         return $test_exp->buildExportFile();
     }

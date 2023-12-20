@@ -26,14 +26,14 @@ class TestMarkingInteraction implements TestUserInteraction
     * @param array<string label_lang_var => mixed value> $additional_data
     */
     public function __construct(
-        private \ilLanguage $lng,
-        private int $test_ref_id,
-        private int $question_id,
-        private \ilObjUser $administrator,
-        private \ilObjUser $participant,
-        private TestMarkingInteractionTypes $interaction_types,
-        private int $modification_timestamp,
-        private array $additional_data
+        private readonly \ilLanguage $lng,
+        private readonly int $test_ref_id,
+        private readonly int $question_id,
+        private readonly \ilObjUser $administrator,
+        private readonly \ilObjUser $participant,
+        private readonly TestMarkingInteractionTypes $interaction_types,
+        private readonly int $modification_timestamp,
+        private readonly array $additional_data
     ) {
 
     }
@@ -76,5 +76,18 @@ class TestMarkingInteraction implements TestUserInteraction
     public function getLogEntryAsCsvRow(): string
     {
 
+    }
+
+    public function toStorage(): array
+    {
+        return [
+            'ref_id' => [\ilDBConstants::T_INTEGER , $this->getTestRefId()],
+            'qst_id' => [\ilDBConstants::T_INTEGER , $this->getQuestionId()],
+            'admin_id' => [\ilDBConstants::T_INTEGER , $this->getAdministratorId()],
+            'pax_id' => [\ilDBConstants::T_INTEGER , $this->getParticipantId()],
+            'interaction_type' => [\ilDBConstants::T_TEXT , $this->getInteractionType()->value],
+            'modification_ts' => [\ilDBConstants::T_INTEGER , $this->getModificationTimestamp()],
+            'additional_data' => [\ilDBConstants::T_CLOB , serialize($this->additional_data)]
+        ];
     }
 }

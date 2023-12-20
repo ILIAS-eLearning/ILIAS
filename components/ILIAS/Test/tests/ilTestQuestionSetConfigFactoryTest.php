@@ -32,14 +32,14 @@ class ilTestQuestionSetConfigFactoryTest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_lng();
-        $this->addGlobal_ilLog();
         $this->addGlobal_ilComponentRepository();
 
+        $test_logger = $this->createMock(ILIAS\Test\Logging\TestLogger::class);
         $this->testObj = new ilTestQuestionSetConfigFactory(
             $DIC['tree'],
             $DIC['ilDB'],
             $DIC['lng'],
-            $DIC['ilLog'],
+            $test_logger,
             $DIC['component.repository'],
             $this->createMock(ilObjTest::class),
             $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class)

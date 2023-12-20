@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\QuestionPoolLinkedTitleBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
