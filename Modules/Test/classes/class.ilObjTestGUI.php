@@ -1987,7 +1987,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             foreach ($selected_array as $key => $value) {
                 $this->object->insertQuestion($this->test_question_set_config_factory->getQuestionSetConfig(), $value);
                 if (!$manscoring) {
-                    $manscoring = $manscoring | assQuestion::_needsManualScoring($value);
+                    $manscoring = $manscoring | assQuestion::_needsManualScoring((int) $value);
                 }
             }
             $this->object->saveCompleteStatus($this->test_question_set_config_factory->getQuestionSetConfig());
