@@ -324,6 +324,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 $correction_feedback['finalized_evaluation'] = $this->lng->txt('yes');
             } else {
                 $correction_feedback['finalized_evaluation'] = $this->lng->txt('no');
+                $correction_feedback['finalized_by'] = '';
             }
 
             echo json_encode([ 'feedback' => $correction_feedback, 'points' => $correction_points, "translation" => ['yes' => $this->lng->txt('yes'), 'no' => $this->lng->txt('no')]]);
