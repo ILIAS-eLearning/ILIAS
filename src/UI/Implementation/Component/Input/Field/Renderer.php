@@ -675,8 +675,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("MAX_DATE", date_format($max_date, $min_max_format));
         }
 
-        $tpl->setVariable("PLACEHOLDER", $format);
-
         $this->applyValue($component, $tpl, function (?string $value) use ($dt_type) {
             if ($value !== null) {
                 $value = new \DateTimeImmutable($value);
@@ -707,9 +705,14 @@ class Renderer extends AbstractComponentRenderer
                                                                     'useCurrent' => false
         ]);
         $input_html .= $default_renderer->render($input);
+
+        $start = strpos($input_html, '<input id="') + strlen('<input id="');
+        $stop = strpos($input_html, '"', $start);
+        $first_input_id = substr($input_html, $start, $stop - $start);
+
         $tpl->setVariable('DURATION', $input_html);
 
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->wrapInFormContext($component, $tpl->get(), $first_input_id);
     }
 
     protected function renderSection(F\Section $section, RendererInterface $default_renderer): string
