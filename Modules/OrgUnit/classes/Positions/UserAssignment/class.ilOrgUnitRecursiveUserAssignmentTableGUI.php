@@ -32,6 +32,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
     private static array $permission_view_lp_recursive = [];
     protected ilAccessHandler $access;
     protected DropdownBuilder $dropdownbuilder;
+    protected int $orgu_ref_id;
 
     public function __construct(
         BaseCommands $parent_obj,
@@ -112,17 +113,29 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
             $permission_view_lp = $this->mayViewLPIn($ref_id, $orgu_tree);
             foreach ($orgu_tree->getAssignedUsers([$ref_id], $this->position->getId()) as $usr_id) {
                 if (!array_key_exists($usr_id, $data)) {
-                    $user = new ilObjUser($usr_id);
-                    $set["login"] = $user->getLogin();
-                    $set["first_name"] = $user->getFirstname();
-                    $set["last_name"] = $user->getLastname();
-                    $set["user_id"] = $usr_id;
-                    $set["orgu_assignments"] = [];
-                    $set['view_lp'] = false;
+                    $set = [
+                        'login' => " - ",
+                        'first_name' => '',
+                        'last_name' => '',
+                        'user_id' => $usr_id,
+                        'active' => false,
+                        'orgu_assignments' => [],
+                        'view_lp' => false
+                    ];
+                    if(\ilObjUser::_lookupLogin($usr_id) !== '') {
+                        $user = new ilObjUser($usr_id);
+                        $set["login"] = $user->getLogin();
+                        $set["first_name"] = $user->getFirstname();
+                        $set["last_name"] = $user->getLastname();
+                        $set["active"] = $user->getActive();
+                    }
                     $data[$usr_id] = $set;
                 }
                 $data[$usr_id]['orgu_assignments'][] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
                 $data[$usr_id]['view_lp'] = $permission_view_lp || $data[$usr_id]['view_lp'];
+                if(! array_key_exists('active', $data[$usr_id])) {
+                    $data[$usr_id]["active"] = \ilObjUser::_lookupActive($usr_id);
+                }
             }
         }
 
@@ -162,6 +175,10 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("LOGIN", $a_set["login"]);
         $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
         $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
+        if($a_set["active"] === false) {
+            $this->tpl->setVariable("INACTIVE", $this->lng->txt('usr_account_inactive'));
+        }
+
         $orgus = $a_set['orgu_assignments'];
         sort($orgus);
         $this->tpl->setVariable("ORG_UNITS", implode(',', $orgus));
