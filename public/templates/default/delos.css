@@ -18012,13 +18012,17 @@ a.ilMediaLightboxClose:hover {
 .ilToolbar .ilToolbarItems {
   padding: 0;
 }
-.ilToolbar > .form-control {
+.ilToolbar .navbar-form > .form-control {
   width: auto;
   display: inline-block;
   vertical-align: middle;
 }
-.ilToolbar .input-group {
+.ilToolbar .navbar-form > .input-group {
+  display: inline-table;
   vertical-align: middle;
+}
+.ilToolbar .navbar-form > .input-group > .input-group-btn {
+  width: auto;
 }
 .ilToolbar input[type=file] {
   display: inline-block;
@@ -18115,6 +18119,18 @@ a.ilMediaLightboxClose:hover {
     padding-left: 0;
   }
 }
+.ilToolbar .navbar-form > .input-group > .input-group-btn {
+  width: auto;
+}
+
+.ilToolbar .navbar-form > .input-group {
+  display: inline-table;
+}
+
+.ilToolbar .navbar-form > .form-control {
+  display: inline-block;
+}
+
 .navbar {
   position: relative;
   min-height: 40px;

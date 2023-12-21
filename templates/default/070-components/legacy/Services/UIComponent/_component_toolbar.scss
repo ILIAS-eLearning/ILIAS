@@ -128,13 +128,17 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 		padding: 0;
 	}
 
-	> .form-control {
+	.navbar-form > .form-control {
 		width: auto;
 		display: inline-block;
 		vertical-align: middle;
 	}
-	.input-group  {
+	.navbar-form > .input-group  {
+		display: inline-table;
 		vertical-align: middle;
+		> .input-group-btn {
+			width: auto;
+		}
 	}
 
 	input[type="file"] {
