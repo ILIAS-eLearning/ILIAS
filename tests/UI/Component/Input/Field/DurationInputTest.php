@@ -167,19 +167,19 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-           <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
            <div class="col-sm-8 col-md-9 col-lg-10">
-              <div class="il-input-duration" id="id_1">
+              <div class="il-input-duration" id="id_3">
                  <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_start . '</label>
+                    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_start . '</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
-                       <div class="input-group date il-input-datetime"><input id="id_2" type="date" class="form-control form-control-sm" /></div>
+                       <div class="input-group date il-input-datetime"><input id="id_1" type="date" class="form-control form-control-sm" /></div>
                     </div>
                  </div>
                  <div class="form-group row">
-                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_end . '</label>
+                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_end . '</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
-                       <div class="input-group date il-input-datetime"><input id="id_3" type="date" class="form-control form-control-sm" /></div>
+                       <div class="input-group date il-input-datetime"><input id="id_2" type="date" class="form-control form-control-sm" /></div>
                     </div>
                  </div>
               </div>
@@ -206,19 +206,19 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-               <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+               <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                <div class="col-sm-8 col-md-9 col-lg-10">
-                  <div class="il-input-duration" id="id_1">
+                  <div class="il-input-duration" id="id_3">
                      <div class="form-group row">
-                        <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_start_label . '</label>
+                        <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_start_label . '</label>
                         <div class="col-sm-8 col-md-9 col-lg-10">
-                           <div class="input-group date il-input-datetime"><input id="id_2" type="date" class="form-control form-control-sm" /></div>
+                           <div class="input-group date il-input-datetime"><input id="id_1" type="date" class="form-control form-control-sm" /></div>
                         </div>
                      </div>
                      <div class="form-group row">
-                        <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_end_label . '</label>
+                        <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_end_label . '</label>
                         <div class="col-sm-8 col-md-9 col-lg-10">
-                           <div class="input-group date il-input-datetime"><input id="id_3" type="date" class="form-control form-control-sm" /></div>
+                           <div class="input-group date il-input-datetime"><input id="id_2" type="date" class="form-control form-control-sm" /></div>
                         </div>
                      </div>
                   </div>

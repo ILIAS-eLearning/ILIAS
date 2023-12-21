@@ -640,6 +640,16 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): string
     {
+        list($component, $tpl) = $this->internalRenderDateTimeField($component, $default_renderer);
+        $id = $this->bindJSandApplyId($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
+    }
+
+    /**
+     * @return array<DateTime,Template>
+     */
+    protected function internalRenderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): array
+    {
         $tpl = $this->getTemplate("tpl.datetime.html", true, true);
         $this->applyName($component, $tpl);
 
@@ -687,29 +697,25 @@ class Renderer extends AbstractComponentRenderer
             return null;
         });
         $this->maybeDisable($component, $tpl);
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+
+        return [$component, $tpl];
     }
 
     protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.duration.html", true, true);
-
-        $id = $this->bindJSandApplyId($component, $tpl);
-
-        $input_html = '';
         $inputs = $component->getInputs();
+
         $input = array_shift($inputs); //from
-        $input_html .= $default_renderer->render($input);
-        $input = array_shift($inputs)->withAdditionalPickerconfig([ //until
-                                                                    'useCurrent' => false
-        ]);
+        list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
+        $first_input_id = $this->bindJSandApplyId($input, $tpl);
+        $input_html = $this->wrapInFormContext($input, $tpl->get(), $first_input_id);
+
+        $input = array_shift($inputs) //until
+            ->withAdditionalPickerconfig(['useCurrent' => false]);
         $input_html .= $default_renderer->render($input);
 
-        $start = strpos($input_html, '<input id="') + strlen('<input id="');
-        $stop = strpos($input_html, '"', $start);
-        $first_input_id = substr($input_html, $start, $stop - $start);
-
+        $tpl = $this->getTemplate("tpl.duration.html", true, true);
+        $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable('DURATION', $input_html);
 
         return $this->wrapInFormContext($component, $tpl->get(), $first_input_id);
