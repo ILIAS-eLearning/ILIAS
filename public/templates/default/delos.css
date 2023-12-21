@@ -4854,6 +4854,7 @@ header {
 .breadcrumbs {
   position: sticky;
   top: 0;
+  min-height: 33px;
   align-items: center;
   background-color: white;
   display: flex;
@@ -8948,6 +8949,12 @@ th.c-table-data__cell {
   th.c-table-data__cell.c-table-data__header__rowselection {
     padding: 12px 12px;
     text-align: center;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .breadcrumbs + #mainspacekeeper th.c-table-data__cell {
+    top: 32px;
   }
 }
 

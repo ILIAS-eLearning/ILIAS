@@ -2,6 +2,7 @@
 @use "../../../030-tools/_tool_buttons" as *;
 @use "../../../030-tools/_tool_browser-prefixes" as *;
 @use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/layout_standardpage" as spage;
 @use "../../../050-layout/layout_grid" as l-grid;
 @use "../../../030-tools/tool_highlighted-box" as box;
 @use "../../../050-layout/layout_breakpoints" as brk;
@@ -158,6 +159,14 @@ th.c-table-data__cell {
             padding: $il-padding-xxlarge-vertical $il-padding-large-horizontal;
             text-align: center;
         }
+    }
+}
+
+// stick under breadcrumbs when they are present
+
+.breadcrumbs + #mainspacekeeper th.c-table-data__cell {
+    @include brk.on-screen-size(large) {
+        top: spage.$il-standard-page-breadcrumbs-height - 1px;
     }
 }
 
