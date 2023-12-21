@@ -1857,50 +1857,77 @@ class ilPageObjectGUI
                     case "str":
                         $c_formats[] = ["text" => '<span class="ilc_text_inline_Strong">' . $str . '</span>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Strong"]
+                                        "data" => ["format" => "Strong"],
+                                        "aria-label" => $lng->txt("cont_text_str")
                         ];
                         break;
                     case "emp":
                         $c_formats[] = ["text" => '<span class="ilc_text_inline_Emph">' . $emp . '</span>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Emph"]
+                                        "data" => ["format" => "Emph"],
+                                        "aria-label" => $lng->txt("cont_text_emp")
                         ];
                         break;
                     case "imp":
                         $c_formats[] = ["text" => '<span class="ilc_text_inline_Important">' . $imp . '</span>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Important"]
+                                        "data" => ["format" => "Important"],
+                                        "aria-label" => $lng->txt("cont_text_imp")
                         ];
                         break;
                     case "sup":
                         $c_formats[] = ["text" => 'x<sup>2</sup>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Sup"]
+                                        "data" => ["format" => "Sup"],
+                                        "aria-label" => $lng->txt("cont_text_sup")
                         ];
                         break;
                     case "sub":
                         $c_formats[] = ["text" => 'x<sub>2</sub>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Sub"]
+                                        "data" => ["format" => "Sub"],
+                                        "aria-label" => $lng->txt("cont_text_sub")
                         ];
                         break;
                 }
             }
         }
         $c_formats[] = ["text" => "<i>A</i>",
-                        "action" => $char_formats
+                        "action" => $char_formats,
+                        "aria-label" => $lng->txt("copg_more_character_formats")
         ];
         $c_formats[] = ["text" => '<i><b><u>T</u></b><sub>x</sub></i>',
                         "action" => "selection.removeFormat",
-                        "data" => []
+                        "data" => [],
+                        "aria-label" => $lng->txt("copg_remove_formats")
         ];
         $menu = [
             "cont_char_format" => $c_formats,
             "cont_lists" => [
-                ["text" => $bullet_list, "action" => "list.bullet", "data" => []],
-                ["text" => $numbered_list, "action" => "list.number", "data" => []],
-                ["text" => $outdent, "action" => "list.outdent", "data" => []],
-                ["text" => $indent, "action" => "list.indent", "data" => []]
+                [
+                    "text" => $bullet_list,
+                    "action" => "list.bullet",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_bullet_list")
+                ],
+                [
+                    "text" => $numbered_list,
+                    "action" => "list.number",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_numbered_list")
+                ],
+                [
+                    "text" => $outdent,
+                    "action" => "list.outdent",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_list_outdent")
+                ],
+                [
+                    "text" => $indent,
+                    "action" => "list.indent",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_list_indent")
+                ]
             ]
         ];
 
@@ -1963,13 +1990,28 @@ class ilPageObjectGUI
                 if (is_array($item["action"])) {
                     $buttons = [];
                     foreach ($item["action"] as $i) {
-                        $buttons[] = $ui_wrapper->getButton($i["text"], "par-action", $i["action"], $i["data"]);
+                        $buttons[] = $ui_wrapper->getButton(
+                            $i["text"],
+                            "par-action",
+                            $i["action"],
+                            $i["data"],
+                            "",
+                            $i["aria-label"] ?? ""
+                        );
                     }
-                    $dd = $ui->factory()->dropdown()->standard($buttons)->withLabel($item["text"]);
+                    $dd = $ui->factory()->dropdown()->standard($buttons)->withLabel($item["text"])
+                        ->withAriaLabel($item["aria-label"] ?? "");
                     $btpl->setCurrentBlock("button");
                     $btpl->setVariable("BUTTON", $ui->renderer()->renderAsync($dd));
                 } else {
-                    $b = $ui_wrapper->getRenderedButton($item["text"], "par-action", $item["action"], $item["data"]);
+                    $b = $ui_wrapper->getRenderedButton(
+                        $item["text"],
+                        "par-action",
+                        $item["action"],
+                        $item["data"],
+                        "",
+                        $item["aria-label"] ?? ""
+                    );
                     $btpl->setCurrentBlock("button");
                     $btpl->setVariable("BUTTON", $b);
                 }
