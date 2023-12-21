@@ -18,18 +18,19 @@
 
 declare(strict_types=1);
 
-class ilObjTestSettingsAdditionalTest extends ilTestBaseTestCase
+use ILIAS\Test\MainSettings\SettingsAdditional;
+
+class SettingsAdditionalTest extends ilTestBaseTestCase
 {
     /**
      * @dataProvider getSkillsServiceEnabledDataProvider
      */
-    public function testGetAndWithSkillsServiceEnabled(bool $IO): void
+    public function testGetAndWithSkillsServiceEnabled(bool $io): void
     {
-        $ilObjTestSettingsAdditional = new ilObjTestSettingsAdditional(0);
-        $ilObjTestSettingsAdditional = $ilObjTestSettingsAdditional->withSkillsServiceEnabled($IO);
+        $settings_additional = (new SettingsAdditional(0))->withSkillsServiceEnabled($io);
 
-        $this->assertInstanceOf(ilObjTestSettingsAdditional::class, $ilObjTestSettingsAdditional);
-        $this->assertEquals($IO, $ilObjTestSettingsAdditional->getSkillsServiceEnabled());
+        $this->assertInstanceOf(SettingsAdditional::class, $settings_additional);
+        $this->assertEquals($io, $settings_additional->getSkillsServiceEnabled());
     }
 
     public static function getSkillsServiceEnabledDataProvider(): array
@@ -43,13 +44,12 @@ class ilObjTestSettingsAdditionalTest extends ilTestBaseTestCase
     /**
      * @dataProvider getHideInfoTabDataProvider
      */
-    public function testGetAndWithHideInfoTab(bool $IO): void
+    public function testGetAndWithHideInfoTab(bool $io): void
     {
-        $ilObjTestSettingsAdditional = new ilObjTestSettingsAdditional(0);
-        $ilObjTestSettingsAdditional = $ilObjTestSettingsAdditional->withHideInfoTab($IO);
+        $settings_additional = (new SettingsAdditional(0))->withHideInfoTab($io);
 
-        $this->assertInstanceOf(ilObjTestSettingsAdditional::class, $ilObjTestSettingsAdditional);
-        $this->assertEquals($IO, $ilObjTestSettingsAdditional->getHideInfoTab());
+        $this->assertInstanceOf(SettingsAdditional::class, $settings_additional);
+        $this->assertEquals($io, $settings_additional->getHideInfoTab());
     }
 
     public static function getHideInfoTabDataProvider(): array

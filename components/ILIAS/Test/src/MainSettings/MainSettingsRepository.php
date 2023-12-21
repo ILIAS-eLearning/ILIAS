@@ -16,10 +16,10 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Test;
+namespace ILIAS\Test\MainSettings;
 
 interface MainSettingsRepository
 {
-    public function getFor(int $test_id): \ilObjTestMainSettings;
-    public function store(\ilObjTestMainSettings $settings): void;
+    public function getFor(int $test_id): MainSettings;
+    public function store(MainSettings $settings): void;
 }

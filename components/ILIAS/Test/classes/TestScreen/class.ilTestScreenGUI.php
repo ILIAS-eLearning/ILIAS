@@ -32,6 +32,8 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 
+use ILIAS\Test\MainSettings\MainSettings;
+
 /**
  * Class ilTestScreenGUI
  *
@@ -43,7 +45,7 @@ class ilTestScreenGUI
 
     private readonly ilTestPassesSelector $test_passes_selector;
     private readonly int $ref_id;
-    private readonly ilObjTestMainSettings $main_settings;
+    private readonly MainSettings $main_settings;
     private readonly ilTestSession $test_session;
     private readonly DataFactory $data_factory;
     private ilTestPasswordChecker $password_checker;

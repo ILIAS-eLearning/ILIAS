@@ -18,18 +18,19 @@
 
 declare(strict_types=1);
 
-class ilObjTestSettingsGeneralTest extends ilTestBaseTestCase
+use ILIAS\Test\MainSettings\SettingsGeneral;
+
+class SettingsGeneralTest extends ilTestBaseTestCase
 {
     /**
      * @dataProvider getAndWithQuestionSetTypeDataProvider
      */
-    public function testGetAndWithQuestionSetType(string $IO): void
+    public function testGetAndWithQuestionSetType(string $io): void
     {
-        $ilObjTestSettingsGeneral = (new ilObjTestSettingsGeneral(0));
-        $ilObjTestSettingsGeneral = $ilObjTestSettingsGeneral->withQuestionSetType($IO);
+        $Settings_general = (new SettingsGeneral(0))->withQuestionSetType($io);
 
-        $this->assertInstanceOf(ilObjTestSettingsGeneral::class, $ilObjTestSettingsGeneral);
-        $this->assertEquals($IO, $ilObjTestSettingsGeneral->getQuestionSetType());
+        $this->assertInstanceOf(SettingsGeneral::class, $Settings_general);
+        $this->assertEquals($io, $Settings_general->getQuestionSetType());
     }
 
     public static function getAndWithQuestionSetTypeDataProvider(): array
@@ -43,13 +44,12 @@ class ilObjTestSettingsGeneralTest extends ilTestBaseTestCase
     /**
      * @dataProvider getAndWithAnonymityDataProvider
      */
-    public function testGetAndWithAnonymity(bool $IO): void
+    public function testGetAndWithAnonymity(bool $io): void
     {
-        $ilObjTestSettingsGeneral = (new ilObjTestSettingsGeneral(0));
-        $ilObjTestSettingsGeneral = $ilObjTestSettingsGeneral->withAnonymity($IO);
+        $Settings_general = (new SettingsGeneral(0))->withAnonymity($io);
 
-        $this->assertInstanceOf(ilObjTestSettingsGeneral::class, $ilObjTestSettingsGeneral);
-        $this->assertEquals($IO, $ilObjTestSettingsGeneral->getAnonymity());
+        $this->assertInstanceOf(SettingsGeneral::class, $Settings_general);
+        $this->assertEquals($io, $Settings_general->getAnonymity());
     }
 
     public static function getAndWithAnonymityDataProvider(): array

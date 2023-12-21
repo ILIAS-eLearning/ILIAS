@@ -18,34 +18,31 @@
 
 declare(strict_types=1);
 
-class ilObjTestMainSettings
+namespace ILIAS\Test\MainSettings;
+
+class MainSettings
 {
-    protected int $test_id;
-    protected int $obj_id;
-    protected ilObjTestSettingsIntroduction $settings_introduction;
-    protected ilObjTestSettingsFinishing $settings_finishing;
-    protected ilObjTestSettingsAccess $settings_access;
-    protected ilObjTestSettingsTestBehaviour $settings_test_behaviour;
-    protected ilObjTestSettingsQuestionBehaviour $settings_question_behaviour;
-    protected ilObjTestSettingsParticipantFunctionality $settings_participant_functionality;
-    protected ilObjTestSettingsGeneral $settings_general;
-    protected ilObjTestSettingsAdditional $settings_additional;
+    protected SettingsIntroduction $settings_introduction;
+    protected SettingsFinishing $settings_finishing;
+    protected SettingsAccess $settings_access;
+    protected SettingsTestBehaviour $settings_test_behaviour;
+    protected SettingsQuestionBehaviour $settings_question_behaviour;
+    protected SettingsParticipantFunctionality $settings_participant_functionality;
+    protected SettingsGeneral $settings_general;
+    protected SettingsAdditional $settings_additional;
 
     public function __construct(
-        int $test_id,
-        int $obj_id,
-        ilObjTestSettingsGeneral $settings_general,
-        ilObjTestSettingsIntroduction $settings_introduction,
-        ilObjTestSettingsAccess $settings_access,
-        ilObjTestSettingsTestBehaviour $settings_test_behaviour,
-        ilObjTestSettingsQuestionBehaviour $settings_question_behaviour,
-        ilObjTestSettingsParticipantFunctionality $settings_participant_functionality,
-        ilObjTestSettingsFinishing $settings_finishing,
-        ilObjTestSettingsAdditional $settings_additional
+        protected int $test_id,
+        protected int $obj_id,
+        SettingsGeneral $settings_general,
+        SettingsIntroduction $settings_introduction,
+        SettingsAccess $settings_access,
+        SettingsTestBehaviour $settings_test_behaviour,
+        SettingsQuestionBehaviour $settings_question_behaviour,
+        SettingsParticipantFunctionality $settings_participant_functionality,
+        SettingsFinishing $settings_finishing,
+        SettingsAdditional $settings_additional
     ) {
-        $this->test_id = $test_id;
-        $this->obj_id = $obj_id;
-
         foreach ([
             $settings_general,
             $settings_introduction,
@@ -107,11 +104,11 @@ class ilObjTestMainSettings
         return $clone;
     }
 
-    public function getGeneralSettings(): ilObjTestSettingsGeneral
+    public function getGeneralSettings(): SettingsGeneral
     {
         return $this->settings_general;
     }
-    public function withGeneralSettings(ilObjTestSettingsGeneral $settings): self
+    public function withGeneralSettings(SettingsGeneral $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -119,11 +116,11 @@ class ilObjTestMainSettings
         return $clone;
     }
 
-    public function getIntroductionSettings(): ilObjTestSettingsIntroduction
+    public function getIntroductionSettings(): SettingsIntroduction
     {
         return $this->settings_introduction;
     }
-    public function withIntroductionSettings(ilObjTestSettingsIntroduction $settings): self
+    public function withIntroductionSettings(SettingsIntroduction $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -131,11 +128,11 @@ class ilObjTestMainSettings
         return $clone;
     }
 
-    public function getAccessSettings(): ilObjTestSettingsAccess
+    public function getAccessSettings(): SettingsAccess
     {
         return $this->settings_access;
     }
-    public function withAccessSettings(ilObjTestSettingsAccess $settings): self
+    public function withAccessSettings(SettingsAccess $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -143,11 +140,11 @@ class ilObjTestMainSettings
         return $clone;
     }
 
-    public function getTestBehaviourSettings(): ilObjTestSettingsTestBehaviour
+    public function getTestBehaviourSettings(): SettingsTestBehaviour
     {
         return $this->settings_test_behaviour;
     }
-    public function withTestBehaviourSettings(ilObjTestSettingsTestBehaviour $settings): self
+    public function withTestBehaviourSettings(SettingsTestBehaviour $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -155,11 +152,11 @@ class ilObjTestMainSettings
         return $clone;
     }
 
-    public function getQuestionBehaviourSettings(): ilObjTestSettingsQuestionBehaviour
+    public function getQuestionBehaviourSettings(): SettingsQuestionBehaviour
     {
         return $this->settings_question_behaviour;
     }
-    public function withQuestionBehaviourSettings(ilObjTestSettingsQuestionBehaviour $settings): self
+    public function withQuestionBehaviourSettings(SettingsQuestionBehaviour $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -167,11 +164,11 @@ class ilObjTestMainSettings
         return $clone;
     }
 
-    public function getParticipantFunctionalitySettings(): ilObjTestSettingsParticipantFunctionality
+    public function getParticipantFunctionalitySettings(): SettingsParticipantFunctionality
     {
         return $this->settings_participant_functionality;
     }
-    public function withParticipantFunctionalitySettings(ilObjTestSettingsParticipantFunctionality $settings): self
+    public function withParticipantFunctionalitySettings(SettingsParticipantFunctionality $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -179,11 +176,11 @@ class ilObjTestMainSettings
         return $clone;
     }
 
-    public function getFinishingSettings(): ilObjTestSettingsFinishing
+    public function getFinishingSettings(): SettingsFinishing
     {
         return $this->settings_finishing;
     }
-    public function withFinishingSettings(ilObjTestSettingsFinishing $settings): self
+    public function withFinishingSettings(SettingsFinishing $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -191,11 +188,11 @@ class ilObjTestMainSettings
         return $clone;
     }
 
-    public function getAdditionalSettings(): ilObjTestSettingsAdditional
+    public function getAdditionalSettings(): SettingsAdditional
     {
         return $this->settings_additional;
     }
-    public function withAdditionalSettings(ilObjTestSettingsAdditional $settings): self
+    public function withAdditionalSettings(SettingsAdditional $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;

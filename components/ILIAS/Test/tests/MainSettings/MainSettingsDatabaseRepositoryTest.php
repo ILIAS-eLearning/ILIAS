@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilObjTestMainSettingsDatabaseRepositoryTest extends ilTestBaseTestCase
+class MainSettingsDatabaseRepositoryTest extends ilTestBaseTestCase
 {
     public function testSuppressWarning(): void
     {

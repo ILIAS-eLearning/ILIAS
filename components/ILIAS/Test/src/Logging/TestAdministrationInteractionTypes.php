@@ -23,7 +23,8 @@ namespace ILIAS\Test\Logging;
 enum TestAdministrationInteractionTypes: string
 {
     case NEW_TEST_CREATED = 'new_test_created';
-    case SETTINGS_MODIFIED = 'settings_modified';
+    case MAIN_SETTINGS_MODIFIED = 'main_settings_modified';
+    case SCORING_SETTINGS_MODIFIED = 'scoring_settings_modified';
     case QUESTION_SELECTION_CRITERIA_MODIFIED = 'question_selection_criteria_modified';
     case QUESTION_ADDED = 'question_added';
     case QUESTION_MOVED = 'question_moved';

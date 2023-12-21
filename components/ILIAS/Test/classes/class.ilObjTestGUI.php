@@ -24,6 +24,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Skill\Service\SkillService;
+
 use ILIAS\Test\InternalRequestService;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
 use ILIAS\Filesystem\Stream\Streams;
@@ -32,6 +33,7 @@ use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Test\QuestionIdentifiers;
 use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
 use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\MainSettings\ilObjTestSettingsMainGUI;
 
 /**
  * Class ilObjTestGUI
@@ -513,15 +515,24 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                 $this->addHeaderAction();
                 $gui = new ilObjTestSettingsMainGUI(
+                    $this->tpl,
                     $this->tabs_gui,
+                    $this->toolbar,
                     $this->ctrl,
                     $this->access,
                     $this->lng,
                     $this->tree,
                     $this->db,
+                    $this->obj_data_cache,
+                    $this->settings,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->refinery,
+                    $this->request,
                     $this->component_repository,
                     $this->user,
                     $this,
+                    $this->getTestObject()->getTestLogger(),
                     $this->questioninfo
                 );
                 $this->ctrl->forwardCommand($gui);

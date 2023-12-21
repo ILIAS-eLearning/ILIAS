@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\MainSettings;
+
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class ilObjTestSettingsIntroduction extends TestSettings
+class SettingsIntroduction extends TestSettings
 {
     public function __construct(
         int $test_id,

@@ -26,7 +26,7 @@ class TestAdministrationInteraction implements TestUserInteraction
     * @param array<string label_lang_var => mixed value> $additional_data
     */
     public function __construct(
-        private readonly ilLanguage $lng,
+        private readonly \ilLanguage $lng,
         private readonly int $test_ref_id,
         private readonly \ilObjUser $administrator,
         private readonly TestAdministrationInteractionTypes $interaction_types,
