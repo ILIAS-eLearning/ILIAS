@@ -43,6 +43,7 @@ class ilLocalUserGUI
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\HTTP\Wrapper\RequestWrapper $query_wrapper;
     protected \ILIAS\Refinery\Factory $refinery;
+    private bool $set_unlimited;
 
     public function __construct(ilObjectGUI $parentGui)
     {
