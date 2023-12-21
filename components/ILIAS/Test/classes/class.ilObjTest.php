@@ -18,16 +18,19 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Stream\Streams;
+
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\MainSettingsRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
-use ILIAS\Filesystem\Filesystem;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+
+use ILIAS\Test\MainSettings\MainSettings;
 
 /**
  * Class ilObjTest
@@ -109,7 +112,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     protected ilBenchmark $bench;
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
-    protected ?ilObjTestMainSettings $main_settings = null;
+    protected ?MainSettings $main_settings = null;
     protected ?MainSettingsRepository $main_settings_repo = null;
     protected ?ilObjTestScoreSettings $score_settings = null;
     protected ?ScoreSettingsRepository $score_settings_repo = null;
@@ -7988,7 +7991,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $this->score_settings_repo;
     }
 
-    public function getMainSettings(): ilObjTestMainSettings
+    public function getMainSettings(): TestMainSettings
     {
         if (!$this->main_settings) {
             $this->main_settings = $this->getMainSettingsRepository()
@@ -8000,7 +8003,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function getMainSettingsRepository(): MainSettingsRepository
     {
         if (!$this->main_settings_repo) {
-            $this->main_settings_repo = new ilObjTestMainSettingsDatabaseRepository($this->db);
+            $this->main_settings_repo = new MainSettingsDatabaseRepository($this->db);
         }
         return $this->main_settings_repo;
     }

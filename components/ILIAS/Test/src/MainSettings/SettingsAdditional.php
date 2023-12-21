@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\MainSettings;
+
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Checkbox;
 use ILIAS\Refinery\Factory as Refinery;
 
-class ilObjTestSettingsAdditional extends TestSettings
+class SettingsAdditional extends TestSettings
 {
     public function __construct(
         int $test_id,

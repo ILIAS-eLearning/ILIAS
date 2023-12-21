@@ -18,15 +18,16 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\MainSettings;
+
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
 
-class ilObjTestSettingsQuestionBehaviour extends TestSettings
+class SettingsQuestionBehaviour extends TestSettings
 {
     private const DEFAULT_AUTOSAVE_INTERVAL = 30000;
 
@@ -333,7 +334,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     private function getConstraintsSectionQuestionBehaviour(
         \ilLanguage $lng,
         Refinery $refinery
-    ): Generator {
+    ): \Generator {
         yield from [
             $refinery->custom()->constraint(
                 function ($vs): bool {

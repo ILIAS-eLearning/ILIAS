@@ -24,6 +24,7 @@ use Pimple\Container;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Administration\TestGlobalSettingsRepository;
 use ILIAS\Test\Administration\TestLoggingSettings;
 use ILIAS\Test\Logging\TestLoggingRepository;
@@ -68,8 +69,8 @@ class TestDIC extends Container
                $DIC['lng']
            );
 
-        $dic['main_settings_repository'] = static fn($c): \ilObjTestMainSettingsDatabaseRepository =>
-            new \ilObjTestMainSettingsDatabaseRepository($DIC['ilDB']);
+        $dic['main_settings_repository'] = static fn($c): MainSettingsRepository =>
+            new MainSettingsDatabaseRepository($DIC['ilDB']);
 
         $dic['participantAccessFilterFactory'] = static fn($c): \ilTestParticipantAccessFilterFactory =>
             new \ilTestParticipantAccessFilterFactory($DIC['ilAccess']);

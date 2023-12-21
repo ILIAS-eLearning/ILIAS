@@ -289,36 +289,6 @@ class ilTestImporter extends ilXmlImporter
         return $newMappedFilter;
     }
 
-    /**
-     * Create qti and xml file name
-     * @return array
-     */
-    protected function parseXmlFileNames(): array
-    {
-        $this->logger->info(__METHOD__ . ': ' . $this->getImportDirectory());
-
-        $basename = basename($this->getImportDirectory());
-
-        $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
-        $qti = $this->getImportDirectory() . '/' . preg_replace('/test|tst/', 'qti', $basename) . '.xml';
-
-        return [$xml,$qti];
-    }
-
-    private function getImportDirectoryContainer(): string
-    {
-        $dir = $this->getImportDirectory();
-        $dir = dirname($dir);
-        return $dir;
-    }
-
-    private function getImportPackageName(): string
-    {
-        $dir = $this->getImportDirectory();
-        $name = basename($dir);
-        return $name;
-    }
-
     protected function importRandomQuestionSetConfig(ilObjTest $test_obj, $xmlFile, $a_mapping)
     {
         $parser = new ilObjTestXMLParser($xmlFile);

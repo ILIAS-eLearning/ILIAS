@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\UIServices;
+namespace ILIAS\Test\MainSettings;
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\MainSettingsRepository;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Input\Field\Section;
@@ -30,8 +33,12 @@ use ILIAS\Refinery\Transformation as TransformationInterface;
 use ILIAS\Data\Factory as DataFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Constraint;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+
 use ILIAS\Test\TestDIC;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Logging\TestAdministrationInteraction;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
  *
@@ -63,41 +70,34 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private const ECS_FUNCTIONALITY_SETTINGS_LABEL = 'ecs_settings';
     private const ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL = 'additional_functionality_settings';
 
-    protected ilToolbarGUI $toolbar;
-    protected UIServices $ui;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilObjTestMainSettings $main_settings;
+    protected ilObjectProperties $object_properties;
+    protected MainSettings $main_settings;
     protected MainSettingsRepository $main_settings_repository;
-    protected Refinery $refinery;
-    protected ServerRequestInterface $request;
-    protected ilObjectDataCache $object_data_cache;
-    protected ilSetting $settings;
 
     private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
 
     public function __construct(
-        protected ilTabsGUI $tabs,
-        protected ilCtrlInterface $ctrl,
-        protected ilAccessHandler $access,
-        protected ilLanguage $lng,
-        protected ilTree $tree,
-        protected ilDBInterface $db,
-        protected ilComponentRepository $component_repository,
-        protected ilObjUser $activeUser,
-        protected ilObjTestGUI $test_gui,
-        protected QuestionInfoService $questioninfo
+        protected readonly ilGlobalTemplateInterface $tpl,
+        protected readonly ilTabsGUI $tabs,
+        protected readonly ilToolbarGUI $toolbar,
+        protected readonly ilCtrlInterface $ctrl,
+        protected readonly ilAccessHandler $access,
+        protected readonly ilLanguage $lng,
+        protected readonly ilTree $tree,
+        protected readonly ilDBInterface $db,
+        protected readonly ilObjectDataCache $object_data_cache,
+        protected readonly ilSetting $settings,
+        protected readonly UIFactory $ui_factory,
+        protected readonly UIRenderer $ui_renderer,
+        protected readonly Refinery $refinery,
+        protected readonly ServerRequestInterface $request,
+        protected readonly ilComponentRepository $component_repository,
+        protected readonly ilObjUser $active_user,
+        protected readonly ilObjTestGUI $test_gui,
+        protected readonly TestLogger $logger,
+        protected readonly QuestionInfoService $questioninfo
     ) {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        $this->toolbar = $DIC['ilToolbar'];
-        $this->ui = $DIC->ui();
-        $this->tpl = $DIC->ui()->mainTemplate();
-        $this->refinery = $DIC->refinery();
-        $this->request = $DIC->http()->request();
-        $this->object_data_cache = $DIC['ilObjDataCache'];
-        $this->settings = $DIC['ilSetting'];
-
+        $this->object_properties = $this->test_gui->getTestObject()->getObjectProperties();
         $this->main_settings = $this->test_gui->getTestObject()->getMainSettings();
         $this->main_settings_repository = $this->test_gui->getTestObject()->getMainSettingsRepository();
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
@@ -137,7 +137,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private function showOldIntroduction(): void
     {
         $this->toolbar->addComponent(
-            $this->ui->factory()->link()->standard(
+            $this->ui_factory->link()->standard(
                 $this->lng->txt('back'),
                 $this->ctrl->getLinkTargetByClass(self::class, 'showForm')
             )
@@ -151,7 +151,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private function showOldConcludingRemarks(): void
     {
         $this->toolbar->addComponent(
-            $this->ui->factory()->link()->standard(
+            $this->ui_factory->link()->standard(
                 $this->lng->txt('back'),
                 $this->ctrl->getLinkTargetByClass(self::class, 'showForm')
             )
@@ -170,7 +170,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
         if ($this->main_settings->getIntroductionSettings()->getIntroductionText() !== '') {
             $this->toolbar->addComponent(
-                $this->ui->factory()->link()->standard(
+                $this->ui_factory->link()->standard(
                     $this->lng->txt('show_old_introduction'),
                     $this->ctrl->getLinkTargetByClass(self::class, 'showOldIntroduction')
                 )
@@ -179,7 +179,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
         if ($this->main_settings->getFinishingSettings()->getConcludingRemarksText() !== '') {
             $this->toolbar->addComponent(
-                $this->ui->factory()->link()->standard(
+                $this->ui_factory->link()->standard(
                     $this->lng->txt('show_old_concluding_remarks'),
                     $this->ctrl->getLinkTargetByClass(self::class, 'showOldConcludingRemarks')
                 )
@@ -188,10 +188,10 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
         $rendered_modal = '';
         if ($modal !== null) {
-            $rendered_modal = $this->ui->renderer()->render($modal);
+            $rendered_modal = $this->ui_renderer->render($modal);
         }
 
-        $this->tpl->setContent($this->ui->renderer()->render($form) . $rendered_modal);
+        $this->tpl->setContent($this->ui_renderer->render($form) . $rendered_modal);
     }
 
     private function confirmedSaveForm(): void
@@ -237,6 +237,16 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private function finalizeSave(array $data): void
     {
         $this->performSaveForm($data);
+        $this->logger->logTestAdministrationInteraction(
+            new TestAdministrationInteraction(
+                $this->lng,
+                $this->test_object->getRefId(),
+                $this->active_user,
+                TestAdministrationInteractionTypes::MAIN_SETTINGS_MODIFIED,
+                time(),
+                $this->main_settings->getArrayForLog()
+            )
+        );
         $this->removeAllParticipantsIfRequired();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
@@ -246,15 +256,15 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private function buildForm(): StandardForm
     {
         $lng = $this->lng;
-        $input_factory = $this->ui->factory()->input();
+        $input_factory = $this->ui_factory->input();
         $refinery = $this->refinery;
 
         $data_factory = new DataFactory();
-        $user_format = $this->activeUser->getDateFormat();
+        $user_format = $this->active_user->getDateFormat();
 
         $environment['participant_data_exists'] = $this->test_object->participantDataExist();
         $environment['user_date_format'] = $data_factory->dateFormat()->withTime24($user_format);
-        $environment['user_time_zone'] = $this->activeUser->getTimeZone();
+        $environment['user_time_zone'] = $this->active_user->getTimeZone();
 
         $main_inputs = [
             self::GENERAL_SETTINGS_SECTION_LABEL => $this->getGeneralSettingsSection($environment),
@@ -316,7 +326,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             return 'il.test.confirmSettings.init(' . $id . ')';
         };
 
-        $modal = $this->ui->factory()->modal()->interruptive(
+        $modal = $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
             $message,
             $this->ctrl->getFormActionByClass(self::class, self::CMD_CONFIRMED_SAVE_FORM)
@@ -364,7 +374,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             $data[self::ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL] ?? []
         );
 
-        $settings = new ilObjTestMainSettings(
+        $settings = new MainSettings(
             $this->test_object->getTestId(),
             $this->test_object->getId(),
             $general_settings,
@@ -388,7 +398,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private function removeAllParticipantsIfRequired(): void
     {
         if (!$this->test_object->participantDataExist() && !$this->test_object->getFixedParticipants()) {
-            foreach ($this->test_object->getInvitedUsers() as $usr_id => $usr_data) {
+            foreach (array_keys($this->test_object->getInvitedUsers()) as $usr_id) {
                 $this->test_object->disinviteUser($usr_id);
             }
         }
@@ -396,7 +406,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     private function getGeneralSettingsSection(array $environment): Section
     {
-        $field_factory = $this->ui->factory()->input()->field();
+        $field_factory = $this->ui_factory->input()->field();
 
         $inputs['title_and_description'] = $this->test_object->getObjectProperties()->getPropertyTitleAndDescription()
             ->toForm($this->lng, $field_factory, $this->refinery);
@@ -412,7 +422,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     /**
      * @param ilPropertyFormGUI $form
      */
-    private function getGeneralSettingsForStorage(array $section): ilObjTestSettingsGeneral
+    private function getGeneralSettingsForStorage(array $section): SettingsGeneral
     {
         if ($this->test_object->participantDataExist()) {
             return $this->main_settings->getGeneralSettings();
@@ -425,7 +435,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     private function getAvailabilitySettingsSection(): Section
     {
-        $input_factory = $this->ui->factory()->input();
+        $input_factory = $this->ui_factory->input();
 
         $inputs['is_online'] = $this->getIsOnlineSettingInput();
         $inputs['timebased_availability'] = $this->getTimebasedAvailabilityInputs();
@@ -438,7 +448,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     private function getIsOnlineSettingInput(): Checkbox
     {
-        $field_factory = $this->ui->factory()->input()->field();
+        $field_factory = $this->ui_factory->input()->field();
 
         $question_set_config_complete = $this->test_object->isComplete(
             $this->testQuestionSetConfigFactory->getQuestionSetConfig()
@@ -464,17 +474,17 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     private function getTimebasedAvailabilityInputs(): OptionalGroup
     {
-        $field_factory = $this->ui->factory()->input()->field();
+        $field_factory = $this->ui_factory->input()->field();
 
         $trafo = $this->getTransformationForActivationLimitedOptionalGroup();
         $value = $this->getValueForActivationLimitedOptionalGroup();
 
         $data_factory = new DataFactory();
-        $user_format = $this->activeUser->getDateFormat();
+        $user_format = $this->active_user->getDateFormat();
         $format = $data_factory->dateFormat()->withTime24($user_format);
 
         $inputs['time_span'] = $field_factory->duration($this->lng->txt('rep_time_period'))
-            ->withTimezone($this->activeUser->getTimeZone())
+            ->withTimezone($this->active_user->getTimeZone())
             ->withFormat($format)
             ->withUseTime(true)
             ->withRequired(true);
@@ -525,11 +535,11 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
                     DateTimeImmutable::createFromFormat(
                         'U',
                         (string) $this->test_object->getActivationStartingTime()
-                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
+                    )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())),
                     DateTimeImmutable::createFromFormat(
                         'U',
                         (string) $this->test_object->getActivationEndingTime()
-                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
+                    )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())),
                 ],
                 'activation_visibility' => $this->test_object->getActivationVisibility()
             ];
@@ -551,7 +561,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     protected function getPresentationSettingsSection(): Section
     {
-        $input_factory = $this->ui->factory()->input();
+        $input_factory = $this->ui_factory->input();
 
         $custom_icon_input = $this->test_object->getObjectProperties()->getPropertyIcon()
             ->toForm($this->lng, $input_factory->field(), $this->refinery);
@@ -576,14 +586,14 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $this->test_object->getObjectProperties()->storePropertyTileImage($section['tile_image']);
     }
 
-    private function getIntroductionSettingsForStorage(array $section): ilObjTestSettingsIntroduction
+    private function getIntroductionSettingsForStorage(array $section): SettingsIntroduction
     {
         return $this->main_settings->getIntroductionSettings()
             ->withIntroductionEnabled($section['introduction_enabled'])
             ->withExamConditionsCheckboxEnabled($section['conditions_checkbox_enabled']);
     }
 
-    private function getAccessSettingsForStorage(array $section): ilObjTestSettingsAccess
+    private function getAccessSettingsForStorage(array $section): SettingsAccess
     {
         $access_settings = $this->main_settings->getAccessSettings()
             ->withStartTimeEnabled($section['access_window']['start_time_enabled'])
@@ -604,7 +614,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withStartTime($section['access_window']['start_time']);
     }
 
-    private function getTestBehaviourSettingsForStorage(array $section): ilObjTestSettingsTestBehaviour
+    private function getTestBehaviourSettingsForStorage(array $section): SettingsTestBehaviour
     {
         $test_behaviour_settings = $this->main_settings->getTestBehaviourSettings()
             ->withKioskMode($section['kiosk_mode'])
@@ -623,7 +633,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withResetProcessingTime($section['time_limit_for_completion']['reset_time_limit_for_completion_by_attempt']);
     }
 
-    private function getQuestionBehaviourSettingsForStorage(array $section): ilObjTestSettingsQuestionBehaviour
+    private function getQuestionBehaviourSettingsForStorage(array $section): SettingsQuestionBehaviour
     {
         $question_behaviour_settings = $this->main_settings->getQuestionBehaviourSettings()
             ->withQuestionTitleOutputMode($section['title_output'])
@@ -648,7 +658,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     }
 
 
-    private function getParticipantsFunctionalitySettingsForStorage(array $section): ilObjTestSettingsParticipantFunctionality
+    private function getParticipantsFunctionalitySettingsForStorage(array $section): SettingsParticipantFunctionality
     {
         return $this->main_settings->getParticipantFunctionalitySettings()
             ->withUsePreviousAnswerAllowed($section['use_previous_answers'])
@@ -659,7 +669,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withQuestionListEnabled($section['enable_question_list']);
     }
 
-    private function getFinishingSettingsForStorage(array $section): ilObjTestSettingsFinishing
+    private function getFinishingSettingsForStorage(array $section): SettingsFinishing
     {
         $redirect_after_finish = $section['redirect_after_finish'];
         $finish_notification = $section['finish_notification'];
@@ -678,7 +688,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
         $ecs = new ilECSTestSettings($this->test_object);
         $ecs_section = $ecs->getSettingsSection(
-            $this->ui->factory()->input()->field(),
+            $this->ui_factory->input()->field(),
             $this->refinery
         );
 
@@ -690,7 +700,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
         $inputs += $this->main_settings->getAdditionalSettings()->toForm(
             $this->lng,
-            $this->ui->factory()->input()->field(),
+            $this->ui_factory->input()->field(),
             $this->refinery,
             $environment
         );
@@ -698,7 +708,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $inputs = array_filter($inputs, fn($v) => $v !== null);
 
         if (count($inputs) > 0) {
-            $sections[self::ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL] = $this->ui->factory()->input()->field()
+            $sections[self::ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL] = $this->ui_factory->input()->field()
                 ->section($inputs, $this->lng->txt('obj_features'));
         }
 
@@ -714,7 +724,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             return null;
         }
 
-        $enable_organisational_units_access = $this->ui->factory()->input()->field()
+        $enable_organisational_units_access = $this->ui_factory->input()->field()
             ->checkbox(
                 $this->lng->txt('obj_orgunit_positions'),
                 $this->lng->txt('obj_orgunit_positions_info')
@@ -759,7 +769,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         }
     }
 
-    protected function getAdditionalFunctionalitySettingsForStorage(array $section): ilObjTestSettingsAdditional
+    protected function getAdditionalFunctionalitySettingsForStorage(array $section): SettingsAdditional
     {
         $additional_settings = $this->main_settings->getAdditionalSettings()->withHideInfoTab($section['hide_info_tab']);
 

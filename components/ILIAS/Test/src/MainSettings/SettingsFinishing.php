@@ -18,12 +18,14 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\MainSettings;
+
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
 
-class ilObjTestSettingsFinishing extends TestSettings
+class SettingsFinishing extends TestSettings
 {
     public function __construct(
         int $test_id,
