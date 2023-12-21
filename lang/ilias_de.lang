@@ -7124,15 +7124,15 @@ content#:#cont_text_acc#:#Akzent:
 content#:#cont_text_code#:#Programmcode:
 content#:#cont_text_com#:#Kommentar:
 content#:#cont_text_editing#:#Text bearbeiten
-content#:#cont_text_emp#:#Betonter Text:
+content#:#cont_text_emp#:#Betont
 content#:#cont_text_fn#:#Fußnote:
 content#:#cont_text_iln_link#:#Interner Link
-content#:#cont_text_imp#:#Wichtig:
+content#:#cont_text_imp#:#Wichtig
 content#:#cont_text_keyword#:#Schlagwort
 content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
 content#:#cont_text_placehl#:#Text-Platzhalter
 content#:#cont_text_quot#:#Zitat:
-content#:#cont_text_str#:#Stark betonter Text:
+content#:#cont_text_str#:#Stark betont
 content#:#cont_text_sub#:#Tiefgestellt
 content#:#cont_text_sup#:#Hochgestellt
 content#:#cont_text_tex#:#LaTeX-Code:
@@ -7343,11 +7343,13 @@ copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiten
 copg#:#copg_list_item_style#:#Listeneintrag
 copg#:#copg_list_style#:#Liste
 copg#:#copg_list_styles#:#Listenformat
+copg#:#copg_more_character_formats#:#Weitere Zeichenformate
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_reload_page#:#Seite neu laden
+copg#:#copg_remove_formats#:#Zeichenformate entfernen
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 copg#:#copg_x_minutes#:#%s Minute(n)
