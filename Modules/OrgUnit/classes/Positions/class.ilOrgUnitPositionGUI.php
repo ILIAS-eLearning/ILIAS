@@ -172,7 +172,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
             . $position->getTitle());
         // Authorities
         $authority_string .= implode(", ", $this->getAuthorityDescription($position->getAuthorities()));
-        $confirmation->addItem('authorities', true, $authority_string);
+        $confirmation->addItem('authorities', '', $authority_string);
 
         // Amount uf user-assignments
         $userIdsOfPosition = $this->assignmentRepo->getUsersByPosition($position->getId());
@@ -180,11 +180,11 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $usersOfPosition = $ilOrgUnitUserQueries->findAllUsersByUserIds($userIdsOfPosition);
         $userNames = $ilOrgUnitUserQueries->getAllUserNames($usersOfPosition);
 
-        $confirmation->addItem('users', true, $user_string . implode(', ', $userNames));
+        $confirmation->addItem('users', '', $user_string . implode(', ', $userNames));
 
         $checkbox_assign_users = new ilCheckboxInputGUI('', 'assign_users');
         $checkbox_assign_users->setChecked(true);
-        $checkbox_assign_users->setValue(1);
+        $checkbox_assign_users->setValue('1');
         $checkbox_assign_users->setOptionTitle('Assign affected users to employee role');
         $confirmation->addItem('assign_users', '', $checkbox_assign_users->render());
 
