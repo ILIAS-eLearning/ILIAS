@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Path\Comparison;
+namespace ILIAS\Export\ImportHandler\I\File\Path\Comparison;
 
 interface ilHandlerInterface
 {

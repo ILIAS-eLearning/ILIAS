@@ -128,6 +128,7 @@ class ilAssQuestionPreviewGUI
                 } else {
                     $this->ctrl->clearParameterByClass(ilObjQuestionPoolGUI::class, 'q_id');
                     $this->tabs->setBackTarget($this->lng->txt("backtocallingpool"), $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, "questions"));
+                    $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'q_id', $questionId);
                 }
             }
         }

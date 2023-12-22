@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus\I;
+namespace ILIAS\Export\ImportStatus\I;
 
-use ImportStatus\I\Content\ilFactoryInterface as ilImportStatusContentFactoryInterface;
-use ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ImportStatus\I\Exception\ilExceptionInterface as ilImportStatusExceptionInterface;
+use ILIAS\Export\ImportStatus\I\Content\ilFactoryInterface as ilImportStatusContentFactoryInterface;
+use ILIAS\Export\ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\Exception\ilExceptionInterface as ilImportStatusExceptionInterface;
 
 interface ilFactoryInterface
 {

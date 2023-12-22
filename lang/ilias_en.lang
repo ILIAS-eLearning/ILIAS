@@ -2476,164 +2476,165 @@ blog#:#blog_toggle_draft#:#Withdraw Publication
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_toggle_final#:#Publish Posting
 blog#:#blog_whole_blog#:#Whole Blog
-book#:#X_reservations_of#:#%s reservations of
+book#:#X_reservations_of#:#%s booking(s) of
 book#:#book_add#:#Add Booking Pool
-book#:#book_add_object#:#Add Object
+book#:#book_add_object#:#Add Item
 book#:#book_add_schedule#:#Add Schedule
 book#:#book_additional_info_file#:#Additional Description
 book#:#book_all#:#Show all
-book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.
+book#:#book_all_pools_need_schedules#:#Settings not saved. All selected booking pools need to have at least one schedule.
 book#:#book_all_users#:#All Participants
-book#:#book_assign#:#Assign
-book#:#book_assign_object#:#Assign Booking Object
-book#:#book_assign_participant#:#Assign to Participant
+book#:#book_assign#:#Book
+book#:#book_assign_object#:#Book Items for Participant
+book#:#book_assign_participant#:#Book for Other Participant(s)
 book#:#book_back_to_list#:#Back to List
-book#:#book_bobj#:#Booking Object
+book#:#book_bobj#:#Booked Items
 book#:#book_book#:#Book
 book#:#book_book_available#:#Book Available Dates
 book#:#book_book_recurrence#:#Book multiple dates
-book#:#book_booked_in#:#Booked in
+book#:#book_booked_in#:#Booked In
 book#:#book_booking#:#Booking
 book#:#book_booking_information#:#Information
-book#:#book_booking_objects#:#Booking Objects
-book#:#book_booking_reminders#:#Upcoming reservations
+book#:#book_booking_objects#:#Bookable Items
+book#:#book_booking_reminders#:#Upcoming Bookings
 book#:#book_bookings_per_user#:#Bookings per User
-book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.
+book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.
 book#:#book_bulk_creation#:#Bulk Creation
-book#:#book_bulk_data#:#Object Data
-book#:#book_cal_entry#:#Booking of:
+book#:#book_bulk_data#:#Item Data
+book#:#book_cal_entry#:#Booking:
 book#:#book_confirm_booking#:#Confirm Booking
-book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?
+book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following item?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
-book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservations?
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following booking(s)?
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
-book#:#book_confirm_delete#:#Do you really want to delete the following items?
+book#:#book_confirm_delete#:#Are you sure you want to delete the following items?
 book#:#book_copy#:#Copy Booking Pool
-book#:#book_create_objects#:#Create Objects
+book#:#book_create_objects#:#Create Items
 book#:#book_deadline#:#Deadline
-book#:#book_deadline_hours#:#X hours prior to booking period
+book#:#book_deadline_hours#:#X hours before time slot begins
 book#:#book_deadline_info#:#Minimum time between booking and booked period
-book#:#book_deadline_options#:#Booking deadline
-book#:#book_deadline_slot_end#:#Until end of booking period
-book#:#book_deadline_slot_start#:#Until begin of booking period
-book#:#book_deassign#:#Deassign
+book#:#book_deadline_options#:#Bookings Can Be Made Until:
+book#:#book_deadline_slot_end#:#Time slot ends
+book#:#book_deadline_slot_start#:#Time slot begins
+book#:#book_deassign#:#Edit Bookings
 book#:#book_download_info#:#Download Additional Description
 book#:#book_edit#:#Edit Booking Pool
-book#:#book_edit_object#:#Edit Object
+book#:#book_edit_object#:#Edit Bookable Item
 book#:#book_edit_schedule#:#Edit Schedule
-book#:#book_filter_past_reservations#:#Show past reservations
+book#:#book_filter_past_reservations#:#Show Past Bookings
 book#:#book_fromto#:#Date Range
-book#:#book_hours#:#Hours
-book#:#book_is_used#:#Is Used
-book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
+book#:#book_hours#:#Hours before start of timeslot.
+book#:#book_is_used#:#In Use
+book#:#book_limit_objects_available#:#You cannot book this item for %s participants. ‘%s’ is only available %s times.
 book#:#book_list#:#List
-book#:#book_log#:#Reservations
+book#:#book_log#:#Bookings
 book#:#book_mail_permanent_link#:#Link to Booking Pool
 book#:#book_mail_to_booker#:#Mail to User
 book#:#book_message#:#Message
-book#:#book_message_info#:#You may enter a message for the booking organisator here.
+book#:#book_message_info#:#You may enter a message for the booking organiser here.
 book#:#book_messages#:#Messages
-book#:#book_messages_info#:#Users may add a message when booking an object.
+book#:#book_messages_info#:#Allow users to add a message when booking an item.
 book#:#book_missing_availability#:#It was not possible to book all items on all dates.
 book#:#book_missing_items#:#$1 missing item(s).
 book#:#book_new#:#New Booking Pool
-book#:#book_no_bookings_for_you#:#No reservations have been performed for you.
-book#:#book_no_objects#:#No Assignment
-book#:#book_no_of_objects#:#No. of Objects
-book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
+book#:#book_no_bookings_for_you#:#No bookings have been made for you.
+book#:#book_no_objects#:#No Bookings
+book#:#book_no_of_objects#:#No. of Units
+book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.
 book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
-book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
-book#:#book_notification#:#Send Reservation Notifications
-book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.
-book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
+book#:#book_not_enough_preferences#:#You have not selected enough preferences. Your preferences have not been saved.
+book#:#book_notification#:#Send Booking Notifications
+book#:#book_notification_cron_not_active#:#Note: The necessary cron job, 'Send Reservation Notifications', is currently not active.
+book#:#book_notification_info#:#Send a list of the next day’s bookings to users (own bookings) and admins (if activated).
 book#:#book_nr_of_preferences#:#Number of Preferences
-book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
+book#:#book_nr_of_preferences_info#:#Number of preferences each participant is required to state.
 book#:#book_nr_preferences#:#Preferences
 book#:#book_obj_select#:#Select
-book#:#book_object_added#:#A booking object has been added.
-book#:#book_object_deleted#:#The booking object has been deleted.
-book#:#book_object_selection#:#Object Selection
-book#:#book_object_updated#:#The booking object has been updated.
-book#:#book_objects_available#:#Objects available %s
+book#:#book_object_added#:#Bookable item added.
+book#:#book_object_deleted#:#Bookable item deleted.
+book#:#book_object_selection#:#Item Selection
+book#:#book_object_updated#:#Bookable item updated.
+book#:#book_objects_available#:#Items available %s
 book#:#book_open#:#Open Booking Pool
-book#:#book_overall_limit#:#Limit number of bookings
-book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings.
-book#:#book_participant_already_assigned#:#One or more participants have already been assigned.
-book#:#book_participant_assigned#:#Participant(s) assigned
+book#:#book_overall_limit#:#Limit Number of Bookings
+book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings allowed.
+book#:#book_participant_already_assigned#:#One or more participants have already been added.
+book#:#book_participant_assigned#:#Participant(s) added.
 book#:#book_period#:#Period
-book#:#book_pool_added#:#A booking pool has been added.
+book#:#book_pool_added#:#Booking pool successfully created.
 book#:#book_pool_selection#:#Booking Pool Selection
 book#:#book_post_booking_file#:#File
-book#:#book_post_booking_information#:#Reservation Information
+book#:#book_post_booking_information#:#Booking Information
 book#:#book_post_booking_text#:#Text
-book#:#book_post_booking_text_info#:#Use placeholders to communicate specifics on reservations. <br />[OBJECT] will be replaced by the respective Booking Object. <br />[PERIOD] will be replaced by the respective schedule.
+book#:#book_post_booking_text_info#:#Use placeholders to include booking-specific information. <br />[OBJECT] will be replaced by the respective Bookable Item. <br />[PERIOD] will be replaced by the respective schedule.
 book#:#book_pref_book_cron#:#Booking with Preferences
-book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline
+book#:#book_pref_book_cron_info#:#Automatically allocate bookings based on preferences after expiration of deadline.
 book#:#book_pref_deadline#:#Deadline
-book#:#book_pref_deadline_info#:#Preferences can be given up to this point.
+book#:#book_pref_deadline_info#:#Preferences can be stated up to this point.
 book#:#book_pref_overview#:#Overview
-book#:#book_preference_info#:#Please select %1 preference(s) until %2. After the deadline bookings will be done automatically based on the preferences of all users.
+book#:#book_preference_info#:#book#:#book_preference_info#:#Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all users.
 book#:#book_preferences#:#Preferences
-book#:#book_preferences_saved#:#The preferences have been saved.
-book#:#book_public_log#:#Public Reservations
-book#:#book_public_log_info#:#Users having the "read" permission only will also see reservations of other users.
+book#:#book_preferences_saved#:#Your preferences have been saved.
+book#:#book_public_log#:#Bookings Visible to All Participants
+book#:#book_public_log_info#:#Users with the ‘Read’ permission are able to see the bookings of the other participants in the ‘Bookings’ tab.
 book#:#book_recurrence#:#Recurrence
 book#:#book_refresh#:#Refresh
 book#:#book_rem_intro#:#This is an overview of upcoming reservations:
-book#:#book_rem_reason#:#You are reciving these mails, because you are subscribed to notifications of the corresponding booking pools.
-book#:#book_reminder_day#:#Before Reservation
-book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
+book#:#book_rem_reason#:#You have received this mail because you are subscribed to notifications for the booking pool mentioned in this mail.
+book#:#book_reminder_day#:#day(s) before time-slot of booking
+book#:#book_reminder_day_info#:#Send list of own bookings to users and full list of all upcoming bookings to admins. Please note: in order to receive reminders, users need to have activated notifications via the ‘Actions’ menu at the top right-hand corner of the booking pool.
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#Reminder
-book#:#book_rerun_assignments#:#Run Assignment Process
-book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.
+book#:#book_rerun_assignments#:#Run Allocation Process
+book#:#book_rerun_confirmation#:#Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process.
 book#:#book_reservation_available#:#%s available
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.
-book#:#book_reservation_failed#:#Your booking has failed.
-book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
-book#:#book_reservation_filter_period#:#Period for the reservation list
-book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.
-book#:#book_reservation_fix_info#:#The reservation can only be done for fixed hours.
-book#:#book_reservation_overview#:#Reservation Overview
+book#:#book_reservation_failed#:#It was not possible to confirm your booking.
+book#:#book_reservation_failed_overbooked#:#Your booking failed because the bookable item in question is no longer available.
+book#:#book_reservation_filter_period#:#Default Value for ‘Date Range’ Filter
+book#:#book_reservation_filter_period_info#:#The default value for the ‘Date Range’ filter in the ‘Bookings’ tab (in days from the current date).
+book#:#book_reservation_fix_info#:#Bookings can only be made for the time slots shown as available below.
+book#:#book_reservation_overview#:#Bookings Overview
 book#:#book_reservation_status_5#:#Cancelled
 book#:#book_reservation_title#:#Booking Reservation for
-book#:#book_reservations_list#:#Reservations
+book#:#book_reservations_list#:#Bookings
 book#:#book_schedule#:#Schedule
-book#:#book_schedule_added#:#A booking schedule has been added.
-book#:#book_schedule_days#:#Weekdays
+book#:#book_schedule_added#:#Booking schedule added.
+book#:#book_schedule_days#:#Time Slots
 book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)
-book#:#book_schedule_deleted#:#The booking schedule has been deleted.
-book#:#book_schedule_slot#:#Slot
+book#:#book_schedule_deleted#:#Booking schedule deleted.
+book#:#book_schedule_slot#:#Time Slot
 book#:#book_schedule_type#:#Booking Mode
 book#:#book_schedule_type_fixed#:#Fixed Schedule
-book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, video projectors and such.
+book#:#book_schedule_type_fixed_info#:#This booking mode can be used for things that can be booked for specific periods of time, such as rooms, services and equipment.
 book#:#book_schedule_type_none#:#No Schedule
 book#:#book_schedule_type_none_direct#:#No Schedule, Direct Booking
-book#:#book_schedule_type_none_direct_info#:#This type can be used for seminar papers, seminar places and such. Participants can book items directly.
+book#:#book_schedule_type_none_direct_info#:#This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis.
 book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such.
 book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
-book#:#book_schedule_type_none_preference_info#:#This type can be used for seminar papers, seminar places and such. Participants will indicate their preferences. Items will be assigned automatically after the preferences deadline.
-book#:#book_schedule_updated#:#The booking schedule has been updated.
-book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking (or switch to a different type of pool).
+book#:#book_schedule_type_none_preference_info#:#This booking mode is ideal for presentation topics, places in seminars or similar. Participants get to indicate their preferences in terms of which items they are most interested in. Items will then be allocated automatically after the preferences deadline has passed.
+book#:#book_schedule_updated#:#Booking schedule updated.
+book#:#book_schedule_warning_edit#:#Your booking pool currently does not have a schedule available. To use the booking pool you either need to create a schedule or select a ‘no schedule’ booking mode in the ‘Booking Mode’ section of the ‘Settings’ tab).
 book#:#book_schedules#:#Schedules
 book#:#book_select_pool#:#Select Pool
-book#:#book_set_cancel#:#Cancel Reservation
-book#:#book_set_delete#:#Delete
+book#:#book_set_cancel#:#Cancel Booking
+book#:#book_set_delete#:#Delete Booking
 book#:#book_show_message#:#Show Message
-book#:#book_title_description_nr#:#Title; Description; Number of Objects
+book#:#book_title_description_nr#:#Title; Description; Number of Units
 book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.
-book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
-book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
+book#:#book_too_many_preferences#:#You have selected too many preferences. Your preferences have not been saved.
+book#:#book_type_warning#:#There are currently no bookable items available. Please create some bookable items to be able to use this booking pool.
 book#:#book_week#:#Week
-book#:#book_your_bookings#:#Your Reservations
+book#:#book_your_bookings#:#Your Bookings
 book#:#book_your_preferences#:#Your Preferences
-book#:#book_your_reservations#:#Your Reservations
-book#:#booking_multiple_succesfully#:#Bookings created successfully.
-book#:#booking_nr_of_items#:#Nr of Items
+book#:#book_your_reservations#:#Your Bookings
+book#:#booking_multiple_succesfully#:#Bookings successfully carried out.
+book#:#booking_nr_of_items#:#Number of Items
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
-book#:#reservation_deleted#:#Reservation deleted
+book#:#reservation_deleted#:#Booking deleted.
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
 buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
@@ -3513,7 +3514,7 @@ common#:#assessment_settings_reporting_language#:#Reporting language
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_questiontypes#:#Question Settings
-common#:#assign#:#Assign
+common#:#assign#:#Accept Request
 common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_local_role#:#Assign to Local Role
 common#:#assigned_members#:#Assigned Members
@@ -5310,7 +5311,7 @@ common#:#private_notes#:#Private Notes
 common#:#pro#:#Pro
 common#:#proceed#:#Proceed
 common#:#profile#:#Profile
-common#:#profile_changed#:#ILIAS eLearning - Your profile has changed
+common#:#profile_changed#:#Your profile has changed
 common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.
 common#:#profile_of#:#Profile of
 common#:#properties#:#Properties
@@ -5358,7 +5359,7 @@ common#:#reference_of#:#Reference of:
 common#:#referral_comment#:#How did you hear about ILIAS?
 common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh All Languages
-common#:#refuse#:#Refuse
+common#:#refuse#:#Refuse Request
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 common#:#reg_mail_body_2_confirmation#:#This link is only valid for %s. After this period has passed, the link will expire and you will have to restart the registration process from the beginning.
@@ -5368,8 +5369,8 @@ common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
 common#:#reg_mail_body_text2#:#To access ILIAS use the following data:
 common#:#reg_mail_body_text3#:#Further personal information:
-common#:#reg_mail_subject#:#ILIAS eLearning - Your access data
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmation Link
+common#:#reg_mail_subject#:#Your access data
+common#:#reg_mail_subject_confirmation#:#Your Confirmation Link
 common#:#reg_passwd_via_mail#:#Your password will be sent to your e-mail address given below.
 common#:#register#:#Register
 common#:#register_notification#:#"%s" has applied for session "%s".
@@ -7123,15 +7124,15 @@ content#:#cont_text_acc#:#Accent:
 content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_editing#:#Edit Text
-content#:#cont_text_emp#:#Emphatic Text:
+content#:#cont_text_emp#:#Emphasised
 content#:#cont_text_fn#:#Footnote:
 content#:#cont_text_iln_link#:#Internal Link
-content#:#cont_text_imp#:#Important:
+content#:#cont_text_imp#:#Important
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
 content#:#cont_text_placehl#:#Text Placeholder
 content#:#cont_text_quot#:#Quotation
-content#:#cont_text_str#:#Strong Text
+content#:#cont_text_str#:#Strongly Emphasised
 content#:#cont_text_sub#:#Subscript
 content#:#cont_text_sup#:#Superscript
 content#:#cont_text_tex#:#LaTeX Code
@@ -7342,11 +7343,13 @@ copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page hist
 copg#:#copg_list_item_style#:#List Item
 copg#:#copg_list_style#:#List
 copg#:#copg_list_styles#:#List Formats
+copg#:#copg_more_character_formats#:#More Styles for Characters
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page
+copg#:#copg_remove_formats#:#Remove Formatting
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
 copg#:#copg_x_minutes#:#%s minute(s)
@@ -7489,7 +7492,7 @@ crs#:#crs_edit_timings#:#Edit Timings
 crs#:#crs_enable_map#:#Enable Course Map
 crs#:#crs_end#:#End
 crs#:#crs_export#:#Course export
-crs#:#crs_file#:#File
+crs#:#crs_file#:#Title
 crs#:#crs_file_download#:#Files for Download
 crs#:#crs_file_name#:#File Name
 crs#:#crs_file_size_info#:#Filesize

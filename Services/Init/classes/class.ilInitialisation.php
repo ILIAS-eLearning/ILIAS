@@ -1005,6 +1005,9 @@ class ilInitialisation
                 $DIC->offsetUnset('lng');
             }
             self::initGlobal('lng', ilLanguage::getGlobalInstance());
+            //re-init refinery with the user's language
+            unset($DIC['refinery']);
+            self::initRefinery($DIC);
         } else {
             self::initGlobal('lng', ilLanguage::getFallbackInstance());
         }

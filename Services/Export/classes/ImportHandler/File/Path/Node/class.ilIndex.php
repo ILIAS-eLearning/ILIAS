@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Path\Node;
+namespace ILIAS\Export\ImportHandler\File\Path\Node;
 
-use ImportHandler\File\Path\Comparison\ilHandlerDummy;
-use ImportHandler\I\File\Path\Comparison\ilHandlerInterface;
-use ImportHandler\I\File\Path\Node\ilIndexInterface as ilIndexFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\File\Path\Comparison\ilHandlerDummy;
+use ILIAS\Export\ImportHandler\I\File\Path\Comparison\ilHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilIndexInterface as ilIndexFilePathNodeInterface;
 
 class ilIndex implements ilIndexFilePathNodeInterface
 {

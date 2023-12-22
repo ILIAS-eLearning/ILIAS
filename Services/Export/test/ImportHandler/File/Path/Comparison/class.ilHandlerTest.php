@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\Path\Comparison;
 
-use ImportHandler\File\Path\Comparison\ilHandler as ilFilePathComparison;
-use ImportHandler\File\Path\Comparison\Operator;
-use ImportHandler\File\Path\Comparison\Operator as ilFilePathComparisonOperator;
+use ILIAS\Export\ImportHandler\File\Path\Comparison\ilHandler as ilFilePathComparison;
+use ILIAS\Export\ImportHandler\File\Path\Comparison\Operator;
+use ILIAS\Export\ImportHandler\File\Path\Comparison\Operator as ilFilePathComparisonOperator;
 use PHPUnit\Framework\TestCase;
 
 class ilHandlerTest extends TestCase

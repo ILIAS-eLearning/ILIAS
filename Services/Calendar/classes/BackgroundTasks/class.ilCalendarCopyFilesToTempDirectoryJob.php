@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
@@ -20,6 +36,7 @@ use ILIAS\BackgroundTasks\Types\TupleType;
 class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 {
     private ilLogger $logger;
+    private ILIAS\ResourceStorage\Services $irss;
 
     protected string $target_directory;
 
@@ -30,6 +47,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     {
         global $DIC;
 
+        $this->irss = $DIC->resourceStorage();
         $this->logger = $DIC->logger()->cal();
     }
 
@@ -40,7 +58,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     {
         return
             [
-                new SingleType(ilCalendarCopyDefinition::class)
+                new SingleType(ilCalendarRessourceStorageCopyDefinition::class)
             ];
     }
 
@@ -114,33 +132,54 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 
     /**
      * Copy files
-     * @param string                   $tmpdir
-     * @param ilCalendarCopyDefinition $definition
      */
-    protected function copyFiles(string $tmpdir, ilCalendarCopyDefinition $definition): void
+    protected function copyFiles(string $tmpdir, ilCalendarRessourceStorageCopyDefinition $definition): void
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
-            if (!file_exists($copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR])) {
-                $this->logger->notice('Cannot find file: ' . $copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR]);
-                continue;
+            if(!is_null($copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_RESSOURCE_ID])) {
+                $this->copyWithRId($tmpdir, $copy_task);
+            } else {
+                $this->copyWithAbsolutePath($tmpdir, $copy_task);
             }
-            $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR]));
-            ilFileUtils::makeDirParents(
-                $tmpdir . '/' . dirname($copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR])
-            );
-
-            $this->logger->debug(
-                'Copying from: ' .
-                $copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR] .
-                ' to ' .
-                $tmpdir . '/' . $copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR]
-            );
-
-            copy(
-                $copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR],
-                $tmpdir . '/' . $copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR]
-            );
         }
+    }
+
+    protected function copyWithRId(string $tmpdir, array $copy_task)
+    {
+        $target_dir = $copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_TARGET_DIR];
+        $rid = $copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_RESSOURCE_ID];
+        $resource_identification = $this->irss->manage()->find($rid);
+
+        if(is_null($resource_identification)) {
+            $this->logger->notice('Cannot ressource identification of rid: ' . $rid);
+            return;
+        }
+
+        $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($target_dir));
+        ilFileUtils::makeDirParents($tmpdir . '/' . dirname($target_dir));
+        $this->logger->debug('Copying ressource with id: ' . $rid . ' to ' . $tmpdir . '/' . $target_dir);
+
+        file_put_contents(
+            $tmpdir . '/' . $copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_TARGET_DIR],
+            $this->irss->consume()->stream($resource_identification)->getStream()
+        );
+    }
+
+    protected function copyWithAbsolutePath(string $tmpdir, array $copy_task)
+    {
+        $absolute_path = $copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_ABSOLUTE_PATH];
+        $target_dir = $copy_task[ilCalendarRessourceStorageCopyDefinition::COPY_TARGET_DIR];
+
+        if (!file_exists($absolute_path)) {
+            $this->logger->notice('Cannot find file: ' . $absolute_path);
+            return;
+        }
+
+        $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($target_dir));
+        ilFileUtils::makeDirParents($tmpdir . '/' . dirname($target_dir));
+        $this->logger->debug('Copying from: ' . $absolute_path . ' to ' . $tmpdir . '/' . $target_dir);
+
+        copy($absolute_path, $tmpdir . '/' . $target_dir);
     }
 
     /**

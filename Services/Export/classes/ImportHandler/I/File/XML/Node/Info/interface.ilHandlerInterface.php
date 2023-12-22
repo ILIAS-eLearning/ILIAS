@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Node\Info;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Node\Info;
 
-use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
 
 interface ilHandlerInterface
 {

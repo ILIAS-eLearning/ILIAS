@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Path\Comparison;
+namespace ILIAS\Export\ImportHandler\File\Path\Comparison;
 
 enum Operator
 {

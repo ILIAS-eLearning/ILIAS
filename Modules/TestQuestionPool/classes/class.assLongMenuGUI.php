@@ -564,6 +564,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $tpl->setVariable("ICON_OK", $correctness_icon);
             }
         }
+        if ($solution) {
+            $tpl->setVariable('SIZE', 'size="' . mb_strlen($value) . '"');
+        }
         $tpl->setVariable('VALUE', $value);
         $tpl->setVariable('KEY', $key);
 

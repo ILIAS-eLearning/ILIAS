@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Namespace;
+namespace ILIAS\Export\ImportHandler\I\File\Namespace;
 
 use Countable;
-use ImportHandler\I\File\Namespace\ilHandlerInterface as ilParserNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilHandlerInterface as ilParserNamespaceHandlerInterface;
 use Iterator;
 
 interface ilCollectionInterface extends Iterator, Countable

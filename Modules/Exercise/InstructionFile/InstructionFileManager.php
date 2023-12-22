@@ -81,6 +81,7 @@ class InstructionFileManager
         if ($this->repo->hasCollection($this->ass_id)) {
             return array_map(function (ResourceInformation $info): array {
                 return [
+                    'rid' => $info->getRid(),
                     'name' => $info->getTitle(),
                     'size' => $info->getSize(),
                     'ctime' => $info->getCreationTimestamp(),

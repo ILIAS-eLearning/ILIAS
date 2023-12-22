@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Namespace;
+namespace ILIAS\Export\ImportHandler\File\Namespace;
 
-use ImportHandler\File\Namespace\ilCollection as ilParserNamespaceCollection;
-use ImportHandler\File\Namespace\ilHandler as ilParserNamespaceHandler;
-use ImportHandler\I\File\Namespace\ilCollectionInterface as ilParserNamespaceCollectionInterface;
-use ImportHandler\I\File\Namespace\ilFactoryInterface as ilParserNamespaceFactoryInterface;
-use ImportHandler\I\File\Namespace\ilHandlerInterface as ilParserNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\File\Namespace\ilCollection as ilParserNamespaceCollection;
+use ILIAS\Export\ImportHandler\File\Namespace\ilHandler as ilParserNamespaceHandler;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilCollectionInterface as ilParserNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilParserNamespaceFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilHandlerInterface as ilParserNamespaceHandlerInterface;
 
 class ilFactory implements ilParserNamespaceFactoryInterface
 {

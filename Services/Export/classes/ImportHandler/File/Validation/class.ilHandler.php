@@ -18,25 +18,25 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Validation;
+namespace ILIAS\Export\ImportHandler\File\Validation;
 
 use DOMDocument;
 use Exception;
 use ilLogger;
-use ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
-use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollection;
-use ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
-use ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
-use ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
-use ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
-use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
-use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
-use ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
-use ImportStatus\Exception\ilException as ilImportStatusException;
-use ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
-use ImportStatus\StatusType;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollection;
+use ILIAS\Export\ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
+use ILIAS\Export\ImportStatus\StatusType;
 use LibXMLError;
 
 class ilHandler implements ilFileValidationHandlerInterface

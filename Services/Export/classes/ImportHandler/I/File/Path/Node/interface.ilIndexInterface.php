@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Path\Node;
+namespace ILIAS\Export\ImportHandler\I\File\Path\Node;
 
-use ImportHandler\I\File\Path\Comparison\ilHandlerInterface as ilFilePathComparisonInterface;
-use ImportHandler\I\File\Path\Node\ilNodeInterface as ilFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Comparison\ilHandlerInterface as ilFilePathComparisonInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilNodeInterface as ilFilePathNodeInterface;
 
 interface ilIndexInterface extends ilFilePathNodeInterface
 {

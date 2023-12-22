@@ -747,7 +747,7 @@ assessment#:#finish_pass_for_user_in_processing_time#:#WARNUNG: die Bearbeitungs
 assessment#:#finish_test#:#Test beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
 assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
-assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer in den Testeinstellungen ändern.
+assessment#:#fixed_participants_hint#:#Dieser Test ist nur für die nachfolgend definierte Gruppe von Teilnehmern verfügbar. Soll der Test für alle Personen verfügbar sein, deren Rollen Lesezugriff auf den Test gewähren, müssen Sie im Reiter „Einstellungen“ die Option „Nur ausgewählte Teilnehmer“ deaktivieren.
 assessment#:#fixedparticipants_subtab#:#Ausgewählte Teilnehmer
 assessment#:#flashfile#:#Flash-Datei
 assessment#:#for#:#für
@@ -952,7 +952,7 @@ assessment#:#parseQuestion#:#Frage analysieren
 assessment#:#part_received_a_of_b_points#:#Der Teilnehmer hat %s von %s möglichen Punkten erreicht.
 assessment#:#participants#:#Teilnehmer
 assessment#:#participants_invitation#:#Nur ausgewählte Teilnehmer
-assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Dashboard" hinzugefügt wurden.
+assessment#:#participants_invitation_description#:#Der Test kann nur von Personen durchgeführt werden, deren ILIAS-Konto zuvor im Reiter „Teilnehmer“ hinzugefügt wurde.
 assessment#:#participants_results_subtab#:#Alle Teilnehmer
 assessment#:#pass#:#Durchlauf
 assessment#:#pass_finished#:#%s Durchlauf
@@ -1664,7 +1664,7 @@ assessment#:#tst_previous_access_code_not_available#:#Kein vorheriger Code verf�
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_proceed#:#Fortfahren
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
-assessment#:#tst_processing_time_desc#:#Nutzen Sie diese Einstellung für E-Klausuren/Fernklausuren, damit Teilnehmer einen festen Zeitraum für die Bearbeitung des Tests bekommen. Die Zeit läuft für jeden Teilnehmer ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Dashboard“ eine Funktion, um Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
+assessment#:#tst_processing_time_desc#:#Teilnehmer dürfen den Test nur während eines vorgegebenen Zeitraums bearbeiten. Die Zeit läuft für jede Person ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Teilnehmer“ eine Funktion, um einzelnen Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
 assessment#:#tst_processing_time_duration#:#Bearbeitungsdauer in Minuten
 assessment#:#tst_processing_time_duration_desc#:#Maximal zur Verfügung stehende Zeit zur Durchführung des Tests
 assessment#:#tst_qbt_filter_question_title#:#Fragentitel
@@ -2476,137 +2476,138 @@ blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 blog#:#blog_toggle_final#:#Beitrag veröffentlichen
 blog#:#blog_whole_blog#:#Gesamtes Blog
-book#:#X_reservations_of#:#%s Reservierungen von
+book#:#X_reservations_of#:#%s Buchungen von
 book#:#book_add#:#Buchungspool anlegen
-book#:#book_add_object#:#Objekt hinzufügen
-book#:#book_add_schedule#:#Zeitraster hinzufügen
+book#:#book_add_object#:#Angebot hinzufügen
+book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
 book#:#book_all#:#Alle anzeigen
-book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle zugeordneten Buchungspools benötigen mindestens einen Zeitplan.
+book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle ausgewählten Buchungspools benötigen mindestens einen Zeitplan.
 book#:#book_all_users#:#Alle Teilnehmer
-book#:#book_assign#:#Zuweisen
-book#:#book_assign_object#:#Buchungsobjekt zuweisen
-book#:#book_assign_participant#:#Teilnehmer zuweisen
+book#:#book_assign#:#Buchen
+book#:#book_assign_object#:#Für Teilnehmer buchen
+book#:#book_assign_participant#:#Für andere Teilnehmer buchen
 book#:#book_back_to_list#:#Zurück zur Liste
-book#:#book_bobj#:#Buchungsobjekt
+book#:#book_bobj#:#Angebote
 book#:#book_book#:#Buchen
 book#:#book_book_available#:#Verfügbare Termine buchen
 book#:#book_book_recurrence#:#Wiederholungen buchen
 book#:#book_booked_in#:#Gebucht in
 book#:#book_booking#:#Buchung
 book#:#book_booking_information#:#Information
-book#:#book_booking_objects#:#Buchungsobjekte
-book#:#book_booking_reminders#:#Anstehende Reservierungen
+book#:#book_booking_objects#:#Angebote
+book#:#book_booking_reminders#:#Anstehende Buchungen
 book#:#book_bookings_per_user#:#Buchungen je Benutzer
 book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
 book#:#book_bulk_creation#:#Massenerstellung
-book#:#book_bulk_data#:#Objektdaten
-book#:#book_cal_entry#:#Buchung von:
+book#:#book_bulk_data#:#Daten zu Angeboten
+book#:#book_cal_entry#:#Buchung:
 book#:#book_confirm_booking#:#Buchung vornehmen
-book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
+book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Angebot buchen wollen?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
-book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung stornieren möchten?
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.
+book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Buchungen stornieren möchten?
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
-book#:#book_confirm_delete#:#Wollen Sie wirklich die nachfolgende Objekte löschen?
+book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen?
 book#:#book_copy#:#Buchungspool kopieren
-book#:#book_create_objects#:#Objekte erstellen
-book#:#book_deadline#:#Zeitspanne
+book#:#book_create_objects#:#Angebote erstellen
+book#:#book_deadline#:#Deadline
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
 book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_slot_end#:#Bis zum Ende des Zeitfensters
 book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
-book#:#book_deassign#:#Zuweisung aufheben
+book#:#book_deassign#:#Buchungen bearbeiten
 book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen
-book#:#book_edit#:#Belegungsplan bearbeiten
-book#:#book_edit_object#:#Objekt ändern
-book#:#book_edit_schedule#:#Zeitplan editieren
-book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
+book#:#book_edit#:#Buchungspool bearbeiten
+book#:#book_edit_object#:#Angebot bearbeiten
+book#:#book_edit_schedule#:#Zeitplan bearbeiten
+book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
 book#:#book_fromto#:#Datumsbereich
-book#:#book_hours#:#Stunden
+book#:#book_hours#:#Stunden vor Beginn des Zeitfensters
 book#:#book_is_used#:#In Benutzung
-book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#book_limit_objects_available#:#Dieses Angebot können Sie nicht für %s Teilnehmer buchen. "%s" ist nur %s Mal verfügbar.
 book#:#book_list#:#Liste
-book#:#book_log#:#Reservierungen
+book#:#book_log#:#Buchungen
 book#:#book_mail_permanent_link#:#Link zum Buchungspool
 book#:#book_mail_to_booker#:#Mail an den Buchenden
 book#:#book_message#:#Mitteilung
 book#:#book_message_info#:#Sie können hier eine Mitteilung an den Organisator des Buchungspools eingeben.
 book#:#book_messages#:#Mitteilungen
-book#:#book_messages_info#:#Buchende können einer Reservierung eine Mitteilung mitgeben.
+book#:#book_messages_info#:#Buchende können einer Buchung eine Mitteilung mitgeben.
 book#:#book_missing_availability#:#Es können leider nicht alle Termine gebucht werden.
 book#:#book_missing_items#:#Es fehlen $1.
 book#:#book_new#:#Neuen Buchungspool anlegen
-book#:#book_no_bookings_for_you#:#Es wurden keine Reservierungen für Sie durchgeführt.
-book#:#book_no_objects#:#Keine Zuweisung
-book#:#book_no_of_objects#:#Anzahl Objekte
+book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
+book#:#book_no_objects#:#Keine Buchungen
+book#:#book_no_of_objects#:#Anzahl Angebote
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
-book#:#book_no_recurrence#:#nur diesen Termin buchen
+book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
 book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_cron_not_active#:#Achtung: Der notwendige Cron-Job "Benachrichtigungen über Reservierungen" ist zurzeit nicht aktiviert.
-book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
+book#:#book_notification_info#:#Sendet eine Liste der Buchungen des nächsten Tages an den jeweiligen Teilnehmer (nur eigene) und – wenn aktiviert – an die Administratoren.
 book#:#book_nr_of_preferences#:#Anzahl
-book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben darf.
+book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen, die jeder Teilnehmer abgeben muss.
 book#:#book_nr_preferences#:#Präferenzen
 book#:#book_obj_select#:#Auswählen
-book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
-book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
-book#:#book_object_selection#:#Objektauswahl
-book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
-book#:#book_objects_available#:#Verfügbare Objekte: %s
+book#:#book_object_added#:#Ein Angebot wurde hinzugefügt.
+book#:#book_object_deleted#:#Das Angebot wurde gelöscht.
+book#:#book_object_selection#:#Angebotsauswahl
+book#:#book_object_updated#:#Das Angebot wurde geändert.
+book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Begrenzung
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
 book#:#book_participant_already_assigned#:#Ein oder mehrere Teilnehmer waren bereits zugewiesen.
-book#:#book_participant_assigned#:#Teilnehmer wurde/n zugewiesen.
+book#:#book_participant_assigned#:#Teilnehmer wurde/n hinzugefügt.
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_pool_selection#:#Auswahl Buchungspool
 book#:#book_post_booking_file#:#Datei
-book#:#book_post_booking_information#:#Reservierungsinformationen
+book#:#book_post_booking_information#:#Informationen zur Buchung
 book#:#book_post_booking_text#:#Text
-book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Buchungsobjekt ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
+book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Angebot ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
 book#:#book_pref_book_cron#:#Buchung mit Präferenzen
-book#:#book_pref_book_cron_info#:#Automatische Buchung von Buchungen mit Präferenzen nach der Frist.
-book#:#book_pref_deadline#:#Enddatum
+book#:#book_pref_book_cron_info#:#Automatische Zuweisung von Buchungen auf der Grundlage von Präferenzen nach Ablauf der Frist.
+book#:#book_pref_deadline#:#Deadline
 book#:#book_pref_deadline_info#:#Bis zu diesem Zeitpunkt können Präferenzen abgegeben werden.
 book#:#book_pref_overview#:#Übersicht
 book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenz(en) bis %2. Nach der Frist werden die Zuordnungen auf der Basis der Präferenzen aller Teilnehmer automatisch durchgeführt.
 book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
-book#:#book_public_log#:#Benutzer sehen alle Reservierungen
-book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
+book#:#book_public_log#:#Benutzer sehen alle Buchungen
+book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Buchungen“ auch Buchungen anderer Benutzer einsehen.
 book#:#book_recurrence#:#Wiederholung
 book#:#book_refresh#:#Aktualisieren
-book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
+book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Buchungen.
 book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
 book#:#book_reminder_day#:#Versenden
-book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Reservierungen und zusätzlich eine Gesamtliste an Benutzer mit Schreibrechten.
-book#:#book_reminder_days#:#Tage vor der Reservierung
+book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Buchungen und zusätzlich eine Gesamtliste an Benutzenden mit dem Recht „Einstellungen bearbeiten“. Bitte beachten Sie: um Benachrichtigungen zu erhalten, müssen Teilnehmer diese über das Menü „Aktionen" oben rechts im Buchungspool „Benachrichtigungen“ aktiviert haben.
+book#:#book_reminder_days#:#Tage vor der Buchung
 book#:#book_reminder_setting#:#Teilnehmer an Reservierung erinnern
 book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
-book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle Reservierungen entfernen um Mehrfachzuweisungen zu verhindern.
+book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern.
 book#:#book_reservation_available#:#%s verfügbar
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
-book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das Objekt nicht mehr verfügbar ist.
+book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das betreffende Angebot nicht mehr verfügbar ist.
 book#:#book_reservation_filter_period#:#Voreinstellung für den Filter „Datumsbereich“
-book#:#book_reservation_filter_period_info#:#Im Reiter Reservierungen wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
-book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
-book#:#book_reservation_overview#:#Reservierungen aller Benutzer
+book#:#book_reservation_filter_period_info#:#Im Reiter „Buchungen“ wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
+book#:#book_reservation_fix_info#:#Buchungen können nur für die Zeitfenster durchgeführt werden, die unten als verfügbar angegeben werden.
+book#:#book_reservation_overview#:#Buchungen aller Benutzer
 book#:#book_reservation_status_5#:#Storniert
 book#:#book_reservation_title#:#Buchungsanfrage für
-book#:#book_reservations_list#:#Reservierungen
+book#:#book_reservations_list#:#Buchungen
 book#:#book_schedule#:#Zeitplan
 book#:#book_schedule_added#:#Ein Zeitplan wurde hinzugefügt.
-book#:#book_schedule_days#:#Wochentage
+book#:#book_schedule_days#:#Zeitfenster
 book#:#book_schedule_days_info#:#Gültige Zeiten für jeden Tag (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Der Zeitplan wurde gelöscht.
-book#:#book_schedule_slot#:#Zeitraum
+book#:#book_schedule_slot#:#Zeitfenster
 book#:#book_schedule_type#:#Buchungsmodus
-book#:#book_schedule_type_fixed#:#Buchung zu Terminen
+book#:#book_schedule_type_fixed#:#Buchung nach festem Zeitplan
 book#:#book_schedule_type_fixed_info#:#Geeignet für Buchungen von Dingen für einen bestimmten Zeitraum, wie Räume, Dienstleistungen oder Geräte.
 book#:#book_schedule_type_none#:#No Schedule###12 12 2023 new variable
 book#:#book_schedule_type_none_direct#:#Buchung ohne Termine
@@ -2615,7 +2616,7 @@ book#:#book_schedule_type_none_info#:#Dieser Buchungsmodus ist geeignet für die
 book#:#book_schedule_type_none_preference#:#Automatisch nach Präferenzen verteilen
 book#:#book_schedule_type_none_preference_info#:#Teilnehmer benennen zunächst Präferenzen. Zu einem gewählten Enddatum werden dann die Buchungen automatisch vorgenommen. Der Buchungsmodus ist geeignet für Referatsthemen oder Seminarplätze, die ohne Termin vergeben werden.
 book#:#book_schedule_updated#:#Der Zeitplan wurde geändert.
-book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden (oder der Typ des Buchungspools geändert werden).
+book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden. Alternativ wählen Sie einen anderen Typ für den Buchungspool.
 book#:#book_schedules#:#Zeitpläne
 book#:#book_select_pool#:#Pool auswählen
 book#:#book_set_cancel#:#Stornieren
@@ -2624,16 +2625,16 @@ book#:#book_show_message#:#Mitteilung anzeigen
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
-book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.
+book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
 book#:#book_week#:#Wochenansicht
-book#:#book_your_bookings#:#Ihre Reservierungen
+book#:#book_your_bookings#:#Ihre Buchungen
 book#:#book_your_preferences#:#Ihre Präferenzen
-book#:#book_your_reservations#:#Ihre Reservierungen
+book#:#book_your_reservations#:#Ihre Buchungen
 book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
 book#:#booking_nr_of_items#:#Anzahl
 book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Teilnehmer
-book#:#reservation_deleted#:#Reservierung gelöscht
+book#:#reservation_deleted#:#Buchung gelöscht
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
@@ -3513,7 +3514,7 @@ common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
 common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragetypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragetypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragetypen entfernen.
 common#:#assf_questiontypes#:#Frageneinstellungen
-common#:#assign#:#Zuweisen
+common#:#assign#:#Antrag annehmen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assigned_members#:#Zugeordnete Teilnehmer
@@ -5310,7 +5311,7 @@ common#:#private_notes#:#Private Notizen
 common#:#pro#:#Pro
 common#:#proceed#:#Fortfahren
 common#:#profile#:#Profil
-common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert
+common#:#profile_changed#:#Ihre Profildaten wurden geändert
 common#:#profile_incomplete#:#Ihr Profil ist nicht vollständig. Bitte geben Sie alle erforderlichen Daten an.
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
@@ -5368,8 +5369,8 @@ common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
-common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
+common#:#reg_mail_subject#:#Ihre Zugangsdaten
+common#:#reg_mail_subject_confirmation#:#Ihr Bestätigungslink
 common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebene E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
 common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" beantragt.
@@ -7123,15 +7124,15 @@ content#:#cont_text_acc#:#Akzent:
 content#:#cont_text_code#:#Programmcode:
 content#:#cont_text_com#:#Kommentar:
 content#:#cont_text_editing#:#Text bearbeiten
-content#:#cont_text_emp#:#Betonter Text:
+content#:#cont_text_emp#:#Betont
 content#:#cont_text_fn#:#Fußnote:
 content#:#cont_text_iln_link#:#Interner Link
-content#:#cont_text_imp#:#Wichtig:
+content#:#cont_text_imp#:#Wichtig
 content#:#cont_text_keyword#:#Schlagwort
 content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
 content#:#cont_text_placehl#:#Text-Platzhalter
 content#:#cont_text_quot#:#Zitat:
-content#:#cont_text_str#:#Stark betonter Text:
+content#:#cont_text_str#:#Stark betont
 content#:#cont_text_sub#:#Tiefgestellt
 content#:#cont_text_sup#:#Hochgestellt
 content#:#cont_text_tex#:#LaTeX-Code:
@@ -7342,11 +7343,13 @@ copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiten
 copg#:#copg_list_item_style#:#Listeneintrag
 copg#:#copg_list_style#:#Liste
 copg#:#copg_list_styles#:#Listenformat
+copg#:#copg_more_character_formats#:#Weitere Zeichenformate
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_reload_page#:#Seite neu laden
+copg#:#copg_remove_formats#:#Zeichenformate entfernen
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 copg#:#copg_x_minutes#:#%s Minute(n)
@@ -7489,7 +7492,7 @@ crs#:#crs_edit_timings#:#Zeitvorgaben bearbeiten
 crs#:#crs_enable_map#:#Karte zum Kurs aktivieren
 crs#:#crs_end#:#Ende
 crs#:#crs_export#:#Kursexport
-crs#:#crs_file#:#Datei
+crs#:#crs_file#:#Titel
 crs#:#crs_file_download#:#Dateien zum Herunterladen
 crs#:#crs_file_name#:#Dateiname
 crs#:#crs_file_size_info#:#Dateigröße
@@ -12293,7 +12296,7 @@ meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
 meta#:#meta_oer_blocked#:#Wird vom OER-Harvester ignoriert
 meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als OER (Open Educational Resource) gelistet
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
-meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
+meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter einer der ausgewählten Lizenzen veröffentlicht wurden, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#Scannt alle Dateiobjekte im Magazin auf ihre Lizenz. Der OER-Harvester fügt alle Ressourcen unter ausgewählten CC-Lizenzen der in den Cron-Job-Einstellungen definierten Kategorie hinzu. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein.
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
@@ -12790,7 +12793,7 @@ orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
 orgu#:#edit_translations#:#Titel und Beschreibung
 orgu#:#employee#:#Mitarbeiter
 orgu#:#ext_id#:#Externe ID
-orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Daten anonymisiert gespeichert werden.
+orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich aktualisiert.
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#import_failed#:#Der Import ist fehlgeschlagen. Stellen Sie sicher, dass die Datei im XML-Format geschrieben ist und eine valide Struktur aufweist.
 orgu#:#import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu erstellt: %s, Bearbeitet/Verschoben: %s, Gelöscht: %s.
@@ -13452,7 +13455,7 @@ prtf#:#prtf_unset_as_default#:#Nicht als Mein Profil verwenden
 prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte überprüfen Sie die aktuellen Freigaben für das Portfolio.
 prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
 prtf#:#prtf_visible_for_tutor#:#Einsehbar für Tutor
-prtf#:#prtt_title_info#:#Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Porfolios verwendet wird.
+prtf#:#prtt_title_info#:#Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Portfolios verwendet wird.
 prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliovorlage auch außerhalb der Zugriffszeiten sichtbar.
 prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zu machen.
 prtt#:#prtt_add#:#Portfoliovorlage anlegen

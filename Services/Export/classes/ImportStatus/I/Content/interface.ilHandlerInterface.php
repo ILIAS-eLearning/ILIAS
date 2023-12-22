@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus\I\Content;
+namespace ILIAS\Export\ImportStatus\I\Content;
 
 interface ilHandlerInterface
 {

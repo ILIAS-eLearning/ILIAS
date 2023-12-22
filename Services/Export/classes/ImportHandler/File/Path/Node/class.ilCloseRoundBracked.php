@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Path\Node;
+namespace ILIAS\Export\ImportHandler\File\Path\Node;
 
-use ImportHandler\I\File\Path\Node\ilCloseRoundBrackedInterface as ilCloseRoundBrackedFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilCloseRoundBrackedInterface as ilCloseRoundBrackedFilePathNodeInterface;
 
 class ilCloseRoundBracked implements ilCloseRoundBrackedFilePathNodeInterface
 {
