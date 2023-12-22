@@ -167,7 +167,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $dd = $f->dropdown()->standard($items)
-            ->withLabel($init_label);
+            ->withAriaLabel($init_label);
 
         $tpl->setVariable('SORTATION_DROPDOWN', $default_renderer->render($dd));
         return $tpl->get();
