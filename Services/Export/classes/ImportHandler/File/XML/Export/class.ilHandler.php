@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Export;
 
+use ilDataSet;
 use ILIAS\BookingManager\getObjectSettingsCommand;
 use ilLogger;
 use ILIAS\Export\ImportHandler\File\XML\ilHandler as ilXMLFileHandler;
@@ -112,8 +113,13 @@ abstract class ilHandler extends ilXMLFileHandler implements ilXMLExportFileHand
 
     public function hasComponentRootNode(): bool
     {
+        $xml = $this->withAdditionalNamespace(
+            $this->namespace->handler()
+                ->withNamespace(ilDataSet::DATASET_NS)
+                ->withPrefix(ilDataSet::DATASET_NS_PREFIX)
+        );
         try {
-            $nodes = $this->parser->DOM()->withFileHandler($this)->getNodeInfoAt($this->getPathToComponentRootNodes());
+            $nodes = $this->parser->DOM()->withFileHandler($xml)->getNodeInfoAt($this->getPathToComponentRootNodes());
         } catch (ilImportStatusException $e) {
             return false;
         }
