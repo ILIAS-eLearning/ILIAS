@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\AdvancedMetaData\Services\SubObjectModes;
+namespace ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable;
 
-use ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\SupplierInterface;
+use ILIAS\AdvancedMetaData\Services\SubObjectIDInterface;
 
-interface SubObjectModesInterface
+interface DataInterface
 {
-    public function inDataTable(): SupplierInterface;
+    public function dataForSubObject(SubObjectIDInterface $sub_object_id): array;
 }

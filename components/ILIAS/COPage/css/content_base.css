@@ -39,7 +39,13 @@ div.ilc_VerificationPlaceHolder /* no custom image yet */
 }
 
 .il-copg-cell-selected {
-	outline: #B54F00 2px solid;
+	outline: #557b2e 2px solid;
+}
+
+#il_EditPage div.il_editarea_selected, #il_EditPage div.copg-current-edit, iframe#tinytarget_ifr {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #557b2e;
 }
 
 #ed_datatable th.il-copg-edit-table {

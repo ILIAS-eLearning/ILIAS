@@ -147,9 +147,11 @@ class ilTermDefinitionBulkCreationGUI
     {
         $lng = $this->domain->lng();
         $ctrl = $this->gui->ctrl();
-
         $f = $this->gui->ui()->factory();
         $r = $this->gui->ui()->renderer();
+
+        $conf_tpl = new ilTemplate("tpl.bulk_creation_confirmation.html", true, true, "Modules/Glossary");
+
         $button = $f->button()->standard(
             $lng->txt("glo_create_term_definition_pairs"),
             "#"
@@ -167,15 +169,14 @@ EOT;
         )->withButtons([$button]);
 
         $ctrl->setParameter($this, "term_language", $language);
-        $table = new ilTermDefinitionBulkCreationTableGUI(
-            $this,
-            "renderConfirmation",
-            $data,
-            $this->glossary
-        );
+        $table = $this->domain->table()->getTermDefinitionBulkCreationTable($data, $this->glossary)->getComponent();
 
-        return $r->render($mbox) .
-            $table->getHTML();
+        $conf_tpl->setVariable("HIDDEN_VALUE", $data);
+        $conf_tpl->setVariable("ACTION", $ctrl->getFormAction($this, "createTermDefinitionPairs"));
+        $conf_tpl->setVariable("MBOX", $r->render($mbox));
+        $conf_tpl->setVariable("TABLE", $r->render($table));
+
+        return $conf_tpl->get();
     }
 
     protected function createTermDefinitionPairs(): void

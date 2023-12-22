@@ -2693,8 +2693,8 @@ input.btn, input.il-link.link-bulky,
   font-size: inherit;
   font-weight: 400;
   text-decoration: none;
-  min-height: 2.6rem;
-  min-width: 2.6rem;
+  min-height: 2.2rem;
+  min-width: 2.2rem;
   font-size: 0.75rem;
   padding: 3px 6px;
   gap: 6px;
@@ -4120,10 +4120,10 @@ hr.il-divider-with-label {
 .il-input-password .revelation-mask {
   display: none;
 }
-.revealed .il-input-password .revelation-reveal {
+.il-input-password.revealed .revelation-reveal {
   display: none;
 }
-.revealed .il-input-password .revelation-mask {
+.il-input-password.revealed .revelation-mask {
   display: block;
 }
 
@@ -4854,6 +4854,7 @@ header {
 .breadcrumbs {
   position: sticky;
   top: 0;
+  min-height: 33px;
   align-items: center;
   background-color: white;
   display: flex;
@@ -6874,10 +6875,27 @@ div.alert ul > li:before {
   color: #161616;
   font-size: 0.875rem;
 }
-.panel .panel-viewcontrols:not(:empty) {
-  justify-content: center;
-  margin: 15px 15px;
-  margin-bottom: 6px;
+@media screen and (max-width: 768px) {
+  .panel .panel-viewcontrols {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media screen and (min-width: 769px) {
+  .panel .panel-viewcontrols {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media screen and (min-width: 993px) {
+  .panel .panel-viewcontrols {
+    order: 2;
+    width: auto;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
 }
 .panel .panel-body {
   padding: 15px 15px;
@@ -6898,20 +6916,35 @@ div.alert ul > li:before {
 }
 
 .panel-flex .panel-heading {
-  display: grid;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
 }
 .panel-flex .panel-title {
-  margin-right: auto;
+  flex-shrink: 0;
+  order: 1;
 }
 .panel-flex .panel-controls {
-  margin-left: auto;
-  float: right;
   display: flex;
   gap: 9px;
   justify-content: flex-end;
+  margin-left: auto;
 }
-.panel-flex .ilHeader {
-  display: flex;
+@media screen and (max-width: 768px) {
+  .panel-flex .panel-controls {
+    order: 2;
+  }
+}
+@media screen and (min-width: 769px) {
+  .panel-flex .panel-controls {
+    order: 2;
+  }
+}
+@media screen and (min-width: 993px) {
+  .panel-flex .panel-controls {
+    order: 3;
+  }
 }
 .panel-flex h2.ilHeader {
   flex-grow: 99;
@@ -8952,6 +8985,12 @@ th.c-table-data__cell {
 }
 
 @media screen and (min-width: 769px) {
+  .breadcrumbs + #mainspacekeeper th.c-table-data__cell {
+    top: 32px;
+  }
+}
+
+@media screen and (min-width: 769px) {
   th.c-table-data__cell:after {
     position: absolute;
     content: "";
@@ -9242,8 +9281,8 @@ td.c-table-data__cell--highlighted {
 .il-viewcontrol-pagination,
 .il-viewcontrol-mode {
   width: fit-content;
-  min-height: 2.6rem;
-  min-width: 2.6rem;
+  min-height: 2.2rem;
+  min-width: 2.2rem;
   border: 1px solid #e2e8ef;
   padding: 3px;
   background-color: #e2e8ef;
@@ -9427,8 +9466,8 @@ td.c-table-data__cell--highlighted {
 .il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-link,
 .il-viewcontrol-mode > .btn-default,
 .il-viewcontrol-mode > .btn-link {
-  min-height: 1.9rem;
-  min-width: 1.9rem;
+  min-height: 1.7rem;
+  min-width: 1.7rem;
   border-radius: 10px;
 }
 
@@ -14185,7 +14224,6 @@ div#ilContRepIntro img {
 }
 
 .ilContainerTileRows {
-  margin: 0px -15px 0 -15px;
   padding: 6px 15px;
   background-color: white;
 }
@@ -15446,6 +15484,9 @@ fieldset[disabled] .checkbox label {
   padding-top: 0;
   line-height: normal;
 }
+.form-horizontal .row > div, .form-horizontal span {
+  padding-left: 0;
+}
 .form-horizontal .radio,
 .form-horizontal .checkbox {
   min-height: 24px;
@@ -15453,6 +15494,7 @@ fieldset[disabled] .checkbox label {
 .form-horizontal label {
   color: #161616;
   font-size: 100%;
+  padding-right: 30px;
 }
 .form-horizontal .control-label {
   text-align: left;
@@ -17867,7 +17909,30 @@ a.ilMediaLightboxClose:hover {
   padding: 0;
   margin: 3px 0;
   border: 0 none;
-  border-bottom: 2px solid #2c2c2c;
+  border-bottom: 2px solid #161616;
+}
+#ilTab > li {
+  float: left;
+  margin: 0 3px 0 0;
+}
+#ilTab > li > a {
+  margin: 0;
+  margin-right: 2px;
+  font-size: 0.875rem;
+  line-height: 1.428571429;
+  padding: 6px 15px 3px;
+  border: 0 none;
+  border-radius: 0px 0px 0 0;
+}
+#ilTab > li > a:hover {
+  border-color: white white white;
+}
+#ilTab > li.active > a, #ilTab > li.active > a:hover, #ilTab > li.active > a:focus {
+  color: white;
+  cursor: default;
+  background-color: #161616;
+  border: 0 none;
+  border-bottom-color: transparent;
 }
 
 #ilTab a:focus-visible {
@@ -17880,11 +17945,14 @@ a.ilMediaLightboxClose:hover {
   margin: 0;
 }
 #ilSubTab > li:first-child > a {
-  margin-left: 3px;
+  padding-left: 12px;
+}
+#ilSubTab > li {
+  float: left;
 }
 #ilSubTab > li > a {
   border-radius: 0;
-  padding: 3px 12px;
+  padding: 3px 6px;
   font-size: 0.75rem;
 }
 #ilSubTab > li > a:hover {
@@ -17948,47 +18016,6 @@ a.ilMediaLightboxClose:hover {
   max-width: none;
 }
 
-.nav-tabs {
-  border-bottom: 1px solid #dddddd;
-}
-.nav-tabs > li {
-  float: left;
-  margin: 0 3px 0 0;
-}
-.nav-tabs > li > a {
-  margin: 0;
-  margin-right: 2px;
-  font-size: 0.875rem;
-  line-height: 1.428571429;
-  padding: 6px 15px 3px;
-  border: 0 none;
-  border-radius: 0px 0px 0 0;
-}
-.nav-tabs > li > a:hover {
-  border-color: white white white;
-}
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  color: white;
-  cursor: default;
-  background-color: #161616;
-  border: 0 none;
-  border-bottom-color: transparent;
-}
-
-.nav-pills > li {
-  float: left;
-}
-.nav-pills > li > a {
-  border-radius: 0px;
-}
-.nav-pills > li + li {
-  margin-left: 2px;
-}
-.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-  color: white;
-  background-color: #4c6586;
-}
-
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
   border-top-left-radius: 0;
@@ -18024,13 +18051,17 @@ a.ilMediaLightboxClose:hover {
 .ilToolbar .ilToolbarItems {
   padding: 0;
 }
-.ilToolbar > .form-control {
+.ilToolbar .navbar-form > .form-control {
   width: auto;
   display: inline-block;
   vertical-align: middle;
 }
-.ilToolbar .input-group {
+.ilToolbar .navbar-form > .input-group {
+  display: inline-table;
   vertical-align: middle;
+}
+.ilToolbar .navbar-form > .input-group > .input-group-btn {
+  width: auto;
 }
 .ilToolbar input[type=file] {
   display: inline-block;
@@ -18127,6 +18158,18 @@ a.ilMediaLightboxClose:hover {
     padding-left: 0;
   }
 }
+.ilToolbar .navbar-form > .input-group > .input-group-btn {
+  width: auto;
+}
+
+.ilToolbar .navbar-form > .input-group {
+  display: inline-table;
+}
+
+.ilToolbar .navbar-form > .form-control {
+  display: inline-block;
+}
+
 .navbar {
   position: relative;
   min-height: 40px;

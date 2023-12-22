@@ -5,6 +5,7 @@
 @use "../../../030-tools/tool_clearfix" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/standardpage/" as *;
+@use "../../../050-layout/layout_breakpoints" as break;
 
 //== Panel
 //
@@ -50,10 +51,23 @@
 		}
 	}
 
-	.panel-viewcontrols:not(:empty) {
-		justify-content: center;
-		margin: $il-margin-xxxlarge-vertical $il-margin-xlarge-horizontal;
-		margin-bottom: $il-margin-xxxlarge-vertical - $il-margin-xlarge-vertical; // to compensate margin of inner elements - see l-bar system
+	.panel-viewcontrols {
+		@include break.on-screen-size(small) {
+			order: 3;
+			width: 100%;
+			justify-content: center;
+		}
+		@include break.on-screen-size(medium) {
+			order: 3;
+			width: 100%;
+			justify-content: center;
+		}
+		@include break.on-screen-size(large) {
+			order: 2;
+			width: auto;
+			flex-grow: 1;
+			justify-content: flex-end;
+		}
 	}
 
 	.panel-body {
@@ -73,20 +87,29 @@
 //Special assignments for Panels using Flex layouts (Standard, Secondary, Report and Sub)
 .panel-flex{
 	.panel-heading {
-		display: grid;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: $il-margin-base-horizontal;
 	}
 	.panel-title{
-		margin-right: auto;
+		flex-shrink: 0;
+		order: 1;
 	}
 	.panel-controls {
-		margin-left: auto;
-		float: right;
 		display: flex;
 		gap: $il-margin-base-horizontal;
 		justify-content: flex-end;
-	}
-	.ilHeader{
-		display: flex;
+		margin-left: auto;
+		@include break.on-screen-size(small) {
+			order: 2;
+		}
+		@include break.on-screen-size(medium) {
+			order: 2;
+		}
+		@include break.on-screen-size(large) {
+			order: 3;
+		}
 	}
 	h2.ilHeader {
 		flex-grow: 99;

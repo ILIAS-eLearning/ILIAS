@@ -49,7 +49,8 @@ class UIWrapper
         string $action,
         array $data = null,
         string $component = "",
-        bool $primary = false
+        bool $primary = false,
+        string $aria_label = ""
     ): \ILIAS\UI\Component\Button\Button {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -62,10 +63,13 @@ class UIWrapper
             $data = [];
         }
         $b = $b->withOnLoadCode(
-            function ($id) use ($type, $data, $action, $component) {
+            function ($id) use ($type, $data, $action, $component, $aria_label) {
                 $code = "document.querySelector('#$id').setAttribute('data-copg-ed-type', '$type');
                          document.querySelector('#$id').setAttribute('data-copg-ed-component', '$component');
-                         document.querySelector('#$id').setAttribute('data-copg-ed-action', '$action')";
+                         document.querySelector('#$id').setAttribute('data-copg-ed-action', '$action'); ";
+                if ($aria_label !== "") {
+                    $code .= "document.querySelector('#$id').setAttribute('aria-label', '$aria_label'); ";
+                }
                 foreach ($data as $key => $val) {
                     $code .= "\n document.querySelector('#$id').setAttribute('data-copg-ed-par-$key', '$val');";
                 }
@@ -110,10 +114,11 @@ class UIWrapper
         string $action,
         array $data = null,
         string $component = "",
-        bool $primary = false
+        bool $primary = false,
+        string $aria_label = ""
     ): string {
         $ui = $this->ui;
-        $b = $this->getButton($content, $type, $action, $data, $component, $primary);
+        $b = $this->getButton($content, $type, $action, $data, $component, $primary, $aria_label);
         return $ui->renderer()->renderAsync($b);
     }
 

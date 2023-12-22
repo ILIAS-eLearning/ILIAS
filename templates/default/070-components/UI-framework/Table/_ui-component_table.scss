@@ -2,6 +2,7 @@
 @use "../../../030-tools/_tool_buttons" as *;
 @use "../../../030-tools/_tool_browser-prefixes" as *;
 @use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/layout_standardpage" as spage;
 @use "../../../050-layout/layout_grid" as l-grid;
 @use "../../../030-tools/tool_highlighted-box" as box;
 @use "../../../050-layout/layout_breakpoints" as brk;
@@ -137,7 +138,7 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 
 // hover row on larger screens only
 .c-table-data__row:hover td.c-table-data__cell {
-    @include brk.on-screen-size(large) {
+    @include brk.on-screen-size(medium) {
         background-color: $il-main-darker-bg;
     }
 }
@@ -149,7 +150,7 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 th.c-table-data__cell {
     padding: 0; // most of the header cells get padding from the resize wrapper
     // sticky header on large screens
-    @include brk.on-screen-size(large) {
+    @include brk.on-screen-size(medium) {
         position: -webkit-sticky;
         position: sticky;
         top: 0;
@@ -161,9 +162,17 @@ th.c-table-data__cell {
     }
 }
 
+// stick under breadcrumbs when they are present
+
+.breadcrumbs + #mainspacekeeper th.c-table-data__cell {
+    @include brk.on-screen-size(large) {
+        top: spage.$il-standard-page-breadcrumbs-height - 1px;
+    }
+}
+
 // shadow below header when sticky (because borders and box shadow are left behind in tables)
 th.c-table-data__cell:after {
-    @include brk.on-screen-size(large) {
+    @include brk.on-screen-size(medium) {
         position: absolute;
         content: "";
         left: 0;
@@ -211,7 +220,7 @@ th.c-table-data__cell:after {
 
 // shadow that sticks to the right of action column (because borders and box shadow are left behind and do not stick)
 .c-table-data__rowselection:after {
-    @include brk.on-screen-size(large) {
+    @include brk.on-screen-size(medium) {
         position: absolute;
         content: "";
         top: 0;
@@ -308,7 +317,7 @@ td.c-table-data__cell--highlighted {
 }
 // hover on larger screens only
 .c-table-data__row:hover td.c-table-data__cell--highlighted {
-    @include brk.on-screen-size(large) {
+    @include brk.on-screen-size(medium) {
         background-color: darken($il-main-darker-bg, 7%);
     }
 }
