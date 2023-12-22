@@ -31,8 +31,8 @@ $il-btn-ctrl-bg: s-color.$il-highlight-bg !default;
 //** Border color of the primary button (most important button on the screen)
 $il-btn-ctrl-border: s-color.$il-highlight-bg !default;
 $il-btn-ctrl-engaged-border: s-color.$il-link-color !default;
-$il-btn-ctrl-outer-height: 2.6rem !default;
-$il-btn-ctrl-inner-btn-height: 1.9rem !default;
+$il-btn-ctrl-outer-height: 2.2rem !default;
+$il-btn-ctrl-inner-btn-height: 1.7rem !default;
 
 //** Colors of inactive buttons
 $il-disabled-btn-color: darken(s-color.$il-text-color, 20%) !default;

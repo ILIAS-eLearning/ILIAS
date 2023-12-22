@@ -765,7 +765,7 @@ abstract class ilBlockGUI
             ->withTargetURL($href, $this->getNavParameter() . "page")
             ->withTotalEntries($this->max_count)
             ->withPageSize($this->getLimit())
-            ->withMaxPaginationButtons(5)
+            ->withMaxPaginationButtons(1)
             ->withCurrentPage($this->getOffset() / $this->getLimit());
     }
 
@@ -977,8 +977,6 @@ abstract class ilBlockGUI
             )->withTargetURL(
                 $this->sort_target,
                 'sorting'
-            )->withLabel(
-                $this->activeSortOption
             );
             $viewControls[] = $sortation;
         }
