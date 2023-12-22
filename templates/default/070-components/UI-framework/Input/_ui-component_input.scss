@@ -25,7 +25,7 @@
 .il-standard-form{
   background-color: $il-standard-form-bg;
   margin-top: $il-margin-large-vertical;
-
+  padding: $il-standard-form-header-padding;
 
   .il-standard-form-cmd {
     float: right;
@@ -40,29 +40,27 @@
     }
 
   }
+
+  .il-standard-form-footer, .il-standard-form-header, .il-section-input-header{
+    background-color: $il-standard-form-header-bg;
+    color: $il-standard-form-header-color;
+  }
+
+  .il-standard-form-header, .il-standard-form-footer {
+    padding-right: $il-padding-xlarge-horizontal;
+  }
+
   .il-standard-form-header {
-    padding-left: $il-padding-large-horizontal;
-    padding-right: $il-padding-large-horizontal;
-
-    background-color: $il-standard-form-header-bg;
-    color: $il-standard-form-header-color;
-  }
-
-  .il-standard-form-footer, .il-section-input-header{
-    padding: $il-standard-form-header-padding;
-
-    background-color: $il-standard-form-header-bg;
-    color: $il-standard-form-header-color;
-  }
-
-  .il-standard-form-footer {
-    padding-right: $il-padding-large-horizontal;
+    margin-bottom: $il-padding-large-vertical;
   }
 
   .il-standard-form-header + .il-section-input > .il-section-input-header {
     border-top: none;
   }
+
   .il-section-input-header {
+    padding: $il-standard-form-header-padding;
+
     margin: $il-standard-form-header-margin;
     border-top: $il-standard-form-header-border;
   }
@@ -81,7 +79,8 @@
 
   //Move the first section header up, to be displayed next to the forms top button
   .il-standard-form-header + .il-section-input{
-    margin-top: calc(-1 * ($il-button-font-size*$il-line-height-base + ($il-margin-small-vertical + 1vw)));
+    $button-height: $il-line-height-computed + $il-padding-small-vertical;
+    margin-top: -1 * ($button-height + $il-margin-xxxlarge-vertical + $il-padding-xxlarge-vertical);
     padding: 0;
 
     .il-section-input-header h2{
