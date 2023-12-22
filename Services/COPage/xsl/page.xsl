@@ -949,10 +949,10 @@
 			</xsl:variable>
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/>  <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
-		<div>
+		<p>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
-		</div>
+		</p>
 		</xsl:when>
 		<xsl:otherwise>
 			<!-- Label -->
@@ -1147,7 +1147,13 @@
 </xsl:template>
 
 <!-- Emph, Strong, Comment, Quotation -->
-<xsl:template match="Emph|Strong|Comment|Quotation|Important|Accent">
+<xsl:template match="Strong">
+	<strong class="ilc_strong_Strong"><xsl:apply-templates/></strong>
+</xsl:template>
+<xsl:template match="Emph">
+	<em class="ilc_em_Emph"><xsl:apply-templates/></em>
+</xsl:template>
+<xsl:template match="Comment|Quotation|Important|Accent">
 	<xsl:variable name="Tagname" select="name()"/>
 	<span class="ilc_text_inline_{$Tagname}"><xsl:apply-templates/></span>
 </xsl:template>
