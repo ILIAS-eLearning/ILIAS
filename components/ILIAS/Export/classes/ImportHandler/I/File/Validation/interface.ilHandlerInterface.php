@@ -18,12 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Validation;
+namespace ILIAS\Export\ImportHandler\I\File\Validation;
 
-use ImportHandler\I\File\Path\ilHandlerInterface as ilParserPathHandlerInterface;
-use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
-use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilParserPathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
 
 interface ilHandlerInterface
 {
@@ -36,5 +37,9 @@ interface ilHandlerInterface
         ilXMLFileHandlerInterface $xml_file_handler,
         ilXSDFileHandlerInterface $xsd_file_handler,
         ilParserPathHandlerInterface $path_handler
+    ): ilImportStatusHandlerCollectionInterface;
+
+    public function validateSets(
+        ilFileValidationSetCollectionInterface $sets
     ): ilImportStatusHandlerCollectionInterface;
 }

@@ -18,18 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Manifest;
+namespace ILIAS\Export\ImportHandler\File\XML\Manifest;
 
 use ilLogger;
-use ImportHandler\File\XML\Manifest\ilHandler as ilManifestXMLFileHandler;
-use ImportHandler\I\File\XML\Manifest\ilFactoryInterface as ilManifestFileFactoryInterface;
-use ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
-use ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
-use ImportHandler\File\XML\Manifest\ilHandlerCollection as ilManifestXMLFileHandlerCollection;
-use ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestXMLFileHandlerInterface;
-use ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
-use ImportStatus\ilFactory as ilImportStatusFactory;
-use Schema\ilXmlSchemaFactory;
+use ILIAS\Export\ImportHandler\File\XML\Manifest\ilHandler as ilManifestXMLFileHandler;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilFactoryInterface as ilManifestFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\File\XML\Manifest\ilHandlerCollection as ilManifestXMLFileHandlerCollection;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
+use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\Schema\ilXmlSchemaFactory;
+use SplFileInfo;
 
 class ilFactory implements ilManifestFileFactoryInterface
 {
@@ -50,12 +52,25 @@ class ilFactory implements ilManifestFileFactoryInterface
     public function handler(): ilManifestXMLFileHandlerInterface
     {
         return new ilManifestXMLFileHandler(
+            new ilFileNamespaceFactory(),
             new ilXmlSchemaFactory(),
             new ilImportStatusFactory(),
             $this->file,
             $this->parser,
             $this->logger,
         );
+    }
+
+    public function withFileInfo(SplFileInfo $file_info): ilManifestXMLFileHandlerInterface
+    {
+        return (new ilManifestXMLFileHandler(
+            new ilFileNamespaceFactory(),
+            new ilXmlSchemaFactory(),
+            new ilImportStatusFactory(),
+            $this->file,
+            $this->parser,
+            $this->logger,
+        ))->withFileInfo($file_info);
     }
 
     public function handlerCollection(): ilManifestXMLFileHandlerCollectionInterface

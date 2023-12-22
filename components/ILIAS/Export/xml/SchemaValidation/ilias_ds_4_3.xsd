@@ -8,44 +8,44 @@
 	<!-- DataSet -->
 	<xs:element name='DataSet'>
 		<xs:complexType>
-		<xs:sequence>
-			<xs:element ref='Types' minOccurs='0' maxOccurs='unbounded'/>
-			<xs:element ref='Rec' minOccurs='0' maxOccurs='unbounded'/>
-		</xs:sequence>
-		<xs:attribute name='InstallationId' type='xs:string' use='required'/>
-		<xs:attribute name='InstallationUrl' type='xs:string' use='required'/>
-		<xs:attribute name='TopEntity' type='xs:string' use='required'/>
+			<xs:sequence>
+				<xs:element ref='Types' minOccurs='0' maxOccurs='unbounded'/>
+				<xs:element ref='Rec' minOccurs='0' maxOccurs='unbounded'/>
+			</xs:sequence>
+			<xs:attribute name='InstallationId' type='xs:string' use='required'/>
+			<xs:attribute name='InstallationUrl' type='xs:string' use='required'/>
+			<xs:attribute name='TopEntity' type='xs:string' use='required'/>
 		</xs:complexType>
 	</xs:element>
 
 	<!-- Types -->
 	<xs:element name="Types">
 		<xs:complexType>
-		<xs:sequence>
-			<xs:element ref='FieldType' minOccurs='0' maxOccurs='unbounded'/>
-		</xs:sequence>
-		<xs:attribute name='Entity' type='xs:string' use='required'/>
-		<xs:attribute name='SchemaVersion' type='xs:string' use='required'/>
+			<xs:sequence>
+				<xs:element ref='FieldType' minOccurs='0' maxOccurs='unbounded'/>
+			</xs:sequence>
+			<xs:attribute name='Entity' type='xs:string' use='required'/>
+			<xs:attribute name='SchemaVersion' type='xs:string' use='required'/>
 		</xs:complexType>
 	</xs:element>
 
 	<!-- FieldType -->
 	<xs:element name='FieldType'>
 		<xs:complexType>
-		<xs:sequence>
-		</xs:sequence>
-		<xs:attribute name='Name' type='xs:string' use='required'/>
-		<xs:attribute name='Type' type='xs:string' use='required'/>
+			<xs:sequence>
+			</xs:sequence>
+			<xs:attribute name='Name' type='xs:string' use='required'/>
+			<xs:attribute name='Type' type='xs:string' use='required'/>
 		</xs:complexType>
 	</xs:element>
 
 	<!-- Rec -->
 	<xs:element name='Rec'>
 		<xs:complexType>
-		<xs:sequence>
-			<xs:any minOccurs="1" maxOccurs='unbounded'/>
-		</xs:sequence>
-		<xs:attribute name='Entity' type='xs:string' use='required'/>
+			<xs:sequence>
+				<xs:any minOccurs="1" maxOccurs='unbounded' namespace="##any" processContents="skip"/>
+			</xs:sequence>
+			<xs:attribute name='Entity' type='xs:string' use='required'/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

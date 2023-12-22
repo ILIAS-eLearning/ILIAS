@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Path\Node;
+namespace ILIAS\Export\ImportHandler\File\Path\Node;
 
-use ImportHandler\I\File\Path\Node\ilAnyNodeInterface as ilAnyNodeFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilAnyNodeInterface as ilAnyNodeFilePathNodeInterface;
 use XMLReader;
 
 class ilAnyNode implements ilAnyNodeFilePathNodeInterface
@@ -28,5 +28,10 @@ class ilAnyNode implements ilAnyNodeFilePathNodeInterface
     public function toString(): string
     {
         return 'node()';
+    }
+
+    public function requiresPathSeparator(): bool
+    {
+        return true;
     }
 }

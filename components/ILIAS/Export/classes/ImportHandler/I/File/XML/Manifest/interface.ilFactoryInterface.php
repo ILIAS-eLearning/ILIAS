@@ -18,14 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Manifest;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Manifest;
 
-use ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestXMLFileHandlerInterface;
-use ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
+use SplFileInfo;
 
 interface ilFactoryInterface
 {
-    public function handler(): ilManifestXMLFileHandlerInterface;
+    public function withFileInfo(SplFileInfo $file_info): ilManifestXMLFileHandlerInterface;
 
     public function handlerCollection(): ilManifestXMLFileHandlerCollectionInterface;
 }

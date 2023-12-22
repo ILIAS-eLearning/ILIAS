@@ -23,12 +23,12 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\Unzip;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
-use ImportHandler\File\XML\Manifest\ilExportObjectType;
-use ImportHandler\ilFactory as ilImportFactory;
-use ImportStatus\ilFactory as ilImportStatusFactory;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ImportStatus\StatusType;
-use ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportHandler\File\XML\Manifest\ilExportObjectType;
+use ILIAS\Export\ImportHandler\ilFactory as ilImportFactory;
+use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\StatusType;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
 
 /**
  * Import class
@@ -219,31 +219,14 @@ class ilImport
             }
         }
         foreach ($export_files as $export_file) {
-            $found_statuses = $export_file->loadExportInfo();
-            $xsd_file = $found_statuses->hasStatusType(StatusType::FAILED)
-                ? null
-                : $export_file->getXSDFileHandler();
-            if (!$found_statuses->hasStatusType(StatusType::FAILED) && is_null($xsd_file)) {
-                $found_statuses = $found_statuses->withAddedStatus($this->import_status->handler()
-                    ->withType(StatusType::DEBUG)
-                    ->withContent($this->import_status->content()->builder()->string()->withString(
-                        'Missing schema xsd file for entity of type: '
-                        . $export_file->getType()
-                        . ($export_file->getSubType() === '' ? '' : '_' . $export_file->getSubType())
-                    )));
-            }
-            if(!$found_statuses->hasStatusType(StatusType::FAILED) && !is_null($xsd_file)) {
-                try {
-                    $found_statuses = $this->import->file()->validation()->handler()->validateXMLAtPath(
-                        $export_file,
-                        $xsd_file,
-                        $path_to_export_item_child
-                    );
-                } catch (ilImportStatusException $e) {
-                    $found_statuses = $e->getStatuses();
-                }
+            $found_statuses = $export_file->buildValidationSets();
+            if (!$found_statuses->hasStatusType(StatusType::FAILED)) {
+                $found_statuses = $this->import->file()->validation()->handler()->validateSets(
+                    $export_file->getValidationSets()
+                );
             }
             if (!$found_statuses->hasStatusType(StatusType::FAILED)) {
+                $statuses = $statuses->getMergedCollectionWith($found_statuses);
                 continue;
             }
             $info_str = "<br> Location: " . $export_file->getILIASPath($component_tree) . "<br>";

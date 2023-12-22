@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus\I\Exception;
+namespace ILIAS\Export\ImportStatus\I\Exception;
 
-use ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
 
 interface ilExceptionInterface
 {

@@ -18,12 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File;
+namespace ILIAS\Export\ImportHandler\I\File;
 
-use ImportHandler\I\File\Validation\ilFactoryInterface as ilFileValidationFactoryInterface;
-use ImportHandler\I\File\XML\ilFactoryInterface as ilXMLFileFactoryInterface;
-use ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileFactoryInterface;
-use ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\ilFactoryInterface as ilFileValidationFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilFactoryInterface as ilXMLFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
 
 interface ilFactoryInterface
 {
@@ -34,4 +35,6 @@ interface ilFactoryInterface
     public function validation(): ilFileValidationFactoryInterface;
 
     public function path(): ilFilePathFactoryInterface;
+
+    public function namespace(): ilFileNamespaceFactoryInterface;
 }

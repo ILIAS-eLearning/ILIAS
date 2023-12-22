@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Path\Node;
+namespace ILIAS\Export\ImportHandler\I\File\Path\Node;
 
 use XMLReader;
 
 interface ilNodeInterface
 {
     public function toString(): string;
+
+    public function requiresPathSeparator(): bool;
 }

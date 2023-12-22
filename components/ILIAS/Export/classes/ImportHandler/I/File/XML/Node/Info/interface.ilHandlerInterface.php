@@ -18,26 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Node\Info;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Node\Info;
 
-use DOMNode;
-use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
 
 interface ilHandlerInterface
 {
-    public function withDOMNode(DOMNode $node): ilHandlerInterface;
-
     public function getXML(): string;
 
     public function getNodeName(): string;
 
     public function getValueOfAttribute(string $attribute_name): string;
-
-    public function getAttributePath(
-        string $attribute_name,
-        string $path_separator,
-        bool $skip_nodes_without_attribute = true
-    ): string;
 
     public function getChildren(): ilXMLFileNodeInfoCollectionInterface;
 

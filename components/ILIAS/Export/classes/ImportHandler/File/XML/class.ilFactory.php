@@ -18,24 +18,25 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML;
+namespace ILIAS\Export\ImportHandler\File\XML;
 
 use ilLogger;
-use ImportHandler\File\XML\Manifest\ilFactory as ilManifestFileFactory;
-use ImportHandler\I\File\XML\Export\ilFactoryInterface as ilXMLExportFileFactoryInterface;
-use ImportHandler\I\File\XML\ilFactoryInterface as ilXMLFileFactoryInterface;
-use ImportHandler\I\File\XML\ilCollectionInterface as ilXMLFileHanlderCollectionInterface;
-use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHanlderInterface;
-use ImportHandler\File\XML\ilHandler as ilXMLFileHanlder;
-use ImportHandler\File\XML\ilCollection as ilXMLFileHanlderCollection;
-use ImportHandler\I\File\XML\Manifest\ilFactoryInterface as ilManifestFileFactoryInterface;
-use ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
-use ImportHandler\I\File\XML\Node\ilFactoryInterface as ilXMLFileNodeFactoryInterface;
-use ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
-use ImportHandler\I\File\XML\Reader\ilFactoryInterface as ilXMLFileReaderFactoryInterface;
-use ImportStatus\ilFactory as ilStatusFactory;
-use ImportHandler\File\XML\Node\ilFactory as ilXMLFileNodeFactory;
-use ImportHandler\File\XML\Export\ilFactory as ilXMLExportFileFactory;
+use ILIAS\Export\ImportHandler\File\XML\Manifest\ilFactory as ilManifestFileFactory;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\ilFactoryInterface as ilXMLExportFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilFactoryInterface as ilXMLFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilCollectionInterface as ilXMLFileHanlderCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHanlderInterface;
+use ILIAS\Export\ImportHandler\File\XML\ilHandler as ilXMLFileHanlder;
+use ILIAS\Export\ImportHandler\File\XML\ilCollection as ilXMLFileHanlderCollection;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilFactoryInterface as ilManifestFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\ilFactoryInterface as ilXMLFileNodeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
+use ILIAS\Export\ImportStatus\ilFactory as ilStatusFactory;
+use ILIAS\Export\ImportHandler\File\XML\Node\ilFactory as ilXMLFileNodeFactory;
+use ILIAS\Export\ImportHandler\File\XML\Export\ilFactory as ilXMLExportFileFactory;
+use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use SplFileInfo;
 
 class ilFactory implements ilXMLFileFactoryInterface
 {
@@ -53,11 +54,20 @@ class ilFactory implements ilXMLFileFactoryInterface
         $this->parser = $parser;
     }
 
-    public function handler(): ilXMLFileHanlderInterface
+    /*public function handler(): ilXMLFileHanlderInterface
     {
         return new ilXMLFileHanlder(
+            new ilFileNamespaceFactory(),
             new ilStatusFactory()
         );
+    }*/
+
+    public function withFileInfo(SplFileInfo $file_info): ilXMLFileHanlderInterface
+    {
+        return (new ilXMLFileHanlder(
+            new ilFileNamespaceFactory(),
+            new ilStatusFactory()
+        ))->withFileInfo($file_info);
     }
 
     public function collection(): ilXMLFileHanlderCollectionInterface

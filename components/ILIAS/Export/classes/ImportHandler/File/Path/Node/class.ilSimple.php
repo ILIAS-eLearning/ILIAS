@@ -18,20 +18,18 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Path\Node;
+namespace ILIAS\Export\ImportHandler\File\Path\Node;
 
 use ilLogger;
-use ImportHandler\I\File\Path\Node\ilSimpleInterface as ilSimpleFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilSimpleInterface as ilSimpleFilePathNodeInterface;
 use XMLReader;
 
 class ilSimple implements ilSimpleFilePathNodeInterface
 {
-    protected ilLogger $logger;
     protected string $node_name;
 
-    public function __construct(ilLogger $logger)
+    public function __construct()
     {
-        $this->logger = $logger;
         $this->node_name = '';
     }
 
@@ -45,5 +43,10 @@ class ilSimple implements ilSimpleFilePathNodeInterface
     public function toString(): string
     {
         return $this->node_name;
+    }
+
+    public function requiresPathSeparator(): bool
+    {
+        return true;
     }
 }

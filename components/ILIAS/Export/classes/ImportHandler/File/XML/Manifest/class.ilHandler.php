@@ -18,23 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Manifest;
+namespace ILIAS\Export\ImportHandler\File\XML\Manifest;
 
 use ilImportException;
 use ilLogger;
-use ImportHandler\File\ilFactory as ilFileFactory;
-use ImportHandler\File\XML\ilHandler as ilXMLFileHandler;
-use ImportHandler\I\File\XML\Export\ilCollectionInterface as ilXMLExportFileCollectionInterface;
-use ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
-use ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestHandlerInterface;
-use ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
-use ImportHandler\Parser\ilFactory as ilParserFactory;
-use ImportHandler\Parser\ilHandler as ilParserHandler;
-use ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ImportStatus\Exception\ilException as ilImportStatusException;
-use ImportStatus\StatusType;
-use Schema\ilXmlSchemaFactory;
+use ILIAS\Export\ImportHandler\File\ilFactory as ilFileFactory;
+use ILIAS\Export\ImportHandler\File\XML\ilHandler as ilXMLFileHandler;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\ilCollectionInterface as ilXMLExportFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
+use ILIAS\Export\ImportHandler\Parser\ilFactory as ilParserFactory;
+use ILIAS\Export\ImportHandler\I\Parser\ilHandlerInterface as ilParserHandler;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportStatus\StatusType;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
+use ILIAS\Export\Schema\ilXmlSchemaFactory;
 use SplFileInfo;
 
 class ilHandler extends ilXMLFileHandler implements ilManifestHandlerInterface
@@ -58,19 +59,19 @@ class ilHandler extends ilXMLFileHandler implements ilManifestHandlerInterface
     protected ilLogger $logger;
 
     public function __construct(
+        ilFileNamespaceFactoryInterface $namespace,
         ilXmlSchemaFactory $schema,
         ilImportStatusFactoryInterface $status,
         ilFileFactory $file,
         ilParserFactory $parser,
         ilLogger $logger,
     ) {
-        parent::__construct($status);
+        parent::__construct($namespace, $status);
         $this->status = $status;
-        $this->manifest_xsd_handler = $file->xsd()->handler()
-            ->withFileInfo($schema->getLatest(
-                self::XSD_TYPE,
-                self::XSD_SUB_TYPE
-            ));
+        $this->manifest_xsd_handler = $file->xsd()->withFileInfo($schema->getLatest(
+            self::XSD_TYPE,
+            self::XSD_SUB_TYPE
+        ));
         $this->logger = $logger;
         $this->parser = $parser;
         $this->file = $file;
@@ -84,7 +85,7 @@ class ilHandler extends ilXMLFileHandler implements ilManifestHandlerInterface
     {
         $clone = clone $this;
         $clone->xml_file_info = $file_info;
-        $clone->parser_handler = $clone->parser->handler()->withFileHandler($clone);
+        $clone->parser_handler = $clone->parser->DOM()->withFileHandler($clone);
         return $clone;
     }
 
@@ -136,7 +137,7 @@ class ilHandler extends ilXMLFileHandler implements ilManifestHandlerInterface
             $file_name = $node_info->getNodeName() === ilExportObjectType::toString(ilExportObjectType::EXPORT_SET)
                 ? DIRECTORY_SEPARATOR . self::MANIFEST_FILE_NAME
                 : '';
-            $file_handlers = $file_handlers->withElement($this->file->xml()->export()->handler()
+            $file_handlers = $file_handlers->withElement($this->file->xml()->export()
                 ->withFileInfo(new SplFileInfo(
                     $this->getPathToFileLocation()
                     . DIRECTORY_SEPARATOR
@@ -153,10 +154,6 @@ class ilHandler extends ilXMLFileHandler implements ilManifestHandlerInterface
     public function findManifestXMLFileHandlers(): ilManifestXMLFileHandlerCollectionInterface
     {
         $export_obj_type = $this->getExportObjectType();
-        $this->logger->debug(
-            "\n\n\nFinding Manifest File Handlers\nType: "
-            . ilExportObjectType::toString($export_obj_type) . "\n\n"
-        );
         $type_name = ilExportObjectType::toString($export_obj_type);
         $path = $this->file->path()->handler()
             ->withStartAtRoot(true)

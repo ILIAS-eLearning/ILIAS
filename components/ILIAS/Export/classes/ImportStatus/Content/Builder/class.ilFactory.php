@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus\Content\Builder;
+namespace ILIAS\Export\ImportStatus\Content\Builder;
 
-use ImportStatus\I\Content\Builder\ilFactoryInterface as ilImportStatusContentBuilderFactoryInterface;
-use ImportStatus\I\Content\Builder\ilStringInterface as ilImportStatusStringContentBuilderInterface;
-use ImportStatus\Content\Builder\ilString as ilImportStatusStringContentBuilder;
+use ILIAS\Export\ImportStatus\I\Content\Builder\ilFactoryInterface as ilImportStatusContentBuilderFactoryInterface;
+use ILIAS\Export\ImportStatus\I\Content\Builder\ilStringInterface as ilImportStatusStringContentBuilderInterface;
+use ILIAS\Export\ImportStatus\Content\Builder\ilString as ilImportStatusStringContentBuilder;
 
 class ilFactory implements ilImportStatusContentBuilderFactoryInterface
 {

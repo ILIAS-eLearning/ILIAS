@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\Parser;
+namespace ILIAS\Export\ImportHandler\I\Parser;
 
-use ImportHandler\I\File\Path\ilFactoryInterface as ilParserPathFactoryInterface;
-use ImportHandler\I\Parser\ilHandlerInterface as ilParserHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\ilFactoryInterface as ilDOMParserFactoryInterface;
 
 interface ilFactoryInterface
 {
-    public function handler(): ilParserHandlerInterface;
+    public function DOM(): ilDOMParserFactoryInterface;
 }

@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler;
+namespace ILIAS\Export\ImportHandler;
 
 use ilLogger;
-use ImportHandler\File\ilFactory as ilFileFactory;
-use ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
-use ImportHandler\I\ilFactoryInterface as ilImportHandlerFactoryInterface;
-use ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
-use ImportHandler\Parser\ilFactory as ilParserFactory;
+use ILIAS\Export\ImportHandler\File\ilFactory as ilFileFactory;
+use ILIAS\Export\ImportHandler\I\File\ilFactoryInterface as ilFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\ilFactoryInterface as ilImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
+use ILIAS\Export\ImportHandler\Parser\ilFactory as ilParserFactory;
 
 class ilFactory implements ilImportHandlerFactoryInterface
 {
