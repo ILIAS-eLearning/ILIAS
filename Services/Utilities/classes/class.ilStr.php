@@ -39,7 +39,7 @@ class ilStr
     /**
      * @return false|int|true
      */
-    public static function strPos(string $a_haystack, string $a_needle, ?int $a_offset = null)
+    public static function strPos(string $a_haystack, string $a_needle, int $a_offset = 0)
     {
         if (function_exists("mb_strpos")) {
             return mb_strpos($a_haystack, $a_needle, $a_offset, "UTF-8");
@@ -51,10 +51,10 @@ class ilStr
     /**
      * @return false|int
      */
-    public static function strIPos(string $a_haystack, string $a_needle, ?int $a_offset = null)
+    public static function strIPos(string $a_haystack, string $a_needle, int $a_offset = 0)
     {
         if (function_exists("mb_stripos")) {
-            return mb_stripos($a_haystack, $a_needle, $a_offset ?? 0, "UTF-8");
+            return mb_stripos($a_haystack, $a_needle, $a_offset, "UTF-8");
         } else {
             return stripos($a_haystack, $a_needle, $a_offset);
         }
