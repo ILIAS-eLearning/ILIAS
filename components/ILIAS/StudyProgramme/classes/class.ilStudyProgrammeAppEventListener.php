@@ -147,10 +147,13 @@ class ilStudyProgrammeAppEventListener
             case 'components/ILIAS/StudyProgramme':
                 switch ($event) {
                     case 'userSuccessful':
-                        $DIC->certificate()->userCertificates()->certificateCriteriaMet(
-                            (int) $parameter['usr_id'],
-                            (int) $parameter['prg_id']
-                        );
+                        try {
+                            $DIC->certificate()->userCertificates()->certificateCriteriaMet(
+                                (int) $parameter['usr_id'],
+                                (int) $parameter['prg_id']
+                            );
+                        } catch (\ilCouldNotFindCertificateTemplate $e) {
+                        }
                         break;
                 }
                 break;
