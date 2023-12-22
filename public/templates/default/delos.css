@@ -8981,6 +8981,11 @@ th.c-table-data__cell {
   th.c-table-data__cell.c-table-data__header__rowselection {
     padding: 12px 12px;
     text-align: center;
+    position: sticky;
+    left: -2px;
+    z-index: 4;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgb(255, 255, 255) 85%, rgba(255, 255, 255, 0) 100%);
   }
 }
 
@@ -9042,16 +9047,16 @@ th.c-table-data__cell {
   }
 }
 
-.c-table-data__multiaction-triggerer {
-  width: fit-content;
-}
-
 .c-table-data__rowselection,
 .c-table-data__multiaction-triggerer {
   position: -webkit-sticky;
   position: sticky;
-  left: 0;
+  left: -1px;
   z-index: 2;
+}
+
+.c-table-data__multiaction-triggerer {
+  width: fit-content;
 }
 
 .c-table-data__multiaction-triggerer {
