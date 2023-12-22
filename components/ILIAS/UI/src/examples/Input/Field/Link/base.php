@@ -16,11 +16,13 @@ function base()
 
     $form = $ui->input()->container()->form()->standard("#", [$link_input]);
 
+    $result = "No result yet.";
     if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
-        $result = $form->getData()[0];
-    } else {
-        $result = "No result yet.";
+        $data = $form->getData();
+        if($data) {
+            $result = $data[0];
+        }
     }
 
     return
