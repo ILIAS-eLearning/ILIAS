@@ -310,7 +310,7 @@ class ilMembershipGUI
                 if (
                     !$is_admin &&
                     (
-                        $this->getParentObject()->getShowMembers() === 0 ||
+                        !$this->getParentObject()->getShowMembers() ||
                         !$is_participant
                     )
                 ) {
