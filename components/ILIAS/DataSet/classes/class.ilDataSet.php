@@ -35,7 +35,8 @@
  */
 abstract class ilDataSet
 {
-    private const DATASET_NS = 'http://www.ilias.de/Services/DataSet/ds/4_3';
+    public const DATASET_NS = 'http://www.ilias.de/Services/DataSet/ds/4_3';
+    public const DATASET_NS_PREFIX = 'ds';
 
     public const EXPORT_NO_INST_ID = 1;
     public const EXPORT_ID_ILIAS_LOCAL = 2;
