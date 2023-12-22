@@ -15784,6 +15784,7 @@ style#:#sty_type_ca_icont#:#Karussell - Inhalt Element
 style#:#sty_type_ca_ihead#:#Karussell - Kopfzeile Element
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
+style#:#sty_type_em#:#Betont
 style#:#sty_type_flist#:#Dateiliste
 style#:#sty_type_flist_a#:#Link Dateilisteneintrag
 style#:#sty_type_flist_cont#:#Dateilistencontainer
@@ -15855,6 +15856,7 @@ style#:#sty_type_sco_keyw#:#SCO Schlagworte
 style#:#sty_type_sco_obj#:#SCO Lernziel
 style#:#sty_type_sco_title#:#SCO Titel
 style#:#sty_type_section#:#Block
+style#:#sty_type_strong#:#Stark Betont
 style#:#sty_type_sub#:#Tiefgestellt
 style#:#sty_type_sup#:#Hochgestellt
 style#:#sty_type_table#:#Tabelle

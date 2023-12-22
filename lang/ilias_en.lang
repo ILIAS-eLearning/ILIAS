@@ -2572,7 +2572,7 @@ book#:#book_pref_book_cron_info#:#Automatically allocate bookings based on prefe
 book#:#book_pref_deadline#:#Deadline
 book#:#book_pref_deadline_info#:#Preferences can be stated up to this point.
 book#:#book_pref_overview#:#Overview
-book#:#book_preference_info#:#book#:#book_preference_info#:#Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all users.
+book#:#book_preference_info#:#Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all users.
 book#:#book_preferences#:#Preferences
 book#:#book_preferences_saved#:#Your preferences have been saved.
 book#:#book_public_log#:#Bookings Visible to All Participants
@@ -15782,6 +15782,7 @@ style#:#sty_type_ca_icont#:#Carousel Item Content
 style#:#sty_type_ca_ihead#:#Carousel Item Header
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
+style#:#sty_type_em#:#Emphasised
 style#:#sty_type_flist#:#File List
 style#:#sty_type_flist_a#:#File List Item Link
 style#:#sty_type_flist_cont#:#File List Container
@@ -15853,6 +15854,7 @@ style#:#sty_type_sco_keyw#:#SCO Keywords
 style#:#sty_type_sco_obj#:#SCO Objective
 style#:#sty_type_sco_title#:#SCO Title
 style#:#sty_type_section#:#Section
+style#:#sty_type_strong#:#Strong
 style#:#sty_type_sub#:#Subscript
 style#:#sty_type_sup#:#Superscript
 style#:#sty_type_table#:#Table
