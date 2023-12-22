@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/*
-* Dependencies
-*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -684,9 +681,8 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Normalize
-*/
-/* print less */
+* Dependencies
+*/ /* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -894,6 +890,9 @@ th {
   padding: 0;
 }
 
+/*
+* Normalize
+*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -1973,9 +1972,6 @@ th {
     display: none !important;
   }
 }
-/*
-* Elements
-*/
 * {
   box-sizing: border-box;
 }
@@ -2351,9 +2347,8 @@ code {
   }
 }
 /*
-* Components
+* Elements
 */
-/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -8962,7 +8957,7 @@ th.c-table-data__cell {
   }
 }
 
-@media screen and (min-width: 769px) {
+@media screen and (min-width: 993px) {
   .breadcrumbs + #mainspacekeeper th.c-table-data__cell {
     top: 32px;
   }
@@ -9531,7 +9526,6 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
-/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10224,7 +10218,6 @@ div.il_info {
   border-color: #dddddd;
 }
 
-/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -10852,7 +10845,6 @@ tbody.collapse.in {
   clip: auto;
 }
 
-/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -18137,18 +18129,6 @@ a.ilMediaLightboxClose:hover {
     padding-left: 0;
   }
 }
-.ilToolbar .navbar-form > .input-group > .input-group-btn {
-  width: auto;
-}
-
-.ilToolbar .navbar-form > .input-group {
-  display: inline-table;
-}
-
-.ilToolbar .navbar-form > .form-control {
-  display: inline-block;
-}
-
 .navbar {
   position: relative;
   min-height: 40px;
@@ -18555,6 +18535,13 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
+/*
+* Components
+*/
+/* UI Framework */
+/* Component parts from old delos.scss */
+/* Adapted from Bootstrap 3 */
+/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
