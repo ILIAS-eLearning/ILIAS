@@ -7266,9 +7266,9 @@ copg#:#copg_more_character_formats#:#More Styles for Characters
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
-copg#:#copg_remove_formats#:#Remove Formatting
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page
+copg#:#copg_remove_formats#:#Remove Formatting
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
 copg#:#copg_x_minutes#:#%s minute(s)
@@ -7411,7 +7411,7 @@ crs#:#crs_edit_timings#:#Edit Timings
 crs#:#crs_enable_map#:#Enable Course Map
 crs#:#crs_end#:#End
 crs#:#crs_export#:#Course export
-crs#:#crs_file#:#File
+crs#:#crs_file#:#Title
 crs#:#crs_file_download#:#Files for Download
 crs#:#crs_file_name#:#File Name
 crs#:#crs_file_size_info#:#Filesize

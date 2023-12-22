@@ -7266,9 +7266,9 @@ copg#:#copg_more_character_formats#:#Weitere Zeichenformate
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
-copg#:#copg_remove_formats#:#Zeichenformate entfernen
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_reload_page#:#Seite neu laden
+copg#:#copg_remove_formats#:#Zeichenformate entfernen
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 copg#:#copg_x_minutes#:#%s Minute(n)
@@ -7411,7 +7411,7 @@ crs#:#crs_edit_timings#:#Zeitvorgaben bearbeiten
 crs#:#crs_enable_map#:#Karte zum Kurs aktivieren
 crs#:#crs_end#:#Ende
 crs#:#crs_export#:#Kursexport
-crs#:#crs_file#:#Datei
+crs#:#crs_file#:#Titel
 crs#:#crs_file_download#:#Dateien zum Herunterladen
 crs#:#crs_file_name#:#Dateiname
 crs#:#crs_file_size_info#:#Dateigröße
