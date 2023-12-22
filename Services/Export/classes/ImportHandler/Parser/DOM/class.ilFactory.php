@@ -18,15 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\Parser\DOM;
+namespace ILIAS\Export\ImportHandler\Parser\DOM;
 
 use ilLogger;
-use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
-use ImportHandler\I\Parser\DOM\ilFactoryInterface as ilDOMParserFactoryInterface;
-use ImportHandler\I\Parser\DOM\ilHandlerInterface as ilDOMParserHandlerInterface;
-use ImportHandler\Parser\DOM\ilHandler as ilDOMParser;
-use ImportHandler\Parser\DOM\ilHandler as ilDOMParserHandler;
-use ImportHandler\File\XML\Node\Info\ilFactory as ilXMLFileNodeInfoFactory;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\ilFactoryInterface as ilDOMParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\ilHandlerInterface as ilDOMParserHandlerInterface;
+use ILIAS\Export\ImportHandler\Parser\DOM\ilHandler as ilDOMParser;
+use ILIAS\Export\ImportHandler\Parser\DOM\ilHandler as ilDOMParserHandler;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\ilFactory as ilXMLFileNodeInfoFactory;
 
 class ilFactory implements ilDOMParserFactoryInterface
 {

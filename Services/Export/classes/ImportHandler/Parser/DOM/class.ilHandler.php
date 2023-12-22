@@ -18,18 +18,18 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\Parser\DOM;
+namespace ILIAS\Export\ImportHandler\Parser\DOM;
 
 use DOMDocument;
 use DOMNode;
 use DOMXPath;
 use ilLogger;
-use ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
-use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
-use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
-use ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
-use ImportHandler\I\Parser\DOM\ilHandlerInterface as ilDOMParserHandlerInterface;
-use ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\ilHandlerInterface as ilDOMParserHandlerInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
 
 class ilHandler implements ilDOMParserHandlerInterface
 {

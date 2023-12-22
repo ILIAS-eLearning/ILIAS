@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\XML\Node\Info;
 
-use ImportHandler\File\XML\Node\Info\DOM\ilHandler;
-use ImportHandler\File\XML\Node\Info\ilCollection;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM\ilHandler;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\ilCollection;
 use PHPUnit\Framework\TestCase;
 
 class ilCollectionTest extends TestCase

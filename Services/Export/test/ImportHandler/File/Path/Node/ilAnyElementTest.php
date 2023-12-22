@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\Path\Node;
 
-use ImportHandler\File\Path\Node\ilAnyElement as ilAnyElementFilePathNode;
+use ILIAS\Export\ImportHandler\File\Path\Node\ilAnyElement as ilAnyElementFilePathNode;
 use PHPUnit\Framework\TestCase;
 
 class ilAnyElementTest extends TestCase

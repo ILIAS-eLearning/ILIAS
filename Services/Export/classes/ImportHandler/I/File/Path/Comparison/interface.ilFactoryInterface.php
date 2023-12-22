@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Path\Comparison;
+namespace ILIAS\Export\ImportHandler\I\File\Path\Comparison;
 
-use ImportHandler\File\Path\Comparison\Operator as ilFilePathComparisonOperator;
-use ImportHandler\I\File\Path\Comparison\ilHandlerInterface as ilFilePathComparisonHandlerInterface;
+use ILIAS\Export\ImportHandler\File\Path\Comparison\Operator as ilFilePathComparisonOperator;
+use ILIAS\Export\ImportHandler\I\File\Path\Comparison\ilHandlerInterface as ilFilePathComparisonHandlerInterface;
 
 interface ilFactoryInterface
 {

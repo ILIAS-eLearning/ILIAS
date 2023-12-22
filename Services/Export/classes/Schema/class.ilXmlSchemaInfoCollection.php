@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Schema;
+namespace ILIAS\Export\Schema;
 
 use ArrayObject;
 

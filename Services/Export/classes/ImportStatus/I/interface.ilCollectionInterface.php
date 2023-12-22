@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus\I;
+namespace ILIAS\Export\ImportStatus\I;
 
 use Countable;
-use ImportStatus\I\Content\ilHandlerInterface as ilImportStatusContentHandlerInterface;
-use ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
-use ImportStatus\StatusType;
+use ILIAS\Export\ImportStatus\I\Content\ilHandlerInterface as ilImportStatusContentHandlerInterface;
+use ILIAS\Export\ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
+use ILIAS\Export\ImportStatus\StatusType;
 use Iterator;
 
 interface ilCollectionInterface extends Iterator, Countable

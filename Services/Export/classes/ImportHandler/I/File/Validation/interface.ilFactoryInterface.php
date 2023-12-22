@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Validation;
+namespace ILIAS\Export\ImportHandler\I\File\Validation;
 
-use ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
-use ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationPairFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationPairFactoryInterface;
 
 interface ilFactoryInterface
 {

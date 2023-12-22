@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace Test\ImportHandler\File\Namespace;
 
 use PHPUnit\Framework\TestCase;
-use ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
-use ImportHandler\File\Namespace\ilHandler as ilFileNamespaceHandler;
-use ImportHandler\File\Namespace\ilCollection as ilFileNamespaceCollection;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\File\Namespace\ilHandler as ilFileNamespaceHandler;
+use ILIAS\Export\ImportHandler\File\Namespace\ilCollection as ilFileNamespaceCollection;
 
 class ilCollectionTest extends TestCase
 {

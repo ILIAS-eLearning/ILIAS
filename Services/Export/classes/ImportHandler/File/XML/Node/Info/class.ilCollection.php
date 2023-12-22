@@ -1,9 +1,9 @@
 <?php
 
-namespace ImportHandler\File\XML\Node\Info;
+namespace ILIAS\Export\ImportHandler\File\XML\Node\Info;
 
-use ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
-use ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
 
 class ilCollection implements ilXMLFileNodeInfoCollectionInterface
 {

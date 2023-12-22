@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Manifest;
+namespace ILIAS\Export\ImportHandler\File\XML\Manifest;
 
-use ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestXMLFileHandlerInterface;
-use ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
-use ImportStatus\Exception\ilException as ilImportStatusException;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
 
 class ilHandlerCollection implements ilManifestXMLFileHandlerCollectionInterface
 {

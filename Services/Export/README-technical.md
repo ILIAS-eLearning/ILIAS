@@ -261,6 +261,7 @@ Remove the schema from in the 'xml/SchemaValidation'-folder.
 
 ### Validation Code Examples
 #### Validate Xml File:
+
 ```php
 // Get the xml SplFileInfo
 $xml_file_spl = new SplFileInfo('path to my xml file')
@@ -273,7 +274,7 @@ $import = new \ImportHandler\ilFactory();
 $xml_file_handler = $import->file()->xml()->withFileInfo($xml_file_spl);
 $xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_file_spl);
 
-/** @var \ImportStatus\ilCollection $validation_results */
+/** @var \ILIAS\Export\ImportStatus\ilCollection $validation_results */
 // Validate
 $validation_results = $import->file()->validation()->handler()->validateXMLFile(
     $xml_file_handler,
@@ -281,11 +282,12 @@ $validation_results = $import->file()->validation()->handler()->validateXMLFile(
 );
 
 // Check if an import failure occured
-if ($validation_results->hasStatusType(\ImportStatus\StatusType::FAILED)) {
+if ($validation_results->hasStatusType(\ILIAS\Export\ImportStatus\StatusType::FAILED)) {
     // Do something on failure
 }
 ```
 #### Validate Xml at Xml Node:
+
 ```php
 // Get the xml SplFileInfo
 $xml_file_spl = new SplFileInfo('path to my xml file')
@@ -300,7 +302,7 @@ $xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_file_spl);
 
 // Build xPath to xml node
 // $path->toString() = '/RootElement/namespace:TargetElement'
-/** @var \ImportHandler\File\Path\ilHandler $path */
+/** @var \ILIAS\Export\ImportHandler\File\Path\ilHandler $path */
 $path = $import->file()->path()->handler()
     ->withStartAtRoot(true)
     ->withNode($import->file()->path()->node()->simple()->withName('RootElement'))
@@ -314,7 +316,7 @@ $xml_file_handler = $xml_file_handler->withAdditionalNamespace(
         ->withPrefix('namespace')
 )
 
-/** @var \ImportStatus\ilCollection $validation_results */
+/** @var \ILIAS\Export\ImportStatus\ilCollection $validation_results */
 // Validate
 $validation_results = $import->file()->validation()->handler()->validateXMLAtPath(
     $xml_file_handler,
@@ -323,7 +325,7 @@ $validation_results = $import->file()->validation()->handler()->validateXMLAtPat
 );
 
 // Check if an import failure occured
-if ($validation_results->hasStatusType(\ImportStatus\StatusType::FAILED)) {
+if ($validation_results->hasStatusType(\ILIAS\Export\ImportStatus\StatusType::FAILED)) {
     // Do something on failure
 }
 ```

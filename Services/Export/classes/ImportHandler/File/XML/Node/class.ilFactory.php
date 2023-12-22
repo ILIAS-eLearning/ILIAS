@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Node;
+namespace ILIAS\Export\ImportHandler\File\XML\Node;
 
 use ilLogger;
-use ImportHandler\I\File\XML\Node\ilFactoryInterface as ilXMLFileNodeFactoryInterface;
-use ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoInterface;
-use ImportHandler\File\XML\Node\Info\ilFactory as ilXMLFileNodeInfo;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\ilFactoryInterface as ilXMLFileNodeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\ilFactory as ilXMLFileNodeInfo;
 
 class ilFactory implements ilXMLFileNodeFactoryInterface
 {
