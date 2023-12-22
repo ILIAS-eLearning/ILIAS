@@ -73,6 +73,11 @@ div.ilc_VerificationPlaceHolder /* no custom image yet */
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, .1);
 }
 
+button.copg-add.dropdown-toggle.btn:focus-visible {
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
+}
+
 @media (min-width: 480px) {
 	.copg-iim-popup-sm {
 		max-width: 50%;
