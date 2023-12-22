@@ -262,12 +262,12 @@ class ilObjStyleSheet extends ilObject
     // displayed with matching tag (group -> tags)
     public static array $filtered_groups =
             array("ol" => array("ol"), "ul" => array("ul"),
-                "table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure", "li"));
+                "table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure", "li", "p"));
 
     // style types and their super type
     public static array $style_super_types = array(
         "text_block" => array("text_block", "heading1", "heading2", "heading3", "code_block"),
-        "text_inline" => array("text_inline", "sub", "sup", "code_inline"),
+        "text_inline" => array("text_inline", "sub", "sup", "code_inline", "strong", "em"),
         "section" => array("section"),
         "link" => array("link"),
         "table" => array("table", "table_cell", "table_caption"),
@@ -300,15 +300,17 @@ class ilObjStyleSheet extends ilObject
 
     // tag that are used by style types
     public static array $assigned_tags = array(
-        "text_block" => "div",
+        "text_block" => "p",
         "heading1" => "h1",
         "heading2" => "h2",
         "heading3" => "h3",
         "code_block" => "pre",
+        "em" => "em",
         "text_inline" => "span",
         "code_inline" => "code",
         "sup" => "sup",
         "sub" => "sub",
+        "strong" => "strong",
         "section" => "div",
         "link" => "a",
         "table" => "table",
@@ -391,9 +393,9 @@ class ilObjStyleSheet extends ilObject
             array("type" => "heading2", "class" => "Headline2"),
             array("type" => "heading3", "class" => "Headline3"),
             array("type" => "text_inline", "class" => "Comment"),
-            array("type" => "text_inline", "class" => "Emph"),
+            array("type" => "em", "class" => "Emph"),
             array("type" => "text_inline", "class" => "Quotation"),
-            array("type" => "text_inline", "class" => "Strong"),
+            array("type" => "strong", "class" => "Strong"),
             array("type" => "text_inline", "class" => "Accent"),
             array("type" => "text_inline", "class" => "Important"),
             array("type" => "code_inline", "class" => "CodeInline"),
