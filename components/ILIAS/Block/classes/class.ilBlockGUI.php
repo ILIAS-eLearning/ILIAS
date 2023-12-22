@@ -977,6 +977,8 @@ abstract class ilBlockGUI
             )->withTargetURL(
                 $this->sort_target,
                 'sorting'
+            )->withLabel(
+                $this->activeSortOption
             );
             $viewControls[] = $sortation;
         }
