@@ -13954,9 +13954,14 @@ button.copg-add.dropdown-toggle.btn:hover .il-copg-add-text,
   color: #4c6586;
   font-size: 1rem;
 }
-button.copg-add.dropdown-toggle.btn:hover {
+button.copg-add.dropdown-toggle.btn:hover,
+button.copg-add.dropdown-toggle.btn:focus-visible {
   background-color: #e2e8ef;
   color: #6f6f6f;
+}
+button.copg-add.dropdown-toggle.btn:focus-visible {
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
 }
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
   left: 45%;

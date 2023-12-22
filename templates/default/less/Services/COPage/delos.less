@@ -78,9 +78,14 @@ button.copg-add.dropdown-toggle.btn:hover,
 	}
 }
 
-button.copg-add.dropdown-toggle.btn:hover {
+button.copg-add.dropdown-toggle.btn:hover, button.copg-add.dropdown-toggle.btn:focus-visible {
 	background-color: lighten(@il-btn-standard-bg, 50%);
 	color: @il-text-light-color;
+}
+
+button.copg-add.dropdown-toggle.btn:focus-visible {
+	outline: @il-focus-outline-inner;
+	outline-offset: -@il-focus-outline-inner-width;
 }
 
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
