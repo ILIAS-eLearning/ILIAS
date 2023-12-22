@@ -206,8 +206,8 @@ class ViewControlPaginationTest extends ViewControlBaseTest
     </div>
 
     <div class="il-viewcontrol-value hidden" role="none">
-        <input id="id_14" type="hidden" name="" value="12" />
-        <input id="id_15" type="hidden" name="" value="2" />
+        <input id="id_14" type="hidden" value="12" />
+        <input id="id_15" type="hidden" value="2" />
     </div>
 </div>
         ');
