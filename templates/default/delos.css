@@ -14522,12 +14522,12 @@ div.ilCOPGMediaPrint {
   padding: 0;
   margin: 5px 0;
 }
-#copg-editor-slate-content p.ilTinyInfo {
+#copg-editor-slate-content h3.ilTinyInfo {
   padding: 4px;
   width: 100%;
 }
 @media only screen and (max-width: 768px) {
-  #copg-editor-slate-content p.ilTinyInfo {
+  #copg-editor-slate-content h3.ilTinyInfo {
     display: none;
   }
 }
