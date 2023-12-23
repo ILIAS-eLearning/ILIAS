@@ -739,6 +739,11 @@ export default class ParagraphUI {
     }
   }
 
+  escape() {
+    const b = document.querySelector("[data-copg-ed-action='save.return']");
+    b.focus();
+  }
+
   initWrapperCallbacks() {
     const wrapper = this.tinyWrapper;
     const parUI = this;
@@ -757,6 +762,11 @@ export default class ParagraphUI {
     wrapper.addCallback(TINY_CB.SWITCH_RIGHT, () => {
       if (pageModel.getCurrentPCName() === 'Paragraph') {
         parUI.switchToNext();
+      }
+    });
+    wrapper.addCallback(TINY_CB.ESCAPE, () => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        parUI.escape();
       }
     });
     wrapper.addCallback(TINY_CB.SWITCH_DOWN, () => {
