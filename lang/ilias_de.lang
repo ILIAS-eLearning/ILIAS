@@ -7340,6 +7340,7 @@ copg#:#copg_cron_keep_entries#:#Mindestanzahl Einträge
 copg#:#copg_cron_keep_entries_info#:#Diese Anzahl an Einträgen wird im Verlauf behalten, auch wenn diese älter als der angegebene Zeitraum sind.
 copg#:#copg_days#:#Tage
 copg#:#copg_details#:#Details
+copg#:#copg_edit_iframe_title#:#Eingabebereich für Text
 copg#:#copg_entries#:#Einträge
 copg#:#copg_error#:#Problem
 copg#:#copg_error_occured_modal#:#Es ist leider ein Fehler aufgetreten. Bitte drücken Sie "Seite neu laden" um zum zuletzt gespeicherten Inhalt zu gelangen.
