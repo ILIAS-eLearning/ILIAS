@@ -7334,7 +7334,7 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.
 copg#:#copg_days#:#Days
 copg#:#copg_details#:#Details
-copg#:#copg_edit_iframe_title#:#Text Editing Area
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor
 copg#:#copg_entries#:#Entries
 copg#:#copg_error#:#Error
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.
