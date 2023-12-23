@@ -28,5 +28,6 @@ const CBTYPES = {
   TAB: 9,
   SHIFT_TAB: 10,
   NODE_CHANGE: 11,
+  ESCAPE: 12
 };
 export default CBTYPES;
