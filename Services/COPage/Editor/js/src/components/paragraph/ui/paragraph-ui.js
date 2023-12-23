@@ -887,6 +887,8 @@ export default class ParagraphUI {
     const ef = action.paragraph().editor();
     const tblact = action.table().editor();
     const paragraphUI = this;
+    const ifrm = document.getElementById('tinytarget_ifr');
+    ifrm.title = il.Language.txt("copg_edit_iframe_title");
 
     // #0017152
     $('#tinytarget_ifr').contents().find('html').attr('lang', $('html').attr('lang'));
