@@ -488,8 +488,8 @@ export default class ParagraphUI {
     );
     this.log(fc);
     if (fc) {
-      this.log(`SETTin DROP DOWN BUTTON: ${i}`);
       fc.firstChild.textContent = `${ddbtn.textContent} `;
+      fc.ariaLabel = il.Language.txt('copg_par_format_selection') + ": " + ddbtn.textContent;
     }
     this.tinyWrapper.setParagraphClass(i);
   }
