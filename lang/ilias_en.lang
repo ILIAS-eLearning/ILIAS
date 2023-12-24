@@ -7266,6 +7266,7 @@ copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page hist
 copg#:#copg_more_character_formats#:#More Styles for Characters
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_par_format_selection#:#Paragraph Format Selection
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page

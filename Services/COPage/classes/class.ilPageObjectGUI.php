@@ -1790,7 +1790,7 @@ class ilPageObjectGUI
 
         $aset = new ilSetting("adve");
 
-        $f = static function (string $type, string $code) use ($char_manager, $lng) : string {
+        $f = static function (string $type, string $code) use ($char_manager, $lng): string {
             $title = $char_manager->getPresentationTitle("text_inline", $type);
             if ($title === $type) {
                 $title = $lng->txt("cont_char_style_" . $code);
@@ -2450,6 +2450,7 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_ed_item_down");
         $this->lng->toJS("cont_ed_delete_item");
         $this->lng->toJS("copg_edit_iframe_title");
+        $this->lng->toJS("copg_par_format_selection");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
