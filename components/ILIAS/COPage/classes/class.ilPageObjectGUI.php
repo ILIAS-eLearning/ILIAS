@@ -2421,6 +2421,7 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_ed_item_down");
         $this->lng->toJS("cont_ed_delete_item");
         $this->lng->toJS("copg_edit_iframe_title");
+        $this->lng->toJS("copg_par_format_selection");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("./components/ILIAS/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
