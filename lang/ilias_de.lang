@@ -3260,7 +3260,7 @@ cmix#:#satisfied_info#:#Zeigt an, dass die Kriterien des Objekts oder der Aktivi
 cmix#:#satisfied_label#:#Statements mit dem Verb 'satisfied'
 cmix#:#sect_learning_progress_options#:#Optionen für den Lernfortschritt
 cmix#:#show_debug#:#Lernerfahrungen anzeigen
-cmix#:#show_debug_info#:#Die Lernerfahrungen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist.
+cmix#:#show_debug_info#:#Blendet Reiter „Lernerfahrungen“ ein und zeigt darin die persönlichen Lernerfahrungen. Die Lernerfahrungen aller Benutzer des Moduls werden angezeigt, wenn das Recht „Lernerfahrungen anderer Benutzer anzeigen“ gesetzt ist.
 cmix#:#tab_export#:#Exportieren
 cmix#:#tab_info#:#Info
 cmix#:#tab_lrs_types#:#LRS-Typen

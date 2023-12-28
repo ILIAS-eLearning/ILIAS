@@ -3259,7 +3259,7 @@ cmix#:#satisfied_info#:#Indicates that the authority or activity provider determ
 cmix#:#satisfied_label#:#Statements with the verb 'satisfied'
 cmix#:#sect_learning_progress_options#:#Options for Learning Progress
 cmix#:#show_debug#:#Display Learning Experiences
-cmix#:#show_debug_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.
+cmix#:#show_debug_info#:#Shows tab ‘Learning Experiences’ with information about own interaction with cmi5 module. Data of other users is displayed if permission ‘View learning experiences of other users’ is given.
 cmix#:#tab_export#:#Export
 cmix#:#tab_info#:#Info
 cmix#:#tab_lrs_types#:#LRS-Types
