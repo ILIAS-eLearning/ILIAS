@@ -91,13 +91,6 @@ $il-metabar-small-glyph-size: 1.25rem;
 	}
 
 	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
-		.il-counter-novelty {
-			top: $il-margin-large-vertical;
-		}
-		.il-counter-status {
-			top: 22px;
-		}
-
 		.il-metabar-more-button {
 			padding-right: $il-padding-xxxlarge-horizontal;
 			.icon.custom {

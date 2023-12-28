@@ -5683,12 +5683,6 @@ footer {
   font-size: 1.4375rem;
 }
 @media only screen and (max-width: 768px) {
-  .il-maincontrols-metabar .il-counter-novelty {
-    top: 6px;
-  }
-  .il-maincontrols-metabar .il-counter-status {
-    top: 22px;
-  }
   .il-maincontrols-metabar .il-metabar-more-button {
     padding-right: 18px;
   }
