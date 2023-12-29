@@ -844,7 +844,8 @@ class ilPageObjectGUI
 
         switch ($next_class) {
             case 'ilobjectmetadatagui':
-                $this->tabs_gui->activateTab("meta_data");
+                //$this->tabs_gui->activateTab("meta_data");
+                $this->setBackToEditTabs();
                 $md_gui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, $this->meta_data_type, $this->meta_data_sub_obj_id);
                 if (is_object($this->meta_data_observer_obj)) {
                     $md_gui->addMDObserver(
@@ -2364,8 +2365,12 @@ class ilPageObjectGUI
 
     public function preview(): string
     {
+        if ($this->requested_history_mode) {
+            $this->setBackToHistoryTabs();
+        } else {
+            $this->tabs_gui->activateTab("cont_preview");
+        }
         $this->setOutputMode(self::PREVIEW);
-        $this->tabs_gui->activateTab("cont_preview");
         return $this->showPage();
     }
 
@@ -2575,6 +2580,15 @@ class ilPageObjectGUI
         );
     }
 
+    protected function setBackToHistoryTabs(): void
+    {
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "history")
+        );
+    }
+
     /**
     * Get history table as HTML.
     */
@@ -2659,6 +2673,28 @@ class ilPageObjectGUI
         $this->help->setScreenIdComponent("copg");
     }
 
+    public function getMetaDataLink(): string
+    {
+        $mdtab = "";
+        if ($this->use_meta_data) {
+            $mdgui = new ilObjectMetaDataGUI(
+                $this->meta_data_rep_obj,
+                $this->meta_data_type,
+                $this->meta_data_sub_obj_id
+            );
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs_gui->addTarget(
+                    "meta_data",
+                    $mdtab,
+                    "",
+                    "ilobjectmetadatagui"
+                );
+            }
+        }
+        return (string) $mdtab;
+    }
+
     public function getTabs(string $a_activate = ""): void
     {
         if (in_array($this->getOutputMode(), [self::OFFLINE])) {
@@ -2696,37 +2732,6 @@ class ilPageObjectGUI
 
         $lm_set = new ilSetting("lm");
 
-        /*
-        if ($this->getEnableEditing() && $lm_set->get("page_history", 1)) {
-            $this->tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
-            if ($this->requested_history_mode == 1 || $this->ctrl->getCmd() == "compareVersion") {
-                $this->tabs_gui->activateTab("history");
-            }
-        }*/
-
-        /*
-        if ($this->getEnableEditing() && $this->user->getId() != ANONYMOUS_USER_ID) {
-            $this->tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilEditClipboardGUI"), "view"), "view", "ilEditClipboardGUI");
-        }*/
-
-        if ($this->getPageConfig()->getEnableScheduledActivation()) {
-            $this->tabs_gui->addTarget(
-                "cont_activation",
-                $this->ctrl->getLinkTarget($this, "editActivation"),
-                "editActivation",
-                get_class($this)
-            );
-        }
-
-        if ($this->getEnabledNews()) {
-            $this->tabs_gui->addTarget(
-                "news",
-                $this->ctrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
-                "",
-                "ilnewsitemgui"
-            );
-        }
-
         // external hook to add tabs
         if (is_array($this->tab_hook)) {
             $func = $this->tab_hook["func"];
@@ -2744,6 +2749,7 @@ class ilPageObjectGUI
         }
 
         $tpl = new ilTemplate("tpl.page_compare.html", true, true, "components/ILIAS/COPage");
+        $this->setBackToHistoryTabs();
 
         $pg = $this->obj;
         $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"));
