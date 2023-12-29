@@ -6,7 +6,7 @@ il.UI = il.UI || {};
 		    _page_overlay = '.il-page-overlay',
 			_id_right_col = '#il_right_col';
 
-		var breakpoint_max_width = 768, //this corresponds to @grid-float-breakpoint-max, see mainbar.less/metabar.less
+		var breakpoint_max_width = 992, //this corresponds to @grid-float-breakpoint-max, see mainbar.less/metabar.less
 			resized_poppers_margin = 25, //dropdown, date-picker
 			mq_orientation = window.matchMedia("(orientation: portrait)");
 
