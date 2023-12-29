@@ -341,7 +341,6 @@ input[type="checkbox"] {
 	font-size: $il-standard-form-byline-font-size;
 
 	margin: $il-margin-large-vertical 0 $il-margin-large-horizontal;
-	padding: 0;
 
 	clear: both;
 
@@ -461,8 +460,18 @@ input[type="checkbox"] {
 
 	.form-group {
 		margin: 0px;
-		padding: $il-padding-base-vertical 0;
+		padding-top: $il-padding-base-vertical;
+		bottom: $il-padding-base-vertical;
 		background-color: $il-main-bg;
+	}
+
+	// In navbar-form, allow folks to *not* use `.form-group`
+	.row > {
+		input, textarea {
+			&.form-control {
+				margin-left: $il-padding-xxlarge-horizontal;
+			}
+		}
 	}
 
 	// Consistent vertical alignment of radios and checkboxes
@@ -476,10 +485,6 @@ input[type="checkbox"] {
 		margin-bottom: 0;
 		padding-top: 0;
     	line-height: normal;
-	}
-
-	.row > div,span {
-		padding-left: 0;
 	}
 
 	// Account for padding we're adding to ensure the alignment and of help text
@@ -526,7 +531,7 @@ input[type="checkbox"] {
 
 
 .ilFormHeader {
-	padding:  30px 0 12px 15px;
+	padding: $il-standard-form-header-padding;
 
 	&:not(:first-child) {
 		margin: $il-standard-form-header-margin;
@@ -692,14 +697,6 @@ div.ilHFormFooter .ilFormCmds {
 	background: white;
 	cursor: inherit;
 	display: block;
-}
-
-.ilFormInnerCol {
-	padding: 0;
-}
-
-.ilFormInnerCol .form-group {
-	margin: 0;
 }
 
 input:invalid {
