@@ -32,6 +32,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
     private static array $permission_view_lp_recursive = [];
     protected ilAccessHandler $access;
     protected DropdownBuilder $dropdownbuilder;
+    protected int $orgu_ref_id;
 
     public function __construct(
         BaseCommands $parent_obj,
