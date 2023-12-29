@@ -29,9 +29,9 @@ class ilKSDocumentationGotoLink
 
     public function redirectWithGotoLink(string $ref_id, array $params, ilCtrl $ctrl): void
     {
-        $node_id = $params[2];
-        $skin_id = $params[3];
-        $style_id = $params[4];
+        $node_id = $params[3];
+        $skin_id = $params[4];
+        $style_id = $params[5];
 
         $ctrl->setParameterByClass('ilSystemStyleDocumentationGUI', 'skin_id', $skin_id);
         $ctrl->setParameterByClass(
