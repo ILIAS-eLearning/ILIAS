@@ -467,7 +467,7 @@ input[type="checkbox"] {
 
 	// In navbar-form, allow folks to *not* use `.form-group`
 	.row > {
-		input, textarea {
+		input, textarea, select {
 			&.form-control {
 				margin-left: $il-padding-xxlarge-horizontal;
 			}
