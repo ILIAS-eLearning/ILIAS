@@ -73,8 +73,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::EYEOPEN => "glyphicon glyphicon-eye-open",
         G\Glyph::EYECLOSED => "glyphicon glyphicon-eye-close",
         G\Glyph::ATTACHMENT => "glyphicon glyphicon-paperclip",
-        G\Glyph::RESET => "glyphicon glyphicon-repeat",
-        G\Glyph::APPLY => "glyphicon glyphicon-ok",
+        G\Glyph::RESET => "glyphicon glyphicon-reset",
+        G\Glyph::APPLY => "glyphicon glyphicon-apply",
         G\Glyph::SEARCH => "glyphicon glyphicon-search",
         G\Glyph::HELP => "glyphicon glyphicon-question-sign",
         G\Glyph::CALENDAR => "glyphicon glyphicon-calendar",
@@ -95,7 +95,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::ITALIC => "glyphicon glyphicon-italic",
         G\Glyph::BOLD => "glyphicon glyphicon-bold",
         G\Glyph::LINK => "glyphicon glyphicon-link",
-        G\Glyph::LAUNCH => "glyphicon glyphicon-plane"
+        G\Glyph::LAUNCH => "glyphicon glyphicon-launch"
     );
 
     public static array $aria_labels = array(

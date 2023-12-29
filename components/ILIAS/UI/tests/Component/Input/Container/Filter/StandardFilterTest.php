@@ -252,13 +252,13 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
 			        <span class="glyph" role="img">
-			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			            <span class="glyphicon glyphicon-apply" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
                     <span class="glyph" role="img">
-                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-reset" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
                 </button>
@@ -386,13 +386,13 @@ EOT;
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
 			        <span class="glyph" role="img">
-			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			            <span class="glyphicon glyphicon-apply" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
                     <span class="glyph" role="img">
-                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-reset" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
                 </button>
@@ -520,13 +520,13 @@ EOT;
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
 			        <span class="glyph" role="img">
-			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			            <span class="glyphicon glyphicon-apply" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
                     <span class="glyph" role="img">
-                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-reset" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
                 </button>
@@ -654,13 +654,13 @@ EOT;
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
 			        <span class="glyph" role="img">
-			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			            <span class="glyphicon glyphicon-apply" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
                     <span class="glyph" role="img">
-                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-reset" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
                 </button>
