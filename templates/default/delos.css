@@ -8636,6 +8636,21 @@ div.alert ul > li:before {
   content: "\e605";
 }
 
+.glyphicon-apply:before {
+  font-family: il-icons;
+  content: "\e90c";
+}
+
+.glyphicon-launch:before {
+  font-family: il-icons;
+  content: "\e05c";
+}
+
+.glyphicon-reset:before {
+  font-family: il-icons;
+  content: "\e90a";
+}
+
 .glyphicon-user:before {
   font-family: il-icons;
   content: "\e001";
