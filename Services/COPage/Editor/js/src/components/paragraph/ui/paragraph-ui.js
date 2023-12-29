@@ -489,7 +489,7 @@ export default class ParagraphUI {
     this.log(fc);
     if (fc) {
       fc.firstChild.textContent = `${ddbtn.textContent} `;
-      fc.ariaLabel = il.Language.txt('copg_par_format_selection') + ": " + ddbtn.textContent;
+      fc.ariaLabel = `${il.Language.txt('copg_par_format_selection')}: ${ddbtn.textContent}`;
     }
     this.tinyWrapper.setParagraphClass(i);
   }
@@ -765,7 +765,7 @@ export default class ParagraphUI {
       }
     });
     wrapper.addCallback(TINY_CB.ESCAPE, () => {
-      if (pageModel.getCurrentPCName() === "Paragraph") {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
         parUI.escape();
       }
     });
@@ -888,7 +888,9 @@ export default class ParagraphUI {
     const tblact = action.table().editor();
     const paragraphUI = this;
     const ifrm = document.getElementById('tinytarget_ifr');
-    ifrm.title = il.Language.txt("copg_edit_iframe_title");
+    if (ifrm) {
+      ifrm.title = il.Language.txt('copg_edit_iframe_title');
+    }
 
     // #0017152
     $('#tinytarget_ifr').contents().find('html').attr('lang', $('html').attr('lang'));
