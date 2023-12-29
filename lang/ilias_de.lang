@@ -12716,7 +12716,7 @@ obj#:#copy_container_page_no_label#:#Seitengestaltung nicht übernehmen
 obj#:#copy_container_page_yes_byline#:#Die komplette Seitengestaltung des Kurses, aus dem Sie Objekte kopieren, wird in den Zielkurs übernommen. Allfällig vorhandene Seitenelemente werden überschrieben.
 obj#:#copy_container_page_yes_label#:#Seitengestaltung übernehmen
 obj#:#custom_icon#:#Angepasstes Icon
-obj#:#edit_availability_period#:#Zeitliche Verfügbarkeit ändern
+obj#:#edit_availability_period#:#Zeitliche Verfügbarkeit
 obj#:#edit_questions#:#Fragen bearbeiten
 obj#:#no_objects_selected#:#Es muss mindestens ein Objekt ausgewählt werden.
 obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für Seiteneditor aktivieren

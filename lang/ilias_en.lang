@@ -12707,7 +12707,7 @@ obj#:#copy_container_page_no_label#:#Don't Copy Content Page
 obj#:#copy_container_page_yes_byline#:#The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten.
 obj#:#copy_container_page_yes_label#:#Copy Content Page
 obj#:#custom_icon#:#Custom Icon
-obj#:#edit_availability_period#:#Edit Availability Period
+obj#:#edit_availability_period#:#Availability Period
 obj#:#edit_questions#:#Edit Questions
 obj#:#no_objects_selected#:#At least one object needs to be selected.
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
