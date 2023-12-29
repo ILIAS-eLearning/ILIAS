@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/*
-* Dependencies
-*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -684,9 +681,8 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Normalize
-*/
-/* print less */
+* Dependencies
+*/ /* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -894,6 +890,9 @@ th {
   padding: 0;
 }
 
+/*
+* Normalize
+*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -1973,9 +1972,6 @@ th {
     display: none !important;
   }
 }
-/*
-* Elements
-*/
 * {
   box-sizing: border-box;
 }
@@ -1985,7 +1981,7 @@ html, body {
   overflow: hidden;
   margin: 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   html, body {
     overflow: initial;
     height: auto;
@@ -1996,7 +1992,7 @@ html, body {
 html {
   font-size: 100%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   html {
     -webkit-text-size-adjust: none;
   }
@@ -2019,13 +2015,13 @@ button {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   textarea {
     max-width: 100%;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   input, select {
     max-width: 100%;
   }
@@ -2060,7 +2056,7 @@ ul ul, ol ol {
 img {
   vertical-align: middle;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   img {
     /* height: auto; messes e.g. survey progress bar */
     max-width: 100%;
@@ -2351,9 +2347,8 @@ code {
   }
 }
 /*
-* Components
+* Elements
 */
-/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -2473,7 +2468,7 @@ code {
 .breadcrumb > li + li:before {
   font-family: "il-icons";
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .breadcrumb {
     margin: 0 0 0 0;
     padding: 0 5px;
@@ -2523,7 +2518,7 @@ input.btn, input.il-link.link-bulky,
 .il-drilldown input.menulevel {
   min-width: 60px;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   input.btn, input.il-link.link-bulky,
   .il-drilldown input.menulevel {
     min-width: 0;
@@ -4399,9 +4394,48 @@ hr.il-divider-with-label {
 }
 
 .il-standard-form {
+  margin-bottom: 15px;
+  background: white;
   background-color: white;
   margin-top: 6px;
   padding: 12px 0 12px 15px;
+}
+.il-standard-form .form-group {
+  margin: 0px;
+  padding: 3px 0;
+  background-color: white;
+}
+.il-standard-form .radio,
+.il-standard-form .checkbox,
+.il-standard-form .radio-inline,
+.il-standard-form .checkbox-inline {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: normal;
+}
+.il-standard-form .radio,
+.il-standard-form .checkbox {
+  min-height: 24px;
+}
+.il-standard-form label {
+  color: #161616;
+  font-size: 100%;
+  padding-right: 30px;
+}
+.il-standard-form .control-label {
+  text-align: left;
+  padding-bottom: 4px;
+  min-height: 34px;
+}
+@media only screen and (max-width: 991px) {
+  .il-standard-form .control-label {
+    min-height: auto;
+    margin-bottom: 0;
+  }
+}
+.il-standard-form .control-label.col-sm-3.il_textarea {
+  width: 100%;
 }
 .il-standard-form .il-standard-form-cmd {
   float: right;
@@ -4411,7 +4445,7 @@ hr.il-divider-with-label {
   min-width: 60px;
   vertical-align: top;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .il-standard-form .il-standard-form-cmd .btn {
     min-width: 0;
   }
@@ -4550,7 +4584,7 @@ td.form-inline > div.form-group {
   margin-right: 0;
   margin-left: auto;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-item .il-chart-progressmeter-viewbox {
     padding-top: 6px;
   }
@@ -4645,7 +4679,7 @@ td.form-inline > div.form-group {
   gap: 6px;
 }
 
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 992px) {
   .panel-secondary .il-item {
     width: 100%;
   }
@@ -4680,7 +4714,7 @@ td.form-inline > div.form-group {
   overflow: visible;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-item .il-item-divider {
     padding: 10px 0 0 0;
     margin: 0;
@@ -4743,7 +4777,7 @@ td.form-inline > div.form-group {
 .c-launcher .btn-bulky:not([disabled]) .glyph {
   color: white;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   .c-launcher .btn-bulky {
     min-width: 100%;
   }
@@ -4953,7 +4987,7 @@ footer {
     width: 100% !important;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-layout-page {
     background: white;
     display: block;
@@ -5195,7 +5229,7 @@ footer {
 .c-layout-alignment--horizontal-evenly .c-layout-alignment__block {
   flex: 1 1 0px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   .c-layout-alignment--horizontal-evenly .c-layout-alignment__block {
     flex-basis: 100%;
   }
@@ -5256,7 +5290,7 @@ footer {
   width: 50%;
   right: 50%;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .il-listing-characteristic-value-label {
     width: 75%;
     right: 75%;
@@ -5269,7 +5303,7 @@ footer {
   width: 50%;
   left: 50%;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .il-listing-characteristic-value-item {
     width: 25%;
     left: 25%;
@@ -5577,7 +5611,7 @@ footer {
   outline: none;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-maincontrols-slate span.glyph {
     width: 45px;
     text-align: left;
@@ -5636,7 +5670,7 @@ footer {
   height: 60px;
   min-width: 60px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-maincontrols-metabar > li > .btn-bulky, .il-maincontrols-metabar > li > .link-bulky {
     height: 45px;
     min-width: 45px;
@@ -5656,7 +5690,7 @@ footer {
   color: #737373;
   font-size: 1.4375rem;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-maincontrols-metabar .il-metabar-more-button {
     padding-right: 18px;
   }
@@ -5695,7 +5729,7 @@ footer {
   margin-top: auto;
   margin-bottom: auto;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-metabar-slates {
     width: 100%;
     top: 45px;
@@ -6174,7 +6208,7 @@ footer {
   border: none;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-mainbar-entries {
     display: flex;
     justify-content: space-evenly;
@@ -6215,7 +6249,7 @@ footer {
     height: 60px;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 991px) {
   .il-mainbar-tool-trigger-item:nth-of-type(1):nth-last-of-type(5) .btn-bulky,
   .il-mainbar-tool-trigger-item:nth-of-type(2):nth-last-of-type(4) .btn-bulky,
   .il-mainbar-tool-trigger-item:nth-of-type(3):nth-last-of-type(3) .btn-bulky,
@@ -6314,7 +6348,7 @@ footer {
   min-width: 20%;
   max-width: 50%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .c-mode-info__content {
     border-radius: 0;
     width: 100%;
@@ -6381,7 +6415,7 @@ footer {
     display: none;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .c-mode-info__mobile-padding {
     height: 45px;
   }
@@ -6501,7 +6535,7 @@ footer {
 	Mobile Layout for System Info
 **************************************************************
 */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-system_info {
     border-top: none;
   }
@@ -6759,7 +6793,7 @@ div.alert ul > li:before {
   overflow: scroll;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 991px) {
   .modal-dialog {
     width: 600px;
     margin: 30px auto;
@@ -8808,7 +8842,7 @@ div.alert ul > li:before {
   color: white;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-avatar {
     height: 22.5px;
     width: 22.5px;
@@ -9522,7 +9556,6 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
-/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -9681,7 +9714,7 @@ h1.il-page-content-header {
   font-size: 1.75rem;
   font-weight: 600;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   h1.il-page-content-header {
     font-size: 1.5rem;
   }
@@ -9690,7 +9723,7 @@ h1.il-page-content-header {
 h1.ilHeader {
   padding: 10px 0 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   h1.ilHeader {
     padding-top: 5px;
   }
@@ -9718,7 +9751,7 @@ h2.ilHeader {
   margin-bottom: 6px;
   float: left;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #headerimage {
     width: 35px;
     height: 35px;
@@ -9757,7 +9790,7 @@ div.il_HeaderInner {
   margin-bottom: 5px;
   overflow: visible;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.il_HeaderInner {
     color: #161616;
   }
@@ -9799,7 +9832,7 @@ div.ilFrameFixedWidthHeader {
   overflow: hidden;
   padding: 0 15px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilFrameFixedWidthHeader div.ilHeaderBanner {
     max-width: 100%;
     height: 40px !important;
@@ -9877,13 +9910,13 @@ a.light:hover {
   color: black;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   img.olTileImage {
     max-width: none;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilGoogleMap {
     max-width: 100%;
   }
@@ -9966,14 +9999,14 @@ div.ilRightPanel {
   float: right;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilTableOuter {
     max-width: 100%;
     overflow: auto;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .table-responsive .dropdown-menu {
     position: relative;
   }
@@ -10215,7 +10248,6 @@ div.il_info {
   border-color: #dddddd;
 }
 
-/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -10843,7 +10875,6 @@ tbody.collapse.in {
   clip: auto;
 }
 
-/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -11137,7 +11168,7 @@ ul.il-book-obj-selection li {
   margin: 0 5px 0 0;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #message-controls .msg-control {
     display: block;
   }
@@ -11543,7 +11574,7 @@ div.ilForumQuoteHead {
   margin-top: 15px;
   font-size: 1rem;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilFrmPostTitle {
     margin-top: 6px;
     font-size: 0.875rem;
@@ -11559,7 +11590,7 @@ div.ilFrmPostHeader span.small {
   width: 80%;
   float: left;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilFrmPostContentContainer {
     padding-left: 6px;
     width: 100%;
@@ -11609,12 +11640,12 @@ li.ilFrmPostRow div.ilForm div.ilFormValue {
 li.ilFrmPostRow div.ilForm div.ilFormOption {
   width: 150px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   li.ilFrmPostRow div.ilForm, li.ilFrmPostRow div.ilForm input[type=text], li.ilFrmPostRow div.ilForm textarea {
     width: 100%;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   li.ilFrmPostRow img.ilUserIcon {
     width: 50px;
     height: 50px;
@@ -12436,7 +12467,7 @@ div.ilc_Question {
 .ilc_qinput_TextInput {
   max-width: 65vw;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilc_qinput_TextInput {
     max-width: 100%;
   }
@@ -12926,7 +12957,7 @@ div.ilc_Page.readonly textarea[disabled] {
   display: none;
   visibility: hidden;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   #tst_output #tst_left {
     margin-right: 0;
     width: 100%;
@@ -12939,13 +12970,13 @@ div.ilc_Page.readonly textarea[disabled] {
   background-color: white;
   padding: 6px 12px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   #tst_output {
     flex-direction: column-reverse;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   .il-layout-page.with-mainbar-slates-engaged #tst_output {
     flex-direction: column-reverse;
   }
@@ -14502,7 +14533,7 @@ div.ilTinyMenuSection p, .il-copg-button-group p {
   padding: 2px 5px;
   background-color: #efefef;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilTinyMenuSection, .il-copg-button-group {
     height: 28px;
     margin: 3px 3px 3px 0px;
@@ -14531,7 +14562,7 @@ div.il-copg-button-group-wide {
   padding-bottom: 15px;
   zoom: 1;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #ilTinyMenuButtons {
     height: 28px;
     margin: 3px 3px 3px 0;
@@ -14938,7 +14969,7 @@ div.ilCOPGMediaPrint {
   padding: 4px;
   width: 100%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #copg-editor-slate-content p.ilTinyInfo {
     display: none;
   }
@@ -15291,7 +15322,7 @@ fieldset[disabled] .checkbox label {
   margin-top: 7px;
   min-width: 13px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .radio input[type=radio],
   .radio-inline input[type=radio],
   .checkbox input[type=checkbox],
@@ -15360,7 +15391,6 @@ fieldset[disabled] .checkbox label {
   color: #161616;
   font-size: 0.75rem;
   margin: 6px 0 12px;
-  padding: 0;
   clear: both;
 }
 .help-block:last-child {
@@ -15378,11 +15408,6 @@ fieldset[disabled] .checkbox label {
   .form-inline .form-group {
     display: inline-block;
     margin-bottom: 0;
-    vertical-align: top;
-  }
-  .form-inline .form-control {
-    display: inline-block;
-    width: auto;
     vertical-align: top;
   }
   .form-inline .form-control-static {
@@ -15441,8 +15466,12 @@ fieldset[disabled] .checkbox label {
 }
 .form-horizontal .form-group {
   margin: 0px;
-  padding: 3px 0;
+  padding-top: 3px;
+  bottom: 3px;
   background-color: white;
+}
+.form-horizontal .row > input.form-control, .form-horizontal .row > textarea.form-control {
+  margin-left: 15px;
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox,
@@ -15452,9 +15481,6 @@ fieldset[disabled] .checkbox label {
   margin-bottom: 0;
   padding-top: 0;
   line-height: normal;
-}
-.form-horizontal .row > div, .form-horizontal span {
-  padding-left: 0;
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox {
@@ -15470,7 +15496,7 @@ fieldset[disabled] .checkbox label {
   padding-bottom: 4px;
   min-height: 34px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .form-horizontal .control-label {
     min-height: auto;
     padding-bottom: 0;
@@ -15482,7 +15508,7 @@ fieldset[disabled] .checkbox label {
 }
 
 .ilFormHeader {
-  padding: 30px 0 12px 15px;
+  padding: 12px 0 12px 15px;
 }
 .ilFormHeader:not(:first-child) {
   margin: 15px 0 0 0;
@@ -15515,7 +15541,7 @@ fieldset[disabled] .checkbox label {
   background-color: #f0f0f0;
   margin: 0;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .ilSubForm .form-group {
     margin: 6px 0;
   }
@@ -15636,14 +15662,6 @@ div.ilHFormFooter .ilFormCmds {
   display: block;
 }
 
-.ilFormInnerCol {
-  padding: 0;
-}
-
-.ilFormInnerCol .form-group {
-  margin: 0;
-}
-
 input:invalid {
   background-color: #ffebeb;
   border-color: #d00;
@@ -15711,7 +15729,7 @@ a#ilHelpClose {
   position: fixed;
   right: 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #il_screen_id {
     display: none;
   }
@@ -15732,7 +15750,7 @@ a#ilHelpClose {
 }
 
 /* Services/Init */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilStartupFrame {
     width: 100%;
   }
@@ -15750,7 +15768,7 @@ a#ilHelpClose {
 .ilStartupSection .control-label + div {
   width: 66.67%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilStartupSection {
     padding-top: 15px;
     width: auto;
@@ -15783,7 +15801,7 @@ div.ilStartupSection form.form-horizontal .ilFormHeader {
 div.ilStartupSection form.form-horizontal .form-group {
   margin: 9px 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilStartupSection form.form-horizontal {
     width: auto;
   }
@@ -16017,7 +16035,7 @@ td.il-news .il_BlockInfo {
   text-align: right;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   td.il-news {
     white-space: normal !important;
   }
@@ -16052,7 +16070,7 @@ span.ilNewsRssIcon:hover {
   left: 50%;
   margin-left: -1.5px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline:before {
     left: 90%;
   }
@@ -16066,7 +16084,7 @@ span.ilNewsRssIcon:hover {
   margin-left: 50%;
   margin-right: 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) {
     margin-left: 0;
   }
@@ -16077,13 +16095,13 @@ span.ilNewsRssIcon:hover {
   right: auto;
   margin-right: 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) > .ilTimelineBadge {
     right: auto;
     left: 90%;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li {
     margin-right: 0;
   }
@@ -16103,7 +16121,7 @@ span.ilNewsRssIcon:hover {
   background: #f9f9f9;
   border: 1px solid #dddddd;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li > .ilTimelinePanel {
     width: 80%;
   }
@@ -16138,7 +16156,7 @@ span.ilNewsRssIcon:hover {
   right: 0;
   margin-right: -25px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li > .ilTimelineBadge {
     left: 90%;
     right: auto;
@@ -16158,7 +16176,7 @@ span.ilNewsRssIcon:hover {
 .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
   float: right;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
     float: left;
   }
@@ -16169,7 +16187,7 @@ span.ilNewsRssIcon:hover {
   left: -15px;
   right: auto;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
     border-left-width: 15px;
     border-right-width: 0;
@@ -16183,7 +16201,7 @@ span.ilNewsRssIcon:hover {
   left: -14px;
   right: auto;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
     border-left-width: 14px;
     border-right-width: 0;
@@ -16220,7 +16238,7 @@ span.ilNewsRssIcon:hover {
   overflow: hidden;
   width: 100px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilNewsTimelineUserImage {
     width: 50px;
   }
@@ -16230,7 +16248,7 @@ span.ilNewsRssIcon:hover {
   width: 75px;
   height: 75px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilNewsTimelineUserImage img {
     width: 40px;
     height: 40px;
@@ -16240,7 +16258,7 @@ span.ilNewsRssIcon:hover {
 .ilNewsTimelineContentSection {
   padding-left: 100px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilNewsTimelineContentSection {
     padding-left: 50px;
   }
@@ -17355,13 +17373,13 @@ td > img[src$="icon_custom.svg"] {
   display: inline-block;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .table-responsive {
     overflow-x: auto;
     max-width: 94vw;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 991px) {
   .table-responsive {
     overflow: visible;
   }
@@ -17500,7 +17518,7 @@ div[id^=ilAdvSelListTable_] {
     min-width: 250px;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
   #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
   #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
@@ -18116,7 +18134,7 @@ a.ilMediaLightboxClose:hover {
   margin-top: -20px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilToolbar .container-fluid {
     padding-left: 15px;
   }
@@ -18271,7 +18289,7 @@ a.ilMediaLightboxClose:hover {
   padding-bottom: 10px;
   line-height: 20px;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .navbar-nav .open .dropdown-menu {
     position: static;
     float: none;
@@ -18315,7 +18333,7 @@ a.ilMediaLightboxClose:hover {
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .navbar-form .form-group {
     margin-bottom: 5px;
   }
@@ -18408,7 +18426,7 @@ a.ilMediaLightboxClose:hover {
   background-color: #e8e8e8;
   color: #555;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #777;
   }
@@ -18441,7 +18459,7 @@ a.ilMediaLightboxClose:hover {
   color: #ccc;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .navbar-nav {
     margin: 7.5px 0px;
   }
@@ -18534,6 +18552,13 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
+/*
+* Components
+*/
+/* UI Framework */
+/* Component parts from old delos.scss */
+/* Adapted from Bootstrap 3 */
+/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
@@ -18629,7 +18654,7 @@ div#minheight {
   max-width: 1400px;
   padding: 0 30px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilContainerWidth {
     padding: 0 15px;
   }
@@ -18640,7 +18665,7 @@ div.ilContentFixed {
   padding-bottom: 20px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilc_Mob img {
     height: auto !important;
   }
@@ -18769,7 +18794,7 @@ div.ilFrame {
   background-color: #f9f9f9;
   min-height: 100%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilFrame {
     margin: 0;
     width: 100%;
