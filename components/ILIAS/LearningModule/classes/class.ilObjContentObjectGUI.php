@@ -2476,7 +2476,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         if ($ilAccess->checkAccess("read", "", $a_target)) {
             $ctrl->setParameterByClass("ilLMPresentationGUI", "ref_id", $a_target);
-            $ctrl->redirectByClass("ilLMPresentationGUI", "resume");
+            if (ilObjLearningModuleAccess::_lookupSetting("lm_starting_point") == "first") {
+                $ctrl->redirectByClass("ilLMPresentationGUI", "");
+            } else {
+                $ctrl->redirectByClass("ilLMPresentationGUI", "resume");
+            }
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             $ctrl->setParameterByClass("ilLMPresentationGUI", "ref_id", $a_target);
             $ctrl->redirectByClass("ilLMPresentationGUI", "infoScreen");
