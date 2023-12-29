@@ -35,9 +35,6 @@ interface Factory
      *   effect: >
      *      Upon clicking, a settings Dropdown is opened.
      *
-     * context:
-     *    - In ILIAS <5.4, blocks on the Personal Desktop feature the Settings Glyph.
-     *
      * rules:
      *   usage:
      *       1: >
