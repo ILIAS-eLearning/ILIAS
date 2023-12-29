@@ -306,8 +306,9 @@ class ilLMNavigationRendererGUI
                             $this->lm->isActiveNumbering(),
                             $this->lm_set->get("time_scheduled_page_activation"),
                             false,
-                            0,
-                            $this->lang
+                            $this->lm->getId(),
+                            $this->lang,
+                            true
                         );
 
                     if ($this->user->getId() === ANONYMOUS_USER_ID &&
@@ -333,8 +334,9 @@ class ilLMNavigationRendererGUI
                             $this->lm->isActiveNumbering(),
                             $this->lm_set->get("time_scheduled_page_activation"),
                             false,
-                            0,
-                            $this->lang
+                            $this->lm->getId(),
+                            $this->lang,
+                            true
                         );
                     if ($this->user->getId() === ANONYMOUS_USER_ID &&
                         $this->parent_gui->getObject()->getPublicAccessMode() === "selected") {
@@ -381,8 +383,9 @@ class ilLMNavigationRendererGUI
                 $this->lm->isActiveNumbering(),
                 $this->lm_set->get("time_scheduled_page_activation"),
                 false,
-                0,
-                $this->lang
+                $this->lm->getId(),
+                $this->lang,
+                true
             );
         } else {
             $st_id = $this->lm_tree->getParentId($this->current_page);
@@ -393,8 +396,9 @@ class ilLMNavigationRendererGUI
                     $this->lm->isActiveNumbering(),
                     $this->lm_set->get("time_scheduled_page_activation"),
                     false,
-                    0,
-                    $this->lang
+                    $this->lm->getId(),
+                    $this->lang,
+                    true
                 );
             }
         }
