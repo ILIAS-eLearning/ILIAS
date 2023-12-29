@@ -4394,48 +4394,9 @@ hr.il-divider-with-label {
 }
 
 .il-standard-form {
-  margin-bottom: 15px;
-  background: white;
   background-color: white;
   margin-top: 6px;
   padding: 12px 0 12px 15px;
-}
-.il-standard-form .form-group {
-  margin: 0px;
-  padding: 3px 0;
-  background-color: white;
-}
-.il-standard-form .radio,
-.il-standard-form .checkbox,
-.il-standard-form .radio-inline,
-.il-standard-form .checkbox-inline {
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-top: 0;
-  line-height: normal;
-}
-.il-standard-form .radio,
-.il-standard-form .checkbox {
-  min-height: 24px;
-}
-.il-standard-form label {
-  color: #161616;
-  font-size: 100%;
-  padding-right: 30px;
-}
-.il-standard-form .control-label {
-  text-align: left;
-  padding-bottom: 4px;
-  min-height: 34px;
-}
-@media only screen and (max-width: 991px) {
-  .il-standard-form .control-label {
-    min-height: auto;
-    margin-bottom: 0;
-  }
-}
-.il-standard-form .control-label.col-sm-3.il_textarea {
-  width: 100%;
 }
 .il-standard-form .il-standard-form-cmd {
   float: right;
@@ -15410,6 +15371,11 @@ fieldset[disabled] .checkbox label {
     margin-bottom: 0;
     vertical-align: top;
   }
+  .form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: top;
+  }
   .form-inline .form-control-static {
     display: inline-block;
   }
@@ -15470,7 +15436,7 @@ fieldset[disabled] .checkbox label {
   bottom: 3px;
   background-color: white;
 }
-.form-horizontal .row > input.form-control, .form-horizontal .row > textarea.form-control {
+.form-horizontal .row > input.form-control, .form-horizontal .row > textarea.form-control, .form-horizontal .row > select.form-control {
   margin-left: 15px;
 }
 .form-horizontal .radio,
