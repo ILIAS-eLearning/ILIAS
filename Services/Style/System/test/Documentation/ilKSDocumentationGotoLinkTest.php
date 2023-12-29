@@ -59,7 +59,7 @@ class ilKSDocumentationGotoLinkTest extends TestCase
                           'ilSystemStyleDocumentationGUI'
                       ], 'entries');
 
-        $params = ['something', 'something', 'nodeId', 'skinId', 'styleId'];
+        $params = ['something', 'something', 'something', 'nodeId', 'skinId', 'styleId'];
         $this->goto_link->redirectWithGotoLink('ref_id', $params, $ctrl_observer);
     }
 }
