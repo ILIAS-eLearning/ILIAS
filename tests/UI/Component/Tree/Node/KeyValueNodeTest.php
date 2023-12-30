@@ -55,7 +55,7 @@ class KeyValueNodeTest extends ILIAS_UI_TestBase
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+			<li class="c-tree__node c-tree__node--simple" role="treeitem">
 				<span class="c-tree__node__line">
 					<span class="c-tree__node__label">Label</span>
 					<span class="c-tree__node__value">Value</span>
@@ -77,7 +77,7 @@ EOT;
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+			<li class="c-tree__node c-tree__node--simple" role="treeitem">
 				<span class="c-tree__node__line">
 					<span class="c-tree__node__label">
 						<img class="icon small" src="./templates/default/images/standard/icon_default.svg" alt=""/>
@@ -103,7 +103,7 @@ EOT;
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id=""
+			<li
 				 class="c-tree__node c-tree__node--simple expandable"
 				 role="treeitem" aria-expanded="false"
 				 data-async_url="something.de" data-async_loaded="false">
@@ -130,7 +130,7 @@ EOT;
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id=""
+			<li
 				 class="c-tree__node c-tree__node--simple expandable"
 				 role="treeitem" aria-expanded="true"
 				 data-async_url="something.de" data-async_loaded="false">
