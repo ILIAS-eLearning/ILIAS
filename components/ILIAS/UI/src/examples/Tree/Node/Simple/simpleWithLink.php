@@ -14,7 +14,7 @@ function simpleWithLink()
         ->icon()
         ->standard("crs", 'Example');
 
-    $node = $factory->tree()
+    $node1 = $factory->tree()
         ->node()
         ->simple('label');
 
@@ -25,5 +25,25 @@ function simpleWithLink()
         ->node()
         ->simple('label', $icon, $uri);
 
-    return $renderer->render([$node, $node2]);
+    $data = [['node' => $node1], ['node' => $node2]];
+
+    $recursion = new class () implements \ILIAS\UI\Component\Tree\TreeRecursion {
+        public function getChildren($record, $environment = null): array
+        {
+            return [];
+        }
+
+        public function build(
+            \ILIAS\UI\Component\Tree\Node\Factory $factory,
+            $record,
+            $environment = null
+        ): \ILIAS\UI\Component\Tree\Node\Node {
+            return $record['node'];
+        }
+    };
+
+    $tree = $factory->tree()->expandable('Label', $recursion)
+              ->withData($data);
+
+    return $renderer->render([$tree]);
 }
