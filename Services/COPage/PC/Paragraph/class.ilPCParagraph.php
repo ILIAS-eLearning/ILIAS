@@ -1681,9 +1681,9 @@ class ilPCParagraph extends ilPageContent
 
         $strrPos = function (string $a_haystack, string $a_needle, ?int $a_offset = null): int {
             if (function_exists("mb_strpos")) {
-                return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
+                return mb_strrpos($a_haystack, $a_needle, (int) $a_offset, "UTF-8");
             } else {
-                return strrpos($a_haystack, $a_needle, $a_offset);
+                return strrpos($a_haystack, $a_needle, (int) $a_offset);
             }
         };
 
