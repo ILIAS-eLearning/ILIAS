@@ -2475,6 +2475,20 @@ code {
   }
 }
 
+/* Legacy Breadcrumbs */
+ol.breadcrumb {
+  padding: 0;
+}
+ol.breadcrumb > li {
+  display: inline-block;
+}
+ol.breadcrumb > li + li:before {
+  padding: 0 3px;
+  color: #737373;
+  content: " \e606";
+  font-family: "il-icons";
+}
+
 .btn, .il-link.link-bulky,
 .il-drilldown .menulevel, .navbar-form > a {
   display: inline-flex;
