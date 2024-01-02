@@ -101,13 +101,19 @@ final class VEvent
 
     private function getStartAndEnd(): string
     {
+        // creating DateTimes from Unix timestamps automatically sets the initial timezone to UTC
+        $start = new \DateTimeImmutable('@' . $this->startTime);
+        $start = $start->setTimezone(new \DateTimeZone('Europe/Paris'));
+        $end = new \DateTimeImmutable('@' . $this->endTime);
+        $end = $end->setTimezone(new \DateTimeZone('Europe/Paris'));
+
         if ($this->allDay) {
-            return  'DTSTART;TZID=Europe/Paris;VALUE=DATE:' . date("Ymd", $this->startTime) . "\r\n" .
-                    'DTEND;TZID=Europe/Paris;VALUE=DATE:' . date("Ymd", $this->endTime) . "\r\n" .
+            return  'DTSTART;TZID=Europe/Paris;VALUE=DATE:' . $start->format('Ymd') . "\r\n" .
+                    'DTEND;TZID=Europe/Paris;VALUE=DATE:' . $end->format('Ymd') . "\r\n" .
                     "X-MICROSOFT-CDO-ALLDAYEVENT: TRUE\r\n";
         } else {
-            return  'DTSTART;TZID=Europe/Paris:' . date("Ymd\THis", $this->startTime) . "\r\n" .
-                    'DTEND;TZID=Europe/Paris:' . date("Ymd\THis", $this->endTime) . "\r\n";
+            return  'DTSTART;TZID=Europe/Paris:' . $start->format('Ymd\THis') . "\r\n" .
+                    'DTEND;TZID=Europe/Paris:' . $end->format('Ymd\THis') . "\r\n";
         }
     }
 
