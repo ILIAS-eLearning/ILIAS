@@ -79,8 +79,8 @@ function environment()
         foreach ($answers as $answer) {
             $ret .= '<tr>'
                 . '<td style="padding-right: 10px;">' . $answer['title'] . '</td>'
-                . '<td align="right">' . $answer['amount'] . '</td>'
-                . '<td align="right">' . $answer['proportion'] . '%</td>'
+                . '<td style="text-align:right">' . $answer['amount'] . '</td>'
+                . '<td style="text-align:right">' . $answer['proportion'] . '%</td>'
                 . '</tr>';
         }
 
