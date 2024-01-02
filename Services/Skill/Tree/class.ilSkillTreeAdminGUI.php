@@ -32,9 +32,9 @@ use Psr\Http\Message\RequestInterface;
  * Skill tree administration
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls SkillTreeAdminGUI: ilObjSkillTreeGUI
+ * @ilCtrl_Calls ilSkillTreeAdminGUI: ilObjSkillTreeGUI
  */
-class SkillTreeAdminGUI
+class ilSkillTreeAdminGUI
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $main_tpl;
