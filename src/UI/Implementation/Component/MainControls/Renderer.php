@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
@@ -331,8 +331,8 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
-        $tpl->setVariable('ID_HEADLINE', $id."_headline");
-        $tpl->setVariable('ID_DESCRIPTION', $id."_description");
+        $tpl->setVariable('ID_HEADLINE', $id . "_headline");
+        $tpl->setVariable('ID_DESCRIPTION', $id . "_description");
 
         return $tpl->get();
     }
