@@ -454,7 +454,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
      * @param boolean $returndetails (deprecated !!)
      * @return float/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -660,7 +660,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $solutionSubmit;
     }
 
-    protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
+    protected function calculateReachedPointsForSolution($found_values, $active_id = 0): float
     {
         $numCorrect = 0;
         if ($found_values == null) {
@@ -689,7 +689,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 $points = 0;
             }
         }
-        return $points;
+        return (float)$points;
     }
 
     public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
