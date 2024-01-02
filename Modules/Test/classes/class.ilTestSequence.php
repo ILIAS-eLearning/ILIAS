@@ -536,7 +536,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
             return reset($correctedsequence);
         }
 
-        return 0;
+        return 1;
     }
 
     public function getLastSequence(): int

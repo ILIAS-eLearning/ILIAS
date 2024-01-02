@@ -808,6 +808,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->ctrl->redirectByClass(ilTestScreenGUI::class, 'testScreen');
     }
 
+    protected function backToInfoScreenCmd(): void
+    {
+        $this->ctrl->redirectByClass('ilObjTestGUI', 'redirectToInfoScreen');
+    }
+
     /*
     * Presents the final statement of a test
     */
