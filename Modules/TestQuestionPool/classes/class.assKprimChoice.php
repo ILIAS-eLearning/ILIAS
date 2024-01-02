@@ -418,8 +418,10 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $solutionSubmit = $this->getSolutionSubmit();
 
             foreach ($solutionSubmit as $answerIndex => $answerValue) {
-                $this->saveCurrentSolution($active_id, $pass, (int) $answerIndex, (int) $answerValue, $authorized);
-                $entered_values++;
+                if(! is_null($answerValue)) {
+                    $this->saveCurrentSolution($active_id, $pass, (int) $answerIndex, (int) $answerValue, $authorized);
+                    $entered_values++;
+                }
             }
         });
 
@@ -655,6 +657,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 if (is_numeric($value)) {
                     $solutionSubmit[] = $value;
                 }
+            } else {
+                $solutionSubmit[] = null;
             }
         }
         return $solutionSubmit;
