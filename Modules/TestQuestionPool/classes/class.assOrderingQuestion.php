@@ -691,7 +691,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -704,7 +704,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $solutionValuePairs = $this->getSolutionValues($active_id, $pass, $authorizedSolution);
 
         if (!count($solutionValuePairs)) {
-            return 0;
+            return (float)0;
         }
 
         $indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs($solutionValuePairs);
