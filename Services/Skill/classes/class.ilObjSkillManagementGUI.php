@@ -28,7 +28,7 @@ use ILIAS\Skill\Service\SkillInternalManagerService;
  * Skill management main GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, SkillTreeAdminGUI
+ * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillTreeAdminGUI
  * @ilCtrl_isCalledBy ilObjSkillManagementGUI: ilAdministrationGUI
  */
 class ilObjSkillManagementGUI extends ilObjectGUI
@@ -90,10 +90,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-            case "skilltreeadmingui":
+            case "ilskilltreeadmingui":
                 $this->prepareOutput();
                 $ilTabs->activateTab("skill_trees");
-                $gui = new SkillTreeAdminGUI($this->skill_manager);
+                $gui = new ilSkillTreeAdminGUI($this->skill_manager);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -125,7 +125,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
             $this->tabs_gui->addTab(
                 "skill_trees",
                 $lng->txt("skmg_skill_trees"),
-                $this->ctrl->getLinkTargetByClass("skilltreeadmingui", "")
+                $this->ctrl->getLinkTargetByClass("ilskilltreeadmingui", "")
             );
 
             $this->tabs_gui->addTab(
@@ -219,6 +219,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     public function listTrees(): void
     {
         $this->ctrl->clearParameterByClass(get_class($this), "node_id");
-        $this->ctrl->redirectByClass("skilltreeadmingui", "listTrees");
+        $this->ctrl->redirectByClass("ilskilltreeadmingui", "listTrees");
     }
 }
