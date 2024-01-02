@@ -204,7 +204,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $alphabetic_ordering = [
             'title'
         ];
-        if (in_array($a_field, $alphabetic_ordering)) {
+        if (!in_array($a_field, $alphabetic_ordering)) {
             return true;
         }
         return false;
