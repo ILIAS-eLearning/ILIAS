@@ -39,7 +39,7 @@ use ILIAS\Export\ImportStatus\StatusType;
 use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMlFileInfoNodeAttributeFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationSetFactoryInterface;
 use ILIAS\Export\Schema\ilXmlSchemaFactory;
 use SplFileInfo;
@@ -81,8 +81,8 @@ class ilHandler extends ilXMLExportFileHandler implements ilDataSetXMLExportFile
         $statuses = $this->status->collection();
         $xml = $this->withAdditionalNamespace(
             $this->namespace->handler()
-                ->withNamespace(ilDataSet::DATASET_NS)
-                ->withPrefix(ilDataSet::DATASET_NS_PREFIX)
+                ->withNamespace(\ilDataSet::DATASET_NS)
+                ->withPrefix(\ilDataSet::DATASET_NS_PREFIX)
         );
         try {
             $sets = $this->set->collection();
