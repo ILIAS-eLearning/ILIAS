@@ -19,6 +19,13 @@
 
 declare(strict_types=1);
 
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+
 /**
  * Class ilOrgUnitTypeGUI
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -32,8 +39,12 @@ class ilOrgUnitTypeGUI
     private ilAccessHandler $access;
     private ilToolbarGUI $toolbar;
     private \ilSetting $settings;
-    private ilLanguage $lng;
+    protected ilLanguage $lng;
     protected \ILIAS\UI\Component\Link\Factory $link_factory;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
+    protected Refinery $refinery;
+    protected ServerRequestInterface $request;
 
     /**
      * @param ilObjOrgUnitGUI $parent_gui
@@ -55,6 +66,11 @@ class ilOrgUnitTypeGUI
         $this->lng->loadLanguageModule('meta');
         $this->checkAccess();
         $this->link_factory = $DIC['ui.factory']->link();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->refinery = $DIC['refinery'];
+        $this->request = $DIC->http()->request();
+        $this->lng->loadLanguageModule('meta');
     }
 
     public function executeCommand(): void
@@ -150,20 +166,97 @@ class ilOrgUnitTypeGUI
         }
     }
 
+    /**
+     * @return ilAdvancedMDRecord[]
+     */
+    protected function getAvailableAMDRecords(): array
+    {
+        return ilOrgUnitType::getAvailableAdvancedMDRecords();
+    }
+
+    /**
+     * @return ilOrgUnitType
+     */
+    protected function getCurrentOrgUnitType(): ilOrgUnitType
+    {
+        return new ilOrgUnitType((int) $_GET['type_id']);
+    }
+
+
+    protected function getAmdForm(
+        string $action,
+        array $available_records,
+        ilOrgUnitType $type
+    ): StandardForm {
+        $options = [];
+        foreach ($available_records as $record) {
+            $options[$record->getRecordId()] = $record->getTitle();
+        }
+        $selected_ids = $type->getAssignedAdvancedMDRecordIds();
+
+        $trafo = $this->refinery->custom()->transformation(
+            fn($v) => is_array($v) ? array_shift($v) : []
+        );
+
+        $field = $this->ui_factory->input()->field()->multiselect(
+            $this->lng->txt('orgu_type_available_amd_sets'),
+            $options
+        )
+        ->withValue($selected_ids);
+
+        $section = $this->ui_factory->input()->field()->section(
+            [$field],
+            $this->lng->txt('orgu_type_assign_amd_sets')
+        )
+        ->withAdditionalTransformation($trafo);
+
+        $store = $this->refinery->custom()->transformation(
+            function (?array $record_ids) use ($type, $selected_ids) {
+                $record_ids = $record_ids ?? [];
+                $record_ids_removed = array_diff($selected_ids, $record_ids);
+                $record_ids_added = array_diff($record_ids, $selected_ids);
+                foreach ($record_ids_added as $record_id) {
+                    $type->assignAdvancedMDRecord((int)$record_id);
+                }
+                foreach ($record_ids_removed as $record_id) {
+                    $type->deassignAdvancedMdRecord((int)$record_id);
+                }
+                return true;
+            }
+        );
+
+        return $this->ui_factory->input()->container()->form()->standard($action, [$section])
+           ->withAdditionalTransformation($trafo)
+           ->withAdditionalTransformation($store);
+    }
+
     private function editAMD(): void
     {
-        $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
-        $this->tpl->setContent($form->getHTML());
+        $form = $this->getAmdForm(
+            $this->ctrl->getFormAction($this, 'updateAMD'),
+            $this->getAvailableAMDRecords(),
+            $this->getCurrentOrgUnitType()
+        );
+        $this->tpl->setContent(
+            $this->ui_renderer->render($form)
+        );
     }
 
     private function updateAMD(): void
     {
-        $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
-        if ($form->saveObject()) {
+        $form = $this->getAmdForm(
+            $this->ctrl->getFormAction($this, 'updateAMD'),
+            $this->getAvailableAMDRecords(),
+            $this->getCurrentOrgUnitType()
+        )
+        ->withRequest($this->request);
+
+        if($form->getData()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
-            $this->tpl->setContent($form->getHTML());
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error'), true);
+            $this->tpl->setContent($this->ui_renderer->render($form));
         }
     }
 
