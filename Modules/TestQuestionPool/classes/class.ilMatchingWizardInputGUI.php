@@ -280,13 +280,16 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $i = 0;
         foreach ($this->values as $value) {
             if (!$this->hideImages) {
-                if (strlen($value->getPicture())) {
+                if ($value->getPicture() &&
+                    @file_exists($this->qstObject->getImagePath() . $value->getPicture())
+                ) {
                     $imagename = $this->qstObject->getImagePathWeb() . $value->getPicture();
                     if ($this->qstObject->getThumbSize()) {
                         if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getPicture())) {
                             $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getPicture();
                         }
                     }
+
                     $tpl->setCurrentBlock('image');
                     $tpl->setVariable('SRC_IMAGE', $imagename);
                     $tpl->setVariable('IMAGE_NAME', $value->getPicture());

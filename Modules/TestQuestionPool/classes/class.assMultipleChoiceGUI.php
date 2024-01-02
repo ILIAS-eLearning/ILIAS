@@ -274,7 +274,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $template->parseCurrentBlock();
                 }
             }
-            if (strlen($answer->getImage())) {
+            if ($answer->getImage()) {
                 $template->setCurrentBlock("answer_image");
                 if ($this->object->getThumbSize()) {
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
@@ -420,7 +420,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
-            if (strlen($answer->getImage())) {
+            if ($answer->getImage()) {
                 if ($this->object->getThumbSize()) {
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
@@ -540,7 +540,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
-            if (strlen($answer->getImage())) {
+            if ($answer->getImage()) {
                 if ($this->object->getThumbSize()) {
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
@@ -717,7 +717,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
         foreach ($choice['answer'] as $index => $answertext) {
             $answertext = htmlentities($answertext);
-            $picturefile = $choice['imagename'][$index] ?? '';
+            $picturefile = $choice['imagename'][$index] ?? null;
             $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
             $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
 

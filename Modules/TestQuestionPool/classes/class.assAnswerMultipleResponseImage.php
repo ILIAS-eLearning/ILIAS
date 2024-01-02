@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -31,14 +35,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 */
 class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
 {
-    /**
-    * Image filename
-    *
-    * Image filename
-    *
-    * @var string
-    */
-    public $image;
+    public ?string $image = null;
 
     /**
     * ASS_AnswerMultipleResponse constructor
@@ -64,31 +61,16 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     }
 
 
-    /**
-    * Gets the image filename
-    *
-    * Returns the image filename
-
-    * @return string The image filename
-    * @access public
-    * @see $image
-    */
     public function getImage(): ?string
     {
         return $this->image;
     }
 
-    /**
-    * Sets the image filename
-    *
-    * Sets the image filename
-    *
-    * @param string $a_image The image filename
-    * @access public
-    * @see $image
-    */
-    public function setImage($a_image = 0): void
+    public function setImage(string $image = null): void
     {
-        $this->image = $a_image;
+        if($image === '') {
+            throw new \Exception('imagename must not be empty');
+        }
+        $this->image = $image;
     }
 }

@@ -221,7 +221,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             while ($data = $ilDB->fetchAssoc($result)) {
                 $imagefilename = $this->getImagePath() . $data["imagefile"];
                 if (!@file_exists($imagefilename)) {
-                    $data["imagefile"] = "";
+                    $data["imagefile"] = null;
                 }
                 $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
 
@@ -232,7 +232,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                     $data["answer_id"]
                 );
                 $answer->setPointsUnchecked($data["points_unchecked"]);
-                $answer->setImage($data["imagefile"]);
+                $answer->setImage($data["imagefile"] ? $data["imagefile"] : null);
                 array_push($this->answers, $answer);
             }
         }
@@ -373,7 +373,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $points = 0.0,
         $points_unchecked = 0.0,
         $order = 0,
-        $answerimage = "",
+        $answerimage = null,
         $answer_id = -1
     ): void {
         $answertext = $this->getHtmlQuestionContentPurifier()->purify($answertext);
@@ -1113,7 +1113,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $answer = $this->answers[$index];
         if (is_object($answer)) {
             $this->deleteImage($answer->getImage());
-            $answer->setImage('');
+            $answer->setImage(null);
         }
     }
 
