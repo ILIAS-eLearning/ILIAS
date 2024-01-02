@@ -841,7 +841,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
      * @param integer $test_id The database Id of the test containing the question
      * @access public
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
@@ -878,7 +878,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
             );
         }
 
-        return $points;
+        return (float)$points;
     }
 
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
