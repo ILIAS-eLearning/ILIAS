@@ -25,6 +25,10 @@ class ilLOTestQuestionAdapter
 {
     protected ilLOSettings $settings;
     protected ilLOTestAssignments $assignments;
+
+    /**
+     * @var ilLOTestRun[]
+     */
     protected array $run = [];
     protected int $user_id = 0;
     protected int $container_id = 0;
@@ -453,7 +457,7 @@ class ilLOTestQuestionAdapter
                 $tst_run->addQuestion($qst_id);
                 $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst_id);
             }
-            $tst_run->setMaxPoints($points);
+            $tst_run->setMaxPoints((int) $points);
         }
     }
 
@@ -470,7 +474,7 @@ class ilLOTestQuestionAdapter
                 $tst_run->addQuestion($id);
                 $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($id);
             }
-            $tst_run->setMaxPoints($points);
+            $tst_run->setMaxPoints((int) $points);
         }
     }
 
@@ -498,7 +502,7 @@ class ilLOTestQuestionAdapter
                     $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst);
                 }
             }
-            $tst_run->setMaxPoints($points);
+            $tst_run->setMaxPoints((int) $points);
         }
     }
 
