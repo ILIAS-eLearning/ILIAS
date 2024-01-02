@@ -19,6 +19,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+
 /**
  * TableGUI class for poll users
  *
@@ -27,6 +29,7 @@ declare(strict_types=1);
 class ilPollUserTableGUI extends ilTable2GUI
 {
     protected array $answer_ids = [];
+    protected string $rendered_checked_icon;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
@@ -36,6 +39,18 @@ class ilPollUserTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $ui_factory = $DIC->ui()->factory();
+        $ui_renderer = $DIC->ui()->renderer();
+
+        $lng->loadLanguageModule('poll');
+
+        $this->rendered_checked_icon = $ui_renderer->render(
+            $ui_factory->symbol()->icon()->custom(
+                ilUtil::getImagePath('icon_ok.svg'),
+                $lng->txt('poll_answer_selected_alt_text'),
+                Icon::MEDIUM
+            )
+        );
 
         $this->setId("ilobjpollusr");
 
@@ -88,7 +103,7 @@ class ilPollUserTableGUI extends ilTable2GUI
         $this->tpl->setCurrentBlock("answer_bl");
         foreach ($this->answer_ids as $answer_id) {
             if ($a_set["answer" . $answer_id]) {
-                $this->tpl->setVariable("ANSWER", '<img src="' . ilUtil::getImagePath("icon_ok.svg") . '" />');
+                $this->tpl->setVariable("ANSWER", $this->rendered_checked_icon);
             } else {
                 $this->tpl->setVariable("ANSWER", "&nbsp;");
             }

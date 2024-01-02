@@ -12542,6 +12542,7 @@ poll#:#poll_activation_online_info#:#Activate this setting to make the poll acce
 poll#:#poll_add#:#Add Poll
 poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.
 poll#:#poll_answer#:#Answer
+poll#:#poll_answer_selected_alt_text#:#Selected
 poll#:#poll_answers#:#Possible Answers
 poll#:#poll_barchart#:#Bar Chart
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.
