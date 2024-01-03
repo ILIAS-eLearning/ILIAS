@@ -4210,7 +4210,7 @@ common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sie möchten folgende Mitglieder aus der Gruppe austragen?
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie die Mitgliedschaft in dieser Gruppe beenden möchten?
 common#:#grp_edit#:#Einstellungen der Gruppe
-common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
+common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt. Es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
 common#:#grp_list_members#:#Teilnehmer auflisten
 common#:#grp_list_reg#:#Beitritt
@@ -4226,10 +4226,10 @@ common#:#grp_mem_send_mail#:#Mitglied eine Mail senden
 common#:#grp_members_gallery#:#Mitgliedergalerie
 common#:#grp_msg_applicants_assigned#:#Der/die Teilnehmende wurde in die Gruppe aufgenommen.
 common#:#grp_msg_member_assigned#:#Der/die Teilnehmende wurde in die Gruppe aufgenommen.
-common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
+common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben.
 common#:#grp_new#:#Neue Gruppe anlegen
-common#:#grp_registration#:#Zur Gruppe beitreten
-common#:#grp_registration_completed#:#Sie sind zur Gruppe beigetreten
+common#:#grp_registration#:#Der Gruppe beitreten
+common#:#grp_registration_completed#:#Sie sind der Gruppe beigetreten.
 common#:#grp_removed_from_waiting_list#:#Sie wurden aus der Warteliste der Gruppe "%s" ausgetragen.
 common#:#grp_select_one_file#:#Bitte wählen Sie eine Datei aus.
 common#:#grp_wizard_page#:#Gruppe kopieren (Schritt 2/2)
