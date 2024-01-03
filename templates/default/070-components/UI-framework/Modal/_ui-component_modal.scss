@@ -38,6 +38,7 @@ $modal-inner-padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 $il-modal-transition-speed: 0.15s;
 $il-modal-light-color: $il-main-bg;
 $il-modal-dark-color: $il-neutral-color;
+$il-modal-dark-carousel-color: $il-main-bg !default;
 
 //
 // Modals
@@ -89,6 +90,9 @@ $il-modal-dark-color: $il-neutral-color;
 			color: $il-modal-light-color;
 			.modal-header {
 				border-bottom-color: $il-modal-light-color;
+			}
+			.carousel-control {
+				color: $il-modal-dark-carousel-color;
 			}
 		}
 		.close {
