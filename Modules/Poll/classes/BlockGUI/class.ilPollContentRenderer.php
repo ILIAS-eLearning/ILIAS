@@ -60,11 +60,21 @@ class ilPollContentRenderer
         ilTemplate $tpl,
         int $ref_id,
         int $user_id,
-        ilObjPoll $poll
+        ilObjPoll $poll,
+        bool $admin_view = false
     ): void {
         $this->renderAnchor($tpl, $poll->getId());
         $this->renderAvailability($tpl, $poll);
         $this->renderDescription($tpl, $poll->getDescription());
+
+        if ($poll->getShowComments()) {
+            $this->renderComments($tpl, $ref_id);
+        }
+
+        // avoid nested forms
+        if ($admin_view) {
+            return;
+        }
 
         if (!$this->state->hasQuestion($poll)) {
             $this->renderNoQuestionMessage($tpl);
@@ -85,10 +95,6 @@ class ilPollContentRenderer
 
         if ($this->state->isUserAnonymous($user_id)) {
             $this->renderAlertForAnonymousUser($tpl);
-        }
-
-        if ($poll->getShowComments()) {
-            $this->renderComments($tpl, $ref_id);
         }
     }
 

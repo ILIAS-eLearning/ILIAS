@@ -107,7 +107,8 @@ class ilPollBlockGUI extends ilBlockGUI
             $this->tpl,
             $this->getRefId(),
             $this->user->getId(),
-            $this->poll_block->getPoll()
+            $this->poll_block->getPoll(),
+            $this->getAdminCommands()
         );
     }
 
