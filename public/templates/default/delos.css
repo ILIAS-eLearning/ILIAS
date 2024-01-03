@@ -17919,6 +17919,10 @@ a.ilMediaLightboxClose:hover {
   color: #f0f0f0;
 }
 
+.progress-bar-success {
+  background-color: #6ea03c;
+}
+
 /* Services/UIComponent/Tabs */
 #ilTab {
   padding: 0;
