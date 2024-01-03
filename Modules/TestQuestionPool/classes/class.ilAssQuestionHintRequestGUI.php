@@ -194,29 +194,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
     private function populateContent($content, $tpl): void
     {
-        if ($this->isQuestionPreview() || !$this->parent_gui->getObject()->getKioskMode()) {
-            $tpl->setContent($content);
-            return;
-        }
-
-        $tpl->hideFooter();
-        $tpl->addBlockFile(
-            'CONTENT',
-            'kiosk_content',
-            'tpl.il_tst_question_hints_kiosk_page.html',
-            'Modules/TestQuestionPool'
-        );
-        $tpl->setVariable('KIOSK_HEAD', $this->parent_gui->getKioskHead());
-        $tpl->setVariable('KIOSK_CONTENT', $content);
-    }
-
-    private function isQuestionPreview(): bool
-    {
-        if ($this->question_hint_tracking instanceof ilAssQuestionPreviewHintTracking) {
-            return true;
-        }
-
-        return false;
+        $tpl->setContent($content);
+        return;
     }
 
     public function getHintPresentationLinkTarget($hint_id, $xml_style = true): string
