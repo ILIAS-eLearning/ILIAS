@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory;
 use ILIAS\Badge\Tile;
 
 /**
@@ -29,7 +30,8 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
     protected array $filter = [];
     private readonly Tile $tile;
-    private readonly Renderer $renderer;
+    private readonly Renderer $ui_renderer;
+    private readonly Factory $ui_factory;
 
     public function __construct(
         object $a_parent_obj,
@@ -42,7 +44,8 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->tile = new Tile($DIC);
-        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
@@ -113,46 +116,26 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 
     public function getItems(): void
     {
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-
         $data = [];
 
         $types = ilBadgeHandler::getInstance()->getAvailableTypes(false);
 
         foreach (ilBadge::getObjectInstances($this->filter) as $badge_item) {
-            // :TODO: container presentation
-            $container_url = null;
-            $container = '<img class="ilIcon" src="' .
-                    ilObject::_getIcon((int) $badge_item["parent_id"], "big", $badge_item["parent_type"]) .
-                    '" alt="' . $lng->txt("obj_" . $badge_item["parent_type"]) .
-                    '" title="' . $lng->txt("obj_" . $badge_item["parent_type"]) . '" /> ' .
-                    $badge_item["parent_title"];
+            $type_caption = ilBadge::getExtendedTypeCaption($types[$badge_item['type_id']]);
 
-            if ($badge_item["deleted"] ?? false) {
-                $container .= ' <span class="il_ItemAlertProperty">' . $lng->txt("deleted") . '</span>';
-            } else {
-                $ref_ids = ilObject::_getAllReferences($badge_item["parent_id"]);
-                $ref_id = array_shift($ref_ids);
-                if ($ilAccess->checkAccess("read", "", $ref_id)) {
-                    $container_url = ilLink::_getLink($ref_id);
-                }
-            }
-
-            $type_caption = ilBadge::getExtendedTypeCaption($types[$badge_item["type_id"]]);
-
-            $data[] = array(
-                "id" => $badge_item["id"],
-                "active" => $badge_item["active"],
-                "type" => $type_caption,
-                "title" => $badge_item["title"],
-                "container_meta" => $container,
-                "container_url" => $container_url,
-                "container_id" => $badge_item["parent_id"],
-                "renderer" => fn() => $this->tile->asTitle(
-                    $this->tile->modalContent(new ilBadge($badge_item["id"]))
+            $data[] = [
+                'id' => (int) $badge_item['id'],
+                'active' => $badge_item['active'],
+                'type' => $type_caption,
+                'title' => $badge_item['title'],
+                'container' => $badge_item['parent_title'],
+                'container_deleted' => (bool) ($badge_item['deleted'] ?? false),
+                'container_id' => (int) $badge_item['parent_id'],
+                'container_type' => $badge_item['parent_type'],
+                'renderer' => fn () => $this->tile->asTitle(
+                    $this->tile->modalContent(new ilBadge((int) $badge_item['id']))
                 )
-            );
+            ];
         }
 
         $this->setData($data);
@@ -162,37 +145,58 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $ilAccess = $this->access;
 
-        if ($a_set["container_url"]) {
-            $this->tpl->setCurrentBlock("container_link_bl");
-            $this->tpl->setVariable("TXT_CONTAINER", $a_set["container_meta"]);
-            $this->tpl->setVariable("URL_CONTAINER", $a_set["container_url"]);
+        $container_parts = [
+            $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(
+                ilObject::_getIcon($a_set['container_id'], 'big', $a_set['container_type']),
+                $lng->txt('obj_' . $a_set['container_type'])
+            )),
+            $a_set['container'],
+        ];
+
+        $container_url = '';
+        if ($a_set['container_deleted'] ?? false) {
+            $container_parts[] = ' <span class="il_ItemAlertProperty">' . $lng->txt('deleted') . '</span>';
         } else {
-            $this->tpl->setCurrentBlock("container_nolink_bl");
-            $this->tpl->setVariable("TXT_CONTAINER_STATIC", $a_set["container_meta"]);
+            $ref_ids = ilObject::_getAllReferences($a_set['container_id']);
+            $ref_id = array_shift($ref_ids);
+            if ($ilAccess->checkAccess('read', '', $ref_id)) {
+                $container_url = ilLink::_getLink($ref_id);
+            }
+        }
+
+        $containter_info = implode(' ', $container_parts);
+        if ($container_url !== '') {
+            $this->tpl->setCurrentBlock('container_link_bl');
+            $this->tpl->setVariable('TXT_CONTAINER', $containter_info);
+            $this->tpl->setVariable('URL_CONTAINER', $container_url);
+        } else {
+            $this->tpl->setCurrentBlock('container_nolink_bl');
+            $this->tpl->setVariable('TXT_CONTAINER_STATIC', $containter_info);
         }
         $this->tpl->parseCurrentBlock();
 
         if ($this->has_write) {
-            $this->tpl->setVariable("VAL_ID", $a_set["id"]);
+            $this->tpl->setVariable('VAL_ID', $a_set['id']);
         }
 
-        $this->tpl->setVariable("PREVIEW", $this->renderer->render($a_set["renderer"]()));
-        $this->tpl->setVariable("TXT_TYPE", $a_set["type"]);
+        $this->tpl->setVariable('PREVIEW', $this->ui_renderer->render($a_set['renderer']()));
+        $this->tpl->setVariable('TXT_TYPE', $a_set['type']);
         $this->tpl->setVariable(
-            "TXT_ACTIVE",
-            $a_set["active"] ? $lng->txt("yes") : $lng->txt("no")
+            'TXT_ACTIVE',
+            $a_set['active'] ? $lng->txt('yes') : $lng->txt('no')
         );
 
         if ($this->has_write) {
-            $ilCtrl->setParameter($this->getParentObject(), "pid", $a_set["container_id"]);
-            $ilCtrl->setParameter($this->getParentObject(), "bid", $a_set["id"]);
-            $url = $ilCtrl->getLinkTarget($this->getParentObject(), "listObjectBadgeUsers");
-            $ilCtrl->setParameter($this->getParentObject(), "bid", "");
-            $ilCtrl->setParameter($this->getParentObject(), "pid", "");
+            $ilCtrl->setParameter($this->getParentObject(), 'pid', $a_set['container_id']);
+            $ilCtrl->setParameter($this->getParentObject(), 'bid', $a_set['id']);
+            $url = $ilCtrl->getLinkTarget($this->getParentObject(), 'listObjectBadgeUsers');
+            $ilCtrl->setParameter($this->getParentObject(), 'bid', '');
+            $ilCtrl->setParameter($this->getParentObject(), 'pid', '');
 
-            $this->tpl->setVariable("TXT_LIST", $lng->txt("users"));
-            $this->tpl->setVariable("URL_LIST", $url);
+            $this->tpl->setVariable('TXT_LIST', $lng->txt('users'));
+            $this->tpl->setVariable('URL_LIST', $url);
         }
     }
 }
