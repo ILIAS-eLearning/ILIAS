@@ -4249,10 +4249,10 @@ common#:#grp_mem_send_mail#:#Mitglied eine Mail senden
 common#:#grp_members_gallery#:#Mitgliedergalerie
 common#:#grp_msg_applicants_assigned#:#Der/die Teilnehmende wurde in die Gruppe aufgenommen.
 common#:#grp_msg_member_assigned#:#Der/die Teilnehmende wurde in die Gruppe aufgenommen.
-common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
+common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben.
 common#:#grp_new#:#Neue Gruppe anlegen
-common#:#grp_registration#:#Zur Gruppe beitreten
-common#:#grp_registration_completed#:#Sie sind zur Gruppe beigetreten
+common#:#grp_registration#:#Der Gruppe beitreten
+common#:#grp_registration_completed#:#Sie sind der Gruppe beigetreten.
 common#:#grp_removed_from_waiting_list#:#Sie wurden aus der Warteliste der Gruppe "%s" ausgetragen.
 common#:#grp_select_one_file#:#Bitte wählen Sie eine Datei aus.
 common#:#grp_wizard_page#:#Gruppe kopieren (Schritt 2/2)
@@ -7797,7 +7797,7 @@ crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem 
 crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
-crs#:#crs_registration#:#Zum Kurs beitreten
+crs#:#crs_registration#:#Dem Kurs beitreten
 crs#:#crs_registration_confirmation_info#:#Kursadministration oder Kursbetreuung müssen den Beitritt im Reiter „Mitglieder” bestätigen.
 crs#:#crs_registration_deactivated#:#Nur Kursadministration oder Kursbetreuung können Mitglieder in den Kurs aufnehmen.
 crs#:#crs_registration_limited#:#Zeitlich begrenzter Beitritt
@@ -7814,11 +7814,11 @@ crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus!
 crs#:#crs_select_starter#:#Startobjekt auswählen
 crs#:#crs_selected_users#:#Ausgewählte Teilnehmer
 crs#:#crs_settings#:#Kurseinstellungen
-crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
+crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert.
 crs#:#crs_shorten_breadcrumb#:#Brotkrumennavigation
 crs#:#crs_show_all_obj#:#Alle zeigen
 crs#:#crs_show_member_export#:#Teilnehmerliste
-crs#:#crs_show_member_export_info#:#Mitglieder haben die Möglichkeit eine Teilnehmerliste zu generieren
+crs#:#crs_show_member_export_info#:#Mitglieder haben die Möglichkeit eine Teilnehmerliste zu generieren.
 crs#:#crs_show_member_export_settings#:#Teilnehmerliste
 crs#:#crs_show_members#:#Mitgliedergalerie
 crs#:#crs_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.
