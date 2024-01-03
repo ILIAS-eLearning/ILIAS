@@ -363,7 +363,7 @@ file containes the following fields:
 [//]: # (BEGIN DataProtection)
 
 * **Data Protection**
-  * Maintenance Model: Classic
+	* Maintenance Model: Classic
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -661,10 +661,10 @@ file containes the following fields:
 
 * **Legal Documents**
 	* Maintenance Model: Classic
-		* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-		* 2nd Maintainer: [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-		* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-		* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* 2nd Maintainer: [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 [//]: # (END LegalDocuments)
 
