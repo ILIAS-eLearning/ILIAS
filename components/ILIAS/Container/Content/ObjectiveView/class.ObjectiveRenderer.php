@@ -923,7 +923,7 @@ class ObjectiveRenderer
                 $initial_lim = (int) $a_lo_result['initial']['limit_perc'];
             }
             if (
-                $a_lo_result['type'] == \ilLOUserResults::TYPE_INITIAL &&
+                ($a_lo_result['type'] ?? \ilLOUserResults::TYPE_UNDEFINED) == \ilLOUserResults::TYPE_INITIAL &&
                 isset($a_lo_result['result_perc'])
             ) {
                 $initial_res = (int) $a_lo_result['result_perc'];
@@ -966,7 +966,7 @@ class ObjectiveRenderer
         $qual_res = null;
         $qual_lim = null;
 
-        if ($a_lo_result['type'] == \ilLOUserResults::TYPE_QUALIFIED) {
+        if (($a_lo_result['type'] ?? \ilLOUserResults::TYPE_UNDEFINED) == \ilLOUserResults::TYPE_QUALIFIED) {
             $qual_res = (int) $a_lo_result['result_perc'];
             $qual_lim = (int) $a_lo_result['limit_perc'];
         }
