@@ -12,15 +12,21 @@ when no voting period is set.
 
 ### What Is Shown in the Poll Block?
 
+#### General
 - When offline (or equivalently outside of the availability period),
 the block is only shown to users with write-access. The content shown
 in the block is not affected at all: it is still shown to users with
-write-access even if the poll is offline.
-- Title and description of the poll, an anchor with its id, whether
+write-access even if the Poll is offline.
+- Title and description of the Poll, an anchor with its id, whether
 it is offline (or unavailable), and comments (if enabled) are always
 rendered in the block.
 - For anonymous users, a warning is shown that they need to be logged in
-to interact with the poll.
+to interact with the Poll.
+- When 'Manage' is activated in the Container of the Poll, only general
+information about the Poll is shown, but not its question, answers or 
+results.
+
+#### Question, Answers, and Results
 - When no question is set yet, a corresponding message
 is shown in the block.
 - When a question is set, but a limited voting period is set and has not
@@ -49,6 +55,6 @@ or it has started:
 
 ### Notifications
 
-- Non-anonymous users can subscribe and unsubscribe to a poll when they have read access
+- Non-anonymous users can subscribe and unsubscribe to a Poll when they have read access
 and it is online and within its availability period. Anonymous users can
 never subscribe or unsubscribe.
