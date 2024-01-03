@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Pagination;
 
+/**
+ * A Pagination with one page only will render as empty string
+ */
 function no_pages()
 {
     global $DIC;
@@ -13,15 +16,7 @@ function no_pages()
 
     $pagination = $factory->viewControl()->pagination()
         ->withPageSize(10)
-        ->withTotalEntries(0);
+        ->withTotalEntries(10);
 
-    $pagination_onepage = $pagination->withTotalEntries(9);
-    $pagination_limited = $pagination->withMaxPaginationButtons(5);
-
-    return $renderer->render($pagination)
-        . '<hr>'
-        . $renderer->render($pagination_onepage)
-        . '<hr>'
-        . $renderer->render($pagination_limited)
-    ;
+    return $renderer->render($pagination);
 }
