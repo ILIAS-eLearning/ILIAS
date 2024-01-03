@@ -264,7 +264,6 @@ class Renderer extends AbstractComponentRenderer
             $ranges = $this->buildRanges($total_count, $limit);
             $current = $this->findCurrentPage($ranges, $offset);
 
-
             if ($limit >= $total_count) {
                 $entries = $ranges;
             } else {
@@ -301,6 +300,7 @@ class Renderer extends AbstractComponentRenderer
                 $icon_left = $icon_left ->withOnClick($signal);
             } else {
                 $icon_left = $icon_left->withUnavailableAction();
+                $tpl->touchBlock('left_disabled');
             }
             $tpl->setVariable("LEFT", $default_renderer->render($icon_left));
 
@@ -313,6 +313,7 @@ class Renderer extends AbstractComponentRenderer
                 $icon_right = $icon_right ->withOnClick($signal);
             } else {
                 $icon_right = $icon_right->withUnavailableAction();
+                $tpl->touchBlock('right_disabled');
             }
             $tpl->setVariable("RIGHT", $default_renderer->render($icon_right));
         }
