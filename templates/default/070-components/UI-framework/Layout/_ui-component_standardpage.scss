@@ -315,6 +315,7 @@ footer {
 	header {
 		position: -webkit-sticky;
 		position: sticky;
+		overflow-x: clip;
 		width: 100%;
 		top: 0;
 	}
