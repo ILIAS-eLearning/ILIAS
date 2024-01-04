@@ -44,8 +44,10 @@ class ilForumLP extends ilObjectLP
             } else {
                 $num_postings->setValue('');
             }
-            $num_postings->setValue('');
             $modeElement->addSubItem($num_postings);
+
+            // Use the default text presentation of the base class
+            $modeElement->setTitle(parent::getModeText($mode));
         }
     }
 
@@ -94,5 +96,28 @@ class ilForumLP extends ilObjectLP
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_CONTRIBUTION_TO_DISCUSSION,
         ];
+    }
+
+    public function getModeText(int $mode): string
+    {
+        global $DIC;
+
+        $text = parent::getModeText($mode);
+
+        if ($mode === ilLPObjSettings::LP_MODE_CONTRIBUTION_TO_DISCUSSION &&
+            $mode === $this->getCurrentMode() &&
+            is_int(($number_of_postings = ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings()))) {
+            try {
+                $text = sprintf(
+                    match ($number_of_postings) {
+                        1 => $DIC->language()->txt('trac_frm_contribution_num_postings_info_s'),
+                        default => $DIC->language()->txt('trac_frm_contribution_num_postings_info_p')
+                    }, $text, $number_of_postings
+                );
+            } catch (Throwable) {
+            }
+        }
+
+        return $text;
     }
 }
