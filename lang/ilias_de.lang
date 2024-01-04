@@ -10355,7 +10355,7 @@ iass#:#iass_filter_finalized#:#Nur bestandene
 iass#:#iass_filter_not_finalized#:#Nur nicht abgeschlossene
 iass#:#iass_filter_not_started#:#Nur nicht bewertete
 iass#:#iass_finalize#:#Abschließen
-iass#:#iass_finalize_info#:#Die Individuellen Bewertung wird abgeschlossen.
+iass#:#iass_finalize_info#:#Die Individuelle Bewertung wird abgeschlossen.
 iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_further_field_headline#:#Detaillierte Informationen
 iass#:#iass_graded_by#:#Bewertet von
