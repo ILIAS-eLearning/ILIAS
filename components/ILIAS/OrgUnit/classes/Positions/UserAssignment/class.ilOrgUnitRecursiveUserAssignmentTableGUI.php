@@ -114,13 +114,18 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
             foreach ($orgu_tree->getAssignedUsers([$ref_id], $this->position->getId()) as $usr_id) {
                 if (!array_key_exists($usr_id, $data)) {
                     $user = new ilObjUser($usr_id);
-                    $set["login"] = $user->getLogin();
-                    $set["first_name"] = $user->getFirstname();
-                    $set["last_name"] = $user->getLastname();
-                    $set["user_id"] = $usr_id;
-                    $set["orgu_assignments"] = [];
-                    $set['view_lp'] = false;
+                    $set = [
+                        'login' => $user->getLogin(),
+                        'first_name' => $user->getFirstname(),
+                        'last_name' => $user->getLastname(),
+                        'user_id' => $usr_id,
+                        'active' => $user->getActive(),
+                        'orgu_assignments' => [],
+                        'view_lp' => false
+                    ];
                     $data[$usr_id] = $set;
+                } else {
+                    $data[$usr_id]["active"] = \ilObjUser::_lookupActive($usr_id);
                 }
                 $data[$usr_id]['orgu_assignments'][] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
                 $data[$usr_id]['view_lp'] = $permission_view_lp || $data[$usr_id]['view_lp'];
