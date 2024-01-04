@@ -454,7 +454,7 @@ class ilSessionStatistics
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
         if ($row["dur"]) {
-            return $row["dur"];
+            return (int) $row["dur"];
         }
         //TODO check if return null as timestamp causes issues
         return null;
