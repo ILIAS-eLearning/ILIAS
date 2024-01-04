@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
@@ -56,6 +55,9 @@ class ilModulesOrgUnitSuite extends TestSuite
 
         require_once("./Modules/OrgUnit/test/ilModulesOrgUnitPermissionTest.php");
         $suite->addTestSuite("ilModulesOrgUnitPermissionTest");
+
+        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitTypeTest.php");
+        $suite->addTestSuite("ilModulesOrgUnitTypeTest");
 
         return $suite;
     }
