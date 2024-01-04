@@ -90,24 +90,15 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
 
     private function getRowForUser(int $user_id): array
     {
-        $set = [
-            'login' => " - ",
-            'first_name' => '',
-            'last_name' => '',
-            'user_object' => null,
+        $user = new ilObjUser($user_id);
+        return [
+            'login' => $user->getLogin(),
+            'first_name' => $user->getFirstname(),
+            'last_name' => $user->getLastname(),
+            'user_object' => $user,
             'user_id' => $user_id,
-            'active' => false,
+            'active' => $user->getActive()
         ];
-        if(\ilObjUser::_lookupLogin($user_id) !== '') {
-            $user = new ilObjUser($user_id);
-            $set["login"] = $user->getLogin();
-            $set["first_name"] = $user->getFirstname();
-            $set["last_name"] = $user->getLastname();
-            $set["user_object"] = $user;
-            $set["active"] = $user->getActive();
-        }
-
-        return $set;
     }
 
     public function fillRow(array $a_set): void
