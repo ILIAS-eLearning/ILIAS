@@ -132,7 +132,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 
         // do it once for all chapters
         if (!isset($this->lp_cache[$this->lm->getId()])) {
-            $this->lp_cache[$this->lm->getId()] = false;
+            $this->lp_cache[$this->lm->getId()] = [];
 
             if (ilLearningProgressAccess::checkAccess($this->lm->getRefId())) {
                 $info = null;
