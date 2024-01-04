@@ -16834,6 +16834,8 @@ trac#:#trac_filter_hidden#:#Ausgeblendet
 trac#:#trac_first_access#:#Erster Zugriff
 trac#:#trac_first_and_last_access#:#Erster und letzter Zugriff
 trac#:#trac_frm_contribution_num_postings#:#Benötigte Anzahl Beiträge
+trac#:#trac_frm_contribution_num_postings_info_p#:#%s: %s Beiträge
+trac#:#trac_frm_contribution_num_postings_info_s#:#%s: %s Beitrag
 trac#:#trac_group_materials#:#Gruppierung mit optionalen Materialien erstellen
 trac#:#trac_group_materials_save#:#Anzahl verpflichtender Materialien speichern
 trac#:#trac_grouped_material_obligatory_err#:#Die Anzahl der obligatorischen Materialien muss größer als 0 sein und kleiner als die Anzahl der Materialien, die dieser Gruppierung zugeordnet sind.

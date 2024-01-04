@@ -16832,6 +16832,8 @@ trac#:#trac_filter_hidden#:#Hidden
 trac#:#trac_first_access#:#First Access
 trac#:#trac_first_and_last_access#:#First and Last Access
 trac#:#trac_frm_contribution_num_postings#:#Minimum number of Postings
+trac#:#trac_frm_contribution_num_postings_info_p#:#%s: %s Postings
+trac#:#trac_frm_contribution_num_postings_info_s#:#%s: %s Posting
 trac#:#trac_group_materials#:#Create Grouping with Optional Materials
 trac#:#trac_group_materials_save#:#Save Number of Compulsory Materials
 trac#:#trac_grouped_material_obligatory_err#:#The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping.
