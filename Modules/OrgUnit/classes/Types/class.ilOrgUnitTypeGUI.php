@@ -24,6 +24,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
  * Class ilOrgUnitTypeGUI
@@ -38,7 +39,7 @@ class ilOrgUnitTypeGUI
     private ilAccessHandler $access;
     private ilToolbarGUI $toolbar;
     private \ilSetting $settings;
-    private ilLanguage $lng;
+    protected ilLanguage $lng;
     protected \ILIAS\UI\Component\Link\Factory $link_factory;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
@@ -165,21 +166,33 @@ class ilOrgUnitTypeGUI
         }
     }
 
-    private function getAmdForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    /**
+     * @return ilAdvancedMDRecord[]
+     */
+    protected function getAvailableAMDRecords(): array
     {
-        $action = $this->ctrl->getFormAction($this, 'updateAMD');
-        $records = ilOrgUnitType::getAvailableAdvancedMDRecords();
+        return ilOrgUnitType::getAvailableAdvancedMDRecords();
+    }
+
+    /**
+     * @return ilOrgUnitType
+     */
+    protected function getCurrentOrgUnitType(): ilOrgUnitType
+    {
+        return new ilOrgUnitType((int) $_GET['type_id']);
+    }
+
+
+    protected function getAmdForm(
+        string $action,
+        array $available_records,
+        ilOrgUnitType $type
+    ): StandardForm {
         $options = [];
-        foreach ($records as $record) {
+        foreach ($available_records as $record) {
             $options[$record->getRecordId()] = $record->getTitle();
         }
-
-        $type = new ilOrgUnitType((int) $_GET['type_id']);
-        $records_selected = $type->getAssignedAdvancedMDRecordIds();
-        $selected = [];
-        foreach ($records_selected as $record_id) {
-            $selected[] = $record_id;
-        }
+        $selected_ids = $type->getAssignedAdvancedMDRecordIds();
 
         $trafo = $this->refinery->custom()->transformation(
             fn($v) => is_array($v) ? array_shift($v) : []
@@ -189,7 +202,7 @@ class ilOrgUnitTypeGUI
             $this->lng->txt('orgu_type_available_amd_sets'),
             $options
         )
-        ->withValue($selected);
+        ->withValue($selected_ids);
 
         $section = $this->ui_factory->input()->field()->section(
             [$field],
@@ -198,10 +211,10 @@ class ilOrgUnitTypeGUI
         ->withAdditionalTransformation($trafo);
 
         $store = $this->refinery->custom()->transformation(
-            function (?array $record_ids) use ($type, $records_selected) {
+            function (?array $record_ids) use ($type, $selected_ids) {
                 $record_ids = $record_ids ?? [];
-                $record_ids_removed = array_diff($records_selected, $record_ids);
-                $record_ids_added = array_diff($record_ids, $records_selected);
+                $record_ids_removed = array_diff($selected_ids, $record_ids);
+                $record_ids_added = array_diff($record_ids, $selected_ids);
                 foreach ($record_ids_added as $record_id) {
                     $type->assignAdvancedMDRecord((int)$record_id);
                 }
@@ -219,7 +232,11 @@ class ilOrgUnitTypeGUI
 
     private function editAMD(): void
     {
-        $form = $this->getAmdForm();
+        $form = $this->getAmdForm(
+            $this->ctrl->getFormAction($this, 'updateAMD'),
+            $this->getAvailableAMDRecords(),
+            $this->getCurrentOrgUnitType()
+        );
         $this->tpl->setContent(
             $this->ui_renderer->render($form)
         );
@@ -227,7 +244,13 @@ class ilOrgUnitTypeGUI
 
     private function updateAMD(): void
     {
-        $form = $this->getAmdForm()->withRequest($this->request);
+        $form = $this->getAmdForm(
+            $this->ctrl->getFormAction($this, 'updateAMD'),
+            $this->getAvailableAMDRecords(),
+            $this->getCurrentOrgUnitType()
+        )
+        ->withRequest($this->request);
+
         if($form->getData()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
