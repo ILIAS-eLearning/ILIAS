@@ -56,7 +56,7 @@ class ilModulesOrgUnitSuite extends TestSuite
         require_once("./components/ILIAS/OrgUnit/tests/ilModulesOrgUnitPermissionTest.php");
         $suite->addTestSuite("ilModulesOrgUnitPermissionTest");
 
-        require_once("./Modules/OrgUnit/test/ilModulesOrgUnitTypeTest.php");
+        require_once("./components/ILIAS/OrgUnit/tests/ilModulesOrgUnitTypeTest.php");
         $suite->addTestSuite("ilModulesOrgUnitTypeTest");
 
         return $suite;
