@@ -786,7 +786,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function syncWithOriginal(): void
     {
-        if ($this->questioninfo->getOriginalId()) {
+        if ($this->questioninfo->getOriginalId($this->getId())) {
             $this->syncImages();
             parent::syncWithOriginal();
         }
@@ -959,8 +959,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         global $DIC;
         $ilLog = $DIC['ilLog'];
         $imagepath = $this->getImagePath();
-        $question_id = $this->questioninfo->getOriginalId();
-        $originalObjId = parent::lookupParentObjId($this->questioninfo->getOriginalId());
+        $question_id = $this->questioninfo->getOriginalId($this->getId());
+        $originalObjId = parent::lookupParentObjId($this->questioninfo->getOriginalId($this->getId()));
         $imagepath_original = $this->getImagePath($question_id, $originalObjId);
 
         ilFileUtils::delDir($imagepath_original);
