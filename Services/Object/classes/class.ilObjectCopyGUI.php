@@ -22,6 +22,7 @@ use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Style\Content\Container\ContainerDBRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Factory as UIFactory;
@@ -455,8 +456,13 @@ class ilObjectCopyGUI
             return;
         }
 
+        try {
+            $targets = $this->retriever->getArrayOfInt('target');
+        } catch (ConstraintViolationException $e) {
+            $targets = [];
+        }
 
-        if (($targets = $this->retriever->getArrayOfInt('target')) !== []) {
+        if ($targets !== []) {
             $this->setTargets($targets);
             $this->ctrl->setParameter($this, 'target_ids', implode('_', $this->getTargets()));
         } elseif (($target = $this->retriever->getMaybeInt('target')) !== null) {
