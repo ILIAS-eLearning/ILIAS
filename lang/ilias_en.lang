@@ -11287,7 +11287,6 @@ mail#:#mail_incoming_smtp#:#Forward to E-Mail Address:
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
-mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_is_read#:#Read
 mail#:#mail_is_unread#:#Unread
 mail#:#mail_list_members#:#List Members
