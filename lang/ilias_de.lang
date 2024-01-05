@@ -11311,6 +11311,9 @@ mail#:#mail_mailing_list#:#Verteilerliste
 mail#:#mail_mailing_lists#:#Verteilerlisten
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
 mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
+mail#:#mail_manage_attachments#:#Anhänge Verwalten
+mail#:#mail_manage_attachments_back_to_compose#:#Zurück zum Erstellen
+mail#:#mail_manage_attachments_drop_files_msg#:#Datei zum Hinzufügen hier ablegen
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_max_size_attachments_total#:#Bitte geben Sie die maximal zulässige Gesamtgröße aller Anhänge pro E-Mail an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Gesamtdatenmenge der als Anhang einer Mail ausgewählten Dateien.

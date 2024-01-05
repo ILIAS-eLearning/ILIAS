@@ -24,9 +24,6 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
 /**
- * @author       Jens Conze
- * @version      $Id$
- * @ingroup      ServicesMail
  * @ilCtrl_Calls ilMailFolderGUI: ilPublicUserProfileGUI
  */
 class ilMailFolderGUI
