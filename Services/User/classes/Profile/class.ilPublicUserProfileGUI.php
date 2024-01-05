@@ -372,25 +372,9 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $tpl->setVariable('HREF_VCARD', $this->ctrl->getLinkTarget($this, 'deliverVCard'));
         }
 
-        $webspace_dir = ilFileUtils::getWebspaceDir('user');
-        $check_dir = ilFileUtils::getWebspaceDir();
-        $random = new \ilRandom();
-        $imagefile = $webspace_dir . '/usr_images/' . $user->getPref('profile_image') . '?dummy=' . $random->int(1, 999999);
-        $check_file = $check_dir . '/usr_images/' . $user->getPref('profile_image');
-
-        if (!is_file($check_file)) {
-            $imagefile = $check_file =
-                ilObjUser::_getPersonalPicturePath($user->getId(), 'big', false, true);
-        } else {
-            if ($this->offline) {
-                $imagefile = basename($imagefile);
-            } else {
-                $imagefile = ilWACSignedPath::signFile($imagefile . '?t=1');
-            }
-        }
-
-        if ($this->getPublicPref($user, 'public_upload') == 'y' && $imagefile != '' &&
-            ($this->current_user->getId() != ANONYMOUS_USER_ID || $user->getPref('public_profile') == 'g')) {
+        $imagefile = ilObjUser::_getPersonalPicturePath($user->getId(), 'big', false, true);
+        if ($this->getPublicPref($user, 'public_upload') === 'y' && $imagefile !== ''
+            && ($this->current_user->getId() !== ANONYMOUS_USER_ID || $user->getPref('public_profile') === 'g')) {
 
             $tpl->setCurrentBlock('image');
             $tpl->setVariable('TXT_IMAGE', $this->lng->txt('image'));
