@@ -673,7 +673,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             );
         }
 
-        return $cgui->getHTML();
+        return $this->ui->renderer()->render($this->ui->factory()->messageBox()->confirmation($question)) . $cgui->getHTML();
     }
 
     abstract public function removeMultipleEnabled(): bool;
