@@ -2864,7 +2864,7 @@ chatroom#:#chat_deletion_interval_value#:#Wert
 chatroom#:#chat_deletion_ival_max_val#:#Der maximale Wert für die gewählte Einheit '%s' ist: %s
 chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
 chatroom#:#chat_enable_history#:#Verlauf
-chatroom#:#chat_enable_history_info#:#Alle können im Reiter „Verlauf“ öffentliche Chat-Beiträge aus der Vergangenheit lesen und exportieren. Beiträge aus Séparées sind nur für Benutzer zugänglich, die dort eingeladen waren.
+chatroom#:#chat_enable_history_info#:#Alle können im Reiter „Verlauf“ Chat-Beiträge aus der Vergangenheit lesen und exportieren.
 chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chat_functions#:#Chat Funktionen
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
@@ -2958,8 +2958,6 @@ chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
 chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
 chatroom#:#connection_url_info#:#Tragen Sie hier einen URL ein, über welchen der Server zu erreichen ist.
 chatroom#:#custom_username#:#Eigener Chat-Name
-chatroom#:#delete_private_room#:#Séparée löschen
-chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Chat-Rückblick
 chatroom#:#duration_from#:#Von
@@ -2981,9 +2979,6 @@ chatroom#:#invite_username#:#Anmeldename
 chatroom#:#key#:#Schlüssel
 chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem Chat rauswerfen?
 chatroom#:#kicked#:#Die Moderation hat Sie aus dem Chat entfernt.###Modified as part of gender mainstreaming activities for ILIAS 8
-chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b> geworfen.
-chatroom#:#leave_private_room#:#Séparée verlassen
-chatroom#:#left_private_room#:#Séparée verlassen
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#messages#:#Nachrichten
@@ -3000,12 +2995,8 @@ chatroom#:#osc_noti_title#:#Neue Chat-Nachricht
 chatroom#:#period#:#Zeitraum
 chatroom#:#permissions#:#Rechte
 chatroom#:#preferred_chatname#:#Gewünschter Name###Neu eingeführte Variable im Rahmen des Gendermainstreaming für ILIAS 8
-chatroom#:#private_room_closed#:#Der Raum <b>#title#</b> wurde geschlossen.
-chatroom#:#private_room_entered#:#Willkommen im Séparée <b>#title#</b>.
-chatroom#:#private_room_entered_user#:#Der Benutzer <b>#username#</b> hat das Separée <b>#title#</b> betreten.
-chatroom#:#private_room_left#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> verlassen.
 chatroom#:#public_chat_created#:#Es wurde ein neuer öffentlicher Chatraum im Magazin angelegt.
-chatroom#:#scope#:#Raum/Séparée
+chatroom#:#scope#:#Raum
 chatroom#:#select_custom_username#:#Angezeigter Name im Chat
 chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration des Servers finden Sie in der <a href="%1$s" target="_blank">Readme-Datei</a>.
 chatroom#:#session#:#Sitzung
