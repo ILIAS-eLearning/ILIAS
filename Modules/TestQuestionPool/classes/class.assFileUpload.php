@@ -336,7 +336,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             }
         }
 
-        return (float)0;
+        return 0.0;
     }
 
     protected function calculateReachedPointsForSolution($userSolution)
