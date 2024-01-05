@@ -60,7 +60,6 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-
     }
 
 
@@ -119,7 +118,6 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         if (strlen($set['icon'])) {
             $this->tpl->setVariable('ICON_SRC', $set['icon']);
             foreach ((array) $set['assignments'] as $obj_type) {
-
                 $this->tpl->setVariable('ICON_ALT', $this->lng->txt('objs_' . $obj_type));
             }
         }
@@ -201,14 +199,16 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
                 $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'copyTemplate')
             );
 
-            // Export
-            $actions->addItem(
-                $this->lng->txt('didactic_do_export'),
-                '',
-                $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
-            );
+            if (!$set['automatic_generated']) {
+                // Export
+                $actions->addItem(
+                    $this->lng->txt('didactic_do_export'),
+                    '',
+                    $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
+                );
+            }
             $this->tpl->setVariable('ACTION_DROPDOWN', $actions->getHTML());
-        } else {
+        } elseif (!$set['automatic_generated']) {
             //don't use dropdown if just one item is given ...
             // Export
             $this->tpl->setCurrentBlock('action_link');
@@ -218,6 +218,8 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable('A_TEXT', $this->lng->txt('didactic_do_export'));
             $this->tpl->parseCurrentBlock();
+        } else {
+            $this->tpl->touchBlock('action_link');
         }
     }
 }

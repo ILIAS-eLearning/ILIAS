@@ -216,7 +216,6 @@ class ilDidacticTemplateImport
 
             // Role filter
             foreach ($ele->roleFilter as $rfi) {
-
                 switch ((string) $rfi->attributes()->source) {
                     case 'title':
                         $act->setFilterType(\ilDidacticTemplateAction::FILTER_SOURCE_TITLE);
@@ -263,7 +262,6 @@ class ilDidacticTemplateImport
 
             // Role filter
             foreach ($ele->roleFilter as $rfi) {
-
                 $this->logger->dump($rfi->attributes(), \ilLogLevel::DEBUG);
                 $this->logger->debug('Current filter source: ' . (string) $rfi->attributes()->source);
 
@@ -320,10 +318,15 @@ class ilDidacticTemplateImport
 
                 // extract role
                 foreach ($lpo->role as $roleDef) {
-                    include_once './Services/AccessControl/classes/class.ilRoleXmlImporter.php';
-                    $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
-                    $role_id = $rimporter->importSimpleXml($roleDef);
-                    $act->setRoleTemplateId($role_id);
+                    try {
+                        $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
+                        $role_id = $rimporter->importSimpleXml($roleDef);
+                        $act->setRoleTemplateId($role_id);
+                    } catch (ilRoleImporterException $e) {
+                        // delete half-imported template
+                        $set->delete();
+                        throw new ilDidacticTemplateImportException($e->getMessage());
+                    }
                 }
             }
 
