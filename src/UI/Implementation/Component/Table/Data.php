@@ -360,6 +360,41 @@ class Data extends Table implements T\Data, JSBindable
             ->withVisibleColumns($this->getVisibleColumns());
     }
 
+
+    protected function getInputDataFromSession(string ...$keys): ArrayInputData
+    {
+        $stored_values = [];
+        if($storage = $this->getStorage()) {
+            foreach($keys as $k) {
+                if(isset($storage[$k])) {
+                    $stored_values[$k] = $storage[$k];
+                }
+            }
+        }
+        return new ArrayInputData($stored_values);
+    }
+
+    protected function storeInputDataToSession(array $key_value): void
+    {
+        if($storage = $this->getStorage()) {
+            foreach($key_value as $k => $v) {
+                $storage[$k] = $v;
+            }
+        }
+    }
+
+    protected function applyValuesToViewcontrols(
+        ViewControlContainer\ViewControl $view_controls,
+        ServerRequestInterface $request
+    ): ViewControlContainer\ViewControl {
+        $stored_values = $this->getInputDataFromSession(...array_keys($view_controls->getComponentInternalValues()));
+        $view_controls = $view_controls
+            ->withStoredValues($stored_values)
+            ->withRequest($request);
+        $this->storeInputDataToSession($view_controls->getComponentInternalValues());
+        return $view_controls;
+    }
+
     /**
      * @return array<self, ViewControlContainer\ViewControl>
      */
@@ -372,28 +407,8 @@ class Data extends Table implements T\Data, JSBindable
         $view_controls = $this->getViewControls($total_count);
 
         if ($request = $this->getRequest()) {
-
-            $stored_values = [];
-            if($storage = $this->getStorage()) {
-                foreach(array_keys($view_controls->getComponentInternalValues()) as $k) {
-                    if(isset($storage[$k])) {
-                        $stored_values[$k] = $storage[$k];
-                    }
-                }
-            }
-            $stored_input = new ArrayInputData($stored_values);
-
-            $view_controls = $view_controls
-                ->withStoredValues($stored_input)
-                ->withRequest($request);
+            $view_controls = $this->applyValuesToViewcontrols($view_controls, $request);
             $data = $view_controls->getData();
-
-            if($storage) {
-                foreach($view_controls->getComponentInternalValues() as $k => $v) {
-                    $storage[$k] = $v;
-                }
-            }
-
             $table = $table
                 ->withRange(($data[self::VIEWCONTROL_KEY_PAGINATION] ?? null)?->croppedTo($total_count ?? PHP_INT_MAX))
                 ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)
@@ -482,9 +497,11 @@ class Data extends Table implements T\Data, JSBindable
 
     public function getStorage(): ?\ArrayAccess
     {
-        if(! $id = $this->getId()) {
+        $id = $this->getId();
+        if(! $id) {
             return null;
         }
+        $id = self::class . '_' . $id;
         $this->session = $this->session->get($id);
         return $this->session;
     }
