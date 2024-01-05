@@ -490,12 +490,12 @@ class Data extends Table implements T\Data, JSBindable
         return $clone;
     }
 
-    public function getId(): ?string
+    protected function getId(): ?string
     {
         return $this->id;
     }
 
-    public function getStorage(): ?\ArrayAccess
+    protected function getStorage(): ?\ArrayAccess
     {
         $id = $this->getId();
         if(! $id) {

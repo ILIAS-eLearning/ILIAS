@@ -197,27 +197,47 @@ class DataTest extends TableTestBase
         $this->assertEquals(2, $table->getVisibleColumns()['f2']->getIndex());
     }
 
+    protected function getMockTableWithStorage(): I\Table\Data
+    {
+        return new class (
+            $this->getSessionStorage()
+        ) extends C\Table\Data {
+            public function __construct(
+                protected \ArrayAccess $session
+            ) {
+            }
+
+            public function mockGetId(): ?string
+            {
+                return $this->getId();
+            }
+            public function mockGetStorage(): ?\ArrayAccess
+            {
+                return $this->getStorage();
+            }
+        };
+    }
+
     public function testDataTableIdAndStorage(): void
     {
-        $table = $this->getTable();
-        $this->assertNull($table->getId());
-        $this->assertNull($table->getStorage());
-
+        $table = $this->getMockTableWithStorage();
+        $this->assertNull($table->mockGetId());
+        $this->assertNull($table->mockGetStorage());
         $table = $table->withId('some_id');
-        $this->assertEquals('some_id', $table->getId());
-        $this->assertInstanceOf(\ArrayAccess::class, $table->getStorage());
+        $this->assertEquals('some_id', $table->mockGetId());
+        $this->assertInstanceOf(\ArrayAccess::class, $table->mockGetStorage());
     }
 
     public function testDataTableStorage(): void
     {
-        $store = $this->getTable()->withId('first')->getStorage();
+        $store = $this->getMockTableWithStorage()->withId('first')->mockGetStorage();
         $store['A'] = 1;
 
-        $store = $this->getTable()->withId('second')->getStorage();
+        $store = $this->getMockTableWithStorage()->withId('second')->mockGetStorage();
         $store['B'] = 1;
         $this->assertNull($store['A']);
 
-        $store = $this->getTable()->withId('first')->getStorage();
+        $store = $this->getMockTableWithStorage()->withId('first')->mockGetStorage();
         $this->assertNull($store['B']);
         $this->assertEquals(1, $store['A']);
     }
