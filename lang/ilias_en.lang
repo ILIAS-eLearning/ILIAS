@@ -2862,7 +2862,7 @@ chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
 chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
 chatroom#:#chat_enable_history#:#Enable History
-chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.
+chatroom#:#chat_enable_history_info#:#Everybody can read and export past chat messages in the tab „History“.
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
 chatroom#:#chat_functions#:#Chat Functions
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
@@ -2956,8 +2956,6 @@ chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
 chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.
 chatroom#:#custom_username#:#Custom Username
-chatroom#:#delete_private_room#:#Delete Private Room
-chatroom#:#delete_private_room_question#:#Confirm delete private room?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#duration_from#:#From
@@ -2979,9 +2977,6 @@ chatroom#:#invite_username#:#Username
 chatroom#:#key#:#Key
 chatroom#:#kick_question#:#Do you really want to kick the user from chat?
 chatroom#:#kicked#:#You have been kicked from this chat room
-chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.
-chatroom#:#leave_private_room#:#Leave Private Room
-chatroom#:#left_private_room#:#Left private room
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#main#:#Main Room
 chatroom#:#messages#:#Messages
@@ -2998,12 +2993,8 @@ chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#period#:#Period
 chatroom#:#permissions#:#Permissions
 chatroom#:#preferred_chatname#:#Preferred Name
-chatroom#:#private_room_closed#:#The chat room <b>#title#</b> has been closed.
-chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
-chatroom#:#private_room_entered_user#:#The user <b>#username#</b> has entered the private room <b>#title#</b>.
-chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository.
-chatroom#:#scope#:#Room/Private Room
+chatroom#:#scope#:#Room
 chatroom#:#select_custom_username#:#Select Custom Username
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#session#:#Session
