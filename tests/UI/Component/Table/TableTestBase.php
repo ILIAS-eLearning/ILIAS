@@ -94,7 +94,7 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             public function get(string $id)
             {
                 $this->id = $id;
-                $this->data = \ilSession::get($id) ?? [];
+                $this->data = $_SESSION[$id] ?? [];
                 return $this;
             }
 
@@ -112,12 +112,12 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             public function offsetSet(mixed $offset, mixed $value): void
             {
                 $this->data[$offset] = $value;
-                \ilSession::set($this->id, $this->data);
+                $_SESSION[$this->id] = $this->data;
             }
             public function offsetUnset(mixed $offset): void
             {
                 unset($this->data[$offset]);
-                \ilSession::set($this->id, $this->data);
+                $_SESSION[$this->id] = $this->data;
             }
         };
     }
