@@ -182,13 +182,15 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             );
 
             // Export
-            $actions->addItem(
-                $this->lng->txt('didactic_do_export'),
-                '',
-                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
-            );
+            if (!$a_set['automatic_generated']) {
+                $actions->addItem(
+                    $this->lng->txt('didactic_do_export'),
+                    '',
+                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
+                );
+            }
             $this->tpl->setVariable('ACTION_DROPDOWN', $actions->getHTML());
-        } else {
+        } elseif (!$a_set['automatic_generated']) {
             //don't use dropdown if just one item is given ...
             // Export
             $this->tpl->setCurrentBlock('action_link');
@@ -198,6 +200,8 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable('A_TEXT', $this->lng->txt('didactic_do_export'));
             $this->tpl->parseCurrentBlock();
+        } else {
+            $this->tpl->touchBlock('action_link');
         }
     }
 }

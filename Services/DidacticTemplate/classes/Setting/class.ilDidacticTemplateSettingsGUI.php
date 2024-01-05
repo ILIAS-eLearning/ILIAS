@@ -288,6 +288,14 @@ class ilDidacticTemplateSettingsGUI
         } catch (ilDidacticTemplateImportException $e) {
             $this->logger->error('Import failed with message: ' . $e->getMessage());
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('didactic_import_failed') . ': ' . $e->getMessage());
+            $form->setValuesByPost();
+
+            if ($setting instanceof ilDidacticTemplateSetting) {
+                $this->showEditImportForm($form);
+            } else {
+                $this->showImportForm($form);
+            }
+            return;
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_import_success'), true);
