@@ -73,14 +73,10 @@ trait QuestionPoolLinkedTitleBuilder
         int $qpl_ref_id,
         string $title
     ) : Link {
-        $ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $qpl_ref_id);
         $linked_title = $ui_factory->link()->standard(
             $title,
-            $ctrl->getLinkTargetByClass(
-                [ilObjQuestionPoolGUI::class]
-            )
+            \ilLink::_getStaticLink($qpl_ref_id)
         );
-        $ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
         return $linked_title;
     }
 
