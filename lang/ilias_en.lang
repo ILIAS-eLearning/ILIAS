@@ -11307,6 +11307,9 @@ mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already added all of your contacts to this mailing list.
 mail#:#mail_mailing_lists_no_contact_entries#:#You don’t have any entries in your contacts to add to a mailing list.
+mail#:#mail_manage_attachments#:#Manage Attachments
+mail#:#mail_manage_attachments_back_to_compose#:#Back to Compose
+mail#:#mail_manage_attachments_drop_files_msg#:#Drop file to upload
 mail#:#mail_mark_read#:#Mark as Read
 mail#:#mail_mark_unread#:#Mark as Unread
 mail#:#mail_max_size_attachments_total#:#Please enter the maximum combined size of all attachments allowed per mail. This setting is not related to other resource limits, e.g. server limits such as ‘upload_max_filesize’, as you can attach multiple files to a single mail.
