@@ -54,7 +54,7 @@ class assQuestionTest extends assBaseTestCase
             {
             }
 
-            public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+            public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float|array
             {
             }
 
