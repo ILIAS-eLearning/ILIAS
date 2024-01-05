@@ -2581,9 +2581,9 @@ book#:#book_recurrence#:#Recurrence
 book#:#book_refresh#:#Refresh
 book#:#book_rem_intro#:#This is an overview of upcoming reservations:
 book#:#book_rem_reason#:#You have received this mail because you are subscribed to notifications for the booking pool mentioned in this mail.
-book#:#book_reminder_day#:#day(s) before time-slot of booking
+book#:#book_reminder_day#:#Send Reminder
 book#:#book_reminder_day_info#:#Send list of own bookings to users and full list of all upcoming bookings to admins. Please note: in order to receive reminders, users need to have activated notifications via the ‘Actions’ menu at the top right-hand corner of the booking pool.
-book#:#book_reminder_days#:#Day(s)
+book#:#book_reminder_days#:#day(s) before time-slot of booking
 book#:#book_reminder_setting#:#Reminder
 book#:#book_rerun_assignments#:#Run Allocation Process
 book#:#book_rerun_confirmation#:#Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process.
@@ -2614,7 +2614,7 @@ book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, 
 book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
 book#:#book_schedule_type_none_preference_info#:#This booking mode is ideal for presentation topics, places in seminars or similar. Participants get to indicate their preferences in terms of which items they are most interested in. Items will then be allocated automatically after the preferences deadline has passed.
 book#:#book_schedule_updated#:#Booking schedule updated.
-book#:#book_schedule_warning_edit#:#Your booking pool currently does not have a schedule available. To use the booking pool you either need to create a schedule or select a ‘no schedule’ booking mode in the ‘Booking Mode’ section of the ‘Settings’ tab).
+book#:#book_schedule_warning_edit#:#Your booking pool currently does not have a schedule available. To use the booking pool you either need to create a schedule or select a ‘no schedule’ booking mode in the ‘Booking Mode’ section of the ‘Settings’ tab.
 book#:#book_schedules#:#Schedules
 book#:#book_select_pool#:#Select Pool
 book#:#book_set_cancel#:#Cancel Booking
