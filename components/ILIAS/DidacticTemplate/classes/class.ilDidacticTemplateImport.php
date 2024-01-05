@@ -273,9 +273,15 @@ class ilDidacticTemplateImport
 
                 // extract role
                 foreach ($lpo->role as $roleDef) {
-                    $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
-                    $role_id = $rimporter->importSimpleXml($roleDef);
-                    $act->setRoleTemplateId($role_id);
+                    try {
+                        $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
+                        $role_id = $rimporter->importSimpleXml($roleDef);
+                        $act->setRoleTemplateId($role_id);
+                    } catch (ilRoleImporterException $e) {
+                        // delete half-imported template
+                        $set->delete();
+                        throw new ilDidacticTemplateImportException($e->getMessage());
+                    }
                 }
             }
 
