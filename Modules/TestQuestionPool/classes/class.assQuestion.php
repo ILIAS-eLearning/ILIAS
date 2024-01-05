@@ -2847,7 +2847,7 @@ abstract class assQuestion
         $this->log($activeId, "log_user_solution_willingly_deleted");
 
         $test = new ilObjTest(
-            ilObjTest::_lookupTestObjIdForQuestionId($this->getId()),
+            $this->test_id,
             false
         );
         $test->updateTestPassResults(
