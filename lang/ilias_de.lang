@@ -984,7 +984,7 @@ assessment#:#parseQuestion#:#Frage analysieren
 assessment#:#part_received_a_of_b_points#:#Der Teilnehmer hat %s von %s möglichen Punkten erreicht.
 assessment#:#participants#:#Teilnehmer
 assessment#:#participants_invitation#:#Nur ausgewählte Teilnehmer
-assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Dashboard" hinzugefügt wurden.
+assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Teilnehmer" hinzugefügt wurden.
 assessment#:#participants_results_subtab#:#Alle Teilnehmer
 assessment#:#pass#:#Durchlauf
 assessment#:#pass_finished#:#%s Durchlauf
