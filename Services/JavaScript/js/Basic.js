@@ -569,18 +569,22 @@ il.UICore = {
 		var tabs = $('#ilTab.ilCollapsable'), tabsHeight, count, children, collapsed;
 		if (tabs) {
 			tabsHeight = tabs.innerHeight();
-			if (tabsHeight >= 50) {
-				if (tabsHeight > 50) {
-					$('#ilLastTab a').removeClass("ilNoDisplay");
-				}
+			let more_than_two_lines;
+			more_than_two_lines = tabsHeight >= 50;
+			if (more_than_two_lines) {
+				$('#ilLastTab a').removeClass('ilNoDisplay');
 				// as long as we have two lines...
-				while (tabsHeight > 50) {
+				while (more_than_two_lines) {
 					children = tabs.children('li:not(:last-child)');
 					count = children.length;
 
 					// ...put last child into collapsed drop down
 					$(children[count-1]).prependTo('#ilTabDropDown');
-					tabsHeight = tabs.innerHeight();
+					if(count == 0) {
+						more_than_two_lines = false;
+					} else {
+						more_than_two_lines = tabs.innerHeight() >= 50;
+					}
 				}
 			} else {
 				// as long as we have one line...
