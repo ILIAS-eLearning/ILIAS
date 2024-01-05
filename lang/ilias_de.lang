@@ -14286,7 +14286,7 @@ rbac#:#rbac_repository_permissions#:#Magazinrechte
 rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch die Rolle gewährt werden, sind dann unwiderruflich aufgehoben.
 rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
 rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
-rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert.
+rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert und die gesetzten Rechte in die Rechtevorgaben der neuen Rolle übernommen. Legen Sie jetzt noch unten fest, welche Rechte die importierte Rolle für das vorliegende Objekt haben soll.
 rbac#:#rbac_role_rights_copy#:#Rechte kopieren
 rbac#:#rbac_role_rights_copy_change_existing#:#Vorhandene Objekte ändern
 rbac#:#rbac_role_rights_copy_empty#:#Keine

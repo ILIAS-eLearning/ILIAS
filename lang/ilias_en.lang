@@ -14280,7 +14280,7 @@ rbac#:#rbac_repository_permissions#:#Repository Permissions
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.
-rbac#:#rbac_role_imported#:#The role has been imported.
+rbac#:#rbac_role_imported#:#The role has been successfully imported and the permissions set have been transferred to the new role's permissions settings. Now specify below which permissions the imported role should have for this object.
 rbac#:#rbac_role_rights_copy#:#Copy Permissions
 rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects
 rbac#:#rbac_role_rights_copy_empty#:#None
