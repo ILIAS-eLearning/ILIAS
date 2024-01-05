@@ -952,7 +952,7 @@ assessment#:#parseQuestion#:#Parse Question
 assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
 assessment#:#participants#:#Participants
 assessment#:#participants_invitation#:#Select Participants Manually
-assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in the ‘Dashboard’ tab of the test.
+assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in the ‘Participants’ tab of the test.
 assessment#:#participants_results_subtab#:#All Participants
 assessment#:#pass#:#Pass
 assessment#:#pass_finished#:#%s pass
