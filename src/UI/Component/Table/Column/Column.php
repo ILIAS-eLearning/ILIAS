@@ -28,17 +28,17 @@ interface Column extends \ILIAS\UI\Component\Component
 {
     public function getTitle(): string;
     public function getType(): string;
+    public function withIsSortable(bool $flag): self;
+    public function isSortable(): bool;
 
     /**
-     * you may add custom labels to overwrite auto-generated labels
+     * you may add custom labels to overwrite auto-generated labels for SortationViewControl
      */
-    public function withIsSortable(
-        bool $flag,
+    public function withOrderingLabels(
         string $asc_label = null,
         string $desc_label = null
     ): self;
 
-    public function isSortable(): bool;
     public function withIsOptional(bool $is_optional, bool $is_initially_visible = true): self;
     public function isOptional(): bool;
     public function isInitiallyVisible(): bool;

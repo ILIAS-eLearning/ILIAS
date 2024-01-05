@@ -207,11 +207,12 @@ class ColumnTest extends ILIAS_UI_TestBase
 
     public function testDataTableColumnCustomOrderingLabels(): void
     {
-        $col = (new Column\LinkListing('col'))->withIsSortable(
-            true,
-            'custom label ASC',
-            'custom label DESC',
-        );
+        $col = (new Column\LinkListing('col'))
+            ->withIsSortable(true)
+            ->withOrderingLabels(
+                'custom label ASC',
+                'custom label DESC',
+            );
         $this->assertEquals(
             [
                 'custom label ASC',

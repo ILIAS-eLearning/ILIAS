@@ -52,20 +52,26 @@ abstract class Column implements C\Column
     }
 
     public function withIsSortable(
-        bool $flag,
-        string $asc_label = null,
-        string $desc_label = null
+        bool $flag
     ): self {
         $clone = clone $this;
         $clone->sortable = $flag;
-        $clone->asc_label = $asc_label;
-        $clone->desc_label = $desc_label;
         return $clone;
     }
 
     public function isSortable(): bool
     {
         return $this->sortable;
+    }
+
+    public function withOrderingLabels(
+        string $asc_label = null,
+        string $desc_label = null
+    ): self {
+        $clone = clone $this;
+        $clone->asc_label = $asc_label;
+        $clone->desc_label = $desc_label;
+        return $clone;
     }
 
     /**

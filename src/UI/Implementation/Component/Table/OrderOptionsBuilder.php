@@ -85,8 +85,8 @@ class OrderOptionsBuilder
         }
 
         return [
-            implode(' ', [$asc[0] , $this->lng->txt('order_option_' . $asc[1])]),
-            implode(' ', [$desc[0] , $this->lng->txt('order_option_' . $desc[1])])
+            trim(implode(' ', [$asc[0] , $this->lng->txt('order_option_' . $asc[1])])),
+            trim(implode(' ', [$desc[0] , $this->lng->txt('order_option_' . $desc[1])]))
         ];
     }
 }

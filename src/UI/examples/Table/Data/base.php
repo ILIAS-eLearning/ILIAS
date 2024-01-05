@@ -42,7 +42,7 @@ function base()
         'fee' => $f->table()->column()->number("Fee")
             ->withDecimals(2)
             ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE)
-            ->withIsSortable(true, 'cheapest first', 'most expensive first'),
+            ->withOrderingLabels('cheapest first', 'most expensive first'),
         'failure_txt' => $f->table()->column()->status("failure")
             ->withIsSortable(false)
             ->withIsOptional(true, false),
