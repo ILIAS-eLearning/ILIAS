@@ -949,13 +949,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
             }
         }
 
-        $init_solutions = $this->object->getInitialVariableSolutionValues();
-        if ($user_solution !== [] &&
-            !$this->object->hasRequiredVariableSolutionValues($user_solution)
-        ) {
-            foreach ($init_solutions as $val1 => $val2) {
-                $this->object->saveCurrentSolution($active_id, $pass, $val1, $val2, true);
-            }
+        if ($user_solution === []) {
+            $user_solution = $this->object->getVariableSolutionValuesForPass($active_id, $pass);
         }
 
         // generate the question output
