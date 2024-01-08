@@ -28,6 +28,27 @@ use ILIAS\UI\Component\Link\Link;
 
 trait QuestionPoolLinkedTitleBuilder
 {
+    public function buildPossiblyLinkedTestTitle(
+        \ilCtrl $ctrl,
+        \ilAccessHandler $access,
+        \ilLanguage $lng,
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
+        int $test_id,
+        string $title
+    ): string {
+        return $this->buildPossiblyLinkedTitle(
+            $ctrl,
+            $access,
+            $lng,
+            $ui_factory,
+            $ui_renderer,
+            $test_id,
+            $title,
+            \ilObjTestGUI::class
+        );
+    }
+
     public function buildPossiblyLinkedQuestonPoolTitle(
         \ilCtrl $ctrl,
         \ilAccessHandler $access,
@@ -51,57 +72,82 @@ trait QuestionPoolLinkedTitleBuilder
             $qpl_obj_id = ilObject::_lookupObjId($qpl_id);
         }
 
-        $qpl_ref_id = $this->getFirstQuestionPoolReferenceWithCurrentUserAccess(
+        return $this->buildPossiblyLinkedTitle(
+            $ctrl,
+            $access,
+            $lng,
+            $ui_factory,
+            $ui_renderer,
+            $qpl_obj_id,
+            $title,
+            \ilObjQuestionPoolGUI::class,
+            $reference
+        );
+    }
+
+    private function buildPossiblyLinkedTitle(
+        \ilCtrl $ctrl,
+        \ilAccessHandler $access,
+        \ilLanguage $lng,
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
+        int $obj_id,
+        string $title,
+        string $target_class_type,
+        bool $reference = false
+    ): string {
+        $ref_id = $this->getFirstReferenceWithCurrentUserAccess(
             $access,
             $reference,
-            $qpl_id,
-            ilObject::_getAllReferences($qpl_obj_id)
+            $obj_id,
+            ilObject::_getAllReferences($obj_id)
         );
 
-        if ($qpl_ref_id === null) {
+        if ($ref_id === null) {
             return $title . ' (' . $lng->txt('status_no_permission') . ')';
         }
 
         return $ui_renderer->render(
-            $this->getLinkedQuestonPoolTitle($ctrl, $ui_factory, $qpl_ref_id, $title)
+            $this->getLinkedTitle($ctrl, $ui_factory, $ref_id, $title, $target_class_type)
         );
     }
 
-    private function getLinkedQuestonPoolTitle(
+    private function getLinkedTitle(
         \ilCtrl $ctrl,
         UIFactory $ui_factory,
-        int $qpl_ref_id,
-        string $title
+        int $ref_id,
+        string $title,
+        string $target_class_type
     ): Link {
-        $ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $qpl_ref_id);
+        $ctrl->setParameterByClass($target_class_type, 'ref_id', $ref_id);
         $linked_title = $ui_factory->link()->standard(
             $title,
             $ctrl->getLinkTargetByClass(
-                [ilObjQuestionPoolGUI::class]
+                [$target_class_type]
             )
         );
-        $ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
+        $ctrl->clearParametersByClass($target_class_type);
         return $linked_title;
     }
 
-    private function getFirstQuestionPoolReferenceWithCurrentUserAccess(
+    private function getFirstReferenceWithCurrentUserAccess(
         \ilAccessHandler $access,
         bool $reference,
-        int $qpl_id,
-        array $all_qpl_ref_ids
+        int $obj_id,
+        array $all_ref_ids
     ): ?int {
-        if ($reference && $access->checkAccess('read', '', $qpl_id)) {
-            return $qpl_id;
+        if ($reference && $access->checkAccess('read', '', $obj_id)) {
+            return $obj_id;
         }
 
-        $qpl_references_with_access = array_filter(
-            array_values($all_qpl_ref_ids),
+        $references_with_access = array_filter(
+            array_values($all_ref_ids),
             function ($ref_id) use ($access) {
                 return $access->checkAccess('read', '', $ref_id);
             }
         );
-        if ($qpl_references_with_access !== []) {
-            return array_shift($qpl_references_with_access);
+        if ($references_with_access !== []) {
+            return array_shift($references_with_access);
         }
         return null;
     }
