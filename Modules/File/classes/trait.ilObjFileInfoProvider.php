@@ -73,9 +73,7 @@ trait ilObjFileInfoProvider
             $version_date = (new ilDateTime($version->getDate(), IL_CAL_DATETIME))->get(IL_CAL_DATETIME);
         }
         // version uploader
-        $versions = $this->getFileObj()->getVersions();
-        $versions = array_shift($versions);
-        $version_uploader = $versions["user_id"] ?? -1; // unknown uploader
+        $version_uploader = $version["user_id"] ?? -1; // unknown uploader
         // download link
         $download_link_tpl = null;
         if ($this->getAccessHandler()->checkAccessOfUser(
