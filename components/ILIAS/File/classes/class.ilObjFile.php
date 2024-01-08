@@ -478,15 +478,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             ],
         ]);
 
-        // update metadata with the current file version
-        $meta_version_column = ['meta_version' => ['integer', $this->getVersion()]];
-        $this->database->update('il_meta_lifecycle', $meta_version_column, [
-            'obj_id' => [
-                'integer',
-                $this->getId(),
-            ],
-        ]);
-
         $this->notifyUpdate($this->getId(), $this->getDescription());
         $this->initImplementation();
     }

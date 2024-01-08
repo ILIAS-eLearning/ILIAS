@@ -64,6 +64,16 @@ trait ilObjFileMetadata
         }
         $this->updateFileData();
 
+        //add metadata to database
+        $metadata = [
+            'meta_lifecycle_id' => ['integer', $DIC->database()->nextId('il_meta_lifecycle')],
+            'rbac_id' => ['integer', $this->getId()],
+            'obj_id' => ['integer', $this->getId()],
+            'obj_type' => ['text', "file"],
+            'meta_version' => ['integer', (int) $this->getVersion()],
+        ];
+        $DIC->database()->insert('il_meta_lifecycle', $metadata);
+
         // no meta data handling for file list files
         if ($this->getMode() !== self::MODE_FILELIST) {
             $this->createMetaData();
@@ -143,7 +153,7 @@ trait ilObjFileMetadata
      */
     protected function doUpdateMetaData(): void
     {
-        return;// add technical section with file size and format
+        global $DIC;
         $md_obj = new ilMD($this->getId(), 0, $this->getType());
         if (!is_object($technical = $md_obj->getTechnical())) {
             $technical = $md_obj->addTechnical();
@@ -162,6 +172,14 @@ trait ilObjFileMetadata
             $format->save();
         }
         $technical->update();
+
+        $meta_version_column = ['meta_version' => ['integer', (int) $this->getVersion()]];
+        $DIC->database()->update('il_meta_lifecycle', $meta_version_column, [
+            'rbac_id' => [
+                'integer',
+                $this->getId(),
+            ],
+        ]);
     }
 
     /**
@@ -185,4 +203,5 @@ trait ilObjFileMetadata
         $rights->setDescription('il_copyright_entry__' . IL_INST_ID . '__' . $copyright_id);
         $rights->update();
     }
+
 }
