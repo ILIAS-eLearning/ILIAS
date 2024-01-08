@@ -4402,30 +4402,24 @@ hr.il-divider-with-label {
 .il-input-rating .il-input-rating__text {
   clear: both;
 }
-
 .il-input-rating .il-input-rating__stars {
   white-space: nowrap;
 }
-
 .il-input-rating .il-input-rating__options {
   float: left;
 }
-
 .il-input-rating input.il-input-rating-scaleoption {
   float: right;
   padding: 0;
   margin: 0 0 0 -20px;
   opacity: 0;
 }
-
 .il-input-rating .glyphicon-star:before {
   content: "★";
 }
-
 .il-input-rating .glyphicon-star-empty:before {
   content: "☆";
 }
-
 .il-input-rating .il-input-rating-star {
   float: right;
   position: relative;
@@ -4435,7 +4429,6 @@ hr.il-divider-with-label {
   font-size: 160%;
   color: #e2e8ef;
 }
-
 .il-input-rating .il-input-rating__none {
   float: left;
   color: #161616;
@@ -4444,11 +4437,19 @@ hr.il-divider-with-label {
 .il-input-rating .il-input-rating__none .none-option {
   opacity: 100;
 }
-
 .il-input-rating .il-input-rating-scaleoption:checked ~ .il-input-rating-star {
   color: #3a4c65;
 }
-
+.il-input-rating .il-input-rating-scaleoption:checked + label + span {
+  display: block;
+}
+.il-input-rating .il-input-rating-star:hover,
+.il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
+  color: #3a4c65;
+}
+.il-input-rating .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
+  display: block;
+}
 .il-input-rating.disabled .il-input-rating-scaleoption:checked ~ .il-input-rating-star,
 .il-input-rating.disabled .il-input-rating-star:hover ~ .il-input-rating-star,
 .il-input-rating.disabled .il-input-rating-star:hover {
@@ -4457,36 +4458,10 @@ hr.il-divider-with-label {
 .il-input-rating.disabled .il-input-rating__none {
   display: none;
 }
-
-.il-input-rating-scaleoption:checked + label + span {
-  display: block;
-}
-
-/* targets hovering in IE10+ */
-@media all and (hover), (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  .il-input-rating .il-input-rating-star:hover,
-  .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
-    color: #3a4c65;
-  }
-  .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
-    display: block;
-  }
-}
-/* targets hovering in FF and can't be combined with the query above */
-@-moz-document url-prefix() {
-  .il-input-rating .il-input-rating-star:hover,
-  .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
-    color: #3a4c65;
-  }
-  .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
-    display: block;
-  }
-}
 .il-input-rating .il-input-rating__average {
   height: 1px;
   background-color: #e2e8ef;
 }
-
 .il-input-rating .il-input-rating__average_value {
   height: 1px;
   background-color: #737373;
