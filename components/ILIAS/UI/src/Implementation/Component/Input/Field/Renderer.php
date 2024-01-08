@@ -35,6 +35,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\Data\DataSize;
 use ILIAS\UI\Implementation\Component\Input\Input;
+use ILIAS\Data\FiveStarRatingScale;
 
 /**
  * Class Renderer
@@ -75,6 +76,8 @@ class Renderer extends AbstractComponentRenderer
      *            functional fraction for now.
      */
     protected const FILE_UPLOAD_CHUNK_SIZE_FACTOR = 0.9;
+
+    private const CENTUM = 100;
 
     /**
      * @inheritdoc
@@ -149,6 +152,9 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\ColorPicker):
                 return $this->renderColorPickerField($component);
+
+            case ($component instanceof F\Rating):
+                return $this->renderRatingField($component);
 
             default:
                 throw new LogicException("Cannot render '" . get_class($component) . "'");
@@ -912,6 +918,7 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\Hidden::class,
             Component\Input\Field\ColorPicker::class,
             Component\Input\Field\Markdown::class,
+            Component\Input\Field\Rating::class,
         ];
     }
 
@@ -1048,6 +1055,62 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
         $tpl->setVariable('VALUE', $component->getValue());
         $id = $this->bindJSandApplyId($component, $tpl);
+
+        return $this->wrapInFormContext($component, $tpl->get());
+    }
+
+    protected function renderRatingField(F\Rating $component): string
+    {
+        $tpl = $this->getTemplate("tpl.rating.html", true, true);
+        $id = $this->bindJSandApplyId($component, $tpl);
+        $aria_description_id = $id . '_desc';
+        $tpl->setVariable('DESCRIPTION_SRC_ID', $aria_description_id);
+
+        $option_count = count(FiveStarRatingScale::cases()) - 1;
+
+        foreach (range($option_count, 1, -1) as $option) {
+            $tpl->setCurrentBlock('scaleoption');
+            $tpl->setVariable('ARIALABEL', $this->txt($option . 'stars'));
+            $tpl->setVariable('OPT_VALUE', (string)$option);
+            $tpl->setVariable('OPT_ID', $id . '-' . $option);
+            $tpl->setVariable('NAME', $component->getName());
+            $tpl->setVariable('DESCRIPTION_ID', $aria_description_id);
+
+            if ($component->getValue() === FiveStarRatingScale::from((int)$option)) {
+                $tpl->setVariable("SELECTED", ' checked="checked"');
+            }
+            if ($component->isDisabled()) {
+                $tpl->setVariable("DISABLED", 'disabled="disabled"');
+            }
+            $tpl->parseCurrentBlock();
+        }
+
+        if(!$component->isRequired()) {
+            $tpl->setVariable('NEUTRAL_ID', $id . '-0');
+            $tpl->setVariable('NEUTRAL_NAME', $component->getName());
+            $tpl->setVariable('NEUTRAL_LABEL', $this->txt('reset_stars'));
+            $tpl->setVariable('NEUTRAL_DESCRIPTION_ID', $aria_description_id);
+
+            if ($component->getValue() === FiveStarRatingScale::NONE || is_null($component->getValue())) {
+                $tpl->setVariable('NEUTRAL_SELECTED', ' checked="checked"');
+            }
+        }
+
+        if ($txt = $component->getAdditionalText()) {
+            $tpl->setVariable('TEXT', $txt);
+        }
+
+        if ($component->isDisabled()) {
+            $tpl->touchBlock('disabled');
+        }
+        if ($average = $component->getCurrentAverage()) {
+
+            $average_title = sprintf($this->txt('rating_average'), $average);
+
+            $tpl->setVariable('AVERAGE_VALUE', $average_title);
+            $tpl->setVariable('AVERAGE_VALUE_PERCENT', $average / $option_count * self::CENTUM);
+        }
+
 
         return $this->wrapInFormContext($component, $tpl->get());
     }

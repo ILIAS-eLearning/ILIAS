@@ -17025,6 +17025,11 @@ trac#:#user_total#:#User Total
 trac#:#view_mode#:#View Mode
 tstv#:#tstv_create#:#Create Test Certificate
 tstv#:#tstv_create_info#:#Select a completed test to generate a certificate for it.
+ui#:#1stars#:#one of five stars
+ui#:#2stars#:#two of five stars
+ui#:#3stars#:#three of five stars
+ui#:#4stars#:#four of five stars
+ui#:#5stars#:#five of five stars
 ui#:#datatable_multiactionmodal_actionlabel#:#operation
 ui#:#datatable_multiactionmodal_buttonlabel#:#Execute
 ui#:#datatable_multiactionmodal_listentry#:#apply to all objects
@@ -17040,6 +17045,8 @@ ui#:#label_pagination_offset#:#Pagination Offset
 ui#:#label_sortation#:#Sortation
 ui#:#presentation_table_collapse#:#collapse all
 ui#:#presentation_table_expand#:#expand all
+ui#:#rating_average#:#others rated %s of 5
+ui#:#reset_stars#:#neutral
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

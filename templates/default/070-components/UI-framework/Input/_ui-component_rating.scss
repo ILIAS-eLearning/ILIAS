@@ -1,0 +1,86 @@
+@use "../../../010-settings/" as *;
+
+.il-input-rating {
+  .il-input-rating__text {
+    clear: both;
+  }
+  .il-input-rating__stars {
+    white-space:nowrap;
+  }
+  .il-input-rating__options {
+    float: left;
+  }
+  input.il-input-rating-scaleoption {
+    float: right;
+    padding: 0;
+    margin: 0 0 0 -20px;
+    opacity: 0;
+  }
+  .glyphicon-star:before {
+    content: "\2605";
+  }
+  .glyphicon-star-empty:before {
+    content: "\2606";
+  }
+  .il-input-rating-star {
+    float: right;
+    position: relative;
+    display: block;
+    margin-top: -3px;
+    margin-bottom: 0px;
+    font-size: 160%;
+    color: $il-highlight-bg;
+  }
+  .il-input-rating__none {
+    float: left;
+    color: $il-text-color;
+    margin-left: 10px;
+    .none-option {
+      opacity: 100;
+    }
+  }
+  .il-input-rating-scaleoption:checked {
+    ~ .il-input-rating-star {
+      color: $il-link-hover-color;
+    }
+
+    + label + span {
+      display: block;
+    }
+  }
+
+  .il-input-rating-star:hover,
+  .il-input-rating-star:hover ~ .il-input-rating-star {
+    color: $il-link-hover-color;
+  }
+  .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
+      display: block;
+  }
+
+  &.disabled {
+    .il-input-rating-scaleoption:checked ~ .il-input-rating-star,
+    .il-input-rating-star:hover ~ .il-input-rating-star,
+    .il-input-rating-star:hover {
+      color: $il-neutral-light-color;
+    }
+
+    .il-input-rating__none {
+      display: none;
+    }
+  }
+
+  .il-input-rating__average {
+    height: 1px;
+    background-color: $il-highlight-bg;
+  }
+  .il-input-rating__average_value {
+    height: 1px;
+    background-color: $il-neutral-light-color;
+    width: 55%;
+  }
+
+}
+
+
+
+

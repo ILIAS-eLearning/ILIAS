@@ -1,0 +1,28 @@
+<fieldset class="input-group il-input-rating<!-- BEGIN disabled --> disabled<!-- END disabled -->" id="{ID}">
+	<!-- BEGIN txt -->
+	<legend class="il-input-rating__text" id="{DESCRIPTION_SRC_ID}">
+		{TEXT}
+	</legend>
+	<!-- END txt -->
+	<div class="il-input-rating__stars" role="radiogroup">
+		<div class="il-input-rating__options"<!-- BEGIN average_title --> title="{AVERAGE_VALUE}"<!-- END average_title -->>
+			<!-- BEGIN average -->
+			<div class="il-input-rating__average">
+				<div class="il-input-rating__average_value" style="width:{AVERAGE_VALUE_PERCENT}%;"></div>
+			</div><!-- END average -->
+			<!-- END average -->
+
+			<!-- BEGIN scaleoption -->
+			<input aria-describedby="{DESCRIPTION_ID}" type="radio" id="{OPT_ID}" name="{NAME}" value="{OPT_VALUE}" class="il-input-rating-scaleoption" {DISABLED}{SELECTED}/>
+			<label class="glyphicon-star il-input-rating-star" for="{OPT_ID}" aria-label="{ARIALABEL}"></label>
+			<!-- END scaleoption -->
+		</div>
+
+		<!-- BEGIN scaleoption_neutral -->
+		<div class="il-input-rating__none">
+			<label for="{NEUTRAL_ID}" aria-label="{NEUTRAL_LABEL}">{NEUTRAL_LABEL}</label>
+			<input aria-describedby="{DESCRIPTION_ID}" type="radio" id="{NEUTRAL_ID}" name="{NEUTRAL_NAME}" value="0" {DISABLED}{NEUTRAL_SELECTED}/>
+		</div>
+		<!-- END scaleoption_neutral -->
+	</div>
+</fieldset>

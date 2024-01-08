@@ -235,4 +235,12 @@ class Factory implements I\Factory
     {
         return new Markdown($this->data_factory, $this->refinery, $md_renderer, $label, $byline);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function rating(string $label, string $byline = null): I\Rating
+    {
+        return new Rating($this->data_factory, $this->refinery, $label, $byline);
+    }
 }
