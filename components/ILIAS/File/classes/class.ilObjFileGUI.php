@@ -40,7 +40,7 @@ use ILIAS\components\WOPI\Discovery\ActionTarget;
  * @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI, ilFileVersionsGUI, ilWOPIEmbeddedApplicationGUI
- * @ingroup components\ILIASFile
+ * @ilCtrl_Calls ilObjFileGUI: ilFileCommonSettingsGUI
  */
 class ilObjFileGUI extends ilObject2GUI
 {
@@ -261,6 +261,20 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand(
                     new ilWOPIEmbeddedApplicationGUI(
                         $embeded_application
+                    )
+                );
+                break;
+
+            case strtolower(ilFileCommonSettingsGUI::class):
+                $this->initSettingsTab();
+                $this->tabs_gui->activateSubTab("service_settings");
+                $this->ctrl->forwardCommand(
+                    new ilFileCommonSettingsGUI(
+                        $this->object,
+                        $this->ctrl,
+                        $this->tpl,
+                        $this->lng,
+                        $this->object_service
                     )
                 );
                 break;
@@ -583,14 +597,13 @@ class ilObjFileGUI extends ilObject2GUI
     public function edit(): void
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
         $ilErr = $DIC['ilErr'];
 
         if (!$this->checkPermissionBool("write")) {
             $ilErr->raiseError($this->lng->txt("msg_no_perm_write"));
         }
 
-        $ilTabs->activateTab("settings");
+        $this->initSettingsTab();
 
         $form = $this->initPropertiesForm();
 
@@ -955,42 +968,39 @@ class ilObjFileGUI extends ilObject2GUI
     protected function setTabs(): void
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
         $ilHelp = $DIC['ilHelp'];
-
         $ilHelp->setScreenIdComponent(ilObjFile::OBJECT_TYPE);
 
         $this->ctrl->setParameter($this, "ref_id", $this->node_id);
 
         if ($this->checkPermissionBool("write")) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 "id_versions",
-                $lng->txt(self::CMD_VERSIONS),
+                $this->lng->txt(self::CMD_VERSIONS),
                 $this->ctrl->getLinkTargetByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_DEFAULT)
             );
         }
 
         if ($this->checkPermissionBool("visible") || $this->checkPermissionBool("read")) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 "id_info",
-                $lng->txt("info_short"),
+                $this->lng->txt("info_short"),
                 $this->ctrl->getLinkTargetByClass(["ilobjfilegui", "ilinfoscreengui"], "showSummary")
             );
         }
 
         if ($this->checkPermissionBool("write")) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 "settings",
-                $lng->txt("settings"),
+                $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT)
             );
         }
 
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 'learning_progress',
-                $lng->txt('learning_progress'),
+                $this->lng->txt('learning_progress'),
                 $this->ctrl->getLinkTargetByClass([self::class, 'illearningprogressgui'], '')
             );
         }
@@ -1000,9 +1010,9 @@ class ilObjFileGUI extends ilObject2GUI
             $mdgui = new ilObjectMetaDataGUI($this->object);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
-                $ilTabs->addTab(
+                $this->tabs_gui->addTab(
                     "id_meta",
-                    $lng->txt("meta_data"),
+                    $this->lng->txt("meta_data"),
                     $mdtab
                 );
             }
@@ -1010,15 +1020,35 @@ class ilObjFileGUI extends ilObject2GUI
 
         // export
         if ($this->checkPermissionBool("write")) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 "export",
-                $lng->txt("export"),
+                $this->lng->txt("export"),
                 $this->ctrl->getLinkTargetByClass("ilexportgui", "")
             );
         }
 
         // will add permission tab if needed
         parent::setTabs();
+    }
+
+    protected function initSettingsTab(): void
+    {
+        $this->tabs_gui->activateTab("settings");
+        // add subtab for common settings
+        $this->tabs_gui->addSubTab(
+            'file_settings',
+            $this->lng->txt('settings'),
+            $this->ctrl->getLinkTargetByClass(self::class, self::CMD_EDIT)
+        );
+        if (in_array('file', ilAdvancedMDRecord::_getActivatedObjTypes(), true)) {
+            $this->tabs_gui->addSubTab(
+                'service_settings',
+                $this->lng->txt('service_settings'),
+                $this->ctrl->getLinkTargetByClass(ilFileCommonSettingsGUI::class, ilFileCommonSettingsGUI::CMD_EDIT)
+            );
+        }
+
+        $this->tabs_gui->activateSubTab("file_settings");
     }
 
     public static function _goto($a_target, $a_additional = null): void
