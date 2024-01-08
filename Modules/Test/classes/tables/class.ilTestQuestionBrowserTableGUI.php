@@ -485,18 +485,42 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"], IL_CAL_UNIX)));
         $this->tpl->setVariable("QUESTION_POOL", $data['parent_title']);
         $this->tpl->setVariable(
-            "QUESTION_POOL",
-            $this->buildPossiblyLinkedQuestonPoolTitle(
-                $this->ctrl,
-                $this->access,
-                $this->lng,
-                $this->ui_factory,
-                $this->ui_renderer,
+            "QUESTION_POOL_OR_TEST_TITLE",
+            $this->buildPossiblyLinkedQuestonPoolOrTestTitle(
                 (int) $data["obj_fi"],
                 $data["parent_title"]
             )
         );
         $this->tpl->setVariable("WORKING_TIME", $data['working_time']);
+    }
+
+    private function buildPossiblyLinkedQuestonPoolOrTestTitle(int $obj_id, string $parent_title) : string
+    {
+        switch ($this->fetchModeParameter()) {
+            case self::MODE_BROWSE_POOLS:
+                return $this->buildPossiblyLinkedQuestonPoolTitle(
+                    $this->ctrl,
+                    $this->access,
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $obj_id,
+                    $parent_title
+                );
+
+            case self::MODE_BROWSE_TESTS:
+                return $this->buildPossiblyLinkedTestTitle(
+                    $this->ctrl,
+                    $this->access,
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $obj_id,
+                    $parent_title
+                );
+        }
+
+        return '';
     }
 
     /**
