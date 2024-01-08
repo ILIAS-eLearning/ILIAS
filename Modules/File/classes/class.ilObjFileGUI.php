@@ -49,7 +49,7 @@ class ilObjFileGUI extends ilObject2GUI
     use ilObjFileTransformation;
 
     public const UPLOAD_MAX_FILES = 100;
-    public const PARAM_FILES = 0;
+    public const PARAM_FILES = 'files';
     public const PARAM_TITLE = 'title';
     public const PARAM_DESCRIPTION = 'description';
     public const PARAM_COPYRIGHT_ID = "copyright_id";
@@ -402,7 +402,7 @@ class ilObjFileGUI extends ilObject2GUI
             DataSize::MB
         );
 
-        $inputs[] = $this->ui->factory()->input()->field()->file(
+        $inputs[self::PARAM_FILES] = $this->ui->factory()->input()->field()->file(
             $this->upload_handler,
             $this->lng->txt('upload_files'),
             sprintf(
@@ -427,7 +427,7 @@ class ilObjFileGUI extends ilObject2GUI
 
         // add input for copyright selection if enabled in the metadata settings
         if (ilMDSettings::_getInstance()->isCopyrightSelectionActive()) {
-            $inputs[] = $this->getCopyrightSelectionInput('set_license_for_all_files');
+            $inputs[self::PARAM_COPYRIGHT_ID] = $this->getCopyrightSelectionInput('set_license_for_all_files');
         }
 
         return $this->ui->factory()->input()->container()->form()->standard(
@@ -455,7 +455,7 @@ class ilObjFileGUI extends ilObject2GUI
             $form = $this->initUploadForm()->withRequest($this->request);
             $data = $form->getData();
         }
-        $files = $data[self::PARAM_FILES] ?? null;
+        $files = $data[self::PARAM_FILES] ?? $data[0] ?? null;
 
         if (empty($files)) {
             $form = $this->initUploadForm()->withRequest($this->request);
@@ -479,7 +479,7 @@ class ilObjFileGUI extends ilObject2GUI
                         $rid,
                         $file_data[self::PARAM_TITLE] ?? null,
                         $file_data[self::PARAM_DESCRIPTION] ?? null,
-                        $data[self::PARAM_COPYRIGHT_ID] ?? null
+                        $data[self::PARAM_COPYRIGHT_ID] ?? $data[1] ?? null
                     );
                 } catch (Throwable $t) {
                     $errors = true;
