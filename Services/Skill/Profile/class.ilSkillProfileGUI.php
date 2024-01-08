@@ -450,7 +450,7 @@ class ilSkillProfileGUI
                 0,
                 $result["section_basic"]["title"],
                 $result["section_basic"]["description"],
-                $result["section_basic"]["skill_tree"],
+                (int) $result["section_basic"]["skill_tree"],
                 $result["section_advanced"]["image"][0] ?? "",
                 $this->requested_ref_id
             );
