@@ -174,6 +174,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return ilTestDIC::dic();
     }
 
+    public function getQuestionSetConfig(): ilTestQuestionSetConfig
+    {
+        return $this->question_set_config_factory->getQuestionSetConfig();
+    }
+
     /**
      * returns the object title prepared to be used as a filename
      */

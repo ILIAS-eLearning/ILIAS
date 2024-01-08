@@ -89,7 +89,11 @@ class ilTestScreenGUI
         $elements = $this->handleRenderMessageBox($elements);
         $elements = $this->handleRenderIntroduction($elements);
 
-        $this->tpl->setContent($this->ui_renderer->render(!$this->object->getOfflineStatus() ? $this->handleRenderLauncher($elements) : $elements));
+        $this->tpl->setContent(
+            $this->ui_renderer->render(
+                $this->testCanBeStarted() ? $this->handleRenderLauncher($elements) : $elements
+            )
+        );
     }
 
     private function handleRenderMessageBox(array $elements): array
@@ -420,6 +424,16 @@ class ilTestScreenGUI
         } else {
             $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_exam_required_fields_not_filled_message'), true);
         }
+    }
+
+    private function testCanBeStarted(): bool
+    {
+        if ($this->object->getOfflineStatus()
+            || !$this->object->isComplete($this->object->getQuestionSetConfig())) {
+            return false;
+        }
+
+        return true;
     }
 
     private function isUserOutOfProcessingTime(): bool
