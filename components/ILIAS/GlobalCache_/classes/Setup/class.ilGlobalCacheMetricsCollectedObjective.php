@@ -24,7 +24,8 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
     protected function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
-            new ilIniFilesLoadedObjective()
+            new ilIniFilesLoadedObjective(),
+            new \ilDatabaseInitializedObjective()
         ];
     }
 
@@ -33,24 +34,13 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
-        if (!$client_ini || !$db) {
+        if (!$client_ini) {
             return;
         }
 
-        // ATTENTION: This is a total abomination. It only exists to allow various
-        // sub components of the various readers to run. This is a memento to the
-        // fact, that dependency injection is something we want. Currently, every
-        // component could just service locate the whole world via the global $DIC.
-        $DIC = $GLOBALS["DIC"];
-        $GLOBALS["DIC"] = new DI\Container();
-        /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
-        $GLOBALS["DIC"]["ilDB"] = $db;
+        $config = (new ilGlobalCacheSettingsAdapter($client_ini, $db))->toConfig();
 
-        $settings = new ilGlobalCacheSettings();
-        $settings->readFromIniFile($client_ini);
-
-        $service_type = (int) $settings->getService();
-        $service = ilGlobalCache::lookupServiceConfigName($service_type);
+        $service = $config->getAdaptorName();
         $storage->storeConfigText(
             "service",
             $service,
@@ -58,21 +48,16 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
         );
         $storage->storeConfigBool(
             "active",
-            (bool) $settings->isActive()
+            $config->isActivated()
         );
 
-        $servers = ilMemcacheServer::get();
+        $servers = $config->getNodes();
         if (
-            $service_type === ilGlobalCache::TYPE_MEMCACHED &&
+            $service === ILIAS\Cache\Config::MEMCACHED &&
             count($servers) > 0
         ) {
             $server_collection = [];
             foreach ($servers as $server) {
-                $active = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_BOOL,
-                    $server->isActive()
-                );
                 $host = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
@@ -93,7 +78,6 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_COLLECTION,
                     [
-                        "active" => $active,
                         "host" => $host,
                         "port" => $port,
                         "weight" => $weight
@@ -116,7 +100,7 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
             $component_activation[$component] = new Setup\Metrics\Metric(
                 Setup\Metrics\Metric::STABILITY_CONFIG,
                 Setup\Metrics\Metric::TYPE_BOOL,
-                $settings->isComponentActivated($component)
+                $config->isComponentActivated($component)
             );
         }
         $component_activation = new Setup\Metrics\Metric(
@@ -129,7 +113,5 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
             "components",
             $component_activation
         );
-
-        $GLOBALS["DIC"] = $DIC;
     }
 }
