@@ -89,7 +89,7 @@ class General extends ilSetting implements Setting
 
     public function isDownloadWithUploadedFileName(): bool
     {
-        return $this->strToBool($this->get(self::F_DOWNLOAD_WITH_UPLOADED_FILENAME, '0'));
+        return false;
     }
 
     public function setDownloadWithUploadedFileName(bool $value): void
