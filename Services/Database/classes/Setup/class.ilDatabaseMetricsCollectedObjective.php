@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\DI;
@@ -83,85 +83,76 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         // is something we want. Currently, every component could just service
         // locate the whole world via the global $DIC.
         $DIC = $GLOBALS["DIC"] ?? [];
-        $GLOBALS["DIC"] = new DI\Container();
-        $GLOBALS["DIC"]["ilDB"] = $db;
-        $GLOBALS["ilDB"] = $db;
-        $GLOBALS["DIC"]["ilBench"] = null;
-        $GLOBALS["DIC"]["ilLog"] = new class () {
-            public function write(): void
-            {
+        try {
+            $GLOBALS["DIC"] = new DI\Container();
+            $GLOBALS["DIC"]["ilDB"] = $db;
+            $GLOBALS["DIC"]["ilBench"] = null;
+            $GLOBALS["DIC"]["ilLog"] = new class () {
+                public function write(): void
+                {
+                }
+                public function info(): void
+                {
+                }
+                public function warning($msg): void
+                {
+                }
+                public function error($msg): void
+                {
+                }
+            };
+            /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
+            $GLOBALS["DIC"]["ilLoggerFactory"] = new class () {
+                public function getRootLogger(): object
+                {
+                    return new class () {
+                        public function write(): void
+                        {
+                        }
+                    };
+                }
+            };
+            if (!defined("CLIENT_DATA_DIR")) {
+                define("CLIENT_DATA_DIR", $ini->readVariable("clients", "datadir") . "/" . $client_id);
             }
-            public function info(): void
-            {
+            if (!defined("CLIENT_WEB_DIR")) {
+                define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
             }
-            public function warning($msg): void
-            {
+            if (!defined("ILIAS_ABSOLUTE_PATH")) {
+                define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
             }
-            public function error($msg): void
-            {
+            if (!defined("ILIAS_LOG_ENABLED")) {
+                define("ILIAS_LOG_ENABLED", false);
             }
-        };
-        $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
-        /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () {
-            public function getRootLogger(): object
-            {
-                return new class () {
-                    public function write(): void
-                    {
-                    }
-                };
+            if (!defined("ROOT_FOLDER_ID")) {
+                define("ROOT_FOLDER_ID", (int) $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
             }
-        };
-        $GLOBALS["ilCtrlStructureReader"] = new class () {
-            public function getStructure(): void
-            {
+            if (!defined("ROLE_FOLDER_ID")) {
+                define("ROLE_FOLDER_ID", (int) $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
             }
-            public function setIniFile(): void
-            {
+            if (!defined("SYSTEM_FOLDER_ID")) {
+                define("SYSTEM_FOLDER_ID", (int) $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
             }
-        };
-        if (!defined("CLIENT_DATA_DIR")) {
-            define("CLIENT_DATA_DIR", $ini->readVariable("clients", "datadir") . "/" . $client_id);
-        }
-        if (!defined("CLIENT_WEB_DIR")) {
-            define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
-        }
-        if (!defined("ILIAS_ABSOLUTE_PATH")) {
-            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
-        }
-        if (!defined("ILIAS_LOG_ENABLED")) {
-            define("ILIAS_LOG_ENABLED", false);
-        }
-        if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", (int) $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
-        }
-        if (!defined("ROLE_FOLDER_ID")) {
-            define("ROLE_FOLDER_ID", (int) $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
-        }
-        if (!defined("SYSTEM_FOLDER_ID")) {
-            define("SYSTEM_FOLDER_ID", (int) $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
-        }
 
-        $db_update = new  ilDBUpdate($db);
-        $db_update->readCustomUpdatesInfo(true);
+            $db_update = new  ilDBUpdate($db);
 
-        $storage->storeStableCounter(
-            "custom_version",
-            $db_update->getCustomUpdatesCurrentVersion() ?? 0,
-            "The version of the custom database schema that is currently installed."
-        );
-        $storage->storeStableCounter(
-            "available_custom_version",
-            $db_update->getCustomUpdatesFileVersion() ?? 0,
-            "The version of the custom database schema that is available in the current source."
-        );
-        $storage->storeStableBool(
-            "custom_update_required",
-            $db_update->customUpdatesAvailable(),
-            "Does the database require a custom update?"
-        );
-
-        $GLOBALS["DIC"] = $DIC;
+            $storage->storeStableCounter(
+                "custom_version",
+                $db_update->getCustomUpdatesCurrentVersion() ?? 0,
+                "The version of the custom database schema that is currently installed."
+            );
+            $storage->storeStableCounter(
+                "available_custom_version",
+                $db_update->getCustomUpdatesFileVersion() ?? 0,
+                "The version of the custom database schema that is available in the current source."
+            );
+            $storage->storeStableBool(
+                "custom_update_required",
+                $db_update->customUpdatesAvailable(),
+                "Does the database require a custom update?"
+            );
+        } finally {
+            $GLOBALS["DIC"] = $DIC;
+        }
     }
 }

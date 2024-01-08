@@ -30,6 +30,7 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
 
     protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
+        return;
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
