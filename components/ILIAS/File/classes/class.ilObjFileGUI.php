@@ -898,6 +898,34 @@ class ilObjFileGUI extends ilObject2GUI
         // standard meta data
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 
+        if (!$kiosk_mode) { // in kiosk mode we don't want to show the following sections
+            // links to resource
+            if ($this->access->checkAccess("write", "", $this->ref_id) ||
+                $this->access->checkAccess("edit_permissions", "", $this->ref_id)) {
+                $rs = ilObject::_getAllReferences($this->obj_id);
+                $refs = [];
+                foreach ($rs as $r) {
+                    if ($this->tree->isInTree($r)) {
+                        $refs[] = $r;
+                    }
+                }
+                if (count($refs) > 1) {
+                    $links = $sep = "";
+                    foreach ($refs as $r) {
+                        $cont_loc = new ilLocatorGUI();
+                        $cont_loc->addContextItems($r, true);
+                        $links .= $sep . $cont_loc->getHTML();
+                        $sep = "<br />";
+                    }
+
+                    $info->addProperty(
+                        $this->lng->txt("res_links"),
+                        '<div class="small">' . $links . '</div>'
+                    );
+                }
+            }
+        }
+
         // File Info
         $info->addSection($this->lng->txt("file_info"));
         if ($kiosk_mode) {
