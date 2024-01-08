@@ -9711,6 +9711,8 @@ file#:#preview_persisting_info#:#Generated preview images will be stored by ILIA
 file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
+file#:#service_settings#:#Additional Features
+file#:#service_settings_saved#:#Saved
 file#:#set_license_for_all_files#:#Set License for All Files
 file#:#show_amount_of_downloads#:#Show Number of Downloads
 file#:#show_amount_of_downloads_info#:#Display the number of times a file object has been downloaded on its 'Info' page.
