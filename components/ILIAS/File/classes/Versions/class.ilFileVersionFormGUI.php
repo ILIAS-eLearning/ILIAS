@@ -122,7 +122,10 @@ class ilFileVersionFormGUI
     public function saveObject(): bool
     {
         $this->form = $this->form->withRequest($this->request);
-        $data = $this->form->getData()[0];
+        $data = $this->form->getData()[0] ?? null;
+        if ($data === null) {
+            return false;
+        }
 
         $title = $data[self::F_TITLE] !== '' ? $data[self::F_TITLE] : $this->file->getTitle();
         $description = $data[self::F_DESCRIPTION] !== '' ? $data[self::F_DESCRIPTION] : $this->file->getDescription();
