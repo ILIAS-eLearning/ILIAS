@@ -18,107 +18,176 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilSamlIdpTableGUI
- * @author Michael Jansen <mjansen@databay.de>
- */
-final class ilSamlIdpTableGUI extends ilTable2GUI
+final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 {
+    /**
+     * @var ilSamlIdp[]
+     */
+    private array $idps;
+    private ILIAS\UI\URLBuilder $url_builder;
+    private ILIAS\UI\URLBuilderToken $action_parameter_token;
+    private ILIAS\UI\URLBuilderToken $row_id_token;
+
     public function __construct(
-        ilSamlSettingsGUI $parent_gui,
+        private readonly ilSamlSettingsGUI $parent_gui,
         private readonly \ILIAS\UI\Factory $ui_factory,
         private readonly \ILIAS\UI\Renderer $ui_renderer,
-        string $parent_cmd,
+        private readonly ilLanguage $lng,
+        private readonly ilCtrl $ctrl,
+        private readonly \Psr\Http\Message\ServerRequestInterface $http_request,
+        private readonly \ILIAS\Data\Factory $df,
+        private readonly string $parent_cmd,
         private readonly bool $hasWriteAccess
     ) {
-        $this->setId('saml_idp_list');
-        parent::__construct($parent_gui, $parent_cmd);
+        $this->idps = ilSamlIdp::getAllIdps();
 
-        $this->setTitle($this->lng->txt('auth_saml_idps'));
+        $form_action = $this->df->uri(
+            ilUtil::_getHttpPath() . '/' .
+            $this->ctrl->getLinkTarget($this->parent_gui, $this->parent_cmd)
+        );
 
-        $federationMdUrl = rtrim(ILIAS_HTTP_PATH, '/') . '/components/ILIAS/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
-
-        $this->setDescription(sprintf(
-            $this->lng->txt('auth_saml_idps_info'),
-            'auth/saml/config/config.php',
-            'auth/saml/config/authsources.php',
-            $this->ui_renderer->render($this->ui_factory->link()->standard(
-                'https://simplesamlphp.org/docs/stable/simplesamlphp-sp',
-                'https://simplesamlphp.org/docs/stable/simplesamlphp-sp'
-            )),
-            $this->ui_renderer->render($this->ui_factory->link()->standard($federationMdUrl, $federationMdUrl))
-        ));
-        $this->setRowTemplate('tpl.saml_idp_row.html', 'components/ILIAS/Saml');
-
-        $this->addColumn($this->lng->txt('saml_tab_head_idp'), '', '80%');
-        $this->addColumn($this->lng->txt('active'), '', '5%');
-        $this->addColumn($this->lng->txt('actions'), '', '15%');
-
-        $this->getItems();
+        [
+            $this->url_builder,
+            $this->action_parameter_token,
+            $this->row_id_token
+        ] = (new ILIAS\UI\URLBuilder($form_action))->acquireParameters(
+            ['saml', 'idps'],
+            'table_action',
+            'idp_id'
+        );
     }
 
-    private function getItems(): void
+    public function get(): \ILIAS\UI\Component\Table\Data
     {
-        $idp_data = [];
-
-        foreach (ilSamlIdp::getAllIdps() as $idp) {
-            $idp_data[] = $idp->toArray();
-        }
-
-        $this->setData($idp_data);
+        return $this->ui_factory
+            ->table()
+            ->data(
+                $this->lng->txt('auth_saml_idps'),
+                $this->getColumnDefinition(),
+                $this
+            )
+            ->withActions($this->getActions())
+            ->withRequest($this->http_request);
     }
 
-    protected function fillRow(array $a_set): void
+    /**
+     * @return list<\ILIAS\UI\Component\Table\Column\Column>
+     */
+    private function getColumnDefinition(): array
     {
-        if ($a_set['is_active']) {
-            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('standard/icon_ok.svg'));
-            $this->tpl->setVariable('TXT_OK', $this->lng->txt('active'));
-        } else {
-            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('standard/icon_not_ok.svg'));
-            $this->tpl->setVariable('TXT_OK', $this->lng->txt('inactive'));
+        return [
+            'title' => $this->ui_factory
+                ->table()
+                ->column()
+                ->text($this->lng->txt('saml_tab_head_idp'))
+                ->withIsSortable(true),
+            'active' => $this->ui_factory
+                ->table()
+                ->column()
+                ->statusIcon($this->lng->txt('active'))
+                ->withIsSortable(true),
+        ];
+    }
+
+    /**
+     * @return array<string, \ILIAS\UI\Component\Table\Action\Action>
+     */
+    private function getActions(): array
+    {
+        if (!$this->hasWriteAccess) {
+            return [];
         }
 
-        $this->tpl->setVariable('NAME', $a_set['entity_id']);
+        return [
+            'edit' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('edit'),
+                $this->url_builder->withParameter($this->action_parameter_token, 'showIdpSettings'),
+                $this->row_id_token
+            ),
+            'activate' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('activate'),
+                $this->url_builder->withParameter($this->action_parameter_token, 'activateIdp'),
+                $this->row_id_token
+            ),
+            'deactivate' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('deactivate'),
+                $this->url_builder->withParameter($this->action_parameter_token, 'deactivateIdp'),
+                $this->row_id_token
+            ),
+            'delete' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('delete'),
+                $this->url_builder->withParameter($this->action_parameter_token, 'confirmDeleteIdp'),
+                $this->row_id_token
+            ),
+        ];
+    }
 
-        if ($this->hasWriteAccess) {
-            $buttons = [];
+    /**
+     * @return list<ilSamlIdp>
+     */
+    private function getRecords(\ILIAS\Data\Range $range, \ILIAS\Data\Order $order): array
+    {
+        $records = $this->idps;
 
-            $this->ctrl->setParameter($this->getParentObject(), 'saml_idp_id', $a_set['idp_id']);
-            $buttons[] = $this->ui_factory
-                ->button()
-                ->shy(
-                    $this->lng->txt('edit'),
-                    $this->ctrl->getLinkTarget($this->getParentObject(), 'showIdpSettings')
-                );
-            if ($a_set['is_active']) {
-                $buttons[] = $this->ui_factory
-                    ->button()
-                    ->shy(
-                        $this->lng->txt('deactivate'),
-                        $this->ctrl->getLinkTarget($this->getParentObject(), 'deactivateIdp')
-                    );
-            } else {
-                $buttons[] = $this->ui_factory
-                    ->button()
-                    ->shy(
-                        $this->lng->txt('activate'),
-                        $this->ctrl->getLinkTarget($this->getParentObject(), 'activateIdp')
-                    );
+        if ($order) {
+            [$order_field, $order_direction] = $order->join([], static function($ret, $key, $value) {
+                return [$key, $value];
+            });
+
+            usort($records, static function(ilSamlIdp $left, ilSamlIdp $right) use($order_field): int {
+                if ($order_field === 'title') {
+                    return strnatcmp($left->getEntityId(), $right->getEntityId());
+                }
+
+                return (int) $left->isActive() <=> (int) $right->isActive();
+            });
+
+            if ($order_direction === 'DESC') {
+                $records = array_reverse($records);
             }
-            $buttons[] = $this->ui_factory
-                ->button()
-                ->shy(
-                    $this->lng->txt('delete'),
-                    $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteIdp')
-                );
-            $this->ctrl->setParameter($this->getParentObject(), 'saml_idp_id', '');
-
-            $drop_down = $this->ui_factory
-                ->dropdown()
-                ->standard($buttons)
-                ->withLabel($this->lng->txt('actions'));
-
-            $this->tpl->setVariable('ACTIONS', $this->ui_renderer->render($drop_down));
         }
+
+        if ($range) {
+            $records = array_slice($records, $range->getStart(), $range->getLength());
+        }
+
+        return $records;
+    }
+
+    public function getRows(
+        \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        \ILIAS\Data\Range $range,
+        \ILIAS\Data\Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): Generator {
+        foreach ($this->getRecords($range, $order) as $item) {
+            $record = [
+                'title' => $item->getEntityId(),
+                'active' => $this->ui_renderer->render(
+                    $this->ui_factory->symbol()->icon()->custom(
+                        ilUtil::getImagePath($item->isActive() ? 'standard/icon_ok.svg' : 'standard/icon_not_ok.svg'),
+                        $item->isActive() ? $this->lng->txt('active') : $this->lng->txt('inactive')
+                    )
+                )
+            ];
+
+            yield $row_builder
+                ->buildDataRow((string) $item->getIdpId(), $record)
+                ->withDisabledAction(
+                    'activate',
+                    $item->isActive(),
+                )
+                ->withDisabledAction(
+                    'deactivate',
+                    !$item->isActive(),
+                );
+        }
+    }
+
+    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
+    {
+        return count($this->idps);
     }
 }
