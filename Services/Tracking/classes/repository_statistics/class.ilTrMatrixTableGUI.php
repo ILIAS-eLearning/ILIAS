@@ -179,7 +179,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
     public function numericOrdering($a_field): bool
     {
-        if ($a_field === 'read_count') {
+        if ($a_field === 'read_count' || $a_field === 'spent_seconds') {
             return true;
         }
         return false;
