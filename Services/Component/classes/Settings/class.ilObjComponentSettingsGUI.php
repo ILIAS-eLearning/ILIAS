@@ -176,7 +176,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInt
             $plugin->update();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("cmps_plugin_updated"), true);
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);
+            $this->tpl->setOnScreenMessage("failure", $e->getMessage() . "\n---\n" . $e->getTraceAsString(), true);
         }
 
         $this->ctrl->redirectByClass(ilAdministrationGUI::class, self::CMD_JUMP_TO_PLUGIN_SLOT);
@@ -191,7 +191,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInt
             $language_handler->updateLanguages();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("cmps_refresh_lng"), true);
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);
+            $this->tpl->setOnScreenMessage("failure", $e->getMessage() . "\n---\n" . $e->getTraceAsString(), true);
         }
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
@@ -204,7 +204,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInt
             $pl->activate();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("cmps_plugin_activated"), true);
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);
+            $this->tpl->setOnScreenMessage("failure", $e->getMessage() . "\n---\n" . $e->getTraceAsString(), true);
         }
 
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
@@ -218,7 +218,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInt
             $pl->deactivate();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("cmps_plugin_deactivated"), true);
         } catch (InvalidArgumentException $e) {
-            $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);
+            $this->tpl->setOnScreenMessage("failure", $e->getMessage() . "\n---\n" . $e->getTraceAsString(), true);
         }
 
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
@@ -274,7 +274,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInt
             $pl->uninstall();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("cmps_plugin_deinstalled"), true);
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);
+            $this->tpl->setOnScreenMessage("failure", $e->getMessage() . "\n---\n" . $e->getTraceAsString(), true);
         }
 
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
