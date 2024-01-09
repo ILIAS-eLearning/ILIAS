@@ -1402,7 +1402,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $newKey = explode(":", $row["value2"]);
 
             foreach ($this->getOrderingElementList() as $answer) {
-                // Images nut supported
+                // Images not supported
                 if (!$this->isOrderingTypeNested()) {
                     if ($answer->getSolutionIdentifier() == $row["value1"]) {
                         $elements[$row["value2"]] = $answer->getSolutionIdentifier() + 1;

@@ -126,6 +126,7 @@ abstract class assQuestionGUI
 
     protected ilPropertyFormGUI $editForm;
     protected \ILIAS\TestQuestionPool\InternalRequestService $request;
+    protected bool $parent_type_is_lm = false;
 
     public function __construct()
     {
@@ -2021,4 +2022,14 @@ abstract class assQuestionGUI
             self::ALLOWED_PLAIN_TEXT_TAGS
         );
     }
+
+    public function isInLearningModuleContext(): bool
+    {
+        return $this->parent_type_is_lm;
+    }
+    public function setInLearningModuleContext(bool $flag): void
+    {
+        $this->parent_type_is_lm = $flag;
+    }
+
 }
