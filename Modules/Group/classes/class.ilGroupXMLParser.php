@@ -441,7 +441,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 $owner = ilUtil::__extractId($owner, (int) IL_INST_ID);
             }
             if (is_numeric($owner) && $owner > 0) {
-                $this->group_obj->setOwner($owner);
+                $this->group_obj->setOwner((int) $owner);
                 $ownerChanged = true;
             }
         }
