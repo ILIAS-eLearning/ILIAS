@@ -811,7 +811,7 @@ abstract class assQuestionGUI
         );
 
         if ($this->request->isset('prev_qid')) {
-            $test->moveQuestionAfter($this->object->getId(), $this->request->raw('prev_qid'));
+            $test->moveQuestionAfter($new_q_id, $this->request->raw('prev_qid'));
         }
 
         $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
