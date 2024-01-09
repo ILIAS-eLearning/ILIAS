@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -60,17 +59,21 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
         parent::__construct($answertext, $points, $order, $id, $state);
     }
 
-
     public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function setImage(string $image = null): void
+    public function setImage(?string $image = null): void
     {
-        if($image === '') {
+        if ($image === '') {
             throw new \Exception('imagename must not be empty');
         }
         $this->image = $image;
+    }
+
+    public function hasImage(): bool
+    {
+        return $this->image !== null;
     }
 }

@@ -454,7 +454,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             return;
         }
         $answer = $this->answers[$index];
-        if ($answer->getImage()) {
+        if ($answer->hasImage()) {
             $this->deleteImage($answer->getImage());
         }
         unset($this->answers[$index]);
