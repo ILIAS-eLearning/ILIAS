@@ -22,29 +22,11 @@ use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Data\Factory as DataFactory;
 
-class MyValidationConstraintsConstraint extends CustomConstraint
-{
-    public function _getLngClosure(): Closure
-    {
-        return $this->getLngClosure();
-    }
-}
-
-class MyToStringClass
-{
-    private string $str_repr = '';
-
-    public function __toString(): string
-    {
-        return $this->str_repr;
-    }
-}
-
-class ValidationConstraintsCustomTest extends TestCase
+class CustomTest extends TestCase
 {
     private string $txt_id = '';
     private ilLanguage $lng;
-    private MyValidationConstraintsConstraint $constraint;
+    private CustomConstraint $constraint;
 
     protected function setUp(): void
     {
@@ -56,7 +38,12 @@ class ValidationConstraintsCustomTest extends TestCase
             return $txt($this->txt_id, $value);
         };
         $this->lng = $this->createMock(ilLanguage::class);
-        $this->constraint = new MyValidationConstraintsConstraint($is_ok, $error, new DataFactory(), $this->lng);
+        $this->constraint = new class ($is_ok, $error, new DataFactory(), $this->lng) extends CustomConstraint {
+            public function _getLngClosure(): Closure
+            {
+                return $this->getLngClosure();
+            }
+        };
     }
 
     public function testWithProblemBuilder(): void
@@ -127,8 +114,6 @@ class ValidationConstraintsCustomTest extends TestCase
             ->method("txt")
             ->with("id")
             ->willReturn("%s-%s-%s-%s-");
-
-        $to_string = new MyToStringClass();
 
         $res = $lng_closure("id", [], new stdClass(), "foo", null);
 
