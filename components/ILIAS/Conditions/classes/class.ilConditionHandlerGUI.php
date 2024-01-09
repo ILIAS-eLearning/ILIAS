@@ -593,8 +593,51 @@ class ilConditionHandlerGUI
         foreach ($condition_ids as $condition_id) {
             $this->ch_obj->deleteCondition($condition_id);
         }
+        $this->adjustConditionsAfterDeletion();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('condition_deleted'), true);
         $this->ctrl->redirect($this, 'listConditions');
+    }
+
+    protected function adjustConditionsAfterDeletion()
+    {
+        $conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId()
+        );
+        $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId()
+        );
+        if (
+            count($conditions) === 1 &&
+            count($optional_conditions) > 0
+        ) {
+            // set to obligatory
+            foreach ($conditions as $condition) {
+                ilConditionHandler::updateObligatory($condition['id'], true);
+            }
+        }
+        $num_obligatory = ilConditionHandler::lookupObligatoryConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId()
+        );
+        if (
+            $num_obligatory == count($conditions)
+        ) {
+            // set all obligatory
+            foreach ($conditions as $condition) {
+                ilConditionHandler::updateObligatory($condition['id'], true);
+            }
+        } elseif (
+            $num_obligatory > count($conditions)
+        ) {
+            // reduce required triggers to maximum
+            ilConditionHandler::saveNumberOfRequiredTriggers(
+                $this->getTargetRefId(),
+                $this->getTargetId(),
+                count($conditions) - 1
+            );
+        }
     }
 
     public function selector(): void
