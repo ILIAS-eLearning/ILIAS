@@ -100,13 +100,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'test_express_mode',
             'q_id',
             'tax_node',
-            'calling_consumer',
             'consumer_context'
         ]);
-        $this->ctrl->saveParameter($this, 'calling_consumer');
-        $this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'calling_consumer');
         $this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'consumer_context');
-        $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
         $this->lng->loadLanguageModule('assessment');
@@ -175,7 +171,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         if (!$this->getCreationMode() &&
             $ilAccess->checkAccess('read', '', $this->qplrequest->getRefId())) {
-            if ('qpl' == $this->object->getType()) {
+            if ('qpl' === $this->object->getType()) {
                 $ilNavigationHistory->addItem(
                     $this->qplrequest->getRefId(),
                     'ilias.php?baseClass=ilObjQuestionPoolGUI&cmd=questions&ref_id=' . $this->qplrequest->getRefId(),
@@ -1060,13 +1056,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $q_gui->object->createNewQuestion();
 
             $class = get_class($q_gui);
-            $qId = $q_gui->object->getId();
+            $q_id = $q_gui->object->getId();
         } else {
             $class = $this->qplrequest->raw('sel_question_types') . 'gui';
-            $qId = $this->qplrequest->raw('q_id');
+            $q_id = $this->qplrequest->raw('q_id');
         }
 
-        $this->ctrl->setParameterByClass($class, 'q_id', $qId);
+        $this->ctrl->setParameterByClass($class, 'q_id', $q_id);
         $this->ctrl->setParameterByClass($class, 'sel_question_types', $this->qplrequest->raw('sel_question_types'));
         $this->ctrl->setParameterByClass($class, 'prev_qid', $this->qplrequest->raw('prev_qid'));
 
@@ -1224,15 +1220,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     ilUtil::redirect('ilias.php?baseClass=ilObjTestGUI&ref_id=' . $ref_id . '&cmd=questions');
                 }
             }
-        } elseif ($this->qplrequest->isset('calling_consumer') && (int) $this->qplrequest->raw('calling_consumer')) {
-            $ref_id = (int) $this->qplrequest->raw('calling_consumer');
-            $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
-            if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                ilUtil::redirect(
-                    $consumer->getQuestionEditingFormBackTarget($this->qplrequest->raw('consumer_context'))
-                );
-            }
-            ilUtil::redirect(ilLink::_getLink($ref_id));
         }
 
         $this->object->purgeQuestions();
