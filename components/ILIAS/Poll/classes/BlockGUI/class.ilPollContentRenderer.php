@@ -67,15 +67,6 @@ class ilPollContentRenderer
         $this->renderAvailability($tpl, $poll);
         $this->renderDescription($tpl, $poll->getDescription());
 
-        if ($poll->getShowComments()) {
-            $this->renderComments($tpl, $ref_id);
-        }
-
-        // avoid nested forms
-        if ($admin_view) {
-            return;
-        }
-
         if (!$this->state->hasQuestion($poll)) {
             $this->renderNoQuestionMessage($tpl);
         } elseif ($this->state->hasVotingPeriodNotStarted($poll, false)) {
@@ -90,7 +81,13 @@ class ilPollContentRenderer
                 $poll->getQuestion(),
                 $poll->getImageFullPath()
             );
-            $this->renderAnswersAndResults($tpl, $poll, $user_id);
+            if (!$admin_view) {
+                $this->renderAnswersAndResults($tpl, $poll, $user_id);
+            }
+        }
+
+        if ($poll->getShowComments()) {
+            $this->renderComments($tpl, $ref_id);
         }
 
         if ($this->state->isUserAnonymous($user_id)) {
