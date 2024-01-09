@@ -154,7 +154,7 @@ class ilAssQuestionFeedbackEditingGUI
                 break;
 
             default:
-                $this->tabs->setTabActive('tst_feedback');
+                $this->tabs->setTabActive('feedback');
                 $cmd .= 'Cmd';
                 $this->$cmd();
                 break;
