@@ -216,10 +216,10 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         foreach ($this->values as $value) {
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
-                    if ($value->getImage()) {
+                    if ($value->hasImage()) {
                         $imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
                         if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
-                            if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {
+                            if (file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {
                                 $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
                             }
                         }

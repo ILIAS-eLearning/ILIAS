@@ -281,11 +281,11 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         foreach ($this->values as $value) {
             if (!$this->hideImages) {
                 if ($value->getPicture() &&
-                    @file_exists($this->qstObject->getImagePath() . $value->getPicture())
+                    file_exists($this->qstObject->getImagePath() . $value->getPicture())
                 ) {
                     $imagename = $this->qstObject->getImagePathWeb() . $value->getPicture();
                     if ($this->qstObject->getThumbSize()) {
-                        if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getPicture())) {
+                        if (file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getPicture())) {
                             $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getPicture();
                         }
                     }

@@ -220,7 +220,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
                 $imagefilename = $this->getImagePath() . $data["imagefile"];
-                if (!@file_exists($imagefilename)) {
+                if (!file_exists($imagefilename)) {
                     $data["imagefile"] = null;
                 }
                 $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);

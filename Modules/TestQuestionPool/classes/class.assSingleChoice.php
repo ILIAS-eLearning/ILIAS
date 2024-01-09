@@ -214,7 +214,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
                 $imagefilename = $this->getImagePath() . $data["imagefile"];
-                if (!@file_exists($imagefilename)) {
+                if (!file_exists($imagefilename)) {
                     $data["imagefile"] = null;
                 }
 
