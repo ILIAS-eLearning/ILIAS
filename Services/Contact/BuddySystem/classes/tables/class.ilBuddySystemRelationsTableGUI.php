@@ -152,6 +152,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         });
 
         $public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, true, false);
+        /** @var array<int, string> $logins */
         $logins = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, false, false);
 
         $logins = array_map(static function (string $value): string {
@@ -178,9 +179,10 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
                 0 === ilStr::strlen($public_name_query) ||
                 ilStr::strpos(
                     ilStr::strtolower($public_names[$usrId]),
-                    ilStr::strtolower($public_name_query)
+                    ilStr::strtolower($public_name_query),
+                    0
                 ) !== false ||
-                ilStr::strpos(ilStr::strtolower($logins[$usrId]), ilStr::strtolower($public_name_query)) !== false
+                ilStr::strpos(ilStr::strtolower($logins[$usrId]), ilStr::strtolower($public_name_query), 0) !== false
             );
 
             if (!$hasMatchingName) {
