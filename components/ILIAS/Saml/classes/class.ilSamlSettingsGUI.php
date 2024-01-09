@@ -166,15 +166,27 @@ final class ilSamlSettingsGUI
     {
         $idpId = 0;
         if ($this->httpState->wrapper()->query()->has(self::REQUEST_PARAM_SAML_IDP_ID)) {
-            $idpId = (int) $this->httpState->wrapper()->query()->retrieve(
+            $idpId = $this->httpState->wrapper()->query()->retrieve(
                 self::REQUEST_PARAM_SAML_IDP_ID,
                 $this->refinery->kindlyTo()->int()
             );
         } elseif ($this->httpState->wrapper()->post()->has(self::REQUEST_PARAM_SAML_IDP_ID)) {
-            $idpId = (int) $this->httpState->wrapper()->post()->retrieve(
+            $idpId = $this->httpState->wrapper()->post()->retrieve(
                 self::REQUEST_PARAM_SAML_IDP_ID,
                 $this->refinery->kindlyTo()->int()
             );
+        }
+
+        if ($this->httpState->wrapper()->query()->has('saml_idps_table_action')) {
+            if ($this->httpState->wrapper()->query()->has('saml_idps_idp_id')) {
+                $idpIds = $this->httpState->wrapper()->query()->retrieve(
+                    'saml_idps_idp_id',
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+                );
+                if (count($idpIds) === 1) {
+                    $idpId = current($idpIds);
+                }
+            }
         }
 
         return $idpId;
@@ -200,7 +212,9 @@ final class ilSamlSettingsGUI
             $this->samlAuth = $factory->auth();
         } catch (Throwable $e) {
             if ('Database error: could not find driver' === $e->getMessage()) {
-                $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_FAILURE, $this->lng->txt('auth_saml_err_sqlite_driver'));
+                $this->tpl->setOnScreenMessage(
+                    self::MESSAGE_TYPE_FAILURE, $this->lng->txt('auth_saml_err_sqlite_driver')
+                );
             } else {
                 $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_FAILURE, $e->getMessage());
             }
@@ -237,20 +251,75 @@ final class ilSamlSettingsGUI
     private function listIdps(): void
     {
         if ($this->samlAuth && $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
-            $this->toolbar->addStickyItem($this->ui_factory->button()->standard(
-                $this->lng->txt('auth_saml_add_idp_btn'),
-                $this->ctrl->getLinkTarget($this, 'showNewIdpForm')
-            ));
+            $this->toolbar->addStickyItem(
+                $this->ui_factory->button()->standard(
+                    $this->lng->txt('auth_saml_add_idp_btn'),
+                    $this->ctrl->getLinkTarget($this, 'showNewIdpForm')
+                )
+            );
         }
+
+        $federationMdUrl = rtrim(
+                ILIAS_HTTP_PATH, '/'
+            ) . '/components/ILIAS/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
+        $info = $this->ui_factory->messageBox()->info(
+            sprintf(
+                $this->lng->txt('auth_saml_idps_info'),
+                'auth/saml/config/config.php',
+                'auth/saml/config/authsources.php',
+                $this->ui_renderer->render(
+                    $this->ui_factory->link()->standard(
+                        'https://simplesamlphp.org/docs/stable/simplesamlphp-sp',
+                        'https://simplesamlphp.org/docs/stable/simplesamlphp-sp'
+                    )
+                ),
+                $this->ui_renderer->render($this->ui_factory->link()->standard($federationMdUrl, $federationMdUrl))
+            )
+        );
 
         $table = new ilSamlIdpTableGUI(
             $this,
             $this->ui_factory,
             $this->ui_renderer,
-            self::DEFAULT_CMD,
+            $this->lng,
+            $this->ctrl,
+            $this->httpState->request(),
+            new Factory(),
+            'handleTableActions',
             $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)
         );
-        $this->tpl->setContent($table->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render([$info, $table->get()]));
+    }
+
+    private function handleTableActions(): void
+    {
+        $query = $this->httpState->wrapper()->query();
+        if (!$query->has('saml_idps_table_action')) {
+            return;
+        }
+
+        $action = $query->retrieve('saml_idps_table_action', $this->refinery->to()->string());
+        switch ($action) {
+            case 'showIdpSettings':
+                $this->showIdpSettings();
+                break;
+
+            case 'activateIdp':
+                $this->activateIdp();
+                break;
+
+            case 'deactivateIdp':
+                $this->deactivateIdp();
+                break;
+
+            case 'confirmDeleteIdp':
+                $this->confirmDeleteIdp();
+                break;
+
+            default:
+                $this->ctrl->redirect($this, self::DEFAULT_CMD);
+                break;
+        }
     }
 
     private function deactivateIdp(): void
@@ -260,8 +329,8 @@ final class ilSamlSettingsGUI
         $this->idp->setActive(false);
         $this->idp->persist();
 
-        $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY));
-        $this->listIdps();
+        $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY), true);
+        $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
 
     private function activateIdp(): void
@@ -271,8 +340,8 @@ final class ilSamlSettingsGUI
         $this->idp->setActive(true);
         $this->idp->persist();
 
-        $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY));
-        $this->listIdps();
+        $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY), true);
+        $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
 
     private function setSubTabs(int $a_view_mode): void
@@ -282,7 +351,9 @@ final class ilSamlSettingsGUI
                 $this->tabs->addSubTabTarget(
                     'auth_saml_idps',
                     $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
-                    array_merge(self::GLOBAL_ENTITY_COMMANDS, [self::DEFAULT_CMD, 'showNewIdpForm', self::CMD_SAVE_NEW_IDP]),
+                    array_merge(
+                        self::GLOBAL_ENTITY_COMMANDS, [self::DEFAULT_CMD, 'showNewIdpForm', self::CMD_SAVE_NEW_IDP]
+                    ),
                     self::class
                 );
 
@@ -451,12 +522,15 @@ final class ilSamlSettingsGUI
     private function prepareRoleSelection(): array
     {
         $select = [];
-        $global_roles = array_map('intval', ilUtil::_sortIds(
-            $this->rbac->review()->getGlobalRoles(),
-            'object_data',
-            'title',
-            'obj_id'
-        ));
+        $global_roles = array_map(
+            'intval',
+            ilUtil::_sortIds(
+                $this->rbac->review()->getGlobalRoles(),
+                'object_data',
+                'title',
+                'obj_id'
+            )
+        );
 
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
@@ -607,7 +681,9 @@ final class ilSamlSettingsGUI
 
             $this->storeMetadata($idp, $form->getInput(self::METADATA_STORAGE_KEY));
 
-            $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY), true);
+            $this->tpl->setOnScreenMessage(
+                self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY), true
+            );
             $this->ctrl->setParameter($this, self::REQUEST_PARAM_SAML_IDP_ID, $idp->getIdpId());
             $this->ctrl->redirect($this, self::CMD_SHOW_IDP_SETTINGS);
         }
