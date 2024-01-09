@@ -1602,20 +1602,34 @@ abstract class assQuestion
 
     public function syncWithOriginal(): void
     {
-        if (!$this->getOriginalId()) {
+        $original_id = $this->getOriginalId();
+        if ($original_id === null) {
             return; // No original -> no sync
         }
 
-        $originalObjId = self::lookupParentObjId($this->getOriginalId());
+        $original_obj_id = self::lookupParentObjId($this->getOriginalId());
 
-        if (!$originalObjId) {
+        if (!$original_obj_id) {
             return; // Original does not exist -> no sync
         }
 
-        $this->beforeSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
+        $this->beforeSyncWithOriginal($this->getOriginalId(), $this->getId(), $original_obj_id, $this->getObjId());
+
+        $original = clone $this;
+        // Now we become the original
+        $original->setId($this->getOriginalId());
+        $original->setOriginalId(null);
+        $original->setObjId($original_obj_id);
+
+        $original->saveToDb();
+
+        $original->deletePageOfQuestion($this->getOriginalId());
+        $original->createPageObject();
+        $original->copyPageOfQuestion($this->getId());
+
         $this->syncSuggestedSolutions($this->getId(), $this->getOriginalId());
         $this->syncXHTMLMediaObjectsOfQuestion();
-        $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $originalObjId);
+        $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $original_obj_id);
         $this->syncHints();
     }
 
