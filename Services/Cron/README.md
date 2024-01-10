@@ -176,7 +176,7 @@ So as mentioned above the cron-tab can safely be set to every few minutes.
 In order to execute the cron job manager, the following command MUST be used:
 
 ```shell
-/usr/bin/php [PATH_TO_ILIAS]/cron/cron.php run-jobs <user> <client_id> run-jobs
+/usr/bin/php [PATH_TO_ILIAS]/cron/cron.php run-jobs <user> <client_id>
 ```
 
 The `<user>` MUST be a valid (but arbitrary) user account of the ILIAS installation.
