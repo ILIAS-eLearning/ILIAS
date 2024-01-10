@@ -61,15 +61,20 @@ class ilExportTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('date'), 'timestamp');
     }
 
+    public function numericOrdering(string $a_field): bool
+    {
+        if ($a_field === 'size') {
+            return true;
+        }
+        return false;
+    }
+
     protected function prepareOutput(): void
     {
         // append at last position (after custom columns)
         $this->addColumn($this->lng->txt('actions'));
     }
 
-    /**
-     *
-     */
     protected function initMultiCommands(): void
     {
         $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
