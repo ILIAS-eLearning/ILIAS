@@ -128,6 +128,10 @@ class ilCalendarSchedule
                 $this->addFilter(new ilCalendarScheduleFilterBookingPool($this->user->getId()));
             }
 
+            if (ilCalendarCategories::_getInstance()->getMode() === ilCalendarCategories::MODE_REPOSITORY) {
+                $this->addFilter(new ilCalendarScheduleFilterConsultationHourInRepository());
+            }
+
             $this->addFilter(new ilCalendarScheduleFilterExercise($this->user->getId()));
             $this->addFilter(new ilCalendarScheduleFilterTimings($this->user->getId()));
         }
