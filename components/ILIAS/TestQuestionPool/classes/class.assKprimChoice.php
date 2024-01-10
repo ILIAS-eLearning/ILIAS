@@ -406,7 +406,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         /** @var ilDBInterface $ilDB */
         $ilDB = $GLOBALS['DIC']['ilDB'];
 
-        if (is_null($pass)) {
+        if ($pass === null) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -418,7 +418,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $solutionSubmit = $this->getSolutionSubmit();
 
             foreach ($solutionSubmit as $answerIndex => $answerValue) {
-                if(! is_null($answerValue)) {
+                if ($answerValue !== null) {
                     $this->saveCurrentSolution($active_id, $pass, (int) $answerIndex, (int) $answerValue, $authorized);
                     $entered_values++;
                 }
