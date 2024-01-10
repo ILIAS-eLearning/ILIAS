@@ -5473,14 +5473,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
 
         $bestrow = null;
-        $bestfactor = 0;
+        $bestfactor = 0.0;
         while ($row = $ilDB->fetchAssoc($result)) {
-            if ($row["maxpoints"] > 0) {
-                $factor = $row["points"] / $row["maxpoints"];
+            if ($row["maxpoints"] > 0.0) {
+                $factor = (float) ($row["points"] / $row["maxpoints"]);
             } else {
-                $factor = 0;
+                $factor = 0.0;
             }
-            if ($factor === 0.0 && $bestfactor === 0
+            if ($factor === 0.0 && $bestfactor === 0.0
                 || $factor > $bestfactor) {
                 $bestrow = $row;
                 $bestfactor = $factor;
