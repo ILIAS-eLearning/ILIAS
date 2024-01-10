@@ -292,7 +292,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $points->setMinvalueShouldBeGreater(true);
         $form->addItem($points);
 
-        if(! $this->isInLearningModuleContext()) {
+        if (!$this->isInLearningModuleContext()) {
             $nested_answers = new ilSelectInputGUI(
                 $this->lng->txt('qst_use_nested_answers'),
                 self::F_USE_NESTED
@@ -342,7 +342,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $this->lng->txt('edit_question'),
             $this->ctrl->getLinkTarget($this, 'editQuestion')
         );
-        if ($this->object->isOrderingTypeNested() && ! $this->isInLearningModuleContext()) {
+        if ($this->object->isOrderingTypeNested() && !$this->isInLearningModuleContext()) {
             $tabs->addSubTab(
                 self::TAB_EDIT_NESTING,
                 $this->lng->txt('tab_nest_answers'),
