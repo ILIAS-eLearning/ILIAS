@@ -11344,6 +11344,8 @@ mail#:#mail_nacc_target_type#:#Typ des Zielobjekts, z. B. "Kurs" für ein Kursob
 mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
 mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_use_placeholder#:#Im Feld 'Inhalt' können folgende Platzhalter verwendet werden
+mail#:#mail_nacc_user_fullname#:#Vollständiger Benutzername
+mail#:#mail_nacc_user_name#:#Benutzername
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
 mail#:#mail_no_subject#:#Kein Betreff vorhanden

@@ -374,7 +374,7 @@ class ilObjMailGUI extends ilObjectGUI
         }
 
         $mail->setSaveInSentbox(false);
-        $mail->appendInstallationSignature(true);
+        $mail->appendInstallationSignature(!$isManualMail);
 
         $lngVariablePrefix = 'sys';
         if ($isManualMail) {
@@ -511,6 +511,33 @@ class ilObjMailGUI extends ilObjectGUI
         $user_envelope_from_addr->setDisabled(!$this->isEditingAllowed());
         $form->addItem($user_envelope_from_addr);
 
+        $signature = new ilTextAreaInputGUI(
+            $this->lng->txt('mail_system_sys_general_signature'),
+            'mail_system_usr_general_signature'
+        );
+        $signature->setRows(8);
+        $signature->setDisabled(!$this->isEditingAllowed());
+        $form->addItem($signature);
+
+        $placeholders = new ilManualPlaceholderInputGUI(
+            $this->lng->txt('mail_form_placeholders_label'),
+            'mail_system_usr_general_signature'
+        );
+        $user_placeholder_list = [
+            ['placeholder' => 'USER_FULLNAME', 'label' => $this->lng->txt('mail_nacc_user_fullname')],
+            ['placeholder' => 'USER_NAME', 'label' => $this->lng->txt('mail_nacc_user_name')],
+        ];
+        $system_placeholder_list = [
+            ['placeholder' => 'INSTALLATION_NAME', 'label' => $this->lng->txt('mail_nacc_installation_name')],
+            ['placeholder' => 'INSTALLATION_DESC', 'label' => $this->lng->txt('mail_nacc_installation_desc')],
+            ['placeholder' => 'ILIAS_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url')],
+        ];
+        foreach (array_merge($user_placeholder_list, $system_placeholder_list) as $value) {
+            $placeholders->addPlaceholder($value['placeholder'], $value['label']);
+        }
+        $placeholders->setDisabled(!$this->isEditingAllowed());
+        $form->addItem($placeholders);
+
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt('mail_settings_system_frm_head'));
         $form->addItem($sh);
@@ -549,8 +576,8 @@ class ilObjMailGUI extends ilObjectGUI
         $form->addItem($system_return_path);
 
         $signature = new ilTextAreaInputGUI(
-            $this->lng->txt('mail_system_sys_signature'),
-            'mail_system_sys_signature'
+            $this->lng->txt('mail_system_sys_general_signature'),
+            'mail_system_sys_general_signature'
         );
         $signature->setRows(8);
         $signature->setDisabled(!$this->isEditingAllowed());
@@ -558,15 +585,9 @@ class ilObjMailGUI extends ilObjectGUI
 
         $placeholders = new ilManualPlaceholderInputGUI(
             $this->lng->txt('mail_form_placeholders_label'),
-            'm_placeholders',
-            'mail_system_sys_signature'
+            'mail_system_sys_general_signature'
         );
-        $placeholder_list = [
-            ['placeholder' => 'INSTALLATION_NAME', 'label' => $this->lng->txt('mail_nacc_installation_name')],
-            ['placeholder' => 'INSTALLATION_DESC', 'label' => $this->lng->txt('mail_nacc_installation_desc')],
-            ['placeholder' => 'ILIAS_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url')],
-        ];
-        foreach ($placeholder_list as $value) {
+        foreach ($system_placeholder_list as $value) {
             $placeholders->addPlaceholder($value['placeholder'], $value['label']);
         }
         $placeholders->setDisabled(!$this->isEditingAllowed());
@@ -602,9 +623,10 @@ class ilObjMailGUI extends ilObjectGUI
             'mail_system_usr_env_from_addr' => $this->settings->get('mail_system_usr_env_from_addr', ''),
             'mail_system_sys_from_addr' => $this->settings->get('mail_system_sys_from_addr', ''),
             'mail_system_sys_from_name' => $this->settings->get('mail_system_sys_from_name', ''),
+            'mail_system_usr_general_signature' => $this->settings->get('mail_system_usr_general_signature', ''),
             'mail_system_sys_reply_to_addr' => $this->settings->get('mail_system_sys_reply_to_addr', ''),
             'mail_system_sys_env_from_addr' => $this->settings->get('mail_system_sys_env_from_addr', ''),
-            'mail_system_sys_signature' => $this->settings->get('mail_system_sys_signature', ''),
+            'mail_system_sys_general_signature' => $this->settings->get('mail_system_sys_general_signature', ''),
             'use_global_reply_to_addr' => (bool) $this->settings->get('use_global_reply_to_addr', '0'),
             'global_reply_to_addr' => $this->settings->get('global_reply_to_addr', ''),
         ]);
@@ -648,7 +670,7 @@ class ilObjMailGUI extends ilObjectGUI
         }, $this->lng->txt('mail_template_invalid_tpl_syntax'));
 
         $valid_templates = true;
-        foreach (['mail_system_usr_from_name', 'mail_system_sys_signature'] as $template) {
+        foreach (['mail_system_usr_from_name', 'mail_system_usr_general_signature', 'mail_system_sys_general_signature'] as $template) {
             try {
                 $is_valid_template_syntax->check((string) $form->getInput($template));
             } catch (Exception) {
@@ -680,6 +702,7 @@ class ilObjMailGUI extends ilObjectGUI
             'mail_system_usr_env_from_addr',
             (string) $form->getInput('mail_system_usr_env_from_addr')
         );
+        $this->settings->set('mail_system_usr_general_signature', (string) $form->getInput('mail_system_usr_general_signature'));
         $this->settings->set(
             'mail_system_sys_from_addr',
             (string) $form->getInput('mail_system_sys_from_addr')
@@ -695,7 +718,7 @@ class ilObjMailGUI extends ilObjectGUI
         );
         $this->settings->set('use_global_reply_to_addr', (string) ((int) $form->getInput('use_global_reply_to_addr')));
         $this->settings->set('global_reply_to_addr', (string) $form->getInput('global_reply_to_addr'));
-        $this->settings->set('mail_system_sys_signature', (string) $form->getInput('mail_system_sys_signature'));
+        $this->settings->set('mail_system_sys_general_signature', (string) $form->getInput('mail_system_sys_general_signature'));
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, 'showExternalSettingsForm');

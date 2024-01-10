@@ -11337,6 +11337,8 @@ mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a cour
 mail#:#mail_nacc_timelimit#:#User access period
 mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in the ‘Message Content’ field)
+mail#:#mail_nacc_user_fullname#:#User Full Name
+mail#:#mail_nacc_user_name#:#User Name
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_subject#:#No subject available
