@@ -169,19 +169,23 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             $form = $this->buildForm();
         }
 
-        $this->toolbar->addComponent(
-            $this->ui->factory()->link()->standard(
-                $this->lng->txt('show_old_introduction'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'showOldIntroduction')
-            )
-        );
+        if ($this->main_settings->getIntroductionSettings()->getIntroductionText() !== '') {
+            $this->toolbar->addComponent(
+                $this->ui->factory()->link()->standard(
+                    $this->lng->txt('show_old_introduction'),
+                    $this->ctrl->getLinkTargetByClass(self::class, 'showOldIntroduction')
+                )
+            );
+        }
 
-        $this->toolbar->addComponent(
-            $this->ui->factory()->link()->standard(
-                $this->lng->txt('show_old_concluding_remarks'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'showOldConcludingRemarks')
-            )
-        );
+        if ($this->main_settings->getFinishingSettings()->getConcludingRemarksText() !== '') {
+            $this->toolbar->addComponent(
+                $this->ui->factory()->link()->standard(
+                    $this->lng->txt('show_old_concluding_remarks'),
+                    $this->ctrl->getLinkTargetByClass(self::class, 'showOldConcludingRemarks')
+                )
+            );
+        }
 
         $rendered_modal = '';
         if ($modal !== null) {
