@@ -80,7 +80,7 @@ class ilSystemStyleScssSettingsFile
         $regex_category_comment = '/\/\/##\s(.*)/'; //Matches Matches //## Category Description
         $regex_variable = '/^\$(.*)/'; //Matches @VariableName value;
         $regex_variable_comment = '/\/\/\*\*\s(.*)/'; //Matches //** Variable Comment
-        $regex_variable_name = '/(?:\$)(.*)(?:\:)/'; //Matches @variableName
+        $regex_variable_name = '/(?:\$)(.*?)(?:\:)/'; //Matches @variableName
         $regex_variable_value = '/(?::)(.*)(?:;)/'; //Matches value;
         $regex_variable_references = '/(?:\$)([a-zA-Z0-9_-]*)/'; //Matches references in value
 

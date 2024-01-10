@@ -15,6 +15,8 @@ $variableNoValidSection2: value22;
 $regular: value;
 //** Hard references
 $variable21: floor(($regular * 1.6)) * lighten($regular, 20%);
+//** Hard references II, see #39792
+$variable22: color.scale($il-success-color, $lightness: 86%) !default;
 
 //== Category 3
 //## No Section Between

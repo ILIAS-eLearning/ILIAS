@@ -54,6 +54,9 @@ abstract class assQuestionGUI
      */
     public const ALLOWED_PLAIN_TEXT_TAGS = "<em>, <strong>";
 
+    private const RETURN_AFTER_EXISTING_WITH_ORIGINAL_SAVE = -1;
+    private const RETURN_AFTER_EXISTING_SAVE = 0;
+
     public const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
@@ -147,13 +150,10 @@ abstract class assQuestionGUI
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "prev_qid");
         $this->ctrl->saveParameter($this, "calling_test");
-        $this->ctrl->saveParameter($this, "calling_consumer");
         $this->ctrl->saveParameter($this, "consumer_context");
         $this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'test_express_mode');
-        $this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'calling_consumer');
         $this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'consumer_context');
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'test_express_mode');
-        $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
         $this->errormessage = $this->lng->txt("fill_out_all_required_fields");
@@ -631,7 +631,7 @@ abstract class assQuestionGUI
     public function sync(): void
     {
         $original_id = $this->object->getOriginalId();
-        if ($original_id) {
+        if ($original_id !== null) {
             $this->object->syncWithOriginal();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         }
@@ -642,22 +642,11 @@ abstract class assQuestionGUI
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
         }
 
-        if ($this->request->isset('calling_consumer')) {
-            if (
-                ($ref_id = $this->request->int('calling_consumer')) !== 0
-                && ($consumer = ilObjectFactory::getInstanceByRefId($ref_id)) instanceof ilQuestionEditingFormConsumer
-            ) {
-                ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($this->request->raw('consumer_context')));
-            }
-
-            ilUtil::redirect(ilLink::_getLink($ref_id));
-        }
-
         if ($this->request->raw('test_express_mode')) {
             ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
-        } else {
-            ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
         }
+
+        ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
     }
 
     public function cancelSync(): void
@@ -670,20 +659,10 @@ abstract class assQuestionGUI
         if ($this->request->raw('return_to_fb') !== '' && $this->request->raw('return_to_fb') !== null) {
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
         } else {
-            if ($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer')) {
-                $ref_id = (int) $this->request->raw('calling_consumer');
-                $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
-                if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                    ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($this->request->raw('consumer_context')));
-                }
-                ilUtil::redirect(ilLink::_getLink($ref_id));
-            }
-
             if ($this->request->raw('test_express_mode')) {
                 ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
-            } else {
-                ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
             }
+            ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
         }
     }
 
@@ -733,161 +712,110 @@ abstract class assQuestionGUI
 
     public function save(): void
     {
-        $ilUser = $this->ilUser;
-        $old_id = $this->request->raw("q_id");
+        $this->ilTabs->setTabActive('edit_question');
         $result = $this->writePostData();
 
-        if ($result == 0) {
-            $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
-            $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
-            $this->object->saveToDb();
-            $originalexists = !is_null($this->object->getOriginalId()) &&
-                $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
+        if ($result !== 0) {
+            return;
+        }
 
-            if (($this->request->raw("calling_test") ||
-                    ($this->request->isset('calling_consumer')
-                        && (int) $this->request->raw('calling_consumer')))
-                && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
+        $old_id = $this->request->int('q_id');
+
+        $this->ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
+        $this->ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
+        $this->object->saveToDb();
+
+        if ($this->object->getId() !== $old_id) {
+            $this->callNewIdListeners($this->object->getId());
+        }
+
+        if ($this->request->int('calling_test') !== 0) {
+            if (($q_id = $this->saveQuestionToTest()) === self::RETURN_AFTER_EXISTING_WITH_ORIGINAL_SAVE) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->setParameter($this, 'return_to', 'editQuestion');
                 $this->ctrl->redirect($this, "originalSyncForm");
-                return;
             }
 
-            if ($this->request->raw("calling_test")) {
-                $test = new ilObjTest($this->request->raw("calling_test"));
-                if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    $test = new ilObjTest($this->request->raw("calling_test"), true);
-                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
-                        $this->tree,
-                        $this->db,
-                        $this->lng,
-                        $this->logger,
-                        $this->component_repository,
-                        $test,
-                        $this->questioninfo
-                    );
-
-                    $test->insertQuestion(
-                        $testQuestionSetConfigFactory->getQuestionSetConfig(),
-                        $this->object->getId(),
-                        true
-                    );
-
-                    if ($this->request->isset('prev_qid')) {
-                        $test->moveQuestionAfter($this->object->getId(), $this->request->raw('prev_qid'));
-                    }
-
-                    $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
-                    #$this->ctrl->setParameter($this, 'test_ref_id', false);
-                }
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                $this->ctrl->redirect($this, 'editQuestion');
-            } else {
-                $this->callNewIdListeners($this->object->getId());
-
-                if ($this->object->getId() != $old_id) {
-                    // first save
-                    $this->ctrl->setParameterByClass($this->request->raw("cmdClass"), "q_id", $this->object->getId());
-                    $this->ctrl->setParameterByClass($this->request->raw("cmdClass"), "sel_question_types", $this->request->raw("sel_question_types"));
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                    if ($this->request->raw('prev_qid')) {
-                        // @todo: bheyser/mbecker wtf? ..... thx@jposselt ....
-                        $test = new ilObjTest($this->request->getRefId(), true);
-                        $test->moveQuestionAfter($this->request->raw('prev_qid'), $this->object->getId());
-                    }
-                    if ($this->request->raw('express_mode')) {
-                        $test = new ilObjTest($this->request->getRefId(), true);
-                        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
-                            $this->tree,
-                            $this->db,
-                            $this->lng,
-                            $this->logger,
-                            $this->component_repository,
-                            $test,
-                            $this->questioninfo
-                        );
-                        $test->insertQuestion(
-                            $testQuestionSetConfigFactory->getQuestionSetConfig(),
-                            $this->object->getId()
-                        );
-                        $_REQUEST['q_id'] = $this->object->getId();
-                        ilUtil::redirect(ilTestExpressPage::getReturnToPageLink());
-                    }
-
-                    $this->ctrl->redirectByClass($this->request->raw("cmdClass"), "editQuestion");
-                }
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                $this->ctrl->redirect($this, 'editQuestion');
-            }
+            $this->ctrl->setParameter($this, 'q_id', $q_id);
+            $this->ctrl->setParameter($this, 'ref_id', $this->request->raw('calling_test'));
+            $this->ctrl->setParameter($this, 'calling_test', $this->request->raw('calling_test'));
         }
-        $tabs = $this->ilTabs;
-        $tabs->setTabActive('edit_question');
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, 'editQuestion');
     }
 
     public function saveReturn(): void
     {
-        $ilUser = $this->ilUser;
-        $old_id = $this->request->getQuestionId();
+        $this->ilTabs->setTabActive('edit_question');
         $result = $this->writePostData();
-        if ($result == 0) {
-            $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
-            $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
-            $this->object->saveToDb($old_id);
-            $originalexists = !is_null($this->object->getOriginalId()) &&
-                $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
-            if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
-                        && (int) $this->request->raw('calling_consumer')))
-                && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                $this->ctrl->setParameter($this, 'test_express_mode', $this->request->raw('test_express_mode'));
-                $this->ctrl->redirect($this, "originalSyncForm");
-                return;
-            } elseif ($this->request->raw("calling_test")) {
-                $test = new ilObjTest($this->request->raw("calling_test"));
-                if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    $test = new ilObjTest($this->request->raw("calling_test"), true);
-
-                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
-                        $this->tree,
-                        $this->db,
-                        $this->lng,
-                        $this->logger,
-                        $this->component_repository,
-                        $test,
-                        $this->questioninfo
-                    );
-
-                    $test->insertQuestion(
-                        $testQuestionSetConfigFactory->getQuestionSetConfig(),
-                        $this->object->getId(),
-                        true
-                    );
-
-                    if ($this->request->isset('prev_qid')) {
-                        $test->moveQuestionAfter($this->object->getId(), $this->request->raw('prev_qid'));
-                    }
-
-                    $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
-                }
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-            } else {
-                if ($this->object->getId() != $old_id) {
-                    $this->callNewIdListeners($this->object->getId());
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                    $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
-                }
-                if (ilSession::get("info") != null) {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                } else {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                }
-                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-            }
+        if ($result !== 0) {
+            return;
         }
-        $tabs = $this->ilTabs;
-        $tabs->setTabActive('edit_question');
+
+        $old_id = $this->request->getQuestionId();
+
+        $this->ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
+        $this->ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
+        $this->object->saveToDb();
+
+        if ($this->object->getId() !== $old_id) {
+            $this->callNewIdListeners($this->object->getId());
+        }
+
+        if ($this->request->int('calling_test') !== 0
+            && $this->saveQuestionToTest() === self::RETURN_AFTER_EXISTING_WITH_ORIGINAL_SAVE) {
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+            $this->ctrl->setParameter($this, 'test_express_mode', $this->request->raw('test_express_mode'));
+            $this->ctrl->redirect($this, "originalSyncForm");
+        }
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+    }
+
+    private function saveQuestionToTest(): int
+    {
+        $originalexists = !is_null($this->object->getOriginalId())
+                && $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
+
+        if ($originalexists
+            && assQuestion::_isWriteable($this->object->getOriginalId(), $this->ilUser->getId())) {
+            return self::RETURN_AFTER_EXISTING_WITH_ORIGINAL_SAVE;
+        }
+
+        $test = new ilObjTest($this->request->raw("calling_test"), true);
+        if (assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
+            return self::RETURN_AFTER_EXISTING_SAVE;
+        }
+
+        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+            $this->tree,
+            $this->db,
+            $this->lng,
+            $this->logger,
+            $this->component_repository,
+            $test,
+            $this->questioninfo
+        );
+
+        $new_q_id = $this->object->getId();
+        if ($test->getRefId() !== $this->request->int('ref_id')) {
+            $new_q_id = $this->object->duplicate(true, $this->object->getTitle(), $this->object->getAuthor(), $this->object->getOwner(), $test->getId());
+        }
+
+        $test->insertQuestion(
+            $testQuestionSetConfigFactory->getQuestionSetConfig(),
+            $new_q_id,
+            true
+        );
+
+        if ($this->request->isset('prev_qid')) {
+            $test->moveQuestionAfter($new_q_id, $this->request->raw('prev_qid'));
+        }
+
+        $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
+        return $new_q_id;
     }
 
     public function apply(): void
@@ -1313,8 +1241,7 @@ abstract class assQuestionGUI
 
                         $originalexists = $this->object->getOriginalId() &&
                             $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
-                        if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
-                                    && (int) $this->request->raw('calling_consumer'))) && $originalexists
+                        if ($this->request->raw("calling_test") && $originalexists
                             && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                             $this->originalSyncForm("suggestedsolution");
                             return;
@@ -1354,8 +1281,7 @@ abstract class assQuestionGUI
 
                     $originalexists = !is_null($this->object->getOriginalId()) &&
                         $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
-                    if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
-                                && (int) $this->request->raw('calling_consumer'))) && $originalexists
+                    if ($this->request->raw("calling_test") && $originalexists
                         && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                         $this->originalSyncForm("suggestedsolution");
                         return;
@@ -1744,7 +1670,7 @@ abstract class assQuestionGUI
 
         $tabLink = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
 
-        $tabs->addTarget('tst_feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
+        $tabs->addTarget('feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
     }
 
     protected function addTab_QuestionHints(ilTabsGUI $tabs): void

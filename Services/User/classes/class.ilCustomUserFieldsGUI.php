@@ -298,7 +298,7 @@ class ilCustomUserFieldsGUI
                     break;
 
                 default:
-                    $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($udf_type);
+                    $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType((string) $udf_type);
                     if ($plugin instanceof ilUDFDefinitionPlugin) {
                         $plugin->addDefinitionTypeOptionsToRadioOption($op, $this->field_id);
                     }

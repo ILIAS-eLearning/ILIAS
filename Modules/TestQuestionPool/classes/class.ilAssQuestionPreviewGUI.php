@@ -114,17 +114,6 @@ class ilAssQuestionPreviewGUI
                         $this->lng->txt("backtocallingtest"),
                         "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
                     );
-                } elseif (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
-                    $ref_id = (int) $_GET['calling_consumer'];
-                    $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
-                    if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                        $this->tabs->setBackTarget(
-                            $consumer->getQuestionEditingFormBackTargetLabel(),
-                            $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context'])
-                        );
-                    } else {
-                        $this->tabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
-                    }
                 } else {
                     $this->ctrl->clearParameterByClass(ilObjQuestionPoolGUI::class, 'q_id');
                     $this->tabs->setBackTarget($this->lng->txt("backtocallingpool"), $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, "questions"));

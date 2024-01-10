@@ -286,7 +286,7 @@ class ilMemberExport
 
                 switch ($field) {
                     case 'role':
-                        switch ($this->user_course_data[$usr_id]['role']) {
+                        switch ($this->user_course_data[$usr_id]['role'] ?? '') {
                             case ilParticipants::IL_CRS_ADMIN:
                                 $this->addCol($this->lng->txt('crs_admin'), $row, $col++);
                                 break;

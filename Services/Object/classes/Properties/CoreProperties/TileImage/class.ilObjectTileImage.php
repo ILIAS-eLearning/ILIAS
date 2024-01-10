@@ -58,17 +58,6 @@ class ilObjectTileImage
 
     public function getImage(): Image
     {
-        if ($this->object_type_specific_property_providers !== null &&
-            (
-                $specific_tile_image = $this->object_type_specific_property_providers->getObjectTypeSpecificTileImage(
-                    $this->object_id,
-                    $this->image_factory,
-                    $this->storage_services
-                )
-            ) !== null) {
-            return $specific_tile_image;
-        }
-
         if ($this->rid !== null
             && $this->rid !== ''
             && ($resource = $this->storage_services->manage()->find($this->rid)) !== null
@@ -79,6 +68,17 @@ class ilObjectTileImage
 
         if ($this->exists()) {
             return $this->image_factory->responsive($this->getFullPath(), '');
+        }
+
+        if ($this->object_type_specific_property_providers !== null &&
+            (
+                $specific_tile_image = $this->object_type_specific_property_providers->getObjectTypeSpecificTileImage(
+                    $this->object_id,
+                    $this->image_factory,
+                    $this->storage_services
+                )
+            ) !== null) {
+            return $specific_tile_image;
         }
 
         $path = \ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->obj_type . '.svg');
