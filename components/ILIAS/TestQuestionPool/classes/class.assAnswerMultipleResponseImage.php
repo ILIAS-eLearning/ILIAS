@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 * ASS_AnswerBinaryStateImage is a class for answers with a binary state
 * indicator (checked/unchecked, set/unset) and an image file
@@ -29,14 +32,7 @@
 */
 class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
 {
-    /**
-    * Image filename
-    *
-    * Image filename
-    *
-    * @var string
-    */
-    public $image;
+    public ?string $image = null;
 
     /**
     * ASS_AnswerMultipleResponse constructor
@@ -61,32 +57,21 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
         parent::__construct($answertext, $points, $order, $id, $state);
     }
 
-
-    /**
-    * Gets the image filename
-    *
-    * Returns the image filename
-
-    * @return string The image filename
-    * @access public
-    * @see $image
-    */
     public function getImage(): ?string
     {
         return $this->image;
     }
 
-    /**
-    * Sets the image filename
-    *
-    * Sets the image filename
-    *
-    * @param string $a_image The image filename
-    * @access public
-    * @see $image
-    */
-    public function setImage($a_image = 0): void
+    public function setImage(?string $image = null): void
     {
-        $this->image = $a_image;
+        if ($image === '') {
+            throw new \Exception('imagename must not be empty');
+        }
+        $this->image = $image;
+    }
+
+    public function hasImage(): bool
+    {
+        return $this->image !== null;
     }
 }
