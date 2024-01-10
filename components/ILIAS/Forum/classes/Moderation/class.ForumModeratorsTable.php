@@ -49,17 +49,15 @@ class ForumModeratorsTable
         $actions = $this->getActions();
         $data_retrieval = $this->getDataRetrieval();
 
-        $table = $this->ui_factory->table()
-                                  ->data($this->lng->txt('frm_moderators'), $columns, $data_retrieval)
-                                  ->withActions($actions)
-                                  ->withRequest($this->request);
-
-        return $table;
+        return $this->ui_factory->table()
+                                ->data($this->lng->txt('frm_moderators'), $columns, $data_retrieval)
+                                ->withActions($actions)
+                                ->withRequest($this->request);
     }
 
     protected function getColumns(): array
     {
-        $columns = [
+        return [
             'usr_id' => $this->ui_factory->table()->column()->number('User ID')
                                          ->withIsSortable(false),
 
@@ -72,8 +70,6 @@ class ForumModeratorsTable
             'lastname' => $this->ui_factory->table()->column()->text($this->lng->txt('lastname'))
                                            ->withIsSortable(true),
         ];
-
-        return $columns;
     }
 
     protected function getActions(): array
@@ -81,36 +77,63 @@ class ForumModeratorsTable
         $query_params_namespace = ['frm_moderators_table'];
 
         $uri_detach = $this->data_factory->uri(
-            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass('ilforummoderatorsgui', 'detachModeratorRole')
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                ilForumModeratorsGUI::class,
+                'detachModeratorRole'
+            )
         );
 
         $url_builder_detach = new UI\URLBuilder($uri_detach);
         list(
             $url_builder_detach, $action_parameter_token_copy, $row_id_token_detach
-            ) =
+        ) =
             $url_builder_detach->acquireParameters(
                 $query_params_namespace,
                 'action',
                 'usr_ids'
             );
 
-        $actions = [
+        return [
             'detachModeratorRole' => $this->ui_factory->table()->action()->multi(
                 $this->lng->txt('remove'),
                 $url_builder_detach->withParameter($action_parameter_token_copy, 'detachModeratorRole'),
                 $row_id_token_detach
             ),
         ];
-        return $actions;
     }
 
     protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
     {
         $data_retrieval = new class($this->forum_moderators) implements UI\Component\Table\DataRetrieval {
 
-            public function __construct(
-                protected \ilForumModerators $forum_moderators
-            ) {
+            private ?array $records = null;
+
+            public function __construct(protected readonly \ilForumModerators $forum_moderators)
+            {
+            }
+
+            private function initRecords(): void
+            {
+                if ($this->records === null) {
+                    $this->records = [];
+                    $i = 0;
+                    $entries = $this->forum_moderators->getCurrentModerators();
+                    $num = count($entries);
+                    foreach ($entries as $usr_id) {
+                        /** @var ilObjUser $user */
+                        $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
+                        if (!($user instanceof ilObjUser)) {
+                            $this->forum_moderators->detachModeratorRole($usr_id);
+                            continue;
+                        }
+
+                        $this->records[$i]['usr_id'] = $user->getId();
+                        $this->records[$i]['login'] = $user->getLogin();
+                        $this->records[$i]['firstname'] = $user->getFirstname();
+                        $this->records[$i]['lastname'] = $user->getLastname();
+                        ++$i;
+                    }
+                }
             }
 
             public function getRows(
@@ -121,9 +144,9 @@ class ForumModeratorsTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
-                $records = $this->getRecords($range);
+                $records = $this->getRecords($range, $order);
 
-                foreach ($records as $idx => $record) {
+                foreach ($records as $record) {
                     $row_id = (string) $record['usr_id'];
                     yield $row_builder->buildDataRow($row_id, $record);
                 }
@@ -133,80 +156,29 @@ class ForumModeratorsTable
                 ?array $filter_data,
                 ?array $additional_parameters
             ): ?int {
-                return count($this->getRecords());
+                $this->initRecords();
+                return count((array) $this->records);
             }
 
-            protected function getRecords(Data\Range $range = null): array
+            private function getRecords(Data\Range $range, Data\Order $order): array
             {
-                $records = [];
-                $i = 0;
-                $entries = $this->forum_moderators->getCurrentModerators();
-                $num = count($entries);
-                foreach ($entries as $usr_id) {
-                    /** @var ilObjUser $user */
-                    $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
-                    if (!($user instanceof ilObjUser)) {
-                        $this->oForumModerators->detachModeratorRole($usr_id);
-                        continue;
-                    }
+                $this->initRecords();
+                $records = $this->records;
 
-                    if ($num > 1) {
-                        $records[$i]['usr_id'] = $user->getId();
-                    } else {
-                        $records[$i]['usr_id'] = 0;
-                    }
-                    $records[$i]['login'] = $user->getLogin();
-                    $records[$i]['firstname'] = $user->getFirstname();
-                    $records[$i]['lastname'] = $user->getLastname();
-                    ++$i;
-                }
-
-                if ($range) {
-                    $records = $this->limitRecords($records, $range);
-                }
-
-                return $records;
-            }
-
-            protected function orderRecords(array $records, Data\Order $order): array
-            {
-                [$aspect, $direction] = $order->join("", function ($i, $k, $v) {
-                    return [$k, $v];
-                });
-                usort($records, static function (array $a, array $b) use ($aspect): int {
-                    if (!isset($a[$aspect]) && !isset($b[$aspect])) {
-                        return 0;
-                    }
-                    if (!isset($a[$aspect])) {
-                        return -1;
-                    }
-                    if (!isset($b[$aspect])) {
-                        return 1;
-                    }
-                    if (is_numeric($a[$aspect]) || is_bool($a[$aspect])) {
-                        return $a[$aspect] <=> $b[$aspect];
-                    }
-                    if (is_array($a[$aspect])) {
-                        return $a[$aspect] <=> $b[$aspect];
-                    }
-                    if ($a[$aspect] instanceof \ILIAS\UI\Component\Link\Link) {
-                        return $a[$aspect]->getLabel() <=> $b[$aspect]->getLabel();
-                    }
-
-                    return strcmp($a[$aspect], $b[$aspect]);
+                [$order_field, $order_direction] = $order->join([], fn ($ret, $key, $value) => [$key, $value]);
+                usort($records, static function (array $left, array $right) use ($order_field): int {
+                    return $left[$order_field] <=> $right[$order_field];
                 });
 
-                if ($direction === $order::DESC) {
+                if ($order_direction === "DESC") {
                     $records = array_reverse($records);
                 }
-                return $records;
+                return $this->limitRecords($records, $range);
             }
 
-            protected function limitRecords(array $records, Data\Range $range): array
+            private function limitRecords(array $records, Data\Range $range): array
             {
-                $records = array_slice($records, $range->getStart(), $range->getLength());
-
-                return $records;
+                return array_slice($records, $range->getStart(), $range->getLength());
             }
         };
 
