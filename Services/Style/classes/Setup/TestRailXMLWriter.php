@@ -24,6 +24,7 @@ use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntry;
 class TestRailXMLWriter
 {
     protected SimpleXMLElement $xml;
+    protected int $counter = 66649;
 
     public function __construct(
         protected \ilTemplate $case_tpl
@@ -77,7 +78,9 @@ class TestRailXMLWriter
         string $steps,
         string $expected,
     ): SimpleXMLElement {
+        $this->counter = $this->counter + 1;
         $xml_case = $xml_parent_node->addChild('case');
+        $xml_case->addChild('id', 'C' . (string)$this->counter);
         $xml_case->addChild('title', $title);
         $xml_case->addChild('template', 'Test Case');
         $xml_case->addChild('type', 'Other');
@@ -123,6 +126,7 @@ class TestRailXMLWriter
         string $component_name,
         ComponentEntry $entry,
     ): void {
+
         $preconditions = $this->getBlockContents('preconditions');
         $steps = $this->getTemplate();
         $steps->setCurrentBlock('steps_show');
@@ -133,12 +137,9 @@ class TestRailXMLWriter
         $steps = $steps->get();
 
         $expected = $this->getTemplate();
+        $expected_examples = $this->getExpectedExamples($entry->getExamples());
         $expected->setVariable('EXAMPLE_COUNTER', (string) count($entry->getExamples()));
-        $expected_show = '';
-        foreach(array_keys($entry->getExamples()) as $idx => $example) {
-            $expected_show = $expected_show . "\n" . $idx + 1 . '. ' . ucfirst(str_replace('_', ' ', $example));
-        }
-        $expected->setVariable('EXPECTED', $expected_show);
+        $expected->setVariable('EXPECTED', $expected_examples);
         $expected = $expected->get();
 
         $this->addCase(
@@ -185,5 +186,36 @@ class TestRailXMLWriter
         $clickpath = array_slice(explode('/', $entry->getPath()), 4, -1);
         $clickpath[] = $entry->getTitle();
         return implode(' -> ', $clickpath);
+    }
+
+    protected function getExpectedExamples(array $examples): string
+    {
+        $expected_show = '';
+        foreach(array_keys($examples) as $idx => $example) {
+            $expected_show = $expected_show . "\n**" . $idx + 1 . '. ' . ucfirst(str_replace('_', ' ', $example)) . '**';
+            $lines = file($examples[$example]);
+
+            $append = false;
+            $expected_txt = [];
+            foreach($lines as $line) {
+                if(str_starts_with($line, ' */')) {
+                    $append = false;
+                }
+                if($append) {
+                    $expected_txt[] = trim(substr($line, 2));
+                }
+                if(str_starts_with($line, ' * Expected Output: >')) {
+                    $append = true;
+                }
+
+            }
+            if($expected_txt !== []) {
+                $expected_show = $expected_show
+                    . "\n"
+                    . implode("\n", $expected_txt)
+                    . "\n";
+            }
+        }
+        return $expected_show;
     }
 }
