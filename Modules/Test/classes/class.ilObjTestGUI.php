@@ -3448,7 +3448,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $score_settings = $object->getScoreSettings();
         foreach ($simpleSetters as $field => $setter) {
-            if (! array_key_exists($field, $templateData)) {
+            if (!array_key_exists($field, $templateData)) {
                 continue;
             }
 

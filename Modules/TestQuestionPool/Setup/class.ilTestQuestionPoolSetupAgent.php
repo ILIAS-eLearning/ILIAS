@@ -16,19 +16,52 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Agent;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Setup\Config;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\Metrics;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\Refinery\Transformation;
 
-class ilTestQuestionPoolSetupAgent extends NullAgent
+class ilTestQuestionPoolSetupAgent implements Agent
 {
+    use HasNoNamedObjective;
+
     public function getUpdateObjective(ILIAS\Setup\Config $config = null): ILIAS\Setup\Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilTestQuestionPool80DBUpdateSteps());
     }
 
-    public function getStatusObjective(Metrics\Storage $storage): Objective
+    public function hasConfig(): bool
+    {
+        return false;
+    }
+
+    public function getArrayToConfigTransformation(): Transformation
+    {
+        throw new \LogicException('Agent has no config.');
+    }
+
+    public function getInstallObjective(Config $config = null): Objective
+    {
+        return new NullObjective();
+    }
+
+    public function getBuildArtifactObjective(): Objective
+    {
+        return new NullObjective();
+    }
+
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTestQuestionPool80DBUpdateSteps());
+    }
+
+    public function getMigrations(): array
+    {
+        return [
+            new ilFixMissingQuestionDuplicationMigration()
+        ];
     }
 }
