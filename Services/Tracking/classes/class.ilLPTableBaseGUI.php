@@ -575,7 +575,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
             }
         }
 
-        if (($value && trim($value) == "") && $id != "status") {
+        if ((trim((string) $value) == "") && $id != "status") {
             if ($id == "title" &&
                 get_class($this) != "ilTrObjectUsersPropsTableGUI" &&
                 get_class($this) != "ilTrMatrixTableGUI") {
