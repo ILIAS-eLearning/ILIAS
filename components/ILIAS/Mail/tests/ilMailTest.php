@@ -49,6 +49,13 @@ class ilMailTest extends ilMailBaseTest
         $legal_documents = $this->createMock(Conductor::class);
         $this->setGlobalVariable('legalDocuments', $legal_documents);
 
+        $this->setGlobalVariable('ilIliasIniFile', $this->createMock(ilIniFile::class));
+        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
+        $this->setGlobalVariable('ilClientIniFile', $this->createMock(ilIniFile::class));
+
+        $webDir = 'public/data';
+        define("ILIAS_WEB_DIR", $webDir);
+
         $senderUsrId = 666;
         $loginToIdMap = [
             'phpunit1' => 1,
