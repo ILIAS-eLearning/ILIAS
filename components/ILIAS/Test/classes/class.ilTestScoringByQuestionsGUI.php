@@ -87,7 +87,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         $qst_id = (int) $table->getFilterItemByPostVar('question')->getValue();
         $passNr = $table->getFilterItemByPostVar('pass')->getValue();
-        $finalized_filter = $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
+        $finalized_filter = (int)$table->getFilterItemByPostVar('finalize_evaluation')->getValue();
         $answered_filter = $table->getFilterItemByPostVar('only_answered')->getChecked();
         $table_data = [];
         $selected_questionData = null;
@@ -122,8 +122,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                     }
 
                     $check_filter =
-                        ($finalized_filter != self::ONLY_FINALIZED || $finalized_evaluation) &&
-                        ($finalized_filter != self::EXCEPT_FINALIZED || !$finalized_evaluation);
+                        ($finalized_filter !== self::ONLY_FINALIZED || $finalized_evaluation) &&
+                        ($finalized_filter !== self::EXCEPT_FINALIZED || !$finalized_evaluation);
 
                     $check_answered = $answered_filter == false || $is_answered;
 

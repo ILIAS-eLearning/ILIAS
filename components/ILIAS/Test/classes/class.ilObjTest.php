@@ -1826,21 +1826,27 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $arrResults = [];
 
         $query = "
-			SELECT		tst_test_result.question_fi,
-						tst_test_result.points reached,
-						tst_test_result.hint_count requested_hints,
-						tst_test_result.hint_points hint_points,
-						tst_test_result.answered answered
+            SELECT
+                tst_test_result.question_fi,
+                tst_test_result.points reached,
+                tst_test_result.hint_count requested_hints,
+                tst_test_result.hint_points hint_points,
+                tst_test_result.answered answered,
+                tst_manual_fb.finalized_evaluation finalized_evaluation
 
-			FROM		tst_test_result
+            FROM tst_test_result
 
-			LEFT JOIN	tst_solutions
-			ON			tst_solutions.active_fi = tst_test_result.active_fi
-			AND			tst_solutions.question_fi = tst_test_result.question_fi
+            LEFT JOIN tst_solutions
+            ON tst_solutions.active_fi = tst_test_result.active_fi
+            AND tst_solutions.question_fi = tst_test_result.question_fi
 
-			WHERE		tst_test_result.active_fi = %s
-			AND			tst_test_result.pass = %s
-		";
+            LEFT JOIN tst_manual_fb
+            ON tst_test_result.active_fi = tst_manual_fb.active_fi
+            AND tst_test_result.question_fi = tst_manual_fb.question_fi
+
+            WHERE tst_test_result.active_fi = %s
+            AND tst_test_result.pass = %s
+        ";
 
         $solutionresult = $this->db->queryF(
             $query,
@@ -1904,7 +1910,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 "qid" => $row['question_id'],
                 "original_id" => $row["original_id"],
                 "workedthrough" => isset($arrResults[$row['question_id']]) ? 1 : 0,
-                'answered' => $arrResults[$row['question_id']]['answered'] ?? 0
+                'answered' => $arrResults[$row['question_id']]['answered'] ?? 0,
+                'finalized_evaluation' => $arrResults[$row['question_id']]['finalized_evaluation'] ?? 0,
             ];
 
             if (!isset($arrResults[ $row['question_id'] ]['answered']) || !$arrResults[ $row['question_id'] ]['answered']) {
