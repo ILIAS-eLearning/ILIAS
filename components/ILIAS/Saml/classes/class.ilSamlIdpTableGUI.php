@@ -136,7 +136,7 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 
             usort($records, static function(ilSamlIdp $left, ilSamlIdp $right) use($order_field): int {
                 if ($order_field === 'title') {
-                    return strnatcmp($left->getEntityId(), $right->getEntityId());
+                    return ilStr::strCmp($left->getEntityId(), $right->getEntityId());
                 }
 
                 return (int) $left->isActive() <=> (int) $right->isActive();
