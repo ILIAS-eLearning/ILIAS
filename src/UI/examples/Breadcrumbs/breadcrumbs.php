@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Breadcrumbs;
 
+/**
+ * Expected Output: >
+ *  ILIAS zeigt Ihnen eine Reihe von klickbaren Einträgen an,
+ *  die von einfachen Pfeilen (>) getrennt werden.
+ */
 function breadcrumbs()
 {
     global $DIC;
