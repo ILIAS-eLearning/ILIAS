@@ -337,6 +337,10 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      */
     public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
+        if($this->dic->testQuestionPool()->internal()->request()->raw('test_answer_changed') === null) {
+            return true;
+        }
+
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
