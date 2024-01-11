@@ -243,7 +243,7 @@ class ilTestImporter extends ilXmlImporter
             $newTaxId = $mapping->getMapping(
                 'components/ILIAS/Taxonomy',
                 'tax',
-                $taxId
+                (string) $taxId
             );
 
             if (!$newTaxId) {
@@ -256,7 +256,7 @@ class ilTestImporter extends ilXmlImporter
                 $newTaxNodeId = $mapping->getMapping(
                     'components/ILIAS/Taxonomy',
                     'tax_tree',
-                    $taxNodeId
+                    (string) $taxNodeId
                 );
 
                 if (!$newTaxNodeId) {
