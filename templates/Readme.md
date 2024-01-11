@@ -88,7 +88,7 @@ one skin to another.
 
 The `id` attribute of the style tag defines the name of the corresponding style
 sheet (CSS) file. This CSS file must also be added to the skin directory (here:
-`Customizing/global/skin/myskin/mystyle.css`). You should start with a copy of
+`Customizing/global/skin/myskin/mystyle/mystyle.css`). You should start with a copy of
 the default CSS file located at `templates/default/delos.css`. The best way to
 see which styles are used on a given ILIAS screen is to open the HTML source of
 the screen.
@@ -109,18 +109,12 @@ Take care: the main CSS-File must reflect the id in its name (see above).
 
 #### Step 3: Sass (Optional)
 
-Note: It is usually a good idea to use Sass and Sass variables to create Custom
-Styles. A good default is given by generating a first style through the
-frontend and then add the changes manually.
+Best use the stand alone skin [delos](https://github.com/ILIAS-eLearning/delos) 
+git repo, which is always an up-to-date copy of the delos skin from the main repo. 
+Clone it into your `Customizing/global/skin` folder, make your changes and keep it always
+up-to-date for fixes from the main repo.
 
-If you copied delos.scss compiling the standard delos.scss file would fail due
-to path problems. In the file delos.scss at about line 20 the base for some
-imports is set. Since the files were moved to the new location, this path must
-be fixed to make the imports work. prepending `../../` to the path works. At
-this point, compiling should run without errors, but some icons (like the search
-button) can not be displayed. To fix this, edit `less/variables.less`.
-
-To test the settings, compile the less-file:
+Do not froget to re-compile the scss-file after each change:
 
 ```
 sass delos.scss mystyle.css
@@ -145,7 +139,7 @@ named like the `image_directory` attribute of the style tag in the
 E.g. if you want to replace the default icon for categories
 `templates/default/images/standard/icon_cat.sfg`, and your template file defines
 `image_directory = "images"` as in the example above, the new version must be
-stored as `Customizing/global/skin/myskin/images/icon_cat.svg`.
+stored as `Customizing/global/skin/myskin/mystyle/images/icon_cat.svg`.
 
 #### Step 5: Change Layout (Optional)
 
@@ -255,6 +249,33 @@ version you might find helpful information by consulting:
 [Installation and Maintenance » Prepare for a new
 skin](https://www.ilias.de/docu/goto_docu_pg_68693_367.html)
 
+#### ILIAS 9
+A proposal for better structuring the System Styles has been provided and accepted by the JF in 2021, 
+see: https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/docu/sass-guidelines.md
+
+With ILIAS 9 the SCSS as been restructered according to the ITCSS structure suggested by this proposal, 
+and the depencency to less from Bootstrap has mostly been removed. However, the change from less to SCSS
+and the abandonment from Bootstrap means, that System Styles from 8 and lower are NOT compatible with ILIAS 9.
+They can not be imported, be used, or compiled. 
+
+However, note, that most of the css should still work. Also less and scss are not that far appart. Best read
+through our [SCSS Coding Guidelines](./Guidelines_SCSS-Coding.md) to get started.
+
+#### ILIAS 7
+
+The `icon-font-path` for glyphs has been renamend to `il-icon-font-path`
+and the location has changed due to a move from the bootstrap
+library to the new location for external libraries. The new location is:
+`"../../../../node_modules/bootstrap/fonts/"`. If a 5.2 style is
+imported, the variable `icon-font-path` must be adapted accordingly.
+
+In March 2022, we moved the general Test & Assessment CSS (ta.css and
+ta_split.css) to `less/Modules/Test/delos.less` (like other CSS for modules)
+to start refactoring this module's style code. As part of this change,
+the override mechanism that fetches a custom style for just the T&A has been
+removed. Please use the standard skin setup described in this document to style
+the Test & Assessment like the rest of your custom skin.
+
 #### ILIAS 6
 
 Major parts of the UI of ILIAS 6 have changed. It is therefore recommended, to create a new skin
@@ -287,21 +308,6 @@ The `icon-font-path` for glyphs has changed due to a move from the bootstrap
 library to the new location for external libraries. The new location is:
 `"../../../../libs/bower/bower_components/bootstrap/fonts/"`. If a 5.2 style is
 imported, the variable `icon-font-path` must be adapted accordingly.
-
-#### ILIAS 7
-
-The `icon-font-path` for glyphs has been renamend to `il-icon-font-path`
-and the location has changed due to a move from the bootstrap
-library to the new location for external libraries. The new location is:
-`"../../../../node_modules/bootstrap/fonts/"`. If a 5.2 style is
-imported, the variable `icon-font-path` must be adapted accordingly.
-
-In March 2022, we moved the general Test & Assessment CSS (ta.css and
-ta_split.css) to `less/Modules/Test/delos.less` (like other CSS for modules)
-to start refactoring this module's style code. As part of this change,
-the override mechanism that fetches a custom style for just the T&A has been
-removed. Please use the standard skin setup described in this document to style
-the Test & Assessment like the rest of your custom skin.
 
 ## Coding Guidelines
 
