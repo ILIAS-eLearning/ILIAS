@@ -294,8 +294,7 @@ function getDemoEntryPersonalWorkspace(\ILIAS\UI\Factory $f, Renderer $r): \ILIA
         ->withAdditionalEntry($button->withLabel('Shared Resources'))
         ->withAdditionalEntry($button->withLabel('Notes'))
         ->withAdditionalEntry($button->withLabel('News'))
-        ->withAdditionalEntry($button->withLabel('Background Tasks'))
-        ->withAdditionalEntry($slate_bookmarks);
+        ->withAdditionalEntry($button->withLabel('Background Tasks'));
 }
 
 function getDemoEntryAchievements(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Legacy

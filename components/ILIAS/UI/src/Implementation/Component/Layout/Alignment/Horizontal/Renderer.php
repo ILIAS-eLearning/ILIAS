@@ -32,9 +32,8 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
         switch(true) {
             case ($component instanceof Component\Layout\Alignment\Horizontal\EvenlyDistributed):
                 return $this->renderAlignment($component, 'alignment_horizontal_evenly', $default_renderer);
@@ -42,7 +41,7 @@ class Renderer extends AbstractComponentRenderer
                 return $this->renderAlignment($component, 'alignment_horizontal_dynamic', $default_renderer);
 
             default:
-                throw new \LogicException("Cannot render: " . get_class($component));
+                return null;
         }
     }
 
@@ -59,16 +58,5 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->touchBlock($alignment_type);
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Layout\Alignment\Horizontal\EvenlyDistributed::class,
-            Component\Layout\Alignment\Horizontal\DynamicallyDistributed::class
-        ];
     }
 }

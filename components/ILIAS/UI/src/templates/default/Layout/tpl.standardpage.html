@@ -18,7 +18,7 @@
 
 	<!-- This is the safest place for now to initialize our global namespace which is -->
 	<!-- used by several scripts included on the way to expose their business logic.  -->
-	<script type="application/javascript">var il = il ||{}; window.il = il;</script>
+	<script type="application/javascript">var il = il || {}; window.il = il;</script>
 
 	<style>
 		{CSS_INLINE}
@@ -91,9 +91,14 @@
 <!-- BEGIN on_load_code -->
 <script>
 	<!-- BEGIN on_load_code_inner -->
-		il.Util.addOnLoad(function() {
-			{OLCODE}
-		});
+	const setupILIAS = () => {
+		{OLCODE};
+	};
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', setupILIAS);
+	} else {
+		setupILIAS();
+	}
 	<!-- END on_load_code_inner -->
 </script>
 <!-- END on_load_code -->

@@ -31,6 +31,8 @@ use ilLanguage;
 use InvalidArgumentException;
 use LogicException;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Renderer;
+use JetBrains\PhpStorm\Deprecated;
 
 /**
  * Base class for all component renderers.
@@ -41,7 +43,11 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
  */
 abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextRetriever
 {
+    protected const IS_HYDRATED_ATTRIBUTE = 'data-is-hydrated';
+    protected const HYDRATED_BY_ATTRIBUTE = 'data-hydrated-by';
+
     private static array $component_storage;
+    private static array $component_tree;
 
     final public function __construct(
         private Factory $ui_factory,
@@ -55,6 +61,27 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
         private UploadLimitResolver $upload_limit_resolver,
     ) {
     }
+
+    public function render(Component $component, Renderer $default_renderer): string
+    {
+        $component_html = $this->renderComponent($component, $default_renderer);
+        if (null === $component_html) {
+            throw new \LogicException(static::class . " could not render component: " . get_class($component));
+        }
+
+        return $component_html;
+    }
+
+    /**
+     * The Render\Loader is responsible to load a components corresponding renderer, therefore
+     * this method should normally be able to render the given component. If this is not the
+     * case, return null instead to abort the process.
+     *
+     * Rendering steps may include providing additional JavaScript code via JavaScriptBindable
+     * facility, which makes it impossible to fully centralize the dehydration process. Please
+     * use $this->dehydrateComponent() to finally render a JavaScriptBindable component.
+     */
+    abstract protected function renderComponent(Component $component, Renderer $default_renderer): ?string;
 
     /**
      * @inheritdoc
@@ -125,7 +152,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
      * Serves as a wrapper around instantiation of ilTemplate, exposes
      * a smaller interface.
      *
-     * @throws	InvalidArgumentException	if there is no such template
+     * @throws    InvalidArgumentException    if there is no such template
      */
     final protected function getTemplate(string $name, bool $purge_unfilled_vars, bool $purge_unused_blocks): Template
     {
@@ -151,17 +178,161 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     }
 
     /**
-     * Bind the component to JavaScript.
+     * Binds and renders a JavaScriptBindable components JavaScript code. To achieve this,
+     * the actual code will by bound by a data attribute along with some metadata which
+     * will be prepended to the HTML's starting tag. For this reason, every component
+     * rendered by this function must only consist of exactly one top-level HTML element.
      *
-     * ATTENTION: If this returns an id, the returned id has to be included as id-attribute
-     * into the HTML of your component.
+     * For backwards compatibility you may additionally pass an $id_binder which will be
+     * receive the template and generated JavaScript id (if there is one), so derived
+     * renderers may apply this as HTML id attribute. The goal will ultimately be to drop
+     * this argument, as HTML id and JavaScript id should not be related to one another.
+     * Everywhere $id_binder is used means that the component depends on the HTML elements
+     * id attribute, which must be decoupled.
+     *
+     * @param \Closure(Template, string|null): void|null $id_binder
      */
-    final protected function bindJavaScript(JavaScriptBindable $component): ?string
-    {
+    final protected function dehydrateComponent(
+        JavaScriptBindable $component,
+        Template $template,
+        \Closure $id_binder = null,
+    ): string {
         if ($component instanceof Triggerer) {
             $component = $this->addTriggererOnLoadCode($component);
         }
-        return $this->bindOnloadCode($component);
+
+        $id_binder = $id_binder ?? static function () {
+        };
+
+        $component_id = null;
+        $js_binder = $component->getOnLoadCode();
+        $js_code = '';
+
+        if (null !== $js_binder) {
+            // NOTE: the id generation has been moved into this if statement to
+            // comply with the numbering of our unit tests and avoids generating
+            // ids unnecessarily.
+            $component_id = $this->createId();
+
+            $js_code = $js_binder($component_id);
+            if (!is_string($js_code)) {
+                throw new LogicException('Expected JavaScript binder to return string, got: ' . gettype($js_code));
+            }
+        }
+
+        // if there is no actual JavaScript we don't need to dehydrate this
+        // component. run the id-binder for backwards compatibility and
+        // generate the final html.
+        if ('' === $js_code || null === $component_id) {
+            $id_binder($template, $component_id);
+            return $template->get();
+        }
+
+        $id_binder($template, $component_id);
+        $component_html = $template->get();
+
+        // matches the beginning of an HTML tag, '<' followed by any word.
+        if (!preg_match('/<\w+/', $component_html, $matches) ||
+            null === ($first_match = array_shift($matches))
+        ) {
+            throw new LogicException("Could not find a starting tag in rendered component.");
+        }
+
+        // inserts data-attributes to the starting tag of the component while preserving
+        // all other attributes, like:
+        // <div data-hydrated-by="$component_id" data-is-hydrated="false" ...>
+        $component_html = $first_match . " " .
+            self::HYDRATED_BY_ATTRIBUTE . "=\"$component_id\" " .
+            self::IS_HYDRATED_ATTRIBUTE . '="false"' .
+            " " .
+            substr(
+                $component_html,
+                (strpos($component_html, $first_match) + strlen($first_match))
+            );
+
+        $js_template = $this->getTemplateRaw(
+            'components/ILIAS/UI/src/templates/default/tpl.javascript_bindable.html',
+            true,
+            true
+        );
+
+        // wraps the components JavaScript code in a <script> tag beneath the
+        // components html.
+        $js_template->setVariable('COMPONENT_HTML', $component_html);
+        $js_template->setVariable('HYDRATION_CODE', $js_code);
+        $js_template->setVariable('HYDRATION_ID', $component_id);
+
+        return $js_template->get();
+    }
+
+    /**
+     * Applies the component dehydration process and intercepts the component id
+     * while doing so. This has been introduced as workaround for components which
+     * need an id to finish rendering the component, e.g. in case of 'for' labels
+     * where surrounding HTML needs this information. This method can be dropped
+     * once JavaScript code is no longer coupled to an HTML id.
+     *
+     * Note that this method uses a proxy function to intercept the component id
+     * of the given $id_binder. Since binders may create an id, this mechanism
+     * will only work if the binder accepts the $id parameter as a reference. If
+     * you are using this method, make sure this is the case.
+     *
+     * Returns the component HTML and applied id (which may be null) as an array,
+     * which can be destructured like so: [$html, $id] = dehydrateComp...Id();
+     *
+     * @return array{string, string|null}
+     */
+    protected function dehydrateComponentAndInterceptId(
+        JavaScriptBindable $component,
+        Template $tpl,
+        \Closure $id_binder = null
+    ): array {
+        $component_id = null;
+
+        $id_proxy = function (Template $tpl, ?string $id) use (&$component_id, $id_binder): void {
+            $id_binder = $id_binder ?? static function () {
+            };
+            $id_binder($tpl, $id);
+            $component_id = $id;
+        };
+
+        $component_html = $this->dehydrateComponent($component, $tpl, $id_proxy);
+
+        return [$component_html, $component_id];
+    }
+
+    /**
+     * Returns an id-binder for $this->dehydrateComponent() which should always
+     * apply an ID, even if no JavaScript code is present. This marks use-cases
+     * where components need an id but not primarily because of JavaScript
+     * coupling, e.g. form labels.
+     *
+     * @return \Closure(Template, string|null): void
+     */
+    final protected function getMandatoryIdBinder(): \Closure
+    {
+        // allow $id to be passed by reference to allow interception of
+        // $this->dehydrateComponentAndInterceptId().
+        return function (Template $template, ?string &$id): void {
+            $id = $id ?? $this->createId();
+            $this->getOptionalIdBinder()($template, $id);
+        };
+    }
+
+    /**
+     * Returns an id-binder for $this->dehydrateComponent() which should apply
+     * an ID only if JavaScript code is present. This marks use-cases where
+     * components primarily use this attribute to couple JavaScript code.
+     *
+     * @return \Closure(Template, string|null): void
+     */
+    final protected function getOptionalIdBinder(): \Closure
+    {
+        return static function (Template $template, ?string $id): void {
+            if (null !== $id) {
+                $template->setVariable('ID', $id);
+            }
+        };
     }
 
     /**
@@ -179,28 +350,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     final protected function createId(): string
     {
         return $this->js_binding->createId();
-    }
-
-    /**
-     * Bind the JavaScript onload-code.
-     */
-    private function bindOnloadCode(JavaScriptBindable $component): ?string
-    {
-        $binder = $component->getOnLoadCode();
-        if ($binder === null) {
-            return null;
-        }
-
-        $id = $this->js_binding->createId();
-        $on_load_code = $binder($id);
-        if (!is_string($on_load_code)) {
-            throw new LogicException(
-                "Expected JavaScript binder to return string" .
-                " (used component: " . get_class($component) . ")"
-            );
-        }
-        $this->js_binding->addOnLoadCode($on_load_code);
-        return $id;
     }
 
     /**
@@ -222,7 +371,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
                 //Same seems true fro ready, see: #27456
                 if ($event == 'load' || $event == 'ready') {
                     $code .=
-                            "$(document).trigger('$signal',
+                        "$(document).trigger('$signal',
 							{
 								'id' : '$signal', 'event' : '$event',
 								'triggerer' : $('#$id'),
@@ -231,7 +380,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
 						);";
                 } else {
                     $code .=
-                    "$('#$id').on('$event', function(event) {
+                        "$('#$id').on('$event', function(event) {
 						$(this).trigger('$signal',
 							{
 								'id' : '$signal', 'event' : '$event',
@@ -246,41 +395,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
             return $code;
         });
     }
-
-    /**
-     * Check if a given component fits this renderer and throw \LogicError if that is not
-     * the case.
-     *
-     * @throws	LogicException		if component does not fit.
-     */
-    final protected function checkComponent(Component $component): void
-    {
-        $interfaces = $this->getComponentInterfaceName();
-        if (!is_array($interfaces)) {
-            throw new LogicException(
-                "Expected array, found '" . (string) (null) . "' when rendering."
-            );
-        }
-
-        foreach ($interfaces as $interface) {
-            if ($component instanceof $interface) {
-                return;
-            }
-        }
-        $ifs = implode(", ", $interfaces);
-        throw new LogicException(
-            "Expected $ifs, found '" . get_class($component) . "' when rendering."
-        );
-    }
-
-    /**
-     * Get the name of the component-interface this renderer is supposed to render.
-     *
-     * ATTENTION: Fully qualified please!
-     *
-     * @return string[]
-     */
-    abstract protected function getComponentInterfaceName(): array;
 
     /**
      * @return mixed

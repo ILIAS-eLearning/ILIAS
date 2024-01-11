@@ -27,18 +27,19 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard as StandardIcon;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Implementation\Component\Button\Button;
 use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var Component\Card\Card $component
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Card\Card) {
+            return null;
+        }
+
         $tpl = $this->getTemplate("tpl.card.html", true, true);
 
         $title = $component->getTitle();
@@ -54,31 +55,29 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("no_highlight");
         }
 
-        $id = $this->bindJavaScript($component);
-        if (!$id) {
-            $id = $this->createId();
-        }
-        if (!empty($component->getTitleAction())) {
-            if (is_string($component->getTitleAction())) {
-                $tpl->setCurrentBlock("title_action_begin");
-                $tpl->setVariable("HREF", $component->getTitleAction());
-                $tpl->setVariable("ID", $id);
-                $tpl->parseCurrentBlock();
-            } elseif ($title instanceof Shy) {
-                $title = $default_renderer->render($title);
+        $apply_optional_id_and_action = function (Template $tpl, ?string $id) use ($component, $title, $default_renderer): void {
+            if (!empty($component->getTitleAction())) {
+                if (is_string($component->getTitleAction())) {
+                    $tpl->setCurrentBlock("title_action_begin");
+                    $tpl->setVariable("HREF", $component->getTitleAction());
+                    $tpl->setVariable("ID", $id);
+                    $tpl->parseCurrentBlock();
+                } elseif ($title instanceof Shy) {
+                    $title = $default_renderer->render($title);
+                }
+                if (is_array($component->getTitleAction())) {
+                    $tpl->setCurrentBlock("title_action_begin");
+                    $tpl->setVariable("ID", $id);
+                    $tpl->parseCurrentBlock();
+                }
             }
-            if (is_array($component->getTitleAction())) {
-                $tpl->setCurrentBlock("title_action_begin");
-                $tpl->setVariable("ID", $id);
-                $tpl->parseCurrentBlock();
-            }
-        }
+        };
 
         $tpl->setVariable("TITLE", $title);
 
         if ($component->getImage()) {
             $tpl->setVariable("IMAGE", $default_renderer->render(
-                $component->getImage()->withAlt($this->txt("open")." ".strip_tags($image_alt))
+                $component->getImage()->withAlt($this->txt("open") . " " . strip_tags($image_alt))
             ));
         }
 
@@ -121,14 +120,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Card\Card::class);
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_id_and_action);
     }
 }

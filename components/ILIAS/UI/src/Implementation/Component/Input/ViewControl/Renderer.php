@@ -24,6 +24,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use LogicException;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -33,9 +34,8 @@ class Renderer extends AbstractComponentRenderer
     public const DEFAULT_DROPDOWN_LABEL_OFFSET = 'label_pagination_offset';
     public const DEFAULT_DROPDOWN_LABEL_LIMIT = 'label_pagination_limit';
 
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
         switch (true) {
             case ($component instanceof FieldSelection):
                 return $this->renderFieldSelection($component, $default_renderer);
@@ -46,18 +46,8 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof Component\Input\ViewControl\Group):
                 return $default_renderer->render($component->getInputs());
             default:
-                throw new LogicException("Cannot render '" . get_class($component) . "'");
+                return null;
         }
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\ViewControl\FieldSelection::class,
-            Component\Input\ViewControl\Sortation::class,
-            Component\Input\ViewControl\Pagination::class,
-            Component\Input\ViewControl\Group::class,
-        ];
     }
 
     protected function renderFieldSelection(FieldSelection $component, RendererInterface $default_renderer): string
@@ -114,19 +104,23 @@ class Renderer extends AbstractComponentRenderer
                 .on('click', (event) =>  event.stopPropagation());"
         );
 
-        $id = $this->bindJavaScript($component);
         $container_submit_signal = $component->getOnChangeSignal();
         $button_label = $component->getButtonLabel() !== '' ?
             $component->getButtonLabel() : $this->txt(self::DEFAULT_BUTTON_LABEL);
         $button = $ui_factory->button()->standard($button_label, '#')
             ->withOnClick($internal_signal);
 
-        $tpl->setVariable('ID', $id);
-        $tpl->setVariable("ID_MENU", $id . '_ctrl');
         $tpl->setVariable("ARIA_LABEL", $this->txt(self::DEFAULT_DROPDOWN_LABEL));
         $tpl->setVariable("BUTTON", $default_renderer->render($button));
 
-        return $tpl->get();
+        $apply_optional_menu_ids = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setVariable('ID', $id);
+                $tpl->setVariable("ID_MENU", $id . '_ctrl');
+            }
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_menu_ids);
     }
 
     protected function renderSortation(Sortation $component, RendererInterface $default_renderer): string
@@ -171,10 +165,6 @@ class Renderer extends AbstractComponentRenderer
                     });"
             );
         }
-        $id = $this->bindJavaScript($component);
-
-        $tpl->setVariable('ID', $id);
-        $tpl->setVariable("ID_MENU", $id . '_ctrl');
         $tpl->setVariable("ARIA_LABEL", $this->txt(self::DEFAULT_SORTATION_DROPDOWN_LABEL));
 
         $tpl->setVariable(
@@ -184,7 +174,14 @@ class Renderer extends AbstractComponentRenderer
             )
         );
 
-        return $tpl->get();
+        $apply_optional_menu_ids = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setVariable('ID', $id);
+                $tpl->setVariable("ID_MENU", $id . '_ctrl');
+            }
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_menu_ids);
     }
 
     /**
@@ -350,12 +347,9 @@ class Renderer extends AbstractComponentRenderer
                     });"
             );
         }
-        $id = $this->bindJavaScript($component);
 
-        $tpl->setVariable('ID', $id);
-        $tpl->setVariable("ID_MENU_OFFSET", $id . '_ctrl_offset');
         $tpl->setVariable("ARIA_LABEL_OFFSET", $this->txt(self::DEFAULT_DROPDOWN_LABEL_OFFSET));
-        $tpl->setVariable("ID_MENU_LIMIT", $id . '_ctrl_limit');
+
         $tpl->setVariable("ARIA_LABEL_LIMIT", $this->txt(self::DEFAULT_DROPDOWN_LABEL_LIMIT));
 
         $tpl->setVariable(
@@ -365,6 +359,14 @@ class Renderer extends AbstractComponentRenderer
             )
         );
 
-        return $tpl->get();
+        $apply_optional_menu_ids = static function (Template $tpl, ?string $id) {
+            if (null !== $id) {
+                $tpl->setVariable('ID', $id);
+                $tpl->setVariable("ID_MENU_OFFSET", $id . '_ctrl_offset');
+                $tpl->setVariable("ID_MENU_LIMIT", $id . '_ctrl_limit');
+            }
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_menu_ids);
     }
 }

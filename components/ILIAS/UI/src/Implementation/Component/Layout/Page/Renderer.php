@@ -37,15 +37,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Layout\Page\Standard) {
             return $this->renderStandardPage($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
     protected function renderStandardPage(
@@ -55,6 +53,24 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
         $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
+
+        $component = $component->withAdditionalOnLoadCode(
+            fn(string $id): string => "il.UI.core.hydrateComponents(document.body);"
+        );
+
+        // pass JavaScript code directly to the JavaScriptBinding for now, as this
+        // is currently the only way of adding it to the page, see setHeaderVars().
+        if (null !== ($binder = $component->getOnLoadCode())) {
+            $on_load_code = $binder($this->getJavascriptBinding()->createId());
+
+            if (!is_string($on_load_code)) {
+                throw new LogicException('Expected JavaScript binder to return string, got: ' . gettype($on_load_code));
+            }
+
+            if ('' !== $on_load_code) {
+                $this->getJavascriptBinding()->addOnLoadCode($on_load_code);
+            }
+        }
 
         if ($component->hasOverlay()) {
             $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
@@ -201,15 +217,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/Page/stdpage.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Component\Layout\Page\Standard::class
-        );
     }
 }

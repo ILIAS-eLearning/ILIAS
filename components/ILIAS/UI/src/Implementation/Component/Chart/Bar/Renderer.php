@@ -32,26 +32,17 @@ use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var Bar\Bar $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Bar\Horizontal) {
-            /**
-             * @var Bar\Horizontal $component
-             */
             return $this->renderHorizontal($component, $default_renderer);
-        } elseif ($component instanceof Bar\Vertical) {
-            /**
-             * @var Bar\Vertical $component
-             */
+        }
+
+        if ($component instanceof Bar\Vertical) {
             return $this->renderVertical($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
     protected function renderHorizontal(
@@ -82,10 +73,8 @@ class Renderer extends AbstractComponentRenderer
                 );";
             }
         );
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable("ID", $id);
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function renderVertical(
@@ -116,10 +105,8 @@ class Renderer extends AbstractComponentRenderer
                 );";
             }
         );
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable("ID", $id);
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function renderBasics(Bar\Bar $component, Template $tpl): void
@@ -418,10 +405,5 @@ class Renderer extends AbstractComponentRenderer
         parent::registerResources($registry);
         $registry->register('./node_modules/chart.js/dist/chart.min.js');
         $registry->register('./components/ILIAS/UI/src/templates/js/Chart/Bar/dist/bar.js');
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [Bar\Bar::class];
     }
 }

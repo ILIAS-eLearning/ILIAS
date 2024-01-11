@@ -82,14 +82,11 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var $component Input
-         */
-        $this->checkComponent($component);
-
-        $component = $this->setSignals($component);
+        if ($component instanceof F\FormInput) {
+            $component = $this->setSignals($component);
+        }
 
         switch (true) {
             case ($component instanceof F\OptionalGroup):
@@ -157,14 +154,14 @@ class Renderer extends AbstractComponentRenderer
                 return $this->renderRatingField($component);
 
             default:
-                throw new LogicException("Cannot render '" . get_class($component) . "'");
+                return null;
         }
     }
 
     protected function wrapInFormContext(
         FormInput $component,
         string $input_html,
-        string $id_pointing_to_input = '',
+        ?string $id_pointing_to_input = null,
         string $dependant_group_html = '',
         bool $bind_label_with_for = true
     ): string {
@@ -215,11 +212,10 @@ class Renderer extends AbstractComponentRenderer
         return $name;
     }
 
-    protected function bindJSandApplyId(FormInput $component, Template $tpl): string
+    protected function dehydrateComponentAndWrapInFormContext(FormInput $component, Template $template): string
     {
-        $id = $this->bindJavaScript($component) ?? $this->createId();
-        $tpl->setVariable("ID", $id);
-        return $id;
+        [$component_html, $component_id] = $this->dehydrateComponentAndInterceptId($component, $template, $this->getMandatoryIdBinder());
+        return $this->wrapInFormContext($component, $component_html, $component_id);
     }
 
     /**
@@ -272,8 +268,7 @@ class Renderer extends AbstractComponentRenderer
 
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
         $this->maybeDisable($component, $tpl);
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     protected function renderNumericField(F\Numeric $component): string
@@ -282,8 +277,7 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
         $this->maybeDisable($component, $tpl);
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     protected function renderCheckboxField(F\Checkbox $component): string
@@ -296,9 +290,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $this->maybeDisable($component, $tpl);
-        $id = $this->bindJSandApplyId($component, $tpl);
-
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     protected function renderOptionalGroup(F\OptionalGroup $component, RendererInterface $default_renderer): string
@@ -315,14 +307,13 @@ class Renderer extends AbstractComponentRenderer
         $component = $component->withAdditionalOnLoadCode(function ($id) {
             return "il.UI.Input.groups.optional.init('$id')";
         });
-        $this->bindJSandApplyId($component, $tpl);
 
         $dependant_group_html = $default_renderer->render($component->getInputs());
-
         $this->maybeDisable($component, $tpl);
-        $id = $this->bindJSandApplyId($component, $tpl);
 
-        return $this->wrapInFormContext($component, $tpl->get(), $id, $dependant_group_html);
+        [$component_html, $component_id] = $this->dehydrateComponentAndInterceptId($component, $tpl, $this->getMandatoryIdBinder());
+
+        return $this->wrapInFormContext($component, $component_html, $component_id, $dependant_group_html);
     }
 
     protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer): string
@@ -335,35 +326,41 @@ class Renderer extends AbstractComponentRenderer
         $component = $component->withAdditionalOnLoadCode(function ($id) {
             return "il.UI.Input.groups.switchable.init('$id')";
         });
-        $id = $this->bindJSandApplyId($component, $tpl);
 
-        foreach ($component->getInputs() as $key => $group) {
-            $opt_id = $id . '_' . $key . '_opt';
+        $render_input = function (Template $tpl, ?string $id) use ($component, $default_renderer): void {
+            $id = $id ?? $this->createId();
+            $this->getOptionalIdBinder()($tpl, $id);
 
-            $tpl->setCurrentBlock('optionblock');
-            $tpl->setVariable("NAME", $component->getName());
-            $tpl->setVariable("OPTIONID", $opt_id);
-            $tpl->setVariable("VALUE", $key);
-            $tpl->setVariable("LABEL", $group->getLabel());
-            $tpl->setVariable("BYLINE", $group->getByline());
+            foreach ($component->getInputs() as $key => $group) {
+                $opt_id = $id . '_' . $key . '_opt';
 
-            if ($component->getValue() !== null) {
-                list($index, ) = $component->getValue();
-                if ($index == $key) {
-                    $tpl->setVariable("CHECKED", 'checked="checked"');
+                $tpl->setCurrentBlock('optionblock');
+                $tpl->setVariable("NAME", $component->getName());
+                $tpl->setVariable("OPTIONID", $opt_id);
+                $tpl->setVariable("VALUE", $key);
+                $tpl->setVariable("LABEL", $group->getLabel());
+                $tpl->setVariable("BYLINE", $group->getByline());
+
+                if ($component->getValue() !== null) {
+                    list($index, ) = $component->getValue();
+                    if ($index == $key) {
+                        $tpl->setVariable("CHECKED", 'checked="checked"');
+                    }
                 }
+
+                $dependant_group_html = $default_renderer->render($group);
+                $tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
+
+                if ($component->isDisabled()) {
+                    $tpl->setVariable("DISABLED", 'disabled="disabled"');
+                }
+                $tpl->parseCurrentBlock();
             }
+        };
 
-            $dependant_group_html = $default_renderer->render($group);
-            $tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
+        $component_html = $this->dehydrateComponent($component, $tpl, $render_input);
 
-            if ($component->isDisabled()) {
-                $tpl->setVariable("DISABLED", 'disabled="disabled"');
-            }
-            $tpl->parseCurrentBlock();
-        }
-
-        return $this->wrapInFormContext($component, $tpl->get());
+        return $this->wrapInFormContext($component, $component_html);
     }
 
     protected function renderTagField(F\Tag $component): string
@@ -390,14 +387,13 @@ class Renderer extends AbstractComponentRenderer
                 return "il.UI.Input.tagInput.init('{$id}', {$encoded}, {$value});";
             }
         );
-        $id = $this->bindJSandApplyId($component, $tpl);
 
         if ($component->isDisabled()) {
             $tpl->setVariable("DISABLED", "disabled");
             $tpl->setVariable("READONLY", "readonly");
         }
 
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     protected function renderPasswordField(F\Password $component, RendererInterface $default_renderer): string
@@ -431,11 +427,16 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
             $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
         }
-        $id = $this->bindJSandApplyId($component, $tpl);
-        $tpl->setVariable('ID_CONTAINER', $id . "_container");
+
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+
+        [$component_html, $id] = $this->dehydrateComponentAndInterceptId($component, $tpl, function ($tpl, $id) {
+            $tpl->setVariable('ID_CONTAINER', $id . "_container");
+            $tpl->setVariable('ID', $id);
+        });
+
+        return $this->wrapInFormContext($component, $component_html, $id);
     }
 
     public function renderSelectField(F\Select $component): string
@@ -471,9 +472,8 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $this->maybeDisable($component, $tpl);
-        $id = $this->bindJSandApplyId($component, $tpl);
 
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     protected function renderMarkdownField(F\Markdown $component, RendererInterface $default_renderer): string
@@ -492,10 +492,10 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $textarea_tpl = $this->getPreparedTextareaTemplate($component);
-        $textarea_id = $this->bindJSandApplyId($component, $textarea_tpl);
+        [$textarea_html, $textarea_id] = $this->dehydrateComponentAndInterceptId($component, $textarea_tpl);
 
         $markdown_tpl = $this->getTemplate("tpl.markdown.html", true, true);
-        $markdown_tpl->setVariable('TEXTAREA', $textarea_tpl->get());
+        $markdown_tpl->setVariable('TEXTAREA', $textarea_html);
 
         $markdown_tpl->setVariable(
             'PREVIEW',
@@ -554,9 +554,7 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $tpl = $this->getPreparedTextareaTemplate($component);
-        $id = $this->bindJSandApplyId($component, $tpl);
-
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     protected function getPreparedTextareaTemplate(F\Textarea $component): Template
@@ -583,40 +581,42 @@ class Renderer extends AbstractComponentRenderer
     protected function renderRadioField(F\Radio $component): string
     {
         $tpl = $this->getTemplate("tpl.radio.html", true, true);
-        $id = $this->bindJSandApplyId($component, $tpl);
 
-        foreach ($component->getOptions() as $value => $label) {
-            $opt_id = $id . '_' . $value . '_opt';
+        $render_input = function (Template $tpl, ?string $id) use ($component): void {
+            $id = $id ?? $this->createId();
+            $this->getOptionalIdBinder()($tpl, $id);
 
-            $tpl->setCurrentBlock('optionblock');
-            $tpl->setVariable("NAME", $component->getName());
-            $tpl->setVariable("OPTIONID", $opt_id);
-            $tpl->setVariable("VALUE", $value);
-            $tpl->setVariable("LABEL", $label);
+            foreach ($component->getOptions() as $value => $label) {
+                $opt_id = $id . '_' . $value . '_opt';
 
-            if ($component->getValue() !== null && $component->getValue() == $value) {
-                $tpl->setVariable("CHECKED", 'checked="checked"');
+                $tpl->setCurrentBlock('optionblock');
+                $tpl->setVariable("NAME", $component->getName());
+                $tpl->setVariable("OPTIONID", $opt_id);
+                $tpl->setVariable("VALUE", $value);
+                $tpl->setVariable("LABEL", $label);
+
+                if ($component->getValue() !== null && $component->getValue() == $value) {
+                    $tpl->setVariable("CHECKED", 'checked="checked"');
+                }
+                if ($component->isDisabled()) {
+                    $tpl->setVariable("DISABLED", 'disabled="disabled"');
+                }
+
+                $byline = $component->getBylineFor((string) $value);
+                if (!empty($byline)) {
+                    $tpl->setVariable("BYLINE", $byline);
+                }
+
+                $tpl->parseCurrentBlock();
             }
-            if ($component->isDisabled()) {
-                $tpl->setVariable("DISABLED", 'disabled="disabled"');
-            }
+        };
 
-            $byline = $component->getBylineFor((string) $value);
-            if (!empty($byline)) {
-                $tpl->setVariable("BYLINE", $byline);
-            }
-
-            $tpl->parseCurrentBlock();
-        }
-
-        return $this->wrapInFormContext($component, $tpl->get());
+        return $this->dehydrateComponent($component, $tpl, $render_input);
     }
 
     protected function renderMultiSelectField(F\MultiSelect $component): string
     {
         $tpl = $this->getTemplate("tpl.multiselect.html", true, true);
-        $id = $this->bindJSandApplyId($component, $tpl);
-        $tpl->setVariable("ID", $id);
 
         $options = $component->getOptions();
         if (count($options) > 0) {
@@ -641,18 +641,17 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("no_options");
         }
 
-        return $this->wrapInFormContext($component, $tpl->get());
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     protected function renderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): string
     {
         list($component, $tpl) = $this->internalRenderDateTimeField($component, $default_renderer);
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     /**
-     * @return array<DateTime,Template>
+     * @return array{DateTime,Template}
      */
     protected function internalRenderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): array
     {
@@ -713,18 +712,18 @@ class Renderer extends AbstractComponentRenderer
 
         $input = array_shift($inputs); //from
         list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
-        $first_input_id = $this->bindJSandApplyId($input, $tpl);
-        $input_html = $this->wrapInFormContext($input, $tpl->get(), $first_input_id);
+        [$first_input_html, $first_input_id] = $this->dehydrateComponentAndInterceptId($input, $tpl);
+        $input_html = $this->wrapInFormContext($input, $first_input_html, $first_input_id);
 
         $input = array_shift($inputs) //until
             ->withAdditionalPickerconfig(['useCurrent' => false]);
         $input_html .= $default_renderer->render($input);
 
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
-        $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable('DURATION', $input_html);
 
-        return $this->wrapInFormContext($component, $tpl->get(), $first_input_id);
+        [$second_input_html, $id] = $this->dehydrateComponentAndInterceptId($component, $tpl);
+        return $this->wrapInFormContext($component, $second_input_html, $first_input_id);
     }
 
     protected function renderSection(F\Section $section, RendererInterface $default_renderer): string
@@ -759,8 +758,7 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
         $this->maybeDisable($component, $tpl);
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     protected function renderFileField(FI\File $input, RendererInterface $default_renderer): string
@@ -806,10 +804,10 @@ class Renderer extends AbstractComponentRenderer
             )
         ));
 
-        $js_id = $this->bindJSandApplyId($input, $template);
+        [$component_html, $js_id] = $this->dehydrateComponentAndInterceptId($input, $template);
         return $this->wrapInFormContext(
             $input,
-            $template->get(),
+            $component_html,
             $js_id,
             "",
             false
@@ -822,8 +820,7 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($input, $template);
         $this->applyValue($input, $template);
         $this->maybeDisable($input, $template);
-        $this->bindJSandApplyId($input, $template);
-        return $template->get();
+        return $this->dehydrateComponent($input, $template, $this->getMandatoryIdBinder());
     }
 
     /**
@@ -890,36 +887,6 @@ class Renderer extends AbstractComponentRenderer
             }
         }
         return $ret;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\Field\Text::class,
-            Component\Input\Field\Numeric::class,
-            Component\Input\Field\Group::class,
-            Component\Input\Field\OptionalGroup::class,
-            Component\Input\Field\SwitchableGroup::class,
-            Component\Input\Field\Section::class,
-            Component\Input\Field\Checkbox::class,
-            Component\Input\Field\Tag::class,
-            Component\Input\Field\Password::class,
-            Component\Input\Field\Select::class,
-            Component\Input\Field\Radio::class,
-            Component\Input\Field\Textarea::class,
-            Component\Input\Field\MultiSelect::class,
-            Component\Input\Field\DateTime::class,
-            Component\Input\Field\Duration::class,
-            Component\Input\Field\File::class,
-            Component\Input\Field\Url::class,
-            Component\Input\Field\Hidden::class,
-            Component\Input\Field\ColorPicker::class,
-            Component\Input\Field\Markdown::class,
-            Component\Input\Field\Rating::class,
-        ];
     }
 
     protected function renderFilePreview(
@@ -1054,9 +1021,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.colorpicker.html", true, true);
         $this->applyName($component, $tpl);
         $tpl->setVariable('VALUE', $component->getValue());
-        $id = $this->bindJSandApplyId($component, $tpl);
-
-        return $this->wrapInFormContext($component, $tpl->get());
+        return $this->dehydrateComponentAndWrapInFormContext($component, $tpl);
     }
 
     protected function renderRatingField(F\Rating $component): string

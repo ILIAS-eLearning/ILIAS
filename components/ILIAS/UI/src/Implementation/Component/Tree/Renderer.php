@@ -31,13 +31,11 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
-        /**
-         * @var $component Tree\Expandable
-         */
+        if (!$component instanceof Tree\Expandable) {
+            return null;
+        }
 
         $tpl_name = "tpl.tree.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
@@ -63,14 +61,10 @@ class Renderer extends AbstractComponentRenderer
 
         $highlight_node_on_click = $component->getHighlightOnNodeClick();
         $component = $component->withAdditionalOnLoadCode(
-            fn ($id) => "il.UI.tree.init('$id', $highlight_node_on_click)"
+            fn($id) => "il.UI.tree.init('$id', $highlight_node_on_click)"
         );
 
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable("ID", $id);
-
-
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     /**
@@ -104,15 +98,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/Tree/tree.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Tree\Expandable::class
-        );
     }
 }

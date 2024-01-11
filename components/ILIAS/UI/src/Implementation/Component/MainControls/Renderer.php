@@ -34,6 +34,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use LogicException;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -46,10 +47,8 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof MainBar) {
             return $this->renderMainbar($component, $default_renderer);
         }
@@ -65,7 +64,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\MainControls\SystemInfo) {
             return $this->renderSystemInfo($component, $default_renderer);
         }
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
     protected function calculateMainBarTreePosition($pos, $slate)
@@ -226,10 +225,8 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
 
 
-        $id = $this->bindMainbarJS($component);
-        $tpl->setVariable('ID', $id);
-
-        return $tpl->get();
+        $component = $this->bindMainbarJS($component);
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function renderMetabar(MetaBar $component, RendererInterface $default_renderer): string
@@ -283,9 +280,7 @@ class Renderer extends AbstractComponentRenderer
         );
         $tpl->setVariable('ARIA_LABEL', $this->txt('metabar_aria_label'));
 
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable('ID', $id);
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function renderModeInfo(ModeInfo $component, RendererInterface $default_renderer): string
@@ -332,12 +327,15 @@ class Renderer extends AbstractComponentRenderer
 
         $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.maincontrols.system_info.init('$id')");
 
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable('ID', $id);
-        $tpl->setVariable('ID_HEADLINE', $id . "_headline");
-        $tpl->setVariable('ID_DESCRIPTION', $id . "_description");
+        $apply_optional_ids = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setVariable('ID', $id);
+                $tpl->setVariable('ID_HEADLINE', $id . "_headline");
+                $tpl->setVariable('ID_DESCRIPTION', $id . "_description");
+            }
+        };
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_ids);
     }
 
 
@@ -385,7 +383,7 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function bindMainbarJS(MainBar $component): ?string
+    protected function bindMainbarJS(MainBar $component): MainBar
     {
         $trigger_signals = $this->trigger_signals;
 
@@ -416,7 +414,7 @@ class Renderer extends AbstractComponentRenderer
             }
         );
 
-        return $this->bindJavaScript($component);
+        return $component;
     }
 
     protected function renderFooter(Footer $component, RendererInterface $default_renderer): string
@@ -457,22 +455,8 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/MainControls/dist/mainbar.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/MainControls/dist/maincontrols.min.js');
+        // $registry->register('./components/ILIAS/UI/src/templates/js/MainControls/dist/maincontrols.min.js');
         $registry->register('./components/ILIAS/GlobalScreen/src/Client/dist/GS.js');
         $registry->register('./components/ILIAS/UI/src/templates/js/MainControls/system_info.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            MetaBar::class,
-            MainBar::class,
-            Footer::class,
-            ModeInfo::class,
-            Component\MainControls\SystemInfo::class
-        );
     }
 }

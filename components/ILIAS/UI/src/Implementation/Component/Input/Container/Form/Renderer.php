@@ -32,10 +32,8 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Form\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
@@ -44,7 +42,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderNoSubmit($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
     protected function renderStandard(Form\Standard $component, RendererInterface $default_renderer): string
@@ -99,10 +97,7 @@ class Renderer extends AbstractComponentRenderer
             }
         );
 
-        $id = $this->bindJavaScript($enriched_component) ?? $this->createId();
-        $tpl->setVariable("ID", $id);
-
-        return $tpl->get();
+        return $this->dehydrateComponent($enriched_component, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function addPostURL(Component\Input\Container\Form\FormWithPostURL $component, Template $tpl): void
@@ -128,16 +123,5 @@ class Renderer extends AbstractComponentRenderer
         if ($component->hasRequiredInputs()) {
             $tpl->setVariable("TXT_REQUIRED", $this->txt("required_field"));
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\Container\Form\Standard::class,
-            FormWithoutSubmitButton::class,
-        ];
     }
 }

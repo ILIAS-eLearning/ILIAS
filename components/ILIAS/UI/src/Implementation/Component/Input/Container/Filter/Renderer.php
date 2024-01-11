@@ -34,15 +34,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Filter\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
     /**
@@ -52,13 +50,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.standard_filter.html", true, true);
 
-        // JavaScript
+        /** @var Filter\Standard $component */
         $component = $this->registerSignals($component);
-        /**
-         * @var $component Filter\Standard
-         */
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable('ID_FILTER', $id);
 
         // render expand and collapse
         $this->renderExpandAndCollapse($tpl, $component, $default_renderer);
@@ -72,13 +65,19 @@ class Renderer extends AbstractComponentRenderer
         // render inputs
         $this->renderInputs($tpl, $component, $default_renderer);
 
-        return $tpl->get();
+        $apply_optional_id = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setVariable('FILTER_ID', $id);
+            }
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_id);
     }
 
     protected function registerSignals(Filter\Filter $filter): Filter\Filter
     {
         $update = $filter->getUpdateSignal();
-        return $filter->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$update', function(event, signalData) {
+        return $filter->withAdditionalOnLoadCode(fn($id) => "$(document).on('$update', function(event, signalData) {
                 il.UI.filter.onInputUpdate(event, signalData, '$id'); return false; 
             });");
     }
@@ -103,7 +102,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         $opener_expand = $f->button()->bulky($f->symbol()->glyph()->expand(), $this->txt("filter"), "")
-            ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
+            ->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
 					il.UI.filter.onAjaxCmd(event, '$id', 'expand');
 					event.preventDefault();
 			    });");
@@ -114,7 +113,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         $opener_collapse = $f->button()->bulky($f->symbol()->glyph()->collapse(), $this->txt("filter"), "")
-            ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
+            ->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
 					il.UI.filter.onAjaxCmd(event, '$id', 'collapse');
 					event.preventDefault();
 			    });");
@@ -149,7 +148,7 @@ class Renderer extends AbstractComponentRenderer
 
         // render apply and reset buttons
         $apply = $f->button()->bulky($f->symbol()->glyph()->apply(), $this->txt("apply"), "")
-            ->withOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
+            ->withOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
                         il.UI.filter.onCmd(event, '$id', 'apply');
                         return false; // stop event propagation
                 });
@@ -193,11 +192,11 @@ class Renderer extends AbstractComponentRenderer
          * @var $toggle Toggle
          */
         $toggle = $f->button()->toggle("", $toggle_on_signal, $toggle_off_signal, $component->isActivated());
-        $toggle = $toggle->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$toggle_on_signal',function(event) {
+        $toggle = $toggle->withAdditionalOnLoadCode(fn($id) => "$(document).on('$toggle_on_signal',function(event) {
                         il.UI.filter.onCmd(event, '$id', 'toggleOn');
                         return false; // stop event propagation
             });");
-        $toggle = $toggle->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$toggle_off_signal',function(event) {
+        $toggle = $toggle->withAdditionalOnLoadCode(fn($id) => "$(document).on('$toggle_off_signal',function(event) {
                         il.UI.filter.onCmd(event, '$id', 'toggleOff');
                         return false; // stop event propagation
             });");
@@ -245,13 +244,5 @@ class Renderer extends AbstractComponentRenderer
 
         $renderer = $default_renderer->withAdditionalContext($component);
         $tpl->setVariable("INPUTS", $renderer->render($input_group));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Filter\Standard::class);
     }
 }

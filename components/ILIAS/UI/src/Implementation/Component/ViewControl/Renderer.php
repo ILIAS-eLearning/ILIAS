@@ -36,10 +36,8 @@ class Renderer extends AbstractComponentRenderer
 {
     public const MODE_ROLE = "group";
 
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\ViewControl\Mode) {
             return $this->renderMode($component, $default_renderer);
         }
@@ -52,7 +50,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\ViewControl\Pagination) {
             return $this->renderPagination($component, $default_renderer);
         }
-        throw new LogicException("Component '{$component->getCanonicalName()}' isn't supported by this renderer.");
+        return null;
     }
 
     protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer): string
@@ -125,7 +123,28 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $tpl->touchBlock($type . "_disabled");
         }
-        $this->renderId($component, $tpl, $type . "_with_id", $uptype . "_ID");
+
+        // this view control currently uses an approach which cannot be covered
+        // by component hydration. this is because the component only uses the
+        // JavaScript code of a button but doesn't render the actual button, so
+        // dehydrating it does not work. for now we pass the JavaScript directly
+        // to the JavaScriptBinding.
+        $component_id = $this->getJavascriptBinding()->createId();
+        if (null !== ($binder = $component->getOnLoadCode())) {
+            $on_load_code = $binder($component_id);
+
+            if (!is_string($on_load_code)) {
+                throw new LogicException('Expected JavaScript binder to return string, got: ' . gettype($on_load_code));
+            }
+
+            if ('' !== $on_load_code) {
+                $this->getJavascriptBinding()->addOnLoadCode($on_load_code);
+            }
+        }
+
+        $tpl->setCurrentBlock($type . "_with_id");
+        $tpl->setVariable($uptype . "_ID", $component_id);
+        $tpl->parseCurrentBlock();
     }
 
     protected function renderSortation(
@@ -148,8 +167,6 @@ class Renderer extends AbstractComponentRenderer
                         })");
         }
 
-        $this->renderId($component, $tpl, "id", "ID");
-
         //setup entries
         $options = $component->getOptions();
         $init_label = $component->getLabel();
@@ -170,7 +187,16 @@ class Renderer extends AbstractComponentRenderer
             ->withAriaLabel($init_label);
 
         $tpl->setVariable('SORTATION_DROPDOWN', $default_renderer->render($dd));
-        return $tpl->get();
+
+        $apply_optional_id = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setCurrentBlock('id');
+                $tpl->setVariable('ID', $id);
+                $tpl->parseCurrentBlock();
+            }
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_id);
     }
 
     protected function renderPagination(
@@ -189,14 +215,10 @@ class Renderer extends AbstractComponentRenderer
         if ($triggeredSignals) {
             $internal_signal = $component->getInternalSignal();
             $signal = $triggeredSignals[0]->getSignal();
-            $component = $component->withOnLoadCode(
-                fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
-                            il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
-                            return false;
-                        })"
-            );
-            $id = $this->bindJavaScript($component);
-            $tpl->setVariable('ID', $id);
+            $component = $component->withOnLoadCode(fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
+							il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
+							return false;
+						})");
         }
 
         $chunk_options = array();
@@ -240,7 +262,8 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $this->setPaginationBrowseControls($component, $default_renderer, $tpl);
-        return $tpl->get();
+
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     /**
@@ -373,35 +396,6 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/ViewControl/sortation.js');
-        $registry->register('./src/UI/templates/js/ViewControl/pagination.js');
-    }
-
-    protected function renderId(
-        Component\JavaScriptBindable $component,
-        Template $tpl,
-        string $block,
-        string $template_var
-    ): void {
-        $id = $this->bindJavaScript($component);
-        if (!$id) {
-            $id = $this->createId();
-        }
-        $tpl->setCurrentBlock($block);
-        $tpl->setVariable($template_var, $id);
-        $tpl->parseCurrentBlock();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Component\ViewControl\Mode::class,
-            Component\ViewControl\Section::class,
-            Component\ViewControl\Sortation::class,
-            Component\ViewControl\Pagination::class
-        );
+        $registry->register('./src/UI/templates/js/ViewControl/viewcontrols.min.js');
     }
 }

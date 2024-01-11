@@ -29,9 +29,11 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Breadcrumbs\Breadcrumbs) {
+            return null;
+        }
 
         $tpl = $this->getTemplate("tpl.breadcrumbs.html", true, true);
 
@@ -43,13 +45,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Breadcrumbs\Breadcrumbs::class);
     }
 }

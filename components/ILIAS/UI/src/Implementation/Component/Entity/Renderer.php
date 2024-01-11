@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Entity;
 
-//use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -32,10 +31,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-        return $this->renderEntity($component, $default_renderer);
+        if ($component instanceof Entity) {
+            return $this->renderEntity($component, $default_renderer);
+        }
+
+        return null;
     }
 
     protected function renderEntity(Entity $component, RendererInterface $default_renderer): string
@@ -47,11 +49,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock('secondid_string');
         } elseif ($secondary_identifier instanceof Component\Image\Image) {
             $tpl->touchBlock('secondid_image');
-        } elseif ($secondary_identifier instanceof Component\Image\Symbol) {
+        } elseif ($secondary_identifier instanceof Component\Symbol\Symbol) {
             $tpl->touchBlock('secondid_symbol');
-        } elseif ($secondary_identifier instanceof Component\Image\Link) {
+        } elseif ($secondary_identifier instanceof Component\Link\Link) {
             $tpl->touchBlock('secondid_link');
-        } elseif ($secondary_identifier instanceof Component\Image\Shy) {
+        } elseif ($secondary_identifier instanceof Component\Button\Shy) {
             $tpl->touchBlock('secondid_shy');
         }
 
@@ -90,15 +92,5 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $default_renderer->render($values);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Entity\Standard::class
-        ];
     }
 }

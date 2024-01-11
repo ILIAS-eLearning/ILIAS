@@ -17,9 +17,9 @@ import DataTable from './datatable.class';
 
 export default class DataTableFactory {
   /**
-    * @type {jQuery}
+   * @type {AsyncRenderer}
     */
-  #jquery;
+  #asyncRenderer;
 
   /**
    * @type {Array<string, DataTable>}
@@ -27,10 +27,10 @@ export default class DataTableFactory {
   #instances = [];
 
   /**
-   * @param {jQuery} jquery
+   * @param {AsyncRenderer} asyncRenderer
    */
-  constructor(jquery) {
-    this.#jquery = jquery;
+  constructor(asyncRenderer) {
+    this.#asyncRenderer = asyncRenderer;
   }
 
   /**
@@ -46,7 +46,7 @@ export default class DataTableFactory {
     }
 
     this.#instances[tableId] = new DataTable(
-      this.#jquery,
+      this.#asyncRenderer,
       optActionId,
       optRowId,
       tableId,

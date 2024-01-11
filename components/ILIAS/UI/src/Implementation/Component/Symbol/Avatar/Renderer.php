@@ -26,40 +26,34 @@ use ILIAS\UI\Renderer as RendererInterface;
 
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-        $tpl = null;
-
-        $label = $component->getLabel();
-        if ($label == "") {
-            $label = $this->txt("user_avatar");
-        }
-
-        /**
-         * @var $component Avatar
-         */
         if ($component instanceof Component\Symbol\Avatar\Letter) {
             $tpl = $this->getTemplate('tpl.avatar_letter.html', true, true);
-            $tpl->setVariable('ARIA_LABEL', $label);
+            $tpl->setVariable('ARIA_LABEL', $this->getLabel($component));
             $tpl->setVariable('MODE', 'letter');
             $tpl->setVariable('TEXT', $component->getAbbreviation());
             $tpl->setVariable('COLOR', (string) $component->getBackgroundColorVariant());
-        } elseif ($component instanceof Component\Symbol\Avatar\Picture) {
-            $tpl = $this->getTemplate('tpl.avatar_picture.html', true, true);
-            $tpl->setVariable('ARIA_LABEL', $label);
-            $tpl->setVariable('MODE', 'picture');
-            $tpl->setVariable('CUSTOMIMAGE', $component->getPicturePath());
+            return $tpl->get();
         }
 
-        return $tpl->get();
+        if ($component instanceof Component\Symbol\Avatar\Picture) {
+            $tpl = $this->getTemplate('tpl.avatar_picture.html', true, true);
+            $tpl->setVariable('ARIA_LABEL', $this->getLabel($component));
+            $tpl->setVariable('MODE', 'picture');
+            $tpl->setVariable('CUSTOMIMAGE', $component->getPicturePath());
+            return $tpl->get();
+        }
+
+        return null;
     }
 
-    protected function getComponentInterfaceName(): array
+    protected function getLabel(Component\Symbol\Avatar\Avatar $component): string
     {
-        return array(
-            Component\Symbol\Avatar\Letter::class,
-            Component\Symbol\Avatar\Picture::class,
-        );
+        $label = $component->getLabel();
+        if ($label === "") {
+            $label = $this->txt("user_avatar");
+        }
+        return $label;
     }
 }

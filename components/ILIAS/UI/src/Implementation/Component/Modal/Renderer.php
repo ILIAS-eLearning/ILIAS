@@ -38,25 +38,23 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         // If the modal is rendered async, we just create a fake container which will be
         // replaced by the modal upon successful ajax request
-        /** @var Modal $component */
-        if ($component->getAsyncRenderUrl()) {
+        if ($component instanceof Component\Modal\Modal && $component->getAsyncRenderUrl()) {
             return $this->renderAsync($component);
         }
-
         if ($component instanceof Component\Modal\Interruptive) {
             return $this->renderInterruptive($component, $default_renderer);
-        } elseif ($component instanceof Component\Modal\RoundTrip) {
+        }
+        if ($component instanceof Component\Modal\RoundTrip) {
             return $this->renderRoundTrip($component, $default_renderer);
-        } elseif ($component instanceof Component\Modal\Lightbox) {
+        }
+        if ($component instanceof Component\Modal\Lightbox) {
             return $this->renderLightbox($component, $default_renderer);
         }
-        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
+        return null;
     }
 
     /**
@@ -114,8 +112,10 @@ class Renderer extends AbstractComponentRenderer
     protected function renderAsync(Component\Modal\Modal $modal): string
     {
         $modal = $this->registerSignals($modal);
-        $id = $this->bindJavaScript($modal);
-        return "<span id='$id'></span>";
+
+        $tpl = $this->getTemplate('tpl.async_placeholder.html', true, true);
+
+        return $this->dehydrateComponent($modal, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function renderInterruptive(
@@ -124,8 +124,6 @@ class Renderer extends AbstractComponentRenderer
     ): string {
         $tpl = $this->getTemplate('tpl.interruptive.html', true, true);
         $modal = $this->registerSignals($modal);
-        $id = $this->bindJavaScript($modal);
-        $tpl->setVariable('ID', $id);
         $value = $modal->getFormAction();
         $tpl->setVariable('FORM_ACTION', $value);
         $tpl->setVariable('TITLE', $modal->getTitle());
@@ -155,7 +153,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
         $tpl->setVariable('CLOSE_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
 
-        return $tpl->get();
+        return $this->dehydrateComponent($modal, $tpl, $this->getOptionalIdBinder());
     }
 
     /**
@@ -186,8 +184,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
         /** @var $modal RoundTrip */
         $modal = $this->registerSignals($modal);
-        $id = $this->bindJavaScript($modal);
-        $tpl->setVariable('ID', $id);
         $tpl->setVariable('TITLE', $modal->getTitle());
         $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
 
@@ -220,56 +216,48 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
-        return $tpl->get();
+
+        return $this->dehydrateComponent($modal, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function renderLightbox(Component\Modal\Lightbox $modal, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.lightbox.html', true, true);
         $modal = $this->registerSignals($modal);
-        $id = $this->bindJavaScript($modal);
-        $tpl->setVariable('ID', $id);
-        $id_carousel = "{$id}_carousel";
-        $pages = $modal->getPages();
-        $tpl->setVariable('TITLE', $pages[0]->getTitle());
-        $tpl->setVariable('ID_CAROUSEL', $id_carousel);
-        $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
-        $tpl->setVariable('COLOR_SCHEME', $modal->getScheme());
 
-        if (count($pages) > 1) {
-            $tpl->setCurrentBlock('has_indicators');
-            foreach ($pages as $index => $page) {
-                $tpl->setCurrentBlock('indicators');
-                $tpl->setVariable('INDEX', $index);
-                $tpl->setVariable('CLASS_ACTIVE', ($index == 0) ? 'active' : '');
-                $tpl->setVariable('ID_CAROUSEL2', $id_carousel);
+        $render_lightbox = function (Template $tpl, ?string $id) use ($modal, $default_renderer): void {
+            $tpl->setVariable('ID', $id);
+            $id_carousel = "{$id}_carousel";
+            $pages = $modal->getPages();
+            $tpl->setVariable('TITLE', $pages[0]->getTitle());
+            $tpl->setVariable('ID_CAROUSEL', $id_carousel);
+            $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
+            $tpl->setVariable('COLOR_SCHEME', $modal->getScheme());
+
+            if (count($pages) > 1) {
+                $tpl->setCurrentBlock('has_indicators');
+                foreach ($pages as $index => $page) {
+                    $tpl->setCurrentBlock('indicators');
+                    $tpl->setVariable('INDEX', $index);
+                    $tpl->setVariable('CLASS_ACTIVE', ($index == 0) ? 'active' : '');
+                    $tpl->setVariable('ID_CAROUSEL2', $id_carousel);
+                    $tpl->parseCurrentBlock();
+                }
+            }
+            $first = true;
+            foreach ($pages as $page) {
+                $this->renderPage($page, $first, $tpl, $default_renderer);
+                $first = false;
+            }
+            if (count($pages) > 1) {
+                $tpl->setCurrentBlock('controls');
+                $tpl->setVariable('ID_CAROUSEL3', $id_carousel);
                 $tpl->parseCurrentBlock();
             }
-        }
-        $first = true;
-        foreach ($pages as $page) {
-            $this->renderPage($page, $first, $tpl, $default_renderer);
-            $first = false;
-        }
-        if (count($pages) > 1) {
-            $tpl->setCurrentBlock('controls');
-            $tpl->setVariable('ID_CAROUSEL3', $id_carousel);
-            $tpl->parseCurrentBlock();
-        }
-        $tpl->setVariable('ID_CAROUSEL4', $id_carousel);
-        return $tpl->get();
-    }
+            $tpl->setVariable('ID_CAROUSEL4', $id_carousel);
+        };
 
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Component\Modal\Interruptive::class,
-            Component\Modal\RoundTrip::class,
-            Component\Modal\Lightbox::class,
-        );
+        return $this->dehydrateComponent($modal, $tpl, $render_lightbox);
     }
 
     private function renderPage(LightboxPage $page, bool $first, Template $tpl, RendererInterface $default_renderer): void

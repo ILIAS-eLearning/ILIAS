@@ -33,21 +33,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var Component\Symbol\Icon\Icon $component
-         */
-        $this->checkComponent($component);
-        $tpl = $this->getTemplate("tpl.icon.html", true, true);
-
-        $id = $this->bindJavaScript($component);
-
-        if ($id !== null) {
-            $tpl->setCurrentBlock("with_id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
+        if (!$component instanceof Component\Symbol\Icon\Icon) {
+            return null;
         }
+
+        $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
         $tpl->setVariable("NAME", $component->getName());
         $tpl->setVariable("SIZE", $component->getSize());
@@ -81,7 +73,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock('aria_disabled');
         }
 
-        return $tpl->get();
+        $apply_optional_id = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setCurrentBlock("with_id");
+                $tpl->setVariable("ID", $id);
+                $tpl->parseCurrentBlock();
+            }
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_id);
     }
 
     protected function renderLabel(Component\Component $component, Template $tpl): Template
@@ -109,13 +109,5 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $this->getImagePathResolver()->resolveImagePath($icon_path_name);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Symbol\Icon\Icon::class);
     }
 }

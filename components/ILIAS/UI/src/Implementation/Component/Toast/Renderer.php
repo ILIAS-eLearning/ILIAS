@@ -27,16 +27,15 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use LogicException;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Toast\Toast) {
             return $this->renderToast($component, $default_renderer);
         }
@@ -44,7 +43,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderContainer($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
     protected function renderToast(Component\Toast\Toast $component, RendererInterface $default_renderer): string
@@ -82,16 +81,20 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ICON", $default_renderer->render($component->getIcon()));
         $tpl->setVariable("CLOSE", $default_renderer->render($this->getUIFactory()->button()->close()));
 
-        $component = $component->withAdditionalOnLoadCode(fn ($id) => "
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "
                 il.UI.toast.setToastSettings($id);
                 il.UI.toast.showToast($id);
             ");
 
-        $tpl->setCurrentBlock("id");
-        $tpl->setVariable('ID', $this->bindJavaScript($component));
-        $tpl->parseCurrentBlock();
+        $apply_optional_id = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setCurrentBlock("id");
+                $tpl->setVariable('ID', $id);
+                $tpl->parseCurrentBlock();
+            }
+        };
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_id);
     }
 
     protected function renderContainer(Component\Toast\Container $component, RendererInterface $default_renderer): string
@@ -105,16 +108,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/Toast/toast.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Toast\Toast::class,
-            Component\Toast\Container::class
-        ];
     }
 }

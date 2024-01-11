@@ -29,9 +29,11 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof ScaleBar) {
+            return null;
+        }
 
         $tpl = $this->getTemplate("tpl.scale_bar.html", true, true);
 
@@ -57,13 +59,5 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Chart\ScaleBar::class);
     }
 }

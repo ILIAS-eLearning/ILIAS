@@ -30,20 +30,15 @@ use ILIAS\UI\Component;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var Component\Player\Player $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Player\Audio) {
             return $this->renderAudio($component, $default_renderer);
         }
         if ($component instanceof Component\Player\Video) {
             return $this->renderVideo($component, $default_renderer);
         }
-        return "";
+        return null;
     }
 
     public function renderAudio(Component\Component $component, RendererInterface $default_renderer): string
@@ -53,7 +48,6 @@ class Renderer extends AbstractComponentRenderer
         $component = $component->withAdditionalOnLoadCode(function ($id) {
             return "$('#$id').mediaelementplayer({stretching: 'responsive'});";
         });
-        $id = $this->bindJavaScript($component);
 
         if ($component->getTranscription() != "") {
             $factory = $this->getUIFactory();
@@ -70,10 +64,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable("ID", $id);
         $tpl->setVariable("SOURCE", $component->getSource());
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     public function renderVideo(
@@ -85,7 +78,6 @@ class Renderer extends AbstractComponentRenderer
         $component = $component->withAdditionalOnLoadCode(function ($id) {
             return "$('#$id').mediaelementplayer();";
         });
-        $id = $this->bindJavaScript($component);
 
         foreach ($component->getSubtitleFiles() as $lang_key => $file) {
             $tpl->setCurrentBlock("track");
@@ -100,10 +92,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable("ID", $id);
         $tpl->setVariable("SOURCE", $component->getSource());
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry): void
@@ -112,10 +103,5 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./node_modules/mediaelement/build/mediaelement-and-player.min.js');
         $registry->register('./node_modules/mediaelement/build/renderers/vimeo.min.js');
         $registry->register('./node_modules/mediaelement/build/mediaelementplayer.min.css');
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Player\Player::class];
     }
 }

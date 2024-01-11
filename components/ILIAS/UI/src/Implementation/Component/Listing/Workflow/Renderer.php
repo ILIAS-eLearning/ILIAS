@@ -31,14 +31,12 @@ use LogicException;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Linear) {
             return $this->render_linear($component, $default_renderer);
         }
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
     protected function render_linear(Linear $component, RendererInterface $default_renderer): string
@@ -104,12 +102,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Listing\Workflow\Workflow::class
-        ];
     }
 }
