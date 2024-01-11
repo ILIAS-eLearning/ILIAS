@@ -81,26 +81,7 @@ class ilSkinStyleContainer
         mkdir($this->getSkinDirectory(), 0775, true);
 
         foreach ($this->getSkin()->getStyles() as $style) {
-            $this->file_system->createResourceDirectory(
-                $this->getSystemStylesConf()->getDefaultImagesPath(),
-                $this->getImagesStylePath($style->getId())
-            );
-            $this->file_system->createResourceDirectory(
-                $this->getSystemStylesConf()->getDefaultSoundsPath(),
-                $this->getSoundsStylePath($style->getId())
-            );
-            $this->file_system->createResourceDirectory(
-                $this->getSystemStylesConf()->getDefaultFontsPath(),
-                $this->getFontsStylePath($style->getId())
-            );
-            try {
-                $this->createScssStructure($style);
-            } catch (Exception $e) {
-                $message_stack->addMessage(new ilSystemStyleMessage(
-                    $this->lng->txt('scss_compile_failed') . ' ' . $e->getMessage(),
-                    ilSystemStyleMessage::TYPE_ERROR
-                ));
-            }
+            $this->addStyle($style);
         }
         $this->writeSkinToXML();
     }
@@ -137,7 +118,7 @@ class ilSkinStyleContainer
             mkdir($this->getSkinDirectory().$style->getId(), 0775, true);
         }
 
-        if ($style->getImageDirectory() != $old_style->getImageDirectory()) {
+        if ($style->getImageDirectory() != $old_style->getImageDirectory() && !is_dir($this->getImagesStylePath($style->getId()))) {
             if (is_dir($this->getSkinDirectory() .$old_style->getId()."/". $old_style->getImageDirectory())) {
                 $this->file_system->changeResourceDirectory(
                     $this->getSkinDirectory(),
@@ -152,7 +133,7 @@ class ilSkinStyleContainer
             }
         }
 
-        if ($style->getFontDirectory() != $old_style->getFontDirectory()) {
+        if ($style->getFontDirectory() != $old_style->getFontDirectory() && !is_dir($this->getFontsStylePath($style->getId()))) {
             if (is_dir($this->getSkinDirectory() . $old_style->getId()."/". $old_style->getFontDirectory())) {
                 $this->file_system->changeResourceDirectory(
                     $this->getSkinDirectory(),
@@ -167,7 +148,7 @@ class ilSkinStyleContainer
             }
         }
 
-        if ($style->getSoundDirectory() != $old_style->getSoundDirectory()) {
+        if ($style->getSoundDirectory() != $old_style->getSoundDirectory() && !is_dir($this->getSoundsStylePath($style->getId()))) {
             if (is_dir($this->getSkinDirectory() . $old_style->getId()."/". $old_style->getSoundDirectory())) {
                 $this->file_system->changeResourceDirectory(
                     $this->getSkinDirectory(),
@@ -188,7 +169,7 @@ class ilSkinStyleContainer
                 $style->getId().'/'.$this->getScssSettingsFolderName(),
                 $old_style->getId().'/'.$this->getScssSettingsFolderName()
             );
-        } else {
+        } elseif(!is_dir($this->getScssSettingsPath($old_style->getId()))) {
             $this->copySettingsFromDefault($style);
         }
 
@@ -316,7 +297,7 @@ class ilSkinStyleContainer
      */
     public function resetImages(ilSkinStyle $style): void
     {
-        $this->file_system->recursiveRemoveDir($this->getSkinDirectory() . $style->getImageDirectory());
+        $this->file_system->recursiveRemoveDir($this->getImagesStylePath($style->getId()));
         $this->file_system->createResourceDirectory(
             $this->getSystemStylesConf()->getDefaultImagesPath(),
             $this->getImagesStylePath($style->getId())
@@ -504,7 +485,7 @@ class ilSkinStyleContainer
     public function addStyle(ilSkinStyle $style): void
     {
         $this->getSkin()->addStyle($style);
-        $old_style = new ilSkinStyle('', '');
+        $old_style = new ilSkinStyle('', '', '-', '-', '-', '-');
         $this->updateStyle($style->getId(), $old_style);
     }
 

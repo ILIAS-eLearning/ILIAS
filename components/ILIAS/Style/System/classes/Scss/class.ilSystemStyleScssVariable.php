@@ -88,10 +88,6 @@ class ilSystemStyleScssVariable extends ilSystemStyleScssItem
             if (substr($value, -1, 1) != "\"") {
                 $value .= "\"";
             }
-
-            if ($value == "\"../../node_modules/bootstrap/fonts/\"") {
-                $value = "\"../../../../../node_modules/bootstrap/fonts/\"";
-            }
         }
 
         $value = str_replace(PHP_EOL, '', $value);

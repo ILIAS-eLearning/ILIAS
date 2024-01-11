@@ -275,5 +275,12 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFS
         $this->assertTrue(is_file($this->skin_directory . '/substyle1new/subnewcss.scss'));
         $this->assertTrue(is_file($this->skin_directory . '/substyle1new/010-settings/variables1.scss'));
         $this->assertTrue(is_file($this->skin_directory . '/substyle1new/010-settings/variables2.scss'));
+
+        $sub_style = $container->getSkin()->getStyle('substyle1new');
+        $this->assertEquals("subnewcss", $sub_style->getCssFile());
+        $this->assertEquals("subnewimage", $sub_style->getImageDirectory());
+        $this->assertEquals("subnewsound", $sub_style->getSoundDirectory());
+        $this->assertEquals("subnewfont", $sub_style->getFontDirectory());
+        $this->assertEquals("style1", $sub_style->getSubstyleOf());
     }
 }
