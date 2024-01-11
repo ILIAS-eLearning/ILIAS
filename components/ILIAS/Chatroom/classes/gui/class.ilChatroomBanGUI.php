@@ -59,11 +59,9 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
     public function delete(): void
     {
-        $userTrafo = $this->refinery->kindlyTo()->listOf(
-            $this->refinery->kindlyTo()->int()
-        );
+        $userTrafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int());
 
-        $users = $this->getRequestValue('banned_user_id', $userTrafo, []);
+        $users = $this->getRequestValue('chat_ban_table_usr_ids', $userTrafo, []);
         if ($users === []) {
             $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('no_checkbox'), true);
             $this->ilCtrl->redirect($this->gui, 'ban-show');
@@ -94,9 +92,6 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
-        $table = new ilBannedUsersTableGUI($this->gui, 'ban-show');
-        $table->setFormAction($this->controller->getFormAction($this->gui, 'ban-show'));
-
         $data = $room->getBannedUsers();
         $actorId = array_filter(array_map(static function (array $row): int {
             return (int) $row['actor_id'];
@@ -115,9 +110,9 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             }
         });
 
-        $table->setData($data);
-
-        $this->mainTpl->setVariable('ADM_CONTENT', $table->getHTML());
+        $tbl = new BannedUsersTable($data);
+        $tbl_html = $this->uiRenderer->render($tbl->getComponent());
+        $this->mainTpl->setContent($tbl_html);
     }
 
     public function active(): void
