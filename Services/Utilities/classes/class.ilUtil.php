@@ -75,9 +75,6 @@ class ilUtil
             $styleDefinition = $DIC["styleDefinition"];
         }
 
-        if (is_int(strpos($_SERVER["PHP_SELF"], "setup.php"))) {
-            $module_path = "..";
-        }
         if ($module_path != "") {
             $module_path = "/" . $module_path;
         }
@@ -94,24 +91,20 @@ class ilUtil
         } else {
             $image_dir = "images";
         }
-        $skin_img = "";
-        if ($current_skin == "default") {
-            $user_img = "." . $module_path . "/templates/default/" . $image_dir . "/" . $img;
-            $skin_img = "." . $module_path . "/templates/default/images/" . $img;
-        } elseif (is_object($styleDefinition) && $current_skin != "default") {
-            $user_img = "./Customizing/global/skin/" .
-                $current_skin . $module_path . "/" . $image_dir . "/" . $img;
-            $skin_img = "./Customizing/global/skin/" .
-                $current_skin . $module_path . "/images/" . $img;
-        }
 
+        $skin_img = "";
+
+        if ($current_skin == "default") {
+            $skin_img = "." . $module_path . "/templates/default/" . $image_dir . "/" . $img;
+        } elseif (is_object($styleDefinition) && $current_skin != "default") {
+            $skin_img = "./Customizing/global/skin/" .
+                $current_skin . "/". $current_style. "/". $module_path . $image_dir . "/" . $img;
+        }
 
         if ($offline) {
             return "./images/" . $img;
-        } elseif (@file_exists($user_img) && $image_dir != "") {
-            return $user_img;        // found image for skin and style
         } elseif (file_exists($skin_img)) {
-            return $skin_img;        // found image in skin/images
+            return $skin_img;        // found image for skin and style
         }
 
         return $default_img;            // take image in default
