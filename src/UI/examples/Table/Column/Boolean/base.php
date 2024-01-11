@@ -24,7 +24,13 @@ function base()
             "icon",
             $f->symbol()->icon()->custom('templates/default/images/standard/icon_checked.svg', '', 'small'),
             $f->symbol()->icon()->custom('templates/default/images/standard/icon_unchecked.svg', '', 'small')
+        ),
+        'b4' => $f->table()->column()->boolean(
+            "glyph",
+            $f->symbol()->glyph()->like(),
+            $f->symbol()->glyph()->dislike()->withHighlight()
         )
+
     ];
 
     $data_retrieval = new class ($dummy_records) implements I\DataRetrieval {
@@ -49,6 +55,7 @@ function base()
                 $record['b1'] = $number > 10;
                 $record['b2'] = $record['b1'];
                 $record['b3'] = $record['b1'];
+                $record['b4'] = $record['b1'];
                 yield $row_builder->buildDataRow($row_id, $record);
             }
         }

@@ -26,6 +26,8 @@ use ILIAS\UI\Implementation\Component\Table\Column;
 use ILIAS\UI\Implementation\Component\Link;
 use ILIAS\UI\Implementation\Component\Listing;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard as StandardIcon;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph as GlyphInterface;
 
 /**
  * Basic Tests for Table-Columns.
@@ -72,6 +74,15 @@ class ColumnTest extends ILIAS_UI_TestBase
         $this->assertEquals($no, $col->format(false));
     }
 
+    public function testDataTableColumnBoolFormatWithGlyph(): void
+    {
+        $ok = new Glyph(GlyphInterface::LIKE, '');
+        $no = new Glyph(GlyphInterface::DISLIKE, '');
+        $col = new Column\Boolean('col', $ok, $no);
+        $this->assertEquals($ok, $col->format(true));
+        $this->assertEquals($no, $col->format(false));
+    }
+
     public function testDataTableColumnDateFormat(): void
     {
         $df = new \ILIAS\Data\Factory();
@@ -107,11 +118,9 @@ class ColumnTest extends ILIAS_UI_TestBase
         $this->assertEquals('1,00 €', $col->format(1));
     }
 
-
     public static function provideColumnFormats(): array
     {
         return [
-
             [
                 'column' => new Column\LinkListing(''),
                 'value' => new Listing\Unordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]),
