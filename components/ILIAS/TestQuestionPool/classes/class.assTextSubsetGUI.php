@@ -305,7 +305,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $this->object->setCorrectAnswers($_POST["correctanswers"]);
+        $this->object->setCorrectAnswers((int) $_POST["correctanswers"]);
         $this->object->setTextRating($_POST["text_rating"]);
     }
 
