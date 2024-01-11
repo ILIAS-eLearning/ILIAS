@@ -59,7 +59,7 @@ class ForumModeratorsTable
     {
         return [
             'usr_id' => $this->ui_factory->table()->column()->number('User ID')
-                                         ->withIsSortable(false),
+                                         ->withIsSortable(true),
 
             'login' => $this->ui_factory->table()->column()->text($this->lng->txt('login'))
                                         ->withIsSortable(true),
@@ -106,10 +106,15 @@ class ForumModeratorsTable
     {
         $data_retrieval = new class($this->forum_moderators) implements UI\Component\Table\DataRetrieval {
 
+            /**
+             * @var array|string[]
+             */
+            private array $numericColumns;
             private ?array $records = null;
 
             public function __construct(protected readonly \ilForumModerators $forum_moderators)
             {
+                $this->numericColumns = ['usr_id'];
             }
 
             private function initRecords(): void
@@ -160,19 +165,29 @@ class ForumModeratorsTable
                 return count((array) $this->records);
             }
 
-            private function getRecords(Data\Range $range, Data\Order $order): array
+            /**
+             * @todo change this workaround, if there is a general decision about the sorting strategy
+             */
+            private function sortedRecords(Data\Order $order): array
             {
-                $this->initRecords();
                 $records = $this->records;
-
                 [$order_field, $order_direction] = $order->join([], fn ($ret, $key, $value) => [$key, $value]);
-                usort($records, static function (array $left, array $right) use ($order_field): int {
-                    return $left[$order_field] <=> $right[$order_field];
-                });
+                $is_numeric = false;
+                if (in_array($order_field, $this->numericColumns)) {
+                    $is_numeric = true;
+                }
+                $records = ilArrayUtil::stableSortArray($records, $order_field, $order_direction, $is_numeric);
 
                 if ($order_direction === "DESC") {
                     $records = array_reverse($records);
                 }
+                return $records;
+            }
+
+            private function getRecords(Data\Range $range, Data\Order $order): array
+            {
+                $this->initRecords();
+                $records = $this->sortedRecords($order);
                 return $this->limitRecords($records, $range);
             }
 
