@@ -15486,8 +15486,11 @@ style#:#color_changed_to#:#to:
 style#:#color_reset#:#The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
 style#:#color_update#:#The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
 style#:#default_style_set_to#:#The default system style has been set to:
+style#:#dir_changed_to#:#The directory has been moved to:
 style#:#dir_copied_from#:#The directory has been copied to from:
+style#:#dir_created#:#The following directory has been created:
 style#:#dir_deleted#:#The following directory has been deleted:
+style#:#dir_preserved_backup#:#Preserved Backup folder:
 style#:#dir_preserved_linked#:#Preserved Link:
 style#:#directory_created#:#Directory created:
 style#:#documentation#:#Documentation
@@ -15497,7 +15500,7 @@ style#:#enable_system_styles_management_no_write_perm#:#System styles management
 style#:#entries_reloaded#:#All entries have been reloaded
 style#:#file_deleted#:#Following file has been deleted:
 style#:#font_dir#:#Font Directory
-style#:#font_dir_description#:#Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin.
+style#:#font_dir_description#:#Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin. Beware, if this folder is adapted, the SCSS variable il-web-font-path needs to be manually adapted as well.
 style#:#from_skin#:#of skin:
 style#:#green_color#:#Green Color
 style#:#green_colors#:#Green Colors
@@ -15513,6 +15516,7 @@ style#:#in_main_scss_file#:#is not imported inside the system styles main scss f
 style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
+style#:#main_scss_created#:#Main SCSS has been created:
 style#:#manage_system_styles#:#Manage System Styles
 style#:#msg_sub_style_created#:#The sub style has been created.
 style#:#msg_sys_style_created#:#The new system style has successfully been created.
@@ -15539,6 +15543,8 @@ style#:#scss_can_not_be_modified#:#Scss cannot be modified
 style#:#scss_compile_failed#:#Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:
 style#:#scss_file_reset#:#The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
 style#:#scss_file_updated#:#The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#scss_folder_reset#:#Scss folder reset
+style#:#scss_folder_updated#:#Scss folder has been updated
 style#:#scss_scss_installation_detected#:#Scss/sass installation detected at:
 style#:#scss_variable_empty#:#This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling.
 style#:#scss_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files.
