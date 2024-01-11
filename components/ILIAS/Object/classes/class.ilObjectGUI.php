@@ -581,29 +581,18 @@ class ilObjectGUI implements ImplementsCreationCallback
     */
     public function confirmedDeleteObject(): void
     {
-        if ($this->post_wrapper->has("mref_id")) {
-            $mref_id = $this->post_wrapper->retrieve(
-                "mref_id",
+        if ($this->post_wrapper->has('interruptive_items')) {
+            $ref_ids_to_be_deleted = $this->post_wrapper->retrieve(
+                'interruptive_items',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
-            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
         }
 
         $ru = new ilRepositoryTrashGUI($this);
-        $ru->deleteObjects($this->requested_ref_id, ilSession::get("saved_post") ?? []);
-        ilSession::clear("saved_post");
-        $this->ctrl->returnToParent($this);
-    }
+        $ru->deleteObjects($this->requested_ref_id, $ref_ids_to_be_deleted);
 
-    /**
-    * cancel deletion of object
-    */
-    public function cancelDeleteObject(): void
-    {
-        ilSession::clear("saved_post");
-        $this->ctrl->returnToParent($this);
+        $this->ctrl->redirect($this);
     }
-
 
     /**
      * cancel action and go back to previous page
@@ -840,7 +829,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         );
         if ($availability_period_modal !== null) {
             $this->tpl->setVariable(
-                'AVAILABILITY_PERIOD_MODAL',
+                'IL_OBJECT_MODALS',
                 $this->ui_renderer->render(
                     $availability_period_modal->withOnLoad(
                         $availability_period_modal->getShowSignal()
@@ -862,7 +851,7 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('availability_period_changed'));
         } else {
             $this->tpl->setVariable(
-                'AVAILABILITY_PERIOD_MODAL',
+                'IL_OBJECT_MODALS',
                 $this->ui_renderer->render(
                     $availability_period_modal->withOnLoad(
                         $availability_period_modal->getShowSignal()
@@ -1390,26 +1379,47 @@ class ilObjectGUI implements ImplementsCreationCallback
         }
 
         if (
-            $this->request_wrapper->has("item_ref_id") &&
-            $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->string()) != ""
+            $this->request_wrapper->has("item_ref_id")
+            && $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->string()) !== ""
         ) {
             $request_ids = [$this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int())];
         }
 
-        $ids = [];
-        if (count($request_ids) > 0) {
-            foreach ($request_ids as $idx => $id) {
-                $ids["id"][$idx] = $id;
-            }
-        }
-
-        // SAVE POST VALUES (get rid of this
-        ilSession::set("saved_post", $ids["id"] ?? []);
-
-        $ru = new ilRepositoryTrashGUI($this);
-        if (!$ru->showDeleteConfirmation($ids["id"] ?? [], $error)) {
+        if ($request_ids === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->returnToParent($this);
         }
+
+        $modal_factory = $this->ui_factory->modal();
+        $items = [];
+        foreach (array_unique($request_ids) as $ref_id) {
+            $items[] = $modal_factory->interruptiveItem()->standard(
+                (string) $ref_id,
+                ilObject::_lookupTitle(
+                    ilObject::_lookupObjId($ref_id)
+                )
+            );
+        }
+
+        $msg = $this->lng->txt("info_delete_sure");
+        if (!$this->settings->get('enable_trash')) {
+            $msg .= "<br/>" . $this->lng->txt("info_delete_warning_no_trash");
+        }
+
+        $modal = $modal_factory->interruptive(
+            $this->lng->txt('confirm'),
+            $msg,
+            $this->ctrl->getFormAction($this, 'confirmedDelete')
+        )->withAffectedItems($items);
+        $this->tpl->setVariable(
+            'IL_OBJECT_MODALS',
+            $this->ui_renderer->render(
+                $modal->withOnLoad(
+                    $modal->getShowSignal()
+                )
+            )
+        );
+        $this->renderObject();
     }
 
     /**
