@@ -176,12 +176,7 @@ class ForumModeratorsTable
                 if (in_array($order_field, $this->numericColumns)) {
                     $is_numeric = true;
                 }
-                $records = ilArrayUtil::stableSortArray($records, $order_field, $order_direction, $is_numeric);
-
-                if ($order_direction === "DESC") {
-                    $records = array_reverse($records);
-                }
-                return $records;
+                return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction), $is_numeric);
             }
 
             private function getRecords(Data\Range $range, Data\Order $order): array
