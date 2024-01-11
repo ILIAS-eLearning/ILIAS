@@ -18,13 +18,20 @@
 
 declare(strict_types=1);
 
+require_once(dirname(__FILE__) . '/templates/testrail.case_ids.php');
 
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntry;
 
 class TestRailXMLWriter
 {
+    use TestrailCaseIds;
+    protected const SHOW = 'anzeigen';
+    protected const VALIDATE = 'validieren';
+    protected const BASE = 'UIBASE';
+    protected const OPEN = 'open';
+    protected const PREPARE = 'prepare';
+
     protected SimpleXMLElement $xml;
-    protected int $counter = 66649;
 
     public function __construct(
         protected \ilTemplate $case_tpl
@@ -73,14 +80,14 @@ class TestRailXMLWriter
 
     protected function addCase(
         SimpleXMLElement $xml_parent_node,
+        string $id,
         string $title,
         string $preconditions,
         string $steps,
         string $expected,
     ): SimpleXMLElement {
-        $this->counter = $this->counter + 1;
         $xml_case = $xml_parent_node->addChild('case');
-        $xml_case->addChild('id', 'C' . (string)$this->counter);
+        $xml_case->addChild('id', $id);
         $xml_case->addChild('title', $title);
         $xml_case->addChild('template', 'Test Case');
         $xml_case->addChild('type', 'Other');
@@ -104,6 +111,7 @@ class TestRailXMLWriter
 
         $this->addCase(
             $xml_cases,
+            $this->maybeGetCaseId(self::BASE, self::OPEN),
             $this->getBlockContents('suite_case_open_title'),
             $this->getBlockContents('suite_case_open_precond'),
             $this->getBlockContents('suite_case_open_steps'),
@@ -111,6 +119,7 @@ class TestRailXMLWriter
         );
         $this->addCase(
             $xml_cases,
+            $this->maybeGetCaseId(self::BASE, self::PREPARE),
             $this->getBlockContents('suite_case_validate_title'),
             $this->getBlockContents('suite_case_validate_precond'),
             $this->getBlockContents('suite_case_validate_steps'),
@@ -144,6 +153,7 @@ class TestRailXMLWriter
 
         $this->addCase(
             $xml_parent_node,
+            $this->maybeGetCaseId($section . '/' . $component_name, self::SHOW),
             $section . ' - ' . $component_name . ': anzeigen',
             $preconditions,
             $steps,
@@ -162,6 +172,7 @@ class TestRailXMLWriter
 
         $this->addCase(
             $xml_parent_node,
+            $this->maybeGetCaseId($section . '/' . $component_name, self::VALIDATE),
             $section . ' - ' . $component_name . ': validieren',
             $preconditions,
             $steps,
@@ -186,6 +197,19 @@ class TestRailXMLWriter
         $clickpath = array_slice(explode('/', $entry->getPath()), 4, -1);
         $clickpath[] = $entry->getTitle();
         return implode(' -> ', $clickpath);
+    }
+
+
+    protected function maybeGetCaseId(string $component_path, string $subkey): string
+    {
+        if (array_key_exists($component_path, self::$CASEIDS)
+            && array_key_exists($subkey, self::$CASEIDS[$component_path])
+        ) {
+            return self::$CASEIDS[$component_path][$subkey];
+        } else {
+            print "\nno caseId for: $component_path ($subkey)";
+        }
+        return '';
     }
 
     protected function getExpectedExamples(array $examples): string
