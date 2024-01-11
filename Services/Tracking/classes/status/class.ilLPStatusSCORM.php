@@ -273,7 +273,7 @@ class ilLPStatusSCORM extends ilLPStatus
         }
 
         if ($reqscos > 0) {
-            $per = min(100, 100 / $reqscos * $compl);
+            $per = (int) min(100, 100 / $reqscos * $compl);
         } else {
             $per = 100;
         }

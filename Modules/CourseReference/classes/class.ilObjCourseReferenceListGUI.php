@@ -128,7 +128,6 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         $this->reference_obj_id = $obj_id;
 
 
-        include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
         $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
 
         $target_ref_ids = ilObject::_getAllReferences($target_obj_id);
@@ -137,11 +136,19 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         $target_description = ilObject::_lookupDescription($target_obj_id);
 
         $this->deleted = $tree->isDeleted($target_ref_id);
+        if ($target_obj_id === 0) {
+            $this->deleted = true;
+        }
 
-        parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
+        parent::initItem(
+            $this->deleted ? $ref_id : $target_ref_id,
+            $this->deleted ? $obj_id : $target_obj_id,
+            $type,
+            $target_title,
+            $target_description
+        );
 
         // general commands array
-        include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
         $this->commands = ilObjCourseReferenceAccess::_getCommands($this->reference_ref_id);
 
         if ($ilAccess->checkAccess('write', '', $this->reference_ref_id) or $this->deleted) {
