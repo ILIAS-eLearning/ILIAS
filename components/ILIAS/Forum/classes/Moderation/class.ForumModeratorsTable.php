@@ -25,18 +25,18 @@ use Psr\Http\Message\ServerRequestInterface;
 class ForumModeratorsTable
 {
     private ilForumModerators $forum_moderators;
-    protected \ilCtrl $ctrl;
-    protected \ilLanguage $lng;
+
     protected UI\Factory $ui_factory;
     protected ServerRequestInterface $request;
     protected Data\Factory $data_factory;
 
-    public function __construct(ilForumModerators $forum_moderators)
-    {
+    public function __construct(
+        ilForumModerators $forum_moderators,
+        private readonly ilCtrl $ctrl,
+        private readonly ilLanguage $lng
+    ) {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->ui_factory = $DIC->ui()->factory();
         $this->request = $DIC->http()->request();
         $this->data_factory = new Data\Factory();
@@ -74,19 +74,19 @@ class ForumModeratorsTable
 
     protected function getActions(): array
     {
-        $query_params_namespace = ['frm_moderators_table'];
+        $query_params_namespace = ['frm', 'moderators', 'table'];
 
         $uri_detach = $this->data_factory->uri(
             ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
                 ilForumModeratorsGUI::class,
-                'detachModeratorRole'
+                'handleModeratorActions'
             )
         );
 
         $url_builder_detach = new UI\URLBuilder($uri_detach);
         list(
             $url_builder_detach, $action_parameter_token_copy, $row_id_token_detach
-        ) =
+            ) =
             $url_builder_detach->acquireParameters(
                 $query_params_namespace,
                 'action',
@@ -109,12 +109,12 @@ class ForumModeratorsTable
             /**
              * @var array|string[]
              */
-            private array $numericColumns;
+            private array $numeric_columns;
             private ?array $records = null;
 
             public function __construct(protected readonly \ilForumModerators $forum_moderators)
             {
-                $this->numericColumns = ['usr_id'];
+                $this->numeric_columns = ['usr_id'];
             }
 
             private function initRecords(): void
@@ -171,9 +171,9 @@ class ForumModeratorsTable
             private function sortedRecords(Data\Order $order): array
             {
                 $records = $this->records;
-                [$order_field, $order_direction] = $order->join([], fn ($ret, $key, $value) => [$key, $value]);
+                [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
                 $is_numeric = false;
-                if (in_array($order_field, $this->numericColumns)) {
+                if (in_array($order_field, $this->numeric_columns)) {
                     $is_numeric = true;
                 }
                 return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction), $is_numeric);

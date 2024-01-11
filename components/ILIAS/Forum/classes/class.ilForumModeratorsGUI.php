@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilForumModeratorsGUI
  * @author       Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
- * @ingroup components\ILIASForum
+ * @ingroup      components\ILIASForum
  */
 class ilForumModeratorsGUI
 {
@@ -185,8 +185,26 @@ class ilForumModeratorsGUI
             );
         }
 
-        $tbl = new ForumModeratorsTable($this->oForumModerators);
+        $tbl = new ForumModeratorsTable($this->oForumModerators, $this->ctrl, $this->lng);
         $tbl_html = $this->ui_renderer->render($tbl->getComponent());
         $this->tpl->setContent($tbl_html);
+    }
+
+    public function handleModeratorActions(): void
+    {
+        $query = $this->http_wrapper->query();
+        if (!$query->has('frm_moderators_table_action')) {
+            return;
+        }
+
+        $action = $query->retrieve('frm_moderators_table_action', $this->refinery->to()->string());
+        switch ($action) {
+            case 'detachModeratorRole':
+                $this->detachModeratorRole();
+                break;
+            default:
+                $this->ctrl->redirect($this, 'showModerators');
+                break;
+        }
     }
 }
