@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -43,7 +42,7 @@ class ForumStatisticsTable
 
     public function __construct(
         private readonly ilObjForum $forum,
-        private readonly ilForumProperties $objProperties,
+        private readonly ilForumProperties $obj_properties,
         private readonly bool $has_general_lp_access,
         private readonly bool $has_rbac_or_position_access,
         private readonly ilObjUser $actor,
@@ -69,11 +68,12 @@ class ForumStatisticsTable
 
     public function getComponent(): DataTable
     {
-        $columns = $this->getColumns();
-        $data_retrieval = $this->getDataRetrieval();
-
         return $this->ui_factory->table()
-                                ->data($this->lng->txt('frm_moderators'), $columns, $data_retrieval)
+                                ->data(
+                                    $this->lng->txt('frm_moderators'),
+                                    $this->getColumns(),
+                                    $this->getDataRetrieval()
+                                )
                                 ->withRequest($this->request);
     }
 
@@ -107,7 +107,7 @@ class ForumStatisticsTable
             $this->ui_factory,
             $this->ui_renderer,
             $this->forum,
-            $this->objProperties,
+            $this->obj_properties,
             $this->has_active_lp,
             $this->has_general_lp_access,
             $this->completed,
@@ -124,7 +124,7 @@ class ForumStatisticsTable
                 protected \ILIAS\UI\Factory $ui_factory,
                 protected UIRenderer $ui_renderer,
                 protected ilObjForum $object,
-                protected ilForumProperties $objProperties,
+                protected ilForumProperties $obj_properties,
                 protected bool $has_active_lp,
                 protected bool $has_general_lp_access,
                 protected array $completed,
@@ -141,7 +141,7 @@ class ForumStatisticsTable
             {
                 if ($this->records === null) {
                     $this->records = [];
-                    $data = $this->object->Forum->getUserStatistics($this->objProperties->isPostActivationEnabled());
+                    $data = $this->object->Forum->getUserStatistics($this->obj_properties->isPostActivationEnabled());
                     $result = [];
                     $counter = 0;
                     foreach ($data as $row) {
