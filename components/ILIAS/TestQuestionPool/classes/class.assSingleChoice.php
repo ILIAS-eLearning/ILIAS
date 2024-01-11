@@ -99,9 +99,13 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function isComplete(): bool
     {
-        if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
+        if ($this->title !== ''
+            && $this->author !== null && $this->author !== ''
+            && $this->question !== null && $this->question !== ''
+            && $this->answers !== []
+            && $this->getMaximumPoints() > 0) {
             foreach ($this->answers as $answer) {
-                if ((strlen($answer->getAnswertext()) == 0) && !$answer->hasImage()) {
+                if ($answer->getAnswertext() !== '' && !$answer->hasImage()) {
                     return false;
                 }
             }
