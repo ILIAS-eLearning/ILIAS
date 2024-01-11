@@ -187,7 +187,7 @@ class ilLPStatusTestPassed extends ilLPStatus
         $per = 0;
         if ($rec = $this->db->fetchAssoc($set)) {
             if ($rec["max_points"] > 0) {
-                $per = min(
+                $per = (int) min(
                     100,
                     100 / $rec["max_points"] * $rec["reached_points"]
                 );
