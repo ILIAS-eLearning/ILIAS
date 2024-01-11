@@ -44,7 +44,7 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
             $entries[] = $this->buildEntry($child);
         }
 
-        $dd = $this->ui_factory->menu()->drilldown($item->getTitle(), $entries);
+        $dd = $this->ui_factory->menu()->drilldown()->standard($item->getTitle(), $entries);
 
         $slate = $this->ui_factory->mainControls()->slate()->drilldown(
             $item->getTitle(),

@@ -23,7 +23,7 @@ namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Symbol\Symbol;
-use ILIAS\UI\Component\Menu\Drilldown as DrilldownMenu;
+use ILIAS\UI\Component\Menu\Drilldown\Standard as DrilldownMenu;
 
 /**
  * Drilldown Slate

@@ -33,7 +33,7 @@ function drilldownslate()
         ])
     ];
 
-    $ddmenu = $f->menu()->drilldown('Animal of the year', $items);
+    $ddmenu = $f->menu()->drilldown()->standard('Animal of the year', $items);
 
     $icon = $f->symbol()->glyph()->comment();
     $slate = $f->maincontrols()->slate()->drilldown('drilldown example', $icon, $ddmenu);

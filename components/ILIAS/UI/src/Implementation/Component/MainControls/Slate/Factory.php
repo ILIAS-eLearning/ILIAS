@@ -26,7 +26,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Counter\Factory as CounterFactory;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Symbol\Factory as SymbolFactory;
-use ILIAS\UI\Component\Menu\Drilldown as IDrilldownMenu;
+use ILIAS\UI\Component\Menu\Drilldown\Standard as IDrilldownMenu;
 
 class Factory implements ISlate\Factory
 {

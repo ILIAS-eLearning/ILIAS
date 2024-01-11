@@ -80,20 +80,20 @@ class DrilldownTest extends ILIAS_UI_TestBase
         $this->legacy = $this->getUIFactory()->legacy('');
     }
 
-    public function testConstruction(): C\Menu\Drilldown
+    public function testConstruction(): C\Menu\Drilldown\Standard
     {
         $f = $this->getUIFactory();
-        $menu = $f->menu()->drilldown('root', []);
+        $menu = $f->menu()->drilldown()->standard('root', []);
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Menu\\Menu",
             $menu
         );
         $this->assertInstanceOf(
-            "ILIAS\\UI\\Component\\Menu\\Drilldown",
+            "ILIAS\\UI\\Component\\Menu\\Drilldown\\Standard",
             $menu
         );
 
-        $menu = $f->menu()->drilldown('root', []);
+        $menu = $f->menu()->drilldown()->standard('root', []);
 
         return $menu;
     }
@@ -101,7 +101,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetLabel(C\Menu\Drilldown $menu): void
+    public function testGetLabel(C\Menu\Drilldown\Standard $menu): void
     {
         $this->assertEquals(
             'root',
@@ -120,7 +120,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithEntries(): C\Menu\Drilldown
+    public function testWithEntries(): C\Menu\Drilldown\Standard
     {
         $f = $this->getUIFactory();
         $items = array(
@@ -131,7 +131,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
             $this->divider,
             $this->button
         );
-        $menu = $f->menu()->drilldown('root', $items);
+        $menu = $f->menu()->drilldown()->standard('root', $items);
         $this->assertEquals(
             $items,
             $menu->getItems()
@@ -143,7 +143,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     {
         $this->expectException(InvalidArgumentException::class);
         $f = $this->getUIFactory();
-        $f->menu()->drilldown('label', [$this->legacy]);
+        $f->menu()->drilldown()->standard('label', [$this->legacy]);
     }
 
     /**
@@ -161,7 +161,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
             ]),
             $f->menu()->sub('2', [])
         ];
-        $menu = $f->menu()->drilldown('root', $items);
+        $menu = $f->menu()->drilldown()->standard('root', $items);
 
         $html = $r->render($menu);
         $expected = file_get_contents(__DIR__ . "/drilldown_test.html");

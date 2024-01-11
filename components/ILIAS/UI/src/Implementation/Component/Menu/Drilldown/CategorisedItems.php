@@ -18,22 +18,25 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Implementation\Component\Menu;
+namespace ILIAS\UI\Implementation\Component\Menu\Drilldown;
 
 use ILIAS\UI\Component\Menu as IMenu;
+use ILIAS\UI\Implementation\Component\Menu\Menu;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Signal;
 
 /**
- * Drilldown Menu Control
+ * Standard Drilldown Menu Control
  */
-class Drilldown extends Menu implements IMenu\Drilldown
+class CategorisedItems extends Menu implements IMenu\Drilldown\CategorisedItems
 {
     use JavaScriptBindable;
 
     protected Signal $signal;
     protected ?string $persistence_id = null;
+
+    protected bool $filter_enabled = false;
 
     /**
      * @param array <Sub|Component\Clickable|Component\Divider\Horizontal> $items
@@ -47,6 +50,13 @@ class Drilldown extends Menu implements IMenu\Drilldown
         $this->label = $label;
         $this->items = $items;
         $this->signal = $signal_generator->create();
+    }
+
+    public function withItemsFilter(bool $enabled): self
+    {
+        $clone = clone $this;
+        $clone->filter_enabled = $enabled;
+        return $clone;
     }
 
     public function getBacklinkSignal(): Signal

@@ -181,6 +181,6 @@ interface Factory
     public function drilldown(
         string $name,
         \ILIAS\UI\Component\Symbol\Symbol $symbol,
-        \ILIAS\UI\Component\Menu\Drilldown $drilldown
+        \ILIAS\UI\Component\Menu\Drilldown\Standard $drilldown
     ): Drilldown;
 }

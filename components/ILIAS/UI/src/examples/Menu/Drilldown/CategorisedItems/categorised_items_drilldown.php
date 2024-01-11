@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Menu\Drilldown;
+namespace ILIAS\UI\examples\Menu\Drilldown\CategorisedItems;
 
-function drilldown()
+function categorised_items_drilldown()
 {
     /**
         0 Animal of the year
@@ -55,22 +55,10 @@ function drilldown()
         ])
     ];
 
-    $dd = $f->menu()->drilldown('Animal of the year', $items);
+    $dd = $f->menu()->drilldown()->categorisedItems('Animal of the year', $items);
 
     return $renderer->render([
         $dd,
         $modal
     ]);
-}
-
-
-function toBulky(string $label): \ILIAS\UI\Component\Button\Bulky
-{
-    global $DIC;
-    $f = $DIC->ui()->factory();
-    $ico = $f->symbol()->icon()->standard('', '')
-        ->withSize('small')
-        ->withAbbreviation('+');
-
-    return $f->button()->bulky($ico, $label, '');
 }

@@ -35,7 +35,7 @@ interface Factory
      *     A Drilldown Menu offers a partial view on a larger set of hierarchically
      *     structured navigation possibilities.
      *     While the entries of a Drilldown Menu are actually organized in a tree-structure,
-     *     there is only one level of branches visible at a time, so that space is
+     *     there is only a limited depth of branches visible at a time, so that space is
      *     saved and the users attention is not being obstrused by irrelevant options.
      *   composition: >
      *     Drilldown Menus are rendered as a ul-list; an entry contains
@@ -62,11 +62,9 @@ interface Factory
      *          Drilldown Menus MUST contain more than one entry (Submenu or Button).
      *
      * ---
-     * @param 	string $label
-     * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal> $items
-     * @return \ILIAS\UI\Component\Menu\Drilldown
+     * @return \ILIAS\UI\Component\Menu\Drilldown\Factory
      */
-    public function drilldown(string $label, array $items): Drilldown;
+    public function drilldown(): Drilldown\Factory;
 
     /**
      * ---

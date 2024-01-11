@@ -75,7 +75,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
         $slate = $f->mainControls()->slate()->drilldown(
             "ddslate",
             $f->symbol()->icon()->custom('', ''),
-            $f->menu()->drilldown('ddmenu', [])
+            $f->menu()->drilldown()->standard('ddmenu', [])
         );
         $this->assertInstanceOf("ILIAS\\UI\\Component\\MainControls\\Slate\\Drilldown", $slate);
         return $slate;

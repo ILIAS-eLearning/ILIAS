@@ -18,13 +18,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Component\MainControls\Slate;
+namespace ILIAS\UI\Component\Menu\Drilldown;
 
-use ILIAS\UI\Component\Menu\Drilldown\Standard as DDMenu;
+use ILIAS\UI\Component\Menu\Menu;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
- * This describes the Drilldown Slate
+ * This describes a Categorised Items Drilldown Menu Control
  */
-interface Drilldown extends Slate
+interface CategorisedItems extends Menu, JavaScriptBindable
 {
+    /**
+     * Return a Catorised Items with the item filter enabled/disabled. If the
+     * filter is enabled, it will be shown instead of the label.
+     */
+    public function withItemsFilter(bool $enabled): self;
 }

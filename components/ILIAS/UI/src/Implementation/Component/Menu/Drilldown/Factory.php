@@ -18,12 +18,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Implementation\Component\Menu;
+namespace ILIAS\UI\Implementation\Component\Menu\Drilldown;
 
 use ILIAS\UI\Component\Menu as IMenu;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
-class Factory implements IMenu\Factory
+class Factory implements IMenu\Drilldown\Factory
 {
     protected SignalGeneratorInterface $signal_generator;
 
@@ -35,16 +35,16 @@ class Factory implements IMenu\Factory
     /**
      * @inheritdoc
      */
-    public function drilldown(): IMenu\Drilldown\Factory
+    public function standard(string $label, array $items): IMenu\Drilldown\Standard
     {
-        return new Drilldown\Factory($this->signal_generator);
+        return new Standard($this->signal_generator, $label, $items);
     }
 
     /**
      * @inheritdoc
      */
-    public function sub(string $label, array $items): IMenu\Sub
+    public function categorisedItems(string $label, array $items): IMenu\Drilldown\CategorisedItems
     {
-        return new Sub($label, $items);
+        return new CategorisedItems($this->signal_generator, $label, $items);
     }
 }
