@@ -80,7 +80,7 @@ class ForumStatisticsTable
     protected function getColumns(): array
     {
         $columns = [
-            'ranking' => $this->ui_factory->table()->column()->text(
+            'ranking' => $this->ui_factory->table()->column()->number(
                 $this->lng->txt('frm_statistics_ranking')
             )->withIsSortable(true),
             'login' => $this->ui_factory->table()->column()->text(
@@ -94,7 +94,7 @@ class ForumStatisticsTable
             )->withIsSortable(true),
         ];
         if ($this->has_active_lp && $this->has_general_lp_access) {
-            $columns['progress'] = $this->ui_factory->table()->column()->text(
+            $columns['progress'] = $this->ui_factory->table()->column()->status(
                 $this->lng->txt('learning_progress')
             )->withIsSortable(false);
         }
