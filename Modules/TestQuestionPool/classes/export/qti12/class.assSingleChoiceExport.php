@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 
 /**
 * Class for single choice question exports
@@ -126,7 +128,7 @@ class assSingleChoiceExport extends assQuestionExport
             ];
             $a_xml_writer->xmlStartTag("response_label", $attrs);
 
-            if (strlen($answer->getImage())) {
+            if ($answer->hasImage()) {
                 $this->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), false, false);
                 $imagetype = "image/jpeg";
                 if (preg_match("/.*\.(png|gif)$/", $answer->getImage(), $matches)) {

@@ -223,7 +223,13 @@ class assMultipleChoiceImport extends assQuestionImport
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {
                 $this->object->setIsSingleline(true);
             }
-            $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"] ?? '');
+            $this->object->addAnswer(
+                $answer["answertext"],
+                $answer["points"],
+                $answer["points_unchecked"],
+                $answer["answerorder"],
+                $answer["imagefile"]["label"] ?? null
+            );
         }
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
