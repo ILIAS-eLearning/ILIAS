@@ -243,7 +243,7 @@ class ilTestImporter extends ilXmlImporter
             $newTaxId = $mapping->getMapping(
                 'Services/Taxonomy',
                 'tax',
-                $taxId
+                (string) $taxId
             );
 
             if (!$newTaxId) {
