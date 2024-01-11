@@ -111,31 +111,7 @@ class ilObjLearningSequenceContentGUI
      */
     protected function confirmDelete(): void
     {
-        $r = $this->refinery;
-        $ref_ids = $this->post_wrapper->retrieve(
-            "id",
-            $r->byTrying([
-                $r->kindlyTo()->listOf($r->kindlyTo()->int()),
-                $r->always([])
-            ])
-        );
-
-        if (!$ref_ids || count($ref_ids) < 1) {
-            $this->tpl->setOnScreenMessage("info", $this->lng->txt('no_entries_selected_for_delete'), true);
-            $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
-        }
-
-        foreach ($ref_ids as $ref_id) {
-            $obj = ilObjectFactory::getInstanceByRefId($ref_id);
-            $this->confirmation_gui->addItem("id[]", (string) $ref_id, $obj->getTitle());
-        }
-
-        $this->confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
-        $this->confirmation_gui->setHeaderText($this->lng->txt("delete_confirmation"));
-        $this->confirmation_gui->setConfirm($this->lng->txt("confirm"), self::CMD_DELETE);
-        $this->confirmation_gui->setCancel($this->lng->txt("cancel"), self::CMD_CANCEL);
-
-        $this->tpl->setContent($this->confirmation_gui->getHTML());
+        $this->parent_gui->deleteObject();
     }
 
     protected function delete(): void

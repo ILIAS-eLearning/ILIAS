@@ -743,9 +743,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
+    /**
+     * Redirects to Manage Content to make deletion screen work.
+     */
     public function renderObject(): void
     {
-        // disables this method in ilContainerGUI
+        $this->manageContent();
     }
 
 
@@ -900,26 +903,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     {
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
         $gui->render();
-    }
-
-    /**
-    * ATTENTION: This mostly is a copy of `ilObjectGUI::confirmDeleteObject`, but does not
-    * redirect to parent afterwards, because we are, in fact, the parent.
-    */
-    public function confirmedDeleteObject(): void
-    {
-        if ($this->post_wrapper->has("mref_id")) {
-            $mref_id = $this->post_wrapper->retrieve(
-                "mref_id",
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
-        }
-
-        $ru = new ilRepositoryTrashGUI($this);
-        $ru->deleteObjects($this->requested_ref_id, ilSession::get("saved_post") ?? []);
-        ilSession::clear("saved_post");
-        $this->ctrl->redirect($this, self::CMD_CONTENT);
     }
 
     protected function enableDragDropFileUpload(): void
