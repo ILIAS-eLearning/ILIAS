@@ -26,7 +26,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 
-class ForumStatisticsTable
+class ForumStatisticsTable implements DataRetrieval
 {
     private UIFactory $ui_factory;
     private ilLanguage $lng;
@@ -39,6 +39,7 @@ class ForumStatisticsTable
     private array $in_progress = [];
     private HttpRequest $request;
     private UIRenderer $ui_renderer;
+    private ?array $records = null;
 
     public function __construct(
         private readonly ilObjForum $forum,
@@ -52,6 +53,7 @@ class ForumStatisticsTable
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->lng = $DIC->language();
+        $this->icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         $lp = ilObjectLP::getInstance($forum->getId());
         if ($lp->isActive()) {
@@ -72,7 +74,7 @@ class ForumStatisticsTable
                                 ->data(
                                     $this->lng->txt('frm_moderators'),
                                     $this->getColumns(),
-                                    $this->getDataRetrieval()
+                                    $this
                                 )
                                 ->withRequest($this->request);
     }
@@ -101,140 +103,99 @@ class ForumStatisticsTable
         return $columns;
     }
 
-    protected function getDataRetrieval(): DataRetrieval
+    private function initRecords(): void
     {
-        $data_retrieval = new class (
-            $this->ui_factory,
-            $this->ui_renderer,
-            $this->forum,
-            $this->obj_properties,
-            $this->has_active_lp,
-            $this->has_general_lp_access,
-            $this->completed,
-            $this->in_progress,
-            $this->failed,
-            $this->actor,
-            $this->lng,
-            $this->has_rbac_or_position_access,
-        ) implements DataRetrieval {
-            private ilLPStatusIcons $icons;
-            private ?array $records = null;
-
-            public function __construct(
-                protected \ILIAS\UI\Factory $ui_factory,
-                protected UIRenderer $ui_renderer,
-                protected ilObjForum $object,
-                protected ilForumProperties $obj_properties,
-                protected bool $has_active_lp,
-                protected bool $has_general_lp_access,
-                protected array $completed,
-                protected array $in_progress,
-                protected array $failed,
-                protected ilObjUser $actor,
-                protected ilLanguage $lng,
-                protected bool $has_rbac_or_position_access,
-            ) {
-                $this->icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
-            }
-
-            private function initRecords(): void
-            {
-                if ($this->records === null) {
-                    $this->records = [];
-                    $data = $this->object->Forum->getUserStatistics($this->obj_properties->isPostActivationEnabled());
-                    $result = [];
-                    $counter = 0;
-                    foreach ($data as $row) {
-                        $this->records[$counter]['usr_id'] = $row['usr_id'];
-                        $this->records[$counter]['ranking'] = $row['num_postings'];
-                        $this->records[$counter]['login'] = $row['login'];
-                        $this->records[$counter]['lastname'] = $row['lastname'];
-                        $this->records[$counter]['firstname'] = $row['firstname'];
-                        if ($this->has_active_lp && $this->has_general_lp_access) {
-                            $this->records[$counter]['progress'] = $this->getProgressStatus($row['usr_id']);
-                        }
-                        ++$counter;
-                    }
-                }
-            }
-
-            private function sortedRecords(array $records, Order $order): array
-            {
-                [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                usort($records, static fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
-                if ($order_direction === 'DESC') {
-                    $records = array_reverse($records);
-                }
-                return $records;
-            }
-
-            private function getRecords(Range $range, Order $order): array
-            {
-                $this->initRecords();
-                $records = $this->sortedRecords($this->records, $order);
-                return $this->limitRecords($records, $range);
-            }
-
-            private function limitRecords(array $records, Range $range): array
-            {
-                return array_slice($records, $range->getStart(), $range->getLength());
-            }
-
-            public function getRows(
-                \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
-                array $visible_column_ids,
-                \ILIAS\Data\Range $range,
-                \ILIAS\Data\Order $order,
-                ?array $filter_data,
-                ?array $additional_parameters,
-            ): Generator {
-                $records = $this->getRecords($range, $order);
-                foreach ($records as $record) {
-                    $row_id = (string) $record['usr_id'];
-                    yield $row_builder->buildDataRow($row_id, $record);
-                }
-            }
-
-            public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-            {
-                $this->initRecords();
-                return count((array) $this->records);
-            }
-
-            private function getProgressStatus(int $user_id): string
-            {
+        if ($this->records === null) {
+            $this->records = [];
+            $data = $this->forum->Forum->getUserStatistics($this->obj_properties->isPostActivationEnabled());
+            $result = [];
+            $counter = 0;
+            foreach ($data as $row) {
+                $this->records[$counter]['usr_id'] = $row['usr_id'];
+                $this->records[$counter]['ranking'] = $row['num_postings'];
+                $this->records[$counter]['login'] = $row['login'];
+                $this->records[$counter]['lastname'] = $row['lastname'];
+                $this->records[$counter]['firstname'] = $row['firstname'];
                 if ($this->has_active_lp && $this->has_general_lp_access) {
-                    if ($this->has_rbac_or_position_access || $this->actor->getId() === $user_id) {
-                        switch (true) {
-                            case in_array($user_id, $this->completed, false):
-                                $status = $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED);
-                                $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM);
-                                break;
-
-                            case in_array($user_id, $this->in_progress, false):
-                                $status = $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS);
-                                $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM);
-                                break;
-
-                            case in_array($user_id, $this->failed, false):
-                                $status = $this->lng->txt(ilLPStatus::LP_STATUS_FAILED);
-                                $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM);
-                                break;
-
-                            default:
-                                $status = $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
-                                $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM);
-                                break;
-                        }
-                    } else {
-                        $status = '';
-                        $icon = '';
-                    }
+                    $this->records[$counter]['progress'] = $this->getProgressStatus($row['usr_id']);
                 }
-                return ($status ?? '') . ' ' . ($icon ?? '');
+                ++$counter;
             }
-        };
+        }
+    }
 
-        return $data_retrieval;
+    private function sortedRecords(array $records, Order $order): array
+    {
+        [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+
+        usort($records, static function ($left, $right) use ($order_field): int {
+            if ($order_field === 'ranking') {
+                return $left[$order_field] <=> $right[$order_field];
+            }
+            return ilStr::strCmp($left[$order_field], $right[$order_field]);
+        });
+
+        if ($order_direction === 'DESC') {
+            $records = array_reverse($records);
+        }
+        return $records;
+    }
+
+    private function getRecords(Range $range, Order $order): array
+    {
+        $this->initRecords();
+        $records = $this->sortedRecords($this->records, $order);
+        return $this->limitRecords($records, $range);
+    }
+
+    private function limitRecords(array $records, Range $range): array
+    {
+        return array_slice($records, $range->getStart(), $range->getLength());
+    }
+
+    public function getRows(
+        \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        \ILIAS\Data\Range $range,
+        \ILIAS\Data\Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters,
+    ): Generator {
+        $records = $this->getRecords($range, $order);
+        foreach ($records as $record) {
+            $row_id = (string) $record['usr_id'];
+            yield $row_builder->buildDataRow($row_id, $record);
+        }
+    }
+
+    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
+    {
+        $this->initRecords();
+        return count((array) $this->records);
+    }
+
+    private function getProgressStatus(int $user_id): string
+    {
+        $icon = '';
+        if ($this->has_active_lp && $this->has_general_lp_access && ($this->has_rbac_or_position_access || $this->actor->getId() === $user_id)) {
+            switch (true) {
+                case in_array($user_id, $this->completed, false):
+                    $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM);
+                    break;
+
+                case in_array($user_id, $this->in_progress, false):
+                    $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM);
+                    break;
+
+                case in_array($user_id, $this->failed, false):
+                    $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM);
+                    break;
+
+                default:
+                    $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM);
+                    break;
+            }
+        }
+        return $icon;
     }
 }
