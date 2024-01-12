@@ -136,17 +136,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         $target_description = ilObject::_lookupDescription($target_obj_id);
 
         $this->deleted = $tree->isDeleted($target_ref_id);
-        if ($target_obj_id === 0) {
-            $this->deleted = true;
-        }
-
-        parent::initItem(
-            $this->deleted ? $ref_id : $target_ref_id,
-            $this->deleted ? $obj_id : $target_obj_id,
-            $type,
-            $target_title,
-            $target_description
-        );
+        parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
         $this->commands = ilObjCourseReferenceAccess::_getCommands($this->reference_ref_id);
