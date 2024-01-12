@@ -58,9 +58,6 @@ class ForumModeratorsTable
     protected function getColumns(): array
     {
         return [
-            'usr_id' => $this->ui_factory->table()->column()->number('User ID')
-                                         ->withIsSortable(true),
-
             'login' => $this->ui_factory->table()->column()->text($this->lng->txt('login'))
                                         ->withIsSortable(true),
 
@@ -106,15 +103,10 @@ class ForumModeratorsTable
     {
         $data_retrieval = new class($this->forum_moderators) implements UI\Component\Table\DataRetrieval {
 
-            /**
-             * @var array|string[]
-             */
-            private array $numeric_columns;
             private ?array $records = null;
 
             public function __construct(protected readonly \ilForumModerators $forum_moderators)
             {
-                $this->numeric_columns = ['usr_id'];
             }
 
             private function initRecords(): void
@@ -123,7 +115,6 @@ class ForumModeratorsTable
                     $this->records = [];
                     $i = 0;
                     $entries = $this->forum_moderators->getCurrentModerators();
-                    $num = count($entries);
                     foreach ($entries as $usr_id) {
                         /** @var ilObjUser $user */
                         $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
@@ -172,11 +163,7 @@ class ForumModeratorsTable
             {
                 $records = $this->records;
                 [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                $is_numeric = false;
-                if (in_array($order_field, $this->numeric_columns)) {
-                    $is_numeric = true;
-                }
-                return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction), $is_numeric);
+                return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
             }
 
             private function getRecords(Data\Range $range, Data\Order $order): array
