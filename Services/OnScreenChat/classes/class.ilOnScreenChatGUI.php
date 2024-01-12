@@ -285,7 +285,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             ], $page);
 
             iljQueryUtil::initjQuery($page);
-            iljQueryUtil::initjQueryUI($page);
             ilLinkifyUtil::initLinkify($page);
 
             $page->addJavaScript('./node_modules/jquery-outside-events/jquery.ba-outside-events.js');
