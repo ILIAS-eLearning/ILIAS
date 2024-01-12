@@ -21,26 +21,25 @@ declare(strict_types=1);
 use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Services;
 
 class BannedUsersTable
 {
-    private array $banned_users = [];
-    protected \ilCtrl $ctrl;
-    protected \ilLanguage $lng;
     protected UI\Factory $ui_factory;
     protected ServerRequestInterface $request;
     protected Data\Factory $data_factory;
 
-    public function __construct(array $banned_users = [])
-    {
+    public function __construct(
+        private readonly array $banned_users,
+        private readonly \ilCtrl $ctrl,
+        private readonly \ilLanguage $lng,
+        private readonly Services $http
+    ) {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->ui_factory = $DIC->ui()->factory();
-        $this->request = $DIC->http()->request();
+        $this->request = $this->http->request();
         $this->data_factory = new Data\Factory();
-        $this->banned_users = $banned_users;
     }
 
     public function getComponent(): UI\Component\Table\Data
@@ -49,20 +48,15 @@ class BannedUsersTable
         $actions = $this->getActions();
         $data_retrieval = $this->getDataRetrieval();
 
-        $table = $this->ui_factory->table()
-                                  ->data($this->lng->txt('ban_table_title'), $columns, $data_retrieval)
-                                  ->withActions($actions)
-                                  ->withRequest($this->request);
-
-        return $table;
+        return $this->ui_factory->table()
+                                ->data($this->lng->txt('ban_table_title'), $columns, $data_retrieval)
+                                ->withActions($actions)
+                                ->withRequest($this->request);
     }
 
     protected function getColumns(): array
     {
         return [
-            'user_id' => $this->ui_factory->table()->column()->number('User ID')
-                                          ->withIsSortable(true),
-
             'login' => $this->ui_factory->table()->column()->text($this->lng->txt('login'))
                                         ->withIsSortable(true),
 
@@ -82,10 +76,10 @@ class BannedUsersTable
 
     protected function getActions(): array
     {
-        $query_params_namespace = ['chat_ban_table'];
+        $query_params_namespace = ['chat', 'ban', 'table'];
 
         $uri_detach = $this->data_factory->uri(
-            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(ilObjChatroomgui::class, 'ban-delete')
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(ilObjChatroomgui::class, 'ban-handleTableActions')
         );
 
         $url_builder_detach = new UI\URLBuilder($uri_detach);
@@ -99,9 +93,9 @@ class BannedUsersTable
             );
 
         return [
-            'ban-delete' => $this->ui_factory->table()->action()->multi(
+            'delete' => $this->ui_factory->table()->action()->multi(
                 $this->lng->txt('unban'),
-                $url_builder_detach->withParameter($action_parameter_token_copy, 'ban-delete'),
+                $url_builder_detach->withParameter($action_parameter_token_copy, 'delete'),
                 $row_id_token_detach
             ),
         ];
@@ -111,16 +105,10 @@ class BannedUsersTable
     {
         $data_retrieval = new class($this->banned_users) implements UI\Component\Table\DataRetrieval {
 
-            /**
-             * @var array|string[]
-             */
-            private array $numericColumns;
-
             private ?array $records = null;
 
             public function __construct(protected array $banned_users)
             {
-                $this->numericColumns = ['user_id'];
             }
 
             private function initRecords(): void
@@ -178,19 +166,14 @@ class BannedUsersTable
                 return count((array) $this->records);
             }
 
-
             /**
              * @todo change this workaround, if there is a general decision about the sorting strategy
              */
             private function sortedRecords(Data\Order $order): array
             {
                 $records = $this->records;
-                [$order_field, $order_direction] = $order->join([], fn ($ret, $key, $value) => [$key, $value]);
-                $is_numeric = false;
-                if (in_array($order_field, $this->numericColumns)) {
-                    $is_numeric = true;
-                }
-                return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction), $is_numeric);
+                [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+                return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
             }
 
             private function getRecords(Data\Range $range, Data\Order $order): array

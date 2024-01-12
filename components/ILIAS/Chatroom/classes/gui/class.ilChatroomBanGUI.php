@@ -57,11 +57,29 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         parent::__construct($gui);
     }
 
+    public function handleTableActions(): void
+    {
+        $query = $this->http->wrapper()->query();
+        if (!$query->has('chat_ban_table_action')) {
+            return;
+        }
+
+        $action = $query->retrieve('chat_ban_table_action', $this->refinery->to()->string());
+        switch ($action) {
+            case 'delete':
+                $this->delete();
+                break;
+            default:
+                $this->ilCtrl->redirect($this, 'show');
+                break;
+        }
+    }
+
     public function delete(): void
     {
         $userTrafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int());
 
-        $users = $this->getRequestValue('chat_ban_table_usr_ids', $userTrafo, []);
+        $users = $this->getRequestValue('chat_ban_table_user_ids', $userTrafo, []);
         if ($users === []) {
             $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('no_checkbox'), true);
             $this->ilCtrl->redirect($this->gui, 'ban-show');
@@ -110,7 +128,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             }
         });
 
-        $tbl = new BannedUsersTable($data);
+        $tbl = new BannedUsersTable($data, $this->ilCtrl, $this->ilLng, $this->http);
         $tbl_html = $this->uiRenderer->render($tbl->getComponent());
         $this->mainTpl->setContent($tbl_html);
     }
