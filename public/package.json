@@ -8,7 +8,8 @@
     "test": "tests"
   },
   "dependencies": {
-    "jquery": "^3.6.0"
+    "jquery": "^3.6.0",
+    "moment": "^2.29.4"
   },
   "scripts": {
     "test": "mocha --recursive"
@@ -31,6 +32,14 @@
       "developer": null,
       "purpose": "We use jQuery for most JS-related actions in ILIAS.",
       "last-update-for-ilias": "10.0"
+    },
+    "moment": {
+      "introduction-date": null,
+      "approved-by": "Jour Fixe",
+      "developer": "jluetzen",
+      "purpose": "Calendar",
+      "last-update-for-ilias": "10.0",
+      "note": "Used for the datetime picker in the calendar component. Since 2016 this library is used in the chat component as well."
     }
   }
 }
