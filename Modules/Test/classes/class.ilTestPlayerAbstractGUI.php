@@ -927,6 +927,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("FORMACTION", $formAction);
         $this->tpl->setVariable("ENCTYPE", 'enctype="' . $questionGui->getFormEncodingType() . '"');
         $this->tpl->setVariable("FORM_TIMESTAMP", time());
+        $this->populateQuestionEditControl($questionGui);
     }
 
     protected function showQuestionEditable(assQuestionGUI $questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse)
