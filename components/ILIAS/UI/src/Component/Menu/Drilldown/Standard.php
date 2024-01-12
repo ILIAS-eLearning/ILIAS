@@ -20,12 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Menu\Drilldown;
 
-use ILIAS\UI\Component\Menu\Menu;
-use ILIAS\UI\Component\JavaScriptBindable;
-
 /**
  * This describes a Standard Drilldown Menu Control
  */
-interface Standard extends Menu, JavaScriptBindable
+interface Standard extends Drilldown
 {
 }

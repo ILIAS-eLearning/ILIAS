@@ -40,7 +40,7 @@ class Renderer extends AbstractComponentRenderer
          */
         $html = $this->renderMenu($component, $default_renderer);
 
-        if ($component instanceof Menu\Drilldown\Standard) {
+        if ($component instanceof Menu\Drilldown\Drilldown) {
             $ui_factory = $this->getUIFactory();
             $back_signal = $component->getBacklinkSignal();
             $persistence_id = $component->getPersistenceId();
@@ -66,7 +66,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl_name = "tpl.drilldown.html";
             $tpl = $this->getTemplate($tpl_name, true, true);
             $tpl->setVariable("ID", $id);
+            $tpl->setCurrentBlock("title");
             $tpl->setVariable('TITLE', $component->getLabel());
+            $tpl->parseCurrentBlock();
             $tpl->setVariable('BACKNAV', $back_button_html);
             $tpl->setVariable('DRILLDOWN', $html);
 

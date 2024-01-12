@@ -20,53 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Menu\Drilldown;
 
-use ILIAS\UI\Component\Menu as IMenu;
-use ILIAS\UI\Implementation\Component\Menu\Menu;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Menu\Drilldown;
 
 /**
  * Standard Drilldown Menu Control
  */
-class Standard extends Menu implements IMenu\Drilldown\Standard
+class Standard extends Drilldown\Drilldown
 {
-    use JavaScriptBindable;
-
-    protected Signal $signal;
-    protected ?string $persistence_id = null;
-
-    /**
-     * @param array <Sub|Component\Clickable|Component\Divider\Horizontal> $items
-     */
-    public function __construct(
-        SignalGeneratorInterface $signal_generator,
-        string $label,
-        array $items
-    ) {
-        $this->checkItemParameter($items);
-        $this->label = $label;
-        $this->items = $items;
-        $this->signal = $signal_generator->create();
-    }
-
-    public function getBacklinkSignal(): Signal
-    {
-        return $this->signal;
-    }
-
-    public function withPersistenceId(?string $id): self
-    {
-        if (is_null($id)) {
-            return $this;
-        }
-        $clone = clone $this;
-        $clone->persistence_id = $id;
-        return $clone;
-    }
-
-    public function getPersistenceId(): ?string
-    {
-        return $this->persistence_id;
-    }
 }

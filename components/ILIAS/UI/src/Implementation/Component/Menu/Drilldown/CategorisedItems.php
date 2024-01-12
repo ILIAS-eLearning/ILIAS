@@ -21,36 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Menu\Drilldown;
 
 use ILIAS\UI\Component\Menu as IMenu;
-use ILIAS\UI\Implementation\Component\Menu\Menu;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Menu\Drilldown;
 
 /**
  * Standard Drilldown Menu Control
  */
-class CategorisedItems extends Menu implements IMenu\Drilldown\CategorisedItems
+class CategorisedItems extends Drilldown\Drilldown implements IMenu\Drilldown\CategorisedItems
 {
-    use JavaScriptBindable;
-
-    protected Signal $signal;
-    protected ?string $persistence_id = null;
-
     protected bool $filter_enabled = false;
-
-    /**
-     * @param array <Sub|Component\Clickable|Component\Divider\Horizontal> $items
-     */
-    public function __construct(
-        SignalGeneratorInterface $signal_generator,
-        string $label,
-        array $items
-    ) {
-        $this->checkItemParameter($items);
-        $this->label = $label;
-        $this->items = $items;
-        $this->signal = $signal_generator->create();
-    }
 
     public function withItemsFilter(bool $enabled): self
     {
@@ -59,23 +37,16 @@ class CategorisedItems extends Menu implements IMenu\Drilldown\CategorisedItems
         return $clone;
     }
 
-    public function getBacklinkSignal(): Signal
+    public function getItemsFilter(): bool
     {
-        return $this->signal;
+        return $this->filter_enabled;
     }
 
-    public function withPersistenceId(?string $id): self
+    protected function checkItemParameter(array $items): void
     {
-        if (is_null($id)) {
-            return $this;
-        }
-        $clone = clone $this;
-        $clone->persistence_id = $id;
-        return $clone;
-    }
-
-    public function getPersistenceId(): ?string
-    {
-        return $this->persistence_id;
+        $classes = [
+            IMenu\Sub::class,
+        ];
+        $this->checkArgListElements("items", $items, $classes);
     }
 }

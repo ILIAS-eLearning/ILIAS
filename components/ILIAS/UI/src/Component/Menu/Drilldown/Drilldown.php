@@ -20,16 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Menu\Drilldown;
 
-/**
- * This describes a Categorised Items Drilldown Menu Control
- */
-interface CategorisedItems extends Drilldown
-{
-    /**
-     * Return a Catorised Items with the item filter enabled/disabled. If the
-     * filter is enabled, it will be shown instead of the label.
-     */
-    public function withItemsFilter(bool $enabled): self;
+use ILIAS\UI\Component\Menu\Menu;
+use ILIAS\UI\Component\JavaScriptBindable;
 
-    public function getItemsFilter(): bool;
+/**
+ * This describes a Standard Drilldown Menu Control
+ */
+interface Drilldown extends Menu, JavaScriptBindable
+{
 }
