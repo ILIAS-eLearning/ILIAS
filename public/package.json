@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "jquery": "^3.6.0",
+    "linkifyjs": "^4.1.3",
     "moment": "^2.29.4"
   },
   "scripts": {
@@ -29,17 +30,24 @@
     "jquery": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": null,
+      "developer": "mjansen",
       "purpose": "We use jQuery for most JS-related actions in ILIAS.",
       "last-update-for-ilias": "10.0"
     },
     "moment": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "jluetzen",
+      "developer": "mjansen",
       "purpose": "Calendar",
       "last-update-for-ilias": "10.0",
       "note": "Used for the datetime picker in the calendar component. Since 2016 this library is used in the chat component as well."
+    },
+    "linkifyjs": {
+      "introduction-date": null,
+      "approved-by": "Jour Fixe",
+      "developer": "mjansen",
+      "purpose": "Services/Link, autolinking of external links",
+      "last-update-for-ilias": "10.0"
     }
   }
 }
