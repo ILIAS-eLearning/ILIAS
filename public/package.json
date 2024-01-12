@@ -7,6 +7,9 @@
     "doc": "docs",
     "test": "tests"
   },
+  "dependencies": {
+    "jquery": "^3.6.0"
+  },
   "scripts": {
     "test": "mocha --recursive"
   },
@@ -22,5 +25,12 @@
   },
   "homepage": "https://github.com/ILIAS-eLearning/ILIAS#readme",
   "extra": {
+    "jquery": {
+      "introduction-date": null,
+      "approved-by": "Jour Fixe",
+      "developer": null,
+      "purpose": "We use jQuery for most JS-related actions in ILIAS.",
+      "last-update-for-ilias": "10.0"
+    }
   }
 }
