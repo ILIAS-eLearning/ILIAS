@@ -103,9 +103,13 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function isComplete(): bool
     {
-        if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
+        if ($this->title !== ''
+            && $this->author !== null && $this->author !== ''
+            && $this->question !== null && $this->question !== ''
+            && $this->answers !== []
+            && $this->getMaximumPoints() > 0) {
             foreach ($this->answers as $answer) {
-                if ((strlen($answer->getAnswertext()) == 0) && (strlen($answer->getImage()) == 0)) {
+                if ($answer->getAnswertext() !== '' && !$answer->hasImage()) {
                     return false;
                 }
             }
@@ -214,8 +218,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
                 $imagefilename = $this->getImagePath() . $data["imagefile"];
-                if (!@file_exists($imagefilename)) {
-                    $data["imagefile"] = "";
+                if (!file_exists($imagefilename)) {
+                    $data["imagefile"] = null;
                 }
 
                 $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
@@ -223,8 +227,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                     $data["answertext"],
                     $data["points"],
                     $data["aorder"],
-                    1,
-                    $data["imagefile"],
+                    true,
+                    $data["imagefile"] ? $data["imagefile"] : null,
                     $data["answer_id"]
                 );
                 $this->answers[] = $image;
@@ -367,13 +371,13 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $answertext = "",
         $points = 0.0,
         $order = 0,
-        $answerimage = "",
+        $answerimage = null,
         $answer_id = -1
     ): void {
         $answertext = $this->getHtmlQuestionContentPurifier()->purify($answertext);
         if (array_key_exists($order, $this->answers)) {
             // insert answer
-            $answer = new ASS_AnswerBinaryStateImage($answertext, $points, $order, 1, $answerimage, $answer_id);
+            $answer = new ASS_AnswerBinaryStateImage($answertext, $points, $order, true, $answerimage, $answer_id);
             $newchoices = [];
             for ($i = 0; $i < $order; $i++) {
                 $newchoices[] = $this->answers[$i];
@@ -390,7 +394,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 $answertext,
                 $points,
                 count($this->answers),
-                1,
+                true,
                 $answerimage,
                 $answer_id
             );
@@ -454,7 +458,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             return;
         }
         $answer = $this->answers[$index];
-        if (strlen($answer->getImage())) {
+        if ($answer->hasImage()) {
             $this->deleteImage($answer->getImage());
         }
         unset($this->answers[$index]);
@@ -890,8 +894,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         foreach ($this->answers as $answer) {
-            $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($answer->hasImage()) {
+                $filename = $answer->getImage();
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
@@ -919,8 +923,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
         $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
         foreach ($this->answers as $answer) {
-            $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($answer->hasImage()) {
+                $filename = $answer->getImage();
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
@@ -968,8 +972,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
         ilFileUtils::delDir($imagepath_original);
         foreach ($this->answers as $answer) {
-            $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($answer->hasImage()) {
+                $filename = $answer->getImage();
                 if (@file_exists($imagepath . $filename)) {
                     if (!file_exists($imagepath)) {
                         ilFileUtils::makeDirParents($imagepath);
@@ -1111,7 +1115,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $answer = $this->answers[$index];
         if (is_object($answer)) {
             $this->deleteImage($answer->getImage());
-            $answer->setImage('');
+            $answer->setImage(null);
         }
     }
 

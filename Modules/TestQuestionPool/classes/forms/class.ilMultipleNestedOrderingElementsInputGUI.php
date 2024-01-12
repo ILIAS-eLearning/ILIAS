@@ -449,6 +449,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     {
         if ($this->isStylingEnabled()) {
             $this->getGlobalTpl()->addCss('Services/Form/css/nested_ordering.css');
+            $this->getGlobalTpl()->addCss('Services/COPage/css/content.css');
         }
 
         if ($this->isInteractionEnabled()) {

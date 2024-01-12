@@ -55,8 +55,8 @@ class ilSystemStyleStyleScssVariableTest extends TestCase
     {
         $variable = new ilSystemStyleScssVariable('il-icon-font-path', 'value', 'comment', 'category_name', ['references_id']);
 
-        $variable->setValue("\"../../node_modules/bootstrap/fonts/\"");
-        $this->assertEquals("\"../../../../../node_modules/bootstrap/fonts/\"", $variable->getValue());
+        $variable->setValue("\"./fonts\"");
+        $this->assertEquals("\"./fonts\"", $variable->getValue());
     }
 
     public function testIconFontPathQuotation(): void

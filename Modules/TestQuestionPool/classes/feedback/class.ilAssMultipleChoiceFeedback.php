@@ -45,7 +45,7 @@ class ilAssMultipleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFe
     {
         $label = [];
 
-        if ($answer->getImage() !== null) {
+        if ($answer->hasImage()) {
             if ($this->questionOBJ->getThumbSize()) {
                 $src = $this->questionOBJ->getImagePathWeb() . $this->questionOBJ->getThumbPrefix() . $answer->getImage();
             } else {

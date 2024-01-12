@@ -357,7 +357,7 @@ abstract class assQuestion
 
     public function setAuthor(string $author = ""): void
     {
-        if (!$author) {
+        if ($author === '') {
             $author = $this->current_user->getFullname();
         }
         $this->author = $author;

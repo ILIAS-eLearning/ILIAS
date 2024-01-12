@@ -15488,8 +15488,11 @@ style#:#color_changed_to#:#nach:
 style#:#color_reset#:#Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
 style#:#color_update#:#Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
 style#:#default_style_set_to#:#Der Standard-Style wurde geändert zu:
+style#:#dir_changed_to#:#Der Ordner wurde verschoben nach:
 style#:#dir_copied_from#:#Der Ordner wurde kopiert von:
+style#:#dir_created#:#Der folgende Ordner wurde erstellt:
 style#:#dir_deleted#:#Der folgende Ordner wurde gelöscht:
+style#:#dir_preserved_backup#:#Behaltene Ordner:
 style#:#dir_preserved_linked#:#Behaltene Links:
 style#:#directory_created#:#Ordner erstellt:
 style#:#documentation#:#Dokumentation
@@ -15499,7 +15502,7 @@ style#:#enable_system_styles_management_no_write_perm#:#'System-Styles-Managemen
 style#:#entries_reloaded#:#Alle Einträge wurden aktualisiert
 style#:#file_deleted#:#Folgende Datei wurde gelöscht:
 style#:#font_dir#:#Schrift-Ordner
-style#:#font_dir_description#:#Ordner für das Speichern von Schriftarten vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub-Styles geteilt werden.
+style#:#font_dir_description#:#Ordner für das Speichern von Schriftarten vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub-Styles geteilt werden. Achtung, falls dieser Ordner Angepasst wird, muss auch die SCSS Variable il-web-font-path manuell angepasst werden.
 style#:#from_skin#:#vom Skin:
 style#:#green_color#:#Grünton
 style#:#green_colors#:#Grüne Farben
@@ -15515,6 +15518,7 @@ style#:#in_main_scss_file#:#ist nicht in der System-Styles-Main-Scss-Datei impor
 style#:#invalid_scss_path#:#Der angegebene sass/scss-Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die sass/scss-Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
 style#:#ks_documentation_of_style#:#'Kitchen Sink'-Dokumentation von Style:
 style#:#ks_documentation_of_substyle#:#'Kitchen Sink'-Dokumentation von Sub-Style:
+style#:#main_scss_created#:#Main SCSS Datei wurde erstellt:
 style#:#manage_system_styles#:#System-Styles verwalten
 style#:#msg_sub_style_created#:#Der Sub-Style wurde erstellt.
 style#:#msg_sys_style_created#:#Die neue System-Style-Datei wurde erfolgreich erstellt.
@@ -15541,6 +15545,8 @@ style#:#scss_can_not_be_modified#:#Scss kann nicht verändert werden.
 style#:#scss_compile_failed#:#Die Scss Datei konnte nicht kompiliert werden. Sass/scss muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
 style#:#scss_file_reset#:#Die scss-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
 style#:#scss_file_updated#:#Die scss-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#scss_folder_reset#:#Scss Ordner zurückgesetzt
+style#:#scss_folder_updated#:#Scss Ordner wurde aktualisiert
 style#:#scss_scss_installation_detected#:#Scss-Installation gefunden:
 style#:#scss_variable_empty#:#Für diese Variabel wurde kein Wert gesetzt. Der Wert aus den Settings Dateien wurde nun geladen. Bitte überprüfen Sie dieses Feld bevor Sie komplilieren.
 style#:#scss_variables_empty_might_have_changed#:#Scss Variabeln ohne Wert waren im Formular enthalten. Die Ursache kann sein, dass die Settings Dateien seit dem Laden dieses Formulares geändert wurde. Die leeren Variabeln wurden mit den Werten aus den Settings Dateien ersetzt und markiert. Bitte überprüfen Sie diese Werte, bevor Sie kompilieren und somit auch die Werte im Formular in die Settings Dateien schreiben.

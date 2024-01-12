@@ -215,10 +215,12 @@ class ilSkillProfileGUI
         $ilTabs->clearTargets();
         $ilHelp->setScreenIdComponent("skmg_prof");
 
+        $ilCtrl->clearParameterByClass(self::class, "sprof_id");
         $ilTabs->setBackTarget(
             $lng->txt("skmg_skill_profiles"),
             $ilCtrl->getLinkTarget($this, "")
         );
+        $ilCtrl->setParameter($this, "sprof_id", $this->requested_sprof_id);
 
         // levels
         $ilTabs->addTab(

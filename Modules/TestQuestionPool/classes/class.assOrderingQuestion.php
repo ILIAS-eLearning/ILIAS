@@ -892,6 +892,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
+        if($this->dic->testQuestionPool()->internal()->request()->raw('test_answer_changed') === null) {
+            return true;
+        }
+
         $entered_values = 0;
 
         if (is_null($pass)) {
@@ -1304,7 +1308,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $request = $DIC->http()->request();
                 $post_array = $request->getParsedBody();
             }
-
             $list = $this->fetchSolutionListFromFormSubmissionData($post_array);
             $this->postSolutionOrderingElementList = $list;
         }
@@ -1404,7 +1407,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $newKey = explode(":", $row["value2"]);
 
             foreach ($this->getOrderingElementList() as $answer) {
-                // Images nut supported
+                // Images not supported
                 if (!$this->isOrderingTypeNested()) {
                     if ($answer->getSolutionIdentifier() == $row["value1"]) {
                         $elements[$row["value2"]] = $answer->getSolutionIdentifier() + 1;
