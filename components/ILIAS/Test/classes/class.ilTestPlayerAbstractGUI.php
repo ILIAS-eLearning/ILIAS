@@ -2440,6 +2440,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         // Forced feedback will change the navigation saving command
         $config['forcedInstantFeedback'] = $this->object->isForceInstantFeedbackEnabled();
+        $config['questionLocked'] = $this->isParticipantsAnswerFixed($question_gui->object->getId());
         $config['nextQuestionLocks'] = $this->object->isFollowupQuestionAnswerFixationEnabled();
 
         $this->tpl->addJavascript('./components/ILIAS/Test/js/ilTestPlayerQuestionEditControl.js');
