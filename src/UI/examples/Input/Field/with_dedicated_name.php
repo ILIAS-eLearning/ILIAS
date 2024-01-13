@@ -28,5 +28,7 @@ function with_dedicated_name()
          ->withDedicatedName('valid');
 
     $form = $ui->input()->container()->form()->standard("", [$text_input, $password_input, $duration_input]);
-    return $renderer->render($form);
+    return $renderer->render([$form, $ui->dropdown()->standard([
+        $ui->button()->shy('lbl', '#'),
+    ])]);
 }

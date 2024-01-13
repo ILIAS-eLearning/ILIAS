@@ -1,0 +1,307 @@
+<div class="c-input-resource_selector modal fade il-modal-roundtrip in" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document" data-replace-marker="component">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <span class="modal-title">Select Resource</span>
+            </div>
+
+            <div class="modal-body">
+                <div class="il-drilldown" id="drilldown">
+                    <!-- this should probably be inside <header> but I could not manage to fix the css so the appearance is nice. -->
+                    <!-- also, this should probably be "sticky", but I could not manage this too. -->
+                    <nav aria-label="Breadcrumbs" class="breadcrumb_wrapper">
+                        <div id="breadcrumb-list" class="breadcrumb">
+                            <!-- <span id="root-breadcrumb" class="crumb"><a href="#">Repository</a></span> -->
+                        </div>
+                    </nav>
+                    <header class="show-title">
+                        <h2>Repository Root</h2>
+                        <div class="backnav">
+                            <button class="btn btn-bulky" id="drilldown_back" aria-label="back">
+                                    <span class="glyph" role="img"><span class="glyphicon glyphicon-triangle-left"
+                                                                         aria-hidden="true"></span></span><span
+                                    class="bulky-label"></span>
+                            </button>
+                        </div>
+                    </header>
+                    <ul>
+                        <li>
+                            <button class="menulevel engaged" aria-expanded="false">
+                                <span data-item-name>Repository</span>
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                            </button>
+                            <ul data-ddindex="0">
+                                {ENTRIES}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="selection">
+                    {DROPDOWN}
+                </div>
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" disabled="disabled">Choose</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- standard form to wrap prototype -->
+<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="#" method="post"
+      novalidate="novalidate">
+    <div class="il-standard-form-header clearfix">
+        <div class="il-standard-form-cmd">
+            <button class="btn btn-default" data-action="">Save</button>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="some_other_input" class="control-label col-sm-4 col-md-3 col-lg-2">Some other input</label>
+        <div class="col-sm-8 col-md-9 col-lg-10">
+            <input id="some_other_input" type="text" name="some_other_input"
+                   class="form-control form-control-sm">
+        </div>
+    </div>
+
+    <!-- form group containing the prototype -->
+    <div class="form-group row">
+        <label for="modal_triggerer" class="control-label col-sm-4 col-md-3 col-lg-2">Resource</label>
+        <div class="col-sm-8 col-md-9 col-lg-10">
+            <!-- prototype triggerer -->
+            <button type="button" class="btn btn-link dz-clickable" data-action="#" id="modal_triggerer">Select
+                Resources
+            </button>
+        </div>
+    </div>
+
+    <div class="il-standard-form-footer clearfix">
+        <div class="il-standard-form-cmd">
+            <button class="btn btn-default" data-action="">Save</button>
+        </div>
+    </div>
+</form>
+
+<!-- loaded implicitly by because of main menu -->
+<!--<script type="application/javascript" src="./src/UI/templates/js/Drilldown/dist/drilldown.js?version=9_0"></script>-->
+<script type="application/javascript" src="./node_modules/jquery/dist/jquery.js?version=9_0"></script>
+<script type="application/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js?version=9_0"></script>
+<script type="application/javascript" src="./src/UI/templates/js/Modal/modal.js?version=9_0"></script>
+<script type="application/ecmascript">
+  (function () {
+    // initialize drilldown menu manually, register back-button signal
+    $().ready(function() {
+      const drilldownBackSignal = 'drilldown-back-signal-id';
+      const openModalSignal = 'modal-open-signal-id';
+
+      $('#drilldown_back').on('click', function () {
+        $(this).trigger(drilldownBackSignal,
+          {
+            id: drilldownBackSignal,
+            event: 'click',
+            triggerer: $(this),
+            options: {},
+          }
+        );
+        // since I could not figure out how to listen to the back signal, remove the last crumb here.
+        popBreadCrumbs();
+        return false;
+      });
+
+      $('#modal_triggerer').on('click', function (e) {
+        il.UI.modal.showModal('modal', {}, {
+          id: 'modal',
+          event: 'click',
+          triggerer: $(this),
+          options: {},
+        });
+        e.stopPropagation();
+        return false;
+      });
+
+      il.UI.menu.drilldown.init('drilldown', drilldownBackSignal, null);
+
+      il.UI.menu.drilldown.instances['drilldown'].onEngage((level, parent) => {
+        if (parent.label && parent.id) {
+          addBreadCrumbForDrilldown(parent.label, parent.id);
+        }
+      });
+
+      // open modal immediately because I am lazy.
+      // $('#modal_triggerer').click();
+    });
+
+    const selector = document.querySelector('.c-input-resource_selector .il-drilldown');
+    let bulkyButtons = Array.from(selector.querySelectorAll('.btn-bulky'));
+    const chooseButton = selector.closest('.modal-content').querySelector('.btn-primary');
+    const breadCrumbs = document.getElementById('breadcrumb-list');
+    const currentSelection = new Map();
+
+    chooseButton.addEventListener('click', () => {
+
+    });
+
+    // const rootBreadcrumb = document.getElementById('root-breadcrumb');
+
+    function addBreadCrumbForDrilldown(label, level) {
+      const crumb = document.createElement('div');
+      crumb.innerHTML = '<span class="crumb" data-drilldown-level="' + level + '"><a href="#">' + label + '</a></span>';
+
+      crumb.firstElementChild.addEventListener('click', (event) => {
+        // engage the appropriate drilldown level.
+        const drilldown = il.UI.menu.drilldown.instances['drilldown'];
+        drilldown.engage(level);
+
+        // remove all crumbs after the clicked one.
+        const existingCrumbs = breadCrumbs.querySelectorAll('.crumb');
+        const clickedIndex = Array.prototype.indexOf.call(existingCrumbs, event.currentTarget);
+        popBreadCrumbs(existingCrumbs.length - clickedIndex);
+      });
+
+      breadCrumbs.append(crumb.firstElementChild);
+    }
+
+    function popBreadCrumbs(amount = 1) {
+      const crumbs = Array.from(breadCrumbs.querySelectorAll('.crumb')).reverse();
+      for (let i = 0; i < amount; i++) {
+        const crumb = crumbs[i];
+        if (crumb) {
+          crumb.remove();
+        }
+      }
+    }
+
+    // rootBreadcrumb.addEventListener('click', () => {
+    //   const drilldown = il.UI.menu.drilldown.instances['drilldown'];
+    //   drilldown.engage(0); // get more sophisticated way of getting menu-level, 0 is just a guess.
+    //   breadCrumbs.querySelectorAll('.crumb').forEach((crumb) => {
+    //     if (crumb.id !== rootBreadcrumb.id) {
+    //       crumb.remove();
+    //     }
+    //   });
+    // });
+
+    const selectButtons = bulkyButtons.filter((button) => {
+      return !button.parentElement.classList.contains('backnav');
+    });
+
+    selectButtons.forEach((button) => {
+      button.addEventListener('click', selectButtonHandler);
+    });
+
+    function selectButtonHandler(event) {
+      const button = event.target;
+      button.querySelectorAll('span').forEach((span) => {
+        span.classList.toggle('hidden');
+      });
+
+      const entry = button.closest('li');
+      const item = entry.querySelector('[data-item-name]').textContent;
+
+      if (currentSelection.has(item)) {
+        currentSelection.delete(item);
+      } else {
+        currentSelection.set(item, item);
+      }
+
+      entry.classList.toggle('selected');
+
+      chooseButton.disabled = currentSelection.size <= 0;
+
+      // for single choice selection, toggles all buttons except the clicked one.
+      // const currentValue = button.parentElement.querySelector('[data-item-name]').textContent;
+      // selectButtons.forEach((otherButton) => {
+      //   const otherValue = otherButton.parentElement.querySelector('[data-item-name]').textContent;
+      //   if (currentValue !== otherValue) {
+      //     otherButton.disabled = !otherButton.disabled;
+      //   }
+      // });
+    }
+  })();
+</script>
+
+<style>
+    .c-input-resource_selector .il-drilldown .engaged ~ ul > li {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .c-input-resource_selector .il-drilldown .il-link {
+        cursor: auto;
+    }
+
+    /** using vh feels bad, is there a better way? */
+    .c-input-resource_selector .modal-body {
+        max-height: 75vh;
+        overflow-y: scroll;
+    }
+
+    /* NOTE these styles will apply to all children. for production, we may need to introduce a class
+     * which can be directly assigned to all elements which should be darkened.
+     */
+    /* only needed for single choice to "grey-out" action button too */
+    /*.c-input-resource_selector .il-drilldown .selected .btn-bulky .glyphicon,*/
+    .c-input-resource_selector .il-drilldown .selected .menulevel .icon,
+    .c-input-resource_selector .il-drilldown .selected .il-link .icon,
+    .c-input-resource_selector .il-drilldown .selected [data-item-name] {
+        filter: invert(50%);
+    }
+
+    .c-input-resource_selector .il-drilldown .btn-bulky .glyphicon,
+    .c-input-resource_selector .il-drilldown .menulevel .icon,
+    .c-input-resource_selector .il-drilldown .il-link .icon {
+        color: #4c6586;
+        filter: none;
+    }
+
+    .c-input-resource_selector .il-drilldown .link-bulky {
+        text-align: left;
+    }
+
+    .c-input-resource_selector .il-drilldown .il-link:hover {
+        background-color: white;
+        border-color: transparent;
+    }
+
+    .c-input-resource_selector .il-drilldown .engaged ~ ul > li > .btn-bulky {
+        max-width: 50px;
+        display: flex;
+        justify-content: center !important;
+    }
+
+    .c-input-resource_selector .il-drilldown .engaged ~ ul > li > .link-bulky {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* aligns all modal content nicely to the left. */
+    .c-input-resource_selector .breadcrumb,
+    .c-input-resource_selector .il-drilldown .menulevel,
+    .c-input-resource_selector .il-drilldown .show-title:not(.show-backnav) {
+        padding-left: 12px;
+    }
+
+    .c-input-resource_selector .breadcrumb {
+        /*padding-left: 0;*/
+    }
+
+    /* someone with css skills might be able to make this element stick to the
+     * top of the modal-body, so they don't disappear on scroll.
+     */
+    .c-input-resource_selector .breadcrumb_wrapper {
+        /*height: 34px;*/
+        /*margin-top: 4px;*/
+    }
+
+    .c-input-resource_selector .il-drilldown .btn-bulky:focus-visible {
+        outline: 3px solid #0078D7;
+        box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+    }
+
+    #selection {
+        float: left;
+    }
+
+</style>

@@ -1,5 +1,5 @@
 var ddmapping = function() {
-    var 
+  var
     classes = {
         MENU: 'il-drilldown',
         BUTTON: 'button.menulevel',
@@ -32,19 +32,23 @@ var ddmapping = function() {
                 list.setAttribute(classes.ID_ATTRIBUTE, id);
             },
             getLabelForList = function(list) {
-                var btn = list.parentElement.querySelector(classes.BUTTON); 
-                return btn.childNodes[0].nodeValue;     
+              var btn = list.parentElement.querySelector(classes.BUTTON);
+              var lbl = btn.querySelector('[data-item-name]');
+              if (lbl === null) {
+                return btn.childNodes[0].nodeValue;
+              }
+              return lbl.textContent;
             },
             getParentIdOfList = function(list) {
                 var parent = list.parentElement.parentElement;
                 return parent.getAttribute(classes.ID_ATTRIBUTE);
             },
             registerHandler = function(list, handler, id) {
-                var btn = list.parentElement.querySelector(classes.BUTTON); 
+              var btn = list.parentElement.querySelector(classes.BUTTON);
                 btn.addEventListener('click', function(){handler(id);});
             },
-            
-            sublists = list.querySelectorAll(classes.LIST_TAG);
+
+              sublists = list.querySelectorAll(classes.LIST_TAG);
 
             for(var idx = 0; idx < sublists.length; idx = idx + 1) {
                 var sublist = sublists[idx],

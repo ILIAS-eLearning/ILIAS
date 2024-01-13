@@ -41,7 +41,7 @@
 			engageLevel(level);
 		},
 		engageLevel = function(id) {
-			model.actions.engageLevel(id);
+			model.actions.engageLevel(id, handler);
 			apply();
 		},
 		upLevel = function() {
@@ -55,10 +55,15 @@
 			mapping.setHeaderTitle(current.label);
 			mapping.setHeaderBacknav(current.parent != null);
 		},
+		addEngageListener = function (_handler) {
+			handler = _handler;
+		},
+		handler = null,
 
 		public_interface = {
 			init: init,
-			engage: engageLevel
+			engage: engageLevel,
+			onEngage: addEngageListener,
 	    };
 	    return public_interface;
 	};
@@ -97,11 +102,15 @@
 	        /**
 	         * @param  {String} id
 	         */
-	        engageLevel : function(id) {
+	        engageLevel : function(id, handler = null) {
 	            for(var idx in data) {
 	                data[idx].engaged = false;
 	                if(data[idx].id === id) {
 	                    data[idx].engaged = true;
+											if (handler) {
+												// pass by value, since arrays are objects. otherwise handler may tamper with it.
+												handler(structuredClone(data[idx]), structuredClone(data[data[idx].parent] ?? {}));
+											}
 	                }
 	            }
 	        },
@@ -127,7 +136,7 @@
 	};
 
 	var ddmapping = function() {
-	    var 
+	  var
 	    classes = {
 	        MENU: 'il-drilldown',
 	        BUTTON: 'button.menulevel',
@@ -160,19 +169,23 @@
 	                list.setAttribute(classes.ID_ATTRIBUTE, id);
 	            },
 	            getLabelForList = function(list) {
-	                var btn = list.parentElement.querySelector(classes.BUTTON); 
-	                return btn.childNodes[0].nodeValue;     
+	              var btn = list.parentElement.querySelector(classes.BUTTON);
+	              var lbl = btn.querySelector('[data-item-name]');
+	              if (lbl === null) {
+	                return btn.childNodes[0].nodeValue;
+	              }
+	              return lbl.textContent;
 	            },
 	            getParentIdOfList = function(list) {
 	                var parent = list.parentElement.parentElement;
 	                return parent.getAttribute(classes.ID_ATTRIBUTE);
 	            },
 	            registerHandler = function(list, handler, id) {
-	                var btn = list.parentElement.querySelector(classes.BUTTON); 
+	              var btn = list.parentElement.querySelector(classes.BUTTON);
 	                btn.addEventListener('click', function(){handler(id);});
 	            },
-	            
-	            sublists = list.querySelectorAll(classes.LIST_TAG);
+
+	              sublists = list.querySelectorAll(classes.LIST_TAG);
 
 	            for(var idx = 0; idx < sublists.length; idx = idx + 1) {
 	                var sublist = sublists[idx],
@@ -271,4 +284,4 @@
 		dd
 	);
 
-}());
+})();
