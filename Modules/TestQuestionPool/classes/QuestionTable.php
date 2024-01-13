@@ -177,7 +177,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
                 ->withParameter($this->action_parameter_token, 'preview')
                 ->withParameter($this->row_id_token, $row_id)
                 ->buildURI()->__toString();
-            if(!(bool)$record['complete']) {
+            if (!(bool) $record['complete']) {
                 $icon = $this->ui_factory->symbol()->icon()->custom(
                     ilUtil::getImagePath("standard/icon_alert.svg"),
                     $this->lng->txt("warning_question_not_complete")
