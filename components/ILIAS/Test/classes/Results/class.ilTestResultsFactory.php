@@ -124,7 +124,8 @@ class ilTestResultsFactory
                     false,
                     false,
                     false,
-                    false
+                    false,
+                    true
                 );
             }
 
