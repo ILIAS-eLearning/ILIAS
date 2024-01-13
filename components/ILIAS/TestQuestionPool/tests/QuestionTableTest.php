@@ -53,6 +53,7 @@ class QuestionTableTest extends assBaseTestCase
         $component_repository = $this->createMock(ilComponentRepository::class);
         $rbac = $this->createMock(ilRbacSystem::class);
         $taxonomy = $this->createMock(TaxonomyService::class);
+        $notes_service = $this->createMock(ILIAS\Notes\Service::class);
         $parent_obj_id = 0;
         $request_ref_id = 0;
 
@@ -68,6 +69,7 @@ class QuestionTableTest extends assBaseTestCase
             $component_repository,
             $rbac,
             $taxonomy,
+            $notes_service,
             $parent_obj_id,
             $request_ref_id
         );
