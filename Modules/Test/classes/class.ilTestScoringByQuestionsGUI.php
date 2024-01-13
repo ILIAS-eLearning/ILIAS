@@ -396,7 +396,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 false,
                 $this->object->getShowSolutionFeedback(),
                 false,
-                true
+                true,
+                false
             );
             $tmp_tpl->setVariable('TEXT_ASOLUTION_OUTPUT', $this->lng->txt('autosavecontent'));
             $tmp_tpl->setVariable('ASOLUTION_OUTPUT', $aresult_output);

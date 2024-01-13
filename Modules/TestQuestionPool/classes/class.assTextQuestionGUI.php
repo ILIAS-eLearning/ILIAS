@@ -294,15 +294,19 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
 
-        $solution = $this->object->getHtmlUserSolutionPurifier()->purify($this->object->getLatestAutosaveContent($active_id));
-        if ($this->renderPurposeSupportsFormHtml()) {
-            $template->setCurrentBlock('essay_div');
-            $template->setVariable("DIV_ESSAY", $this->object->prepareTextareaOutput($solution, true));
-        } else {
-            $template->setCurrentBlock('essay_textarea');
-            $template->setVariable("TA_ESSAY", $this->object->prepareTextareaOutput($solution, true, true));
+        $solution = '';
+        $autosaved_solution = $this->object->getLatestAutosaveContent($active_id, $pass);
+        if(!is_null($autosaved_solution)) {
+            $solution = $this->object->getHtmlUserSolutionPurifier()->purify($autosaved_solution);
+            if ($this->renderPurposeSupportsFormHtml()) {
+                $template->setCurrentBlock('essay_div');
+                $template->setVariable("DIV_ESSAY", ilLegacyFormElementsUtil::prepareTextareaOutput($solution, true));
+            } else {
+                $template->setCurrentBlock('essay_textarea');
+                $template->setVariable("TA_ESSAY", ilLegacyFormElementsUtil::prepareTextareaOutput($solution, true, true));
+            }
+            $template->parseCurrentBlock();
         }
-        $template->parseCurrentBlock();
 
         if (!$show_correct_solution) {
             $max_no_of_chars = $this->object->getMaxNumOfChars();

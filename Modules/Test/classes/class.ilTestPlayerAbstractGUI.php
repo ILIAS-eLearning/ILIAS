@@ -544,7 +544,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $post_array = $_POST;
-        if (! is_array($post_array)) {
+        if (!is_array($post_array)) {
             $request = $DIC->http()->request();
             $post_array = $request->getParsedBody();
         }
@@ -611,17 +611,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             if (!$this->canSaveResult() || $this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
                 $result = '-IGNORE-';
             } else {
-                // answer is changed from authorized solution, so save the change as intermediate solution
-                if ($this->getAnswerChangedParameter()) {
-                    $res = $this->saveQuestionSolution(false, true);
-                }
-                // answer is not changed from authorized solution, so delete an intermediate solution
-                else {
-                    // @PHP8-CR: This looks like (yet) another issue in the dreaded autosaving.
-                    // Any advice how to deal with it?
-                    $db_res = $this->removeIntermediateSolution();
-                    $res = is_int($db_res);
-                }
+                $authorize = !$this->getAnswerChangedParameter();
+                $res = $this->saveQuestionSolution($authorize, true);
+
                 if ($res) {
                     $result = $this->lng->txt("autosave_success");
                 } else {
@@ -640,8 +632,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function autosaveOnTimeLimitCmd()
     {
         if (!$this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
-            // time limit saves the user solution as authorized
-            $this->saveQuestionSolution(true, true);
+            $this->saveQuestionSolution(false, true);
         }
         $this->ctrl->redirect($this, ilTestPlayerCommands::REDIRECT_ON_TIME_LIMIT);
     }

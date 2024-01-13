@@ -446,9 +446,39 @@ class ilTestServiceGUI
 
                             $compare_template->setVariable('PARTICIPANT', $result_output);
                             $compare_template->setVariable('SOLUTION', $best_output);
+                            if ($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
+                                $intermediate_output = $question_gui->getAutoSavedSolutionOutput(
+                                    $active_id,
+                                    $pass,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false
+                                );
+                                $compare_template->setVariable('TXT_INTERMEDIATE', $this->lng->txt('autosavecontent'));
+                                $compare_template->setVariable('INTERMEDIATE', $intermediate_output);
+                            }
                             $template->setVariable('SOLUTION_OUTPUT', $compare_template->get());
                         } else {
                             $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_graphical_output, false, $show_question_only, $show_feedback);
+                            if ($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
+                                $intermediate_output = $question_gui->getAutoSavedSolutionOutput(
+                                    $active_id,
+                                    $pass,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false
+                                );
+                                $template->setVariable('TXT_INTERMEDIATE', $this->lng->txt('autosavecontent'));
+                                $template->setVariable('INTERMEDIATE', $intermediate_output);
+                            }
                             $template->setVariable('SOLUTION_OUTPUT', $result_output);
                         }
 

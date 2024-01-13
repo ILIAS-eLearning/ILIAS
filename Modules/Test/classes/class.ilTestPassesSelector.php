@@ -294,12 +294,16 @@ class ilTestPassesSelector
      */
     public function getLastFinishedPassTimestamp(): ?int
     {
-        if ($this->getLastFinishedPass() === null || $this->getLastFinishedPass() === -1) {
+        $last_finished_pass = $this->getLastFinishedPass();
+        if ($last_finished_pass === null || $last_finished_pass === -1) {
             return null;
         }
 
         $passes = $this->getLazyLoadedPasses();
-        return $passes[$this->getLastFinishedPass()]['tstamp'];
+        if(!isset($passes[$last_finished_pass])) {
+            return null;
+        }
+        return $passes[$last_finished_pass]['tstamp'];
     }
 
     public function hasTestPassedOnce($activeId): bool

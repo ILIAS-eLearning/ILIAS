@@ -459,7 +459,24 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $cust->setHtml($questionSolution);
             $form->addItem($cust);
 
-            $text = new ilTextInputGUI($lng->txt('tst_change_points_for_question'), "question__{$questionId}__points");
+            if ($questionGUI instanceof assTextQuestionGUI && $this->object->getAutosave()) {
+                $aresult_output = $questionGUI->getAutoSavedSolutionOutput(
+                    $activeId,
+                    $pass,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                );
+                $cust = new ilCustomInputGUI($this->lng->txt('autosavecontent'));
+                $cust->setHtml($aresult_output);
+                $form->addItem($cust);
+            }
+
+            $text = new ilTextInputGUI($this->lng->txt('tst_change_points_for_question'), "question__{$questionId}__points");
             if ($initValues) {
                 $text->setValue((string) assQuestion::_getReachedPoints($activeId, $questionId, $pass));
             }
