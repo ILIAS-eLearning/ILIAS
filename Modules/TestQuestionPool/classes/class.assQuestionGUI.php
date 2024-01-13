@@ -196,13 +196,10 @@ abstract class assQuestionGUI
         return $ha->getHeaderAction($this->ui->mainTemplate());
     }
 
-    public function getNotesHTML(): string
+    public function geCommentsPanelHTML(): string
     {
-        $notesGUI = new ilNoteGUI($this->object->getObjId(), $this->object->getId(), 'quest');
-        $notesGUI->enablePublicNotes(true);
-        $notesGUI->enablePublicNotesDeletion(true);
-
-        return $notesGUI->getListHTML();
+        $comment_gui = new ilCommentGUI($this->object->getObjId(), $this->object->getId(), 'quest');
+        return $comment_gui->getListHTML();
     }
 
     public function executeCommand()

@@ -20,7 +20,6 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Transformation;
-use ILIAS\DI\RBACServices;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -33,7 +32,7 @@ use ILIAS\DI\RBACServices;
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionHintRequestGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssSpecFeedbackPageGUI
- * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilNoteGUI
+ * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilCommentGUI
  */
 class ilAssQuestionPreviewGUI
 {
@@ -191,12 +190,10 @@ class ilAssQuestionPreviewGUI
                 $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
                 $forwarder->forward();
                 break;
-            case 'ilnotegui':
-                $notesGUI = new ilNoteGUI($this->questionOBJ->getObjId(), $this->questionOBJ->getId(), 'quest');
-                $notesGUI->enablePublicNotes(true);
-                $notesGUI->enablePublicNotesDeletion(true);
-                $notesPanelHTML = $this->ctrl->forwardCommand($notesGUI);
-                $this->showCmd($notesPanelHTML);
+            case 'ilcommentgui':
+                $comment_gui = new ilCommentGUI($this->questionOBJ->getObjId(), $this->questionOBJ->getId(), 'quest');
+                $comments_panel_html = $this->ctrl->forwardCommand($comment_gui);
+                $this->showCmd($comments_panel_html);
                 break;
             default:
                 $cmd = $this->ctrl->getCmd(self::CMD_SHOW) . 'Cmd';
@@ -221,7 +218,7 @@ class ilAssQuestionPreviewGUI
         return (bool) $this->rbac_system->checkAccess('write', (int) $_GET['ref_id']);
     }
 
-    private function showCmd($notesPanelHTML = ''): void
+    private function showCmd(string $notes_panel_html = ''): void
     {
         $tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'Modules/TestQuestionPool');
         $tpl->setVariable('PREVIEW_FORMACTION', $this->buildPreviewFormAction());
@@ -231,7 +228,7 @@ class ilAssQuestionPreviewGUI
         $this->handleInstantResponseRendering($tpl);
 
         if ($this->isCommentingRequired()) {
-            $this->populateNotesPanel($tpl, $notesPanelHTML);
+            $this->populateCommentsPanel($tpl, $notes_panel_html);
         }
 
         $this->tpl->setContent($tpl->get());
@@ -597,14 +594,14 @@ class ilAssQuestionPreviewGUI
         return $this->randomGroup->shuffleArray(new GivenSeed((int) $this->previewSession->getRandomizerSeed()));
     }
 
-    protected function populateNotesPanel(ilTemplate $tpl, $notesPanelHTML): void
+    protected function populateCommentsPanel(ilTemplate $tpl, string $comments_panel_html): void
     {
-        if (!strlen($notesPanelHTML)) {
-            $notesPanelHTML = $this->questionGUI->getNotesHTML();
+        if ($comments_panel_html === '') {
+            $comments_panel_html = $this->questionGUI->geCommentsPanelHTML();
         }
 
         $tpl->setCurrentBlock('notes_panel');
-        $tpl->setVariable('NOTES_PANEL', $notesPanelHTML);
+        $tpl->setVariable('NOTES_PANEL', $comments_panel_html);
         $tpl->parseCurrentBlock();
     }
 }

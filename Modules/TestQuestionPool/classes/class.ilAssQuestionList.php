@@ -579,9 +579,9 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $row['hints'] = $this->hasHints((int)$row['question_id']);
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
-            if(
-                ($this->filter_comments === self::QUESTION_COMMENTED_ONLY && $row['comments'] === 0) ||
-                ($this->filter_comments === self::QUESTION_COMMENTED_EXCLUDED && $row['comments'] > 0)
+            if (
+                $this->filter_comments === self::QUESTION_COMMENTED_ONLY && $row['comments'] === 0
+                || $this->filter_comments === self::QUESTION_COMMENTED_EXCLUDED && $row['comments'] > 0
             ) {
                 continue;
             }

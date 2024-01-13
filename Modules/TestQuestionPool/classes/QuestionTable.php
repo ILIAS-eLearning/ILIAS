@@ -27,7 +27,6 @@ use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Taxonomy\DomainService as TaxonomyService;
 use ILIAS\Notes\Service as NotesService;
 
@@ -45,7 +44,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         protected ilComponentRepository $component_repository,
         protected ilRbacSystem $rbac,
         protected TaxonomyService $taxonomy,
-        NotesService $notes_service,
+        protected NotesService $notes_service,
         protected int $parent_obj_id,
         protected int $request_ref_id
     ) {
