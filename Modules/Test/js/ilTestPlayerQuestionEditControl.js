@@ -64,7 +64,8 @@ il.TestPlayerQuestionEditControl = new function() {
         withBackgroundChangeDetection: false,   // background changes should be polled from ILIAS
         backgroundDetectorUrl: '',              // url called by the background detector
         forcedInstantFeedback: false,            // forced feedback will change the submit command
-        nextQuestionLocks: false
+        nextQuestionLocks: false,
+        questionLocked: false
     };
 
     /**
@@ -166,16 +167,24 @@ il.TestPlayerQuestionEditControl = new function() {
 
         if (config.nextQuestionLocks) {
           // handle the buttons in next locks current answer confirmation modal
-          document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(1)')
-            .addEventListener('click', saveWithNavigation);
-          document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(2)')
-            .addEventListener('click', hideFollowupQuestionLocksCurrentAnswerModal);
+          let first_child_changed = document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(1)');
+          if (first_child_changed !== null) {
+              first_child_changed.addEventListener('click', saveWithNavigation);
+          }
+          let second_child_changed = document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(2)');
+          if (second_child_changed !== null) {
+            second_child_changed.addEventListener('click', hideFollowupQuestionLocksCurrentAnswerModal);
+          }
 
           // handle the buttons in next locks empty answer confirmation modal
-          document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(1)')
-            .addEventListener('click', saveWithNavigationEmptyAnswer);
-          document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(2)')
-            .addEventListener('click', hideFollowupQuestionLocksEmptyAnswerModal);
+          let first_child_unchanged = document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(1)');
+          if (first_child_unchanged !== null) {
+            first_child_unchanged.addEventListener('click', saveWithNavigationEmptyAnswer);
+          }
+          let second_child_unchanged = document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(2)');
+          if (second_child_unchanged !== null) {
+            second_child_unchanged.addEventListener('click', hideFollowupQuestionLocksEmptyAnswerModal);
+          }
         }
 
         // the checkbox 'use unchanged answer' is only needed for initial empty answers
@@ -435,6 +444,13 @@ il.TestPlayerQuestionEditControl = new function() {
         {
             // remember the url for saveWithNavigation()
             navUrl = href;
+
+            if (config.questionLocked) {
+              e.target.name = 'cmd[nextQuestion]';
+              e.target.form.requestSubmit(e.target);
+              e.preventDefault();
+              return false;
+            }
 
             if( !answerChanged && !answered )
             {
