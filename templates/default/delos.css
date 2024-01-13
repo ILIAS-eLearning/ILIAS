@@ -19821,6 +19821,11 @@ div.ilc_Page.readonly textarea[disabled] {
 .ilc_question_SingleChoice .ilc_qanswer_Answer > div {
   vertical-align: top;
 }
+.ilc_question_MatchingQuestion #sourceArea {
+  height: fit-content;
+  position: sticky;
+  top: 40px;
+}
 #tst_output {
   display: flex;
 }
@@ -20159,4 +20164,3 @@ table.mceToolbar td {
   border: 1px solid #dddddd;
   border-radius: 0.25em;
 }
-/*# sourceMappingURL=delos.css.map */
