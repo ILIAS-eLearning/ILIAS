@@ -50,7 +50,7 @@ class ilSCORM13Package
     public string $packageHash = "";
     public int $userId;
 
-    //    private $idmap = array();
+    private array $idmap = [];
     private float $progress = 0.0;
 
     /**
